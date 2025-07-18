@@ -179,14 +179,16 @@ const initiateCall = async ({ contactId, inboxId }) => {
     const response = await VoiceAPI.default.initiateCall(contactId);
     const conversation = response.data;
 
-    // Set up the call state
+    // Set up the call state as incoming call (outbound calls need agent to join)
     const inboxData = store.getters['inboxes/getInbox'](inboxId);
-    store.dispatch('calls/setActiveCall', {
+    store.dispatch('calls/setIncomingCall', {
       callSid: conversation.call_sid || 'pending',
       inboxName: inboxData?.name || 'Voice',
       conversationId: conversation.id,
       contactId: contactId,
       inboxId: inboxId,
+      isOutbound: true,
+      requiresAgentJoin: true,
     });
 
     // Show the call widget

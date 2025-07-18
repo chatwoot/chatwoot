@@ -3,6 +3,7 @@ module Voice
     class Manager
       pattr_initialize [:conversation!, :call_sid, :provider]
 
+
       VALID_STATUSES = %w[ringing in_progress ended missed no_answer].freeze
       TERMINAL_STATUSES = %w[ended missed no_answer].freeze
 
@@ -41,6 +42,7 @@ module Voice
 
         true
       end
+
 
       def is_outbound?
         direction = conversation.additional_attributes['call_direction']

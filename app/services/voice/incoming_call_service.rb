@@ -159,13 +159,9 @@ module Voice
 
       # Setup callback URLs
       conference_callback_url = "#{base_url}/api/v1/accounts/#{account.id}/channels/voice/webhooks/conference_status"
-      call_status_callback_url = "#{base_url}/api/v1/accounts/#{account.id}/channels/voice/webhooks/call_status"
 
-      # Now add the caller to the conference with call status callback
-      response.dial(
-        action: call_status_callback_url,
-        method: 'POST'
-      ) do |dial|
+      # Now add the caller to the conference
+      response.dial do |dial|
         dial.conference(
           conference_name,
           startConferenceOnEnter: false,

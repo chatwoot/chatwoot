@@ -70,10 +70,9 @@ export default {
     const isMuted = ref(false);
     const showCallOptions = ref(false);
     const ringtoneAudio = ref(null);
-    const displayContactName = ref(props.contactName || 'Loading...'); // Used for direct name updates
-    const cachedPhoneNumber = ref(''); // To store phone number fetched from API
-    const cachedAvatarUrl = ref(''); // To store avatar URL fetched from API
-    const cachedInboxAvatarUrl = ref(''); // To store inbox avatar URL
+    const displayContactName = ref('');
+    // Removed phone number caching - not needed for voice calls
+    // Removed complex avatar caching - voice calls use simple fallbacks
 
     // Computed property to get the proper display name
     const contactDisplayName = computed(() => {
@@ -210,47 +209,16 @@ export default {
       return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     });
 
-    // Computed property to get the avatar URL from active or incoming call
+    // Simplified contact avatar - voice calls don't need complex avatar logic
     const contactAvatarUrl = computed(() => {
-      // Get the contact ID from all possible sources
-      const contactId =
-        props.contactId ||
-        callInfo.value?.contactId ||
-        activeCall.value?.contactId ||
-        incomingCall.value?.contactId;
-
-      // First try from props
-      if (props.avatarUrl) {
-        cachedAvatarUrl.value = props.avatarUrl;
-        return props.avatarUrl;
-      }
-
-      // Use cached value if available
-      if (cachedAvatarUrl.value) {
-        return cachedAvatarUrl.value;
-      }
-
-      // Then try to get from direct call data if available
-      if (incomingCall.value?.avatarUrl) {
-        cachedAvatarUrl.value = incomingCall.value.avatarUrl;
-        return incomingCall.value.avatarUrl;
-      }
-
-      if (activeCall.value?.avatarUrl) {
-        cachedAvatarUrl.value = activeCall.value.avatarUrl;
-        return activeCall.value.avatarUrl;
-      }
-
-      // If we have a contactId, try to get from the contacts store
-      if (contactId) {
-        const contact = store.getters['contacts/getContact'](contactId);
-        if (contact && contact.avatar_url) {
-          cachedAvatarUrl.value = contact.avatar_url;
-          return contact.avatar_url;
-        }
-      }
-
-      // Return null if no avatar URL is found
+      // Try props first
+      if (props.avatarUrl) return props.avatarUrl;
+      
+      // Try call data
+      if (incomingCall.value?.avatarUrl) return incomingCall.value.avatarUrl;
+      if (activeCall.value?.avatarUrl) return activeCall.value.avatarUrl;
+      
+      // For voice calls, we don't show contact avatars - just return null
       return null;
     });
 
@@ -309,41 +277,18 @@ export default {
       return '';
     });
 
-    // Computed property to get the inbox avatar URL - now directly from the call data
+    // Inbox avatar - simple direct lookup like conversation list
     const inboxAvatarUrl = computed(() => {
-      // First try from props
-      if (props.inboxAvatarUrl) {
-        return props.inboxAvatarUrl;
-      }
-
-      // Then try from call data
-      if (callInfo.value?.inboxAvatarUrl) {
-        return callInfo.value.inboxAvatarUrl;
-      }
-
-      if (activeCall.value?.inboxAvatarUrl) {
-        return activeCall.value.inboxAvatarUrl;
-      }
-
-      if (incomingCall.value?.inboxAvatarUrl) {
-        return incomingCall.value.inboxAvatarUrl;
-      }
-
-      // Try to get from hardcoded URL if we have the inbox ID
-      const inboxId =
-        props.inboxId ||
-        callInfo.value?.inboxId ||
-        activeCall.value?.inboxId ||
-        incomingCall.value?.inboxId;
-      if (inboxId) {
-        const url = `/rails/active_storage/representations/redirect/ayJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBZ0lCIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--f14a998923472b459f4b979ba274a12aa0b8ca46/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--df796c2af3c0153e55236c2f3cf3a199ac2cb6f7/${inboxId}-logo.png`;
-
-        return url;
-      }
-
-      // If we don't have the avatar URL directly, use a default voice icon
-
-      return 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=80';
+      // Try props first
+      if (props.inboxAvatarUrl) return props.inboxAvatarUrl;
+      
+      // Try call data
+      if (callInfo.value?.inboxAvatarUrl) return callInfo.value.inboxAvatarUrl;
+      if (activeCall.value?.inboxAvatarUrl) return activeCall.value.inboxAvatarUrl;
+      if (incomingCall.value?.inboxAvatarUrl) return incomingCall.value.inboxAvatarUrl;
+      
+      // No avatar available - component will show phone icon fallback
+      return null;
     });
 
     // Computed property to get the correct inbox name
@@ -603,12 +548,9 @@ export default {
       showCallOptions.value = !showCallOptions.value;
     };
 
-    // Method to handle avatar image loading errors
+    // Simplified avatar error handling - just hide broken images
     const handleAvatarError = event => {
-      // Remove the src attribute to prevent further load attempts
-      event.target.removeAttribute('src');
-      // Add a class to indicate fallback to initials
-      event.target.parentNode.classList.add('avatar-fallback');
+      event.target.style.display = 'none';
     };
 
     // WebRTC and Twilio Voice SDK methods
@@ -1180,10 +1122,30 @@ export default {
           incomingCall.value && incomingCall.value.isOutbound === true;
 
         if (isOutboundCall && incomingCall.value.requiresAgentJoin) {
-          // Auto-join outbound calls after a short delay to ensure everything is loaded
-          setTimeout(() => {
+          // Auto-join outbound calls after ensuring WebRTC is ready
+          setTimeout(async () => {
+            // Ensure WebRTC is initialized before joining
+            if (props.useWebRTC && !isWebRTCInitialized.value) {
+              useAlert('Initializing WebRTC for outbound call...', 'info');
+              const initSuccess = await initializeTwilioDevice();
+              if (!initSuccess) {
+                useAlert('Failed to initialize WebRTC for outbound call', 'error');
+                return;
+              }
+              // Wait for device to be in ready state
+              let attempts = 0;
+              while (VoiceAPI.getDeviceStatus() !== 'ready' && attempts < 10) {
+                await new Promise(resolve => setTimeout(resolve, 500));
+                attempts++;
+              }
+              if (VoiceAPI.getDeviceStatus() !== 'ready') {
+                useAlert('WebRTC device not ready for outbound call', 'error');
+                return;
+              }
+            }
+            useAlert('Joining outbound call...', 'info');
             acceptCall();
-          }, 1000);
+          }, 3000); // Even longer delay to ensure WebRTC is fully ready
         } else if (!isOutboundCall) {
           // Only play ringtone for true inbound calls, not outbound ones
 
@@ -1528,7 +1490,7 @@ export default {
         <div class="flex items-center">
           <!-- Left side with inbox avatar and call info -->
           <div class="inbox-avatar">
-            <!-- Use the inbox avatar if available and valid -->
+            <!-- Simple avatar logic for voice calls -->
             <img
               v-if="inboxAvatarUrl && inboxAvatarUrl.startsWith('http')"
               :src="inboxAvatarUrl"
@@ -1536,7 +1498,6 @@ export default {
               class="avatar-image"
               @error="handleAvatarError"
             />
-            <!-- Fallback to phone icon for voice channels -->
             <i v-else class="i-ri-phone-fill text-white text-lg"></i>
           </div>
           <div class="header-info">

@@ -160,12 +160,15 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   # ---- TwiML -----------------------------------------------------------------
 
   def build_twiml(conference_name)
+    # Check if this is an outbound call by looking at the conversation
+    is_outbound = @conversation&.additional_attributes&.dig('call_direction') == 'outbound'
+    
     Twilio::TwiML::VoiceResponse.new do |r|
 
       r.dial do |dial|
         dial.conference(
           conference_name,
-          startConferenceOnEnter: true,
+          startConferenceOnEnter: !is_outbound,  # Don't start conference for outbound calls (contact already started it)
           endConferenceOnExit:    true,
           muted:                  false,
           beep:                   false,

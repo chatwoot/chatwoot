@@ -63,7 +63,7 @@ class Twilio::VoiceController < ActionController::Base
       r.dial do |d|
         d.conference(
           conference_name,
-          startConferenceOnEnter: false,
+          startConferenceOnEnter: outbound? ? true : false,  # Start conference for outbound calls
           endConferenceOnExit:    true,
           beep:                   false,
           muted:                  false,

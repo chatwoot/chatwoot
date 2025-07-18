@@ -5,16 +5,16 @@ module Voice
     def process
       info = status_info
       conversation = find_conversation(info)
-      
+
       return unless conversation
-      
+
       # Handle outbound call notification
-      if info[:event] == 'participant-join' && 
-         conversation.additional_attributes['call_direction'] == 'outbound' && 
+      if info[:event] == 'participant-join' &&
+         conversation.additional_attributes['call_direction'] == 'outbound' &&
          info[:participant_label]&.start_with?('caller-')
         broadcast_agent_notification(conversation, info)
       end
-      
+
       Voice::ConferenceManagerService.new(
         conversation: conversation,
         event: info[:event],
@@ -36,10 +36,10 @@ module Voice
     end
 
     private
-    
+
     def normalize_event_name(raw_event)
       return 'unknown' unless raw_event.present?
-      
+
       case raw_event.downcase.gsub(/\s+/, '')
       when 'participant-join', 'participantjoin', 'participantjoined'
         'participant-join'
@@ -59,21 +59,23 @@ module Voice
       if info[:conference_sid].present?
         conversation = account.conversations.where("additional_attributes->>'conference_sid' = ?", info[:conference_sid]).first
         return conversation if conversation
-        
+
         # Try pattern matching for our format
         if info[:conference_sid].start_with?('conf_account_')
           match = info[:conference_sid].match(/conf_account_\d+_conv_(\d+)/)
-          if match && match[1].present?
-            return account.conversations.find_by(display_id: match[1])
-          end
+          return account.conversations.find_by(display_id: match[1]) if match && match[1].present?
         end
       end
-      
+
       # Try by call_sid
       if info[:call_sid].present?
-        return account.conversations.where("additional_attributes->>'call_sid' = ?", info[:call_sid]).first
+        finder_service = Voice::ConversationFinderService.new(
+          account: account,
+          call_sid: info[:call_sid]
+        )
+        return finder_service.find_by_call_sid
       end
-      
+
       nil
     end
 
