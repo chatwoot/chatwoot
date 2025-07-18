@@ -23,12 +23,11 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
   end
   let(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
 
-  describe 'POST /api/v1/accounts/{account.id}/whatsapp/reauthorizations' do
+  describe 'PUT /api/v1/accounts/{account.id}/whatsapp/reauthorizations/{inbox_id}' do
     context 'when user is an administrator' do
       context 'with valid parameters' do
         let(:valid_params) do
           {
-            inbox_id: whatsapp_inbox.id,
             code: 'auth_code_123',
             business_id: 'business_123',
             waba_id: 'waba_123',
@@ -47,10 +46,10 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
           ).and_return(reauth_service)
           allow(reauth_service).to receive(:perform).and_return({ success: true })
 
-          post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
-               params: valid_params,
-               headers: admin.create_new_auth_token,
-               as: :json
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+              params: valid_params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
           expect(response).to have_http_status(:success)
           json_response = response.parsed_body
@@ -70,10 +69,10 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
           allow(reauth_service).to receive(:perform)
             .and_return({ success: false, message: 'Token exchange failed' })
 
-          post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
-               params: valid_params,
-               headers: admin.create_new_auth_token,
-               as: :json
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+              params: valid_params,
+              headers: admin.create_new_auth_token,
+              as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
@@ -84,10 +83,10 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
 
       context 'when inbox does not exist' do
         it 'returns not found error' do
-          post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
-               params: { inbox_id: 0 },
-               headers: admin.create_new_auth_token,
-               as: :json
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/0",
+              params: {},
+              headers: admin.create_new_auth_token,
+              as: :json
 
           expect(response).to have_http_status(:not_found)
         end
@@ -112,10 +111,10 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
         let(:fresh_inbox) { create(:inbox, channel: fresh_channel, account: account) }
 
         it 'returns unprocessable entity error' do
-          post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
-               params: { inbox_id: fresh_inbox.id },
-               headers: admin.create_new_auth_token,
-               as: :json
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{fresh_inbox.id}",
+              params: {},
+              headers: admin.create_new_auth_token,
+              as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
@@ -128,8 +127,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
           stub_request(:post, 'https://graph.facebook.com/v3.2/me/subscribed_apps')
             .to_return(status: 200, body: '{}', headers: {})
 
-          channel = build(:channel_facebook_page, account: account)
-          channel.save!
+          channel = create(:channel_facebook_page, account: account)
           # Call authorization_error! twice to reach the threshold
           channel.authorization_error!
           channel.authorization_error!
@@ -138,10 +136,10 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
         let(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
 
         it 'returns unprocessable entity error' do
-          post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
-               params: { inbox_id: facebook_inbox.id },
-               headers: admin.create_new_auth_token,
-               as: :json
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{facebook_inbox.id}",
+              params: {},
+              headers: admin.create_new_auth_token,
+              as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
@@ -152,10 +150,10 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
 
     context 'when user is an agent' do
       it 'returns unauthorized error' do
-        post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
-             params: { inbox_id: whatsapp_inbox.id },
-             headers: agent.create_new_auth_token,
-             as: :json
+        put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+            params: {},
+            headers: agent.create_new_auth_token,
+            as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -163,9 +161,9 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
 
     context 'when user is not authenticated' do
       it 'returns unauthorized error' do
-        post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
-             params: { inbox_id: whatsapp_inbox.id },
-             as: :json
+        put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+            params: {},
+            as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end

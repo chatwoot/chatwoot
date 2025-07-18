@@ -84,6 +84,10 @@ const reauthorizeWhatsApp = async params => {
 };
 
 const handleEmbeddedSignupEvents = async (data, authCode) => {
+  if (!data || typeof data !== 'object') {
+    return;
+  }
+
   const { type, params } = data;
 
   if (type === 'FACEBOOK_DIALOG_CLOSE' || type === 'CLOSE') {
@@ -129,9 +133,14 @@ const startEmbeddedSignup = authCode => {
 
   const messageHandler = async event => {
     try {
+      // Some messages might not be strings or might not be JSON
+      if (typeof event.data !== 'string') {
+        return;
+      }
+
       const data = JSON.parse(event.data);
       handleEmbeddedSignupEvents(data, authCode);
-    } catch {
+    } catch (error) {
       // Not all messages are JSON, ignore parse errors
     }
   };
@@ -141,77 +150,45 @@ const startEmbeddedSignup = authCode => {
 
 const handleLoginAndReauthorize = () => {
   return new Promise((resolve, reject) => {
-    // Build pre-filled data according to Facebook documentation
-    // https://developers.facebook.com/docs/whatsapp/embedded-signup/pre-filled-data/
-    const extras = {
-      setup: {},
-      sessionInfoVersion: '3',
-    };
-
-    // Pre-fill business information if available
-    if (props.inbox.name) {
-      extras.setup.business = {
-        name: props.inbox.name,
-      };
-    }
-
-    // Pre-fill WhatsApp Business Account ID if available
-    if (props.inbox.provider_config?.business_account_id) {
-      extras.setup.whatsAppBusinessAccount = {
-        id: props.inbox.provider_config.business_account_id,
-      };
-    }
-
-    // Pre-fill phone profile information if available
-    if (props.inbox.phone_number || props.inbox.name) {
-      extras.setup.phone = {};
-
-      // Display name for the WhatsApp profile
-      if (props.inbox.name) {
-        extras.setup.phone.displayName = props.inbox.name;
+    try {
+      // Validate required configuration
+      if (!whatsappAppId.value) {
+        throw new Error('WhatsApp App ID is required');
+      }
+      if (!whatsappConfigurationId.value) {
+        throw new Error('WhatsApp Configuration ID is required');
       }
 
-      // Business description if available
-      if (props.inbox.custom_attributes?.description) {
-        extras.setup.phone.description =
-          props.inbox.custom_attributes.description;
-      }
-    }
+      window.FB.login(
+        response => {
+          if (response.authResponse) {
+            const { authResponse } = response;
+            const authCode = authResponse.code;
 
-    // Pre-fill pre-verified phone if we have phone_number_id
-    if (props.inbox.provider_config?.phone_number_id) {
-      extras.setup.preVerifiedPhone = {
-        ids: [props.inbox.provider_config.phone_number_id],
-      };
-    }
-
-    window.FB.login(
-      response => {
-        if (response.authResponse) {
-          const { authResponse } = response;
-          const authCode = authResponse.code;
-
-          if (authCode) {
-            startEmbeddedSignup(authCode);
-            resolve();
+            if (authCode) {
+              startEmbeddedSignup(authCode);
+              resolve();
+            } else {
+              showAlert(
+                t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED')
+              );
+              reject(new Error('No auth code'));
+            }
           } else {
-            showAlert(
-              t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED')
-            );
-            reject(new Error('No auth code'));
+            showAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
+            reject(new Error('Login cancelled'));
           }
-        } else {
-          showAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
-          reject(new Error('Login cancelled'));
+        },
+        {
+          config_id: whatsappConfigurationId.value,
+          response_type: 'code',
+          override_default_response_type: true,
         }
-      },
-      {
-        config_id: whatsappConfigurationId.value,
-        response_type: 'code',
-        override_default_response_type: true,
-        extras,
-      }
-    );
+      );
+    } catch (error) {
+      showAlert(error.message || t('INBOX.REAUTHORIZE.CONFIGURATION_ERROR'));
+      reject(error);
+    }
   });
 };
 
@@ -233,20 +210,30 @@ const requestAuthorization = async () => {
 };
 
 onMounted(async () => {
-  if (!whatsappAppId.value) {
-    showAlert(t('INBOX.REAUTHORIZE.WHATSAPP_APP_ID_MISSING'));
-    isLoadingFacebook.value = false;
-    return;
-  }
-
   try {
-    await loadScript('//connect.facebook.net/en_US/sdk.js');
+    // Validate required configuration
+    if (!whatsappAppId.value) {
+      showAlert(t('INBOX.REAUTHORIZE.WHATSAPP_APP_ID_MISSING'));
+      return;
+    }
+    if (!whatsappConfigurationId.value) {
+      showAlert(t('INBOX.REAUTHORIZE.WHATSAPP_CONFIG_ID_MISSING'));
+      return;
+    }
+
+    // Load Facebook SDK and initialize
+    await loadScript('//connect.facebook.net/en_US/sdk.js', {});
     await initializeFacebook();
   } catch (error) {
     showAlert(t('INBOX.REAUTHORIZE.FACEBOOK_LOAD_ERROR'));
   } finally {
     isLoadingFacebook.value = false;
   }
+});
+
+// Expose requestAuthorization function for parent components
+defineExpose({
+  requestAuthorization,
 });
 </script>
 

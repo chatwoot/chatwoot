@@ -4,7 +4,7 @@ class Api::V1::Accounts::Whatsapp::ReauthorizationsController < Api::V1::Account
   before_action :check_reauthorization_required
   before_action :validate_whatsapp_channel
 
-  def create
+  def update
     service_response = reauthorization_service.perform
 
     if service_response[:success]
@@ -34,12 +34,23 @@ class Api::V1::Accounts::Whatsapp::ReauthorizationsController < Api::V1::Account
   end
 
   def check_reauthorization_required
-    return if @inbox.channel.reauthorization_required?
+    # Allow reauthorization if:
+    # 1. The channel needs reauthorization (tokens expired)
+    # 2. It's a manual setup that can be upgraded to embedded signup
+    return if @inbox.channel.reauthorization_required? || can_upgrade_to_embedded_signup?
 
     render json: {
       success: false,
       message: I18n.t('inbox.reauthorization.not_required')
     }, status: :unprocessable_entity
+  end
+
+  def can_upgrade_to_embedded_signup?
+    channel = @inbox.channel
+    return false unless channel.provider == 'whatsapp_cloud'
+    return false if channel.provider_config&.dig('source') == 'embedded_signup'
+
+    ENV['WHATSAPP_APP_ID'].present?
   end
 
   def validate_whatsapp_channel

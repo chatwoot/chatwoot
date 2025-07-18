@@ -7,6 +7,7 @@ import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import WhatsappReauthorize from '../channels/whatsapp/Reauthorize.vue';
 
 export default {
   components: {
@@ -14,6 +15,7 @@ export default {
     ImapSettings,
     SmtpSettings,
     NextButton,
+    WhatsappReauthorize,
   },
   mixins: [inboxMixin],
   props: {
@@ -29,10 +31,19 @@ export default {
     return {
       hmacMandatory: false,
       whatsAppInboxAPIKey: '',
+      isRequestingReauthorization: false,
     };
   },
   validations: {
     whatsAppInboxAPIKey: { required },
+  },
+  computed: {
+    isEmbeddedSignupWhatsApp() {
+      return this.inbox.provider_config?.source === 'embedded_signup';
+    },
+    whatsappAppId() {
+      return window.chatwootConfig?.whatsappAppId;
+    },
   },
   watch: {
     inbox() {
@@ -81,6 +92,18 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async handleReconfigure() {
+      // Call the WhatsApp reauthorization component's method directly
+      if (this.$refs.whatsappReauth) {
+        await this.$refs.whatsappReauth.requestAuthorization();
+      }
+    },
+    async handleConnect() {
+      // Call the WhatsApp reauthorization component's method directly
+      if (this.$refs.whatsappReauth) {
+        await this.$refs.whatsappReauth.requestAuthorization();
       }
     },
   },
@@ -196,46 +219,138 @@ export default {
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config" class="mx-8">
-      <SettingsSection
-        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
-        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')"
-      >
-        <woot-code :script="inbox.provider_config.webhook_verify_token" />
-      </SettingsSection>
-      <SettingsSection
-        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_TITLE')"
-        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')"
-      >
-        <woot-code :script="inbox.provider_config.api_key" />
-      </SettingsSection>
-      <SettingsSection
-        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
-        :sub-title="
-          $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
-        "
-      >
-        <div
-          class="flex items-center justify-between flex-1 mt-2 whatsapp-settings--content"
+      <!-- Embedded Signup Section -->
+      <template v-if="isEmbeddedSignupWhatsApp">
+        <SettingsSection
+          v-if="whatsappAppId"
+          :title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_TITLE')
+          "
+          :sub-title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER')
+          "
         >
-          <woot-input
-            v-model="whatsAppInboxAPIKey"
-            type="text"
-            class="flex-1 mr-2"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
-              )
-            "
-          />
-          <NextButton
-            :disabled="v$.whatsAppInboxAPIKey.$invalid"
-            @click="updateWhatsAppInboxAPIKey"
+          <div class="flex items-center gap-4">
+            <p class="text-sm text-slate-600">
+              {{
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION'
+                )
+              }}
+            </p>
+            <NextButton @click="handleReconfigure">
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_BUTTON') }}
+            </NextButton>
+          </div>
+        </SettingsSection>
+
+        <!-- API Update Section for Embedded Signup without App ID -->
+        <SettingsSection
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
+          :sub-title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
+          "
+        >
+          <div
+            class="flex items-center justify-between flex-1 mt-2 whatsapp-settings--content"
           >
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
-          </NextButton>
-        </div>
-      </SettingsSection>
+            <woot-input
+              v-model="whatsAppInboxAPIKey"
+              type="text"
+              class="flex-1 mr-2"
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
+                )
+              "
+            />
+            <NextButton
+              :disabled="v$.whatsAppInboxAPIKey.$invalid"
+              @click="updateWhatsAppInboxAPIKey"
+            >
+              {{
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')
+              }}
+            </NextButton>
+          </div>
+        </SettingsSection>
+      </template>
+
+      <!-- Manual Setup Section -->
+      <template v-else>
+        <SettingsSection
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
+          :sub-title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')
+          "
+        >
+          <woot-code :script="inbox.provider_config.webhook_verify_token" />
+        </SettingsSection>
+        <SettingsSection
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_TITLE')"
+          :sub-title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')
+          "
+        >
+          <woot-code :script="inbox.provider_config.api_key" />
+        </SettingsSection>
+        <SettingsSection
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
+          :sub-title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
+          "
+        >
+          <div
+            class="flex items-center justify-between flex-1 mt-2 whatsapp-settings--content"
+          >
+            <woot-input
+              v-model="whatsAppInboxAPIKey"
+              type="text"
+              class="flex-1 mr-2"
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
+                )
+              "
+            />
+            <NextButton
+              :disabled="v$.whatsAppInboxAPIKey.$invalid"
+              @click="updateWhatsAppInboxAPIKey"
+            >
+              {{
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')
+              }}
+            </NextButton>
+          </div>
+        </SettingsSection>
+
+        <!-- Connect to Embedded Signup Section -->
+        <SettingsSection
+          v-if="whatsappAppId"
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONNECT_TITLE')"
+          :sub-title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONNECT_SUBHEADER')
+          "
+        >
+          <div class="flex items-center gap-4">
+            <p class="text-sm text-slate-600">
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONNECT_DESCRIPTION') }}
+            </p>
+            <NextButton @click="handleConnect">
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_CONNECT_BUTTON') }}
+            </NextButton>
+          </div>
+        </SettingsSection>
+      </template>
     </div>
+
+    <!-- Hidden WhatsappReauthorize component for direct method calls -->
+    <WhatsappReauthorize
+      v-if="isEmbeddedSignupWhatsApp"
+      ref="whatsappReauth"
+      :inbox="inbox"
+      class="hidden"
+    />
   </div>
 </template>
 
