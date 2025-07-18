@@ -87,27 +87,29 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
     client = Google::Cloud::Monitoring::V3::MetricService::Client.new
     project = "projects/#{ENV.fetch('GOOGLE_CLOUD_PROJECT', nil)}"
 
-    series = {
-      metric: {
+    time_series = Google::Cloud::Monitoring::V3::TimeSeries.new(
+      metric: Google::Api::Metric.new(
         type: 'custom.googleapis.com/sidekiq/thread_utilization'
-      },
-      resource: {
+      ),
+      resource: Google::Api::MonitoredResource.new(
         type: 'gce_instance',
         labels: {
           'project_id' => ENV.fetch('GOOGLE_CLOUD_PROJECT', nil).to_s,
           'instance_id' => ENV.fetch('INSTANCE_ID', nil).to_s,
           'zone' => ENV.fetch('GCP_ZONE', nil).to_s
         }
-      },
+      ),
       points: [
-        {
-          value: { double_value: ratio },
-          interval: { end_time: { seconds: Time.now.to_i } }
-        }
+        Google::Cloud::Monitoring::V3::Point.new(
+          value: Google::Cloud::Monitoring::V3::TypedValue.new(double_value: ratio),
+          interval: Google::Cloud::Monitoring::V3::TimeInterval.new(
+            end_time: Google::Protobuf::Timestamp.new(seconds: Time.now.to_i)
+          )
+        )
       ]
-    }
+    )
 
-    client.create_time_series name: project, time_series: [series]
+    client.create_time_series name: project, time_series: [time_series]
 
     Rails.logger.info "Sidekiq thread utilization metric sent: #{ratio}"
   rescue StandardError => e
