@@ -31,26 +31,24 @@ RSpec.describe Whatsapp::ReauthorizationService do
   describe '#perform' do
     context 'when channel is embedded signup WhatsApp' do
       let(:access_token) { 'new_access_token' }
-      let(:phone_info) { { phone_number: '+1234567890', verified_name: 'Test Business' } }
+      let(:phone_info) { { phone_number: "+9999#{rand(100_000..999_999)}", verified_name: 'Test Business' } }
 
       before do
         # Mock the service dependencies to return expected values
         token_service = instance_double(Whatsapp::TokenExchangeService)
-        allow(Whatsapp::TokenExchangeService).to receive(:new).with(hash_including(code: 'auth_code_123')).and_return(token_service)
+        allow(Whatsapp::TokenExchangeService).to receive(:new).with('auth_code_123').and_return(token_service)
         allow(token_service).to receive(:perform).and_return({ access_token: access_token })
 
         validation_service = instance_double(Whatsapp::TokenValidationService)
-        allow(Whatsapp::TokenValidationService).to receive(:new).with(hash_including(
-                                                                        access_token: access_token,
-                                                                        waba_id: 'waba_123'
-                                                                      )).and_return(validation_service)
+        allow(Whatsapp::TokenValidationService).to receive(:new).with(
+          access_token, 'waba_123'
+        ).and_return(validation_service)
         allow(validation_service).to receive(:perform).and_return({ valid: true })
 
         phone_service = instance_double(Whatsapp::PhoneInfoService)
-        allow(Whatsapp::PhoneInfoService).to receive(:new).with(hash_including(
-                                                                  access_token: access_token,
-                                                                  phone_number_id: 'phone_123'
-                                                                )).and_return(phone_service)
+        allow(Whatsapp::PhoneInfoService).to receive(:new).with(
+          'waba_123', 'phone_123', access_token
+        ).and_return(phone_service)
         allow(phone_service).to receive(:perform).and_return({
                                                                phone_number: phone_info[:phone_number],
                                                                verified_name: phone_info[:verified_name]
@@ -98,7 +96,7 @@ RSpec.describe Whatsapp::ReauthorizationService do
       context 'when token exchange fails' do
         before do
           token_service = instance_double(Whatsapp::TokenExchangeService)
-          allow(Whatsapp::TokenExchangeService).to receive(:new).and_return(token_service)
+          allow(Whatsapp::TokenExchangeService).to receive(:new).with('auth_code_123').and_return(token_service)
           allow(token_service).to receive(:perform).and_return({})
         end
 
@@ -113,11 +111,13 @@ RSpec.describe Whatsapp::ReauthorizationService do
       context 'when token validation fails' do
         before do
           token_service = instance_double(Whatsapp::TokenExchangeService)
-          allow(Whatsapp::TokenExchangeService).to receive(:new).and_return(token_service)
+          allow(Whatsapp::TokenExchangeService).to receive(:new).with('auth_code_123').and_return(token_service)
           allow(token_service).to receive(:perform).and_return({ access_token: access_token })
 
           validation_service = instance_double(Whatsapp::TokenValidationService)
-          allow(Whatsapp::TokenValidationService).to receive(:new).and_return(validation_service)
+          allow(Whatsapp::TokenValidationService).to receive(:new).with(
+            access_token, 'waba_123'
+          ).and_return(validation_service)
           allow(validation_service).to receive(:perform).and_return({ valid: false })
         end
 
@@ -132,15 +132,19 @@ RSpec.describe Whatsapp::ReauthorizationService do
       context 'when phone info fetch fails' do
         before do
           token_service = instance_double(Whatsapp::TokenExchangeService)
-          allow(Whatsapp::TokenExchangeService).to receive(:new).and_return(token_service)
+          allow(Whatsapp::TokenExchangeService).to receive(:new).with('auth_code_123').and_return(token_service)
           allow(token_service).to receive(:perform).and_return({ access_token: access_token })
 
           validation_service = instance_double(Whatsapp::TokenValidationService)
-          allow(Whatsapp::TokenValidationService).to receive(:new).and_return(validation_service)
+          allow(Whatsapp::TokenValidationService).to receive(:new).with(
+            access_token, 'waba_123'
+          ).and_return(validation_service)
           allow(validation_service).to receive(:perform).and_return({ valid: true })
 
           phone_service = instance_double(Whatsapp::PhoneInfoService)
-          allow(Whatsapp::PhoneInfoService).to receive(:new).and_return(phone_service)
+          allow(Whatsapp::PhoneInfoService).to receive(:new).with(
+            'waba_123', 'phone_123', access_token
+          ).and_return(phone_service)
           allow(phone_service).to receive(:perform).and_return({})
         end
 
@@ -155,7 +159,11 @@ RSpec.describe Whatsapp::ReauthorizationService do
       context 'when webhook setup fails' do
         before do
           webhook_service = instance_double(Whatsapp::WebhookSetupService)
-          allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
+          allow(Whatsapp::WebhookSetupService).to receive(:new).with(
+            whatsapp_channel,
+            'business_123',
+            access_token
+          ).and_return(webhook_service)
           allow(webhook_service).to receive(:perform).and_raise(StandardError, 'Webhook error')
         end
 

@@ -32,10 +32,9 @@ const initializeFacebook = () => {
     window.fbAsyncInit = () => {
       window.FB.init({
         appId: whatsappAppId.value,
-        status: false,
-        cookie: true,
+        autoLogAppEvents: true,
         xfbml: true,
-        version: 'v21.0',
+        version: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
       });
       window.FB.getLoginStatus(() => {
         resolve();
@@ -45,17 +44,6 @@ const initializeFacebook = () => {
       window.fbAsyncInit();
     }
   });
-};
-
-const handleDialogClose = () => {
-  const canvas = window.top || window;
-  canvas.postMessage(
-    {
-      type: 'resize',
-      height: 'auto',
-    },
-    '*'
-  );
 };
 
 const reauthorizeWhatsApp = async params => {
@@ -88,60 +76,64 @@ const handleEmbeddedSignupEvents = async (data, authCode) => {
     return;
   }
 
-  const { type, params } = data;
+  // Handle different event types
+  if (data.event === 'FINISH') {
+    const businessData = data.data;
 
-  if (type === 'FACEBOOK_DIALOG_CLOSE' || type === 'CLOSE') {
-    handleDialogClose();
-    return;
-  }
-
-  if (type === 'WA_EMBEDDED_SIGNUP') {
-    const { event } = params;
-
-    if (event === 'FINISH') {
-      const { phone_number_id, waba_id } = params.data;
-      // Use the selected phone number ID or fall back to existing one if available
-      const phoneNumberId =
-        phone_number_id || props.inbox.provider_config?.phone_number_id;
-
-      if (phoneNumberId && waba_id) {
-        await reauthorizeWhatsApp({
-          code: authCode,
-          business_id: waba_id,
-          waba_id,
-          phone_number_id: phoneNumberId,
-        });
-      } else {
-        showAlert(
-          t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA')
-        );
-      }
+    if (
+      businessData &&
+      businessData.business_id &&
+      businessData.waba_id &&
+      businessData.phone_number_id
+    ) {
+      await reauthorizeWhatsApp({
+        code: authCode,
+        business_id: businessData.business_id,
+        waba_id: businessData.waba_id,
+        phone_number_id: businessData.phone_number_id,
+      });
+    } else {
+      showAlert(
+        t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA')
+      );
     }
+  } else if (data.event === 'CANCEL') {
+    isRequestingAuthorization.value = false;
+    showAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
+  } else if (data.event === 'error') {
+    isRequestingAuthorization.value = false;
+    showAlert(
+      data.error_message ||
+        t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SIGNUP_ERROR')
+    );
   }
 };
 
 const startEmbeddedSignup = authCode => {
-  const canvas = window.top || window;
-
-  canvas.postMessage(
-    {
-      type: 'resize',
-      height: 700,
-    },
-    '*'
-  );
-
   const messageHandler = async event => {
+    // Validate origin for security - following Facebook documentation
+    if (!event.origin || !event.origin.endsWith('facebook.com')) {
+      return;
+    }
+
     try {
-      // Some messages might not be strings or might not be JSON
-      if (typeof event.data !== 'string') {
+      let data;
+
+      // Facebook sends the data as an object, not a string
+      if (typeof event.data === 'string') {
+        data = JSON.parse(event.data);
+      } else if (typeof event.data === 'object' && event.data !== null) {
+        data = event.data;
+      } else {
         return;
       }
 
-      const data = JSON.parse(event.data);
-      handleEmbeddedSignupEvents(data, authCode);
+      // Handle the parsed data
+      if (data.type === 'WA_EMBEDDED_SIGNUP') {
+        handleEmbeddedSignupEvents(data, authCode);
+      }
     } catch (error) {
-      // Not all messages are JSON, ignore parse errors
+      // Ignore message handling errors
     }
   };
 
@@ -166,8 +158,24 @@ const handleLoginAndReauthorize = () => {
             const authCode = authResponse.code;
 
             if (authCode) {
-              startEmbeddedSignup(authCode);
-              resolve();
+              // Check if this is a reauthorization scenario where we already have the business data
+              const existingConfig = props.inbox.provider_config;
+              if (
+                existingConfig &&
+                existingConfig.business_account_id &&
+                existingConfig.phone_number_id
+              ) {
+                reauthorizeWhatsApp({
+                  code: authCode,
+                  business_id: existingConfig.business_account_id,
+                  waba_id: existingConfig.business_account_id,
+                  phone_number_id: existingConfig.phone_number_id,
+                });
+                resolve();
+              } else {
+                startEmbeddedSignup(authCode);
+                resolve();
+              }
             } else {
               showAlert(
                 t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED')
@@ -183,6 +191,11 @@ const handleLoginAndReauthorize = () => {
           config_id: whatsappConfigurationId.value,
           response_type: 'code',
           override_default_response_type: true,
+          extras: {
+            setup: {},
+            featureType: '',
+            sessionInfoVersion: '3',
+          },
         }
       );
     } catch (error) {
@@ -222,7 +235,11 @@ onMounted(async () => {
     }
 
     // Load Facebook SDK and initialize
-    await loadScript('//connect.facebook.net/en_US/sdk.js', {});
+    await loadScript('https://connect.facebook.net/en_US/sdk.js', {
+      async: true,
+      defer: true,
+      crossOrigin: 'anonymous',
+    });
     await initializeFacebook();
   } catch (error) {
     showAlert(t('INBOX.REAUTHORIZE.FACEBOOK_LOAD_ERROR'));
