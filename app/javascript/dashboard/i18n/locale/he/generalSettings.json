@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "הקש אנטר כדי לבחור",
       "ENTER_TO_REMOVE": "הקש אנטר כדי להסיר",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "תבחר אחד",
       "SELECT": "בחר"
     }

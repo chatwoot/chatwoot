@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Enter-rel válaszd ki",
       "ENTER_TO_REMOVE": "Enter-rel távolítsd el",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Válassz egyet",
       "SELECT": "Kiválasztás"
     }
