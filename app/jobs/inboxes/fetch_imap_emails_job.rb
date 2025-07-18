@@ -62,7 +62,6 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     end
 
     begin
-      # Isolate each email processing with configurable timeout
       Timeout.timeout(email_processing_timeout) do
         Imap::ImapMailbox.new.process(inbound_mail, channel)
       end
