@@ -108,16 +108,30 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
 
     @message = conversation.messages.create!(message_params)
     save_story_id
+    save_post_id
+
+    return if story_message?
 
     attachments.each do |attachment|
       process_attachment(attachment)
     end
   end
 
+  def story_message?
+    # Check for both story replies and post/message replies to prevent attachment duplication
+    story_reply_attributes.present? || message_reply_attributes.present?
+  end
+
   def save_story_id
     return if story_reply_attributes.blank?
 
     @message.save_story_info(story_reply_attributes)
+  end
+
+  def save_post_id
+    return if message_reply_attributes.blank?
+
+    @message.save_post_info(message_reply_attributes)
   end
 
   def build_conversation

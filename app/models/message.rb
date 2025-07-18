@@ -251,6 +251,16 @@ class Message < ApplicationRecord
     save!
   end
 
+  def save_post_info(post_mid)
+    self.content_attributes = content_attributes.merge(
+      {
+        post_id: post_mid,
+        post_sender: inbox.channel.instagram_id
+      }
+    )
+    save!
+  end
+
   def send_update_event
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
                                                                             previous_changes: previous_changes)
