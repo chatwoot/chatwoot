@@ -1,5 +1,5 @@
 require 'sidekiq/api'
-require 'google/cloud/monitoring'
+require 'google/cloud/monitoring/v3'
 require 'net/http'
 
 class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
