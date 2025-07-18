@@ -84,37 +84,35 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
 
   # rubocop:disable Metrics/MethodLength
   def send_metrics_to_google_cloud(ratio)
-    metric_service_client = Google::Cloud::Monitoring.metric_service
-    project_id = ENV.fetch('GOOGLE_CLOUD_PROJECT', nil)
-    project_path = metric_service_client.project_path project: project_id
+    client = Google::Cloud::Monitoring::V3::MetricService::Client.new
+    project = "projects/#{ENV.fetch('GOOGLE_CLOUD_PROJECT', nil)}"
 
-    # Build the metric
-    series = Google::Cloud::Monitoring::V3::TimeSeries.new
-    series.metric = Google::Api::Metric.new(
-      type: 'custom.googleapis.com/sidekiq/thread_utilization',
-      labels: {
-        'project_id' => project_id.to_s,
-        'instance_id' => ENV.fetch('INSTANCE_ID', nil).to_s,
-        'zone' => ENV.fetch('GCP_ZONE', nil).to_s
-      }
-    )
+    series = {
+      metric: {
+        type: 'custom.googleapis.com/sidekiq/thread_utilization',
+        labels: {
+          'project_id' => ENV.fetch('GOOGLE_CLOUD_PROJECT', nil).to_s,
+          'instance_id' => ENV.fetch('INSTANCE_ID', nil).to_s,
+          'zone' => ENV.fetch('GCP_ZONE', nil).to_s
+        }
+      },
+      resource: {
+        type: 'gce_instance',
+        labels: {
+          'project_id' => ENV.fetch('GOOGLE_CLOUD_PROJECT', nil).to_s,
+          'instance_id' => ENV.fetch('INSTANCE_ID', nil).to_s,
+          'zone' => ENV.fetch('GCP_ZONE', nil).to_s
+        }
+      },
+      points: [
+        {
+          value: { double_value: ratio },
+          interval: { end_time: { seconds: Time.now.to_i } }
+        }
+      ]
+    }
 
-    # Build the resource
-    resource = Google::Api::MonitoredResource.new(type: 'gce_instance')
-    resource.labels['project_id'] = project_id.to_s
-    resource.labels['instance_id'] = ENV.fetch('INSTANCE_ID', nil).to_s
-    resource.labels['zone'] = ENV.fetch('GCP_ZONE', nil).to_s
-    series.resource = resource
-
-    # Build the point
-    point = Google::Cloud::Monitoring::V3::Point.new
-    point.value = Google::Cloud::Monitoring::V3::TypedValue.new(double_value: ratio)
-    now = Time.now
-    end_time = Google::Protobuf::Timestamp.new(seconds: now.to_i, nanos: now.nsec)
-    point.interval = Google::Cloud::Monitoring::V3::TimeInterval.new(end_time: end_time)
-    series.points << point
-
-    metric_service_client.create_time_series name: project_path, time_series: [series]
+    client.create_time_series name: project, time_series: [series]
 
     Rails.logger.info "Sidekiq thread utilization metric sent: #{ratio}"
   rescue StandardError => e
