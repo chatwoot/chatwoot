@@ -28,7 +28,7 @@ COPY . .
 
 # Add dummy secret so asset precompile works
 ENV SECRET_KEY_BASE=dummytoken
-RUN RAILS_ENV=production bundle exec rake assets:precompile
+# RUN RAILS_ENV=production bundle exec rake assets:precompile
 
 # Stage 2: Final production image
 FROM ruby:3.4.4-slim
@@ -45,4 +45,4 @@ WORKDIR /app
 # Copy app from builder (including compiled assets)
 COPY --from=builder /app /app
 
-# Skip unnecessary npm/yarn instal
+# Skip unnecessary npm/yarn inst
