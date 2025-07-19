@@ -77,7 +77,7 @@ export default {
           if (!temp.cwct_created_at) {
             temp.cwct_created_at = chat.created_at;
           }
-          if (chat.content_attributes.external_created_at)
+          if (chat?.content_attributes?.external_created_at)
             temp.created_at = parseInt(
               chat.content_attributes.external_created_at
             );
@@ -95,7 +95,7 @@ export default {
           if (!temp.cwct_created_at) {
             temp.cwct_created_at = chat.created_at;
           }
-          if (chat.content_attributes.external_created_at)
+          if (chat?.content_attributes?.external_created_at)
             temp.created_at = parseInt(
               chat.content_attributes.external_created_at
             );
@@ -106,6 +106,8 @@ export default {
         });
     },
     lastMessageAt(messages) {
+      if (!messages) return Math.floor(Date.now() / 1000); // return current time if no messages
+
       const incomingMessages = messages.filter(a => {
         return a.message_type === 0;
       });

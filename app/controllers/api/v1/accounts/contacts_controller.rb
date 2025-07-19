@@ -21,9 +21,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contacts = fetch_contacts(resolved_contacts)
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/MethodLength
   def specific_search
     render json: { error: 'Specify search parameter with parameter search_param' }, status: :unprocessable_entity if params[:search_param].blank?
+    return if params[:search_param].blank?
+
     render json: { error: 'Specify search value with parameter value' }, status: :unprocessable_entity if params[:value].blank?
+    return if params[:value].blank?
 
     search_param = params[:search_param]
     value = params[:value]
@@ -47,6 +54,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       }
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/MethodLength
 
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
