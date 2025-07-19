@@ -67,12 +67,6 @@ Rails.application.routes.draw do
       # ----------------------------------
 
       # ----------------------------------
-      # WAHA webhook routes
-      post '/waha/callback/:phone_number', to: 'waha/webhooks#callback', as: 'waha_callback'
-      # end of WAHA webhook routes
-      # ----------------------------------
-
-      # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update] do
         # ----------------------------------
@@ -198,6 +192,7 @@ Rails.application.routes.draw do
               member do
                 get :status
                 get :qr_code
+                post :start_session  # Route baru untuk alur callback yang benar
               end
             end
             resource :twilio_channel, only: [:create]
@@ -581,6 +576,7 @@ Rails.application.routes.draw do
 
   namespace :waha do
     post 'callback/:phone_number', to: 'callback#receive'
+    get 'callback/:phone_number', to: 'callback#receive'
   end
   
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

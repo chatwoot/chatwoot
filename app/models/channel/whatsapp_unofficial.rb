@@ -52,6 +52,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
     begin
       Rails.logger.info "Requesting QR code from WAHA for phone #{phone_number}"
+      
       # Menggunakan WAHA service yang ada di /app/services/waha/waha_service.rb
       waha_service = Waha::WahaService.instance
       result = waha_service.get_qr_code_base64(api_key: token)
@@ -130,7 +131,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     fallback_webhook
   end
 
-  def create_device_with_retry(max_retries: 3)
+  def create_device_with_retry(max_retries: 1)
     retries = 0
     
     begin
@@ -199,14 +200,15 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   def build_session_status_response(result)
     if result.present?
-      whatsapp_status = result.dig('data', 'whatsapp_status') || default_status
-      # Status connected jika whatsapp_status bukan 'disconnected'
-      connected = whatsapp_status != 'disconnected'
+      # WAHA sekarang mengembalikan 'status' langsung di data
+      session_status = result.dig('data', 'status') || result['status'] || default_status
+      # Status connected jika session_status adalah 'logged_in'
+      connected = session_status == 'logged_in'
       
       {
         'data' => {
           'connected' => connected,
-          'status' => whatsapp_status
+          'status' => session_status
         }
       }
     else
@@ -215,14 +217,14 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   end
 
   def default_status
-    waha_configured? ? 'connected' : 'disconnected'
+    'not_logged_in'
   end
 
   def fallback_session_status
     {
       'data' => {
-        'connected' => waha_configured?,
-        'status' => waha_configured? ? 'connected' : 'disconnected'
+        'connected' => false,
+        'status' => 'not_logged_in'
       }
     }
   end
@@ -231,7 +233,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     {
       'data' => {
         'connected' => false,
-        'status' => 'disconnected'
+        'status' => 'not_logged_in'
       }
     }
   end

@@ -27,13 +27,13 @@ export default {
     statusMessage() {
       switch (this.connectionStatus) {
         case 'waiting':
-          return 'Status: Menunggu pemindaian...';
+          return 'Menunggu pemindaian...';
         case 'connected':
-          return 'Status: Berhasil terhubung!';
+          return 'Berhasil terhubung!';
         case 'expired':
-          return 'Status: Menghasilkan kode QR baru...';
+          return 'Menghasilkan kode QR baru...';
         default:
-          return 'Status: Memuat...';
+          return 'Memuat...';
       }
     },
     countdownMessage() {
@@ -125,14 +125,14 @@ export default {
             
             setTimeout(() => {
               this.proceedToNextStep();
-            }, 2000);
+            }, 5000);
           } else {
             console.log('Still waiting for connection. Status:', response.data.data?.status);
           }
         } catch (error) {
           console.error('Status check error:', error);
         }
-      }, 2000);
+      }, 5000);
     },
 
     clearIntervals() {
@@ -187,60 +187,62 @@ export default {
       <div class="w-full max-w-4xl mx-auto">
         <!-- QR Code and Instructions Side by Side -->
         <div class="flex flex-col md:flex-row gap-8 items-start justify-center mt-8">
-          <!-- QR Code Section -->
-          <div class="flex-shrink-0 text-center">
-            <div class="bg-white p-6 rounded-lg shadow-md inline-block mb-4">
-              <div class="w-64 h-64 flex items-center justify-center">
+          <!-- QR Code + Status Card -->
+          <div class="flex-shrink-0 w-full md:w-auto">
+            <div class="bg-slate-100 dark:bg-slate-900 p-6 rounded-xl shadow-lg w-80 mx-auto">
+              <!-- QR Code Image Area -->
+              <div class="w-full h-64 flex items-center justify-center bg-white rounded-md mb-4">
                 <div v-if="isLoading" class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
                 <img 
                   v-else-if="qrCodeData" 
                   :src="qrCodeData" 
                   alt="WhatsApp QR Code" 
-                  class="w-full h-full object-contain"
+                  class="w-full h-full object-contain p-4"
                 />
                 <div v-else class="text-slate-500 text-center">
                   Gagal memuat QR Code
                 </div>
               </div>
-            </div>
-            
-            <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-4">
-              Pindai Kode Ini Menggunakan Aplikasi WhatsApp Anda
-            </p>
 
-            <!-- Status Section Below QR Code -->
-            <div class="text-center">
-              <div class="flex items-center justify-center space-x-3 mb-3">
-                <div 
-                  class="w-3 h-3 rounded-full"
-                  :class="{
-                    'bg-yellow-500 animate-pulse': connectionStatus === 'waiting',
-                    'bg-green-500': connectionStatus === 'connected',
-                    'bg-orange-500 animate-pulse': connectionStatus === 'expired'
-                  }"
-                ></div>
-                <span 
-                  class="text-lg font-medium"
-                  :class="{
-                    'text-yellow-400': connectionStatus === 'waiting',
-                    'text-green-400': connectionStatus === 'connected',
-                    'text-orange-400': connectionStatus === 'expired'
-                  }"
-                >
-                  {{ statusMessage }}
-                </span>
-              </div>
+              <!-- Description Text -->
+              <p class="text-sm font-semibold text-slate-600 dark:text-slate-400 text-center mb-4">
+                Pindai kode ini menggunakan aplikasi WhatsApp Anda
+              </p>
 
-              <div v-if="connectionStatus === 'waiting'" class="text-slate-400">
-                {{ countdownMessage }}
-              </div>
+              <!-- Status Display -->
+              <div class="text-center">
+                <div class="flex items-center justify-center space-x-3 mb-3">
+                  <div 
+                    class="w-3 h-3 rounded-full"
+                    :class="{
+                      'bg-green-500 animate-pulse': connectionStatus === 'waiting',
+                      'bg-green-500': connectionStatus === 'connected',
+                      'bg-green-500 animate-pulse': connectionStatus === 'expired'
+                    }"
+                  ></div>
+                  <span 
+                    class="text-sm font-medium"
+                    :class="{
+                      'text-green-600 dark:text-yellow-400': connectionStatus === 'waiting',
+                      'text-green-600 dark:text-green-400': connectionStatus === 'connected',
+                      'text-green-600 dark:text-orange-400': connectionStatus === 'expired'
+                    }"
+                  >
+                    {{ statusMessage }}
+                  </span>
+                </div>
 
-              <div v-if="connectionStatus === 'connected'" class="text-green-400">
-                Mengarahkan ke langkah berikutnya...
-              </div>
+                <div v-if="connectionStatus === 'waiting'" class="text-slate-600 dark:text-slate-400 text-xs">
+                  {{ countdownMessage }}
+                </div>
 
-              <div v-if="connectionStatus === 'expired'" class="text-orange-400">
-                Kode QR akan diperbarui otomatis...
+                <div v-if="connectionStatus === 'connected'" class="text-green-600 dark:text-green-400 text-xs">
+                  Mengarahkan ke langkah berikutnya...
+                </div>
+
+                <div v-if="connectionStatus === 'expired'" class="text-orange-600 dark:text-orange-400 text-xs">
+                  Kode QR akan diperbarui otomatis...
+                </div>
               </div>
             </div>
           </div>

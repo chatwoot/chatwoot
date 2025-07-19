@@ -95,7 +95,7 @@ class Waha::WahaService
 
   def get_session_status(api_key:)
     response = HTTParty.get(
-      "#{API_BASE}/whatsapp/status",
+      "#{API_BASE}/whatsapp/session/info",
       headers: {
         'Accept' => 'application/json',
         'X-API-Key' => api_key
@@ -159,7 +159,7 @@ class Waha::WahaService
     return nil unless defined?(Current) && Current.respond_to?(:request)
     
     request = Current.request
-    return nil unless request&.respond_to?(:base_url)
+    return nil unless request.respond_to?(:base_url)
     
     request.base_url
   rescue StandardError

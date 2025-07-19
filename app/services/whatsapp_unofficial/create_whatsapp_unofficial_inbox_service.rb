@@ -13,11 +13,8 @@ class WhatsappUnofficial::CreateWhatsappUnofficialInboxService
       inbox.save!(validate: false)
     end
 
-    # Setup webhook URL immediately (synchronous)
-    setup_webhook_url
-    
-    # Setup device and token in background to avoid blocking
-    SetupWhatsappUnofficialDeviceJob.perform_later(@channel.id)
+    # Setup webhook URL and device synchronously first
+    setup_webhook_and_device
 
     { inbox: inbox, webhook_url: @channel.reload.webhook_url }
   rescue StandardError => e
@@ -43,7 +40,7 @@ class WhatsappUnofficial::CreateWhatsappUnofficialInboxService
     )
   end
 
-  def setup_webhook_url
+  def setup_webhook_and_device
     # Set webhook URL only (safe operation)
     @channel.set_webhook_url
     Rails.logger.info "Webhook URL setup completed for phone #{@channel.phone_number}"
