@@ -1,0 +1,15 @@
+=> [32m#<Account:0x000073c914cb6208[0m
+ id: [1;34m3[0m,
+ name: [31m[1;31m"[0m[31mMinha Empresa[1;31m"[0m[31m[0m,
+ created_at: [1;34;4mWed[0m, [1;34m02[0m [1;34;4mJul[0m [1;34m2025[0m [1;34m20[0m:[1;34m51[0m:[1;34m00[0m.[1;37;41m515425000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+ updated_at: [1;34;4mWed[0m, [1;34m02[0m [1;34;4mJul[0m [1;34m2025[0m [1;34m20[0m:[1;34m51[0m:[1;34m00[0m.[1;37;41m515425000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+ locale: [31m[1;31m"[0m[31men[1;31m"[0m[31m[0m,
+ domain: [1;36mnil[0m,
+ support_email: [1;36mnil[0m,
+ feature_flags: [1;34m5360152215439[0m,
+ auto_resolve_duration: [1;36mnil[0m,
+ limits: {},
+ custom_attributes: {},
+ status: [31m[1;31m"[0m[31mactive[1;31m"[0m[31m[0m,
+ internal_attributes: {},
+ settings: {}[32m>[0m

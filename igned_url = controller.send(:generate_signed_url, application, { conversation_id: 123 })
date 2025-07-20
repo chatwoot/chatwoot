@@ -1,0 +1,15 @@
+=> [32m#<Account:0x00007967f2535c68[0m
+ id: [1;34m3[0m,
+ name: [31m[1;31m"[0m[31mAgencia Pixel[1;31m"[0m[31m[0m,
+ created_at: [1;34;4mWed[0m, [1;34m02[0m [1;34;4mJul[0m [1;34m2025[0m [1;34m20[0m:[1;34m51[0m:[1;34m00[0m.[1;37;41m515425000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+ updated_at: [1;34;4mThu[0m, [1;34m03[0m [1;34;4mJul[0m [1;34m2025[0m [1;34m01[0m:[1;34m48[0m:[1;35m26.565673000[0m [1;34;4mUTC[0m [1;34m+00[0m:[1;34m00[0m,
+ locale: [31m[1;31m"[0m[31mpt_BR[1;31m"[0m[31m[0m,
+ domain: [1;36mnil[0m,
+ support_email: [31m[1;31m"[0m[31mChatwoot <accounts@chatwoot.com>[1;31m"[0m[31m[0m,
+ feature_flags: [1;34m9223372036854775807[0m,
+ auto_resolve_duration: [1;36mnil[0m,
+ limits: {},
+ custom_attributes: {},
+ status: [31m[1;31m"[0m[31mactive[1;31m"[0m[31m[0m,
+ internal_attributes: {},
+ settings: {}[32m>[0m
