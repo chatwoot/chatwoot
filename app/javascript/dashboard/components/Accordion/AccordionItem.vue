@@ -47,7 +47,7 @@ const onToggle = () => {
       </div>
       <div class="flex flex-row">
         <slot name="button" />
-        <div class="flex justify-end w-3 text-n-blue-text cursor-pointer">
+        <div class="flex justify-end w-3 text-n-brand cursor-pointer">
           <fluent-icon v-if="isOpen" size="24" icon="subtract" type="solid" />
           <fluent-icon v-else size="24" icon="add" type="solid" />
         </div>

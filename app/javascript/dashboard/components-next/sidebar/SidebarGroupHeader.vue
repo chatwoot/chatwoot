@@ -27,7 +27,7 @@ const showBadge = useMapGetter(props.getterKeys.badge);
     :to="to"
     :title="label"
     :class="{
-      'text-n-blue-text bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
+      'text-n-brand bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
       'text-n-slate-12 font-medium': hasActiveChild,
       'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
     }"
