@@ -1,6 +1,5 @@
 <script>
-// Support all template formats now
-const formatsToRemove = [];
+// Support all template formats including media headers
 
 export default {
   props: {
@@ -17,14 +16,29 @@ export default {
   },
   computed: {
     whatsAppTemplateMessages() {
-      // TODO: Remove the last filter when we support all formats
-      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
-        .filter(template => template.status.toLowerCase() === 'approved')
-        .filter(template => {
-          return template.components.every(component => {
-            return !formatsToRemove.includes(component.format);
-          });
-        });
+      const templates = this.$store.getters['inboxes/getWhatsAppTemplates'](
+        this.inboxId
+      );
+
+      if (!templates || !Array.isArray(templates)) {
+        return [];
+      }
+
+      return templates.filter(template => {
+        // Ensure template has required properties
+        if (!template || !template.status || !template.components) {
+          return false;
+        }
+
+        // Only show approved templates
+        if (template.status.toLowerCase() !== 'approved') {
+          return false;
+        }
+
+        // Since we support all formats now, include all approved templates
+        // This includes templates with media headers (IMAGE, VIDEO, DOCUMENT)
+        return true;
+      });
     },
     filteredTemplateMessages() {
       return this.whatsAppTemplateMessages.filter(template =>
@@ -58,6 +72,20 @@ export default {
           header.format === 'VIDEO' ||
           header.format === 'DOCUMENT')
       );
+    },
+    debugTemplate(template) {
+      // Debug helper method - can be used in dev tools console
+      return {
+        name: template.name,
+        status: template.status,
+        hasHeader: !!this.getTemplateHeader(template),
+        headerFormat: this.getTemplateHeader(template)?.format,
+        hasMediaContent: this.hasMediaContent(template),
+        components: template.components.map(c => ({
+          type: c.type,
+          format: c.format,
+        })),
+      };
     },
   },
 };
