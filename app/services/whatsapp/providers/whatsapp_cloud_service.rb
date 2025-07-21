@@ -12,15 +12,55 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_template(phone_number, template_info)
+    # Check if this is an interactive template
+    if template_info[:parameters].is_a?(Hash) && template_info[:parameters][:type] == 'interactive'
+      send_interactive_template(phone_number, template_info)
+    else
+      send_regular_template(phone_number, template_info)
+    end
+  end
+
+  def send_regular_template(phone_number, template_info)
+    template_body = template_body_parameters(template_info)
+
+    request_body = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual',
+      to: phone_number,
+      type: 'template',
+      template: template_body
+    }
+
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        to: phone_number,
-        template: template_body_parameters(template_info),
-        type: 'template'
-      }.to_json
+      body: request_body.to_json
+    )
+
+    process_response(response)
+  end
+
+  def send_interactive_template(phone_number, template_info)
+    interactive_data = template_info[:parameters][:interactive_data]
+
+    request_body = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual',
+      to: phone_number,
+      type: 'interactive',
+      interactive: {
+        type: interactive_data[:type],
+        body: {
+          text: build_template_body_text(template_info)
+        },
+        action: interactive_data[:action]
+      }
+    }
+
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: request_body.to_json
     )
 
     process_response(response)
@@ -137,16 +177,21 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     }
 
     # Handle enhanced template parameters structure
-    if template_info[:parameters].is_a?(Array) && template_info[:parameters].first.is_a?(Hash) && template_info[:parameters].first.key?(:type) && template_info[:parameters].first[:type] != 'text'
-      # New enhanced format with component structure
-      template_body[:components] = template_info[:parameters]
-    else
-      # Legacy format - maintain backward compatibility
-      template_body[:components] = [{
-        type: 'body',
-        parameters: template_info[:parameters]
-      }]
-    end
+    template_body[:components] = if template_info[:parameters].is_a?(Array) &&
+                                    template_info[:parameters].first.is_a?(Hash) &&
+                                    template_info[:parameters].first.key?(:type)
+                                   # New enhanced format with component structure
+                                   template_info[:parameters]
+                                 elsif template_info[:parameters].is_a?(Array)
+                                   # Legacy format with parameter array
+                                   [{
+                                     type: 'body',
+                                     parameters: template_info[:parameters]
+                                   }]
+                                 else
+                                   # Invalid parameters - this should not happen
+                                   []
+                                 end
 
     template_body
   end
@@ -175,5 +220,14 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response)
+  end
+
+  private
+
+  def build_template_body_text(template_info)
+    # Build the template body text with parameter substitution
+    # This is a simplified version - you might want to enhance this
+    # to properly substitute template variables
+    template_info[:name] || 'Interactive Template'
   end
 end

@@ -43,6 +43,20 @@ export default {
       ).text;
     });
 
+    const headerComponent = computed(() => {
+      return props.template.components.find(
+        component => component.type === 'HEADER'
+      );
+    });
+
+    const hasMediaHeader = computed(() => {
+      return (
+        headerComponent.value &&
+        headerComponent.value.format &&
+        ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.value.format)
+      );
+    });
+
     const variables = computed(() => {
       return templateString.value.match(/{{([^}]+)}}/g);
     });
@@ -65,14 +79,23 @@ export default {
     );
 
     const generateVariables = () => {
-      const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
-      if (!matchedVariables) return;
+      const params = {};
 
-      const finalVars = matchedVariables.map(i => processVariable(i));
-      processedParams.value = finalVars.reduce((acc, variable) => {
-        acc[variable] = '';
-        return acc;
-      }, {});
+      // Add media URL field if template has media header
+      if (hasMediaHeader.value) {
+        params.media_url = '';
+      }
+
+      // Add body variables
+      const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
+      if (matchedVariables) {
+        const finalVars = matchedVariables.map(i => processVariable(i));
+        finalVars.forEach(variable => {
+          params[variable] = '';
+        });
+      }
+
+      processedParams.value = params;
     };
 
     const resetTemplate = () => {
@@ -83,6 +106,29 @@ export default {
       v$.value.$touch();
       if (v$.value.$invalid) return;
 
+      // Prepare enhanced template parameters for media support
+      const enhancedParams = {};
+
+      // Handle media header
+      if (hasMediaHeader.value && processedParams.value.media_url) {
+        enhancedParams.header = {
+          media_url: processedParams.value.media_url,
+          media_type: headerComponent.value.format.toLowerCase(),
+        };
+      }
+
+      // Handle body variables
+      const bodyParams = {};
+      Object.keys(processedParams.value).forEach(key => {
+        if (key !== 'media_url') {
+          bodyParams[key] = processedParams.value[key];
+        }
+      });
+
+      if (Object.keys(bodyParams).length > 0) {
+        enhancedParams.body = bodyParams;
+      }
+
       const payload = {
         message: processedString.value,
         templateParams: {
@@ -90,7 +136,7 @@ export default {
           category: props.template.category,
           language: props.template.language,
           namespace: props.template.namespace,
-          processed_params: processedParams.value,
+          processed_params: enhancedParams,
         },
       };
       emit('sendMessage', payload);
@@ -103,6 +149,8 @@ export default {
       variables,
       templateString,
       processedString,
+      headerComponent,
+      hasMediaHeader,
       v$,
       resetTemplate,
       sendMessage,
@@ -119,26 +167,57 @@ export default {
       readonly
       class="template-input"
     />
-    <div v-if="variables" class="p-2.5">
-      <p class="text-sm font-semibold mb-2.5">
-        {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
-      </p>
-      <div
-        v-for="(variable, key) in processedParams"
-        :key="key"
-        class="items-center flex mb-2.5"
-      >
-        <span
-          class="bg-n-alpha-black2 text-n-slate-12 inline-block rounded-md text-xs py-2.5 px-6"
+    <div v-if="variables || hasMediaHeader" class="p-2.5">
+      <!-- Media Header Section -->
+      <div v-if="hasMediaHeader" class="mb-4">
+        <p class="text-sm font-semibold mb-2.5">
+          {{
+            headerComponent.format.charAt(0) +
+            headerComponent.format.slice(1).toLowerCase()
+          }}
+          Header
+        </p>
+        <div class="items-center flex mb-2.5">
+          <span
+            class="bg-n-alpha-black2 text-n-slate-12 inline-block rounded-md text-xs py-2.5 px-6"
+          >
+            {{ headerComponent.format.toLowerCase() }} URL
+          </span>
+          <woot-input
+            v-model="processedParams.media_url"
+            type="url"
+            class="flex-1 text-sm ml-2.5"
+            :placeholder="`Enter ${headerComponent.format.toLowerCase()} URL`"
+            :styles="{ marginBottom: 0 }"
+          />
+        </div>
+      </div>
+
+      <!-- Variables Section -->
+      <div v-if="variables">
+        <p class="text-sm font-semibold mb-2.5">
+          {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
+        </p>
+        <div
+          v-for="(variable, key) in processedParams"
+          :key="key"
+          class="items-center flex mb-2.5"
         >
-          {{ key }}
-        </span>
-        <woot-input
-          v-model="processedParams[key]"
-          type="text"
-          class="flex-1 text-sm ml-2.5"
-          :styles="{ marginBottom: 0 }"
-        />
+          <!-- Skip media_url as it's handled above -->
+          <template v-if="key !== 'media_url'">
+            <span
+              class="bg-n-alpha-black2 text-n-slate-12 inline-block rounded-md text-xs py-2.5 px-6"
+            >
+              {{ key }}
+            </span>
+            <woot-input
+              v-model="processedParams[key]"
+              type="text"
+              class="flex-1 text-sm ml-2.5"
+              :styles="{ marginBottom: 0 }"
+            />
+          </template>
+        </div>
       </div>
       <p
         v-if="v$.$dirty && v$.$invalid"

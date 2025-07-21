@@ -75,32 +75,123 @@ class Whatsapp::TemplateProcessorService
     template = find_template
     return if template.blank?
 
+    # Check for interactive templates first
+    if has_interactive_components?(template)
+      process_interactive_template_params(template)
     # Handle enhanced template parameters structure
-    if template_params['processed_params'].is_a?(Hash) && template_params['processed_params'].key?('body')
+    elsif template_params['processed_params'].is_a?(Hash) && template_params['processed_params'].key?('body')
       process_enhanced_template_params(template)
     else
-      # Legacy processing for backward compatibility
-      process_legacy_template_params(template)
+      # Check if we have special header types that need processing
+      header_component = template['components'].find { |c| c['type'] == 'HEADER' }
+      if header_component&.dig('format')&.in?(%w[IMAGE VIDEO DOCUMENT])
+        process_media_template_params(template, header_component)
+      elsif header_component&.dig('format') == 'LOCATION'
+        process_location_template_params(template, header_component)
+      elsif template['category']&.downcase == 'authentication'
+        process_authentication_template_params(template)
+      else
+        process_legacy_template_params(template)
+      end
     end
+  end
+
+  def process_media_template_params(_template, header_component)
+    # For templates with media headers, we need to create proper component parameters
+    components = []
+
+    # Add header component with media parameter
+    media_url = if header_component['example'] && header_component['example']['header_handle']
+                  # Template has example media URL, use it as a placeholder
+                  header_component['example']['header_handle'].first
+                else
+                  # No example, need to provide a media URL parameter
+                  # Since we don't have user input, we'll create an empty media parameter
+                  'https://example.com/placeholder.jpg' # Placeholder URL
+                end
+
+    components << {
+      type: 'header',
+      parameters: [{
+        :type => header_component['format'].downcase,
+        header_component['format'].downcase => {
+          link: media_url
+        }
+      }]
+    }
+
+    # Add body parameters if any
+    body_params = template_params['processed_params'].map { |_, value| { type: 'text', text: value } }
+    components << { type: 'body', parameters: body_params } if body_params.present?
+
+    @template_params = components
+  end
+
+  def process_location_template_params(_template, header_component)
+    # For templates with location headers
+    components = []
+
+    # Add location header component
+    # Location headers typically include latitude, longitude, name, and address
+    location_params = if template_params['processed_params'].is_a?(Hash) && template_params['processed_params']['header']
+                        build_location_parameter(template_params['processed_params']['header'])
+                      else
+                        # Use example location if available, otherwise create placeholder
+                        build_default_location_parameter(header_component)
+                      end
+
+    if location_params
+      components << {
+        type: 'header',
+        parameters: [location_params]
+      }
+    end
+
+    # Add body parameters if any
+    if template_params['processed_params'].present? && !template_params['processed_params'].is_a?(Hash)
+      body_params = template_params['processed_params'].map { |_, value| { type: 'text', text: value } }
+      components << { type: 'body', parameters: body_params } if body_params.present?
+    end
+
+    @template_params = components
+  end
+
+  def process_authentication_template_params(_template)
+    # Authentication templates typically have OTP codes and expiration times
+    components = []
+
+    # Process body parameters for authentication templates
+    if template_params['processed_params'].present?
+      body_params = if template_params['processed_params'].is_a?(Hash)
+                      process_authentication_body_params(template_params['processed_params'])
+                    else
+                      template_params['processed_params'].map { |_, value| { type: 'text', text: value } }
+                    end
+      components << { type: 'body', parameters: body_params } if body_params.present?
+    end
+
+    @template_params = components
   end
 
   def process_enhanced_template_params(_template)
     processed_params = template_params['processed_params']
     components = []
 
-    # Process body parameters
-    if processed_params['body'].present?
-      body_params = processed_params['body'].map { |_, value| build_parameter(value) }
-      components << { type: 'body', parameters: body_params }
-    end
-
-    # Process header parameters
+    # Process header parameters first (important for WhatsApp API order)
     if processed_params['header'].present?
-      header_params = processed_params['header'].filter_map do |key, value|
+      header_params = []
+
+      processed_params['header'].each do |key, value|
+        next if value.blank?
+
         if key == 'media_url' && processed_params['header']['media_type'].present?
-          build_media_parameter(value, processed_params['header']['media_type'])
-        else
-          build_parameter(value)
+          media_param = build_media_parameter(value, processed_params['header']['media_type'])
+          header_params << media_param if media_param
+        elsif key == 'location' && processed_params['header']['location_type'] == 'location'
+          location_param = build_location_parameter(value)
+          header_params << location_param if location_param
+        elsif !%w[media_type location_type].include?(key)
+          header_params << build_parameter(value)
         end
       end
 
@@ -108,15 +199,38 @@ class Whatsapp::TemplateProcessorService
       components << { type: 'header', parameters: header_params } if header_params.present?
     end
 
+    # Process body parameters
+    if processed_params['body'].present?
+      body_params = processed_params['body'].filter_map do |key, value|
+        next if value.blank?
+
+        # Handle special authentication parameters
+        if key == 'otp_code'
+          build_authentication_parameter(value, 'otp')
+        elsif key == 'expiry_minutes'
+          build_authentication_parameter(value, 'expiry')
+        else
+          build_parameter(value)
+        end
+      end
+      components << { type: 'body', parameters: body_params } if body_params.present?
+    end
+
     # Process footer parameters (rarely used but supported)
     if processed_params['footer'].present?
-      footer_params = processed_params['footer'].map { |_, value| build_parameter(value) }
-      components << { type: 'footer', parameters: footer_params }
+      footer_params = processed_params['footer'].filter_map do |_, value|
+        next if value.blank?
+
+        build_parameter(value)
+      end
+      components << { type: 'footer', parameters: footer_params } if footer_params.present?
     end
 
     # Process button parameters
     if processed_params['buttons'].present?
-      button_params = processed_params['buttons'].map.with_index do |button, index|
+      button_params = processed_params['buttons'].filter_map.with_index do |button, index|
+        next if button.blank? || button['parameter'].blank?
+
         {
           type: 'button',
           sub_type: button['type'] || 'url',
@@ -124,32 +238,33 @@ class Whatsapp::TemplateProcessorService
           parameters: [build_button_parameter(button)]
         }
       end
-      components.concat(button_params)
+      components.concat(button_params) if button_params.present?
     end
 
-    components
+    @template_params = components
   end
 
   def process_legacy_template_params(template)
     parameter_format = template['parameter_format']
 
-    if parameter_format == 'NAMED'
-      template_params['processed_params']&.map { |key, value| { type: 'text', parameter_name: key, text: value } }
-    else
-      template_params['processed_params']&.map { |_, value| { type: 'text', text: value } }
-    end
+    @template_params = if parameter_format == 'NAMED'
+                         template_params['processed_params']&.map { |key, value| { type: 'text', parameter_name: key, text: value } }
+                       else
+                         template_params['processed_params']&.map { |_, value| { type: 'text', text: value } }
+                       end
+    @template_params
   end
 
   def build_parameter(value)
     case value
     when String
       sanitized_value = sanitize_parameter(value)
-      if sanitized_value.match?(%r{^https?://})
-        validate_url(sanitized_value)
-        # URL parameter (for media or documents)
-        { type: 'image', image: { link: sanitized_value } }
+      # Check if this is rich text formatting
+      if has_rich_formatting?(sanitized_value)
+        build_rich_text_parameter(sanitized_value)
       else
-        # Text parameter
+        # For regular template parameters, always treat as text
+        # Media parameters are handled separately via build_media_parameter
         { type: 'text', text: sanitized_value }
       end
     when Hash
@@ -194,6 +309,8 @@ class Whatsapp::TemplateProcessorService
   end
 
   def build_button_parameter(button)
+    return { type: 'text', text: '' } if button.blank? || button['parameter'].blank?
+
     case button['type']
     when 'copy_code'
       coupon_code = button['parameter'].to_s.strip
@@ -205,7 +322,8 @@ class Whatsapp::TemplateProcessorService
         coupon_code: coupon_code
       }
     else
-      build_parameter(button['parameter'])
+      # For URL buttons and other button types, treat parameter as text
+      { type: 'text', text: button['parameter'].to_s.strip }
     end
   end
 
@@ -217,11 +335,13 @@ class Whatsapp::TemplateProcessorService
   end
 
   def validate_url(url)
+    return if url.blank?
+
     uri = URI.parse(url)
-    raise ArgumentError, 'Invalid URL scheme' unless %w[http https].include?(uri.scheme)
-    raise ArgumentError, 'URL too long' if url.length > 2000
-  rescue URI::InvalidURIError
-    raise ArgumentError, 'Invalid URL format'
+    raise ArgumentError, "Invalid URL scheme: #{uri.scheme}. Only http and https are allowed" unless %w[http https].include?(uri.scheme)
+    raise ArgumentError, 'URL too long (max 2000 characters)' if url.length > 2000
+  rescue URI::InvalidURIError => e
+    raise ArgumentError, "Invalid URL format: #{e.message}. Please enter a valid image URL like https://example.com/image.jpg"
   end
 
   def build_media_parameter(url, media_type)
@@ -257,6 +377,114 @@ class Whatsapp::TemplateProcessorService
     end
   end
 
+  def build_location_parameter(location_data)
+    # Location parameter for header components
+    # Can be a hash with lat/lng or a string address
+    case location_data
+    when Hash
+      # Structured location data
+      validate_location_data(location_data)
+      {
+        type: 'location',
+        location: {
+          latitude: location_data['latitude'].to_f,
+          longitude: location_data['longitude'].to_f,
+          name: location_data['name'].to_s.strip,
+          address: location_data['address'].to_s.strip
+        }
+      }
+    when String
+      # Address string - parse or use as name
+      address = sanitize_parameter(location_data)
+      {
+        type: 'location',
+        location: {
+          latitude: 0.0,
+          longitude: 0.0,
+          name: address,
+          address: address
+        }
+      }
+    end
+  end
+
+  def build_default_location_parameter(header_component)
+    # Build default location from template example or placeholder
+    if header_component['example'] && header_component['example']['header_handle']
+      example_location = header_component['example']['header_handle'].first
+      {
+        type: 'location',
+        location: {
+          latitude: 37.7749,
+          longitude: -122.4194,
+          name: example_location || 'Business Location',
+          address: example_location || 'San Francisco, CA'
+        }
+      }
+    else
+      {
+        type: 'location',
+        location: {
+          latitude: 37.7749,
+          longitude: -122.4194,
+          name: 'Business Location',
+          address: 'San Francisco, CA'
+        }
+      }
+    end
+  end
+
+  def build_authentication_parameter(value, param_type)
+    # Authentication-specific parameters
+    sanitized_value = sanitize_parameter(value)
+
+    case param_type
+    when 'otp'
+      # OTP code - typically 4-8 digits
+      raise ArgumentError, 'OTP code must be numeric' unless sanitized_value.match?(/\A\d+\z/)
+      raise ArgumentError, 'OTP code must be 4-8 digits' unless sanitized_value.length.between?(4, 8)
+
+      { type: 'text', text: sanitized_value }
+    when 'expiry'
+      # Expiry time in minutes
+      expiry_minutes = sanitized_value.to_i
+      raise ArgumentError, 'Expiry minutes must be a positive number' unless expiry_minutes > 0
+
+      { type: 'text', text: expiry_minutes.to_s }
+    else
+      { type: 'text', text: sanitized_value }
+    end
+  end
+
+  def process_authentication_body_params(processed_params)
+    # Process authentication-specific body parameters
+    processed_params.filter_map do |key, value|
+      next if value.blank?
+
+      case key
+      when 'otp_code'
+        build_authentication_parameter(value, 'otp')
+      when 'expiry_minutes'
+        build_authentication_parameter(value, 'expiry')
+      else
+        build_parameter(value)
+      end
+    end
+  end
+
+  def validate_location_data(location_data)
+    required_fields = %w[latitude longitude]
+    missing_fields = required_fields.reject { |field| location_data.key?(field) }
+
+    raise ArgumentError, "Missing required location fields: #{missing_fields.join(', ')}" if missing_fields.any?
+
+    lat = location_data['latitude'].to_f
+    lng = location_data['longitude'].to_f
+
+    raise ArgumentError, 'Latitude must be between -90 and 90' unless lat.between?(-90, 90)
+    raise ArgumentError, 'Longitude must be between -180 and 180' unless lng.between?(-180, 180)
+  end
+
   def validated_body_object(template)
     # we don't care if its not approved template
     return if template['status'] != 'approved'
@@ -264,5 +492,176 @@ class Whatsapp::TemplateProcessorService
     # we only care about text body object in template. if not present we discard the template
     # we don't support other forms of templates
     template['components'].find { |obj| obj['type'] == 'BODY' && obj.key?('text') }
+  end
+
+  def has_interactive_components?(template)
+    # Check if template has interactive buttons like quick replies, call-to-actions, etc.
+    interactive_types = %w[quick_reply url phone_number copy_code list catalog_browse]
+    template['components']&.any? do |component|
+      (component['type'] == 'BUTTONS' && component['buttons']&.any? { |button| interactive_types.include?(button['type']) }) ||
+        (component['type'] == 'LIST' && component['sections'].present?) ||
+        (component['type'] == 'PRODUCT' && component['product_id'].present?) ||
+        (component['type'] == 'CATALOG' && component['catalog_id'].present?)
+    end
+  end
+
+  def process_interactive_template_params(template)
+    components = []
+
+    # Process body parameters
+    if template_params['processed_params'].present?
+      body_params = template_params['processed_params'].map { |_, value| { type: 'text', text: value } }
+      components << { type: 'body', parameters: body_params } if body_params.present?
+    end
+
+    @template_params = {
+      type: 'interactive',
+      components: components,
+      interactive_data: extract_interactive_data(template)
+    }
+  end
+
+  def extract_interactive_data(template)
+    # Check if this is a catalog browse template
+    catalog_component = template['components'].find { |c| c['type'] == 'CATALOG' }
+    return extract_catalog_data(catalog_component) if catalog_component&.dig('catalog_id')
+
+    # Check if this is a product template
+    product_component = template['components'].find { |c| c['type'] == 'PRODUCT' }
+    return extract_product_data(product_component) if product_component&.dig('product_id')
+
+    # Check if this is a list template
+    list_component = template['components'].find { |c| c['type'] == 'LIST' }
+    return extract_list_data(list_component) if list_component&.dig('sections')
+
+    # Default to button template
+    interactive_data = { type: 'button', action: { buttons: [] } }
+
+    button_component = template['components'].find { |c| c['type'] == 'BUTTONS' }
+    return interactive_data unless button_component&.dig('buttons')
+
+    buttons = button_component['buttons'].map.with_index do |button, index|
+      # Process dynamic button text if parameters are provided
+      button_text = process_dynamic_button_text(button['text'] || '', index)
+
+      case button['type']
+      when 'quick_reply'
+        {
+          type: 'reply',
+          reply: {
+            id: "reply_#{index}",
+            title: button_text || "Reply #{index + 1}"
+          }
+        }
+      when 'url'
+        {
+          type: 'reply',
+          reply: {
+            id: "url_#{index}",
+            title: button_text || 'Visit Link'
+          }
+        }
+      when 'phone_number'
+        {
+          type: 'reply',
+          reply: {
+            id: "call_#{index}",
+            title: button_text || 'Call Now'
+          }
+        }
+      end
+    end.compact.first(3) # WhatsApp allows max 3 reply buttons
+
+    interactive_data[:action][:buttons] = buttons
+    interactive_data
+  end
+
+  def extract_list_data(list_component)
+    interactive_data = {
+      type: 'list',
+      action: {
+        button: 'Select an Option',
+        sections: []
+      }
+    }
+
+    sections = list_component['sections'].map.with_index do |section, section_index|
+      rows = section['rows']&.map&.with_index do |row, row_index|
+        {
+          id: "row_#{section_index}_#{row_index}",
+          title: row['title'] || "Option #{row_index + 1}",
+          description: row['description'] || nil
+        }
+      end&.first(10) || [] # WhatsApp allows max 10 rows per section
+
+      {
+        title: section['title'] || "Section #{section_index + 1}",
+        rows: rows
+      }
+    end.first(10) # WhatsApp allows max 10 sections
+
+    interactive_data[:action][:sections] = sections
+    interactive_data
+  end
+
+  def extract_product_data(product_component)
+    {
+      type: 'product',
+      action: {
+        catalog_id: product_component['catalog_id'] || '',
+        product_retailer_id: product_component['product_id']
+      }
+    }
+  end
+
+  def extract_catalog_data(catalog_component)
+    {
+      type: 'product_list',
+      action: {
+        catalog_id: catalog_component['catalog_id'],
+        sections: [
+          {
+            title: catalog_component['title'] || 'Browse Products',
+            product_items: catalog_component['products']&.map do |product|
+              {
+                product_retailer_id: product['id'] || product['product_id']
+              }
+            end || []
+          }
+        ]
+      }
+    }
+  end
+
+  def process_dynamic_button_text(button_text, button_index)
+    return button_text unless button_text.include?('{{')
+
+    # Replace button text variables with provided parameters
+    if template_params['processed_params'].present?
+      button_params = template_params['processed_params']['buttons']
+      if button_params.is_a?(Array) && button_params[button_index].present?
+        button_param = button_params[button_index]['parameter'] || button_params[button_index]['text']
+        if button_param.present?
+          # Replace {{1}}, {{variable}}, etc. with the provided parameter
+          button_text = button_text.gsub(/\{\{[^}]+\}\}/, button_param.to_s)
+        end
+      end
+    end
+
+    button_text
+  end
+
+  def has_rich_formatting?(text)
+    # Check if text contains WhatsApp rich formatting markers
+    text.match?(/\*[^*]+\*/) || # Bold: *text*
+      text.match?(/_[^_]+_/) ||   # Italic: _text_
+      text.match?(/~[^~]+~/) ||   # Strikethrough: ~text~
+      text.match?(/```[^`]+```/) # Monospace: ```text```
+  end
+
+  def build_rich_text_parameter(text)
+    # WhatsApp supports rich text formatting in templates
+    # This preserves the formatting markers for the API
+    { type: 'text', text: text }
   end
 end

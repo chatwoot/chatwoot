@@ -260,4 +260,25 @@ export const templates = [
     ],
     rejected_reason: 'NONE',
   },
+  {
+    name: 'order_confirmation',
+    status: 'approved',
+    category: 'TICKET_UPDATE',
+    language: 'en_US',
+    namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
+    components: [
+      {
+        type: 'HEADER',
+        format: 'IMAGE',
+        example: {
+          header_handle: ['https://example.com/shoes.jpg'],
+        },
+      },
+      {
+        text: 'Hi your order {{1}} is confirmed. Please wait for further updates',
+        type: 'BODY',
+      },
+    ],
+    rejected_reason: 'NONE',
+  },
 ];
