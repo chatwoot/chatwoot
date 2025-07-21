@@ -32,6 +32,10 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     render json: response
   end
 
+  def tools
+    @tools = Captain::Assistant.available_agent_tools
+  end
+
   private
 
   def set_assistant
