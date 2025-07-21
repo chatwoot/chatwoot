@@ -254,9 +254,6 @@ export default {
         this.inbox.reauthorization_required
       );
     },
-    whatsappAppId() {
-      return window.chatwootConfig?.whatsappAppId;
-    },
   },
   watch: {
     $route(to) {
