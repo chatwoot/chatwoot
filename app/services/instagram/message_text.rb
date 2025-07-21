@@ -3,7 +3,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
 
   attr_reader :messaging
 
-  base_uri 'https://graph.facebook.com/v11.0/'
+  base_uri 'https://graph.facebook.com/v21.0/'
 
   def initialize(messaging)
     super()

@@ -4,7 +4,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
   include HTTParty
 
-  base_uri 'https://graph.facebook.com/v11.0/me'
+  base_uri 'https://graph.facebook.com/v21.0/me'
 
   # @return [Array] We will support further events like reaction or seen in future
   SUPPORTED_EVENTS = [:message, :read].freeze
