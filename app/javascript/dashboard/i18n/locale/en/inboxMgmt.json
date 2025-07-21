@@ -782,7 +782,8 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel"
+      "API": "API Channel",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
