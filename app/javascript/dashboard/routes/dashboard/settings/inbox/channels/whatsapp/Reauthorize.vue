@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import InboxReconnectionRequired from '../../components/InboxReconnectionRequired.vue';
 import whatsappChannel from 'dashboard/api/channel/whatsappChannel';
@@ -20,7 +19,6 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const router = useRouter();
 
 const isRequestingAuthorization = ref(false);
 const isLoadingFacebook = ref(true);
@@ -41,10 +39,6 @@ const reauthorizeWhatsApp = async params => {
 
     if (response.data.success) {
       useAlert(t('INBOX.REAUTHORIZE.SUCCESS'));
-      router.push({
-        name: 'inbox_settings',
-        params: { inboxId: props.inbox.id },
-      });
     } else {
       useAlert(response.data.message || t('INBOX.REAUTHORIZE.ERROR'));
     }
