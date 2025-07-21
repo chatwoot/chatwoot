@@ -288,7 +288,6 @@ export default {
       </template>
     </div>
 
-    <!-- Hidden WhatsappReauthorize component for direct method calls -->
     <WhatsappReauthorize
       v-if="isEmbeddedSignupWhatsApp"
       ref="whatsappReauth"
