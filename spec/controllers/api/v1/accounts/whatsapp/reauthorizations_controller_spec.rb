@@ -23,7 +23,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
   end
   let(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
 
-  describe 'PUT /api/v1/accounts/{account.id}/whatsapp/reauthorizations/{inbox_id}' do
+  describe 'PUT /api/v1/accounts/{account.id}/whatsapp/reauthorization/{inbox_id}' do
     context 'when user is an administrator' do
       context 'with valid parameters' do
         let(:valid_params) do
@@ -46,7 +46,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
           ).and_return(reauth_service)
           allow(reauth_service).to receive(:perform).and_return({ success: true })
 
-          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorization/#{whatsapp_inbox.id}",
               params: valid_params,
               headers: admin.create_new_auth_token,
               as: :json
@@ -69,7 +69,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
           allow(reauth_service).to receive(:perform)
             .and_return({ success: false, message: 'Token exchange failed' })
 
-          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorization/#{whatsapp_inbox.id}",
               params: valid_params,
               headers: admin.create_new_auth_token,
               as: :json
@@ -97,7 +97,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
                                    'Business Account that was originally connected.'
                         })
 
-          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorization/#{whatsapp_inbox.id}",
               params: valid_params,
               headers: admin.create_new_auth_token,
               as: :json
@@ -111,7 +111,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
 
       context 'when inbox does not exist' do
         it 'returns not found error' do
-          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/0",
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorization/0",
               params: {},
               headers: admin.create_new_auth_token,
               as: :json
@@ -139,7 +139,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
         let(:fresh_inbox) { create(:inbox, channel: fresh_channel, account: account) }
 
         it 'returns unprocessable entity error' do
-          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{fresh_inbox.id}",
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorization/#{fresh_inbox.id}",
               params: {},
               headers: admin.create_new_auth_token,
               as: :json
@@ -164,7 +164,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
         let(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
 
         it 'returns unprocessable entity error' do
-          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{facebook_inbox.id}",
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorization/#{facebook_inbox.id}",
               params: {},
               headers: admin.create_new_auth_token,
               as: :json
@@ -178,7 +178,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
 
     context 'when user is an agent' do
       it 'returns unauthorized error' do
-        put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+        put "/api/v1/accounts/#{account.id}/whatsapp/reauthorization/#{whatsapp_inbox.id}",
             params: {},
             headers: agent.create_new_auth_token,
             as: :json
@@ -189,7 +189,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
 
     context 'when user is not authenticated' do
       it 'returns unauthorized error' do
-        put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+        put "/api/v1/accounts/#{account.id}/whatsapp/reauthorization/#{whatsapp_inbox.id}",
             params: {},
             as: :json
 
