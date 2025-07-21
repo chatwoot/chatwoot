@@ -65,6 +65,15 @@ class Whatsapp::ReauthorizationService
     phone_info = service.perform
 
     if phone_info && phone_info[:phone_number]
+      # Validate that the new phone number matches the existing one
+      if phone_info[:phone_number] != channel.phone_number
+        return error_response(
+          "Phone number mismatch. The new phone number (#{phone_info[:phone_number]}) does not match " \
+          "the existing phone number (#{channel.phone_number}). Please use the same WhatsApp Business " \
+          'Account that was originally connected.'
+        )
+      end
+
       success_response(nil, { phone_info: phone_info })
     else
       error_response('Failed to fetch phone number information. Please try again.')
@@ -118,7 +127,6 @@ class Whatsapp::ReauthorizationService
 
   def update_channel_config(access_token, phone_info)
     update_channel_provider_config(access_token)
-    update_channel_phone_number(phone_info[:phone_number])
     channel.save!
     update_inbox_name(phone_info)
   end
@@ -130,18 +138,6 @@ class Whatsapp::ReauthorizationService
       'phone_number_id' => phone_number_id,
       'business_account_id' => business_id
     )
-  end
-
-  def update_channel_phone_number(new_phone_number)
-    return if new_phone_number.blank? || channel.phone_number == new_phone_number
-
-    existing_channel = Channel::Whatsapp.where(phone_number: new_phone_number).where.not(id: channel.id).first
-    if existing_channel.nil?
-      channel.phone_number = new_phone_number
-    else
-      Rails.logger.warn "[WHATSAPP_REAUTH] Skipping phone number update - #{new_phone_number} already exists on " \
-                        "channel #{existing_channel.id}"
-    end
   end
 
   def update_inbox_name(phone_info)

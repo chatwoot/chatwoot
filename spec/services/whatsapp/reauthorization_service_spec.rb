@@ -31,7 +31,7 @@ RSpec.describe Whatsapp::ReauthorizationService do
   describe '#perform' do
     context 'when channel is embedded signup WhatsApp' do
       let(:access_token) { 'new_access_token' }
-      let(:phone_info) { { phone_number: "+9999#{rand(100_000..999_999)}", verified_name: 'Test Business' } }
+      let(:phone_info) { { phone_number: whatsapp_channel.phone_number, verified_name: 'Test Business' } }
 
       before do
         # Mock the service dependencies to return expected values
@@ -69,7 +69,6 @@ RSpec.describe Whatsapp::ReauthorizationService do
         expect(result[:success]).to be true
         whatsapp_channel.reload
         expect(whatsapp_channel.provider_config['api_key']).to eq(access_token)
-        expect(whatsapp_channel.phone_number).to eq(phone_info[:phone_number])
       end
 
       it 'marks the channel as reauthorized' do
@@ -171,6 +170,49 @@ RSpec.describe Whatsapp::ReauthorizationService do
           result = service.perform
 
           expect(result[:success]).to be true
+        end
+      end
+
+      context 'when phone numbers do not match' do
+        let(:different_phone_number) { '+1234567890' }
+
+        before do
+          token_service = instance_double(Whatsapp::TokenExchangeService)
+          allow(Whatsapp::TokenExchangeService).to receive(:new).with('auth_code_123').and_return(token_service)
+          allow(token_service).to receive(:perform).and_return({ access_token: access_token })
+
+          validation_service = instance_double(Whatsapp::TokenValidationService)
+          allow(Whatsapp::TokenValidationService).to receive(:new).with(
+            access_token, 'waba_123'
+          ).and_return(validation_service)
+          allow(validation_service).to receive(:perform).and_return({ valid: true })
+
+          phone_service = instance_double(Whatsapp::PhoneInfoService)
+          allow(Whatsapp::PhoneInfoService).to receive(:new).with(
+            'waba_123', 'phone_123', access_token
+          ).and_return(phone_service)
+          allow(phone_service).to receive(:perform).and_return({
+                                                                 phone_number: different_phone_number,
+                                                                 verified_name: 'Different Business'
+                                                               })
+        end
+
+        it 'returns failure response with phone number mismatch error' do
+          result = service.perform
+
+          expect(result[:success]).to be false
+          expect(result[:message]).to include('Phone number mismatch')
+          expect(result[:message]).to include(different_phone_number)
+          expect(result[:message]).to include(whatsapp_channel.phone_number)
+        end
+
+        it 'does not update the channel configuration' do
+          original_config = whatsapp_channel.provider_config.dup
+
+          service.perform
+
+          whatsapp_channel.reload
+          expect(whatsapp_channel.provider_config['api_key']).to eq(original_config['api_key'])
         end
       end
     end

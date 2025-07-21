@@ -79,6 +79,34 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
           expect(json_response['success']).to be false
           expect(json_response['message']).to eq('Token exchange failed')
         end
+
+        it 'handles phone number mismatch error' do
+          reauth_service = instance_double(Whatsapp::ReauthorizationService)
+          allow(Whatsapp::ReauthorizationService).to receive(:new).with(
+            code: 'auth_code_123',
+            business_id: 'business_123',
+            waba_id: 'waba_123',
+            phone_number_id: 'phone_123',
+            inbox: whatsapp_inbox
+          ).and_return(reauth_service)
+          allow(reauth_service).to receive(:perform)
+            .and_return({
+                          success: false,
+                          message: 'Phone number mismatch. The new phone number (+1234567890) does not match ' \
+                                   'the existing phone number (+15551234567). Please use the same WhatsApp ' \
+                                   'Business Account that was originally connected.'
+                        })
+
+          put "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations/#{whatsapp_inbox.id}",
+              params: valid_params,
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          json_response = response.parsed_body
+          expect(json_response['success']).to be false
+          expect(json_response['message']).to include('Phone number mismatch')
+        end
       end
 
       context 'when inbox does not exist' do

@@ -1,7 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Whatsapp::Providers::BaseService do
-  let(:whatsapp_channel) { create(:channel_whatsapp) }
+  let(:whatsapp_channel) do
+    # Stub the webhook validation request
+    stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+      .to_return(status: 200, body: '{}', headers: {})
+
+    # Stub the template sync request
+    stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates')
+      .to_return(status: 200, body: '{"waba_templates": []}', headers: {})
+
+    create(:channel_whatsapp, validate_provider_config: false, sync_templates: false)
+  end
   let(:service) { TestWhatsappService.new(whatsapp_channel: whatsapp_channel) }
   let(:message) { create(:message) }
 
@@ -33,16 +43,15 @@ RSpec.describe Whatsapp::Providers::BaseService do
   describe '#handle_error' do
     context 'when response contains authentication error' do
       let(:auth_error_response) do
-        instance_double(
-          body: { error: { code: 190, message: 'Invalid OAuth access token' } }.to_json,
-          parsed_response: {
-            'error' => {
-              'code' => 190,
-              'message' => 'Invalid OAuth access token',
-              'error_subcode' => nil
-            }
-          }
-        )
+        instance_double(HTTParty::Response,
+                        body: { error: { code: 190, message: 'Invalid OAuth access token' } }.to_json,
+                        parsed_response: {
+                          'error' => {
+                            'code' => 190,
+                            'message' => 'Invalid OAuth access token',
+                            'error_subcode' => nil
+                          }
+                        })
       end
 
       it 'calls authorization_error! on the channel' do
@@ -52,16 +61,15 @@ RSpec.describe Whatsapp::Providers::BaseService do
 
       context 'with expired token subcode' do
         let(:expired_token_response) do
-          instance_double(
-            body: { error: { code: 100, error_subcode: 463, message: 'Token expired' } }.to_json,
-            parsed_response: {
-              'error' => {
-                'code' => 100,
-                'error_subcode' => 463,
-                'message' => 'Token expired'
-              }
-            }
-          )
+          instance_double(HTTParty::Response,
+                          body: { error: { code: 100, error_subcode: 463, message: 'Token expired' } }.to_json,
+                          parsed_response: {
+                            'error' => {
+                              'code' => 100,
+                              'error_subcode' => 463,
+                              'message' => 'Token expired'
+                            }
+                          })
         end
 
         it 'calls authorization_error! on the channel' do
@@ -72,16 +80,15 @@ RSpec.describe Whatsapp::Providers::BaseService do
 
       context 'with invalid token subcode' do
         let(:invalid_token_response) do
-          instance_double(
-            body: { error: { code: 100, error_subcode: 467, message: 'Invalid token' } }.to_json,
-            parsed_response: {
-              'error' => {
-                'code' => 100,
-                'error_subcode' => 467,
-                'message' => 'Invalid token'
-              }
-            }
-          )
+          instance_double(HTTParty::Response,
+                          body: { error: { code: 100, error_subcode: 467, message: 'Invalid token' } }.to_json,
+                          parsed_response: {
+                            'error' => {
+                              'code' => 100,
+                              'error_subcode' => 467,
+                              'message' => 'Invalid token'
+                            }
+                          })
         end
 
         it 'calls authorization_error! on the channel' do
@@ -93,15 +100,14 @@ RSpec.describe Whatsapp::Providers::BaseService do
 
     context 'when response contains non-authentication error' do
       let(:general_error_response) do
-        instance_double(
-          body: { error: { code: 100, message: 'General error' } }.to_json,
-          parsed_response: {
-            'error' => {
-              'code' => 100,
-              'message' => 'General error'
-            }
-          }
-        )
+        instance_double(HTTParty::Response,
+                        body: { error: { code: 100, message: 'General error' } }.to_json,
+                        parsed_response: {
+                          'error' => {
+                            'code' => 100,
+                            'message' => 'General error'
+                          }
+                        })
       end
 
       it 'does not call authorization_error!' do
@@ -112,10 +118,9 @@ RSpec.describe Whatsapp::Providers::BaseService do
 
     context 'when response has no error structure' do
       let(:empty_response) do
-        instance_double(
-          body: '{}',
-          parsed_response: {}
-        )
+        instance_double(HTTParty::Response,
+                        body: '{}',
+                        parsed_response: {})
       end
 
       it 'does not call authorization_error!' do
@@ -126,10 +131,9 @@ RSpec.describe Whatsapp::Providers::BaseService do
 
     context 'when message is present' do
       let(:error_response) do
-        instance_double(
-          body: { error: { message: 'Test error' } }.to_json,
-          parsed_response: { 'error' => { 'message' => 'Test error' } }
-        )
+        instance_double(HTTParty::Response,
+                        body: { error: { message: 'Test error' } }.to_json,
+                        parsed_response: { 'error' => { 'message' => 'Test error' } })
       end
 
       before do
@@ -148,12 +152,11 @@ RSpec.describe Whatsapp::Providers::BaseService do
   describe '#process_response' do
     context 'when response is successful' do
       let(:success_response) do
-        instance_double(
-          success?: true,
-          parsed_response: {
-            'messages' => [{ 'id' => 'message_123' }]
-          }
-        )
+        instance_double(HTTParty::Response,
+                        success?: true,
+                        parsed_response: {
+                          'messages' => [{ 'id' => 'message_123' }]
+                        })
       end
 
       it 'returns the message id' do
@@ -164,13 +167,12 @@ RSpec.describe Whatsapp::Providers::BaseService do
 
     context 'when response contains error' do
       let(:error_response) do
-        instance_double(
-          success?: true,
-          body: { error: { message: 'Error occurred' } }.to_json,
-          parsed_response: {
-            'error' => { 'message' => 'Error occurred' }
-          }
-        )
+        instance_double(HTTParty::Response,
+                        success?: true,
+                        body: { error: { message: 'Error occurred' } }.to_json,
+                        parsed_response: {
+                          'error' => { 'message' => 'Error occurred' }
+                        })
       end
 
       it 'handles the error and returns nil' do
@@ -182,11 +184,10 @@ RSpec.describe Whatsapp::Providers::BaseService do
 
     context 'when response is not successful' do
       let(:failed_response) do
-        instance_double(
-          success?: false,
-          body: 'Failed',
-          parsed_response: {}
-        )
+        instance_double(HTTParty::Response,
+                        success?: false,
+                        body: 'Failed',
+                        parsed_response: {})
       end
 
       it 'handles the error and returns nil' do
