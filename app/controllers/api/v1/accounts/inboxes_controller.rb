@@ -87,11 +87,20 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def whatsapp_status
     @channel = @inbox.channel
+    
+    Rails.logger.info "🔍 DEBUG: WhatsApp status request for inbox #{@inbox.id}, channel: #{@channel.class.name}"
+    Rails.logger.info "🔍 DEBUG: Channel phone: #{@channel.phone_number if @channel.respond_to?(:phone_number)}"
 
     begin
       status = @channel.session_status
-      render json: build_status_response(status)
+      Rails.logger.info "🔍 DEBUG: Got status from channel: #{status}"
+      
+      result = build_status_response(status)
+      Rails.logger.info "🔍 DEBUG: Final API response: #{result}"
+      
+      render json: result
     rescue StandardError => e
+      Rails.logger.error "❌ WhatsApp status error: #{e.message}"
       render json: error_status_response(e.message)
     end
   end
@@ -183,13 +192,17 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def map_to_waha_status(status)
     actual_status = status.dig('data', 'status')
+    Rails.logger.info "🔍 DEBUG: Mapping status - input: #{status}, extracted: #{actual_status}"
     
-    case actual_status&.downcase
-    when 'connected', 'authenticated', 'ready', 'logged_in'
-      'logged_in'
-    else
-      'not_logged_in'
-    end
+    result = case actual_status&.downcase
+             when 'connected', 'authenticated', 'ready', 'logged_in'
+               'logged_in'
+             else
+               'not_logged_in'
+             end
+    
+    Rails.logger.info "🔍 DEBUG: Mapped status result: #{result}"
+    result
   end
 
   def permitted_params(channel_attributes = [])

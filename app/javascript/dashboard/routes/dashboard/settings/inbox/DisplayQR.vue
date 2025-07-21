@@ -4,6 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
 import WhatsAppUnofficialChannels from 'dashboard/api/WhatsAppUnofficialChannels';
+import { createConsumer } from '@rails/actioncable';
 
 export default {
   components: {
@@ -12,12 +13,16 @@ export default {
   data() {
     return {
       qrCodeData: null,
-      connectionStatus: 'waiting', // waiting, connected, expired
+      connectionStatus: 'waiting', // waiting, connected, expired, mismatch
       countdown: 60,
       countdownInterval: null,
       statusInterval: null,
       isLoading: true,
       isConnecting: false,
+      mismatchInfo: null,
+      expectedPhoneNumber: null,
+      subscription: null, // ActionCable subscription
+      channelId: null, // Channel ID for WhatsApp
     };
   },
   computed: {
@@ -32,23 +37,141 @@ export default {
           return 'Berhasil terhubung!';
         case 'expired':
           return 'Menghasilkan kode QR baru...';
+        case 'mismatch':
+          return 'Nomor WhatsApp tidak sesuai!';
         default:
           return 'Memuat...';
       }
     },
     countdownMessage() {
       return `Kode QR akan kedaluwarsa dalam ${this.countdown} detik`;
+    },
+    instructionMessage() {
+      if (this.expectedPhoneNumber) {
+        return `Pastikan Anda menggunakan WhatsApp dengan nomor ${this.expectedPhoneNumber}`;
+      }
+      return 'Pindai kode ini menggunakan aplikasi WhatsApp Anda';
     }
   },
   async mounted() {
+    await this.fetchInboxInfo();
+    await this.setupWebSocketSubscription();
     await this.generateQRCode();
     this.startCountdown();
     this.checkConnectionStatus();
   },
   beforeUnmount() {
     this.clearIntervals();
+    this.disconnectWebSocket();
   },
   methods: {
+    async fetchInboxInfo() {
+      try {
+        const inboxId = this.$route.params.inbox_id;
+        const response = await this.$http.get(`inboxes/${inboxId}`);
+        
+        if (response.data && response.data.channel && response.data.channel.phone_number) {
+          this.expectedPhoneNumber = response.data.channel.phone_number;
+          // Store channel ID for WebSocket subscription
+          this.channelId = response.data.channel.id;
+        }
+      } catch (error) {
+        console.error('Failed to fetch inbox info:', error);
+      }
+    },
+
+    async setupWebSocketSubscription() {
+      if (!this.channelId) return;
+      
+      try {
+        // Use Chatwoot's existing WebSocket approach
+        // Subscribe to room channel with pubsub token for real-time updates
+        const accountId = this.$route.params.accountId;
+        const pubsub_token = `${accountId}_inbox_${this.$route.params.inbox_id}`;
+        
+        // Create ActionCable consumer using Chatwoot's approach
+        const cable = createConsumer();
+        
+        // Subscribe to RoomChannel for inbox-specific updates
+        this.subscription = cable.subscriptions.create(
+          { 
+            channel: 'RoomChannel',
+            pubsub_token: pubsub_token
+          },
+          {
+            received: (data) => {
+              console.log('📡 WebSocket received:', data);
+              this.handleWebSocketMessage(data);
+            },
+            connected: () => {
+              console.log('📡 WebSocket connected for inbox:', this.$route.params.inbox_id);
+            },
+            disconnected: () => {
+              console.log('📡 WebSocket disconnected for inbox:', this.$route.params.inbox_id);
+            }
+          }
+        );
+
+        console.log('✅ WebSocket subscription setup complete');
+      } catch (error) {
+        console.error('Failed to setup WebSocket:', error);
+      }
+    },
+
+    handleWebSocketMessage(data) {
+      console.log('🔄 Processing WebSocket message:', data);
+      
+      switch (data.type) {
+        case 'session_status_changed':
+        case 'phone_validation_success':
+        case 'whatsapp_status_updated':
+          this.handleStatusUpdate(data);
+          break;
+        default:
+          console.log('📡 Unhandled WebSocket message type:', data.type);
+      }
+    },
+
+    handleStatusUpdate(data) {
+      console.log('📊 Status update received:', data);
+      
+      if (data.status === 'logged_in' && data.connected === true) {
+        console.log('🎉 WhatsApp connected successfully!');
+        this.connectionStatus = 'connected';
+        this.clearIntervals();
+        
+        // Auto redirect setelah 2 detik
+        setTimeout(() => {
+          this.redirectToInboxSettings();
+        }, 2000);
+        
+      } else if (data.status === 'not_logged_in' || data.connected === false) {
+        console.log('❌ WhatsApp disconnected');
+        this.connectionStatus = 'waiting';
+        
+      } else if (data.type === 'phone_validation_success') {
+        console.log('✅ Phone validation successful!');
+        this.connectionStatus = 'connected';
+        this.clearIntervals();
+        
+        // Auto redirect
+        setTimeout(() => {
+          this.redirectToInboxSettings();
+        }, 2000);
+      } else if (data.type === 'session_mismatch' || data.status === 'mismatch') {
+        console.error('📱 Phone number mismatch detected!', data);
+        this.handlePhoneMismatch(data.expected_phone, data.connected_phone);
+      }
+    },
+
+    disconnectWebSocket() {
+      if (this.subscription) {
+        this.subscription.unsubscribe();
+        this.subscription = null;
+        console.log('📡 WebSocket subscription disconnected');
+      }
+    },
+
     async generateQRCode() {
       try {
         this.isLoading = true;
@@ -126,6 +249,15 @@ export default {
             setTimeout(() => {
               this.proceedToNextStep();
             }, 5000);
+          } else if (response.data.data?.status === 'mismatch') {
+            console.log('Phone number mismatch detected!');
+            this.connectionStatus = 'mismatch';
+            this.clearIntervals();
+            
+            // Handle mismatch case - could show error and regenerate QR
+            setTimeout(() => {
+              this.refreshQRCode();
+            }, 5000);
           } else {
             console.log('Still waiting for connection. Status:', response.data.data?.status);
           }
@@ -133,6 +265,11 @@ export default {
           console.error('Status check error:', error);
         }
       }, 5000);
+    },
+
+    redirectToInboxSettings() {
+      console.log('🚀 Redirecting to inbox settings...');
+      this.proceedToNextStep();
     },
 
     clearIntervals() {
@@ -168,6 +305,22 @@ export default {
         useAlert('Terjadi kesalahan saat melanjutkan. Silakan coba lagi.');
         this.isConnecting = false;
       }
+    },
+
+    handlePhoneMismatch(expectedPhone, connectedPhone) {
+      this.connectionStatus = 'mismatch';
+      this.mismatchInfo = {
+        expected: expectedPhone,
+        connected: connectedPhone
+      };
+      this.clearIntervals();
+      
+      useAlert(`Nomor WhatsApp tidak sesuai! Diharapkan: ${expectedPhone}, Terhubung: ${connectedPhone}. Silakan scan dengan nomor yang benar.`);
+      
+      // Auto refresh QR code setelah 5 detik
+      setTimeout(async () => {
+        await this.refreshQRCode();
+      }, 5000);
     }
   },
 };
@@ -206,7 +359,7 @@ export default {
 
               <!-- Description Text -->
               <p class="text-sm font-semibold text-slate-600 dark:text-slate-400 text-center mb-4">
-                Pindai kode ini menggunakan aplikasi WhatsApp Anda
+                {{ instructionMessage }}
               </p>
 
               <!-- Status Display -->
@@ -217,7 +370,8 @@ export default {
                     :class="{
                       'bg-green-500 animate-pulse': connectionStatus === 'waiting',
                       'bg-green-500': connectionStatus === 'connected',
-                      'bg-green-500 animate-pulse': connectionStatus === 'expired'
+                      'bg-orange-500 animate-pulse': connectionStatus === 'expired',
+                      'bg-red-500 animate-pulse': connectionStatus === 'mismatch'
                     }"
                   ></div>
                   <span 
@@ -225,7 +379,8 @@ export default {
                     :class="{
                       'text-green-600 dark:text-yellow-400': connectionStatus === 'waiting',
                       'text-green-600 dark:text-green-400': connectionStatus === 'connected',
-                      'text-green-600 dark:text-orange-400': connectionStatus === 'expired'
+                      'text-orange-600 dark:text-orange-400': connectionStatus === 'expired',
+                      'text-red-600 dark:text-red-400': connectionStatus === 'mismatch'
                     }"
                   >
                     {{ statusMessage }}
@@ -242,6 +397,14 @@ export default {
 
                 <div v-if="connectionStatus === 'expired'" class="text-orange-600 dark:text-orange-400 text-xs">
                   Kode QR akan diperbarui otomatis...
+                </div>
+
+                <div v-if="connectionStatus === 'mismatch'" class="text-red-600 dark:text-red-400 text-xs text-center">
+                  <div v-if="mismatchInfo">
+                    Diharapkan: {{ mismatchInfo.expected }} <br />
+                    Terhubung: {{ mismatchInfo.connected }}
+                  </div>
+                  <div class="mt-1">QR akan diperbarui dalam 5 detik...</div>
                 </div>
               </div>
             </div>

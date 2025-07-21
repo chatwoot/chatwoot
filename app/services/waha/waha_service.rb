@@ -93,10 +93,11 @@ class Waha::WahaService
     raise "Failed to get QR code: #{response.body}"
   end
 
-  def get_session_status(api_key:)
-    response = HTTParty.get(
-      "#{API_BASE}/whatsapp/session/info",
+  def logout_session(api_key:)
+    response = HTTParty.post(
+      "#{API_BASE}/whatsapp/session/logout",
       headers: {
+        'Content-Type' => 'application/json',
         'Accept' => 'application/json',
         'X-API-Key' => api_key
       }
@@ -143,9 +144,12 @@ class Waha::WahaService
   end
 
   def webhook_url_for(phone_number)
-    Rails.application.routes.url_helpers.waha_callback_url(
+    Rails.application.routes.url_helpers.url_for(
+      controller: 'waha/callback',
+      action: 'receive',
+      phone_number: phone_number,
       host: current_application_url,
-      phone_number: phone_number
+      only_path: false
     )
   end
 
