@@ -46,7 +46,8 @@ const filteredTools = computed(() => {
 
 const adjustScroll = () => {};
 
-const onSelect = () => {
+const onSelect = idx => {
+  if (idx) selectedIndex.value = idx;
   emit('selectTool', filteredTools.value[selectedIndex.value]);
 };
 

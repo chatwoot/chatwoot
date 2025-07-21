@@ -554,6 +554,7 @@
           "SEARCH_PLACEHOLDER": "Search..."
         },
         "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
         "API": {
           "ADD": {
             "SUCCESS": "Guardrails added successfully",
@@ -601,6 +602,7 @@
           "SEARCH_PLACEHOLDER": "Search..."
         },
         "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
         "API": {
           "ADD": {
             "SUCCESS": "Response Guidelines added successfully",
@@ -666,6 +668,8 @@
         "LIST": {
           "SEARCH_PLACEHOLDER": "Search..."
         },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
         "API": {
           "ADD": {
             "SUCCESS": "Scenarios added successfully",

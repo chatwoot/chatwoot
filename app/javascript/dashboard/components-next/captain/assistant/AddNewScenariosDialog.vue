@@ -3,6 +3,7 @@ import { computed, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
+import { vOnClickOutside } from '@vueuse/components';
 import { required, minLength } from '@vuelidate/validators';
 
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -73,7 +74,10 @@ const onClickCancel = () => {
 </script>
 
 <template>
-  <div class="inline-flex relative">
+  <div
+    v-on-click-outside="() => togglePopover(false)"
+    class="inline-flex relative"
+  >
     <Button
       :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.CREATE')"
       sm

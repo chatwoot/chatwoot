@@ -284,7 +284,17 @@ onMounted(() => {
             />
           </div>
         </div>
-        <div class="flex flex-col gap-2">
+        <div v-if="scenarios.length === 0" class="mt-1 mb-2">
+          <span class="text-n-slate-11 text-sm">
+            {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.EMPTY_MESSAGE') }}
+          </span>
+        </div>
+        <div v-else-if="filteredScenarios.length === 0" class="mt-1 mb-2">
+          <span class="text-n-slate-11 text-sm">
+            {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.SEARCH_EMPTY_MESSAGE') }}
+          </span>
+        </div>
+        <div v-else class="flex flex-col gap-2">
           <ScenariosCard
             v-for="scenario in filteredScenarios"
             :id="scenario.id"
