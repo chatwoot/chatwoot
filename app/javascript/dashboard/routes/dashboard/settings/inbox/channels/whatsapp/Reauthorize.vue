@@ -121,12 +121,12 @@ const handleLoginAndReauthorize = async () => {
     }
   } catch (error) {
     if (error.message === 'Login cancelled') {
-      // useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
+      useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
     } else {
-      // useAlert(
-      //   error.message ||
-      //     t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED')
-      // );
+      useAlert(
+        error.message ||
+          t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED')
+      );
     }
     throw error;
   }
@@ -142,7 +142,7 @@ const requestAuthorization = async () => {
   try {
     await handleLoginAndReauthorize();
   } catch (error) {
-    // useAlert(error.message || t('INBOX.REAUTHORIZE.CONFIGURATION_ERROR'));
+    useAlert(error.message || t('INBOX.REAUTHORIZE.CONFIGURATION_ERROR'));
   } finally {
     // Reset only if not already processing through embedded signup
     if (!window.FB || !window.FB.getLoginStatus) {
