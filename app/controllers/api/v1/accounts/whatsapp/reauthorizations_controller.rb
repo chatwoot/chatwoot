@@ -17,7 +17,7 @@ class Api::V1::Accounts::Whatsapp::ReauthorizationsController < Api::V1::Account
       render json: {
         success: false,
         message: service_response[:message]
-      }, status: :unprocessable_entity
+      }, status: :bad_request
     end
   end
 
@@ -48,9 +48,8 @@ class Api::V1::Accounts::Whatsapp::ReauthorizationsController < Api::V1::Account
   def can_upgrade_to_embedded_signup?
     channel = @inbox.channel
     return false unless channel.provider == 'whatsapp_cloud'
-    return false if channel.provider_config&.dig('source') == 'embedded_signup'
 
-    ENV['WHATSAPP_APP_ID'].present?
+    GlobalConfigService.load('WHATSAPP_APP_ID', '').present?
   end
 
   def validate_whatsapp_channel
