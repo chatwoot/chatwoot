@@ -59,7 +59,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService
     }
     
     # Log the payload for debugging
-    Rails.logger.info("Instagram Carousel Payload: #{params.to_json}")
+    Rails.logger.debug("Instagram Carousel Payload: #{params.to_json}")
     
     merge_human_agent_tag(params)
   end

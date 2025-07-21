@@ -49,6 +49,9 @@
     "UNKNOWN_FILE_TYPE": "Archivo desconocido",
     "SAVE_CONTACT": "Guardar Contacto",
     "NO_CONTENT": "No hay contenido que mostrar",
+    "CARD": {
+      "VIEW_MORE": "Ver más"
+    },
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} ha compartido un contacto",
       "LOCATION": "{sender} ha compartido una ubicación",
