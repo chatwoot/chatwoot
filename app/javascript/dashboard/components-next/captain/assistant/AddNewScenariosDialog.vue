@@ -1,7 +1,5 @@
 <script setup>
 import { computed, reactive } from 'vue';
-// import { useStore } from 'dashboard/composables/store';
-// import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
@@ -14,8 +12,6 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 const emit = defineEmits(['add']);
 
-// const store = useStore();
-
 const { t } = useI18n();
 
 const [showPopover, togglePopover] = useToggle();
@@ -25,14 +21,12 @@ const state = reactive({
   title: '',
   description: '',
   instruction: '',
-  // tools: '',
 });
 
 const rules = {
   title: { required, minLength: minLength(1) },
   description: { required },
   instruction: { required },
-  // tools: { required },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -61,7 +55,6 @@ const resetState = () => {
     title: '',
     description: '',
     instruction: '',
-    // tools: '',
   });
 };
 

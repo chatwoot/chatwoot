@@ -23,7 +23,7 @@ const { uiSettings, updateUISettings } = useUISettings();
 const assistantId = route.params.assistantId;
 
 const uiFlags = useMapGetter('captainScenarios/getUIFlags');
-const isFetching = computed(() => uiFlags.value.fetchingItem);
+const isFetching = computed(() => uiFlags.value.fetchingList);
 const assistant = computed(() =>
   store.getters['captainAssistants/getRecord'](Number(assistantId))
 );
@@ -155,6 +155,7 @@ const deleteScenario = async id => {
   }
 };
 
+// TODO: Add bulk delete endpoint
 const bulkDeleteScenarios = async ids => {
   const idsArray = ids || Array.from(bulkSelectedIds.value);
   await Promise.all(

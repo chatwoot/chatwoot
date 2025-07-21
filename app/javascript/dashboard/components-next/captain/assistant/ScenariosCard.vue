@@ -32,10 +32,6 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  //   enabled: {
-  //     type: Boolean,
-  //     default: true,
-  //   },
   selectable: {
     type: Boolean,
     default: false,
@@ -50,6 +46,8 @@ const emit = defineEmits(['select', 'hover', 'delete', 'update']);
 
 const { t } = useI18n();
 
+const TOOL_LINK_REGEX = /\[([^\]]+)]\(tool:\/\/.+?\)/g;
+
 const modelValue = computed({
   get: () => props.isSelected,
   set: () => emit('select', props.id),
@@ -60,7 +58,6 @@ const state = reactive({
   title: '',
   description: '',
   instruction: '',
-  // tools: '',
 });
 
 const [isEditing, toggleEditing] = useToggle();
@@ -76,13 +73,10 @@ const startEdit = () => {
   toggleEditing(true);
 };
 
-const TOOL_LINK_REGEX = /\[([^\]]+)]\(tool:\/\/.+?\)/g;
-
 const rules = {
   title: { required, minLength: minLength(1) },
   description: { required },
   instruction: { required },
-  // tools: { required },
 };
 
 const v$ = useVuelidate(rules, state);
