@@ -1,4 +1,6 @@
 <script setup>
+import { getMediaUrl } from '@/shared/helpers/URLHelper';
+
 defineProps({
   items: {
     type: Array,
@@ -27,39 +29,7 @@ const handleImageLoad = event => {
 };
 
 const getImageUrl = item => {
-  // Support multiple field name formats: mediaUrl (camelCase), media_url (snake_case), image_url
-  let url = item.mediaUrl || item.media_url || item.image_url;
-  if (url) {
-    // Decode any escaped characters
-    url = url.replace(/\\u0026/g, '&');
-
-    // Convert Google Drive URLs to direct image URLs
-    if (url.includes('drive.google.com')) {
-      // Extract file ID from various Google Drive URL formats
-      let fileId = null;
-
-      // Format: https://drive.google.com/uc?id=FILE_ID&export=download
-      if (url.includes('uc?id=')) {
-        fileId = url.match(/uc\?id=([a-zA-Z0-9_-]+)/)?.[1];
-      }
-      // Format: https://drive.google.com/file/d/FILE_ID/view
-      else if (url.includes('/file/d/')) {
-        fileId = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)?.[1];
-      }
-      // Format: https://drive.google.com/open?id=FILE_ID
-      else if (url.includes('open?id=')) {
-        fileId = url.match(/open\?id=([a-zA-Z0-9_-]+)/)?.[1];
-      }
-
-      if (fileId) {
-        // Convert to direct image URL format
-        url = `https://drive.google.com/thumbnail?id=${fileId}&sz=w400-h300-c`;
-      }
-    }
-
-    return url;
-  }
-  return null;
+  return getMediaUrl(item);
 };
 
 const getLinkAction = item => {
