@@ -207,6 +207,7 @@ onMounted(() => {
   store.dispatch('captainScenarios/get', {
     assistantId: assistantId,
   });
+  store.dispatch('captainTools/getTools');
 });
 </script>
 

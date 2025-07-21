@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
@@ -45,8 +46,7 @@ const props = defineProps({
 const emit = defineEmits(['select', 'hover', 'delete', 'update']);
 
 const { t } = useI18n();
-
-const TOOL_LINK_REGEX = /\[([^\]]+)]\(tool:\/\/.+?\)/g;
+const { formatMessage } = useMessageFormatter();
 
 const modelValue = computed({
   get: () => props.isSelected,
@@ -106,14 +106,13 @@ const instructionError = computed(() =>
     : ''
 );
 
+const LINK_INSTRUCTION_CLASS =
+  '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
+
 const renderInstruction = instruction => () =>
-  h('span', {
-    class: 'text-sm text-n-slate-12 py-4',
-    innerHTML: instruction.replace(
-      TOOL_LINK_REGEX,
-      (_, title) =>
-        `<span class="text-n-iris-11 font-medium">@${title.replace(/^@/, '')}</span>`
-    ),
+  h('p', {
+    class: `text-sm text-n-slate-12 py-4 mb-0 [&_ol]:list-decimal ${LINK_INSTRUCTION_CLASS}`,
+    innerHTML: instruction,
   });
 </script>
 
@@ -158,7 +157,7 @@ const renderInstruction = instruction => () =>
           />
         </div>
       </div>
-      <component :is="renderInstruction(instruction)" />
+      <component :is="renderInstruction(formatMessage(instruction, false))" />
       <span class="text-sm text-n-slate-11 font-medium mb-1">
         {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.SUGGESTED.TOOLS_USED') }}
         {{ tools?.map(tool => `@${tool}`).join(', ') }}

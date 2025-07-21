@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import ToolsDropdown from 'dashboard/components-next/captain/assistant/ToolsDropdown.vue';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
+import { useMapGetter } from 'dashboard/composables/store.js';
 
 const props = defineProps({
   searchKey: {
@@ -12,29 +13,7 @@ const props = defineProps({
 
 const emit = defineEmits(['selectTool']);
 
-// TODO: Add tools
-const tools = ref([
-  {
-    id: 'lookup_conversation',
-    title: 'Lookup Conversation',
-    description: 'Fetches current or past conversation threads by customer',
-  },
-  {
-    id: 'fetch_customer',
-    title: 'Fetch Customer',
-    description: 'Pulls customer details (email, tags, last seen, etc.)',
-  },
-  {
-    id: 'order_search',
-    title: 'Order Search',
-    description: 'Lookup orders by customer ID, email, or order number',
-  },
-  {
-    id: 'refund_payment',
-    title: 'refund_payment',
-    description: 'Initiates a refund on a specific payment',
-  },
-]);
+const tools = useMapGetter('captainTools/getRecords');
 
 const selectedIndex = ref(0);
 
