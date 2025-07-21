@@ -22,6 +22,8 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   self.table_name = 'channel_whatsapp_unofficials'
   EDITABLE_ATTRS = [:token].freeze
 
+  before_destroy :clear_session_status_cache
+
   validates :phone_number, presence: true
   validates :account_id, presence: true
   validates :webhook_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
@@ -33,6 +35,11 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     'WhatsApp (Unofficial)'
   end
 
+  def clear_session_status_cache
+    Rails.cache.delete(session_status_cache_key)
+    Rails.logger.info "CACHE: Cleared cache for #{session_status_cache_key}"
+  end
+  
   def send_message(to:, message:, url: nil)
     Fonnte::FonnteService.new.send_message(to: to, message: message, token: token, url: url)
   end
