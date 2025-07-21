@@ -96,8 +96,16 @@ class Whatsapp::TemplateProcessorService
 
     # Process header parameters
     if processed_params['header'].present?
-      header_params = processed_params['header'].map { |_, value| build_parameter(value) }
-      components << { type: 'header', parameters: header_params }
+      header_params = processed_params['header'].filter_map do |key, value|
+        if key == 'media_url' && processed_params['header']['media_type'].present?
+          build_media_parameter(value, processed_params['header']['media_type'])
+        else
+          build_parameter(value)
+        end
+      end
+
+      # Only add header component if we have valid parameters
+      components << { type: 'header', parameters: header_params } if header_params.present?
     end
 
     # Process footer parameters (rarely used but supported)
@@ -214,6 +222,39 @@ class Whatsapp::TemplateProcessorService
     raise ArgumentError, 'URL too long' if url.length > 2000
   rescue URI::InvalidURIError
     raise ArgumentError, 'Invalid URL format'
+  end
+
+  def build_media_parameter(url, media_type)
+    return nil if url.blank?
+
+    sanitized_url = sanitize_parameter(url)
+    validate_url(sanitized_url)
+
+    case media_type.downcase
+    when 'image'
+      {
+        type: 'image',
+        image: {
+          link: sanitized_url
+        }
+      }
+    when 'video'
+      {
+        type: 'video',
+        video: {
+          link: sanitized_url
+        }
+      }
+    when 'document'
+      {
+        type: 'document',
+        document: {
+          link: sanitized_url
+        }
+      }
+    else
+      raise ArgumentError, "Unsupported media type: #{media_type}"
+    end
   end
 
   def validated_body_object(template)

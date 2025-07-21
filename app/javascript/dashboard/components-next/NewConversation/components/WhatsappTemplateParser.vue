@@ -116,13 +116,25 @@ const generateVariables = () => {
   });
 
   // Process header variables
-  if (headerComponent.value?.text) {
-    const headerVars = headerComponent.value.text.match(/{{([^}]+)}}/g) || [];
-    headerVars.forEach(variable => {
-      const key = processVariable(variable);
+  if (headerComponent.value) {
+    if (headerComponent.value.text) {
+      // Text headers with variables
+      const headerVars = headerComponent.value.text.match(/{{([^}]+)}}/g) || [];
+      headerVars.forEach(variable => {
+        const key = processVariable(variable);
+        if (!allVariables.header) allVariables.header = {};
+        allVariables.header[key] = '';
+      });
+    } else if (
+      headerComponent.value.format &&
+      ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.value.format)
+    ) {
+      // Media headers need URL input
       if (!allVariables.header) allVariables.header = {};
-      allVariables.header[key] = '';
-    });
+      allVariables.header.media_url = '';
+      allVariables.header.media_type =
+        headerComponent.value.format.toLowerCase();
+    }
   }
 
   // Process footer variables
@@ -175,6 +187,44 @@ const validateButtonParameter = (button, index) => {
       );
     }
   }
+};
+
+const getHeaderFieldLabel = key => {
+  if (key === 'media_url') {
+    const mediaType = processedParams.value.header?.media_type || 'media';
+    return (
+      t('WHATSAPP_TEMPLATES.PARSER.MEDIA_URL', {
+        type: mediaType.toUpperCase(),
+      }) || `${mediaType.toUpperCase()} URL`
+    );
+  }
+  return key;
+};
+
+const getHeaderFieldPlaceholder = key => {
+  if (key === 'media_url') {
+    const mediaType = processedParams.value.header?.media_type || 'media';
+    switch (mediaType) {
+      case 'image':
+        return (
+          t('WHATSAPP_TEMPLATES.PARSER.IMAGE_URL_PLACEHOLDER') ||
+          'Enter image URL (https://example.com/image.jpg)'
+        );
+      case 'video':
+        return (
+          t('WHATSAPP_TEMPLATES.PARSER.VIDEO_URL_PLACEHOLDER') ||
+          'Enter video URL (https://example.com/video.mp4)'
+        );
+      case 'document':
+        return (
+          t('WHATSAPP_TEMPLATES.PARSER.DOCUMENT_URL_PLACEHOLDER') ||
+          'Enter document URL (https://example.com/document.pdf)'
+        );
+      default:
+        return 'Enter media URL';
+    }
+  }
+  return `Enter ${key} value`;
 };
 
 const sendMessage = async () => {
@@ -243,13 +293,15 @@ onMounted(() => {
         <span
           class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
         >
-          {{ key }}
+          {{ getHeaderFieldLabel(key) }}
         </span>
         <Input
           v-model="processedParams.header[key]"
           custom-input-class="!h-8 w-full !bg-transparent"
           class="w-full"
           :message-type="getFieldErrorType(`header.${key}`)"
+          :placeholder="getHeaderFieldPlaceholder(key)"
+          :type="key === 'media_url' ? 'url' : 'text'"
         />
       </div>
     </div>
