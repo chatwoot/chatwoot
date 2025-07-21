@@ -89,7 +89,10 @@ export default {
       return this.tabs[this.selectedTabIndex]?.key;
     },
     shouldShowWhatsAppConfiguration() {
-      return this.isAWhatsAppCloudChannel;
+      return !!(
+        this.isAWhatsAppCloudChannel &&
+        this.inbox.provider_config?.source !== 'embedded_signup'
+      );
     },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {
