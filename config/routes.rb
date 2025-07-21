@@ -238,7 +238,7 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
-            resources :reauthorization, only: [:update], param: :inbox_id
+            put 'reauthorization/:inbox_id', to: 'reauthorizations#update'
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
