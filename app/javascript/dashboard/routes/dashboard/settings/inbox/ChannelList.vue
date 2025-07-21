@@ -36,6 +36,7 @@ export default {
           thumbnail: apiChannelThumbnail,
         },
         { key: 'telegram', name: 'Telegram' },
+        { key: 'instagram', name: 'Instagram' },
       ];
     },
     ...mapGetters({

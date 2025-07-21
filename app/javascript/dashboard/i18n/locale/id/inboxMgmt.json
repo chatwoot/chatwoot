@@ -52,6 +52,15 @@
         "LABEL": "Nama Website",
         "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya : Toko Batik Jaya)"
       },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Lanjutkan dengan Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Hubungkan Profil Instagram Anda",
+        "HELP": "Untuk menambahkan profil Instagram Anda sebagai saluran, Anda perlu mengautentikasi Profil Instagram Anda dengan mengklik 'Lanjutkan dengan Instagram'",
+        "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Instagram, silakan coba lagi",
+        "ERROR_AUTH": "Terjadi kesalahan saat menghubungkan ke Instagram, silakan coba lagi",
+        "NEW_INBOX_SUGGESTION": "Akun Instagram ini sebelumnya terhubung ke kotak masuk lain dan sekarang telah dipindahkan ke sini. Semua pesan baru akan muncul di sini. Kotak masuk lama tidak akan bisa mengirim atau menerima pesan untuk akun ini lagi.",
+        "DUPLICATE_INBOX_BANNER": "Akun Instagram ini telah dipindahkan ke kotak masuk saluran Instagram yang baru. Anda tidak dapat lagi mengirim/menerima pesan Instagram dari kotak masuk ini."
+      },
       "FB": {
         "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Jangkau.",
         "CHOOSE_PAGE": "Pilih Halaman",
