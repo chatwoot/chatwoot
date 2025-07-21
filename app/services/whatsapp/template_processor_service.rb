@@ -75,6 +75,54 @@ class Whatsapp::TemplateProcessorService
     template = find_template
     return if template.blank?
 
+    # Handle enhanced template parameters structure
+    if template_params['processed_params'].is_a?(Hash) && template_params['processed_params'].key?('body')
+      process_enhanced_template_params(template)
+    else
+      # Legacy processing for backward compatibility
+      process_legacy_template_params(template)
+    end
+  end
+
+  def process_enhanced_template_params(_template)
+    processed_params = template_params['processed_params']
+    components = []
+
+    # Process body parameters
+    if processed_params['body'].present?
+      body_params = processed_params['body'].map { |_, value| build_parameter(value) }
+      components << { type: 'body', parameters: body_params }
+    end
+
+    # Process header parameters
+    if processed_params['header'].present?
+      header_params = processed_params['header'].map { |_, value| build_parameter(value) }
+      components << { type: 'header', parameters: header_params }
+    end
+
+    # Process footer parameters (rarely used but supported)
+    if processed_params['footer'].present?
+      footer_params = processed_params['footer'].map { |_, value| build_parameter(value) }
+      components << { type: 'footer', parameters: footer_params }
+    end
+
+    # Process button parameters
+    if processed_params['buttons'].present?
+      button_params = processed_params['buttons'].map.with_index do |button, index|
+        {
+          type: 'button',
+          sub_type: button['type'] || 'url',
+          index: index,
+          parameters: [build_button_parameter(button)]
+        }
+      end
+      components.concat(button_params)
+    end
+
+    components
+  end
+
+  def process_legacy_template_params(template)
     parameter_format = template['parameter_format']
 
     if parameter_format == 'NAMED'
@@ -82,6 +130,90 @@ class Whatsapp::TemplateProcessorService
     else
       template_params['processed_params']&.map { |_, value| { type: 'text', text: value } }
     end
+  end
+
+  def build_parameter(value)
+    case value
+    when String
+      sanitized_value = sanitize_parameter(value)
+      if sanitized_value.match?(%r{^https?://})
+        validate_url(sanitized_value)
+        # URL parameter (for media or documents)
+        { type: 'image', image: { link: sanitized_value } }
+      else
+        # Text parameter
+        { type: 'text', text: sanitized_value }
+      end
+    when Hash
+      # Advanced parameter types
+      case value['type']
+      when 'currency'
+        {
+          type: 'currency',
+          currency: {
+            fallback_value: value['fallback_value'],
+            code: value['code'],
+            amount_1000: value['amount_1000']
+          }
+        }
+      when 'date_time'
+        {
+          type: 'date_time',
+          date_time: {
+            fallback_value: value['fallback_value'],
+            day_of_week: value['day_of_week'],
+            day_of_month: value['day_of_month'],
+            month: value['month'],
+            year: value['year']
+          }
+        }
+      when 'location'
+        {
+          type: 'location',
+          location: {
+            latitude: value['latitude'],
+            longitude: value['longitude'],
+            name: value['name'],
+            address: value['address']
+          }
+        }
+      else
+        { type: 'text', text: value.to_s }
+      end
+    else
+      { type: 'text', text: value.to_s }
+    end
+  end
+
+  def build_button_parameter(button)
+    case button['type']
+    when 'copy_code'
+      coupon_code = button['parameter'].to_s.strip
+      raise ArgumentError, 'Coupon code cannot be empty' if coupon_code.blank?
+      raise ArgumentError, 'Coupon code cannot exceed 15 characters' if coupon_code.length > 15
+
+      {
+        type: 'coupon_code',
+        coupon_code: coupon_code
+      }
+    else
+      build_parameter(button['parameter'])
+    end
+  end
+
+  def sanitize_parameter(value)
+    # Basic sanitization - remove dangerous characters and limit length
+    sanitized = value.to_s.strip
+    sanitized = sanitized.gsub(/[<>\"']/, '') # Remove potential HTML/JS chars
+    sanitized[0...1000] # Limit length to prevent DoS
+  end
+
+  def validate_url(url)
+    uri = URI.parse(url)
+    raise ArgumentError, 'Invalid URL scheme' unless %w[http https].include?(uri.scheme)
+    raise ArgumentError, 'URL too long' if url.length > 2000
+  rescue URI::InvalidURIError
+    raise ArgumentError, 'Invalid URL format'
   end
 
   def validated_body_object(template)

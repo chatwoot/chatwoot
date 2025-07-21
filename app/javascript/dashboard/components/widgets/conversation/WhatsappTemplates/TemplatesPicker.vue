@@ -1,6 +1,6 @@
 <script>
-// TODO: Remove this when we support all formats
-const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
+// Support all template formats now
+const formatsToRemove = [];
 
 export default {
   props: {
@@ -34,8 +34,30 @@ export default {
   },
   methods: {
     getTemplatebody(template) {
-      return template.components.find(component => component.type === 'BODY')
-        .text;
+      return (
+        template.components.find(component => component.type === 'BODY')
+          ?.text || ''
+      );
+    },
+    getTemplateHeader(template) {
+      return template.components.find(component => component.type === 'HEADER');
+    },
+    getTemplateFooter(template) {
+      return template.components.find(component => component.type === 'FOOTER');
+    },
+    getTemplateButtons(template) {
+      return template.components.find(
+        component => component.type === 'BUTTONS'
+      );
+    },
+    hasMediaContent(template) {
+      const header = this.getTemplateHeader(template);
+      return (
+        header &&
+        (header.format === 'IMAGE' ||
+          header.format === 'VIDEO' ||
+          header.format === 'DOCUMENT')
+      );
     },
   },
 };
@@ -74,17 +96,68 @@ export default {
                 {{ template.language }}
               </span>
             </div>
-            <div>
-              <p class="font-medium">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.TEMPLATE_BODY') }}
+            <!-- Header -->
+            <div v-if="getTemplateHeader(template)" class="mb-3">
+              <p class="font-medium text-xs text-n-slate-11">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.HEADER') || 'HEADER' }}
               </p>
-              <p class="label-body">{{ getTemplatebody(template) }}</p>
+              <div
+                v-if="getTemplateHeader(template).format === 'TEXT'"
+                class="label-body text-sm"
+              >
+                {{ getTemplateHeader(template).text }}
+              </div>
+              <div
+                v-else-if="hasMediaContent(template)"
+                class="text-sm text-n-slate-11 italic"
+              >
+                {{
+                  $t('WHATSAPP_TEMPLATES.PICKER.MEDIA_CONTENT', {
+                    format: getTemplateHeader(template).format,
+                  }) || `${getTemplateHeader(template).format} media content`
+                }}
+              </div>
             </div>
-            <div class="mt-5">
-              <p class="font-medium">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.CATEGORY') }}
+
+            <!-- Body -->
+            <div>
+              <p class="font-medium text-xs text-n-slate-11">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.BODY') || 'BODY' }}
               </p>
-              <p>{{ template.category }}</p>
+              <p class="label-body text-sm">{{ getTemplatebody(template) }}</p>
+            </div>
+
+            <!-- Footer -->
+            <div v-if="getTemplateFooter(template)" class="mt-3">
+              <p class="font-medium text-xs text-n-slate-11">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.FOOTER') || 'FOOTER' }}
+              </p>
+              <p class="label-body text-sm">
+                {{ getTemplateFooter(template).text }}
+              </p>
+            </div>
+
+            <!-- Buttons -->
+            <div v-if="getTemplateButtons(template)" class="mt-3">
+              <p class="font-medium text-xs text-n-slate-11">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.BUTTONS') || 'BUTTONS' }}
+              </p>
+              <div class="flex flex-wrap gap-1 mt-1">
+                <span
+                  v-for="button in getTemplateButtons(template).buttons"
+                  :key="button.text"
+                  class="px-2 py-1 text-xs bg-n-slate-3 rounded text-n-slate-12"
+                >
+                  {{ button.text }}
+                </span>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <p class="font-medium text-xs text-n-slate-11">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.CATEGORY') || 'CATEGORY' }}
+              </p>
+              <p class="text-sm">{{ template.category }}</p>
             </div>
           </div>
         </button>

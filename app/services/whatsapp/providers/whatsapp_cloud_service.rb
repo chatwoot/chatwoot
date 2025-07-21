@@ -34,14 +34,23 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def fetch_whatsapp_templates(url)
-    response = HTTParty.get(url)
-    return [] unless response.success?
+    all_templates = []
+    current_url = url
 
-    next_url = next_url(response)
+    while current_url.present?
+      response = HTTParty.get(current_url)
+      break unless response.success?
 
-    return response['data'] + fetch_whatsapp_templates(next_url) if next_url.present?
+      templates = response['data'] || []
+      all_templates.concat(templates)
 
-    response['data']
+      current_url = next_url(response)
+
+      # Safety break to prevent infinite loops
+      break if all_templates.size > 1000
+    end
+
+    all_templates
   end
 
   def next_url(response)
@@ -119,17 +128,27 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def template_body_parameters(template_info)
-    {
+    template_body = {
       name: template_info[:name],
       language: {
         policy: 'deterministic',
         code: template_info[:lang_code]
-      },
-      components: [{
+      }
+    }
+
+    # Handle enhanced template parameters structure
+    if template_info[:parameters].is_a?(Array) && template_info[:parameters].first.is_a?(Hash) && template_info[:parameters].first.key?(:type) && template_info[:parameters].first[:type] != 'text'
+      # New enhanced format with component structure
+      template_body[:components] = template_info[:parameters]
+    else
+      # Legacy format - maintain backward compatibility
+      template_body[:components] = [{
         type: 'body',
         parameters: template_info[:parameters]
       }]
-    }
+    end
+
+    template_body
   end
 
   def whatsapp_reply_context(message)
