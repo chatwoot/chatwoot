@@ -139,6 +139,7 @@ class Message < ApplicationRecord
     data = attributes.symbolize_keys.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
+      content_type: content_type,
       conversation_id: conversation.display_id,
       conversation: conversation_push_event_data
     )
