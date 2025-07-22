@@ -238,11 +238,12 @@ describe Webhooks::InstagramEventsJob do
 
         instagram_webhook.perform_now(message_events[:unsend][:entry])
 
-        message.reload
+        # Fetch the message again from the database
+        updated_message = instagram_inbox.messages.find_by(source_id: 'message-id-to-delete')
 
-        expect(message.content).to eq 'This message was deleted'
-        expect(message.deleted).to be true
-        expect(message.attachments.count).to be 0
+        expect(updated_message.content).to eq 'This message was deleted'
+        expect(updated_message.deleted).to be true
+        expect(updated_message.attachments.count).to be 0
       end
 
       it 'creates incoming message with attachments in the instagram direct inbox' do

@@ -74,7 +74,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
               headers: admin.create_new_auth_token,
               as: :json
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
           expect(json_response['success']).to be false
           expect(json_response['message']).to eq('Token exchange failed')
@@ -102,7 +102,7 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
               headers: admin.create_new_auth_token,
               as: :json
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
           expect(json_response['success']).to be false
           expect(json_response['message']).to include('Phone number mismatch')
