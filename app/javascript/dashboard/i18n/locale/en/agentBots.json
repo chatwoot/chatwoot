@@ -4,36 +4,36 @@
     "LOADING_EDITOR": "Loading editor...",
     "DESCRIPTION": "AI Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.",
     "LEARN_MORE": "Learn about AI Bots",
-    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT": "System AI Bot",
     "GLOBAL_BOT_BADGE": "System",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "AI Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting AI Bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Select an AI Bot",
       "DESC": "Assign an AI Bot to your inbox. They can handle initial conversations and transfer them to a live member when necessary.",
       "SUBMIT": "Update",
-      "DISCONNECT": "Disconnect bot",
+      "DISCONNECT": "Disconnect AI Bot",
       "SUCCESS_MESSAGE": "Successfully updated the AI Bot.",
       "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the AI Bot.",
       "ERROR_MESSAGE": "Could not update the AI Bot. Please try again.",
       "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the AI Bot. Please try again.",
-      "SELECT_PLACEHOLDER": "Select bot"
+      "SELECT_PLACEHOLDER": "Select AI Bot"
     },
     "ADD": {
       "TITLE": "Add AI Bot",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully.",
-        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+        "SUCCESS_MESSAGE": "AI Bot added successfully.",
+        "ERROR_MESSAGE": "Could not add AI Bot. Please try again later."
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add AI Bot' button.",
-      "LOADING": "Fetching bots...",
+      "404": "No AI Bots found. You can create a AI Bot by clicking the 'Add AI Bot' button.",
+      "LOADING": "Fetching AI Bots...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "AI Bot Details",
         "URL": "Webhook URL"
       }
     },
@@ -47,16 +47,16 @@
         "NO": "No, Keep"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully.",
-        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+        "SUCCESS_MESSAGE": "AI Bot deleted successfully.",
+        "ERROR_MESSAGE": "Could not delete AI Bot. Please try again."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Edit",
       "TITLE": "Edit AI Bot",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully.",
-        "ERROR_MESSAGE": "Could not update bot. Please try again."
+        "SUCCESS_MESSAGE": "AI Bot updated successfully.",
+        "ERROR_MESSAGE": "Could not update AI Bot. Please try again."
       }
     },
     "ACCESS_TOKEN": {
@@ -77,7 +77,7 @@
       },
       "DESCRIPTION": {
         "LABEL": "Description",
-        "PLACEHOLDER": "What does this bot do?"
+        "PLACEHOLDER": "What does this AI Bot do?"
       },
       "WEBHOOK_URL": {
         "LABEL": "Webhook URL",
@@ -94,7 +94,7 @@
       "UPDATE": "Update AI Bot"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "Configure a webhook AI Bot to integrate with your custom services. The AI Bot will receive and process events from conversations and can respond to them."
     },
     "TYPES": {
       "WEBHOOK": "Webhook AI Bot"
