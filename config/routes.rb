@@ -125,7 +125,6 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
-              post :call, on: :member
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
