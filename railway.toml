@@ -1,0 +1,12 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "bin/rails server -p $PORT -e $RAILS_ENV"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[env]
+RAILS_ENV = "production"
+RAILS_LOG_TO_STDOUT = "true"
+RAILS_SERVE_STATIC_FILES = "true"

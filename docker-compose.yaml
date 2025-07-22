@@ -12,7 +12,6 @@ services:
         RAILS_SERVE_STATIC_FILES: 'false'
     tty: true
     stdin_open: true
-    image: chatwoot:development
     env_file: .env
 
   rails:
@@ -92,7 +91,7 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=AmomuchoaEdtools_
 
   redis:
     image: redis:alpine
