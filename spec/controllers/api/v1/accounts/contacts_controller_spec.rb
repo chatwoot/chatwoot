@@ -40,7 +40,7 @@ RSpec.describe 'Contacts API', type: :request do
       let!(:contact_inbox) { create(:contact_inbox, contact: contact) }
 
       it 'returns all resolved contacts along with contact inboxes' do
-        get "/api/v1/accounts/#{account.id}/contacts",
+        get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=true",
             headers: admin.create_new_auth_token,
             as: :json
 
