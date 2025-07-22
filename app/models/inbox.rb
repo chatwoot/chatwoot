@@ -176,6 +176,19 @@ class Inbox < ApplicationRecord
     members.ids
   end
 
+  def platform_name
+    case channel_type
+    when 'Channel::WebWidget' then 'Website'
+    when 'Channel::Instagram' then 'Instagram'
+    when 'Channel::FacebookPage' then 'Facebook'
+    when 'Channel::TwilioSms' then 'SMS'
+    when 'Channel::Email' then 'Email'
+    when 'Channel::Whatsapp' then 'Whatsapp'
+    when 'Channel::Api' then 'Api'
+    else 'Website'
+    end
+  end
+
   private
 
   def dispatch_create_event
