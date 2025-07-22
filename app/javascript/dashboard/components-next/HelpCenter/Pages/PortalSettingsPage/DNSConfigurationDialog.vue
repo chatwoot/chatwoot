@@ -41,9 +41,13 @@ const subdomainCNAME = computed(
 
 const dialogRef = ref(null);
 
-const onClose = () => {
+const resetForm = () => {
   v$.value.$reset();
   state.email = '';
+};
+
+const onClose = () => {
+  resetForm();
   emit('close');
 };
 
@@ -63,6 +67,7 @@ defineExpose({ dialogRef });
     ref="dialogRef"
     :show-cancel-button="false"
     :show-confirm-button="false"
+    @close="resetForm"
   >
     <NextButton
       icon="i-lucide-x"
