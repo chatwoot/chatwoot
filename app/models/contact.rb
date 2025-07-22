@@ -12,6 +12,7 @@
 #  custom_attributes     :jsonb
 #  email                 :string
 #  identifier            :string
+#  verified              :boolean          default(FALSE), not null
 #  last_activity_at      :datetime
 #  last_name             :string           default("")
 #  location              :string           default("")
@@ -25,6 +26,7 @@
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_account_id_and_verified             (account_id,verified)
 #  index_contacts_on_account_id_and_last_activity_at     (account_id,last_activity_at DESC NULLS LAST)
 #  index_contacts_on_blocked                             (blocked)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
