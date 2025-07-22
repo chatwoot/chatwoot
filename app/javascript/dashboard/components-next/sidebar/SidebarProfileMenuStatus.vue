@@ -14,6 +14,7 @@ import {
 } from 'next/dropdown-menu/base';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 const { t } = useI18n();
 const store = useStore();
@@ -118,10 +119,9 @@ function updateAutoOffline(autoOffline) {
             class="size-4 text-n-slate-10"
           />
         </div>
-        <woot-switch
-          class="flex-shrink-0"
-          :model-value="currentUserAutoOffline"
-          @input="updateAutoOffline"
+        <ToggleSwitch
+          v-model="currentUserAutoOffline"
+          @change="updateAutoOffline"
         />
       </DropdownItem>
     </div>

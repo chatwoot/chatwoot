@@ -1,6 +1,8 @@
 <script setup>
+import { computed } from 'vue';
 import { messageStamp } from 'shared/helpers/timeHelper';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
   automation: {
@@ -19,6 +21,8 @@ const readableDate = date => messageStamp(new Date(date), 'LLL d, yyyy');
 const readableDateWithTime = date =>
   messageStamp(new Date(date), 'LLL d, yyyy hh:mm a');
 
+const automationActive = computed(() => props.automation.active);
+
 const toggle = () => {
   const { id, name, active } = props.automation;
   emit('toggle', {
@@ -34,7 +38,7 @@ const toggle = () => {
     <td class="py-4 ltr:pr-4 rtl:pl-4 min-w-[200px]">{{ automation.name }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">{{ automation.description }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">
-      <woot-switch :model-value="automation.active" @input="toggle" />
+      <ToggleSwitch v-model="automationActive" @change="toggle" />
     </td>
     <td
       class="py-4 ltr:pr-4 rtl:pl-4 min-w-[12px]"
