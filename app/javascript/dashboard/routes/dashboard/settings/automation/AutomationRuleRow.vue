@@ -21,16 +21,17 @@ const readableDate = date => messageStamp(new Date(date), 'LLL d, yyyy');
 const readableDateWithTime = date =>
   messageStamp(new Date(date), 'LLL d, yyyy hh:mm a');
 
-const automationActive = computed(() => props.automation.active);
-
-const toggle = () => {
-  const { id, name, active } = props.automation;
-  emit('toggle', {
-    id,
-    name,
-    status: active,
-  });
-};
+const automationActive = computed({
+  get: () => props.automation.active,
+  set: active => {
+    const { id, name } = props.automation;
+    emit('toggle', {
+      id,
+      name,
+      status: !active,
+    });
+  },
+});
 </script>
 
 <template>
@@ -38,7 +39,7 @@ const toggle = () => {
     <td class="py-4 ltr:pr-4 rtl:pl-4 min-w-[200px]">{{ automation.name }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">{{ automation.description }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">
-      <ToggleSwitch v-model="automationActive" @change="toggle" />
+      <ToggleSwitch v-model="automationActive" />
     </td>
     <td
       class="py-4 ltr:pr-4 rtl:pl-4 min-w-[12px]"

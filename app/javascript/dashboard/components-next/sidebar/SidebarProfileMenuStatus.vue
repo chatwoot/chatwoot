@@ -49,6 +49,16 @@ const activeStatus = computed(() => {
   return availabilityStatuses.value.find(status => status.active);
 });
 
+const autoOfflineToggle = computed({
+  get: () => currentUserAutoOffline.value,
+  set: autoOffline => {
+    store.dispatch('updateAutoOffline', {
+      accountId: currentAccountId.value,
+      autoOffline,
+    });
+  },
+});
+
 function changeAvailabilityStatus(availability) {
   if (isImpersonating.value) {
     useAlert(t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR'));
@@ -62,13 +72,6 @@ function changeAvailabilityStatus(availability) {
   } catch (error) {
     useAlert(t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_ERROR'));
   }
-}
-
-function updateAutoOffline(autoOffline) {
-  store.dispatch('updateAutoOffline', {
-    accountId: currentAccountId.value,
-    autoOffline,
-  });
 }
 </script>
 
@@ -119,10 +122,7 @@ function updateAutoOffline(autoOffline) {
             class="size-4 text-n-slate-10"
           />
         </div>
-        <ToggleSwitch
-          v-model="currentUserAutoOffline"
-          @change="updateAutoOffline"
-        />
+        <ToggleSwitch v-model="autoOfflineToggle" />
       </DropdownItem>
     </div>
   </DropdownSection>
