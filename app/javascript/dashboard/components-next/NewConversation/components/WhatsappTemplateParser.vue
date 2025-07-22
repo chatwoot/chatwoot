@@ -24,27 +24,10 @@ const templateName = computed(() => {
   return props.template?.name || '';
 });
 
-const templateComponents = computed(() => {
-  return props.template?.components || [];
-});
-
 const templateString = computed(() => {
-  return (
-    props.template?.components?.find(component => component.type === 'BODY')
-      ?.text || ''
-  );
-});
-
-const headerComponent = computed(() => {
-  return templateComponents.value.find(
-    component => component.type === 'HEADER'
-  );
-});
-
-const footerComponent = computed(() => {
-  return templateComponents.value.find(
-    component => component.type === 'FOOTER'
-  );
+  return props.template?.components?.find(
+    component => component.type === 'BODY'
+  ).text;
 });
 
 const processVariable = str => {
@@ -89,93 +72,14 @@ const getFieldErrorType = key => {
 };
 
 const generateVariables = () => {
-  const allVariables = {};
+  const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
+  if (!matchedVariables) return;
 
-  // Process body variables
-  const bodyVars = templateString.value.match(/{{([^}]+)}}/g) || [];
-  if (bodyVars.length > 0) {
-    allVariables.body = {};
-    bodyVars.forEach(variable => {
-      const key = processVariable(variable);
-      allVariables.body[key] = '';
-    });
-  }
-
-  // Process header variables
-  if (headerComponent.value) {
-    if (headerComponent.value.text) {
-      // Text headers with variables
-      const headerVars = headerComponent.value.text.match(/{{([^}]+)}}/g) || [];
-      if (headerVars.length > 0) {
-        allVariables.header = {};
-        headerVars.forEach(variable => {
-          const key = processVariable(variable);
-          allVariables.header[key] = '';
-        });
-      }
-    } else if (
-      headerComponent.value.format &&
-      ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.value.format)
-    ) {
-      // Media headers need URL input
-      allVariables.header = {
-        media_url: '',
-        media_type: headerComponent.value.format.toLowerCase(),
-      };
-    }
-  }
-
-  // Process footer variables
-  if (footerComponent.value?.text) {
-    const footerVars = footerComponent.value.text.match(/{{([^}]+)}}/g) || [];
-    if (footerVars.length > 0) {
-      allVariables.footer = {};
-      footerVars.forEach(variable => {
-        const key = processVariable(variable);
-        allVariables.footer[key] = '';
-      });
-    }
-  }
-
-  processedParams.value = allVariables;
-};
-
-const getHeaderFieldLabel = key => {
-  if (key === 'media_url') {
-    const mediaType = processedParams.value.header?.media_type || 'media';
-    return (
-      t('WHATSAPP_TEMPLATES.PARSER.MEDIA_URL', {
-        type: mediaType.toUpperCase(),
-      }) || `${mediaType.toUpperCase()} URL`
-    );
-  }
-  return key;
-};
-
-const getHeaderFieldPlaceholder = key => {
-  if (key === 'media_url') {
-    const mediaType = processedParams.value.header?.media_type || 'media';
-    switch (mediaType) {
-      case 'image':
-        return (
-          t('WHATSAPP_TEMPLATES.PARSER.IMAGE_URL_PLACEHOLDER') ||
-          'Enter image URL (https://example.com/image.jpg)'
-        );
-      case 'video':
-        return (
-          t('WHATSAPP_TEMPLATES.PARSER.VIDEO_URL_PLACEHOLDER') ||
-          'Enter video URL (https://example.com/video.mp4)'
-        );
-      case 'document':
-        return (
-          t('WHATSAPP_TEMPLATES.PARSER.DOCUMENT_URL_PLACEHOLDER') ||
-          'Enter document URL (https://example.com/document.pdf)'
-        );
-      default:
-        return 'Enter media URL';
-    }
-  }
-  return `Enter ${key} value`;
+  const finalVars = matchedVariables.map(i => processVariable(i));
+  processedParams.value = finalVars.reduce((acc, variable) => {
+    acc[variable] = '';
+    return acc;
+  }, {});
 };
 
 const sendMessage = async () => {
@@ -212,10 +116,9 @@ onMounted(() => {
         )
       }}
     </span>
-
     <p
-      v-dompurify-html="processedStringWithVariableHighlight"
       class="mb-0 text-sm text-n-slate-11"
+      v-html="processedStringWithVariableHighlight"
     />
 
     <span
@@ -229,39 +132,8 @@ onMounted(() => {
       }}
     </span>
 
-    <!-- Header Variables -->
-    <div v-if="processedParams.header" class="w-full">
-      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
-        {{
-          t('WHATSAPP_TEMPLATES.PARSER.HEADER_PARAMETERS') ||
-          'Header Parameters'
-        }}
-      </h4>
-      <!-- Header Parameters -->
-      <div
-        v-for="[key] in Object.entries(processedParams.header)"
-        :key="`header-${key}`"
-        class="flex gap-2 items-center mb-2 w-full"
-      >
-        <span
-          class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
-        >
-          {{ getHeaderFieldLabel(key) }}
-        </span>
-        <Input
-          v-model="processedParams.header[key]"
-          custom-input-class="!h-8 w-full !bg-transparent"
-          class="w-full"
-          :message-type="getFieldErrorType(`header.${key}`)"
-          :placeholder="getHeaderFieldPlaceholder(key)"
-          :type="key === 'media_url' ? 'url' : 'text'"
-        />
-      </div>
-    </div>
-
-    <!-- Variables -->
     <div
-      v-for="(variable, key) in processedParams.body || processedParams"
+      v-for="(variable, key) in processedParams"
       :key="key"
       class="flex gap-2 items-center w-full"
     >
@@ -271,19 +143,10 @@ onMounted(() => {
         {{ key }}
       </span>
       <Input
-        :model-value="
-          processedParams.body
-            ? processedParams.body[key]
-            : processedParams[key]
-        "
+        v-model="processedParams[key]"
         custom-input-class="!h-8 w-full !bg-transparent"
         class="w-full"
         :message-type="getFieldErrorType(key)"
-        @update:model-value="
-          processedParams.body
-            ? (processedParams.body[key] = $event)
-            : (processedParams[key] = $event)
-        "
       />
     </div>
 
