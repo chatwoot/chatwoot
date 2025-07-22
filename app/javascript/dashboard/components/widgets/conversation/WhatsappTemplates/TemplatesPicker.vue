@@ -35,12 +35,14 @@ export default {
           return false;
         }
 
-        // Filter out interactive templates (LIST, PRODUCT, CATALOG)
-        const hasInteractiveComponents = template.components.some(component =>
-          ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type)
+        // Filter out interactive templates (LIST, PRODUCT, CATALOG) and location templates
+        const hasUnsupportedComponents = template.components.some(
+          component =>
+            ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type) ||
+            (component.type === 'HEADER' && component.format === 'LOCATION')
         );
 
-        if (hasInteractiveComponents) {
+        if (hasUnsupportedComponents) {
           return false;
         }
 

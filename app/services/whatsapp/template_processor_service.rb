@@ -83,8 +83,6 @@ class Whatsapp::TemplateProcessorService
       header_component = template['components'].find { |c| c['type'] == 'HEADER' }
       if header_component&.dig('format')&.in?(%w[IMAGE VIDEO DOCUMENT])
         process_media_template_params(template, header_component)
-      elsif header_component&.dig('format') == 'LOCATION'
-        process_location_template_params(template, header_component)
       elsif template['category']&.downcase == 'authentication'
         process_authentication_template_params(template)
       else
@@ -124,35 +122,6 @@ class Whatsapp::TemplateProcessorService
     @template_params = components
   end
 
-  def process_location_template_params(_template, header_component)
-    # For templates with location headers
-    components = []
-
-    # Add location header component
-    # Location headers typically include latitude, longitude, name, and address
-    location_params = if template_params['processed_params'].is_a?(Hash) && template_params['processed_params']['header']
-                        build_location_parameter(template_params['processed_params']['header'])
-                      else
-                        # Use example location if available, otherwise create placeholder
-                        build_default_location_parameter(header_component)
-                      end
-
-    if location_params
-      components << {
-        type: 'header',
-        parameters: [location_params]
-      }
-    end
-
-    # Add body parameters if any
-    if template_params['processed_params'].present? && !template_params['processed_params'].is_a?(Hash)
-      body_params = template_params['processed_params'].map { |_, value| { type: 'text', text: value } }
-      components << { type: 'body', parameters: body_params } if body_params.present?
-    end
-
-    @template_params = components
-  end
-
   def process_authentication_template_params(_template)
     # Authentication templates typically have OTP codes and expiration times
     components = []
@@ -184,10 +153,7 @@ class Whatsapp::TemplateProcessorService
         if key == 'media_url' && processed_params['header']['media_type'].present?
           media_param = build_media_parameter(value, processed_params['header']['media_type'])
           header_params << media_param if media_param
-        elsif key == 'location' && processed_params['header']['location_type'] == 'location'
-          location_param = build_location_parameter(value)
-          header_params << location_param if location_param
-        elsif %w[media_type location_type].exclude?(key)
+        elsif key != 'media_type'
           header_params << build_parameter(value)
         end
       end
@@ -374,63 +340,6 @@ class Whatsapp::TemplateProcessorService
     end
   end
 
-  def build_location_parameter(location_data)
-    # Location parameter for header components
-    # Can be a hash with lat/lng or a string address
-    case location_data
-    when Hash
-      # Structured location data
-      validate_location_data(location_data)
-      {
-        type: 'location',
-        location: {
-          latitude: location_data['latitude'].to_f,
-          longitude: location_data['longitude'].to_f,
-          name: location_data['name'].to_s.strip,
-          address: location_data['address'].to_s.strip
-        }
-      }
-    when String
-      # Address string - parse or use as name
-      address = sanitize_parameter(location_data)
-      {
-        type: 'location',
-        location: {
-          latitude: 0.0,
-          longitude: 0.0,
-          name: address,
-          address: address
-        }
-      }
-    end
-  end
-
-  def build_default_location_parameter(header_component)
-    # Build default location from template example or placeholder
-    if header_component['example'] && header_component['example']['header_handle']
-      example_location = header_component['example']['header_handle'].first
-      {
-        type: 'location',
-        location: {
-          latitude: 37.7749,
-          longitude: -122.4194,
-          name: example_location || 'Business Location',
-          address: example_location || 'San Francisco, CA'
-        }
-      }
-    else
-      {
-        type: 'location',
-        location: {
-          latitude: 37.7749,
-          longitude: -122.4194,
-          name: 'Business Location',
-          address: 'San Francisco, CA'
-        }
-      }
-    end
-  end
-
   def build_authentication_parameter(value, param_type)
     # Authentication-specific parameters
     sanitized_value = sanitize_parameter(value)
@@ -467,19 +376,6 @@ class Whatsapp::TemplateProcessorService
         build_parameter(value)
       end
     end
-  end
-
-  def validate_location_data(location_data)
-    required_fields = %w[latitude longitude]
-    missing_fields = required_fields.reject { |field| location_data.key?(field) }
-
-    raise ArgumentError, "Missing required location fields: #{missing_fields.join(', ')}" if missing_fields.any?
-
-    lat = location_data['latitude'].to_f
-    lng = location_data['longitude'].to_f
-
-    raise ArgumentError, 'Latitude must be between -90 and 90' unless lat.between?(-90, 90)
-    raise ArgumentError, 'Longitude must be between -180 and 180' unless lng.between?(-180, 180)
   end
 
   def validated_body_object(template)

@@ -90,20 +90,7 @@ const processedStringWithVariableHighlight = computed(() => {
 const rules = computed(() => {
   const paramRules = {};
   Object.keys(processedParams.value).forEach(key => {
-    if (
-      key === 'header' &&
-      processedParams.value.header.location_type === 'location'
-    ) {
-      // Add specific validation for location parameters
-      paramRules[key] = {
-        location: {
-          latitude: { required: requiredIf(true) },
-          longitude: { required: requiredIf(true) },
-        },
-      };
-    } else {
-      paramRules[key] = { required: requiredIf(true) };
-    }
+    paramRules[key] = { required: requiredIf(true) };
   });
   return {
     processedParams: paramRules,
@@ -169,20 +156,6 @@ const generateVariables = () => {
       allVariables.header = {
         media_url: '',
         media_type: headerComponent.value.format.toLowerCase(),
-      };
-    } else if (
-      headerComponent.value.format &&
-      headerComponent.value.format === 'LOCATION'
-    ) {
-      // Location headers need location data
-      allVariables.header = {
-        location: {
-          latitude: '',
-          longitude: '',
-          name: '',
-          address: '',
-        },
-        location_type: 'location',
       };
     }
   }
@@ -416,118 +389,25 @@ onMounted(() => {
           'Header Parameters'
         }}
       </h4>
-      <!-- Location Parameters -->
+      <!-- Header Parameters -->
       <div
-        v-if="processedParams.header.location_type === 'location'"
-        class="p-3 mb-4 space-y-3 w-full rounded-lg border bg-n-solid-1 border-n-weak"
+        v-for="[key] in Object.entries(processedParams.header)"
+        :key="`header-${key}`"
+        class="flex gap-2 items-center mb-2 w-full"
       >
-        <div class="flex gap-2 items-center mb-2">
-          <div
-            class="flex justify-center items-center w-4 h-4 bg-blue-500 rounded-full"
-          >
-            <div class="w-2 h-2 bg-white rounded-full" />
-          </div>
-          <span class="text-sm font-medium text-n-slate-12">{{
-            t('WHATSAPP_TEMPLATES.PARSER.LOCATION_DETAILS')
-          }}</span>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block mb-1 text-xs font-medium text-n-slate-10">
-              {{ t('WHATSAPP_TEMPLATES.PARSER.LATITUDE') }}
-              <span class="text-red-500">*</span>
-            </label>
-            <Input
-              v-model="processedParams.header.location.latitude"
-              custom-input-class="!h-8 w-full !bg-transparent"
-              class="w-full"
-              type="number"
-              step="any"
-              placeholder="37.7749 (San Francisco)"
-              :message-type="getFieldErrorType('header.location.latitude')"
-            />
-            <span class="text-xs text-n-slate-9">{{
-              t('WHATSAPP_TEMPLATES.PARSER.LATITUDE_RANGE')
-            }}</span>
-          </div>
-          <div>
-            <label class="block mb-1 text-xs font-medium text-n-slate-10">
-              {{ t('WHATSAPP_TEMPLATES.PARSER.LONGITUDE') }}
-              <span class="text-red-500">*</span>
-            </label>
-            <Input
-              v-model="processedParams.header.location.longitude"
-              custom-input-class="!h-8 w-full !bg-transparent"
-              class="w-full"
-              type="number"
-              step="any"
-              placeholder="-122.4194 (San Francisco)"
-              :message-type="getFieldErrorType('header.location.longitude')"
-            />
-            <span class="text-xs text-n-slate-9">{{
-              t('WHATSAPP_TEMPLATES.PARSER.LONGITUDE_RANGE')
-            }}</span>
-          </div>
-        </div>
-
-        <div>
-          <label class="block mb-1 text-xs font-medium text-n-slate-10">
-            {{ t('WHATSAPP_TEMPLATES.PARSER.LOCATION_NAME') }}
-          </label>
-          <Input
-            v-model="processedParams.header.location.name"
-            custom-input-class="!h-8 w-full !bg-transparent"
-            class="w-full"
-            placeholder="Your Business Name"
-            :message-type="getFieldErrorType('header.location.name')"
-          />
-        </div>
-
-        <div>
-          <label class="block mb-1 text-xs font-medium text-n-slate-10">
-            {{ t('WHATSAPP_TEMPLATES.PARSER.FULL_ADDRESS') }}
-          </label>
-          <Input
-            v-model="processedParams.header.location.address"
-            custom-input-class="!h-8 w-full !bg-transparent"
-            class="w-full"
-            placeholder="123 Main Street, City, State 12345"
-            :message-type="getFieldErrorType('header.location.address')"
-          />
-        </div>
-
-        <div
-          class="p-2 text-xs bg-blue-50 rounded border-l-4 border-blue-400 text-n-slate-9"
+        <span
+          class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
         >
-          <strong>{{ t('WHATSAPP_TEMPLATES.PARSER.TIP_LABEL') }}</strong>
-          {{ t('WHATSAPP_TEMPLATES.PARSER.LOCATION_TIP') }}
-        </div>
-      </div>
-
-      <!-- Regular Header Parameters -->
-      <div v-if="processedParams.header.location_type !== 'location'">
-        <div
-          v-for="[key] in Object.entries(processedParams.header).filter(
-            ([k]) => !['location', 'location_type'].includes(k)
-          )"
-          :key="`header-${key}`"
-          class="flex gap-2 items-center mb-2 w-full"
-        >
-          <span
-            class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
-          >
-            {{ getHeaderFieldLabel(key) }}
-          </span>
-          <Input
-            v-model="processedParams.header[key]"
-            custom-input-class="!h-8 w-full !bg-transparent"
-            class="w-full"
-            :message-type="getFieldErrorType(`header.${key}`)"
-            :placeholder="getHeaderFieldPlaceholder(key)"
-            :type="key === 'media_url' ? 'url' : 'text'"
-          />
-        </div>
+          {{ getHeaderFieldLabel(key) }}
+        </span>
+        <Input
+          v-model="processedParams.header[key]"
+          custom-input-class="!h-8 w-full !bg-transparent"
+          class="w-full"
+          :message-type="getFieldErrorType(`header.${key}`)"
+          :placeholder="getHeaderFieldPlaceholder(key)"
+          :type="key === 'media_url' ? 'url' : 'text'"
+        />
       </div>
     </div>
 

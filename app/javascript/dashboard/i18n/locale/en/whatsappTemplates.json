@@ -25,16 +25,7 @@
             "VARIABLE_PLACEHOLDER": "Enter {variable} value",
             "GO_BACK_LABEL": "Go Back",
             "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending",
-            "LOCATION_DETAILS": "Location Details",
-            "LATITUDE": "Latitude",
-            "LONGITUDE": "Longitude",
-            "LOCATION_NAME": "Location Name",
-            "FULL_ADDRESS": "Full Address",
-            "LATITUDE_RANGE": "Range: -90.0 to 90.0",
-            "LONGITUDE_RANGE": "Range: -180.0 to 180.0",
-            "LOCATION_TIP": "You can get coordinates by searching your location on Google Maps, right-clicking the pin, and copying the latitude/longitude values.",
-            "TIP_LABEL": "Tip:"
+            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
         }
     }
 }
