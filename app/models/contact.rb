@@ -12,6 +12,7 @@
 #  custom_attributes     :jsonb
 #  email                 :string
 #  identifier            :string
+#  is_verified           :boolean          default(FALSE), not null
 #  last_activity_at      :datetime
 #  last_name             :string           default("")
 #  location              :string           default("")
@@ -25,8 +26,10 @@
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_account_id_and_is_verified          (account_id,is_verified)
 #  index_contacts_on_account_id_and_last_activity_at     (account_id,last_activity_at DESC NULLS LAST)
 #  index_contacts_on_blocked                             (blocked)
+#  index_contacts_on_is_verified                         (is_verified)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
@@ -63,7 +66,7 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
-  before_save :sync_contact_attributes
+  before_save :sync_contact_attributes, :update_is_verified
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -176,7 +179,7 @@ class Contact < ApplicationRecord
   end
 
   def self.resolved_contacts
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    where(is_verified: true)
   end
 
   def discard_invalid_attrs
@@ -237,5 +240,12 @@ class Contact < ApplicationRecord
 
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
+  end
+
+  def update_is_verified
+    self.is_verified = email.present? ||
+                       phone_number.present? ||
+                       identifier.present? ||
+                       (additional_attributes.present? && additional_attributes['company_name'].present?)
   end
 end
