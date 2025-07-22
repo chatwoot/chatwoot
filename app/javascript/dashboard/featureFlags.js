@@ -38,6 +38,7 @@ export const FEATURE_FLAGS = {
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   WHATSAPP_EMBEDDED_SIGNUP: 'whatsapp_embedded_signup',
+  CRM_V2: 'crm_v2',
   CAPTAIN_V2: 'captain_integration_v2',
 };
 

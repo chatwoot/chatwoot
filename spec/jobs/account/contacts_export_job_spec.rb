@@ -89,7 +89,7 @@ RSpec.describe Account::ContactsExportJob do
       create(:contact, account: account, email: nil, phone_number: nil)
       described_class.perform_now(account.id, user.id, %w[id name email column_not_present], {})
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      expect(csv_data.length).to eq(account.contacts.resolved_contacts.count)
+      expect(csv_data.length).to eq(account.contacts.resolved_contacts(use_crm_v2: account.feature_enabled?('crm_v2')).count)
     end
 
     it 'returns resolved contacts filtered if labels are provided' do
