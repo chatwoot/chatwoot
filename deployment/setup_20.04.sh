@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.2.0
+# Script Version: 3.4.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -439,7 +439,14 @@ function configure_systemd_services() {
       systemctl stop chatwoot-worker.1.service || true
       systemctl disable chatwoot-worker.1.service || true
     fi
-    
+
+    # Stop and disable worker target if converting from worker-only
+    if [ -f "/etc/systemd/system/chatwoot-worker.target" ]; then
+      echo "Converting from worker-only to web-only"
+      systemctl stop chatwoot-worker.target || true
+      systemctl disable chatwoot-worker.target || true
+    fi
+
     cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
     cp /home/chatwoot/chatwoot/deployment/chatwoot-web.target /etc/systemd/system/chatwoot-web.target
     
@@ -458,7 +465,14 @@ function configure_systemd_services() {
       systemctl stop chatwoot-web.1.service || true
       systemctl disable chatwoot-web.1.service || true
     fi
-    
+
+    # Stop and disable web target if converting from web-only
+    if [ -f "/etc/systemd/system/chatwoot-web.target" ]; then
+      echo "Converting from web-only to worker-only"
+      systemctl stop chatwoot-web.target || true
+      systemctl disable chatwoot-web.target || true
+    fi
+
     cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
     cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.target /etc/systemd/system/chatwoot-worker.target
     
