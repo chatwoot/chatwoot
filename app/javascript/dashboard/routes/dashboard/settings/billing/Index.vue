@@ -684,7 +684,7 @@ function scrollToPackage() {
             <div v-for="plan in plans" :key="plan.id" class="pricing-card bg-[#fff] dark:bg-[#23252d]">
               <div class="plan-header flex flex-row">
                 <div class="flex-1">
-                  <h3 class="plan-title text-[#475569] dark:text-[#E0E1E6]">{{ $t(`BILLING.PLAN_NAME.${plan.name.toLowerCase()}`) }}</h3>
+                  <h3 class="plan-title text-[#475569] dark:text-[#E0E1E6] min-h-[100px]">{{ $t(`BILLING.PLAN_NAME.${plan.name.toLowerCase()}`) }}</h3>
                 </div>
                 <div class="h-16 w-16 rounded-lg bg-[#D9EFC4] flex justify-center items-center mt-[-44px] p-1">
                   <img :src="getPlanIcon(plan.name)">
@@ -696,7 +696,7 @@ function scrollToPackage() {
                   {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
                 </div>
                 <div class="price-period">
-                  IDR /{{ qty == 1 ? t('BILLING.TAB_DISPLAY.qty_month') : `${qty}${t('BILLING.TAB_DISPLAY.qty_month')}` }}
+                  IDR /{{ qty == 1 ? t('BILLING.TAB_DISPLAY.qty_month') : `${qty} ${t('BILLING.TAB_DISPLAY.qty_month')}` }}
                 </div>
                 <div class="package-type">{{ selectedTabDisplay }}</div>
               </div>
@@ -1195,12 +1195,13 @@ export default {
 }
 
 .plan-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .plan-title {
   font-size: 1.25rem;
   font-weight: 600;
+  margin-right: 0.5rem;
 }
 
 .plan-price {

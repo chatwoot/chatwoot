@@ -116,7 +116,7 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
       block_price = 150_000
     when 'ai_responses'
       block_size = 5000
-      block_price = 200_000
+      block_price = 150_000
     else
       return 0
     end
