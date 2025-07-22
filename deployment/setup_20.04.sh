@@ -744,7 +744,7 @@ Installation/Upgrade:
   -i, --install             Install the latest stable version of Chatwoot
   -I BRANCH                 Install Chatwoot from a git branch
   -u, --upgrade             Upgrade Chatwoot to the latest stable version
-  -U BRANCH                 Upgrade Chatwoot from a git branch
+  -U BRANCH                 Upgrade Chatwoot from a git branch (EXPERIMENTAL)
   -s, --ssl                 Fetch and install SSL certificates using LetsEncrypt
   -w, --webserver           Install and configure Nginx webserver with SSL
   -W, --web-only            Install only the web server (for ASG deployment)
@@ -947,6 +947,30 @@ function upgrade() {
   cwctl_upgrade_check
   get_cw_version
   echo "Upgrading Chatwoot to v$CW_VERSION (branch: $BRANCH)"
+
+  # Warning for non-master branch upgrades
+  if [ "$BRANCH" != "master" ]; then
+    cat << EOF
+
+⚠️  WARNING: Branch-specific upgrades are EXPERIMENTAL
+⚠️  Switching between different versions/branches may cause:
+   - Database migration conflicts
+   - Asset compilation errors
+   - Configuration incompatibilities
+   - Data corruption or loss
+
+⚠️  This is NOT recommended for production environments.
+⚠️  Always backup your database before proceeding.
+
+EOF
+    read -p "Do you understand the risks and want to continue? [y/N]: " user_input
+    user_input=${user_input:-N}
+    if [[ ! "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      echo "Upgrade cancelled."
+      exit 1
+    fi
+  fi
+
   sleep 3
 
    # Check if CW_VERSION is 4.0 or above
