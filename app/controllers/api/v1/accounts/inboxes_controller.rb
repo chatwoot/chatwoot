@@ -222,7 +222,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       'line' => Channel::Line,
       'telegram' => Channel::Telegram,
       'whatsapp' => Channel::Whatsapp,
-      'sms' => Channel::Sms
+      'sms' => Channel::Sms,
+      'whatsapp_unofficial' => Channel::WhatsappUnofficial
     }[permitted_params[:channel][:type]]
   end
 

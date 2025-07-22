@@ -175,4 +175,54 @@ class Waha::WahaService
       ENV.fetch('WAHA_USERNAME', nil).present? &&
       ENV.fetch('WAHA_PASSWORD', nil).present?
   end
+
+  def send_text(api_key:, phone_number:, message:)
+    response = HTTParty.post(
+      "#{API_BASE}/whatsapp/session/send/text",
+      headers: session_headers(api_key),
+      body: {
+        phone_number: phone_number,
+        message: message
+      }.to_json
+    )
+    handle_response(response, "send text")
+  end
+
+  def send_location(api_key:, phone_number:, latitude:, longitude:, name:, address:)
+    response = HTTParty.post(
+      "#{API_BASE}/whatsapp/session/send/location",
+      headers: session_headers(api_key),
+      body: {
+        phone_number: phone_number,
+        latitude: latitude,
+        longitude: longitude,
+        location_name: name,
+        location_address: address
+      }.to_json
+    )
+    handle_response(response, "send location")
+  end
+
+  def send_image(api_key:, phone_number:, image_path:, caption:)
+    body = {
+      phone_number: phone_number,
+      message: caption,
+      image: File.open(image_path)
+    }
+
+    response = HTTParty.post(
+      "#{API_BASE}/whatsapp/session/send/image",
+      headers: session_headers(api_key),
+      body: body,
+      multipart: true
+    )
+    handle_response(response, "send image")
+  end
+
+  def session_headers(api_key)
+    {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json',
+      'X-API-Key' => api_key
+    }
 end

@@ -2,6 +2,12 @@ class Waha::CallbackController < ApplicationController
   skip_before_action :set_current_user
 
   def receive
+
+    if params[:isGroup] == true
+      Rails.logger.info "Callback from a group chat ignored. Phone: #{params[:phone_number]}"
+      return head :ok
+    end
+  
     Rails.logger.info "=== WAHA WEBHOOK START ==="
     Rails.logger.info "WAHA webhook received: #{params.inspect}"
     Rails.logger.info "Request method: #{request.method}"
@@ -141,7 +147,7 @@ class Waha::CallbackController < ApplicationController
       Rails.logger.info "📋 No specific action needed for callback type: #{result[:type]}"
     end
   end
-  
+
   def process_message(phone_number)
     # Gunakan filter response dari model untuk menentukan action yang tepat
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)

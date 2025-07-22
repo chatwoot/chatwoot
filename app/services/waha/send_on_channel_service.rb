@@ -20,37 +20,42 @@ class Waha::SendOnChannelService
   end
 
   def perform_reply
-    phone_number = contact_inbox.source_id
-    
-    # Extract attachment URLs if message has attachments
-    image_url = nil
-    document_url = nil
-    video_url = nil
-    
-    if message.attachments.present?
-      attachment = message.attachments.first
-      case attachment.file_type
-      when 'image'
-        image_url = attachment.download_url
-      when 'file'
-        document_url = attachment.download_url
-      when 'video'
-        video_url = attachment.download_url
+    params = { to: contact_inbox.source_id }
+
+    if message.content_type == 'location' && message.content_attributes['data']
+      location_data = message.content_attributes['data']
+      params[:location] = {
+        latitude: location_data['latitude'],
+        longitude: location_data['longitude'],
+        name: location_data['name'],
+        address: location_data['address']
+      }
+    else
+      params[:message] = message.content
+      image_attachment = message.attachments.find { |a| a.file_type == 'image' }
+      if image_attachment.present?
+        begin
+          file = Tempfile.new(image_attachment.file.filename)
+          file.binmode
+          file.write(image_attachment.file.download)
+          file.rewind
+          params[:image_path] = file.path
+        rescue StandardError => e
+          Rails.logger.error "Failed to process attachment for WAHA: #{e.message}"
+        end
       end
     end
 
-    response = channel.send_message(
-      phone_number: phone_number,
-      message: message.content,
-      image_url: image_url,
-      document_url: document_url,
-      video_url: video_url
-    )
+    # Panggil method send_message di channel dengan parameter yang sudah disiapkan
+    response = channel.send_message(params)
 
-    # Update message with source_id if successful
+    # Update message dengan source_id jika berhasil
     if response && response.dig('data', 'message_id').present?
       message.update!(source_id: response.dig('data', 'message_id'))
     end
+  ensure
+    file&.close
+    file&.unlink
   end
 
   def outgoing_message_originated_from_channel?

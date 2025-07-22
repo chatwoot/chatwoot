@@ -39,14 +39,40 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     Rails.cache.delete(session_status_cache_key)
     Rails.logger.info "CACHE: Cleared cache for #{session_status_cache_key}"
   end
-  
-  def send_message(to:, message:, url: nil)
-    Fonnte::FonnteService.new.send_message(to: to, message: message, token: token, url: url)
-  end
 
-  def set_token
-    device_token = Fonnte::FonnteService.new.device_token(phone_number)
-    update!(token: device_token) if device_token
+  def send_message(params)
+    waha_service = Waha::WahaService.instance
+
+    if params[:location].present?
+      location_data = params[:location]
+      return waha_service.send_location(
+        api_key: token,
+        phone_number: params[:to],
+        latitude: location_data[:latitude],
+        longitude: location_data[:longitude],
+        name: location_data[:name],
+        address: location_data[:address]
+      )
+    end
+
+    if params[:image_path].present?
+      return waha_service.send_image(
+        api_key: token,
+        phone_number: params[:to],
+        image_path: params[:image_path],
+        caption: params[:message] || ''
+      )
+    end
+
+    if params[:message].present?
+      return waha_service.send_text(
+        api_key: token,
+        phone_number: params[:to],
+        message: params[:message]
+      )
+    end
+
+    Rails.logger.warn "WAHA send_message called with no content for #{params[:to]}"
   end
 
   def qr_code
