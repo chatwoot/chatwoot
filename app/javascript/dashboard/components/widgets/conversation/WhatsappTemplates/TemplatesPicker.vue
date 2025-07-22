@@ -35,8 +35,15 @@ export default {
           return false;
         }
 
-        // Since we support all formats now, include all approved templates
-        // This includes templates with media headers (IMAGE, VIDEO, DOCUMENT)
+        // Filter out interactive templates (LIST, PRODUCT, CATALOG)
+        const hasInteractiveComponents = template.components.some(component =>
+          ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type)
+        );
+
+        if (hasInteractiveComponents) {
+          return false;
+        }
+
         return true;
       });
     },
@@ -106,7 +113,7 @@ export default {
               <span
                 class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
               >
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }}:
                 {{ template.language }}
               </span>
             </div>

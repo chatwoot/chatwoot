@@ -75,11 +75,8 @@ class Whatsapp::TemplateProcessorService
     template = find_template
     return if template.blank?
 
-    # Check for interactive templates first
-    if has_interactive_components?(template)
-      process_interactive_template_params(template)
     # Handle enhanced template parameters structure
-    elsif template_params['processed_params'].is_a?(Hash) && template_params['processed_params'].key?('body')
+    if template_params['processed_params'].is_a?(Hash) && template_params['processed_params'].key?('body')
       process_enhanced_template_params(template)
     else
       # Check if we have special header types that need processing
@@ -190,7 +187,7 @@ class Whatsapp::TemplateProcessorService
         elsif key == 'location' && processed_params['header']['location_type'] == 'location'
           location_param = build_location_parameter(value)
           header_params << location_param if location_param
-        elsif !%w[media_type location_type].include?(key)
+        elsif %w[media_type location_type].exclude?(key)
           header_params << build_parameter(value)
         end
       end
@@ -448,7 +445,7 @@ class Whatsapp::TemplateProcessorService
     when 'expiry'
       # Expiry time in minutes
       expiry_minutes = sanitized_value.to_i
-      raise ArgumentError, 'Expiry minutes must be a positive number' unless expiry_minutes > 0
+      raise ArgumentError, 'Expiry minutes must be a positive number' unless expiry_minutes.positive?
 
       { type: 'text', text: expiry_minutes.to_s }
     else
@@ -494,145 +491,6 @@ class Whatsapp::TemplateProcessorService
     template['components'].find { |obj| obj['type'] == 'BODY' && obj.key?('text') }
   end
 
-  def has_interactive_components?(template)
-    # Check if template has interactive buttons like quick replies, call-to-actions, etc.
-    interactive_types = %w[quick_reply url phone_number copy_code list catalog_browse]
-    template['components']&.any? do |component|
-      (component['type'] == 'BUTTONS' && component['buttons']&.any? { |button| interactive_types.include?(button['type']) }) ||
-        (component['type'] == 'LIST' && component['sections'].present?) ||
-        (component['type'] == 'PRODUCT' && component['product_id'].present?) ||
-        (component['type'] == 'CATALOG' && component['catalog_id'].present?)
-    end
-  end
-
-  def process_interactive_template_params(template)
-    components = []
-
-    # Process body parameters
-    if template_params['processed_params'].present?
-      body_params = template_params['processed_params'].map { |_, value| { type: 'text', text: value } }
-      components << { type: 'body', parameters: body_params } if body_params.present?
-    end
-
-    @template_params = {
-      type: 'interactive',
-      components: components,
-      interactive_data: extract_interactive_data(template)
-    }
-  end
-
-  def extract_interactive_data(template)
-    # Check if this is a catalog browse template
-    catalog_component = template['components'].find { |c| c['type'] == 'CATALOG' }
-    return extract_catalog_data(catalog_component) if catalog_component&.dig('catalog_id')
-
-    # Check if this is a product template
-    product_component = template['components'].find { |c| c['type'] == 'PRODUCT' }
-    return extract_product_data(product_component) if product_component&.dig('product_id')
-
-    # Check if this is a list template
-    list_component = template['components'].find { |c| c['type'] == 'LIST' }
-    return extract_list_data(list_component) if list_component&.dig('sections')
-
-    # Default to button template
-    interactive_data = { type: 'button', action: { buttons: [] } }
-
-    button_component = template['components'].find { |c| c['type'] == 'BUTTONS' }
-    return interactive_data unless button_component&.dig('buttons')
-
-    buttons = button_component['buttons'].map.with_index do |button, index|
-      # Process dynamic button text if parameters are provided
-      button_text = process_dynamic_button_text(button['text'] || '', index)
-
-      case button['type']
-      when 'quick_reply'
-        {
-          type: 'reply',
-          reply: {
-            id: "reply_#{index}",
-            title: button_text || "Reply #{index + 1}"
-          }
-        }
-      when 'url'
-        {
-          type: 'reply',
-          reply: {
-            id: "url_#{index}",
-            title: button_text || 'Visit Link'
-          }
-        }
-      when 'phone_number'
-        {
-          type: 'reply',
-          reply: {
-            id: "call_#{index}",
-            title: button_text || 'Call Now'
-          }
-        }
-      end
-    end.compact.first(3) # WhatsApp allows max 3 reply buttons
-
-    interactive_data[:action][:buttons] = buttons
-    interactive_data
-  end
-
-  def extract_list_data(list_component)
-    interactive_data = {
-      type: 'list',
-      action: {
-        button: 'Select an Option',
-        sections: []
-      }
-    }
-
-    sections = list_component['sections'].map.with_index do |section, section_index|
-      rows = section['rows']&.map&.with_index do |row, row_index|
-        {
-          id: "row_#{section_index}_#{row_index}",
-          title: row['title'] || "Option #{row_index + 1}",
-          description: row['description'] || nil
-        }
-      end&.first(10) || [] # WhatsApp allows max 10 rows per section
-
-      {
-        title: section['title'] || "Section #{section_index + 1}",
-        rows: rows
-      }
-    end.first(10) # WhatsApp allows max 10 sections
-
-    interactive_data[:action][:sections] = sections
-    interactive_data
-  end
-
-  def extract_product_data(product_component)
-    {
-      type: 'product',
-      action: {
-        catalog_id: product_component['catalog_id'] || '',
-        product_retailer_id: product_component['product_id']
-      }
-    }
-  end
-
-  def extract_catalog_data(catalog_component)
-    {
-      type: 'product_list',
-      action: {
-        catalog_id: catalog_component['catalog_id'],
-        sections: [
-          {
-            title: catalog_component['title'] || 'Browse Products',
-            product_items: catalog_component['products']&.map do |product|
-              {
-                product_retailer_id: product['id'] || product['product_id']
-              }
-            end || []
-          }
-        ]
-      }
-    }
-  end
-
   def process_dynamic_button_text(button_text, button_index)
     return button_text unless button_text.include?('{{')
 
@@ -651,7 +509,7 @@ class Whatsapp::TemplateProcessorService
     button_text
   end
 
-  def has_rich_formatting?(text)
+  def rich_formatting?(text)
     # Check if text contains WhatsApp rich formatting markers
     text.match?(/\*[^*]+\*/) || # Bold: *text*
       text.match?(/_[^_]+_/) ||   # Italic: _text_

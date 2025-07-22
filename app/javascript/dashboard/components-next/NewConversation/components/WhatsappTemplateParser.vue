@@ -53,23 +53,6 @@ const buttonComponents = computed(() => {
   );
 });
 
-const interactiveComponents = computed(() => {
-  return templateComponents.value.filter(component =>
-    ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type)
-  );
-});
-
-const isInteractiveTemplate = computed(() => {
-  const hasInteractiveButtons = buttonComponents.value.some(component =>
-    component.buttons?.some(button =>
-      ['quick_reply', 'url', 'phone_number', 'catalog_browse'].includes(
-        button.type
-      )
-    )
-  );
-  return hasInteractiveButtons || interactiveComponents.value.length > 0;
-});
-
 const legacyParams = computed(() => {
   const params = {};
   Object.keys(processedParams.value).forEach(key => {
@@ -253,29 +236,6 @@ const generateVariables = () => {
           }
         }
       });
-    }
-  });
-
-  // Process interactive components (LIST, PRODUCT, CATALOG)
-  interactiveComponents.value.forEach(component => {
-    if (component.type === 'LIST') {
-      allVariables.interactive = {
-        type: 'list',
-        button_text: 'Select Option',
-        sections: component.sections || [],
-      };
-    } else if (component.type === 'PRODUCT') {
-      allVariables.interactive = {
-        type: 'product',
-        catalog_id: component.catalog_id || '',
-        product_id: component.product_id || '',
-      };
-    } else if (component.type === 'CATALOG') {
-      allVariables.interactive = {
-        type: 'catalog',
-        catalog_id: component.catalog_id || '',
-        title: component.title || 'Browse Products',
-      };
     }
   });
 
@@ -465,17 +425,18 @@ onMounted(() => {
           <div
             class="flex justify-center items-center w-4 h-4 bg-blue-500 rounded-full"
           >
-            <div class="w-2 h-2 bg-white rounded-full"></div>
+            <div class="w-2 h-2 bg-white rounded-full" />
           </div>
-          <span class="text-sm font-medium text-n-slate-12"
-            >Location Details</span
-          >
+          <span class="text-sm font-medium text-n-slate-12">{{
+            t('WHATSAPP_TEMPLATES.PARSER.LOCATION_DETAILS')
+          }}</span>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block mb-1 text-xs font-medium text-n-slate-10">
-              📍 Latitude <span class="text-red-500">*</span>
+              {{ t('WHATSAPP_TEMPLATES.PARSER.LATITUDE') }}
+              <span class="text-red-500">*</span>
             </label>
             <Input
               v-model="processedParams.header.location.latitude"
@@ -486,11 +447,14 @@ onMounted(() => {
               placeholder="37.7749 (San Francisco)"
               :message-type="getFieldErrorType('header.location.latitude')"
             />
-            <span class="text-xs text-n-slate-9">Range: -90.0 to 90.0</span>
+            <span class="text-xs text-n-slate-9">{{
+              t('WHATSAPP_TEMPLATES.PARSER.LATITUDE_RANGE')
+            }}</span>
           </div>
           <div>
             <label class="block mb-1 text-xs font-medium text-n-slate-10">
-              📍 Longitude <span class="text-red-500">*</span>
+              {{ t('WHATSAPP_TEMPLATES.PARSER.LONGITUDE') }}
+              <span class="text-red-500">*</span>
             </label>
             <Input
               v-model="processedParams.header.location.longitude"
@@ -501,13 +465,15 @@ onMounted(() => {
               placeholder="-122.4194 (San Francisco)"
               :message-type="getFieldErrorType('header.location.longitude')"
             />
-            <span class="text-xs text-n-slate-9">Range: -180.0 to 180.0</span>
+            <span class="text-xs text-n-slate-9">{{
+              t('WHATSAPP_TEMPLATES.PARSER.LONGITUDE_RANGE')
+            }}</span>
           </div>
         </div>
 
         <div>
           <label class="block mb-1 text-xs font-medium text-n-slate-10">
-            🏢 Location Name
+            {{ t('WHATSAPP_TEMPLATES.PARSER.LOCATION_NAME') }}
           </label>
           <Input
             v-model="processedParams.header.location.name"
@@ -520,7 +486,7 @@ onMounted(() => {
 
         <div>
           <label class="block mb-1 text-xs font-medium text-n-slate-10">
-            📮 Full Address
+            {{ t('WHATSAPP_TEMPLATES.PARSER.FULL_ADDRESS') }}
           </label>
           <Input
             v-model="processedParams.header.location.address"
@@ -534,17 +500,17 @@ onMounted(() => {
         <div
           class="p-2 text-xs bg-blue-50 rounded border-l-4 border-blue-400 text-n-slate-9"
         >
-          💡 <strong>Tip:</strong> You can get coordinates by searching your
-          location on Google Maps, right-clicking the pin, and copying the
-          latitude/longitude values.
+          <strong>{{ t('WHATSAPP_TEMPLATES.PARSER.TIP_LABEL') }}</strong>
+          {{ t('WHATSAPP_TEMPLATES.PARSER.LOCATION_TIP') }}
         </div>
       </div>
 
       <!-- Regular Header Parameters -->
       <div v-if="processedParams.header.location_type !== 'location'">
         <div
-          v-for="(variable, key) in processedParams.header"
-          v-if="!['location', 'location_type'].includes(key)"
+          v-for="[key] in Object.entries(processedParams.header).filter(
+            ([k]) => !['location', 'location_type'].includes(k)
+          )"
           :key="`header-${key}`"
           class="flex gap-2 items-center mb-2 w-full"
         >
@@ -618,101 +584,6 @@ onMounted(() => {
           class="w-full"
           :message-type="getFieldErrorType(`footer.${key}`)"
         />
-      </div>
-    </div>
-
-    <!-- Interactive Components -->
-    <div v-if="processedParams.interactive" class="w-full">
-      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
-        {{
-          t('WHATSAPP_TEMPLATES.PARSER.INTERACTIVE_PARAMETERS') ||
-          'Interactive Parameters'
-        }}
-      </h4>
-
-      <!-- Product Template -->
-      <div
-        v-if="processedParams.interactive.type === 'product'"
-        class="mb-4 space-y-2"
-      >
-        <div>
-          <label class="block mb-1 text-xs font-medium text-n-slate-10"
-            >Catalog ID</label
-          >
-          <Input
-            v-model="processedParams.interactive.catalog_id"
-            custom-input-class="!h-8 w-full !bg-transparent"
-            class="w-full"
-            placeholder="Enter catalog ID"
-            :message-type="getFieldErrorType('interactive.catalog_id')"
-          />
-        </div>
-        <div>
-          <label class="block mb-1 text-xs font-medium text-n-slate-10"
-            >Product ID</label
-          >
-          <Input
-            v-model="processedParams.interactive.product_id"
-            custom-input-class="!h-8 w-full !bg-transparent"
-            class="w-full"
-            placeholder="Enter product retailer ID"
-            :message-type="getFieldErrorType('interactive.product_id')"
-          />
-        </div>
-      </div>
-
-      <!-- Catalog Template -->
-      <div
-        v-else-if="processedParams.interactive.type === 'catalog'"
-        class="mb-4 space-y-2"
-      >
-        <div>
-          <label class="block mb-1 text-xs font-medium text-n-slate-10"
-            >Catalog ID</label
-          >
-          <Input
-            v-model="processedParams.interactive.catalog_id"
-            custom-input-class="!h-8 w-full !bg-transparent"
-            class="w-full"
-            placeholder="Enter catalog ID"
-            :message-type="getFieldErrorType('interactive.catalog_id')"
-          />
-        </div>
-        <div>
-          <label class="block mb-1 text-xs font-medium text-n-slate-10"
-            >Browse Title</label
-          >
-          <Input
-            v-model="processedParams.interactive.title"
-            custom-input-class="!h-8 w-full !bg-transparent"
-            class="w-full"
-            placeholder="Browse Products"
-            :message-type="getFieldErrorType('interactive.title')"
-          />
-        </div>
-      </div>
-
-      <!-- List Template -->
-      <div
-        v-else-if="processedParams.interactive.type === 'list'"
-        class="mb-4 space-y-2"
-      >
-        <div>
-          <label class="block mb-1 text-xs font-medium text-n-slate-10"
-            >Button Text</label
-          >
-          <Input
-            v-model="processedParams.interactive.button_text"
-            custom-input-class="!h-8 w-full !bg-transparent"
-            class="w-full"
-            placeholder="Select an Option"
-            :message-type="getFieldErrorType('interactive.button_text')"
-          />
-        </div>
-        <div class="text-xs text-n-slate-10">
-          List sections are configured in the template and cannot be modified
-          here.
-        </div>
       </div>
     </div>
 
