@@ -243,9 +243,11 @@ class Contact < ApplicationRecord
   end
 
   def update_is_verified
+    # Once verified, always verified - don't change back to false
+    return if is_verified
+
     self.is_verified = email.present? ||
                        phone_number.present? ||
-                       identifier.present? ||
-                       (additional_attributes.present? && additional_attributes['company_name'].present?)
+                       identifier.present?
   end
 end

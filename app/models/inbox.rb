@@ -135,6 +135,14 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Email'
   end
 
+  def line?
+    channel_type == 'Channel::Line'
+  end
+
+  def telegram?
+    channel_type == 'Channel::Telegram'
+  end
+
   def twilio?
     channel_type == 'Channel::TwilioSms'
   end

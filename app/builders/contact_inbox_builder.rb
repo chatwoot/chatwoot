@@ -65,6 +65,8 @@ class ContactInboxBuilder
       source_id: @source_id
     }
 
+    update_contact_verification_status
+
     ::ContactInbox.where(attrs).first_or_create!(hmac_verified: hmac_verified || false)
   rescue ActiveRecord::RecordNotUnique
     Rails.logger.info("[ContactInboxBuilder] RecordNotUnique #{@source_id} #{@contact.id} #{@inbox.id}")
@@ -101,5 +103,19 @@ class ContactInboxBuilder
 
   def allowed_channels?
     @inbox.email? || @inbox.sms? || @inbox.twilio? || @inbox.whatsapp?
+  end
+
+  def update_contact_verification_status
+    return if @contact.is_verified
+    return unless should_verify_contact?
+
+    @contact.update!(is_verified: true)
+  end
+
+  def should_verify_contact?
+    # Social channels where contacts should be verified by default
+    @inbox.facebook? || @inbox.instagram? || @inbox.instagram_direct? ||
+      @inbox.twitter? || @inbox.line? || @inbox.whatsapp? ||
+      @inbox.telegram?
   end
 end
