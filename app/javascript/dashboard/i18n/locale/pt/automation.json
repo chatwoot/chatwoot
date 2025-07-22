@@ -146,6 +146,7 @@
       "SEND_WEBHOOK_EVENT": "Enviar evento webhook",
       "SEND_ATTACHMENT": "Enviar anexo",
       "SEND_MESSAGE": "Enviar mensagem",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Privada",
       "CHANGE_PRIORITY": "Alterar prioridade",
       "ADD_SLA": "Adicionar SLA",
       "OPEN_CONVERSATION": "Abrir conversa"
