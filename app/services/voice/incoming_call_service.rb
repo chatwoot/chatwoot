@@ -51,7 +51,7 @@ module Voice
 
       # Find or create the contact
       @contact = account.contacts.find_or_create_by!(phone_number: phone_number) do |c|
-        c.name = "Contact from #{phone_number}"
+        c.name = phone_number
       end
     end
 
