@@ -269,7 +269,7 @@
   "CONFIRM_EMAIL": "Verificando...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Añadir bandeja de entrada"
+      "NEW_INBOX": "Agregar Entrada"
     }
   },
   "SIDEBAR": {
@@ -278,8 +278,8 @@
     "SWITCH": "Cambiar",
     "INBOX_VIEW": "Vista del buzón",
     "CONVERSATIONS": "Conversaciones",
-    "INBOX": "Mi bandeja de entrada",
-    "ALL_CONVERSATIONS": "Todas las conversaciones",
+    "INBOX": "Bandeja",
+    "ALL_CONVERSATIONS": "Todas",
     "MENTIONED_CONVERSATIONS": "Menciones",
     "PARTICIPATING_CONVERSATIONS": "Participar",
     "UNATTENDED_CONVERSATIONS": "Desatendido",
@@ -292,8 +292,8 @@
     "CAPTAIN_DOCUMENTS": "Documentos",
     "CAPTAIN_RESPONSES": "Preguntas frecuentes",
     "HOME": "Inicio",
-    "AGENTS": "Agentes",
-    "AGENT_BOTS": "Bots",
+    "AGENTS": "Miembros",
+    "AGENT_BOTS": "AI Bots",
     "AUDIT_LOGS": "Auditoría de registros",
     "INBOXES": "Entradas",
     "NOTIFICATIONS": "Notificaciones",
@@ -323,8 +323,8 @@
     "ONGOING": "En Curso",
     "ONE_OFF": "One Off",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agentes",
+    "REPORTS_BOT": "AI Bots",
+    "REPORTS_AGENT": "Miembros",
     "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Bandeja de entrada",
     "REPORTS_TEAM": "Equipo",

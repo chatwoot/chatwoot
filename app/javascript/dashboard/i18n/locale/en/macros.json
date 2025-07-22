@@ -86,7 +86,7 @@
     },
     "ACTIONS": {
       "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
+      "ASSIGN_AGENT": "Assign a Member",
       "ADD_LABEL": "Add a Label",
       "REMOVE_LABEL": "Remove a Label",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",

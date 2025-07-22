@@ -3,7 +3,7 @@
     "NEW_TEAM": "Crear un nuevo equipo",
     "HEADER": "Equipos",
     "LOADING": "Obteniendo equipos",
-    "DESCRIPTION": "Los equipos te permiten organizar a los agentes en grupos basados en sus responsabilidades. Un agente puede pertenecer a varios equipos. Cuando trabajas en colaboración, puedes asignar conversaciones a equipos específicos.",
+    "DESCRIPTION": "Los equipos te permiten organizar a los miembros en grupos basados en sus responsabilidades. Un miembro puede pertenecer a varios equipos. Cuando trabajas en colaboración, puedes asignar conversaciones a equipos específicos.",
     "LEARN_MORE": "Aprende más sobre los equipos",
     "LIST": {
       "404": "No hay equipos creados en ésta cuenta.",
@@ -16,17 +16,17 @@
         "DESC": "Añada un título y una descripción a su nuevo equipo."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Añadir agentes al equipo",
-        "TITLE": "Añadir agentes al equipo - {teamName}",
-        "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
+        "BUTTON_TEXT": "Añadir miembros al equipo",
+        "TITLE": "Añadir miembros al equipo - {teamName}",
+        "DESC": "Añada miembros a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
       },
       "WIZARD_CREATE": {
         "TITLE": "Crear",
-        "BODY": "Crear un nuevo equipo de agentes."
+        "BODY": "Crear un nuevo equipo de miembros."
       },
       "WIZARD_ADD_AGENTS": {
-        "TITLE": "Añadir agentes",
-        "BODY": "Añadir agentes al equipo."
+        "TITLE": "Añadir miembros",
+        "BODY": "Añadir miembros al equipo."
       },
       "WIZARD_FINISH": {
         "TITLE": "Finalizar",
@@ -40,9 +40,9 @@
         "BUTTON_TEXT": "Actualizar el equipo"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Actualizar los agentes en el equipo",
-        "TITLE": "Añadir agentes al equipo - {teamName}",
-        "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
+        "BUTTON_TEXT": "Actualizar los miembros en el equipo",
+        "TITLE": "Añadir miembros al equipo - {teamName}",
+        "DESC": "Añada miembros a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación."
       },
       "EDIT_WIZARD_DETAILS": {
         "TITLE": "Detalles del equipo",
@@ -50,9 +50,9 @@
         "BODY": "Cambiar nombre, descripción y otros detalles."
       },
       "EDIT_WIZARD_AGENTS": {
-        "TITLE": "Editar Agentes",
+        "TITLE": "Editar Miembros",
         "ROUTE": "settings_teams_edit_members",
-        "BODY": "Editar agentes en su equipo."
+        "BODY": "Editar miembros en su equipo."
       },
       "EDIT_WIZARD_FINISH": {
         "TITLE": "Finalizar",
@@ -64,22 +64,22 @@
       "ERROR_MESSAGE": "No se han podido guardar los detalles del equipo. Intente nuevamente."
     },
     "AGENTS": {
-      "AGENT": "AGENTE",
+      "AGENT": "MIEMBRO",
       "EMAIL": "Correo electrónico",
-      "BUTTON_TEXT": "Añadir agentes",
-      "ADD_AGENTS": "Añadiendo agentes a su equipo...",
+      "BUTTON_TEXT": "Añadir miembros",
+      "ADD_AGENTS": "Añadiendo miembros a su equipo...",
       "SELECT": "seleccionar",
-      "SELECT_ALL": "seleccionar todos los agentes",
-      "SELECTED_COUNT": "{selected} de {total} agentes seleccionados."
+      "SELECT_ALL": "seleccionar todos los miembros",
+      "SELECTED_COUNT": "{selected} de {total} miembros seleccionados."
     },
     "ADD": {
-      "TITLE": "Añadir agentes al equipo - {teamName}",
-      "DESC": "Añada agentes a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación.",
+      "TITLE": "Añadir miembros al equipo - {teamName}",
+      "DESC": "Añada miembros a su recién creado equipo. Le permitirá colaborar como un equipo en las conversaciones, y ser notificado acerca de nuevos eventos en la misma conversación.",
       "SELECT": "seleccionar",
-      "SELECT_ALL": "seleccionar todos los agentes",
-      "SELECTED_COUNT": "{selected} de {total} agentes seleccionados.",
-      "BUTTON_TEXT": "Añadir agentes",
-      "AGENT_VALIDATION_ERROR": "Seleccione al menos un agente."
+      "SELECT_ALL": "seleccionar todos los miembros",
+      "SELECTED_COUNT": "{selected} de {total} miembros seleccionados.",
+      "BUTTON_TEXT": "Añadir miembros",
+      "AGENT_VALIDATION_ERROR": "Seleccione al menos un miembro."
     },
     "FINISH": {
       "TITLE": "¡Su equipo está listo!",

@@ -1,7 +1,7 @@
 {
   "MACROS": {
     "HEADER": "Macros",
-    "DESCRIPTION": "Una macro es un conjunto de acciones guardadas que ayudan a los agentes de servicio al cliente a completar fácilmente las tareas. Los agentes pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic.",
+    "DESCRIPTION": "Una macro es un conjunto de acciones guardadas que ayudan a los miembros de servicio al cliente a completar fácilmente las tareas. Los miembros pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic.",
     "LEARN_MORE": "Más información sobre macros",
     "HEADER_BTN_TXT": "Añadir una nueva macro",
     "HEADER_BTN_TXT_SAVE": "Guardar macro",
@@ -62,7 +62,7 @@
         "LABEL": "Visibilidad de macro",
         "GLOBAL": {
           "LABEL": "Público",
-          "DESCRIPTION": "Esta macro está disponible públicamente para todos los agentes de esta cuenta."
+          "DESCRIPTION": "Esta macro está disponible públicamente para todos los miembros de esta cuenta."
         },
         "PERSONAL": {
           "LABEL": "Privado",
