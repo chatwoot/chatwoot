@@ -47,22 +47,6 @@ const footerComponent = computed(() => {
   );
 });
 
-const buttonComponents = computed(() => {
-  return templateComponents.value.filter(
-    component => component.type === 'BUTTONS'
-  );
-});
-
-const legacyParams = computed(() => {
-  const params = {};
-  Object.keys(processedParams.value).forEach(key => {
-    if (!['header', 'body', 'footer', 'buttons'].includes(key)) {
-      params[key] = processedParams.value[key];
-    }
-  });
-  return params;
-});
-
 const processVariable = str => {
   return str.replace(/{{|}}/g, '');
 };
@@ -113,26 +97,7 @@ const generateVariables = () => {
     allVariables.body = {};
     bodyVars.forEach(variable => {
       const key = processVariable(variable);
-      // Special handling for authentication templates
-      if (props.template?.category === 'AUTHENTICATION') {
-        if (
-          key === '1' ||
-          key.toLowerCase().includes('otp') ||
-          key.toLowerCase().includes('code')
-        ) {
-          allVariables.body.otp_code = '';
-        } else if (
-          key === '2' ||
-          key.toLowerCase().includes('expiry') ||
-          key.toLowerCase().includes('minute')
-        ) {
-          allVariables.body.expiry_minutes = '';
-        } else {
-          allVariables.body[key] = '';
-        }
-      } else {
-        allVariables.body[key] = '';
-      }
+      allVariables.body[key] = '';
     });
   }
 
@@ -172,62 +137,7 @@ const generateVariables = () => {
     }
   }
 
-  // Process button variables
-  buttonComponents.value.forEach(buttonComponent => {
-    if (buttonComponent.buttons) {
-      buttonComponent.buttons.forEach((button, index) => {
-        // Handle URL buttons with variables
-        if (button.type === 'URL' && button.url && button.url.includes('{{')) {
-          const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
-          if (buttonVars.length > 0) {
-            if (!allVariables.buttons) allVariables.buttons = [];
-            allVariables.buttons[index] = {
-              type: 'url',
-              parameter: '',
-              url: button.url,
-              variables: buttonVars.map(v => processVariable(v)),
-            };
-          }
-        }
-
-        // Handle copy code buttons
-        if (button.type === 'COPY_CODE') {
-          if (!allVariables.buttons) allVariables.buttons = [];
-          allVariables.buttons[index] = {
-            type: 'copy_code',
-            parameter: '',
-          };
-        }
-
-        // Handle interactive buttons with dynamic text
-        if (['QUICK_REPLY', 'URL', 'PHONE_NUMBER'].includes(button.type)) {
-          if (button.text && button.text.includes('{{')) {
-            if (!allVariables.buttons) allVariables.buttons = [];
-            allVariables.buttons[index] = {
-              type: button.type.toLowerCase(),
-              parameter: '',
-              text: button.text,
-            };
-          }
-        }
-      });
-    }
-  });
-
   processedParams.value = allVariables;
-};
-
-const validateButtonParameter = (button, index) => {
-  const parameter = processedParams.value.buttons[index].parameter;
-
-  if (button.type === 'copy_code') {
-    if (parameter && parameter.length > 15) {
-      processedParams.value.buttons[index].parameter = parameter.substring(
-        0,
-        15
-      );
-    }
-  }
 };
 
 const getHeaderFieldLabel = key => {
@@ -268,87 +178,9 @@ const getHeaderFieldPlaceholder = key => {
   return `Enter ${key} value`;
 };
 
-const getBodyParameterLabel = key => {
-  if (props.template?.category === 'AUTHENTICATION') {
-    switch (key) {
-      case 'otp_code':
-        return t('WHATSAPP_TEMPLATES.PARSER.OTP_CODE') || 'OTP Code';
-      case 'expiry_minutes':
-        return (
-          t('WHATSAPP_TEMPLATES.PARSER.EXPIRY_MINUTES') || 'Expiry (minutes)'
-        );
-      default:
-        return key;
-    }
-  }
-  return key;
-};
-
-const getBodyParameterPlaceholder = key => {
-  if (props.template?.category === 'AUTHENTICATION') {
-    switch (key) {
-      case 'otp_code':
-        return (
-          t('WHATSAPP_TEMPLATES.PARSER.OTP_CODE_PLACEHOLDER') ||
-          'Enter 4-8 digit OTP code'
-        );
-      case 'expiry_minutes':
-        return (
-          t('WHATSAPP_TEMPLATES.PARSER.EXPIRY_MINUTES_PLACEHOLDER') ||
-          'Enter expiry time in minutes'
-        );
-      default:
-        return `Enter ${key} value`;
-    }
-  }
-  return `Enter ${key} value`;
-};
-
-const getBodyParameterType = key => {
-  if (props.template?.category === 'AUTHENTICATION') {
-    switch (key) {
-      case 'otp_code':
-        return 'tel';
-      case 'expiry_minutes':
-        return 'number';
-      default:
-        return 'text';
-    }
-  }
-  return 'text';
-};
-
-const getBodyParameterMaxLength = key => {
-  if (props.template?.category === 'AUTHENTICATION') {
-    switch (key) {
-      case 'otp_code':
-        return 8;
-      case 'expiry_minutes':
-        return 3;
-      default:
-        return null;
-    }
-  }
-  return null;
-};
-
 const sendMessage = async () => {
   const isValid = await v$.value.$validate();
   if (!isValid) return;
-
-  // Auto-populate button parameters for authentication templates
-  const finalParams = { ...processedParams.value };
-  if (props.template?.category === 'AUTHENTICATION' && finalParams.buttons) {
-    finalParams.buttons.forEach((button, index) => {
-      if (
-        button.type === 'url' &&
-        button.variables?.includes('1') &&
-        finalParams.body?.otp_code
-      ) {
-        finalParams.buttons[index].parameter = finalParams.body.otp_code;
-      }
-    });
-  }
 
   const payload = {
     message: processedString.value,
@@ -357,7 +189,7 @@ const sendMessage = async () => {
       category: props.template.category,
       language: props.template.language,
       namespace: props.template.namespace,
-      processed_params: finalParams,
+      processed_params: processedParams.value,
     },
   };
   emit('sendMessage', payload);
@@ -427,103 +259,9 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Body Variables -->
-    <div v-if="processedParams.body" class="w-full">
-      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
-        {{
-          t('WHATSAPP_TEMPLATES.PARSER.BODY_PARAMETERS') || 'Body Parameters'
-        }}
-      </h4>
-      <div
-        v-for="(variable, key) in processedParams.body"
-        :key="`body-${key}`"
-        class="flex gap-2 items-center mb-2 w-full"
-      >
-        <span
-          class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
-        >
-          {{ getBodyParameterLabel(key) }}
-        </span>
-        <Input
-          v-model="processedParams.body[key]"
-          custom-input-class="!h-8 w-full !bg-transparent"
-          class="w-full"
-          :message-type="getFieldErrorType(`body.${key}`)"
-          :placeholder="getBodyParameterPlaceholder(key)"
-          :type="getBodyParameterType(key)"
-          :maxlength="getBodyParameterMaxLength(key)"
-        />
-      </div>
-    </div>
-
-    <!-- Footer Variables -->
-    <div v-if="processedParams.footer" class="w-full">
-      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
-        {{
-          t('WHATSAPP_TEMPLATES.PARSER.FOOTER_PARAMETERS') ||
-          'Footer Parameters'
-        }}
-      </h4>
-      <div
-        v-for="(variable, key) in processedParams.footer"
-        :key="`footer-${key}`"
-        class="flex gap-2 items-center mb-2 w-full"
-      >
-        <span
-          class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
-        >
-          {{ key }}
-        </span>
-        <Input
-          v-model="processedParams.footer[key]"
-          custom-input-class="!h-8 w-full !bg-transparent"
-          class="w-full"
-          :message-type="getFieldErrorType(`footer.${key}`)"
-        />
-      </div>
-    </div>
-
-    <!-- Button Variables -->
-    <div v-if="processedParams.buttons" class="w-full">
-      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
-        {{
-          t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETERS') ||
-          'Button Parameters'
-        }}
-      </h4>
-      <div
-        v-for="(button, index) in processedParams.buttons"
-        :key="`button-${index}`"
-        class="flex gap-2 items-center mb-2 w-full"
-      >
-        <span
-          class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
-        >
-          {{
-            button.type === 'copy_code'
-              ? t('WHATSAPP_TEMPLATES.PARSER.COUPON_CODE') || 'Coupon Code'
-              : `${t('WHATSAPP_TEMPLATES.PARSER.BUTTON') || 'Button'} ${index + 1}`
-          }}
-        </span>
-        <Input
-          v-model="processedParams.buttons[index].parameter"
-          custom-input-class="!h-8 w-full !bg-transparent"
-          class="w-full"
-          :message-type="getFieldErrorType(`buttons.${index}.parameter`)"
-          :placeholder="
-            button.type === 'copy_code'
-              ? 'Enter coupon code (max 15 chars)'
-              : 'Enter button parameter'
-          "
-          :max-length="button.type === 'copy_code' ? 15 : 500"
-          @input="validateButtonParameter(button, index)"
-        />
-      </div>
-    </div>
-
-    <!-- Legacy Variables (for backward compatibility) -->
+    <!-- Variables -->
     <div
-      v-for="(variable, key) in legacyParams"
+      v-for="(variable, key) in processedParams.body || processedParams"
       :key="key"
       class="flex gap-2 items-center w-full"
     >
@@ -533,10 +271,19 @@ onMounted(() => {
         {{ key }}
       </span>
       <Input
-        v-model="processedParams[key]"
+        :model-value="
+          processedParams.body
+            ? processedParams.body[key]
+            : processedParams[key]
+        "
         custom-input-class="!h-8 w-full !bg-transparent"
         class="w-full"
         :message-type="getFieldErrorType(key)"
+        @update:model-value="
+          processedParams.body
+            ? (processedParams.body[key] = $event)
+            : (processedParams[key] = $event)
+        "
       />
     </div>
 

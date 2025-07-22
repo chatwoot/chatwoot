@@ -79,23 +79,84 @@ export default {
     );
 
     const generateVariables = () => {
-      const params = {};
+      const allVariables = {};
 
-      // Add media URL field if template has media header
-      if (hasMediaHeader.value) {
-        params.media_url = '';
-      }
-
-      // Add body variables
+      // Process body variables
       const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
       if (matchedVariables) {
-        const finalVars = matchedVariables.map(i => processVariable(i));
-        finalVars.forEach(variable => {
-          params[variable] = '';
+        allVariables.body = {};
+        matchedVariables.forEach(variable => {
+          const key = processVariable(variable);
+          // Special handling for authentication templates
+          if (props.template?.category === 'AUTHENTICATION') {
+            if (
+              key === '1' ||
+              key.toLowerCase().includes('otp') ||
+              key.toLowerCase().includes('code')
+            ) {
+              allVariables.body.otp_code = '';
+            } else if (
+              key === '2' ||
+              key.toLowerCase().includes('expiry') ||
+              key.toLowerCase().includes('minute')
+            ) {
+              allVariables.body.expiry_minutes = '';
+            } else {
+              allVariables.body[key] = '';
+            }
+          } else {
+            allVariables.body[key] = '';
+          }
         });
       }
 
-      processedParams.value = params;
+      // Add media URL field if template has media header
+      if (hasMediaHeader.value) {
+        if (!allVariables.header) allVariables.header = {};
+        allVariables.header.media_url = '';
+        allVariables.header.media_type =
+          headerComponent.value.format.toLowerCase();
+      }
+
+      // Process button variables
+      const buttonComponents = props.template.components.filter(
+        component => component.type === 'BUTTONS'
+      );
+
+      buttonComponents.forEach(buttonComponent => {
+        if (buttonComponent.buttons) {
+          buttonComponent.buttons.forEach((button, index) => {
+            // Handle URL buttons with variables
+            if (
+              button.type === 'URL' &&
+              button.url &&
+              button.url.includes('{{')
+            ) {
+              const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
+              if (buttonVars.length > 0) {
+                if (!allVariables.buttons) allVariables.buttons = [];
+                allVariables.buttons[index] = {
+                  type: 'url',
+                  parameter: '',
+                  url: button.url,
+                  variables: buttonVars.map(v => processVariable(v)),
+                };
+              }
+            }
+
+            // Handle copy code buttons
+            if (button.type === 'COPY_CODE') {
+              if (!allVariables.buttons) allVariables.buttons = [];
+              allVariables.buttons[index] = {
+                type: 'copy_code',
+                parameter: '',
+              };
+            }
+          });
+        }
+      });
+
+      processedParams.value = allVariables;
     };
 
     const resetTemplate = () => {
@@ -106,27 +167,22 @@ export default {
       v$.value.$touch();
       if (v$.value.$invalid) return;
 
-      // Prepare enhanced template parameters for media support
-      const enhancedParams = {};
-
-      // Handle media header
-      if (hasMediaHeader.value && processedParams.value.media_url) {
-        enhancedParams.header = {
-          media_url: processedParams.value.media_url,
-          media_type: headerComponent.value.format.toLowerCase(),
-        };
-      }
-
-      // Handle body variables
-      const bodyParams = {};
-      Object.keys(processedParams.value).forEach(key => {
-        if (key !== 'media_url') {
-          bodyParams[key] = processedParams.value[key];
-        }
-      });
-
-      if (Object.keys(bodyParams).length > 0) {
-        enhancedParams.body = bodyParams;
+      // Auto-populate button parameters for authentication templates
+      const finalParams = { ...processedParams.value };
+      if (
+        props.template?.category === 'AUTHENTICATION' &&
+        finalParams.buttons
+      ) {
+        finalParams.buttons.forEach((button, index) => {
+          if (button.type === 'url') {
+            // For authentication templates, auto-populate URL button parameter with OTP
+            if (finalParams.body?.['1']) {
+              finalParams.buttons[index].parameter = finalParams.body['1'];
+            } else if (finalParams.body?.otp_code) {
+              finalParams.buttons[index].parameter = finalParams.body.otp_code;
+            }
+          }
+        });
       }
 
       const payload = {
@@ -136,7 +192,7 @@ export default {
           category: props.template.category,
           language: props.template.language,
           namespace: props.template.namespace,
-          processed_params: enhancedParams,
+          processed_params: finalParams,
         },
       };
       emit('sendMessage', payload);
@@ -170,63 +226,132 @@ export default {
     <div v-if="variables || hasMediaHeader" class="p-2.5">
       <!-- Media Header Section -->
       <div v-if="hasMediaHeader" class="mb-4">
-        <p class="text-sm font-semibold mb-2.5">
+        <p class="mb-2.5 text-sm font-semibold">
           {{
-            headerComponent.format.charAt(0) +
-            headerComponent.format.slice(1).toLowerCase()
+            $t('WHATSAPP_TEMPLATES.PARSER.MEDIA_HEADER_LABEL', {
+              type:
+                headerComponent.format.charAt(0) +
+                headerComponent.format.slice(1).toLowerCase(),
+            }) ||
+            `${
+              headerComponent.format.charAt(0) +
+              headerComponent.format.slice(1).toLowerCase()
+            } Header`
           }}
-          Header
         </p>
-        <div class="items-center flex mb-2.5">
+        <div class="flex items-center mb-2.5">
           <span
-            class="bg-n-alpha-black2 text-n-slate-12 inline-block rounded-md text-xs py-2.5 px-6"
+            class="inline-block px-6 py-2.5 text-xs rounded-md bg-n-alpha-black2 text-n-slate-12"
           >
-            {{ headerComponent.format.toLowerCase() }} URL
+            {{
+              $t('WHATSAPP_TEMPLATES.PARSER.MEDIA_URL_LABEL', {
+                type: headerComponent.format.toLowerCase(),
+              }) || `${headerComponent.format.toLowerCase()} URL`
+            }}
           </span>
           <woot-input
             v-model="processedParams.media_url"
             type="url"
-            class="flex-1 text-sm ml-2.5"
+            class="flex-1 ml-2.5 text-sm"
             :placeholder="`Enter ${headerComponent.format.toLowerCase()} URL`"
             :styles="{ marginBottom: 0 }"
           />
         </div>
       </div>
 
-      <!-- Variables Section -->
-      <div v-if="variables">
-        <p class="text-sm font-semibold mb-2.5">
+      <!-- Body Variables Section -->
+      <div v-if="processedParams.body">
+        <p class="mb-2.5 text-sm font-semibold">
           {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
         </p>
         <div
-          v-for="(variable, key) in processedParams"
-          :key="key"
-          class="items-center flex mb-2.5"
+          v-for="(variable, key) in processedParams.body"
+          :key="`body-${key}`"
+          class="flex items-center mb-2.5"
         >
-          <!-- Skip media_url as it's handled above -->
-          <template v-if="key !== 'media_url'">
-            <span
-              class="bg-n-alpha-black2 text-n-slate-12 inline-block rounded-md text-xs py-2.5 px-6"
-            >
-              {{ key }}
-            </span>
-            <woot-input
-              v-model="processedParams[key]"
-              type="text"
-              class="flex-1 text-sm ml-2.5"
-              :styles="{ marginBottom: 0 }"
-            />
-          </template>
+          <span
+            class="inline-block px-6 py-2.5 text-xs rounded-md bg-n-alpha-black2 text-n-slate-12"
+          >
+            {{
+              key === 'otp_code'
+                ? $t('WHATSAPP_TEMPLATES.PARSER.OTP_CODE') || 'OTP Code'
+                : key === 'expiry_minutes'
+                  ? $t('WHATSAPP_TEMPLATES.PARSER.EXPIRY_MINUTES') ||
+                    'Expiry (minutes)'
+                  : key
+            }}
+          </span>
+          <woot-input
+            v-model="processedParams.body[key]"
+            :type="
+              key === 'otp_code'
+                ? 'tel'
+                : key === 'expiry_minutes'
+                  ? 'number'
+                  : 'text'
+            "
+            :maxlength="
+              key === 'otp_code' ? 8 : key === 'expiry_minutes' ? 3 : null
+            "
+            :placeholder="
+              key === 'otp_code'
+                ? 'Enter 4-8 digit OTP'
+                : key === 'expiry_minutes'
+                  ? 'Enter expiry minutes'
+                  : `Enter ${key} value`
+            "
+            class="flex-1 ml-2.5 text-sm"
+            :styles="{ marginBottom: 0 }"
+          />
+        </div>
+      </div>
+
+      <!-- Button Variables Section -->
+      <div v-if="processedParams.buttons">
+        <p class="mb-2.5 text-sm font-semibold">
+          {{
+            $t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETERS') ||
+            'Button Parameters'
+          }}
+        </p>
+        <div
+          v-for="(button, index) in processedParams.buttons"
+          :key="`button-${index}`"
+          class="flex items-center mb-2.5"
+        >
+          <span
+            class="inline-block px-6 py-2.5 text-xs rounded-md bg-n-alpha-black2 text-n-slate-12"
+          >
+            {{
+              button.type === 'copy_code'
+                ? $t('WHATSAPP_TEMPLATES.PARSER.COUPON_CODE') || 'Coupon Code'
+                : $t('WHATSAPP_TEMPLATES.PARSER.BUTTON_LABEL', {
+                    index: index + 1,
+                  }) || `Button ${index + 1}`
+            }}
+          </span>
+          <woot-input
+            v-model="processedParams.buttons[index].parameter"
+            :type="button.type === 'copy_code' ? 'text' : 'text'"
+            :maxlength="button.type === 'copy_code' ? 15 : 500"
+            :placeholder="
+              button.type === 'copy_code'
+                ? 'Enter coupon code (max 15 chars)'
+                : 'Enter button parameter'
+            "
+            class="flex-1 ml-2.5 text-sm"
+            :styles="{ marginBottom: 0 }"
+          />
         </div>
       </div>
       <p
         v-if="v$.$dirty && v$.$invalid"
-        class="bg-n-ruby-9/20 rounded-md text-n-ruby-9 p-2.5 text-center"
+        class="p-2.5 text-center rounded-md bg-n-ruby-9/20 text-n-ruby-9"
       >
         {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
       </p>
     </div>
-    <footer class="flex justify-end gap-2">
+    <footer class="flex gap-2 justify-end">
       <NextButton
         faded
         slate

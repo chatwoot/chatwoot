@@ -76,7 +76,8 @@ class Whatsapp::TemplateProcessorService
     return if template.blank?
 
     # Handle enhanced template parameters structure
-    if template_params['processed_params'].is_a?(Hash) && template_params['processed_params'].key?('body')
+    if template_params['processed_params'].is_a?(Hash) &&
+       (template_params['processed_params'].key?('body') || template_params['processed_params'].key?('buttons'))
       process_enhanced_template_params(template)
     else
       # Check if we have special header types that need processing
@@ -141,6 +142,7 @@ class Whatsapp::TemplateProcessorService
 
   def process_enhanced_template_params(_template)
     processed_params = template_params['processed_params']
+    Rails.logger.info "DEBUG: Raw processed_params from frontend: #{processed_params.inspect}"
     components = []
 
     # Process header parameters first (important for WhatsApp API order)
@@ -192,18 +194,24 @@ class Whatsapp::TemplateProcessorService
     # Process button parameters
     if processed_params['buttons'].present?
       button_params = processed_params['buttons'].filter_map.with_index do |button, index|
-        next if button.blank? || button['parameter'].blank?
+        next if button.blank?
 
-        {
-          type: 'button',
-          sub_type: button['type'] || 'url',
-          index: index,
-          parameters: [build_button_parameter(button)]
-        }
+        # For URL buttons, parameter is required even if blank
+        if button['type'] == 'url' || button['parameter'].present?
+          button_component = {
+            type: 'button',
+            sub_type: button['type'] || 'url',
+            index: index,
+            parameters: [build_button_parameter(button)]
+          }
+          Rails.logger.info "DEBUG: Button component created: #{button_component.inspect}"
+          button_component
+        end
       end
       components.concat(button_params) if button_params.present?
     end
 
+    Rails.logger.info "DEBUG: Final components being sent to WhatsApp API: #{components.inspect}"
     @template_params = components
   end
 
@@ -272,7 +280,8 @@ class Whatsapp::TemplateProcessorService
   end
 
   def build_button_parameter(button)
-    return { type: 'text', text: '' } if button.blank? || button['parameter'].blank?
+    Rails.logger.info "DEBUG: Processing button parameter: #{button.inspect}"
+    return { type: 'text', text: '' } if button.blank?
 
     case button['type']
     when 'copy_code'
@@ -286,7 +295,10 @@ class Whatsapp::TemplateProcessorService
       }
     else
       # For URL buttons and other button types, treat parameter as text
-      { type: 'text', text: button['parameter'].to_s.strip }
+      # If parameter is blank, use empty string (required for URL buttons)
+      param_result = { type: 'text', text: button['parameter'].to_s.strip }
+      Rails.logger.info "DEBUG: Button parameter result: #{param_result.inspect}"
+      param_result
     end
   end
 
