@@ -41,15 +41,14 @@ class Waha::CallbackController < ApplicationController
     when 'receipt'
       Rails.logger.info "📬 Processing WAHA receipt event - message status update"
       process_receipt(phone_number)
-    when 'message_with_content', 'message_without_content'
+    when 'message'
       Rails.logger.info "📝 Processing WAHA regular message event"
       process_regular_message(phone_number)
     when 'initial_scan'
       Rails.logger.info "🎯 Processing WAHA initial scan validation - CRITICAL!"
       process_initial_scan(phone_number)
     else
-      Rails.logger.info "❓ Unknown event type: #{event_type} - processing as regular message"
-      process_regular_message(phone_number)
+      Rails.logger.warn "❓ Received an unhandled event type: #{event_type}. Payload: #{params.except(:controller, :action).inspect}"
     end
 
     Rails.logger.info "=== WAHA WEBHOOK END ==="
@@ -76,42 +75,49 @@ class Waha::CallbackController < ApplicationController
     # Callback #1: Receipt untuk update message status (read/delivered)
     Rails.logger.info "📬 Processing receipt callback for #{phone_number}"
     
-    # ✅ SET CURRENT CALLBACK untuk session status validation
-    channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
-    if channel
-      callback_params = params.except(:phone_number, :controller, :action)
-      channel.current_callback = callback_params
-      
-      # Log current session status dengan callback
-      session_status = channel.session_status
-      Rails.logger.info "📊 Session status with receipt callback: #{session_status}"
+    receipt_data = params[:receipt]
+    return unless receipt_data
+
+    # # Dapatkan ID pesan dari WAHA, ini adalah source_id di database kita
+    # message_source_id = receipt_data[:id]
+    # message = Message.find_by(source_id: message_source_id)
+    # return unless message
+
+    # Dapatkan status baru ('delivered' atau 'read')
+    new_status = receipt_data[:type]
+    # Dapatkan timestamp event
+    timestamp = Time.parse(receipt_data[:timestamp])
+
+    receipt_data[:message_ids].each do |msg_id|
+      message = Message.find_by(source_id: msg_id)
+      next unless message
+
+      # Jalankan job untuk setiap message_id
+      Conversations::UpdateMessageStatusJob.perform_later(message.conversation_id, timestamp, new_status)
+      Rails.logger.info "📬 Receipt for message #{msg_id} enqueued for status update to #{new_status}"
     end
-    
-    # TODO: Implement message status update logic
-    # Update message status berdasarkan receipt callback
-    # Ini tidak memerlukan validasi phone number
-    
-    Rails.logger.info "📬 Receipt processed successfully"
   end
 
   def process_regular_message(phone_number)
     # Callback #2 dan #3: Regular message (ada pushname)  
     Rails.logger.info "📝 Processing regular message for #{phone_number}"
     
-    # ✅ SET CURRENT CALLBACK untuk session status validation
-    channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
-    if channel
-      callback_params = params.except(:phone_number, :controller, :action)
-      channel.current_callback = callback_params
-      
-      # Log current session status dengan callback
-      session_status = channel.session_status
-      Rails.logger.info "📊 Session status with message callback: #{session_status}"
-    end
-    
-    # TODO: Implement regular message processing logic
-    # Process message content, create conversation, etc.
-    # Ini tidak memerlukan validasi phone number
+    return if params[:isFromMe] == true
+
+    service_params = {
+      # 'receiver' adalah nomor WAHA Anda, yang didapat dari URL
+      receiver: phone_number,
+      # 'sender' adalah nomor pelanggan, diekstrak dari field 'from'
+      sender: Channel::WhatsappUnofficial.extract_phone_number(params[:from]), #
+      # 'sender_name' adalah nama kontak di WhatsApp
+      sender_name: params[:pushname],
+      # 'message' adalah isi pesan
+      message: extract_message_content(params), #
+      # 'message_id' adalah ID unik dari WAHA yang akan menjadi source_id
+      message_id: params.dig(:message, :id) || params[:id]
+    }
+
+    Waha::IncomingMessageService.new(params: service_params).perform
     
     Rails.logger.info "📝 Regular message processed successfully"
   end
@@ -473,6 +479,6 @@ class Waha::CallbackController < ApplicationController
   end
 
   def extract_message_content(payload)
-    payload[:body] || payload[:caption] || ''
+    payload.dig(:message, :text) || payload[:body] || payload[:caption] || ''
   end
 end

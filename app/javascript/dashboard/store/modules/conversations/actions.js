@@ -336,6 +336,9 @@ const actions = {
     const hasAppliedFilters = !!appliedFilters.length;
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
+
+      console.log(`Matching inbox filter? ${isMatchingInboxFilter} (Current: ${currentInbox}, New: ${inboxId})`);
+
     if (
       !hasAppliedFilters &&
       !isOnFoldersView(rootState) &&

@@ -129,53 +129,6 @@ class Waha::WahaService
     JSON.parse(response.body)
   end
 
-  private
-
-  def token_valid?
-    @access_token.present? && @token_expires_at.present? && Time.current < @token_expires_at
-  end
-
-  def auth_headers
-    {
-      'Content-Type' => 'application/json',
-      'Accept' => 'application/json',
-      'Authorization' => "Bearer #{@access_token}"
-    }
-  end
-
-  def webhook_url_for(phone_number)
-    Rails.application.routes.url_helpers.url_for(
-      controller: 'waha/callback',
-      action: 'receive',
-      phone_number: phone_number,
-      host: current_application_url,
-      only_path: false
-    )
-  end
-
-  def current_application_url
-    # Priority: FRONTEND_URL env var, then fallback
-    ENV.fetch('FRONTEND_URL', detect_current_url || 'http://localhost:3000')
-  end
-
-  def detect_current_url
-    # Try to get URL from current request context if available
-    return nil unless defined?(Current) && Current.respond_to?(:request)
-    
-    request = Current.request
-    return nil unless request.respond_to?(:base_url)
-    
-    request.base_url
-  rescue StandardError
-    nil
-  end
-
-  def waha_configured?
-    ENV.fetch('WAHA_API_URL', nil).present? &&
-      ENV.fetch('WAHA_USERNAME', nil).present? &&
-      ENV.fetch('WAHA_PASSWORD', nil).present?
-  end
-
   def send_text(api_key:, phone_number:, message:)
     response = HTTParty.post(
       "#{API_BASE}/whatsapp/session/send/text",
@@ -219,10 +172,66 @@ class Waha::WahaService
     handle_response(response, "send image")
   end
 
+  private
+
+  def handle_response(response, action_name)
+    if response.success?
+      return response.parsed_response
+    end
+    # Jika gagal, lemparkan error dengan pesan yang jelas
+    raise "Failed to #{action_name}: #{response.body}"
+  end
+
+  def token_valid?
+    @access_token.present? && @token_expires_at.present? && Time.current < @token_expires_at
+  end
+
+  def webhook_url_for(phone_number)
+    Rails.application.routes.url_helpers.url_for(
+      controller: 'waha/callback',
+      action: 'receive',
+      phone_number: phone_number,
+      host: current_application_url,
+      only_path: false
+    )
+  end
+
+  def auth_headers
+    {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json',
+      'Authorization' => "Bearer #{@access_token}"
+    }
+  end
+
+  def current_application_url
+    # Priority: FRONTEND_URL env var, then fallback
+    ENV.fetch('FRONTEND_URL', detect_current_url || 'http://localhost:3000')
+  end
+
+  def detect_current_url
+    # Try to get URL from current request context if available
+    return nil unless defined?(Current) && Current.respond_to?(:request)
+    
+    request = Current.request
+    return nil unless request.respond_to?(:base_url)
+    
+    request.base_url
+  rescue StandardError
+    nil
+  end
+
+  def waha_configured?
+    ENV.fetch('WAHA_API_URL', nil).present? &&
+      ENV.fetch('WAHA_USERNAME', nil).present? &&
+      ENV.fetch('WAHA_PASSWORD', nil).present?
+  end
+
   def session_headers(api_key)
     {
       'Content-Type' => 'application/json',
       'Accept' => 'application/json',
       'X-API-Key' => api_key
     }
+  end
 end

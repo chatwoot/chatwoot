@@ -8,6 +8,9 @@ class Waha::IncomingMessageService
       set_contact
       set_conversation
       create_message
+    rescue ActiveRecord::RecordInvalid => e
+      Rails.logger.error "WAHA VALIDATION FAILED: #{e.record.errors.full_messages.to_sentence}"
+      Rails.logger.error e.backtrace.join("\n")
     rescue StandardError => e
       Rails.logger.error "WAHA IncomingMessageService error: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
@@ -25,12 +28,16 @@ class Waha::IncomingMessageService
   end
 
   def set_contact
+    sender_phone = params[:sender].to_s
+    cleaned_source_id = sender_phone.split(':').first.split('@').first
+    formatted_phone_number = cleaned_source_id.start_with?('+') ? cleaned_source_id : "+#{cleaned_source_id}"
+
     contact_inbox = ContactInboxWithContactBuilder.new(
-      source_id: params[:sender],
+      source_id: cleaned_source_id,
       inbox: inbox,
-      contact_attributes: { 
-        name: params[:sender_name], 
-        phone_number: params[:sender] 
+      contact_attributes: {
+        name: params[:sender_name],
+        phone_number: formatted_phone_number
       }
     ).perform
 

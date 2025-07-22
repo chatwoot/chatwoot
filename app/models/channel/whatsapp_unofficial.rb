@@ -364,7 +364,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       Rails.logger.info '📬 Receipt callback - updating message status only'
       return { type: 'receipt', action: 'update_message_status' }
       
-    when 'message_with_content', 'message_without_content'
+    when 'message'
       # Callback #2 dan #3: Regular messages (ada pushname)
       Rails.logger.info '� Regular message callback - no phone validation needed'
       return { type: 'regular_message', action: 'process_normally' }
@@ -536,47 +536,22 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   # Method untuk determine event type dari callback payload WAHA yang sebenarnya
   def self.determine_event_type(params)
-    Rails.logger.info "🔍 Determining event type from callback: #{params.keys}"
-    
-    # 1. Receipt events - explicit event parameter
-    if params[:event] == 'receipt' && params.key?(:receipt)
+    if params[:event] == 'receipt'
       Rails.logger.info "📬 Detected RECEIPT callback"
       return 'receipt'
     end
-    
-    # 2-4. Message-based events - semua punya from, isFromMe, message
+
     if params.key?(:from) && params.key?(:isFromMe) && params.key?(:message)
+
+      if params[:pushname].present?
+        Rails.logger.info "📝 Detected a REGULAR MESSAGE (incoming, outgoing, with reply, etc.)"
+        return 'message'
       
-      # Callback #4: Initial Scan (TIDAK ada pushname!)
-      if params[:isFromMe] == true && params[:pushname].blank?
-        Rails.logger.info "🎯 Detected INITIAL SCAN callback (no pushname)"
-        Rails.logger.info "  - From: #{params[:from]}"
-        Rails.logger.info "  - Message ID: #{params.dig(:message, :id)}"
+      elsif params[:isFromMe] == true && params[:pushname].blank?
+        Rails.logger.info "🎯 Detected INITIAL SCAN callback"
         return 'initial_scan'
-      
-      # Callback #2: Message dengan text content + pushname
-      elsif params[:isFromMe] == true && params[:pushname].present? && params.dig(:message, :text).present?
-        Rails.logger.info "📝 Detected MESSAGE WITH CONTENT callback"
-        Rails.logger.info "  - From: #{params[:from]}"
-        Rails.logger.info "  - Pushname: #{params[:pushname]}"
-        Rails.logger.info "  - Text: #{params.dig(:message, :text)}"
-        return 'message_with_content'
-        
-      # Callback #3: Message tanpa content tapi ada pushname
-      elsif params[:isFromMe] == true && params[:pushname].present? && params.dig(:message, :text).blank?
-        Rails.logger.info "📨 Detected MESSAGE WITHOUT CONTENT callback"
-        Rails.logger.info "  - From: #{params[:from]}"
-        Rails.logger.info "  - Pushname: #{params[:pushname]}"
-        Rails.logger.info "  - Message ID only: #{params.dig(:message, :id)}"
-        return 'message_without_content'
-        
-      else
-        Rails.logger.info "❓ Unknown message-type callback"
-        return 'unknown_message'
       end
     end
-    
-    # Default fallback for any other structure
     Rails.logger.info "❓ Unknown callback structure"
     'unknown'
   end
