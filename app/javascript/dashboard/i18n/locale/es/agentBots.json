@@ -7,42 +7,33 @@
     "GLOBAL_BOT": "Bot del sistema",
     "GLOBAL_BOT_BADGE": "Sistema",
     "AVATAR": {
-      "SUCCESS_DELETE": "Avatar del bot eliminado correctamente",
-      "ERROR_DELETE": "Error al borrar el bot, por favor intentar más tarde"
-=======
-    "DESCRIPTION": "Los AI Bots son los miembros más fabulosos de tu equipo. Pueden manejar las tareas repetitivas, para que puedas enfocarte en lo que realmente importa.",
-    "LEARN_MORE": "Aprende sobre AI Bots",
-    "GLOBAL_BOT": "System bot",
-    "GLOBAL_BOT_BADGE": "Sistema",
-    "AVATAR": {
-      "SUCCESS_DELETE": "Avatar del bot eliminado correctamente",
-      "ERROR_DELETE": "Error al eliminar el avatar del bot, por favor inténtalo de nuevo"
->>>>>>> c54589e160 (Spanish agent bot locales)
+      "SUCCESS_DELETE": "Avatar del AI Bot eliminado correctamente",
+      "ERROR_DELETE": "Error al eliminar el avatar del AI Bot, por favor inténtalo de nuevo"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Seleccione un AI Bot",
       "DESC": "Asigne un AI Bot a su bandeja de entrada. Pueden manejar conversaciones iniciales y transferirlas a un miembro en vivo cuando sea necesario.",
       "SUBMIT": "Actualizar",
-      "DISCONNECT": "Desconectar Bot",
+      "DISCONNECT": "Desconectar AI Bot",
       "SUCCESS_MESSAGE": "El AI Bot se ha actualizado con éxito.",
       "DISCONNECTED_SUCCESS_MESSAGE": "Desconectado correctamente el AI Bot.",
       "ERROR_MESSAGE": "No se pudo actualizar el AI Bot, por favor inténtalo de nuevo más tarde.",
       "DISCONNECTED_ERROR_MESSAGE": "No se pudo desconectar el AI Bot, por favor inténtalo de nuevo más tarde.",
-      "SELECT_PLACEHOLDER": "Seleccionar bot"
+      "SELECT_PLACEHOLDER": "Seleccionar AI Bot"
     },
     "ADD": {
       "TITLE": "Añadir AI Bot",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "AI Bot añadido correctamente.",
-        "ERROR_MESSAGE": "No se pudo agregar el bot, Inténtalo de nuevo más tarde."
+        "ERROR_MESSAGE": "No se pudo agregar el AI Bot, Inténtalo de nuevo más tarde."
       }
     },
     "LIST": {
-      "404": "No se encontraron bots. Puedes crear un bot haciendo clic en el botón 'Añadir Bot'.",
-      "LOADING": "Obteniendo bots...",
+      "404": "No se encontraron AI Bots. Puedes crear un AI Bot haciendo clic en el botón 'Añadir AI Bot'.",
+      "LOADING": "Obteniendo AI Bots...",
       "TABLE_HEADER": {
-        "DETAILS": "Detalles del Bot",
+        "DETAILS": "Detalles del AI Bot",
         "URL": "URL de Webhook"
       }
     },
@@ -90,17 +81,16 @@
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Avatar del bot"
+        "LABEL": "Avatar del AI Bot"
       },
       "NAME": {
-        "LABEL": "Nombre del bot",
-        "PLACEHOLDER": "Ingresa el nombre del bot",
->>>>>>> c54589e160 (Spanish agent bot locales)
-        "REQUIRED": "El nombre del bot es obligatorio"
+        "LABEL": "Nombre del AI Bot",
+        "PLACEHOLDER": "Ingresa el nombre del AI Bot",
+        "REQUIRED": "El nombre del AI Bot es obligatorio"
       },
       "DESCRIPTION": {
         "LABEL": "Descripción",
-        "PLACEHOLDER": "¿Qué hace este bot?"
+        "PLACEHOLDER": "¿Qué hace este AI Bot?"
       },
       "WEBHOOK_URL": {
         "LABEL": "URL de Webhook",
@@ -122,7 +112,7 @@
         "REQUIRED": "La URL del webhook es obligatoria"
       },
       "ERRORS": {
-        "NAME": "El nombre del bot es obligatorio",
+        "NAME": "El nombre del AI Bot es obligatorio",
         "URL": "La URL del webhook es obligatoria",
         "VALID_URL": "Por favor, ingresa una URL válida que comience con http:// o https://"
       },
@@ -131,11 +121,10 @@
       "UPDATE": "Actualizar AI Bot"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configura un bot webhook para integrar con tus servicios personalizados. El bot recibirá y procesará eventos de las conversaciones y puede responder a ellos."
->>>>>>> c54589e160 (Spanish agent bot locales)
+      "DESCRIPTION": "Configura un webhook de AI Bot para integrar con tus servicios personalizados. El AI Bot recibirá y procesará eventos de las conversaciones y puede responder a ellos."
     },
     "TYPES": {
-      "WEBHOOK": "Bot Webhook"
+      "WEBHOOK": "Webhook de AI Bot"
     }
   }
 }
