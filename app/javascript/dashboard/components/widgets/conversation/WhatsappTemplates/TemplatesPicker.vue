@@ -47,7 +47,7 @@ export default {
     },
   },
   methods: {
-    getTemplatebody(template) {
+    getTemplateBody(template) {
       return (
         template.components.find(component => component.type === 'BODY')
           ?.text || ''
@@ -73,20 +73,6 @@ export default {
           header.format === 'DOCUMENT')
       );
     },
-    debugTemplate(template) {
-      // Debug helper method - can be used in dev tools console
-      return {
-        name: template.name,
-        status: template.status,
-        hasHeader: !!this.getTemplateHeader(template),
-        headerFormat: this.getTemplateHeader(template)?.format,
-        hasMediaContent: this.hasMediaContent(template),
-        components: template.components.map(c => ({
-          type: c.type,
-          format: c.format,
-        })),
-      };
-    },
   },
 };
 </script>
@@ -94,7 +80,7 @@ export default {
 <template>
   <div class="w-full">
     <div
-      class="gap-1 bg-n-alpha-black2 items-center flex mb-2.5 py-0 px-2.5 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 focus-within:outline-n-brand dark:focus-within:outline-n-brand"
+      class="flex gap-1 items-center px-2.5 py-0 mb-2.5 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 focus-within:outline-n-brand dark:focus-within:outline-n-brand"
     >
       <fluent-icon icon="search" class="text-n-slate-12" size="16" />
       <input
@@ -109,16 +95,16 @@ export default {
     >
       <div v-for="(template, i) in filteredTemplateMessages" :key="template.id">
         <button
-          class="rounded-lg cursor-pointer block p-2.5 text-left w-full hover:bg-n-alpha-2 dark:hover:bg-n-solid-2"
+          class="block p-2.5 w-full text-left rounded-lg cursor-pointer hover:bg-n-alpha-2 dark:hover:bg-n-solid-2"
           @click="$emit('onSelect', template)"
         >
           <div>
-            <div class="flex items-center justify-between mb-2.5">
+            <div class="flex justify-between items-center mb-2.5">
               <p class="text-sm">
                 {{ template.name }}
               </p>
               <span
-                class="inline-block px-2 py-1 text-xs leading-none bg-n-slate-3 rounded-lg cursor-default text-n-slate-12"
+                class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
               >
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
                 {{ template.language }}
@@ -126,18 +112,18 @@ export default {
             </div>
             <!-- Header -->
             <div v-if="getTemplateHeader(template)" class="mb-3">
-              <p class="font-medium text-xs text-n-slate-11">
+              <p class="text-xs font-medium text-n-slate-11">
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.HEADER') || 'HEADER' }}
               </p>
               <div
                 v-if="getTemplateHeader(template).format === 'TEXT'"
-                class="label-body text-sm"
+                class="text-sm label-body"
               >
                 {{ getTemplateHeader(template).text }}
               </div>
               <div
                 v-else-if="hasMediaContent(template)"
-                class="text-sm text-n-slate-11 italic"
+                class="text-sm italic text-n-slate-11"
               >
                 {{
                   $t('WHATSAPP_TEMPLATES.PICKER.MEDIA_CONTENT', {
@@ -149,32 +135,32 @@ export default {
 
             <!-- Body -->
             <div>
-              <p class="font-medium text-xs text-n-slate-11">
+              <p class="text-xs font-medium text-n-slate-11">
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.BODY') || 'BODY' }}
               </p>
-              <p class="label-body text-sm">{{ getTemplatebody(template) }}</p>
+              <p class="text-sm label-body">{{ getTemplateBody(template) }}</p>
             </div>
 
             <!-- Footer -->
             <div v-if="getTemplateFooter(template)" class="mt-3">
-              <p class="font-medium text-xs text-n-slate-11">
+              <p class="text-xs font-medium text-n-slate-11">
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.FOOTER') || 'FOOTER' }}
               </p>
-              <p class="label-body text-sm">
+              <p class="text-sm label-body">
                 {{ getTemplateFooter(template).text }}
               </p>
             </div>
 
             <!-- Buttons -->
             <div v-if="getTemplateButtons(template)" class="mt-3">
-              <p class="font-medium text-xs text-n-slate-11">
+              <p class="text-xs font-medium text-n-slate-11">
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.BUTTONS') || 'BUTTONS' }}
               </p>
               <div class="flex flex-wrap gap-1 mt-1">
                 <span
                   v-for="button in getTemplateButtons(template).buttons"
                   :key="button.text"
-                  class="px-2 py-1 text-xs bg-n-slate-3 rounded text-n-slate-12"
+                  class="px-2 py-1 text-xs rounded bg-n-slate-3 text-n-slate-12"
                 >
                   {{ button.text }}
                 </span>
@@ -182,7 +168,7 @@ export default {
             </div>
 
             <div class="mt-3">
-              <p class="font-medium text-xs text-n-slate-11">
+              <p class="text-xs font-medium text-n-slate-11">
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.CATEGORY') || 'CATEGORY' }}
               </p>
               <p class="text-sm">{{ template.category }}</p>

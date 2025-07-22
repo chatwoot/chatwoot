@@ -54,15 +54,17 @@ const buttonComponents = computed(() => {
 });
 
 const interactiveComponents = computed(() => {
-  return templateComponents.value.filter(
-    component => ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type)
+  return templateComponents.value.filter(component =>
+    ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type)
   );
 });
 
 const isInteractiveTemplate = computed(() => {
   const hasInteractiveButtons = buttonComponents.value.some(component =>
     component.buttons?.some(button =>
-      ['quick_reply', 'url', 'phone_number', 'catalog_browse'].includes(button.type)
+      ['quick_reply', 'url', 'phone_number', 'catalog_browse'].includes(
+        button.type
+      )
     )
   );
   return hasInteractiveButtons || interactiveComponents.value.length > 0;
@@ -105,13 +107,16 @@ const processedStringWithVariableHighlight = computed(() => {
 const rules = computed(() => {
   const paramRules = {};
   Object.keys(processedParams.value).forEach(key => {
-    if (key === 'header' && processedParams.value.header.location_type === 'location') {
+    if (
+      key === 'header' &&
+      processedParams.value.header.location_type === 'location'
+    ) {
       // Add specific validation for location parameters
       paramRules[key] = {
         location: {
           latitude: { required: requiredIf(true) },
-          longitude: { required: requiredIf(true) }
-        }
+          longitude: { required: requiredIf(true) },
+        },
       };
     } else {
       paramRules[key] = { required: requiredIf(true) };
@@ -131,10 +136,6 @@ const getFieldErrorType = key => {
 
 const generateVariables = () => {
   const allVariables = {};
-  
-  // Debug: Log template structure
-  console.log('Template components:', templateComponents.value);
-  console.log('Header component:', headerComponent.value);
 
   // Process body variables
   const bodyVars = templateString.value.match(/{{([^}]+)}}/g) || [];
@@ -191,7 +192,6 @@ const generateVariables = () => {
       headerComponent.value.format === 'LOCATION'
     ) {
       // Location headers need location data
-      console.log('Detected LOCATION header template:', headerComponent.value);
       allVariables.header = {
         location: {
           latitude: '',
@@ -262,19 +262,19 @@ const generateVariables = () => {
       allVariables.interactive = {
         type: 'list',
         button_text: 'Select Option',
-        sections: component.sections || []
+        sections: component.sections || [],
       };
     } else if (component.type === 'PRODUCT') {
       allVariables.interactive = {
         type: 'product',
         catalog_id: component.catalog_id || '',
-        product_id: component.product_id || ''
+        product_id: component.product_id || '',
       };
     } else if (component.type === 'CATALOG') {
       allVariables.interactive = {
         type: 'catalog',
         catalog_id: component.catalog_id || '',
-        title: component.title || 'Browse Products'
+        title: component.title || 'Browse Products',
       };
     }
   });
@@ -450,7 +450,7 @@ onMounted(() => {
 
     <!-- Header Variables -->
     <div v-if="processedParams.header" class="w-full">
-      <h4 class="text-sm font-medium text-n-slate-12 mb-2">
+      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
         {{
           t('WHATSAPP_TEMPLATES.PARSER.HEADER_PARAMETERS') ||
           'Header Parameters'
@@ -459,18 +459,22 @@ onMounted(() => {
       <!-- Location Parameters -->
       <div
         v-if="processedParams.header.location_type === 'location'"
-        class="w-full space-y-3 mb-4 p-3 bg-n-solid-1 rounded-lg border border-n-weak"
+        class="p-3 mb-4 space-y-3 w-full rounded-lg border bg-n-solid-1 border-n-weak"
       >
-        <div class="flex items-center gap-2 mb-2">
-          <div class="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+        <div class="flex gap-2 items-center mb-2">
+          <div
+            class="flex justify-center items-center w-4 h-4 bg-blue-500 rounded-full"
+          >
             <div class="w-2 h-2 bg-white rounded-full"></div>
           </div>
-          <span class="text-sm font-medium text-n-slate-12">Location Details</span>
+          <span class="text-sm font-medium text-n-slate-12"
+            >Location Details</span
+          >
         </div>
-        
+
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="text-xs font-medium text-n-slate-10 mb-1 block">
+            <label class="block mb-1 text-xs font-medium text-n-slate-10">
               📍 Latitude <span class="text-red-500">*</span>
             </label>
             <Input
@@ -485,7 +489,7 @@ onMounted(() => {
             <span class="text-xs text-n-slate-9">Range: -90.0 to 90.0</span>
           </div>
           <div>
-            <label class="text-xs font-medium text-n-slate-10 mb-1 block">
+            <label class="block mb-1 text-xs font-medium text-n-slate-10">
               📍 Longitude <span class="text-red-500">*</span>
             </label>
             <Input
@@ -500,9 +504,9 @@ onMounted(() => {
             <span class="text-xs text-n-slate-9">Range: -180.0 to 180.0</span>
           </div>
         </div>
-        
+
         <div>
-          <label class="text-xs font-medium text-n-slate-10 mb-1 block">
+          <label class="block mb-1 text-xs font-medium text-n-slate-10">
             🏢 Location Name
           </label>
           <Input
@@ -513,9 +517,9 @@ onMounted(() => {
             :message-type="getFieldErrorType('header.location.name')"
           />
         </div>
-        
+
         <div>
-          <label class="text-xs font-medium text-n-slate-10 mb-1 block">
+          <label class="block mb-1 text-xs font-medium text-n-slate-10">
             📮 Full Address
           </label>
           <Input
@@ -526,43 +530,44 @@ onMounted(() => {
             :message-type="getFieldErrorType('header.location.address')"
           />
         </div>
-        
-        <div class="text-xs text-n-slate-9 bg-blue-50 p-2 rounded border-l-4 border-blue-400">
-          💡 <strong>Tip:</strong> You can get coordinates by searching your location on Google Maps, 
-          right-clicking the pin, and copying the latitude/longitude values.
+
+        <div
+          class="p-2 text-xs bg-blue-50 rounded border-l-4 border-blue-400 text-n-slate-9"
+        >
+          💡 <strong>Tip:</strong> You can get coordinates by searching your
+          location on Google Maps, right-clicking the pin, and copying the
+          latitude/longitude values.
         </div>
       </div>
 
       <!-- Regular Header Parameters -->
-      <div
-        v-if="processedParams.header.location_type !== 'location'"
-      >
+      <div v-if="processedParams.header.location_type !== 'location'">
         <div
           v-for="(variable, key) in processedParams.header"
           v-if="!['location', 'location_type'].includes(key)"
           :key="`header-${key}`"
-          class="flex items-center w-full gap-2 mb-2"
+          class="flex gap-2 items-center mb-2 w-full"
         >
-        <span
-          class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
-        >
-          {{ getHeaderFieldLabel(key) }}
-        </span>
-        <Input
-          v-model="processedParams.header[key]"
-          custom-input-class="!h-8 w-full !bg-transparent"
-          class="w-full"
-          :message-type="getFieldErrorType(`header.${key}`)"
-          :placeholder="getHeaderFieldPlaceholder(key)"
-          :type="key === 'media_url' ? 'url' : 'text'"
-        />
+          <span
+            class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
+          >
+            {{ getHeaderFieldLabel(key) }}
+          </span>
+          <Input
+            v-model="processedParams.header[key]"
+            custom-input-class="!h-8 w-full !bg-transparent"
+            class="w-full"
+            :message-type="getFieldErrorType(`header.${key}`)"
+            :placeholder="getHeaderFieldPlaceholder(key)"
+            :type="key === 'media_url' ? 'url' : 'text'"
+          />
         </div>
       </div>
     </div>
 
     <!-- Body Variables -->
     <div v-if="processedParams.body" class="w-full">
-      <h4 class="text-sm font-medium text-n-slate-12 mb-2">
+      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
         {{
           t('WHATSAPP_TEMPLATES.PARSER.BODY_PARAMETERS') || 'Body Parameters'
         }}
@@ -570,7 +575,7 @@ onMounted(() => {
       <div
         v-for="(variable, key) in processedParams.body"
         :key="`body-${key}`"
-        class="flex items-center w-full gap-2 mb-2"
+        class="flex gap-2 items-center mb-2 w-full"
       >
         <span
           class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
@@ -591,7 +596,7 @@ onMounted(() => {
 
     <!-- Footer Variables -->
     <div v-if="processedParams.footer" class="w-full">
-      <h4 class="text-sm font-medium text-n-slate-12 mb-2">
+      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
         {{
           t('WHATSAPP_TEMPLATES.PARSER.FOOTER_PARAMETERS') ||
           'Footer Parameters'
@@ -600,7 +605,7 @@ onMounted(() => {
       <div
         v-for="(variable, key) in processedParams.footer"
         :key="`footer-${key}`"
-        class="flex items-center w-full gap-2 mb-2"
+        class="flex gap-2 items-center mb-2 w-full"
       >
         <span
           class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
@@ -618,17 +623,22 @@ onMounted(() => {
 
     <!-- Interactive Components -->
     <div v-if="processedParams.interactive" class="w-full">
-      <h4 class="text-sm font-medium text-n-slate-12 mb-2">
+      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
         {{
           t('WHATSAPP_TEMPLATES.PARSER.INTERACTIVE_PARAMETERS') ||
           'Interactive Parameters'
         }}
       </h4>
-      
+
       <!-- Product Template -->
-      <div v-if="processedParams.interactive.type === 'product'" class="space-y-2 mb-4">
+      <div
+        v-if="processedParams.interactive.type === 'product'"
+        class="mb-4 space-y-2"
+      >
         <div>
-          <label class="text-xs font-medium text-n-slate-10 mb-1 block">Catalog ID</label>
+          <label class="block mb-1 text-xs font-medium text-n-slate-10"
+            >Catalog ID</label
+          >
           <Input
             v-model="processedParams.interactive.catalog_id"
             custom-input-class="!h-8 w-full !bg-transparent"
@@ -638,7 +648,9 @@ onMounted(() => {
           />
         </div>
         <div>
-          <label class="text-xs font-medium text-n-slate-10 mb-1 block">Product ID</label>
+          <label class="block mb-1 text-xs font-medium text-n-slate-10"
+            >Product ID</label
+          >
           <Input
             v-model="processedParams.interactive.product_id"
             custom-input-class="!h-8 w-full !bg-transparent"
@@ -650,9 +662,14 @@ onMounted(() => {
       </div>
 
       <!-- Catalog Template -->
-      <div v-else-if="processedParams.interactive.type === 'catalog'" class="space-y-2 mb-4">
+      <div
+        v-else-if="processedParams.interactive.type === 'catalog'"
+        class="mb-4 space-y-2"
+      >
         <div>
-          <label class="text-xs font-medium text-n-slate-10 mb-1 block">Catalog ID</label>
+          <label class="block mb-1 text-xs font-medium text-n-slate-10"
+            >Catalog ID</label
+          >
           <Input
             v-model="processedParams.interactive.catalog_id"
             custom-input-class="!h-8 w-full !bg-transparent"
@@ -662,7 +679,9 @@ onMounted(() => {
           />
         </div>
         <div>
-          <label class="text-xs font-medium text-n-slate-10 mb-1 block">Browse Title</label>
+          <label class="block mb-1 text-xs font-medium text-n-slate-10"
+            >Browse Title</label
+          >
           <Input
             v-model="processedParams.interactive.title"
             custom-input-class="!h-8 w-full !bg-transparent"
@@ -674,9 +693,14 @@ onMounted(() => {
       </div>
 
       <!-- List Template -->
-      <div v-else-if="processedParams.interactive.type === 'list'" class="space-y-2 mb-4">
+      <div
+        v-else-if="processedParams.interactive.type === 'list'"
+        class="mb-4 space-y-2"
+      >
         <div>
-          <label class="text-xs font-medium text-n-slate-10 mb-1 block">Button Text</label>
+          <label class="block mb-1 text-xs font-medium text-n-slate-10"
+            >Button Text</label
+          >
           <Input
             v-model="processedParams.interactive.button_text"
             custom-input-class="!h-8 w-full !bg-transparent"
@@ -686,14 +710,15 @@ onMounted(() => {
           />
         </div>
         <div class="text-xs text-n-slate-10">
-          List sections are configured in the template and cannot be modified here.
+          List sections are configured in the template and cannot be modified
+          here.
         </div>
       </div>
     </div>
 
     <!-- Button Variables -->
     <div v-if="processedParams.buttons" class="w-full">
-      <h4 class="text-sm font-medium text-n-slate-12 mb-2">
+      <h4 class="mb-2 text-sm font-medium text-n-slate-12">
         {{
           t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETERS') ||
           'Button Parameters'
@@ -702,7 +727,7 @@ onMounted(() => {
       <div
         v-for="(button, index) in processedParams.buttons"
         :key="`button-${index}`"
-        class="flex items-center w-full gap-2 mb-2"
+        class="flex gap-2 items-center mb-2 w-full"
       >
         <span
           class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
@@ -733,7 +758,7 @@ onMounted(() => {
     <div
       v-for="(variable, key) in legacyParams"
       :key="key"
-      class="flex items-center w-full gap-2"
+      class="flex gap-2 items-center w-full"
     >
       <span
         class="flex items-center h-8 text-sm min-w-6 ltr:text-left rtl:text-right text-n-slate-10"
@@ -748,7 +773,7 @@ onMounted(() => {
       />
     </div>
 
-    <div class="flex items-end justify-between w-full gap-3 h-14">
+    <div class="flex gap-3 justify-between items-end w-full h-14">
       <Button
         :label="
           t(

@@ -8,6 +8,12 @@
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Search Templates",
             "NO_TEMPLATES_FOUND": "No templates found for",
+            "HEADER": "Header",
+            "BODY": "Body",
+            "FOOTER": "Footer",
+            "BUTTONS": "Buttons",
+            "CATEGORY": "Category",
+            "MEDIA_CONTENT": "Media Content",
             "LABELS": {
                 "LANGUAGE": "Language",
                 "TEMPLATE_BODY": "Template Body",
