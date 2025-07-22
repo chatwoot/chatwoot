@@ -319,3 +319,16 @@
   value: 'v22.0'
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
+
+# ------- Follow Up Job Config ------- #
+- name: FOLLOW_UP_FIRST_DELAY_HOURS
+  display_title: 'Follow Up First Delay Hours'
+  value: 1
+  description: 'The delay in hours before the first follow-up message is sent'
+  locked: false
+- name: FOLLOW_UP_SECOND_DELAY_HOURS
+  display_title: 'Follow Up Second Delay Hours'
+  value: 22
+  description: 'The delay in hours before the second follow-up message is sent'
+  locked: false
+# ------- End of Follow Up Job Config ------- #
