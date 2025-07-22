@@ -52,9 +52,9 @@ const handleBreadcrumbClick = item => {
 
 <template>
   <section
-    class="my-4 px-10 flex flex-col w-full h-screen overflow-y-auto bg-n-background"
+    class="mt-4 px-10 flex flex-col w-full h-screen overflow-y-auto bg-n-background"
   >
-    <div class="max-w-[60rem] mx-auto flex flex-col w-full h-full">
+    <div class="max-w-[60rem] mx-auto flex flex-col w-full h-full mb-4">
       <header class="mb-7 sticky top-0 z-10 bg-n-background">
         <Breadcrumb :items="breadcrumbItems" @click="handleBreadcrumbClick" />
       </header>

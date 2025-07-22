@@ -56,7 +56,11 @@ Rails.application.routes.draw do
               member do
                 post :playground
               end
+              collection do
+                get :tools
+              end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
+              resources :scenarios
             end
             resources :assistant_responses
             resources :bulk_actions, only: [:create]
@@ -229,6 +233,10 @@ Rails.application.routes.draw do
           end
 
           namespace :notion do
+            resource :authorization, only: [:create]
+          end
+
+          namespace :whatsapp do
             resource :authorization, only: [:create]
           end
 
