@@ -178,7 +178,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def set_include_contact_inboxes
-    @include_contact_inboxes = params[:include_contact_inboxes] == 'true'
+    @include_contact_inboxes = if params[:include_contact_inboxes].present?
+                                 params[:include_contact_inboxes] == 'true'
+                               else
+                                 true
+                               end
   end
 
   def fetch_contact
