@@ -17,9 +17,9 @@ fi
 
 # Global variables
 # option --output/-o requires 1 argument
-LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,webserver,version,web-only,worker-only,convert:
-OPTIONS=cdhiI:l:rsuwvWK
-CWCTL_VERSION="3.2.0"
+LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,webserver,version,web-only,worker-only,convert:
+OPTIONS=cdhiI:l:rsuU:wvWK
+CWCTL_VERSION="3.3.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -42,7 +42,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-c=n d=n h=n i=n I=n l=n r=n s=n u=n w=n v=n W=n K=n C=n BRANCH=master SERVICE=web DEPLOYMENT_TYPE=full CONVERT_TO=""
+c=n d=n h=n i=n I=n l=n r=n s=n u=n U=n w=n v=n W=n K=n C=n BRANCH=master SERVICE=web DEPLOYMENT_TYPE=full CONVERT_TO=""
 # Iterate options in order and nicely split until we see --
 while true; do
     case "$1" in
@@ -83,6 +83,12 @@ while true; do
             ;;
         -u|--upgrade)
             u=y
+            BRANCH="master"
+            break
+            ;;
+        -U|--Upgrade)
+            U=y
+            BRANCH="$2"
             break
             ;;
         -w|--webserver)
@@ -137,7 +143,7 @@ done
 # log if debug flag set
 if [ "$d" == "y" ]; then
   echo "console: $c, debug: $d, help: $h, install: $i, Install: $I, BRANCH: $BRANCH, \
-  logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, webserver: $w, web-only: $W, worker-only: $K, convert: $C, convert-to: $CONVERT_TO, deployment-type: $DEPLOYMENT_TYPE"
+  logs: $l, SERVICE: $SERVICE, ssl: $s, upgrade: $u, Upgrade: $U, webserver: $w, web-only: $W, worker-only: $K, convert: $C, convert-to: $CONVERT_TO, deployment-type: $DEPLOYMENT_TYPE"
 fi
 
 # exit if script is not run as root
@@ -728,15 +734,17 @@ Example: cwctl -i --worker-only  (for worker ASG)
 Example: cwctl --convert web     (convert existing to web-only)
 Example: cwctl --convert worker  (convert existing to worker-only)
 Example: cwctl --convert full    (convert back to full deployment)
+Example: cwctl --upgrade         (upgrade to latest master)
+Example: cwctl -U develop        (upgrade to develop branch)
 Example: cwctl -l web
 Example: cwctl --logs worker
-Example: cwctl --upgrade
 Example: cwctl -c
 
 Installation/Upgrade:
   -i, --install             Install the latest stable version of Chatwoot
-  -I                        Install Chatwoot from a git branch
+  -I BRANCH                 Install Chatwoot from a git branch
   -u, --upgrade             Upgrade Chatwoot to the latest stable version
+  -U BRANCH                 Upgrade Chatwoot from a git branch
   -s, --ssl                 Fetch and install SSL certificates using LetsEncrypt
   -w, --webserver           Install and configure Nginx webserver with SSL
   -W, --web-only            Install only the web server (for ASG deployment)
@@ -938,7 +946,7 @@ EOF
 function upgrade() {
   cwctl_upgrade_check
   get_cw_version
-  echo "Upgrading Chatwoot to v$CW_VERSION"
+  echo "Upgrading Chatwoot to v$CW_VERSION (branch: $BRANCH)"
   sleep 3
 
    # Check if CW_VERSION is 4.0 or above
@@ -964,9 +972,9 @@ function upgrade() {
   # Navigate to the Chatwoot directory
   cd chatwoot
 
-  # Pull the latest version of the master branch
+  # Pull the latest version of the specified branch
   git fetch
-  git checkout master && git pull
+  git checkout "$BRANCH" && git pull
 
   # Ensure the ruby version is upto date
   # Parse the latest ruby version
@@ -1264,7 +1272,7 @@ function main() {
     ssl
   fi
 
-  if [ "$u" == "y" ]; then
+  if [ "$u" == "y" ] || [ "$U" == "y" ]; then
     report_event "cwctl" "upgrade"  > /dev/null 2>&1
     upgrade
   fi
