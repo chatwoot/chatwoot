@@ -25,6 +25,20 @@ const customDomainAddress = computed(
   () => props.activePortal?.custom_domain || ''
 );
 
+// TODO: remove this after the feature is implemented
+const isLive = false;
+
+const statusText = computed(() => {
+  if (isLive) {
+    return t(
+      'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS.LIVE'
+    );
+  }
+  return t(
+    'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS.PENDING'
+  );
+});
+
 const updatePortalConfiguration = customDomain => {
   const portal = {
     id: props.activePortal?.id,
@@ -41,6 +55,10 @@ const updatePortalConfiguration = customDomain => {
 const closeDNSConfigurationDialog = () => {
   updatedDomainAddress.value = '';
   dnsConfigurationDialogRef.value.dialogRef.close();
+};
+
+const onClickSend = () => {
+  // Refresh the DNS configuration
 };
 </script>
 
@@ -63,33 +81,69 @@ const closeDNSConfigurationDialog = () => {
       </span>
     </div>
     <div class="flex flex-col w-full gap-4">
-      <div class="flex justify-between w-full gap-2">
-        <div
-          v-if="customDomainAddress"
-          class="flex items-center w-full h-8 gap-4"
-        >
-          <label class="text-sm font-medium text-n-slate-12">
+      <div class="flex items-center justify-between w-full gap-2">
+        <div v-if="customDomainAddress" class="flex flex-col gap-1">
+          <div class="flex items-center w-full h-8 gap-4">
+            <label class="text-sm font-medium text-n-slate-12">
+              {{
+                t(
+                  'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.LABEL'
+                )
+              }}
+            </label>
+            <span class="text-sm text-n-slate-12">
+              {{ customDomainAddress }}
+            </span>
+          </div>
+          <span class="text-sm text-n-slate-11">
             {{
               t(
-                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.LABEL'
+                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS_DESCRIPTION'
               )
             }}
-          </label>
-          <span class="text-sm text-n-slate-12">
-            {{ customDomainAddress }}
           </span>
         </div>
-        <div class="flex items-center justify-end w-full">
-          <Button
-            v-if="customDomainAddress"
-            color="slate"
-            :label="
-              t(
-                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.EDIT_BUTTON'
-              )
-            "
-            @click="addCustomDomainDialogRef.dialogRef.open()"
-          />
+        <div class="flex items-center">
+          <div v-if="customDomainAddress" class="flex items-center gap-3">
+            <div class="flex items-center gap-3 flex-shrink-0">
+              <span
+                class="size-1.5 rounded-full outline outline-2 block flex-shrink-0"
+                :class="
+                  isLive
+                    ? 'outline-n-teal-6 bg-n-teal-9'
+                    : 'outline-n-amber-6 bg-n-amber-9'
+                "
+              />
+              <span
+                :class="isLive ? 'text-n-teal-11' : 'text-n-amber-11'"
+                class="text-sm leading-[16px] font-medium"
+              >
+                {{ statusText }}
+              </span>
+            </div>
+            <div class="w-px h-3 bg-n-weak" />
+            <Button
+              v-if="isLive"
+              slate
+              sm
+              link
+              :label="
+                t(
+                  'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.EDIT_BUTTON'
+                )
+              "
+              class="hover:!no-underline"
+              @click="addCustomDomainDialogRef.dialogRef.open()"
+            />
+            <Button
+              v-else
+              slate
+              sm
+              link
+              icon="i-lucide-refresh-ccw"
+              @click="onClickSend"
+            />
+          </div>
           <Button
             v-else
             :label="
@@ -112,7 +166,8 @@ const closeDNSConfigurationDialog = () => {
     <DNSConfigurationDialog
       ref="dnsConfigurationDialogRef"
       :custom-domain="updatedDomainAddress || customDomainAddress"
-      @confirm="closeDNSConfigurationDialog"
+      @close="closeDNSConfigurationDialog"
+      @send="onClickSend"
     />
   </div>
 </template>

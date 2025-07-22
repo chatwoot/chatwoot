@@ -1,9 +1,13 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { reactive, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getHostNameFromURL } from 'dashboard/helper/URLHelper';
+import { email, required } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   customDomain: {
@@ -12,9 +16,19 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['confirm']);
+const emit = defineEmits(['send', 'close']);
 
 const { t } = useI18n();
+
+const state = reactive({
+  email: '',
+});
+
+const validationRules = {
+  email: { email, required },
+};
+
+const v$ = useVuelidate(validationRules, state);
 
 const domain = computed(() => {
   const { hostURL, helpCenterURL } = window?.chatwootConfig || {};
@@ -27,8 +41,18 @@ const subdomainCNAME = computed(
 
 const dialogRef = ref(null);
 
-const handleDialogConfirm = () => {
-  emit('confirm');
+const onClose = () => {
+  v$.value.$reset();
+  state.email = '';
+  emit('close');
+};
+
+const handleSend = async () => {
+  const isFormCorrect = await v$.value.$validate();
+  if (!isFormCorrect) return;
+
+  emit('send');
+  onClose();
 };
 
 defineExpose({ dialogRef });
@@ -37,42 +61,93 @@ defineExpose({ dialogRef });
 <template>
   <Dialog
     ref="dialogRef"
-    :title="
-      t(
-        'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.HEADER'
-      )
-    "
-    :confirm-button-label="
-      t(
-        'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.CONFIRM_BUTTON_LABEL'
-      )
-    "
     :show-cancel-button="false"
-    @confirm="handleDialogConfirm"
+    :show-confirm-button="false"
   >
-    <template #description>
-      <p class="mb-0 text-sm text-n-slate-12">
-        {{
-          t(
-            'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.DESCRIPTION'
-          )
-        }}
-      </p>
-    </template>
+    <NextButton
+      icon="i-lucide-x"
+      sm
+      ghost
+      slate
+      class="flex-shrink-0 absolute top-2 ltr:right-2 rtl:left-2"
+      @click="onClose"
+    />
+    <div class="flex flex-col gap-6 divide-y divide-n-strong">
+      <div class="flex flex-col gap-6">
+        <div class="flex flex-col gap-2 ltr:pr-10 rtl:pl-10">
+          <h3 class="text-base font-medium leading-6 text-n-slate-12">
+            {{
+              t(
+                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.HEADER'
+              )
+            }}
+          </h3>
+          <p class="mb-0 text-sm text-n-slate-12">
+            {{
+              t(
+                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.DESCRIPTION'
+              )
+            }}
+          </p>
+        </div>
+        <div class="flex flex-col gap-6">
+          <span
+            class="h-10 px-3 py-2.5 text-sm bg-transparent border rounded-lg text-n-slate-11 border-n-strong"
+          >
+            {{ subdomainCNAME }}
+          </span>
+        </div>
+      </div>
 
-    <div class="flex flex-col gap-6">
-      <span
-        class="h-10 px-3 py-2.5 text-sm select-none bg-transparent border rounded-lg text-n-slate-11 border-n-strong"
-      >
-        {{ subdomainCNAME }}
-      </span>
-      <p class="text-sm text-n-slate-12">
-        {{
-          t(
-            'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.HELP_TEXT'
-          )
-        }}
-      </p>
+      <div class="flex flex-col gap-6 pt-6">
+        <div class="flex flex-col gap-2 ltr:pr-10 rtl:pl-10">
+          <h3 class="text-base font-medium leading-6 text-n-slate-12">
+            {{
+              t(
+                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.SEND_INSTRUCTIONS.HEADER'
+              )
+            }}
+          </h3>
+          <p class="mb-0 text-sm text-n-slate-12">
+            {{
+              t(
+                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.SEND_INSTRUCTIONS.DESCRIPTION'
+              )
+            }}
+          </p>
+        </div>
+        <div class="flex items-start gap-3 w-full">
+          <Input
+            v-model="state.email"
+            :placeholder="
+              t(
+                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.SEND_INSTRUCTIONS.PLACEHOLDER'
+              )
+            "
+            :message="
+              v$.email.$error
+                ? t(
+                    'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.SEND_INSTRUCTIONS.ERROR'
+                  )
+                : ''
+            "
+            :message-type="v$.email.$error ? 'error' : 'info'"
+            class="w-full"
+            @blur="v$.email.$touch()"
+          />
+          <NextButton
+            :label="
+              t(
+                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.SEND_INSTRUCTIONS.SEND_BUTTON'
+              )
+            "
+            sm
+            type="button"
+            class="flex-shrink-0 mt-1"
+            @click="handleSend"
+          />
+        </div>
+      </div>
     </div>
   </Dialog>
 </template>
