@@ -116,7 +116,7 @@ class Inbox < ApplicationRecord
   end
 
   def instagram?
-    (facebook? || instagram_direct?) && channel.instagram_id.present?
+    (facebook? || instagram_direct?) && channel.respond_to?(:instagram_id) && channel.instagram_id.present?
   end
 
   def instagram_direct?
