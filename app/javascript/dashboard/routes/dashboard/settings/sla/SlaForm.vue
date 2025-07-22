@@ -205,7 +205,7 @@ export default {
         <span for="sla_bh" class="text-n-slate-11">
           {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
         </span>
-        <ToggleSwitch v-model="onlyDuringBusinessHours" />
+        <ToggleSwitch id="sla_bh" v-model="onlyDuringBusinessHours" />
       </div>
 
       <div class="flex items-center justify-end w-full gap-2 mt-8">

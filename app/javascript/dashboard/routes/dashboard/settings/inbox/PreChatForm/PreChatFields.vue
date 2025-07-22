@@ -47,7 +47,7 @@ export default {
         <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
         <td class="pre-chat-field">
           <ToggleSwitch
-            v-model="item['enabled']"
+            :model-value="item['enabled']"
             @change="handlePreChatFieldOptions($event, 'enabled', item)"
           />
         </td>
