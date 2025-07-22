@@ -36,7 +36,6 @@ class Portal < ApplicationRecord
   belongs_to :channel_web_widget, class_name: 'Channel::WebWidget', optional: true
 
   before_validation -> { normalize_empty_string_to_nil(%i[custom_domain homepage_link]) }
-  after_save :enqueue_cloudflare_verification, if: :saved_change_to_custom_domain?
   validates :account_id, presence: true
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
@@ -70,10 +69,6 @@ class Portal < ApplicationRecord
     denied_keys = config.keys - CONFIG_JSON_KEYS
     errors.add(:cofig, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
   end
-
-  def enqueue_cloudflare_verification
-    return if custom_domain.blank?
-
-    CloudflareVerificationJob.perform_later(id)
-  end
 end
+
+Portal.include_mod_with('Concerns::Portal')
