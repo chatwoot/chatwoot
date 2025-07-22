@@ -223,7 +223,7 @@ class Whatsapp::TemplateProcessorService
     when String
       sanitized_value = sanitize_parameter(value)
       # Check if this is rich text formatting
-      if has_rich_formatting?(sanitized_value)
+      if rich_formatting?(sanitized_value)
         build_rich_text_parameter(sanitized_value)
       else
         # For regular template parameters, always treat as text

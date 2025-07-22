@@ -177,13 +177,15 @@ const generateVariables = () => {
     if (buttonComponent.buttons) {
       buttonComponent.buttons.forEach((button, index) => {
         // Handle URL buttons with variables
-        if (button.url && button.url.includes('{{')) {
+        if (button.type === 'URL' && button.url && button.url.includes('{{')) {
           const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
           if (buttonVars.length > 0) {
             if (!allVariables.buttons) allVariables.buttons = [];
             allVariables.buttons[index] = {
               type: 'url',
               parameter: '',
+              url: button.url,
+              variables: buttonVars.map(v => processVariable(v)),
             };
           }
         }
@@ -198,11 +200,11 @@ const generateVariables = () => {
         }
 
         // Handle interactive buttons with dynamic text
-        if (['quick_reply', 'url', 'phone_number'].includes(button.type)) {
+        if (['QUICK_REPLY', 'URL', 'PHONE_NUMBER'].includes(button.type)) {
           if (button.text && button.text.includes('{{')) {
             if (!allVariables.buttons) allVariables.buttons = [];
             allVariables.buttons[index] = {
-              type: button.type,
+              type: button.type.toLowerCase(),
               parameter: '',
               text: button.text,
             };
@@ -334,6 +336,20 @@ const sendMessage = async () => {
   const isValid = await v$.value.$validate();
   if (!isValid) return;
 
+  // Auto-populate button parameters for authentication templates
+  const finalParams = { ...processedParams.value };
+  if (props.template?.category === 'AUTHENTICATION' && finalParams.buttons) {
+    finalParams.buttons.forEach((button, index) => {
+      if (
+        button.type === 'url' &&
+        button.variables?.includes('1') &&
+        finalParams.body?.otp_code
+      ) {
+        finalParams.buttons[index].parameter = finalParams.body.otp_code;
+      }
+    });
+  }
+
   const payload = {
     message: processedString.value,
     templateParams: {
@@ -341,7 +357,7 @@ const sendMessage = async () => {
       category: props.template.category,
       language: props.template.language,
       namespace: props.template.namespace,
-      processed_params: processedParams.value,
+      processed_params: finalParams,
     },
   };
   emit('sendMessage', payload);
