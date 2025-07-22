@@ -77,7 +77,7 @@ class Whatsapp::TemplateProcessorService
 
     # Handle enhanced template parameters structure
     if template_params['processed_params'].is_a?(Hash) &&
-       (template_params['processed_params'].key?('body') || template_params['processed_params'].key?('buttons'))
+       (template_params['processed_params'].key?('body') || template_params['processed_params'].key?('buttons') || template_params['processed_params'].key?('header'))
       process_enhanced_template_params(template)
     else
       # Check if we have special header types that need processing
@@ -142,7 +142,6 @@ class Whatsapp::TemplateProcessorService
 
   def process_enhanced_template_params(_template)
     processed_params = template_params['processed_params']
-    Rails.logger.info "DEBUG: Raw processed_params from frontend: #{processed_params.inspect}"
     components = []
 
     # Process header parameters first (important for WhatsApp API order)
@@ -153,7 +152,8 @@ class Whatsapp::TemplateProcessorService
         next if value.blank?
 
         if key == 'media_url' && processed_params['header']['media_type'].present?
-          media_param = build_media_parameter(value, processed_params['header']['media_type'])
+          media_type = processed_params['header']['media_type']
+          media_param = build_media_parameter(value, media_type)
           header_params << media_param if media_param
         elsif key != 'media_type'
           header_params << build_parameter(value)
@@ -204,14 +204,12 @@ class Whatsapp::TemplateProcessorService
             index: index,
             parameters: [build_button_parameter(button)]
           }
-          Rails.logger.info "DEBUG: Button component created: #{button_component.inspect}"
           button_component
         end
       end
       components.concat(button_params) if button_params.present?
     end
 
-    Rails.logger.info "DEBUG: Final components being sent to WhatsApp API: #{components.inspect}"
     @template_params = components
   end
 
@@ -280,7 +278,6 @@ class Whatsapp::TemplateProcessorService
   end
 
   def build_button_parameter(button)
-    Rails.logger.info "DEBUG: Processing button parameter: #{button.inspect}"
     return { type: 'text', text: '' } if button.blank?
 
     case button['type']
@@ -296,9 +293,7 @@ class Whatsapp::TemplateProcessorService
     else
       # For URL buttons and other button types, treat parameter as text
       # If parameter is blank, use empty string (required for URL buttons)
-      param_result = { type: 'text', text: button['parameter'].to_s.strip }
-      Rails.logger.info "DEBUG: Button parameter result: #{param_result.inspect}"
-      param_result
+      { type: 'text', text: button['parameter'].to_s.strip }
     end
   end
 
@@ -315,8 +310,14 @@ class Whatsapp::TemplateProcessorService
     uri = URI.parse(url)
     raise ArgumentError, "Invalid URL scheme: #{uri.scheme}. Only http and https are allowed" unless %w[http https].include?(uri.scheme)
     raise ArgumentError, 'URL too long (max 2000 characters)' if url.length > 2000
+
+    # Warn about potential issues with WhatsApp URLs
+    if url.include?('scontent.whatsapp.net')
+      Rails.logger.warn "WARNING: Using WhatsApp content URL which may not be accessible for template processing: #{url}"
+    end
+
   rescue URI::InvalidURIError => e
-    raise ArgumentError, "Invalid URL format: #{e.message}. Please enter a valid image URL like https://example.com/image.jpg"
+    raise ArgumentError, "Invalid URL format: #{e.message}. Please enter a valid URL like https://example.com/document.pdf"
   end
 
   def build_media_parameter(url, media_type)

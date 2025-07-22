@@ -163,6 +163,13 @@ export default {
       emit('resetTemplate');
     };
 
+    const updateMediaUrl = value => {
+      if (!processedParams.value.header) {
+        processedParams.value.header = {};
+      }
+      processedParams.value.header.media_url = value;
+    };
+
     const sendMessage = () => {
       v$.value.$touch();
       if (v$.value.$invalid) return;
@@ -210,6 +217,7 @@ export default {
       v$,
       resetTemplate,
       sendMessage,
+      updateMediaUrl,
     };
   },
 };
@@ -250,11 +258,12 @@ export default {
             }}
           </span>
           <woot-input
-            v-model="processedParams.media_url"
+            :model-value="processedParams.header?.media_url || ''"
             type="url"
             class="flex-1 ml-2.5 text-sm"
             :placeholder="`Enter ${headerComponent.format.toLowerCase()} URL`"
             :styles="{ marginBottom: 0 }"
+            @update:model-value="updateMediaUrl"
           />
         </div>
       </div>
