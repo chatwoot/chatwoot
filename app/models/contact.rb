@@ -179,7 +179,7 @@ class Contact < ApplicationRecord
   end
 
   def self.resolved_contacts
-    where(is_verified: true)
+    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
   end
 
   def discard_invalid_attrs
