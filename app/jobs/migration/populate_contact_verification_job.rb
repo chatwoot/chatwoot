@@ -1,6 +1,7 @@
 # Delete migration and spec after 2 consecutive releases.
 class Migration::PopulateContactVerificationJob < ApplicationJob
-  queue_as :scheduled_jobs
+  include Sidekiq::Worker
+  sidekiq_options queue: :scheduled_jobs, timeout: 3_600 # 1 hour
 
   def perform
     updated_count = 0
