@@ -18,6 +18,8 @@ const CommandBar = defineAsyncComponent(
 import CopilotLauncher from 'dashboard/components-next/copilot/CopilotLauncher.vue';
 import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue';
 
+import MobileSidebarLauncher from 'dashboard/components-next/sidebar/MobileSidebarLauncher.vue';
+
 export default {
   components: {
     NextSidebar,
@@ -27,6 +29,7 @@ export default {
     UpgradePage,
     CopilotLauncher,
     CopilotContainer,
+    MobileSidebarLauncher,
   },
   setup() {
     const upgradePageRef = ref(null);
@@ -46,6 +49,7 @@ export default {
       showCreateAccountModal: false,
       showShortcutModal: false,
       displayLayoutType: '',
+      isMobileSidebarOpen: false,
     };
   },
   computed: {
@@ -115,6 +119,12 @@ export default {
         }
       }, delay);
     },
+    toggleMobileSidebar() {
+      this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
+    },
+    closeMobileSidebar() {
+      this.isMobileSidebarOpen = false;
+    },
     openCreateAccountModal() {
       this.showAccountModal = false;
       this.showCreateAccountModal = true;
@@ -136,18 +146,25 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-grow overflow-hidden text-n-slate-12">
+  <div class="relative flex flex-grow overflow-hidden text-n-slate-12">
     <NextSidebar
+      :is-mobile-sidebar-open="isMobileSidebarOpen"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-create-account-modal="openCreateAccountModal"
+      @close-mobile-sidebar="closeMobileSidebar"
     />
+
     <main class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden">
       <template v-if="!showUpgradePage">
         <router-view />
         <CommandBar />
         <CopilotLauncher />
+        <MobileSidebarLauncher
+          :is-mobile-sidebar-open="isMobileSidebarOpen"
+          @toggle="toggleMobileSidebar"
+        />
         <CopilotContainer />
       </template>
       <UpgradePage
