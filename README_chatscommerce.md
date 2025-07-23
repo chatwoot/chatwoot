@@ -86,6 +86,29 @@ docker compose run --rm rails bundle exec rails db:chatwoot_prepare RAILS_ENV=te
 docker compose run --rm -e RAILS_ENV=test rails bundle exec rspec --profile=10 --format documentation
 ```
 
+## Test Data Setup
+For local development and testing, you can quickly set up test data for different services using our unified task command.
+
+### Setup Test Data Command
+Use the `setup-test` task to create test data for Instagram, WhatsApp, or both services:
+
+```bash
+# Setup Instagram test data
+task setup-test -- instagram
+
+# Setup WhatsApp test data
+task setup-test -- whatsapp
+
+# Setup both Instagram and WhatsApp test data
+task setup-test -- instagram,whatsapp
+
+# Setup WhatsApp with specific store ID
+task setup-test -- whatsapp,STORE456
+
+# Setup both services with specific store ID
+task setup-test -- instagram,whatsapp,STORE123
+```
+
 ## Daily Development Commands
 
 ```

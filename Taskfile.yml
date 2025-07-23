@@ -46,3 +46,18 @@ tasks:
       - docker volume prune -f
       - echo "Volume cleanup completed!"
 
+  # ---------------------------------------------------------------------
+  # test data setup
+  # ---------------------------------------------------------------------
+  setup-test:
+    desc: |
+      Setup test data for development
+      Examples:
+        task setup-test -- instagram
+        task setup-test -- whatsapp
+        task setup-test -- instagram,whatsapp
+        task setup-test -- instagram,whatsapp,STORE123
+        task setup-test -- whatsapp,STORE456
+    cmds:
+      - docker compose run --rm rails bundle exec rails "dev:setup_test_data[{{.CLI_ARGS | join ","}}]"
+
