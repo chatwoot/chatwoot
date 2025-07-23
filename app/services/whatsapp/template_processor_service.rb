@@ -140,7 +140,7 @@ class Whatsapp::TemplateProcessorService
     @template_params = components
   end
 
-  def process_enhanced_template_params(_template)
+  def process_enhanced_template_params(template)
     processed_params = template_params['processed_params']
     components = []
 
@@ -175,7 +175,13 @@ class Whatsapp::TemplateProcessorService
         elsif key == 'expiry_minutes'
           build_authentication_parameter(value, 'expiry')
         else
-          build_parameter(value)
+          # Check if template uses named parameters
+          parameter_format = template['parameter_format']
+          if parameter_format == 'NAMED'
+            build_named_parameter(key, value)
+          else
+            build_parameter(value)
+          end
         end
       end
       components << { type: 'body', parameters: body_params } if body_params.present?
@@ -430,5 +436,10 @@ class Whatsapp::TemplateProcessorService
     # WhatsApp supports rich text formatting in templates
     # This preserves the formatting markers for the API
     { type: 'text', text: text }
+  end
+
+  def build_named_parameter(parameter_name, value)
+    sanitized_value = sanitize_parameter(value.to_s)
+    { type: 'text', parameter_name: parameter_name, text: sanitized_value }
   end
 end
