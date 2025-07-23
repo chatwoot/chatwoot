@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Whatsapp Templates",
             "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process {templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Search Templates",
@@ -29,7 +29,14 @@
             "VARIABLE_PLACEHOLDER": "Enter {variable} value",
             "GO_BACK_LABEL": "Go Back",
             "SEND_MESSAGE_LABEL": "Send Message",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "FORM_ERROR_MESSAGE": "Please fill all variables before sending",
+            "MEDIA_HEADER_LABEL": "{type} Header",
+            "MEDIA_URL_LABEL": "{type} URL",
+            "OTP_CODE": "OTP Code",
+            "EXPIRY_MINUTES": "Expiry (minutes)",
+            "BUTTON_PARAMETERS": "Button Parameters",
+            "BUTTON_LABEL": "Button {index}",
+            "COUPON_CODE": "Coupon Code"
         }
     }
 }
