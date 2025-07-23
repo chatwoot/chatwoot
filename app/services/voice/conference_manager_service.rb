@@ -1,6 +1,6 @@
 module Voice
   class ConferenceManagerService
-    pattr_initialize [:conversation!, :event!, :call_sid!, :conference_sid, :participant_sid, :participant_label]
+    pattr_initialize [:conversation!, :event!, :call_sid!, :participant_label]
 
     def process
       case event

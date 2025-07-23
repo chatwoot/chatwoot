@@ -8,19 +8,11 @@ module Voice
 
       return unless conversation
 
-      # Handle outbound call notification
-      if info[:event] == 'participant-join' &&
-         conversation.additional_attributes['call_direction'] == 'outbound' &&
-         info[:participant_label]&.start_with?('caller-')
-        broadcast_agent_notification(conversation, info)
-      end
 
       Voice::ConferenceManagerService.new(
         conversation: conversation,
         event: info[:event],
         call_sid: info[:call_sid],
-        conference_sid: info[:conference_sid],
-        participant_sid: info[:participant_sid],
         participant_label: info[:participant_label]
       ).process
     end
@@ -79,9 +71,5 @@ module Voice
       nil
     end
 
-    def broadcast_agent_notification(conversation, info)
-      # This method is no longer needed since conversation.created events
-      # will handle incoming call notifications
-    end
   end
 end

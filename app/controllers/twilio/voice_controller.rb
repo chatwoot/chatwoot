@@ -42,11 +42,11 @@ class Twilio::VoiceController < ActionController::Base
       provider:     :twilio
     ).process_status_update('in_progress', nil, true)
 
-    conference_name = ensure_conference_name(conversation, params[:conference_name])
+    conference_sid = ensure_conference_sid(conversation, params[:conference_name])
 
     conversation.update!(
       additional_attributes: conversation.additional_attributes.merge(
-        'conference_sid'       => conference_name,
+        'conference_sid'       => conference_sid,
         'call_direction'       => outbound? ? 'outbound' : 'inbound',
         'requires_agent_join'  => true
       )
@@ -62,7 +62,7 @@ class Twilio::VoiceController < ActionController::Base
 
       r.dial do |d|
         d.conference(
-          conference_name,
+          conference_sid,
           startConferenceOnEnter: outbound? ? true : false,  # Start conference for outbound calls
           endConferenceOnExit:    true,
           beep:                   false,
@@ -127,12 +127,11 @@ class Twilio::VoiceController < ActionController::Base
     'Caller responded'
   end
 
-  def ensure_conference_name(conversation, supplied)
-    name = supplied.presence ||
-           conversation.additional_attributes['conference_sid'] ||
-           conversation.additional_attributes['conference_name']
+  def ensure_conference_sid(conversation, supplied)
+    sid = supplied.presence ||
+           conversation.additional_attributes['conference_sid']
 
-    return name if name&.match?(/^conf_account_\d+_conv_\d+$/)
+    return sid if sid&.match?(/^conf_account_\d+_conv_\d+$/)
 
     "conf_account_#{@inbox.account_id}_conv_#{conversation.display_id}"
   end

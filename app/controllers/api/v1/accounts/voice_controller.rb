@@ -67,15 +67,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     render_success('Call rejected by agent')
   end
 
-  def call_status
-    call_sid = params[:call_sid]
-    return render_not_found('active call') unless call_sid
-
-    call = twilio_client.calls(call_sid).fetch
-    render json: call.slice(:status, :duration, :direction, :from, :to, :start_time, :end_time)
-  rescue StandardError => e
-    render_error("Failed to fetch call status: #{e.message}")
-  end
 
   # TwiML for agent WebRTC dial‑in
   def twiml_for_client
@@ -159,7 +150,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
   # ---- TwiML -----------------------------------------------------------------
 
-  def build_twiml(conference_name)
+  def build_twiml(conference_sid)
     # Check if this is an outbound call by looking at the conversation
     is_outbound = @conversation&.additional_attributes&.dig('call_direction') == 'outbound'
     
@@ -167,7 +158,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
       r.dial do |dial|
         dial.conference(
-          conference_name,
+          conference_sid,
           startConferenceOnEnter: !is_outbound,  # Don't start conference for outbound calls (contact already started it)
           endConferenceOnExit:    true,
           muted:                  false,

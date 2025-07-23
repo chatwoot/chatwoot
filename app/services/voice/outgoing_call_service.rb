@@ -45,51 +45,40 @@ module Voice
       # Conversation created for outgoing call
 
       # The conference_sid should be set by the ConversationFinderService, but we double-check
-      @conference_name = @conversation.additional_attributes['conference_sid']
+      @conference_sid = @conversation.additional_attributes['conference_sid']
 
-      # Verify conference name is valid, if not, fix it
-      if @conference_name.blank? || !@conference_name.match?(/^conf_account_\d+_conv_\d+$/)
-        # Generate proper conference name
-        @conference_name = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
+      # Verify conference_sid is valid, if not, fix it
+      if @conference_sid.blank? || !@conference_sid.match?(/^conf_account_\d+_conv_\d+$/)
+        # Generate proper conference_sid
+        @conference_sid = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
 
         # Store it in the conversation
-        @conversation.additional_attributes['conference_sid'] = @conference_name
+        @conversation.additional_attributes['conference_sid'] = @conference_sid
         @conversation.save!
-
-        # Logging removed
-      else
-        # Logging removed
       end
     end
 
     def initiate_call
-      # Double-check that we have a valid conference name before calling
-      if @conference_name.blank? || !@conference_name.match?(/^conf_account_\d+_conv_\d+$/)
-        # Logging removed
+      # Double-check that we have a valid conference_sid before calling
+      if @conference_sid.blank? || !@conference_sid.match?(/^conf_account_\d+_conv_\d+$/)
+        # Re-generate the conference_sid as a last resort
+        @conference_sid = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
 
-        # Re-generate the conference name as a last resort
-        @conference_name = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
-        # Logging removed
-
-        # Update the conversation with the new conference name
-        @conversation.additional_attributes['conference_sid'] = @conference_name
+        # Update the conversation with the new conference_sid
+        @conversation.additional_attributes['conference_sid'] = @conference_sid
         @conversation.save!
-      else
-        # Logging removed
       end
 
       # Log that we're about to initiate the call
-        # Logging removed
 
       # Initiate the call using the channel's implementation
       @call_details = @voice_inbox.channel.initiate_call(
         to: contact.phone_number,
-        conference_name: @conference_name,
+        conference_sid: @conference_sid,
         agent_id: user.id # Pass the agent ID to track who initiated the call
       )
 
       # Log the returned call details for debugging
-        # Logging removed
 
       # Update conversation with call details, but don't set status
       # Status will be properly set by CallStatusManager
@@ -97,8 +86,7 @@ module Voice
         'call_sid' => @call_details[:call_sid],
         'requires_agent_join' => true,
         'agent_id' => user.id, # Store the agent ID who initiated the call
-        'conference_sid' => @conference_name, # Ensure conference_sid is set correctly
-        'conference_name' => @conference_name, # Add an additional field for backwards compatibility
+        'conference_sid' => @conference_sid
       })
 
       # Ensure the call is marked as outbound
@@ -108,7 +96,6 @@ module Voice
       @conversation.update!(additional_attributes: updated_attributes)
 
       # Log the final conversation state
-        # Logging removed
     end
 
     def create_voice_call_message
@@ -133,7 +120,7 @@ module Voice
             status: ui_status, # Set the normalized UI status
             conversation_id: @conversation.display_id,
             call_direction: 'outbound',
-            conference_sid: @conference_name,
+            conference_sid: @conference_sid,
             from_number: @voice_inbox.channel.phone_number,
             to_number: contact.phone_number,
             agent_id: user.id,

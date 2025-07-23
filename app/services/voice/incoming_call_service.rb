@@ -85,8 +85,8 @@ module Voice
       @conversation.reload
 
       # Set up conference name
-      conference_name = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
-      @conversation.additional_attributes['conference_sid'] = conference_name
+      conference_sid = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
+      @conversation.additional_attributes['conference_sid'] = conference_sid
       @conversation.save!
     end
 
@@ -152,7 +152,7 @@ module Voice
 
 
     def generate_twiml_response
-      conference_name = @conversation.additional_attributes['conference_sid']
+      conference_sid = @conversation.additional_attributes['conference_sid']
 
       response = Twilio::TwiML::VoiceResponse.new
       response.say(message: 'Thank you for calling. Please wait while we connect you with an agent.')
@@ -163,7 +163,7 @@ module Voice
       # Now add the caller to the conference
       response.dial do |dial|
         dial.conference(
-          conference_name,
+          conference_sid,
           startConferenceOnEnter: false,
           endConferenceOnExit: true,
           beep: false,

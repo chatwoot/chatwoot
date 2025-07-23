@@ -174,10 +174,7 @@ export default {
       'CONVERSATION.VOICE_CALL.JOIN_CALL': 'Join call',
       'CONVERSATION.VOICE_CALL.REJECT_CALL': 'Reject',
       'CONVERSATION.VOICE_CALL.CALL_ENDED': 'Call ended',
-      'CONVERSATION.VOICE_CALL.CALL_END_ERROR': 'Failed to end call',
-      'CONVERSATION.VOICE_CALL.CALL_ACCEPTED': 'Joining call...',
       'CONVERSATION.VOICE_CALL.CALL_REJECTED': 'Call rejected',
-      'CONVERSATION.VOICE_CALL.CALL_JOIN_ERROR': 'Failed to join call',
       'CONVERSATION.VOICE_CALL.INCOMING_CALL': 'Incoming call',
     };
 

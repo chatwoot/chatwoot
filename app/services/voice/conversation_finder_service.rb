@@ -62,8 +62,8 @@ module Voice
       conversation.reload
 
       # Add conference_sid to attributes
-      conference_name = generate_conference_name(conversation)
-      conversation.additional_attributes['conference_sid'] = conference_name
+      conference_sid = generate_conference_sid(conversation)
+      conversation.additional_attributes['conference_sid'] = conference_sid
       conversation.save!
 
       conversation
@@ -98,7 +98,7 @@ module Voice
       attributes
     end
 
-    def generate_conference_name(conversation)
+    def generate_conference_sid(conversation)
       "conf_account_#{account.id}_conv_#{conversation.display_id}"
     end
   end

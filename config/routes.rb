@@ -204,7 +204,6 @@ Rails.application.routes.draw do
               post :end_call
               post :join_call
               post :reject_call
-              get :call_status
               # Explicitly set the format for TwiML to ensure proper Content-Type headers
               match :twiml_for_client, via: [:get, :post, :options], defaults: { format: :xml } # Allow GET, POST, and OPTIONS
             end

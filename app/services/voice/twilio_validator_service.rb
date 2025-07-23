@@ -26,9 +26,8 @@ module Voice
 
         is_valid = validator.validate(url, params.to_unsafe_h, signature)
 
-        # Log validation result
         if is_valid
-          # Twilio signature validation successful
+          # Valid signature
         else
           Rails.logger.error("Invalid Twilio signature for URL: #{url}")
           return false

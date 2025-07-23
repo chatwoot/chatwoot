@@ -69,16 +69,6 @@ class VoiceAPI extends ApiClient {
     }
   }
 
-  // Get call status
-  getCallStatus(callSid) {
-    if (!callSid) {
-      throw new Error('Call SID is required to get call status');
-    }
-
-    return axios.get(`${this.url}/call_status`, {
-      params: { call_sid: callSid },
-    });
-  }
 
   // Join an incoming call as an agent (join the conference)
   // This is used for the WebRTC client-side setup, not for phone calls anymore
@@ -883,18 +873,19 @@ class VoiceAPI extends ApiClient {
                 });
               }
             } catch (listenerError) {
-              // Could not add listeners to Promise connection
+              console.warn('Could not add listeners to Promise connection:', listenerError);
             }
           })
           .catch(connError => {
-            // WebRTC Promise connection error
+            console.warn('WebRTC Promise connection error:', connError);
           });
       } else {
         // It's a synchronous connection - older Twilio SDK
       }
       return connection;
     } catch (error) {
-      // Error joining conference
+      console.error('Error joining conference:', error);
+      return null;
     }
   }
 

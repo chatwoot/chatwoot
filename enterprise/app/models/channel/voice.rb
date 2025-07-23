@@ -42,10 +42,10 @@ class Channel::Voice < ApplicationRecord
     false
   end
 
-  def initiate_call(to:, conference_name: nil, agent_id: nil)
+  def initiate_call(to:, conference_sid: nil, agent_id: nil)
     case provider
     when 'twilio'
-      initiate_twilio_call(to, conference_name, agent_id)
+      initiate_twilio_call(to, conference_sid, agent_id)
     # Add more providers as needed
     # when 'other_provider'
     #   initiate_other_provider_call(to)
@@ -74,7 +74,7 @@ class Channel::Voice < ApplicationRecord
     end
   end
 
-  def initiate_twilio_call(to, conference_name = nil, agent_id = nil)
+  def initiate_twilio_call(to, conference_sid = nil, agent_id = nil)
     config = provider_config_hash
 
     # Generate a public URL for Twilio to request TwiML (must set FRONTEND_URL)
@@ -86,30 +86,30 @@ class Channel::Voice < ApplicationRecord
     # Start building query parameters
     query_params = []
 
-    # Make sure conference_name is URL-safe and correctly formatted
-    if conference_name.present?
+    # Make sure conference_sid is URL-safe and correctly formatted
+    if conference_sid.present?
       # Check format - it should be like 'conf_account_123_conv_456'
-      if !conference_name.match?(/^conf_account_\d+_conv_\d+$/)
+      if !conference_sid.match?(/^conf_account_\d+_conv_\d+$/)
         # If format is wrong, log an error and try to fix it
-        Rails.logger.error("🚨 MALFORMED CONFERENCE NAME: '#{conference_name}'")
+        Rails.logger.error("🚨 MALFORMED CONFERENCE NAME: '#{conference_sid}'")
 
         # Try to extract account_id and conversation_id from the string if possible
-        if conference_name.include?('_account_') && conference_name.include?('_conv_')
+        if conference_sid.include?('_account_') && conference_sid.include?('_conv_')
           # It has the parts but wrong format, let's try to keep it
-          Rails.logger.info("🔄 Using conference name as-is: '#{conference_name}'")
+          Rails.logger.info("🔄 Using conference name as-is: '#{conference_sid}'")
         else
           # Can't salvage it, generate a placeholder with timestamp to avoid collisions
           timestamp = Time.now.to_i
           Rails.logger.warn("🚨 GENERATING PLACEHOLDER CONFERENCE NAME with timestamp #{timestamp}")
-          conference_name = "conf_placeholder_#{timestamp}"
+          conference_sid = "conf_placeholder_#{timestamp}"
         end
       else
         # Format looks good, continue
-        Rails.logger.info("✅ VALIDATED CONFERENCE NAME: '#{conference_name}'")
+        Rails.logger.info("✅ VALIDATED CONFERENCE NAME: '#{conference_sid}'")
       end
 
       # Add URL-encoded conference name as a parameter
-      query_params << "conference_name=#{CGI.escape(conference_name)}"
+      query_params << "conference_sid=#{CGI.escape(conference_sid)}"
     else
       # No conference name provided, log this as a warning
       Rails.logger.warn("⚠️ NO CONFERENCE NAME PROVIDED for outgoing call to #{to}")
@@ -135,7 +135,7 @@ class Channel::Voice < ApplicationRecord
     }
 
     # Log the full parameters for debugging
-    Rails.logger.info("📞 OUTBOUND CALL PARAMS: to=#{to}, from=#{phone_number}, conference=#{conference_name}")
+    Rails.logger.info("📞 OUTBOUND CALL PARAMS: to=#{to}, from=#{phone_number}, conference=#{conference_sid}")
 
     # Create the call
     call = twilio_client(config).calls.create(**params)
@@ -148,7 +148,7 @@ class Channel::Voice < ApplicationRecord
       call_direction: 'outbound',  # CRITICAL: Tag as outbound so webhooks know to prompt agent
       requires_agent_join: true,   # Flag that agent should join immediately
       agent_id: agent_id,          # Include agent_id for tracking who initiated the call
-      conference_name: conference_name # Include the conference name in the return value for debugging
+      conference_sid: conference_sid # Include the conference name in the return value for debugging
     }
   end
 
