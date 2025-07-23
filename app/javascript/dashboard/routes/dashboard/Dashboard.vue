@@ -136,25 +136,25 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-wrap app-wrapper text-n-slate-12">
+  <div class="flex flex-grow overflow-hidden text-n-slate-12">
     <NextSidebar
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-create-account-modal="openCreateAccountModal"
     />
-    <main class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
-      <UpgradePage
-        v-show="showUpgradePage"
-        ref="upgradePageRef"
-        :bypass-upgrade-page="bypassUpgradePage"
-      />
+    <main class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden">
       <template v-if="!showUpgradePage">
         <router-view />
         <CommandBar />
         <CopilotLauncher />
         <CopilotContainer />
       </template>
+      <UpgradePage
+        v-else
+        ref="upgradePageRef"
+        :bypass-upgrade-page="bypassUpgradePage"
+      />
       <AddAccountModal
         :show="showCreateAccountModal"
         @close-account-create-modal="closeCreateAccountModal"
