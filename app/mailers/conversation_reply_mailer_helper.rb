@@ -24,6 +24,9 @@ module ConversationReplyMailerHelper
     # So this check implicitly determines we're handling an email_reply
     # and not one of the other email types (summary, transcript, etc.)
     process_attachments_as_files_for_email_reply if @message&.attachments.present?
+    
+    # Ensure conversation context is set for dynamic from email determination
+    @conversation = @conversation || @message&.conversation
     mail(@options)
   end
 
@@ -123,6 +126,13 @@ module ConversationReplyMailerHelper
   end
 
   def email_from
+    # Use inbox email if available and properly configured
+    if @inbox&.email_address.present?
+      return channel_email_with_name if email_oauth_enabled || email_smtp_enabled
+      return from_email_with_name
+    end
+    
+    # Fallback to existing logic
     email_oauth_enabled || email_smtp_enabled ? channel_email_with_name : from_email_with_name
   end
 

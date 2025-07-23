@@ -1,7 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  # Remove the static default from and set it dynamically
   before_action { ensure_current_account(params.try(:[], :account)) }
   around_action :switch_locale
   layout 'mailer/base'
@@ -38,6 +38,29 @@ class ApplicationMailer < ActionMailer::Base
       # format.text { Nokogiri::HTML(render(layout: false)).text }
       format.html { render }
     end
+  end
+
+  # Dynamic from email determination
+  def determine_from_email
+    # If we have conversation context with an email channel, try to use channel email
+    if @conversation&.inbox&.channel&.respond_to?(:email) && @conversation.inbox.channel.email.present?
+      return @conversation.inbox.channel.email
+    end
+    
+    # If we have account context with support email, use that
+    if Current.account&.support_email.present?
+      return Current.account.support_email
+    end
+    
+    # Fallback to global MAILER_SENDER_EMAIL
+    ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  end
+
+  # Override the mail method to set dynamic from address
+  def mail(headers = {}, &block)
+    # Set the from address dynamically if not already set
+    headers[:from] ||= determine_from_email
+    super(headers, &block)
   end
 
   def liquid_droppables

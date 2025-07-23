@@ -4,7 +4,7 @@ class ConversationReplyMailer < ApplicationMailer
   attr_reader :large_attachments
 
   include ConversationReplyMailerHelper
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  # Remove static default from - will be set dynamically by ApplicationMailer
   layout :choose_layout
 
   def reply_with_summary(conversation, last_queued_id)
@@ -54,7 +54,6 @@ class ConversationReplyMailer < ApplicationMailer
       #{I18n.t('conversations.reply.transcript_subject')} ")
     mail({
            to: to_email,
-           from: from_email_with_name,
            subject: "[##{@conversation.display_id}] #{I18n.t('conversations.reply.transcript_subject')}"
          })
   end
@@ -104,10 +103,16 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def business_name
-    @inbox.business_name || @inbox.name
+    @inbox.business_name || @inbox.sanitized_name
   end
 
   def from_email
+    # Use channel email if available
+    if @inbox&.channel&.respond_to?(:email) && @inbox.channel.email.present?
+      return parse_email(@inbox.channel.email)
+    end
+    
+    # Fallback to existing logic
     should_use_conversation_email_address? ? parse_email(@account.support_email) : parse_email(inbox_from_email_address)
   end
 
@@ -127,7 +132,8 @@ class ConversationReplyMailer < ApplicationMailer
     if should_use_conversation_email_address?
       sender_name("reply+#{@conversation.uuid}@#{@account.inbound_email_domain}")
     else
-      @inbox.email_address || @agent&.email
+      # Use channel email if available, otherwise fallback to agent email
+      @inbox.channel.respond_to?(:email) && @inbox.channel.email.present? ? @inbox.channel.email : @agent&.email
     end
   end
 
@@ -144,8 +150,12 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def inbox_from_email_address
-    return @inbox.email_address if @inbox.email_address
+    # Use channel email if available
+    if @inbox&.channel&.respond_to?(:email) && @inbox.channel.email.present?
+      return @inbox.channel.email
+    end
 
+    # Fallback to account support email
     @account.support_email
   end
 
