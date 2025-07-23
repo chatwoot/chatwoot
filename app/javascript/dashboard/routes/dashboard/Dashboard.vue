@@ -132,6 +132,11 @@ export default {
     />
 
     <main class="flex flex-1 h-full w-full min-h-0 px-0 overflow-hidden">
+      <UpgradePage
+        v-show="showUpgradePage"
+        ref="upgradePageRef"
+        :bypass-upgrade-page="bypassUpgradePage"
+      />
       <template v-if="!showUpgradePage">
         <router-view />
         <CommandBar />
@@ -142,11 +147,6 @@ export default {
         />
         <CopilotContainer />
       </template>
-      <UpgradePage
-        v-else
-        ref="upgradePageRef"
-        :bypass-upgrade-page="bypassUpgradePage"
-      />
       <AddAccountModal
         :show="showCreateAccountModal"
         @close-account-create-modal="closeCreateAccountModal"
