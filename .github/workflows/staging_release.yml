@@ -33,6 +33,20 @@ jobs:
       REDIS_URL: ${{ secrets.REDIS_URL }}
       SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
       POSTMARK_API_TOKEN: ${{ secrets.POSTMARK_API_TOKEN }}
+    - name: Check SECRET_KEY_BASE
+        run: |
+          if [ -z "$SECRET_KEY_BASE" ]; then
+            echo "::error::SECRET_KEY_BASE is not set or is empty!"
+            exit 1
+          fi
+          if [[ "$SECRET_KEY_BASE" =~ ^[0-9]+$ ]]; then
+            echo "::error::SECRET_KEY_BASE looks like a number, should be a random string!"
+            exit 1
+          fi
+          if [ ${#SECRET_KEY_BASE} -lt 30 ]; then
+            echo "::warning::SECRET_KEY_BASE is less than 30 characters, which is insecure!"
+          fi
+          echo "SECRET_KEY_BASE is set and looks like a string."
     steps:
       - uses: actions/checkout@v4
 
@@ -55,7 +69,6 @@ jobs:
 
       - name: Set up database
         run: |
-          cp config/database.yml.ci config/database.yml || echo 'No CI DB config'
           bundle exec rails db:setup || bundle exec rails db:create db:schema:load
 
       - name: Run tests
