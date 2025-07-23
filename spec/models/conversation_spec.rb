@@ -435,20 +435,6 @@ RSpec.describe Conversation do
     end
   end
 
-  describe '#create_csat_not_sent_activity_message' do
-    subject(:create_csat_not_sent_activity_message) { conversation.create_csat_not_sent_activity_message }
-
-    let(:conversation) { create(:conversation) }
-
-    it 'creates CSAT not sent activity message' do
-      create_csat_not_sent_activity_message
-      expect(Conversations::ActivityMessageJob)
-        .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
-                                                                    message_type: :activity,
-                                                                    content: 'CSAT survey not sent due to outgoing message restrictions' }))
-    end
-  end
-
   describe 'unread_messages' do
     subject(:unread_messages) { conversation.unread_messages }
 
@@ -848,6 +834,119 @@ RSpec.describe Conversation do
       allow(message_window_service).to receive(:can_reply?).and_return(false)
       expect(conversation.can_reply?).to be false
       expect(message_window_service).to have_received(:can_reply?)
+    end
+  end
+
+  describe 'reply time calculation flows' do
+    include ActiveJob::TestHelper
+
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, assignee: agent, waiting_since: nil) }
+    let(:conversation_start_time) { 5.hours.ago }
+
+    before do
+      create(:inbox_member, user: agent, inbox: inbox)
+      # rubocop:disable Rails/SkipsModelValidations
+      conversation.update_column(:waiting_since, nil)
+      conversation.update_column(:created_at, conversation_start_time)
+      # rubocop:enable Rails/SkipsModelValidations
+      conversation.messages.destroy_all
+      conversation.reporting_events.destroy_all
+      conversation.reload
+    end
+
+    def create_customer_message(conversation, created_at: Time.current)
+      message = nil
+      perform_enqueued_jobs do
+        message = create(:message,
+                         message_type: 'incoming',
+                         account: conversation.account,
+                         inbox: conversation.inbox,
+                         conversation: conversation,
+                         sender: conversation.contact,
+                         created_at: created_at)
+      end
+      message
+    end
+
+    def create_agent_message(conversation, created_at: Time.current)
+      message = nil
+      perform_enqueued_jobs do
+        message = create(:message,
+                         message_type: 'outgoing',
+                         account: conversation.account,
+                         inbox: conversation.inbox,
+                         conversation: conversation,
+                         sender: conversation.assignee,
+                         created_at: created_at)
+      end
+      message
+    end
+
+    it 'correctly tracks waiting_since and creates first response time events' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+
+      # Agent replies - this should create first response event
+      agent_reply1_time = 4.hours.ago
+      create_agent_message(conversation, created_at: agent_reply1_time)
+
+      first_response_events = account.reporting_events.where(name: 'first_response', conversation_id: conversation.id)
+      expect(first_response_events.count).to eq(1)
+      expect(first_response_events.first.value).to be_within(1.second).of(1.hour)
+
+      # the first response should also clear the waiting_since
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'does not reset waiting_since if customer sends another message' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+
+      create_customer_message(conversation, created_at: 3.hours.ago)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+    end
+
+    it 'records the correct reply_time for subsequent messages' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      create_agent_message(conversation, created_at: 4.hours.ago)
+      create_customer_message(conversation, created_at: 3.hours.ago)
+
+      create_agent_message(conversation, created_at: 2.hours.ago)
+      reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+      expect(reply_events.count).to eq(1)
+      expect(reply_events.first.value).to be_within(1.second).of(1.hour)
+
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'records zero reply time if an agent sends a message after resolution' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      create_agent_message(conversation, created_at: 4.hours.ago)
+      create_customer_message(conversation, created_at: 3.hours.ago)
+
+      conversation.toggle_status
+      expect(conversation.status).to eq('resolved')
+
+      conversation.toggle_status
+      expect(conversation.status).to eq('open')
+
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+
+      create_agent_message(conversation, created_at: 1.hour.ago)
+      # update_waiting_since will ensure that no events were created since the waiting_since was nil
+      # if the event is created it should log zero value, we have handled that in the reporting_event_listener
+      reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+      expect(reply_events.count).to eq(0)
     end
   end
 end

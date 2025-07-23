@@ -32,6 +32,12 @@ export const routes = [
         component: ContactsIndex,
         meta: commonMeta,
       },
+      {
+        path: 'active',
+        name: 'contacts_dashboard_active',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
     ],
   },
   {

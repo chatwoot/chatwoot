@@ -104,7 +104,7 @@ export default {
 
       <div class="w-full">
         <div v-if="v$.selectedAgents.$error">
-          <p class="error-message">
+          <p class="error-message pb-2">
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
           </p>
         </div>

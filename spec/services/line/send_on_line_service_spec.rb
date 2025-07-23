@@ -93,6 +93,70 @@ describe Line::SendOnLineService do
       end
     end
 
+    context 'with message input_select' do
+      let(:success_response) do
+        {
+          'message' => 'ok'
+        }.to_json
+      end
+
+      let(:expect_message) do
+        {
+          type: 'flex',
+          altText: 'test',
+          contents: {
+            type: 'bubble',
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  text: 'test',
+                  wrap: true
+                },
+                {
+                  type: 'button',
+                  style: 'link',
+                  height: 'sm',
+                  action: {
+                    type: 'message',
+                    label: 'text 1',
+                    text: 'value 1'
+                  }
+                },
+                {
+                  type: 'button',
+                  style: 'link',
+                  height: 'sm',
+                  action: {
+                    type: 'message',
+                    label: 'text 2',
+                    text: 'value 2'
+                  }
+                }
+              ]
+            }
+          }
+        }
+      end
+
+      it 'sends the message with input_select' do
+        message = create(
+          :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
+                    content_attributes: { 'items' => [{ 'title' => 'text 1', 'value' => 'value 1' }, { 'title' => 'text 2', 'value' => 'value 2' }] },
+                    conversation: create(:conversation, inbox: line_channel.inbox)
+        )
+
+        expect(line_client).to receive(:push_message).with(
+          message.conversation.contact_inbox.source_id,
+          expect_message
+        ).and_return(OpenStruct.new(code: '200', body: success_response))
+
+        described_class.new(message: message).perform
+      end
+    end
+
     context 'with message attachments' do
       it 'sends the message with text and attachments' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)

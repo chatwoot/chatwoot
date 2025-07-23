@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "Kontakte",
       "SEARCH_TITLE": "Kontakte suchen",
+      "ACTIVE_TITLE": "Aktive Kontakt",
       "SEARCH_PLACEHOLDER": "Suchen...",
       "MESSAGE_BUTTON": "Nachricht",
       "SEND_MESSAGE": "Nachricht senden",
@@ -457,6 +458,10 @@
             "PLACEHOLDER": "Twitter hinzufügen"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "Diese Aktion ist permanent und unwiderruflich.",
+        "BUTTON": "Jetzt löschen"
       }
     },
     "DETAILS": {
@@ -466,7 +471,7 @@
       "DELETE_CONTACT": "Kontakt löschen",
       "DELETE_DIALOG": {
         "TITLE": "Löschung bestätigen",
-        "DESCRIPTION": "Sind Sie sicher, dass Sie den Kontakt {contactName} löschen möchten?",
+        "DESCRIPTION": "Sind Sie sicher, dass Sie den Kontakt löschen möchten?",
         "CONFIRM": "Ja, löschen",
         "API": {
           "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
@@ -545,8 +550,8 @@
         "YOU": "Sie",
         "SAVE": "Notiz speichern",
         "EXPAND": "Erweitern",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "Einklappen",
+        "NO_NOTES": "Keine Notizen, Sie können Notizen auf der Kontakt-Detailseite hinzufügen.",
         "EMPTY_STATE": "Es gibt keine Notizen zu diesem Kontakt. Sie können eine Notiz hinzufügen, indem Sie diese in das obige Feld eingeben."
       }
     },
@@ -555,7 +560,8 @@
       "SUBTITLE": "Füge neue Kontakte hinzu, indem du auf den Button unten klickst",
       "BUTTON_LABEL": "Kontakt hinzufügen",
       "SEARCH_EMPTY_STATE_TITLE": "Keine Kontakte entsprechen Ihrer Suche 🔍",
-      "LIST_EMPTY_STATE_TITLE": "Keine Kontakte verfügbar in dieser Ansicht 📋"
+      "LIST_EMPTY_STATE_TITLE": "Keine Kontakte verfügbar in dieser Ansicht 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "Im Moment sind keine Kontakte aktiv 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

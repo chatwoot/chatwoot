@@ -196,7 +196,7 @@ export default {
 <template>
   <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
     <div class="flex flex-col gap-6">
-      <h2 class="text-2xl font-medium text-ash-900">
+      <h2 class="text-2xl font-medium text-n-slate-12">
         {{ $t('PROFILE_SETTINGS.TITLE') }}
       </h2>
       <UserProfilePicture
@@ -245,7 +245,12 @@ export default {
         <button
           v-for="hotKey in hotKeys"
           :key="hotKey.key"
-          class="px-0 reset-base w-full sm:flex-1"
+          class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
+          :class="
+            isEditorHotKeyEnabled(hotKey.key)
+              ? 'outline-n-brand/30'
+              : 'outline-n-weak'
+          "
         >
           <HotKeyCard
             :key="hotKey.title"

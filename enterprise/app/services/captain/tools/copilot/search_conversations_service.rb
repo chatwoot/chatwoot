@@ -19,8 +19,9 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
     status = arguments['status']
     contact_id = arguments['contact_id']
     priority = arguments['priority']
+    labels = arguments['labels']
 
-    conversations = get_conversations(status, contact_id, priority)
+    conversations = get_conversations(status, contact_id, priority, labels)
 
     return 'No conversations found' unless conversations.exists?
 
@@ -41,11 +42,12 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
 
   private
 
-  def get_conversations(status, contact_id, priority)
+  def get_conversations(status, contact_id, priority, labels)
     conversations = permissible_conversations
     conversations = conversations.where(contact_id: contact_id) if contact_id.present?
     conversations = conversations.where(status: status) if status.present?
     conversations = conversations.where(priority: priority) if priority.present?
+    conversations = conversations.tagged_with(labels, any: true) if labels.present?
     conversations
   end
 
@@ -59,20 +61,10 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
 
   def properties
     {
-      contact_id: {
-        type: 'number',
-        description: 'Filter conversations by contact ID'
-      },
-      status: {
-        type: 'string',
-        enum: %w[open resolved pending snoozed],
-        description: 'Filter conversations by status'
-      },
-      priority: {
-        type: 'string',
-        enum: %w[low medium high urgent],
-        description: 'Filter conversations by priority'
-      }
+      contact_id: { type: 'number', description: 'Filter conversations by contact ID' },
+      status: { type: 'string', enum: %w[open resolved pending snoozed], description: 'Filter conversations by status' },
+      priority: { type: 'string', enum: %w[low medium high urgent], description: 'Filter conversations by priority' },
+      labels: { type: 'array', items: { type: 'string' }, description: 'Filter conversations by labels' }
     }
   end
 end

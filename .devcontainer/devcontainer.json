@@ -4,17 +4,26 @@
   "dockerComposeFile": "docker-compose.yml",
 
   "settings": {
-    "terminal.integrated.shell.linux": "/bin/zsh"
+    "terminal.integrated.shell.linux": "/bin/zsh",
+    "extensions.showRecommendationsOnlyOnDemand": true,
+    "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/tmp": true,
+      "**/log": true,
+      "**/coverage": true,
+      "**/public/packs": true
+    }
   },
 
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "rebornix.Ruby",
+    "Shopify.ruby-lsp",
     "misogi.ruby-rubocop",
-    "wingrunr21.vscode-ruby",
     "davidpallinder.rails-test-runner",
-    "eamodio.gitlens",
     "github.copilot",
     "mrmlnc.vscode-duplicate"
   ],

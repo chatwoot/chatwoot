@@ -91,7 +91,7 @@ export default {
 
 <template>
   <div
-    class="conversation-details-wrap bg-n-background relative"
+    class="conversation-details-wrap flex flex-col min-w-0 w-full bg-n-background relative"
     :class="{
       'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
     }"
@@ -99,13 +99,12 @@ export default {
     <ConversationHeader
       v-if="currentChat.id"
       :chat="currentChat"
-      :is-inbox-view="isInboxView"
       :show-back-button="isOnExpandedLayout && !isInboxView"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="-mt-px dashboard-app--tabs border-t border-t-n-background"
+      class="-mt-px border-t border-t-n-background"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
@@ -114,6 +113,8 @@ export default {
         :index="tab.index"
         :name="tab.name"
         :show-badge="false"
+        is-compact
+        class="[&_a]:pt-1"
       />
     </woot-tabs>
     <div v-show="!activeIndex" class="flex h-full min-h-0 m-0">
@@ -139,19 +140,3 @@ export default {
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.conversation-details-wrap {
-  @apply flex flex-col min-w-0 w-full;
-}
-
-.dashboard-app--tabs {
-  ::v-deep {
-    .tabs-title {
-      a {
-        @apply pb-2 pt-1;
-      }
-    }
-  }
-}
-</style>
