@@ -3,22 +3,22 @@ class Cloudflare::CheckCustomHostnameService < Cloudflare::BaseCloudflareZoneSer
 
   def perform
     return { errors: ['Cloudflare API token or zone ID not found'] } if api_token.blank? || zone_id.blank?
-    return { errors: ['No hostname ID found'] } if @portal.custom_domain.blank?
+    return { errors: ['No custom domain found'] } if @portal.custom_domain.blank?
 
     response = HTTParty.get(
       "#{BASE_URI}/zones/#{zone_id}/custom_hostnames?hostname=#{@portal.custom_domain}", headers: headers
     )
 
-    return { success: false, errors: response.parsed_response['errors'] } unless response.success?
+    return { errors: response.parsed_response['errors'] } unless response.success?
 
     data = response.parsed_response['result']
 
     if data.present?
       update_portal_ssl_settings(data.first)
-      return { success: true, data: data }
+      return { data: data }
     end
 
-    { success: false, errors: ['Hostname is missing in Cloudflare'] }
+    { errors: ['Hostname is missing in Cloudflare'] }
   end
 
   private
