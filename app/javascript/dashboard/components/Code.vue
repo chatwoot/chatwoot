@@ -62,7 +62,7 @@ const onCopy = async e => {
 <template>
   <div class="relative text-left">
     <div
-      class="top-1.5 absolute ltr:right-1.5 rtl:left-1.5 flex items-center gap-1"
+      class="top-1.5 absolute ltr:right-1.5 rtl:left-1.5 flex backdrop-blur-sm rounded-lg items-center gap-1"
     >
       <form
         v-if="enableCodePen"
@@ -92,7 +92,7 @@ const onCopy = async e => {
       v-if="script"
       :language="lang"
       :code="scrubbedScript"
-      class="[&_code]:ltr:!pr-16 [&_code]:rtl:!pl-16 [&_code]:truncate [&_code]:text-start"
+      class="[&_code]:text-start"
     />
   </div>
 </template>
