@@ -32,6 +32,7 @@ jobs:
       POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
       REDIS_URL: ${{ secrets.REDIS_URL }}
       SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+      POSTMARK_API_TOKEN: ${{ secrets.POSTMARK_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
@@ -94,4 +95,4 @@ jobs:
       - name: Deploy to production server
         run: |
           echo "Deploy step goes here. For example, SSH to your server and run docker-compose pull/up."
-          # ssh ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} 'cd /courier && docker-compose pull && docker-compose up -d' 
+          # ssh ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} 'cd /courier && docker compose -f docker-compose.production.yaml up -d --pull always' 
