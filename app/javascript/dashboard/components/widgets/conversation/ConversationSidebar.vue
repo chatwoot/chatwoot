@@ -4,6 +4,7 @@ import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.v
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useWindowSize } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
+import wootConstants from 'dashboard/constants/globals';
 
 defineProps({
   currentChat: {
@@ -24,10 +25,12 @@ const activeTab = computed(() => {
   return null;
 });
 
-const isMobile = computed(() => windowWidth.value < 768);
+const isSmallScreen = computed(
+  () => windowWidth.value < wootConstants.SMALL_SCREEN_BREAKPOINT
+);
 
 const closeContactPanel = () => {
-  if (isMobile.value && uiSettings.value.is_contact_sidebar_open) {
+  if (isSmallScreen.value && uiSettings.value.is_contact_sidebar_open) {
     updateUISettings({
       is_contact_sidebar_open: false,
       is_copilot_panel_open: false,

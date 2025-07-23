@@ -8,6 +8,7 @@ import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useWindowSize } from '@vueuse/core';
 
 import wootConstants from 'dashboard/constants/globals';
 
@@ -35,12 +36,14 @@ export default {
     const upgradePageRef = ref(null);
     const { uiSettings, updateUISettings } = useUISettings();
     const { accountId } = useAccount();
+    const { width: windowWidth } = useWindowSize();
 
     return {
       uiSettings,
       updateUISettings,
       accountId,
       upgradePageRef,
+      windowWidth,
     };
   },
   data() {
@@ -48,11 +51,13 @@ export default {
       showAccountModal: false,
       showCreateAccountModal: false,
       showShortcutModal: false,
-      displayLayoutType: '',
       isMobileSidebarOpen: false,
     };
   },
   computed: {
+    isSmallScreen() {
+      return this.windowWidth < wootConstants.SMALL_SCREEN_BREAKPOINT;
+    },
     showUpgradePage() {
       return this.upgradePageRef?.shouldShowUpgradePage;
     },
@@ -70,55 +75,25 @@ export default {
       } = this.uiSettings;
       return conversationDisplayType;
     },
-    previouslyUsedSidebarView() {
-      const { previously_used_sidebar_view: showSecondarySidebar } =
-        this.uiSettings;
-      return showSecondarySidebar;
-    },
   },
   watch: {
-    displayLayoutType() {
-      const { LAYOUT_TYPES } = wootConstants;
-      this.updateUISettings({
-        conversation_display_type:
-          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
-            ? LAYOUT_TYPES.EXPANDED
-            : this.previouslyUsedDisplayType,
-        show_secondary_sidebar:
-          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
-            ? false
-            : this.previouslyUsedSidebarView,
-      });
-    },
-  },
-  mounted() {
-    this.handleResize();
-    window.addEventListener('resize', this.handleResize);
-  },
-  unmounted() {
-    window.removeEventListener('resize', this.handleResize);
-  },
-
-  methods: {
-    handleResize() {
-      const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
-      let throttled = false;
-      const delay = 150;
-
-      if (throttled) {
-        return;
-      }
-      throttled = true;
-
-      setTimeout(() => {
-        throttled = false;
-        if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
-          this.displayLayoutType = LAYOUT_TYPES.EXPANDED;
+    isSmallScreen: {
+      handler() {
+        const { LAYOUT_TYPES } = wootConstants;
+        if (window.innerWidth <= wootConstants.SMALL_SCREEN_BREAKPOINT) {
+          this.updateUISettings({
+            conversation_display_type: LAYOUT_TYPES.EXPANDED,
+          });
         } else {
-          this.displayLayoutType = LAYOUT_TYPES.CONDENSED;
+          this.updateUISettings({
+            conversation_display_type: this.previouslyUsedDisplayType,
+          });
         }
-      }, delay);
+      },
+      immediate: true,
     },
+  },
+  methods: {
     toggleMobileSidebar() {
       this.isMobileSidebarOpen = !this.isMobileSidebarOpen;
     },

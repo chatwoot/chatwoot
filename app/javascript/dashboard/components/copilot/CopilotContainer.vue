@@ -7,6 +7,8 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useWindowSize } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import wootConstants from 'dashboard/constants/globals';
+
 defineProps({
   conversationInboxType: {
     type: String,
@@ -24,7 +26,9 @@ const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const currentChat = useMapGetter('getSelectedChat');
 
-const isMobile = computed(() => windowWidth.value < 768);
+const isSmallScreen = computed(
+  () => windowWidth.value < wootConstants.SMALL_SCREEN_BREAKPOINT
+);
 
 const selectedCopilotThreadId = ref(null);
 const messages = computed(() =>
@@ -62,7 +66,7 @@ const activeAssistant = computed(() => {
 });
 
 const closeCopilotPanel = () => {
-  if (isMobile.value && uiSettings.value.is_copilot_panel_open) {
+  if (isSmallScreen.value && uiSettings.value.is_copilot_panel_open) {
     updateUISettings({
       is_contact_sidebar_open: false,
       is_copilot_panel_open: false,
