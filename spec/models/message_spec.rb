@@ -666,4 +666,304 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe 'AI feedback functionality' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Test message') }
+    let(:agent) { create(:user, account: conversation.account, role: :agent) }
+    let(:admin) { create(:user, account: conversation.account, role: :administrator) }
+
+    describe 'storing AI feedback in content_attributes' do
+      context 'when adding new AI feedback' do
+        it 'stores feedback with all required fields' do
+          feedback = {
+            'rating' => 'positive',
+            'feedback_text' => 'This AI response was very helpful',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']).to be_present
+          expect(message.content_attributes['ai_feedback']['rating']).to eq('positive')
+          expect(message.content_attributes['ai_feedback']['feedback_text']).to eq('This AI response was very helpful')
+          expect(message.content_attributes['ai_feedback']['agent_id']).to eq(agent.id)
+          expect(message.content_attributes['ai_feedback']['created_at']).to be_present
+        end
+
+        it 'stores feedback with only rating' do
+          feedback = {
+            'rating' => 'negative',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']['rating']).to eq('negative')
+          expect(message.content_attributes['ai_feedback']['feedback_text']).to be_nil
+          expect(message.content_attributes['ai_feedback']['agent_id']).to eq(agent.id)
+        end
+
+        it 'stores feedback with only feedback text' do
+          feedback = {
+            'feedback_text' => 'Could be improved with more context',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']['rating']).to be_nil
+          expect(message.content_attributes['ai_feedback']['feedback_text']).to eq('Could be improved with more context')
+          expect(message.content_attributes['ai_feedback']['agent_id']).to eq(agent.id)
+        end
+
+        it 'preserves other content_attributes when adding feedback' do
+          message.content_attributes = { 'other_data' => 'keep this', 'another_field' => 123 }
+          message.save!
+
+          feedback = {
+            'rating' => 'positive',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']).to be_present
+          expect(message.content_attributes['other_data']).to eq('keep this')
+          expect(message.content_attributes['another_field']).to eq(123)
+        end
+      end
+
+      context 'when updating existing AI feedback' do
+        let(:original_feedback) do
+          {
+            'rating' => 'positive',
+            'feedback_text' => 'Original feedback',
+            'agent_id' => agent.id,
+            'created_at' => 1.hour.ago.utc.iso8601
+          }
+        end
+
+        before do
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => original_feedback)
+          message.save!
+        end
+
+        it 'updates feedback while preserving created_at' do
+          updated_feedback = original_feedback.merge(
+            'rating' => 'negative',
+            'feedback_text' => 'Updated feedback text',
+            'updated_at' => Time.current.utc.iso8601
+          )
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => updated_feedback)
+          message.save!
+
+          ai_feedback = message.content_attributes['ai_feedback']
+          expect(ai_feedback['rating']).to eq('negative')
+          expect(ai_feedback['feedback_text']).to eq('Updated feedback text')
+          expect(ai_feedback['agent_id']).to eq(agent.id)
+          expect(ai_feedback['created_at']).to eq(original_feedback['created_at'])
+          expect(ai_feedback['updated_at']).to be_present
+        end
+
+        it 'allows partial updates' do
+          updated_feedback = original_feedback.merge(
+            'rating' => 'neutral',
+            'updated_at' => Time.current.utc.iso8601
+          )
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => updated_feedback)
+          message.save!
+
+          ai_feedback = message.content_attributes['ai_feedback']
+          expect(ai_feedback['rating']).to eq('neutral')
+          expect(ai_feedback['feedback_text']).to eq('Original feedback') # Unchanged
+          expect(ai_feedback['created_at']).to eq(original_feedback['created_at'])
+        end
+      end
+
+      context 'when removing AI feedback' do
+        before do
+          feedback = {
+            'rating' => 'positive',
+            'feedback_text' => 'Feedback to remove',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+        end
+
+        it 'removes AI feedback completely' do
+          message.content_attributes = message.content_attributes.except('ai_feedback')
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']).to be_nil
+        end
+
+        it 'preserves other content_attributes when removing feedback' do
+          message.content_attributes = message.content_attributes.merge('other_data' => 'keep this')
+          message.save!
+
+          message.content_attributes = message.content_attributes.except('ai_feedback')
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']).to be_nil
+          expect(message.content_attributes['other_data']).to eq('keep this')
+        end
+      end
+    end
+
+    describe 'AI feedback validation and edge cases' do
+      it 'handles empty content_attributes gracefully' do
+        message.content_attributes = {}
+        message.save!
+
+        expect(message.content_attributes['ai_feedback']).to be_nil
+        expect { message.save! }.not_to raise_error
+      end
+
+      it 'handles nil content_attributes gracefully' do
+        message.content_attributes = nil
+        message.save!
+
+        expect(message.content_attributes).to eq({})
+        expect { message.save! }.not_to raise_error
+      end
+
+      it 'preserves AI feedback through message updates' do
+        feedback = {
+          'rating' => 'positive',
+          'feedback_text' => 'Great response',
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+        message.save!
+
+        # Update other message attributes
+        message.update!(content: 'Updated message content')
+
+        message.reload
+        expect(message.content_attributes['ai_feedback']).to be_present
+        expect(message.content_attributes['ai_feedback']['rating']).to eq('positive')
+      end
+
+      it 'allows different rating values' do
+        %w[positive negative neutral].each do |rating|
+          feedback = {
+            'rating' => rating,
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          expect { message.save! }.not_to raise_error
+
+          expect(message.content_attributes['ai_feedback']['rating']).to eq(rating)
+        end
+      end
+
+      it 'handles long feedback text' do
+        long_text = 'a' * 2000
+        feedback = {
+          'rating' => 'positive',
+          'feedback_text' => long_text,
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+        expect { message.save! }.not_to raise_error
+
+        expect(message.content_attributes['ai_feedback']['feedback_text']).to eq(long_text)
+      end
+
+      it 'handles special characters in feedback text' do
+        special_text = 'Feedback with émojis 🤖 and symbols @#$%^&*()'
+        feedback = {
+          'rating' => 'positive',
+          'feedback_text' => special_text,
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+        expect { message.save! }.not_to raise_error
+
+        expect(message.content_attributes['ai_feedback']['feedback_text']).to eq(special_text)
+      end
+    end
+
+    describe 'AI feedback query and retrieval' do
+      it 'provides access to AI feedback data via Ruby hash operations' do
+        feedback_data = {
+          'rating' => 'positive',
+          'feedback_text' => 'Test feedback',
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback_data)
+        message.save!
+        message.reload
+
+        # Test accessing nested JSON values via Ruby hash
+        expect(message.content_attributes['ai_feedback']).to be_present
+        expect(message.content_attributes['ai_feedback']['rating']).to eq('positive')
+        expect(message.content_attributes['ai_feedback']['feedback_text']).to eq('Test feedback')
+        expect(message.content_attributes['ai_feedback']['agent_id']).to eq(agent.id)
+      end
+
+      it 'supports retrieving AI feedback using Hash dig method' do
+        message.content_attributes = message.content_attributes.merge(
+          'ai_feedback' => {
+            'rating' => 'negative',
+            'feedback_text' => 'Could be better',
+            'agent_id' => admin.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+        )
+        message.save!
+        message.reload
+
+        # Test accessing nested values using dig
+        expect(message.content_attributes.dig('ai_feedback', 'rating')).to eq('negative')
+        expect(message.content_attributes.dig('ai_feedback', 'feedback_text')).to eq('Could be better')
+        expect(message.content_attributes.dig('ai_feedback', 'agent_id')).to eq(admin.id)
+        expect(message.content_attributes.dig('ai_feedback', 'created_at')).to be_present
+      end
+
+      it 'maintains data integrity through save and reload cycles' do
+        original_feedback = {
+          'rating' => 'positive',
+          'feedback_text' => 'Excellent AI response',
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => original_feedback)
+        message.save!
+
+        # Reload from database and verify data integrity
+        reloaded_message = Message.find(message.id)
+        ai_feedback = reloaded_message.content_attributes['ai_feedback']
+
+        expect(ai_feedback['rating']).to eq(original_feedback['rating'])
+        expect(ai_feedback['feedback_text']).to eq(original_feedback['feedback_text'])
+        expect(ai_feedback['agent_id']).to eq(original_feedback['agent_id'])
+        expect(ai_feedback['created_at']).to eq(original_feedback['created_at'])
+      end
+    end
+  end
 end

@@ -197,6 +197,10 @@
       "DRAG_DROP": "Arrastra y suelta aquí para adjuntar",
       "START_AUDIO_RECORDING": "Iniciar grabación de audio",
       "STOP_AUDIO_RECORDING": "Detener grabación de audio",
+      "AI_FEEDBACK_MODE": "Modo de retroalimentación de IA",
+      "AI_FEEDBACK_INPUT": "Proporcione comentarios sobre esta respuesta de IA...",
+      "SUBMIT_FEEDBACK": "Enviar comentarios",
+      "SUBMITTING_FEEDBACK": "Enviando...",
       "": "",
       "EMAIL_HEAD": {
         "TO": "A",
@@ -432,5 +436,32 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "No se pudo descargar el archivo adjunto. Por favor, inténtelo de nuevo"
+  },
+  "AI_FEEDBACK": {
+    "GOOD_RESPONSE": "Buena respuesta",
+    "UNDO_POSITIVE_FEEDBACK": "Haz clic para deshacer comentario positivo",
+    "POOR_RESPONSE": "Respuesta deficiente - haz clic para dar comentarios",
+    "POOR_RESPONSE_LABEL": "Comentarios sobre esta respuesta:",
+    "FEEDBACK_SUBMITTED": "Comentarios enviados",
+    "THUMBS_UP_SUCCESS": "Comentario positivo enviado exitosamente",
+    "POSITIVE_FEEDBACK_REMOVED": "Comentario positivo eliminado exitosamente",
+    "THUMBS_DOWN_SUCCESS": "Comentario negativo enviado exitosamente",
+    "SUBMIT_SUCCESS": "Comentarios enviados exitosamente",
+    "SUBMIT_ERROR": "No se pudo enviar los comentarios. Por favor, inténtelo de nuevo.",
+    "FEEDBACK_MODE_ACTIVATED": "Modo de retroalimentación activado. Describe qué se puede mejorar.",
+    "EDIT_MODE_ACTIVATED": "Modo de edición activado. Actualiza tus comentarios en el compositor.",
+    "EDIT_FEEDBACK": "Editar comentarios",
+    "DELETE_FEEDBACK": "Eliminar comentarios",
+    "MORE_ACTIONS": "Más acciones",
+    "DELETE_SUCCESS": "Comentarios eliminados exitosamente",
+    "DELETE_ERROR": "No se pudo eliminar los comentarios. Por favor, inténtelo de nuevo.",
+    "EMPTY_FEEDBACK_ERROR": "Por favor, proporciona comentarios antes de enviar",
+    "MESSAGE_NOT_FOUND_ERROR": "Mensaje no encontrado. Por favor, actualiza e inténtalo de nuevo.",
+    "PERMISSION_ERROR": "No tienes permiso para dar comentarios sobre este mensaje",
+    "VALIDATION_ERROR": "Datos de comentarios inválidos. Por favor, inténtelo de nuevo.",
+    "PROVIDING_FEEDBACK_FOR": "Proporcionando comentarios para:",
+    "NO_CONTENT": "Sin contenido de mensaje",
+    "CANCEL_FEEDBACK": "Cancelar comentarios",
+    "NO_MESSAGE_SELECTED": "Haz clic en el pulgar abajo en un mensaje de IA para dar comentarios"
   }
 }

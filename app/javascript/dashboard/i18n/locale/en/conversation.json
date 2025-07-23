@@ -194,6 +194,7 @@
     "REPLYBOX": {
       "REPLY": "Reply",
       "PRIVATE_NOTE": "Private Note",
+      "AI_FEEDBACK_MODE": "AI Feedback",
       "SEND": "Send",
       "CREATE": "Add Note",
       "INSERT_READ_MORE": "Read more",
@@ -208,6 +209,10 @@
       "DRAG_DROP": "Drag and drop here to attach",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "AI_FEEDBACK_MODE": "AI Feedback",
+      "AI_FEEDBACK_INPUT": "Provide feedback about this AI response...",
+      "SUBMIT_FEEDBACK": "Submit Feedback",
+      "SUBMITTING_FEEDBACK": "Submitting...",
       "": "",
       "EMAIL_HEAD": {
         "TO": "TO",
@@ -231,6 +236,33 @@
           "CANCEL": "Cancel"
         }
       }
+    },
+    "AI_FEEDBACK": {
+      "GOOD_RESPONSE": "Good response",
+      "UNDO_POSITIVE_FEEDBACK": "Click to undo positive feedback",
+      "POOR_RESPONSE": "Poor response - click to provide feedback",
+      "POOR_RESPONSE_LABEL": "Feedback on this response:",
+      "FEEDBACK_SUBMITTED": "Feedback submitted",
+      "THUMBS_UP_SUCCESS": "Positive feedback submitted successfully",
+      "POSITIVE_FEEDBACK_REMOVED": "Positive feedback removed successfully",
+      "THUMBS_DOWN_SUCCESS": "Negative feedback submitted successfully",
+      "SUBMIT_SUCCESS": "Feedback submitted successfully",
+      "SUBMIT_ERROR": "Failed to submit feedback. Please try again.",
+      "FEEDBACK_MODE_ACTIVATED": "Feedback mode activated. Describe what could be improved.",
+      "EDIT_MODE_ACTIVATED": "Edit mode activated. Update your feedback in the composer.",
+      "EDIT_FEEDBACK": "Edit feedback",
+      "DELETE_FEEDBACK": "Delete feedback",
+      "MORE_ACTIONS": "More actions",
+      "DELETE_SUCCESS": "Feedback deleted successfully",
+      "DELETE_ERROR": "Failed to delete feedback. Please try again.",
+      "EMPTY_FEEDBACK_ERROR": "Please provide feedback text before submitting",
+      "MESSAGE_NOT_FOUND_ERROR": "Message not found. Please refresh and try again.",
+      "PERMISSION_ERROR": "You don't have permission to provide feedback on this message",
+      "VALIDATION_ERROR": "Invalid feedback data. Please try again.",
+      "PROVIDING_FEEDBACK_FOR": "Providing feedback for:",
+      "NO_CONTENT": "No message content",
+      "CANCEL_FEEDBACK": "Cancel feedback",
+      "NO_MESSAGE_SELECTED": "Click thumbs down on an AI message to provide feedback"
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",

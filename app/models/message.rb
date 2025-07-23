@@ -108,7 +108,7 @@ class Message < ApplicationRecord
   # [:data] : Used for structured content types such as voice_call
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported, :data, :ai_feedback], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -428,6 +428,23 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  # AI Feedback helper methods
+  def has_ai_feedback?
+    ai_feedback.present?
+  end
+
+  def ai_feedback_rating
+    ai_feedback&.dig('rating')
+  end
+
+  def ai_feedback_text
+    ai_feedback&.dig('feedback_text')
+  end
+
+  def ai_feedback_agent_id
+    ai_feedback&.dig('agent_id')
   end
 end
 

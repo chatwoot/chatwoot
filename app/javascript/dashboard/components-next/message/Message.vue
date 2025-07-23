@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, computed, ref, toRefs } from 'vue';
+import { onMounted, computed, ref, toRefs, watch } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
+import { useToggle } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
 import { emitter } from 'shared/helpers/mitt';
@@ -10,6 +11,8 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import aiMessageFeedbacksAPI from 'dashboard/api/aiMessageFeedbacks';
+import { useAlert } from 'dashboard/composables';
 import {
   MESSAGE_TYPES,
   ATTACHMENT_TYPES,
@@ -21,6 +24,8 @@ import {
 } from './constants';
 
 import Avatar from 'next/avatar/Avatar.vue';
+import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
 import TextBubble from './bubbles/Text/Index.vue';
 import ActivityBubble from './bubbles/Activity.vue';
@@ -134,6 +139,7 @@ const props = defineProps({
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
+const [showAiFeedbackDropdown, toggleAiFeedbackDropdown] = useToggle(false);
 const { t } = useI18n();
 const route = useRoute();
 
@@ -242,10 +248,14 @@ const gridTemplate = computed(() => {
     [ORIENTATION.LEFT]: `
       "bubble"
       "meta"
+      "ai-feedback"
+      "ai-feedback-text"
     `,
     [ORIENTATION.RIGHT]: `
       "bubble avatar"
       "meta spacer"
+      "ai-feedback spacer"
+      "ai-feedback-text spacer"
     `,
   };
 
@@ -340,6 +350,91 @@ const payloadForContextMenu = computed(() => {
   };
 });
 
+// AI Feedback related computed properties
+const isBotMessage = computed(() => {
+  // Allow feedback on bot messages only
+  return variant.value === MESSAGE_VARIANTS.BOT;
+});
+
+// Local reactive state for AI feedback to provide immediate UI updates
+const localAiFeedback = ref(
+  props.contentAttributes?.ai_feedback ||
+    props.contentAttributes?.aiFeedback ||
+    null
+);
+
+// Watch for prop changes to sync with external updates
+watch(
+  () => props.contentAttributes,
+  newAttributes => {
+    // Support both snake_case and camelCase keys
+    const newFeedback =
+      newAttributes?.ai_feedback ?? newAttributes?.aiFeedback ?? null;
+
+    if (JSON.stringify(newFeedback) !== JSON.stringify(localAiFeedback.value)) {
+      localAiFeedback.value = newFeedback;
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+const aiFeedback = computed(() => {
+  return localAiFeedback.value || null;
+});
+
+const aiFeedbackRating = computed(() => {
+  const rating = aiFeedback.value?.rating || null;
+  return rating;
+});
+
+const aiFeedbackText = computed(() => {
+  return aiFeedback.value?.feedbackText || '';
+});
+
+const thumbsUpSelected = computed(() => {
+  const selected = aiFeedbackRating.value === 1;
+  return selected;
+});
+
+const thumbsDownSelected = computed(() => {
+  // Check for negative rating (with or without feedback text)
+  const selected = aiFeedbackRating.value === -1;
+  return selected;
+});
+
+const isSubmittingFeedback = ref(false);
+
+const thumbsUpButtonClass = computed(() => [
+  'p-1.5 rounded-md transition-all duration-200',
+  isSubmittingFeedback.value ? 'opacity-50 cursor-wait' : '',
+  thumbsUpSelected.value
+    ? 'bg-green-100 !text-green-600 border border-green-200 hover:bg-green-200 scale-105 shadow-md'
+    : 'text-slate-500 hover:bg-gray-100 hover:text-slate-700 hover:scale-105',
+]);
+
+const thumbsDownButtonClass = computed(() => [
+  'p-1.5 rounded-md transition-all duration-200',
+  isSubmittingFeedback.value ? 'opacity-50 cursor-wait' : '',
+  thumbsDownSelected.value
+    ? 'bg-red-100 !text-red-600 border border-red-200 hover:bg-red-200 scale-105 shadow-md'
+    : 'text-slate-500 hover:bg-gray-100 hover:text-slate-700 hover:scale-105',
+]);
+
+const aiFeedbackMenuItems = computed(() => [
+  {
+    icon: 'i-lucide-edit-3',
+    label: t('CONVERSATION.AI_FEEDBACK.EDIT_FEEDBACK'),
+    action: 'edit',
+    value: 'edit',
+  },
+  {
+    icon: 'i-lucide-trash-2',
+    label: t('CONVERSATION.AI_FEEDBACK.DELETE_FEEDBACK'),
+    action: 'delete',
+    value: 'delete',
+  },
+]);
+
 const contextMenuEnabledOptions = computed(() => {
   const hasText = !!props.content;
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
@@ -380,6 +475,169 @@ const shouldRenderMessage = computed(() => {
     isAnIntegrationMessage
   );
 });
+
+// AI Feedback methods
+async function handleThumbsUp() {
+  if (isSubmittingFeedback.value) return;
+
+  try {
+    isSubmittingFeedback.value = true;
+
+    // If thumbs up is already selected, undo the feedback by deleting it
+    if (thumbsUpSelected.value) {
+      await aiMessageFeedbacksAPI.delete(props.id);
+
+      // Clear local state immediately for instant UI feedback
+      localAiFeedback.value = null;
+
+      // Show success notification
+      useAlert(t('CONVERSATION.AI_FEEDBACK.POSITIVE_FEEDBACK_REMOVED'));
+
+      return;
+    }
+
+    // Otherwise, proceed with creating/updating positive feedback
+    const feedbackData = {
+      rating: 1,
+    };
+
+    if (aiFeedback.value) {
+      await aiMessageFeedbacksAPI.update(props.id, feedbackData);
+    } else {
+      await aiMessageFeedbacksAPI.create(props.id, feedbackData);
+    }
+
+    // Update local state immediately for instant UI feedback
+    const updatedFeedback = {
+      rating: 1,
+      feedbackText: aiFeedback.value?.feedbackText || null,
+      agentId: aiFeedback.value?.agentId || null,
+      createdAt: aiFeedback.value?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    localAiFeedback.value = updatedFeedback;
+
+    // Show success notification
+    useAlert(t('CONVERSATION.AI_FEEDBACK.THUMBS_UP_SUCCESS'));
+
+    // Note: Real-time updates handled automatically via existing MESSAGE_UPDATED event system
+  } catch (error) {
+    // Show user-friendly error message
+    const errorMessage =
+      error?.response?.data?.message ||
+      t('CONVERSATION.AI_FEEDBACK.SUBMIT_ERROR');
+    useAlert(errorMessage);
+  } finally {
+    isSubmittingFeedback.value = false;
+  }
+}
+
+async function handleThumbsDown() {
+  if (isSubmittingFeedback.value) return;
+
+  try {
+    // If feedback already exists with thumbs down, don't do anything
+    // The user can use the edit/delete buttons instead
+    if (thumbsDownSelected.value) {
+      return;
+    }
+
+    // Check if feedback already exists and has text - if so, just update rating
+    if (aiFeedback.value && aiFeedback.value.feedbackText) {
+      isSubmittingFeedback.value = true;
+
+      const feedbackData = {
+        rating: -1,
+        feedback_text: aiFeedback.value.feedbackText,
+      };
+
+      await aiMessageFeedbacksAPI.update(props.id, feedbackData);
+
+      // Update local state immediately for instant UI feedback
+      const updatedFeedback = {
+        ...aiFeedback.value,
+        rating: -1,
+        updated_at: new Date().toISOString(),
+      };
+
+      localAiFeedback.value = updatedFeedback;
+
+      useAlert(t('CONVERSATION.AI_FEEDBACK.THUMBS_DOWN_SUCCESS'));
+
+      return;
+    }
+
+    // For new feedback or feedback without text, trigger AI feedback mode
+    emitter.emit(BUS_EVENTS.AI_FEEDBACK_TO_MESSAGE, {
+      message: {
+        id: props.id,
+        content: props.content,
+        sender: props.sender,
+        createdAt: props.createdAt,
+        variant: props.variant,
+      },
+    });
+
+    // Show info message about feedback mode
+    useAlert(t('CONVERSATION.AI_FEEDBACK.FEEDBACK_MODE_ACTIVATED'));
+  } catch (error) {
+    // Show user-friendly error message
+    const errorMessage =
+      error?.response?.data?.message ||
+      t('CONVERSATION.AI_FEEDBACK.SUBMIT_ERROR');
+    useAlert(errorMessage);
+  } finally {
+    isSubmittingFeedback.value = false;
+  }
+}
+
+async function deleteAiFeedback() {
+  if (isSubmittingFeedback.value) return;
+
+  try {
+    isSubmittingFeedback.value = true;
+    await aiMessageFeedbacksAPI.delete(props.id);
+
+    // Clear local state immediately for instant UI feedback
+    localAiFeedback.value = null;
+
+    // Show success notification
+    useAlert(t('CONVERSATION.AI_FEEDBACK.DELETE_SUCCESS'));
+  } catch (error) {
+    // Show user-friendly error message
+    const errorMessage =
+      error?.response?.data?.message ||
+      t('CONVERSATION.AI_FEEDBACK.DELETE_ERROR');
+    useAlert(errorMessage);
+  } finally {
+    isSubmittingFeedback.value = false;
+  }
+}
+
+function editAiFeedback() {
+  emitter.emit(BUS_EVENTS.AI_FEEDBACK_TO_MESSAGE, {
+    message: {
+      id: props.id,
+      content: props.content,
+      sender: props.sender,
+      createdAt: props.createdAt,
+      variant: props.variant,
+    },
+  });
+
+  // Show info message about edit mode
+  useAlert(t('CONVERSATION.AI_FEEDBACK.EDIT_MODE_ACTIVATED'));
+}
+
+function handleAiFeedbackAction({ action }) {
+  toggleAiFeedbackDropdown(false);
+
+  if (action === 'edit') {
+    editAiFeedback();
+  } else if (action === 'delete') {
+    deleteAiFeedback();
+  }
+}
 
 function openContextMenu(e) {
   const shouldSkipContextMenu =
@@ -459,6 +717,47 @@ const setupHighlightTimer = () => {
 
 onMounted(setupHighlightTimer);
 
+// Listen for AI feedback submission updates
+onMounted(() => {
+  const handleFeedbackUpdate = event => {
+    // Only update if the event is for this message
+    if (event && event.messageId === props.id) {
+      localAiFeedback.value = { ...localAiFeedback.value, ...event.feedback };
+    }
+  };
+
+  const handleMessageUpdate = message => {
+    // Only update if the updated message is this message
+    if (message && message.id === props.id) {
+      // Support both snake_case and camelCase keys
+      const newFeedback =
+        message.content_attributes?.ai_feedback ??
+        message.content_attributes?.aiFeedback ??
+        null;
+      if (
+        JSON.stringify(newFeedback) !== JSON.stringify(localAiFeedback.value)
+      ) {
+        localAiFeedback.value = newFeedback;
+      }
+    }
+  };
+
+  // Listen for the specific feedback submission event
+  emitter.on('ai-feedback-submitted', handleFeedbackUpdate);
+
+  // Keep the general listeners as a fallback
+  emitter.on(BUS_EVENTS.MESSAGE_SENT, handleFeedbackUpdate);
+  emitter.on(BUS_EVENTS.MESSAGE_UPDATED, handleMessageUpdate);
+});
+
+// Watch for prop changes to track component lifecycle
+watch(
+  () => props.id,
+  () => {
+    // Component lifecycle tracking if needed
+  }
+);
+
 provideMessageContext({
   ...toRefs(props),
   isPrivate: computed(() => props.private),
@@ -519,6 +818,102 @@ provideMessageContext({
       >
         <Component :is="componentToRender" />
       </div>
+
+      <!-- AI Feedback Icons (for bot messages only) - positioned below bubble -->
+      <div
+        v-if="isBotMessage"
+        class="[grid-area:ai-feedback] flex items-center gap-1 mt-2"
+        :class="{
+          'justify-end': orientation === ORIENTATION.RIGHT,
+          'justify-start ltr:ml-8 rtl:mr-8': orientation === ORIENTATION.LEFT,
+          'mb-6': thumbsUpSelected && !(thumbsDownSelected && aiFeedbackText),
+          'mb-2': !thumbsUpSelected && !(thumbsDownSelected && aiFeedbackText),
+        }"
+      >
+        <button
+          :class="thumbsUpButtonClass"
+          :disabled="isSubmittingFeedback"
+          :title="
+            thumbsUpSelected
+              ? $t('CONVERSATION.AI_FEEDBACK.UNDO_POSITIVE_FEEDBACK')
+              : $t('CONVERSATION.AI_FEEDBACK.GOOD_RESPONSE')
+          "
+          class="skip-context-menu"
+          @click="handleThumbsUp"
+        >
+          <i
+            v-if="isSubmittingFeedback"
+            class="i-lucide-loader-2 size-4 animate-spin"
+          />
+          <i
+            v-else-if="thumbsUpSelected"
+            class="i-lucide-thumbs-up size-4 ai-feedback-selected"
+          />
+          <i v-else class="i-lucide-thumbs-up size-4" />
+        </button>
+        <button
+          :class="thumbsDownButtonClass"
+          :disabled="isSubmittingFeedback"
+          :title="
+            thumbsDownSelected
+              ? $t('CONVERSATION.AI_FEEDBACK.FEEDBACK_SUBMITTED')
+              : $t('CONVERSATION.AI_FEEDBACK.POOR_RESPONSE')
+          "
+          class="skip-context-menu"
+          @click="handleThumbsDown"
+        >
+          <i
+            v-if="isSubmittingFeedback"
+            class="i-lucide-loader-2 size-4 animate-spin"
+          />
+          <i
+            v-else-if="thumbsDownSelected"
+            class="i-lucide-thumbs-down size-4 ai-feedback-selected"
+          />
+          <i v-else class="i-lucide-thumbs-down size-4" />
+        </button>
+      </div>
+
+      <!-- Display AI Feedback Text (if available) -->
+      <div
+        v-if="thumbsDownSelected && aiFeedbackText"
+        class="[grid-area:ai-feedback-text] mb-6 flex items-start gap-2"
+        :class="{
+          'justify-end': orientation === ORIENTATION.RIGHT,
+          'justify-start ltr:ml-8 rtl:mr-8': orientation === ORIENTATION.LEFT,
+        }"
+      >
+        <div
+          class="inline-block p-2 text-xs rounded-md bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 max-w-xs"
+        >
+          <p class="mb-1 font-medium text-slate-900 dark:text-slate-50">
+            {{ $t('CONVERSATION.AI_FEEDBACK.POOR_RESPONSE_LABEL') }}
+          </p>
+          <p class="whitespace-pre-wrap">{{ aiFeedbackText }}</p>
+        </div>
+        <div
+          v-on-clickaway="() => toggleAiFeedbackDropdown(false)"
+          class="relative flex items-center flex-shrink-0"
+        >
+          <ButtonV4
+            v-tooltip="$t('CONVERSATION.AI_FEEDBACK.MORE_ACTIONS')"
+            size="sm"
+            variant="ghost"
+            color="slate"
+            icon="i-lucide-more-vertical"
+            class="rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 skip-context-menu"
+            :disabled="isSubmittingFeedback"
+            @click="toggleAiFeedbackDropdown()"
+          />
+          <DropdownMenu
+            v-if="showAiFeedbackDropdown"
+            :menu-items="aiFeedbackMenuItems"
+            class="mt-1 ltr:right-0 rtl:left-0 top-full"
+            @action="handleAiFeedbackAction"
+          />
+        </div>
+      </div>
+
       <MessageError
         v-if="contentAttributes.externalError"
         class="[grid-area:meta]"
@@ -551,5 +946,12 @@ provideMessageContext({
   .right-bubble {
     @apply ltr:rounded-tr-sm rtl:rounded-tl-sm;
   }
+}
+
+// AI Feedback filled icon effect
+.ai-feedback-selected {
+  filter: drop-shadow(0 0 0 currentColor) drop-shadow(0 0 0 currentColor)
+    drop-shadow(0 0 0 currentColor);
+  font-weight: 900 !important;
 }
 </style>

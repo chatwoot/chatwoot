@@ -241,6 +241,19 @@ en:
       transcript_subject: 'Conversation Transcript'
     survey:
       response: 'Please rate this conversation, %{link}'
+    ai_feedback:
+      providing_feedback_for: 'Providing feedback for AI message:'
+      no_content: '[AI message has no content]'
+      cancel_feedback: 'Cancel feedback'
+      empty_feedback_error: 'Please provide feedback text before submitting.'
+      submit_success: 'AI feedback submitted successfully'
+      submit_error: 'Failed to submit AI feedback. Please try again.'
+    replybox:
+      ai_feedback_mode: 'AI Feedback'
+      ai_feedback_input: 'Provide detailed feedback about this AI-generated message...'
+      submit_feedback: 'Submit Feedback'
+    footer:
+      ai_feedback_input: 'Provide detailed feedback about this AI-generated message...'
   contacts:
     online:
       delete: '%{contact_name} is Online, please try again later'
