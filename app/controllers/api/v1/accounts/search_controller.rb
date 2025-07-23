@@ -25,7 +25,6 @@ class Api::V1::Accounts::SearchController < Api::V1::Accounts::BaseController
     SearchService.new(
       current_user: Current.user,
       current_account: Current.account,
-      account_user: Current.account_user
       search_type: search_type,
       params: params
     ).perform
