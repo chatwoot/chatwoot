@@ -103,6 +103,7 @@ Rails.application.configure do
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+  Rails.application.secrets.secret_key_base = ENV.fetch("SECRET_KEY_BASE")
 
   # Configure ActionMailer to use Postmark
   config.action_mailer.delivery_method = :postmark
