@@ -67,57 +67,37 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('push', event => {
-  if (!event.data) {
-    console.warn('Service Worker: Push event received without data');
-    return;
-  }
+  let notification = event.data && event.data.json();
 
-  try {
-    const notification = event.data.json();
-
-    if (!notification.title) {
-      console.warn('Service Worker: Push notification missing title');
-      return;
-    }
-
-    event.waitUntil(
-      self.registration.showNotification(notification.title, {
-        tag: notification.tag || 'default',
-        body: notification.body || '',
-        icon: notification.icon || '/favicon.ico',
-        data: {
-          url: notification.url || '/',
-        },
-      })
-    );
-  } catch (err) {
-    console.error('Service Worker: Error parsing push notification', err);
-  }
+  event.waitUntil(
+    self.registration.showNotification(notification.title, {
+      tag: notification.tag,
+      data: {
+        url: notification.url,
+      },
+    })
+  );
 });
 
 self.addEventListener('notificationclick', event => {
-  const notification = event.notification;
-  notification.close();
-
-  const targetUrl = notification.data?.url || '/';
+  let notification = event.notification;
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true })
-      .then(windowClients => {
-        const matchingClient = windowClients.find(
-          client => client.url === targetUrl
-        );
+    clients.matchAll({ type: 'window' }).then(windowClients => {
+      let matchingWindowClients = windowClients.filter(
+        client => client.url === notification.data.url
+      );
 
-        if (matchingClient) {
-          return matchingClient.focus();
+      if (matchingWindowClients.length) {
+        let firstWindow = matchingWindowClients[0];
+        if (firstWindow && 'focus' in firstWindow) {
+          firstWindow.focus();
+          return;
         }
-
-        if (clients.openWindow) {
-          return clients.openWindow(targetUrl);
-        }
-      })
-      .catch(err => {
-        console.error('Service Worker: Error handling notification click', err);
-      })
+      }
+      if (clients.openWindow) {
+        clients.openWindow(notification.data.url);
+      }
+    })
   );
 });
