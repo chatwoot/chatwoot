@@ -66,7 +66,7 @@ const activeAssistant = computed(() => {
 });
 
 const closeCopilotPanel = () => {
-  if (isSmallScreen.value && uiSettings.value.is_copilot_panel_open) {
+  if (isSmallScreen.value && uiSettings.value?.is_copilot_panel_open) {
     updateUISettings({
       is_contact_sidebar_open: false,
       is_copilot_panel_open: false,
