@@ -33,7 +33,10 @@ jobs:
       REDIS_URL: ${{ secrets.REDIS_URL }}
       SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
       POSTMARK_API_TOKEN: ${{ secrets.POSTMARK_API_TOKEN }}
-    - name: Check SECRET_KEY_BASE
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check SECRET_KEY_BASE
         run: |
           if [ -z "$SECRET_KEY_BASE" ]; then
             echo "::error::SECRET_KEY_BASE is not set or is empty!"
@@ -47,8 +50,6 @@ jobs:
             echo "::warning::SECRET_KEY_BASE is less than 30 characters, which is insecure!"
           fi
           echo "SECRET_KEY_BASE is set and looks like a string."
-    steps:
-      - uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
