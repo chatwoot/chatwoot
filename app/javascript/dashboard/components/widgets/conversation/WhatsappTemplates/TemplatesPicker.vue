@@ -1,7 +1,11 @@
 <script>
-// Support all template formats including media headers
+import { useAlert } from 'dashboard/composables';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 export default {
+  components: {
+    Icon,
+  },
   props: {
     inboxId: {
       type: Number,
@@ -12,6 +16,7 @@ export default {
   data() {
     return {
       query: '',
+      isRefreshing: false,
     };
   },
   computed: {
@@ -82,22 +87,47 @@ export default {
           header.format === 'DOCUMENT')
       );
     },
+    async refreshTemplates() {
+      this.isRefreshing = true;
+      try {
+        await this.$store.dispatch('inboxes/syncTemplates', this.inboxId);
+        useAlert(this.$t('WHATSAPP_TEMPLATES.PICKER.REFRESH_SUCCESS'));
+      } catch (error) {
+        useAlert(this.$t('WHATSAPP_TEMPLATES.PICKER.REFRESH_ERROR'));
+      } finally {
+        this.isRefreshing = false;
+      }
+    },
   },
 };
 </script>
 
 <template>
   <div class="w-full">
-    <div
-      class="flex gap-1 items-center px-2.5 py-0 mb-2.5 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 focus-within:outline-n-brand dark:focus-within:outline-n-brand"
-    >
-      <fluent-icon icon="search" class="text-n-slate-12" size="16" />
-      <input
-        v-model="query"
-        type="search"
-        :placeholder="$t('WHATSAPP_TEMPLATES.PICKER.SEARCH_PLACEHOLDER')"
-        class="reset-base w-full h-9 bg-transparent text-n-slate-12 !text-sm !outline-0"
-      />
+    <div class="flex gap-2 mb-2.5">
+      <div
+        class="flex flex-1 gap-1 items-center px-2.5 py-0 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 focus-within:outline-n-brand dark:focus-within:outline-n-brand"
+      >
+        <fluent-icon icon="search" class="text-n-slate-12" size="16" />
+        <input
+          v-model="query"
+          type="search"
+          :placeholder="$t('WHATSAPP_TEMPLATES.PICKER.SEARCH_PLACEHOLDER')"
+          class="reset-base w-full h-9 bg-transparent text-n-slate-12 !text-sm !outline-0"
+        />
+      </div>
+      <button
+        :disabled="isRefreshing"
+        class="flex justify-center items-center w-9 h-9 rounded-lg bg-n-alpha-black2 outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 hover:bg-n-alpha-2 dark:hover:bg-n-solid-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        :title="$t('WHATSAPP_TEMPLATES.PICKER.REFRESH_BUTTON')"
+        @click="refreshTemplates"
+      >
+        <Icon
+          icon="i-lucide-refresh-ccw"
+          class="text-n-slate-12 size-4"
+          :class="{ 'animate-spin': isRefreshing }"
+        />
+      </button>
     </div>
     <div
       class="bg-n-background outline-n-container outline outline-1 rounded-lg max-h-[18.75rem] overflow-y-auto p-2.5"
@@ -190,11 +220,18 @@ export default {
           class="border-b border-solid border-n-weak my-2.5 mx-auto max-w-[95%]"
         />
       </div>
-      <div v-if="!filteredTemplateMessages.length">
-        <p>
-          {{ $t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
-          <strong>{{ query }}</strong>
-        </p>
+      <div v-if="!filteredTemplateMessages.length" class="py-8 text-center">
+        <div v-if="query && whatsAppTemplateMessages.length">
+          <p>
+            {{ $t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_FOUND') }}
+            <strong>{{ query }}</strong>
+          </p>
+        </div>
+        <div v-else-if="!whatsAppTemplateMessages.length" class="space-y-4">
+          <p class="text-n-slate-11">
+            {{ $t('WHATSAPP_TEMPLATES.PICKER.NO_TEMPLATES_AVAILABLE') }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
