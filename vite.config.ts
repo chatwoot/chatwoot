@@ -41,7 +41,7 @@ let plugins = [
   VitePWA({
     mode: 'development',
     strategies: 'generateSW',
-    outDir: './public',
+    outDir: '../../public/',
     injectRegister: null,
     workbox: {
       maximumFileSizeToCacheInBytes: 10 * 1024 ** 2,
