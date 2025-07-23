@@ -7,16 +7,16 @@ class Cloudflare::CreateCustomHostnameService < Cloudflare::BaseCloudflareZoneSe
 
     response = create_hostname
 
-    return { success: false, errors: response.parsed_response['errors'] } unless response.success?
+    return { errors: response.parsed_response['errors'] } unless response.success?
 
     data = response.parsed_response['result']
 
     if data.present?
       update_portal_ssl_settings(data)
-      return { success: true, data: data }
+      return { data: data }
     end
 
-    { success: false, errors: ['Could not create hostname'] }
+    { errors: ['Could not create hostname'] }
   end
 
   private
