@@ -55,6 +55,7 @@ export default {
     useKeyboardEvents(keyboardEvents);
 
     return {
+      setReplyMode,
       handleModeToggle,
       handleReplyClick,
       handleNoteClick,
@@ -89,7 +90,7 @@ export default {
     <EditorModeToggle
       :mode="mode"
       class="mt-3"
-      @toggle-mode="handleModeToggle"
+      @update:mode="setReplyMode"
     />
     <div class="flex items-center mx-4 my-0">
       <div v-if="isMessageLengthReachingThreshold" class="text-xs">

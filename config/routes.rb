@@ -100,6 +100,7 @@ Rails.application.routes.draw do
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
+          resources :ai_message_feedbacks, only: [:create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end

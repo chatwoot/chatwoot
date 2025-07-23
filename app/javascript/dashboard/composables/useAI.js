@@ -144,13 +144,12 @@ export function useAI() {
         hookId: hookId.value,
         conversationId: conversationId.value,
       });
-
       const {
         data: { message: labels },
       } = result;
 
       return cleanLabels(labels);
-    } catch {
+    } catch (e) {
       return [];
     }
   };
