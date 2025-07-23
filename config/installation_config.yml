@@ -87,11 +87,14 @@
 
 # ------- Email Related Config ------- #
 - name: MAILER_INBOUND_EMAIL_DOMAIN
+  display_title: 'Inbound Email Domain'
   value:
   description: 'The domain name to be used for generating conversation continuity emails (reply+id@domain.com)'
   locked: false
 - name: MAILER_SUPPORT_EMAIL
+  display_title: 'Support Email'
   value:
+  description: 'The support email address for your installation'
   locked: false
 # ------- End of Email Related Config ------- #
 
@@ -394,3 +397,22 @@
   locked: false
   type: secret
 # ------- End of OG Image Related Config ------- #
+
+## ------ Configs added for Google OAuth ------ ##
+- name: GOOGLE_OAUTH_CLIENT_ID
+  display_title: 'Google OAuth Client ID'
+  value:
+  locked: false
+  description: 'Google OAuth Client ID for email authentication'
+- name: GOOGLE_OAUTH_CLIENT_SECRET
+  display_title: 'Google OAuth Client Secret'
+  value:
+  locked: false
+  description: 'Google OAuth Client Secret for email authentication'
+  type: secret
+- name: GOOGLE_OAUTH_REDIRECT_URI
+  display_title: 'Google OAuth Redirect URI'
+  value:
+  locked: false
+  description: 'The redirect URI configured in your Google OAuth app'
+## ------ End of Configs added for Google OAuth ------ ##
