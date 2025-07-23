@@ -1,5 +1,5 @@
 class SearchService
-  pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
+  pattr_initialize [:current_user!, :current_account!, :account_user!, :params!, :search_type!]
 
   def perform
     case search_type
@@ -78,8 +78,9 @@ class SearchService
   end
 
   def message_base_query
-    current_account.messages.where(inbox_id: accessable_inbox_ids)
-                   .where('created_at >= ?', 3.months.ago)
+    query = current_account.messages.where('created_at >= ?', 3.months.ago)
+    query = query.where(inbox_id: accessable_inbox_ids) unless @account_user.administrator?
+    query
   end
 
   def use_gin_search
