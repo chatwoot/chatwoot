@@ -34,10 +34,7 @@ const vueOptions = {
   },
 };
 
-let plugins = [
-  ruby(),
-  vue(vueOptions),
-];
+let plugins = [ruby(), vue(vueOptions)];
 
 if (isLibraryMode) {
   plugins = [];
