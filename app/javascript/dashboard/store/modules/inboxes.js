@@ -44,11 +44,7 @@ export const getters = {
     const messagesTemplates =
       whatsAppMessageTemplates || apiInboxMessageTemplates;
 
-    // Return all WhatsApp templates including media templates
-    if (messagesTemplates instanceof Array) {
-      return messagesTemplates;
-    }
-    return [];
+    return messagesTemplates;
   },
   getNewConversationInboxes($state) {
     return $state.records.filter(inbox => {
