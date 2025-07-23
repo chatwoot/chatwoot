@@ -119,7 +119,13 @@ const handleSeeOriginal = () => {
       >
         <div
           v-if="isExpandable && !isExpanded"
-          class="absolute left-0 right-0 bottom-0 h-40 px-8 flex items-end bg-gradient-to-t from-n-slate-4 via-n-slate-4 via-20% to-transparent"
+          class="absolute left-0 right-0 bottom-0 h-40 px-8 flex items-end"
+          :class="{
+            'bg-gradient-to-t from-n-slate-4 via-n-slate-4 via-20% to-transparent':
+              isIncoming,
+            'bg-gradient-to-t from-n-solid-blue via-n-solid-blue via-20% to-transparent':
+              isOutgoing,
+          }"
         >
           <button
             class="text-n-slate-12 py-2 px-8 mx-auto text-center flex items-center gap-2"
