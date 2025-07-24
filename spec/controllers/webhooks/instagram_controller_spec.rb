@@ -38,7 +38,7 @@ RSpec.describe 'Webhooks::InstagramController', type: :request do
       let!(:echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
 
       it 'delays processing for echo events by 2 seconds' do
-        job_double = double('job')
+        job_double = class_double(Webhooks::InstagramEventsJob)
         allow(Webhooks::InstagramEventsJob).to receive(:set).with(wait: 2.seconds).and_return(job_double)
         allow(job_double).to receive(:perform_later)
 
