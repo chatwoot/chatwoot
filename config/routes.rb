@@ -196,6 +196,7 @@ Rails.application.routes.draw do
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
+            post :sync_templates, on: :member
           end
 
           # Voice call management - using resource to avoid plural/singular confusion
@@ -555,6 +556,7 @@ Rails.application.routes.draw do
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
   get '.well-known/apple-app-site-association' => 'apple_app#site_association'
   get '.well-known/microsoft-identity-association.json' => 'microsoft#identity_association'
+  get '.well-known/cf-custom-hostname-challenge/:id', to: 'custom_domains#verify'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes

@@ -184,9 +184,8 @@ export default {
 
       return false;
     },
-    hasWhatsappTemplates() {
-      return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
-        .length;
+    showWhatsappTemplates() {
+      return this.isAWhatsAppCloudChannel && !this.isPrivate;
     },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
@@ -1220,7 +1219,7 @@ export default {
     <ReplyBottomPanel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      :has-whatsapp-templates="hasWhatsappTemplates"
+      :enable-whats-app-templates="showWhatsappTemplates"
       :inbox="inbox"
       :is-on-private-note="isOnPrivateNote"
       :is-recording-audio="isRecordingAudio"
