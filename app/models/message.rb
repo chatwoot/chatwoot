@@ -299,10 +299,10 @@ class Message < ApplicationRecord
 
   def prepend_agent_name_to_whatsapp_message
     return unless should_prepend_agent_name?
-  
-    self.content = "*#{sender.name}*\n#{self.content}"
+
+    self.content = "*#{sender.name}*\n#{content}"
   end
-  
+
   def should_prepend_agent_name?
     outgoing? &&
       conversation&.inbox&.channel&.provider == 'whatsapp_cloud' &&
