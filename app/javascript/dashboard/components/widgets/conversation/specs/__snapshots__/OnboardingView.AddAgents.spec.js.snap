@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OnboardingView.AddAgent.vue > should render 1`] = `
+"<div>
+  <div class="mock-index">Index Component</div>
+</div>"
+`;
+
+exports[`OnboardingView.AddAgent.vue > should render the component 1`] = `
+"<div>
+  <div class="mock-index">Index Component</div>
+</div>"
+`;

@@ -1,13 +1,14 @@
 <script setup>
-import { defineProps, ref, computed } from 'vue';
+import { defineProps, ref, computed, markRaw } from 'vue';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import ChannelList from '../../../routes/dashboard/settings/inbox/ChannelList.vue';
 import AddAgents from '../../../routes/dashboard/settings/inbox/AddAgents.vue';
 import Whatsapp from '../../../routes/dashboard/settings/inbox/channels/Whatsapp.vue';
+import Instagram from '../../../routes/dashboard/settings/inbox/channels/Instagram.vue';
 import { useI18n } from 'vue-i18n';
 
-const props = defineProps({
+defineProps({
   stepNumber: {
     type: Number,
     required: true,
@@ -22,13 +23,23 @@ const { t } = useI18n();
 const store = useStore();
 
 const channelSelectedFactory = ref({
-  whatsapp: { component: Whatsapp, props: { disabledAutoRoute: true } },
+  whatsapp: {
+    component: markRaw(Whatsapp),
+    props: { disabledAutoRoute: true },
+  },
+  instagram: {
+    component: markRaw(Instagram),
+    props: { disabledAutoRoute: true },
+  },
 });
 
 const channelSelected = ref(null);
 const inboxes = computed(() => store.getters['inboxes/getInboxes']);
 const channelAlreadyCreated = computed(() => {
   return inboxes.value.length > 0;
+});
+const showChannelList = computed(() => {
+  return !channelSelected.value && !channelAlreadyCreated.value;
 });
 
 const handleAgentsAdded = () => {
@@ -38,9 +49,9 @@ const handleAgentsAdded = () => {
 
 <template>
   <div>
-    <div v-if="props.currentStep === props.stepNumber">
+    <div v-if="currentStep === stepNumber">
       <ChannelList
-        v-if="!channelSelected && !channelAlreadyCreated"
+        v-if="showChannelList"
         disabled-auto-route
         @channel-item-click="channelSelected = $event"
       />

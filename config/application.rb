@@ -62,7 +62,7 @@ module Chatwoot
     # FIX ME : fixes breakage of installation config. we need to migrate.
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
 
-    config.chatscommerce_api_url = ENV.fetch('CHATSC_API_URL', nil)
+    config.chatscommerce_api_url = ENV.fetch('AI_BACKEND_API', nil)
   end
 
   def self.config

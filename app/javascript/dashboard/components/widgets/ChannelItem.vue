@@ -11,10 +11,6 @@ export default {
       type: Object,
       required: true,
     },
-    disabled_auto_route: {
-      type: Boolean,
-      default: false,
-    },
   },
   emits: ['channelItemClick'],
   computed: {

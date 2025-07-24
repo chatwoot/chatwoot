@@ -2,7 +2,7 @@
 import { defineProps } from 'vue';
 import Bot from '../../../routes/dashboard/settings/agentBots/Index.vue';
 
-const props = defineProps({
+defineProps({
   currentStep: {
     type: Number,
     required: true,
@@ -16,6 +16,6 @@ const props = defineProps({
 
 <template>
   <div>
-    <Bot v-if="currentStep === props.stepNumber" />
+    <Bot v-if="currentStep === stepNumber" />
   </div>
 </template>
