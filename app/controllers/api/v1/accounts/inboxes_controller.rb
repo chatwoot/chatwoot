@@ -3,7 +3,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :validate_limit, only: [:create]
-  # we are already handling the authorization in fetch inbox
   before_action :check_authorization, except: [:show]
 
   def index
@@ -12,7 +11,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def show; end
 
-  # Deprecated: This API will be removed in 2.7.0
   def assignable_agents
     @assignable_agents = @inbox.assignable_agents
   end
@@ -67,6 +65,44 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def destroy
     ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
+  end
+
+  def whatsapp_qr
+    @channel = @inbox.channel
+
+    begin
+      qr_data = @channel.get_qr_code
+      render json: {
+        success: true,
+        qr_code: qr_data.dig('data', 'qr'),
+        message: 'QR Code generated successfully'
+      }
+    rescue StandardError => e
+      render json: {
+        success: false,
+        message: "Failed to generate QR code: #{e.message}"
+      }, status: :unprocessable_entity
+    end
+  end
+
+  def whatsapp_status
+    @channel = @inbox.channel
+    
+    Rails.logger.info "🔍 DEBUG: WhatsApp status request for inbox #{@inbox.id}, channel: #{@channel.class.name}"
+    Rails.logger.info "🔍 DEBUG: Channel phone: #{@channel.phone_number if @channel.respond_to?(:phone_number)}"
+
+    begin
+      status = @channel.session_status
+      Rails.logger.info "🔍 DEBUG: Got status from channel: #{status}"
+      
+      result = build_status_response(status)
+      Rails.logger.info "🔍 DEBUG: Final API response: #{result}"
+      
+      render json: result
+    rescue StandardError => e
+      Rails.logger.error "❌ WhatsApp status error: #{e.message}"
+      render json: error_status_response(e.message)
+    end
   end
 
   private
@@ -129,8 +165,47 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name]
   end
 
+  def build_status_response(status)
+    waha_status = map_to_waha_status(status)
+    
+    {
+      success: true,
+      message: 'session info fetched successfully',
+      data: {
+        status: waha_status,
+        connected: waha_status == 'logged_in'
+      }
+    }
+  end
+
+  def error_status_response(error_message)
+    {
+      success: false,
+      connected: false,
+      message: error_message,
+      data: {
+        status: 'not_logged_in',
+        connected: false
+      }
+    }
+  end
+
+  def map_to_waha_status(status)
+    actual_status = status.dig('data', 'status')
+    Rails.logger.info "🔍 DEBUG: Mapping status - input: #{status}, extracted: #{actual_status}"
+    
+    result = case actual_status&.downcase
+             when 'connected', 'authenticated', 'ready', 'logged_in'
+               'logged_in'
+             else
+               'not_logged_in'
+             end
+    
+    Rails.logger.info "🔍 DEBUG: Mapped status result: #{result}"
+    result
+  end
+
   def permitted_params(channel_attributes = [])
-    # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
     params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
 
     params.permit(
@@ -147,7 +222,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       'line' => Channel::Line,
       'telegram' => Channel::Telegram,
       'whatsapp' => Channel::Whatsapp,
-      'sms' => Channel::Sms
+      'sms' => Channel::Sms,
+      'whatsapp_unofficial' => Channel::WhatsappUnofficial
     }[permitted_params[:channel][:type]]
   end
 

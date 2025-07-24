@@ -7,6 +7,7 @@ import InboxHome from './Index.vue';
 import Settings from './Settings.vue';
 import InboxChannel from './InboxChannels.vue';
 import ChannelList from './ChannelList.vue';
+import DisplayQR from './DisplayQR.vue';
 import AddAgents from './AddAgents.vue';
 import FinishSetup from './FinishSetup.vue';
 
@@ -54,6 +55,14 @@ export default {
               path: '',
               name: 'settings_inbox_new',
               component: ChannelList,
+              meta: {
+                permissions: ['administrator'],
+              },
+            },
+            {
+              path: ':inbox_id/qrcode',
+              name: 'settings_inboxes_display_qrcode',
+              component: DisplayQR,
               meta: {
                 permissions: ['administrator'],
               },

@@ -11,6 +11,14 @@ class WhatsAppUnofficialChannels extends ApiClient {
       inbox_name,
     });
   }
+
+  generateQR(inboxId) {
+    return axios.get(`${this.baseUrl()}/inboxes/${inboxId}/whatsapp/qr`);
+  }
+
+  getConnectionStatus(inboxId) {
+    return axios.get(`${this.baseUrl()}/inboxes/${inboxId}/whatsapp/status`);
+  }
 }
 
 export default new WhatsAppUnofficialChannels();
