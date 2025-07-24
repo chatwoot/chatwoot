@@ -49,19 +49,21 @@ class ChatscommerceService::ConfigurationService
       headers: self.class.headers
     )
 
-    raise ConfigurationError, "Configurations cannot be created: #{response.code}" unless response.success?
+    handle_response(response)
 
     response.parsed_response
-  rescue StandardError => e
-    Rails.logger.error "Single configuration creation failed for #{config_key}: #{e.message}"
-    raise ConfigurationError, "Configuration creation failed for #{config_key}: #{e.message}"
   end
 
   private
 
+  def handle_response(response)
+    raise ConfigurationError, "Bad Request, url: #{response.request.last_uri}" if response.code == 404
+    raise ConfigurationError, "Configurations cannot be created: #{response.code}" unless response.success?
+  end
+
   def chatscommerce_api_url
     Rails.application.config.chatscommerce_api_url ||
-      ENV['CHATSC_API_URL'] ||
+      ENV['AI_BACKEND_API'] ||
       Rails.application.credentials.chatscommerce_api_url
   end
 end

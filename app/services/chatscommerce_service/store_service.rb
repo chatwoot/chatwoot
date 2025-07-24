@@ -21,12 +21,17 @@ class ChatscommerceService::StoreService
       body: { store: store_data }.to_json,
       headers: self.class.headers
     )
-    raise StoreError, "Store cannot be created: #{response.code}" unless response.success?
+    handle_response(response)
 
     response.parsed_response
   end
 
   private
+
+  def handle_response(response)
+    raise StoreError, "Bad Request, url: #{response.request.last_uri}" if response.code == 404
+    raise StoreError, "Store cannot be created: #{response.code}" unless response.success?
+  end
 
   def build_store_data(account, user_email)
     {
@@ -42,7 +47,7 @@ class ChatscommerceService::StoreService
 
   def chatscommerce_api_url
     Rails.application.config.chatscommerce_api_url ||
-      ENV['CHATSC_API_URL'] ||
+      ENV['AI_BACKEND_API'] ||
       Rails.application.credentials.chatscommerce_api_url
   end
 end

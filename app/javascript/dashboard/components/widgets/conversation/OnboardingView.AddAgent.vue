@@ -2,7 +2,7 @@
 import Index from '../../../routes/dashboard/settings/agents/Index.vue';
 import { defineProps } from 'vue';
 
-const props = defineProps({
+defineProps({
   currentStep: {
     type: Number,
     required: true,
@@ -16,6 +16,6 @@ const props = defineProps({
 
 <template>
   <div>
-    <Index v-if="props.currentStep === props.stepNumber" />
+    <Index v-if="currentStep === stepNumber" />
   </div>
 </template>

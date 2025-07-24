@@ -69,6 +69,7 @@ module Chatwoot
     # Disable PDF/video preview generation as we don't use them
     config.active_storage.previewers = []
     config.chatscommerce_api_url = ENV.fetch('CHATSC_API_URL', nil)
+    config.ai_backend_api_url = ENV.fetch('AI_BACKEND_API', nil)
   end
 
   def self.config
