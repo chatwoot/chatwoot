@@ -8,22 +8,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:14
-        env:
-          POSTGRES_DB: chatwoot_test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-        ports: ['5432:5432']
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      redis:
-        image: redis:alpine
-        ports: ['6379:6379']
     env:
       RAILS_ENV: production
       NODE_ENV: production
@@ -37,7 +21,7 @@ jobs:
       POSTMARK_API_TOKEN: ${{ secrets.POSTMARK_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -55,14 +39,11 @@ jobs:
           npm install -g pnpm
           pnpm install
 
-      - name: Set up database
-        run: |
-          bundle exec rails db:setup || bundle exec rails db:create db:schema:load
+      # 👇 Removed the database setup step since you don't want it
 
-      - name: Run tests
+      - name: Precompile assets
         run: |
-          bundle exec rspec || echo 'No RSpec tests found'
-          pnpm run test || echo 'No JS tests found'
+          RAILS_ENV=production bundle exec rake assets:precompile
 
   docker-build-and-push:
     needs: build-and-test
@@ -96,4 +77,4 @@ jobs:
       - name: Deploy to production server
         run: |
           echo "Deploy step goes here. For example, SSH to your server and run docker-compose pull/up."
-          # ssh ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} 'cd /courier && docker compose -f docker-compose.production.yaml up -d --pull always' 
+          # ssh ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} 'cd /courier && docker compose -f docker-compose.production.yaml up -d --pull always'
