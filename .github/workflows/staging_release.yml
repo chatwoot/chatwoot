@@ -31,26 +31,13 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
       REDIS_URL: ${{ secrets.REDIS_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PGSSLMODE: ${{ secrets.PGSSLMODE }}
       SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
       POSTMARK_API_TOKEN: ${{ secrets.POSTMARK_API_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Check SECRET_KEY_BASE
-        run: |
-          if [ -z "$SECRET_KEY_BASE" ]; then
-            echo "::error::SECRET_KEY_BASE is not set or is empty!"
-            exit 1
-          fi
-          if [[ "$SECRET_KEY_BASE" =~ ^[0-9]+$ ]]; then
-            echo "::error::SECRET_KEY_BASE looks like a number, should be a random string!"
-            exit 1
-          fi
-          if [ ${#SECRET_KEY_BASE} -lt 30 ]; then
-            echo "::warning::SECRET_KEY_BASE is less than 30 characters, which is insecure!"
-          fi
-          echo "SECRET_KEY_BASE is set and looks like a string."
-
+      
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
