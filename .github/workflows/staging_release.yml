@@ -96,7 +96,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} '
             set -e
-            cd /courier
+            cd courier
 
             echo "--- Pulling latest Docker images ---"
             docker compose -f docker-compose.production.yaml pull
