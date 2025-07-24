@@ -82,24 +82,24 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/courier-production-v1:latest
 
   deploy:
-  needs: docker-build-and-push
-  runs-on: ubuntu-latest
-  steps:
-    - name: Deploy to production server
-      run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} '
-          set -e
-          cd /courier
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} '
+            set -e
+            cd /courier
 
-          echo "--- Pulling latest Docker images ---"
-          docker compose -f docker-compose.production.yaml pull
+            echo "--- Pulling latest Docker images ---"
+            docker compose -f docker-compose.production.yaml pull
 
-          echo "--- Starting containers ---"
-          docker compose -f docker-compose.production.yaml up -d --pull always
+            echo "--- Starting containers ---"
+            docker compose -f docker-compose.production.yaml up -d --pull always
 
-          echo "--- Running database migrations ---"
-          docker compose -f docker-compose.production.yaml exec web bundle exec rails db:migrate
+            echo "--- Running database migrations ---"
+            docker compose -f docker-compose.production.yaml exec web bundle exec rails db:migrate
 
-          echo "--- Precompiling Rails assets ---"
-          docker compose -f docker-compose.production.yaml exec web bundle exec rails assets:precompile
-        '
+            echo "--- Precompiling Rails assets ---"
+            docker compose -f docker-compose.production.yaml exec web bundle exec rails assets:precompile
+          '
