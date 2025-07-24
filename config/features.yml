@@ -176,3 +176,18 @@
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
+- name: captain_integration_v2
+  display_name: Captain V2
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+- name: whatsapp_embedded_signup
+  display_name: WhatsApp Embedded Signup
+  enabled: false
+- name: whatsapp_campaign
+  display_name: WhatsApp Campaign
+  enabled: false
+- name: crm_v2
+  display_name: CRM V2
+  enabled: false
+  chatwoot_internal: true

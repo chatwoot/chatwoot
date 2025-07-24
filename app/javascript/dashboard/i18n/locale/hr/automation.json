@@ -146,8 +146,21 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Promjena prioriteta",
-      "ADD_SLA": "Add SLA"
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Otvori razgovor"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "None",
+      "LOW": "Nisko",
+      "MEDIUM": "Srednje",
+      "HIGH": "Visoko",
+      "URGENT": "Hitno"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",

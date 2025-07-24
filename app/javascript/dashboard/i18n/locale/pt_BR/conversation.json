@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Próxima semana"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agentes",
+      "TEAMS": "Times"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Adiar até",
       "APPLY": "Adiar",
@@ -308,7 +312,7 @@
       "CONTACT_ATTRIBUTES": "Atributos do contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "Problemas do Linear vinculados",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
