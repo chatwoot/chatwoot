@@ -4,13 +4,13 @@ module Voice
 
     def process
       case event
-      when 'conference-start'
+      when 'start'
         handle_conference_start
-      when 'conference-end'
+      when 'end'
         handle_conference_end
-      when 'participant-join'
+      when 'join'
         handle_participant_join
-      when 'participant-leave'
+      when 'leave'
         handle_participant_leave
       end
 

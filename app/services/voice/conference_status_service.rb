@@ -21,7 +21,7 @@ module Voice
       {
         call_sid: params['CallSid'],
         conference_sid: params['ConferenceSid'],
-        event: normalize_event_name(params['StatusCallbackEvent']),
+        event: params['StatusCallbackEvent'],
         participant_sid: params['ParticipantSid'],
         participant_label: params['ParticipantLabel']
       }
@@ -29,22 +29,6 @@ module Voice
 
     private
 
-    def normalize_event_name(raw_event)
-      return 'unknown' unless raw_event.present?
-
-      case raw_event.downcase.gsub(/\s+/, '')
-      when 'participant-join', 'participantjoin', 'participantjoined'
-        'participant-join'
-      when 'participant-leave', 'participantleave', 'participantleft'
-        'participant-leave'
-      when 'conference-start', 'conferencestart', 'conferencestarted'
-        'conference-start'
-      when 'conference-end', 'conferenceend', 'conferenceended'
-        'conference-end'
-      else
-        raw_event.downcase.gsub(/\s+/, '-')
-      end
-    end
 
     def find_conversation(info)
       # Try by conference_sid first
