@@ -65,6 +65,8 @@ class Message < ApplicationRecord
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
 
+  before_create :prepend_agent_name_to_whatsapp_message
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
@@ -293,6 +295,18 @@ class Message < ApplicationRecord
       content_attributes['automation_rule_id'].blank? &&
       additional_attributes['campaign_id'].blank? &&
       sender.is_a?(User)
+  end
+
+  def prepend_agent_name_to_whatsapp_message
+    return unless should_prepend_agent_name?
+  
+    self.content = "*#{sender.name}*\n#{self.content}"
+  end
+  
+  def should_prepend_agent_name?
+    outgoing? &&
+      conversation&.inbox&.channel&.provider == 'whatsapp_cloud' &&
+      sender&.name.present?
   end
 
   def dispatch_create_events
