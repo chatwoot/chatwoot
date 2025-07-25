@@ -10,11 +10,11 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
   attr_accessor :jid
 
   # HTTP timeout for metadata requests (seconds)
-  METADATA_TIMEOUT = 2.seconds
+  METADATA_TIMEOUT = 10.seconds
   # Google Cloud API timeout (seconds)
-  API_TIMEOUT = 3.seconds
+  API_TIMEOUT = 10.seconds
   # Total job timeout (seconds)
-  TOTAL_JOB_TIMEOUT = 10.seconds
+  TOTAL_JOB_TIMEOUT = 12.seconds
 
   def perform
     Timeout.timeout(TOTAL_JOB_TIMEOUT) do
