@@ -213,14 +213,31 @@ describe SearchService do
         account_user.update!(role: 'agent')
       end
 
-      it 'filters by accessible inbox_id' do
-        # Testing the private method itself seems like the best way to ensure
-        # that the inboxes are not added to the search query
+      it 'filters by accessible inbox_id when user has limited access' do
+        # Create an additional inbox that user is NOT assigned to
+        create(:inbox, account: account)
+
         base_query = search.send(:message_base_query)
 
         # Should have both time and inbox filters
         expect(base_query.to_sql).to include('created_at >= ')
         expect(base_query.to_sql).to include('inbox_id')
+      end
+
+      context 'when user has access to all inboxes' do
+        before do
+          # Create additional inbox and assign user to all inboxes
+          other_inbox = create(:inbox, account: account)
+          create(:inbox_member, user: user, inbox: other_inbox)
+        end
+
+        it 'skips inbox filtering as optimization' do
+          base_query = search.send(:message_base_query)
+
+          # Should only have the time filter, not inbox filter
+          expect(base_query.to_sql).to include('created_at >= ')
+          expect(base_query.to_sql).not_to include('inbox_id')
+        end
       end
     end
   end
