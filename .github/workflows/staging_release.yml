@@ -106,7 +106,4 @@ jobs:
 
             echo "--- Running database migrations ---"
             docker compose -f docker-compose.production.yaml exec rails bundle exec rails db:migrate
-
-            echo "--- Precompiling Rails assets ---"
-            docker compose -f docker-compose.production.yaml exec rails bundle exec rails assets:precompile
           '
