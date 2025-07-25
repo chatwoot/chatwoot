@@ -45,7 +45,7 @@ export default {
           ),
           preview: {
             senderName: '',
-            businessName: 'Courier',
+            businessName: 'Courier support',
             email: '<support@yourbusiness.com>',
           },
         },
