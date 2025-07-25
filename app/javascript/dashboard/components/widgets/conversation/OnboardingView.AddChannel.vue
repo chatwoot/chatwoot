@@ -7,6 +7,7 @@ import AddAgents from '../../../routes/dashboard/settings/inbox/AddAgents.vue';
 import Whatsapp from '../../../routes/dashboard/settings/inbox/channels/Whatsapp.vue';
 import Instagram from '../../../routes/dashboard/settings/inbox/channels/Instagram.vue';
 import { useI18n } from 'vue-i18n';
+import { CUSTOM_EVENTS } from 'shared/constants/customEvents';
 
 defineProps({
   stepNumber: {
@@ -53,7 +54,7 @@ const handleAgentsAdded = () => {
       <ChannelList
         v-if="showChannelList"
         disabled-auto-route
-        @channel-item-click="channelSelected = $event"
+        @[CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK]="channelSelected = $event"
       />
       <div v-else>
         <component

@@ -4,7 +4,7 @@ import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
+import { CUSTOM_EVENTS } from 'shared/constants/customEvents';
 export default {
   components: {
     ChannelItem,
@@ -17,7 +17,7 @@ export default {
       default: false,
     },
   },
-  emits: ['channelItemClick'],
+  emits: [CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK],
   data() {
     return {
       enabledFeatures: {},
@@ -46,7 +46,7 @@ export default {
         // { key: 'voice', name: 'Voice' },
       ];
     },
-    emits: ['channelItemClick'],
+    emits: [CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK],
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       globalConfig: 'globalConfig/get',
@@ -66,7 +66,7 @@ export default {
         accountId: this.accountId,
       };
       if (this.disabledAutoRoute) {
-        this.$emit('channelItemClick', channel);
+        this.$emit(CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK, channel);
         return;
       }
       router.push({ name: 'settings_inboxes_page_channel', params });
@@ -97,7 +97,7 @@ export default {
         :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
+        @on-channel-item-click="initChannelAuth"
       />
     </div>
   </div>

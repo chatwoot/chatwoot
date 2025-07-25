@@ -6,7 +6,11 @@ import OnboardingViewChatscommerce from '../OnboardingView.Chatscommerce.vue';
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
     t: (key, params) => {
-      if (key === 'ONBOARDING.GREETING_MORNING' && params) {
+      if (
+        key === 'ONBOARDING.GREETING_MORNING' ||
+        key === 'ONBOARDING.GREETING_AFTERNOON' ||
+        (key === 'ONBOARDING.GREETING_EVENING' && params)
+      ) {
         return `Good morning ${params.name}! Welcome to ${params.installationName}`;
       }
       if (key === 'ONBOARDING.DESCRIPTION' && params) {
@@ -20,6 +24,8 @@ vi.mock('vue-i18n', () => ({
 let mockAgents = ref([{ id: 1 }]);
 let mockInboxes = ref([{ has_members: true }]);
 let mockBots = ref([{ id: 1 }]);
+
+// TODO: centralize all the mocks in a single file
 
 vi.mock('dashboard/composables/store', () => {
   const mockUser = ref({ name: 'Test User' });
@@ -103,7 +109,7 @@ vi.mock('dashboard/components/CustomBrandPolicyWrapper.vue', () => ({
 
 beforeAll(() => {
   window.chatwootConfig = {
-    chatscommerceApiUrl: 'https://mocked-api-url.com',
+    aiBackendApi: 'https://mocked-api-url.com',
   };
 });
 afterAll(() => {
@@ -121,7 +127,12 @@ describe('OnboardingViewChatscommerce', () => {
             if (key === 'ONBOARDING.DESCRIPTION') {
               return `Let's set up ${params.installationName} for you`;
             }
-            if (key === 'ONBOARDING.GREETING_MORNING') return 'Good morning!';
+            if (
+              key === 'ONBOARDING.GREETING_MORNING' ||
+              key === 'ONBOARDING.GREETING_AFTERNOON' ||
+              key === 'ONBOARDING.GREETING_EVENING'
+            )
+              return 'Good morning!';
             if (key === 'ONBOARDING.BUTTON.NEXT') return 'Next';
             if (key === 'ONBOARDING.BUTTON.PREVIOUS') return 'Previous';
             if (key === 'ONBOARDING.BUTTON.FINISH') return 'Finish';

@@ -4,7 +4,7 @@ export default class StoreEntity {
     this.name = account.name;
     this.email = user_email;
     this.phone = account.phone || '';
-    this.useCases = `${account.name}UseCases`;
+    this.useCases = this.toCamelCase(`${account.name}UseCases`);
     this.ecommercePlatform = 'shopify';
     this.isActive = true;
   }
@@ -19,5 +19,11 @@ export default class StoreEntity {
       ecommercePlatform: this.ecommercePlatform,
       isActive: this.isActive,
     };
+  }
+
+  static toCamelCase(text) {
+    return text
+      .toLowerCase()
+      .replace(/[\s_-]+(.)?/g, (_, char) => (char ? char.toUpperCase() : ''));
   }
 }

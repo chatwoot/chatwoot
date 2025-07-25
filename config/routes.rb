@@ -292,8 +292,8 @@ Rails.application.routes.draw do
               post :reorder, on: :collection
             end
           end
-
           resources :upload, only: [:create]
+          post 'onboarding_config', to: 'configuration_backend#create'
         end
       end
       # end of account scoped api routes

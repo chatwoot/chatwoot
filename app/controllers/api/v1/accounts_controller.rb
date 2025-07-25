@@ -134,8 +134,10 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def check_account_name_uniqueness
+    # If the account name is blank, we dont have it on the database yet, continue
     return if account_params[:account_name].blank?
 
+    # If the account name is not blank, check if it already exists (with case insensitivity)
     raise CustomExceptions::Account::NameExists.new(name: account_params[:account_name]) if Account.exists?(['LOWER(name) = ?',
                                                                                                              account_params[:account_name].downcase])
   end

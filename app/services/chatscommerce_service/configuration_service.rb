@@ -58,7 +58,8 @@ class ChatscommerceService::ConfigurationService
 
   def handle_response(response)
     raise ConfigurationError, "Bad Request, url: #{response.request.last_uri}" if response.code == 404
-    raise ConfigurationError, "Configurations cannot be created: #{response.code}" unless response.success?
+    raise ConfigurationError, "Error creating configuration: #{response.code} - #{response.body}" if response.code == 400
+    raise ConfigurationError, "Unexpected error: #{response.code} - #{response.body}" unless response.success?
   end
 
   def chatscommerce_api_url

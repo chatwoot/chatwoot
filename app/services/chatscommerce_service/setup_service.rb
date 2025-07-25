@@ -5,6 +5,10 @@ class ChatscommerceService::SetupService
     new.setup_store(account, user_email)
   end
 
+  def self.create_configuration(store_id, config_key, config_data)
+    new.create_configuration(store_id, config_key, config_data)
+  end
+
   def setup_store(account, user_email)
     # 1. Create store
     store_response = store_service.create_store(account, user_email)
@@ -17,6 +21,13 @@ class ChatscommerceService::SetupService
          ChatscommerceService::ConfigurationService::ConfigurationError => e
     Rails.logger.error "Chatscommerce setup failed: #{e.message}"
     raise SetupError, "Chatscommerce setup failed: #{e.message}"
+  end
+
+  def create_configuration(store_id, config_key, config_data)
+    configuration_service.create_configuration(store_id, config_key, config_data)
+  rescue ChatscommerceService::ConfigurationService::ConfigurationError => e
+    Rails.logger.error "Configuration creation failed: #{e.message}"
+    raise SetupError, "Configuration creation failed: #{e.message}"
   end
 
   private

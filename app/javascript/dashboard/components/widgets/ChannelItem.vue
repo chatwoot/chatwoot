@@ -1,5 +1,6 @@
 <script>
 import ChannelSelector from '../ChannelSelector.vue';
+import { CUSTOM_EVENTS } from 'shared/constants/customEvents';
 export default {
   components: { ChannelSelector },
   props: {
@@ -12,7 +13,7 @@ export default {
       required: true,
     },
   },
-  emits: ['channelItemClick'],
+  emits: [CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK],
   computed: {
     hasFbConfigured() {
       return window.chatwootConfig?.fbAppId;
@@ -73,7 +74,7 @@ export default {
     },
     onItemClick() {
       if (this.isActive) {
-        this.$emit('channelItemClick', this.channel.key);
+        this.$emit(CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK, this.channel.key);
       }
     },
   },
