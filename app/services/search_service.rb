@@ -83,8 +83,16 @@ class SearchService
 
   def message_base_query
     query = current_account.messages.where('created_at >= ?', 3.months.ago)
-    query = query.where(inbox_id: accessable_inbox_ids) unless account_user.administrator?
+    query = query.where(inbox_id: accessable_inbox_ids) unless should_skip_inbox_filtering?
     query
+  end
+
+  def should_skip_inbox_filtering?
+    account_user.administrator? || user_has_access_to_all_inboxes?
+  end
+
+  def user_has_access_to_all_inboxes?
+    accessable_inbox_ids.sort == current_account.inboxes.pluck(:id).sort
   end
 
   def use_gin_search
