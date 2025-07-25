@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+      get 'audit_logs/latest_sign_ins', to: 'audit_logs#latest_sign_ins'
       # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update] do
