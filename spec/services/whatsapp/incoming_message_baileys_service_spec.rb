@@ -690,6 +690,29 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(second_message.content).to eq('Hello from another user')
         end
       end
+
+      context 'when jid type is lid' do
+        it 'processes the message with phone number from lid jid type' do
+          raw_message[:key][:remoteJid] = '12345678@lid'
+          raw_message[:key][:senderPn] = '5511912345678@s.whatsapp.net'
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          conversation = inbox.conversations.last
+          message = conversation.messages.last
+
+          expect(message).to be_present
+          expect(conversation.contact.phone_number).to eq('+5511912345678')
+        end
+      end
+
+      it 'skips message if senderPn is not present' do
+        raw_message[:key][:remoteJid] = '12345678@lid'
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(inbox.conversations).to be_empty
+      end
     end
 
     context 'when processing messages.update event' do
