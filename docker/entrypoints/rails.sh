@@ -22,9 +22,9 @@ done
  
 echo "Database ready to accept connections."
  
-if [ ! -f public/vite/manifest.json ] || [ ! -s public/vite/manifest.json ]; then
-echo "Vite manifest missing or empty - building assets..."
-bundle exec vite build
-fi
+# if [ ! -f public/vite/manifest.json ] || [ ! -s public/vite/manifest.json ]; then
+# echo "Vite manifest missing or empty - building assets..."
+# bundle exec vite build
+# fi
  
 exec "$@"
