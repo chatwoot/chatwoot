@@ -11,6 +11,20 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
     @per_page = RESULTS_PER_PAGE
   end
 
+  def latest_sign_ins
+    unless audit_logs_enabled?
+      render json: { error: 'Audit logs are disabled' }, status: :forbidden
+      return
+    end
+
+    # Get the latest sign_in audit per associated_id
+    audits = Enterprise::AuditLog.where(action: 'sign_in')
+                                 .select('associated_id, MAX(created_at) as latest_sign_in_at')
+                                 .group(:associated_id)
+
+    render json: audits.map { |a| { associated_id: a.associated_id, latest_sign_in_at: a.latest_sign_in_at } }
+  end
+
   private
 
   def fetch_audit
