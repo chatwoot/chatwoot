@@ -1,6 +1,7 @@
 require 'json'
 require 'csv'
 
+# rubocop:disable Metrics/ClassLength
 class DailyConversationReportJob < ApplicationJob
   queue_as :scheduled_jobs
 
@@ -101,6 +102,7 @@ class DailyConversationReportJob < ApplicationJob
           conversations.display_id AS conversation_display_id,
           CONCAT('https://chat.bitespeed.co/app/accounts/', conversations.account_id, '/conversations/', conversations.display_id) AS conversation_link,
           conversations.created_at AS conversation_created_at,
+          conversations.updated_at AS conversation_updated_at,
           contacts.created_at AS customer_created_at,
           inboxes.name AS inbox_name,
           REPLACE(contacts.phone_number, '+', '') AS customer_phone_number,
@@ -128,7 +130,12 @@ class DailyConversationReportJob < ApplicationJob
             THEN EXTRACT(EPOCH FROM (latest_conversation_resolved.created_at - conversations.created_at)) / 86400.0
             ELSE NULL#{' '}
           END AS days_to_resolve,
-          conversations.cached_label_list AS labels
+          conversations.cached_label_list AS labels,
+          (
+              EXTRACT(EPOCH FROM (
+                  first_message_after_assignment.message_created_at - first_non_bot_assignment.assignment_time
+              )) / 60.0
+          ) AS first_response_time_after_assignment_minutes
       FROM
           conversations
           JOIN inboxes ON conversations.inbox_id = inboxes.id
@@ -146,6 +153,34 @@ class DailyConversationReportJob < ApplicationJob
               ORDER BY re.created_at DESC
               LIMIT 1
           ) AS latest_conversation_resolved ON true
+          -- First assignment to a non-bot user
+          LEFT JOIN LATERAL (
+              SELECT ca.created_at AS assignment_time
+              FROM conversation_assignments ca
+              JOIN users u ON ca.assignee_id = u.id
+              WHERE ca.conversation_id = conversations.id
+                AND (
+                  (u.email IS NULL OR u.email NOT LIKE '%@bitespeed.co')
+                  AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
+                )
+              ORDER BY ca.created_at ASC
+              LIMIT 1
+          ) AS first_non_bot_assignment ON true
+          -- First message after assignment by a non-bot user
+          LEFT JOIN LATERAL (
+              SELECT m.created_at AS message_created_at
+              FROM messages m
+              JOIN users u ON m.sender_id = u.id
+              WHERE m.conversation_id = conversations.id
+                AND m.sender_type = 'User'
+                AND m.created_at > first_non_bot_assignment.assignment_time
+                AND (
+                  (u.email IS NULL OR u.email NOT LIKE '%@bitespeed.co')
+                  AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
+                )
+              ORDER BY m.created_at ASC
+              LIMIT 1
+          ) AS first_message_after_assignment ON true
       WHERE
           conversations.account_id = :account_id
           AND conversations.updated_at BETWEEN :since AND :until
@@ -155,19 +190,21 @@ class DailyConversationReportJob < ApplicationJob
   end
   # rubocop:enable Metrics/MethodLength
 
+  # rubocop:disable Metrics/BlockLength
   # rubocop:disable Metrics/MethodLength
   def generate_csv(results, start_date, end_date, mask_data)
     CSV.generate(headers: true) do |csv|
       csv << ["Reporting period #{start_date} to #{end_date}"]
       headers = [
-        'Conversation ID', 'Conversation Link', 'Conversation Created At', 'Contact Created At', 'Inbox Name'
+        'Conversation ID', 'Conversation Link', 'Conversation Created At', 'Conversation Updated At', 'Contact Created At', 'Inbox Name'
       ]
 
       # Only include customer details in headers if not masking data
       headers += ['Customer Phone Number', 'Customer Name'] unless mask_data
 
       headers += ['Agent Name', 'Conversation Status', 'Conversation Priority', 'First Response Time (minutes)', 'Resolution Time (minutes)',
-                  'Resolution Date', 'Days to Resolve', 'Labels']
+                  'Resolution Date', 'Days to Resolve', 'Labels',
+                  'First Response Time After Assignment (minutes)']
 
       csv << headers
       results.each do |row|
@@ -175,6 +212,7 @@ class DailyConversationReportJob < ApplicationJob
           row['conversation_display_id'],
           row['conversation_link'],
           row['conversation_created_at'],
+          row['conversation_updated_at'],
           row['customer_created_at'],
           row['inbox_name']
         ]
@@ -190,7 +228,8 @@ class DailyConversationReportJob < ApplicationJob
           row['resolution_time_minutes'],
           row['resolution_date'],
           row['days_to_resolve'],
-          row['labels']
+          row['labels'],
+          row['first_response_time_after_assignment_minutes']
         ]
 
         csv << values
@@ -198,6 +237,7 @@ class DailyConversationReportJob < ApplicationJob
     end
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/BlockLength
 
   def upload_csv(account_id, range, csv_content, frequency, bitespeed_bot)
     start_date = range[:since].strftime('%Y-%m-%d')
@@ -232,3 +272,4 @@ class DailyConversationReportJob < ApplicationJob
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
