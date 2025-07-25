@@ -58,20 +58,23 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
 
     # Only set if not already present
     ENV['GOOGLE_CLOUD_PROJECT'] ||= metadata('project/project-id')
+    ENV['GCP_INSTANCE_ID'] ||= metadata('instance/id')
 
     instance_full_zone = metadata('instance/zone')
     # zone value comes back like "projects/123/zones/asia-south1-a"
     ENV['GCP_ZONE'] ||= instance_full_zone.split('/').last
 
     Rails.logger.info "GCP metadata: PROJECT=#{ENV.fetch('GOOGLE_CLOUD_PROJECT', nil)}, " \
-                      "ZONE=#{ENV.fetch('GCP_ZONE', nil)}"
+                      "ZONE=#{ENV.fetch('GCP_ZONE', nil)}, " \
+                      "INSTANCE_ID=#{ENV.fetch('GCP_INSTANCE_ID', nil)}"
   rescue StandardError => e
     Rails.logger.error "GCP metadata detection failed: #{e.message}"
   end
 
   def required_env_vars_present?
     ENV['GOOGLE_CLOUD_PROJECT'].present? &&
-      ENV['GCP_ZONE'].present?
+      ENV['GCP_ZONE'].present? &&
+      ENV['GCP_INSTANCE_ID'].present?
   end
 
   def metadata(path)
@@ -112,7 +115,8 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
           type: 'gce_instance',
           labels: {
             'project_id' => ENV.fetch('GOOGLE_CLOUD_PROJECT', nil).to_s,
-            'zone' => ENV.fetch('GCP_ZONE', nil).to_s
+            'zone' => ENV.fetch('GCP_ZONE', nil).to_s,
+            'instance_id' => ENV.fetch('GCP_INSTANCE_ID', nil).to_s
           }
         ),
         points: [
