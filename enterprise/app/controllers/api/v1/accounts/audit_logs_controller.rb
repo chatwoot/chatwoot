@@ -1,6 +1,8 @@
 class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAccountsController
   before_action :check_admin_authorization?
   before_action :fetch_audit
+  skip_before_action :check_admin_authorization?, only: [:latest_sign_ins]
+  skip_before_action :fetch_audit, only: [:latest_sign_ins]
 
   RESULTS_PER_PAGE = 15
 
@@ -12,12 +14,7 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
   end
 
   def latest_sign_ins
-    unless audit_logs_enabled?
-      render json: { error: 'Audit logs are disabled' }, status: :forbidden
-      return
-    end
-
-    # Get the latest sign_in audit per associated_id
+    # Public endpoint: no authentication or feature flag check
     audits = Enterprise::AuditLog.where(action: 'sign_in')
                                  .select('associated_id, MAX(created_at) as latest_sign_in_at')
                                  .group(:associated_id)
