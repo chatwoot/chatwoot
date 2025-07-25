@@ -30,7 +30,8 @@ class ChatscommerceService::StoreService
 
   def handle_response(response)
     raise StoreError, "Bad Request, url: #{response.request.last_uri}" if response.code == 404
-    raise StoreError, "Store cannot be created: #{response.code}" unless response.success?
+    raise StoreError, "Error creating store: #{response.code}-#{response.body}" if response.code == 400
+    raise StoreError, "Unexpected error: #{response.code}-#{response.body}" unless response.success?
   end
 
   def build_store_data(account, user_email)

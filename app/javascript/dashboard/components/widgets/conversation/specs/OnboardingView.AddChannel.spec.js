@@ -8,7 +8,7 @@ vi.mock('../../../../routes/dashboard/settings/inbox/ChannelList.vue', () => ({
   default: {
     name: 'ChannelList',
     template:
-      '<div class="mock-channel-list" @click="$emit(\'channel-item-click\', \'whatsapp\')">ChannelList</div>',
+      '<div class="mock-channel-list" @click="$emit(\'onChannelItemClick\', \'whatsapp\')">ChannelList</div>',
   },
 }));
 
@@ -108,8 +108,8 @@ describe('OnboardingView.AddChannel.vue', () => {
   it('renders selected channel component when one is selected and no inbox created', async () => {
     const wrapper = mount(AddChannelView, {
       props: {
-        currentStep: 1,
-        stepNumber: 1,
+        currentStep: 2,
+        stepNumber: 2,
       },
       global: {
         mocks: {

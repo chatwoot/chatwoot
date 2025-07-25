@@ -109,7 +109,7 @@ onMounted(() => {
         :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
+        @on-channel-item-click="initChannelAuth"
       />
     </div>
   </div>

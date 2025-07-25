@@ -3,7 +3,7 @@ import StoreEntity from './entities/StoreEntity';
 
 class ChatscommerceStoreApi {
   constructor() {
-    this.apiUrl = `${window.chatwootConfig.chatscommerceApiUrl}/api/stores/`;
+    this.apiUrl = `${window.chatwootConfig.aiBackendApi}/api/stores/`;
   }
 
   static getHeaders() {

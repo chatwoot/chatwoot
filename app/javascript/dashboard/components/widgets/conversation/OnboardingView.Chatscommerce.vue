@@ -6,14 +6,18 @@ import {
   useMapGetter,
   useStore,
 } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+import ConfigurationBackendAPI from 'v3/api/ai_backend';
 import Button from '../../../../shared/components/Button.vue';
 import OnboardingViewAddAgent from './OnboardingView.AddAgent.vue';
 import OnboardingViewAddChannel from './OnboardingView.AddChannel.vue';
 import OnboardingViewAddAIAgent from './OnboardingView.AddAIAgent.vue';
 import StepCircleFlow from '../../../../shared/components/StepCircleFlow.vue';
+import { useAlert } from 'dashboard/composables';
 
 const getters = useStoreGetters();
 const store = useStore();
+const { currentAccount } = useAccount();
 
 const { t } = useI18n();
 const globalConfig = computed(() => getters['globalConfig/get'].value);
@@ -96,9 +100,37 @@ const greetingMessage = computed(() => {
 });
 
 async function finishHandler() {
-  await store.dispatch('accounts/update', {
-    onboarding_completed: true,
-  });
+  try {
+    const accountId = currentAccount.value?.id;
+
+    const botToken = bots.value?.[0]?.access_token;
+    if (botToken) {
+      const configurationData = {
+        bot_token: botToken,
+        access_token: currentUser.value.access_token,
+        account_id: accountId,
+        inbox_id: inboxes.value?.[0]?.id,
+        tags: [],
+      };
+
+      await ConfigurationBackendAPI.createConfiguration(
+        'chatwoot_config',
+        configurationData
+      );
+    }
+
+    await store.dispatch('accounts/update', {
+      onboarding_completed: true,
+    });
+
+    useAlert(
+      t('ONBOARDING.COMPLETED', {
+        installationName: globalConfig.value.installationName,
+      })
+    );
+  } catch (error) {
+    useAlert(t('ONBOARDING.ERROR.BOT_CONFIGURATION'));
+  }
 }
 function backHandler() {
   currentStep.value -= 1;
@@ -112,7 +144,9 @@ function checkStepCompletion(step) {
   const isComplete = onboardingSteps.value[step].completeCondition.value;
   if (isComplete) {
     stepCompletionStatus.value[step] = true;
-    currentStep.value = step;
+    const nextStep =
+      step === Object.keys(onboardingSteps.value).length ? step : step + 1;
+    currentStep.value = nextStep;
   }
 }
 

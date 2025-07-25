@@ -333,7 +333,11 @@
       "PREVIOUS": "Previous",
       "NEXT": "Next",
       "FINISH": "Finish"
-    }
+    },
+    "ERROR": {
+      "BOT_CONFIGURATION": "Error during bot configuration"
+    },
+    "COMPLETED": "Onboarding completed. Welcome to {installationName}!"
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Assigned Member",
