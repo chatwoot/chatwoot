@@ -36,9 +36,15 @@ describe ContactIdentifyAction do
       expect(result.additional_attributes['social_profiles']).to eq({ 'linkedin' => 'saras', 'twitter' => 'saras' })
     end
 
-    it 'enques avatar job when avatar url parameter is passed' do
+    it 'enqueues avatar job when valid avatar url parameter is passed' do
       params = { name: 'test', avatar_url: 'https://chatwoot-assets.local/sample.png' }
       expect(Avatar::AvatarFromUrlJob).to receive(:perform_later).with(contact, params[:avatar_url]).once
+      described_class.new(contact: contact, params: params).perform
+    end
+
+    it 'does not enqueue avatar job when invalid avatar url parameter is passed' do
+      params = { name: 'test', avatar_url: 'invalid-url' }
+      expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_later)
       described_class.new(contact: contact, params: params).perform
     end
 
