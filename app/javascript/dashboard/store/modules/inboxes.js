@@ -5,6 +5,7 @@ import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
+import WhatsappChannel from '../../api/channel/whatsappChannel';
 import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import camelcaseKeys from 'camelcase-keys';
@@ -93,6 +94,11 @@ export const getters = {
       item =>
         item.channel_type === INBOX_TYPES.SMS ||
         (item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms')
+    );
+  },
+  getWhatsAppInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.WHATSAPP
     );
   },
   dialogFlowEnabledInboxes($state) {
@@ -198,6 +204,19 @@ export const actions = {
       throw new Error(error);
     }
   },
+  createWhatsAppEmbeddedSignup: async ({ commit }, params) => {
+    try {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
+      const response = await WhatsappChannel.createEmbeddedSignup(params);
+      commit(types.default.ADD_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      sendAnalyticsEvent('whatsapp');
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      throw error;
+    }
+  },
   ...channelActions,
   // TODO: Extract other create channel methods to separate files to reduce file size
   // - createChannel
@@ -262,6 +281,13 @@ export const actions = {
   deleteInboxAvatar: async (_, inboxId) => {
     try {
       await InboxesAPI.deleteInboxAvatar(inboxId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  syncTemplates: async (_, inboxId) => {
+    try {
+      await InboxesAPI.syncTemplates(inboxId);
     } catch (error) {
       throw new Error(error);
     }
