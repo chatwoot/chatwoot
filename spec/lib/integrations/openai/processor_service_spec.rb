@@ -35,7 +35,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the rephrased message using the tone in data' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             {
               'role' => 'system',
@@ -47,7 +47,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
@@ -61,7 +61,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the suggested reply' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             { role: 'system',
               content: Rails.root.join('lib/integrations/openai/openai_prompts/reply.txt').read },
@@ -71,7 +71,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
         }.to_json
 
         # Update the stub_request with the correct messages order
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
@@ -88,7 +88,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the summarized message' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             { 'role' => 'system',
               'content' => summary_prompt },
@@ -96,7 +96,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
@@ -127,7 +127,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the corrected text' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please fix the spelling and grammar of the following response. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -135,7 +135,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
@@ -149,7 +149,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the shortened text' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please shorten the following response. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -157,7 +157,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
@@ -171,7 +171,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the expanded text' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please expand the following response. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -179,7 +179,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
@@ -193,7 +193,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the friendly text' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please make the following response more friendly. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -201,7 +201,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
@@ -215,7 +215,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the formal text' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please make the following response more formal. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -223,7 +223,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 
@@ -237,7 +237,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the simplified text' do
         request_body = {
-          'model' => 'gpt-4o-mini',
+          'model' => '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please simplify the following response. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -245,7 +245,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           ]
         }.to_json
 
-        stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions')
           .with(body: request_body, headers: expected_headers)
           .to_return(status: 200, body: openai_response, headers: {})
 

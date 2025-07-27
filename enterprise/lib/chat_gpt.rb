@@ -1,10 +1,10 @@
 class ChatGpt
   def self.base_uri
-    'https://api.openai.com'
+    'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai'
   end
 
   def initialize(context_sections = '')
-    @model = 'gpt-4o'
+    @model = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
     @messages = [system_message(context_sections)]
   end
 

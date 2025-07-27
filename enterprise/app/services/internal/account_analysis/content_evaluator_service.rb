@@ -2,7 +2,7 @@ class Internal::AccountAnalysis::ContentEvaluatorService < Llm::BaseOpenAiServic
   def initialize
     super()
 
-    @model = 'gpt-4o-mini'.freeze
+    @model = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'.freeze
   end
 
   def evaluate(content)

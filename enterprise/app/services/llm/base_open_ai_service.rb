@@ -1,5 +1,5 @@
 class Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o-mini'.freeze
+  DEFAULT_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'.freeze
 
   def initialize
     @client = OpenAI::Client.new(

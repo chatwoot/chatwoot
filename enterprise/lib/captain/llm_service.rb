@@ -11,7 +11,7 @@ class Captain::LlmService
 
   def call(messages, functions = [])
     openai_params = {
-      model: 'gpt-4o',
+      model: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
       response_format: { type: 'json_object' },
       messages: messages
     }
