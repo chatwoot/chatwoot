@@ -16,6 +16,25 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
   # Total job timeout (seconds)
   TOTAL_JOB_TIMEOUT = 12.seconds
 
+  # Class-level client cache with thread safety
+  @client_mutex = Mutex.new
+  @cached_client = nil
+  @client_created_at = nil
+  # Refresh client every hour to handle token expiration
+  CLIENT_REFRESH_INTERVAL = 1.hour
+
+  class << self
+    attr_accessor :client_mutex, :cached_client, :client_created_at
+
+    # Class method to clear the cached client (useful for testing or manual refresh)
+    def clear_client_cache!
+      @client_mutex.synchronize do
+        @cached_client = nil
+        @client_created_at = nil
+      end
+    end
+  end
+
   def perform
     Timeout.timeout(TOTAL_JOB_TIMEOUT) do
       perform_job
@@ -101,33 +120,35 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
     busy_threads / total_concurrency
   end
 
-  # rubocop:disable Metrics/MethodLength
+  # Get or create a cached Google Cloud client
+  def monitoring_client
+    self.class.client_mutex.synchronize do
+      # Check if we need to refresh the client
+      if self.class.cached_client.nil? || client_needs_refresh?
+        Rails.logger.info 'Creating new Google Cloud Monitoring client'
+        self.class.cached_client = Google::Cloud::Monitoring::V3::MetricService::Client.new
+        self.class.client_created_at = Time.current
+      end
+
+      self.class.cached_client
+    end
+  rescue StandardError => e
+    Rails.logger.error "Failed to create monitoring client: #{e.message}"
+    # If cached client fails, try creating a new one directly
+    Google::Cloud::Monitoring::V3::MetricService::Client.new
+  end
+
+  def client_needs_refresh?
+    return true if self.class.client_created_at.nil?
+
+    Time.current - self.class.client_created_at > CLIENT_REFRESH_INTERVAL
+  end
+
   def send_metrics_to_google_cloud(ratio)
     Timeout.timeout(API_TIMEOUT) do
-      client = Google::Cloud::Monitoring::V3::MetricService::Client.new
+      client = monitoring_client
       project = "projects/#{ENV.fetch('GOOGLE_CLOUD_PROJECT', nil)}"
-
-      time_series = Google::Cloud::Monitoring::V3::TimeSeries.new(
-        metric: Google::Api::Metric.new(
-          type: 'custom.googleapis.com/sidekiq/thread_utilization'
-        ),
-        resource: Google::Api::MonitoredResource.new(
-          type: 'gce_instance',
-          labels: {
-            'project_id' => ENV.fetch('GOOGLE_CLOUD_PROJECT', nil).to_s,
-            'zone' => ENV.fetch('GCP_ZONE', nil).to_s,
-            'instance_id' => ENV.fetch('GCP_INSTANCE_ID', nil).to_s
-          }
-        ),
-        points: [
-          Google::Cloud::Monitoring::V3::Point.new(
-            value: Google::Cloud::Monitoring::V3::TypedValue.new(double_value: ratio),
-            interval: Google::Cloud::Monitoring::V3::TimeInterval.new(
-              end_time: Google::Protobuf::Timestamp.new(seconds: Time.now.to_i)
-            )
-          )
-        ]
-      )
+      time_series = build_time_series(ratio)
 
       client.create_time_series name: project, time_series: [time_series]
     end
@@ -135,6 +156,45 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
     Rails.logger.info "Sidekiq metric sent: #{ratio.round(3)}"
   rescue StandardError => e
     Rails.logger.error "GCP metrics failed: #{e.class} - #{e.message}"
+
+    # If we get an authentication error, clear the cache so next run gets a fresh client
+    if e.message.include?('authentication') || e.message.include?('credential')
+      Rails.logger.info 'Clearing client cache due to authentication error'
+      self.class.clear_client_cache!
+    end
   end
-  # rubocop:enable Metrics/MethodLength
+
+  def build_time_series(ratio)
+    Google::Cloud::Monitoring::V3::TimeSeries.new(
+      metric: build_metric,
+      resource: build_monitored_resource,
+      points: [build_data_point(ratio)]
+    )
+  end
+
+  def build_metric
+    Google::Api::Metric.new(
+      type: 'custom.googleapis.com/sidekiq/thread_utilization'
+    )
+  end
+
+  def build_monitored_resource
+    Google::Api::MonitoredResource.new(
+      type: 'gce_instance',
+      labels: {
+        'project_id' => ENV.fetch('GOOGLE_CLOUD_PROJECT', nil).to_s,
+        'zone' => ENV.fetch('GCP_ZONE', nil).to_s,
+        'instance_id' => ENV.fetch('GCP_INSTANCE_ID', nil).to_s
+      }
+    )
+  end
+
+  def build_data_point(ratio)
+    Google::Cloud::Monitoring::V3::Point.new(
+      value: Google::Cloud::Monitoring::V3::TypedValue.new(double_value: ratio),
+      interval: Google::Cloud::Monitoring::V3::TimeInterval.new(
+        end_time: Google::Protobuf::Timestamp.new(seconds: Time.now.to_i)
+      )
+    )
+  end
 end
