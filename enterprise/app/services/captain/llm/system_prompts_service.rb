@@ -56,6 +56,7 @@ class Captain::Llm::SystemPromptsService
       SYSTEM_PROMPT_MESSAGE
     end
 
+    # rubocop:disable Metrics/MethodLength
     def copilot_response_generator(product_name, available_tools, config = {})
       citation_guidelines = if config['feature_citation']
                               <<~CITATION_TEXT
@@ -97,7 +98,7 @@ class Captain::Llm::SystemPromptsService
         6. Never suggest contacting support, as you are assisting the support agent directly.
         7. Write the response in multiple paragraphs and in markdown format.
         8. DO NOT use headings in Markdown
-        #{config['feature_citation'] ? '9. Cite the sources if you used a tool to find the response.' : ''}
+        #{'9. Cite the sources if you used a tool to find the response.' if config['feature_citation']}
 
         ```json
         {
@@ -118,7 +119,9 @@ class Captain::Llm::SystemPromptsService
         #{available_tools}
       SYSTEM_PROMPT_MESSAGE
     end
+    # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/MethodLength
     def assistant_response_generator(assistant_name, product_name, config = {})
       assistant_citation_guidelines = if config['feature_citation']
                                         <<~CITATION_TEXT
@@ -169,8 +172,9 @@ class Captain::Llm::SystemPromptsService
         }
         ```
         - If the answer is not provided in context sections, Respond to the customer and ask whether they want to talk to another support agent . If they ask to Chat with another agent, return `conversation_handoff' as the response in JSON response
-        #{config['feature_citation'] ? '- You MUST provide numbered citations at the appropriate places in the text.' : ''}
+        #{'- You MUST provide numbered citations at the appropriate places in the text.' if config['feature_citation']}
       SYSTEM_PROMPT_MESSAGE
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end
