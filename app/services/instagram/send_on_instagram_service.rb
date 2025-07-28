@@ -12,6 +12,8 @@ class Instagram::SendOnInstagramService < Instagram::BaseSendService
     query = { access_token: access_token }
     instagram_id = channel.instagram_id.presence || 'me'
 
+    Rails.logger.info("[DEBUG] URI for Instagram message: https://graph.instagram.com/v22.0/#{instagram_id}/messages")
+
     response = HTTParty.post(
       "https://graph.instagram.com/v22.0/#{instagram_id}/messages",
       body: message_content,

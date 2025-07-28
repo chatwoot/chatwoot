@@ -90,16 +90,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def clear_assignee_if_resolved
     return unless @conversation.status == 'resolved'
 
-    Message.create!(
+    @conversation.messages.create!(
       content: 'Terima kasih telah menghubungi Kami. Jika ada pertanyaan lain di kemudian hari, kami siap membantu',
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
-      conversation_id: @conversation.id,
       message_type: 1,
       content_type: 0,
       sender_type: 'User',
       sender_id: @conversation.assignee_id,
-      status: 0
+      status: 0,
+      additional_attributes: {
+        source: 'auto_resolved_message'
+      }
     )
     @conversation.assignee_id = nil
   end

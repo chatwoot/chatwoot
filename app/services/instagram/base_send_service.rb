@@ -31,7 +31,8 @@ class Instagram::BaseSendService < Base::SendOnChannelService
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         text: message.content
-      }
+      },
+      additional_attributes: message.additional_attributes
     }
 
     merge_human_agent_tag(params)
