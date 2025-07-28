@@ -206,7 +206,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     else
       Rails.logger.error "❌ Phone validation FAILED - phone mismatch detected"
 
-      write_session_status_to_cache('mismatch', expires_in: 5.minutes)
+      write_session_status_to_cache('mismatch', expires_in: 10.minutes)
 
       # PENTING: Logout session
       logout_result = disconnect_waha_session

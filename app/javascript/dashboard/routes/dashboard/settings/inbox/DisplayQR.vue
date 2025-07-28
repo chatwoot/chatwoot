@@ -23,6 +23,7 @@ export default {
       expectedPhoneNumber: null,
       subscription: null, // ActionCable subscription
       channelId: null, // Channel ID for WhatsApp
+      lastMismatchTime: 0, // Debounce mismatch events
     };
   },
   computed: {
@@ -194,10 +195,12 @@ export default {
       this.connectionStatus = 'expired';
       this.clearIntervals();
       
-      // Auto refresh QR code setelah 1 detik
+      // Auto refresh QR code setelah 2 detik (lebih lama untuk stabilitas)
       setTimeout(async () => {
-        await this.refreshQRCode();
-      }, 1000);
+        if (this.connectionStatus === 'expired') {
+          await this.refreshQRCode();
+        }
+      }, 2000);
     },
 
     async refreshQRCode() {
@@ -213,7 +216,7 @@ export default {
 
         const inboxId = this.$route.params.inbox_id;
 
-        if (!inboxId || ['connected', 'expired'].includes(this.connectionStatus)) {
+        if (!inboxId || ['connected', 'expired', 'mismatch'].includes(this.connectionStatus)) {
           this.clearIntervals();
           return;
         }
@@ -273,6 +276,20 @@ export default {
     },
 
     handlePhoneMismatch(expectedPhone, connectedPhone) {
+      // Debounce mismatch events - ignore if less than 10 seconds since last mismatch
+      const now = Date.now();
+      if (now - this.lastMismatchTime < 10000) {
+        console.log('📱 Mismatch event ignored - too frequent');
+        return;
+      }
+      this.lastMismatchTime = now;
+      
+      // Prevent duplicate mismatch handling
+      if (this.connectionStatus === 'mismatch') {
+        console.log('📱 Mismatch already handled, ignoring duplicate');
+        return;
+      }
+      
       this.connectionStatus = 'mismatch';
       this.mismatchInfo = {
         expected: expectedPhone,
@@ -280,12 +297,13 @@ export default {
       };
       this.clearIntervals();
       
-      useAlert(`Nomor WhatsApp tidak sesuai! Diharapkan: ${expectedPhone}, Terhubung: ${connectedPhone}. Silakan scan dengan nomor yang benar.`);
+      useAlert(`Nomor WhatsApp tidak sesuai! Silakan scan dengan nomor yang benar.`);
       
-      // Auto refresh QR code setelah 5 detik
       setTimeout(async () => {
-        await this.refreshQRCode();
-      }, 5000);
+        if (this.connectionStatus === 'mismatch') {
+          await this.refreshQRCode();
+        }
+      }, 10000);
     }
   },
 };
@@ -322,12 +340,10 @@ export default {
                 </div>
               </div>
 
-              <!-- Description Text -->
               <p class="text-sm font-semibold text-slate-600 dark:text-slate-400 text-center mb-4">
                 {{ instructionMessage }}
               </p>
 
-              <!-- Status Display -->
               <div class="text-center">
                 <div class="flex items-center justify-center space-x-3 mb-3">
                   <div 
@@ -365,10 +381,6 @@ export default {
                 </div>
 
                 <div v-if="connectionStatus === 'mismatch'" class="text-red-600 dark:text-red-400 text-xs text-center">
-                  <div v-if="mismatchInfo">
-                    Diharapkan: {{ mismatchInfo.expected }} <br />
-                    Terhubung: {{ mismatchInfo.connected }}
-                  </div>
                   <div class="mt-1">QR akan diperbarui dalam 5 detik...</div>
                 </div>
               </div>

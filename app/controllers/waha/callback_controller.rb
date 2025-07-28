@@ -454,6 +454,13 @@ class Waha::CallbackController < ApplicationController
   def broadcast_session_mismatch(channel, connected_phone)
     Rails.logger.info "Broadcasting session mismatch for #{channel.phone_number}"
     
+    # Check if mismatch was already broadcasted recently to prevent spam
+    mismatch_cache_key = "mismatch_broadcast_#{channel.phone_number}"
+    return if Rails.cache.exist?(mismatch_cache_key)
+    
+    # Set cache to prevent duplicate broadcasts for 30 seconds
+    Rails.cache.write(mismatch_cache_key, true, expires_in: 30.seconds)
+    
     # Broadcast ke frontend untuk memberitahu user tentang mismatch
     inbox = channel.inbox
     return unless inbox
