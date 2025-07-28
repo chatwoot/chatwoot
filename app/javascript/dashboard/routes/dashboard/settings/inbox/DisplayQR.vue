@@ -81,7 +81,6 @@ export default {
     },
 
     async setupWebSocketSubscription() {
-      if (!this.channelId) return;
       
       try {
         // Use Chatwoot's existing WebSocket approach
@@ -120,47 +119,35 @@ export default {
 
     handleWebSocketMessage(data) {
       console.log('🔄 Processing WebSocket message:', data);
-      
-      switch (data.type) {
-        case 'session_status_changed':
-        case 'phone_validation_success':
-        case 'whatsapp_status_updated':
-          this.handleStatusUpdate(data);
-          break;
-        default:
-          console.log('📡 Unhandled WebSocket message type:', data.type);
+
+      if (data.event === 'whatsapp_status_changed') {
+        this.handleStatusUpdate(data);
+      } else {
+        console.log('📡 Unhandled WebSocket message event:', data.event);
       }
     },
 
     handleStatusUpdate(data) {
       console.log('📊 Status update received:', data);
-      
-      if (data.status === 'logged_in' && data.connected === true) {
+
+      if (data.type === 'session_ready' || data.type === 'phone_validation_success') {
         console.log('🎉 WhatsApp connected successfully!');
         this.connectionStatus = 'connected';
         this.clearIntervals();
         
-        // Auto redirect setelah 2 detik
         setTimeout(() => {
           this.redirectToInboxSettings();
         }, 2000);
-        
-      } else if (data.status === 'not_logged_in' || data.connected === false) {
-        console.log('❌ WhatsApp disconnected');
-        this.connectionStatus = 'waiting';
-        
-      } else if (data.type === 'phone_validation_success') {
-        console.log('✅ Phone validation successful!');
-        this.connectionStatus = 'connected';
-        this.clearIntervals();
-        
-        // Auto redirect
-        setTimeout(() => {
-          this.redirectToInboxSettings();
-        }, 2000);
-      } else if (data.type === 'session_mismatch' || data.status === 'mismatch') {
+
+      } else if (data.type === 'session_mismatch') {
         console.error('📱 Phone number mismatch detected!', data);
         this.handlePhoneMismatch(data.expected_phone, data.connected_phone);
+      
+      } else if (data.status === 'disconnected') {
+        console.log('❌ WhatsApp disconnected');
+        if (this.connectionStatus !== 'mismatch' && this.connectionStatus !== 'connected') {
+          this.connectionStatus = 'waiting';
+        }
       }
     },
 
@@ -223,46 +210,22 @@ export default {
 
     async checkConnectionStatus() {
       this.statusInterval = setInterval(async () => {
-        if (this.connectionStatus === 'connected') {
+
+        const inboxId = this.$route.params.inbox_id;
+
+        if (!inboxId || ['connected', 'expired'].includes(this.connectionStatus)) {
           this.clearIntervals();
           return;
         }
 
-        if (this.connectionStatus === 'expired') {
-          return;
-        }
-
         try {
-          const inboxId = this.$route.params.inbox_id;
-          const accountId = this.$route.params.accountId;
-          
-          const response = await WhatsAppUnofficialChannels.getConnectionStatus(inboxId);
-          
-          console.log('Status check response:', response.data); // Debug log
-          
-          // Fix: Check the correct nested structure
-          if (response.data.success && response.data.data && response.data.data.connected) {
-            console.log('WhatsApp connected! Proceeding to next step...');
-            this.connectionStatus = 'connected';
-            this.clearIntervals();
-            
-            setTimeout(() => {
-              this.proceedToNextStep();
-            }, 5000);
-          } else if (response.data.data?.status === 'mismatch') {
-            console.log('Phone number mismatch detected!');
-            this.connectionStatus = 'mismatch';
-            this.clearIntervals();
-            
-            // Handle mismatch case - could show error and regenerate QR
-            setTimeout(() => {
-              this.refreshQRCode();
-            }, 5000);
-          } else {
-            console.log('Still waiting for connection. Status:', response.data.data?.status);
-          }
+          await WhatsAppUnofficialChannels.getConnectionStatus(inboxId);
         } catch (error) {
-          console.error('Status check error:', error);
+          if (error.response && error.response.status === 404) {
+            this.clearIntervals();
+          } else {
+            console.error('Status check error:', error);
+          }
         }
       }, 5000);
     },
@@ -276,10 +239,12 @@ export default {
       if (this.countdownInterval) {
         clearInterval(this.countdownInterval);
         this.countdownInterval = null;
+        console.log('Countdown interval cleared.');
       }
       if (this.statusInterval) {
         clearInterval(this.statusInterval);
         this.statusInterval = null;
+        console.log('Status interval cleared.');
       }
     },
 
