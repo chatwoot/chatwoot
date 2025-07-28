@@ -70,7 +70,7 @@ export const AUTOMATIONS = {
       },
     ],
     actions: [
-        {
+      {
         key: 'assign_agent',
         name: 'ASSIGN_AGENT',
       },
