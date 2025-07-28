@@ -538,13 +538,34 @@ export const AUTOMATIONS = {
       },
     ],
     actions: [
-      { key: 'assign_agent', name: 'ASSIGN_AGENT' },
-      { key: 'assign_team', name: 'ASSIGN_TEAM' },
-      { key: 'send_email_to_team', name: 'SEND_EMAIL_TO_TEAM' },
-      { key: 'send_message', name: 'SEND_MESSAGE' },
-      { key: 'send_email_transcript', name: 'SEND_EMAIL_TRANSCRIPT' },
-      { key: 'send_webhook_event', name: 'SEND_WEBHOOK_EVENT' },
-      { key: 'send_attachment', name: 'SEND_ATTACHMENT' },
+      {
+        key: 'assign_agent',
+        name: 'ASSIGN_AGENT',
+      },
+      {
+        key: 'assign_team',
+        name: 'ASSIGN_TEAM',
+      },
+      {
+        key: 'send_email_to_team',
+        name: 'SEND_EMAIL_TO_TEAM',
+      },
+      {
+        key: 'send_message',
+        name: 'SEND_MESSAGE',
+      },
+      {
+        key: 'send_email_transcript',
+        name: 'SEND_EMAIL_TRANSCRIPT',
+      },
+      {
+        key: 'send_webhook_event',
+        name: 'SEND_WEBHOOK_EVENT',
+      },
+      {
+        key: 'send_attachment',
+        name: 'SEND_ATTACHMENT',
+      },
     ],
   },
 };
