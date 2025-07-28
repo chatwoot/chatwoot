@@ -107,7 +107,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def build_message
-    Rails.logger.info("[DEBUG] Building new message for conversation: #{conversation.id} with content: #{message_content.inspect}")
+    Rails.logger.info("[DEBUG] Building new message #{message_params.inspect} for conversation: #{conversation.id}")
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
 
