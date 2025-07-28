@@ -600,6 +600,10 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Обновить",
       "WHATSAPP_WEBHOOK_TITLE": "Токен авторизации Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Этот токен используется для проверки подлинности конечной точки веб-хука.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Обновить настройки формы для чата"
     },
     "HELP_CENTER": {
