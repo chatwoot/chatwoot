@@ -160,33 +160,5 @@ RSpec.describe ReferencesHeaderBuilder do
       result = fold_references_header([])
       expect(result).to eq('')
     end
-
-    it 'limits references to stay within 998 character RFC limit' do
-      # Create many long message IDs that would exceed 998 chars
-      long_refs = (1..50).map { |i| "<very-long-message-id-#{i}-#{'x' * 30}@example.com>" }
-
-      result = fold_references_header(long_refs)
-
-      # Should not exceed 998 characters
-      expect(result.length).to be <= 998
-
-      # Should include at least the first reference
-      expect(result).to include(long_refs.first)
-
-      # Should not include all references (due to length limit)
-      expect(result.split("\r\n ").length).to be < long_refs.length
-    end
-
-    it 'includes maximum possible references within 998 character limit' do
-      # Test with shorter message IDs to verify we include as many as possible
-      short_refs = (1..30).map { |i| "<msg#{i}@test.com>" }
-
-      result = fold_references_header(short_refs)
-      included_count = result.split("\r\n ").length
-
-      # Should include many references since they're short
-      expect(included_count).to be > 10
-      expect(result.length).to be <= 998
-    end
   end
 end

@@ -3,8 +3,6 @@
 # This module provides functionality to construct proper References headers
 # that maintain email conversation threading according to RFC 5322 standards.
 module ReferencesHeaderBuilder
-  # RFC 5322 maximum line length for email headers
-  MAX_HEADER_LINE_LENGTH = 998
   # Builds a complete References header for an email reply
   #
   # According to RFC 5322, the References header should contain:
@@ -91,22 +89,6 @@ module ReferencesHeaderBuilder
   # @param references_array [Array<String>] Array of message IDs to be folded
   # @return [String] A properly folded header value with CRLF line endings
   def fold_references_header(references_array)
-    return '' if references_array.empty?
-    return references_array.first if references_array.size == 1
-
-    result_refs = [references_array.first]
-    current_length = references_array.first.length
-
-    references_array[1..].each do |ref|
-      # Each additional reference adds: "\r\n " (3 chars) + ref length
-      additional_length = 3 + ref.length
-
-      break unless current_length + additional_length <= MAX_HEADER_LINE_LENGTH
-
-      result_refs << ref
-      current_length += additional_length
-    end
-
-    result_refs.join("\r\n ")
+    references_array.join("\r\n ")
   end
 end
