@@ -416,3 +416,17 @@
   locked: false
   description: 'The redirect URI configured in your Google OAuth app'
 ## ------ End of Configs added for Google OAuth ------ ##
+
+## ------ Configs added for Cloudflare ------ ##
+- name: CLOUDFLARE_API_KEY
+  display_title: 'Cloudflare API Key'
+  value:
+  locked: false
+  description: 'API key for Cloudflare account authentication'
+  type: secret
+- name: CLOUDFLARE_ZONE_ID
+  display_title: 'Cloudflare Zone ID'
+  value:
+  locked: false
+  description: 'Zone ID for the Cloudflare domain'
+## ------ End of Configs added for Cloudflare ------ ##
