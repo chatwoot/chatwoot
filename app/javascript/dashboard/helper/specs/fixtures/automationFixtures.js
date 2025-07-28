@@ -609,7 +609,7 @@ export const inboxes = [
     imap_address: '',
     imap_port: 0,
     imap_enabled: false,
-    imap_enable_ssl: true,
+    imap_enable_ssl: false,
     smtp_login: '',
     smtp_password: '',
     smtp_address: '',

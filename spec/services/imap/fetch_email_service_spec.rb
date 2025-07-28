@@ -12,7 +12,7 @@ RSpec.describe Imap::FetchEmailService do
     before do
       allow(Rails).to receive(:logger).and_return(logger)
       allow(Net::IMAP).to receive(:new).with(
-        imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: true
+        imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: false
       ).and_return(imap)
       allow(imap).to receive(:authenticate).with(
         'PLAIN', imap_email_channel.imap_login, imap_email_channel.imap_password
