@@ -52,7 +52,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
   end
 
   def create_message
+    Rails.logger.info("[DEBUG] Creating message for Instagram with inbox ID: #{@inbox.id}")
     return unless @contact_inbox
+
+    Rails.logger.info("[DEBUG] Contact inbox found: #{@contact_inbox.inspect}")
 
     Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
   end
