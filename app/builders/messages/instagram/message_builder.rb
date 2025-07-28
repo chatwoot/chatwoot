@@ -163,6 +163,15 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def already_sent_from_chatwoot?
     Rails.logger.info("[DEBUG] Checking if message already sent from chatwoot: #{@messaging[:message][:mid]}")
+
+    cw_message = Message.where(
+      source_id: @messaging[:message][:mid],
+      inbox_id: @inbox.id,
+      account_id: @inbox.account_id
+    ).first
+
+    return true if cw_message.present?
+
     cw_message = conversation.messages.where(
       source_id: @messaging[:message][:mid]
     ).first
