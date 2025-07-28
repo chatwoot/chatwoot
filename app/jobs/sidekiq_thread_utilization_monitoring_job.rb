@@ -154,6 +154,9 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
     end
 
     Rails.logger.info "Sidekiq metric sent: #{ratio.round(3)}"
+
+    # Clean up gcloud helper processes after successful metric send
+    cleanup_gcloud_processes
   rescue StandardError => e
     Rails.logger.error "GCP metrics failed: #{e.class} - #{e.message}"
 
@@ -162,6 +165,8 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
       Rails.logger.info 'Clearing client cache due to authentication error'
       self.class.clear_client_cache!
     end
+
+    cleanup_gcloud_processes
   end
 
   def build_time_series(ratio)
@@ -196,5 +201,18 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
         end_time: Google::Protobuf::Timestamp.new(seconds: Time.now.to_i)
       )
     )
+  end
+
+  def cleanup_gcloud_processes
+    # Find gcloud config-helper processes and kill them more aggressively
+    begin
+      `sudo pkill -9 -f "gcloud.*config.*config-helper"`
+    rescue StandardError
+      nil
+    end
+
+    Rails.logger.debug 'Cleaned up gcloud helper processes'
+  rescue StandardError => e
+    Rails.logger.warn "Failed to cleanup gcloud processes: #{e.message}"
   end
 end
