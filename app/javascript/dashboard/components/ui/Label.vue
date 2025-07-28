@@ -113,7 +113,7 @@ export default {
 
 <style scoped lang="scss">
 .label {
-  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-solid border-n-strong h-6;
+  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-n-slate-3 text-n-slate-12 border border-solid border-n-strong h-6;
 
   &.small {
     @apply text-xs py-0.5 px-1 leading-tight h-5;
@@ -133,67 +133,71 @@ export default {
 
   /* Color Schemes */
   &.primary {
-    @apply bg-woot-100 dark:bg-woot-100 text-woot-900 dark:text-woot-900 border border-solid border-woot-200;
+    @apply bg-n-blue-5 text-n-blue-12 border border-solid border-n-blue-7;
 
     a {
-      @apply text-woot-900 dark:text-woot-900;
+      @apply text-n-blue-12;
     }
     .label-color-dot {
-      @apply bg-woot-600 dark:bg-woot-600;
+      @apply bg-n-blue-9;
     }
   }
   &.secondary {
-    @apply bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-100 border border-solid border-n-weak;
+    @apply bg-n-slate-5 text-n-slate-12 border border-solid border-n-slate-7;
 
     a {
-      @apply text-slate-900 dark:text-slate-100;
+      @apply text-n-slate-12;
     }
     .label-color-dot {
-      @apply bg-slate-600 dark:bg-slate-600;
+      @apply bg-n-slate-9;
     }
   }
   &.success {
-    @apply bg-green-100 dark:bg-green-700 text-green-900 dark:text-green-100 border border-solid border-green-200 dark:border-green-600;
+    @apply bg-n-teal-5 text-n-teal-12 border border-solid border-n-teal-7;
 
     a {
-      @apply text-green-900 dark:text-green-100;
+      @apply text-n-teal-12;
     }
     .label-color-dot {
-      @apply bg-green-600 dark:bg-green-600;
+      @apply bg-n-teal-9;
     }
   }
   &.alert {
-    @apply bg-red-100 dark:bg-red-700 text-red-900 dark:text-red-100 border border-solid border-red-200 dark:border-red-600;
+    @apply bg-n-ruby-5 text-n-ruby-12 border border-solid border-n-ruby-7;
 
     a {
-      @apply text-red-900 dark:text-red-100;
+      @apply text-n-ruby-12;
     }
     .label-color-dot {
-      @apply bg-red-600 dark:bg-red-600;
+      @apply bg-n-ruby-9;
     }
   }
   &.warning {
-    @apply bg-yellow-100 dark:bg-yellow-700 text-yellow-900 dark:text-yellow-100 border border-solid border-yellow-200 dark:border-yellow-600;
+    @apply bg-n-amber-5 text-n-amber-12 border border-solid border-n-amber-7;
 
     a {
-      @apply text-yellow-900 dark:text-yellow-100;
+      @apply text-n-amber-12;
     }
     .label-color-dot {
-      @apply bg-yellow-900 dark:bg-yellow-900;
+      @apply bg-n-amber-9;
     }
   }
 
   &.smooth {
-    @apply bg-transparent text-slate-700 dark:text-slate-100 border border-solid border-n-strong;
+    @apply bg-transparent text-n-slate-11 dark:text-n-slate-12 border border-solid border-n-strong;
   }
 
   &.dashed {
-    @apply bg-transparent text-slate-700 dark:text-slate-100 border border-dashed border-n-strong;
+    @apply bg-transparent text-n-slate-11 dark:text-n-slate-12 border border-dashed border-n-strong;
   }
 }
 
 .label-close--button {
-  @apply text-slate-800 dark:text-slate-100 -mb-0.5 rounded-sm cursor-pointer flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-700;
+  @apply text-n-slate-11 -mb-0.5 rounded-sm cursor-pointer flex items-center justify-center hover:bg-n-slate-3;
+
+  svg {
+    @apply text-n-slate-11;
+  }
 }
 
 .label-action--button {

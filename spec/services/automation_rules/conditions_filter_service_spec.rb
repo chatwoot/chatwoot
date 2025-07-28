@@ -110,6 +110,29 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
         end
       end
+
+      context 'when filtering messages based on conversation attributes' do
+        let(:conversation) { create(:conversation, account: account, status: :open, priority: :high) }
+        let(:message) do
+          create(:message, account: account, conversation: conversation, content: 'Test message',
+                           inbox: conversation.inbox, message_type: :incoming)
+        end
+
+        it 'will return true when conversation status matches' do
+          rule.update(conditions: [{ 'values': ['open'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when conversation status does not match' do
+          rule.update(conditions: [{ 'values': ['resolved'], 'attribute_key': 'status', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        end
+
+        it 'will return true when conversation priority matches' do
+          rule.update(conditions: [{ 'values': ['high'], 'attribute_key': 'priority', 'query_operator': nil, 'filter_operator': 'equal_to' }])
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        end
+      end
     end
   end
 end

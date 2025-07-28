@@ -58,7 +58,9 @@ const limitExceededMessage = computed(() => {
   } else if (testLimit(nonWebInboxes)) {
     message = t('GENERAL_SETTINGS.LIMIT_MESSAGES.INBOXES');
   } else if (testLimit(agents)) {
-    message = t('GENERAL_SETTINGS.LIMIT_MESSAGES.AGENTS');
+    message = t('GENERAL_SETTINGS.LIMIT_MESSAGES.AGENTS', {
+      allowedAgents: agents.allowed,
+    });
   }
 
   return message;
