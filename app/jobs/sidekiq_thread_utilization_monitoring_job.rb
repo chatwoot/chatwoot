@@ -211,7 +211,7 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
       nil
     end
 
-    Rails.logger.debug 'Cleaned up gcloud helper processes'
+    Rails.logger.info 'Cleaned up gcloud helper processes'
   rescue StandardError => e
     Rails.logger.warn "Failed to cleanup gcloud processes: #{e.message}"
   end
