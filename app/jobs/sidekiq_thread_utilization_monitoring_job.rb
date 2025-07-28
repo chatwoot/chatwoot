@@ -206,7 +206,7 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
   def cleanup_gcloud_processes
     # Find gcloud config-helper processes and kill them more aggressively
     begin
-      `sudo pkill -9 -f "gcloud.*config.*config-helper"`
+      `pkill -9 -f "gcloud.*config.*config-helper"`
     rescue StandardError
       nil
     end
