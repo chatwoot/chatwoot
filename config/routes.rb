@@ -522,6 +522,7 @@ Rails.application.routes.draw do
   post 'webhooks/call/myoperator', to: 'webhooks/call_myoperator#handle_call_callback'
   post 'webhooks/call/ozonetel', to: 'webhooks/call_ozonetel#handle_call_callback'
   post 'webhooks/call/alohaa', to: 'webhooks/call_alohaa#handle_call_callback'
+  post 'webhooks/call/knowlarity', to: 'webhooks/call_knowlarity#handle_call_callback'
 
   get 'webhooks/call/incoming', to: 'webhooks/call#handle_incoming_call'
   get 'webhooks/call/welcome_message', to: 'webhooks/call#welcome_message'

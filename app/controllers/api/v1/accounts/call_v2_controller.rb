@@ -296,9 +296,8 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
 
     params = {
       k_number: external_provider_config['k_number'],
-      agent_number: payload['from'],
-      customer_number: payload['to'],
-      caller_id: external_provider_config['caller_id']
+      agent_number: "+91#{payload['from'].gsub(/^(\+91|0)+/, '')}",
+      customer_number: "+91#{payload['to'].gsub(/^(\+91|0)+/, '')}"
     }
 
     Rails.logger.info("params, #{params.to_json.inspect}")
@@ -309,7 +308,7 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': external_provider_config['x_api_key'],
-        'Authorization': external_provider_config['token']
+        'Authorization': external_provider_config['authorization']
       }
     )
   end
@@ -362,7 +361,7 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
     when 'exotel'
       xml_data = REXML::Document.new(response.body)
       xml_data.elements['//Message']&.text || 'Unknown error'
-    when 'ivrsolutions', 'myoperator', 'ozonetel'
+    when 'ivrsolutions', 'myoperator', 'ozonetel', 'knowlarity'
       begin
         result = JSON.parse(response.body)
         result['message'] || 'Unknown error'
