@@ -59,16 +59,16 @@ class AutomationRuleListener < BaseListener
 
   private
 
-  def conversation_event(event, conversation_status)
+  def conversation_event(event, event_name)
     return if performed_by_automation?(event)
 
     conversation = event.data[:conversation]
     account = conversation.account
     changed_attributes = event.data[:changed_attributes]
 
-    return unless rule_present?(conversation_status, account)
+    return unless rule_present?(event_name, account)
 
-    rules = current_account_rules(conversation_status, account)
+    rules = current_account_rules(event_name, account)
 
     rules.each do |rule|
       conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
