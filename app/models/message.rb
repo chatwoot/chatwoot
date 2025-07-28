@@ -266,7 +266,6 @@ class Message < ApplicationRecord
   end
 
   def execute_after_create_commit_callbacks
-    Rails.logger.info("[TRACE] Masuk execute_after_create_commit_callbacks untuk Message ID: #{id}")
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     reopen_conversation
     reminder_off?
@@ -303,7 +302,6 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
-    Rails.logger.info("[TRACE] Masuk dispatch_create_events untuk Message ID: #{id}")
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
     if valid_first_reply?

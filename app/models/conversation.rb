@@ -208,6 +208,7 @@ class Conversation < ApplicationRecord
 
   def execute_after_update_commit_callbacks
     notify_status_change
+    create_activity_for_resolved
     create_activity
     notify_conversation_updation
   end

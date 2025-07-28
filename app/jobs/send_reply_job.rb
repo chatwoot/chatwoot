@@ -17,8 +17,6 @@ class SendReplyJob < ApplicationJob
       'Channel::Instagram' => ::Instagram::SendOnInstagramService
     }
 
-    Rails.logger.info("[DEBUG] Sending message on channel: #{channel_name} for message: #{message.inspect}")
-
     case channel_name
     when 'Channel::FacebookPage'
       send_on_facebook_page(message)

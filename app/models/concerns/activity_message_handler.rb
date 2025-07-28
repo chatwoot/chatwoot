@@ -17,6 +17,13 @@ module ActivityMessageHandler
     handle_sla_policy_change(user_name)
   end
 
+  def create_activity_for_resolved
+    return unless saved_change_to_status?
+
+    content = 'Terima kasih telah menghubungi Kami.'
+    ::Conversations::ActivityMessageJob.perform_later(self, resolved_message_params(content)) if content
+  end
+
   def determine_user_name
     Current.user&.name
   end
@@ -77,6 +84,10 @@ module ActivityMessageHandler
 
   def activity_message_params(content)
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
+  end
+
+  def resolved_message_params(content)
+    { account_id: account_id, inbox_id: inbox_id, message_type: :template, content: content }
   end
 
   def create_muted_message
