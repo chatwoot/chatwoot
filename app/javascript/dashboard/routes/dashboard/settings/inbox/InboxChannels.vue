@@ -8,12 +8,26 @@ export default {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
     }),
-    createFlowSteps() {
-      // Check if current channel is WhatsApp Unofficial
-      const isWhatsAppUnofficial = this.$route.params.sub_page === 'whatsapp_unofficial';
+    currentInbox() {
+      const inboxId = this.$route.params.inbox_id;
+      if (inboxId) {
+        return this.$store.getters['inboxes/getInbox'](inboxId);
+      }
+      return null;
+    },
+    isWhatsAppUnofficial() {
+      if (this.$route.params.sub_page === 'whatsapp_unofficial') {
+        return true;
+      }
       
-      // Include QRCODE step only for WhatsApp Unofficial
-      const steps = isWhatsAppUnofficial 
+      if (this.currentInbox && this.currentInbox.channel_type === 'Channel::WhatsappUnofficial') {
+        return true;
+      }
+      
+      return false;
+    },
+    createFlowSteps() {
+      const steps = this.isWhatsAppUnofficial 
         ? ['CHANNEL', 'INBOX', 'QRCODE', 'AGENT', 'FINISH']
         : ['CHANNEL', 'INBOX', 'AGENT', 'FINISH'];
 
