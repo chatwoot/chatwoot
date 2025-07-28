@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Minggu depan"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agen",
+      "TEAMS": "Tim"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Tunda hingga",
       "APPLY": "Tunda",

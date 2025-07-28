@@ -123,6 +123,8 @@ gem 'sentry-sidekiq', '>= 5.19.0', require: false
 gem 'sidekiq', '>= 7.3.1'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
+# for sidekiq healthcheck
+gem 'sidekiq_alive'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -179,6 +181,7 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
+gem 'ai-agents', '>= 0.2.1'
 
 gem 'shopify_api'
 

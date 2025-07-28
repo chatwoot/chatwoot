@@ -2,13 +2,15 @@
 #
 # Table name: captain_assistants
 #
-#  id          :bigint           not null, primary key
-#  config      :jsonb            not null
-#  description :string
-#  name        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :bigint           not null
+#  id                  :bigint           not null, primary key
+#  config              :jsonb            not null
+#  description         :string
+#  guardrails          :jsonb
+#  name                :string           not null
+#  response_guidelines :jsonb
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :bigint           not null
 #
 # Indexes
 #
@@ -16,6 +18,7 @@
 #
 class Captain::Assistant < ApplicationRecord
   include Avatarable
+  include Concerns::CaptainToolsHelpers
 
   self.table_name = 'captain_assistants'
 
@@ -30,6 +33,7 @@ class Captain::Assistant < ApplicationRecord
            through: :captain_inboxes
   has_many :messages, as: :sender, dependent: :nullify
   has_many :copilot_threads, dependent: :destroy_async
+  has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
   validates :name, presence: true
   validates :description, presence: true
