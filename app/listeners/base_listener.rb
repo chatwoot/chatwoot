@@ -36,4 +36,8 @@ class BaseListener
 
     changed_attributes.map { |k, v| { k => { previous_value: v[0], current_value: v[1] } } }
   end
+
+  def extract_performed_by(event)
+    event.data[:performed_by]
+  end
 end

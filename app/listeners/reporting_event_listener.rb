@@ -1,8 +1,10 @@
 class ReportingEventListener < BaseListener
   include ReportingEventHelper
 
-  def conversation_resolved(event)
+  def conversation_resolved(event) # rubocop:disable Metrics/AbcSize
     conversation = extract_conversation_and_account(event)[0]
+    performed_by = extract_performed_by(event)
+
     time_to_resolve = conversation.updated_at.to_i - last_agent_assignment(conversation).to_i
 
     return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
@@ -14,7 +16,7 @@ class ReportingEventListener < BaseListener
                                               conversation.updated_at),
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
+      user_id: conversation.assignee_id || (performed_by.id if performed_by.present?),
       conversation_id: conversation.id,
       event_start_time: last_agent_assignment(conversation),
       event_end_time: conversation.updated_at
@@ -49,7 +51,7 @@ class ReportingEventListener < BaseListener
     reporting_event.save!
   end
 
-  def reply_created(event)
+  def reply_created(event) # rubocop:disable Metrics/AbcSize
     message = extract_message_and_account(event)[0]
     conversation = message.conversation
 
@@ -69,7 +71,7 @@ class ReportingEventListener < BaseListener
       value_in_business_hours: business_hours(conversation.inbox, waiting_since, message.created_at),
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
+      user_id: conversation.assignee_id || message.sender_id,
       conversation_id: conversation.id,
       event_start_time: waiting_since,
       event_end_time: message.created_at
@@ -118,8 +120,9 @@ class ReportingEventListener < BaseListener
     reporting_event.save!
   end
 
-  def conversation_call_converted(event)
+  def conversation_call_converted(event) # rubocop:disable Metrics/AbcSize
     conversation = extract_conversation_and_account(event)[0]
+    performed_by = extract_performed_by(event)
 
     return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
 
@@ -129,7 +132,7 @@ class ReportingEventListener < BaseListener
       value_in_business_hours: business_hours(conversation.inbox, conversation.nudge_created, conversation.updated_at),
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
+      user_id: conversation.assignee_id || (performed_by.id if performed_by.present?),
       conversation_id: conversation.id,
       event_start_time: conversation.nudge_created,
       event_end_time: conversation.updated_at
@@ -137,8 +140,9 @@ class ReportingEventListener < BaseListener
     reporting_event.save!
   end
 
-  def conversation_call_dropped(event)
+  def conversation_call_dropped(event) # rubocop:disable Metrics/AbcSize
     conversation = extract_conversation_and_account(event)[0]
+    performed_by = extract_performed_by(event)
 
     return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
 
@@ -148,7 +152,7 @@ class ReportingEventListener < BaseListener
       value_in_business_hours: business_hours(conversation.inbox, conversation.nudge_created, conversation.updated_at),
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
+      user_id: conversation.assignee_id || (performed_by.id if performed_by.present?),
       conversation_id: conversation.id,
       event_start_time: conversation.nudge_created,
       event_end_time: conversation.updated_at
