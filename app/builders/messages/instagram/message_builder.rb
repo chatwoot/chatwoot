@@ -69,25 +69,24 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def conversation
-    Rails.logger.info("Conversation DEBUG #{@conversation.inspect}")
+    Rails.logger.info("[DEBUG] Conversation #{@conversation.inspect}")
     @conversation ||= set_conversation_based_on_inbox_config
   end
 
-  def instagram_direct_message_conversation
+  def find_conversation_scope
     Conversation.where(conversation_params)
-                .where("additional_attributes ->> 'type' = 'instagram_direct_message'")
   end
 
   def set_conversation_based_on_inbox_config
     if @inbox.lock_to_single_conversation
-      instagram_direct_message_conversation.order(created_at: :desc).first || build_conversation
+      find_conversation_scope.order(created_at: :desc).first || build_conversation
     else
       find_or_build_for_multiple_conversations
     end
   end
 
   def find_or_build_for_multiple_conversations
-    last_conversation = instagram_direct_message_conversation.where.not(status: :resolved).order(created_at: :desc).first
+    last_conversation = find_conversation_scope.where.not(status: :resolved).order(created_at: :desc).first
 
     return build_conversation if last_conversation.nil?
 
@@ -125,7 +124,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def build_conversation
-    Rails.logger.info('Building new conversation for message')
+    Rails.logger.info "[DEBUG] Building new conversation #{conversation_params.inspect} for message #{message_params.inspect}"
     @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: message_source_id)
 
     Conversation.create!(conversation_params.merge(
