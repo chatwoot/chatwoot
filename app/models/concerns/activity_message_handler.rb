@@ -17,19 +17,15 @@ module ActivityMessageHandler
     handle_sla_policy_change(user_name)
   end
 
-  def create_activity_for_resolved
-    return unless saved_change_to_status?
-
-    content = 'Terima kasih telah menghubungi Kami.'
-    ::Conversations::ActivityMessageJob.perform_later(self, resolved_message_params(content)) if content
-  end
-
   def determine_user_name
     Current.user&.name
   end
 
   def handle_status_change(user_name)
     return unless saved_change_to_status?
+
+    # If the status is changed to resolved, we create a resolved activity message.
+    status_change_template
 
     status_change_activity(user_name)
   end
@@ -63,6 +59,14 @@ module ActivityMessageHandler
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
+  def status_change_template
+    return unless resolved?
+
+    content = I18n.t('conversations.templates.closing_message_body')
+
+    ::Conversations::ActivityMessageJob.perform_later(self, template_message_params(content)) if content
+  end
+
   def user_status_change_activity_content(user_name)
     if user_name
       I18n.t("conversations.activity.status.#{status}", user_name: user_name)
@@ -86,7 +90,7 @@ module ActivityMessageHandler
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
-  def resolved_message_params(content)
+  def template_message_params(content)
     { account_id: account_id, inbox_id: inbox_id, message_type: :template, content: content }
   end
 

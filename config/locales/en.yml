@@ -185,6 +185,7 @@ en:
       ways_to_reach_you_message_body: 'Give the team a way to reach you.'
       email_input_box_message_body: 'Get notified by email'
       csat_input_message_body: 'Please rate the conversation'
+      closing_message_body: 'Thank you for contacting us. If you have any further questions in the future, we are ready to assist you.'
     reply:
       email:
         header:
