@@ -469,7 +469,8 @@
         "FEATURES": {
           "TITLE": "Features",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
+          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
