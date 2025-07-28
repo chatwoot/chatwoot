@@ -206,7 +206,7 @@ onMounted(() => {
         />
       </OnClickOutside>
     </div>
-    <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
+    <div class="w-px h-3 bg-n-weak" />
     <div class="relative">
       <OnClickOutside @trigger="openCategoryList = false">
         <Button
@@ -239,7 +239,7 @@ onMounted(() => {
       </OnClickOutside>
     </div>
 
-    <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
+    <div class="w-px h-3 bg-n-weak" />
     <div class="relative">
       <OnClickOutside @trigger="openProperties = false">
         <Button
