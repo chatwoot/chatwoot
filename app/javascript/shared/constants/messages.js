@@ -49,6 +49,17 @@ export const ALLOWED_FILE_TYPES =
   'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document,';
 
+export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
+  'image/png, image/jpeg,' +
+  'audio/mpeg, audio/opus, audio/ogg, audio/amr,' +
+  'video/mp4,' +
+  'application/pdf,';
+// https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
+export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
+
+// https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
+export const ALLOWED_FILE_TYPES_FOR_INSTAGRAM =
+  'image/png, image/jpeg, video/mp4, video/mov, video/webm, audio/aac, audio/mp4, audio/wav, audio/mpeg, audio/ogg';
 export const CSAT_RATINGS = [
   {
     key: 'disappointed',

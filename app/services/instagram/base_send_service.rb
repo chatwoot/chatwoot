@@ -119,13 +119,26 @@ class Instagram::BaseSendService < Base::SendOnChannelService
   end
 
   def attachment_message_params(attachment)
+    Rails.logger.info "Instagram: Processing attachment - file_type: #{attachment.file_type}, content_type: #{attachment.file.content_type}, filename: #{attachment.file.filename}"
+    
+    # Convert audio files to Instagram-compatible format if needed
+    attachment_url = if attachment.file_type == 'audio'
+                       Rails.logger.info "Instagram: Audio attachment detected, initiating conversion process"
+                       Instagram::AudioConversionService.convert_to_instagram_format(attachment)
+                     else
+                       Rails.logger.info "Instagram: Non-audio attachment, using original URL"
+                       attachment.download_url
+                     end
+
+    Rails.logger.info "Instagram: Final attachment URL: #{attachment_url}"
+
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.download_url
+            url: attachment_url
           }
         }
       }
