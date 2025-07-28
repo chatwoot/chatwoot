@@ -18,6 +18,7 @@
 #
 class Captain::Assistant < ApplicationRecord
   include Avatarable
+  include Concerns::CaptainToolsHelpers
 
   self.table_name = 'captain_assistants'
 

@@ -32,6 +32,10 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     render json: response
   end
 
+  def tools
+    @tools = Captain::Assistant.available_agent_tools
+  end
+
   private
 
   def set_assistant
@@ -51,8 +55,9 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
                                                   ])
 
     # Handle array parameters separately to allow partial updates
-    permitted[:response_guidelines] = params[:assistant][:response_guidelines] if params[:assistant][:response_guidelines].present?
-    permitted[:guardrails] = params[:assistant][:guardrails] if params[:assistant][:guardrails].present?
+    permitted[:response_guidelines] = params[:assistant][:response_guidelines] if params[:assistant].key?(:response_guidelines)
+
+    permitted[:guardrails] = params[:assistant][:guardrails] if params[:assistant].key?(:guardrails)
 
     permitted
   end

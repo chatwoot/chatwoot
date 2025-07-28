@@ -1,5 +1,7 @@
 # TODO: Move this values to features.yml itself
 # No need to replicate the same values in two places
+
+# ------- Premium Features ------- #
 captain:
   name: 'Captain'
   description: 'Enable AI-powered conversations with your customers.'
@@ -32,6 +34,15 @@ disable_branding:
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-sailbot-fill'
   enterprise: true
+
+# ------- Product Features ------- #
+help_center:
+  name: 'Help Center'
+  description: 'Allow agents to create help center articles and publish them in a portal.'
+  enabled: true
+  icon: 'icon-book-2-line'
+
+# ------- Communication Channels ------- #
 live_chat:
   name: 'Live Chat'
   description: 'Improve your customer experience using a live chat on your website.'
@@ -42,6 +53,12 @@ email:
   description: 'Manage your email customer interactions from Chatwoot.'
   enabled: true
   icon: 'icon-mail-send-fill'
+  config_key: 'email'
+sms:
+  name: 'SMS'
+  description: 'Manage your SMS customer interactions from Chatwoot.'
+  enabled: true
+  icon: 'icon-message-line'
 messenger:
   name: 'Messenger'
   description: 'Stay connected with your customers on Facebook & Instagram.'
@@ -69,22 +86,22 @@ line:
   description: 'Manage your Line customer interactions from Chatwoot.'
   enabled: true
   icon: 'icon-line-line'
-sms:
-  name: 'SMS'
-  description: 'Manage your SMS customer interactions from Chatwoot.'
+
+# ------- OAuth & Authentication ------- #
+google:
+  name: 'Google'
+  description: 'Configuration for setting up Google OAuth Integration'
   enabled: true
-  icon: 'icon-message-line'
-help_center:
-  name: 'Help Center'
-  description: 'Allow agents to create help center articles and publish them in a portal.'
-  enabled: true
-  icon: 'icon-book-2-line'
+  icon: 'icon-google'
+  config_key: 'google'
 microsoft:
   name: 'Microsoft'
   description: 'Configuration for setting up Microsoft Email'
   enabled: true
   icon: 'icon-microsoft'
   config_key: 'microsoft'
+
+# ------- Third-party Integrations ------- #
 linear:
   name: 'Linear'
   description: 'Configuration for setting up Linear Integration'
