@@ -75,6 +75,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def find_conversation_scope
     Conversation.where(conversation_params)
+                .where("additional_attributes ->> 'type' = 'instagram_direct_message'")
   end
 
   def set_conversation_based_on_inbox_config
