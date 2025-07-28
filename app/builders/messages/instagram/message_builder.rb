@@ -107,7 +107,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def build_message
-    Rails.logger.info("[DEBUG] Building new message #{message_params.inspect} for conversation: #{conversation.id}")
+    Rails.logger.info("[DEBUG] Building new message #{message_params.inspect}")
     Rails.logger.info("[DEBUG] Outgoing echo: #{@outgoing_echo} - Already sent from chatwoot: #{already_sent_from_chatwoot?}")
     return if @outgoing_echo && already_sent_from_chatwoot?
     return if message_content.blank? && all_unsupported_files?
@@ -162,6 +162,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def already_sent_from_chatwoot?
+    Rails.logger.info("[DEBUG] Checking if message already sent from chatwoot: #{@messaging[:message][:mid]}")
     cw_message = conversation.messages.where(
       source_id: @messaging[:message][:mid]
     ).first
