@@ -43,5 +43,14 @@ describe Sms::OneoffSmsCampaignService do
       assert_requested(:post, 'https://messaging.bandwidth.com/api/v2/users/1/messages', times: 3)
       expect(campaign.reload.completed?).to be true
     end
+
+    it 'uses liquid template service to process campaign message' do
+      contact = create(:contact, :with_phone_number, account: account)
+      contact.update_labels([label1.title])
+
+      expect(Liquid::CampaignTemplateService).to receive(:new).with(campaign: campaign, contact: contact).and_call_original
+
+      sms_campaign_service.perform
+    end
   end
 end

@@ -134,7 +134,7 @@ onUnmounted(() => {
     <SLAPopoverCard
       v-if="showSlaPopoverCard"
       :sla-missed-events="slaEvents"
-      class="rtl:left-0 ltr:right-0 top-7 hidden group-hover:flex"
+      class="start-0 xl:start-auto xl:end-0 top-7 hidden group-hover:flex"
     />
   </div>
 </template>

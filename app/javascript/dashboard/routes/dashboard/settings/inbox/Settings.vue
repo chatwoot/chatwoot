@@ -23,6 +23,8 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
@@ -43,6 +45,7 @@ export default {
     NextButton,
     InstagramReauthorize,
     DuplicateInboxBanner,
+    Editor,
   },
   mixins: [inboxMixin],
   setup() {
@@ -70,6 +73,7 @@ export default {
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -81,6 +85,12 @@ export default {
     }),
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
+    },
+    shouldShowWhatsAppConfiguration() {
+      return !!(
+        this.isAWhatsAppCloudChannel &&
+        this.inbox.provider_config?.source !== 'embedded_signup'
+      );
     },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {
@@ -133,7 +143,7 @@ export default {
         this.isALineChannel ||
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
-        this.isAWhatsAppChannel ||
+        this.shouldShowWhatsAppConfiguration ||
         this.isAWebWidgetInbox
       ) {
         visibleToAllChannelTabs = [
@@ -379,14 +389,14 @@ export default {
 
 <template>
   <div
-    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto settings"
+    class="overflow-auto flex-grow flex-shrink pr-0 pl-0 w-full min-w-0 settings"
   >
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
       <woot-tabs
-        class="settings--tabs"
+        class="[&_ul]:p-0"
         :index="selectedTabIndex"
         :border="false"
         @change="onTabChange"
@@ -397,10 +407,11 @@ export default {
           :index="index"
           :name="tab.name"
           :show-badge="false"
+          is-compact
         />
       </woot-tabs>
     </SettingIntroBanner>
-    <section class="w-full max-w-6xl mx-auto">
+    <section class="mx-auto w-full max-w-6xl">
       <MicrosoftReauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
@@ -480,10 +491,10 @@ export default {
             "
           />
 
-          <woot-input
+          <Editor
             v-if="isAWebWidgetInbox"
             v-model="channelWelcomeTagline"
-            class="pb-4"
+            class="mb-4"
             :label="
               $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
             "
@@ -492,6 +503,8 @@ export default {
                 'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
               )
             "
+            :max-length="255"
+            :enabled-menu-options="welcomeTaglineEditorMenuOptions"
           />
 
           <label v-if="isAWebWidgetInbox" class="pb-4">
@@ -728,7 +741,7 @@ export default {
               :business-name="businessName"
               @update="toggleSenderNameType"
             />
-            <div class="flex flex-col items-start gap-2 mt-2">
+            <div class="flex flex-col gap-2 items-start mt-2">
               <NextButton
                 ghost
                 blue
@@ -808,11 +821,3 @@ export default {
     </section>
   </div>
 </template>
-
-<style scoped lang="scss">
-.settings--tabs {
-  ::v-deep .tabs {
-    @apply p-0;
-  }
-}
-</style>

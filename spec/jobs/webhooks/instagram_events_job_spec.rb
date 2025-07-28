@@ -234,16 +234,15 @@ describe Webhooks::InstagramEventsJob do
           account_id: instagram_inbox.account_id
         )
 
-        instagram_inbox.reload
-
         expect(instagram_inbox.messages.count).to be 1
 
         instagram_webhook.perform_now(message_events[:unsend][:entry])
 
-        expect(instagram_inbox.messages.last.content).to eq 'This message was deleted'
-        expect(instagram_inbox.messages.last.deleted).to be true
-        expect(instagram_inbox.messages.last.attachments.count).to be 0
-        expect(instagram_inbox.messages.last.reload.deleted).to be true
+        message.reload
+
+        expect(message.content).to eq 'This message was deleted'
+        expect(message.deleted).to be true
+        expect(message.attachments.count).to be 0
       end
 
       it 'creates incoming message with attachments in the instagram direct inbox' do
@@ -280,10 +279,28 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.messages.count).to be 0
       end
 
-      it 'handle messaging_seen callback' do
+      it 'handles messaging_seen callback' do
         expect(Instagram::ReadStatusService).to receive(:new).with(params: message_events[:messaging_seen][:entry][0][:messaging][0],
                                                                    channel: instagram_inbox.channel).and_call_original
         instagram_webhook.perform_now(message_events[:messaging_seen][:entry])
+      end
+
+      it 'creates contact when Instagram API call returns `No matching Instagram user` (9010 error code)' do
+        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/.*\?.*})
+          .to_return(status: 401, body: { error: { message: 'No matching Instagram user', code: 9010 } }.to_json)
+
+        instagram_webhook.perform_now(message_events[:dm][:entry])
+
+        instagram_inbox.reload
+
+        expect(instagram_inbox.contacts.count).to be 1
+        expect(instagram_inbox.contacts.last.name).to eq 'Unknown (IG: Sender-id-1)'
+        expect(instagram_inbox.contacts.last.contact_inboxes.count).to be 1
+        expect(instagram_inbox.contacts.last.contact_inboxes.first.source_id).to eq 'Sender-id-1'
+
+        expect(instagram_inbox.conversations.count).to eq 1
+        expect(instagram_inbox.messages.count).to eq 1
+        expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
       end
     end
   end

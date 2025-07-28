@@ -1,5 +1,7 @@
 module Enterprise::Inbox
   def member_ids_with_assignment_capacity
+    return super unless enable_auto_assignment?
+
     max_assignment_limit = auto_assignment_config['max_assignment_limit']
     overloaded_agent_ids = max_assignment_limit.present? ? get_agent_ids_over_assignment_limit(max_assignment_limit) : []
     super - overloaded_agent_ids

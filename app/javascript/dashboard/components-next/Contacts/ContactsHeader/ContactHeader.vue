@@ -7,42 +7,16 @@ import ContactMoreActions from './components/ContactMoreActions.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 defineProps({
-  showSearch: {
-    type: Boolean,
-    default: true,
-  },
-  searchValue: {
-    type: String,
-    default: '',
-  },
-  headerTitle: {
-    type: String,
-    required: true,
-  },
-  buttonLabel: {
-    type: String,
-    default: '',
-  },
-  activeSort: {
-    type: String,
-    default: 'last_activity_at',
-  },
-  activeOrdering: {
-    type: String,
-    default: '',
-  },
-  isSegmentsView: {
-    type: Boolean,
-    default: false,
-  },
-  hasActiveFilters: {
-    type: Boolean,
-    default: false,
-  },
-  isLabelView: {
-    type: Boolean,
-    default: false,
-  },
+  showSearch: { type: Boolean, default: true },
+  searchValue: { type: String, default: '' },
+  headerTitle: { type: String, required: true },
+  buttonLabel: { type: String, default: '' },
+  activeSort: { type: String, default: 'last_activity_at' },
+  activeOrdering: { type: String, default: '' },
+  isSegmentsView: { type: Boolean, default: false },
+  hasActiveFilters: { type: Boolean, default: false },
+  isLabelView: { type: Boolean, default: false },
+  isActiveView: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -85,7 +59,7 @@ const emit = defineEmits([
           </Input>
         </div>
         <div class="flex items-center gap-2">
-          <div v-if="!isLabelView" class="relative">
+          <div v-if="!isLabelView && !isActiveView" class="relative">
             <Button
               id="toggleContactsFilterButton"
               :icon="
@@ -105,7 +79,12 @@ const emit = defineEmits([
             <slot name="filter" />
           </div>
           <Button
-            v-if="hasActiveFilters && !isSegmentsView && !isLabelView"
+            v-if="
+              hasActiveFilters &&
+              !isSegmentsView &&
+              !isLabelView &&
+              !isActiveView
+            "
             icon="i-lucide-save"
             color="slate"
             size="sm"
@@ -113,7 +92,7 @@ const emit = defineEmits([
             @click="emit('createSegment')"
           />
           <Button
-            v-if="isSegmentsView && !isLabelView"
+            v-if="isSegmentsView && !isLabelView && !isActiveView"
             icon="i-lucide-trash"
             color="slate"
             size="sm"

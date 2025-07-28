@@ -46,8 +46,6 @@ const getCurrentRoute = () => {
   const path = route.path;
   if (path.includes('/conversations')) return 'conversations';
   if (path.includes('/dashboard')) return 'dashboard';
-  if (path.includes('/contacts')) return 'contacts';
-  if (path.includes('/articles')) return 'articles';
   return 'dashboard';
 };
 
