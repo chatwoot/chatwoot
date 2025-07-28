@@ -96,6 +96,81 @@ describe Instagram::SendOnInstagramService do
           expect(response['message_id']).to eq('random_message_id')
         end
 
+        it 'if message with audio attachment is sent from chatwoot and uses conversion service' do
+          message = build(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
+          attachment.file.attach(
+            io: StringIO.new('audio content'),
+            filename: 'test.mp3',
+            content_type: 'audio/mpeg'
+          )
+          message.save!
+
+          # Mock the audio conversion service
+          allow(Instagram::AudioConversionService).to receive(:convert_to_instagram_format)
+            .with(attachment).and_return('http://example.com/converted.m4a')
+
+          response = described_class.new(message: message).perform
+
+          expect(response['message_id']).to eq('random_message_id')
+          expect(Instagram::AudioConversionService).to have_received(:convert_to_instagram_format).with(attachment)
+        end
+
+        it 'if message with audio attachment calls conversion service and succeeds' do
+          message = build(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
+          attachment.file.attach(
+            io: StringIO.new('audio content'),
+            filename: 'test.wav',
+            content_type: 'audio/wav'
+          )
+          message.save!
+
+          # Mock the audio conversion service
+          allow(Instagram::AudioConversionService).to receive(:convert_to_instagram_format)
+            .with(attachment).and_return('http://example.com/test.wav')
+
+          response = described_class.new(message: message).perform
+
+          expect(response['message_id']).to eq('random_message_id')
+          expect(Instagram::AudioConversionService).to have_received(:convert_to_instagram_format).with(attachment)
+        end
+
+                it 'if message with non-audio attachment uses original download URL' do
+          message = build(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          message.save!
+
+          # Spy on the audio conversion service to verify it's not called
+          allow(Instagram::AudioConversionService).to receive(:convert_to_instagram_format).and_call_original
+
+          response = described_class.new(message: message).perform
+          
+          expect(response['message_id']).to eq('random_message_id')
+          expect(Instagram::AudioConversionService).not_to have_received(:convert_to_instagram_format)
+        end
+
+        it 'if message with audio attachment falls back gracefully when conversion fails' do
+          message = build(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          attachment = message.attachments.new(account_id: message.account_id, file_type: :audio)
+          attachment.file.attach(
+            io: StringIO.new('audio content'),
+            filename: 'test.mp3',
+            content_type: 'audio/mpeg'
+          )
+          message.save!
+
+          # Mock the audio conversion service to return original URL (fallback behavior)
+          allow(Instagram::AudioConversionService).to receive(:convert_to_instagram_format)
+            .with(attachment).and_return(attachment.download_url)
+
+          response = described_class.new(message: message).perform
+
+          expect(response['message_id']).to eq('random_message_id')
+          expect(Instagram::AudioConversionService).to have_received(:convert_to_instagram_format).with(attachment)
+        end
+
         it 'if message sent from chatwoot is failed' do
           message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
