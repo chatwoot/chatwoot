@@ -9,7 +9,13 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     createFlowSteps() {
-      const steps = ['CHANNEL', 'INBOX', 'QRCODE', 'AGENT', 'FINISH'];
+      // Check if current channel is WhatsApp Unofficial
+      const isWhatsAppUnofficial = this.$route.params.sub_page === 'whatsapp_unofficial';
+      
+      // Include QRCODE step only for WhatsApp Unofficial
+      const steps = isWhatsAppUnofficial 
+        ? ['CHANNEL', 'INBOX', 'QRCODE', 'AGENT', 'FINISH']
+        : ['CHANNEL', 'INBOX', 'AGENT', 'FINISH'];
 
       const routes = {
         CHANNEL: 'settings_inbox_new',
