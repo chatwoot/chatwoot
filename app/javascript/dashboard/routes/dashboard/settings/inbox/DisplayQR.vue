@@ -32,7 +32,7 @@ export default {
     statusMessage() {
       switch (this.connectionStatus) {
         case 'waiting':
-          return 'Menunggu pemindaian...';
+          return 'Menunggu dipindai...';
         case 'connected':
           return 'Berhasil terhubung!';
         case 'expired':
@@ -50,7 +50,7 @@ export default {
       if (this.expectedPhoneNumber) {
         return `Pastikan Anda menggunakan WhatsApp dengan nomor ${this.expectedPhoneNumber}`;
       }
-      return 'Pindai kode ini menggunakan aplikasi WhatsApp Anda';
+      return 'Silakan pindai kode ini menggunakan aplikasi WhatsApp Anda';
     }
   },
   async mounted() {
@@ -379,12 +379,12 @@ export default {
           <div class="flex-1 max-w-md">
             <div class="p-6 pt-0 rounded-lg">
               <h4 class="font-semibold text-slate-800 dark:text-slate-200 mb-4">
-                Cara Memindai:
+                Cara Menghubungkan:
               </h4>
               <ol class="list-decimal list-inside space-y-3 text-slate-600 dark:text-slate-400">
-                <li>Buka WhatsApp di ponsel Anda.</li>
-                <li>Masuk ke Setelan > Perangkat Tertaut.</li>
-                <li>Pilih "Tautkan Perangkat" dan arahkan kamera ponsel Anda ke kode ini.</li>
+                <li>Buka aplikasi WhatsApp di HP Anda.</li>
+                <li>Masuk ke menu Setelan > Perangkat Tertaut.</li>
+                <li>Tekan Tautkan Perangkat, lalu arahkan kamera HP Anda ke kode QR ini.</li>
               </ol>
             </div>
           </div>
