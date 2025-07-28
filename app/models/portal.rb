@@ -12,6 +12,7 @@
 #  name                  :string           not null
 #  page_title            :string
 #  slug                  :string           not null
+#  ssl_settings          :jsonb            not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
@@ -69,3 +70,5 @@ class Portal < ApplicationRecord
     errors.add(:cofig, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
   end
 end
+
+Portal.include_mod_with('Concerns::Portal')
