@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+      get 'audit_logs/latest_sign_ins', to: 'audit_logs#latest_sign_ins'
       # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update] do
@@ -69,7 +70,9 @@ Rails.application.routes.draw do
             end
           end
           resources :assignable_agents, only: [:index]
-          resource :audit_logs, only: [:show]
+          resource :audit_logs, only: [:show] do
+            get :latest_sign_ins, on: :collection
+          end
           resources :callbacks, only: [] do
             collection do
               post :register_facebook_page
