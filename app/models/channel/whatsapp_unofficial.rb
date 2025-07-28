@@ -24,6 +24,8 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   before_destroy :clear_session_status_cache
 
+  before_destroy :clear_session_status_cache
+
   validates :phone_number, presence: true
   validates :account_id, presence: true
   validates :webhook_url, length: { maximum: Limits::URL_LENGTH_LIMIT }

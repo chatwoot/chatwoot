@@ -114,6 +114,17 @@ class Conversation < ApplicationRecord
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
+  after_create_commit :log_conversation_creation_debug
+
+  def log_conversation_creation_debug
+    Rails.logger.info do
+      "[DEBUG_CONV_CREATE] Conversation created: id=#{id}, inbox_id=#{inbox_id}, channel=#{begin
+        inbox.channel_type
+      rescue StandardError
+        nil
+      end}, status=#{status}, caller:\n#{caller.join("\n")}"
+    end
+  end
 
   delegate :auto_resolve_duration, to: :account
 

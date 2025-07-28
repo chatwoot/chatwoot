@@ -1,19 +1,19 @@
 class Api::V1::Waha::WebhooksController < ApplicationController
   skip_before_action :authenticate_user!, raise: false
   skip_before_action :set_current_user
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
 
   def callback
     phone_number = params[:phone_number]
-    
+
     Rails.logger.info "WAHA webhook received for phone #{phone_number}: #{params.inspect}"
-    
+
     # Handle GET request for webhook validation
     return head :ok if request.get? || request.head?
 
     # Process webhook events
     process_waha_webhook(phone_number, params)
-    
+
     head :ok
   rescue StandardError => e
     Rails.logger.error "WAHA webhook processing failed: #{e.message}"
@@ -38,16 +38,14 @@ class Api::V1::Waha::WebhooksController < ApplicationController
     end
   end
 
-  private
-
   def handle_session_status(phone_number, webhook_params)
     Rails.logger.info "WAHA session status for #{phone_number}: #{webhook_params[:data] || webhook_params['data']}"
-    
+
     status = webhook_params.dig(:data, :status) || webhook_params.dig('data', 'status')
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
-    
+
     return unless channel && status
-    
+
     case status.to_s.downcase
     when 'not_logged_in', 'disconnected', 'logged_out', 'not_authenticated'
       Rails.logger.info "Session disconnected for #{phone_number}, clearing token"
@@ -68,12 +66,12 @@ class Api::V1::Waha::WebhooksController < ApplicationController
 
   def handle_state_change(phone_number, webhook_params)
     Rails.logger.info "WAHA state change for #{phone_number}"
-    
+
     state_data = webhook_params[:payload] || webhook_params[:data] || webhook_params['payload'] || webhook_params['data']
     return unless state_data
-    
+
     return unless state_data[:state] == 'disconnected' || state_data['state'] == 'disconnected'
-    
+
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
     channel&.update!(token: nil)
   end
