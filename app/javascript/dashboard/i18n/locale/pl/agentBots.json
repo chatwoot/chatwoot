@@ -33,7 +33,7 @@
       "404": "Nie znaleziono botów. Możesz utworzyć bota klikając przycisk 'Dodaj bota'.",
       "LOADING": "Pobieranie botów...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "Szczegóły bota",
         "URL": "Adres URL webhooka"
       }
     },
