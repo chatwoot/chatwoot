@@ -8,6 +8,10 @@
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Wyszukaj szablony",
             "NO_TEMPLATES_FOUND": "Nie znaleziono szablonów dla",
+            "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+            "REFRESH_BUTTON": "Refresh templates",
+            "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+            "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
             "LABELS": {
                 "LANGUAGE": "Język",
                 "TEMPLATE_BODY": "Treść szablonu",
