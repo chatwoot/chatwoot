@@ -114,17 +114,6 @@ class Conversation < ApplicationRecord
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
-  after_create_commit :log_conversation_creation_debug
-
-  def log_conversation_creation_debug
-    Rails.logger.info do
-      "[DEBUG_CONV_CREATE] Conversation created: id=#{id}, inbox_id=#{inbox_id}, channel=#{begin
-        inbox.channel_type
-      rescue StandardError
-        nil
-      end}, status=#{status}, caller:\n#{caller.join("\n")}"
-    end
-  end
 
   delegate :auto_resolve_duration, to: :account
 
@@ -136,40 +125,25 @@ class Conversation < ApplicationRecord
   end
 
   def can_reply?
-    channel = inbox&.channel
-
-    return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
-
-    return true unless channel&.messaging_window_enabled?
-
-    messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
-    last_message_in_messaging_window?(messaging_window)
+    Conversations::MessageWindowService.new(self).can_reply?
   end
 
+  def language
+    additional_attributes&.dig('conversation_language')
+  end
+
+  # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.
+  # Our DB column (see schema) stores timestamps with second-level precision (no microseconds), so
+  # if you assign a Ruby Time with microseconds, the DB will truncate it. This may cause subtle differences
+  # if you compare or copy these values in Ruby, also in our specs
+  # So in specs rely on to be_with(1.second) instead of to eq()
+  # TODO: Migrate to use a timestamp with microsecond precision
   def last_activity_at
     self[:last_activity_at] || created_at
   end
 
   def last_incoming_message
     messages&.incoming&.last
-  end
-
-  def last_message_in_messaging_window?(time)
-    return false if last_incoming_message.nil?
-
-    Time.current < last_incoming_message.created_at + time.hours
-  end
-
-  def can_reply_on_instagram?
-    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
-
-    return false if last_incoming_message.nil?
-
-    if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
-      Time.current < last_incoming_message.created_at + 7.days
-    else
-      last_message_in_messaging_window?(24)
-    end
   end
 
   def toggle_status
