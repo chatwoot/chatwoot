@@ -209,7 +209,7 @@ export default {
     <div>
       <span
         v-if="isDayEnabled && !hasError"
-        class="label bg-n-brand/10 dark:bg-n-brand/30 text-n-brand text-xs inline-block px-2 py-1 rounded-lg cursor-default whitespace-nowrap"
+        class="label bg-n-brand/10 dark:bg-n-lightBrand/30 text-n-brand dark:text-n-lightBrand text-xs inline-block px-2 py-1 rounded-lg cursor-default whitespace-nowrap"
       >
         {{ totalHours }} {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
       </span>

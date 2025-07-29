@@ -26,7 +26,7 @@ export default {
   <div
     class="flex items-center gap-2 p-2 text-lg font-bold mb-6 relative before:absolute before:h-10 before:w-[1px] before:bg-n-slate-3 before:-bottom-8 before:left-[24px] hide-before-of-last"
     :class="{
-      'text-n-brand ': isActive,
+      'text-n-brand dark:text-n-lightBrand ': isActive,
       'text-n-slate-6': !isActive || isComplete,
       'before:bg-n-brand': !isActive && isComplete,
     }"
@@ -36,7 +36,7 @@ export default {
       :class="{
         'border-n-brand': !isActive || isComplete,
         'border-n-weak': !isActive && !isComplete,
-        'text-n-brand': isComplete,
+        'text-n-brand dark:text-n-lightBrand': isComplete,
       }"
     >
       <fluent-icon v-if="isComplete" size="20" icon="checkmark" />

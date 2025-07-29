@@ -83,7 +83,7 @@ const handleAction = ({ action, value }) => {
       <div class="flex justify-between w-full gap-2">
         <div class="flex items-center justify-start w-full min-w-0 gap-2">
           <span
-            class="text-base truncate cursor-pointer hover:underline underline-offset-2 hover:text-n-brand text-n-slate-12"
+            class="text-base truncate cursor-pointer hover:underline underline-offset-2 hover:text-n-brand dark:text-n-lightBrand text-n-slate-12"
             @click="handleClick(slug)"
           >
             {{ categoryTitleWithIcon }}

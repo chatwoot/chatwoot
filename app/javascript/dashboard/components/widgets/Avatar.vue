@@ -50,6 +50,6 @@ export default {
   }
 }
 .avatar-container {
-  @apply flex leading-[100%] font-medium items-center justify-center text-center cursor-default avatar-color dark:dark-avatar-color text-n-brand;
+  @apply flex leading-[100%] font-medium items-center justify-center text-center cursor-default avatar-color dark:dark-avatar-color text-n-brand dark:text-n-lightBrand;
 }
 </style>

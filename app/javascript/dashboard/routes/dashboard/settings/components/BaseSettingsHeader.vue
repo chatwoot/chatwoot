@@ -60,7 +60,7 @@ const openInNewTab = url => {
               size="14"
               :icon="iconName"
               type="outline"
-              class="flex-shrink-0 text-n-brand"
+              class="flex-shrink-0 text-n-brand dark:text-n-lightBrand"
             />
           </div>
         </div>
@@ -85,12 +85,12 @@ const openInNewTab = url => {
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-brand hover:underline"
+          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-brand dark:text-n-lightBrand hover:underline"
         >
           {{ linkText }}
           <Icon
             icon="i-lucide-chevron-right"
-            class="flex-shrink-0 text-n-brand size-4"
+            class="flex-shrink-0 text-n-brand dark:text-n-lightBrand size-4"
           />
         </a>
       </CustomBrandPolicyWrapper>

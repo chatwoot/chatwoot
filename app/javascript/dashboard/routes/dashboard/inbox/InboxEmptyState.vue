@@ -31,7 +31,7 @@ export default {
     class="items-center justify-center hidden w-full h-full text-center bg-n-background lg:flex"
   >
     <div v-if="uiFlags.isFetching" class="flex justify-center my-4">
-      <Spinner class="text-n-brand" />
+      <Spinner class="text-n-brand dark:text-n-lightBrand" />
     </div>
     <div v-else class="flex flex-col items-center gap-2">
       <fluent-icon icon="mail-inbox" size="40" class="text-n-slate-11" />

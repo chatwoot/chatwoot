@@ -69,26 +69,26 @@ export default {
 
     &.active {
       h3 {
-        @apply text-n-brand dark:text-n-brand;
+        @apply text-n-brand dark:text-n-lightBrand dark:text-n-lightBrand;
       }
 
       .step {
-        @apply bg-n-brand dark:bg-n-brand;
+        @apply bg-n-brand dark:bg-n-lightBrand;
       }
     }
 
     &.over {
       &::after {
-        @apply bg-n-brand dark:bg-n-brand;
+        @apply bg-n-brand dark:bg-n-lightBrand;
       }
 
       .step {
-        @apply bg-n-brand dark:bg-n-brand;
+        @apply bg-n-brand dark:bg-n-lightBrand;
       }
 
       & + .item {
         &::before {
-          @apply bg-n-brand dark:bg-n-brand;
+          @apply bg-n-brand dark:bg-n-lightBrand;
         }
       }
     }

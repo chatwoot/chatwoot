@@ -195,7 +195,7 @@ export default {
         v-if="isConversationLoading"
         class="flex items-center h-[calc(100%-56px)] my-4 justify-center bg-n-solid-1"
       >
-        <Spinner class="text-n-brand" />
+        <Spinner class="text-n-brand dark:text-n-lightBrand" />
       </div>
       <ConversationBox
         v-else
