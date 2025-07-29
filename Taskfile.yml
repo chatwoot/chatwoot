@@ -38,6 +38,11 @@ tasks:
     cmds:
       - docker compose up -d
 
+  docker-down:
+    desc: "Stop the Docker containers"
+    cmds:
+      - docker compose down
+
   docker-clean-volumes:
     desc: "Delete all Docker volumes"
     cmds:
