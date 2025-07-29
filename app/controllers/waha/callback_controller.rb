@@ -14,7 +14,6 @@ class Waha::CallbackController < ApplicationController
     Rails.logger.info "Request headers: #{request.headers.select { |k, _v| k.match(/content|accept|user-agent/i) }}"
     Rails.logger.info "Raw body: #{request.raw_post}" if request.raw_post.present?
     
-    # DEBUGGING: Tampilkan semua data yang masuk dari WAHA
     Rails.logger.info "📋 WAHA CALLBACK DETAILS:"
     Rails.logger.info "  📞 Phone: #{params[:phone_number]}"
     Rails.logger.info "  🎯 Event: #{params[:event]}"
@@ -26,17 +25,14 @@ class Waha::CallbackController < ApplicationController
     
     phone_number = params[:phone_number]
     
-    # Handle GET request for webhook validation
     if request.get?
       Rails.logger.info "WAHA webhook GET request for validation"
       return head :ok
     end
     
-    # Detect event type dari struktur payload berdasarkan 4 jenis callback WAHA aktual
     event_type = determine_event_type(params)
     Rails.logger.info "🎯 Detected event type: #{event_type}"
     
-    # Process webhook events sesuai dengan 4 jenis callback yang benar
     case event_type
     when 'receipt'
       Rails.logger.info "📬 Processing WAHA receipt event - message status update"
@@ -62,58 +58,41 @@ class Waha::CallbackController < ApplicationController
   private
 
   def determine_event_type(params)
-    # Delegate to model helper method for consistency
     Channel::WhatsappUnofficial.determine_event_type(params)
   end
 
   def initial_scan_message?(params)
-    # Delegate to model helper method for consistency
     Channel::WhatsappUnofficial.initial_scan_message?(params)
   end
 
   def process_receipt(phone_number)
-    # Callback #1: Receipt untuk update message status (read/delivered)
     Rails.logger.info "📬 Processing receipt callback for #{phone_number}"
     
     receipt_data = params[:receipt]
     return unless receipt_data
 
-    # # Dapatkan ID pesan dari WAHA, ini adalah source_id di database kita
-    # message_source_id = receipt_data[:id]
-    # message = Message.find_by(source_id: message_source_id)
-    # return unless message
-
-    # Dapatkan status baru ('delivered' atau 'read')
     new_status = receipt_data[:type]
-    # Dapatkan timestamp event
     timestamp = Time.parse(receipt_data[:timestamp])
 
     receipt_data[:message_ids].each do |msg_id|
       message = Message.find_by(source_id: msg_id)
       next unless message
 
-      # Jalankan job untuk setiap message_id
       Conversations::UpdateMessageStatusJob.perform_later(message.conversation_id, timestamp, new_status)
       Rails.logger.info "📬 Receipt for message #{msg_id} enqueued for status update to #{new_status}"
     end
   end
 
   def process_regular_message(phone_number)
-    # Callback #2 dan #3: Regular message (ada pushname)  
     Rails.logger.info "📝 Processing regular message for #{phone_number}"
     
     return if params[:isFromMe] == true
 
     service_params = {
-      # 'receiver' adalah nomor WAHA Anda, yang didapat dari URL
       receiver: phone_number,
-      # 'sender' adalah nomor pelanggan, diekstrak dari field 'from'
       sender: Channel::WhatsappUnofficial.extract_phone_number(params[:from]), #
-      # 'sender_name' adalah nama kontak di WhatsApp
       sender_name: params[:pushname],
-      # 'message' adalah isi pesan
-      message: extract_message_content(params), #
-      # 'message_id' adalah ID unik dari WAHA yang akan menjadi source_id
+      message: extract_message_content(params), 
       message_id: params.dig(:message, :id) || params[:id]
     }
 
@@ -122,21 +101,15 @@ class Waha::CallbackController < ApplicationController
     Rails.logger.info "📝 Regular message processed successfully"
   end
 
-  # ✅ UBAH: Sederhanakan method ini
   def process_initial_scan(phone_number)
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
     return unless channel
 
-    # ⛔ HAPUS: Tidak perlu lagi set current_callback
-    # channel.current_callback = callback_params
-
     callback_params = params.except(:phone_number, :controller, :action)
     
-    # Panggil method model. Model akan menangani validasi DAN caching secara internal.
     result = channel.process_waha_callback_response(callback_params)
     Rails.logger.info "🔍 Callback processing result: #{result}"
 
-    # Logika broadcast tetap sama, karena sudah benar
     case result[:action]
     when 'validate_success'
       Rails.logger.info "✅ Initial scan validation successful - session ready!"
@@ -145,9 +118,7 @@ class Waha::CallbackController < ApplicationController
       notify_session_ready(channel)
       
     when 'validate_failure'
-      Rails.logger.error "❌ Initial scan validation failed - session already logged out"
-      failure_data = result[:data]
-      broadcast_session_mismatch(channel, failure_data[:connected_phone])
+      Rails.logger.error "❌ Initial scan validation failed. The model has already handled the broadcast."
       
     else
       Rails.logger.info "📋 No specific action needed for callback type: #{result[:type]}"
@@ -155,7 +126,6 @@ class Waha::CallbackController < ApplicationController
   end
 
   def process_message(phone_number)
-    # Gunakan filter response dari model untuk menentukan action yang tepat
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
     return unless channel
     
@@ -169,15 +139,12 @@ class Waha::CallbackController < ApplicationController
       Rails.logger.info "� Ignoring receipt callback"
     when 'process_normally'
       Rails.logger.info "📝 Processing regular message normally"
-      # TODO: Add actual message processing logic here
-      # This is where you would integrate with Chatwoot's message handling system
     else
       Rails.logger.info "📨 Unknown message action: #{result[:action]}"
     end
   end
 
   def process_state_change(phone_number)
-    # WAHA mengirim payload langsung di root level
     state_data = params.except(:phone_number, :controller, :action)
     
     Rails.logger.info "WAHA state change for #{phone_number}: #{state_data}"
@@ -185,19 +152,16 @@ class Waha::CallbackController < ApplicationController
     return if state_data.blank?
     return unless state_data[:state] == 'disconnected'
     
-    # Reset session when disconnected
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
     if channel
       channel.update!(token: nil)
       Rails.logger.info "Token cleared for disconnected session: #{phone_number}"
       
-      # Broadcast status change to frontend
       broadcast_session_status_change(channel, 'disconnected')
     end
   end
 
   def process_qr_code(phone_number)
-    # WAHA mengirim payload langsung di root level
     qr_payload = params.except(:phone_number, :controller, :action)
     
     Rails.logger.info "QR Code event for #{phone_number}: #{qr_payload}"
@@ -210,20 +174,16 @@ class Waha::CallbackController < ApplicationController
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
     return unless channel
     
-    # Broadcast QR code to frontend for real-time display
     broadcast_qr_code(channel, qr_data)
   end
 
   def broadcast_session_status_change(channel, status)
-    # Broadcast ke frontend menggunakan ActionCable untuk real-time updates
     Rails.logger.info "📻 Broadcasting session status change for #{channel.phone_number}: #{status}"
     
-    # Use Chatwoot's pubsub system for consistent broadcasting
     inbox = channel.inbox
     account = inbox.account
     pubsub_token = "#{account.id}_inbox_#{inbox.id}"
     
-    # Broadcast using Chatwoot's existing system
     ActionCable.server.broadcast(pubsub_token, {
       event: 'whatsapp_status_changed',
       type: 'session_status_changed', 
@@ -237,13 +197,6 @@ class Waha::CallbackController < ApplicationController
 
   def broadcast_qr_code(channel, qr_data)
     Rails.logger.info "Broadcasting QR code for #{channel.phone_number}"
-    
-    # Broadcast QR code ke frontend untuk ditampilkan
-    # ActionCable.server.broadcast("whatsapp_channel_#{channel.id}", {
-    #   type: 'qr_code',
-    #   qr_code: qr_data,
-    #   phone_number: channel.phone_number
-    # })
   end
 
   def notify_session_ready(channel)
@@ -451,7 +404,7 @@ class Waha::CallbackController < ApplicationController
     channel.disconnect_waha_session
   end
 
-  def broadcast_session_mismatch(channel, connected_phone)
+  def broadcast_session_mismatch(channel, connected_phone, current_attempts = nil, max_attempts = nil)
     Rails.logger.info "Broadcasting session mismatch for #{channel.phone_number}"
     
     # Check if mismatch was already broadcasted recently to prevent spam
@@ -468,13 +421,43 @@ class Waha::CallbackController < ApplicationController
     account = inbox.account
     pubsub_token = "#{account.id}_inbox_#{inbox.id}"
 
+    remaining_attempts = max_attempts && current_attempts ? max_attempts - current_attempts : nil
+    
     ActionCable.server.broadcast(pubsub_token, {
       event: 'whatsapp_status_changed',
       type: 'session_mismatch',
       status: 'mismatch',
       expected_phone: channel.phone_number,
       connected_phone: connected_phone,
-      message: 'WhatsApp number mismatch detected. Please scan QR code with the correct phone number.',
+      current_attempts: current_attempts,
+      max_attempts: max_attempts,
+      remaining_attempts: remaining_attempts,
+      message: remaining_attempts ? 
+        "WhatsApp number mismatch detected. #{remaining_attempts} attempts remaining." :
+        'WhatsApp number mismatch detected. Please scan QR code with the correct phone number.',
+      inbox_id: inbox.id,
+      channel_id: channel.id
+    })
+  end
+
+  def broadcast_session_failed(channel, connected_phone, failed_attempts)
+    Rails.logger.info "Broadcasting session failed for #{channel.phone_number} after #{failed_attempts} attempts"
+    
+    # Broadcast ke frontend untuk memberitahu user bahwa sudah gagal total
+    inbox = channel.inbox
+    return unless inbox
+
+    account = inbox.account
+    pubsub_token = "#{account.id}_inbox_#{inbox.id}"
+
+    ActionCable.server.broadcast(pubsub_token, {
+      event: 'whatsapp_status_changed',
+      type: 'session_failed',
+      status: 'failed',
+      expected_phone: channel.phone_number,
+      connected_phone: connected_phone,
+      failed_attempts: failed_attempts,
+      message: 'Failed to connect WhatsApp after 3 attempts. Please close this window and try again from Platform Terhubung page.',
       inbox_id: inbox.id,
       channel_id: channel.id
     })

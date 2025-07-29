@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       qrCodeData: null,
-      connectionStatus: 'waiting', // waiting, connected, expired, mismatch
+      connectionStatus: 'waiting',
       countdown: 60,
       countdownInterval: null,
       statusInterval: null,
@@ -21,9 +21,11 @@ export default {
       isConnecting: false,
       mismatchInfo: null,
       expectedPhoneNumber: null,
-      subscription: null, // ActionCable subscription
-      channelId: null, // Channel ID for WhatsApp
-      lastMismatchTime: 0, // Debounce mismatch events
+      subscription: null,
+      channelId: null, 
+      lastMismatchTime: 0, 
+      mismatchAttempts: 0,
+      maxMismatchAttempts: 3,
     };
   },
   computed: {
@@ -39,7 +41,10 @@ export default {
         case 'expired':
           return 'Menghasilkan kode QR baru...';
         case 'mismatch':
-          return 'Nomor WhatsApp tidak sesuai!';
+          const remainingAttempts = this.maxMismatchAttempts - this.mismatchAttempts;
+          return `Nomor WhatsApp tidak sesuai! Sisa ${remainingAttempts} kesempatan`;
+        case 'failed':
+          return 'Gagal menghubungkan ke WhatsApp';
         default:
           return 'Memuat...';
       }
@@ -48,10 +53,16 @@ export default {
       return `Kode QR akan kedaluwarsa dalam ${this.countdown} detik`;
     },
     instructionMessage() {
+      if (this.connectionStatus === 'failed') {
+        return 'Silakan tutup jendela ini dan coba lagi dari halaman "Platform Terhubung"';
+      }
       if (this.expectedPhoneNumber) {
         return `Pastikan Anda menggunakan WhatsApp dengan nomor ${this.expectedPhoneNumber}`;
       }
       return 'Silakan pindai kode ini menggunakan aplikasi WhatsApp Anda';
+    },
+    failedMessage() {
+      return 'Gagal menghubungkan ke WhatsApp.';
     }
   },
   async mounted() {
@@ -142,11 +153,15 @@ export default {
 
       } else if (data.type === 'session_mismatch') {
         console.error('📱 Phone number mismatch detected!', data);
-        this.handlePhoneMismatch(data.expected_phone, data.connected_phone);
+        this.handlePhoneMismatch(data.expected_phone, data.connected_phone, data.current_attempts, data.remaining_attempts);
+
+      } else if (data.type === 'session_failed') {
+        console.error('📱 WhatsApp connection failed after maximum attempts!', data);
+        this.handleConnectionFailed(data.expected_phone, data.connected_phone, data.failed_attempts);
       
       } else if (data.status === 'disconnected') {
         console.log('❌ WhatsApp disconnected');
-        if (this.connectionStatus !== 'mismatch' && this.connectionStatus !== 'connected') {
+        if (this.connectionStatus !== 'mismatch' && this.connectionStatus !== 'connected' && this.connectionStatus !== 'failed') {
           this.connectionStatus = 'waiting';
         }
       }
@@ -162,6 +177,12 @@ export default {
 
     async generateQRCode() {
       try {
+        // Don't generate QR if connection already failed
+        if (this.connectionStatus === 'failed') {
+          console.log('🚫 Cannot generate QR code - connection failed');
+          return;
+        }
+        
         this.isLoading = true;
         const inboxId = this.$route.params.inbox_id;
         const accountId = this.$route.params.accountId;
@@ -204,6 +225,11 @@ export default {
     },
 
     async refreshQRCode() {
+      // Jangan refresh QR code jika sudah failed
+      if (this.connectionStatus === 'failed') {
+        return;
+      }
+      
       this.countdown = 60;
       this.connectionStatus = 'waiting';
       await this.generateQRCode();
@@ -216,7 +242,7 @@ export default {
 
         const inboxId = this.$route.params.inbox_id;
 
-        if (!inboxId || ['connected', 'expired', 'mismatch'].includes(this.connectionStatus)) {
+        if (!inboxId || ['connected', 'expired', 'mismatch', 'failed'].includes(this.connectionStatus)) {
           this.clearIntervals();
           return;
         }
@@ -275,7 +301,7 @@ export default {
       }
     },
 
-    handlePhoneMismatch(expectedPhone, connectedPhone) {
+    handlePhoneMismatch(expectedPhone, connectedPhone, currentAttempts = null, remainingAttempts = null) {
       // Debounce mismatch events - ignore if less than 10 seconds since last mismatch
       const now = Date.now();
       if (now - this.lastMismatchTime < 10000) {
@@ -285,10 +311,20 @@ export default {
       this.lastMismatchTime = now;
       
       // Prevent duplicate mismatch handling
-      if (this.connectionStatus === 'mismatch') {
+      if (this.connectionStatus === 'mismatch' || this.connectionStatus === 'failed') {
         console.log('📱 Mismatch already handled, ignoring duplicate');
         return;
       }
+      
+      // Update attempts from server data
+      if (currentAttempts !== null) {
+        this.mismatchAttempts = currentAttempts;
+      } else {
+        // Fallback to local tracking
+        this.mismatchAttempts++;
+      }
+      
+      console.log(`📱 Mismatch attempt ${this.mismatchAttempts}/${this.maxMismatchAttempts}`);
       
       this.connectionStatus = 'mismatch';
       this.mismatchInfo = {
@@ -297,13 +333,36 @@ export default {
       };
       this.clearIntervals();
       
-      useAlert(`Nomor WhatsApp tidak sesuai! Silakan scan dengan nomor yang benar.`);
+      const remaining = remainingAttempts !== null ? remainingAttempts : (this.maxMismatchAttempts - this.mismatchAttempts);
+      useAlert(`Nomor WhatsApp tidak sesuai! Sisa ${remaining} kesempatan lagi.`);
       
       setTimeout(async () => {
         if (this.connectionStatus === 'mismatch') {
           await this.refreshQRCode();
         }
       }, 10000);
+    },
+
+    handleConnectionFailed(expectedPhone, connectedPhone, failedAttempts) {
+      console.log(`📱 Connection failed after ${failedAttempts} attempts`);
+      
+      this.connectionStatus = 'failed';
+      this.mismatchAttempts = failedAttempts;
+      this.mismatchInfo = {
+        expected: expectedPhone,
+        connected: connectedPhone
+      };
+      this.clearIntervals();
+      
+      useAlert('Gagal menghubungkan ke WhatsApp setelah 3 kali percobaan. Silakan tutup jendela ini dan coba lagi.');
+    },
+
+    redirectToInboxList() {
+      const accountId = this.$route.params.accountId;
+      router.replace({
+        name: 'settings_inbox_list',
+        params: { accountId }
+      });
     }
   },
 };
@@ -329,6 +388,11 @@ export default {
               <!-- QR Code Image Area -->
               <div class="w-full h-64 flex items-center justify-center bg-white rounded-md mb-4">
                 <div v-if="isLoading" class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                <div v-else-if="connectionStatus === 'failed'" class="text-center p-6">
+                  <div class="text-slate-600 dark:text-slate-400 text-sm">
+                    {{ failedMessage }}
+                  </div>
+                </div>
                 <img 
                   v-else-if="qrCodeData" 
                   :src="qrCodeData" 
@@ -352,7 +416,8 @@ export default {
                       'bg-green-500 animate-pulse': connectionStatus === 'waiting',
                       'bg-green-500': connectionStatus === 'connected',
                       'bg-orange-500 animate-pulse': connectionStatus === 'expired',
-                      'bg-red-500 animate-pulse': connectionStatus === 'mismatch'
+                      'bg-red-500 animate-pulse': connectionStatus === 'mismatch',
+                      'bg-red-500': connectionStatus === 'failed'
                     }"
                   ></div>
                   <span 
@@ -361,7 +426,7 @@ export default {
                       'text-green-600 dark:text-yellow-400': connectionStatus === 'waiting',
                       'text-green-600 dark:text-green-400': connectionStatus === 'connected',
                       'text-orange-600 dark:text-orange-400': connectionStatus === 'expired',
-                      'text-red-600 dark:text-red-400': connectionStatus === 'mismatch'
+                      'text-red-600 dark:text-red-400': connectionStatus === 'mismatch' || connectionStatus === 'failed'
                     }"
                   >
                     {{ statusMessage }}
@@ -381,14 +446,25 @@ export default {
                 </div>
 
                 <div v-if="connectionStatus === 'mismatch'" class="text-red-600 dark:text-red-400 text-xs text-center">
-                  <div class="mt-1">QR akan diperbarui dalam 5 detik...</div>
+                  <div class="mt-1">QR akan diperbarui dalam 10 detik...</div>
+                </div>
+
+                <div v-if="connectionStatus === 'failed'" class="text-red-600 dark:text-red-400 text-xs text-center">
+                  <div class="mt-2">
+                    <button
+                      @click="redirectToInboxList"
+                      class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors"
+                    >
+                      Kembali ke Platform Terhubung
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Instructions Section -->
-          <div class="flex-1 max-w-md">
+          <div v-if="connectionStatus !== 'failed'" class="flex-1 max-w-md">
             <div class="p-6 pt-0 rounded-lg">
               <h4 class="font-semibold text-slate-800 dark:text-slate-200 mb-4">
                 Cara Menghubungkan:
