@@ -12,6 +12,8 @@ services:
         RAILS_SERVE_STATIC_FILES: 'true'
         POSTMARK_API_TOKEN: ${POSTMARK_API_TOKEN}
         SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+        SOURCE_TOKEN: ${SOURCE_TOKEN}
+        INGESTING_HOST: ${INGESTING_HOST}
     tty: true
     stdin_open: true
     image: courier-production-v1:latest
@@ -25,6 +27,8 @@ services:
       args:
         SECRET_KEY_BASE: ${SECRET_KEY_BASE}
         POSTMARK_API_TOKEN: ${POSTMARK_API_TOKEN}
+        SOURCE_TOKEN: ${SOURCE_TOKEN}
+        INGESTING_HOST: ${INGESTING_HOST}
     image: courier-production-v1:latest
     volumes:
       - ./:/app:delegated
