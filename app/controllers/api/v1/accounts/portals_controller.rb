@@ -70,9 +70,10 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     if result[:errors].present?
       render json: { error: result[:errors] }, status: :unprocessable_entity
     else
+      ssl_settings = @portal.ssl_settings || {}
       render json: {
-        status: @portal.ssl_settings['cf_status'],
-        verification_errors: @portal.ssl_settings['cf_verification_errors']
+        status: ssl_settings['cf_status'],
+        verification_errors: ssl_settings['cf_verification_errors']
       }, status: :ok
     end
   end
