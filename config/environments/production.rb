@@ -1,3 +1,5 @@
+require_relative "../initializers/logtail"
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -73,16 +75,21 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_LOG_TO_STDOUT', true))
-    logger           = ActiveSupport::Logger.new($stdout)
-    logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  if ENV["SOURCE_TOKEN"].present? && ENV["INGESTING_HOST"].present?
+    # Use Logtail for logging to BetterStack
+    config.logger = LOGTAIL_LOGGER
   else
-    config.logger    = ActiveSupport::Logger.new(
-      Rails.root.join("log/#{Rails.env}.log"),
-      1,
-      ENV.fetch('LOG_SIZE', '1024').to_i.megabytes
-    )
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_LOG_TO_STDOUT', true))
+      logger           = ActiveSupport::Logger.new($stdout)
+      logger.formatter = config.log_formatter
+      config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    else
+      config.logger    = ActiveSupport::Logger.new(
+        Rails.root.join("log/#{Rails.env}.log"),
+        1,
+        ENV.fetch('LOG_SIZE', '1024').to_i.megabytes
+      )
+    end
   end
 
   # Do not dump schema after migrations.
