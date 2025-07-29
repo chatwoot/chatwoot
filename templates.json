@@ -1,5 +1,110 @@
 [
   {
+    "id": "1145229434109366",
+    "name": "secure_login_otp",
+    "status": "APPROVED",
+    "category": "AUTHENTICATION",
+    "language": "en",
+    "components": [
+      {
+        "text": "*{{1}}* is your verification code. For your security, do not share this code.",
+        "type": "BODY",
+        "example": {
+          "body_text": [["123456"]]
+        }
+      },
+      {
+        "text": "This code expires in 10 minutes.",
+        "type": "FOOTER"
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "url": "https://www.whatsapp.com/otp/code/?otp_type=ZERO_TAP&cta_display_name=Autofill&package_name=com.chatwoot.app&signature_hash=12121212121&code_expiration_minutes=10&code=otp{{1}}",
+            "text": "Copy code",
+            "type": "URL",
+            "example": [
+              "https://www.whatsapp.com/otp/code/?otp_type=ZERO_TAP&cta_display_name=Autofill&package_name=com.chatwoot.app&signature_hash=12121212121&code_expiration_minutes=10&code=otp123456"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "message_send_ttl_seconds": 600
+  },
+  {
+    "id": "1469258364071127",
+    "name": "discount_coupon",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en",
+    "components": [
+      {
+        "text": "🎉 Special offer for you! Get {{discount_percentage}}% off your next purchase. Use the code below at checkout",
+        "type": "BODY",
+        "example": {
+          "body_text_named_params": [
+            {
+              "example": "30",
+              "param_name": "discount_percentage"
+            }
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "text": "Copy offer code",
+            "type": "COPY_CODE",
+            "example": ["SAVE1OFF"]
+          }
+        ]
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "NAMED"
+  },
+  {
+    "id": "1075221534579807",
+    "name": "support_callback",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en",
+    "components": [
+      {
+        "text": "Hello {{name}},  our support team will call you regarding ticket # {{ticket_id}}.",
+        "type": "BODY",
+        "example": {
+          "body_text_named_params": [
+            {
+              "example": "muhsin",
+              "param_name": "name"
+            },
+            {
+              "example": "232323",
+              "param_name": "ticket_id"
+            }
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "text": "Call Support",
+            "type": "PHONE_NUMBER",
+            "phone_number": "+16506677566"
+          }
+        ]
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "NAMED"
+  },
+  {
     "id": "1252610443227082",
     "name": "event_invitation",
     "status": "APPROVED",
@@ -38,17 +143,13 @@
             "url": "https://events.example.com/register/%7B%7B1%7D%7D{{1}}",
             "text": "Register Now",
             "type": "URL",
-            "example": [
-              "https://events.example.com/register/f1"
-            ]
+            "example": ["https://events.example.com/register/f1"]
           },
           {
             "url": "https://maps.example.com/venue/%7B%7B2%7D%7D{{1}}",
             "text": "Get Directions",
             "type": "URL",
-            "example": [
-              "https://maps.example.com/venue/abhdhabi"
-            ]
+            "example": ["https://maps.example.com/venue/abhdhabi"]
           }
         ]
       }
@@ -112,11 +213,7 @@
         "text": "Hi your order {{1}} is confirmed. Please wait for further updates",
         "type": "BODY",
         "example": {
-          "body_text": [
-            [
-              "blue canvas shoes"
-            ]
-          ]
+          "body_text": [["blue canvas shoes"]]
         }
       }
     ],
@@ -176,13 +273,7 @@
         "type": "BODY",
         "example": {
           "body_text": [
-            [
-              "John",
-              "123 Maple St",
-              "2025-12-31",
-              "10:00 AM",
-              "2:00 PM"
-            ]
+            ["John", "123 Maple St", "2025-12-31", "10:00 AM", "2:00 PM"]
           ]
         }
       },
@@ -269,13 +360,7 @@
         "text": "Thank you for using your {{1}} card at {{2}}. Your {{3}} is attached as a PDF.",
         "type": "BODY",
         "example": {
-          "body_text": [
-            [
-              "credit",
-              "CS Mutual",
-              "receipt"
-            ]
-          ]
+          "body_text": [["credit", "CS Mutual", "receipt"]]
         }
       }
     ],
@@ -293,12 +378,7 @@
         "text": "Use code *{{1}}* to verify your transaction of {{2}}.",
         "type": "BODY",
         "example": {
-          "body_text": [
-            [
-              "123456",
-              "$12.34"
-            ]
-          ]
+          "body_text": [["123456", "$12.34"]]
         }
       },
       {
@@ -330,13 +410,7 @@
         "text": "{{1}}, your order {{2}} is on its way and should arrive soon. \n\nEstimated delivery is {{3}}. \n\nWe will provide an update when your order is delivered.",
         "type": "BODY",
         "example": {
-          "body_text": [
-            [
-              "John",
-              "#12345",
-              "between 1pm and 4pm"
-            ]
-          ]
+          "body_text": [["John", "#12345", "between 1pm and 4pm"]]
         }
       },
       {
@@ -373,13 +447,7 @@
         "text": "Hi {{1}}, your delivery address has been successfully updated to {{2}}. Contact {{3}} for any inquiries.",
         "type": "BODY",
         "example": {
-          "body_text": [
-            [
-              "John",
-              "123 Main St",
-              "support@telco.com"
-            ]
-          ]
+          "body_text": [["John", "123 Main St", "support@telco.com"]]
         }
       }
     ],
@@ -397,12 +465,7 @@
         "text": "{{1}}, your order was successfully delivered on {{2}}.\n\nThank you for your purchase.\n",
         "type": "BODY",
         "example": {
-          "body_text": [
-            [
-              "John",
-              "Jan 1, 2024"
-            ]
-          ]
+          "body_text": [["John", "Jan 1, 2024"]]
         }
       }
     ],
