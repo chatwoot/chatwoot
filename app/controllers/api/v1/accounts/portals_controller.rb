@@ -67,9 +67,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
     result = Cloudflare::CheckCustomHostnameService.new(portal: @portal).perform
 
-    # Handle case where service returns nil or doesn't have expected keys
-    return render json: { error: 'Unable to check SSL status' }, status: :internal_server_error unless result.is_a?(Hash)
-
     if result[:errors].present?
       render json: { error: result[:errors] }, status: :unprocessable_entity
     else

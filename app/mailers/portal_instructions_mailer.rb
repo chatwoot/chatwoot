@@ -15,14 +15,6 @@ class PortalInstructionsMailer < ApplicationMailer
 
   private
 
-  def liquid_droppables
-    {
-      portal: @portal,
-      sender: @sender,
-      account: @account
-    }
-  end
-
   def liquid_locals
     {
       cname_record: @cname_record
