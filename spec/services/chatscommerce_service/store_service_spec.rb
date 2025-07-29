@@ -44,13 +44,13 @@ RSpec.describe ChatscommerceService::StoreService do
     context 'when the API call fails' do
       before do
         stub_request(:put, "#{api_url}/api/stores/")
-          .to_return(status: 500, body: { error: 'Internal Server Error' }.to_json)
+          .to_return(status: 500, body: { error: 'Store cannot be created' }.to_json)
       end
 
       it 'raises a StoreError' do
         expect do
           service.create_store(account, user.email)
-        end.to raise_error(ChatscommerceService::StoreService::StoreError, /Store cannot be created: 500/)
+        end.to raise_error(ChatscommerceService::StoreService::StoreError, 'Unexpected error: 500-{"error":"Store cannot be created"}')
       end
     end
   end

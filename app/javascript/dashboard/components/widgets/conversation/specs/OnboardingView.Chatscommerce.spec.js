@@ -109,7 +109,7 @@ vi.mock('dashboard/components/CustomBrandPolicyWrapper.vue', () => ({
 
 beforeAll(() => {
   window.chatwootConfig = {
-    aiBackendApi: 'https://mocked-api-url.com',
+    aiBackendUrl: 'https://mocked-api-url.com',
   };
 });
 afterAll(() => {

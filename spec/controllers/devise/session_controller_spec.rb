@@ -87,6 +87,10 @@ RSpec.describe 'Session', type: :request do
   end
 
   describe 'GET /auth/sign_in' do
+    before do
+      allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('http://www.example.com')
+    end
+
     it 'redirects to the frontend login page with error' do
       get new_user_session_url
 

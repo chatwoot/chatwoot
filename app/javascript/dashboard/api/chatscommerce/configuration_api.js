@@ -13,7 +13,7 @@ const CONFIGURATION_KEYS = {
 
 class ChatscommerceConfigurationApi {
   constructor() {
-    this.apiUrl = `${window.chatwootConfig.aiBackendApi}/api/configurations/`;
+    this.apiUrl = `${window.chatwootConfig.aiBackendUrl}/api/configurations/`;
   }
 
   static getHeaders() {
