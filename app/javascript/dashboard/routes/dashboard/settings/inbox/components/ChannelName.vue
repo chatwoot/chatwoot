@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  phoneNumber: {
+    type: String,
+    default: '',
+  },
 });
 const getters = useStoreGetters();
 const { t } = useI18n();
@@ -51,7 +55,12 @@ const readableChannelName = computed(() => {
 </script>
 
 <template>
-  <span>
-    {{ readableChannelName }}
-  </span>
+  <div>
+    <div
+      v-if="channelType === 'Channel::WhatsappUnofficial' && phoneNumber"
+      class="text-xs text-slate-500 dark:text-slate-400 mt-1"
+    >
+      {{ readableChannelName }} - {{ phoneNumber }}
+    </div>
+  </div>
 </template>

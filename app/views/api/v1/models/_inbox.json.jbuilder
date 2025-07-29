@@ -108,3 +108,6 @@ if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
 end
+
+### WhatsApp Unofficial Channel
+json.phone_number resource.channel.try(:phone_number) if resource.whatsapp_unofficial?
