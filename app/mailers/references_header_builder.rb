@@ -89,6 +89,8 @@ module ReferencesHeaderBuilder
   # @param references_array [Array<String>] Array of message IDs to be folded
   # @return [String] A properly folded header value with CRLF line endings
   def fold_references_header(references_array)
+    return '' if references_array.empty?
+    return references_array.first if references_array.size == 1
     references_array.join("\r\n ")
   end
 end
