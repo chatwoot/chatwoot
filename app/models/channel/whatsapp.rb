@@ -34,6 +34,7 @@ class Channel::Whatsapp < ApplicationRecord
 
   after_create :sync_templates
   after_create_commit :setup_webhooks
+  before_destroy :teardown_webhooks
 
   def name
     'Whatsapp'
@@ -104,5 +105,9 @@ class Channel::Whatsapp < ApplicationRecord
     Rails.logger.error "[WHATSAPP] Webhook setup failed: #{error.message}"
     # Don't raise the error to prevent channel creation from failing
     # Webhooks can be retried later
+  end
+
+  def teardown_webhooks
+    Whatsapp::WebhookTeardownService.new(self).perform
   end
 end
