@@ -91,6 +91,7 @@ module ReferencesHeaderBuilder
   def fold_references_header(references_array)
     return '' if references_array.empty?
     return references_array.first if references_array.size == 1
+
     references_array.join("\r\n ")
   end
 end
