@@ -1,0 +1,504 @@
+[
+  {
+    "id": "997298832221901",
+    "name": "greet",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en",
+    "components": [
+      {
+        "text": "Hey {{customer_name}} how may I help you?",
+        "type": "BODY",
+        "example": {
+          "body_text_named_params": [
+            {
+              "example": "John",
+              "param_name": "customer_name"
+            }
+          ]
+        }
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "NAMED"
+  },
+  {
+    "id": "1106685194739985",
+    "name": "order_confirmation",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "IMAGE",
+        "example": {
+          "header_handle": [
+            "https://scontent.whatsapp.net/v/t61.29466-34/518466505_1106685198073318_3569250580697484416_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=pzLMH8hPY0EQ7kNvwHfxRNq&_nc_oc=AdlA8iBWDeczwNDAuPQWcnsSMfSTR0TPdEutbzTpwEOCS8xLP61fkTE5vkaZu-8xwKA&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=PHUrBF-KM5H_g_3TCeYtRA&oh=01_Q5Aa2AET3uo5ckkMDz7Zz_VgdJBFyBbApnMjObOyrWSGxEAyuA&oe=68AFE8C7"
+          ]
+        }
+      },
+      {
+        "text": "Hi your order {{1}} is confirmed. Please wait for further updates",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "blue canvas shoes"
+            ]
+          ]
+        }
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "POSITIONAL"
+  },
+  {
+    "id": "632315222954611",
+    "name": "hello_world",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "Hello World",
+        "type": "HEADER",
+        "format": "TEXT"
+      },
+      {
+        "text": "Welcome and congratulations!! This message demonstrates your ability to send a WhatsApp message notification from the Cloud API, hosted by Meta. Thank you for taking the time to test with us.",
+        "type": "BODY"
+      },
+      {
+        "text": "WhatsApp Business Platform sample message",
+        "type": "FOOTER"
+      }
+    ],
+    "parameter_format": "POSITIONAL"
+  },
+  {
+    "id": "767076159336759",
+    "name": "purchase_receipt",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "DOCUMENT",
+        "example": {
+          "header_handle": [
+            "https://scontent.whatsapp.net/v/t61.29466-34/521502500_767076162670092_7371147273350347509_n.pdf?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=x2s0Gbzdo68Q7kNvwFF5u__&_nc_oc=AdkRQc62QWauBHOu5T9kJeMCBE3Gav7pnm6aI1kR27Q-ZUp5PahA-YWqkN5XGS27A_g&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=PHUrBF-KM5H_g_3TCeYtRA&oh=01_Q5Aa2AENXC3_eIQG7BsbAiwc1aPv_nsbm0n33NVViQzjbhkCTw&oe=68AFE58B"
+          ]
+        }
+      },
+      {
+        "text": "Thank you for using your {{1}} card at {{2}}. Your {{3}} is attached as a PDF.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "credit",
+              "CS Mutual",
+              "receipt"
+            ]
+          ]
+        }
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "purchase_receipt_2"
+  },
+  {
+    "id": "1005921651322035",
+    "name": "otp_verification",
+    "status": "APPROVED",
+    "category": "AUTHENTICATION",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "Use code *{{1}}* to verify your transaction of {{2}}.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "123456",
+              "$12.34"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "url": "https://www.whatsapp.com/otp/code/?otp_type=COPY_CODE&code=otp{{1}}",
+            "text": "Copy code",
+            "type": "URL",
+            "example": [
+              "https://www.whatsapp.com/otp/code/?otp_type=COPY_CODE&code=otp123456"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "verify_transaction_2",
+    "message_send_ttl_seconds": 600
+  },
+  {
+    "id": "1781689125780960",
+    "name": "track_order",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "{{1}}, your order {{2}} is on its way and should arrive soon. \n\nEstimated delivery is {{3}}. \n\nWe will provide an update when your order is delivered.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "John",
+              "#12345",
+              "between 1pm and 4pm"
+            ]
+          ]
+        }
+      },
+      {
+        "text": "An adult must be home to accept this package.",
+        "type": "FOOTER"
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "url": "https://www.amazon.in/Sony-Full-Frame-Compact-Lightweight-Filmmakers/dp/B0BQRFDCVF/ref=pd_ci_mcx_mh_mcx_views_0_image?pd_rd_w=rU5go&content-id=amzn1.sym.fa0aca50-60f7-47ca-a90e-c40e2f4b46a9%3Aamzn1.symc.ca948091-a64d-450e-86d7-c161ca33337b&pf_rd_p=fa0aca50-60f7-47ca-a90e-c40e2f4b46a9&pf_rd_r=GKXVF61JR4AC97D4GD8C&pd_rd_wg=rUBno&pd_rd_r=4ef2f6b1-f9aa-4214-b9c1-d51b8e740acc&pd_rd_i=B0BQRFDCVF",
+            "text": "Track order",
+            "type": "URL"
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "delivery_update_1"
+  },
+  {
+    "id": "1938057163677205",
+    "name": "address_update",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "Address update",
+        "type": "HEADER",
+        "format": "TEXT"
+      },
+      {
+        "text": "Hi {{1}}, your delivery address has been successfully updated to {{2}}. Contact {{3}} for any inquiries.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "John",
+              "123 Main St",
+              "support@telco.com"
+            ]
+          ]
+        }
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "address_update"
+  },
+  {
+    "id": "1644094842949394",
+    "name": "delivery_confirmation",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "{{1}}, your order was successfully delivered on {{2}}.\n\nThank you for your purchase.\n",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "John",
+              "Jan 1, 2024"
+            ]
+          ]
+        }
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "delivery_confirmation_4"
+  },
+  {
+    "id": "1449876326175680",
+    "name": "technician_visit",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "Technician visit",
+        "type": "HEADER",
+        "format": "TEXT"
+      },
+      {
+        "text": "Hi {{1}}, we're scheduling a technician visit to {{2}} on {{3}} between {{4}} and {{5}}. Please confirm if this time slot works for you.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "John",
+              "123 Maple St",
+              "2025-12-31",
+              "10:00 AM",
+              "2:00 PM"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "text": "Confirm",
+            "type": "QUICK_REPLY"
+          },
+          {
+            "text": "Reschedule",
+            "type": "QUICK_REPLY"
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "appointment_scheduling_address"
+  },
+  {
+    "id": "1242180011253003",
+    "name": "product_launch",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "IMAGE",
+        "example": {
+          "header_handle": [
+            "https://scontent.whatsapp.net/v/t61.29466-34/510408113_1242180014586336_1564209110680717071_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=3fTrkoN-wHwQ7kNvwGi-A7y&_nc_oc=Adm0OBkCLysW2SxfI6UdavSiNYUOjSspKhwaUd7wMzDvzL8u3gUzvwR96OqZ4k0AEa0&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=RKH39du529b83GUQ711yjQ&oh=01_Q5Aa2AGcwQy-tpNcRhPWCQB1EqcQJJQKDTauq5qXrhZ3d3-hvg&oe=68B0181C"
+          ]
+        }
+      },
+      {
+        "text": "New arrival! Our stunning coat now available in {{color}} color.",
+        "type": "BODY",
+        "example": {
+          "body_text_named_params": [
+            {
+              "example": "blue",
+              "param_name": "color"
+            }
+          ]
+        }
+      },
+      {
+        "text": "Free shipping on orders over $100. Limited time offer.",
+        "type": "FOOTER"
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "NAMED"
+  },
+  {
+    "id": "2345678901234567",
+    "name": "training_video",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "VIDEO",
+        "example": {
+          "header_handle": [
+            "https://example.com/videos/training-module.mp4"
+          ]
+        }
+      },
+      {
+        "text": "Hi {{1}}, here's your training video for {{2}}. Please watch and complete the quiz by {{3}}.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "Sarah",
+              "Module 3: Safety Protocols",
+              "February 15, 2025"
+            ]
+          ]
+        }
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "training_video_module"
+  },
+  {
+    "id": "3456789012345678",
+    "name": "event_invitation",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en_US",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "IMAGE",
+        "example": {
+          "header_handle": [
+            "https://example.com/images/event-banner.jpg"
+          ]
+        }
+      },
+      {
+        "text": "You're invited to {{1}} on {{2}} at {{3}}. Join us for an amazing experience!",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "our annual conference",
+              "March 10, 2025",
+              "Convention Center"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "url": "https://events.example.com/register/{{1}}",
+            "text": "Register Now",
+            "type": "URL",
+            "example": [
+              "https://events.example.com/register/annual-conference-2025"
+            ]
+          },
+          {
+            "url": "https://maps.example.com/venue/{{2}}",
+            "text": "Get Directions",
+            "type": "URL",
+            "example": [
+              "https://maps.example.com/venue/convention-center"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "event_invitation_2025"
+  },
+  {
+    "id": "4567890123456789",
+    "name": "support_callback",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "Hi {{1}}, our support team will call you regarding ticket #{{2}}. We'll call you at {{3}} within {{4}} minutes.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "Michael",
+              "12345",
+              "+1-555-0123",
+              "15"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "phone_number": "{{3}}",
+            "text": "Call Support",
+            "type": "PHONE_NUMBER"
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "support_callback_request"
+  },
+  {
+    "id": "5678901234567890",
+    "name": "discount_coupon",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "🎉 Special offer for you! Get {{1}}% off your next purchase. Use the code below at checkout:",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "30"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "text": "Copy Code",
+            "type": "COPY_CODE",
+            "copy_code": "SAVE{{1}}OFF",
+            "example": [
+              "SAVE30OFF"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "discount_coupon_offer"
+  },
+  {
+    "id": "6789012345678901",
+    "name": "secure_login_otp",
+    "status": "APPROVED",
+    "category": "AUTHENTICATION",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "Your secure login code is *{{1}}*. This code expires in {{2}} minutes. Do not share this code with anyone.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "987654",
+              "5"
+            ]
+          ]
+        }
+      },
+      {
+        "text": "If you didn't request this code, please contact support immediately.",
+        "type": "FOOTER"
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "secure_login_verification",
+    "message_send_ttl_seconds": 300
+  }
+]
