@@ -19,7 +19,7 @@ module ReportingEventHelper
 
   def last_non_human_activity(conversation)
     # Try to get either a handoff or reopened event first
-    # These will always take precendence over any other activity
+    # These will always take precedence over any other activity
     # Also, any of these events can happen at any time in the course of a conversation lifecycle.
     # So we pick the latest event
     event = ReportingEvent.where(
