@@ -1,5 +1,40 @@
 [
   {
+    "id": "729007633084301",
+    "name": "basic_otp",
+    "status": "APPROVED",
+    "category": "AUTHENTICATION",
+    "language": "en",
+    "components": [
+      {
+        "text": "*{{1}}* is your verification code. For your security, do not share this code.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "123456"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "url": "https://www.whatsapp.com/otp/code/?otp_type=COPY_CODE&code=otp{{1}}",
+            "text": "Copy code",
+            "type": "URL",
+            "example": [
+              "https://www.whatsapp.com/otp/code/?otp_type=COPY_CODE&code=otp123456"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "message_send_ttl_seconds": 600
+  },
+  {
     "id": "1145229434109366",
     "name": "secure_login_otp",
     "status": "APPROVED",
@@ -10,7 +45,11 @@
         "text": "*{{1}}* is your verification code. For your security, do not share this code.",
         "type": "BODY",
         "example": {
-          "body_text": [["123456"]]
+          "body_text": [
+            [
+              "123456"
+            ]
+          ]
         }
       },
       {
@@ -59,7 +98,9 @@
           {
             "text": "Copy offer code",
             "type": "COPY_CODE",
-            "example": ["SAVE1OFF"]
+            "example": [
+              "SAVE1OFF"
+            ]
           }
         ]
       }
@@ -116,7 +157,7 @@
         "format": "IMAGE",
         "example": {
           "header_handle": [
-            "https://scontent.whatsapp.net/v/t61.29466-34/510408113_1252610446560415_1118583582813401798_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=0Dihgg9OWT0Q7kNvwF-jSNT&_nc_oc=AdkbZsJAY0ZDhC7X2Ap_Lx4oYnPmoSt9yITgfZkCCuvG6Oym3wgjKyV8r9OrEKLj17U&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AH31Wr_PMsl7ezN-TDloWM335xU4iCN2FX6GeWlCzlgaQ&oe=68B00ED3"
+            "https://scontent.whatsapp.net/v/t61.29466-34/510408113_1252610446560415_1118583582813401798_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=0Dihgg9OWT0Q7kNvwF-jSNT&_nc_oc=AdkbZsJAY0ZDhC7X2Ap_Lx4oYnPmoSt9yITgfZkCCuvG6Oym3wgjKyV8r9OrEKLj17U&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=DXikpsriXASQcHQbOoslgw&oh=01_Q5Aa2AF5WCzAyZAJPGl3JFweWF6C0KOKNpw_YpO6ONfwhL_tnw&oe=68B04713"
           ]
         }
       },
@@ -143,13 +184,17 @@
             "url": "https://events.example.com/register/%7B%7B1%7D%7D{{1}}",
             "text": "Register Now",
             "type": "URL",
-            "example": ["https://events.example.com/register/f1"]
+            "example": [
+              "https://events.example.com/register/f1"
+            ]
           },
           {
             "url": "https://maps.example.com/venue/%7B%7B2%7D%7D{{1}}",
             "text": "Get Directions",
             "type": "URL",
-            "example": ["https://maps.example.com/venue/abhdhabi"]
+            "example": [
+              "https://maps.example.com/venue/abhdhabi"
+            ]
           }
         ]
       }
@@ -169,7 +214,7 @@
         "format": "VIDEO",
         "example": {
           "header_handle": [
-            "https://scontent.whatsapp.net/v/t61.29466-34/521582686_1023596729984477_1872358575355618432_n.mp4?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=MPOPgVrub7QQ7kNvwF_Yj0m&_nc_oc=AdnSKpdtjDQRZ4iGrl81FOmo6hUfPV8DFjpHt2Mw4Mp_GhlF80w5Ye70zagBXpfyoC8&_nc_zt=28&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AG-8cxWY31oCuJ9yoV31zoq3YtrFOLFZrYBxQBnjwnJlQ&oe=68B011D5"
+            "https://scontent.whatsapp.net/v/t61.29466-34/521582686_1023596729984477_1872358575355618432_n.mp4?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=MPOPgVrub7QQ7kNvwF_Yj0m&_nc_oc=AdnSKpdtjDQRZ4iGrl81FOmo6hUfPV8DFjpHt2Mw4Mp_GhlF80w5Ye70zagBXpfyoC8&_nc_zt=28&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=DXikpsriXASQcHQbOoslgw&oh=01_Q5Aa2AHm1vdBr5vyt4asoAD_MJ2r5i9NlVo-oC8YPqsG5rITfw&oe=68B011D5"
           ]
         }
       },
@@ -205,7 +250,7 @@
         "format": "IMAGE",
         "example": {
           "header_handle": [
-            "https://scontent.whatsapp.net/v/t61.29466-34/518466505_1106685198073318_3569250580697484416_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=pzLMH8hPY0EQ7kNvwHfxRNq&_nc_oc=AdlA8iBWDeczwNDAuPQWcnsSMfSTR0TPdEutbzTpwEOCS8xLP61fkTE5vkaZu-8xwKA&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AHKiqxC_WXgEhr4H8w77BOnZFNSdLnfnWHXaPZVJvvRrA&oe=68B02107"
+            "https://scontent.whatsapp.net/v/t61.29466-34/518466505_1106685198073318_3569250580697484416_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=pzLMH8hPY0EQ7kNvwHfxRNq&_nc_oc=AdlA8iBWDeczwNDAuPQWcnsSMfSTR0TPdEutbzTpwEOCS8xLP61fkTE5vkaZu-8xwKA&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=DXikpsriXASQcHQbOoslgw&oh=01_Q5Aa2AGABuTS8_TUvgoZ973378fGe0CV9nI1swBxOK7iNaY2xA&oe=68B02107"
           ]
         }
       },
@@ -213,7 +258,11 @@
         "text": "Hi your order {{1}} is confirmed. Please wait for further updates",
         "type": "BODY",
         "example": {
-          "body_text": [["blue canvas shoes"]]
+          "body_text": [
+            [
+              "blue canvas shoes"
+            ]
+          ]
         }
       }
     ],
@@ -232,7 +281,7 @@
         "format": "IMAGE",
         "example": {
           "header_handle": [
-            "https://scontent.whatsapp.net/v/t61.29466-34/510408113_1242180014586336_1564209110680717071_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=3fTrkoN-wHwQ7kNvwGi-A7y&_nc_oc=Adm0OBkCLysW2SxfI6UdavSiNYUOjSspKhwaUd7wMzDvzL8u3gUzvwR96OqZ4k0AEa0&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AGXMWU1NvYTHHzY7KcW4JC1CibQQH5F1oZf37XkbvohCA&oe=68B0181C"
+            "https://scontent.whatsapp.net/v/t61.29466-34/510408113_1242180014586336_1564209110680717071_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=3fTrkoN-wHwQ7kNvwGi-A7y&_nc_oc=Adm0OBkCLysW2SxfI6UdavSiNYUOjSspKhwaUd7wMzDvzL8u3gUzvwR96OqZ4k0AEa0&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=DXikpsriXASQcHQbOoslgw&oh=01_Q5Aa2AGFLptsiu14kaS55N3XyNqhyiDFo-hkQ6ELYtKYi0Ohfw&oe=68B0181C"
           ]
         }
       },
@@ -273,7 +322,13 @@
         "type": "BODY",
         "example": {
           "body_text": [
-            ["John", "123 Maple St", "2025-12-31", "10:00 AM", "2:00 PM"]
+            [
+              "John",
+              "123 Maple St",
+              "2025-12-31",
+              "10:00 AM",
+              "2:00 PM"
+            ]
           ]
         }
       },
@@ -352,7 +407,7 @@
         "format": "DOCUMENT",
         "example": {
           "header_handle": [
-            "https://scontent.whatsapp.net/v/t61.29466-34/521502500_767076162670092_7371147273350347509_n.pdf?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=x2s0Gbzdo68Q7kNvwFF5u__&_nc_oc=AdkRQc62QWauBHOu5T9kJeMCBE3Gav7pnm6aI1kR27Q-ZUp5PahA-YWqkN5XGS27A_g&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AGh51ecMwni-ScJ3xZVaSEbpH5Tz7_fGXpAV3hQdE8m_Q&oe=68B01DCB"
+            "https://scontent.whatsapp.net/v/t61.29466-34/521502500_767076162670092_7371147273350347509_n.pdf?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=x2s0Gbzdo68Q7kNvwFF5u__&_nc_oc=AdkRQc62QWauBHOu5T9kJeMCBE3Gav7pnm6aI1kR27Q-ZUp5PahA-YWqkN5XGS27A_g&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=DXikpsriXASQcHQbOoslgw&oh=01_Q5Aa2AGWKLLhwoUtZgrNq5IXLVvnO9U78ABeOsqUABH1xOGAgQ&oe=68B01DCB"
           ]
         }
       },
@@ -360,7 +415,13 @@
         "text": "Thank you for using your {{1}} card at {{2}}. Your {{3}} is attached as a PDF.",
         "type": "BODY",
         "example": {
-          "body_text": [["credit", "CS Mutual", "receipt"]]
+          "body_text": [
+            [
+              "credit",
+              "CS Mutual",
+              "receipt"
+            ]
+          ]
         }
       }
     ],
@@ -378,7 +439,12 @@
         "text": "Use code *{{1}}* to verify your transaction of {{2}}.",
         "type": "BODY",
         "example": {
-          "body_text": [["123456", "$12.34"]]
+          "body_text": [
+            [
+              "123456",
+              "$12.34"
+            ]
+          ]
         }
       },
       {
@@ -410,7 +476,13 @@
         "text": "{{1}}, your order {{2}} is on its way and should arrive soon. \n\nEstimated delivery is {{3}}. \n\nWe will provide an update when your order is delivered.",
         "type": "BODY",
         "example": {
-          "body_text": [["John", "#12345", "between 1pm and 4pm"]]
+          "body_text": [
+            [
+              "John",
+              "#12345",
+              "between 1pm and 4pm"
+            ]
+          ]
         }
       },
       {
@@ -447,7 +519,13 @@
         "text": "Hi {{1}}, your delivery address has been successfully updated to {{2}}. Contact {{3}} for any inquiries.",
         "type": "BODY",
         "example": {
-          "body_text": [["John", "123 Main St", "support@telco.com"]]
+          "body_text": [
+            [
+              "John",
+              "123 Main St",
+              "support@telco.com"
+            ]
+          ]
         }
       }
     ],
@@ -465,7 +543,12 @@
         "text": "{{1}}, your order was successfully delivered on {{2}}.\n\nThank you for your purchase.\n",
         "type": "BODY",
         "example": {
-          "body_text": [["John", "Jan 1, 2024"]]
+          "body_text": [
+            [
+              "John",
+              "Jan 1, 2024"
+            ]
+          ]
         }
       }
     ],
