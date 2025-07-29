@@ -1,6 +1,8 @@
 <script setup>
 import { reactive, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { getHostNameFromURL } from 'dashboard/helper/URLHelper';
 import { email, required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
@@ -38,6 +40,16 @@ const domain = computed(() => {
 const subdomainCNAME = computed(
   () => `${props.customDomain} CNAME ${domain.value}`
 );
+
+const handleCopy = async e => {
+  e.stopPropagation();
+  await copyTextToClipboard(subdomainCNAME.value);
+  useAlert(
+    t(
+      'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.COPY'
+    )
+  );
+};
 
 const dialogRef = ref(null);
 
@@ -95,12 +107,20 @@ defineExpose({ dialogRef });
             }}
           </p>
         </div>
-        <div class="flex flex-col gap-6">
+        <div class="flex items-center gap-3 w-full">
           <span
-            class="h-10 px-3 py-2.5 text-sm bg-transparent border rounded-lg text-n-slate-11 border-n-strong"
+            class="min-h-10 px-3 py-2.5 inline-flex items-center w-full text-sm bg-transparent border rounded-lg text-n-slate-11 border-n-strong"
           >
             {{ subdomainCNAME }}
           </span>
+          <NextButton
+            faded
+            slate
+            type="button"
+            icon="i-lucide-copy"
+            class="flex-shrink-0"
+            @click="handleCopy"
+          />
         </div>
       </div>
 
