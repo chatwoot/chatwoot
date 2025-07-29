@@ -1,0 +1,39 @@
+<tr>
+  <td class="content-block">
+    <h1>DNS Configuration Instructions</h1>
+  </td>  
+</tr>
+
+<tr>
+  <td class="content-block">
+    <p>Hello,</p>
+    
+    <p>{{ sender.available_name }} has requested DNS configuration for the custom domain <strong>{{ portal.custom_domain }}</strong> on the {{ portal.name }} help center.</p>
+
+    <p>To complete the setup, please add the following CNAME record to your DNS provider:</p>
+  </td>
+</tr>
+
+<tr>
+  <td class="content-block">
+    <p><strong>{{ cname_record }}</strong></p>
+  </td>
+</tr>
+
+<tr>
+  <td class="content-block">
+    <h3>Instructions:</h3>
+    
+    <ol>
+      <li>Log in to your DNS provider's control panel</li>
+      <li>Navigate to your DNS management section</li>
+      <li>Add a new CNAME record with the details shown above</li>
+      <li>Save the changes and wait for DNS propagation (this may take up to 24 hours)</li>
+    </ol>
+
+    <p>Once the DNS record is active, the custom domain will automatically be configured with an SSL certificate for secure access.</p>
+
+    <p>If you have any questions or need assistance, please don't hesitate to reach out.</p>
+
+  </td>
+</tr>

@@ -47,6 +47,24 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def send_instructions
+    email = params[:email]
+    return render json: { error: 'Email is required' }, status: :bad_request if email.blank?
+    return render json: { error: 'Invalid email format' }, status: :bad_request unless valid_email?(email)
+    return render json: { error: 'Custom domain not configured' }, status: :bad_request if @portal.custom_domain.blank?
+
+    PortalInstructionsMailer.send_cname_instructions(
+      portal: @portal,
+      recipient_email: email,
+      sender: Current.user
+    ).deliver_now
+
+    render json: { message: 'Instructions sent successfully' }, status: :ok
+  rescue StandardError => e
+    Rails.logger.error "Failed to send portal instructions: #{e.message}"
+    render json: { error: 'Failed to send instructions' }, status: :internal_server_error
+  end
+
   def process_attached_logo
     blob_id = params[:blob_id]
     blob = ActiveStorage::Blob.find_by(id: blob_id)
@@ -87,5 +105,9 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   def parsed_custom_domain
     domain = URI.parse(@portal.custom_domain)
     domain.is_a?(URI::HTTP) ? domain.host : @portal.custom_domain
+  end
+
+  def valid_email?(email)
+    ValidEmail2::Address.new(email).valid?
   end
 end
