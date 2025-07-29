@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Respuesta pendiente: la más corta primero"
+      },
+      "unread_count_desc": {
+        "TEXT": "Mensajes no leídos: Más primero"
       }
     },
     "ATTACHMENTS": {

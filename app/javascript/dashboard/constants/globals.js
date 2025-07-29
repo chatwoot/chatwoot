@@ -21,6 +21,14 @@ export default {
     PRIORITY_DESC: 'priority_desc',
     WAITING_SINCE_ASC: 'waiting_since_asc',
     WAITING_SINCE_DESC: 'waiting_since_desc',
+    UNREAD_COUNT_DESC: 'unread_count_desc',
+    // Legacy constants for backward compatibility
+    LATEST: 'last_activity_at_desc',
+  },
+  CONVERSATION_TYPE: {
+    MENTION: 'mention',
+    PARTICIPATING: 'participating',
+    UNATTENDED: 'unattended',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,
