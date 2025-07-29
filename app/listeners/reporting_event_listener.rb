@@ -90,6 +90,34 @@ class ReportingEventListener < BaseListener
     reporting_event.save!
   end
 
+  def conversation_opened(event)
+    conversation = extract_conversation_and_account(event)[0]
+
+    # Find the most recent resolved event for this conversation
+    last_resolved_event = ReportingEvent.where(
+      conversation_id: conversation.id,
+      name: 'conversation_resolved'
+    ).order(event_end_time: :desc).first
+
+    # If there's a previous resolved event, this is a reopening
+    return unless last_resolved_event
+
+    time_since_resolved = conversation.updated_at.to_i - last_resolved_event.event_end_time.to_i
+
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_reopened',
+      value: time_since_resolved,
+      value_in_business_hours: business_hours(conversation.inbox, last_resolved_event.event_end_time, conversation.updated_at),
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: last_resolved_event.event_end_time,
+      event_end_time: conversation.updated_at
+    )
+    reporting_event.save!
+  end
+
   private
 
   def create_bot_resolved_event(conversation, reporting_event)
