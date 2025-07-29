@@ -60,9 +60,21 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     ).deliver_now
 
     render json: { message: 'Instructions sent successfully' }, status: :ok
-  rescue StandardError => e
-    Rails.logger.error "Failed to send portal instructions: #{e.message}"
-    render json: { error: 'Failed to send instructions' }, status: :internal_server_error
+  end
+
+  def ssl_status
+    return render json: { error: 'Custom domain not configured' }, status: :bad_request if @portal.custom_domain.blank?
+
+    result = Cloudflare::CheckCustomHostnameService.new(portal: @portal).perform
+
+    if result[:errors].present?
+      render json: { error: result[:errors] }, status: :unprocessable_entity
+    else
+      render json: {
+        status: @portal.ssl_settings['cf_status'],
+        verification_errors: @portal.ssl_settings['cf_verification_errors']
+      }, status: :ok
+    end
   end
 
   def process_attached_logo

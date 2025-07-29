@@ -12,7 +12,7 @@ class Cloudflare::CreateCustomHostnameService < Cloudflare::BaseCloudflareZoneSe
     data = response.parsed_response['result']
 
     if data.present?
-      update_portal_ssl_settings(data)
+      update_portal_ssl_settings(@portal, data)
       return { data: data }
     end
 
@@ -27,14 +27,5 @@ class Cloudflare::CreateCustomHostnameService < Cloudflare::BaseCloudflareZoneSe
       headers: headers,
       body: { hostname: @portal.custom_domain }.to_json
     )
-  end
-
-  def update_portal_ssl_settings(data)
-    verification_record = data['ownership_verification_http']
-    ssl_settings = {
-      'cf_verification_id': verification_record['http_url'].split('/').last,
-      'cf_verification_body': verification_record['http_body']
-    }
-    @portal.update(ssl_settings: ssl_settings)
   end
 end
