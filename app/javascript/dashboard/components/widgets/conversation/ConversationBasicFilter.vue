@@ -94,6 +94,10 @@ const chatSortOptions = computed(() => [
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_desc.TEXT'),
     value: 'waiting_since_desc',
   },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.unread_count_desc.TEXT'),
+    value: 'unread_count_desc',
+  },
 ]);
 
 const activeChatStatusLabel = computed(

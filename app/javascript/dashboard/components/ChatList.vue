@@ -301,13 +301,15 @@ const pageTitle = computed(() => {
   if (props.label) {
     return `#${props.label}`;
   }
-  if (props.conversationType === 'mention') {
+  if (props.conversationType === wootConstants.CONVERSATION_TYPE.MENTION) {
     return t('CHAT_LIST.MENTION_HEADING');
   }
-  if (props.conversationType === 'participating') {
+  if (
+    props.conversationType === wootConstants.CONVERSATION_TYPE.PARTICIPATING
+  ) {
     return t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
   }
-  if (props.conversationType === 'unattended') {
+  if (props.conversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED) {
     return t('CHAT_LIST.UNATTENDED_HEADING');
   }
   if (hasActiveFolders.value) {
@@ -657,9 +659,9 @@ function redirectToConversationList() {
 
   let conversationType = '';
   if (isOnMentionsView({ route: { name } })) {
-    conversationType = 'mention';
+    conversationType = wootConstants.CONVERSATION_TYPE.MENTION;
   } else if (isOnUnattendedView({ route: { name } })) {
-    conversationType = 'unattended';
+    conversationType = wootConstants.CONVERSATION_TYPE.UNATTENDED;
   }
   router.push(
     conversationListPageURL({
@@ -766,6 +768,12 @@ useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
 onMounted(() => {
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
+
+  // Set default sorting for unattended conversations to prioritize unread messages
+  if (props.conversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED) {
+    activeSortBy.value = wootConstants.SORT_BY_TYPE.UNREAD_COUNT_DESC;
+  }
+
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
   resetAndFetchData();
@@ -819,7 +827,17 @@ watch(
 );
 watch(
   computed(() => props.conversationType),
-  () => resetAndFetchData()
+  newConversationType => {
+    // Set default sorting for unattended conversations to prioritize unread messages
+    if (newConversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED) {
+      activeSortBy.value = wootConstants.SORT_BY_TYPE.UNREAD_COUNT_DESC;
+      store.dispatch(
+        'setChatSortFilter',
+        wootConstants.SORT_BY_TYPE.UNREAD_COUNT_DESC
+      );
+    }
+    resetAndFetchData();
+  }
 );
 
 watch(activeFolder, (newVal, oldVal) => {

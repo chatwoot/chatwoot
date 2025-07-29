@@ -1,4 +1,5 @@
 import { CONVERSATION_PRIORITY_ORDER } from 'shared/constants/messages';
+import wootConstants from 'dashboard/constants/globals';
 
 export const findPendingMessageIndex = (chat, message) => {
   const { echo_id: tempMessageId } = message;
@@ -30,7 +31,7 @@ export const filterByUnattended = (
   firstReplyOn,
   waitingSince
 ) => {
-  return conversationType === 'unattended'
+  return conversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED
     ? (!firstReplyOn || !!waitingSince) && shouldFilter
     : shouldFilter;
 };
@@ -116,6 +117,7 @@ const SORT_OPTIONS = {
   priority_desc: ['sortOnPriority', 'desc'],
   waiting_since_asc: ['sortOnWaitingSince', 'asc'],
   waiting_since_desc: ['sortOnWaitingSince', 'desc'],
+  unread_count_desc: ['sortOnUnreadCount', 'desc'],
 };
 const sortAscending = (valueA, valueB) => valueA - valueB;
 const sortDescending = (valueA, valueB) => valueB - valueA;
@@ -149,6 +151,19 @@ const sortConfig = {
     }
 
     return sortFunc(a.waiting_since, b.waiting_since);
+  },
+
+  sortOnUnreadCount: (a, b, sortDirection) => {
+    const sortFunc = getSortOrderFunction(sortDirection);
+    const unreadA = a.unread_count || 0;
+    const unreadB = b.unread_count || 0;
+
+    // If unread counts are the same, fall back to last_activity_at for consistent ordering
+    if (unreadA === unreadB) {
+      return sortFunc(a.last_activity_at, b.last_activity_at);
+    }
+
+    return sortFunc(unreadA, unreadB);
   },
 };
 

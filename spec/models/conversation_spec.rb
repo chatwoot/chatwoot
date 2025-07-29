@@ -769,6 +769,91 @@ RSpec.describe Conversation do
         ]
       end
     end
+
+    describe 'sort_on_unread_count' do
+      let!(:conversation_no_unread) { create(:conversation, agent_last_seen_at: Time.current) }
+      let!(:conversation_with_unread) { create(:conversation, agent_last_seen_at: 1.hour.ago) }
+      let!(:conversation_never_seen) { create(:conversation, agent_last_seen_at: nil) }
+
+      before do
+        # Create unread messages for different conversations
+        create_list(:message, 3, conversation: conversation_with_unread,
+                                 message_type: :incoming, private: false, created_at: 30.minutes.ago)
+        create_list(:message, 2, conversation: conversation_never_seen,
+                                 message_type: :incoming, private: false, created_at: 30.minutes.ago)
+        # No unread messages for conversation_no_unread since agent_last_seen_at is current
+      end
+
+      it 'returns conversations sorted by unread count in descending order by default' do
+        records = described_class.sort_on_unread_count
+        unread_counts = records.map(&:unread_count)
+
+        # Verify conversations with more unread messages come first
+        expect(unread_counts.first).to be >= unread_counts.second
+        expect(unread_counts.second).to be >= unread_counts.last
+
+        # Verify specific conversations are in correct order
+        expect(records.first.id).to eq(conversation_with_unread.id)
+        expect(records.map(&:id)).to include(conversation_never_seen.id, conversation_no_unread.id)
+      end
+
+      it 'returns conversations sorted by unread count in ascending order when specified' do
+        records = described_class.sort_on_unread_count(:asc)
+        unread_counts = records.map(&:unread_count)
+
+        # Verify conversations with fewer unread messages come first
+        expect(unread_counts.first).to be <= unread_counts.second
+        expect(unread_counts.second).to be <= unread_counts.last
+
+        # Conversation with no unread should be first
+        expect(records.first.id).to eq(conversation_no_unread.id)
+      end
+
+      it 'handles conversations with agent_last_seen_at as NULL correctly' do
+        records = described_class.sort_on_unread_count
+        never_seen_record = records.find { |r| r.id == conversation_never_seen.id }
+
+        # Conversation never seen by agent should have unread_count > 0
+        expect(never_seen_record.unread_count).to be > 0
+      end
+
+      it 'falls back to last_activity_at when unread counts are equal' do
+        # Mock timestamps for predictable testing
+        base_time = Time.zone.parse('2024-01-01 12:00:00')
+        agent_seen_time = base_time - 2.hours
+        message_time = base_time - 1.hour
+        recent_activity_time = base_time - 30.minutes
+        older_activity_time = base_time - 3.hours
+
+        travel_to base_time do
+          # Create two conversations with same unread count but different last_activity_at
+          conversation_recent = create(:conversation,
+                                       agent_last_seen_at: agent_seen_time,
+                                       last_activity_at: recent_activity_time)
+          conversation_older = create(:conversation,
+                                      agent_last_seen_at: agent_seen_time,
+                                      last_activity_at: older_activity_time)
+
+          # Create same number of unread messages for both (created after agent_last_seen_at)
+          create(:message, conversation: conversation_recent, message_type: :incoming,
+                           private: false, created_at: message_time)
+          create(:message, conversation: conversation_older, message_type: :incoming,
+                           private: false, created_at: message_time)
+
+          records = described_class.where(id: [conversation_recent.id, conversation_older.id])
+                                   .sort_on_unread_count
+
+          # Verify both conversations have the same unread count
+          expect(records.first.unread_count).to eq(records.second.unread_count)
+          expect(records.first.unread_count).to eq(1)
+
+          # According to the implementation, secondary sort is "last_activity_at DESC"
+          # So conversation with more recent last_activity_at should come first
+          expect(records.first.id).to eq(conversation_recent.id)
+          expect(records.second.id).to eq(conversation_older.id)
+        end
+      end
+    end
   end
 
   describe 'cached_label_list_array' do
