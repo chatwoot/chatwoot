@@ -53,7 +53,7 @@
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         helpUrls: <%= feature_help_urls.to_json.html_safe %>,
         selectedLocale: '<%= I18n.locale %>',
-        aiBackendApi: '<%= ENV.fetch('AI_BACKEND_API', 'http://localhost:3000') %>',
+        aiBackendUrl: '<%= ENV.fetch('AI_BACKEND_URL', 'http://localhost:3000') %>',
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {

@@ -106,7 +106,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
       it 'raises a ConfigurationError' do
         expect do
           service.create_configuration(store_id, config_key, config_data)
-        end.to raise_error(ChatscommerceService::ConfigurationService::ConfigurationError, /Configurations cannot be created: 500/)
+        end.to raise_error(ChatscommerceService::ConfigurationService::ConfigurationError, /Unexpected error: 500 - \{\"error\":\"Server Error\"\}/)
       end
     end
   end

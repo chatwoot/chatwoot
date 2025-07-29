@@ -78,7 +78,7 @@ export default {
     <!-- Onboarding not completed -->
     <div
       v-if="!isOnboardingCompleted && !loadingChatList"
-      class="clearfix mx-auto w-full flex justify-center items-center"
+      class="clearfix mx-auto w-full flex justify-center items-center h-full"
     >
       <OnboardingViewChatscommerce v-if="isAdmin" />
       <EmptyStateMessage v-else :message="$t('CONVERSATION.NO_INBOX_AGENT')" />
@@ -86,7 +86,7 @@ export default {
     <!-- Show empty state images if not loading -->
 
     <div
-      v-else-if="!uiFlags.isFetching && !loadingChatList"
+      v-else-if="!uiFlags.isFetching"
       class="flex flex-col items-center justify-center h-full"
     >
       <!-- No conversations available -->

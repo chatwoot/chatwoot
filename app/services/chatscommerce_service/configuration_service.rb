@@ -64,7 +64,7 @@ class ChatscommerceService::ConfigurationService
 
   def chatscommerce_api_url
     Rails.application.config.chatscommerce_api_url ||
-      ENV['AI_BACKEND_API'] ||
+      ENV['AI_BACKEND_URL'] ||
       Rails.application.credentials.chatscommerce_api_url
   end
 end

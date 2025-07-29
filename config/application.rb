@@ -70,6 +70,7 @@ module Chatwoot
     config.active_storage.previewers = []
     config.chatscommerce_api_url = ENV.fetch('CHATSC_API_URL', nil)
     config.ai_backend_api_url = ENV.fetch('AI_BACKEND_API', nil)
+    config.ai_backend_url = ENV.fetch('AI_BACKEND_URL', nil)
   end
 
   def self.config
