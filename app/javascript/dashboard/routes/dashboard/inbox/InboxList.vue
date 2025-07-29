@@ -255,7 +255,7 @@ onMounted(() => {
           @click="openConversation(notificationItem)"
         />
         <div v-if="uiFlags.isFetching" class="flex justify-center my-4">
-          <Spinner class="text-n-brand" />
+          <Spinner class="text-n-brand dark:text-n-lightBrand" />
         </div>
         <p
           v-if="showEmptyState"

@@ -101,7 +101,10 @@ export default {
       </div>
       <p class="mt-4 -mb-1 text-sm text-n-slate-11">
         {{ $t('RESET_PASSWORD.GO_BACK_TO_LOGIN') }}
-        <router-link to="/auth/login" class="text-link text-n-brand">
+        <router-link
+          to="/auth/login"
+          class="text-link text-n-brand dark:text-n-lightBrand"
+        >
           {{ $t('COMMON.CLICK_HERE') }}.
         </router-link>
       </p>

@@ -77,12 +77,16 @@ const queryOperatorOptions = computed(() => {
     {
       label: t(`FILTER.QUERY_DROPDOWN_LABELS.AND`),
       value: 'and',
-      icon: h('span', { class: 'i-lucide-ampersands !text-n-brand' }),
+      icon: h('span', {
+        class: 'i-lucide-ampersands !text-n-brand dark:text-n-lightBrand',
+      }),
     },
     {
       label: t(`FILTER.QUERY_DROPDOWN_LABELS.OR`),
       value: 'or',
-      icon: h('span', { class: 'i-woot-logic-or !text-n-brand' }),
+      icon: h('span', {
+        class: 'i-woot-logic-or !text-n-brand dark:text-n-lightBrand',
+      }),
     },
   ];
 });

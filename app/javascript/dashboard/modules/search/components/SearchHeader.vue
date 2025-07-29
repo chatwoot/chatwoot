@@ -62,7 +62,7 @@ onUnmounted(() => {
         class="icon"
         aria-hidden="true"
         :class="{
-          'text-n-brand': isInputFocused,
+          'text-n-brand dark:text-n-lightBrand': isInputFocused,
           'text-n-slate-10': !isInputFocused,
         }"
       />

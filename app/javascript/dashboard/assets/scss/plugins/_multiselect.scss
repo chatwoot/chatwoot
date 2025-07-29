@@ -1,13 +1,13 @@
 @mixin label-multiselect-hover {
   &::after {
-    @apply text-n-brand;
+    @apply text-n-brand dark:text-n-lightBrand;
   }
 
   &:hover {
     @apply bg-n-slate-3;
 
     &::after {
-      @apply text-n-brand;
+      @apply text-n-brand dark:text-n-lightBrand;
     }
   }
 }

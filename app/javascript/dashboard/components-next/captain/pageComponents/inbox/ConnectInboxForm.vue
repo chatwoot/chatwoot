@@ -100,7 +100,7 @@ const handleSubmit = async () => {
         variant="faded"
         color="slate"
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-brand hover:bg-n-alpha-3"
+        class="w-full bg-n-alpha-2 text-n-brand dark:text-n-lightBrand hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button

@@ -50,7 +50,7 @@ const onTabClick = event => {
       class="flex items-center flex-row border-b select-none cursor-pointer text-sm relative top-[1px] transition-[border-color] duration-[150ms] ease-[cubic-bezier(0.37,0,0.63,1)]"
       :class="[
         active
-          ? 'border-b border-n-brand text-n-brand'
+          ? 'border-b border-n-brand text-n-brand dark:text-n-lightBrand'
           : 'border-transparent text-n-slate-11',
         isCompact ? 'py-2 text-sm' : 'text-base py-3',
       ]"
@@ -62,7 +62,7 @@ const onTabClick = event => {
         class="rounded-md h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0 min-w-[20px]"
         :class="[
           active
-            ? 'bg-n-brand/10 dark:bg-n-brand/20 text-n-brand'
+            ? 'bg-n-brand/10 dark:bg-n-lightBrand/20 text-n-brand dark:text-n-lightBrand'
             : 'bg-n-alpha-black2 dark:bg-n-solid-3 text-n-slate-11',
         ]"
       >

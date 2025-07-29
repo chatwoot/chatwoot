@@ -182,7 +182,7 @@
   }
 
   > a {
-    @apply text-n-brand;
+    @apply text-n-brand dark:text-n-lightBrand;
     word-break: break-all;
   }
 
@@ -202,7 +202,7 @@
     @apply ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] text-n-slate-12;
 
     .link {
-      @apply text-n-brand;
+      @apply text-n-brand dark:text-n-lightBrand;
       word-break: break-word;
     }
   }

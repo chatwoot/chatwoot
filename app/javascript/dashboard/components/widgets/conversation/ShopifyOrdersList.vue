@@ -52,7 +52,7 @@ watch(
       {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.NO_SHOPIFY_ORDERS') }}
     </div>
     <div v-else-if="loading" class="flex justify-center items-center p-4">
-      <Spinner size="32" class="text-n-brand" />
+      <Spinner size="32" class="text-n-brand dark:text-n-lightBrand" />
     </div>
     <div v-else-if="error" class="text-center text-n-ruby-12">
       {{ error }}

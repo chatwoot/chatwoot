@@ -60,7 +60,9 @@ const getStatusText = computed(() => {
     <div
       v-else
       class="flex items-center h-10 bg-white rounded-md dark:!bg-n-slate-3"
-      :class="{ 'ring-2 ring-n-brand dark:ring-n-brand': isInputFocused }"
+      :class="{
+        'ring-2 ring-n-brand dark:ring-n-brand': isInputFocused,
+      }"
     >
       <ResizableTextArea
         id="chat-input"

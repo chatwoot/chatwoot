@@ -61,7 +61,7 @@ export default {
             v-if="macroVisibility === 'global'"
             icon="checkmark-circle"
             type="solid"
-            class="absolute text-n-brand top-2 right-2"
+            class="absolute text-n-brand dark:text-n-lightBrand top-2 right-2"
           />
           <p
             class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12"
@@ -81,7 +81,7 @@ export default {
             v-if="macroVisibility === 'personal'"
             icon="checkmark-circle"
             type="solid"
-            class="absolute text-n-brand top-2 right-2"
+            class="absolute text-n-brand dark:text-n-lightBrand top-2 right-2"
           />
           <p
             class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12"

@@ -23,12 +23,7 @@ defineProps({
 
 <template>
   <button
-    class="relative bg-n-solid-1 gap-6 cursor-pointer rounded-2xl flex flex-col justify-start transition-all duration-200 ease-in -m-px py-6 px-5 items-start border border-solid border-n-weak"
-    :class="{
-      'hover:enabled:border-n-blue-9 hover:enabled:shadow-md disabled:opacity-60 disabled:cursor-not-allowed':
-        !isComingSoon,
-      'cursor-not-allowed disabled:opacity-80': isComingSoon,
-    }"
+    class="relative bg-n-background cursor-pointer flex flex-col justify-end transition-all duration-200 ease-in -m-px py-4 px-0 items-center border border-solid border-n-weak hover:border-n-brand dark:hover:border-n-lightBrand hover:shadow-md hover:z-50 disabled:opacity-60"
   >
     <div
       class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"

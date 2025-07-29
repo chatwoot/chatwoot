@@ -306,7 +306,7 @@ defineExpose({ prepareCampaignDetails, isSubmitDisabled });
         variant="faded"
         color="slate"
         :label="t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.BUTTONS.CANCEL')"
-        class="w-full bg-n-alpha-2 text-n-brand hover:bg-n-alpha-3"
+        class="w-full bg-n-alpha-2 text-n-brand dark:text-n-lightBrand hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button

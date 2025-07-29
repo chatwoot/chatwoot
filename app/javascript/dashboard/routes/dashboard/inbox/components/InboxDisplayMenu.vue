@@ -145,14 +145,16 @@ export default {
             role="button"
             class="flex rounded-md h-5 w-full items-center justify-between px-1.5 py-0.5 gap-2 whitespace-nowrap"
             :class="{
-              'bg-n-brand/10 dark:bg-n-brand/10': activeSort === option.key,
+              'bg-n-brand/10 dark:bg-n-lightBrand/10':
+                activeSort === option.key,
             }"
             @click.stop="onSortOptionClick(option)"
           >
             <span
-              class="text-xs font-medium hover:text-n-brand truncate min-w-0 dark:hover:text-n-brand"
+              class="text-xs font-medium hover:text-n-brand dark:text-n-lightBrand truncate min-w-0 dark:hover:text-n-brand dark:text-n-lightBrand"
               :class="{
-                'text-n-brand dark:text-n-brand': activeSort === option.key,
+                'text-n-brand dark:text-n-lightBrand dark:text-n-lightBrand':
+                  activeSort === option.key,
                 'text-n-slate-11': activeSort !== option.key,
               }"
             >
@@ -160,7 +162,7 @@ export default {
             </span>
             <span
               v-if="activeSort === option.key"
-              class="i-lucide-check size-2.5 flex-shrink-0 text-n-brand"
+              class="i-lucide-check size-2.5 flex-shrink-0 text-n-brand dark:text-n-lightBrand"
             />
           </div>
         </div>

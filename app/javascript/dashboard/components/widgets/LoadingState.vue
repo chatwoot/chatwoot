@@ -14,7 +14,7 @@ defineProps({
       <span class="text-base font-medium text-n-slate-12">
         {{ message }}
       </span>
-      <Spinner class="text-n-brand" />
+      <Spinner class="text-n-brand dark:text-n-lightBrand" />
     </h6>
   </div>
 </template>

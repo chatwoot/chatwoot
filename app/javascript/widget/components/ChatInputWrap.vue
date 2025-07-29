@@ -159,7 +159,7 @@ export default {
           class="transition-all duration-150"
           :class="{
             'text-n-slate-12': !showEmojiPicker,
-            'text-n-brand': showEmojiPicker,
+            'text-n-brand dark:text-n-lightBrand': showEmojiPicker,
           }"
         />
       </button>
