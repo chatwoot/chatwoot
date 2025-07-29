@@ -6,6 +6,8 @@ import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import PortalSettings from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/PortalSettings.vue';
 
+const SSL_STATUS_FETCH_INTERVAL = 5000;
+
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
@@ -22,6 +24,13 @@ const getNextAvailablePortal = deletedPortalSlug =>
 
 const getDefaultLocale = slug => {
   return getPortalBySlug.value(slug)?.meta?.default_locale;
+};
+
+const fetchSSLStatus = () => {
+  const { portalSlug } = route.params;
+  store.dispatch('portals/sslStatus', {
+    portalSlug,
+  });
 };
 
 const fetchPortalAndItsCategories = async (slug, locale) => {
@@ -82,10 +91,6 @@ const updatePortalSettings = async portalObj => {
     useAlert(
       t('HELP_CENTER.PORTAL_SETTINGS.API.UPDATE_PORTAL.SUCCESS_MESSAGE')
     );
-    // Refresh the SSL status
-    await store.dispatch('portals/sslStatus', {
-      portalSlug: portalSlug,
-    });
   } catch (error) {
     useAlert(
       error?.message ||
@@ -110,8 +115,35 @@ const deletePortal = async selectedPortalForDelete => {
   }
 };
 
+const handleSendCnameInstructions = async payload => {
+  try {
+    await store.dispatch('portals/sendCnameInstructions', payload);
+    useAlert(
+      t(
+        'HELP_CENTER.PORTAL_SETTINGS.API.SEND_CNAME_INSTRUCTIONS.SUCCESS_MESSAGE'
+      )
+    );
+  } catch (error) {
+    useAlert(
+      error?.message ||
+        t(
+          'HELP_CENTER.PORTAL_SETTINGS.API.SEND_CNAME_INSTRUCTIONS.ERROR_MESSAGE'
+        )
+    );
+  }
+};
+
 const handleUpdatePortal = updatePortalSettings;
-const handleUpdatePortalConfiguration = updatePortalSettings;
+const handleUpdatePortalConfiguration = portalObj => {
+  updatePortalSettings(portalObj);
+
+  // If custom domain is added or updated, fetch SSL status after a delay of 5 seconds
+  if (portalObj?.custom_domain) {
+    setTimeout(() => {
+      fetchSSLStatus();
+    }, SSL_STATUS_FETCH_INTERVAL);
+  }
+};
 const handleDeletePortal = deletePortal;
 </script>
 
@@ -122,5 +154,7 @@ const handleDeletePortal = deletePortal;
     @update-portal="handleUpdatePortal"
     @update-portal-configuration="handleUpdatePortalConfiguration"
     @delete-portal="handleDeletePortal"
+    @refresh-status="fetchSSLStatus"
+    @send-cname-instructions="handleSendCnameInstructions"
   />
 </template>

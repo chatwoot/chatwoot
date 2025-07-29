@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'dashboard/composables/store';
 
 import AddCustomDomainDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/AddCustomDomainDialog.vue';
 import DNSConfigurationDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/DNSConfigurationDialog.vue';
@@ -12,13 +11,51 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  isFetchingStatus: {
+    type: Boolean,
+    required: true,
+  },
 });
 
-const emit = defineEmits(['updatePortalConfiguration']);
+const emit = defineEmits([
+  'updatePortalConfiguration',
+  'refreshStatus',
+  'sendCnameInstructions',
+]);
+
+const SSL_STATUS = {
+  LIVE: ['active', 'staging_active'],
+  PENDING: [
+    'provisioned',
+    'pending',
+    'initializing',
+    'pending_validation',
+    'pending_deployment',
+    'pending_issuance',
+    'holding_deployment',
+    'holding_validation',
+    'pending_expiration',
+    'pending_cleanup',
+    'pending_deletion',
+    'staging_deployment',
+    'backup_issued',
+  ],
+  ERROR: [
+    'blocked',
+    'inactive',
+    'moved',
+    'expired',
+    'deleted',
+    'timed_out_initializing',
+    'timed_out_validation',
+    'timed_out_issuance',
+    'timed_out_deployment',
+    'timed_out_deletion',
+    'deactivating',
+  ],
+};
 
 const { t } = useI18n();
-
-const store = useStore();
 
 const addCustomDomainDialogRef = ref(null);
 const dnsConfigurationDialogRef = ref(null);
@@ -30,14 +67,14 @@ const customDomainAddress = computed(
 
 const sslSettings = computed(() => props.activePortal?.ssl_settings || {});
 
-const isLive = computed(() => sslSettings.value.status === 'active');
+const isLive = computed(() =>
+  SSL_STATUS.LIVE.includes(sslSettings.value.status)
+);
 const isPending = computed(() =>
-  ['provisioned', 'pending', 'initializing', 'pending_validation'].includes(
-    sslSettings.value.status
-  )
+  SSL_STATUS.PENDING.includes(sslSettings.value.status)
 );
 const isError = computed(() =>
-  ['blocked', 'inactive', 'moved'].includes(sslSettings.value.status)
+  SSL_STATUS.ERROR.includes(sslSettings.value.status)
 );
 
 const statusText = computed(() => {
@@ -54,6 +91,14 @@ const statusText = computed(() => {
       'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS.ERROR'
     );
   return '';
+});
+
+const statusColors = computed(() => {
+  if (isLive.value)
+    return { text: 'text-n-teal-11', bubble: 'outline-n-teal-6 bg-n-teal-9' };
+  if (isError.value)
+    return { text: 'text-n-ruby-11', bubble: 'outline-n-ruby-6 bg-n-ruby-9' };
+  return { text: 'text-n-amber-11', bubble: 'outline-n-amber-6 bg-n-amber-9' };
 });
 
 const updatePortalConfiguration = customDomain => {
@@ -75,13 +120,11 @@ const closeDNSConfigurationDialog = () => {
 };
 
 const onClickRefreshSSLStatus = () => {
-  store.dispatch('portals/sslStatus', {
-    portalSlug: props.activePortal?.slug,
-  });
+  emit('refreshStatus');
 };
 
 const onClickSend = email => {
-  store.dispatch('portals/sendCnameInstructions', {
+  emit('sendCnameInstructions', {
     portalSlug: props.activePortal?.slug,
     email,
   });
@@ -121,7 +164,7 @@ const onClickSend = email => {
               {{ customDomainAddress }}
             </span>
           </div>
-          <span class="text-sm text-n-slate-11">
+          <span v-if="!isLive" class="text-sm text-n-slate-11">
             {{
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS_DESCRIPTION'
@@ -131,23 +174,22 @@ const onClickSend = email => {
         </div>
         <div class="flex items-center">
           <div v-if="customDomainAddress" class="flex items-center gap-3">
-            <div class="flex items-center gap-3 flex-shrink-0">
+            <div
+              v-if="statusText"
+              class="flex items-center gap-3 flex-shrink-0"
+            >
               <span
                 class="size-1.5 rounded-full outline outline-2 block flex-shrink-0"
-                :class="
-                  isLive
-                    ? 'outline-n-teal-6 bg-n-teal-9'
-                    : 'outline-n-amber-6 bg-n-amber-9'
-                "
+                :class="statusColors.bubble"
               />
               <span
-                :class="isLive ? 'text-n-teal-11' : 'text-n-amber-11'"
+                :class="statusColors.text"
                 class="text-sm leading-[16px] font-medium"
               >
                 {{ statusText }}
               </span>
             </div>
-            <div class="w-px h-3 bg-n-weak" />
+            <div v-if="statusText" class="w-px h-3 bg-n-weak" />
             <Button
               slate
               sm
@@ -166,6 +208,7 @@ const onClickSend = email => {
               sm
               link
               icon="i-lucide-refresh-ccw"
+              :class="isFetchingStatus && 'animate-spin'"
               @click="onClickRefreshSSLStatus"
             />
           </div>

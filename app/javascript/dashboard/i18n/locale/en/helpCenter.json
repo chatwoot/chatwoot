@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "Portal deleted successfully",
             "DELETE_ERROR": "Error while deleting portal"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -754,7 +760,7 @@
           "STATUS": {
             "LIVE": "Live",
             "PENDING": "Awaiting verification",
-            "ERROR": "Error"
+            "ERROR": "Verification failed"
           },
           "DIALOG": {
             "ADD_HEADER": "Add custom domain",

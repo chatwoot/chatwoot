@@ -142,6 +142,7 @@ describe('#actions', () => {
       });
       await actions.sslStatus({ commit }, { portalSlug: 'domain' });
       expect(commit.mock.calls).toEqual([
+        [types.SET_UI_FLAG, { isFetchingSSLStatus: true }],
         [
           types.SET_SSL_SETTINGS,
           {
@@ -149,6 +150,7 @@ describe('#actions', () => {
             sslSettings: { status: 'active', verification_errors: [] },
           },
         ],
+        [types.SET_UI_FLAG, { isFetchingSSLStatus: false }],
       ]);
     });
     it('throws error and does not commit when API fails', async () => {
@@ -156,6 +158,10 @@ describe('#actions', () => {
       await expect(
         actions.sslStatus({ commit }, { portalSlug: 'domain' })
       ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_UI_FLAG, { isFetchingSSLStatus: true }],
+        [types.SET_UI_FLAG, { isFetchingSSLStatus: false }],
+      ]);
     });
   });
 
