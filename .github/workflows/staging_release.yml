@@ -19,6 +19,8 @@ jobs:
       PGSSLMODE: ${{ secrets.PGSSLMODE }}
       SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
       POSTMARK_API_TOKEN: ${{ secrets.POSTMARK_API_TOKEN }}
+      SOURCE_TOKEN: ${{ secrets.SOURCE_TOKEN }}
+      INGESTING_HOST: ${{ secrets.INGESTING_HOST }}
     steps:
       - uses: actions/checkout@v4
 
