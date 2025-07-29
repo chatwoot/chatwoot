@@ -266,7 +266,9 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
       end
 
       it 'sends instructions successfully' do
-        allow(PortalInstructionsMailer).to receive_message_chain(:send_cname_instructions, :deliver_now)
+        mailer_double = instance_double(ActionMailer::MessageDelivery)
+        allow(PortalInstructionsMailer).to receive(:send_cname_instructions).and_return(mailer_double)
+        allow(mailer_double).to receive(:deliver_now)
 
         post "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/send_instructions",
              headers: admin.create_new_auth_token,
