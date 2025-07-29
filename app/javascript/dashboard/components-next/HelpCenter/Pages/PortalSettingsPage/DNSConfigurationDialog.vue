@@ -55,7 +55,7 @@ const handleSend = async () => {
   const isFormCorrect = await v$.value.$validate();
   if (!isFormCorrect) return;
 
-  emit('send');
+  emit('send', state.email);
   onClose();
 };
 

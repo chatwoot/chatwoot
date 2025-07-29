@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store.js';
+import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import PortalBaseSettings from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/PortalBaseSettings.vue';
@@ -29,6 +29,7 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+const store = useStore();
 const route = useRoute();
 
 const confirmDeletePortalDialogRef = ref(null);
@@ -61,6 +62,12 @@ const handleDeletePortal = () => {
   emit('deletePortal', activePortal.value);
   confirmDeletePortalDialogRef.value.dialogRef.close();
 };
+
+onMounted(() => {
+  store.dispatch('portals/sslStatus', {
+    portalSlug: currentPortalSlug.value,
+  });
+});
 </script>
 
 <template>

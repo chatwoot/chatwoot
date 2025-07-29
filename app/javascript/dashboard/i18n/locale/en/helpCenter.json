@@ -753,7 +753,8 @@
           "ADD_BUTTON": "Add custom domain",
           "STATUS": {
             "LIVE": "Live",
-            "PENDING": "Awaiting verification"
+            "PENDING": "Awaiting verification",
+            "ERROR": "Error"
           },
           "DIALOG": {
             "ADD_HEADER": "Add custom domain",
