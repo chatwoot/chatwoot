@@ -82,6 +82,10 @@ const updatePortalSettings = async portalObj => {
     useAlert(
       t('HELP_CENTER.PORTAL_SETTINGS.API.UPDATE_PORTAL.SUCCESS_MESSAGE')
     );
+    // Refresh the SSL status
+    await store.dispatch('portals/sslStatus', {
+      portalSlug: portalSlug,
+    });
   } catch (error) {
     useAlert(
       error?.message ||
