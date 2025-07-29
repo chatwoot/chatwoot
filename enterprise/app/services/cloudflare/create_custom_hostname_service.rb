@@ -25,7 +25,13 @@ class Cloudflare::CreateCustomHostnameService < Cloudflare::BaseCloudflareZoneSe
     HTTParty.post(
       "#{BASE_URI}/zones/#{zone_id}/custom_hostnames",
       headers: headers,
-      body: { hostname: @portal.custom_domain }.to_json
+      body: {
+        hostname: @portal.custom_domain,
+        ssl: {
+          method: 'http',
+          type: 'dv'
+        }
+      }.to_json
     )
   end
 end
