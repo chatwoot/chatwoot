@@ -37,20 +37,20 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Personaliza la apariencia de tu panel de Chatwoot.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
-          "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Predeterminado",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
-          }
+          "TITLE": "Tamaño de fuente",
+          "NOTE": "Ajusta el tamaño del texto en el panel según tu preferencia.",
+          "UPDATE_SUCCESS": "Tu configuración de fuente se ha actualizado correctamente",
+          "UPDATE_ERROR": "Hay un error al actualizar la configuración de fuente, por favor inténtalo de nuevo",
+                      "OPTIONS": {
+              "SMALLER": "Más pequeño",
+              "SMALL": "Pequeño",
+              "DEFAULT": "Predeterminado",
+              "LARGE": "Grande",
+              "LARGER": "Más grande",
+              "EXTRA_LARGE": "Extra grande"
+            }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -77,11 +77,12 @@
         "TITLE": "Token de acceso",
         "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API",
         "COPY": "Copiar",
-        "RESET": "Reset",
+<<<<<<< HEAD
+        "RESET": "Restablecer",
         "CONFIRM_RESET": "¿Está seguro?",
-        "CONFIRM_HINT": "Haz clic de nuevo para confirmar",
-        "RESET_SUCCESS": "Token de acceso regenerado con éxito",
-        "RESET_ERROR": "No se puede regenerar el token de acceso. Por favor, inténtalo de nuevo"
+        "CONFIRM_HINT": "Haga clic de nuevo para confirmar",
+        "RESET_SUCCESS": "Token de acceso regenerado correctamente",
+        "RESET_ERROR": "No se pudo regenerar el token de acceso. Por favor, inténtalo de nuevo"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Alertas de audio",
@@ -130,9 +131,9 @@
         "CONVERSATION_MENTION": "Enviar notificaciones por correo electrónico cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envirar notificaciones por correo electrónico cuando un nuevo mensaje es creado en una conversación asignada",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones por correo electrónico cuando se crea un nuevo mensaje en una conversación participante",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Enviar notificaciones por email cuando una conversación no cumple con el SLA de primera respuesta",
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificaciones por email cuando una conversación no cumple con el SLA de siguiente respuesta",
+        "SLA_MISSED_RESOLUTION": "Enviar notificaciones por email cuando una conversación no cumple con el SLA de resolución"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferencias de notificación",
@@ -145,9 +146,9 @@
           "CONVERSATION_MENTION": "Has sido mencionado en una conversación",
           "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación asignada",
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación en la que participas",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "Una conversación carece de resolución SLA"
+          "SLA_MISSED_FIRST_RESPONSE": "Una conversación no cumple con el SLA de primera respuesta",
+          "SLA_MISSED_NEXT_RESPONSE": "Una conversación no cumple con el SLA de siguiente respuesta",
+          "SLA_MISSED_RESOLUTION": "Una conversación no cumple con el SLA de resolución"
         },
         "BROWSER_PERMISSION": "Activa las notificaciones push en tu navegador para que puedas recibirlas"
       },
@@ -165,9 +166,9 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones push cuando se crea un nuevo mensaje en una conversación participante",
         "HAS_ENABLED_PUSH": "Ha habilitado notificaciones push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificaciones push",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Enviar notificaciones push cuando una conversación no cumple con el SLA de primera respuesta",
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificaciones push cuando una conversación no cumple con el SLA de siguiente respuesta",
+        "SLA_MISSED_RESOLUTION": "Enviar notificaciones push cuando una conversación no cumple con el SLA de resolución"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagen de perfil"
@@ -191,7 +192,8 @@
         },
         "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
         "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo",
-        "IMPERSONATING_ERROR": "No se puede cambiar la disponibilidad al suplantar a un usuario"
+<<<<<<< HEAD
+        "IMPERSONATING_ERROR": "No se puede cambiar la disponibilidad mientras se está suplantando a un usuario"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",

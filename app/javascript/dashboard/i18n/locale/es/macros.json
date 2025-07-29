@@ -86,19 +86,21 @@
     },
     "ACTIONS": {
       "ASSIGN_TEAM": "Asignar equipo",
-      "ASSIGN_AGENT": "Assign an Agent",
+<<<<<<< HEAD
+      "ASSIGN_AGENT": "Asignar miembro",
       "ADD_LABEL": "Añadir etiqueta",
       "REMOVE_LABEL": "Eliminar etiqueta",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Enviar transcripción por correo",
-      "MUTE_CONVERSATION": "Silenciar Conversación",
+      "REMOVE_ASSIGNED_TEAM": "Eliminar equipo asignado",
+      "SEND_EMAIL_TRANSCRIPT": "Enviar transcripción por email",
+      "MUTE_CONVERSATION": "Silenciar conversación",
       "SNOOZE_CONVERSATION": "Posponer conversación",
       "RESOLVE_CONVERSATION": "Resolver conversación",
       "SEND_ATTACHMENT": "Enviar archivo adjunto",
       "SEND_MESSAGE": "Enviar mensaje",
       "CHANGE_PRIORITY": "Cambiar prioridad",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Enviar Evento de Webhook"
+<<<<<<< HEAD
+      "ADD_PRIVATE_NOTE": "Añadir nota privada",
+      "SEND_WEBHOOK_EVENT": "Enviar evento webhook"
     },
     "PRIORITY_TYPES": {
       "NONE": "Ninguna",

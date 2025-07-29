@@ -12,8 +12,8 @@
       "TITLE": "Administrar registros de auditoría",
       "DESC": "Los registros de auditoría son pistas para eventos y acciones en un sistema de Chatwoot.",
       "TABLE_HEADER": {
-        "ACTIVITY": "User",
-        "TIME": "Action",
+        "ACTIVITY": "Usuario",
+        "TIME": "Acción",
         "IP_ADDRESS": "Dirección IP"
       }
     },
@@ -71,7 +71,7 @@
       "EDIT": "{agentName} actualizó la configuración de la cuenta (#{id})"
     },
     "CONVERSATION": {
-      "DELETE": "{agentName} ha eliminado la conversación #{id}"
+      "DELETE": "{agentName} eliminó la conversación #{id}"
     }
   }
 }

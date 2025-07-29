@@ -271,7 +271,7 @@
       "ATTRIBUTE_WARNING": "Los datos de contacto de <strong>{primaryContactName}</strong> se copiarán en <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+              "ERROR_MESSAGE": "Algo salió mal. Por favor, inténtalo de nuevo más tarde."
     },
     "FORM": {
       "SUBMIT": " Combinar contactos",
@@ -465,7 +465,7 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "Eliminar permanentemente este contacto. Esta acción es irreversible.",
+        "MESSAGE": "Esta acción es permanente e irreversible.",
         "BUTTON": "Eliminar ahora"
       }
     },
@@ -476,7 +476,8 @@
       "DELETE_CONTACT": "Eliminar contacto",
       "DELETE_DIALOG": {
         "TITLE": "Confirmar eliminación",
-        "DESCRIPTION": "¿Está seguro que desea eliminar este contacto?",
+<<<<<<< HEAD
+        "DESCRIPTION": "¿Está seguro de que desea eliminar este contacto?",
         "CONFIRM": "Sí, eliminar",
         "API": {
           "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
@@ -556,7 +557,8 @@
         "SAVE": "Guardar nota",
         "EXPAND": "Expandir",
         "COLLAPSE": "Contraer",
-        "NO_NOTES": "No hay notas, puede agregar notas desde la página de detalles de contacto.",
+<<<<<<< HEAD
+        "NO_NOTES": "No hay notas, puedes añadir notas desde la página de detalles del contacto.",
         "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior."
       }
     },
@@ -566,7 +568,8 @@
       "BUTTON_LABEL": "Añadir contacto",
       "SEARCH_EMPTY_STATE_TITLE": "No hay contactos que coincidan con tu búsqueda 🔍",
       "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos por el momento 🌙"
+<<<<<<< HEAD
+      "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos en este momento 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

@@ -78,7 +78,8 @@
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
       "OPEN_ACTION": "Abrir",
-      "MORE_ACTIONS": "Otras acciones",
+<<<<<<< HEAD
+      "MORE_ACTIONS": "Más acciones",
       "OPEN": "Más",
       "CLOSE": "Cerrar",
       "DETAILS": "detalles",
@@ -132,7 +133,8 @@
     },
     "DELETE_CONVERSATION": {
       "TITLE": "Eliminar conversación #{conversationId}",
-      "DESCRIPTION": "¿Está seguro que desea eliminar esta conversación?",
+<<<<<<< HEAD
+      "DESCRIPTION": "¿Está seguro de que desea eliminar esta conversación?",
       "CONFIRM": "Eliminar"
     },
     "CARD_CONTEXT_MENU": {
@@ -174,8 +176,8 @@
       "MESSAGE_SIGN_TOOLTIP": "Firma del mensaje",
       "ENABLE_SIGN_TOOLTIP": "Activar firma",
       "DISABLE_SIGN_TOOLTIP": "Desactivar firma",
-      "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
-      "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los miembros",
+      "MSG_INPUT": "Mayús + Enter para nueva línea. Comience con '/' para seleccionar una respuesta predefinida.",
+      "PRIVATE_MSG_INPUT": "Mayús + Enter para nueva línea. Esto será visible solo para los miembros",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del mensaje no está configurada, por favor configúrela en la configuración del perfil.",
       "CLICK_HERE": "Haga clic aquí para actualizar",
       "WHATSAPP_TEMPLATES": "Plantillas de Whatsapp"
@@ -229,12 +231,13 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta asignada correctamente",
     "ASSIGN_LABEL_FAILED": "No se ha podido asignar la etiqueta",
     "CHANGE_TEAM": "Equipo de conversación cambiado",
-    "SUCCESS_DELETE_CONVERSATION": "Conversación eliminada con éxito",
+<<<<<<< HEAD
+    "SUCCESS_DELETE_CONVERSATION": "Conversación eliminada correctamente",
     "FAIL_DELETE_CONVERSATION": "¡No se pudo eliminar la conversación! Inténtalo de nuevo",
     "FILE_SIZE_LIMIT": "El archivo supera el límite de archivos adjuntos de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "No se puede enviar este mensaje, por favor inténtalo de nuevo más tarde",
     "SENT_BY": "Enviado por:",
-    "BOT": "AI Bot",
+    "BOT": "Bot de IA",
     "SEND_FAILED": "¡No se pudo enviar el mensaje! Inténtalo de nuevo",
     "TRY_AGAIN": "reintentar",
     "ASSIGNMENT": {
@@ -323,27 +326,28 @@
       "CONTACT_ATTRIBUTES": "Atributos de contacto",
       "PREVIOUS_CONVERSATION": "Conversaciones anteriores",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Problemas lineales vinculados",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+<<<<<<< HEAD
+      "LINEAR_ISSUES": "Problemas de Linear vinculados",
+      "SHOPIFY_ORDERS": "Pedidos de Shopify"
     },
     "SHOPIFY": {
-      "ORDER_ID": "Order #{id}",
-      "ERROR": "Error loading orders",
-      "NO_SHOPIFY_ORDERS": "No orders found",
-      "FINANCIAL_STATUS": {
-        "PENDING": "Pendientes",
-        "AUTHORIZED": "Authorized",
-        "PARTIALLY_PAID": "Partially Paid",
-        "PAID": "Paid",
-        "PARTIALLY_REFUNDED": "Partially Refunded",
-        "REFUNDED": "Refunded",
-        "VOIDED": "Voided"
-      },
-      "FULFILLMENT_STATUS": {
-        "FULFILLED": "Fulfilled",
-        "PARTIALLY_FULFILLED": "Partially Fulfilled",
-        "UNFULFILLED": "Unfulfilled"
-      }
+      "ORDER_ID": "Pedido #{id}",
+      "ERROR": "Error al cargar pedidos",
+      "NO_SHOPIFY_ORDERS": "No se encontraron pedidos",
+              "FINANCIAL_STATUS": {
+          "PENDING": "Pendientes",
+          "AUTHORIZED": "Autorizado",
+          "PARTIALLY_PAID": "Parcialmente pagado",
+          "PAID": "Pagado",
+          "PARTIALLY_REFUNDED": "Parcialmente reembolsado",
+          "REFUNDED": "Reembolsado",
+          "VOIDED": "Anulado"
+        },
+        "FULFILLMENT_STATUS": {
+          "FULFILLED": "Enviado",
+          "PARTIALLY_FULFILLED": "Parcialmente enviado",
+          "UNFULFILLED": "No enviado"
+        }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

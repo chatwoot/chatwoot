@@ -356,8 +356,8 @@
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "Error al crear borrador del artículo",
+                  "SUCCESS": "Borrador del artículo creado correctamente"
       }
     },
     "DELETE_ARTICLE": {
@@ -502,7 +502,7 @@
           "DROPDOWN_MENU": {
             "PUBLISH": "Publicar",
             "DRAFT": "Borrador",
-            "ARCHIVE": "Archive",
+            "ARCHIVE": "Archivar",
             "DELETE": "Eliminar"
           },
           "STATUS": {
@@ -511,51 +511,51 @@
             "ARCHIVED": "Archivado"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "Sin categorizar"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
+          "ALL": "Todos los artículos",
           "MINE": "Mías",
           "DRAFT": "Borrador",
           "PUBLISHED": "Publicado",
           "ARCHIVED": "Archivado"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "Todas las categorías"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "Todos los idiomas"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "Nuevo artículo"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
+          "TITLE": "Escribir un artículo",
           "SUBTITLE": "Write a rich article, let’s get started!",
           "BUTTON_LABEL": "New article"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "No has escrito ningún artículo aquí",
+          "SUBTITLE": "Todos los artículos escritos por ti aparecen aquí para acceso rápido."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "No hay artículos en borradores",
+          "SUBTITLE": "Los artículos en borrador aparecerán aquí"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "No hay artículos publicados",
+          "SUBTITLE": "Los artículos publicados aparecerán aquí"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "No hay artículos en el archivo",
+          "SUBTITLE": "Los artículos archivados no aparecen en el portal, puedes usarlo para marcar páginas obsoletas o desactualizadas"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "No hay artículos en esta categoría",
+          "SUBTITLE": "Los artículos en esta categoría aparecerán aquí"
         }
       }
     },
@@ -563,18 +563,18 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "Nueva categoría",
         "EDIT_CATEGORY": "Editar categoría",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "CATEGORIES_COUNT": "{n} categoría | {n} categorías",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "Categorías ({localeCode})",
+                      "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} artículos) | {categoryName} ({categoryCount} artículo)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "No se encontraron categorías",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "SUBTITLE": "Las categorías aparecerán aquí. Puedes añadir una categoría haciendo clic en el botón 'Nueva Categoría'."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} artículo | {count} artículos"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
@@ -628,20 +628,20 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "No hay idiomas disponibles | {n} idioma | {n} idiomas",
+              "NEW_LOCALE_BUTTON_TEXT": "Nuevo idioma",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "ARTICLES_COUNT": "{count} artículo | {count} artículos",
+        "CATEGORIES_COUNT": "{count} categoría | {count} categorías",
         "DEFAULT": "Predeterminado",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
+          "MAKE_DEFAULT": "Hacer predeterminado",
           "DELETE": "Eliminar"
         }
       },
       "ADD_LOCALE_DIALOG": {
         "TITLE": "Añadir un nuevo idioma",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "DESCRIPTION": "Selecciona el idioma en el que se escribirá este artículo. Esto se añadirá a tu lista de traducciones, y puedes añadir más después.",
         "COMBOBOX": {
           "PLACEHOLDER": "Seleccionar idioma..."
         },
@@ -661,21 +661,21 @@
         "PUBLISH": "Publicar",
         "DRAFT": "Borrador",
         "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "BACK_TO_ARTICLES": "Volver a los artículos"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
+        "MORE_PROPERTIES": "Más propiedades",
         "UNCATEGORIZED": "Sin categoría",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "Escribe algo..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
+        "ARTICLE_PROPERTIES": "Propiedades del artículo",
         "META_DESCRIPTION": "Meta-descripción",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+                  "META_DESCRIPTION_PLACEHOLDER": "Añadir meta descripción",
         "META_TITLE": "Título Meta",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
+                  "META_TITLE_PLACEHOLDER": "Añadir meta título",
         "META_TAGS": "Meta etiquetas",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+                  "META_TAGS_PLACEHOLDER": "Añadir meta etiquetas"
       },
       "API": {
         "ERROR": "Error al guardar el artículo"
