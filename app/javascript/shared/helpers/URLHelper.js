@@ -19,7 +19,7 @@ export const decodeUrl = url => {
  * - https://drive.google.com/uc?id=FILE_ID&export=download
  * - https://drive.google.com/file/d/FILE_ID/view
  * - https://drive.google.com/open?id=FILE_ID
- * 
+ *
  * @param {string} url - The Google Drive URL
  * @returns {string|null} - Direct image URL or null if no file ID found
  */
@@ -54,7 +54,7 @@ export const getGoogleDriveImageUrl = url => {
 /**
  * Main URL processor that handles different storage providers
  * Currently supports Google Drive, can be extended for other providers
- * 
+ *
  * @param {string} originalUrl - The original URL to process
  * @returns {string|null} - Processed URL or null if invalid
  */
@@ -91,6 +91,6 @@ export const getMediaUrl = item => {
 
   // Support multiple field name formats: mediaUrl (camelCase), media_url (snake_case), image_url
   const rawUrl = item.mediaUrl || item.media_url || item.image_url;
-  
+
   return processStorageUrl(rawUrl);
-}; 
+};

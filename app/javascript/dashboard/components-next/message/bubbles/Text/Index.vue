@@ -60,16 +60,13 @@ const handleSeeOriginal = () => {
       <span v-if="isEmpty" class="text-n-slate-11">
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
-      
+
       <!-- Cards content type -->
-      <MessengerCard 
-        v-if="isCardsType && hasCardItems"
-        :items="cardItems"
-      />
-      
+      <MessengerCard v-if="isCardsType && hasCardItems" :items="cardItems" />
+
       <!-- Regular text content -->
       <FormattedContent v-else-if="renderContent" :content="renderContent" />
-      
+
       <TranslationToggle
         v-if="hasTranslations"
         class="-mt-3"
