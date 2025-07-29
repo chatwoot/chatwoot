@@ -121,7 +121,10 @@ defineExpose({ dialogRef });
             }}
           </p>
         </div>
-        <div class="flex items-start gap-3 w-full">
+        <form
+          class="flex items-start gap-3 w-full"
+          @submit.prevent="handleSend"
+        >
           <Input
             v-model="state.email"
             :placeholder="
@@ -146,12 +149,10 @@ defineExpose({ dialogRef });
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.SEND_INSTRUCTIONS.SEND_BUTTON'
               )
             "
-            sm
-            type="button"
-            class="flex-shrink-0 mt-1"
-            @click="handleSend"
+            type="submit"
+            class="flex-shrink-0"
           />
-        </div>
+        </form>
       </div>
     </div>
   </Dialog>
