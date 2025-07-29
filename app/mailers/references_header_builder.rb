@@ -22,6 +22,10 @@ module ReferencesHeaderBuilder
 
     references = references.compact.uniq
     fold_references_header(references)
+  rescue StandardError => e
+    Rails.logger.error("Error building references header for ##{conversation.id}: #{e.message}")
+    ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
+    ''
   end
 
   private
