@@ -116,4 +116,21 @@ export const actions = {
       isSwitching,
     });
   },
+
+  sendCnameInstructions: async (_, { portalSlug, email }) => {
+    try {
+      await portalAPIs.sendCnameInstructions(portalSlug, email);
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+  },
+
+  sslStatus: async ({ commit }, { portalSlug }) => {
+    try {
+      const { data } = await portalAPIs.sslStatus(portalSlug);
+      commit(types.SET_SSL_SETTINGS, { portalSlug, sslSettings: data });
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+  },
 };

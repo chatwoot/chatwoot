@@ -135,6 +135,30 @@ describe('#actions', () => {
     });
   });
 
+  describe('#sslStatus', () => {
+    it('commits SET_SSL_SETTINGS with data from API', async () => {
+      axios.get.mockResolvedValue({
+        data: { status: 'active', verification_errors: [] },
+      });
+      await actions.sslStatus({ commit }, { portalSlug: 'domain' });
+      expect(commit.mock.calls).toEqual([
+        [
+          types.SET_SSL_SETTINGS,
+          {
+            portalSlug: 'domain',
+            sslSettings: { status: 'active', verification_errors: [] },
+          },
+        ],
+      ]);
+    });
+    it('throws error and does not commit when API fails', async () => {
+      axios.get.mockRejectedValue({ message: 'error' });
+      await expect(
+        actions.sslStatus({ commit }, { portalSlug: 'domain' })
+      ).rejects.toThrow(Error);
+    });
+  });
+
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({});

@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'dashboard/composables/store';
 
 import AddCustomDomainDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/AddCustomDomainDialog.vue';
 import DNSConfigurationDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/DNSConfigurationDialog.vue';
@@ -17,6 +18,8 @@ const emit = defineEmits(['updatePortalConfiguration']);
 
 const { t } = useI18n();
 
+const store = useStore();
+
 const addCustomDomainDialogRef = ref(null);
 const dnsConfigurationDialogRef = ref(null);
 const updatedDomainAddress = ref('');
@@ -25,18 +28,32 @@ const customDomainAddress = computed(
   () => props.activePortal?.custom_domain || ''
 );
 
-// TODO: remove this after the feature is implemented
-const isLive = false;
+const sslSettings = computed(() => props.activePortal?.ssl_settings || {});
+
+const isLive = computed(() => sslSettings.value.status === 'active');
+const isPending = computed(() =>
+  ['provisioned', 'pending', 'initializing', 'pending_validation'].includes(
+    sslSettings.value.status
+  )
+);
+const isError = computed(() =>
+  ['blocked', 'inactive', 'moved'].includes(sslSettings.value.status)
+);
 
 const statusText = computed(() => {
-  if (isLive) {
+  if (isLive.value)
     return t(
       'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS.LIVE'
     );
-  }
-  return t(
-    'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS.PENDING'
-  );
+  if (isPending.value)
+    return t(
+      'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS.PENDING'
+    );
+  if (isError.value)
+    return t(
+      'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS.ERROR'
+    );
+  return '';
 });
 
 const updatePortalConfiguration = customDomain => {
@@ -57,8 +74,17 @@ const closeDNSConfigurationDialog = () => {
   dnsConfigurationDialogRef.value.dialogRef.close();
 };
 
-const onClickSend = () => {
-  // Refresh the DNS configuration
+const onClickRefreshSSLStatus = () => {
+  store.dispatch('portals/sslStatus', {
+    portalSlug: props.activePortal?.slug,
+  });
+};
+
+const onClickSend = email => {
+  store.dispatch('portals/sendCnameInstructions', {
+    portalSlug: props.activePortal?.slug,
+    email,
+  });
 };
 </script>
 
@@ -140,7 +166,7 @@ const onClickSend = () => {
               sm
               link
               icon="i-lucide-refresh-ccw"
-              @click="onClickSend"
+              @click="onClickRefreshSSLStatus"
             />
           </div>
           <Button
