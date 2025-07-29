@@ -7,7 +7,7 @@ RSpec.describe Avatar::AvatarFromGravatarJob do
 
   it 'enqueues the job' do
     expect { described_class.perform_later(avatarable, email) }.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('purgable')
   end
 
   it 'will call AvatarFromUrlJob with gravatar url' do

@@ -5,6 +5,7 @@ import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 import { GROUP_BY_FILTER } from '../constants';
 const CUSTOM_DATE_RANGE_ID = 5;
@@ -13,6 +14,7 @@ export default {
   components: {
     WootDateRangePicker,
     Thumbnail,
+    ToggleSwitch,
   },
   props: {
     currentFilter: {
@@ -125,9 +127,6 @@ export default {
     groupByFilterItemsList() {
       this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
     },
-    businessHoursSelected() {
-      this.$emit('businessHoursToggle', this.businessHoursSelected);
-    },
   },
   mounted() {
     this.onDateRangeChange();
@@ -139,6 +138,9 @@ export default {
         to: this.to,
         groupBy: this.groupBy,
       });
+    },
+    onBusinessHoursToggle() {
+      this.$emit('businessHoursToggle', this.businessHoursSelected);
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
@@ -303,7 +305,10 @@ export default {
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
-        <woot-switch v-model="businessHoursSelected" />
+        <ToggleSwitch
+          v-model="businessHoursSelected"
+          @change="onBusinessHoursToggle"
+        />
       </span>
     </div>
 
