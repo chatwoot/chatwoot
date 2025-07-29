@@ -1,5 +1,209 @@
 [
   {
+    "id": "1252610443227082",
+    "name": "event_invitation",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "IMAGE",
+        "example": {
+          "header_handle": [
+            "https://scontent.whatsapp.net/v/t61.29466-34/510408113_1252610446560415_1118583582813401798_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=0Dihgg9OWT0Q7kNvwF-jSNT&_nc_oc=AdkbZsJAY0ZDhC7X2Ap_Lx4oYnPmoSt9yITgfZkCCuvG6Oym3wgjKyV8r9OrEKLj17U&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AH31Wr_PMsl7ezN-TDloWM335xU4iCN2FX6GeWlCzlgaQ&oe=68B00ED3"
+          ]
+        }
+      },
+      {
+        "text": "You're invited to {{event_name}} at {{location}}. Join us for an amazing experience!",
+        "type": "BODY",
+        "example": {
+          "body_text_named_params": [
+            {
+              "example": "F1",
+              "param_name": "event_name"
+            },
+            {
+              "example": "Abh dhabi",
+              "param_name": "location"
+            }
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "url": "https://events.example.com/register/%7B%7B1%7D%7D{{1}}",
+            "text": "Register Now",
+            "type": "URL",
+            "example": [
+              "https://events.example.com/register/f1"
+            ]
+          },
+          {
+            "url": "https://maps.example.com/venue/%7B%7B2%7D%7D{{1}}",
+            "text": "Get Directions",
+            "type": "URL",
+            "example": [
+              "https://maps.example.com/venue/abhdhabi"
+            ]
+          }
+        ]
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "NAMED"
+  },
+  {
+    "id": "1023596726651144",
+    "name": "training_video",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "VIDEO",
+        "example": {
+          "header_handle": [
+            "https://scontent.whatsapp.net/v/t61.29466-34/521582686_1023596729984477_1872358575355618432_n.mp4?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=MPOPgVrub7QQ7kNvwF_Yj0m&_nc_oc=AdnSKpdtjDQRZ4iGrl81FOmo6hUfPV8DFjpHt2Mw4Mp_GhlF80w5Ye70zagBXpfyoC8&_nc_zt=28&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AG-8cxWY31oCuJ9yoV31zoq3YtrFOLFZrYBxQBnjwnJlQ&oe=68B011D5"
+          ]
+        }
+      },
+      {
+        "text": "Hi {{name}}, here's your training video. Please watch by{{date}}.",
+        "type": "BODY",
+        "example": {
+          "body_text_named_params": [
+            {
+              "example": "john",
+              "param_name": "name"
+            },
+            {
+              "example": "July 31",
+              "param_name": "date"
+            }
+          ]
+        }
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "NAMED"
+  },
+  {
+    "id": "1106685194739985",
+    "name": "order_confirmation",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "IMAGE",
+        "example": {
+          "header_handle": [
+            "https://scontent.whatsapp.net/v/t61.29466-34/518466505_1106685198073318_3569250580697484416_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=pzLMH8hPY0EQ7kNvwHfxRNq&_nc_oc=AdlA8iBWDeczwNDAuPQWcnsSMfSTR0TPdEutbzTpwEOCS8xLP61fkTE5vkaZu-8xwKA&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AHKiqxC_WXgEhr4H8w77BOnZFNSdLnfnWHXaPZVJvvRrA&oe=68B02107"
+          ]
+        }
+      },
+      {
+        "text": "Hi your order {{1}} is confirmed. Please wait for further updates",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "blue canvas shoes"
+            ]
+          ]
+        }
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "POSITIONAL"
+  },
+  {
+    "id": "1242180011253003",
+    "name": "product_launch",
+    "status": "APPROVED",
+    "category": "MARKETING",
+    "language": "en",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "IMAGE",
+        "example": {
+          "header_handle": [
+            "https://scontent.whatsapp.net/v/t61.29466-34/510408113_1242180014586336_1564209110680717071_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=3fTrkoN-wHwQ7kNvwGi-A7y&_nc_oc=Adm0OBkCLysW2SxfI6UdavSiNYUOjSspKhwaUd7wMzDvzL8u3gUzvwR96OqZ4k0AEa0&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AGXMWU1NvYTHHzY7KcW4JC1CibQQH5F1oZf37XkbvohCA&oe=68B0181C"
+          ]
+        }
+      },
+      {
+        "text": "New arrival! Our stunning coat now available in {{color}} color.",
+        "type": "BODY",
+        "example": {
+          "body_text_named_params": [
+            {
+              "example": "blue",
+              "param_name": "color"
+            }
+          ]
+        }
+      },
+      {
+        "text": "Free shipping on orders over $100. Limited time offer.",
+        "type": "FOOTER"
+      }
+    ],
+    "sub_category": "CUSTOM",
+    "parameter_format": "NAMED"
+  },
+  {
+    "id": "1449876326175680",
+    "name": "technician_visit",
+    "status": "APPROVED",
+    "category": "UTILITY",
+    "language": "en_US",
+    "components": [
+      {
+        "text": "Technician visit",
+        "type": "HEADER",
+        "format": "TEXT"
+      },
+      {
+        "text": "Hi {{1}}, we're scheduling a technician visit to {{2}} on {{3}} between {{4}} and {{5}}. Please confirm if this time slot works for you.",
+        "type": "BODY",
+        "example": {
+          "body_text": [
+            [
+              "John",
+              "123 Maple St",
+              "2025-12-31",
+              "10:00 AM",
+              "2:00 PM"
+            ]
+          ]
+        }
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "text": "Confirm",
+            "type": "QUICK_REPLY"
+          },
+          {
+            "text": "Reschedule",
+            "type": "QUICK_REPLY"
+          }
+        ]
+      }
+    ],
+    "parameter_format": "POSITIONAL",
+    "library_template_name": "appointment_scheduling_address"
+  },
+  {
     "id": "997298832221901",
     "name": "greet",
     "status": "APPROVED",
@@ -21,37 +225,6 @@
     ],
     "sub_category": "CUSTOM",
     "parameter_format": "NAMED"
-  },
-  {
-    "id": "1106685194739985",
-    "name": "order_confirmation",
-    "status": "APPROVED",
-    "category": "MARKETING",
-    "language": "en",
-    "components": [
-      {
-        "type": "HEADER",
-        "format": "IMAGE",
-        "example": {
-          "header_handle": [
-            "https://scontent.whatsapp.net/v/t61.29466-34/518466505_1106685198073318_3569250580697484416_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=pzLMH8hPY0EQ7kNvwHfxRNq&_nc_oc=AdlA8iBWDeczwNDAuPQWcnsSMfSTR0TPdEutbzTpwEOCS8xLP61fkTE5vkaZu-8xwKA&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=PHUrBF-KM5H_g_3TCeYtRA&oh=01_Q5Aa2AET3uo5ckkMDz7Zz_VgdJBFyBbApnMjObOyrWSGxEAyuA&oe=68AFE8C7"
-          ]
-        }
-      },
-      {
-        "text": "Hi your order {{1}} is confirmed. Please wait for further updates",
-        "type": "BODY",
-        "example": {
-          "body_text": [
-            [
-              "blue canvas shoes"
-            ]
-          ]
-        }
-      }
-    ],
-    "sub_category": "CUSTOM",
-    "parameter_format": "POSITIONAL"
   },
   {
     "id": "632315222954611",
@@ -88,7 +261,7 @@
         "format": "DOCUMENT",
         "example": {
           "header_handle": [
-            "https://scontent.whatsapp.net/v/t61.29466-34/521502500_767076162670092_7371147273350347509_n.pdf?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=x2s0Gbzdo68Q7kNvwFF5u__&_nc_oc=AdkRQc62QWauBHOu5T9kJeMCBE3Gav7pnm6aI1kR27Q-ZUp5PahA-YWqkN5XGS27A_g&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=PHUrBF-KM5H_g_3TCeYtRA&oh=01_Q5Aa2AENXC3_eIQG7BsbAiwc1aPv_nsbm0n33NVViQzjbhkCTw&oe=68AFE58B"
+            "https://scontent.whatsapp.net/v/t61.29466-34/521502500_767076162670092_7371147273350347509_n.pdf?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=x2s0Gbzdo68Q7kNvwFF5u__&_nc_oc=AdkRQc62QWauBHOu5T9kJeMCBE3Gav7pnm6aI1kR27Q-ZUp5PahA-YWqkN5XGS27A_g&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=c9rigLHT4XFJW97JjJg6Ww&oh=01_Q5Aa2AGh51ecMwni-ScJ3xZVaSEbpH5Tz7_fGXpAV3hQdE8m_Q&oe=68B01DCB"
           ]
         }
       },
@@ -235,270 +408,5 @@
     ],
     "parameter_format": "POSITIONAL",
     "library_template_name": "delivery_confirmation_4"
-  },
-  {
-    "id": "1449876326175680",
-    "name": "technician_visit",
-    "status": "APPROVED",
-    "category": "UTILITY",
-    "language": "en_US",
-    "components": [
-      {
-        "text": "Technician visit",
-        "type": "HEADER",
-        "format": "TEXT"
-      },
-      {
-        "text": "Hi {{1}}, we're scheduling a technician visit to {{2}} on {{3}} between {{4}} and {{5}}. Please confirm if this time slot works for you.",
-        "type": "BODY",
-        "example": {
-          "body_text": [
-            [
-              "John",
-              "123 Maple St",
-              "2025-12-31",
-              "10:00 AM",
-              "2:00 PM"
-            ]
-          ]
-        }
-      },
-      {
-        "type": "BUTTONS",
-        "buttons": [
-          {
-            "text": "Confirm",
-            "type": "QUICK_REPLY"
-          },
-          {
-            "text": "Reschedule",
-            "type": "QUICK_REPLY"
-          }
-        ]
-      }
-    ],
-    "parameter_format": "POSITIONAL",
-    "library_template_name": "appointment_scheduling_address"
-  },
-  {
-    "id": "1242180011253003",
-    "name": "product_launch",
-    "status": "APPROVED",
-    "category": "MARKETING",
-    "language": "en",
-    "components": [
-      {
-        "type": "HEADER",
-        "format": "IMAGE",
-        "example": {
-          "header_handle": [
-            "https://scontent.whatsapp.net/v/t61.29466-34/510408113_1242180014586336_1564209110680717071_n.jpg?ccb=1-7&_nc_sid=8b1bef&_nc_ohc=3fTrkoN-wHwQ7kNvwGi-A7y&_nc_oc=Adm0OBkCLysW2SxfI6UdavSiNYUOjSspKhwaUd7wMzDvzL8u3gUzvwR96OqZ4k0AEa0&_nc_zt=3&_nc_ht=scontent.whatsapp.net&edm=AH51TzQEAAAA&_nc_gid=RKH39du529b83GUQ711yjQ&oh=01_Q5Aa2AGcwQy-tpNcRhPWCQB1EqcQJJQKDTauq5qXrhZ3d3-hvg&oe=68B0181C"
-          ]
-        }
-      },
-      {
-        "text": "New arrival! Our stunning coat now available in {{color}} color.",
-        "type": "BODY",
-        "example": {
-          "body_text_named_params": [
-            {
-              "example": "blue",
-              "param_name": "color"
-            }
-          ]
-        }
-      },
-      {
-        "text": "Free shipping on orders over $100. Limited time offer.",
-        "type": "FOOTER"
-      }
-    ],
-    "sub_category": "CUSTOM",
-    "parameter_format": "NAMED"
-  },
-  {
-    "id": "2345678901234567",
-    "name": "training_video",
-    "status": "APPROVED",
-    "category": "UTILITY",
-    "language": "en_US",
-    "components": [
-      {
-        "type": "HEADER",
-        "format": "VIDEO",
-        "example": {
-          "header_handle": [
-            "https://example.com/videos/training-module.mp4"
-          ]
-        }
-      },
-      {
-        "text": "Hi {{1}}, here's your training video for {{2}}. Please watch and complete the quiz by {{3}}.",
-        "type": "BODY",
-        "example": {
-          "body_text": [
-            [
-              "Sarah",
-              "Module 3: Safety Protocols",
-              "February 15, 2025"
-            ]
-          ]
-        }
-      }
-    ],
-    "parameter_format": "POSITIONAL",
-    "library_template_name": "training_video_module"
-  },
-  {
-    "id": "3456789012345678",
-    "name": "event_invitation",
-    "status": "APPROVED",
-    "category": "MARKETING",
-    "language": "en_US",
-    "components": [
-      {
-        "type": "HEADER",
-        "format": "IMAGE",
-        "example": {
-          "header_handle": [
-            "https://example.com/images/event-banner.jpg"
-          ]
-        }
-      },
-      {
-        "text": "You're invited to {{1}} on {{2}} at {{3}}. Join us for an amazing experience!",
-        "type": "BODY",
-        "example": {
-          "body_text": [
-            [
-              "our annual conference",
-              "March 10, 2025",
-              "Convention Center"
-            ]
-          ]
-        }
-      },
-      {
-        "type": "BUTTONS",
-        "buttons": [
-          {
-            "url": "https://events.example.com/register/{{1}}",
-            "text": "Register Now",
-            "type": "URL",
-            "example": [
-              "https://events.example.com/register/annual-conference-2025"
-            ]
-          },
-          {
-            "url": "https://maps.example.com/venue/{{2}}",
-            "text": "Get Directions",
-            "type": "URL",
-            "example": [
-              "https://maps.example.com/venue/convention-center"
-            ]
-          }
-        ]
-      }
-    ],
-    "parameter_format": "POSITIONAL",
-    "library_template_name": "event_invitation_2025"
-  },
-  {
-    "id": "4567890123456789",
-    "name": "support_callback",
-    "status": "APPROVED",
-    "category": "UTILITY",
-    "language": "en_US",
-    "components": [
-      {
-        "text": "Hi {{1}}, our support team will call you regarding ticket #{{2}}. We'll call you at {{3}} within {{4}} minutes.",
-        "type": "BODY",
-        "example": {
-          "body_text": [
-            [
-              "Michael",
-              "12345",
-              "+1-555-0123",
-              "15"
-            ]
-          ]
-        }
-      },
-      {
-        "type": "BUTTONS",
-        "buttons": [
-          {
-            "phone_number": "{{3}}",
-            "text": "Call Support",
-            "type": "PHONE_NUMBER"
-          }
-        ]
-      }
-    ],
-    "parameter_format": "POSITIONAL",
-    "library_template_name": "support_callback_request"
-  },
-  {
-    "id": "5678901234567890",
-    "name": "discount_coupon",
-    "status": "APPROVED",
-    "category": "MARKETING",
-    "language": "en_US",
-    "components": [
-      {
-        "text": "🎉 Special offer for you! Get {{1}}% off your next purchase. Use the code below at checkout:",
-        "type": "BODY",
-        "example": {
-          "body_text": [
-            [
-              "30"
-            ]
-          ]
-        }
-      },
-      {
-        "type": "BUTTONS",
-        "buttons": [
-          {
-            "text": "Copy Code",
-            "type": "COPY_CODE",
-            "copy_code": "SAVE{{1}}OFF",
-            "example": [
-              "SAVE30OFF"
-            ]
-          }
-        ]
-      }
-    ],
-    "parameter_format": "POSITIONAL",
-    "library_template_name": "discount_coupon_offer"
-  },
-  {
-    "id": "6789012345678901",
-    "name": "secure_login_otp",
-    "status": "APPROVED",
-    "category": "AUTHENTICATION",
-    "language": "en_US",
-    "components": [
-      {
-        "text": "Your secure login code is *{{1}}*. This code expires in {{2}} minutes. Do not share this code with anyone.",
-        "type": "BODY",
-        "example": {
-          "body_text": [
-            [
-              "987654",
-              "5"
-            ]
-          ]
-        }
-      },
-      {
-        "text": "If you didn't request this code, please contact support immediately.",
-        "type": "FOOTER"
-      }
-    ],
-    "parameter_format": "POSITIONAL",
-    "library_template_name": "secure_login_verification",
-    "message_send_ttl_seconds": 300
   }
 ]
