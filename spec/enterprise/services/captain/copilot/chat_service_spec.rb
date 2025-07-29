@@ -22,6 +22,7 @@ RSpec.describe Captain::Copilot::ChatService do
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://api.openai.com/')
     allow(OpenAI::Client).to receive(:new).and_return(mock_openai_client)
     allow(mock_openai_client).to receive(:chat).and_return({
       choices: [{ message: { content: '{ "content": "Hey" }' } }]
@@ -46,6 +47,48 @@ RSpec.describe Captain::Copilot::ChatService do
       expect(messages.first[:role]).to eq('system')
       expect(messages.second[:role]).to eq('system')
       expect(messages.second[:content]).to include(account.id.to_s)
+    end
+
+    it 'initializes OpenAI client with configured endpoint' do
+      expect(OpenAI::Client).to receive(:new).with(
+        access_token: 'test-key',
+        uri_base: 'https://api.openai.com/',
+        log_errors: Rails.env.development?
+      )
+
+      described_class.new(assistant, config)
+    end
+
+    context 'when CAPTAIN_OPEN_AI_ENDPOINT is not configured' do
+      before do
+        InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy
+      end
+
+      it 'uses default OpenAI endpoint' do
+        expect(OpenAI::Client).to receive(:new).with(
+          access_token: 'test-key',
+          uri_base: 'https://api.openai.com/',
+          log_errors: Rails.env.development?
+        )
+
+        described_class.new(assistant, config)
+      end
+    end
+
+    context 'when custom endpoint is configured' do
+      before do
+        InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').update!(value: 'https://custom.azure.com/')
+      end
+
+      it 'uses custom endpoint for OpenAI client' do
+        expect(OpenAI::Client).to receive(:new).with(
+          access_token: 'test-key',
+          uri_base: 'https://custom.azure.com/',
+          log_errors: Rails.env.development?
+        )
+
+        described_class.new(assistant, config)
+      end
     end
   end
 
