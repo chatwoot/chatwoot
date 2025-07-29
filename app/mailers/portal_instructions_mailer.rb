@@ -1,11 +1,9 @@
 class PortalInstructionsMailer < ApplicationMailer
-  def send_cname_instructions(portal:, recipient_email:, sender:)
+  def send_cname_instructions(portal:, recipient_email:)
     return unless smtp_config_set_or_development?
 
     @portal = portal
-    @sender = sender
     @cname_record = generate_cname_record
-    @account = portal.account
 
     send_mail_with_liquid(
       to: recipient_email,

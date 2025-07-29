@@ -55,8 +55,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
     PortalInstructionsMailer.send_cname_instructions(
       portal: @portal,
-      recipient_email: email,
-      sender: Current.user
+      recipient_email: email
     ).deliver_now
 
     render json: { message: 'Instructions sent successfully' }, status: :ok
