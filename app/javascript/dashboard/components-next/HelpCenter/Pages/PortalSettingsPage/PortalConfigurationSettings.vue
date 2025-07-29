@@ -123,7 +123,6 @@ const onClickSend = () => {
             </div>
             <div class="w-px h-3 bg-n-weak" />
             <Button
-              v-if="isLive"
               slate
               sm
               link
@@ -132,11 +131,11 @@ const onClickSend = () => {
                   'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.EDIT_BUTTON'
                 )
               "
-              class="hover:!no-underline"
+              class="hover:!no-underline flex-shrink-0"
               @click="addCustomDomainDialogRef.dialogRef.open()"
             />
+            <div class="w-px h-3 bg-n-weak" />
             <Button
-              v-else
               slate
               sm
               link
