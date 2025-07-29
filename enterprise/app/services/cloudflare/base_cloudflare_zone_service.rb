@@ -22,12 +22,19 @@ class Cloudflare::BaseCloudflareZoneService
     verification_record = data['ownership_verification_http']
     ssl_record = data['ssl']
 
-    ssl_settings = {
-      'cf_verification_id': verification_record['http_url'].split('/').last,
-      'cf_verification_body': verification_record['http_body'],
-      'cf_status': ssl_record&.dig('status'),
-      'cf_verification_errors': ssl_record&.dig('validation_errors')
-    }
+    # Start with existing settings to preserve verification data if it exists
+    ssl_settings = portal.ssl_settings || {}
+
+    # Only update verification fields if they exist in the response (during initial setup)
+    if verification_record.present?
+      ssl_settings['cf_verification_id'] = verification_record['http_url'].split('/').last
+      ssl_settings['cf_verification_body'] = verification_record['http_body']
+    end
+
+    # Always update SSL status and errors from current response
+    ssl_settings['cf_status'] = ssl_record&.dig('status')
+    ssl_settings['cf_verification_errors'] = ssl_record&.dig('validation_errors')
+
     portal.update(ssl_settings: ssl_settings)
   end
 end

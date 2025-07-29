@@ -8,7 +8,7 @@
   <td class="content-block">
     <p>Hello,</p>
     
-    <p>{{ sender.available_name }} has requested DNS configuration for the custom domain <strong>{{ portal.custom_domain }}</strong> on the {{ portal.name }} help center.</p>
+    <p>We need to configure DNS settings for your custom domain <strong>{{ cname_record | split: ' ' | first }}</strong> to complete your help center setup.</p>
 
     <p>To complete the setup, please add the following CNAME record to your DNS provider:</p>
   </td>
@@ -31,14 +31,8 @@
       <li>Save the changes and wait for DNS propagation (this may take up to 24 hours)</li>
     </ol>
 
-    <p>Once the DNS record is active, the custom domain will automatically be configured with an SSL certificate for secure access.</p>
+    <p>Once the DNS record is active, your custom domain will automatically be configured with an SSL certificate for secure access.</p>
 
-    <p>If you have any questions or need assistance, please don't hesitate to reach out.</p>
-
-    <p>
-      Best regards,<br>
-      {{ sender.available_name }}<br>
-      {{ account.name }}
-    </p>
+    <p>If you have any questions or need assistance, please don't hesitate to reach out to our support team.</p>
   </td>
 </tr>
