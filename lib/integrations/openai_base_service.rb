@@ -4,12 +4,7 @@ class Integrations::OpenaiBaseService
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
-<<<<<<< HEAD
-  API_URL = 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions'.freeze
   GPT_MODEL = ENV.fetch('OPENAI_GPT_MODEL', '@cf/meta/llama-3.3-70b-instruct-fp8-fast').freeze
-=======
-  GPT_MODEL = ENV.fetch('OPENAI_GPT_MODEL', 'gpt-4o-mini').freeze
->>>>>>> 75c57ad03 (feat: use captain endpoint config in legacy OpenAI base service (#12060))
 
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[].freeze
@@ -86,7 +81,7 @@ class Integrations::OpenaiBaseService
   end
 
   def api_url
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com/'
+    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/'
     endpoint = endpoint.chomp('/')
     "#{endpoint}/v1/chat/completions"
   end

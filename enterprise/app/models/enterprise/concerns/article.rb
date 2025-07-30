@@ -68,7 +68,7 @@ module Enterprise::Concerns::Article
     headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY', nil)}" }
     body = { model: '@cf/meta/llama-3.3-70b-instruct-fp8-fast', messages: messages, response_format: { type: 'json_object' } }.to_json
     Rails.logger.info "Requesting Chat GPT with body: #{body}"
-    response = HTTParty.post('https://api.openai.com/v1/chat/completions', headers: headers, body: body)
+    response = HTTParty.post('https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completions', headers: headers, body: body)
     Rails.logger.info "Chat GPT response: #{response.body}"
     JSON.parse(response.parsed_response['choices'][0]['message']['content'])['search_terms']
   end

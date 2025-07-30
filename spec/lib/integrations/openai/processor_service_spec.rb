@@ -261,7 +261,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
         it 'uses default OpenAI endpoint' do
           InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy
 
-          stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+          stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completion')
             .with(body: anything, headers: expected_headers)
             .to_return(status: 200, body: openai_response, headers: {})
 
@@ -276,7 +276,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
         end
 
         it 'uses custom endpoint' do
-          stub_request(:post, 'https://custom.azure.com/v1/chat/completions')
+          stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completion')
             .with(body: anything, headers: expected_headers)
             .to_return(status: 200, body: openai_response, headers: {})
 
@@ -287,11 +287,11 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       context 'when CAPTAIN_OPEN_AI_ENDPOINT has trailing slash' do
         before do
-          create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://custom.azure.com/')
+          create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/')
         end
 
         it 'properly handles trailing slash' do
-          stub_request(:post, 'https://custom.azure.com/v1/chat/completions')
+          stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/e365f68be929a7213c1350bbb51a4cd3/ai/v1/chat/completion')
             .with(body: anything, headers: expected_headers)
             .to_return(status: 200, body: openai_response, headers: {})
 
