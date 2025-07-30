@@ -3,6 +3,7 @@
 class Api::V2::Accounts::SubscriptionsController < Api::BaseController
   include SwitchLocale
   include EnsureCurrentAccountHelper
+  include BillingPlans
 
   before_action :current_account
   before_action :check_authorization
@@ -139,10 +140,19 @@ class Api::V2::Accounts::SubscriptionsController < Api::BaseController
     }
   rescue StandardError => e
     Rails.logger.error "Error fetching limits: #{e.message}"
-    render json: {
-      success: false,
-      error: 'Failed to fetch account limits.'
-    }, status: :internal_server_error
+
+    # Check if it's a plan configuration error
+    if e.message.include?('Plan configuration error')
+      render json: {
+        success: false,
+        error: e.message
+      }, status: :unprocessable_entity
+    else
+      render json: {
+        success: false,
+        error: 'Failed to fetch account limits.'
+      }, status: :internal_server_error
+    end
   end
 
   private
@@ -172,7 +182,6 @@ class Api::V2::Accounts::SubscriptionsController < Api::BaseController
       customer_id: custom_attrs['stripe_customer_id'],
       current_period_end: custom_attrs['current_period_end'],
       subscription_ends_on: custom_attrs['subscription_ends_on'],
-      subscribed_quantity: custom_attrs['subscribed_quantity'] || 1,
       last_payment_status: custom_attrs['last_payment_status'],
       last_payment_date: custom_attrs['last_payment_date'],
       plan_limits: custom_attrs['plan_limits'],
@@ -189,31 +198,38 @@ class Api::V2::Accounts::SubscriptionsController < Api::BaseController
 
     # If it's a free trial plan, show specific limits
     if plan_name == 'free_trial' || plan_limits.blank?
+      # For free trial, validate required properties (agents and inboxes have fallbacks)
+      self.class.validate_plan_limits_for_free_trial(plan_limits, plan_name)
+
       {
         'agents' => {
-          'allowed' => plan_limits['agents'] || 1,
+          'allowed' => plan_limits['agents'],
           'consumed' => current_account.users.count
         },
         'inboxes' => {
-          'allowed' => plan_limits['inboxes'] || 1,
+          'allowed' => plan_limits['inboxes'],
           'consumed' => current_account.inboxes.count
         },
         'conversations' => {
-          'allowed' => plan_limits['conversations'] || 500,
+          'allowed' => plan_limits['conversations_monthly'],
           'consumed' => conversations_this_month
         }
       }
     else
+      # For paid plans, validate all required properties
+      self.class.validate_plan_limits_for_paid_plan(plan_limits, plan_name)
+
       # For paid plans, show unlimited or plan-specific limits
       {
-        'agents' => calculate_limit_data('agents', plan_limits['agents'], current_account.users.count),
-        'inboxes' => calculate_limit_data('inboxes', plan_limits['inboxes'], current_account.inboxes.count),
-        'conversations' => calculate_limit_data('conversations', plan_limits['conversations'], conversations_this_month)
+        'agents' => calculate_limit_data(plan_limits['agents'], current_account.users.count),
+        'inboxes' => calculate_limit_data(plan_limits['inboxes'], current_account.inboxes.count),
+        'conversations' => calculate_limit_data(plan_limits['conversations_monthly'] || plan_limits['conversations'],
+                                                conversations_this_month)
       }
     end
   end
 
-  def calculate_limit_data(type, allowed, consumed)
+  def calculate_limit_data(allowed, consumed)
     if allowed == -1
       { 'allowed' => 'unlimited', 'consumed' => consumed }
     else

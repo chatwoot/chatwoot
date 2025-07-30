@@ -23,10 +23,10 @@ module Billing
       #
       # @param customer_id [String] The provider's customer ID
       # @param plan_id [String] The provider's plan/price ID
-      # @param quantity [Integer] Number of licenses/seats (default: 1)
+      # @param quantity [Integer] Number of licenses/seats
       # @return [Object, nil] Provider-specific subscription object, or nil for free trial plans
       # @raise [NotImplementedError] if not implemented by subclass
-      def create_subscription(_customer_id, _plan_id, _quantity = 1)
+      def create_subscription(_customer_id, _plan_id, _quantity)
         raise NotImplementedError, "#{self.class.name} must implement #create_subscription"
       end
 

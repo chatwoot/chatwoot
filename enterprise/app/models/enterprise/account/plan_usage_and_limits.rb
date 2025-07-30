@@ -101,11 +101,12 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def get_limits(limit_name)
-    config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
 
+    config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
+    # if the limit is not present in the GlobalConfig, we return the max limit
     ChatwootApp.max_limit
   end
 
@@ -119,6 +120,7 @@ module Enterprise::Account::PlanUsageAndLimits
         'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
         'conversations' => { 'type': 'number' },
+        'conversations_monthly' => { 'type': 'number' },
         'captain_responses' => { 'type': 'number' },
         'captain_documents' => { 'type': 'number' }
       },
