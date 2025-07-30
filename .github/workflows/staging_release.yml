@@ -51,12 +51,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Log in to GitHub Container Registry
+      - name: Log in to DockerHub
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ secrets.GHCR_USERNAME }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Export secrets to .env file
         run: |
@@ -80,11 +79,11 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          docker tag courier-production-v1:latest ghcr.io/on-cruise-control/courier:staging
+          docker tag courier-production-v1:latest ${{ secrets.DOCKERHUB_USERNAME }}/courier-production-v1:latest
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/on-cruise-control/courier:staging
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/courier-production-v1:latest
 
   deploy:
     needs: docker-build-and-push
@@ -102,9 +101,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} '
             set -e
             cd courier
-
-            echo "--- Logging into GitHub Container Registry ---"
-            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
 
             echo "--- Pulling latest Docker images ---"
             docker compose -f docker-compose.production.yaml pull
