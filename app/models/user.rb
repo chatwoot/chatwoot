@@ -100,6 +100,10 @@ class User < ApplicationRecord
   has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
   # rubocop:enable Rails/HasManyOrHasOneDependent
 
+  # Assignment V2 Enterprise associations
+  has_one :agent_capacity_policy_user, dependent: :destroy, class_name: 'Enterprise::AgentCapacityPolicyUser'
+  has_one :agent_capacity_policy, through: :agent_capacity_policy_user, class_name: 'Enterprise::AgentCapacityPolicy'
+
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
 

@@ -44,6 +44,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
   include AccountCacheRevalidator
+  include AssignmentV2FeatureFlag
 
   # Not allowing characters:
   validates :name, presence: true
@@ -71,6 +72,10 @@ class Inbox < ApplicationRecord
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+  
+  # Assignment V2 associations
+  has_one :inbox_assignment_policy, dependent: :destroy
+  has_one :assignment_policy, through: :inbox_assignment_policy
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
@@ -184,7 +189,135 @@ class Inbox < ApplicationRecord
     members.ids
   end
 
+  # Assignment V2 methods
+  def assignment_v2_enabled?
+    account.assignment_v2_enabled? && assignment_policy.present? && assignment_policy.enabled?
+  end
+
+  def auto_assignment_enabled?
+    if assignment_v2_enabled?
+      assignment_policy.present? && assignment_policy.enabled?
+    else
+      enable_auto_assignment?
+    end
+  end
+
+  # Returns inbox members who are available for assignment
+  # This method performs all filtering upfront at the database level for optimal performance
+  # 
+  # Filters applied:
+  # 1. Online status - Only agents marked as 'online' in OnlineStatusTracker
+  # 2. Capacity limits (Enterprise) - Agents who haven't reached their conversation limit
+  # 3. Rate limiting - Agents who haven't exceeded rate limits (when implemented)
+  # 4. User exclusions - Specific users can be excluded (e.g., for reassignment)
+  #
+  # @param options [Hash] Additional filter options
+  # @option options [Boolean] :check_capacity (true) Whether to check capacity limits
+  # @option options [Boolean] :check_rate_limits (false) Whether to check rate limits
+  # @option options [Array<Integer>] :exclude_user_ids Users to exclude from results
+  # 
+  # @return [ActiveRecord::Relation<InboxMember>] Available inbox members with preloaded users
+  #
+  # @example Get all available agents
+  #   inbox.available_agents
+  #
+  # @example Get available agents excluding specific users
+  #   inbox.available_agents(exclude_user_ids: [1, 2, 3])
+  #
+  # @example Get available agents without capacity check (faster but less accurate)
+  #   inbox.available_agents(check_capacity: false)
+  def available_agents(options = {})
+    options = { check_capacity: true }.merge(options)
+    
+    # Get online agent IDs
+    online_agent_ids = fetch_online_agent_ids
+    return inbox_members.none if online_agent_ids.empty?
+
+    # Base query - only online agents
+    scope = inbox_members
+              .joins(:user)
+              .where(users: { id: online_agent_ids })
+              .includes(:user)
+
+    # Exclude specific users if requested
+    if options[:exclude_user_ids].present?
+      scope = scope.where.not(users: { id: options[:exclude_user_ids] })
+    end
+
+    # Apply capacity filtering for enterprise accounts
+    if options[:check_capacity] && enterprise_capacity_enabled?
+      scope = filter_by_capacity(scope)
+    end
+
+    # Apply rate limiting if implemented
+    if options[:check_rate_limits] && defined?(AssignmentV2::RateLimiter)
+      scope = filter_by_rate_limits(scope)
+    end
+
+    scope
+  end
+
+
   private
+
+  def fetch_online_agent_ids
+    OnlineStatusTracker.get_available_users(account_id)
+                      .select { |_key, value| value.eql?('online') }
+                      .keys
+                      .map(&:to_i)
+  end
+
+  def enterprise_capacity_enabled?
+    defined?(Enterprise) && 
+      account.custom_attributes&.dig('enterprise_features', 'capacity_management').present?
+  end
+
+  def filter_by_capacity(inbox_members_scope)
+    return inbox_members_scope unless defined?(Enterprise::InboxCapacityLimit)
+
+    # For simple cases without capacity policies, return all agents
+    if !account.account_users.joins(:agent_capacity_policy).exists?
+      return inbox_members_scope
+    end
+
+    # Get current assignment counts for all agents
+    assignment_counts = conversations
+                       .where(status: :open)
+                       .where.not(assignee_id: nil)
+                       .group(:assignee_id)
+                       .count
+
+    # Filter agents based on capacity
+    inbox_members_scope.select do |inbox_member|
+      user = inbox_member.user
+      account_user = account.account_users.find_by(user: user)
+      
+      # If no capacity policy, allow assignment
+      next true unless account_user&.agent_capacity_policy_id
+
+      # Check if there's a limit for this inbox
+      capacity_limit = Enterprise::InboxCapacityLimit
+                      .where(agent_capacity_policy_id: account_user.agent_capacity_policy_id)
+                      .find_by(inbox_id: id)
+      
+      # If no limit defined for this inbox, allow assignment
+      next true unless capacity_limit&.conversation_limit
+
+      # Check current assignments against limit
+      current_count = assignment_counts[user.id] || 0
+      current_count < capacity_limit.conversation_limit
+    end
+  end
+
+  def filter_by_rate_limits(inbox_members_scope)
+    # Filter out agents who have exceeded rate limits
+    return inbox_members_scope unless assignment_policy&.enabled?
+    
+    inbox_members_scope.select do |inbox_member|
+      rate_limiter = AssignmentV2::RateLimiter.new(inbox: self, user: inbox_member.user)
+      rate_limiter.within_limits?
+    end
+  end
 
   def default_name_for_blank_name
     email? ? display_name_from_email : ''

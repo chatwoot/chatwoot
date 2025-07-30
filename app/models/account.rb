@@ -28,6 +28,7 @@ class Account < ApplicationRecord
   include Reportable
   include Featurable
   include CacheKeys
+  include AssignmentV2FeatureFlag
 
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',
@@ -97,6 +98,9 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
+  
+  # Assignment V2 associations
+  has_many :assignment_policies, dependent: :destroy_async
 
   has_one_attached :contacts_export
 
@@ -157,6 +161,7 @@ class Account < ApplicationRecord
     account_locale = locale&.split('_')&.first
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
+
 
   private
 
