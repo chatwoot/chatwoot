@@ -35,7 +35,7 @@ class V2::ReportBuilder
   end
 
   def summary
-    {
+    @summary = {
       conversations_count: conversations.count,
       incoming_messages_count: incoming_messages.count,
       outgoing_messages_count: outgoing_messages.count,
