@@ -14,7 +14,6 @@ class Llm::BaseOpenAiService
       log_errors: Rails.env.development?
     )
     setup_model
-    @enhanced_logging_enabled = ENV['CAPTAIN_ENHANCED_LOGGING'].present?
   rescue StandardError => e
     raise "Failed to initialize OpenAI client: #{e.message}"
   end
@@ -28,17 +27,5 @@ class Llm::BaseOpenAiService
   def setup_model
     config_value = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
     @model = (config_value.presence || DEFAULT_MODEL)
-  end
-
-  def log_captain_activity(event_type, log_data = {})
-    return unless @enhanced_logging_enabled
-
-    conversation_id = log_data[:conversation_id]
-    prefix = conversation_id ? "[##{conversation_id}]" : ''
-
-    # Add timestamp to all log data
-    log_data[:timestamp] = Time.current.iso8601
-
-    Rails.logger.info "[CAPTAIN_DEBUG] #{prefix} [#{event_type}] #{JSON.pretty_generate(log_data)}"
   end
 end

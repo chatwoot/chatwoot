@@ -1,53 +1,21 @@
 module Captain::ChatHelper
+  include Captain::Loggable
+
   def request_chat_completion
     log_chat_completion_request
 
     tools = @tool_registry&.registered_tools || []
     temperature = @assistant&.config&.[]('temperature').to_f || 1
 
-    # Log request details
-    log_captain_activity(Llm::BaseOpenAiService::REQUEST, {
-                           conversation_id: @conversation&.id,
-                           assistant_id: @assistant&.id,
-                           assistant_name: @assistant&.name,
-                           model: @model,
-                           temperature: temperature,
-                           messages_count: @messages.size,
-                           tools_count: tools.size,
-                           last_message: @messages.last
-                         })
-
+    log_captain_request(tools, temperature)
     start_time = Time.current
-    response = @client.chat(
-      parameters: {
-        model: @model,
-        messages: @messages,
-        tools: tools,
-        response_format: { type: 'json_object' },
-        temperature: temperature
-      }
-    )
+    response = @client.chat(parameters: chat_parameters(tools, temperature))
     duration_ms = ((Time.current - start_time) * 1000).round
-
-    # Log response details
-    log_captain_activity(Llm::BaseOpenAiService::RESPONSE, {
-                           conversation_id: @conversation&.id,
-                           duration_ms: duration_ms,
-                           response: response.dig('choices', 0)
-                         })
+    log_captain_response(response, duration_ms)
 
     handle_response(response)
   rescue StandardError => e
-    log_captain_activity(Llm::BaseOpenAiService::ERROR, {
-                           conversation_id: @conversation&.id,
-                           error_class: e.class.name,
-                           error_message: e.message,
-                           error_backtrace: e.backtrace&.first(5),
-                           context: {
-                             model: @model,
-                             assistant_id: @assistant&.id
-                           }
-                         })
+    log_captain_error(e)
     Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
     raise e
   end
@@ -95,15 +63,7 @@ module Captain::ChatHelper
       'assistant_thinking'
     )
     result = @tool_registry.send(function_name, arguments)
-
-    # Log tool call details
-    log_captain_activity(Llm::BaseOpenAiService::TOOL_CALL, {
-                           conversation_id: @conversation&.id,
-                           tool_name: function_name,
-                           arguments: arguments,
-                           result: result.to_s.truncate(1000)
-                         })
-
+    log_captain_tool_call(function_name, arguments, result)
     persist_message(
       {
         content: I18n.t('captain.copilot.completed_tool_call', function_name: function_name),
@@ -137,8 +97,17 @@ module Captain::ChatHelper
   def log_chat_completion_request
     Rails.logger.info(
       "#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion
-      for messages #{@messages} with #{@tool_registry&.registered_tools&.length || 0} tools
-      "
+      for messages #{@messages} with #{@tool_registry&.registered_tools&.length || 0} tools"
     )
+  end
+
+  def chat_parameters(tools, temperature)
+    {
+      model: @model,
+      messages: @messages,
+      tools: tools,
+      response_format: { type: 'json_object' },
+      temperature: temperature
+    }
   end
 end
