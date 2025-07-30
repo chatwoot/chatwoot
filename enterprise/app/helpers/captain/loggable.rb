@@ -10,7 +10,7 @@ module Captain::Loggable
     # Add timestamp to all log data
     log_data[:timestamp] = Time.current.iso8601
 
-    Rails.logger.info "[CAPTAIN_DEBUG] #{prefix} [#{event_type}] #{JSON.pretty_generate(log_data)}"
+    Rails.logger.info "[CAPTAIN_DEBUG] #{prefix} [#{event_type}] #{JSON.generate(log_data)}"
   end
 
   def log_captain_request(tools, temperature)
