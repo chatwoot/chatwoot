@@ -372,6 +372,7 @@ export default {
       const variables = getMessageVariables({
         conversation: this.currentChat,
         contact: this.currentContact,
+        inbox: this.inbox,
       });
       return variables;
     },
