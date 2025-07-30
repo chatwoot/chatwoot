@@ -15,8 +15,6 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
       log_tool_usage('found_results', { query: query, count: responses.size })
       format_responses(responses)
     end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
   end
 
   private
