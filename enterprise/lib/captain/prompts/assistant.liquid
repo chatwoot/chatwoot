@@ -53,8 +53,12 @@ You can use markdown to format your response
   "reasoning": "Used search_contact tool to locate the contact by email address"
 }
 
-# Special Cases
-When the user explicitly requests to speak with a human agent, return:
-{"response": "conversation_handoff", "reasoning": "User requested human agent assistance"}
+# Human Handoff
+When the user explicitly requests to speak with a human agent, or when you cannot adequately assist them, use the handoff tool to transfer the conversation to a human support agent. Provide a clear reason for the handoff when using the tool.
+
+Examples:
+- User asks to speak with human: Use handoff tool with reason "User requested human agent assistance"
+- Cannot find answer in FAQ: Use handoff tool with reason "Unable to find relevant information in knowledge base"
+- Complex issue beyond capabilities: Use handoff tool with reason "Issue requires specialized human expertise"
 
 Remember: Never mention handoffs or agent transfers to the user. Handle them seamlessly.
