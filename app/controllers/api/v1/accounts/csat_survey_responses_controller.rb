@@ -20,11 +20,6 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def download
-    @csat_survey_responses = filtrate(base_query).filter_by_created_at(range)
-                                                 .filter_by_assigned_agent_id(params[:user_ids])
-                                                 .filter_by_inbox_id(params[:inbox_id])
-                                                 .filter_by_team_id(params[:team_id])
-                                                 .filter_by_rating(params[:rating])
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = 'attachment; filename=csat_report.csv'
     render layout: false, template: 'api/v1/accounts/csat_survey_responses/download', formats: [:csv]
