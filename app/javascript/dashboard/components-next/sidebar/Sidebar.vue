@@ -10,13 +10,13 @@ import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 
-import Button from 'dashboard/components-next/button/Button.vue';
+// import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 // import Logo from 'next/icon/Logo.vue';
-import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+// import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -556,6 +556,7 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
+        <!--
         <ComposeConversation align-position="right">
           <template #trigger="{ toggle }">
             <Button
@@ -567,6 +568,7 @@ const menuItems = computed(() => {
             />
           </template>
         </ComposeConversation>
+        -->
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
