@@ -12,11 +12,14 @@ import { ref, computed, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { requiredIf } from '@vuelidate/validators';
 
+import Input from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     NextButton,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Input,
   },
   props: {
     template: {
@@ -225,12 +228,32 @@ export default {
 
 <template>
   <div class="w-full">
-    <textarea
-      v-model="processedString"
-      rows="4"
-      readonly
-      class="template-input"
-    />
+    <div
+      v-if="template"
+      class="flex flex-col gap-4 p-4 rounded-lg bg-n-alpha-black2"
+    >
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-medium text-n-slate-12">
+          {{ template.name }}
+        </h3>
+        <span class="text-xs text-n-slate-11">
+          {{ template.language || 'en' }}
+        </span>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <div class="rounded-md bg-n-alpha-black3">
+          <div class="text-sm whitespace-pre-wrap text-n-slate-12">
+            {{ processedString }}
+          </div>
+        </div>
+      </div>
+
+      <div class="text-xs text-n-slate-11">
+        {{ template.category || 'UTILITY' }}
+      </div>
+    </div>
+
     <div v-if="variables || hasMediaHeader" class="p-2.5">
       <!-- Media Header Section -->
       <div v-if="hasMediaHeader" class="mb-4">
@@ -248,22 +271,11 @@ export default {
           }}
         </p>
         <div class="flex items-center mb-2.5">
-          <span
-            class="inline-block px-6 py-2.5 text-xs rounded-md bg-n-alpha-black2 text-n-slate-12"
-          >
-            {{
-              $t('WHATSAPP_TEMPLATES.PARSER.MEDIA_URL_LABEL', {
-                type: headerComponent.format.toLowerCase(),
-              }) || `${headerComponent.format.toLowerCase()} URL`
-            }}
-          </span>
-          <woot-input
-            :model-value="processedParams.header?.media_url || ''"
+          <Input
+            v-model="processedParams.header.media_url"
             type="url"
-            class="flex-1 ml-2.5 text-sm"
+            class="flex-1"
             :placeholder="`Enter ${headerComponent.format.toLowerCase()} URL`"
-            :styles="{ marginBottom: 0 }"
-            @update:model-value="updateMediaUrl"
           />
         </div>
       </div>
@@ -278,19 +290,7 @@ export default {
           :key="`body-${key}`"
           class="flex items-center mb-2.5"
         >
-          <span
-            class="inline-block px-6 py-2.5 text-xs rounded-md bg-n-alpha-black2 text-n-slate-12"
-          >
-            {{
-              key === 'otp_code'
-                ? $t('WHATSAPP_TEMPLATES.PARSER.OTP_CODE') || 'OTP Code'
-                : key === 'expiry_minutes'
-                  ? $t('WHATSAPP_TEMPLATES.PARSER.EXPIRY_MINUTES') ||
-                    'Expiry (minutes)'
-                  : key
-            }}
-          </span>
-          <woot-input
+          <Input
             v-model="processedParams.body[key]"
             :type="
               key === 'otp_code'
@@ -302,6 +302,7 @@ export default {
             :maxlength="
               key === 'otp_code' ? 8 : key === 'expiry_minutes' ? 3 : null
             "
+            class="flex-1"
             :placeholder="
               key === 'otp_code'
                 ? 'Enter 4-8 digit OTP'
@@ -309,8 +310,6 @@ export default {
                   ? 'Enter expiry minutes'
                   : `Enter ${key} value`
             "
-            class="flex-1 ml-2.5 text-sm"
-            :styles="{ marginBottom: 0 }"
           />
         </div>
       </div>
