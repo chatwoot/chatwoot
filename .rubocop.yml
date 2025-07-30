@@ -87,6 +87,7 @@ Metrics/ModuleLength:
 Rails/HelperInstanceVariable:
   Exclude:
     - enterprise/app/helpers/captain/chat_helper.rb
+    - enterprise/app/helpers/captain/loggable.rb
 
 Rails/ApplicationController:
   Exclude:
