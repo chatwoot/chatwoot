@@ -124,14 +124,14 @@ const handleSendCnameInstructions = async payload => {
     await store.dispatch('portals/sendCnameInstructions', payload);
     useAlert(
       t(
-        'HELP_CENTER.PORTAL_SETTINGS.API.SEND_CNAME_INSTRUCTIONS.SUCCESS_MESSAGE'
+        'HELP_CENTER.PORTAL.PORTAL_SETTINGS.SEND_CNAME_INSTRUCTIONS.API.SUCCESS_MESSAGE'
       )
     );
   } catch (error) {
     useAlert(
       error?.message ||
         t(
-          'HELP_CENTER.PORTAL_SETTINGS.API.SEND_CNAME_INSTRUCTIONS.ERROR_MESSAGE'
+          'HELP_CENTER.PORTAL.PORTAL_SETTINGS.SEND_CNAME_INSTRUCTIONS.API.ERROR_MESSAGE'
         )
     );
   }
