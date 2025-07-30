@@ -139,30 +139,28 @@ export default {
 <template>
   <div class="flex-1 px-1 overflow-auto">
     <form class="space-y-3" @submit.prevent="submit">
-      <div class="grid grid-cols-2 gap-2">
-        <FormInput
-          v-model="credentials.fullName"
-          name="full_name"
-          class="flex-1"
-          :class="{ error: v$.credentials.fullName.$error }"
-          :label="$t('REGISTER.FULL_NAME.LABEL')"
-          :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
-          :has-error="v$.credentials.fullName.$error"
-          :error-message="$t('REGISTER.FULL_NAME.ERROR')"
-          @blur="v$.credentials.fullName.$touch"
-        />
-        <FormInput
-          v-model="credentials.accountName"
-          name="account_name"
-          class="flex-1"
-          :class="{ error: v$.credentials.accountName.$error }"
-          :label="$t('REGISTER.COMPANY_NAME.LABEL')"
-          :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
-          :has-error="v$.credentials.accountName.$error"
-          :error-message="$t('REGISTER.COMPANY_NAME.ERROR')"
-          @blur="v$.credentials.accountName.$touch"
-        />
-      </div>
+      <FormInput
+        v-model="credentials.fullName"
+        name="full_name"
+        class="flex-1"
+        :class="{ error: v$.credentials.fullName.$error }"
+        :label="$t('REGISTER.FULL_NAME.LABEL')"
+        :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
+        :has-error="v$.credentials.fullName.$error"
+        :error-message="$t('REGISTER.FULL_NAME.ERROR')"
+        @blur="v$.credentials.fullName.$touch"
+      />
+      <FormInput
+        v-model="credentials.accountName"
+        name="account_name"
+        class="flex-1"
+        :class="{ error: v$.credentials.accountName.$error }"
+        :label="$t('REGISTER.COMPANY_NAME.LABEL')"
+        :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
+        :has-error="v$.credentials.accountName.$error"
+        :error-message="$t('REGISTER.COMPANY_NAME.ERROR')"
+        @blur="v$.credentials.accountName.$touch"
+      />
       <FormInput
         v-model="credentials.email"
         type="email"
