@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Obteniendo hooks de integración",
-      "INBOX": "Bandeja de entrada",
+      "INBOX": "Canal",
       "DELETE": {
         "BUTTON_TEXT": "Eliminar"
       }
@@ -38,8 +38,8 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Seleccione una bandeja de entrada",
-          "PLACEHOLDER": "Seleccione una bandeja de entrada"
+          "LABEL": "Seleccione un canal",
+          "PLACEHOLDER": "Seleccione un canal"
         },
         "SUBMIT": "Crear",
         "CANCEL": "Cancelar"

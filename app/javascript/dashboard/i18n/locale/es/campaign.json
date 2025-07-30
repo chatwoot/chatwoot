@@ -35,9 +35,9 @@
             "ERROR": "El mensaje es obligatorio"
           },
           "INBOX": {
-            "LABEL": "Seleccione una bandeja de entrada",
-            "PLACEHOLDER": "Seleccione una bandeja de entrada",
-            "ERROR": "Se requiere buzón de entrada"
+            "LABEL": "Seleccione un canal",
+            "PLACEHOLDER": "Seleccione un canal",
+            "ERROR": "Se requiere canal"
           },
           "SENT_BY": {
             "LABEL": "Enviado por",
@@ -112,9 +112,9 @@
             "ERROR": "El mensaje es obligatorio"
           },
           "INBOX": {
-            "LABEL": "Seleccione una bandeja de entrada",
-            "PLACEHOLDER": "Seleccione una bandeja de entrada",
-            "ERROR": "Se requiere buzón de entrada"
+            "LABEL": "Seleccione un canal",
+            "PLACEHOLDER": "Seleccione un canal",
+            "ERROR": "Se requiere canal"
           },
           "AUDIENCE": {
             "LABEL": "Audiencia",

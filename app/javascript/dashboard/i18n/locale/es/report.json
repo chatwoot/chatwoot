@@ -522,12 +522,12 @@
       "INPUT_PLACEHOLDER": {
         "SLA": "Nombre de SLA",
         "AGENTS": "Nombre del miembro",
-        "INBOXES": "Nombre de la bandeja de entrada",
+        "INBOXES": "Nombre del canal",
         "LABELS": "Nombre de la etiqueta",
         "TEAMS": "Nombre del equipo"
       },
       "SLA": "Política de SLA",
-      "INBOXES": "Bandeja de entrada",
+      "INBOXES": "Canal",
       "AGENTS": "Miembro",
       "LABELS": "Etiqueta",
       "TEAMS": "Equipo"

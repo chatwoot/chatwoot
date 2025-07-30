@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "INBOXES": "You have exceeded the channel limit. Hacker plan only supports website live-chat. Additional channels like email, WhatsApp etc. require a paid plan.",
       "AGENTS": "You have exceeded the member limit. Hacker plan allows only 2 members.",
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },

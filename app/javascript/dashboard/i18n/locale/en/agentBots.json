@@ -12,7 +12,7 @@
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Select an AI Bot",
-      "DESC": "Assign an AI Bot to your inbox. They can handle initial conversations and transfer them to a live member when necessary.",
+      "DESC": "Assign an AI Bot to your channel. They can handle initial conversations and transfer them to a live member when necessary.",
       "SUBMIT": "Update",
       "DISCONNECT": "Disconnect AI Bot",
       "SUCCESS_MESSAGE": "Successfully updated the AI Bot.",
