@@ -52,12 +52,16 @@ useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 // and also when the user refreshes the page
 const expandedItem = useStorage(
   'next-sidebar-expanded-item',
-  null,
+  [],
   sessionStorage
 );
 
 const setExpandedItem = name => {
-  expandedItem.value = expandedItem.value === name ? null : name;
+  if (expandedItem.value.includes(name)) {
+    expandedItem.value = expandedItem.value.filter(item => item !== name);
+  } else {
+    expandedItem.value = [...expandedItem.value, name];
+  }
 };
 provideSidebarContext({
   expandedItem,

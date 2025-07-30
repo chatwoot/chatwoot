@@ -260,12 +260,12 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "HEADER": "Channel Overview",
+    "DESCRIPTION": "Quickly view your channel performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click a channel name for more details.",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "DOWNLOAD_INBOX_REPORTS": "Download channel reports",
+    "FILTER_DROPDOWN_LABEL": "Select Channel",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
