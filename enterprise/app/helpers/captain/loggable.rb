@@ -21,8 +21,7 @@ module Captain::Loggable
                            temperature: temperature,
                            messages_count: @messages.size,
                            tools_count: tools.size,
-                           messages: @messages,
-                           tools: tools.map { |tool| tool.dig(:function, :name) }
+                           last_message: @messages.last
                          })
   end
 
@@ -30,7 +29,7 @@ module Captain::Loggable
     log_captain_activity(Llm::BaseOpenAiService::RESPONSE, {
                            conversation_id: @conversation&.id,
                            duration_ms: duration_ms,
-                           response: response,
+                           response: response.dig('choices', 0, 'message'),
                            usage: response['usage']
                          })
   end
