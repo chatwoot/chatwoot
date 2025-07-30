@@ -456,7 +456,7 @@
       "HEADER": "Conversaciones abiertas",
       "LOADING_MESSAGE": "Cargando métricas...",
       "OPEN": "Abrir",
-      "UNATTENDED": "Desatendido",
+      "UNATTENDED": "Desatendidos",
       "UNASSIGNED": "Sin asignar",
       "PENDING": "Pendientes"
     },
@@ -474,7 +474,7 @@
       "TABLE_HEADER": {
         "AGENT": "Miembro",
         "OPEN": "Abrir",
-        "UNATTENDED": "Desatendido",
+        "UNATTENDED": "Desatendidos",
         "STATUS": "Estado"
       }
     },
@@ -486,7 +486,7 @@
       "TABLE_HEADER": {
         "TEAM": "Equipo",
         "OPEN": "Abrir",
-        "UNATTENDED": "Desatendido",
+        "UNATTENDED": "Desatendidos",
         "STATUS": "Estado"
       }
     },
@@ -527,7 +527,7 @@
         "TEAMS": "Nombre del equipo"
       },
       "SLA": "Política de SLA",
-      "INBOXES": "Canal",
+      "INBOXES": "Canales",
       "AGENTS": "Miembro",
       "LABELS": "Etiqueta",
       "TEAMS": "Equipo"
@@ -557,7 +557,7 @@
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Canal",
+    "INBOX": "Canales",
     "AGENT": "Miembro",
     "TEAM": "Equipo",
     "LABEL": "Etiqueta",
