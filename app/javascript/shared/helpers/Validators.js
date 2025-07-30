@@ -107,16 +107,3 @@ export const getRegexp = regexPatternValue => {
  * @returns {boolean} True if the slug is valid, false otherwise.
  */
 export const isValidSlug = value => /^[a-zA-Z0-9-]+$/.test(value);
-
-/**
- * Validates if a string is a properly formatted domain name.
- * @param {string} domain - The domain to validate.
- * @returns {boolean} True if the domain is valid, false otherwise.
- */
-export const isValidDomain = domain => {
-  if (domain === '') return true;
-
-  const domainRegex =
-    /^(?!-)(?!.*--)[\p{L}0-9-]{1,63}(?<!-)(?:\.(?!-)(?!.*--)[\p{L}0-9-]{1,63}(?<!-))*\.[\p{L}]{2,63}$/u;
-  return domainRegex.test(domain) && domain.length <= 253;
-};
