@@ -136,7 +136,12 @@ export default {
         v-show="showUpgradePage"
         ref="upgradePageRef"
         :bypass-upgrade-page="bypassUpgradePage"
-      />
+      >
+        <MobileSidebarLauncher
+          :is-mobile-sidebar-open="isMobileSidebarOpen"
+          @toggle="toggleMobileSidebar"
+        />
+      </UpgradePage>
       <template v-if="!showUpgradePage">
         <router-view />
         <CommandBar />

@@ -143,6 +143,7 @@ defineExpose({ shouldShowUpgradePage });
         @click="routeToBilling()"
       />
     </div>
+    <slot />
   </div>
   <div v-else />
 </template>
