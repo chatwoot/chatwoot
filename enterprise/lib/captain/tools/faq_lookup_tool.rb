@@ -1,5 +1,4 @@
 class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
-  name 'faq_lookup'
   description 'Search FAQ responses using semantic similarity to find relevant answers'
   param :query, type: 'string', desc: 'The question or topic to search for in the FAQ database'
 
@@ -7,29 +6,36 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
     log_tool_usage('searching', { query: query })
 
     # Use existing vector search on approved responses
-    responses = @assistant.responses.approved.search(query)
+    responses = @assistant.responses.approved.search(query).to_a
 
     if responses.empty?
       log_tool_usage('no_results', { query: query })
       "No relevant FAQs found for: #{query}"
     else
-      log_tool_usage('found_results', { query: query, count: responses.count })
+      log_tool_usage('found_results', { query: query, count: responses.size })
       format_responses(responses)
     end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e).capture_exception
   end
 
   private
 
   def format_responses(responses)
-    formatted = responses.map.with_index(1) do |response, index|
-      result = "\n#{index}. **Q:** #{response.question}\n   **A:** #{response.answer}"
+    responses.map { |response| format_response(response) }.join
+  end
 
-      # Include source if available
-      result += "\n   **Source:** #{response.documentable.external_link}" if response.documentable&.external_link
-
-      result
+  def format_response(response)
+    formatted_response = "
+        Question: #{response.question}
+        Answer: #{response.answer}
+        "
+    if response.documentable.present? && response.documentable.try(:external_link)
+      formatted_response += "
+          Source: #{response.documentable.external_link}
+          "
     end
 
-    "Found #{responses.count} relevant FAQ(s):#{formatted.join("\n")}"
+    formatted_response
   end
 end
