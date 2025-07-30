@@ -253,5 +253,52 @@ RSpec.describe Integrations::Openai::ProcessorService do
         expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
+
+    context 'when testing endpoint configuration' do
+      let(:event) { { 'name' => 'rephrase', 'data' => { 'content' => 'test message' } } }
+
+      context 'when CAPTAIN_OPEN_AI_ENDPOINT is not configured' do
+        it 'uses default OpenAI endpoint' do
+          InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy
+
+          stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+            .with(body: anything, headers: expected_headers)
+            .to_return(status: 200, body: openai_response, headers: {})
+
+          result = subject.perform
+          expect(result).to eq({ :message => 'This is a reply from openai.' })
+        end
+      end
+
+      context 'when CAPTAIN_OPEN_AI_ENDPOINT is configured' do
+        before do
+          create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://custom.azure.com/')
+        end
+
+        it 'uses custom endpoint' do
+          stub_request(:post, 'https://custom.azure.com/v1/chat/completions')
+            .with(body: anything, headers: expected_headers)
+            .to_return(status: 200, body: openai_response, headers: {})
+
+          result = subject.perform
+          expect(result).to eq({ :message => 'This is a reply from openai.' })
+        end
+      end
+
+      context 'when CAPTAIN_OPEN_AI_ENDPOINT has trailing slash' do
+        before do
+          create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://custom.azure.com/')
+        end
+
+        it 'properly handles trailing slash' do
+          stub_request(:post, 'https://custom.azure.com/v1/chat/completions')
+            .with(body: anything, headers: expected_headers)
+            .to_return(status: 200, body: openai_response, headers: {})
+
+          result = subject.perform
+          expect(result).to eq({ :message => 'This is a reply from openai.' })
+        end
+      end
+    end
   end
 end
