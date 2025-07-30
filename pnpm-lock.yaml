@@ -20,8 +20,8 @@ importers:
         specifier: 1.2.3
         version: 1.2.3
       '@chatwoot/prosemirror-schema':
-        specifier: 1.1.6-next
-        version: 1.1.6-next
+        specifier: 1.2.1
+        version: 1.2.1
       '@chatwoot/utils':
         specifier: ^0.0.48
         version: 0.0.48
@@ -403,8 +403,8 @@ packages:
   '@chatwoot/ninja-keys@1.2.3':
     resolution: {integrity: sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==}
 
-  '@chatwoot/prosemirror-schema@1.1.6-next':
-    resolution: {integrity: sha512-9lf7FrcED/B5oyGrMmIkbegkhlC/P0NrtXoX8k94YWRosZcx0hGVGhpTud+0Mhm7saAfGerKIwTRVDmmnxPuCA==}
+  '@chatwoot/prosemirror-schema@1.2.1':
+    resolution: {integrity: sha512-UbiEvG5tgi1d0lMbkaqxgTh7vHfywEYKLQo1sxqp4Q7aLZh4QFtbLzJ2zyBtu4Nhipe+guFfEJdic7i43MP/XQ==}
 
   '@chatwoot/utils@0.0.48':
     resolution: {integrity: sha512-67M2lvpBp0Ciczv1uRzabOXSCGiEeJE3wYVoPAxkqI35CJSkotu4tSX2TFOwagUQoRyU6F8YV3xXGfCpDN9WAA==}
@@ -5237,7 +5237,7 @@ snapshots:
       hotkeys-js: 3.8.7
       lit: 2.2.6
 
-  '@chatwoot/prosemirror-schema@1.1.6-next':
+  '@chatwoot/prosemirror-schema@1.2.1':
     dependencies:
       markdown-it-sup: 2.0.0
       prosemirror-commands: 1.6.0
