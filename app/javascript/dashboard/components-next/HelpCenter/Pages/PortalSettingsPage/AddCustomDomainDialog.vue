@@ -3,7 +3,7 @@ import { ref, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers } from '@vuelidate/validators';
-import { isValidDomain } from 'shared/helpers/Validators';
+import { isValidDomain } from '@chatwoot/utils';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
