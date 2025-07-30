@@ -37,14 +37,6 @@ const planName = computed(() => {
   return translatedName !== translationKey ? translatedName : rawPlanName;
 });
 
-/**
- * Computed property for subscribed quantity
- * @returns {number|undefined}
- */
-const subscribedQuantity = computed(() => {
-  return customAttributes.value.subscribed_quantity;
-});
-
 const subscriptionRenewsOn = computed(() => {
   // Return '-' if subscription is not active or no end date
   if (
@@ -227,17 +219,12 @@ onMounted(() => {
             </ButtonV4>
           </template>
           <div
-            v-if="planName || subscribedQuantity || subscriptionRenewsOn"
+            v-if="planName || subscriptionRenewsOn"
             class="grid lg:grid-cols-5 sm:grid-cols-5 grid-cols-1 gap-2 divide-x divide-n-weak"
           >
             <DetailItem
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
               :value="planName"
-            />
-            <DetailItem
-              v-if="subscribedQuantity"
-              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.SEAT_COUNT')"
-              :value="subscribedQuantity"
             />
             <DetailItem
               v-if="subscriptionRenewsOn"

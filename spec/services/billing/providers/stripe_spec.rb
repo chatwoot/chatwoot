@@ -50,14 +50,14 @@ RSpec.describe Billing::Providers::Stripe do
     end
 
     it 'creates a subscription in Stripe' do
-      result = provider.create_subscription('cus_123', 'price_123', 2)
+      result = provider.create_subscription('cus_123', 'price_123', 1)
 
       expect(Stripe::Subscription).to have_received(:create).with(
         customer: 'cus_123',
-        items: [{ price: 'price_123', quantity: 2 }],
+        items: [{ price: 'price_123', quantity: 1 }], # Always 1 for billing
         metadata: {
           plan_id: 'price_123',
-          quantity: 2
+          quantity: 1 # Metadata reflects the passed quantity
         }
       )
       expect(result).to eq(stripe_subscription)

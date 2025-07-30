@@ -154,7 +154,6 @@ export const actions = {
             ...existingAccount.custom_attributes,
             plan_name: response.data.data.plan_name,
             subscription_status: response.data.data.subscription_status,
-            subscribed_quantity: response.data.data.subscribed_quantity,
             subscription_ends_on: response.data.data.subscription_ends_on,
             stripe_customer_id: response.data.data.customer_id,
             plan_limits: response.data.data.plan_limits,

@@ -126,5 +126,116 @@ module BillingPlans
       feature = features_config.find { |f| f['name'] == feature_name }
       feature&.dig('tier')
     end
+
+    # Extract plan limits from billing provider metadata dynamically
+    def limits_from_billing_provider_metadata(metadata)
+      return {} if metadata.blank?
+
+      # Defensive check: ensure metadata is a hash
+      unless metadata.is_a?(Hash)
+        Rails.logger.error "Expected metadata to be a Hash, got #{metadata.class}: #{metadata.inspect}"
+        return {}
+      end
+
+      # Extract all keys ending with '_limit' and convert to limits format
+      limits = {}
+      metadata.each do |key, value|
+        # Defensive checks for key and value types
+        key_str = key.is_a?(Array) ? key.join('_') : key.to_s
+        next unless key_str.end_with?('_limit')
+
+        # Handle monthly vs overall limits based on naming convention
+        limit_key = if key_str.end_with?('_monthly_limit')
+                      # Convert 'conversations_monthly_limit' -> 'conversations_monthly'
+                      key_str.gsub('_monthly_limit', '_monthly')
+                    else
+                      # Convert 'agents_limit' -> 'agents', 'inboxes_limit' -> 'inboxes', etc.
+                      key_str.gsub('_limit', '')
+                    end
+
+        # Defensive value conversion
+        value_int = if value.is_a?(Array)
+                      value.first.to_i
+                    else
+                      value.to_i
+                    end
+
+        limits[limit_key] = value_int
+      end
+
+      limits
+    end
+
+    # Extract plan limits from YAML data dynamically
+    def limits_from_yaml_data(plan_data)
+      return {} if plan_data.blank? || plan_data['limits'].blank?
+
+      # Return the limits hash from YAML, ensuring all values are integers
+      plan_data['limits'].transform_values(&:to_i)
+    end
+
+    # Get plan details with billing provider metadata priority
+    def plan_details_with_billing_provider_metadata(plan_name, billing_provider_metadata = nil)
+      if billing_provider_metadata.present?
+        yaml_details = plan_details(plan_name) || {}
+        billing_provider_limits = limits_from_billing_provider_metadata(billing_provider_metadata)
+        yaml_details.merge('limits' => billing_provider_limits)
+      else
+        plan_details(plan_name)
+      end
+    end
+
+    # Get plan limits dynamically (works with billing provider metadata and YAML)
+    def extract_plan_limits(plan_data_or_metadata, source_type = :yaml)
+      case source_type
+      when :billing_provider_metadata
+        limits_from_billing_provider_metadata(plan_data_or_metadata)
+      when :yaml
+        limits_from_yaml_data(plan_data_or_metadata)
+      else
+        {}
+      end
+    end
+
+    # Check if a limit is monthly (resets each billing period) or overall (cumulative)
+    def monthly_limit?(limit_key)
+      limit_key.to_s.end_with?('_monthly')
+    end
+
+    # Get the base limit name without the monthly suffix
+    def base_limit_name(limit_key)
+      limit_key.to_s.gsub('_monthly', '')
+    end
+
+    def validate_plan_limits_for_free_trial(plan_limits, plan_name)
+      return unless plan_limits.blank? || plan_limits['conversations_monthly'].blank?
+
+      Rails.logger.error "Missing required plan limits for free trial plan: #{plan_name}. Plan limits: #{plan_limits}"
+      raise StandardError, "Plan configuration error: Missing conversations_monthly limit for plan '#{plan_name}'"
+    end
+
+    def validate_plan_limits_for_paid_plan(plan_limits, plan_name)
+      required_limits = %w[agents inboxes]
+      missing_limits = []
+
+      if plan_limits.blank?
+        missing_limits = required_limits + ['conversations_monthly or conversations']
+      else
+        # Check required limits
+        required_limits.each do |limit|
+          missing_limits << limit if plan_limits[limit].blank?
+        end
+
+        # Check conversations (either conversations_monthly or conversations is required)
+        if plan_limits['conversations_monthly'].blank? && plan_limits['conversations'].blank?
+          missing_limits << 'conversations_monthly or conversations'
+        end
+      end
+
+      return if missing_limits.empty?
+
+      Rails.logger.error "Missing required plan limits for plan: #{plan_name}. Missing: #{missing_limits.join(', ')}. Plan limits: #{plan_limits}"
+      raise StandardError, "Plan configuration error: Missing required limits (#{missing_limits.join(', ')}) for plan '#{plan_name}'"
+    end
   end
 end

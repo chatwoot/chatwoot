@@ -109,6 +109,7 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  after_create_commit :enqueue_stripe_provisioning_job
   after_destroy :remove_account_sequences
 
   def agents
@@ -164,6 +165,10 @@ class Account < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  def enqueue_stripe_provisioning_job
+    Billing::ProvisionStripeSubscriptionJob.perform_later(id, 'starter')
   end
 
   trigger.after(:insert).for_each(:row) do
