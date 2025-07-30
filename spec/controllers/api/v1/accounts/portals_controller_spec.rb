@@ -262,13 +262,13 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq('Custom domain not configured')
+        expect(response.parsed_body['error']).to eq('Custom domain is not configured')
       end
 
       it 'sends instructions successfully' do
         mailer_double = instance_double(ActionMailer::MessageDelivery)
         allow(PortalInstructionsMailer).to receive(:send_cname_instructions).and_return(mailer_double)
-        allow(mailer_double).to receive(:deliver_now)
+        allow(mailer_double).to receive(:deliver_later)
 
         post "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/send_instructions",
              headers: admin.create_new_auth_token,

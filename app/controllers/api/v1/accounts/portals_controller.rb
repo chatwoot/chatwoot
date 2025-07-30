@@ -56,7 +56,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     PortalInstructionsMailer.send_cname_instructions(
       portal: @portal,
       recipient_email: email
-    ).deliver_now
+    ).deliver_later
 
     render json: { message: I18n.t('portals.send_instructions.instructions_sent_successfully') }, status: :ok
   end
