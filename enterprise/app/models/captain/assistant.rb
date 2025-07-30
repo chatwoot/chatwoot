@@ -76,6 +76,10 @@ class Captain::Assistant < ApplicationRecord
     name
   end
 
+  def agent_tools
+    [self.class.resolve_tool_class('faq_lookup').new(self)]
+  end
+
   def prompt_context
     {
       name: name,
