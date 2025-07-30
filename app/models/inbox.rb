@@ -254,6 +254,11 @@ class Inbox < ApplicationRecord
       scope = filter_by_rate_limits(scope)
     end
 
+    # Exclude agents who are on leave
+    if options[:exclude_on_leave] != false
+      scope = filter_agents_on_leave(scope)
+    end
+
     scope
   end
 
@@ -317,6 +322,21 @@ class Inbox < ApplicationRecord
       rate_limiter = AssignmentV2::RateLimiter.new(inbox: self, user: inbox_member.user)
       rate_limiter.within_limits?
     end
+  end
+
+  def filter_agents_on_leave(inbox_members_scope)
+    # Get account users on active leave
+    account_user_ids_on_leave = account.account_users
+                                       .joins(:leaves)
+                                       .where(leaves: { status: 'approved' })
+                                       .where('leaves.start_date <= ? AND leaves.end_date >= ?', Date.current, Date.current)
+                                       .pluck(:id)
+    
+    return inbox_members_scope if account_user_ids_on_leave.empty?
+    
+    # Exclude inbox members whose account_users are on leave
+    user_ids_on_leave = account.account_users.where(id: account_user_ids_on_leave).pluck(:user_id)
+    inbox_members_scope.where.not(user_id: user_ids_on_leave)
   end
 
   def default_name_for_blank_name

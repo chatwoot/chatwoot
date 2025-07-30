@@ -217,6 +217,13 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :leaves do
+            member do
+              post :approve
+              post :reject
+            end
+          end
+
           namespace :twitter do
             resource :authorization, only: [:create]
           end
