@@ -332,3 +332,12 @@ pt:
       Nova conversa iniciada em %{brand_name}\n\nCanal: %{channel_info}\nCriado: %{formatted_creation_time}\nID da conversa: %{display_id}\nVer em %{brand_name}: %{url}
     transcript_activity: |
       Transcrição da conversa de %{brand_name}\n\nCanal: %{channel_info}\nID da conversa: %{display_id}\nVer em %{brand_name}: %{url}\n\nTranscrição:\n%{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'E-mail é necessário'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'
