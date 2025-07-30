@@ -102,6 +102,7 @@ class Account < ApplicationRecord
   
   # Assignment V2 associations
   has_many :assignment_policies, dependent: :destroy_async
+  has_many :agent_capacity_policies, dependent: :destroy_async, class_name: 'Enterprise::AgentCapacityPolicy' if ChatwootApp.enterprise?
 
   has_one_attached :contacts_export
 

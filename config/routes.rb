@@ -224,6 +224,30 @@ Rails.application.routes.draw do
             end
           end
 
+          # Assignment V2 Routes
+          resources :assignment_policies
+          
+          resources :inboxes, only: [] do
+            resource :assignment_policy, only: [:show, :create, :destroy], controller: 'inbox_assignment_policies'
+          end
+          
+          # Agent Capacity Management (Enterprise)
+          resources :agent_capacity_policies do
+            member do
+              post 'inbox_limits/:inbox_id', to: 'agent_capacity_policies#set_inbox_limit'
+              delete 'inbox_limits/:inbox_id', to: 'agent_capacity_policies#remove_inbox_limit'
+              post 'users', to: 'agent_capacity_policies#assign_user'
+              delete 'users/:user_id', to: 'agent_capacity_policies#remove_user'
+            end
+          end
+          
+          # Agent capacity status
+          get 'agents/:agent_id/capacity', to: 'agent_capacity_policies#agent_capacity'
+          
+          # Assignment Metrics
+          get 'reports/assignment_metrics', to: 'assignment_metrics#index'
+          get 'agents/:agent_id/assignment_history', to: 'assignment_metrics#agent_history'
+
           namespace :twitter do
             resource :authorization, only: [:create]
           end
