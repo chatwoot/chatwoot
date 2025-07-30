@@ -78,7 +78,11 @@ export default {
     },
     languagesSortedByCode() {
       const enabledLanguages = [...this.enabledLanguages];
-      return enabledLanguages.sort((l1, l2) =>
+      // Restrict to only English and Spanish for now
+      const filteredLanguages = enabledLanguages.filter(lang =>
+        ['en', 'es'].includes(lang.iso_639_1_code)
+      );
+      return filteredLanguages.sort((l1, l2) =>
         l1.iso_639_1_code.localeCompare(l2.iso_639_1_code)
       );
     },

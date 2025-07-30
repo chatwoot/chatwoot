@@ -121,16 +121,16 @@ const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
-    {
-      name: 'Inbox',
-      label: t('SIDEBAR.INBOX'),
-      icon: 'i-lucide-inbox',
-      to: accountScopedRoute('inbox_view'),
-      activeOn: ['inbox_view', 'inbox_view_conversation'],
-      getterKeys: {
-        count: 'notifications/getUnreadCount',
-      },
-    },
+    // {
+    //   name: 'Inbox',
+    //   label: t('SIDEBAR.INBOX'),
+    //   icon: 'i-lucide-inbox',
+    //   to: accountScopedRoute('inbox_view'),
+    //   activeOn: ['inbox_view', 'inbox_view_conversation'],
+    //   getterKeys: {
+    //     badge: 'notifications/getHasUnreadNotifications',
+    //   },
+    // },
     {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
@@ -142,12 +142,12 @@ const menuItems = computed(() => {
           activeOn: ['inbox_conversation'],
           to: accountScopedRoute('home'),
         },
-        {
-          name: 'Mentions',
-          label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
-          activeOn: ['conversation_through_mentions'],
-          to: accountScopedRoute('conversation_mentions'),
-        },
+        // {
+        //   name: 'Mentions',
+        //   label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
+        //   activeOn: ['conversation_through_mentions'],
+        //   to: accountScopedRoute('conversation_mentions'),
+        // },
         {
           name: 'Unattended',
           activeOn: ['conversation_through_unattended'],
