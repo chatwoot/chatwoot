@@ -317,11 +317,6 @@ class Whatsapp::TemplateProcessorService
     raise ArgumentError, "Invalid URL scheme: #{uri.scheme}. Only http and https are allowed" unless %w[http https].include?(uri.scheme)
     raise ArgumentError, 'URL too long (max 2000 characters)' if url.length > 2000
 
-    # Warn about potential issues with WhatsApp URLs
-    if url.include?('scontent.whatsapp.net')
-      Rails.logger.warn "WARNING: Using WhatsApp content URL which may not be accessible for template processing: #{url}"
-    end
-
   rescue URI::InvalidURIError => e
     raise ArgumentError, "Invalid URL format: #{e.message}. Please enter a valid URL like https://example.com/document.pdf"
   end
