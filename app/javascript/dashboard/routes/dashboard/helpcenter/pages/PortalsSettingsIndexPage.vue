@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useAccount } from 'dashboard/composables/useAccount';
 import PortalSettings from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/PortalSettings.vue';
 
 const SSL_STATUS_FETCH_INTERVAL = 5000;
@@ -12,6 +13,7 @@ const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
+const { isOnChatwootCloud } = useAccount();
 
 const { updateUISettings } = useUISettings();
 
@@ -27,6 +29,8 @@ const getDefaultLocale = slug => {
 };
 
 const fetchSSLStatus = () => {
+  if (!isOnChatwootCloud.value) return;
+
   const { portalSlug } = route.params;
   store.dispatch('portals/sslStatus', {
     portalSlug,
@@ -137,8 +141,8 @@ const handleUpdatePortal = updatePortalSettings;
 const handleUpdatePortalConfiguration = portalObj => {
   updatePortalSettings(portalObj);
 
-  // If custom domain is added or updated, fetch SSL status after a delay of 5 seconds
-  if (portalObj?.custom_domain) {
+  // If custom domain is added or updated, fetch SSL status after a delay of 5 seconds (only on Chatwoot cloud)
+  if (portalObj?.custom_domain && isOnChatwootCloud.value) {
     setTimeout(() => {
       fetchSSLStatus();
     }, SSL_STATUS_FETCH_INTERVAL);

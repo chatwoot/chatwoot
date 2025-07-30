@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import AddCustomDomainDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/AddCustomDomainDialog.vue';
 import DNSConfigurationDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/DNSConfigurationDialog.vue';
@@ -56,6 +57,7 @@ const SSL_STATUS = {
 };
 
 const { t } = useI18n();
+const { isOnChatwootCloud } = useAccount();
 
 const addCustomDomainDialogRef = ref(null);
 const dnsConfigurationDialogRef = ref(null);
@@ -66,6 +68,9 @@ const customDomainAddress = computed(
 );
 
 const sslSettings = computed(() => props.activePortal?.ssl_settings || {});
+const verificationErrors = computed(
+  () => sslSettings.value.verification_errors || ''
+);
 
 const isLive = computed(() =>
   SSL_STATUS.LIVE.includes(sslSettings.value.status)
@@ -164,7 +169,10 @@ const onClickSend = email => {
               {{ customDomainAddress }}
             </span>
           </div>
-          <span v-if="!isLive" class="text-sm text-n-slate-11">
+          <span
+            v-if="!isLive && isOnChatwootCloud"
+            class="text-sm text-n-slate-11"
+          >
             {{
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.STATUS_DESCRIPTION'
@@ -175,7 +183,8 @@ const onClickSend = email => {
         <div class="flex items-center">
           <div v-if="customDomainAddress" class="flex items-center gap-3">
             <div
-              v-if="statusText"
+              v-if="statusText && isOnChatwootCloud"
+              v-tooltip="verificationErrors"
               class="flex items-center gap-3 flex-shrink-0"
             >
               <span
@@ -189,7 +198,10 @@ const onClickSend = email => {
                 {{ statusText }}
               </span>
             </div>
-            <div v-if="statusText" class="w-px h-3 bg-n-weak" />
+            <div
+              v-if="statusText && isOnChatwootCloud"
+              class="w-px h-3 bg-n-weak"
+            />
             <Button
               slate
               sm
@@ -202,8 +214,9 @@ const onClickSend = email => {
               class="hover:!no-underline flex-shrink-0"
               @click="addCustomDomainDialogRef.dialogRef.open()"
             />
-            <div class="w-px h-3 bg-n-weak" />
+            <div v-if="isOnChatwootCloud" class="w-px h-3 bg-n-weak" />
             <Button
+              v-if="isOnChatwootCloud"
               slate
               sm
               link
