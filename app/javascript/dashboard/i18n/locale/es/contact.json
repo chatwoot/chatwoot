@@ -157,15 +157,15 @@
     "BUTTON_LABEL": "Iniciar conversación",
     "TITLE": "Nueva conversación",
     "DESC": "Iniciar una conversación enviando un mensaje nuevo.",
-    "NO_INBOX": "No se encontró la bandeja de entrada para iniciar una nueva conversación con este contacto.",
+    "NO_INBOX": "No se encontró el canal para iniciar una nueva conversación con este contacto.",
     "FORM": {
       "TO": {
         "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Bandeja de entrada",
-        "PLACEHOLDER": "Elegir bandeja de entrada",
-        "ERROR": "Seleccione una bandeja de entrada"
+        "LABEL": "Canal",
+        "PLACEHOLDER": "Elegir canal",
+        "ERROR": "Seleccione un canal"
       },
       "SUBJECT": {
         "LABEL": "Asunto",
@@ -580,7 +580,7 @@
       "GO_TO_CONVERSATION": "Ver",
       "SUCCESS_MESSAGE": "¡El mensaje fue enviado con éxito!",
       "ERROR_MESSAGE": "Se ha producido un error al crear la conversación. Por favor, inténtalo de nuevo más tarde.",
-      "NO_INBOX_ALERT": "No hay bandejas de entrada disponibles para iniciar una conversación con este contacto.",
+      "NO_INBOX_ALERT": "No hay canales disponibles para iniciar una conversación con este contacto.",
       "CONTACT_SELECTOR": {
         "LABEL": "Para:",
         "TAG_INPUT_PLACEHOLDER": "Buscar un contacto con nombre, correo electrónico o número de teléfono",
@@ -588,7 +588,7 @@
       },
       "INBOX_SELECTOR": {
         "LABEL": "Vía:",
-        "BUTTON": "Mostrar bandejas de entrada"
+        "BUTTON": "Mostrar canales"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "Asunto :",

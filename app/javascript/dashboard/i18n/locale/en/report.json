@@ -522,12 +522,12 @@
       "INPUT_PLACEHOLDER": {
         "SLA": "SLA name",
         "AGENTS": "Member name",
-        "INBOXES": "Inbox name",
+        "INBOXES": "Channel name",
         "LABELS": "Label name",
         "TEAMS": "Team name"
       },
       "SLA": "SLA Policy",
-      "INBOXES": "Inbox",
+      "INBOXES": "Channel",
       "AGENTS": "Member",
       "LABELS": "Label",
       "TEAMS": "Team"
@@ -557,7 +557,7 @@
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Inbox",
+    "INBOX": "Channel",
     "AGENT": "Member",
     "TEAM": "Team",
     "LABEL": "Label",

@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
       "CONVERSATION": "Has superado el límite de conversaciones. El plan Hacker solo permite 500 conversaciones.",
-      "INBOXES": "Has superado el límite de bandejas de entrada. El plan Hacker solo admite chat en vivo en el sitio web. Las bandejas de entrada adicionales como email, WhatsApp, etc. requieren un plan de pago.",
+      "INBOXES": "Has superado el límite de canales. El plan Hacker solo admite chat en vivo en el sitio web. Los canales adicionales como email, WhatsApp, etc. requieren un plan de pago.",
       "AGENTS": "Has superado el límite de miembros. El plan Hacker solo permite 2 miembros.",
       "NON_ADMIN": "Por favor, contacta a tu administrador para actualizar el plan y continuar usando todas las funciones."
     },
@@ -209,7 +209,7 @@
       "GO_TO_TEAM_REPORTS": "Ir a Reportes de Equipo",
       "GO_TO_SETTINGS_AGENTS": "Ir a la configuración del miembro",
       "GO_TO_SETTINGS_TEAMS": "Ir a Configuración de Equipo",
-      "GO_TO_SETTINGS_INBOXES": "Ir a Ajustes de la Bandeja de Entrada",
+      "GO_TO_SETTINGS_INBOXES": "Ir a Ajustes de Canales",
       "GO_TO_SETTINGS_LABELS": "Ir a Configuración de Etiqueta",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir a Configuración de Respuesta Predefinida",
       "GO_TO_SETTINGS_APPLICATIONS": "Ir a la configuración de la aplicación",

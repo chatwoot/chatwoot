@@ -55,7 +55,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma de mensaje personal",
-        "NOTE": "Crea una firma de mensaje única para que aparezca al final de cada mensaje que envíes desde cualquier bandeja de entrada. También puede incluir una imagen en línea, que es soportada en las bandejas de entrada de live-chat, correo electrónico y API.",
+        "NOTE": "Crea una firma de mensaje única para que aparezca al final de cada mensaje que envíes desde cualquier canal.",
         "BTN_TEXT": "Guardar firma de mensaje",
         "API_ERROR": "¡No se pudo guardar la firma! Inténtalo de nuevo",
         "API_SUCCESS": "Firma guardada correctamente",
@@ -70,7 +70,7 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contraseña",
-        "NOTE": "Actualizar tu contraseña restablecería tus entradas en varios dispositivos.",
+        "NOTE": "Actualizar tu contraseña te invalida la sesión en todos los dispositivos.",
         "BTN_TEXT": "Cambiar contraseña"
       },
       "ACCESS_TOKEN": {
@@ -235,9 +235,9 @@
     "TRIAL_MESSAGE": "días de prueba restantes.",
     "TRAIL_BUTTON": "Comprar ahora",
     "DELETED_USER": "Usuario eliminado",
-    "EMAIL_VERIFICATION_PENDING": "Parece que aún no has verificado tu dirección de correo electrónico. Por favor, revisa tu bandeja de entrada para ver el correo electrónico de verificación.",
+    "EMAIL_VERIFICATION_PENDING": "Parece que aún no has verificado tu dirección de correo electrónico. Por favor, revisa tu email para ver el correo electrónico de verificación.",
     "RESEND_VERIFICATION_MAIL": "Reenviar correo de verificación",
-    "EMAIL_VERIFICATION_SENT": "El correo electrónico de verificación ha sido enviado. Por favor, comprueba tu bandeja de entrada.",
+    "EMAIL_VERIFICATION_SENT": "El correo electrónico de verificación ha sido enviado. Por favor, comprueba tu email.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Cuenta suspendida",
       "MESSAGE": "Tu cuenta está suspendida. Comuníquese con el equipo de soporte para obtener más información."
@@ -279,9 +279,9 @@
     "NO_ITEMS": "No hay elementos",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizando:",
     "SWITCH": "Cambiar",
-    "INBOX_VIEW": "Vista del buzón",
+    "INBOX_VIEW": "Vista del canal",
     "CONVERSATIONS": "Conversaciones",
-    "INBOX": "Bandeja",
+    "INBOX": "Canal",
     "ALL_CONVERSATIONS": "Todas",
     "MENTIONED_CONVERSATIONS": "Menciones",
     "PARTICIPATING_CONVERSATIONS": "Participar",
@@ -298,7 +298,7 @@
     "AGENTS": "Miembros",
     "AGENT_BOTS": "AI Bots",
     "AUDIT_LOGS": "Auditoría de registros",
-    "INBOXES": "Entradas",
+    "INBOXES": "Canales",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
@@ -330,7 +330,7 @@
     "REPORTS_BOT": "AI Bots",
     "REPORTS_AGENT": "Miembros",
     "REPORTS_LABEL": "Etiquetas",
-    "REPORTS_INBOX": "Bandeja de entrada",
+    "REPORTS_INBOX": "Canal",
     "REPORTS_TEAM": "Equipo",
     "SET_AVAILABILITY_TITLE": "Ponte como",
     "SET_YOUR_AVAILABILITY": "Establecer su disponibilidad",

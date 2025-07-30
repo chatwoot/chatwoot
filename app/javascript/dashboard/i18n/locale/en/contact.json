@@ -157,15 +157,15 @@
     "BUTTON_LABEL": "Start conversation",
     "TITLE": "New conversation",
     "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "NO_INBOX": "Couldn't find an channel to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
-        "PLACEHOLDER": "Choose source inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Via Channel",
+        "PLACEHOLDER": "Choose source channel",
+        "ERROR": "Select an channel"
       },
       "SUBJECT": {
         "LABEL": "Subject",
@@ -579,7 +579,7 @@
       "GO_TO_CONVERSATION": "View",
       "SUCCESS_MESSAGE": "The message was sent successfully!",
       "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
-      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+      "NO_INBOX_ALERT": "There are no available channels to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "To:",
         "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
@@ -587,7 +587,7 @@
       },
       "INBOX_SELECTOR": {
         "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "BUTTON": "Show Channels"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "Subject :",

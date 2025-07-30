@@ -1,12 +1,12 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "HEADER": "Channels",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you.",
+    "LEARN_MORE": "Learn more about channels",
+    "RECONNECTION_REQUIRED": "Your channel is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "There are no channels attached to this account."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
@@ -14,12 +14,12 @@
         "BODY": "Choose the provider you want to integrate with Chatwoot."
       },
       "INBOX": {
-        "TITLE": "Create Inbox",
-        "BODY": "Authenticate your account and create an inbox."
+        "TITLE": "Create Channel",
+        "BODY": "Authenticate your account and create a channel."
       },
       "AGENT": {
         "TITLE": "Add Members",
-        "BODY": "Add members to the created inbox."
+        "BODY": "Add members to the created channel."
       },
       "FINISH": {
         "TITLE": "Voilà!",
@@ -28,9 +28,9 @@
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Inbox Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
-        "ERROR": "Please enter a valid inbox name"
+        "LABEL": "Channel Name",
+        "PLACEHOLDER": "Enter your channel name (eg: Acme Inc)",
+        "ERROR": "Please enter a valid channel name"
       },
       "WEBSITE_NAME": {
         "LABEL": "Website Name",
@@ -40,11 +40,11 @@
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
         "CHOOSE_PAGE": "Choose Page",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "INBOX_NAME": "Channel Name",
+        "ADD_NAME": "Add a name for your channel",
+        "PICK_NAME": "Pick a Name for your Channel",
         "PICK_A_VALUE": "Pick a value",
-        "CREATE_INBOX": "Create Inbox"
+        "CREATE_INBOX": "Create Channel"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
@@ -52,8 +52,8 @@
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won't be able to send/receive Instagram messages from this inbox anymore."
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different channel and has now been migrated here. All new messages will appear here. The old channel will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel. You won't be able to send/receive Instagram messages from this channel anymore."
       },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
@@ -107,7 +107,7 @@
           "LABEL": "Widget Color",
           "PLACEHOLDER": "Update the widget color used in widget"
         },
-        "SUBMIT_BUTTON": "Create inbox",
+        "SUBMIT_BUTTON": "Create Channel",
         "API": {
           "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }
@@ -147,8 +147,8 @@
           "ERROR": "This field is required"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter a inbox name",
+          "LABEL": "Channel Name",
+          "PLACEHOLDER": "Please enter a channel name",
           "ERROR": "This field is required"
         },
         "PHONE_NUMBER": {
@@ -198,8 +198,8 @@
             "ERROR": "This field is required"
           },
           "INBOX_NAME": {
-            "LABEL": "Inbox Name",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "LABEL": "Channel Name",
+            "PLACEHOLDER": "Please enter a channel name",
             "ERROR": "This field is required"
           },
           "PHONE_NUMBER": {
@@ -235,8 +235,8 @@
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "LABEL": "Channel Name",
+          "PLACEHOLDER": "Please enter a channel name",
           "ERROR": "This field is required"
         },
         "PHONE_NUMBER": {
@@ -372,7 +372,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email Channel",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Integrate your email channel.",
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
@@ -481,17 +481,17 @@
       },
       "AGENTS": {
         "TITLE": "Members",
-        "DESC": "Here you can add members to manage your newly created inbox. Only these selected members will have access to your inbox. Members which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as member to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add at least one member to your new Inbox",
-        "PICK_AGENTS": "Pick members for the inbox"
+        "DESC": "Here you can add members to manage your newly created channel. Only these selected members will have access to your channel. Members which are not part of this channel will not be able to see or respond to messages in this channel when they login. <br> <b>PS:</b> As an administrator, if you need access to all channels, you should add yourself as member to all channels that you create.",
+        "VALIDATION_ERROR": "Add at least one member to your new Channel",
+        "PICK_AGENTS": "Pick members for the channel"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "Channel Details",
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your channel for better identification."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your channel.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -499,14 +499,14 @@
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the channel creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
         "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the channel creation step.",
         "SIGN_IN": "Sign in with Google",
         "EMAIL_PLACEHOLDER": "Enter email address",
         "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
@@ -518,31 +518,28 @@
       "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "CREATING_CHANNEL": "Creating your Channel...",
+      "TITLE": "Configure Channel Details",
       "DESC": ""
     },
     "AGENTS": {
       "BUTTON_TEXT": "Add members",
-      "ADD_AGENTS": "Adding Members to your Inbox..."
+      "ADD_AGENTS": "Adding Members to your Channel..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
+      "TITLE": "Your Channel is ready!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Take me there",
       "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your channel."
     },
     "REAUTH": "Reauthorize",
     "VIEW": "View",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "SUCCESS_MESSAGE": "Channel settings updated successfully",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
+        "ERROR_MESSAGE": "We couldn't update channel settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Enabled",
@@ -598,10 +595,10 @@
         "NO": "No, Keep "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
-        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
-        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
+        "SUCCESS_MESSAGE": "Channel deleted successfully",
+        "ERROR_MESSAGE": "Could not delete channel. Please try again later.",
+        "AVATAR_SUCCESS_MESSAGE": "Channel avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the channel avatar. Please try again later."
       }
     },
     "TABS": {
@@ -621,13 +618,13 @@
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Use channel name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Members",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove members from this inbox",
+      "INBOX_AGENTS_SUB_TEXT": "Add or remove members from this channel",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Update",
@@ -639,16 +636,16 @@
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the members added to this inbox.",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this channel",
+      "INBOX_UPDATE_TITLE": "Channel Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your channel settings",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the members added to this channel.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
-      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER": "Channel Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
       "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
@@ -656,7 +653,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_TITLE": "API Key",  
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
@@ -688,12 +685,12 @@
       "PLACEHOLDER": "Select Help Center",
       "SELECT_PLACEHOLDER": "Select Help Center",
       "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "SUB_TEXT": "Attach a Help Center with the channel"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to a member"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this channel that can be auto assigned to a member"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",
@@ -759,7 +756,7 @@
       "WEEKLY_TITLE": "Set your weekly hours",
       "TIMEZONE_LABEL": "Select timezone",
       "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this channel",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the members are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
@@ -776,7 +773,7 @@
       "SUBTITLE": "Set your IMAP details",
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
-      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this channel",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
@@ -808,7 +805,7 @@
       "TITLE": "SMTP",
       "SUBTITLE": "Set your SMTP details",
       "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this channel",
       "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
       "EDIT": {
         "SUCCESS_MESSAGE": "SMTP settings updated successfully",

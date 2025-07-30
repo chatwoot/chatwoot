@@ -411,7 +411,7 @@
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected channels and permanently erase all generated knowledge.",
         "CONFIRM": "Yes, delete",
         "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
@@ -513,7 +513,7 @@
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
         "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "VIEW_CONNECTED_INBOXES": "View connected channels"
       },
       "EMPTY_STATE": {
         "TITLE": "No assistants available",
@@ -835,34 +835,34 @@
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Connected Channels",
+      "ADD_NEW": "Connect a new channel",
       "OPTIONS": {
         "DISCONNECT": "Disconnect"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "Are you sure to disconnect the channel?",
         "DESCRIPTION": "",
         "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "SUCCESS_MESSAGE": "The channel was successfully disconnected.",
+        "ERROR_MESSAGE": "There was an error disconnecting the channel, please try again."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Choose a channel to connect with the assistant.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+          "TITLE": "Connect a Channel",
+        "SUCCESS_MESSAGE": "The channel was successfully connected.",
+        "ERROR_MESSAGE": "An error occurred while connecting the channel. Please try again."
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "Channel",
+          "PLACEHOLDER": "Choose the channel to deploy the assistant.",
+          "ERROR": "A channel selection is required."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "No Connected Channels",
+        "SUBTITLE": "Connecting a channel allows the assistant to handle initial questions from your customers before transferring them to you."
       }
     }
   }

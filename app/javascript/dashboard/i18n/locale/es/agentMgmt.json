@@ -23,7 +23,7 @@
     },
     "ADD": {
       "TITLE": "Añadir miembro a tu equipo",
-      "DESC": "Puedes añadir personas que podrán manejar el soporte para tus bandejas de entrada.",
+      "DESC": "Puedes añadir personas que podrán manejar el soporte para tus canales.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {

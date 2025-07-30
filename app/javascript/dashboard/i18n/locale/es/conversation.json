@@ -6,11 +6,11 @@
     "SWITCH_VIEW_LAYOUT": "Cambiar el diseño",
     "DASHBOARD_APP_TAB_MESSAGES": "Mensajes",
     "UNVERIFIED_SESSION": "La identidad de este usuario no está verificada",
-    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
+    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu canal.",
     "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
-    "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna bandeja de entrada.",
+    "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna canal.",
     "NO_INBOX_2": " para empezar",
-    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
+    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna canal. Por favor, contacta con tu administrador",
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
     "VIEW_ORIGINAL": "Ver original",
     "VIEW_TRANSLATED": "Ver traducido",
@@ -28,7 +28,7 @@
     "UNREAD_MESSAGES": "Mensajes no leídos",
     "UNREAD_MESSAGE": "Mensaje sin leer",
     "CLICK_HERE": "Haz clic aquí",
-    "LOADING_INBOXES": "Cargando bandeja de entrada",
+    "LOADING_INBOXES": "Cargando canal",
     "LOADING_CONVERSATIONS": "Cargando conversaciones",
     "CANNOT_REPLY": "No puede responder debido a",
     "24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
@@ -42,16 +42,13 @@
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram se ha migrado a la nueva bandeja de entrada de Instagram. Todos los nuevos mensajes se mostrarán allí. Ya no podrás enviar mensajes desde esta conversación.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram se ha migrado al nuevo canal de Instagram.",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "UNKNOWN_FILE_TYPE": "Archivo desconocido",
     "SAVE_CONTACT": "Guardar Contacto",
     "NO_CONTENT": "No hay contenido que mostrar",
-    "CARD": {
-      "VIEW_MORE": "Ver más"
-    },
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} ha compartido un contacto",
       "LOCATION": "{sender} ha compartido una ubicación",
@@ -72,7 +69,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "Mensaje no disponible",
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
-      "HIDE_LABELS": "Ocultar etiquetas"
+      "HIDE_LABELS": "Ocultar etiquetas",
+      "VIEW_MORE": "Ver más"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -292,7 +290,7 @@
     "ALL_CONVERSATION": {
       "TITLE": "Todas sus conversaciones en un solo lugar",
       "DESCRIPTION": "Ver todas las conversaciones de sus clientes en un solo panel de control. Puede filtrar las conversaciones por el canal entrante, etiqueta y estado.",
-      "NEW_LINK": "Haga clic aquí para crear una bandeja de entrada"
+      "NEW_LINK": "Haga clic aquí para crear un canal"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite a los miembros de su equipo",

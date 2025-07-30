@@ -167,7 +167,7 @@
       "MESSAGE_TYPE": "Message Type",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "Email",
-      "INBOX": "Inbox",
+      "INBOX": "Channel",
       "CONVERSATION_LANGUAGE": "Conversation Language",
       "PHONE_NUMBER": "Phone Number",
       "STATUS": "Status",

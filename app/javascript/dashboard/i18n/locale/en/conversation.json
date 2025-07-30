@@ -6,11 +6,11 @@
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
+    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your channel.",
     "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
+    "NO_INBOX_1": "Hola! Looks like you haven't added any channels yet.",
     "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
+    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any channel. Please contact your administrator",
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
@@ -28,7 +28,7 @@
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
+    "LOADING_INBOXES": "Loading channels",
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
@@ -300,7 +300,7 @@
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
       "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
-      "NEW_LINK": "Click here to create an inbox"
+      "NEW_LINK": "Click here to create a channel"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
