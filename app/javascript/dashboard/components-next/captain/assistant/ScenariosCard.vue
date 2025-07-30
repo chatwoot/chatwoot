@@ -111,7 +111,7 @@ const LINK_INSTRUCTION_CLASS =
 
 const renderInstruction = instruction => () =>
   h('p', {
-    class: `text-sm text-n-slate-12 py-4 mb-0 [&_ol]:list-decimal ${LINK_INSTRUCTION_CLASS}`,
+    class: `text-sm text-n-slate-12 py-4 mb-0 prose prose-sm max-w-none ${LINK_INSTRUCTION_CLASS}`,
     innerHTML: instruction,
   });
 </script>
@@ -157,8 +157,17 @@ const renderInstruction = instruction => () =>
           />
         </div>
       </div>
-      <component :is="renderInstruction(formatMessage(instruction, false))" />
-      <span class="text-sm text-n-slate-11 font-medium mb-1">
+
+      <div class="max-h-40 overflow-hidden relative">
+        <div
+          class="absolute left-0 right-0 bottom-0 bg-gradient-to-t h-40 from-n-solid-2 via-n-solid-2 via-10% to-transparent"
+        />
+        <component :is="renderInstruction(formatMessage(instruction, false))" />
+      </div>
+      <span
+        v-if="tools?.length"
+        class="text-sm text-n-slate-11 font-medium mb-1"
+      >
         {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.SUGGESTED.TOOLS_USED') }}
         {{ tools?.map(tool => `@${tool}`).join(', ') }}
       </span>
@@ -216,3 +225,4 @@ const renderInstruction = instruction => () =>
     </div>
   </CardLayout>
 </template>
+        
