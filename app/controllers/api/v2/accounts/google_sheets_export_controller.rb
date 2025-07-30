@@ -53,101 +53,6 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     render json: { authorization_url: authorization_url }
   end
 
-  # Handles the OAuth callback from Google, exchanges code for tokens,
-  # stores the tokens, and confirms authorization.
-  # def callback
-  #   Rails.logger.info '=== Google OAuth Callback Debug ==='
-  #   Rails.logger.info "Params: #{params.inspect}"
-  #   Rails.logger.info "Account ID: #{params[:account_id]}"
-  #   Rails.logger.info "Authorization Code: #{params[:code]}"
-
-  #   access_token = exchange_code_for_token(params[:code])
-  #   Rails.logger.info "Token exchange successful: #{access_token.present?}"
-
-  #   store_user_token(access_token)
-  #   Rails.logger.info 'Token storage successful'
-
-  #   # Send access token, refresh token, and account id to external API
-  #   begin
-  #     require 'net/http'
-  #     require 'json'
-  #     api_endpoint = GlobalConfigService.load('EXTERNAL_TOKEN_API_URL', nil)
-  #     raise 'EXTERNAL_TOKEN_API_URL config is missing or empty' if api_endpoint.blank?
-
-  #     begin
-  #       api_url = URI.parse(api_endpoint)
-  #     rescue URI::InvalidURIError => e
-  #       raise "EXTERNAL_TOKEN_API_URL is not a valid URI: #{e.message}"
-  #     end
-  #     http = Net::HTTP.new(api_url.host, api_url.port)
-  #     http.use_ssl = (api_url.scheme == 'https')
-
-  #     request = Net::HTTP::Post.new(api_url.request_uri, { 'Content-Type' => 'application/json' })
-  #     payload = {
-  #       access_token: access_token['access_token'],
-  #       refresh_token: access_token['refresh_token'],
-  #       account_id: params[:account_id]
-  #     }
-  #     request.body = payload.to_json
-
-  #     response = http.request(request)
-  #     Rails.logger.info "External API response: #{response.code} - #{response.body}"
-  #   rescue StandardError => e
-  #     Rails.logger.error "Failed to send tokens to external API: #{e.message}"
-  #   end
-
-  #   render json: { message: 'Google authorization successful' }
-  # rescue StandardError => e
-  #   Rails.logger.error("Google OAuth callback error: #{e.message}")
-  #   Rails.logger.error("Error backtrace: #{e.backtrace.first(5).join('\n')}")
-  #   render json: { error: 'Authorization failed' }, status: :unprocessable_entity
-  # end
-  #MELATI
-  def callback
-    Rails.logger.info '=== Google OAuth Callback Debug ==='
-    Rails.logger.info "Params: #{params.inspect}"
-    Rails.logger.info "Account ID: #{params[:account_id]}"
-    Rails.logger.info "Authorization Code: #{params[:code]}"
-
-    begin
-      # Exchange code for token
-      access_token = exchange_code_for_token(params[:code])
-      Rails.logger.info "Token exchange successful: #{access_token.present?}"
-
-      # Store user token
-      store_user_token(access_token)
-      Rails.logger.info 'Token storage successful'
-
-      # BARU: Buat spreadsheet setelah token berhasil disimpan
-      spreadsheet_result = create_initial_spreadsheet(access_token['access_token'])
-      Rails.logger.info "Spreadsheet creation result: #{spreadsheet_result.inspect}"
-
-      # Send tokens to external API
-      send_tokens_to_external_api(access_token)
-
-      # DIPERBAIKI: Redirect ke frontend dengan parameter sukses
-      frontend_url = "#{request.base_url}/app/accounts/#{params[:account_id]}/ai-agents"
-
-      if spreadsheet_result[:success]
-        redirect_url = "#{frontend_url}?google_auth_success=true&tab=2"
-      else
-        redirect_url = "#{frontend_url}?google_auth_error=true&error=spreadsheet_creation_failed&tab=2"
-      end
-
-      Rails.logger.info "Redirecting to: #{redirect_url}"
-      redirect_to redirect_url, allow_other_host: true
-
-    rescue StandardError => e
-      Rails.logger.error("Google OAuth callback error: #{e.message}")
-      Rails.logger.error("Error backtrace: #{e.backtrace.first(5).join('\n')}")
-
-      # Redirect dengan error
-      frontend_url = "#{request.base_url}/app/accounts/#{params[:account_id]}/ai-agents"
-      redirect_url = "#{frontend_url}?google_auth_error=true&error=#{CGI.escape(e.message)}&tab=2"
-      redirect_to redirect_url, allow_other_host: true
-    end
-  end
-
   # Checks if the user/account has a valid Google OAuth token.
   # Returns authorization status and email if authorized.
   # def status
@@ -160,7 +65,6 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
   #     }
   #   end
   # end
-  #MELATI
   def status
     if user_has_valid_token?
       account_id = Current.account&.id || params[:account_id]
@@ -223,7 +127,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     end
   end
 
-  # DIPERBAIKI: Extract token sending logic untuk reusability
+  # to delete :Extract token sending logic untuk reusability
   def send_tokens_to_external_api(access_token)
     require 'net/http'
     require 'json'
@@ -323,7 +227,6 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
   end
 
   # Constructs and returns the Google OAuth authorization URL with required scopes and redirect URI.
-  #MELATI
   def build_google_auth_url(state = nil)
     client_id = GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', nil)
 
@@ -333,7 +236,12 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     base_url = base_url.chomp('/')
     account_id = params[:account_id] || @account_id || Current.account&.id
 
-    redirect_uri = "#{base_url}/api/v2/accounts/#{account_id}/google_sheets_export/callback"
+    redirect_uri = "#{base_url}/api/v2/callback"
+
+    # Encode state with account_id
+    original_state = state if state.present?
+    state_payload = { original_state:original_state , account_id: account_id }.to_json
+    encoded_state = Base64.urlsafe_encode64(state_payload)
 
     Rails.logger.info "=== OAuth URL Construction ==="
     Rails.logger.info "Base URL: #{base_url}"
@@ -353,10 +261,9 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       scope: scopes,
       response_type: 'code',
       access_type: 'offline',
-      prompt: 'consent'
+      prompt: 'consent',
+      state: encoded_state
     }
-
-    auth_params[:state] = state if state.present?
 
     "https://accounts.google.com/o/oauth2/auth?#{auth_params.to_query}"
   end
@@ -377,7 +284,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       client_secret: GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_SECRET', nil),
       code: code,
       grant_type: 'authorization_code',
-      redirect_uri: "#{request.base_url}/api/v2/accounts/#{params[:account_id]}/google_sheets_export/callback"
+      redirect_uri: "#{request.base_url}/api/v2/callback"
     }
 
     Rails.logger.info "Redirect URI: #{token_params[:redirect_uri]}"

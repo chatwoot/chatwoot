@@ -473,6 +473,11 @@ Rails.application.routes.draw do
           end
         end
       end
+      resource :callback, only: [:index], controller: 'callback' do
+        collection do
+          get :index
+        end
+      end
     end
   end
 

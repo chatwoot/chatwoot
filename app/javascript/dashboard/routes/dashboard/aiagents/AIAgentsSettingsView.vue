@@ -29,12 +29,13 @@ const activeIndex = ref(0);
 const loadingData = ref(false);
 const data = ref();
 
-const currentView = ref('integrations');
+const currentView = ref('integrations'); // 'integrations' | 'google-sheets'
 const loading = ref(false);
 const connectedAccount = ref(null);
-const spreadsheetInfo = ref(null); 
-const currentStep = ref('auth'); 
+const spreadsheetInfo = ref(null); // Store spreadsheet info
+const currentStep = ref('auth'); // 'auth' | 'connected'
 
+// Mock notification system
 const notification = ref(null);
 
 const integrations = ref([
@@ -118,6 +119,7 @@ const showNotification = (message, type = 'success') => {
   }, 3000);
 };
 
+// Google Sheets Integration Functions
 const checkAuthStatus = async () => {
   try {
     loading.value = true;
@@ -130,6 +132,7 @@ const checkAuthStatus = async () => {
         name: 'Connected Account'
       };
       
+      // If there's spreadsheet info from backend, store it
       if (response.data.spreadsheet_url) {
         spreadsheetInfo.value = {
           url: response.data.spreadsheet_url,
@@ -137,6 +140,7 @@ const checkAuthStatus = async () => {
           created_at: response.data.created_at || new Date().toISOString()
         };
       } else {
+        // If authorized but no spreadsheet URL, it means it hasn't been created yet
         spreadsheetInfo.value = null;
       }
     } else {
@@ -158,6 +162,7 @@ const handleGoogleAuth = async () => {
     
     if (response.data.authorization_url) {
       showNotification('Redirecting to Google for authentication...', 'info');
+      // Redirect to Google OAuth - backend will handle spreadsheet creation after auth
       window.location.href = response.data.authorization_url;
     } else {
       showNotification('Failed to get authorization URL. Please check backend logs.', 'error');
@@ -182,6 +187,9 @@ const openSpreadsheet = () => {
 const disconnectAccount = async () => {
   try {
     loading.value = true;
+    // Since backend doesn't have a specific disconnect endpoint, we simulate it
+    // by clearing the local state. In a real implementation, you might want to
+    // add a disconnect endpoint to the backend to revoke the token.
     connectedAccount.value = null;
     spreadsheetInfo.value = null;
     currentStep.value = 'auth';
@@ -197,6 +205,7 @@ const disconnectAccount = async () => {
 const handleIntegrationClick = (integration) => {
   if (integration.id === 'google-sheets' && integration.available) {
     currentView.value = 'google-sheets';
+    // Do NOT call checkAuthStatus here. It will be called by the watch effect.
   } else if (!integration.available) {
     showNotification(`${integration.name} integration is coming soon!`, 'info');
   }
@@ -204,6 +213,7 @@ const handleIntegrationClick = (integration) => {
 
 const handleBackToIntegrations = () => {
   currentView.value = 'integrations';
+  // Reset states when going back
   currentStep.value = 'auth';
   connectedAccount.value = null;
   spreadsheetInfo.value = null;
@@ -211,29 +221,25 @@ const handleBackToIntegrations = () => {
 
 onMounted(() => {
   showData();
+  
+  // Check if we're returning from OAuth callback
   const urlParams = new URLSearchParams(window.location.search);
-  
-  const tabParam = urlParams.get('tab');
-  if (tabParam) {
-    activeIndex.value = parseInt(tabParam);
-  }
-  
   if (urlParams.get('code') || urlParams.has('google_auth_success') || urlParams.has('google_auth_error')) {
-    activeIndex.value = 2; // Tab Konfigurasi
+    // If returning from OAuth, ensure we are on the Google Sheets view
     currentView.value = 'google-sheets';
-    
+    // Remove the query parameters to clean the URL
     const newUrl = window.location.pathname + window.location.hash;
     window.history.replaceState({}, document.title, newUrl);
 
     if (urlParams.has('google_auth_success')) {
       showNotification('Authentication successful! Spreadsheet has been created.', 'success');
     } else if (urlParams.has('google_auth_error')) {
-      const errorMsg = urlParams.get('error') || 'Authentication failed';
-      showNotification(`Authentication failed: ${errorMsg}. Please try again.`, 'error');
+      showNotification('Authentication failed. Please try again.', 'error');
     }
   }
 });
 
+// Watch for changes in currentView to trigger API calls
 watch(currentView, (newValue) => {
   if (newValue === 'google-sheets') {
     checkAuthStatus();
@@ -243,6 +249,7 @@ watch(currentView, (newValue) => {
 
 <template>
   <div class="w-full px-8 py-8 bg-n-background overflow-auto">
+    <!-- Notification Toast -->
     <div
       v-if="notification"
       :class="[
@@ -307,7 +314,9 @@ watch(currentView, (newValue) => {
     </div>
 
     <div v-show="activeIndex === 2" class="w-full">
+      <!-- Integrations List View -->
       <div v-if="currentView === 'integrations'" class="space-y-6">
+        <!-- Header -->
         <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
           <div class="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400 mb-2">
             <span>Form Integrations</span>
@@ -325,6 +334,7 @@ watch(currentView, (newValue) => {
           </div>
         </div>
 
+        <!-- Integrations Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
             v-for="integration in integrations"
@@ -339,22 +349,26 @@ watch(currentView, (newValue) => {
                 : 'opacity-60 hover:opacity-80'
             ]"
           >
+            <!-- Available Badge -->
             <div v-if="integration.available" class="absolute top-3 right-3">
               <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                 Available
               </span>
             </div>
             
+            <!-- Coming Soon Badge -->
             <div v-else class="absolute top-3 right-3">
               <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
                 Coming Soon
               </span>
             </div>
 
+            <!-- Icon -->
             <div :class="['text-4xl mb-4', integration.iconColor]">
               {{ integration.icon }}
             </div>
 
+            <!-- Content -->
             <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">
               {{ integration.name }}
             </h3>
@@ -362,6 +376,7 @@ watch(currentView, (newValue) => {
               {{ integration.description }}
             </p>
 
+            <!-- Arrow Icon -->
             <div class="absolute bottom-4 right-4">
               <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -371,6 +386,7 @@ watch(currentView, (newValue) => {
         </div>
       </div>
 
+      <!-- Google Sheets Integration View -->
       <div v-else-if="currentView === 'google-sheets'" class="w-full max-w-4xl mx-auto">
         <div class="flex items-center space-x-4 mb-8">
           <button
@@ -384,7 +400,9 @@ watch(currentView, (newValue) => {
           </button>
         </div>
 
+        <!-- Google Sheets Integration Card -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <!-- Header Section -->
           <div class="bg-green-50 dark:bg-green-900/20 px-8 py-6 border-b border-green-200 dark:border-green-700">
             <div class="flex items-center space-x-4">
               <div class="w-12 h-12 bg-green-100 dark:bg-green-800 rounded-lg flex items-center justify-center">
@@ -395,17 +413,19 @@ watch(currentView, (newValue) => {
               </div>
               <div>
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-25">Google Sheets</h2>
-                <p class="text-green-700 dark:text-green-300 mt-1">Instantly populate your spreadsheets with form data</p>
               </div>
             </div>
           </div>
 
+          <!-- Content Section -->
           <div class="p-8">
+            <!-- Loading State -->
             <div v-if="loading" class="text-center py-12">
               <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
               <p class="mt-4 text-gray-600 dark:text-gray-400">Processing...</p>
             </div>
 
+            <!-- Authentication Step -->
             <div v-else-if="currentStep === 'auth'" class="text-center py-8">
               <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
                 <div class="flex items-center justify-center space-x-4 mb-4">
@@ -462,6 +482,7 @@ watch(currentView, (newValue) => {
                 <p class="text-gray-600 dark:text-gray-400">Akun Google Anda telah terhubung dan spreadsheet telah dibuat.</p>
               </div>
 
+              <!-- Connected Account Info -->
               <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 mb-6">
                 <div class="flex items-center space-x-4">
                   <div class="w-12 h-12 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center">
@@ -479,6 +500,7 @@ watch(currentView, (newValue) => {
                 </div>
               </div>
 
+              <!-- Spreadsheet Info -->
               <div v-if="spreadsheetInfo" class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6">
                 <div class="flex items-start space-x-4">
                   <div class="w-12 h-12 bg-blue-100 dark:bg-blue-800 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -503,7 +525,7 @@ watch(currentView, (newValue) => {
               </div>
               <div v-else class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-6 mb-6 text-center">
                 <p class="text-yellow-700 dark:text-yellow-300">
-                  Akun terhubung, tetapi spreadsheet belum dibuat. Ini mungkin terjadi jika ada masalah saat pembuatan spreadsheet otomatis.
+                  Akun terhubung, tetapi spreadsheet belum dibuat. Ini terjadi karena booking masih kosong.
                 </p>
                 <button
                   @click="handleGoogleAuth"
