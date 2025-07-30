@@ -113,12 +113,12 @@ const newReportRoutes = () => [
     to: accountScopedRoute('inbox_reports_index'),
     activeOn: ['inbox_reports_show'],
   },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports_index'),
-    activeOn: ['team_reports_show'],
-  },
+  // {
+  //   name: 'Reports Team',
+  //   label: t('SIDEBAR.REPORTS_TEAM'),
+  //   to: accountScopedRoute('team_reports_index'),
+  //   activeOn: ['team_reports_show'],
+  // },
 ];
 
 const reportRoutes = computed(() => newReportRoutes());
@@ -420,12 +420,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-square-user',
           to: accountScopedRoute('agent_list'),
         },
-        {
-          name: 'Settings Teams',
-          label: t('SIDEBAR.TEAMS'),
-          icon: 'i-lucide-users',
-          to: accountScopedRoute('settings_teams_list'),
-        },
+        // {
+        //   name: 'Settings Teams',
+        //   label: t('SIDEBAR.TEAMS'),
+        //   icon: 'i-lucide-users',
+        //   to: accountScopedRoute('settings_teams_list'),
+        // },
         {
           name: 'Settings Agent Assignment',
           label: t('SIDEBAR.AGENT_ASSIGNMENT'),

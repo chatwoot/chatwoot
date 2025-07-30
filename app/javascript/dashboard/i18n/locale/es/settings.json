@@ -272,7 +272,7 @@
   "CONFIRM_EMAIL": "Verificando...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Agregar Entrada"
+      "NEW_INBOX": "Agregar Canal"
     }
   },
   "SIDEBAR": {
@@ -303,7 +303,7 @@
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
     "PROFILE_SETTINGS": "Ajustes del perfil",
-    "ACCOUNT_SETTINGS": "Configuración de la cuenta",
+    "ACCOUNT_SETTINGS": "Configuración",
     "APPLICATIONS": "Aplicaciones",
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
