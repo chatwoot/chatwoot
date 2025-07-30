@@ -19,7 +19,9 @@ const formState = {
   uiFlags: useMapGetter('campaigns/getUIFlags'),
   labels: useMapGetter('labels/getLabels'),
   inboxes: useMapGetter('inboxes/getWhatsAppInboxes'),
-  getWhatsAppTemplates: useMapGetter('inboxes/getWhatsAppTemplates'),
+  getFilteredWhatsAppTemplates: useMapGetter(
+    'inboxes/getFilteredWhatsAppTemplates'
+  ),
 };
 
 const initialState = {
@@ -68,7 +70,7 @@ const inboxOptions = computed(() =>
 
 const templateOptions = computed(() => {
   if (!state.inboxId) return [];
-  const templates = formState.getWhatsAppTemplates.value(state.inboxId);
+  const templates = formState.getFilteredWhatsAppTemplates.value(state.inboxId);
   return templates.map(template => {
     // Create a more user-friendly label from template name
     const friendlyName = template.name

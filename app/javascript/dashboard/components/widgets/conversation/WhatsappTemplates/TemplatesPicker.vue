@@ -21,38 +21,9 @@ export default {
   },
   computed: {
     whatsAppTemplateMessages() {
-      const templates = this.$store.getters['inboxes/getWhatsAppTemplates'](
+      return this.$store.getters['inboxes/getFilteredWhatsAppTemplates'](
         this.inboxId
       );
-
-      if (!templates || !Array.isArray(templates)) {
-        return [];
-      }
-
-      return templates.filter(template => {
-        // Ensure template has required properties
-        if (!template || !template.status || !template.components) {
-          return false;
-        }
-
-        // Only show approved templates
-        if (template.status.toLowerCase() !== 'approved') {
-          return false;
-        }
-
-        // Filter out interactive templates (LIST, PRODUCT, CATALOG) and location templates
-        const hasUnsupportedComponents = template.components.some(
-          component =>
-            ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type) ||
-            (component.type === 'HEADER' && component.format === 'LOCATION')
-        );
-
-        if (hasUnsupportedComponents) {
-          return false;
-        }
-
-        return true;
-      });
     },
     filteredTemplateMessages() {
       return this.whatsAppTemplateMessages.filter(template =>
