@@ -285,6 +285,13 @@ export const actions = {
       throw new Error(error);
     }
   },
+  syncTemplates: async (_, inboxId) => {
+    try {
+      await InboxesAPI.syncTemplates(inboxId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export const mutations = {

@@ -21,7 +21,7 @@ nl:
   messages:
     reset_password_success: Woot! Verzoek om wachtwoord te resetten is gelukt. Controleer je e-mail voor instructies.
     reset_password_failure: Oh ho! We konden geen gebruiker vinden met het opgegeven e-mailadres.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: Uw verzoek tot verwijdering binnen de inbox zal binnen enige tijd worden verwerkt.
   errors:
     validations:
       presence: mag niet leeg zijn
@@ -29,10 +29,10 @@ nl:
       invalid: Ongeldige gebeurtenissen
     signup:
       disposable_email: Wij staan geen verwijderbare e-mails toe
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      blocked_domain: Dit domein is niet toegestaan. Als u denkt dat dit een vergissing is, neem dan contact op met de klantenservice.
       invalid_email: Je hebt een ongeldig e-mailadres ingevoerd
       email_already_exists: 'Je hebt je al aangemeld voor een account bij %{email}'
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      invalid_params: 'Ongeldig zijn, controleer de aanmeldingsparameters en probeer het opnieuw'
       failed: Aanmelden mislukt
     data_import:
       data_type:
@@ -272,10 +272,10 @@ nl:
       results_title: Zoekresultaten
     toc_header: 'Op deze pagina'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: Zoek hier naar de artikelen of blader door de onderstaande categorieën.
     common:
       home: Startpagina
-      last_updated_on: Last updated on %{last_updated_on}
+      last_updated_on: Laatst geüpdatet op %{last_updated_on}
       view_all_articles: Alles weergeven
       article: artikel
       articles: articles
@@ -286,7 +286,7 @@ nl:
       by: By
       no_articles: There are no articles here
     footer:
-      made_with: Made with
+      made_with: Mogelijk gemaakt door
     header:
       go_to_homepage: Website
       visit_website: Visit website
@@ -294,7 +294,7 @@ nl:
         system: Systeem
         light: Light
         dark: Dark
-      featured_articles: Featured Articles
+      featured_articles: Uitgelichte artikelen
       uncategorized: Uncategorized
     404:
       title: Page not found

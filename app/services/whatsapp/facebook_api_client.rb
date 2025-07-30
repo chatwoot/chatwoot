@@ -63,6 +63,15 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'Webhook subscription failed')
   end
 
+  def unsubscribe_waba_webhook(waba_id)
+    response = HTTParty.delete(
+      "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
+      headers: request_headers
+    )
+
+    handle_response(response, 'Webhook unsubscription failed')
+  end
+
   private
 
   def request_headers
