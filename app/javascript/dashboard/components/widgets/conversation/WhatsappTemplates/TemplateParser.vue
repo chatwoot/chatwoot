@@ -234,7 +234,7 @@ export default {
   <div class="w-full">
     <div
       v-if="template"
-      class="flex flex-col gap-4 p-4 rounded-lg bg-n-alpha-black2"
+      class="flex flex-col gap-4 p-4 mb-4 rounded-lg bg-n-alpha-black2"
     >
       <div class="flex justify-between items-center">
         <h3 class="text-sm font-medium text-n-slate-12">
@@ -258,7 +258,7 @@ export default {
       </div>
     </div>
 
-    <div v-if="variables || hasMediaHeader" class="p-2.5">
+    <div v-if="variables || hasMediaHeader">
       <!-- Media Header Section -->
       <div v-if="hasMediaHeader" class="mb-4">
         <p class="mb-2.5 text-sm font-semibold">
@@ -276,10 +276,11 @@ export default {
         </p>
         <div class="flex items-center mb-2.5">
           <Input
-            v-model="processedParams.header.media_url"
+            :model-value="processedParams.header?.media_url || ''"
             type="url"
             class="flex-1"
             :placeholder="`Enter ${headerComponent.format.toLowerCase()} URL`"
+            @update:model-value="updateMediaUrl"
           />
         </div>
       </div>
