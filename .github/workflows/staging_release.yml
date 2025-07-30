@@ -103,6 +103,9 @@ jobs:
             set -e
             cd courier
 
+            echo "--- Logging into GitHub Container Registry ---"
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+
             echo "--- Pulling latest Docker images ---"
             docker compose -f docker-compose.production.yaml pull
 
