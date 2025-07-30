@@ -15,7 +15,7 @@ import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
-import Logo from 'next/icon/Logo.vue';
+// import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const props = defineProps({
@@ -528,10 +528,10 @@ const menuItems = computed(() => {
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
-        <div class="grid flex-shrink-0 size-6 place-content-center">
+        <!-- <div class="grid flex-shrink-0 size-6 place-content-center">
           <Logo class="size-4" />
-        </div>
-        <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
+        </div> 
+        <div class="flex-shrink-0 w-px h-3 bg-n-strong" /> -->
         <SidebarAccountSwitcher
           class="flex-grow min-w-0 -mx-1"
           @show-create-account-modal="emit('showCreateAccountModal')"

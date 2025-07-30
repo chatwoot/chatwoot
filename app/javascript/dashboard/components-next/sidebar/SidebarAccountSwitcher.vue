@@ -50,7 +50,7 @@ const emitNewAccount = () => {
         :data-account-id="accountId"
         aria-haspopup="listbox"
         aria-controls="account-options"
-        class="flex items-center gap-2 justify-between w-full rounded-lg px-2"
+        class="flex items-center gap-2 justify-center w-full rounded-lg px-2"
         :class="[
           isOpen && 'bg-n-alpha-1',
           showAccountSwitcher
