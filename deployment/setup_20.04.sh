@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.4.0
+# Script Version: 3.4.1
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -1005,7 +1005,7 @@ EOF
   upgrade_redis
   upgrade_node
   get_pnpm
-  sudo -i -u chatwoot << "EOF"
+  sudo -i -u chatwoot << EOF
 
   # Navigate to the Chatwoot directory
   cd chatwoot
