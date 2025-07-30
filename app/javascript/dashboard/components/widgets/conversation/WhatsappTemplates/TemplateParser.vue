@@ -129,31 +129,35 @@ export default {
       buttonComponents.forEach(buttonComponent => {
         if (buttonComponent.buttons) {
           buttonComponent.buttons.forEach((button, index) => {
-            // Handle URL buttons with variables
-            if (
-              button.type === 'URL' &&
-              button.url &&
-              button.url.includes('{{')
-            ) {
-              const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
-              if (buttonVars.length > 0) {
+            // Skip button parameter inputs for authentication templates
+            // as they are auto-populated with OTP codes
+            if (props.template?.category !== 'AUTHENTICATION') {
+              // Handle URL buttons with variables
+              if (
+                button.type === 'URL' &&
+                button.url &&
+                button.url.includes('{{')
+              ) {
+                const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
+                if (buttonVars.length > 0) {
+                  if (!allVariables.buttons) allVariables.buttons = [];
+                  allVariables.buttons[index] = {
+                    type: 'url',
+                    parameter: '',
+                    url: button.url,
+                    variables: buttonVars.map(v => processVariable(v)),
+                  };
+                }
+              }
+
+              // Handle copy code buttons
+              if (button.type === 'COPY_CODE') {
                 if (!allVariables.buttons) allVariables.buttons = [];
                 allVariables.buttons[index] = {
-                  type: 'url',
+                  type: 'copy_code',
                   parameter: '',
-                  url: button.url,
-                  variables: buttonVars.map(v => processVariable(v)),
                 };
               }
-            }
-
-            // Handle copy code buttons
-            if (button.type === 'COPY_CODE') {
-              if (!allVariables.buttons) allVariables.buttons = [];
-              allVariables.buttons[index] = {
-                type: 'copy_code',
-                parameter: '',
-              };
             }
           });
         }
@@ -327,28 +331,16 @@ export default {
           :key="`button-${index}`"
           class="flex items-center mb-2.5"
         >
-          <span
-            class="inline-block px-6 py-2.5 text-xs rounded-md bg-n-alpha-black2 text-n-slate-12"
-          >
-            {{
-              button.type === 'copy_code'
-                ? $t('WHATSAPP_TEMPLATES.PARSER.COUPON_CODE') || 'Coupon Code'
-                : $t('WHATSAPP_TEMPLATES.PARSER.BUTTON_LABEL', {
-                    index: index + 1,
-                  }) || `Button ${index + 1}`
-            }}
-          </span>
-          <woot-input
+          <Input
             v-model="processedParams.buttons[index].parameter"
             :type="button.type === 'copy_code' ? 'text' : 'text'"
             :maxlength="button.type === 'copy_code' ? 15 : 500"
+            class="flex-1"
             :placeholder="
               button.type === 'copy_code'
                 ? 'Enter coupon code (max 15 chars)'
                 : 'Enter button parameter'
             "
-            class="flex-1 ml-2.5 text-sm"
-            :styles="{ marginBottom: 0 }"
           />
         </div>
       </div>
