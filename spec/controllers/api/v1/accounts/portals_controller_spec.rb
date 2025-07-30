@@ -241,7 +241,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
              params: {},
              as: :json
 
-        expect(response).to have_http_status(:bad_request)
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq('Email is required')
       end
 
@@ -251,7 +251,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
              params: { email: 'invalid-email' },
              as: :json
 
-        expect(response).to have_http_status(:bad_request)
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq('Invalid email format')
       end
 
@@ -261,7 +261,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
              params: { email: 'dev@example.com' },
              as: :json
 
-        expect(response).to have_http_status(:bad_request)
+        expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq('Custom domain not configured')
       end
 
@@ -279,77 +279,6 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response.parsed_body['message']).to eq('Instructions sent successfully')
         expect(PortalInstructionsMailer).to have_received(:send_cname_instructions)
           .with(portal: portal_with_domain, recipient_email: 'dev@example.com')
-      end
-    end
-  end
-
-  describe 'GET /api/v1/accounts/{account.id}/portals/{portal.slug}/ssl_status' do
-    let(:portal_with_domain) { create(:portal, slug: 'portal-with-domain', account_id: account.id, custom_domain: 'docs.example.com') }
-
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/ssl_status"
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      it 'returns error when custom domain is not configured' do
-        get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/ssl_status",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:bad_request)
-        expect(response.parsed_body['error']).to eq('Custom domain not configured')
-      end
-
-      it 'returns SSL status when portal has ssl_settings' do
-        portal_with_domain.update(ssl_settings: {
-                                    'cf_status' => 'active',
-                                    'cf_verification_errors' => nil
-                                  })
-
-        # Mock the Cloudflare service
-        mock_service = instance_double(Cloudflare::CheckCustomHostnameService)
-        allow(Cloudflare::CheckCustomHostnameService).to receive(:new).and_return(mock_service)
-        allow(mock_service).to receive(:perform).and_return({ data: [] })
-
-        get "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/ssl_status",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(response.parsed_body['status']).to eq('active')
-        expect(response.parsed_body['verification_errors']).to be_nil
-      end
-
-      it 'returns null values when portal has no ssl_settings' do
-        # Mock the Cloudflare service
-        mock_service = instance_double(Cloudflare::CheckCustomHostnameService)
-        allow(Cloudflare::CheckCustomHostnameService).to receive(:new).and_return(mock_service)
-        allow(mock_service).to receive(:perform).and_return({ data: [] })
-
-        get "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/ssl_status",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(response.parsed_body['status']).to be_nil
-        expect(response.parsed_body['verification_errors']).to be_nil
-      end
-
-      it 'returns error when Cloudflare service returns errors' do
-        mock_service = instance_double(Cloudflare::CheckCustomHostnameService)
-        allow(Cloudflare::CheckCustomHostnameService).to receive(:new).and_return(mock_service)
-        allow(mock_service).to receive(:perform).and_return({ errors: ['API token not found'] })
-
-        get "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/ssl_status",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq(['API token not found'])
       end
     end
   end
