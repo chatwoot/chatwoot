@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /**
  * This component handles parsing and sending WhatsApp message templates.
  * It works as follows:
@@ -11,223 +11,201 @@
 import { ref, computed, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { requiredIf } from '@vuelidate/validators';
+import { useI18n } from 'vue-i18n';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: {
-    NextButton,
-    // eslint-disable-next-line vue/no-reserved-component-names
-    Input,
+const props = defineProps({
+  template: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    template: {
-      type: Object,
-      default: () => ({}),
+});
+
+const emit = defineEmits(['sendMessage', 'resetTemplate']);
+
+const { t } = useI18n();
+
+const processVariable = str => {
+  return str.replace(/{{|}}/g, '');
+};
+
+const allKeysRequired = value => {
+  const keys = Object.keys(value);
+  return keys.every(key => value[key]);
+};
+
+const processedParams = ref({});
+
+const templateString = computed(() => {
+  return props.template.components.find(component => component.type === 'BODY')
+    .text;
+});
+
+const headerComponent = computed(() => {
+  return props.template.components.find(
+    component => component.type === 'HEADER'
+  );
+});
+
+const hasMediaHeader = computed(() => {
+  return (
+    headerComponent.value &&
+    headerComponent.value.format &&
+    ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.value.format)
+  );
+});
+
+const variables = computed(() => {
+  return templateString.value.match(/{{([^}]+)}}/g);
+});
+
+const processedString = computed(() => {
+  return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
+    const variableKey = processVariable(variable);
+    return processedParams.value[variableKey] || `{{${variable}}}`;
+  });
+});
+
+const v$ = useVuelidate(
+  {
+    processedParams: {
+      requiredIfKeysPresent: requiredIf(variables),
+      allKeysRequired,
     },
   },
-  emits: ['sendMessage', 'resetTemplate'],
-  setup(props, { emit }) {
-    const processVariable = str => {
-      return str.replace(/{{|}}/g, '');
-    };
+  { processedParams }
+);
 
-    const allKeysRequired = value => {
-      const keys = Object.keys(value);
-      return keys.every(key => value[key]);
-    };
+const generateVariables = () => {
+  const allVariables = {};
 
-    const processedParams = ref({});
-
-    const templateString = computed(() => {
-      return props.template.components.find(
-        component => component.type === 'BODY'
-      ).text;
+  // Process body variables
+  const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
+  if (matchedVariables) {
+    allVariables.body = {};
+    matchedVariables.forEach(variable => {
+      const key = processVariable(variable);
+      // Special handling for authentication templates
+      if (props.template?.category === 'AUTHENTICATION') {
+        if (
+          key === '1' ||
+          key.toLowerCase().includes('otp') ||
+          key.toLowerCase().includes('code')
+        ) {
+          allVariables.body.otp_code = '';
+        } else if (
+          key === '2' ||
+          key.toLowerCase().includes('expiry') ||
+          key.toLowerCase().includes('minute')
+        ) {
+          allVariables.body.expiry_minutes = '';
+        } else {
+          allVariables.body[key] = '';
+        }
+      } else {
+        allVariables.body[key] = '';
+      }
     });
+  }
 
-    const headerComponent = computed(() => {
-      return props.template.components.find(
-        component => component.type === 'HEADER'
-      );
-    });
+  // Add media URL field if template has media header
+  if (hasMediaHeader.value) {
+    if (!allVariables.header) allVariables.header = {};
+    allVariables.header.media_url = '';
+    allVariables.header.media_type = headerComponent.value.format.toLowerCase();
+  }
 
-    const hasMediaHeader = computed(() => {
-      return (
-        headerComponent.value &&
-        headerComponent.value.format &&
-        ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.value.format)
-      );
-    });
+  // Process button variables
+  const buttonComponents = props.template.components.filter(
+    component => component.type === 'BUTTONS'
+  );
 
-    const variables = computed(() => {
-      return templateString.value.match(/{{([^}]+)}}/g);
-    });
-
-    const processedString = computed(() => {
-      return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
-        const variableKey = processVariable(variable);
-        return processedParams.value[variableKey] || `{{${variable}}}`;
-      });
-    });
-
-    const v$ = useVuelidate(
-      {
-        processedParams: {
-          requiredIfKeysPresent: requiredIf(variables),
-          allKeysRequired,
-        },
-      },
-      { processedParams }
-    );
-
-    const generateVariables = () => {
-      const allVariables = {};
-
-      // Process body variables
-      const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
-      if (matchedVariables) {
-        allVariables.body = {};
-        matchedVariables.forEach(variable => {
-          const key = processVariable(variable);
-          // Special handling for authentication templates
-          if (props.template?.category === 'AUTHENTICATION') {
-            if (
-              key === '1' ||
-              key.toLowerCase().includes('otp') ||
-              key.toLowerCase().includes('code')
-            ) {
-              allVariables.body.otp_code = '';
-            } else if (
-              key === '2' ||
-              key.toLowerCase().includes('expiry') ||
-              key.toLowerCase().includes('minute')
-            ) {
-              allVariables.body.expiry_minutes = '';
-            } else {
-              allVariables.body[key] = '';
+  buttonComponents.forEach(buttonComponent => {
+    if (buttonComponent.buttons) {
+      buttonComponent.buttons.forEach((button, index) => {
+        // Skip button parameter inputs for authentication templates
+        // as they are auto-populated with OTP codes
+        if (props.template?.category !== 'AUTHENTICATION') {
+          // Handle URL buttons with variables
+          if (
+            button.type === 'URL' &&
+            button.url &&
+            button.url.includes('{{')
+          ) {
+            const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
+            if (buttonVars.length > 0) {
+              if (!allVariables.buttons) allVariables.buttons = [];
+              allVariables.buttons[index] = {
+                type: 'url',
+                parameter: '',
+                url: button.url,
+                variables: buttonVars.map(v => processVariable(v)),
+              };
             }
-          } else {
-            allVariables.body[key] = '';
           }
-        });
-      }
 
-      // Add media URL field if template has media header
-      if (hasMediaHeader.value) {
-        if (!allVariables.header) allVariables.header = {};
-        allVariables.header.media_url = '';
-        allVariables.header.media_type =
-          headerComponent.value.format.toLowerCase();
-      }
-
-      // Process button variables
-      const buttonComponents = props.template.components.filter(
-        component => component.type === 'BUTTONS'
-      );
-
-      buttonComponents.forEach(buttonComponent => {
-        if (buttonComponent.buttons) {
-          buttonComponent.buttons.forEach((button, index) => {
-            // Skip button parameter inputs for authentication templates
-            // as they are auto-populated with OTP codes
-            if (props.template?.category !== 'AUTHENTICATION') {
-              // Handle URL buttons with variables
-              if (
-                button.type === 'URL' &&
-                button.url &&
-                button.url.includes('{{')
-              ) {
-                const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
-                if (buttonVars.length > 0) {
-                  if (!allVariables.buttons) allVariables.buttons = [];
-                  allVariables.buttons[index] = {
-                    type: 'url',
-                    parameter: '',
-                    url: button.url,
-                    variables: buttonVars.map(v => processVariable(v)),
-                  };
-                }
-              }
-
-              // Handle copy code buttons
-              if (button.type === 'COPY_CODE') {
-                if (!allVariables.buttons) allVariables.buttons = [];
-                allVariables.buttons[index] = {
-                  type: 'copy_code',
-                  parameter: '',
-                };
-              }
-            }
-          });
+          // Handle copy code buttons
+          if (button.type === 'COPY_CODE') {
+            if (!allVariables.buttons) allVariables.buttons = [];
+            allVariables.buttons[index] = {
+              type: 'copy_code',
+              parameter: '',
+            };
+          }
         }
       });
+    }
+  });
 
-      processedParams.value = allVariables;
-    };
-
-    const resetTemplate = () => {
-      emit('resetTemplate');
-    };
-
-    const updateMediaUrl = value => {
-      if (!processedParams.value.header) {
-        processedParams.value.header = {};
-      }
-      processedParams.value.header.media_url = value;
-    };
-
-    const sendMessage = () => {
-      v$.value.$touch();
-      if (v$.value.$invalid) return;
-
-      // Auto-populate button parameters for authentication templates
-      const finalParams = { ...processedParams.value };
-      if (
-        props.template?.category === 'AUTHENTICATION' &&
-        finalParams.buttons
-      ) {
-        finalParams.buttons.forEach((button, index) => {
-          if (button.type === 'url') {
-            // For authentication templates, auto-populate URL button parameter with OTP
-            if (finalParams.body?.['1']) {
-              finalParams.buttons[index].parameter = finalParams.body['1'];
-            } else if (finalParams.body?.otp_code) {
-              finalParams.buttons[index].parameter = finalParams.body.otp_code;
-            }
-          }
-        });
-      }
-
-      const payload = {
-        message: processedString.value,
-        templateParams: {
-          name: props.template.name,
-          category: props.template.category,
-          language: props.template.language,
-          namespace: props.template.namespace,
-          processed_params: finalParams,
-        },
-      };
-      emit('sendMessage', payload);
-    };
-
-    onMounted(generateVariables);
-
-    return {
-      processedParams,
-      variables,
-      templateString,
-      processedString,
-      headerComponent,
-      hasMediaHeader,
-      v$,
-      resetTemplate,
-      sendMessage,
-      updateMediaUrl,
-    };
-  },
+  processedParams.value = allVariables;
 };
+
+const resetTemplate = () => {
+  emit('resetTemplate');
+};
+
+const updateMediaUrl = value => {
+  if (!processedParams.value.header) {
+    processedParams.value.header = {};
+  }
+  processedParams.value.header.media_url = value;
+};
+
+const sendMessage = () => {
+  v$.value.$touch();
+  if (v$.value.$invalid) return;
+
+  // Auto-populate button parameters for authentication templates
+  const finalParams = { ...processedParams.value };
+  if (props.template?.category === 'AUTHENTICATION' && finalParams.buttons) {
+    finalParams.buttons.forEach((button, index) => {
+      if (button.type === 'url') {
+        // For authentication templates, auto-populate URL button parameter with OTP
+        if (finalParams.body?.['1']) {
+          finalParams.buttons[index].parameter = finalParams.body['1'];
+        } else if (finalParams.body?.otp_code) {
+          finalParams.buttons[index].parameter = finalParams.body.otp_code;
+        }
+      }
+    });
+  }
+
+  const payload = {
+    message: processedString.value,
+    templateParams: {
+      name: props.template.name,
+      category: props.template.category,
+      language: props.template.language,
+      namespace: props.template.namespace,
+      processed_params: finalParams,
+    },
+  };
+  emit('sendMessage', payload);
+};
+
+onMounted(generateVariables);
 </script>
 
 <template>
@@ -241,6 +219,7 @@ export default {
           {{ template.name }}
         </h3>
         <span class="text-xs text-n-slate-11">
+          {{ t('WHATSAPP_TEMPLATES.PARSER.LANGUAGE') }}:
           {{ template.language || 'en' }}
         </span>
       </div>
@@ -254,12 +233,12 @@ export default {
       </div>
 
       <div class="text-xs text-n-slate-11">
+        {{ t('WHATSAPP_TEMPLATES.PARSER.CATEGORY') }}:
         {{ template.category || 'UTILITY' }}
       </div>
     </div>
 
     <div v-if="variables || hasMediaHeader">
-      <!-- Media Header Section -->
       <div v-if="hasMediaHeader" class="mb-4">
         <p class="mb-2.5 text-sm font-semibold">
           {{
@@ -279,7 +258,13 @@ export default {
             :model-value="processedParams.header?.media_url || ''"
             type="url"
             class="flex-1"
-            :placeholder="`Enter ${headerComponent.format.toLowerCase()} URL`"
+            :placeholder="
+              t('WHATSAPP_TEMPLATES.PARSER.MEDIA_URL_LABEL', {
+                type:
+                  headerComponent.format.charAt(0) +
+                  headerComponent.format.slice(1).toLowerCase(),
+              })
+            "
             @update:model-value="updateMediaUrl"
           />
         </div>
@@ -310,10 +295,12 @@ export default {
             class="flex-1"
             :placeholder="
               key === 'otp_code'
-                ? 'Enter 4-8 digit OTP'
+                ? t('WHATSAPP_TEMPLATES.PARSER.OTP_CODE')
                 : key === 'expiry_minutes'
-                  ? 'Enter expiry minutes'
-                  : `Enter ${key} value`
+                  ? t('WHATSAPP_TEMPLATES.PARSER.EXPIRY_MINUTES')
+                  : t('WHATSAPP_TEMPLATES.PARSER.VARIABLE_PLACEHOLDER', {
+                      variable: key,
+                    })
             "
           />
         </div>
@@ -322,10 +309,7 @@ export default {
       <!-- Button Variables Section -->
       <div v-if="processedParams.buttons">
         <p class="mb-2.5 text-sm font-semibold">
-          {{
-            $t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETERS') ||
-            'Button Parameters'
-          }}
+          {{ t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETERS') }}
         </p>
         <div
           v-for="(button, index) in processedParams.buttons"
@@ -339,8 +323,8 @@ export default {
             class="flex-1"
             :placeholder="
               button.type === 'copy_code'
-                ? 'Enter coupon code (max 15 chars)'
-                : 'Enter button parameter'
+                ? t('WHATSAPP_TEMPLATES.PARSER.COUPON_CODE')
+                : t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETER')
             "
           />
         </div>
