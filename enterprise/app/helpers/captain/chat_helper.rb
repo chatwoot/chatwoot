@@ -14,8 +14,7 @@ module Captain::ChatHelper
                            temperature: temperature,
                            messages_count: @messages.size,
                            tools_count: tools.size,
-                           messages: @messages,
-                           tools: tools.map { |tool| tool.dig(:function, :name) }
+                           last_message: @messages.last
                          })
 
     start_time = Time.current
@@ -34,8 +33,7 @@ module Captain::ChatHelper
     log_captain_activity(Llm::BaseOpenAiService::RESPONSE, {
                            conversation_id: @conversation&.id,
                            duration_ms: duration_ms,
-                           response: response,
-                           usage: response.dig('usage')
+                           response: response.dig('choices', 0)
                          })
 
     handle_response(response)
