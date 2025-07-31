@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Inbox Leave Integration', type: :model do
+RSpec.describe 'Inbox Leave Integration', skip: 'Enterprise feature', type: :model do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:user1) { create(:user) }

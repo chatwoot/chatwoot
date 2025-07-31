@@ -5,7 +5,10 @@ class AutoAssignment::AgentAssignmentService
   pattr_initialize [:conversation!, :allowed_agent_ids!]
 
   def find_assignee
-    round_robin_manage_service.available_agent(allowed_agent_ids: allowed_online_agent_ids)
+    assignee_id = round_robin_manage_service.available_agent(allowed_agent_ids: allowed_online_agent_ids)
+    return nil unless assignee_id
+
+    User.find_by(id: assignee_id)
   end
 
   def perform

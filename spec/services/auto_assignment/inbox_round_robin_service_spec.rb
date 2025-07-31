@@ -45,13 +45,13 @@ describe AutoAssignment::InboxRoundRobinService do
                    inbox_members[3].user_id,
                    inbox_members[2].user_id
                  ].map(&:to_s)
-               )).to eq inbox_members[2].user
+               )).to eq inbox_members[2].user_id.to_s
         expect(described_class.new(inbox: inbox).available_agent(
                  allowed_agent_ids: [
                    inbox_members[3].user_id,
                    inbox_members[2].user_id
                  ].map(&:to_s)
-               )).to eq inbox_members[3].user
+               )).to eq inbox_members[3].user_id.to_s
         expect(inbox_round_robin_service.send(:queue)).to eq(expected_queue)
       end
     end

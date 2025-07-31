@@ -1,6 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe AutoAssignment::AgentAssignmentService do
+  before do
+    # Stub GlobalConfig for assignment_v2 feature flag before any objects are created
+    allow(GlobalConfig).to receive(:get) do |key, default = nil|
+      case key
+      when 'assignment_v2'
+        nil
+      when 'assignment_v2_disabled'
+        false
+      when 'assignment_v2_disabled_inboxes'
+        []
+      else
+        default
+      end
+    end
+    inbox_members.each { |inbox_member| create(:account_user, account: account, user: inbox_member.user) }
+    allow(OnlineStatusTracker).to receive(:get_available_users).and_return(online_users)
+  end
+
   let!(:account) { create(:account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
   let!(:inbox_members) { create_list(:inbox_member, 5, inbox: inbox) }
@@ -13,11 +31,6 @@ RSpec.describe AutoAssignment::AgentAssignmentService do
       inbox_members[3].user_id.to_s => 'online',
       inbox_members[4].user_id.to_s => 'online'
     }
-  end
-
-  before do
-    inbox_members.each { |inbox_member| create(:account_user, account: account, user: inbox_member.user) }
-    allow(OnlineStatusTracker).to receive(:get_available_users).and_return(online_users)
   end
 
   describe '#perform' do

@@ -4,6 +4,24 @@ require 'rails_helper'
 
 shared_examples_for 'auto_assignment_handler' do
   describe '#auto assignment' do
+    before do
+      # Stub GlobalConfig for assignment_v2 feature flag before any objects are created
+      allow(GlobalConfig).to receive(:get) do |key, default = nil|
+        case key
+        when 'assignment_v2'
+          nil
+        when 'assignment_v2_disabled'
+          false
+        when 'assignment_v2_disabled_inboxes'
+          []
+        else
+          default
+        end
+      end
+      create(:inbox_member, inbox: inbox, user: agent)
+      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
+    end
+
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account, auto_offline: false) }
     let(:inbox) { create(:inbox, account: account) }
@@ -15,11 +33,6 @@ shared_examples_for 'auto_assignment_handler' do
         inbox: inbox,
         assignee: nil
       )
-    end
-
-    before do
-      create(:inbox_member, inbox: inbox, user: agent)
-      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
     end
 
     it 'runs round robin on after_save callbacks' do

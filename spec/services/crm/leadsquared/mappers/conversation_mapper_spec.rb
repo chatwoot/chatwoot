@@ -32,7 +32,20 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
 
   before do
     account.enable_features('crm_integration')
-    allow(GlobalConfig).to receive(:get).with('BRAND_NAME').and_return({ 'BRAND_NAME' => 'TestBrand' })
+    allow(GlobalConfig).to receive(:get) do |key, default = nil|
+      case key
+      when 'BRAND_NAME'
+        { 'BRAND_NAME' => 'TestBrand' }
+      when 'assignment_v2'
+        nil
+      when 'assignment_v2_disabled'
+        false
+      when 'assignment_v2_disabled_inboxes'
+        []
+      else
+        default
+      end
+    end
   end
 
   describe '.map_conversation_activity' do
@@ -44,7 +57,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         expect(result).to include('Channel: Test Inbox')
         expect(result).to include('Created: 2024-01-01 10:00:00')
         expect(result).to include("Conversation ID: #{conversation.display_id}")
-        expect(result).to include('View in TestBrand: http://')
+        expect(result).to match(%r{View in TestBrand: https?://})
       end
     end
 

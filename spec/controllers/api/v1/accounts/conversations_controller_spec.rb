@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe 'Conversations API', type: :request do
+  before do
+    # Stub GlobalConfig for assignment_v2 feature flag before any objects are created
+    allow(GlobalConfig).to receive(:get) do |key, default = nil|
+      case key
+      when 'assignment_v2'
+        nil
+      when 'assignment_v2_disabled'
+        false
+      when 'assignment_v2_disabled_inboxes'
+        []
+      else
+        default
+      end
+    end
+  end
+
   let(:account) { create(:account) }
 
   describe 'GET /api/v1/accounts/{account.id}/conversations' do

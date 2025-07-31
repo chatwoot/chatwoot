@@ -4,6 +4,22 @@ require 'rails_helper'
 
 shared_examples_for 'assignment_handler' do
   describe '#update_team' do
+    before do
+      # Stub GlobalConfig for assignment_v2 feature flag before any objects are created
+      allow(GlobalConfig).to receive(:get) do |key, default = nil|
+        case key
+        when 'assignment_v2'
+          nil
+        when 'assignment_v2_disabled'
+          false
+        when 'assignment_v2_disabled_inboxes'
+          []
+        else
+          default
+        end
+      end
+    end
+
     let(:conversation) { create(:conversation, assignee: create(:user)) }
     let(:agent) do
       create(:user, email: 'agent@example.com', account: conversation.account, role: :agent, auto_offline: false)
