@@ -57,7 +57,6 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def conversation
-    Rails.logger.info "Conversation DEBUG #{@conversation.inspect}"
     @conversation ||= set_conversation_based_on_inbox_config
   end
 
@@ -116,7 +115,6 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def build_conversation
-    Rails.logger.info "Creating new conversation #{conversation_params.inspect} for message #{message_params.inspect}"
     @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: message_source_id)
     Conversation.create!(conversation_params.merge(
                            contact_inbox_id: @contact_inbox.id,
