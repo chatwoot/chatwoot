@@ -5,7 +5,7 @@ class Webhooks::CallKnowlarityController < ActionController::API # rubocop:disab
   include CommonCallHelper
   include CallKnowlarityHelper
 
-  def handle_call_callback # rubocop:disable Metrics/AbcSize
+  def handle_call_callback # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     parsed_body = parse_request_body
 
     Rails.logger.info("parsed_bodyForKnowlarity #{parsed_body.inspect}")
@@ -30,6 +30,9 @@ class Webhooks::CallKnowlarityController < ActionController::API # rubocop:disab
 
       create_call_log_message(conversation, parsed_body)
       send_call_log_to_bspd(parsed_body, conversation, account)
+
+      # Resolve the conversation after outgoing call processing is complete
+      resolve_conversation_after_call(conversation)
 
       head :ok
     end
@@ -67,7 +70,7 @@ class Webhooks::CallKnowlarityController < ActionController::API # rubocop:disab
     end
   end
 
-  def handle_incoming_callback(conversation, parsed_body, account) # rubocop:disable Metrics/AbcSize
+  def handle_incoming_callback(conversation, parsed_body, account) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     mark_conversation_as_inbound_call(conversation)
 
     agent_phone = parsed_body['destination']
@@ -98,6 +101,9 @@ class Webhooks::CallKnowlarityController < ActionController::API # rubocop:disab
 
     send_call_log_to_bspd(parsed_body, conversation, account)
 
+    # Resolve the conversation after call processing is complete
+    resolve_conversation_after_call(conversation)
+
     head :ok
   end
 
@@ -117,6 +123,9 @@ class Webhooks::CallKnowlarityController < ActionController::API # rubocop:disab
     else
       mark_conversation_as_missed_call(conversation, parsed_body, 'ooo')
     end
+
+    # Resolve the conversation after missed call processing is complete
+    resolve_conversation_after_call(conversation)
   end
 
   def add_missed_call_label(conversation)
@@ -252,5 +261,17 @@ class Webhooks::CallKnowlarityController < ActionController::API # rubocop:disab
   def handle_error(error)
     Rails.logger.error "Error sending call log to BSPD: #{error.message}"
     raise error
+  end
+
+  def resolve_conversation_after_call(conversation)
+    # Only resolve if the conversation is not already resolved
+    return if conversation.resolved?
+
+    Rails.logger.info("Resolving conversation #{conversation.id} after call processing")
+
+    # Resolve the conversation
+    conversation.resolved!
+
+    Rails.logger.info("Conversation #{conversation.id} resolved successfully")
   end
 end
