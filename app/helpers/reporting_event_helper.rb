@@ -24,7 +24,7 @@ module ReportingEventHelper
     # So we pick the latest event
     event = ReportingEvent.where(
       conversation_id: conversation.id,
-      name: %w[conversation_bot_handoff conversation_reopened]
+      name: %w[conversation_bot_handoff conversation_opened]
     ).order(event_end_time: :desc).first
 
     return event.event_end_time if event&.event_end_time

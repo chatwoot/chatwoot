@@ -272,11 +272,17 @@ describe ReportingEventListener do
     context 'when conversation is opened for the first time' do
       let(:new_conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
-      it 'does not create conversation_reopened event' do
-        expect(account.reporting_events.where(name: 'conversation_reopened').count).to be 0
+      it 'creates conversation_opened event with value 0' do
+        expect(account.reporting_events.where(name: 'conversation_opened').count).to be 0
         event = Events::Base.new('conversation.opened', Time.zone.now, conversation: new_conversation)
         listener.conversation_opened(event)
-        expect(account.reporting_events.where(name: 'conversation_reopened').count).to be 0
+        expect(account.reporting_events.where(name: 'conversation_opened').count).to be 1
+
+        opened_event = account.reporting_events.where(name: 'conversation_opened').first
+        expect(opened_event.value).to eq 0
+        expect(opened_event.value_in_business_hours).to eq 0
+        expect(opened_event.event_start_time).to be_within(1.second).of(new_conversation.created_at)
+        expect(opened_event.event_end_time).to be_within(1.second).of(new_conversation.updated_at)
       end
     end
 
@@ -300,28 +306,28 @@ describe ReportingEventListener do
                event_end_time: resolved_time)
       end
 
-      it 'creates conversation_reopened event' do
-        expect(account.reporting_events.where(name: 'conversation_reopened').count).to be 0
+      it 'creates conversation_opened event' do
+        expect(account.reporting_events.where(name: 'conversation_opened').count).to be 0
         event = Events::Base.new('conversation.opened', reopened_time, conversation: reopened_conversation)
         listener.conversation_opened(event)
-        expect(account.reporting_events.where(name: 'conversation_reopened').count).to be 1
+        expect(account.reporting_events.where(name: 'conversation_opened').count).to be 1
       end
 
       it 'calculates correct time since resolution' do
         event = Events::Base.new('conversation.opened', reopened_time, conversation: reopened_conversation)
         listener.conversation_opened(event)
 
-        reopened_event = account.reporting_events.where(name: 'conversation_reopened').first
+        reopened_event = account.reporting_events.where(name: 'conversation_opened').first
         expect(reopened_event.value).to be_within(1).of(3600) # 1 hour = 3600 seconds
         expect(reopened_event.event_start_time).to be_within(1.second).of(resolved_time)
         expect(reopened_event.event_end_time).to be_within(1.second).of(reopened_time)
       end
 
-      it 'sets correct attributes for conversation_reopened event' do
+      it 'sets correct attributes for conversation_opened event' do
         event = Events::Base.new('conversation.opened', reopened_time, conversation: reopened_conversation)
         listener.conversation_opened(event)
 
-        reopened_event = account.reporting_events.where(name: 'conversation_reopened').first
+        reopened_event = account.reporting_events.where(name: 'conversation_opened').first
         expect(reopened_event.account_id).to eq(account.id)
         expect(reopened_event.inbox_id).to eq(inbox.id)
         expect(reopened_event.conversation_id).to eq(reopened_conversation.id)
@@ -348,11 +354,11 @@ describe ReportingEventListener do
                  event_end_time: resolved_time)
         end
 
-        it 'creates conversation_reopened event with business hour value' do
+        it 'creates conversation_opened event with business hour value' do
           event = Events::Base.new('conversation.opened', reopened_time, conversation: business_hours_conversation)
           listener.conversation_opened(event)
 
-          reopened_event = account.reporting_events.where(name: 'conversation_reopened').first
+          reopened_event = account.reporting_events.where(name: 'conversation_opened').first
           expect(reopened_event.value_in_business_hours).to be 18_000.0 # 5 business hours (26 hours total - 21 non-business hours)
         end
       end
@@ -394,7 +400,7 @@ describe ReportingEventListener do
         event = Events::Base.new('conversation.opened', reopened_time, conversation: multiple_resolution_conversation)
         listener.conversation_opened(event)
 
-        reopened_event = account.reporting_events.where(name: 'conversation_reopened').first
+        reopened_event = account.reporting_events.where(name: 'conversation_opened').first
         expect(reopened_event.value).to be_within(1).of(1800) # 30 minutes from second resolution
         expect(reopened_event.event_start_time).to be_within(1.second).of(second_resolved_time)
       end
