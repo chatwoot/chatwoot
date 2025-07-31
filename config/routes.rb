@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     token_validations: 'devise_overrides/token_validations',
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
-
+  get '/api/v2/google_oauth/redirect', to: 'google_oauth#redirect'
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
     root to: 'api#index'
@@ -120,7 +120,7 @@ Rails.application.routes.draw do
               get 'whatsapp/status', to: 'inboxes#whatsapp_status'
             end
           end
-          
+
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
@@ -463,6 +463,19 @@ Rails.application.routes.draw do
               get :ai_agent_metrics
             end
           end
+          resource :google_sheets_export, only: [:create], controller: 'google_sheets_export' do
+            collection do
+              post :create
+              get :authorize
+              get :status
+              get :callback
+            end
+          end
+        end
+      end
+      resource :callback, only: [:index], controller: 'callback' do
+        collection do
+          get :index
         end
       end
     end
@@ -585,7 +598,7 @@ Rails.application.routes.draw do
     post 'callback/:phone_number', to: 'callback#receive'
     get 'callback/:phone_number', to: 'callback#receive'
   end
-  
+
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
