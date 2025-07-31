@@ -32,6 +32,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['back']);
+
 const helpURL = getHelpUrlForFeature(props.featureName);
 
 const openInNewTab = url => {
@@ -46,6 +48,7 @@ const openInNewTab = url => {
       v-if="backButtonLabel"
       compact
       :button-label="backButtonLabel"
+      @click="emit('back')"
     />
     <div class="flex items-center justify-between w-full gap-4">
       <div class="flex items-center gap-3">

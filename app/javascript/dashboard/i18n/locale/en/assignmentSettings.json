@@ -1,0 +1,325 @@
+{
+  "ASSIGNMENT_SETTINGS": {
+    "HEADER": "Assignment Settings",
+    "DESCRIPTION": "Manage conversation assignment policies, agent leave requests, capacity planning, and view assignment metrics.",
+    "POLICIES": {
+      "TITLE": "Assignment Policies",
+      "DESCRIPTION": "Configure how conversations are assigned to agents",
+      "HEADER": "Assignment Policies",
+      "SUBHEADER": "Create and manage policies to automatically assign conversations to agents based on various criteria.",
+      "NEW_BUTTON": "New Policy",
+      "BACK_BUTTON": "Back to Policies",
+      "NEW_HEADER": "Create Assignment Policy",
+      "EDIT_HEADER": "Edit Assignment Policy",
+      "FORM_DESCRIPTION": "Configure the policy settings for automatic conversation assignment.",
+      "EMPTY": {
+        "TITLE": "No assignment policies found",
+        "MESSAGE": "Create your first assignment policy to start automatically assigning conversations to agents."
+      },
+      "TABLE": {
+        "NAME": "Policy Name",
+        "DESCRIPTION": "Description",
+        "PRIORITY": "Priority",
+        "STATUS": "Status",
+        "ACTIONS": "Actions"
+      },
+      "FORM": {
+        "BASIC_INFO": "Basic Information",
+        "NAME": "Policy Name",
+        "NAME_PLACEHOLDER": "Enter policy name",
+        "NAME_REQUIRED": "Policy name is required",
+        "DESCRIPTION": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Describe what this policy does",
+        "ACTIVE": "Active",
+        "POLICY_TYPE": "Policy Type",
+        "TYPE_REQUIRED": "Policy type is required",
+        "CONDITIONS": "Conditions",
+        "INBOXES": "Apply to Inboxes",
+        "INBOXES_PLACEHOLDER": "Select inboxes where this policy applies",
+        "TEAMS": "Apply to Teams",
+        "TEAMS_PLACEHOLDER": "Select teams to include",
+        "AGENTS": "Specific Agents",
+        "AGENTS_PLACEHOLDER": "Select specific agents (leave empty for all)",
+        "BUSINESS_HOURS_ONLY": "Apply only during business hours",
+        "EXCLUDED_AGENTS": "Excluded Agents",
+        "EXCLUDED_AGENTS_PLACEHOLDER": "Select agents to exclude from assignments",
+        "ADVANCED": "Advanced Settings",
+        "WEIGHT": "Policy Weight",
+        "WEIGHT_PLACEHOLDER": "100",
+        "WEIGHT_HELP": "Higher weight policies get more assignments (1-100)",
+        "MAX_ASSIGNMENTS": "Max Assignments per Agent",
+        "MAX_ASSIGNMENTS_PLACEHOLDER": "No limit",
+        "MAX_ASSIGNMENTS_HELP": "Maximum concurrent conversations per agent",
+        "REASSIGNMENT_INTERVAL": "Reassignment Interval (minutes)",
+        "REASSIGNMENT_INTERVAL_PLACEHOLDER": "0",
+        "REASSIGNMENT_INTERVAL_HELP": "Time before unresponded conversations are reassigned"
+      },
+      "TYPES": {
+        "ROUND_ROBIN": "Round Robin",
+        "ROUND_ROBIN_DESC": "Distribute conversations evenly among available agents",
+        "LOAD_BALANCED": "Load Balanced",
+        "LOAD_BALANCED_DESC": "Assign to agents with the least active conversations",
+        "SKILL_BASED": "Skill Based",
+        "SKILL_BASED_DESC": "Match conversations to agents based on required skills",
+        "CUSTOM": "Custom",
+        "CUSTOM_DESC": "Use custom logic for assignment"
+      },
+      "DELETE": {
+        "TITLE": "Delete Policy",
+        "MESSAGE": "Are you sure you want to delete the policy '{name}'? This action cannot be undone.",
+        "SUCCESS": "Policy deleted successfully",
+        "ERROR": "Failed to delete policy"
+      },
+      "CREATE": {
+        "SUCCESS": "Policy created successfully",
+        "ERROR": "Failed to create policy"
+      },
+      "UPDATE": {
+        "SUCCESS": "Policy updated successfully",
+        "ERROR": "Failed to update policy"
+      },
+      "LOAD": {
+        "ERROR": "Failed to load policy"
+      },
+      "PRIORITY": {
+        "ERROR": "Failed to update priority"
+      }
+    },
+    "PAYWALL": {
+      "TITLE": "Premium Feature",
+      "UPGRADE_NOW": "Upgrade Now",
+      "CANCEL_ANYTIME": "Cancel anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "ASK_ADMIN": "Please contact your administrator to upgrade."
+    },
+    "LEAVES": {
+      "TITLE": "Leave Management",
+      "DESCRIPTION": "Manage agent leave requests and approvals",
+      "HEADER": "Leave Management",
+      "SUBHEADER": "View and manage leave requests for agents. Approved leaves will exclude agents from automatic assignments.",
+      "NEW_BUTTON": "Request Leave",
+      "BACK_BUTTON": "Back to Leaves",
+      "NEW_HEADER": "Request Leave",
+      "NEW_DESCRIPTION": "Submit a leave request for approval.",
+      "DETAILS_HEADER": "Leave Details",
+      "DETAILS_DESCRIPTION": "View complete information about this leave request.",
+      "EMPTY": {
+        "TITLE": "No leave requests found",
+        "MESSAGE": "There are no leave requests matching your filters."
+      },
+      "TABS": {
+        "ALL": "All Leaves",
+        "MY_LEAVES": "My Leaves",
+        "PENDING_APPROVALS": "Pending Approvals"
+      },
+      "FILTER": {
+        "STATUS": "Status"
+      },
+      "TABLE": {
+        "AGENT": "Agent",
+        "TYPE": "Leave Type",
+        "DATES": "Dates",
+        "REASON": "Reason",
+        "STATUS": "Status",
+        "ACTIONS": "Actions"
+      },
+      "STATUS": {
+        "PENDING": "Pending",
+        "APPROVED": "Approved",
+        "REJECTED": "Rejected"
+      },
+      "TYPES": {
+        "ANNUAL": "Annual Leave",
+        "SICK": "Sick Leave",
+        "PERSONAL": "Personal Leave",
+        "MATERNITY": "Maternity Leave",
+        "PATERNITY": "Paternity Leave",
+        "UNPAID": "Unpaid Leave",
+        "OTHER": "Other"
+      },
+      "FORM": {
+        "TYPE": "Leave Type",
+        "TYPE_PLACEHOLDER": "Select leave type",
+        "TYPE_REQUIRED": "Leave type is required",
+        "START_DATE": "Start Date",
+        "START_DATE_PLACEHOLDER": "Select start date",
+        "START_DATE_REQUIRED": "Start date is required",
+        "END_DATE": "End Date",
+        "END_DATE_PLACEHOLDER": "Select end date",
+        "END_DATE_REQUIRED": "End date is required",
+        "END_DATE_INVALID": "End date must be after start date",
+        "IS_HALF_DAY": "Half day leave",
+        "HALF_DAY_PERIOD": "Half Day Period",
+        "HALF_DAY_INVALID": "Half day leave must be for a single date",
+        "TOTAL_DAYS": "Total Days",
+        "REASON": "Reason",
+        "REASON_PLACEHOLDER": "Provide reason for leave",
+        "REASON_REQUIRED": "Reason is required",
+        "SUBMIT": "Submit Request"
+      },
+      "HALF_DAY": {
+        "MORNING": "Morning",
+        "AFTERNOON": "Afternoon"
+      },
+      "DETAILS": {
+        "TYPE": "Leave Type",
+        "DATES": "Leave Period",
+        "REASON": "Reason",
+        "REQUESTED_ON": "Requested On",
+        "APPROVED_BY": "Approved By",
+        "REJECTED_BY": "Rejected By",
+        "APPROVER_NOTES": "Approver Notes"
+      },
+      "APPROVAL_NOTES": "Notes (Optional)",
+      "APPROVAL_NOTES_PLACEHOLDER": "Add any notes for this decision",
+      "DELETE": {
+        "TITLE": "Delete Leave Request",
+        "MESSAGE": "Are you sure you want to delete this leave request?",
+        "CONFIRM": "Are you sure you want to delete this leave request?",
+        "SUCCESS": "Leave request deleted successfully",
+        "ERROR": "Failed to delete leave request"
+      },
+      "CREATE": {
+        "SUCCESS": "Leave request submitted successfully",
+        "ERROR": "Failed to submit leave request"
+      },
+      "LOAD": {
+        "ERROR": "Failed to load leave details"
+      },
+      "APPROVE": {
+        "BUTTON": "Approve",
+        "MODAL_TITLE": "Approve Leave Request",
+        "MODAL_MESSAGE": "Approve leave request for {name} from {dates}?",
+        "CONFIRM": "Approve Leave",
+        "SUCCESS": "Leave request approved successfully",
+        "ERROR": "Failed to approve leave request"
+      },
+      "REJECT": {
+        "BUTTON": "Reject",
+        "MODAL_TITLE": "Reject Leave Request",
+        "MODAL_MESSAGE": "Reject leave request for {name} from {dates}?",
+        "CONFIRM": "Reject Leave",
+        "SUCCESS": "Leave request rejected successfully",
+        "ERROR": "Failed to reject leave request"
+      }
+    },
+    "CAPACITY": {
+      "TITLE": "Agent Capacity",
+      "DESCRIPTION": "Set maximum conversation limits for agents (Enterprise)",
+      "HEADER": "Agent Capacity Management",
+      "SUBHEADER": "Configure maximum conversation capacity for agents to prevent overload and ensure quality support.",
+      "NEW_BUTTON": "New Capacity Policy",
+      "BACK_BUTTON": "Back to Capacity",
+      "NEW_HEADER": "Create Capacity Policy",
+      "EDIT_HEADER": "Edit Capacity Policy",
+      "FORM_DESCRIPTION": "Set the maximum number of concurrent conversations agents can handle.",
+      "ENTERPRISE_ONLY": "Agent capacity management is available in the Enterprise edition.",
+      "EMPTY": {
+        "TITLE": "No capacity policies found",
+        "MESSAGE": "Create capacity policies to limit the number of concurrent conversations assigned to agents."
+      },
+      "AGENTS_EMPTY": {
+        "TITLE": "No agent capacities configured",
+        "MESSAGE": "Create capacity policies and assign agents to manage their workload."
+      },
+      "TABS": {
+        "POLICIES": "Capacity Policies",
+        "AGENTS": "Agent Capacities"
+      },
+      "TABLE": {
+        "NAME": "Policy Name",
+        "DESCRIPTION": "Description",
+        "MAX_CAPACITY": "Max Capacity",
+        "INBOX_LIMITS": "Inbox Limits",
+        "AGENTS_COUNT": "Agents",
+        "ACTIONS": "Actions",
+        "AGENT": "Agent",
+        "POLICY": "Policy",
+        "CURRENT_LOAD": "Current Load",
+        "UTILIZATION": "Utilization"
+      },
+      "FORM": {
+        "NAME": "Policy Name",
+        "NAME_PLACEHOLDER": "e.g., Standard Agent Capacity",
+        "NAME_REQUIRED": "Policy name is required",
+        "DESCRIPTION": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Describe this capacity policy",
+        "MAX_CAPACITY": "Maximum Capacity",
+        "MAX_CAPACITY_PLACEHOLDER": "10",
+        "MAX_CAPACITY_HELP": "Maximum number of concurrent conversations per agent",
+        "CAPACITY_REQUIRED": "Capacity must be at least 1",
+        "AGENTS": "Assign Agents",
+        "AGENTS_PLACEHOLDER": "Select agents for this policy",
+        "AGENTS_REQUIRED": "Please select at least one agent",
+        "NOTE_TITLE": "Note",
+        "NOTE_MESSAGE": "Agents can only be assigned to one capacity policy at a time. Assigning an agent to this policy will remove them from any other capacity policy."
+      },
+      "DELETE": {
+        "TITLE": "Delete Capacity Policy",
+        "MESSAGE": "Are you sure you want to delete the policy '{name}'? This will remove capacity limits for all assigned agents.",
+        "SUCCESS": "Capacity policy deleted successfully",
+        "ERROR": "Failed to delete capacity policy"
+      },
+      "CREATE": {
+        "SUCCESS": "Capacity policy created successfully",
+        "ERROR": "Failed to create capacity policy"
+      },
+      "UPDATE": {
+        "SUCCESS": "Capacity policy updated successfully",
+        "ERROR": "Failed to update capacity policy"
+      },
+      "LOAD": {
+        "ERROR": "Failed to load capacity policy"
+      },
+      "AVAILABLE_ON": "Agent capacity management is available on <b>Enterprise</b> plans.",
+      "UPGRADE_PROMPT": "Upgrade to Enterprise to set conversation limits for your agents."
+    },
+    "METRICS": {
+      "TITLE": "Assignment Metrics",
+      "DESCRIPTION": "View detailed analytics and performance metrics",
+      "HEADER": "Assignment Metrics",
+      "SUBHEADER": "Monitor assignment performance, agent utilization, and policy effectiveness.",
+      "EXPORT": "Export Report",
+      "FILTERS": {
+        "TITLE": "Filters",
+        "AGENTS": "Agents",
+        "POLICIES": "Policies",
+        "POLICIES_PLACEHOLDER": "All policies"
+      },
+      "TABS": {
+        "OVERVIEW": "Overview",
+        "AGENT_PERFORMANCE": "Agent Performance",
+        "POLICY_PERFORMANCE": "Policy Performance",
+        "UTILIZATION": "Utilization"
+      },
+      "CARDS": {
+        "TOTAL_ASSIGNMENTS": "Total Assignments",
+        "AVG_RESPONSE_TIME": "Avg Response Time",
+        "SATISFACTION_SCORE": "Satisfaction Score",
+        "REASSIGNMENT_RATE": "Reassignment Rate"
+      },
+      "CHARTS": {
+        "ASSIGNMENT_TRENDS": "Assignment Trends",
+        "ASSIGNMENTS": "Assignments",
+        "UTILIZATION": "Utilization %",
+        "POLICY_DISTRIBUTION": "Assignments by Policy",
+        "POLICY_SUCCESS_RATES": "Policy Success Rates",
+        "SUCCESS_RATE": "Success Rate %",
+        "AGENT_UTILIZATION": "Agent Utilization"
+      },
+      "TABLE": {
+        "AGENT": "Agent",
+        "ASSIGNMENTS_HANDLED": "Assignments",
+        "AVG_RESPONSE_TIME": "Avg Response",
+        "SATISFACTION_SCORE": "Satisfaction",
+        "EFFICIENCY_SCORE": "Efficiency",
+        "POLICY": "Policy",
+        "TOTAL_ASSIGNMENTS": "Total",
+        "SUCCESS_RATE": "Success Rate",
+        "AVG_HANDLING_TIME": "Avg Handling",
+        "REASSIGNMENT_RATE": "Reassignments"
+      }
+    }
+  }
+}

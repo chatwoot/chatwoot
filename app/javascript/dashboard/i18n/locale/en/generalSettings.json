@@ -246,6 +246,18 @@
   },
   "COMMON": {
     "OR": "Or",
-    "CLICK_HERE": "click here"
+    "CLICK_HERE": "click here",
+    "DELETE": "Delete",
+    "CANCEL": "Cancel",
+    "EDIT": "Edit",
+    "UPDATE": "Update",
+    "CREATE": "Create",
+    "SAVE": "Save",
+    "AGENTS": "Agents",
+    "VIEW": "View",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "ALL": "All",
+    "DAYS": "Days"
   }
 }

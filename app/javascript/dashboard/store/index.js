@@ -2,8 +2,11 @@ import { createStore } from 'vuex';
 
 import accounts from './modules/accounts';
 import agentBots from './modules/agentBots';
+import agentCapacity from './modules/agentCapacity';
 import agents from './modules/agents';
 import articles from './modules/helpCenterArticles';
+import assignmentMetrics from './modules/assignmentMetrics';
+import assignmentPolicies from './modules/assignmentPolicies';
 import attributes from './modules/attributes';
 import auditlogs from './modules/auditlogs';
 import auth from './modules/auth';
@@ -35,6 +38,7 @@ import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
 import integrations from './modules/integrations';
 import labels from './modules/labels';
+import leaves from './modules/leaves';
 import macros from './modules/macros';
 import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
@@ -60,8 +64,11 @@ export default createStore({
   modules: {
     accounts,
     agentBots,
+    agentCapacity,
     agents,
     articles,
+    assignmentMetrics,
+    assignmentPolicies,
     attributes,
     auditlogs,
     auth,
@@ -93,6 +100,7 @@ export default createStore({
     inboxMembers,
     integrations,
     labels,
+    leaves,
     macros,
     notifications,
     portals,

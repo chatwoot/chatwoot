@@ -54,6 +54,11 @@ const filteredAttrs = computed(() => {
       standardAttrs[key] = value;
     });
 
+  // Default to type="button" to prevent accidental form submissions
+  if (!standardAttrs.type) {
+    standardAttrs.type = 'button';
+  }
+
   return standardAttrs;
 });
 

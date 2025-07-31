@@ -32,6 +32,16 @@ class Inboxes extends CacheEnabledApiClient {
   syncTemplates(inboxId) {
     return axios.post(`${this.url}/${inboxId}/sync_templates`);
   }
+
+  assignPolicy(inboxId, policyId) {
+    return axios.post(`${this.url}/${inboxId}/assignment_policy`, {
+      assignment_policy_id: policyId,
+    });
+  }
+
+  removePolicy(inboxId) {
+    return axios.delete(`${this.url}/${inboxId}/assignment_policy`);
+  }
 }
 
 export default new Inboxes();

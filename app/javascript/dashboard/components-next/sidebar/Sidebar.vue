@@ -451,6 +451,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('canned_list'),
         },
         {
+          name: 'Settings Assignment',
+          label: t('SIDEBAR.ASSIGNMENT'),
+          icon: 'i-lucide-users-round',
+          to: accountScopedRoute('assignment_settings'),
+        },
+        {
           name: 'Settings Integrations',
           label: t('SIDEBAR.INTEGRATIONS'),
           icon: 'i-lucide-blocks',

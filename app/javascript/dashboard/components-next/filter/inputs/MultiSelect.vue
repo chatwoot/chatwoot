@@ -91,6 +91,7 @@ const toggleOption = option => {
     <template #trigger="{ toggle }">
       <button
         v-if="hasItems"
+        type="button"
         class="bg-n-alpha-2 py-2 rounded-lg h-8 flex items-center px-0"
         @click="toggle"
       >
