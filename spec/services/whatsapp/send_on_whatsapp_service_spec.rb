@@ -165,6 +165,267 @@ describe Whatsapp::SendOnWhatsappService do
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
       end
+
+      it 'handles template with header parameters' do
+        # Test with body parameters only since no media templates in factory
+        header_template_params = {
+          name: 'sample_shipping_confirmation',
+          namespace: '23423423_2342423_324234234_2343224',
+          language: 'en_US',
+          category: 'SHIPPING_UPDATE',
+          processed_params: {
+            'body' => { '1' => '3' },
+            'header' => { 'media_url' => 'https://example.com/image.jpg', 'media_type' => 'image' }
+          }
+        }
+
+        message = create(:message, additional_attributes: { template_params: header_template_params },
+                                   conversation: conversation, message_type: :outgoing)
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            headers: headers,
+            body: {
+              to: '123456789',
+              template: {
+                name: 'sample_shipping_confirmation',
+                namespace: '23423423_2342423_324234234_2343224',
+                language: { 'policy': 'deterministic', 'code': 'en_US' },
+                components: [
+                  { type: 'header', parameters: [{ type: 'image', image: { link: 'https://example.com/image.jpg' } }] },
+                  { type: 'body', parameters: [{ type: 'text', text: '3' }] }
+                ]
+              },
+              type: 'template'
+            }.to_json
+          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
+
+      it 'handles empty processed_params gracefully' do
+        empty_template_params = {
+          name: 'sample_shipping_confirmation',
+          namespace: '23423423_2342423_324234234_2343224',
+          language: 'en_US',
+          category: 'SHIPPING_UPDATE',
+          processed_params: {}
+        }
+
+        message = create(:message, additional_attributes: { template_params: empty_template_params },
+                                   conversation: conversation, message_type: :outgoing)
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            headers: headers,
+            body: {
+              to: '123456789',
+              template: {
+                name: 'sample_shipping_confirmation',
+                namespace: '23423423_2342423_324234234_2343224',
+                language: { 'policy': 'deterministic', 'code': 'en_US' },
+                components: []
+              },
+              type: 'template'
+            }.to_json
+          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
+
+      it 'handles template with button parameters' do
+        # Test button processing with existing template - simulate buttons being added
+        button_template_params = {
+          name: 'sample_shipping_confirmation',
+          namespace: '23423423_2342423_324234234_2343224',
+          language: 'en_US',
+          category: 'SHIPPING_UPDATE',
+          processed_params: {
+            'body' => { '1' => '3' },
+            'buttons' => [{ 'type' => 'url', 'parameter' => 'https://track.example.com/123' }]
+          }
+        }
+
+        message = create(:message, additional_attributes: { template_params: button_template_params },
+                                   conversation: conversation, message_type: :outgoing)
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            headers: headers,
+            body: {
+              to: '123456789',
+              template: {
+                name: 'sample_shipping_confirmation',
+                namespace: '23423423_2342423_324234234_2343224',
+                language: { 'policy': 'deterministic', 'code': 'en_US' },
+                components: [
+                  { type: 'body', parameters: [{ type: 'text', text: '3' }] },
+                  { type: 'button', sub_type: 'url', index: 0, parameters: [{ type: 'text', text: 'https://track.example.com/123' }] }
+                ]
+              },
+              type: 'template'
+            }.to_json
+          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
+
+      it 'processes template parameters correctly via integration' do
+        # Test enhanced format processing through the integration
+        complex_template_params = {
+          name: 'sample_shipping_confirmation',
+          namespace: '23423423_2342423_324234234_2343224',
+          language: 'en_US',
+          category: 'SHIPPING_UPDATE',
+          processed_params: {
+            'body' => { '1' => '5' },
+            'footer' => { 'text' => 'Thank you' }
+          }
+        }
+
+        message = create(:message, additional_attributes: { template_params: complex_template_params },
+                                   conversation: conversation, message_type: :outgoing)
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            headers: headers,
+            body: {
+              to: '123456789',
+              template: {
+                name: 'sample_shipping_confirmation',
+                namespace: '23423423_2342423_324234234_2343224',
+                language: { 'policy': 'deterministic', 'code': 'en_US' },
+                components: [
+                  { type: 'body', parameters: [{ type: 'text', text: '5' }] },
+                  { type: 'footer', parameters: [{ type: 'text', text: 'Thank you' }] }
+                ]
+              },
+              type: 'template'
+            }.to_json
+          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+
+        # This tests the full integration including TemplateProcessorService
+        expect { described_class.new(message: message).perform }.not_to raise_error
+        expect(message.reload.source_id).to eq('123456789')
+      end
+
+      it 'handles edge case with missing template gracefully' do
+        # Test the service behavior when template is not found
+        missing_template_params = {
+          'name' => 'non_existent_template',
+          'namespace' => 'missing_namespace',
+          'language' => 'en_US',
+          'category' => 'UTILITY',
+          'processed_params' => { 'body' => { '1' => 'test' } }
+        }
+
+        service = Whatsapp::TemplateProcessorService.new(
+          channel: whatsapp_channel,
+          template_params: missing_template_params
+        )
+
+        expect { service.call }.not_to raise_error
+        name, namespace, language, processed_params = service.call
+        expect(name).to eq('non_existent_template')
+        expect(namespace).to eq('missing_namespace')
+        expect(language).to eq('en_US')
+        expect(processed_params).to be_nil
+      end
+
+      it 'handles template with blank parameter values correctly' do
+        # Test that blank/empty values are skipped in parameter processing
+        blank_values_template_params = {
+          name: 'sample_shipping_confirmation',
+          namespace: '23423423_2342423_324234234_2343224',
+          language: 'en_US',
+          category: 'SHIPPING_UPDATE',
+          processed_params: {
+            'body' => { '1' => '', '2' => 'valid_value', '3' => nil },
+            'header' => { 'media_url' => '', 'media_type' => 'image' }
+          }
+        }
+
+        message = create(:message, additional_attributes: { template_params: blank_values_template_params },
+                                   conversation: conversation, message_type: :outgoing)
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            headers: headers,
+            body: {
+              to: '123456789',
+              template: {
+                name: 'sample_shipping_confirmation',
+                namespace: '23423423_2342423_324234234_2343224',
+                language: { 'policy': 'deterministic', 'code': 'en_US' },
+                components: [
+                  { type: 'body', parameters: [{ type: 'text', text: 'valid_value' }] }
+                ]
+              },
+              type: 'template'
+            }.to_json
+          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
+
+      it 'handles nil template_params gracefully' do
+        # Test service behavior when template_params is completely nil
+        message = create(:message, additional_attributes: {},
+                                   conversation: conversation, message_type: :outgoing)
+
+        # Should send regular message, not template
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            headers: headers,
+            body: {
+              to: '123456789',
+              text: { body: message.content },
+              type: 'text'
+            }.to_json
+          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+
+        expect { described_class.new(message: message).perform }.not_to raise_error
+      end
+
+      it 'processes template with rich text formatting' do
+        # Test that rich text formatting is preserved
+        rich_text_template_params = {
+          name: 'sample_shipping_confirmation',
+          namespace: '23423423_2342423_324234234_2343224',
+          language: 'en_US',
+          category: 'SHIPPING_UPDATE',
+          processed_params: {
+            'body' => { '1' => '*Bold text* and _italic text_' }
+          }
+        }
+
+        message = create(:message, additional_attributes: { template_params: rich_text_template_params },
+                                   conversation: conversation, message_type: :outgoing)
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            headers: headers,
+            body: {
+              to: '123456789',
+              template: {
+                name: 'sample_shipping_confirmation',
+                namespace: '23423423_2342423_324234234_2343224',
+                language: { 'policy': 'deterministic', 'code': 'en_US' },
+                components: [
+                  { type: 'body', parameters: [{ type: 'text', text: '*Bold text* and _italic text_' }] }
+                ]
+              },
+              type: 'template'
+            }.to_json
+          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
     end
   end
 end
