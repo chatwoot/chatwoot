@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
-import { useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 
@@ -30,7 +30,6 @@ const props = defineProps({
   },
 });
 
-const router = useRouter();
 const route = useRoute();
 
 const cardMessagePreviewWithMetaRef = ref(null);
@@ -64,31 +63,20 @@ const showMessagePreviewWithoutMeta = computed(() => {
   );
 });
 
-const onCardClick = e => {
-  const path = frontendURL(
+const conversationPath = computed(() => {
+  return frontendURL(
     conversationUrl({
       accountId: route.params.accountId,
       id: props.conversation.id,
     })
   );
-
-  if (e.metaKey || e.ctrlKey) {
-    window.open(
-      window.chatwootConfig.hostURL + path,
-      '_blank',
-      'noopener noreferrer nofollow'
-    );
-    return;
-  }
-  router.push({ path });
-};
+});
 </script>
 
 <template>
-  <div
-    role="button"
-    class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
-    @click="onCardClick"
+  <router-link
+    :to="conversationPath"
+    class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer no-underline"
   >
     <Avatar
       :name="currentContactName"
@@ -129,5 +117,5 @@ const onCardClick = e => {
         :account-labels="accountLabels"
       />
     </div>
-  </div>
+  </router-link>
 </template>

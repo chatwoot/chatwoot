@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Thumbnail from '../Thumbnail.vue';
 import MessagePreview from './MessagePreview.vue';
-import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
@@ -97,6 +96,20 @@ export default {
       activeInbox: 'getSelectedInbox',
       accountId: 'getCurrentAccountId',
     }),
+    conversationPath() {
+      const { activeInbox, chat } = this;
+      return frontendURL(
+        conversationUrl({
+          accountId: this.accountId,
+          activeInbox,
+          id: chat.id,
+          label: this.activeLabel,
+          teamId: this.teamId,
+          foldersId: this.foldersId,
+          conversationType: this.conversationType,
+        })
+      );
+    },
     chatMetadata() {
       return this.chat.meta || {};
     },
@@ -153,34 +166,6 @@ export default {
     },
   },
   methods: {
-    onCardClick(e) {
-      const { activeInbox, chat } = this;
-      const path = frontendURL(
-        conversationUrl({
-          accountId: this.accountId,
-          activeInbox,
-          id: chat.id,
-          label: this.activeLabel,
-          teamId: this.teamId,
-          foldersId: this.foldersId,
-          conversationType: this.conversationType,
-        })
-      );
-
-      if (e.metaKey || e.ctrlKey) {
-        window.open(
-          window.chatwootConfig.hostURL + path,
-          '_blank',
-          'noopener noreferrer nofollow'
-        );
-        return;
-      }
-      if (this.isActiveChat) {
-        return;
-      }
-
-      router.push({ path });
-    },
     onThumbnailHover() {
       this.hovered = !this.hideThumbnail;
     },
@@ -247,8 +232,9 @@ export default {
 </script>
 
 <template>
-  <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-3 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+  <router-link
+    :to="conversationPath"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-3 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group no-underline"
     :class="{
       'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 border-n-weak':
         isActiveChat,
@@ -256,7 +242,6 @@ export default {
       'has-inbox-name': showInboxName,
       'conversation-selected': selected,
     }"
-    @click="onCardClick"
     @contextmenu="openContextMenu($event)"
   >
     <div
@@ -369,7 +354,7 @@ export default {
         @delete-conversation="deleteConversation"
       />
     </ContextMenu>
-  </div>
+  </router-link>
 </template>
 
 <style lang="scss" scoped>
