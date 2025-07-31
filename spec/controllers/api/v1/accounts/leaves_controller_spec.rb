@@ -12,30 +12,31 @@ RSpec.describe 'Leaves API', type: :request do
   describe 'GET /api/v1/accounts/:account_id/leaves' do
     context 'when authenticated as an agent' do
       it 'returns only their own leaves' do
-        create(:leave, account_user: agent_account_user)
-        create(:leave, account_user: account.account_users.find_by(user: another_agent))
+        leave1 = create(:leave, account_user: agent_account_user, account: account)
+        create(:leave, account_user: account.account_users.find_by(user: another_agent), account: account)
 
         get "/api/v1/accounts/#{account.id}/leaves",
             headers: agent.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leaves'].size).to eq(1)
+        expect(json_response['leaves'].first['id']).to eq(leave1.id)
       end
     end
 
     context 'when authenticated as an admin' do
       it 'returns all leaves in the account' do
-        create(:leave, account_user: agent_account_user)
-        create(:leave, account_user: account.account_users.find_by(user: another_agent))
+        create(:leave, account_user: agent_account_user, account: account)
+        create(:leave, account_user: account.account_users.find_by(user: another_agent), account: account)
 
         get "/api/v1/accounts/#{account.id}/leaves",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leaves'].size).to eq(2)
       end
     end
@@ -59,7 +60,7 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:created)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leave']['status']).to eq('pending')
         expect(json_response['leave']['leave_type']).to eq('vacation')
       end
@@ -80,14 +81,14 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['errors']).to include('End date must be after or equal to start date')
       end
     end
   end
 
   describe 'PUT /api/v1/accounts/:account_id/leaves/:id' do
-    let(:leave) { create(:leave, account_user: agent_account_user) }
+    let(:leave) { create(:leave, account_user: agent_account_user, account: account) }
 
     context 'when authenticated as the leave owner' do
       it 'updates pending leave' do
@@ -104,7 +105,7 @@ RSpec.describe 'Leaves API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leave']['reason']).to eq('Extended vacation')
       end
 
@@ -122,13 +123,15 @@ RSpec.describe 'Leaves API', type: :request do
             headers: agent.create_new_auth_token,
             as: :json
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status(:unauthorized)
+        json_response = response.parsed_body
+        expect(json_response['error']).to eq('You are not authorized to do this action')
       end
     end
   end
 
   describe 'POST /api/v1/accounts/:account_id/leaves/:id/approve' do
-    let(:leave) { create(:leave, account_user: agent_account_user) }
+    let(:leave) { create(:leave, account_user: agent_account_user, account: account) }
 
     context 'when authenticated as an admin' do
       it 'approves the leave' do
@@ -138,25 +141,27 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leave']['status']).to eq('approved')
         expect(json_response['leave']['approved_by']).to eq(admin.name)
       end
     end
 
     context 'when authenticated as a regular agent' do
-      it 'returns forbidden' do
+      it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/leaves/#{leave.id}/approve",
              headers: agent.create_new_auth_token,
              as: :json
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status(:unauthorized)
+        json_response = response.parsed_body
+        expect(json_response['error']).to eq('You are not authorized to do this action')
       end
     end
   end
 
   describe 'POST /api/v1/accounts/:account_id/leaves/:id/reject' do
-    let(:leave) { create(:leave, account_user: agent_account_user) }
+    let(:leave) { create(:leave, account_user: agent_account_user, account: account) }
 
     context 'when authenticated as an admin' do
       it 'rejects the leave with reason' do
@@ -166,7 +171,7 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leave']['status']).to eq('rejected')
       end
 
@@ -177,7 +182,7 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['errors']).to include('Rejection reason is required')
       end
     end
@@ -185,7 +190,7 @@ RSpec.describe 'Leaves API', type: :request do
 
   describe 'DELETE /api/v1/accounts/:account_id/leaves/:id' do
     context 'when deleting own pending leave' do
-      let(:leave) { create(:leave, account_user: agent_account_user) }
+      let(:leave) { create(:leave, account_user: agent_account_user, account: account) }
 
       it 'deletes the leave' do
         delete "/api/v1/accounts/#{account.id}/leaves/#{leave.id}",
@@ -198,14 +203,16 @@ RSpec.describe 'Leaves API', type: :request do
     end
 
     context 'when trying to delete approved leave' do
-      let(:leave) { create(:leave, :approved, account_user: agent_account_user) }
+      let(:leave) { create(:leave, :approved, account_user: agent_account_user, account: account) }
 
-      it 'returns forbidden' do
+      it 'returns unauthorized' do
         delete "/api/v1/accounts/#{account.id}/leaves/#{leave.id}",
                headers: agent.create_new_auth_token,
                as: :json
 
-        expect(response).to have_http_status(:forbidden)
+        expect(response).to have_http_status(:unauthorized)
+        json_response = response.parsed_body
+        expect(json_response['error']).to eq('You are not authorized to do this action')
         expect(Leave.find_by(id: leave.id)).to be_present
       end
     end

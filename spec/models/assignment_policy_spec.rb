@@ -17,16 +17,16 @@ RSpec.describe AssignmentPolicy, type: :model do
     it { is_expected.to validate_uniqueness_of(:name).scoped_to(:account_id) }
     it { is_expected.to validate_length_of(:name).is_at_most(255) }
     it { is_expected.to validate_length_of(:description).is_at_most(1000) }
-    
+
     it { is_expected.to validate_presence_of(:fair_distribution_limit) }
     it { is_expected.to validate_numericality_of(:fair_distribution_limit).is_greater_than(0).is_less_than_or_equal_to(100) }
-    
+
     it { is_expected.to validate_presence_of(:fair_distribution_window) }
     it { is_expected.to validate_numericality_of(:fair_distribution_window).is_greater_than(60).is_less_than_or_equal_to(86_400) }
 
-    context 'balanced assignment validation' do
+    context 'with balanced assignment validation' do
       let(:enterprise_account) { create(:account) }
-      
+
       before do
         allow(enterprise_account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(true)
       end
@@ -54,13 +54,13 @@ RSpec.describe AssignmentPolicy, type: :model do
     let!(:disabled_policy) { create(:assignment_policy, account: account, enabled: false) }
 
     it 'filters enabled policies' do
-      expect(AssignmentPolicy.enabled).to include(enabled_policy)
-      expect(AssignmentPolicy.enabled).not_to include(disabled_policy)
+      expect(described_class.enabled).to include(enabled_policy)
+      expect(described_class.enabled).not_to include(disabled_policy)
     end
 
     it 'filters disabled policies' do
-      expect(AssignmentPolicy.disabled).to include(disabled_policy)
-      expect(AssignmentPolicy.disabled).not_to include(enabled_policy)
+      expect(described_class.disabled).to include(disabled_policy)
+      expect(described_class.disabled).not_to include(enabled_policy)
     end
   end
 
@@ -89,7 +89,7 @@ RSpec.describe AssignmentPolicy, type: :model do
   describe '#webhook_data' do
     it 'returns correct data structure' do
       data = assignment_policy.webhook_data
-      
+
       expect(data).to include(
         id: assignment_policy.id,
         name: assignment_policy.name,
@@ -105,19 +105,20 @@ RSpec.describe AssignmentPolicy, type: :model do
 
   describe 'cache invalidation' do
     let(:inbox) { create(:inbox, account: account) }
-    let!(:inbox_policy) { create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy) }
+
+    before { create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy) }
 
     it 'clears assignment caches on update' do
       expect(Rails.cache).to receive(:delete).with("assignment_v2:policy:#{assignment_policy.id}")
       expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
-      
+
       assignment_policy.update!(name: 'Updated Policy')
     end
 
     it 'clears assignment caches on destroy' do
       expect(Rails.cache).to receive(:delete).with("assignment_v2:policy:#{assignment_policy.id}")
       expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
-      
+
       assignment_policy.destroy!
     end
   end

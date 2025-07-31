@@ -6,7 +6,7 @@ class Leaves::LeaveService
   def create(params)
     leave = account_user.leaves.build(filtered_params(params))
     leave.account = account
-    
+
     if leave.save
       notify_leave_creation(leave)
       { success: true, leave: leave }
@@ -26,7 +26,7 @@ class Leaves::LeaveService
 
   def cancel(leave)
     return { success: false, errors: ['Cannot cancel approved leave'] } if leave.approved?
-    
+
     if leave.update(status: 'cancelled')
       notify_leave_cancellation(leave)
       { success: true, leave: leave }
@@ -41,14 +41,10 @@ class Leaves::LeaveService
     # Apply filters
     scope = scope.where(status: filters[:status]) if filters[:status].present?
     scope = scope.where(leave_type: filters[:leave_type]) if filters[:leave_type].present?
-    
-    if filters[:start_date].present? && filters[:end_date].present?
-      scope = scope.by_date_range(filters[:start_date], filters[:end_date])
-    end
 
-    if filters[:user_id].present? && current_user_admin?
-      scope = scope.joins(:account_user).where(account_users: { user_id: filters[:user_id] })
-    end
+    scope = scope.by_date_range(filters[:start_date], filters[:end_date]) if filters[:start_date].present? && filters[:end_date].present?
+
+    scope = scope.joins(:account_user).where(account_users: { user_id: filters[:user_id] }) if filters[:user_id].present? && current_user_admin?
 
     scope.includes(:account_user, :user, :approved_by).order(start_date: :desc)
   end
@@ -58,7 +54,7 @@ class Leaves::LeaveService
   def filtered_params(params)
     allowed_params = [:start_date, :end_date, :leave_type, :reason]
     allowed_params << :status if current_user_admin?
-    
+
     params.slice(*allowed_params)
   end
 

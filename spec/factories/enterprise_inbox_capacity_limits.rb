@@ -20,9 +20,7 @@ FactoryBot.define do
 
     # Ensure inbox and policy belong to same account
     after(:build) do |limit|
-      if limit.inbox && limit.agent_capacity_policy
-        limit.agent_capacity_policy.account = limit.inbox.account
-      end
+      limit.agent_capacity_policy.account = limit.inbox.account if limit.inbox && limit.agent_capacity_policy
     end
   end
 end

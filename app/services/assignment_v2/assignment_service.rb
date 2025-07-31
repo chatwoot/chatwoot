@@ -36,14 +36,14 @@ class AssignmentV2::AssignmentService
   end
 
   def can_assign?(conversation)
-    assignment_enabled? && 
-      conversation.status == 'open' && 
+    assignment_enabled? &&
+      conversation.status == 'open' &&
       conversation.assignee_id.nil?
   end
 
-  def find_agent_for_conversation(conversation)
+  def find_agent_for_conversation(_conversation)
     available_agents = inbox.available_agents(check_rate_limits: true)
-    
+
     if available_agents.empty?
       log_no_agents_available
       return nil
@@ -53,20 +53,12 @@ class AssignmentV2::AssignmentService
   end
 
   def selector_service
-    @selector_service ||= case policy.assignment_order
-                          when 'round_robin'
-                            AssignmentV2::RoundRobinSelector.new(inbox: inbox)
-                          when 'balanced'
-                            if enterprise_enabled? && policy.can_use_balanced_assignment?
-                              Enterprise::AssignmentV2::BalancedSelector.new(inbox: inbox)
-                            else
-                              AssignmentV2::RoundRobinSelector.new(inbox: inbox)
-                            end
+    @selector_service ||= if policy.assignment_order == 'balanced' && enterprise_enabled? && policy.can_use_balanced_assignment?
+                            Enterprise::AssignmentV2::BalancedSelector.new(inbox: inbox)
                           else
                             AssignmentV2::RoundRobinSelector.new(inbox: inbox)
                           end
   end
-
 
   def unassigned_conversations(limit)
     scope = inbox.conversations
@@ -75,8 +67,6 @@ class AssignmentV2::AssignmentService
 
     # Apply conversation priority ordering
     scope = case policy.conversation_priority
-            when 'earliest_created'
-              scope.order(created_at: :asc)
             when 'longest_waiting'
               scope.order(last_activity_at: :asc, created_at: :asc)
             else

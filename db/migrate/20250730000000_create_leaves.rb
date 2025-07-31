@@ -12,7 +12,7 @@ class CreateLeaves < ActiveRecord::Migration[7.1]
       t.text :reason
       t.references :approved_by
       t.datetime :approved_at
-      
+
       t.timestamps
     end
 

@@ -8,7 +8,7 @@ FactoryBot.define do
     exclusion_rules { {} }
 
     trait :with_label_exclusion do
-      exclusion_rules { { 'labels' => ['vip', 'urgent'] } }
+      exclusion_rules { { 'labels' => %w[vip urgent] } }
     end
 
     trait :with_time_exclusion do
@@ -18,7 +18,7 @@ FactoryBot.define do
     trait :with_combined_exclusions do
       exclusion_rules do
         {
-          'labels' => ['vip', 'urgent'],
+          'labels' => %w[vip urgent],
           'hours_threshold' => 48
         }
       end

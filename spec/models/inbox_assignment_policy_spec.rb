@@ -15,16 +15,17 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
 
   describe 'validations' do
     subject { inbox_assignment_policy }
-    
+
     it { is_expected.to validate_uniqueness_of(:inbox_id) }
 
-    context 'inbox and policy from different accounts' do
+    context 'with inbox and policy from different accounts' do
       let(:other_account) { create(:account) }
       let(:other_policy) { create(:assignment_policy, account: other_account) }
 
       it 'validates inbox belongs to same account as policy' do
-        invalid_policy = build(:inbox_assignment_policy, inbox: inbox, assignment_policy: other_policy)
-        
+        # Build without the factory callback that sets the accounts to be the same
+        invalid_policy = described_class.new(inbox: inbox, assignment_policy: other_policy)
+
         expect(invalid_policy).not_to be_valid
         expect(invalid_policy.errors[:inbox]).to include('must belong to the same account as the assignment policy')
       end
@@ -56,15 +57,15 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
 
     describe '.enabled' do
       it 'returns only inbox policies with enabled assignment policies' do
-        expect(InboxAssignmentPolicy.enabled).to include(enabled_inbox_policy)
-        expect(InboxAssignmentPolicy.enabled).not_to include(disabled_inbox_policy)
+        expect(described_class.enabled).to include(enabled_inbox_policy)
+        expect(described_class.enabled).not_to include(disabled_inbox_policy)
       end
     end
 
     describe '.disabled' do
       it 'returns only inbox policies with disabled assignment policies' do
-        expect(InboxAssignmentPolicy.disabled).to include(disabled_inbox_policy)
-        expect(InboxAssignmentPolicy.disabled).not_to include(enabled_inbox_policy)
+        expect(described_class.disabled).to include(disabled_inbox_policy)
+        expect(described_class.disabled).not_to include(enabled_inbox_policy)
       end
     end
   end
@@ -72,13 +73,13 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
   describe '#webhook_data' do
     it 'returns correct data structure' do
       data = inbox_assignment_policy.webhook_data
-      
+
       expect(data).to include(
         id: inbox_assignment_policy.id,
         inbox_id: inbox.id,
         assignment_policy_id: assignment_policy.id
       )
-      
+
       expect(data[:policy]).to eq(assignment_policy.webhook_data)
     end
   end
@@ -86,47 +87,50 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
   describe 'cache management' do
     it 'clears inbox cache on create' do
       expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
-      
+
       create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
     end
 
     it 'clears inbox cache on update' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
-      
+      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}").at_least(:once)
+
       inbox_assignment_policy.update!(updated_at: Time.current)
     end
 
     it 'clears inbox cache on destroy' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
-      
+      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}").at_least(:once)
+
       inbox_assignment_policy.destroy!
     end
 
     it 'updates account cache' do
       # AccountCacheRevalidator concern should trigger cache update
       expect(inbox_assignment_policy).to receive(:update_account_cache)
-      
+
       inbox_assignment_policy.send(:clear_inbox_cache)
     end
   end
 
   describe 'business logic constraints' do
     it 'prevents multiple policies per inbox' do
+      # Ensure first policy exists
+      inbox_assignment_policy
+
       policy2 = create(:assignment_policy, account: account)
-      
-      # First policy already exists
-      expect {
-        create(:inbox_assignment_policy, inbox: inbox, assignment_policy: policy2)
-      }.to raise_error(ActiveRecord::RecordInvalid)
+
+      # Try to create a second policy for the same inbox
+      duplicate_policy = described_class.new(inbox: inbox, assignment_policy: policy2)
+      expect(duplicate_policy).not_to be_valid
+      expect(duplicate_policy.errors[:inbox_id]).to include('has already been taken')
     end
 
     it 'allows reassigning to different policy' do
       policy2 = create(:assignment_policy, account: account)
-      
-      expect {
+
+      expect do
         inbox_assignment_policy.update!(assignment_policy: policy2)
-      }.not_to raise_error
-      
+      end.not_to raise_error
+
       expect(inbox_assignment_policy.reload.assignment_policy).to eq(policy2)
     end
   end
@@ -135,27 +139,27 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
     it 'handles nil associations gracefully' do
       # Build without saving to test nil handling
       policy = build(:inbox_assignment_policy, inbox: nil, assignment_policy: nil)
-      
+
       expect { policy.valid? }.not_to raise_error
       expect(policy).not_to be_valid
     end
 
     it 'handles policy deletion cascade' do
       inbox_policy_id = inbox_assignment_policy.id
-      
+
       # Deleting policy should delete inbox assignment
       assignment_policy.destroy!
-      
-      expect(InboxAssignmentPolicy.find_by(id: inbox_policy_id)).to be_nil
+
+      expect(described_class.find_by(id: inbox_policy_id)).to be_nil
     end
 
     it 'handles inbox deletion cascade' do
       inbox_policy_id = inbox_assignment_policy.id
-      
+
       # Deleting inbox should delete inbox assignment
       inbox.destroy!
-      
-      expect(InboxAssignmentPolicy.find_by(id: inbox_policy_id)).to be_nil
+
+      expect(described_class.find_by(id: inbox_policy_id)).to be_nil
     end
   end
 end

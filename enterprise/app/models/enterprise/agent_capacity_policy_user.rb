@@ -20,28 +20,25 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-module Enterprise
-  class AgentCapacityPolicyUser < ::ApplicationRecord
-    self.table_name = 'enterprise_agent_capacity_policy_users'
+class Enterprise::AgentCapacityPolicyUser < ApplicationRecord
+  self.table_name = 'enterprise_agent_capacity_policy_users'
 
-    # Associations
-    belongs_to :agent_capacity_policy, class_name: 'Enterprise::AgentCapacityPolicy'
-    belongs_to :user, class_name: '::User'
+  # Associations
+  belongs_to :agent_capacity_policy, class_name: 'Enterprise::AgentCapacityPolicy'
+  belongs_to :user, class_name: '::User'
 
-    # Validations
-    validates :user_id, uniqueness: true
+  # Validations
+  validates :user_id, uniqueness: true
 
-    # Delegations
-    delegate :account, to: :agent_capacity_policy
+  # Delegations
+  delegate :account, to: :agent_capacity_policy
 
-    # Callbacks
-    after_create_commit :invalidate_user_cache
-    after_destroy_commit :invalidate_user_cache
+  # Callbacks
+  after_commit :invalidate_user_cache
 
-    private
+  private
 
-    def invalidate_user_cache
-      Rails.cache.delete_matched("assignment_v2:capacity:#{user_id}:*")
-    end
+  def invalidate_user_cache
+    Rails.cache.delete_matched("assignment_v2:capacity:#{user_id}:*")
   end
 end
