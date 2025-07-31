@@ -100,5 +100,9 @@ module Redis::Alfred
     def zremrangebyscore(key, range_start, range_end)
       $alfred.with { |conn| conn.zremrangebyscore(key, range_start, range_end) }
     end
+
+    def expire(key, expiry_in_seconds)
+      $alfred.with { |conn| conn.expire(key, expiry_in_seconds) }
+    end
   end
 end

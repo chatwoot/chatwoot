@@ -38,8 +38,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   end
 
   def clear_session_status_cache
-    Rails.cache.delete(session_status_cache_key)
-    Rails.logger.info "CACHE: Cleared cache for #{session_status_cache_key}"
+    ::Redis::Alfred.delete(session_status_cache_key)
   end
 
   def send_message(params)
@@ -157,34 +156,36 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   end
 
   def read_session_status_from_cache
-    Rails.cache.read(session_status_cache_key)
+    ::Redis::Alfred.get(session_status_cache_key)
   end
 
   def read_mismatch_attempts_from_cache
-    Rails.cache.read(mismatch_attempts_cache_key) || 0
+    ::Redis::Alfred.get(mismatch_attempts_cache_key).to_i
   end
 
   def increment_mismatch_attempts
-    current_attempts = read_mismatch_attempts_from_cache
-    new_attempts = current_attempts + 1
-    Rails.cache.write(mismatch_attempts_cache_key, new_attempts, expires_in: 1.hour)
-    Rails.logger.info "CACHE: Incremented mismatch attempts to #{new_attempts} for #{phone_number}"
+    key = mismatch_attempts_cache_key
+    new_attempts = ::Redis::Alfred.incr(key)
+    
+    ::Redis::Alfred.expire(key, 1.hour.to_i) if new_attempts == 1
+    
+    Rails.logger.info "REDIS: Incremented mismatch attempts to #{new_attempts} for #{phone_number}"
     new_attempts
   end
 
   def clear_mismatch_attempts
-    Rails.cache.delete(mismatch_attempts_cache_key)
-    Rails.logger.info "CACHE: Cleared mismatch attempts for #{phone_number}"
+    ::Redis::Alfred.delete(mismatch_attempts_cache_key)
+    Rails.logger.info "REDIS: Cleared mismatch attempts for #{phone_number}"
   end
 
   def write_session_status_to_cache(status, expires_in: 24.hours)
-    Rails.cache.write(session_status_cache_key, status, expires_in: expires_in)
-    Rails.logger.info "CACHE: Wrote '#{status}' to #{session_status_cache_key}"
+    ::Redis::Alfred.setex(session_status_cache_key, status, expires_in.to_i)
+    Rails.logger.info "REDIS: Wrote '#{status}' to #{session_status_cache_key}"
   end
 
   def clear_session_status_cache
-    Rails.cache.delete(session_status_cache_key)
-    Rails.logger.info "CACHE: Cleared cache for #{session_status_cache_key}"
+    ::Redis::Alfred.delete(session_status_cache_key)
+    Rails.logger.info "REDIS: Cleared cache for #{session_status_cache_key}"
   end
 
   # Method untuk mengecek status session dengan validasi real-time
@@ -215,17 +216,16 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   def validate_callback_phone_number(callback_phone)
 
     lock_key = "validation_lock_#{phone_number}"
+    is_locked = !::Redis::Alfred.set(lock_key, true, nx: true, ex: 10)
 
-    if Rails.cache.read(lock_key)
+    if is_locked
       Rails.logger.warn "🔒 Validation for #{phone_number} is currently locked. Skipping duplicate trigger."
       return { success: false, status: 'locked', message: 'Validation in progress' }
     end
 
-    Rails.cache.write(lock_key, true, expires_in: 10.seconds)
-
-    Rails.logger.info "🔍 Validating callback phone number for #{phone_number}"
-    Rails.logger.info "  Expected: #{phone_number}"
-    Rails.logger.info "  From callback: #{callback_phone}"
+    # Rails.logger.info "🔍 Validating callback phone number for #{phone_number}"
+    # Rails.logger.info "  Expected: #{phone_number}"
+    # Rails.logger.info "  From callback: #{callback_phone}"
 
     expected_clean = normalize_phone_number(phone_number)
     callback_clean = normalize_phone_number(self.class.sanitize_phone_number(callback_phone))
@@ -235,7 +235,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       clear_mismatch_attempts
       write_session_status_to_cache('validated')
 
-      Rails.cache.delete(lock_key)
+      ::Redis::Alfred.delete(lock_key)
 
       {
         success: true,
@@ -256,7 +256,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
         controller = Waha::CallbackController.new
         controller.send(:broadcast_session_failed, self, callback_phone, current_attempts)
 
-        Rails.cache.delete(lock_key)
+        ::Redis::Alfred.delete(lock_key)
 
         return {
           success: false,
@@ -272,7 +272,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
         controller = Waha::CallbackController.new
         controller.send(:broadcast_session_mismatch, self, callback_phone, current_attempts, max_attempts)
 
-        Rails.cache.delete(lock_key)
+        ::Redis::Alfred.delete(lock_key)
 
         return {
           success: false,
