@@ -131,74 +131,28 @@ describe Whatsapp::SendOnWhatsappService do
       end
 
       it 'calls channel.send_template when template has regexp characters' do
-        regexp_template_params = {
-          name: 'customer_yes_no',
-          namespace: '2342384942_32423423_23423fdsdaf23',
-          language: 'ar',
-          category: 'SHIPPING_UPDATE',
-          processed_params: {}
-        }
-
-        message = create(
-          :message,
-          message_type: :outgoing,
-          content: 'عميلنا العزيز الرجاء الرد على هذه الرسالة بكلمة *نعم* للرد على إستفساركم من قبل خدمة العملاء.',
-          conversation: conversation,
-          additional_attributes: { template_params: regexp_template_params }
-        )
-
-        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
-          .with(
-            headers: headers,
-            body: {
-              to: '123456789',
-              template: {
-                name: 'customer_yes_no',
-                namespace: '2342384942_32423423_23423fdsdaf23',
-                language: { 'policy': 'deterministic', 'code': 'ar' },
-                components: []
-              },
-              type: 'template'
-            }.to_json
-          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+        regexp_template_params = build_template_params('customer_yes_no', '2342384942_32423423_23423fdsdaf23', 'ar', {})
+        arabic_content = 'عميلنا العزيز الرجاء الرد على هذه الرسالة بكلمة *نعم* للرد على إستفساركم من قبل خدمة العملاء.'
+        message = create_message_with_template(arabic_content, regexp_template_params)
+        stub_template_request(regexp_template_params, [])
 
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
       end
 
       it 'handles template with header parameters' do
-        # Test with body parameters only since no media templates in factory
-        header_template_params = {
-          name: 'sample_shipping_confirmation',
-          namespace: '23423423_2342423_324234234_2343224',
-          language: 'en_US',
-          category: 'SHIPPING_UPDATE',
-          processed_params: {
-            'body' => { '1' => '3' },
-            'header' => { 'media_url' => 'https://example.com/image.jpg', 'media_type' => 'image' }
-          }
+        processed_params = {
+          'body' => { '1' => '3' },
+          'header' => { 'media_url' => 'https://example.com/image.jpg', 'media_type' => 'image' }
         }
+        header_template_params = build_sample_template_params(processed_params)
+        message = create_message_with_template('', header_template_params)
 
-        message = create(:message, additional_attributes: { template_params: header_template_params },
-                                   conversation: conversation, message_type: :outgoing)
-
-        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
-          .with(
-            headers: headers,
-            body: {
-              to: '123456789',
-              template: {
-                name: 'sample_shipping_confirmation',
-                namespace: '23423423_2342423_324234234_2343224',
-                language: { 'policy': 'deterministic', 'code': 'en_US' },
-                components: [
-                  { type: 'header', parameters: [{ type: 'image', image: { link: 'https://example.com/image.jpg' } }] },
-                  { type: 'body', parameters: [{ type: 'text', text: '3' }] }
-                ]
-              },
-              type: 'template'
-            }.to_json
-          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+        components = [
+          { type: 'header', parameters: [{ type: 'image', image: { link: 'https://example.com/image.jpg' } }] },
+          { type: 'body', parameters: [{ type: 'text', text: '3' }] }
+        ]
+        stub_sample_template_request(components)
 
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
@@ -236,78 +190,37 @@ describe Whatsapp::SendOnWhatsappService do
       end
 
       it 'handles template with button parameters' do
-        # Test button processing with existing template - simulate buttons being added
-        button_template_params = {
-          name: 'sample_shipping_confirmation',
-          namespace: '23423423_2342423_324234234_2343224',
-          language: 'en_US',
-          category: 'SHIPPING_UPDATE',
-          processed_params: {
-            'body' => { '1' => '3' },
-            'buttons' => [{ 'type' => 'url', 'parameter' => 'https://track.example.com/123' }]
-          }
+        processed_params = {
+          'body' => { '1' => '3' },
+          'buttons' => [{ 'type' => 'url', 'parameter' => 'https://track.example.com/123' }]
         }
+        button_template_params = build_sample_template_params(processed_params)
+        message = create_message_with_template('', button_template_params)
 
-        message = create(:message, additional_attributes: { template_params: button_template_params },
-                                   conversation: conversation, message_type: :outgoing)
-
-        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
-          .with(
-            headers: headers,
-            body: {
-              to: '123456789',
-              template: {
-                name: 'sample_shipping_confirmation',
-                namespace: '23423423_2342423_324234234_2343224',
-                language: { 'policy': 'deterministic', 'code': 'en_US' },
-                components: [
-                  { type: 'body', parameters: [{ type: 'text', text: '3' }] },
-                  { type: 'button', sub_type: 'url', index: 0, parameters: [{ type: 'text', text: 'https://track.example.com/123' }] }
-                ]
-              },
-              type: 'template'
-            }.to_json
-          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+        components = [
+          { type: 'body', parameters: [{ type: 'text', text: '3' }] },
+          { type: 'button', sub_type: 'url', index: 0, parameters: [{ type: 'text', text: 'https://track.example.com/123' }] }
+        ]
+        stub_sample_template_request(components)
 
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
       end
 
       it 'processes template parameters correctly via integration' do
-        # Test enhanced format processing through the integration
-        complex_template_params = {
-          name: 'sample_shipping_confirmation',
-          namespace: '23423423_2342423_324234234_2343224',
-          language: 'en_US',
-          category: 'SHIPPING_UPDATE',
-          processed_params: {
-            'body' => { '1' => '5' },
-            'footer' => { 'text' => 'Thank you' }
-          }
+        processed_params = {
+          'body' => { '1' => '5' },
+          'footer' => { 'text' => 'Thank you' }
         }
+        complex_template_params = build_sample_template_params(processed_params)
+        message = create_message_with_template('', complex_template_params)
 
-        message = create(:message, additional_attributes: { template_params: complex_template_params },
-                                   conversation: conversation, message_type: :outgoing)
+        components = [
+          { type: 'body', parameters: [{ type: 'text', text: '5' }] },
+          { type: 'footer', parameters: [{ type: 'text', text: 'Thank you' }] }
+        ]
+        stub_sample_template_request(components)
 
-        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
-          .with(
-            headers: headers,
-            body: {
-              to: '123456789',
-              template: {
-                name: 'sample_shipping_confirmation',
-                namespace: '23423423_2342423_324234234_2343224',
-                language: { 'policy': 'deterministic', 'code': 'en_US' },
-                components: [
-                  { type: 'body', parameters: [{ type: 'text', text: '5' }] },
-                  { type: 'footer', parameters: [{ type: 'text', text: 'Thank you' }] }
-                ]
-              },
-              type: 'template'
-            }.to_json
-          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
-
-        # This tests the full integration including TemplateProcessorService
         expect { described_class.new(message: message).perform }.not_to raise_error
         expect(message.reload.source_id).to eq('123456789')
       end
@@ -336,37 +249,15 @@ describe Whatsapp::SendOnWhatsappService do
       end
 
       it 'handles template with blank parameter values correctly' do
-        # Test that blank/empty values are skipped in parameter processing
-        blank_values_template_params = {
-          name: 'sample_shipping_confirmation',
-          namespace: '23423423_2342423_324234234_2343224',
-          language: 'en_US',
-          category: 'SHIPPING_UPDATE',
-          processed_params: {
-            'body' => { '1' => '', '2' => 'valid_value', '3' => nil },
-            'header' => { 'media_url' => '', 'media_type' => 'image' }
-          }
+        processed_params = {
+          'body' => { '1' => '', '2' => 'valid_value', '3' => nil },
+          'header' => { 'media_url' => '', 'media_type' => 'image' }
         }
+        blank_values_template_params = build_sample_template_params(processed_params)
+        message = create_message_with_template('', blank_values_template_params)
 
-        message = create(:message, additional_attributes: { template_params: blank_values_template_params },
-                                   conversation: conversation, message_type: :outgoing)
-
-        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
-          .with(
-            headers: headers,
-            body: {
-              to: '123456789',
-              template: {
-                name: 'sample_shipping_confirmation',
-                namespace: '23423423_2342423_324234234_2343224',
-                language: { 'policy': 'deterministic', 'code': 'en_US' },
-                components: [
-                  { type: 'body', parameters: [{ type: 'text', text: 'valid_value' }] }
-                ]
-              },
-              type: 'template'
-            }.to_json
-          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+        components = [{ type: 'body', parameters: [{ type: 'text', text: 'valid_value' }] }]
+        stub_sample_template_request(components)
 
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
@@ -392,20 +283,59 @@ describe Whatsapp::SendOnWhatsappService do
       end
 
       it 'processes template with rich text formatting' do
-        # Test that rich text formatting is preserved
-        rich_text_template_params = {
-          name: 'sample_shipping_confirmation',
-          namespace: '23423423_2342423_324234234_2343224',
-          language: 'en_US',
+        processed_params = { 'body' => { '1' => '*Bold text* and _italic text_' } }
+        rich_text_template_params = build_sample_template_params(processed_params)
+        message = create_message_with_template('', rich_text_template_params)
+
+        components = [{ type: 'body', parameters: [{ type: 'text', text: '*Bold text* and _italic text_' }] }]
+        stub_sample_template_request(components)
+
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
+
+      private
+
+      def build_template_params(name, namespace, language, processed_params)
+        {
+          name: name,
+          namespace: namespace,
+          language: language,
           category: 'SHIPPING_UPDATE',
-          processed_params: {
-            'body' => { '1' => '*Bold text* and _italic text_' }
-          }
+          processed_params: processed_params
         }
+      end
 
-        message = create(:message, additional_attributes: { template_params: rich_text_template_params },
-                                   conversation: conversation, message_type: :outgoing)
+      def create_message_with_template(content, template_params)
+        create(:message,
+               message_type: :outgoing,
+               content: content,
+               conversation: conversation,
+               additional_attributes: { template_params: template_params })
+      end
 
+      def stub_template_request(template_params, components)
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(
+            headers: headers,
+            body: {
+              to: '123456789',
+              template: {
+                name: template_params[:name],
+                namespace: template_params[:namespace],
+                language: { 'policy': 'deterministic', 'code': template_params[:language] },
+                components: components
+              },
+              type: 'template'
+            }.to_json
+          ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
+      end
+
+      def build_sample_template_params(processed_params)
+        build_template_params('sample_shipping_confirmation', '23423423_2342423_324234234_2343224', 'en_US', processed_params)
+      end
+
+      def stub_sample_template_request(components)
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(
             headers: headers,
@@ -415,16 +345,11 @@ describe Whatsapp::SendOnWhatsappService do
                 name: 'sample_shipping_confirmation',
                 namespace: '23423423_2342423_324234234_2343224',
                 language: { 'policy': 'deterministic', 'code': 'en_US' },
-                components: [
-                  { type: 'body', parameters: [{ type: 'text', text: '*Bold text* and _italic text_' }] }
-                ]
+                components: components
               },
               type: 'template'
             }.to_json
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
-
-        described_class.new(message: message).perform
-        expect(message.reload.source_id).to eq('123456789')
       end
     end
   end
