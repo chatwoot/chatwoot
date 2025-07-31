@@ -7,16 +7,18 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { emitter } from 'shared/helpers/mitt';
+import SidepanelSwitch from 'dashboard/components-next/Conversation/SidepanelSwitch.vue';
 
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
 import InboxEmptyState from './InboxEmptyState.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
 
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
-const { uiSettings, updateUISettings } = useUISettings();
+const { uiSettings } = useUISettings();
 
 const isConversationLoading = ref(false);
 
@@ -167,12 +169,6 @@ const onClickPrev = () => {
   navigateToConversation(activeNotificationIndex.value, 'prev');
 };
 
-const onToggleContactPanel = () => {
-  updateUISettings({
-    is_contact_sidebar_open: !isContactPanelOpen.value,
-  });
-};
-
 watch(
   conversationId,
   (newVal, oldVal) => {
@@ -209,15 +205,20 @@ onMounted(async () => {
       >
         <Spinner class="text-n-brand" />
       </div>
-      <ConversationBox
-        v-else
-        class="flex-1 [&.conversation-details-wrap]:!border-0"
-        is-inbox-view
-        :inbox-id="inboxId"
-        :is-contact-panel-open="isContactPanelOpen"
-        :is-on-expanded-layout="false"
-        @contact-panel-toggle="onToggleContactPanel"
-      />
+      <div v-else class="flex h-[calc(100%-48px)] min-w-0">
+        <ConversationBox
+          class="flex-1 [&.conversation-details-wrap]:!border-0"
+          is-inbox-view
+          :inbox-id="inboxId"
+          :is-on-expanded-layout="false"
+        >
+          <SidepanelSwitch v-if="currentChat.id" />
+        </ConversationBox>
+        <ConversationSidebar
+          v-if="isContactPanelOpen"
+          :current-chat="currentChat"
+        />
+      </div>
     </div>
   </div>
 </template>

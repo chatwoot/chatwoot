@@ -229,7 +229,7 @@ onMounted(() => {
 <template>
   <section class="flex w-full h-full bg-n-solid-1">
     <div
-      class="flex flex-col h-full w-full lg:min-w-[400px] lg:max-w-[400px] ltr:border-r rtl:border-l border-n-weak"
+      class="flex flex-col h-full w-full lg:min-w-[340px] lg:max-w-[340px] ltr:border-r rtl:border-l border-n-weak"
       :class="!currentConversationId ? 'flex' : 'hidden xl:flex'"
     >
       <InboxListHeader
@@ -239,17 +239,17 @@ onMounted(() => {
       />
       <div
         ref="notificationList"
-        class="flex flex-col gap-px w-full h-[calc(100%-56px)] pb-3 overflow-x-hidden px-3 overflow-y-auto divide-y divide-n-weak [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
+        class="flex flex-col gap-0.5 w-full h-[calc(100%-56px)] pb-4 overflow-x-hidden px-2 overflow-y-auto divide-y divide-n-weak [&>*:hover]:!border-y-transparent [&>*.active]:!border-y-transparent [&>*:hover+*]:!border-t-transparent [&>*.active+*]:!border-t-transparent"
       >
         <InboxCard
           v-for="notificationItem in notifications"
           :key="notificationItem.id"
           :inbox-item="notificationItem"
           :state-inbox="stateInbox(notificationItem.primaryActor?.inboxId)"
-          class="inbox-card rounded-none hover:rounded-xl hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
+          class="inbox-card rounded-lg hover:rounded-lg hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
           :class="
             currentConversationId === notificationItem.primaryActor?.id
-              ? 'bg-n-alpha-1 dark:bg-n-alpha-3 click-animation rounded-xl active'
+              ? 'bg-n-alpha-1 dark:bg-n-alpha-3 rounded-lg active'
               : ''
           "
           @mark-notification-as-read="markNotificationAsRead"
@@ -279,23 +279,3 @@ onMounted(() => {
     <CmdBarConversationSnooze />
   </section>
 </template>
-
-<style scoped>
-.click-animation {
-  animation: click-animation 0.2s ease-in-out;
-}
-
-@keyframes click-animation {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0.99);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
