@@ -91,6 +91,8 @@ lv:
       conversations_count: Sarunu skaits
       avg_first_response_time: Vidējais pirmās reakcijas laiks
       avg_resolution_time: Vidējais atrisināšanas laiks
+      avg_reply_time: Avg reply time
+      resolution_count: Atrisināšanas Skaits
     team_csv:
       team_name: Komandas nosaukums
       conversations_count: Sarunu skaits
@@ -138,6 +140,8 @@ lv:
       instagram_story_content: '%{story_sender} pieminēja jūs stāstā: '
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
       deleted: Šis ziņojums ir izdzēsts
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Kļūdas kods: %{error_code}'
     activity:
@@ -172,6 +176,14 @@ lv:
       sla:
         added: '%{user_name} pievienoja SLA politiku %{sla_name}'
         removed: '%{user_name} noņēma SLA politiku %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} izslēdza sarunu'
       unmuted: '%{user_name} ieslēdza sarunu'
       auto_resolution_message: 'Saruna tiek pabeigta, jo tā kādu laiku ir bijusi neaktīva. Ja nepieciešama papildu palīdzība, lūdzu, sāciet jaunu sarunu.'
@@ -231,6 +243,10 @@ lv:
       name: 'Lineārs'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Izveidojiet problēmu pieteikumus programmā Linear, tieši no sarunas loga. Varat arī sasaistīt esošos Linear problēmu pieteikumus, lai nodrošinātu racionālāku un efektīvāku problēmu izsekošanas procesu.'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
@@ -240,6 +256,7 @@ lv:
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
+    copilot_message_required: Nepieciešams ziņojums
     copilot_error: 'Lai izmantotu Copilot, lūdzu, pievienojiet šai iesūtnei palīgu'
     copilot_limit: 'Jums ir beigušies Copilot kredīti. Vairāk kredītu varat iegādāties norēķinu sadaļā.'
     copilot:
@@ -272,6 +289,7 @@ lv:
       made_with: Veidots ar
     header:
       go_to_homepage: Tīmekļa vietne
+      visit_website: Visit website
       appearance:
         system: Sistēma
         light: Gaišs

@@ -56,7 +56,7 @@ class Line::SendOnLineService < Base::SendOnChannelService
   def text_message
     {
       type: 'text',
-      text: message.content
+      text: message.outgoing_content
     }
   end
 
@@ -73,7 +73,8 @@ class Line::SendOnLineService < Base::SendOnChannelService
           contents: [
             {
               type: 'text',
-              text: message.content
+              text: message.content,
+              wrap: true
             },
             *input_select_to_button
           ]

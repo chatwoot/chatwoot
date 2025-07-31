@@ -14,6 +14,8 @@ const props = defineProps({
 
 const emit = defineEmits(['unlinkIssue']);
 
+const { linkedIssue } = props;
+
 const priorityMap = {
   1: 'Urgent',
   2: 'High',
@@ -21,7 +23,7 @@ const priorityMap = {
   4: 'Low',
 };
 
-const issue = computed(() => props.linkedIssue.issue);
+const issue = computed(() => linkedIssue.issue);
 
 const assignee = computed(() => {
   const assigneeDetails = issue.value.assignee;
@@ -37,7 +39,7 @@ const labels = computed(() => issue.value.labels?.nodes || []);
 const priorityLabel = computed(() => priorityMap[issue.value.priority]);
 
 const unlinkIssue = () => {
-  emit('unlinkIssue', props.linkedIssue.id);
+  emit('unlinkIssue', linkedIssue.id, linkedIssue.issue.identifier);
 };
 </script>
 

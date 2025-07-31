@@ -101,13 +101,11 @@ const getContactDetails = () => {
   }
 };
 
-watch(conversationId, (newConversationId, prevConversationId) => {
-  if (newConversationId && newConversationId !== prevConversationId) {
+watch(contactId, (newContactId, prevContactId) => {
+  if (newContactId && newContactId !== prevContactId) {
     getContactDetails();
   }
 });
-
-watch(contactId, getContactDetails);
 
 const onDragEnd = () => {
   dragging.value = false;
@@ -306,7 +304,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 ::v-deep {
   .contact--profile {
-    @apply pb-3 border-b border-solid border-slate-75 dark:border-slate-700;
+    @apply pb-3 border-b border-solid border-n-weak;
   }
 
   .conversation--actions .multiselect-wrap--small {

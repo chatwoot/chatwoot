@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "Jūs esat pārsniedzis sarunu ierobežojumu. Hacker plāns pieļauj tikai 500 sarunas.",
       "INBOXES": "Jūs esat pārsniedzis iesūtnes ierobežojumu. Hacker plāns atbalsta tikai vietnes tiešraides tērzēšanu. Papildu iesūtnēm, piemēram, e-pastam, WhatsApp utt., ir nepieciešams maksas plāns.",
-      "AGENTS": "Jūs esat pārsniedzis aģentu ierobežojumu. Hakeru plānā ir atļauti tikai 2 aģenti.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
       "NON_ADMIN": "Lūdzu, sazinieties ar savu administratoru, lai modernizētu plānu un turpinātu izmantot visas funkcijas."
     },
     "TITLE": "Konta iestatījumi",
@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Nospiediet enter, lai izvēlētos",
       "ENTER_TO_REMOVE": "Nospiediet enter, lai noņemtu",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Izvēlieties vienu",
       "SELECT": "Izvēlieties"
     }

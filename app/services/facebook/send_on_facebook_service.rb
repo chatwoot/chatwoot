@@ -66,7 +66,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
         end
       }
     else
-      { text: message.content }
+      { text: message.outgoing_content }
     end
   end
 

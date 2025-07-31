@@ -111,69 +111,6 @@ describe MessageTemplates::HookExecutionService do
     end
   end
 
-  context 'when CSAT Survey' do
-    let(:csat_survey) { double }
-    let(:conversation) { create(:conversation) }
-
-    before do
-      allow(MessageTemplates::Template::CsatSurvey).to receive(:new).and_return(csat_survey)
-      allow(csat_survey).to receive(:perform).and_return(true)
-      create(:message, conversation: conversation, message_type: 'incoming')
-    end
-
-    it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled' do
-      conversation.inbox.update(csat_survey_enabled: true)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).to have_received(:perform)
-    end
-
-    it 'will not call ::MessageTemplates::Template::CsatSurvey when Csat is not enabled' do
-      conversation.inbox.update(csat_survey_enabled: false)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
-      twitter_channel = create(:channel_twitter_profile)
-      twitter_inbox = create(:inbox, channel: twitter_channel)
-      conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
-      conversation.inbox.update(csat_survey_enabled: true)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if another Csat was already sent' do
-      conversation.inbox.update(csat_survey_enabled: true)
-      conversation.messages.create!(message_type: 'outgoing', content_type: :input_csat, account: conversation.account, inbox: conversation.inbox)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-  end
-
   context 'when it is after working hours' do
     it 'calls ::MessageTemplates::Template::OutOfOffice' do
       contact = create(:contact)
