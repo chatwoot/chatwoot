@@ -44,7 +44,7 @@ class Whatsapp::TemplateProcessorService
   end
 
   def process_header_components(processed_params)
-    return [] unless processed_params['header'].present?
+    return [] if processed_params['header'].blank?
 
     header_params = []
     processed_params['header'].each do |key, value|
@@ -63,7 +63,7 @@ class Whatsapp::TemplateProcessorService
   end
 
   def process_body_components(processed_params, template)
-    return [] unless processed_params['body'].present?
+    return [] if processed_params['body'].blank?
 
     body_params = processed_params['body'].filter_map do |key, value|
       next if value.blank?
@@ -80,7 +80,7 @@ class Whatsapp::TemplateProcessorService
   end
 
   def process_footer_components(processed_params)
-    return [] unless processed_params['footer'].present?
+    return [] if processed_params['footer'].blank?
 
     footer_params = processed_params['footer'].filter_map do |_, value|
       next if value.blank?
@@ -92,7 +92,7 @@ class Whatsapp::TemplateProcessorService
   end
 
   def process_button_components(processed_params)
-    return [] unless processed_params['buttons'].present?
+    return [] if processed_params['buttons'].blank?
 
     button_params = processed_params['buttons'].filter_map.with_index do |button, index|
       next if button.blank?

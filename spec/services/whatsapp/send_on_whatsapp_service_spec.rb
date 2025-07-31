@@ -6,7 +6,7 @@ describe Whatsapp::SendOnWhatsappService do
     namespace: '23423423_2342423_324234234_2343224',
     language: 'en_US',
     category: 'Marketing',
-    processed_params: { '1' => '3' }
+    processed_params: { 'body' => { '1' => '3' } }
   }
 
   describe '#perform' do
@@ -39,15 +39,16 @@ describe Whatsapp::SendOnWhatsappService do
       let(:named_template_body) do
         {
           messaging_product: 'whatsapp',
+          recipient_type: 'individual',
           to: '123456789',
+          type: 'template',
           template: {
             name: 'ticket_status_updated',
             language: { 'policy': 'deterministic', 'code': 'en_US' },
             components: [{ 'type': 'body',
                            'parameters': [{ 'type': 'text', parameter_name: 'last_name', 'text': 'Dale' },
                                           { 'type': 'text', parameter_name: 'ticket_id', 'text': '2332' }] }]
-          },
-          type: 'template'
+          }
         }
       end
 
@@ -73,7 +74,7 @@ describe Whatsapp::SendOnWhatsappService do
 
       it 'calls channel.send_template when after 24 hour limit' do
         message = create(:message, message_type: :outgoing, content: 'Your package has been shipped. It will be delivered in 3 business days.',
-                                   conversation: conversation)
+                                   conversation: conversation, additional_attributes: { template_params: template_params })
 
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(
@@ -107,12 +108,18 @@ describe Whatsapp::SendOnWhatsappService do
           name: 'ticket_status_updated',
           language: 'en_US',
           category: 'UTILITY',
-          processed_params: { 'last_name' => 'Dale', 'ticket_id' => '2332' }
+          processed_params: { 'body' => { 'last_name' => 'Dale', 'ticket_id' => '2332' } }
         }
 
         stub_request(:post, "https://graph.facebook.com/v13.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
           .with(
-            :headers => { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{whatsapp_cloud_channel.provider_config['api_key']}" },
+            :headers => {
+              'Accept' => '*/*',
+              'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+              'Content-Type' => 'application/json',
+              'Authorization' => "Bearer #{whatsapp_cloud_channel.provider_config['api_key']}",
+              'User-Agent' => 'Ruby'
+            },
             :body => named_template_body.to_json
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
         message = create(:message,
@@ -124,11 +131,20 @@ describe Whatsapp::SendOnWhatsappService do
       end
 
       it 'calls channel.send_template when template has regexp characters' do
+        regexp_template_params = {
+          name: 'customer_yes_no',
+          namespace: '2342384942_32423423_23423fdsdaf23',
+          language: 'ar',
+          category: 'SHIPPING_UPDATE',
+          processed_params: {}
+        }
+
         message = create(
           :message,
           message_type: :outgoing,
           content: 'عميلنا العزيز الرجاء الرد على هذه الرسالة بكلمة *نعم* للرد على إستفساركم من قبل خدمة العملاء.',
-          conversation: conversation
+          conversation: conversation,
+          additional_attributes: { template_params: regexp_template_params }
         )
 
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
@@ -140,7 +156,7 @@ describe Whatsapp::SendOnWhatsappService do
                 name: 'customer_yes_no',
                 namespace: '2342384942_32423423_23423fdsdaf23',
                 language: { 'policy': 'deterministic', 'code': 'ar' },
-                components: [{ 'type': 'body', 'parameters': [] }]
+                components: []
               },
               type: 'template'
             }.to_json
