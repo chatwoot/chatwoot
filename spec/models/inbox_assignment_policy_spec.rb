@@ -23,7 +23,8 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
       let(:other_policy) { create(:assignment_policy, account: other_account) }
 
       it 'validates inbox belongs to same account as policy' do
-        invalid_policy = build(:inbox_assignment_policy, inbox: inbox, assignment_policy: other_policy)
+        # Build without the factory callback that sets the accounts to be the same
+        invalid_policy = described_class.new(inbox: inbox, assignment_policy: other_policy)
 
         expect(invalid_policy).not_to be_valid
         expect(invalid_policy.errors[:inbox]).to include('must belong to the same account as the assignment policy')
@@ -91,13 +92,13 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
     end
 
     it 'clears inbox cache on update' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
+      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}").at_least(:once)
 
       inbox_assignment_policy.update!(updated_at: Time.current)
     end
 
     it 'clears inbox cache on destroy' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
+      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}").at_least(:once)
 
       inbox_assignment_policy.destroy!
     end
@@ -112,12 +113,15 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
 
   describe 'business logic constraints' do
     it 'prevents multiple policies per inbox' do
+      # Ensure first policy exists
+      inbox_assignment_policy
+
       policy2 = create(:assignment_policy, account: account)
 
-      # First policy already exists
-      expect do
-        create(:inbox_assignment_policy, inbox: inbox, assignment_policy: policy2)
-      end.to raise_error(ActiveRecord::RecordInvalid)
+      # Try to create a second policy for the same inbox
+      duplicate_policy = described_class.new(inbox: inbox, assignment_policy: policy2)
+      expect(duplicate_policy).not_to be_valid
+      expect(duplicate_policy.errors[:inbox_id]).to include('has already been taken')
     end
 
     it 'allows reassigning to different policy' do

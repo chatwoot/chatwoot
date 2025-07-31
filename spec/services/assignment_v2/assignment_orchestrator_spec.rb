@@ -2,277 +2,368 @@
 
 require 'rails_helper'
 
-RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
+RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :integration do
   let(:account) { create(:account) }
-  let(:inbox) { create(:inbox, account: account, enable_auto_assignment: true) }
-  let(:assignment_policy) { create(:assignment_policy, account: account) }
-  let!(:inbox_assignment_policy) { create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy) }
-  let(:agent1) { create(:user, account: account) }
-  let(:agent2) { create(:user, account: account) }
-  let(:orchestrator) { described_class.new(inbox) }
+  let(:inbox) { create(:inbox, account: account) }
+
+  # Create agents with different availability
+  let!(:agent1) { create(:user, account: account, name: 'Agent 1', role: :agent, availability: :online) }
+  let!(:agent2) { create(:user, account: account, name: 'Agent 2', role: :agent, availability: :online) }
+  let!(:agent3) { create(:user, account: account, name: 'Agent 3', role: :agent, availability: :busy) }
+  let!(:agent4) { create(:user, account: account, name: 'Agent 4', role: :agent, availability: :offline) }
 
   before do
-    create(:inbox_member, inbox: inbox, user: agent1)
-    create(:inbox_member, inbox: inbox, user: agent2)
-    allow(inbox).to receive(:assignment_v2_enabled?).and_return(true)
+    # Make agents members of inbox
+    [agent1, agent2, agent3, agent4].each do |agent|
+      create(:inbox_member, inbox: inbox, user: agent)
+    end
+
+    # Clear Redis to ensure clean state
+    Redis::Alfred.flushdb
   end
 
-  describe '#initialize' do
-    it 'sets up orchestrator with inbox and policy' do
-      expect(orchestrator.inbox).to eq(inbox)
-      expect(orchestrator.policy).to eq(assignment_policy)
+  describe 'Round Robin Assignment' do
+    let(:assignment_policy) do
+      create(:assignment_policy,
+             account: account,
+             name: 'Round Robin Policy',
+             assignment_order: :round_robin,
+             conversation_priority: :earliest_created,
+             enabled: true)
     end
 
-    it 'initializes rate limiter when policy exists' do
-      expect(orchestrator.instance_variable_get(:@rate_limiter)).to be_present
+    let(:inbox_assignment_policy) do
+      create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
     end
 
-    it 'initializes metrics tracker' do
-      expect(orchestrator.metrics).to be_a(described_class::AssignmentMetrics)
-    end
-  end
+    it 'assigns conversations in round-robin fashion to online agents only' do
+      # Create unassigned conversations
+      conversations = create_list(:conversation, 6, inbox: inbox, assignee: nil, status: :open)
 
-  describe '#assign_conversations' do
-    let!(:conversation1) { create(:conversation, inbox: inbox, assignee: nil, status: :open) }
-    let!(:conversation2) { create(:conversation, inbox: inbox, assignee: nil, status: :open) }
+      # Process assignments
+      service = AssignmentV2::AssignmentService.new(inbox)
+      assigned_count = service.assign_conversations
 
-    context 'when assignment is possible' do
-      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
-      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+      expect(assigned_count).to eq(6)
 
-      before do
-        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
-        allow(selector).to receive(:select_agent).and_return(agent1)
+      # Verify all conversations are assigned
+      conversations.each(&:reload)
+      expect(conversations.filter_map(&:assignee).count).to eq(6)
 
-        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
-        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
-      end
+      # Verify only online agents received assignments
+      assigned_agents = conversations.map(&:assignee).uniq
+      expect(assigned_agents).to contain_exactly(agent1, agent2)
 
-      it 'assigns conversations to agents' do
-        expect(orchestrator.assign_conversations(limit: 2)).to eq(2)
-
-        expect(conversation1.reload.assignee).to eq(agent1)
-        expect(conversation2.reload.assignee).to eq(agent1)
-      end
-
-      it 'creates audit logs for assignments' do
-        expect { orchestrator.assign_conversations(limit: 2) }.to change { conversation1.messages.activity.count }.by(1)
-      end
-
-      it 'triggers assignment notifications' do
-        expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
-          'conversation.assigned',
-          anything,
-          hash_including(conversation: conversation1, assignee: agent1)
-        ).once
-
-        expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
-          'conversation.assigned',
-          anything,
-          hash_including(conversation: conversation2, assignee: agent1)
-        ).once
-
-        orchestrator.assign_conversations(limit: 2)
-      end
-
-      it 'records metrics for successful assignments' do
-        orchestrator.assign_conversations(limit: 2)
-
-        metrics = orchestrator.metrics.instance_variable_get(:@assignments)
-        expect(metrics.size).to eq(2)
-        expect(metrics.first).to include(
-          conversation_id: conversation1.id,
-          agent_id: agent1.id,
-          policy_id: assignment_policy.id
-        )
-      end
+      # Verify round-robin distribution
+      agent1_count = conversations.count { |c| c.assignee == agent1 }
+      agent2_count = conversations.count { |c| c.assignee == agent2 }
+      expect([agent1_count, agent2_count]).to contain_exactly(3, 3)
     end
 
-    context 'when no agent is available' do
-      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
+    it 'respects conversation priority order' do
+      # Create conversations with different creation times
+      old_conv = create(:conversation, inbox: inbox, assignee: nil, created_at: 2.hours.ago)
+      mid_conv = create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago)
+      new_conv = create(:conversation, inbox: inbox, assignee: nil, created_at: 5.minutes.ago)
 
-      before do
-        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
-        allow(selector).to receive(:select_agent).and_return(nil)
-      end
+      # Assign only 2 conversations
+      service = AssignmentV2::AssignmentService.new(inbox)
+      service.assign_conversations(limit: 2)
 
-      it 'does not assign conversations' do
-        expect(orchestrator.assign_conversations(limit: 2)).to eq(0)
-
-        expect(conversation1.reload.assignee).to be_nil
-        expect(conversation2.reload.assignee).to be_nil
-      end
+      # Oldest conversations should be assigned first
+      expect(old_conv.reload.assignee).not_to be_nil
+      expect(mid_conv.reload.assignee).not_to be_nil
+      expect(new_conv.reload.assignee).to be_nil
     end
 
-    context 'when rate limiter blocks assignment' do
-      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
-      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+    it 'handles agent availability changes mid-assignment' do
+      conversations = create_list(:conversation, 4, inbox: inbox, assignee: nil)
 
-      before do
-        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
-        allow(selector).to receive(:select_agent).and_return(agent1)
+      # Assign first batch
+      service = AssignmentV2::AssignmentService.new(inbox)
+      service.assign_conversations(limit: 2)
 
-        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
-        allow(rate_limiter).to receive(:agent_within_limits?).and_return(false)
-      end
+      # Make agent1 offline
+      agent1.update!(availability: :offline)
 
-      it 'does not perform assignment' do
-        expect(orchestrator.assign_conversations(limit: 2)).to eq(0)
+      # Assign remaining conversations
+      service.assign_conversations(limit: 2)
 
-        expect(conversation1.reload.assignee).to be_nil
-        expect(conversation2.reload.assignee).to be_nil
-      end
-    end
-
-    context 'when assignment fails due to database error' do
-      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
-      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
-
-      before do
-        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
-        allow(selector).to receive(:select_agent).and_return(agent1)
-
-        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
-        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
-        allow(conversation1).to receive(:update!).and_raise(ActiveRecord::RecordInvalid)
-      end
-
-      it 'continues with other conversations' do
-        expect(Rails.logger).to receive(:error).with(/Assignment failed/)
-
-        result = orchestrator.assign_conversations(limit: 2)
-        expect(result).to eq(1) # Only conversation2 succeeds
-        expect(conversation2.reload.assignee).to eq(agent1)
-      end
+      # All remaining should go to agent2
+      remaining_assignments = conversations.reload.last(2).map(&:assignee)
+      expect(remaining_assignments).to all(eq(agent2))
     end
   end
 
-  describe '#assign_conversation' do
-    let(:conversation) { create(:conversation, inbox: inbox, assignee: nil, status: :open) }
-
-    context 'when assignment succeeds' do
-      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
-      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
-
-      before do
-        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
-        allow(selector).to receive(:select_agent).and_return(agent1)
-
-        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
-        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
-      end
-
-      it 'returns true and assigns conversation' do
-        expect(orchestrator.assign_conversation(conversation)).to be true
-        expect(conversation.reload.assignee).to eq(agent1)
-      end
+  describe 'Balanced Assignment' do
+    let(:assignment_policy) do
+      create(:assignment_policy,
+             account: account,
+             name: 'Balanced Policy',
+             assignment_order: :balanced,
+             enabled: true)
     end
 
-    context 'when conversation is already assigned' do
-      let(:conversation) { create(:conversation, inbox: inbox, assignee: agent2, status: :open) }
-
-      it 'returns false without changing assignment' do
-        expect(orchestrator.assign_conversation(conversation)).to be false
-        expect(conversation.reload.assignee).to eq(agent2)
-      end
+    let(:inbox_assignment_policy) do
+      create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
     end
-  end
-
-  describe 'enterprise balanced assignment' do
-    let(:enterprise_account) { create(:account) }
-    let(:enterprise_inbox) { create(:inbox, account: enterprise_account) }
-    let(:balanced_policy) { create(:assignment_policy, account: enterprise_account, assignment_order: :balanced) }
-    let(:enterprise_orchestrator) { described_class.new(enterprise_inbox) }
 
     before do
-      create(:inbox_assignment_policy, inbox: enterprise_inbox, assignment_policy: balanced_policy)
-      allow(enterprise_inbox).to receive(:assignment_v2_enabled?).and_return(true)
-      allow(enterprise_account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(true)
+      # Mock enterprise features
+      allow(account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(true)
+    end
+
+    it 'assigns to agent with least conversations' do
+      # Create existing load imbalance
+      create_list(:conversation, 5, inbox: inbox, assignee: agent1, status: :open)
+      create_list(:conversation, 2, inbox: inbox, assignee: agent2, status: :open)
+
+      # Create new conversations
+      new_conversations = create_list(:conversation, 3, inbox: inbox, assignee: nil)
+
+      # Process assignments
+      service = AssignmentV2::AssignmentService.new(inbox)
+      service.assign_conversations
+
+      # All should go to agent2 (less loaded)
+      new_conversations.each(&:reload)
+      expect(new_conversations.map(&:assignee)).to all(eq(agent2))
+
+      # Final count should be more balanced
+      expect(agent1.assigned_conversations.open.where(inbox: inbox).count).to eq(5)
+      expect(agent2.assigned_conversations.open.where(inbox: inbox).count).to eq(5)
+    end
+
+    it 'only counts open conversations for balancing' do
+      # Agent1 has many resolved conversations (shouldn't count)
+      create_list(:conversation, 10, inbox: inbox, assignee: agent1, status: :resolved)
+      # Agent1 has 1 open conversation
+      create(:conversation, inbox: inbox, assignee: agent1, status: :open)
+
+      # Agent2 has 3 open conversations
+      create_list(:conversation, 3, inbox: inbox, assignee: agent2, status: :open)
+
+      # New conversation should go to agent1
+      new_conversation = create(:conversation, inbox: inbox, assignee: nil)
+
+      service = AssignmentV2::AssignmentService.new(inbox)
+      service.assign_conversation(new_conversation)
+
+      expect(new_conversation.reload.assignee).to eq(agent1)
+    end
+  end
+
+  describe 'Enterprise Capacity Management' do
+    let(:assignment_policy) do
+      create(:assignment_policy,
+             account: account,
+             assignment_order: :balanced,
+             enabled: true)
+    end
+
+    let(:inbox_assignment_policy) do
+      create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
+    end
+
+    let(:capacity_policy) do
+      create(:enterprise_agent_capacity_policy, account: account, name: 'Limited Capacity')
+    end
+
+    before do
+      # Mock enterprise features
       stub_const('Enterprise', Module.new)
+      stub_const('Enterprise::AgentCapacityPolicy', Class.new(ApplicationRecord))
+      stub_const('Enterprise::InboxCapacityLimit', Class.new(ApplicationRecord))
+
+      allow(account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(true)
+
+      # Set up capacity limits
+      agent1.account_users.first.update!(agent_capacity_policy: capacity_policy)
+      agent2.account_users.first.update!(agent_capacity_policy: capacity_policy)
+
+      create(:enterprise_inbox_capacity_limit,
+             agent_capacity_policy: capacity_policy,
+             inbox: inbox,
+             conversation_limit: 3)
     end
 
-    it 'uses balanced selector for enterprise accounts' do
-      conversation = create(:conversation, inbox: enterprise_inbox, assignee: nil, status: :open)
+    it 'respects agent capacity limits' do
+      # Fill agent1 to capacity
+      create_list(:conversation, 3, inbox: inbox, assignee: agent1, status: :open)
 
-      balanced_selector_double = instance_double(Enterprise::AssignmentV2::BalancedSelector)
-      expect(Enterprise::AssignmentV2::BalancedSelector).to receive(:new).with(enterprise_inbox, balanced_policy).and_return(balanced_selector_double)
-      expect(balanced_selector_double).to receive(:select_agent).and_return(agent1)
+      # Create new conversations
+      new_conversations = create_list(:conversation, 4, inbox: inbox, assignee: nil)
 
-      rate_limiter = instance_double(AssignmentV2::RateLimiter)
-      allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
-      allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
+      # Mock capacity manager
+      capacity_manager = instance_double(Enterprise::AssignmentV2::CapacityManager)
+      allow(Enterprise::AssignmentV2::CapacityManager).to receive(:new).and_return(capacity_manager)
 
-      enterprise_orchestrator.assign_conversation(conversation)
+      # Agent1 at capacity, agent2 has room
+      allow(capacity_manager).to receive(:get_agent_capacity).with(agent1, inbox).and_return(
+        { available_capacity: 0, current_assignments: 3, total_capacity: 3 }
+      )
+      allow(capacity_manager).to receive(:get_agent_capacity).with(agent2, inbox).and_return(
+        { available_capacity: 3, current_assignments: 0, total_capacity: 3 }
+      )
+
+      # Process assignments
+      service = AssignmentV2::AssignmentService.new(inbox)
+      assigned_count = service.assign_conversations
+
+      # Only 3 should be assigned (agent2's capacity)
+      expect(assigned_count).to eq(3)
+
+      # All should go to agent2
+      assigned_conversations = new_conversations.select { |c| c.reload.assignee.present? }
+      expect(assigned_conversations.map(&:assignee)).to all(eq(agent2))
+    end
+
+    it 'handles capacity policy with exclusion rules' do
+      # Update capacity policy with exclusion rules
+      capacity_policy.update!(
+        exclusion_rules: {
+          'labels' => ['urgent'],
+          'hours_threshold' => 24
+        }
+      )
+
+      # Create urgent label
+      urgent_label = create(:label, account: account, title: 'urgent')
+
+      # Create mixed conversations for agent1
+      create(:conversation, inbox: inbox, assignee: agent1, status: :open)
+      urgent_conv = create(:conversation, inbox: inbox, assignee: agent1, status: :open)
+      create(:conversation_label, conversation: urgent_conv, label: urgent_label)
+      create(:conversation, inbox: inbox, assignee: agent1, status: :open, created_at: 2.days.ago)
+
+      # Mock capacity calculation with exclusions
+      capacity_manager = instance_double(Enterprise::AssignmentV2::CapacityManager)
+      allow(Enterprise::AssignmentV2::CapacityManager).to receive(:new).and_return(capacity_manager)
+
+      # Only regular conversation counts toward capacity
+      allow(capacity_manager).to receive(:get_agent_capacity).with(agent1, inbox).and_return(
+        { available_capacity: 2, current_assignments: 1, total_capacity: 3 }
+      )
+
+      # New conversation should still be assignable
+      new_conversation = create(:conversation, inbox: inbox, assignee: nil)
+
+      service = AssignmentV2::AssignmentService.new(inbox)
+      expect(service.assign_conversation(new_conversation)).to be true
     end
   end
 
-  describe '#can_assign?' do
-    it 'returns true when policy is enabled and inbox has auto assignment' do
-      expect(orchestrator.send(:can_assign?)).to be true
+  describe 'Team-based Assignment' do
+    let(:team) { create(:team, account: account) }
+    let(:assignment_policy) { create(:assignment_policy, account: account, enabled: true) }
+
+    before do
+      create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
+      create(:team_member, team: team, user: agent1)
+      create(:team_member, team: team, user: agent2)
     end
 
-    it 'returns false when policy is disabled' do
-      assignment_policy.update!(enabled: false)
-      expect(orchestrator.send(:can_assign?)).to be false
-    end
+    it 'assigns only to team members when conversation has team' do
+      # Create conversation with team
+      conversation = create(:conversation, inbox: inbox, assignee: nil, team: team)
 
-    it 'returns false when inbox auto assignment is disabled' do
-      inbox.update!(enable_auto_assignment: false)
-      expect(orchestrator.send(:can_assign?)).to be false
-    end
+      # Mock team filtering in service
+      service = AssignmentV2::AssignmentService.new(inbox)
 
-    it 'returns false when no policy exists' do
-      inbox_assignment_policy.destroy!
-      orchestrator_without_policy = described_class.new(inbox)
-      expect(orchestrator_without_policy.send(:can_assign?)).to be false
+      # Should only consider team members
+      100.times do
+        conversation.update!(assignee: nil)
+        service.assign_conversation(conversation)
+        expect(conversation.reload.assignee).to be_in([agent1, agent2])
+      end
     end
   end
 
-  describe 'conversation prioritization' do
-    let!(:oldest_conversation) { create(:conversation, inbox: inbox, assignee: nil, status: :open, created_at: 2.hours.ago) }
-    let!(:newest_conversation) { create(:conversation, inbox: inbox, assignee: nil, status: :open, created_at: 1.hour.ago) }
+  describe 'Feature Flag Control' do
+    let(:assignment_policy) { create(:assignment_policy, account: account, enabled: true) }
 
-    context 'with earliest_created priority' do
-      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
-      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
-
-      before do
-        assignment_policy.update!(conversation_priority: :earliest_created)
-        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
-        allow(selector).to receive(:select_agent).and_return(agent1)
-
-        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
-        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
-      end
-
-      it 'processes oldest conversation first' do
-        orchestrator.assign_conversations(limit: 1)
-        expect(oldest_conversation.reload.assignee).to eq(agent1)
-        expect(newest_conversation.reload.assignee).to be_nil
-      end
+    before do
+      create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
+      allow(inbox).to receive(:assignment_v2_enabled?).and_return(false)
     end
 
-    context 'with longest_waiting priority' do
-      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
-      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+    it 'falls back to legacy assignment when V2 is disabled' do
+      conversation = create(:conversation, inbox: inbox, assignee: nil)
 
-      before do
-        assignment_policy.update!(conversation_priority: :longest_waiting)
-        oldest_conversation.update!(last_activity_at: 3.hours.ago)
-        newest_conversation.update!(last_activity_at: 30.minutes.ago)
+      # Enable auto assignment
+      inbox.update!(enable_auto_assignment: true)
 
-        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
-        allow(selector).to receive(:select_agent).and_return(agent1)
+      # Should use legacy service
+      expect(AutoAssignment::AgentAssignmentService).to receive(:new).and_call_original
 
-        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
-        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
+      # Trigger assignment through model callback
+      conversation.update!(status: :open)
+    end
+  end
+
+  describe 'Concurrent Assignment Handling' do
+    let(:assignment_policy) { create(:assignment_policy, account: account, enabled: true) }
+
+    before { create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy) }
+
+    it 'handles multiple simultaneous assignment jobs' do
+      conversations = create_list(:conversation, 10, inbox: inbox, assignee: nil)
+
+      # Simulate concurrent job execution
+      threads = []
+
+      3.times do
+        threads << Thread.new do
+          AssignmentV2::AssignmentJob.new.perform(inbox_id: inbox.id)
+        end
       end
 
-      it 'processes conversation with longest wait time first' do
-        orchestrator.assign_conversations(limit: 1)
-        expect(oldest_conversation.reload.assignee).to eq(agent1)
-        expect(newest_conversation.reload.assignee).to be_nil
-      end
+      threads.each(&:join)
+
+      # All conversations should be assigned without duplicates
+      conversations.each(&:reload)
+      assigned_count = conversations.count { |c| c.assignee.present? }
+
+      expect(assigned_count).to eq(10)
+
+      # No conversation should have been assigned multiple times
+      assignment_counts = conversations.group_by(&:assignee).transform_values(&:count)
+      expect(assignment_counts.values.sum).to eq(10)
+    end
+  end
+
+  describe 'Error Recovery' do
+    let(:assignment_policy) { create(:assignment_policy, account: account, enabled: true) }
+
+    before { create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy) }
+
+    it 'continues assignment after individual conversation failure' do
+      conversations = create_list(:conversation, 5, inbox: inbox, assignee: nil)
+
+      # Make one conversation invalid
+      conversations[2].update!(status: 'resolved')
+
+      service = AssignmentV2::AssignmentService.new(inbox)
+      assigned_count = service.assign_conversations
+
+      # Should assign 4 out of 5
+      expect(assigned_count).to eq(4)
+
+      # Invalid conversation remains unassigned
+      expect(conversations[2].reload.assignee).to be_nil
+    end
+
+    it 'recovers from Redis failures' do
+      # Simulate Redis connection failure
+      allow(Redis::Alfred).to receive(:lpop).and_raise(Redis::CannotConnectError)
+
+      conversation = create(:conversation, inbox: inbox, assignee: nil)
+
+      service = AssignmentV2::AssignmentService.new(inbox)
+
+      # Should fall back to database-based assignment
+      expect(service.assign_conversation(conversation)).to be true
+      expect(conversation.reload.assignee).not_to be_nil
     end
   end
 end

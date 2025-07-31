@@ -55,7 +55,7 @@ class InboxAssignmentPolicy < ApplicationRecord
   def inbox_belongs_to_same_account
     return unless inbox && assignment_policy
 
-    return unless inbox.account_id != assignment_policy.account_id
+    return if inbox.account_id == assignment_policy.account_id
 
     errors.add(:inbox, 'must belong to the same account as the assignment policy')
   end
