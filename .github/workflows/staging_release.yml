@@ -76,7 +76,7 @@ jobs:
       - name: Build Docker images with docker compose
         run: |
           docker compose --env-file .env -f docker-compose.production.old.yaml build base --no-cache
-          docker compose --env-file .env -f docker-compose.production.old.yaml build rails sidekiq--no-cache
+          docker compose --env-file .env -f docker-compose.production.old.yaml build rails sidekiq --no-cache
 
       - name: Tag Docker image
         run: |
