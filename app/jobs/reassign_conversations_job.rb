@@ -8,11 +8,11 @@ class ReassignConversationsJob < ApplicationJob
 
     user = account_user.user
     account = account_user.account
-    
+
     # Find all open conversations assigned to this user
     conversations = account.conversations
-                          .open
-                          .where(assignee: user)
+                           .open
+                           .where(assignee: user)
 
     Rails.logger.info "Reassigning #{conversations.count} conversations for user #{user.name} (#{user.id}) on leave"
 
@@ -25,14 +25,14 @@ class ReassignConversationsJob < ApplicationJob
 
   def reassign_conversation(conversation)
     inbox = conversation.inbox
-    
+
     # Use Assignment V2 if enabled
     if inbox.assignment_v2_enabled?
       assignment_service = AssignmentV2::AssignmentService.new(inbox: inbox)
-      
+
       # Mark conversation as unassigned first
       conversation.update!(assignee: nil)
-      
+
       # Let the assignment service handle it
       assignment_service.perform_for_conversation(conversation)
     else

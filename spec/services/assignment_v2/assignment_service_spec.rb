@@ -13,7 +13,7 @@ RSpec.describe AssignmentV2::AssignmentService do
   let!(:agent1) { create(:user, account: account, role: :agent, availability: :online) }
   let!(:agent2) { create(:user, account: account, role: :agent, availability: :online) }
   let!(:agent3) { create(:user, account: account, role: :agent, availability: :offline) }
-  
+
   # Make agents members of inbox
   before do
     create(:inbox_member, inbox: inbox, user: agent1)
@@ -42,7 +42,7 @@ RSpec.describe AssignmentV2::AssignmentService do
       it 'returns false when no agents are available' do
         agent1.update!(availability: :offline)
         agent2.update!(availability: :offline)
-        
+
         expect(service.assign_conversation(conversation)).to be false
         expect(conversation.reload.assignee).to be_nil
       end
@@ -71,10 +71,10 @@ RSpec.describe AssignmentV2::AssignmentService do
 
       it 'assigns agents in rotation' do
         conversations = create_list(:conversation, 4, inbox: inbox, assignee: nil)
-        
+
         # Clear any existing round robin cache
         Rails.cache.delete("assignment_v2:round_robin:#{inbox.id}")
-        
+
         assignments = conversations.map do |conv|
           service.assign_conversation(conv)
           conv.reload.assignee
@@ -100,9 +100,9 @@ RSpec.describe AssignmentV2::AssignmentService do
         # Create existing assignments
         create_list(:conversation, 3, inbox: inbox, assignee: agent1, status: :open)
         create(:conversation, inbox: inbox, assignee: agent2, status: :open)
-        
+
         new_conversation = create(:conversation, inbox: inbox, assignee: nil)
-        
+
         expect(service.assign_conversation(new_conversation)).to be true
         expect(new_conversation.reload.assignee).to eq(agent2)
       end
@@ -110,34 +110,34 @@ RSpec.describe AssignmentV2::AssignmentService do
       it 'only counts open and pending conversations' do
         # Create resolved conversations (should not count)
         create_list(:conversation, 5, inbox: inbox, assignee: agent1, status: :resolved)
-        
+
         # Create open conversation
         create(:conversation, inbox: inbox, assignee: agent2, status: :open)
-        
+
         new_conversation = create(:conversation, inbox: inbox, assignee: nil)
-        
+
         expect(service.assign_conversation(new_conversation)).to be true
         expect(new_conversation.reload.assignee).to eq(agent1) # Less active conversations
       end
     end
 
-    context 'error handling' do
+    context 'when error occurs' do
       it 'returns false and logs error on assignment failure' do
-        allow_any_instance_of(Conversation).to receive(:update!).and_raise(ActiveRecord::RecordInvalid)
+        allow(conversation).to receive(:update!).and_raise(ActiveRecord::RecordInvalid)
         expect(Rails.logger).to receive(:error).with(/Assignment failed/)
-        
+
         expect(service.assign_conversation(conversation)).to be false
       end
     end
   end
 
   describe '#assign_conversations' do
-    let!(:conversations) { create_list(:conversation, 5, inbox: inbox, assignee: nil, status: :open) }
+    before { create_list(:conversation, 5, inbox: inbox, assignee: nil, status: :open) }
 
     context 'when policy is enabled' do
       it 'assigns multiple conversations' do
         assigned_count = service.assign_conversations(limit: 3)
-        
+
         expect(assigned_count).to eq(3)
         expect(inbox.conversations.unassigned.count).to eq(2)
       end
@@ -146,11 +146,11 @@ RSpec.describe AssignmentV2::AssignmentService do
         # Create conversations with different timestamps
         old_conversation = create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago)
         new_conversation = create(:conversation, inbox: inbox, assignee: nil, created_at: 1.minute.ago)
-        
+
         assignment_policy.update!(conversation_priority: :earliest_created)
-        
+
         service.assign_conversations(limit: 1)
-        
+
         expect(old_conversation.reload.assignee).not_to be_nil
         expect(new_conversation.reload.assignee).to be_nil
       end
@@ -159,18 +159,18 @@ RSpec.describe AssignmentV2::AssignmentService do
         # Create conversations with different last activity
         inactive_conversation = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 2.hours.ago)
         active_conversation = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 5.minutes.ago)
-        
+
         assignment_policy.update!(conversation_priority: :longest_waiting)
-        
+
         service.assign_conversations(limit: 1)
-        
+
         expect(inactive_conversation.reload.assignee).not_to be_nil
         expect(active_conversation.reload.assignee).to be_nil
       end
 
       it 'returns 0 when no conversations to assign' do
-        Conversation.update_all(assignee_id: agent1.id)
-        
+        Conversation.find_each { |c| c.update!(assignee_id: agent1.id) }
+
         expect(service.assign_conversations).to eq(0)
       end
     end
@@ -193,29 +193,31 @@ RSpec.describe AssignmentV2::AssignmentService do
       # Mock enterprise availability
       stub_const('Enterprise', Module.new)
       stub_const('Enterprise::AssignmentV2::CapacityManager', Class.new)
-      
-      allow_any_instance_of(Enterprise::AssignmentV2::CapacityManager).to receive(:get_agent_capacity).and_return(
-        { available_capacity: 1 }
-      )
-      
+
+      capacity_manager = instance_double(Enterprise::AssignmentV2::CapacityManager)
+      allow(Enterprise::AssignmentV2::CapacityManager).to receive(:new).and_return(capacity_manager)
+      allow(capacity_manager).to receive(:get_agent_capacity).and_return({ available_capacity: 1 })
+
       allow(assignment_policy).to receive(:capacity_filtering_enabled?).and_return(true)
       allow(inbox.account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(true)
     end
 
     it 'applies capacity filters when available' do
       # Mock capacity limits
-      allow_any_instance_of(Enterprise::AssignmentV2::CapacityManager).to receive(:get_agent_capacity)
+      capacity_manager = instance_double(Enterprise::AssignmentV2::CapacityManager)
+      allow(Enterprise::AssignmentV2::CapacityManager).to receive(:new).and_return(capacity_manager)
+      allow(capacity_manager).to receive(:get_agent_capacity)
         .with(agent1, inbox).and_return({ available_capacity: 0 })
-      allow_any_instance_of(Enterprise::AssignmentV2::CapacityManager).to receive(:get_agent_capacity)
+      allow(capacity_manager).to receive(:get_agent_capacity)
         .with(agent2, inbox).and_return({ available_capacity: 5 })
-      
+
       expect(service.assign_conversation(conversation)).to be true
       expect(conversation.reload.assignee).to eq(agent2) # Only agent with capacity
     end
 
     it 'skips capacity filtering when enterprise not available' do
       allow(assignment_policy).to receive(:capacity_filtering_enabled?).and_return(false)
-      
+
       expect(service.assign_conversation(conversation)).to be true
       expect(conversation.reload.assignee).to be_in([agent1, agent2])
     end
@@ -225,18 +227,18 @@ RSpec.describe AssignmentV2::AssignmentService do
     it 'uses cache for round robin state' do
       assignment_policy.update!(assignment_order: :round_robin)
       cache_key = "assignment_v2:round_robin:#{inbox.id}"
-      
+
       # First assignment
       conversation1 = create(:conversation, inbox: inbox, assignee: nil)
       service.assign_conversation(conversation1)
-      
+
       # Check cache was written
       expect(Rails.cache.read(cache_key)).not_to be_nil
-      
+
       # Second assignment should use cached state
       conversation2 = create(:conversation, inbox: inbox, assignee: nil)
       expect(Rails.cache).to receive(:read).with(cache_key).and_call_original
-      
+
       service.assign_conversation(conversation2)
     end
   end
@@ -245,21 +247,21 @@ RSpec.describe AssignmentV2::AssignmentService do
     it 'handles inbox without policy gracefully' do
       inbox_assignment_policy.destroy!
       conversation = create(:conversation, inbox: inbox, assignee: nil)
-      
+
       expect(service.assign_conversation(conversation)).to be false
     end
 
     it 'handles empty agent list' do
       InboxMember.destroy_all
       conversation = create(:conversation, inbox: inbox, assignee: nil)
-      
+
       expect(service.assign_conversation(conversation)).to be false
     end
 
     it 'filters out agents without inbox membership' do
       non_member_agent = create(:user, account: account, role: :agent, availability: :online)
       conversation = create(:conversation, inbox: inbox, assignee: nil)
-      
+
       expect(service.assign_conversation(conversation)).to be true
       expect(conversation.reload.assignee).not_to eq(non_member_agent)
     end

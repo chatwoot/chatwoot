@@ -16,15 +16,14 @@ class AssignmentV2::RateLimiter
 
   # Record an assignment for rate limiting purposes
   # @param conversation [Conversation] The conversation being assigned
-  def record_assignment(conversation)
+  def record_assignment(_conversation)
     return unless policy_exists?
 
     key = rate_limit_key
-    $alfred.with do |redis|
-      redis.multi do |multi|
-        multi.incr(key)
-        multi.expire(key, time_window)
-      end
+    redis = Redis.new(Redis::Config.app)
+    redis.multi do |multi|
+      multi.incr(key)
+      multi.expire(key, time_window)
     end
   end
 
@@ -36,7 +35,7 @@ class AssignmentV2::RateLimiter
         within_limits: within_limits?,
         current_count: current_count,
         limit: rate_limit,
-        reset_at: Time.at(next_window_start)
+        reset_at: Time.zone.at(next_window_start)
       }
     else
       {
@@ -60,7 +59,8 @@ class AssignmentV2::RateLimiter
 
   def current_count
     key = rate_limit_key
-    $alfred.with { |redis| redis.get(key).to_i }
+    redis = Redis.new(Redis::Config.app)
+    redis.get(key).to_i
   end
 
   def rate_limit

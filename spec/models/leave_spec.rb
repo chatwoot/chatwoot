@@ -4,17 +4,17 @@ require 'rails_helper'
 
 RSpec.describe Leave, type: :model do
   describe 'associations' do
-    it { should belong_to(:account) }
-    it { should belong_to(:account_user) }
-    it { should belong_to(:approved_by).class_name('User').optional }
-    it { should have_one(:user).through(:account_user) }
+    it { is_expected.to belong_to(:account) }
+    it { is_expected.to belong_to(:account_user) }
+    it { is_expected.to belong_to(:approved_by).class_name('User').optional }
+    it { is_expected.to have_one(:user).through(:account_user) }
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:start_date) }
-    it { should validate_presence_of(:end_date) }
-    it { should validate_presence_of(:leave_type) }
-    it { should validate_presence_of(:status) }
+    it { is_expected.to validate_presence_of(:start_date) }
+    it { is_expected.to validate_presence_of(:end_date) }
+    it { is_expected.to validate_presence_of(:leave_type) }
+    it { is_expected.to validate_presence_of(:status) }
 
     describe 'end_date_after_start_date' do
       let(:leave) { build(:leave, start_date: Date.current, end_date: Date.current - 1.day) }
@@ -27,8 +27,11 @@ RSpec.describe Leave, type: :model do
 
     describe 'no_overlapping_leaves' do
       let(:account_user) { create(:account_user) }
-      let!(:existing_leave) { create(:leave, :approved, account_user: account_user, start_date: Date.current, end_date: Date.current + 7.days) }
-      let(:new_leave) { build(:leave, account_user: account_user, start_date: Date.current + 3.days, end_date: Date.current + 10.days, status: 'approved') }
+      let(:new_leave) do
+        build(:leave, account_user: account_user, start_date: Date.current + 3.days, end_date: Date.current + 10.days, status: 'approved')
+      end
+
+      before { create(:leave, :approved, account_user: account_user, start_date: Date.current, end_date: Date.current + 7.days) }
 
       it 'prevents overlapping approved leaves' do
         expect(new_leave).not_to be_valid
@@ -43,8 +46,12 @@ RSpec.describe Leave, type: :model do
   end
 
   describe 'enums' do
-    it { should define_enum_for(:leave_type).with_values(vacation: 0, sick: 1, personal: 2, maternity: 3, paternity: 4, bereavement: 5, unpaid: 6) }
-    it { should define_enum_for(:status).with_values(pending: 0, approved: 1, rejected: 2, cancelled: 3) }
+    it {
+      expect(subject).to define_enum_for(:leave_type).with_values(vacation: 0, sick: 1, personal: 2, maternity: 3, paternity: 4, bereavement: 5,
+                                                                  unpaid: 6)
+    }
+
+    it { is_expected.to define_enum_for(:status).with_values(pending: 0, approved: 1, rejected: 2, cancelled: 3) }
   end
 
   describe 'scopes' do
@@ -55,22 +62,22 @@ RSpec.describe Leave, type: :model do
 
     describe '.active' do
       it 'returns leaves that are currently active' do
-        expect(Leave.active).to include(active_leave)
-        expect(Leave.active).not_to include(upcoming_leave, past_leave, pending_leave)
+        expect(described_class.active).to include(active_leave)
+        expect(described_class.active).not_to include(upcoming_leave, past_leave, pending_leave)
       end
     end
 
     describe '.upcoming' do
       it 'returns approved leaves starting in the future' do
-        expect(Leave.upcoming).to include(upcoming_leave)
-        expect(Leave.upcoming).not_to include(active_leave, past_leave, pending_leave)
+        expect(described_class.upcoming).to include(upcoming_leave)
+        expect(described_class.upcoming).not_to include(active_leave, past_leave, pending_leave)
       end
     end
 
     describe '.past' do
       it 'returns leaves that have ended' do
-        expect(Leave.past).to include(past_leave)
-        expect(Leave.past).not_to include(active_leave, upcoming_leave, pending_leave)
+        expect(described_class.past).to include(past_leave)
+        expect(described_class.past).not_to include(active_leave, upcoming_leave, pending_leave)
       end
     end
   end

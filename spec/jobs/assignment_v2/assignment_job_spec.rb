@@ -21,19 +21,19 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
 
       it 'handles non-existent conversation gracefully' do
         expect(AssignmentV2::AssignmentService).not_to receive(:new)
-        
+
         # Should not raise error
-        expect {
-          described_class.new.perform(conversation_id: 999999)
-        }.not_to raise_error
+        expect do
+          described_class.new.perform(conversation_id: 999_999)
+        end.not_to raise_error
       end
     end
 
     context 'with inbox_id' do
       let!(:agent) { create(:user, account: account, role: :agent, availability: :online) }
-      let!(:conversations) { create_list(:conversation, 3, inbox: inbox, assignee: nil) }
 
       before do
+        create_list(:conversation, 3, inbox: inbox, assignee: nil)
         create(:inbox_member, inbox: inbox, user: agent)
       end
 
@@ -57,40 +57,40 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
 
       it 'skips assignment when inbox has no policy' do
         inbox_assignment_policy.destroy!
-        
+
         expect(AssignmentV2::AssignmentService).not_to receive(:new)
-        
+
         described_class.new.perform(inbox_id: inbox.id)
       end
 
       it 'skips assignment when policy is disabled' do
         assignment_policy.update!(enabled: false)
-        
+
         expect(AssignmentV2::AssignmentService).not_to receive(:new)
-        
+
         described_class.new.perform(inbox_id: inbox.id)
       end
 
       it 'handles non-existent inbox gracefully' do
         expect(AssignmentV2::AssignmentService).not_to receive(:new)
-        
+
         # Should not raise error
-        expect {
-          described_class.new.perform(inbox_id: 999999)
-        }.not_to raise_error
+        expect do
+          described_class.new.perform(inbox_id: 999_999)
+        end.not_to raise_error
       end
     end
 
     context 'without parameters' do
       it 'logs error when no parameters provided' do
         expect(Rails.logger).to receive(:error).with('AssignmentJob: No inbox_id or conversation_id provided')
-        
+
         described_class.new.perform
       end
 
       it 'does not attempt assignment' do
         expect(AssignmentV2::AssignmentService).not_to receive(:new)
-        
+
         described_class.new.perform
       end
     end
@@ -120,9 +120,9 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
         allow(AssignmentV2::AssignmentService).to receive(:new).and_return(service)
         allow(service).to receive(:assign_conversation).and_raise(StandardError, 'Assignment failed')
 
-        expect {
+        expect do
           described_class.new.perform(conversation_id: conversation.id)
-        }.to raise_error(StandardError, 'Assignment failed')
+        end.to raise_error(StandardError, 'Assignment failed')
       end
     end
 
@@ -130,9 +130,9 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
       it 'raises error for retry' do
         allow(Conversation).to receive(:find_by).and_raise(ActiveRecord::ConnectionNotEstablished)
 
-        expect {
+        expect do
           described_class.new.perform(conversation_id: conversation.id)
-        }.to raise_error(ActiveRecord::ConnectionNotEstablished)
+        end.to raise_error(ActiveRecord::ConnectionNotEstablished)
       end
     end
   end
@@ -144,24 +144,22 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
       3.times { jobs << described_class.new }
 
       # All should execute without issues
-      expect {
+      expect do
         jobs.each { |job| job.perform(inbox_id: inbox.id) }
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'is idempotent for conversation assignment' do
       service = instance_double(AssignmentV2::AssignmentService)
       allow(AssignmentV2::AssignmentService).to receive(:new).and_return(service)
-      
+
       # First call assigns
-      allow(service).to receive(:assign_conversation).and_return(true)
+      expect(service).to receive(:assign_conversation).and_return(true)
       described_class.new.perform(conversation_id: conversation.id)
-      
+
       # Second call should handle already assigned conversation
-      allow(service).to receive(:assign_conversation).and_return(false)
-      described_class.new.perform(conversation_id: conversation.id)
-      
-      # No errors should occur
+      expect(service).to receive(:assign_conversation).and_return(false)
+      expect { described_class.new.perform(conversation_id: conversation.id) }.not_to raise_error
     end
   end
 
@@ -169,13 +167,13 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
     it 'processes large inbox assignments in batches' do
       # Create many unassigned conversations
       create_list(:conversation, 100, inbox: inbox, assignee: nil)
-      
+
       service = instance_double(AssignmentV2::AssignmentService)
       allow(AssignmentV2::AssignmentService).to receive(:new).and_return(service)
-      
+
       # Service should be called with default limit
       expect(service).to receive(:assign_conversations).with(no_args).and_return(50)
-      
+
       described_class.new.perform(inbox_id: inbox.id)
     end
   end

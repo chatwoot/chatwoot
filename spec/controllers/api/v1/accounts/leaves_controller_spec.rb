@@ -20,7 +20,7 @@ RSpec.describe 'Leaves API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leaves'].size).to eq(1)
       end
     end
@@ -35,7 +35,7 @@ RSpec.describe 'Leaves API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leaves'].size).to eq(2)
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:created)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leave']['status']).to eq('pending')
         expect(json_response['leave']['leave_type']).to eq('vacation')
       end
@@ -80,7 +80,7 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['errors']).to include('End date must be after or equal to start date')
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe 'Leaves API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leave']['reason']).to eq('Extended vacation')
       end
 
@@ -138,7 +138,7 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leave']['status']).to eq('approved')
         expect(json_response['leave']['approved_by']).to eq(admin.name)
       end
@@ -166,7 +166,7 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['leave']['status']).to eq('rejected')
       end
 
@@ -177,7 +177,7 @@ RSpec.describe 'Leaves API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        json_response = JSON.parse(response.body)
+        json_response = response.parsed_body
         expect(json_response['errors']).to include('Rejection reason is required')
       end
     end

@@ -130,8 +130,10 @@ class Api::V1::Accounts::AgentCapacityPoliciesController < Api::V1::Accounts::Ba
   end
 
   def fetch_agent_capacity_policy
-    @agent_capacity_policy = Enterprise::AgentCapacityPolicy.where(account_id: Current.account.id).includes(:users,
-                                                                                                            inbox_capacity_limits: :inbox).find(params[:id])
+    @agent_capacity_policy = Enterprise::AgentCapacityPolicy
+                             .where(account_id: Current.account.id)
+                             .includes(:users, inbox_capacity_limits: :inbox)
+                             .find(params[:id])
   end
 
   def agent_capacity_policy_params

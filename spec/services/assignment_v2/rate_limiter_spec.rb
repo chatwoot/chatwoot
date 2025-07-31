@@ -69,10 +69,10 @@ RSpec.describe AssignmentV2::RateLimiter, type: :service do
 
     it 'sets expiration on the key' do
       rate_limiter.increment_agent_assignments(agent)
-      
+
       current_window = Time.current.to_i / 3600
       key = "assignment_v2:rate_limit:#{agent.id}:#{current_window}"
-      
+
       ttl = Redis::Alfred.ttl(key)
       expect(ttl).to be > 0
       expect(ttl).to be <= 3600
@@ -148,7 +148,7 @@ RSpec.describe AssignmentV2::RateLimiter, type: :service do
 
     it 'checks for specific count requirement' do
       3.times { rate_limiter.increment_agent_assignments(agent) }
-      
+
       expect(rate_limiter.can_assign_to_agent?(agent, 1)).to be true
       expect(rate_limiter.can_assign_to_agent?(agent, 2)).to be true
       expect(rate_limiter.can_assign_to_agent?(agent, 3)).to be false
@@ -166,10 +166,10 @@ RSpec.describe AssignmentV2::RateLimiter, type: :service do
 
     it 'returns status for all agents' do
       status = rate_limiter.get_agents_assignment_status(agents)
-      
+
       expect(status).to be_an(Array)
       expect(status.size).to eq(2)
-      
+
       agent_status = status.find { |s| s[:agent] == agent }
       expect(agent_status).to include(
         agent: agent,
@@ -177,7 +177,7 @@ RSpec.describe AssignmentV2::RateLimiter, type: :service do
         remaining_assignments: 3,
         within_limits: true
       )
-      
+
       agent2_status = status.find { |s| s[:agent] == agent2 }
       expect(agent2_status).to include(
         agent: agent2,
@@ -227,7 +227,7 @@ RSpec.describe AssignmentV2::RateLimiter, type: :service do
       # Set up assignment in current window
       2.times { rate_limiter.increment_agent_assignments(agent) }
       expect(rate_limiter.get_agent_assignment_count(agent)).to eq(2)
-      
+
       # Travel to next window (advance by window size)
       travel(3601.seconds) do
         expect(rate_limiter.get_agent_assignment_count(agent)).to eq(0)
@@ -240,7 +240,7 @@ RSpec.describe AssignmentV2::RateLimiter, type: :service do
     it 'handles concurrent increments correctly' do
       threads = []
       results = []
-      
+
       # Simulate concurrent assignment requests
       5.times do
         threads << Thread.new do
@@ -248,9 +248,9 @@ RSpec.describe AssignmentV2::RateLimiter, type: :service do
           rate_limiter.increment_agent_assignments(agent) if results.last
         end
       end
-      
+
       threads.each(&:join)
-      
+
       # Final count should not exceed the limit
       final_count = rate_limiter.get_agent_assignment_count(agent)
       expect(final_count).to be <= 5

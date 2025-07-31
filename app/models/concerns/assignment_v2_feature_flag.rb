@@ -21,17 +21,17 @@ module AssignmentV2FeatureFlag
     return false unless config&.dig('enabled')
 
     # If no account allowlist, enable for all
-    allowed_accounts = config.dig('accounts')
+    allowed_accounts = config['accounts']
     return true if allowed_accounts.blank?
 
     # Check if account is in allowlist
-    allowed_accounts.include?(self.id)
+    allowed_accounts.include?(id)
   end
 
   def inbox_level_override_disabled?
     return false unless respond_to?(:id)
-    
+
     # Allow per-inbox disabling during migration
-    GlobalConfig.get("assignment_v2_disabled_inboxes", []).include?(self.id)
+    GlobalConfig.get('assignment_v2_disabled_inboxes', []).include?(id)
   end
 end

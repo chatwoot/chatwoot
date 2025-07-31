@@ -37,14 +37,20 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
     let!(:conversation2) { create(:conversation, inbox: inbox, assignee: nil, status: :open) }
 
     context 'when assignment is possible' do
+      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
+      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+
       before do
-        allow_any_instance_of(AssignmentV2::RoundRobinSelector).to receive(:select_agent).and_return(agent1)
-        allow_any_instance_of(AssignmentV2::RateLimiter).to receive(:agent_within_limits?).and_return(true)
+        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
+        allow(selector).to receive(:select_agent).and_return(agent1)
+
+        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
       end
 
       it 'assigns conversations to agents' do
         expect(orchestrator.assign_conversations(limit: 2)).to eq(2)
-        
+
         expect(conversation1.reload.assignee).to eq(agent1)
         expect(conversation2.reload.assignee).to eq(agent1)
       end
@@ -61,7 +67,7 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
         ).once
 
         expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
-          'conversation.assigned', 
+          'conversation.assigned',
           anything,
           hash_including(conversation: conversation2, assignee: agent1)
         ).once
@@ -71,7 +77,7 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
 
       it 'records metrics for successful assignments' do
         orchestrator.assign_conversations(limit: 2)
-        
+
         metrics = orchestrator.metrics.instance_variable_get(:@assignments)
         expect(metrics.size).to eq(2)
         expect(metrics.first).to include(
@@ -83,42 +89,57 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
     end
 
     context 'when no agent is available' do
+      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
+
       before do
-        allow_any_instance_of(AssignmentV2::RoundRobinSelector).to receive(:select_agent).and_return(nil)
+        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
+        allow(selector).to receive(:select_agent).and_return(nil)
       end
 
       it 'does not assign conversations' do
         expect(orchestrator.assign_conversations(limit: 2)).to eq(0)
-        
+
         expect(conversation1.reload.assignee).to be_nil
         expect(conversation2.reload.assignee).to be_nil
       end
     end
 
     context 'when rate limiter blocks assignment' do
+      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
+      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+
       before do
-        allow_any_instance_of(AssignmentV2::RoundRobinSelector).to receive(:select_agent).and_return(agent1)
-        allow_any_instance_of(AssignmentV2::RateLimiter).to receive(:agent_within_limits?).and_return(false)
+        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
+        allow(selector).to receive(:select_agent).and_return(agent1)
+
+        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:agent_within_limits?).and_return(false)
       end
 
       it 'does not perform assignment' do
         expect(orchestrator.assign_conversations(limit: 2)).to eq(0)
-        
+
         expect(conversation1.reload.assignee).to be_nil
         expect(conversation2.reload.assignee).to be_nil
       end
     end
 
     context 'when assignment fails due to database error' do
+      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
+      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+
       before do
-        allow_any_instance_of(AssignmentV2::RoundRobinSelector).to receive(:select_agent).and_return(agent1)
-        allow_any_instance_of(AssignmentV2::RateLimiter).to receive(:agent_within_limits?).and_return(true)
+        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
+        allow(selector).to receive(:select_agent).and_return(agent1)
+
+        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
         allow(conversation1).to receive(:update!).and_raise(ActiveRecord::RecordInvalid)
       end
 
       it 'continues with other conversations' do
         expect(Rails.logger).to receive(:error).with(/Assignment failed/)
-        
+
         result = orchestrator.assign_conversations(limit: 2)
         expect(result).to eq(1) # Only conversation2 succeeds
         expect(conversation2.reload.assignee).to eq(agent1)
@@ -130,9 +151,15 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
     let(:conversation) { create(:conversation, inbox: inbox, assignee: nil, status: :open) }
 
     context 'when assignment succeeds' do
+      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
+      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+
       before do
-        allow_any_instance_of(AssignmentV2::RoundRobinSelector).to receive(:select_agent).and_return(agent1)
-        allow_any_instance_of(AssignmentV2::RateLimiter).to receive(:agent_within_limits?).and_return(true)
+        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
+        allow(selector).to receive(:select_agent).and_return(agent1)
+
+        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
       end
 
       it 'returns true and assigns conversation' do
@@ -155,10 +182,10 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
     let(:enterprise_account) { create(:account) }
     let(:enterprise_inbox) { create(:inbox, account: enterprise_account) }
     let(:balanced_policy) { create(:assignment_policy, account: enterprise_account, assignment_order: :balanced) }
-    let!(:enterprise_inbox_policy) { create(:inbox_assignment_policy, inbox: enterprise_inbox, assignment_policy: balanced_policy) }
     let(:enterprise_orchestrator) { described_class.new(enterprise_inbox) }
 
     before do
+      create(:inbox_assignment_policy, inbox: enterprise_inbox, assignment_policy: balanced_policy)
       allow(enterprise_inbox).to receive(:assignment_v2_enabled?).and_return(true)
       allow(enterprise_account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(true)
       stub_const('Enterprise', Module.new)
@@ -166,13 +193,15 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
 
     it 'uses balanced selector for enterprise accounts' do
       conversation = create(:conversation, inbox: enterprise_inbox, assignee: nil, status: :open)
-      
-      balanced_selector_double = instance_double('Enterprise::AssignmentV2::BalancedSelector')
+
+      balanced_selector_double = instance_double(Enterprise::AssignmentV2::BalancedSelector)
       expect(Enterprise::AssignmentV2::BalancedSelector).to receive(:new).with(enterprise_inbox, balanced_policy).and_return(balanced_selector_double)
       expect(balanced_selector_double).to receive(:select_agent).and_return(agent1)
-      
-      allow_any_instance_of(AssignmentV2::RateLimiter).to receive(:agent_within_limits?).and_return(true)
-      
+
+      rate_limiter = instance_double(AssignmentV2::RateLimiter)
+      allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
+      allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
+
       enterprise_orchestrator.assign_conversation(conversation)
     end
   end
@@ -204,10 +233,16 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
     let!(:newest_conversation) { create(:conversation, inbox: inbox, assignee: nil, status: :open, created_at: 1.hour.ago) }
 
     context 'with earliest_created priority' do
+      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
+      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+
       before do
         assignment_policy.update!(conversation_priority: :earliest_created)
-        allow_any_instance_of(AssignmentV2::RoundRobinSelector).to receive(:select_agent).and_return(agent1)
-        allow_any_instance_of(AssignmentV2::RateLimiter).to receive(:agent_within_limits?).and_return(true)
+        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
+        allow(selector).to receive(:select_agent).and_return(agent1)
+
+        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
       end
 
       it 'processes oldest conversation first' do
@@ -218,17 +253,23 @@ RSpec.describe AssignmentV2::AssignmentOrchestrator, type: :service do
     end
 
     context 'with longest_waiting priority' do
+      let(:selector) { instance_double(AssignmentV2::RoundRobinSelector) }
+      let(:rate_limiter) { instance_double(AssignmentV2::RateLimiter) }
+
       before do
         assignment_policy.update!(conversation_priority: :longest_waiting)
         oldest_conversation.update!(last_activity_at: 3.hours.ago)
         newest_conversation.update!(last_activity_at: 30.minutes.ago)
-        
-        allow_any_instance_of(AssignmentV2::RoundRobinSelector).to receive(:select_agent).and_return(agent1)
-        allow_any_instance_of(AssignmentV2::RateLimiter).to receive(:agent_within_limits?).and_return(true)
+
+        allow(AssignmentV2::RoundRobinSelector).to receive(:new).and_return(selector)
+        allow(selector).to receive(:select_agent).and_return(agent1)
+
+        allow(AssignmentV2::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:agent_within_limits?).and_return(true)
       end
 
       it 'processes conversation with longest wait time first' do
-        orchestrator.assign_conversations(limit: 1) 
+        orchestrator.assign_conversations(limit: 1)
         expect(oldest_conversation.reload.assignee).to eq(agent1)
         expect(newest_conversation.reload.assignee).to be_nil
       end

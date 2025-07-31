@@ -7,8 +7,8 @@ class AssignmentV2::RoundRobinSelector
     return nil if available_agents.empty?
 
     # Extract user IDs from inbox members
-    agent_user_ids = available_agents.map { |inbox_member| inbox_member.user_id }.map(&:to_s)
-    
+    agent_user_ids = available_agents.map(&:user_id).map(&:to_s)
+
     # Use Redis queue for round robin
     selected_user_id = round_robin_service.available_agent(allowed_agent_ids: agent_user_ids)
     return nil unless selected_user_id

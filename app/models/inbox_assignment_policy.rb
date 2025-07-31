@@ -35,9 +35,7 @@ class InboxAssignmentPolicy < ApplicationRecord
            to: :assignment_policy, prefix: :policy
 
   # Callbacks
-  after_create_commit :clear_inbox_cache
-  after_update_commit :clear_inbox_cache
-  after_destroy_commit :clear_inbox_cache
+  after_commit :clear_inbox_cache
 
   # Scopes
   scope :enabled, -> { joins(:assignment_policy).where(assignment_policies: { enabled: true }) }

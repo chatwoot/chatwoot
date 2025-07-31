@@ -6,13 +6,13 @@ class Api::V1::Accounts::InboxAssignmentPoliciesController < Api::V1::Accounts::
 
   def show
     @inbox_assignment_policy = @inbox.inbox_assignment_policy
-    
+
     if @inbox_assignment_policy
-      render json: { 
-        inbox_assignment_policy: serialize_inbox_assignment_policy(@inbox_assignment_policy) 
+      render json: {
+        inbox_assignment_policy: serialize_inbox_assignment_policy(@inbox_assignment_policy)
       }
     else
-      render json: { 
+      render json: {
         inbox_assignment_policy: nil,
         message: 'No assignment policy assigned to this inbox'
       }
@@ -27,8 +27,8 @@ class Api::V1::Accounts::InboxAssignmentPoliciesController < Api::V1::Accounts::
     @inbox_assignment_policy = @inbox.build_inbox_assignment_policy(assignment_policy: @assignment_policy)
 
     if @inbox_assignment_policy.save
-      render json: { 
-        inbox_assignment_policy: serialize_inbox_assignment_policy(@inbox_assignment_policy) 
+      render json: {
+        inbox_assignment_policy: serialize_inbox_assignment_policy(@inbox_assignment_policy)
       }, status: :created
     else
       render json: { errors: @inbox_assignment_policy.errors.full_messages }, status: :unprocessable_entity

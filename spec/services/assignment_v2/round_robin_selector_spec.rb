@@ -28,7 +28,11 @@ RSpec.describe AssignmentV2::RoundRobinSelector, type: :service do
         allow(Redis::Alfred).to receive(:del)
         allow(Redis::Alfred).to receive(:lpop).and_return(user1.id.to_s)
         allow(Redis::Alfred).to receive(:rpush)
-        allow(Redis::Alfred).to receive(:multi).and_yield(double(del: nil, rpush: nil, expire: nil))
+        redis_multi = instance_double(Redis::Multi)
+        allow(redis_multi).to receive(:del)
+        allow(redis_multi).to receive(:rpush)
+        allow(redis_multi).to receive(:expire)
+        allow(Redis::Alfred).to receive(:multi).and_yield(redis_multi)
       end
 
       it 'returns an online agent' do
@@ -72,13 +76,17 @@ RSpec.describe AssignmentV2::RoundRobinSelector, type: :service do
       it 'filters agents by rate limits' do
         allow(rate_limiter).to receive(:agent_within_limits?).with(user1).and_return(true)
         allow(rate_limiter).to receive(:agent_within_limits?).with(user2).and_return(false)
-        
+
         # Mock Redis operations
         allow(Redis::Alfred).to receive(:set).and_return(true)
         allow(Redis::Alfred).to receive(:del)
         allow(Redis::Alfred).to receive(:lpop).and_return(user1.id.to_s)
         allow(Redis::Alfred).to receive(:rpush)
-        allow(Redis::Alfred).to receive(:multi).and_yield(double(del: nil, rpush: nil, expire: nil))
+        redis_multi = instance_double(Redis::Multi)
+        allow(redis_multi).to receive(:del)
+        allow(redis_multi).to receive(:rpush)
+        allow(redis_multi).to receive(:expire)
+        allow(Redis::Alfred).to receive(:multi).and_yield(redis_multi)
 
         result = selector.select_agent
         expect(result&.id).to eq(user1.id)
@@ -92,17 +100,21 @@ RSpec.describe AssignmentV2::RoundRobinSelector, type: :service do
       end
 
       it 'attempts to filter by capacity when enterprise is available' do
-        capacity_manager = instance_double('Enterprise::AssignmentV2::CapacityManager')
-        stub_const('Enterprise::AssignmentV2::CapacityManager', class_double('Enterprise::AssignmentV2::CapacityManager', new: capacity_manager))
-        
+        capacity_manager = instance_double(Enterprise::AssignmentV2::CapacityManager)
+        stub_const('Enterprise::AssignmentV2::CapacityManager', class_double(Enterprise::AssignmentV2::CapacityManager, new: capacity_manager))
+
         allow(capacity_manager).to receive(:get_agent_capacity).and_return({ available_capacity: 5 })
-        
+
         # Mock Redis operations
         allow(Redis::Alfred).to receive(:set).and_return(true)
         allow(Redis::Alfred).to receive(:del)
         allow(Redis::Alfred).to receive(:lpop).and_return(user1.id.to_s)
         allow(Redis::Alfred).to receive(:rpush)
-        allow(Redis::Alfred).to receive(:multi).and_yield(double(del: nil, rpush: nil, expire: nil))
+        redis_multi = instance_double(Redis::Multi)
+        allow(redis_multi).to receive(:del)
+        allow(redis_multi).to receive(:rpush)
+        allow(redis_multi).to receive(:expire)
+        allow(Redis::Alfred).to receive(:multi).and_yield(redis_multi)
 
         result = selector.select_agent
         expect(result).to be_a(User)
@@ -114,7 +126,11 @@ RSpec.describe AssignmentV2::RoundRobinSelector, type: :service do
     let(:selector) { described_class.new(inbox, policy) }
 
     it 'refreshes the Redis queue with eligible agents' do
-      expect(Redis::Alfred).to receive(:multi).and_yield(double(del: nil, rpush: nil, expire: nil))
+      redis_multi = instance_double(Redis::Multi)
+      allow(redis_multi).to receive(:del)
+      allow(redis_multi).to receive(:rpush)
+      allow(redis_multi).to receive(:expire)
+      expect(Redis::Alfred).to receive(:multi).and_yield(redis_multi)
       selector.refresh_queue!
     end
   end
@@ -125,9 +141,9 @@ RSpec.describe AssignmentV2::RoundRobinSelector, type: :service do
     it 'handles concurrent access with Redis locks' do
       # Simulate lock contention
       call_count = 0
-      allow(Redis::Alfred).to receive(:set) do |key, value, options|
+      allow(Redis::Alfred).to receive(:set) do |_key, _value, _options|
         call_count += 1
-        call_count == 1 ? true : false  # First call succeeds, second fails
+        call_count == 1  # First call succeeds, second fails
       end
 
       allow(Redis::Alfred).to receive(:del)
@@ -137,15 +153,15 @@ RSpec.describe AssignmentV2::RoundRobinSelector, type: :service do
       # Multiple concurrent calls
       results = []
       threads = []
-      
+
       3.times do
         threads << Thread.new do
           results << selector.select_agent
         end
       end
-      
+
       threads.each(&:join)
-      
+
       # At least one should succeed, others should be nil due to lock contention
       expect(results.compact.length).to be >= 1
     end
@@ -155,15 +171,17 @@ RSpec.describe AssignmentV2::RoundRobinSelector, type: :service do
     let(:selector) { described_class.new(inbox, policy) }
 
     it 'cleans up Redis keys with TTL' do
-      expect(Redis::Alfred).to receive(:multi).and_yield(
-        double(del: nil, expire: receive(:expire).with(anything, AssignmentV2::RoundRobinSelector::QUEUE_TTL.to_i))
-      )
-      
+      redis_multi = instance_double(Redis::Multi)
+      allow(redis_multi).to receive(:del)
+      expect(redis_multi).to receive(:expire).with(anything, AssignmentV2::RoundRobinSelector::QUEUE_TTL.to_i)
+
+      expect(Redis::Alfred).to receive(:multi).and_yield(redis_multi)
+
       allow(Redis::Alfred).to receive(:set).and_return(true)
       allow(Redis::Alfred).to receive(:del)
       allow(Redis::Alfred).to receive(:lpop).and_return(user1.id.to_s)
       allow(Redis::Alfred).to receive(:rpush)
-      
+
       selector.select_agent
     end
   end
