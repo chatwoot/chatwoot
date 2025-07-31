@@ -23,48 +23,44 @@
 #  fk_rails_...  (inbox_id => inboxes.id)
 #
 
-module Enterprise
-  class InboxCapacityLimit < ::ApplicationRecord
-    include AccountCacheRevalidator
+class Enterprise::InboxCapacityLimit < ApplicationRecord
+  include AccountCacheRevalidator
 
-    self.table_name = 'enterprise_inbox_capacity_limits'
+  self.table_name = 'enterprise_inbox_capacity_limits'
 
-    # Associations
-    belongs_to :agent_capacity_policy, class_name: 'Enterprise::AgentCapacityPolicy'
-    belongs_to :inbox, class_name: '::Inbox'
+  # Associations
+  belongs_to :agent_capacity_policy, class_name: 'Enterprise::AgentCapacityPolicy'
+  belongs_to :inbox, class_name: '::Inbox'
 
-    # Validations
-    validates :agent_capacity_policy_id, uniqueness: { scope: :inbox_id }
-    validates :conversation_limit, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 1000 }
+  # Validations
+  validates :agent_capacity_policy_id, uniqueness: { scope: :inbox_id }
+  validates :conversation_limit, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 1000 }
 
-    # Delegations
-    delegate :account, to: :agent_capacity_policy
-    delegate :name, :description, :exclusion_rules, to: :agent_capacity_policy, prefix: :policy
+  # Delegations
+  delegate :account, to: :agent_capacity_policy
+  delegate :name, :description, :exclusion_rules, to: :agent_capacity_policy, prefix: :policy
 
-    # Callbacks
-    after_create_commit :invalidate_inbox_cache
-    after_update_commit :invalidate_inbox_cache
-    after_destroy_commit :invalidate_inbox_cache
+  # Callbacks
+  after_commit :invalidate_inbox_cache
 
-    # Scopes
-    scope :for_inbox, ->(inbox) { where(inbox: inbox) }
-    scope :for_policy, ->(policy) { where(agent_capacity_policy: policy) }
+  # Scopes
+  scope :for_inbox, ->(inbox) { where(inbox: inbox) }
+  scope :for_policy, ->(policy) { where(agent_capacity_policy: policy) }
 
-    def webhook_data
-      {
-        id: id,
-        inbox_id: inbox_id,
-        agent_capacity_policy_id: agent_capacity_policy_id,
-        conversation_limit: conversation_limit,
-        policy: agent_capacity_policy.webhook_data
-      }
-    end
+  def webhook_data
+    {
+      id: id,
+      inbox_id: inbox_id,
+      agent_capacity_policy_id: agent_capacity_policy_id,
+      conversation_limit: conversation_limit,
+      policy: agent_capacity_policy.webhook_data
+    }
+  end
 
-    private
+  private
 
-    def invalidate_inbox_cache
-      Rails.cache.delete_matched("assignment_v2:capacity:*:#{inbox_id}")
-      update_account_cache
-    end
+  def invalidate_inbox_cache
+    Rails.cache.delete_matched("assignment_v2:capacity:*:#{inbox_id}")
+    update_account_cache
   end
 end

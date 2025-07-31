@@ -22,116 +22,116 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 
-module Enterprise
-  class AgentCapacityPolicy < ::ApplicationRecord
-    include AccountCacheRevalidator
+class Enterprise::AgentCapacityPolicy < ApplicationRecord
+  include AccountCacheRevalidator
 
-    self.table_name = 'enterprise_agent_capacity_policies'
+  self.table_name = 'enterprise_agent_capacity_policies'
 
-    # Associations
-    belongs_to :account, class_name: '::Account'
-    has_many :account_users, class_name: '::AccountUser', dependent: :nullify
-    has_many :users, through: :account_users, source: :user, class_name: '::User'
-    has_many :inbox_capacity_limits, dependent: :destroy, class_name: 'Enterprise::InboxCapacityLimit'
-    has_many :inboxes, through: :inbox_capacity_limits
+  # Associations
+  belongs_to :account, class_name: '::Account'
+  has_many :account_users, class_name: '::AccountUser', dependent: :nullify
+  has_many :users, through: :account_users, source: :user, class_name: '::User'
+  has_many :inbox_capacity_limits, dependent: :destroy, class_name: 'Enterprise::InboxCapacityLimit'
+  has_many :inboxes, through: :inbox_capacity_limits
 
-    # Validations
-    validates :name, presence: true, uniqueness: { scope: :account_id }
-    validates :name, length: { maximum: 255 }
-    validates :description, length: { maximum: 1000 }
-    validate :validate_exclusion_rules_schema
+  # Validations
+  validates :name, presence: true, uniqueness: { scope: :account_id }
+  validates :name, length: { maximum: 255 }
+  validates :description, length: { maximum: 1000 }
+  validate :validate_exclusion_rules_schema
 
-    # Callbacks
-    before_save :validate_inbox_access
-    after_update_commit :invalidate_capacity_caches
-    after_destroy :invalidate_capacity_caches
+  # Callbacks
+  before_save :validate_inbox_access
+  after_update_commit :invalidate_capacity_caches
+  after_destroy :invalidate_capacity_caches
 
-    # Scopes
-    scope :with_users, -> { joins(:account_users) }
-    scope :for_inbox, ->(inbox) { joins(:inbox_capacity_limits).where(enterprise_inbox_capacity_limits: { inbox: inbox }) }
+  # Scopes
+  scope :with_users, -> { joins(:account_users) }
+  scope :for_inbox, ->(inbox) { joins(:inbox_capacity_limits).where(enterprise_inbox_capacity_limits: { inbox: inbox }) }
 
-    def add_user(user)
-      # Find the account_user for this account and user
-      account_user = account.account_users.find_by!(user: user)
+  def add_user(user)
+    # Find the account_user for this account and user
+    account_user = account.account_users.find_by!(user: user)
 
-      # Update the capacity policy reference
-      account_user.update!(agent_capacity_policy_id: id)
-      invalidate_user_capacity_cache(user)
+    # Update the capacity policy reference
+    account_user.update!(agent_capacity_policy_id: id)
+    invalidate_user_capacity_cache(user)
+  end
+
+  def remove_user(user)
+    account_user = account.account_users.find_by(user: user, agent_capacity_policy_id: id)
+    account_user&.update!(agent_capacity_policy_id: nil)
+    invalidate_user_capacity_cache(user)
+  end
+
+  def set_inbox_limit(inbox, limit)
+    inbox_capacity_limit = inbox_capacity_limits.find_or_initialize_by(inbox: inbox)
+    inbox_capacity_limit.conversation_limit = limit
+    inbox_capacity_limit.save!
+
+    invalidate_inbox_capacity_cache(inbox)
+  end
+
+  def remove_inbox_limit(inbox)
+    inbox_capacity_limits.where(inbox: inbox).destroy_all
+    invalidate_inbox_capacity_cache(inbox)
+  end
+
+  def get_inbox_limit(inbox)
+    inbox_capacity_limits.find_by(inbox: inbox)&.conversation_limit
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      description: description,
+      exclusion_rules: exclusion_rules,
+      users_count: users.count,
+      inboxes_count: inboxes.count
+    }
+  end
+
+  private
+
+  def validate_exclusion_rules_schema
+    return if exclusion_rules.blank?
+
+    schema = self.class.exclusion_rules_schema
+    schemer = JSONSchemer.schema(schema)
+    validation_errors = schemer.validate(exclusion_rules)
+
+    validation_errors.each do |error|
+      errors.add(:exclusion_rules, error['error'])
     end
+  end
 
-    def remove_user(user)
-      account_user = account.account_users.find_by(user: user, agent_capacity_policy_id: id)
-      account_user&.update!(agent_capacity_policy_id: nil)
-      invalidate_user_capacity_cache(user)
-    end
+  def validate_inbox_access
+    # Ensure all specified inboxes belong to the same account
+    invalid_inboxes = inbox_capacity_limits.joins(:inbox)
+                                           .where.not(inboxes: { account_id: account_id })
 
-    def set_inbox_limit(inbox, limit)
-      inbox_capacity_limit = inbox_capacity_limits.find_or_initialize_by(inbox: inbox)
-      inbox_capacity_limit.conversation_limit = limit
-      inbox_capacity_limit.save!
+    return unless invalid_inboxes.exists?
 
-      invalidate_inbox_capacity_cache(inbox)
-    end
+    errors.add(:inbox_capacity_limits, 'contains inboxes from different accounts')
+    throw :abort
+  end
 
-    def remove_inbox_limit(inbox)
-      inbox_capacity_limits.where(inbox: inbox).destroy_all
-      invalidate_inbox_capacity_cache(inbox)
-    end
+  def invalidate_capacity_caches
+    users.find_each { |user| invalidate_user_capacity_cache(user) }
+    inboxes.find_each { |inbox| invalidate_inbox_capacity_cache(inbox) }
+  end
 
-    def get_inbox_limit(inbox)
-      inbox_capacity_limits.find_by(inbox: inbox)&.conversation_limit
-    end
+  def invalidate_user_capacity_cache(user)
+    Rails.cache.delete_matched("assignment_v2:capacity:#{user.id}:*")
+  end
 
-    def webhook_data
-      {
-        id: id,
-        name: name,
-        description: description,
-        exclusion_rules: exclusion_rules,
-        users_count: users.count,
-        inboxes_count: inboxes.count
-      }
-    end
+  def invalidate_inbox_capacity_cache(inbox)
+    Rails.cache.delete_matched("assignment_v2:capacity:*:#{inbox.id}")
+  end
 
-    private
-
-    def validate_exclusion_rules_schema
-      return if exclusion_rules.blank?
-
-      schema = self.class.exclusion_rules_schema
-      schemer = JSONSchemer.schema(schema)
-      validation_errors = schemer.validate(exclusion_rules)
-
-      validation_errors.each do |error|
-        errors.add(:exclusion_rules, error['error'])
-      end
-    end
-
-    def validate_inbox_access
-      # Ensure all specified inboxes belong to the same account
-      invalid_inboxes = inbox_capacity_limits.joins(:inbox)
-                                             .where.not(inboxes: { account_id: account_id })
-
-      return unless invalid_inboxes.exists?
-
-      errors.add(:inbox_capacity_limits, 'contains inboxes from different accounts')
-      throw :abort
-    end
-
-    def invalidate_capacity_caches
-      users.find_each { |user| invalidate_user_capacity_cache(user) }
-      inboxes.find_each { |inbox| invalidate_inbox_capacity_cache(inbox) }
-    end
-
-    def invalidate_user_capacity_cache(user)
-      Rails.cache.delete_matched("assignment_v2:capacity:#{user.id}:*")
-    end
-
-    def invalidate_inbox_capacity_cache(inbox)
-      Rails.cache.delete_matched("assignment_v2:capacity:*:#{inbox.id}")
-    end
-
-    def self.exclusion_rules_schema
+  class << self
+    def exclusion_rules_schema
       {
         type: 'object',
         properties: {
