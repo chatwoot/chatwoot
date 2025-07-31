@@ -9,7 +9,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
-import WhatsAppTemplateParserCore from 'dashboard/components-next/shared/WhatsAppTemplateParserCore.vue';
+import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -128,7 +128,7 @@ const prepareCampaignDetails = () => {
   const parserData = templateParserRef.value;
 
   // Extract template content - this should be the template message body
-  const templateContent = parserData?.processedString || '';
+  const templateContent = parserData?.renderedTemplate || '';
 
   // Prepare template_params object with the same structure as used in contacts
   const templateParams = {
@@ -214,7 +214,7 @@ watch(
     </div>
 
     <!-- Template Parser -->
-    <WhatsAppTemplateParserCore
+    <WhatsAppTemplateParser
       v-if="selectedTemplate"
       ref="templateParserRef"
       :template="selectedTemplate"

@@ -1,6 +1,6 @@
 import { getters } from '../../inboxes';
 import inboxList from './fixtures';
-import { templates } from '../../../../../shared/mixins/specs/whatsappTemplates/fixtures';
+import { templates } from './templateFixtures';
 
 describe('#getters', () => {
   it('getInboxes', () => {

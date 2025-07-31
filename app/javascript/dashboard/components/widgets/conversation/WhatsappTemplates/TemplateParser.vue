@@ -8,7 +8,7 @@
  * 4. Replaces placeholders with user-provided values.
  * 5. Emits events to send the processed message or reset the template.
  */
-import WhatsAppTemplateParserCore from 'dashboard/components-next/shared/WhatsAppTemplateParserCore.vue';
+import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
@@ -31,7 +31,7 @@ const handleResetTemplate = () => {
 
 <template>
   <div class="w-full">
-    <WhatsAppTemplateParserCore
+    <WhatsAppTemplateParser
       :template="template"
       @send-message="handleSendMessage"
       @reset-template="handleResetTemplate"
@@ -52,6 +52,6 @@ const handleResetTemplate = () => {
           />
         </footer>
       </template>
-    </WhatsAppTemplateParserCore>
+    </WhatsAppTemplateParser>
   </div>
 </template>

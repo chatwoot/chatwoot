@@ -5,6 +5,12 @@ import { requiredIf } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 
 import Input from 'dashboard/components-next/input/Input.vue';
+import {
+  buildTemplateParameters,
+  allKeysRequired,
+  replaceTemplateVariables,
+  populateAuthenticationButtonParameters,
+} from 'dashboard/helper/templateHelper';
 
 const props = defineProps({
   template: {
@@ -17,26 +23,28 @@ const emit = defineEmits(['sendMessage', 'resetTemplate', 'back']);
 
 const { t } = useI18n();
 
-const processVariable = str => {
-  return str.replace(/{{|}}/g, '');
-};
-
-const allKeysRequired = value => {
-  const keys = Object.keys(value);
-  return keys.every(key => value[key]);
-};
-
 const processedParams = ref({});
 
-const templateString = computed(() => {
-  return props.template.components.find(component => component.type === 'BODY')
-    .text;
+const languageLabel = computed(() => {
+  return `${t('WHATSAPP_TEMPLATES.PARSER.LANGUAGE')}: ${props.template.language || 'en'}`;
+});
+
+const categoryLabel = computed(() => {
+  return `${t('WHATSAPP_TEMPLATES.PARSER.CATEGORY')}: ${props.template.category || 'UTILITY'}`;
 });
 
 const headerComponent = computed(() => {
   return props.template.components.find(
     component => component.type === 'HEADER'
   );
+});
+
+const bodyComponent = computed(() => {
+  return props.template.components.find(component => component.type === 'BODY');
+});
+
+const bodyText = computed(() => {
+  return bodyComponent.value.text;
 });
 
 const hasMediaHeader = computed(() => {
@@ -47,109 +55,30 @@ const hasMediaHeader = computed(() => {
   );
 });
 
-const variables = computed(() => {
-  return templateString.value.match(/{{([^}]+)}}/g);
+const hasVariables = computed(() => {
+  return bodyText.value.match(/{{([^}]+)}}/g);
 });
 
-const processedString = computed(() => {
-  return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
-    const variableKey = processVariable(variable);
-    return processedParams.value.body?.[variableKey] || `{{${variable}}}`;
-  });
+const renderedTemplate = computed(() => {
+  return replaceTemplateVariables(bodyText.value, processedParams.value);
 });
 
 const v$ = useVuelidate(
   {
     processedParams: {
-      requiredIfKeysPresent: requiredIf(variables),
+      requiredIfKeysPresent: requiredIf(hasVariables),
       allKeysRequired,
     },
   },
   { processedParams }
 );
 
-const generateVariables = () => {
-  const allVariables = {};
-
-  // Process body variables
-  const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
-  if (matchedVariables) {
-    allVariables.body = {};
-    matchedVariables.forEach(variable => {
-      const key = processVariable(variable);
-      // Special handling for authentication templates
-      if (props.template?.category === 'AUTHENTICATION') {
-        if (
-          key === '1' ||
-          key.toLowerCase().includes('otp') ||
-          key.toLowerCase().includes('code')
-        ) {
-          allVariables.body.otp_code = '';
-        } else if (
-          key === '2' ||
-          key.toLowerCase().includes('expiry') ||
-          key.toLowerCase().includes('minute')
-        ) {
-          allVariables.body.expiry_minutes = '';
-        } else {
-          allVariables.body[key] = '';
-        }
-      } else {
-        allVariables.body[key] = '';
-      }
-    });
-  }
-
-  // Add media URL field if template has media header
-  if (hasMediaHeader.value) {
-    if (!allVariables.header) allVariables.header = {};
-    allVariables.header.media_url = '';
-    allVariables.header.media_type = headerComponent.value.format.toLowerCase();
-  }
-
-  // Process button variables
-  const buttonComponents = props.template.components.filter(
-    component => component.type === 'BUTTONS'
+const initializeTemplateParameters = () => {
+  const templateParameters = buildTemplateParameters(
+    props.template,
+    hasMediaHeader.value
   );
-
-  buttonComponents.forEach(buttonComponent => {
-    if (buttonComponent.buttons) {
-      buttonComponent.buttons.forEach((button, index) => {
-        // Skip button parameter inputs for authentication templates
-        // as they are auto-populated with OTP codes
-        if (props.template?.category !== 'AUTHENTICATION') {
-          // Handle URL buttons with variables
-          if (
-            button.type === 'URL' &&
-            button.url &&
-            button.url.includes('{{')
-          ) {
-            const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
-            if (buttonVars.length > 0) {
-              if (!allVariables.buttons) allVariables.buttons = [];
-              allVariables.buttons[index] = {
-                type: 'url',
-                parameter: '',
-                url: button.url,
-                variables: buttonVars.map(v => processVariable(v)),
-              };
-            }
-          }
-
-          // Handle copy code buttons
-          if (button.type === 'COPY_CODE') {
-            if (!allVariables.buttons) allVariables.buttons = [];
-            allVariables.buttons[index] = {
-              type: 'copy_code',
-              parameter: '',
-            };
-          }
-        }
-      });
-    }
-  });
-
-  processedParams.value = allVariables;
+  processedParams.value = templateParameters;
 };
 
 const updateMediaUrl = value => {
@@ -163,23 +92,13 @@ const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
 
-  // Auto-populate button parameters for authentication templates
-  const finalParams = { ...processedParams.value };
-  if (props.template?.category === 'AUTHENTICATION' && finalParams.buttons) {
-    finalParams.buttons.forEach((button, index) => {
-      if (button.type === 'url') {
-        // For authentication templates, auto-populate URL button parameter with OTP
-        if (finalParams.body?.['1']) {
-          finalParams.buttons[index].parameter = finalParams.body['1'];
-        } else if (finalParams.body?.otp_code) {
-          finalParams.buttons[index].parameter = finalParams.body.otp_code;
-        }
-      }
-    });
-  }
+  const finalParams = populateAuthenticationButtonParameters(
+    props.template,
+    processedParams.value
+  );
 
   const payload = {
-    message: processedString.value,
+    message: renderedTemplate.value,
     templateParams: {
       name: props.template.name,
       category: props.template.category,
@@ -199,14 +118,14 @@ const goBack = () => {
   emit('back');
 };
 
-onMounted(generateVariables);
+onMounted(initializeTemplateParameters);
 
 defineExpose({
   processedParams,
-  variables,
+  hasVariables,
   hasMediaHeader,
   headerComponent,
-  processedString,
+  renderedTemplate,
   v$,
   updateMediaUrl,
   sendMessage,
@@ -217,35 +136,30 @@ defineExpose({
 
 <template>
   <div>
-    <div
-      v-if="template"
-      class="flex flex-col gap-4 p-4 mb-4 rounded-lg bg-n-alpha-black2"
-    >
+    <div class="flex flex-col gap-4 p-4 mb-4 rounded-lg bg-n-alpha-black2">
       <div class="flex justify-between items-center">
         <h3 class="text-sm font-medium text-n-slate-12">
           {{ template.name }}
         </h3>
         <span class="text-xs text-n-slate-11">
-          {{ t('WHATSAPP_TEMPLATES.PARSER.LANGUAGE') }}:
-          {{ template.language || 'en' }}
+          {{ languageLabel }}
         </span>
       </div>
 
       <div class="flex flex-col gap-2">
         <div class="rounded-md bg-n-alpha-black3">
           <div class="text-sm whitespace-pre-wrap text-n-slate-12">
-            {{ processedString }}
+            {{ renderedTemplate }}
           </div>
         </div>
       </div>
 
       <div class="text-xs text-n-slate-11">
-        {{ t('WHATSAPP_TEMPLATES.PARSER.CATEGORY') }}:
-        {{ template.category || 'UTILITY' }}
+        {{ categoryLabel }}
       </div>
     </div>
 
-    <div v-if="variables || hasMediaHeader">
+    <div v-if="hasVariables || hasMediaHeader">
       <div v-if="hasMediaHeader" class="mb-4">
         <p class="mb-2.5 text-sm font-semibold">
           {{
