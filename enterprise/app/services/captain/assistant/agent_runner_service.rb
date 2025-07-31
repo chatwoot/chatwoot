@@ -119,7 +119,7 @@ class Captain::Assistant::AgentRunnerService
 
   def build_and_wire_agents
     assistant_agent = @assistant.agent
-    scenario_agents = @assistant.scenarios.enabled.map { |scenario| scenario.agent }
+    scenario_agents = @assistant.scenarios.enabled.map(&:agent)
 
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
