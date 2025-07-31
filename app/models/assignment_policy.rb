@@ -4,26 +4,23 @@
 #
 # Table name: assignment_policies
 #
-#  id                        :bigint           not null, primary key
-#  account_id                :bigint           not null
-#  name                      :string(255)      not null
-#  description               :text
-#  assignment_order          :integer          not null, default: 0
-#  conversation_priority     :integer          not null, default: 0
-#  fair_distribution_limit   :integer          not null, default: 10
-#  fair_distribution_window  :integer          not null, default: 3600
-#  enabled                   :boolean          not null, default: true
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
+#  id                       :bigint           not null, primary key
+#  assignment_order         :integer          default("round_robin"), not null
+#  conversation_priority    :integer          default("earliest_created"), not null
+#  description              :text
+#  enabled                  :boolean          default(TRUE), not null
+#  fair_distribution_limit  :integer          default(10), not null
+#  fair_distribution_window :integer          default(3600), not null
+#  name                     :string(255)      not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  account_id               :bigint           not null
 #
 # Indexes
 #
-#  index_assignment_policies_on_account_id                          (account_id)
-#  unique_assignment_policy_name_per_account                        (account_id,name) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
+#  index_assignment_policies_on_account_id    (account_id)
+#  index_assignment_policies_on_enabled       (enabled)
+#  unique_assignment_policy_name_per_account  (account_id,name) UNIQUE
 #
 
 class AssignmentPolicy < ApplicationRecord
@@ -49,7 +46,7 @@ class AssignmentPolicy < ApplicationRecord
 
   # Validate balanced assignment is only available for enterprise
   validate :validate_balanced_assignment_enterprise_only
-  
+
   # Server-side validation to prevent bypass
   before_save :enforce_enterprise_features
 
@@ -89,11 +86,11 @@ class AssignmentPolicy < ApplicationRecord
 
   def enforce_enterprise_features
     # Server-side enforcement to prevent API bypass
-    if balanced? && !can_use_balanced_assignment?
-      # Force to round_robin if enterprise not available
-      self.assignment_order = 'round_robin'
-      Rails.logger.warn("Assignment V2: Forced assignment_order to round_robin for non-enterprise account #{account_id}")
-    end
+    return unless balanced? && !can_use_balanced_assignment?
+
+    # Force to round_robin if enterprise not available
+    self.assignment_order = 'round_robin'
+    Rails.logger.warn("Assignment V2: Forced assignment_order to round_robin for non-enterprise account #{account_id}")
   end
 
   def clear_assignment_caches

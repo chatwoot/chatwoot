@@ -23,15 +23,15 @@
 #
 
 module Enterprise
-  class AgentCapacityPolicy < ApplicationRecord
+  class AgentCapacityPolicy < ::ApplicationRecord
     include AccountCacheRevalidator
 
     self.table_name = 'enterprise_agent_capacity_policies'
 
     # Associations
-    belongs_to :account
-    has_many :account_users, dependent: :nullify, foreign_key: :agent_capacity_policy_id
-    has_many :users, through: :account_users
+    belongs_to :account, class_name: '::Account'
+    has_many :account_users, class_name: '::AccountUser', dependent: :nullify
+    has_many :users, through: :account_users, source: :user, class_name: '::User'
     has_many :inbox_capacity_limits, dependent: :destroy, class_name: 'Enterprise::InboxCapacityLimit'
     has_many :inboxes, through: :inbox_capacity_limits
 
@@ -39,7 +39,7 @@ module Enterprise
     validates :name, presence: true, uniqueness: { scope: :account_id }
     validates :name, length: { maximum: 255 }
     validates :description, length: { maximum: 1000 }
-    validates :exclusion_rules, json: { schema: exclusion_rules_schema }
+    validate :validate_exclusion_rules_schema
 
     # Callbacks
     before_save :validate_inbox_access
@@ -53,14 +53,14 @@ module Enterprise
     def add_user(user)
       # Find the account_user for this account and user
       account_user = account.account_users.find_by!(user: user)
-      
+
       # Update the capacity policy reference
       account_user.update!(agent_capacity_policy_id: id)
       invalidate_user_capacity_cache(user)
     end
 
     def remove_user(user)
-      account_user = account.account_users.find_by(user: user)
+      account_user = account.account_users.find_by(user: user, agent_capacity_policy_id: id)
       account_user&.update!(agent_capacity_policy_id: nil)
       invalidate_user_capacity_cache(user)
     end
@@ -69,7 +69,7 @@ module Enterprise
       inbox_capacity_limit = inbox_capacity_limits.find_or_initialize_by(inbox: inbox)
       inbox_capacity_limit.conversation_limit = limit
       inbox_capacity_limit.save!
-      
+
       invalidate_inbox_capacity_cache(inbox)
     end
 
@@ -95,15 +95,27 @@ module Enterprise
 
     private
 
+    def validate_exclusion_rules_schema
+      return if exclusion_rules.blank?
+
+      schema = self.class.exclusion_rules_schema
+      schemer = JSONSchemer.schema(schema)
+      validation_errors = schemer.validate(exclusion_rules)
+
+      validation_errors.each do |error|
+        errors.add(:exclusion_rules, error['error'])
+      end
+    end
+
     def validate_inbox_access
       # Ensure all specified inboxes belong to the same account
       invalid_inboxes = inbox_capacity_limits.joins(:inbox)
-                                           .where.not(inboxes: { account_id: account_id })
+                                             .where.not(inboxes: { account_id: account_id })
 
-      if invalid_inboxes.exists?
-        errors.add(:inbox_capacity_limits, 'contains inboxes from different accounts')
-        throw :abort
-      end
+      return unless invalid_inboxes.exists?
+
+      errors.add(:inbox_capacity_limits, 'contains inboxes from different accounts')
+      throw :abort
     end
 
     def invalidate_capacity_caches

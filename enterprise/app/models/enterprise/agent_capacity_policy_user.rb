@@ -21,12 +21,12 @@
 #
 
 module Enterprise
-  class AgentCapacityPolicyUser < ApplicationRecord
+  class AgentCapacityPolicyUser < ::ApplicationRecord
     self.table_name = 'enterprise_agent_capacity_policy_users'
 
     # Associations
     belongs_to :agent_capacity_policy, class_name: 'Enterprise::AgentCapacityPolicy'
-    belongs_to :user
+    belongs_to :user, class_name: '::User'
 
     # Validations
     validates :user_id, uniqueness: true

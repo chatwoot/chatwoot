@@ -63,6 +63,7 @@ class Api::V1::Accounts::AssignmentPoliciesController < Api::V1::Accounts::BaseC
       fair_distribution_window: policy.fair_distribution_window,
       enabled: policy.enabled,
       inbox_count: policy.inboxes.count,
+      inboxes: policy.inboxes.map { |inbox| { id: inbox.id, name: inbox.name } },
       created_at: policy.created_at,
       updated_at: policy.updated_at
     }

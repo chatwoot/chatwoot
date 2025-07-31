@@ -12,17 +12,16 @@ class LeavePolicy < ApplicationPolicy
 
   def create?
     # Users can create their own leave requests
+    # When authorizing the class (not instance), allow any authenticated user
+    return true if record.is_a?(Class)
+
     record.account_user.user_id == user.id
   end
 
   def update?
     # Users can update their own pending/rejected leaves
     # Admins can update any leave
-    if @account_user.administrator?
-      true
-    else
-      record.account_user.user_id == user.id && record.pending?
-    end
+    @account_user.administrator? || (record.account_user.user_id == user.id && record.pending?)
   end
 
   def destroy?

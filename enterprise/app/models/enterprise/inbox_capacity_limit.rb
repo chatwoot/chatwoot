@@ -24,14 +24,14 @@
 #
 
 module Enterprise
-  class InboxCapacityLimit < ApplicationRecord
+  class InboxCapacityLimit < ::ApplicationRecord
     include AccountCacheRevalidator
 
     self.table_name = 'enterprise_inbox_capacity_limits'
 
     # Associations
     belongs_to :agent_capacity_policy, class_name: 'Enterprise::AgentCapacityPolicy'
-    belongs_to :inbox
+    belongs_to :inbox, class_name: '::Inbox'
 
     # Validations
     validates :agent_capacity_policy_id, uniqueness: { scope: :inbox_id }

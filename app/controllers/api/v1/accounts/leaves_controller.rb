@@ -2,7 +2,7 @@
 
 class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
   before_action :fetch_leave, only: [:show, :update, :destroy, :approve, :reject]
-  before_action :check_authorization
+  before_action -> { check_authorization(Leave) }, only: [:index, :create]
   before_action :authorize_leave, only: [:show, :update, :destroy]
   before_action :authorize_approval, only: [:approve, :reject]
 
@@ -22,9 +22,9 @@ class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
       account_user: account_user,
       current_user: Current.user
     )
-    
+
     result = service.create(leave_params)
-    
+
     if result[:success]
       render json: { leave: serialize_leave(result[:leave]) }, status: :created
     else
@@ -34,7 +34,7 @@ class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
 
   def update
     result = leave_service.update(@leave, leave_params)
-    
+
     if result[:success]
       render json: { leave: serialize_leave(result[:leave]) }
     else
@@ -53,7 +53,7 @@ class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
   def approve
     service = Leaves::LeaveApprovalService.new(leave: @leave, approver: Current.user)
     result = service.approve(params[:comments])
-    
+
     if result[:success]
       render json: { leave: serialize_leave(result[:leave]) }
     else
@@ -64,7 +64,7 @@ class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
   def reject
     service = Leaves::LeaveApprovalService.new(leave: @leave, approver: Current.user)
     result = service.reject(params[:reason])
-    
+
     if result[:success]
       render json: { leave: serialize_leave(result[:leave]) }
     else
@@ -96,11 +96,20 @@ class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
   end
 
   def leave_service
-    @leave_service ||= Leaves::LeaveService.new(
-      account: Current.account,
-      account_user: @leave.account_user,
-      current_user: Current.user
-    )
+    @leave_service ||= if @leave
+                         Leaves::LeaveService.new(
+                           account: Current.account,
+                           account_user: @leave.account_user,
+                           current_user: Current.user
+                         )
+                       else
+                         # For index action, we don't have a specific leave
+                         Leaves::LeaveService.new(
+                           account: Current.account,
+                           account_user: nil,
+                           current_user: Current.user
+                         )
+                       end
   end
 
   def leave_params
