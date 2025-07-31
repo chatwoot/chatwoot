@@ -34,6 +34,8 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :sidekiq
 
+  Rails.application.secrets.secret_key_base = ENV.fetch("SECRET_KEY_BASE")
+
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # Print deprecation notices to the Rails logger.

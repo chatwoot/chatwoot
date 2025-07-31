@@ -1,3 +1,5 @@
+require_relative "../initializers/logtail"
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -73,16 +75,21 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_LOG_TO_STDOUT', true))
-    logger           = ActiveSupport::Logger.new($stdout)
-    logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
+  if ENV["SOURCE_TOKEN"].present? && ENV["INGESTING_HOST"].present?
+    # Use Logtail for logging to BetterStack
+    config.logger = LOGTAIL_LOGGER
   else
-    config.logger    = ActiveSupport::Logger.new(
-      Rails.root.join("log/#{Rails.env}.log"),
-      1,
-      ENV.fetch('LOG_SIZE', '1024').to_i.megabytes
-    )
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_LOG_TO_STDOUT', true))
+      logger           = ActiveSupport::Logger.new($stdout)
+      logger.formatter = config.log_formatter
+      config.logger    = ActiveSupport::TaggedLogging.new(logger)
+    else
+      config.logger    = ActiveSupport::Logger.new(
+        Rails.root.join("log/#{Rails.env}.log"),
+        1,
+        ENV.fetch('LOG_SIZE', '1024').to_i.megabytes
+      )
+    end
   end
 
   # Do not dump schema after migrations.
@@ -103,6 +110,7 @@ Rails.application.configure do
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+  Rails.application.secrets.secret_key_base = ENV.fetch("SECRET_KEY_BASE")
 
   # Configure ActionMailer to use Postmark
   config.action_mailer.delivery_method = :postmark
