@@ -1,4 +1,5 @@
 module Enterprise::CloudflareCleanupJob
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def perform
     return unless ChatwootApp.chatwoot_cloud?
 
@@ -34,4 +35,5 @@ module Enterprise::CloudflareCleanupJob
 
     Rails.logger.info 'Completed Cloudflare custom hostname cleanup'
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end
