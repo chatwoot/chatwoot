@@ -54,7 +54,7 @@ class AssignmentV2::AssignmentService
 
   def selector_service
     @selector_service ||= if policy.assignment_order == 'balanced' && enterprise_enabled? && policy.can_use_balanced_assignment?
-                            Enterprise::AssignmentV2::BalancedSelector.new(inbox: inbox)
+                            ::Enterprise::AssignmentV2::BalancedSelector.new(inbox: inbox)
                           else
                             AssignmentV2::RoundRobinSelector.new(inbox: inbox)
                           end
@@ -88,7 +88,7 @@ class AssignmentV2::AssignmentService
 
   def create_assignment_activity(conversation, agent)
     Rails.configuration.dispatcher.dispatch(
-      ASSIGNEE_CHANGED,
+      Events::Types::ASSIGNEE_CHANGED,
       Time.zone.now,
       conversation: conversation,
       user: agent
