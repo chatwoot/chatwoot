@@ -3,7 +3,7 @@ name: CI/CD Release
 on:
   push:
     tags:
-      - 's*'  # Trigger on any tag push prefixed with 's'
+      - 'p*'  # Trigger on any tag push prefixed with 'p'
 
 jobs:
   build-and-test:
@@ -19,8 +19,6 @@ jobs:
       PGSSLMODE: ${{ secrets.PGSSLMODE }}
       SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
       POSTMARK_API_TOKEN: ${{ secrets.POSTMARK_API_TOKEN }}
-      SOURCE_TOKEN: ${{ secrets.SOURCE_TOKEN }}
-      INGESTING_HOST: ${{ secrets.INGESTING_HOST }}
     steps:
       - uses: actions/checkout@v4
 
@@ -61,30 +59,30 @@ jobs:
       - name: Export secrets to .env file
         run: |
           cat <<EOF > .env
-          POSTGRES_USERNAME=${{ secrets.POSTGRES_USERNAME }}
-          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }}
-          REDIS_URL=${{ secrets.REDIS_URL }}
-          DATABASE_URL=${{ secrets.DATABASE_URL }}
-          PGSSLMODE=${{ secrets.PGSSLMODE }}
-          SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
-          POSTMARK_API_TOKEN=${{ secrets.POSTMARK_API_TOKEN }}
-          SOURCE_TOKEN=${{ secrets.SOURCE_TOKEN }}
-          INGESTING_HOST=${{ secrets.INGESTING_HOST }}
+          POSTGRES_USERNAME=${{ secrets.PROD_POSTGRES_USERNAME }}
+          POSTGRES_PASSWORD=${{ secrets.PROD_POSTGRES_PASSWORD }}
+          POSTGRES_DATABASE=${{ secrets.PROD_POSTGRES_DATABASE }}
+          REDIS_URL=${{ secrets.PROD_REDIS_URL }}
+          DATABASE_URL=${{ secrets.PROD_DATABASE_URL }}
+          PGSSLMODE=${{ secrets.PROD_PGSSLMODE }}
+          SECRET_KEY_BASE=${{ secrets.PROD_SECRET_KEY_BASE }}
+          POSTMARK_API_TOKEN=${{ secrets.PROD_POSTMARK_API_TOKEN }}
+          SOURCE_TOKEN=${{ secrets.PROD_SOURCE_TOKEN }}
+          INGESTING_HOST=${{ secrets.PROD_INGESTING_HOST }}
           EOF
 
       - name: Build Docker images with docker compose
         run: |
           docker compose --env-file .env -f docker-compose.production.old.yaml build base --no-cache
-          docker compose --env-file .env -f docker-compose.production.old.yaml build rails sidekiq--no-cache
+          docker compose --env-file .env -f docker-compose.production.old.yaml build rails sidekiq --no-cache
 
       - name: Tag Docker image
         run: |
-          docker tag courier-production-v1:latest ghcr.io/on-cruise-control/courier:staging
+          docker tag courier-production-v1:latest ghcr.io/on-cruise-control/courier:production
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/on-cruise-control/courier:staging
+          docker push ghcr.io/on-cruise-control/courier:production
 
   deploy:
     needs: docker-build-and-push
@@ -93,22 +91,22 @@ jobs:
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.PROD_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.STAGING_SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.PROD_STAGING_SSH_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy to production server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} '
+          ssh -o StrictHostKeyChecking=no ${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_STAGING_SSH_HOST }} '
             set -e
-            cd courier
+            cd ../root/courier
 
             echo "--- Pulling latest Docker images ---"
-            docker compose -f docker-compose.staging.yaml pull
+            docker compose -f docker-compose.production.yaml pull
 
             echo "--- Starting containers ---"
-            docker compose -f docker-compose.staging.yaml up -d --pull always
+            docker compose -f docker-compose.production.yaml up -d --pull always
 
             echo "--- Running database migrations ---"
-            docker compose -f docker-compose.production.yaml exec rails bundle exec rails db:migrate
+            docker compose -f docker-compose.production.yaml exec web bundle exec rails db:migrate
           '
