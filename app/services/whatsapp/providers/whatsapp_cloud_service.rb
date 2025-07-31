@@ -39,23 +39,14 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def fetch_whatsapp_templates(url)
-    all_templates = []
-    current_url = url
+    response = HTTParty.get(url)
+    return [] unless response.success?
 
-    while current_url.present?
-      response = HTTParty.get(current_url)
-      break unless response.success?
+    next_url = next_url(response)
 
-      templates = response['data'] || []
-      all_templates.concat(templates)
+    return response['data'] + fetch_whatsapp_templates(next_url) if next_url.present?
 
-      current_url = next_url(response)
-
-      # Safety break to prevent infinite loops
-      break if all_templates.size > 1000
-    end
-
-    all_templates
+    response['data']
   end
 
   def next_url(response)
