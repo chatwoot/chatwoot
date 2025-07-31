@@ -6,7 +6,7 @@
       "LOADING": "Fetching notifications",
       "404": "There are no active notifications in this group.",
       "NO_NOTIFICATIONS": "No notifications",
-      "NOTE": "Notifications from all subscribed inboxes",
+      "NOTE": "Notifications from all subscribed channels",
       "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",

@@ -30,7 +30,7 @@
     },
     "LIST": {
       "FETCHING": "Fetching integration hooks",
-      "INBOX": "Inbox",
+      "INBOX": "Channel",
       "DELETE": {
         "BUTTON_TEXT": "Delete"
       }
@@ -38,8 +38,8 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox"
+          "LABEL": "Select Channel",
+          "PLACEHOLDER": "Select Channel"
         },
         "SUBMIT": "Create",
         "CANCEL": "Cancel"

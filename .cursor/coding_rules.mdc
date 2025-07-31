@@ -65,3 +65,8 @@ alwaysApply: true
 ## Ruby Best Practices
 
 - Use compact `module/class` definitions; avoid nested styles
+
+## Concepts
+
+- **INBOXES**: Referred to as "Channels" in locales/UI labels.
+- **AGENTS**: Referred to as "Members" in locales/UI labels.

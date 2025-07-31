@@ -6,11 +6,11 @@
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
+    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your channel.",
     "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
+    "NO_INBOX_1": "Hola! Looks like you haven't added any channels yet.",
     "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
+    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any channel. Please contact your administrator",
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
@@ -28,7 +28,7 @@
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
+    "LOADING_INBOXES": "Loading channels",
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
@@ -272,8 +272,8 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to {installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
+    "TITLE": "Welcome to {installationName}!",
+    "DESCRIPTION": "Thanks for signing up. Please follow the steps below to get started.",
     "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
     "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
     "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
@@ -281,11 +281,11 @@
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
       "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
-      "NEW_LINK": "Click here to create an inbox"
+      "NEW_LINK": "Click here to create a channel"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the member list.",
+      "DESCRIPTION": "First, you can bring in your team members to assist you. Invite your team members by email.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "ADD_CHANNEL": {
@@ -296,9 +296,9 @@
       "ADDING_AGENTS": "Adding agents to {channel}"
     },
     "ADD_AI_AGENT": {
-      "TITLE": "Add your Bot Agent",
-      "DESCRIPTION": "Let´s add the AI Agent that will be helping you with your conversations",
-      "NEW_LINK": "Click here to add an AI Agent"
+      "TITLE": "Add your AI Bot",
+      "DESCRIPTION": "Let´s add the AI Bot that will be helping you with your conversations",
+      "NEW_LINK": "Click here to add an AI Bot"
     },
     "LABELS": {
       "TITLE": "Organize conversations with labels",

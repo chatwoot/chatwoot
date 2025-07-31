@@ -23,7 +23,7 @@
     },
     "ADD": {
       "TITLE": "Add member to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
+      "DESC": "You can add people who will be able to handle support for your channels.",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "NAME": {
