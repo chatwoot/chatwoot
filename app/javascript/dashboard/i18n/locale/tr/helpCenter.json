@@ -778,9 +778,9 @@
             "COPY": "Successfully copied CNAME",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
+              "DESCRIPTION": "Bu adımı geliştirme ekibinizden birinin yapmasını tercih ediyorsanız, aşağıya mail adresini girin; gerekli talimatları onlara gönderelim.",
+              "PLACEHOLDER": "E-posta adreslerini girin",
+              "ERROR": "Geçerli bir mail adresi girin",
               "SEND_BUTTON": "Gönder"
             }
           }
