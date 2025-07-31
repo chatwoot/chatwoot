@@ -314,30 +314,6 @@ export const templates = [
     rejected_reason: 'NONE',
   },
   {
-    name: 'basic_otp',
-    status: 'approved',
-    category: 'AUTHENTICATION',
-    language: 'en',
-    namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
-    components: [
-      {
-        text: '*{{1}}* is your verification code. For your security, do not share this code.',
-        type: 'BODY',
-      },
-      {
-        type: 'BUTTONS',
-        buttons: [
-          {
-            url: 'https://www.whatsapp.com/otp/code/?otp_type=COPY_CODE&code=otp{{1}}',
-            text: 'Copy code',
-            type: 'URL',
-          },
-        ],
-      },
-    ],
-    rejected_reason: 'NONE',
-  },
-  {
     name: 'event_invitation_static',
     status: 'approved',
     category: 'MARKETING',
@@ -380,34 +356,6 @@ export const templates = [
       {
         text: 'Thank you for using your {{1}} card at {{2}}. Your {{3}} is attached as a PDF.',
         type: 'BODY',
-      },
-    ],
-    rejected_reason: 'NONE',
-  },
-  {
-    name: 'secure_login_otp',
-    status: 'approved',
-    category: 'AUTHENTICATION',
-    language: 'en',
-    namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
-    components: [
-      {
-        text: '*{{1}}* is your verification code. For your security, do not share this code.',
-        type: 'BODY',
-      },
-      {
-        text: 'This code expires in 10 minutes.',
-        type: 'FOOTER',
-      },
-      {
-        type: 'BUTTONS',
-        buttons: [
-          {
-            url: 'https://www.whatsapp.com/otp/code/?otp_type=ZERO_TAP&cta_display_name=Autofill&package_name=com.chatwoot.app&signature_hash=12121212121&code_expiration_minutes=10&code=otp{{1}}',
-            text: 'Copy code',
-            type: 'URL',
-          },
-        ],
       },
     ],
     rejected_reason: 'NONE',
@@ -532,30 +480,6 @@ export const templates = [
       {
         text: 'WhatsApp Business Platform sample message',
         type: 'FOOTER',
-      },
-    ],
-    rejected_reason: 'NONE',
-  },
-  {
-    name: 'otp_verification',
-    status: 'approved',
-    category: 'AUTHENTICATION',
-    language: 'en_US',
-    namespace: 'ed41a221_133a_4558_a1d6_192960e3aee9',
-    components: [
-      {
-        text: 'Use code *{{1}}* to verify your transaction of {{2}}.',
-        type: 'BODY',
-      },
-      {
-        type: 'BUTTONS',
-        buttons: [
-          {
-            url: 'https://www.whatsapp.com/otp/code/?otp_type=COPY_CODE&code=otp{{1}}',
-            text: 'Copy code',
-            type: 'URL',
-          },
-        ],
       },
     ],
     rejected_reason: 'NONE',

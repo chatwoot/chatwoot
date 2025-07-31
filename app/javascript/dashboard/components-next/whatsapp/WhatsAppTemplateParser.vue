@@ -9,7 +9,6 @@ import {
   buildTemplateParameters,
   allKeysRequired,
   replaceTemplateVariables,
-  populateAuthenticationButtonParameters,
 } from 'dashboard/helper/templateHelper';
 
 const props = defineProps({
@@ -92,10 +91,7 @@ const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
 
-  const finalParams = populateAuthenticationButtonParameters(
-    props.template,
-    processedParams.value
-  );
+  const finalParams = processedParams.value;
 
   const payload = {
     message: renderedTemplate.value,

@@ -3,13 +3,11 @@ import {
   buildTemplateParameters,
   processVariable,
   allKeysRequired,
-  populateAuthenticationButtonParameters,
 } from '../templateHelper';
 import { templates } from '../../store/modules/specs/inboxes/templateFixtures';
 
 describe('templateHelper', () => {
   const technicianTemplate = templates.find(t => t.name === 'technician_visit');
-  const otpTemplate = templates.find(t => t.name === 'basic_otp');
 
   describe('processVariable', () => {
     it('should remove curly braces from variables', () => {
@@ -126,13 +124,6 @@ describe('templateHelper', () => {
       expect(result.body).toBeUndefined();
     });
 
-    it('should handle AUTHENTICATION category templates with special OTP handling', () => {
-      const result = buildTemplateParameters(otpTemplate, false);
-      expect(result.body).toEqual({
-        otp_code: '',
-      });
-    });
-
     it('should handle URL buttons with variables for non-authentication templates', () => {
       const templateWithUrlButton = {
         category: 'MARKETING',
@@ -163,146 +154,6 @@ describe('templateHelper', () => {
           variables: ['campaign_id'],
         },
       ]);
-    });
-
-    it('should skip button variables for AUTHENTICATION templates', () => {
-      const result = buildTemplateParameters(otpTemplate, false);
-      expect(result.buttons).toBeUndefined();
-    });
-  });
-
-  describe('populateAuthenticationButtonParameters', () => {
-    it('should auto-populate URL button parameters with OTP code for authentication templates', () => {
-      const processedParams = {
-        body: {
-          otp_code: '123456',
-        },
-        buttons: [
-          {
-            type: 'url',
-            parameter: '',
-            url: 'https://www.whatsapp.com/otp/code/?code=otp{{1}}',
-          },
-        ],
-      };
-
-      const result = populateAuthenticationButtonParameters(
-        otpTemplate,
-        processedParams
-      );
-
-      expect(result.buttons[0].parameter).toBe('123456');
-    });
-
-    it('should use positional parameter "1" if available for authentication templates', () => {
-      const processedParams = {
-        body: {
-          1: '654321',
-          otp_code: '123456',
-        },
-        buttons: [
-          {
-            type: 'url',
-            parameter: '',
-            url: 'https://www.whatsapp.com/otp/code/?code=otp{{1}}',
-          },
-        ],
-      };
-
-      const result = populateAuthenticationButtonParameters(
-        otpTemplate,
-        processedParams
-      );
-
-      expect(result.buttons[0].parameter).toBe('654321');
-    });
-
-    it('should not modify non-authentication templates', () => {
-      const processedParams = {
-        body: {
-          name: 'John',
-        },
-        buttons: [
-          {
-            type: 'url',
-            parameter: '',
-            url: 'https://example.com/{{name}}',
-          },
-        ],
-      };
-
-      const result = populateAuthenticationButtonParameters(
-        technicianTemplate,
-        processedParams
-      );
-
-      expect(result.buttons[0].parameter).toBe('');
-    });
-
-    it('should not modify non-URL buttons in authentication templates', () => {
-      const authTemplateWithQuickReply = {
-        category: 'AUTHENTICATION',
-        components: [
-          {
-            type: 'BODY',
-            text: 'Your code is {{1}}',
-          },
-        ],
-      };
-
-      const processedParams = {
-        body: {
-          otp_code: '123456',
-        },
-        buttons: [
-          {
-            type: 'quick_reply',
-            parameter: 'original_value',
-          },
-        ],
-      };
-
-      const result = populateAuthenticationButtonParameters(
-        authTemplateWithQuickReply,
-        processedParams
-      );
-
-      expect(result.buttons[0].parameter).toBe('original_value');
-    });
-
-    it('should handle templates without buttons', () => {
-      const processedParams = {
-        body: {
-          otp_code: '123456',
-        },
-      };
-
-      const result = populateAuthenticationButtonParameters(
-        otpTemplate,
-        processedParams
-      );
-
-      expect(result).toEqual(processedParams);
-    });
-
-    it('should not mutate the original processedParams object', () => {
-      const processedParams = {
-        body: {
-          otp_code: '123456',
-        },
-        buttons: [
-          {
-            type: 'url',
-            parameter: '',
-            url: 'https://www.whatsapp.com/otp/code/?code=otp{{1}}',
-          },
-        ],
-      };
-
-      const originalParams = JSON.parse(JSON.stringify(processedParams));
-      populateAuthenticationButtonParameters(otpTemplate, processedParams);
-
-      expect(processedParams).toEqual(originalParams);
     });
   });
 });

@@ -34,26 +34,7 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
     allVariables.body = {};
     matchedVariables.forEach(variable => {
       const key = processVariable(variable);
-      // Special handling for authentication templates
-      if (template?.category === 'AUTHENTICATION') {
-        if (
-          key === '1' ||
-          key.toLowerCase().includes('otp') ||
-          key.toLowerCase().includes('code')
-        ) {
-          allVariables.body.otp_code = '';
-        } else if (
-          key === '2' ||
-          key.toLowerCase().includes('expiry') ||
-          key.toLowerCase().includes('minute')
-        ) {
-          allVariables.body.expiry_minutes = '';
-        } else {
-          allVariables.body[key] = '';
-        }
-      } else {
-        allVariables.body[key] = '';
-      }
+      allVariables.body[key] = '';
     });
   }
 
@@ -71,64 +52,31 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
   buttonComponents.forEach(buttonComponent => {
     if (buttonComponent.buttons) {
       buttonComponent.buttons.forEach((button, index) => {
-        // Skip button parameter inputs for authentication templates
-        // as they are auto-populated with OTP codes
-        if (template?.category !== 'AUTHENTICATION') {
-          // Handle URL buttons with variables
-          if (
-            button.type === 'URL' &&
-            button.url &&
-            button.url.includes('{{')
-          ) {
-            const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
-            if (buttonVars.length > 0) {
-              if (!allVariables.buttons) allVariables.buttons = [];
-              allVariables.buttons[index] = {
-                type: 'url',
-                parameter: '',
-                url: button.url,
-                variables: buttonVars.map(v => processVariable(v)),
-              };
-            }
-          }
-
-          // Handle copy code buttons
-          if (button.type === 'COPY_CODE') {
+        // Handle URL buttons with variables
+        if (button.type === 'URL' && button.url && button.url.includes('{{')) {
+          const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
+          if (buttonVars.length > 0) {
             if (!allVariables.buttons) allVariables.buttons = [];
             allVariables.buttons[index] = {
-              type: 'copy_code',
+              type: 'url',
               parameter: '',
+              url: button.url,
+              variables: buttonVars.map(v => processVariable(v)),
             };
           }
+        }
+
+        // Handle copy code buttons
+        if (button.type === 'COPY_CODE') {
+          if (!allVariables.buttons) allVariables.buttons = [];
+          allVariables.buttons[index] = {
+            type: 'copy_code',
+            parameter: '',
+          };
         }
       });
     }
   });
 
   return allVariables;
-};
-
-export const populateAuthenticationButtonParameters = (
-  template,
-  processedParams
-) => {
-  const finalParams = { ...processedParams };
-
-  if (template?.category === 'AUTHENTICATION' && finalParams.buttons) {
-    // Deep copy the buttons array to avoid mutating the original
-    finalParams.buttons = finalParams.buttons.map(button => ({ ...button }));
-
-    finalParams.buttons.forEach((button, index) => {
-      if (button.type === 'url') {
-        // For authentication templates, auto-populate URL button parameter with OTP
-        if (finalParams.body?.['1']) {
-          finalParams.buttons[index].parameter = finalParams.body['1'];
-        } else if (finalParams.body?.otp_code) {
-          finalParams.buttons[index].parameter = finalParams.body.otp_code;
-        }
-      }
-    });
-  }
-
-  return finalParams;
 };
