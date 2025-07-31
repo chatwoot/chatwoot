@@ -16,7 +16,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     request_body = {
       messaging_product: 'whatsapp',
-      recipient_type: 'individual',
+      recipient_type: 'individual', # Only individual messages supported (not group messages)
       to: phone_number,
       type: 'template',
       template: template_body
@@ -133,6 +133,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     }
 
     # Enhanced template parameters structure
+    # Note: Legacy format support (simple parameter arrays) has been removed
+    # in favor of the enhanced component-based structure that supports
+    # headers, buttons, and authentication templates.
+    #
     # Expected payload format from frontend:
     # {
     #   processed_params: {
