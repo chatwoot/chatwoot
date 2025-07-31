@@ -244,10 +244,14 @@ class Inbox < ApplicationRecord
     # Filter out agents who have exceeded rate limits
     return inbox_members_scope unless assignment_policy&.enabled?
 
-    inbox_members_scope.select do |inbox_member|
+    # Get IDs of inbox members within rate limits
+    valid_inbox_member_ids = inbox_members_scope.find_each.filter_map do |inbox_member|
       rate_limiter = AssignmentV2::RateLimiter.new(inbox: self, user: inbox_member.user)
-      rate_limiter.within_limits?
+      inbox_member.id if rate_limiter.within_limits?
     end
+
+    # Return filtered scope maintaining ActiveRecord relation
+    inbox_members_scope.where(id: valid_inbox_member_ids)
   end
 
   def filter_agents_on_leave(inbox_members_scope)
