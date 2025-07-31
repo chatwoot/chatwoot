@@ -141,22 +141,22 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }
     }
 
-    # Handle enhanced template parameters structure
-    template_body[:components] = if template_info[:parameters].is_a?(Array) &&
-                                    template_info[:parameters].first.is_a?(Hash) &&
-                                    template_info[:parameters].first.key?(:type)
-                                   # New enhanced format with component structure
-                                   template_info[:parameters]
-                                 elsif template_info[:parameters].is_a?(Array)
-                                   # Legacy format with parameter array
-                                   [{
-                                     type: 'body',
-                                     parameters: template_info[:parameters]
-                                   }]
-                                 else
-                                   # Invalid parameters - this should not happen
-                                   []
-                                 end
+    # Enhanced template parameters structure
+    # Expected payload format from frontend:
+    # {
+    #   processed_params: {
+    #     body: { '1': 'John', '2': '123 Main St' },
+    #     header: { media_url: 'https://...', media_type: 'image' },
+    #     buttons: [{ type: 'url', parameter: 'otp123456' }]
+    #   }
+    # }
+    # This gets transformed into WhatsApp API component format:
+    # [
+    #   { type: 'body', parameters: [...] },
+    #   { type: 'header', parameters: [...] },
+    #   { type: 'button', sub_type: 'url', parameters: [...] }
+    # ]
+    template_body[:components] = template_info[:parameters] || []
 
     template_body
   end
