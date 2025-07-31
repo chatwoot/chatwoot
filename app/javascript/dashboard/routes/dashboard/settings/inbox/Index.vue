@@ -132,6 +132,7 @@ const openDelete = inbox => {
                   <ChannelName
                     :channel-type="inbox.channel_type"
                     :medium="inbox.medium"
+                    :phone-number="inbox.phone_number"
                   />
                 </div>
               </div>

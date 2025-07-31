@@ -24,6 +24,8 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   before_destroy :clear_session_status_cache
 
+  before_destroy :clear_session_status_cache
+
   validates :phone_number, presence: true
   validates :account_id, presence: true
   validates :webhook_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
@@ -112,6 +114,15 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   def get_qr_code
     Rails.logger.info "Getting QR code for phone #{phone_number}, token present: #{token.present?}"
 
+    # Check if connection has failed due to too many mismatch attempts
+    cached_status = read_session_status_from_cache
+    if cached_status == 'failed'
+      current_attempts = read_mismatch_attempts_from_cache
+      error_msg = "Cannot generate QR code - connection failed after #{current_attempts} mismatch attempts. Please try again later."
+      Rails.logger.error error_msg
+      raise StandardError, error_msg
+    end
+
     if token.blank?
       Rails.logger.warn "Token is blank for #{phone_number}. Attempting to re-create device session..."
       begin
@@ -141,8 +152,29 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     "whatsapp_session_status_#{phone_number}"
   end
 
+  def mismatch_attempts_cache_key
+    "whatsapp_mismatch_attempts_#{phone_number}"
+  end
+
   def read_session_status_from_cache
     Rails.cache.read(session_status_cache_key)
+  end
+
+  def read_mismatch_attempts_from_cache
+    Rails.cache.read(mismatch_attempts_cache_key) || 0
+  end
+
+  def increment_mismatch_attempts
+    current_attempts = read_mismatch_attempts_from_cache
+    new_attempts = current_attempts + 1
+    Rails.cache.write(mismatch_attempts_cache_key, new_attempts, expires_in: 1.hour)
+    Rails.logger.info "CACHE: Incremented mismatch attempts to #{new_attempts} for #{phone_number}"
+    new_attempts
+  end
+
+  def clear_mismatch_attempts
+    Rails.cache.delete(mismatch_attempts_cache_key)
+    Rails.logger.info "CACHE: Cleared mismatch attempts for #{phone_number}"
   end
 
   def write_session_status_to_cache(status, expires_in: 24.hours)
@@ -180,9 +212,17 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     end
   end
 
-  # Method untuk validasi nomor HP LANGSUNG dari callback - no cache needed!
-  # ✅ UBAH: Method ini sekarang menulis ke cache
   def validate_callback_phone_number(callback_phone)
+
+    lock_key = "validation_lock_#{phone_number}"
+
+    if Rails.cache.read(lock_key)
+      Rails.logger.warn "🔒 Validation for #{phone_number} is currently locked. Skipping duplicate trigger."
+      return { success: false, status: 'locked', message: 'Validation in progress' }
+    end
+
+    Rails.cache.write(lock_key, true, expires_in: 10.seconds)
+
     Rails.logger.info "🔍 Validating callback phone number for #{phone_number}"
     Rails.logger.info "  Expected: #{phone_number}"
     Rails.logger.info "  From callback: #{callback_phone}"
@@ -192,9 +232,10 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
     if expected_clean == callback_clean
       Rails.logger.info "✅ Phone validation SUCCESS - numbers match!"
-
-      # ✅ TULIS status 'validated' ke cache
+      clear_mismatch_attempts
       write_session_status_to_cache('validated')
+
+      Rails.cache.delete(lock_key)
 
       {
         success: true,
@@ -203,19 +244,47 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       }
     else
       Rails.logger.error "❌ Phone validation FAILED - phone mismatch detected"
+      current_attempts = increment_mismatch_attempts
+      max_attempts = 3
 
-      # PENTING: Logout session
-      logout_result = disconnect_waha_session
+      if current_attempts >= max_attempts
+        Rails.logger.error "❌ Maximum mismatch attempts (#{max_attempts}) reached for #{phone_number}"
+        write_session_status_to_cache('failed', expires_in: 1.hour)
+        
+        disconnect_waha_session
+        
+        controller = Waha::CallbackController.new
+        controller.send(:broadcast_session_failed, self, callback_phone, current_attempts)
 
-      # Return failure response
-      {
-        success: false,
-        status: 'mismatch',
-        message: 'Phone number mismatch - session logged out',
-        expected_phone: phone_number,
-        connected_phone: callback_phone,
-        logout_result: logout_result
-      }
+        Rails.cache.delete(lock_key)
+
+        return {
+          success: false,
+          status: 'failed',
+          attempts: current_attempts,
+          max_attempts: max_attempts,
+          message: "Phone number validation failed after #{max_attempts} attempts."
+        }
+      else
+        write_session_status_to_cache('mismatch', expires_in: 10.minutes)
+        logout_result = disconnect_waha_session
+
+        controller = Waha::CallbackController.new
+        controller.send(:broadcast_session_mismatch, self, callback_phone, current_attempts, max_attempts)
+
+        Rails.cache.delete(lock_key)
+
+        return {
+          success: false,
+          status: 'mismatch',
+          attempts: current_attempts,
+          max_attempts: max_attempts,
+          message: 'Phone number mismatch - session logged out',
+          expected_phone: phone_number,
+          connected_phone: callback_phone,
+          logout_result: logout_result
+        }
+      end
     end
   end
 
@@ -224,7 +293,6 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   end
 
   def set_webhook_url
-    # Generate webhook URL untuk channel ini
     base_url = current_application_url
     webhook = "#{base_url}/waha/callback/#{phone_number}"
     

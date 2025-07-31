@@ -8,8 +8,28 @@ export default {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
     }),
+    currentInbox() {
+      const inboxId = this.$route.params.inbox_id;
+      if (inboxId) {
+        return this.$store.getters['inboxes/getInbox'](inboxId);
+      }
+      return null;
+    },
+    isWhatsAppUnofficial() {
+      if (this.$route.params.sub_page === 'whatsapp_unofficial') {
+        return true;
+      }
+      
+      if (this.currentInbox && this.currentInbox.channel_type === 'Channel::WhatsappUnofficial') {
+        return true;
+      }
+      
+      return false;
+    },
     createFlowSteps() {
-      const steps = ['CHANNEL', 'INBOX', 'QRCODE', 'AGENT', 'FINISH'];
+      const steps = this.isWhatsAppUnofficial 
+        ? ['CHANNEL', 'INBOX', 'QRCODE', 'AGENT', 'FINISH']
+        : ['CHANNEL', 'INBOX', 'AGENT', 'FINISH'];
 
       const routes = {
         CHANNEL: 'settings_inbox_new',

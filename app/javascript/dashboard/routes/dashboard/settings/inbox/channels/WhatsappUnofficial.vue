@@ -7,7 +7,7 @@ import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
 const isValidIndoPhone = helpers.withMessage(
-  'Phone number must start with 62 and contain only digits',
+  'Masukkan nomor WhatsApp dengan format Indonesia, dimulai dengan 62.',
   value => /^62\d{6,15}$/.test(value || '')
 );
 
@@ -101,10 +101,10 @@ export default {
             @blur="v$.phoneNumber.$touch"
           />
           <span v-if="v$.phoneNumber.$error" class="message">
-            Phone number must start with 62 and be valid
+            Nomor telepon harus dimulai dengan 62 dan valid
           </span>
         </label>
-        <p class="help-text">Enter the phone number in Indonesian formatss, starting with 62.</p>
+        <p class="help-text">Masukkan nomor telepon dimulai dengan format awalan 62.</p>
       </div>
 
       <!-- Submit Button -->

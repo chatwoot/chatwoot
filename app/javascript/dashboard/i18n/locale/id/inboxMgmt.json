@@ -32,20 +32,20 @@
     },
     "ADD": {
       "WHATSAPP_UNOFFICIAL_CHANNEL": {
-        "TITLE": "Add WhatsApp Unofficial Channel",
-        "DESC": "Configure your unofficial WhatsApp integration",
+        "TITLE": "Tambah Channel WhatsApp Non-Bisnis",
+        "DESC": "Atur koneksi dengan WhatsApp Non-Bisnismu",
         "CHANNEL_NAME": {
-          "LABEL": "Inbox Name",
-          "PLACEHOLDER": "e.g., CS WA Unofficial",
-          "ERROR": "Inbox name is required"
+          "LABEL": "Nama Kotak Masuk",
+          "PLACEHOLDER": "Contoh: CS WA Pribadi",
+          "ERROR": "Nama kotak masuk wajib diisi"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
+          "LABEL": "Nomor WhatsApp",
           "PLACEHOLDER": "628xxxxxxxxxx",
-          "ERROR": "Phone number must start with 62"
+          "ERROR": "Nomor telepon harus dimulai dengan 62"
         },
-        "SUBMIT_BUTTON": "Create Channel",
-        "ERROR_MESSAGE": "Failed to create WhatsApp Unofficial channel"
+        "SUBMIT_BUTTON": "Buat Channel",
+        "ERROR_MESSAGE": "Gagal membuat channel WhatsApp Unofficial"
       },
       "CHANNEL_NAME": {
         "LABEL": "Nama Kotak Masuk",
@@ -82,8 +82,8 @@
         }
       },
       "QRCODE": {
-        "TITLE": "Tautkan Whatsapp",
-        "DESC": "Untuk mengaktifkan Bot AI Anda, silakan tautkan nomor WhatsApp bisnis Anda dengan memindai kode QR di bawah ini."
+        "TITLE": "Hubungkan WhatsApp Anda",
+        "DESC": "Untuk mulai menggunakan Bot AI, silakan sambungkan akun WhatsApp Bisnis Anda dengan memindai kode QR di bawah ini"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Channel Website",
@@ -94,7 +94,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL Webhook",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "Silakan masukkan Webhook URL Anda",
           "ERROR": "Harap masukkan URL yang valid"
         },
         "CHANNEL_DOMAIN": {
@@ -376,9 +376,9 @@
       },
       "AGENTS": {
         "TITLE": "Agen",
-        "DESC": "Di sini Anda dapat menambahkan agen untuk mengelola kotak masuk yang baru Anda buat. Hanya agen terpilih ini yang akan memiliki akses ke kotak masuk Anda. Agen yang bukan bagian dari kotak masuk ini tidak akan dapat melihat atau menanggapi pesan di kotak masuk ini saat mereka masuk. <br> <b> Keterangan: </b> Sebagai administrator, jika Anda memerlukan akses ke semua kotak masuk, Anda harus menambahkan diri Anda sebagai agen ke semua kotak masuk yang Anda buat.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pilih agen untuk kotak masuk"
+        "DESC": "Di sini kamu bisa menambahkan agen (orang yang membantu balas chat) untuk mengelola kotak masuk yang baru kamu buat. Hanya agen yang dipilih saja yang bisa melihat dan membalas pesan di kotak masuk ini. Kalau agen tidak ditambahkan ke kotak masuk ini, mereka tidak akan bisa lihat atau balas pesan di dalamnya.",
+        "VALIDATION_ERROR": "Tambahkan setidaknya satu agen ke Kotak Masuk baru Anda",
+        "PICK_AGENTS": "Pilih agen yang akan bantu kelola kotak masuk ini"
       },
       "DETAILS": {
         "TITLE": "Detail Kotak Masuk",
