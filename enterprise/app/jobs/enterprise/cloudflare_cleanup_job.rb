@@ -1,6 +1,4 @@
-class Enterprise::CloudflareCleanupJob < ApplicationJob
-  queue_as :housekeeping
-
+module Enterprise::CloudflareCleanupJob
   def perform
     return unless ChatwootApp.chatwoot_cloud?
 

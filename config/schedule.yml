@@ -51,5 +51,5 @@ delete_accounts_job:
 # to cleanup orphaned Cloudflare custom hostnames
 cloudflare_cleanup_job:
   cron: '0 2 * * 0'
-  class: 'Enterprise::CloudflareCleanupJob'
+  class: 'CloudflareCleanupJob'
   queue: housekeeping
