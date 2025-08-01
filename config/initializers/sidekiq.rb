@@ -15,14 +15,6 @@ Sidekiq.configure_server do |config|
     config[:skip_default_job_logging] = true
     config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase.to_s)
   end
-
-  # CloudWatch metrics for monitoring
-  if ChatwootApp.chatwoot_cloud? && ENV['ENABLE_SIDEKIQ_CLOUDWATCH'].present?
-    require 'sidekiq/cloudwatchmetrics'
-    config.server_middleware do |chain|
-      chain.add Sidekiq::CloudWatchMetrics::ServerMiddleware
-    end
-  end
 end
 
 # https://github.com/ondrejbartas/sidekiq-cron
