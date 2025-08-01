@@ -153,7 +153,7 @@ onBeforeMount(contextMenuActions.close);
 <template>
   <div
     role="button"
-    class="flex flex-col w-full gap-2 p-3 transition-all duration-300 ease-in-out cursor-pointer"
+    class="flex flex-col w-full gap-1 p-3 transition-all duration-300 ease-in-out cursor-pointer"
     @contextmenu="contextMenuActions.open($event)"
     @click="emit('click')"
   >
@@ -232,7 +232,7 @@ onBeforeMount(contextMenuActions.close);
             class="flex-shrink-0 text-n-slate-11 size-2.5"
           />
         </div>
-        <span class="text-sm text-n-slate-10">
+        <span class="text-xs text-n-slate-10">
           {{ lastActivityAt }}
         </span>
       </div>
