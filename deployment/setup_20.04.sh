@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.4.1
+# Script Version: 3.4.2
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -1005,6 +1005,7 @@ EOF
   upgrade_redis
   upgrade_node
   get_pnpm
+  
   sudo -i -u chatwoot << EOF
 
   # Navigate to the Chatwoot directory
@@ -1015,10 +1016,10 @@ EOF
   git checkout "$BRANCH" && git pull
 
   # Ensure the ruby version is upto date
-  # Parse the latest ruby version
-  latest_ruby_version="$(cat '.ruby-version')"
-  rvm install "ruby-$latest_ruby_version"
-  rvm use "$latest_ruby_version" --default
+  # Parse the latest ruby version from the target branch
+  latest_ruby_version="\$(cat '.ruby-version')"
+  rvm install "ruby-\$latest_ruby_version"
+  rvm use "\$latest_ruby_version" --default
 
   # Update dependencies
   bundle
