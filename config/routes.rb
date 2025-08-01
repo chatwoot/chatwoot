@@ -195,7 +195,7 @@ Rails.application.routes.draw do
               member do
                 get :status
                 get :qr_code
-                post :start_session  # Route baru untuk alur callback yang benar
+                post :start_session # Route baru untuk alur callback yang benar
               end
             end
             resource :twilio_channel, only: [:create]
@@ -463,12 +463,10 @@ Rails.application.routes.draw do
               get :ai_agent_metrics
             end
           end
-          resource :google_sheets_export, only: [:create], controller: 'google_sheets_export' do
+          resource :google_sheets_export, only: [], controller: 'google_sheets_export' do
             collection do
-              post :create
               get :authorize
               get :status
-              get :callback
             end
           end
         end

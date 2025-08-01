@@ -140,17 +140,17 @@ class Api::V2::CallbackController < ApplicationController
     response = http.request(request)
     JSON.parse(response.body)
   end
-  def write_token_to_file(identifier, token_data)
-    return unless identifier && token_data
+  # def write_token_to_file(identifier, token_data)
+  #   return unless identifier && token_data
 
-    file_path = token_file_path(identifier)
-    FileUtils.mkdir_p(File.dirname(file_path))
+  #   file_path = token_file_path(identifier)
+  #   FileUtils.mkdir_p(File.dirname(file_path))
 
-    File.write(file_path, JSON.pretty_generate(token_data))
-  end
-  def token_file_path(identifier)
-    Rails.root.join('tmp', 'google_tokens', "token_#{identifier}.json")
-  end
+  #   File.write(file_path, JSON.pretty_generate(token_data))
+  # end
+  # def token_file_path(identifier)
+  #   Rails.root.join('tmp', 'google_tokens', "token_#{identifier}.json")
+  # end
 end
 
 Api::V2::CallbackController.prepend_mod_with('Api::V2::CallbackController')
