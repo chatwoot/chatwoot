@@ -10,7 +10,7 @@
 
 html,
 body {
-  @apply antialiased h-full bg-n-background;
+  @apply antialiased h-full;
 }
 
 .is-mobile {
@@ -382,4 +382,8 @@ blockquote {
     --border-container: 236, 236, 236, 0;
     --white-alpha: 255, 255, 255, 0.1;
   }
+}
+
+:root {
+  --heroui-background: unset !important;
 }

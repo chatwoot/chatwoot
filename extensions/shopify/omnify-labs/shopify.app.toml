@@ -1,0 +1,30 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "9c1794fa7f08d256535b228a6e3b9816"
+name = "OmnifyLabs"
+handle = "omnifylabs"
+application_url = "https://omnipurchase.dev.omnifylabs.com/dashassist_shopify/standalone/install"
+embedded = false
+
+[build]
+include_config_on_deploy = true
+
+[webhooks]
+api_version = "2025-01"
+
+  [[webhooks.subscriptions]]
+  uri = "https://omnipurchase.dev.omnifylabs.com/dashassist_shopify/webhooks/app_uninstalled"
+  topics = [ "app/uninstalled" ]
+
+[auth]
+redirect_urls = [
+  "https://n8n.dev.omnifylabs.com/rest/oauth2-credential/callback",
+  "https://769b-73-92-6-170.ngrok-free.app/callback",
+  "https://omnipurchase.dev.omnifylabs.com/shopify/auth/callback",
+  "https://omnipurchase.dev.omnifylabs.com/shopify/callback",
+  "https://omnipurchase.dev.omnifylabs.com/dashassist_shopify/callback",
+  "https://omnipurchase.dev.omnifylabs.com/dashassist_shopify/standalone/callback"
+]
+
+[pos]
+embedded = false

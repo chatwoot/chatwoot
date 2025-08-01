@@ -41,9 +41,12 @@ const actions = {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
-      const {
-        data: { data },
-      } = await ConversationApi.get(params);
+      const response = await ConversationApi.get(params);
+      const data = response.data?.data;
+      if (!data || !data.payload) {
+        commit(types.CLEAR_LIST_LOADING_STATUS);
+        return;
+      }
       buildConversationList(
         { commit, dispatch },
         params,
@@ -51,7 +54,7 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
-      // Handle error
+      commit(types.CLEAR_LIST_LOADING_STATUS);
     }
   },
 
@@ -66,7 +69,7 @@ const actions = {
         'appliedFilters'
       );
     } catch (error) {
-      // Handle error
+      commit(types.CLEAR_LIST_LOADING_STATUS);
     }
   },
 

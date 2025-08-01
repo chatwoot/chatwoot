@@ -11,8 +11,14 @@ import {
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
-import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
+import {
+  createTemporaryMessage,
+  getNonDeletedMessages,
+  containsURL,
+} from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+import { event } from 'vue-gtag';
+
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -35,13 +41,23 @@ export const actions = {
     const message = createTemporaryMessage({ content, replyTo });
     dispatch('sendMessageWithData', message);
   },
-  sendMessageWithData: async ({ commit }, message) => {
+  sendMessageWithData: async ({ commit, state }, message) => {
     const { id, content, replyTo, meta = {} } = message;
 
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
       const { data } = await sendMessageAPI(content, replyTo);
+
+      const payload = {
+        message_length: data.content.length,
+        campaign_id: state.activeCampaign?.id,
+        contains_url: containsURL(data.content),
+        conversation_id: data.conversation_id,
+      };
+      // TODO: remove console.log after verification
+      console.log('chat_message_sent, text', payload);
+      event('chat_message_sent', payload);
 
       // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
       // commit('deleteMessage', message.id);
@@ -59,7 +75,7 @@ export const actions = {
     commit('setLastMessageId');
   },
 
-  sendAttachment: async ({ commit }, params) => {
+  sendAttachment: async ({ commit, state }, params) => {
     const {
       attachment: { thumbUrl, fileType },
       meta = {},
@@ -77,6 +93,17 @@ export const actions = {
     commit('pushMessageToConversation', tempMessage);
     try {
       const { data } = await sendAttachmentAPI(params);
+
+      const firstAttachment = data.attachments?.[0];
+      const payload = {
+        attachment: firstAttachment?.data_url,
+        campaign_id: state.activeCampaign?.id,
+        conversation_id: data.conversation_id,
+      };
+      // TODO: remove console.log after verification
+      console.log('chat_message_sent, attachment', payload);
+      event('chat_message_sent', payload);
+
       commit('updateAttachmentMessageStatus', {
         message: data,
         tempId: tempMessage.id,

@@ -227,6 +227,11 @@ Rails.application.routes.draw do
                 get :list_all_channels
               end
             end
+            resource :hubspot, controller: 'hubspot', only: [:create, :destroy] do
+              collection do
+                post :auth
+              end
+            end
             resource :dyte, controller: 'dyte', only: [] do
               collection do
                 post :create_a_meeting
@@ -267,6 +272,18 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+
+          namespace :dashassist_shopify do
+            resources :stores, only: [:index, :show] do
+              collection do
+                get 'inbox/:inbox_id', to: 'stores#show_by_inbox'
+                get ':shop/exists', to: 'stores#exists', constraints: { shop: /.*/ }
+              end
+              member do
+                post :toggle_chat_bot
+              end
+            end
+          end
         end
       end
       # end of account scoped api routes
@@ -395,6 +412,26 @@ Rails.application.routes.draw do
             end
           end
         end
+      end
+    end
+  end
+
+  # ----------------------------------------------------------------------
+  # Routes for internal APIs
+  namespace :internal, defaults: { format: 'json' } do
+    namespace :api do
+      namespace :v1 do
+        # Agent bot management
+        post 'agent_bots', to: 'internal#create_agent_bot'
+        get 'accounts/:account_id/inboxes/:inbox_id/agent_bot', to: 'internal#get_agent_bot_by_inbox'
+        patch 'accounts/:account_id/agent_bots/:agent_bot_id/name', to: 'internal#update_agent_bot_name'
+        delete 'accounts/:account_id/agent_bots/:agent_bot_id', to: 'internal#delete_agent_bot'
+        
+        # Conversation management
+        post 'accounts/:account_id/conversations/:conversation_id/messages', to: 'internal#send_message_to_conversation'
+        post 'accounts/:account_id/conversations/:conversation_id/assignments', to: 'internal#assign_conversation'
+        post 'accounts/:account_id/conversations/:conversation_id/toggle_status', to: 'internal#toggle_conversation_status'
+        get 'accounts/:account_id/conversations/:conversation_id/messages', to: 'internal#get_conversation_messages'
       end
     end
   end
@@ -536,4 +573,27 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
+
+  namespace :dashassist_shopify do
+    get 'install', to: 'install#index'
+    get 'callback', to: 'install#callback'
+    get 'shopify', to: 'install#index'  # For Shopify App Store installations
+    post 'setup_widget', to: 'install#setup_widget'
+    post 'toggle_widget', to: 'install#toggle_widget'
+    
+    # New routes for non-embedded standalone app
+    namespace :standalone do
+      get 'install', to: 'standalone#index'
+      get 'callback', to: 'standalone#callback'
+      get 'stores/:shop/exists', to: 'standalone#exists', constraints: { shop: /.*/ }
+    end
+    
+    # Compliance webhooks
+    post 'webhooks/customers_data_request', to: 'webhooks#customers_data_request'
+    post 'webhooks/customers_redact', to: 'webhooks#customers_redact'
+    post 'webhooks/shop_redact', to: 'webhooks#shop_redact'
+    post 'webhooks/app_uninstalled', to: 'webhooks#app_uninstalled'
+  end
+
+  get '/widget-loader.js', to: 'widget_loader#show'
 end

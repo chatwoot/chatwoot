@@ -22,6 +22,48 @@ export const setBubbleText = bubbleText => {
 
 export const createBubbleIcon = ({ className, path, target }) => {
   let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
+  if (window.$chatwoot.customBubbleIcon != null) {
+    const img = document.createElement('img');
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'contain';
+    img.style.display = 'flex';
+    img.style.borderRadius = '20%';
+    img.style.padding = '15px';
+    img.style.boxSizing = 'border-box';
+    img.style.backgroundColor = 'transparent';
+    img.style.flexBasis = 'fit-content';
+    
+    img.onerror = (error) => {
+      console.error('Failed to load custom icon:', window.$chatwoot.customBubbleIcon, error);
+      img.remove();
+      createDefaultSVGIcon(target, path);
+    };
+    
+    img.onload = () => {
+      console.log('Successfully loaded custom icon:', window.$chatwoot.customBubbleIcon);
+    };
+
+    img.src = window.$chatwoot.customBubbleIcon;
+    target.appendChild(img);
+  } else {
+    createDefaultSVGIcon(target, path);
+  }
+
+  if (isExpandedView(window.$chatwoot.type)) {
+    const textNode = document.createElement('div');
+    textNode.id = 'woot-widget--expanded__text';
+    textNode.innerText = '';
+    target.appendChild(textNode);
+    bubbleClassName += ' woot-widget--expanded';
+  }
+
+  target.className = bubbleClassName;
+  target.title = 'Open chat window';
+  return target;
+};
+
+const createDefaultSVGIcon = (target, path) => {
   const bubbleIcon = document.createElementNS(
     'http://www.w3.org/2000/svg',
     'svg'
@@ -42,18 +84,6 @@ export const createBubbleIcon = ({ className, path, target }) => {
 
   bubbleIcon.appendChild(bubblePath);
   target.appendChild(bubbleIcon);
-
-  if (isExpandedView(window.$chatwoot.type)) {
-    const textNode = document.createElement('div');
-    textNode.id = 'woot-widget--expanded__text';
-    textNode.innerText = '';
-    target.appendChild(textNode);
-    bubbleClassName += ' woot-widget--expanded';
-  }
-
-  target.className = bubbleClassName;
-  target.title = 'Open chat window';
-  return target;
 };
 
 export const createBubbleHolder = hideMessageBubble => {
@@ -80,6 +110,14 @@ export const onBubbleClick = (props = {}) => {
     if (!newIsOpen) {
       chatBubble.focus();
     }
+
+    const payload = {
+      prev_state: !newIsOpen ? 'open' : 'closed',
+      new_state: newIsOpen ? 'open' : 'closed',
+    };
+    // TODO: remove console.log after verification
+    console.log('chat_bubble_state_changed, onBubbleClick', payload);
+    window.trackGAEvent('chat_bubble_state_changed', payload);
   }
 };
 

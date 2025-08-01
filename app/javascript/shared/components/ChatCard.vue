@@ -14,7 +14,7 @@ export default {
       type: String,
       default: '',
     },
-    mediaUrl: {
+    imageSrc: {
       type: String,
       default: '',
     },
@@ -23,27 +23,98 @@ export default {
       default: () => [],
     },
   },
+  methods: {
+    onImageError(event) {
+      this.imageError = true;
+    },
+  },
+  data() {
+    return {
+      imageError: false,
+    };
+  },
+  mounted() {
+  },
 };
 </script>
 
 <template>
-  <div
-    class="card-message chat-bubble agent bg-n-background dark:bg-n-solid-3 max-w-56 rounded-lg overflow-hidden"
-  >
+  <div class="card-message">
     <img
-      class="w-full object-contain max-h-[150px] rounded-[5px]"
-      :src="mediaUrl"
+      v-if="imageSrc && !imageError"
+      class="card-image"
+      :src="imageSrc"
+      alt="Product image"
+      @error="onImageError"
     />
+    <div v-else class="card-image card-image--placeholder">
+      <span>No Image</span>
+    </div>
     <div class="card-body">
-      <h4
-        class="!text-base !font-medium !mt-1 !mb-1 !leading-[1.5] text-n-slate-12"
-      >
+      <h4 class="card-title">
         {{ title }}
       </h4>
-      <p class="!mb-1 text-n-slate-11">
+      <p class="card-description">
         {{ description }}
       </p>
-      <CardButton v-for="action in actions" :key="action.id" :action="action" />
+      <div class="card-actions">
+        <CardButton v-for="(action, idx) in actions" :key="action.id || action.text || idx" :action="action" :index="idx" />
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.card-message {
+  max-width: 350px;
+  width: 100%;
+  margin: 24px auto;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.card-image {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #6b7280;
+}
+.card-image--placeholder {
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #6b7280;
+}
+.card-body {
+  padding: 20px 20px 16px 20px;
+}
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.card-description {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+.card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+.card-actions .action-button {
+  flex: 1;
+}
+</style>

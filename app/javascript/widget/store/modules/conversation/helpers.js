@@ -53,3 +53,8 @@ export const getNonDeletedMessages = ({ messages }) => {
     item => !(item.content_attributes && item.content_attributes.deleted)
   );
 };
+
+export const containsURL = text => {
+  const urlPattern = /https?:\/\/[^\s]+|www\.[^\s]+/i;
+  return urlPattern.test(text);
+};

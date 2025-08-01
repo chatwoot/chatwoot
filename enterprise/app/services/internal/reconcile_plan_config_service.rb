@@ -50,10 +50,12 @@ class Internal::ReconcilePlanConfigService
   end
 
   def reconcile_premium_features
-    Account.find_in_batches do |accounts|
-      accounts.each do |account|
-        account.disable_features!(*premium_features)
-      end
-    end
+    # Do nothing
+
+    # Account.find_in_batches do |accounts|
+    #   accounts.each do |account|
+    #     account.disable_features!(*premium_features)
+    #   end
+    # end
   end
 end

@@ -1,4 +1,7 @@
 class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
+  include ::ShopifySessionVerification
+  include Shopify::IntegrationHelper
+
   # Prevent session parameter from being passed
   # Unpermitted parameter: session
   wrap_parameters format: []
@@ -8,7 +11,25 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     redirect_to login_page_url(error: 'access-denied')
   end
 
-  def create
+  def create    
+    shopify_request = false
+    # If this is a Shopify installation request, verify HMAC
+    if params[:shop].present? && params[:hmac].present? && params[:timestamp].present?
+      Rails.logger.info('[Shopify Auth] Verifying HMAC for Shopify installation login')
+      
+      # Get all parameters (POST body parameters for login)
+      query_params = params.to_unsafe_h
+      
+      # Verify the HMAC signature
+      unless verify_shopify_installation_hmac(query_params, params[:hmac])
+        Rails.logger.error("[Shopify Auth] Invalid HMAC for shop: #{params[:shop]}")
+        return render json: { error: 'Invalid Shopify HMAC signature' }, status: :unauthorized
+      end
+      
+      shopify_request = true
+      Rails.logger.info("[Shopify Auth] HMAC verification successful for shop: #{params[:shop]}")
+    end
+    
     # Authenticate user via the temporary sso auth token
     if params[:sso_auth_token].present? && @resource.present?
       authenticate_resource_with_sso_token
@@ -16,6 +37,15 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
       render_create_success
     else
       super
+    end
+    
+    # After successful authentication, create Shopify inbox if needed
+    if @resource && shopify_request
+      # check if the shopify domain is already registered
+      if !Dashassist::ShopifyStore.find_by(shop: params[:shop]).present?
+        Rails.logger.info("[Shopify Auth] Shopify domain #{params[:shop]} is not registered")
+        ShopifyInboxCreatorService.new(@resource, params[:shop]).setup_shopify_integration_account_and_inbox
+      end
     end
   end
 

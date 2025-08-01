@@ -19,6 +19,9 @@
       "unassigned": "Unassigned",
       "all": "All"
     },
+    "AI_MANAGED": "Managed by AI",
+    "AI_ESCALATIONS": "Escalated by AI",
+    "MY_INBOX": "My Inbox",
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
         "TEXT": "Open"

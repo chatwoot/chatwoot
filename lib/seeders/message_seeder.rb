@@ -6,7 +6,7 @@ module Seeders::MessageSeeder
       conversation: conversation,
       message_type: :template,
       content_type: :input_email,
-      content: 'Get notified by email'
+      content: 'Please enter your email'
     )
   end
 

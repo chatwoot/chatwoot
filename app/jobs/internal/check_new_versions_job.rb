@@ -2,10 +2,12 @@ class Internal::CheckNewVersionsJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform
-    return unless Rails.env.production?
+    # DONT CHECK FOR NEW VERSIONS IN PRODUCTION
 
-    @instance_info = ChatwootHub.sync_with_hub
-    update_version_info
+    # return unless Rails.env.production?
+
+    # @instance_info = ChatwootHub.sync_with_hub
+    # update_version_info
   end
 
   private

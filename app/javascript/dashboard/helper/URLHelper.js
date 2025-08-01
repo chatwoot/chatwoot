@@ -27,6 +27,12 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/participating/conversations/${id}`;
   } else if (conversationType === 'unattended') {
     url = `accounts/${accountId}/unattended/conversations/${id}`;
+  } else if (conversationType === 'my_inbox') {
+    url = `accounts/${accountId}/my_inbox/conversations/${id}`;
+  } else if (conversationType === 'ai_escalations') {
+    url = `accounts/${accountId}/ai_escalations/conversations/${id}`;
+  } else if (conversationType === 'ai_managed') {
+    url = `accounts/${accountId}/ai_managed/conversations/${id}`;
   }
   return url;
 };
@@ -52,6 +58,10 @@ export const conversationListPageURL = ({
     const urlMap = {
       mention: 'mentions/conversations',
       unattended: 'unattended/conversations',
+      participating: 'participating/conversations',
+      my_inbox: 'my_inbox',
+      ai_escalations: 'ai_escalations',
+      ai_managed: 'ai_managed',
     };
     url = `accounts/${accountId}/${urlMap[conversationType]}`;
   }

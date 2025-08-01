@@ -42,6 +42,9 @@ json.website_token resource.channel.try(:website_token)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 if resource.web_widget?
+  json.widget_bubble_position resource.channel.try(:widget_bubble_position)
+  json.widget_bubble_type resource.channel.try(:widget_bubble_type)
+  json.widget_bubble_launcher_title resource.channel.try(:widget_bubble_launcher_title)
   json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
@@ -107,4 +110,12 @@ json.provider resource.channel.try(:provider)
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+end
+
+### Shopify Store
+if resource.shopify_store.present?
+  json.shopify_store do
+    json.shop resource.shopify_store.shop
+    json.account_id resource.shopify_store.account_id
+  end
 end

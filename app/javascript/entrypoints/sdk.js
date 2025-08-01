@@ -18,10 +18,102 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
-const runSDK = ({ baseUrl, websiteToken }) => {
-  if (window.$chatwoot) {
-    return;
+const DA_GTAG = 'G-0TZXQ9VF8N';
+const DA_DATALAYER = 'daDataLayer';
+
+const initializeGoogleAnalytics = () => {
+  // Only load the google analytics script once to avoid double counting
+  if (!document.querySelector('script[src*="gtag/js?id=' + DA_GTAG + '"]')) {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + DA_GTAG + '&l=' + DA_DATALAYER;
+    document.head.appendChild(script);
   }
+
+  window.daDataLayer = window.daDataLayer || [];
+  function daGtag() { daDataLayer.push(arguments); }
+  window.daGtag = daGtag;
+
+  window.daGtag('js', new Date());
+  window.daGtag('config', DA_GTAG, { name: DA_DATALAYER });
+
+  window.trackGAEvent = (name, params = {}) => {
+    if (window.daGtag) {
+      window.daGtag('event', name, params);
+    } else {
+      console.warn('daGtag is not available.');
+    }
+  };
+};
+
+const runSDK = ({ baseUrl, websiteToken }) => {
+  // Capture the start time
+  const startTime = performance.now();
+
+  // Check for mini-cart form
+  const miniCart = document.querySelector('form.mini-cart');
+  if (miniCart) {
+    console.log('Mini cart found, setting up visibility observer');
+    
+    // Function to check if element is visible
+    const isElementVisible = (element) => {
+      const isHidden = element.getAttribute('aria-hidden') === 'true';
+      console.log('Mini cart visibility check:', {
+        ariaHidden: element.getAttribute('aria-hidden'),
+        isHidden
+      });
+      return !isHidden;
+    };
+
+    // Function to check if we're on mobile
+    const isMobileScreen = () => {
+      return window.matchMedia('(max-width: 768px)').matches;
+    };
+
+    // Function to update chat bubble visibility
+    const updateChatVisibility = () => {
+      console.log('Checking mini-cart visibility...');
+      const isVisible = isElementVisible(miniCart);
+      const isMobile = isMobileScreen();
+      
+      if (isVisible && isMobile) {
+        console.log('Hiding chat bubble - mini-cart is visible on mobile');
+        window.$chatwoot?.toggleBubbleVisibility('hide');
+      } else {
+        console.log('Showing chat bubble - mini-cart is hidden or not on mobile');
+        window.$chatwoot?.toggleBubbleVisibility('show');
+      }
+    };
+
+    // Initial check
+    updateChatVisibility();
+
+    // Set up mutation observer to watch for aria-hidden changes
+    const observer = new MutationObserver((mutations) => {
+      console.log('Mutation detected:', mutations);
+      // Wait for the next animation frame to let the DOM update complete
+      requestAnimationFrame(() => {
+        // Small additional delay to ensure all updates are applied
+        setTimeout(updateChatVisibility, 50);
+      });
+    });
+
+    // Observe the mini-cart form for changes
+    observer.observe(miniCart, {
+      attributes: true,
+      attributeFilter: ['aria-hidden']
+    });
+
+    // Also check on window resize
+    window.addEventListener('resize', () => {
+      requestAnimationFrame(updateChatVisibility);
+    });
+  } else {
+    console.log('No mini cart found on the page');
+  }
+
+  // Initialize Google Analytics
+  initializeGoogleAnalytics();
 
   if (window.Turbo) {
     // if this is a Rails Turbo app
@@ -66,6 +158,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     widgetStyle: getWidgetStyle(chatwootSettings.widgetStyle) || 'standard',
     resetTriggered: false,
     darkMode: getDarkMode(chatwootSettings.darkMode),
+    customBubbleIcon: chatwootSettings.customBubbleIcon || (window.globalConfig?.LOGO_THUMBNAIL ?? baseUrl + '/brand-assets/chat_icon_only.svg'),
 
     toggle(state) {
       IFrameHelper.events.toggleBubble(state);
@@ -201,8 +294,20 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     baseUrl,
     websiteToken,
   });
+
+  // Compute time taken for entire runSDK function to run and page url
+  const loadTimeMs = Math.round(performance.now() - startTime);
+  const pageUrl = window.location.href;
+
+  const payload = {
+    load_time_ms: loadTimeMs,
+    page_url: pageUrl,
+  };
+  // TODO: remove console.log after verification
+  console.log('chat_sdk_loaded', payload);
+  window.trackGAEvent('chat_sdk_loaded', payload);
 };
 
-window.chatwootSDK = {
+window.dashassistSDK = {
   run: runSDK,
 };

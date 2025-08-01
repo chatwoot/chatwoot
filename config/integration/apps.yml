@@ -69,44 +69,44 @@ slack:
   action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:read,channels:manage,channels:join,groups:read,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize,channels:history,groups:history,mpim:history,im:history,files:read,files:write
   hook_type: account
   allow_multiple_hooks: false
-dialogflow:
-  id: dialogflow
-  logo: dialogflow.png
-  i18n_key: dialogflow
-  action: /dialogflow
-  hook_type: inbox
-  allow_multiple_hooks: true
-  settings_json_schema:
-    {
-      'type': 'object',
-      'properties':
-        {
-          'project_id': { 'type': 'string' },
-          'credentials': { 'type': 'object' },
-        },
-      'required': ['project_id', 'credentials'],
-      'additionalProperties': false,
-    }
-  settings_form_schema:
-    [
-      {
-        'label': 'Dialogflow Project ID',
-        'type': 'text',
-        'name': 'project_id',
-        'validation': 'required',
-        'validationName': 'Project Id',
-      },
-      {
-        'label': 'Dialogflow Project Key File',
-        'type': 'textarea',
-        'name': 'credentials',
-        'validation': 'required|JSON',
-        'validationName': 'Credentials',
-        'validation-messages':
-          { 'JSON': 'Invalid JSON', 'required': 'Credentials is required' },
-      },
-    ]
-  visible_properties: ['project_id']
+# dialogflow:
+#   id: dialogflow
+#   logo: dialogflow.png
+#   i18n_key: dialogflow
+#   action: /dialogflow
+#   hook_type: inbox
+#   allow_multiple_hooks: true
+#   settings_json_schema:
+#     {
+#       'type': 'object',
+#       'properties':
+#         {
+#           'project_id': { 'type': 'string' },
+#           'credentials': { 'type': 'object' },
+#         },
+#       'required': ['project_id', 'credentials'],
+#       'additionalProperties': false,
+#     }
+#   settings_form_schema:
+#     [
+#       {
+#         'label': 'Dialogflow Project ID',
+#         'type': 'text',
+#         'name': 'project_id',
+#         'validation': 'required',
+#         'validationName': 'Project Id',
+#       },
+#       {
+#         'label': 'Dialogflow Project Key File',
+#         'type': 'textarea',
+#         'name': 'credentials',
+#         'validation': 'required|JSON',
+#         'validationName': 'Credentials',
+#         'validation-messages':
+#           { 'JSON': 'Invalid JSON', 'required': 'Credentials is required' },
+#       },
+#     ]
+#   visible_properties: ['project_id']
 google_translate:
   id: google_translate
   logo: google-translate.png
@@ -180,9 +180,40 @@ dyte:
     ]
   visible_properties: ['organization_id']
 
-shopify:
-  id: shopify
-  logo: shopify.png
-  i18n_key: shopify
+# shopify:
+#   id: shopify
+#   logo: shopify.png
+#   i18n_key: shopify
+#   hook_type: account
+#   allow_multiple_hooks: false
+
+hubspot:
+  id: hubspot
+  logo: hubspot.png
+  i18n_key: hubspot
+  action: /hubspot
   hook_type: account
   allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties': {
+        'access_token': { 'type': 'string' }
+      },
+      'required': ['access_token'],
+      'additionalProperties': false
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'HubSpot Private App Access Token',
+        'type': 'password',
+        'name': 'access_token',
+        'validation': 'required',
+        'validationName': 'Access Token',
+        'validation-messages': {
+          'required': 'Access Token is required'
+        }
+      }
+    ]
+  visible_properties: ['access_token']

@@ -172,8 +172,8 @@ sq:
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} typically replies in a few hours.'
-      ways_to_reach_you_message_body: 'Give the team a way to reach you.'
-      email_input_box_message_body: 'Get notified by email'
+      ways_to_reach_you_message_body: 'Before we connect you with our AI agent, please give us your email so our team has a way to contact you.'
+      email_input_box_message_body: 'Please enter your email'
       csat_input_message_body: 'Please rate the conversation'
     reply:
       email:

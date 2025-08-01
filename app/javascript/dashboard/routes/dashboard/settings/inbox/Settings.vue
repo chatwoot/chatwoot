@@ -19,6 +19,7 @@ import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ShopifySettings from './settingsPage/ShopifySettings.vue';
 
 export default {
   components: {
@@ -36,6 +37,7 @@ export default {
     MicrosoftReauthorize,
     GoogleReauthorize,
     NextButton,
+    ShopifySettings,
   },
   mixins: [inboxMixin],
   setup() {
@@ -139,8 +141,7 @@ export default {
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.AGENT_BOTS
-        ) &&
-        !(this.isAnEmailChannel || this.isATwitterInbox)
+        )
       ) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
@@ -150,6 +151,18 @@ export default {
           },
         ];
       }
+
+      // Add Shopify settings tab only if the inbox has an associated Shopify store
+      if (this.inbox.shopify_store) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'shopifySettings',
+            name: this.$t('INBOX_MGMT.TABS.SHOPIFY_SETTINGS'),
+          },
+        ];
+      }
+
       return visibleToAllChannelTabs;
     },
     currentInboxId() {
@@ -231,6 +244,15 @@ export default {
     this.fetchPortals();
   },
   methods: {
+    setInitialTab() {
+      const tabParam = this.$route.query.tab;
+      if (tabParam) {
+        const tabIndex = this.tabs.findIndex(tab => tab.key === tabParam);
+        if (tabIndex !== -1) {
+          this.selectedTabIndex = tabIndex;
+        }
+      }
+    },
     fetchPortals() {
       this.$store.dispatch('portals/index');
     },
@@ -278,6 +300,11 @@ export default {
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
           : '';
+        
+        // Call setInitialTab after all inbox data is loaded
+        this.$nextTick(() => {
+          this.setInitialTab();
+        });
       });
     },
     async updateInbox() {
@@ -793,6 +820,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'botConfiguration'">
         <BotConfiguration :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'shopifySettings'">
+        <ShopifySettings :inbox="inbox" />
       </div>
     </section>
   </div>

@@ -311,20 +311,12 @@ export default {
     </div>
     <div v-if="isAttributeTypeList">
       <MultiselectDropdown
+        v-model="selectedItem"
         :options="listOptions"
-        :selected-item="selectedItem"
         :has-thumbnail="false"
-        :multiselector-placeholder="
-          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.PLACEHOLDER')
-        "
-        :no-search-result="
-          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.NO_RESULT')
-        "
-        :input-placeholder="
-          $t(
-            'CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.SEARCH_INPUT_PLACEHOLDER'
-          )
-        "
+        :multiselector-placeholder="$t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.PLACEHOLDER')"
+        :no-search-result="$t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.NO_RESULT')"
+        :input-placeholder="$t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.SEARCH_INPUT_PLACEHOLDER')"
         @select="onUpdateListValue"
       />
     </div>

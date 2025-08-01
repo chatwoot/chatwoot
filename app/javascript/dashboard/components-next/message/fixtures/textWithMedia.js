@@ -118,7 +118,7 @@ export default camelcaseKeys(
     },
     {
       id: 5297,
-      content: 'Give the team a way to reach you.',
+      content: 'Before we connect you with our AI agent, please give us your email so our team has a way to contact you.',
       inbox_id: 486,
       conversation_id: 1016,
       message_type: 3,
@@ -131,7 +131,7 @@ export default camelcaseKeys(
     },
     {
       id: 5298,
-      content: 'Get notified by email',
+      content: 'Please enter your email',
       inbox_id: 486,
       conversation_id: 1016,
       message_type: 3,

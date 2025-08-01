@@ -85,7 +85,7 @@ const handlePageChange = event => {
           </div>
 
           <div
-            v-if="!showPaywall"
+            v-if="!showPaywall && buttonLabel"
             v-on-clickaway="() => emit('close')"
             class="relative group/campaign-button"
           >

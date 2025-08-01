@@ -53,6 +53,11 @@ class AccountBuilder
   def create_account
     @account = Account.create!(name: account_name, locale: I18n.locale)
     Current.account = @account
+    
+    # Call agent manager service to create customer
+    call_agent_manager_service
+
+    @account
   end
 
   def create_and_link_user
@@ -80,6 +85,24 @@ class AccountBuilder
     @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
     @user.save!
+  end
+
+  def call_agent_manager_service
+    Rails.logger.info("[AccountBuilder] Calling agent manager service for account: #{@account.id}")
+    
+    begin
+      agent_manager_service = AgentManagerService.new(@account)
+      result = agent_manager_service.create_customer
+      
+      if result
+        Rails.logger.info("[AccountBuilder] Successfully called agent manager service for account: #{@account.id}")
+      else
+        Rails.logger.warn("[AccountBuilder] Failed to call agent manager service for account: #{@account.id}")
+      end
+    rescue StandardError => e
+      Rails.logger.error("[AccountBuilder] Error calling agent manager service for account: #{@account.id}. Error: #{e.message}")
+      # Don't raise the error to avoid breaking account creation
+    end
   end
 
   def domain_blocked?

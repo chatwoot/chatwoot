@@ -125,6 +125,7 @@ export default {
             <UserMessageBubble
               v-if="showTextBubble"
               :message="message.content"
+              :message-id="message.id"
               :status="message.status"
               :widget-color="widgetColor"
             />

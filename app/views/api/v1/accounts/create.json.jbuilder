@@ -6,6 +6,8 @@ json.data do
   json.display_name resource.display_name
   json.email resource.email
   json.account_id @account.id
+  shopify_store = Dashassist::ShopifyStore.find_by(account_id: @account.id)
+  json.inbox_id shopify_store&.inbox_id
   json.created_at resource.created_at
   json.pubsub_token resource.pubsub_token
   json.role resource.active_account_user&.role

@@ -161,22 +161,28 @@ const menuItems = computed(() => {
       icon: 'i-lucide-message-circle',
       children: [
         {
+          name: 'My Inbox',
+          label: t('SIDEBAR.INBOX'),
+          to: accountScopedRoute('my_inbox'),
+          activeOn: ['my_inbox_conversation', 'my_inbox'],
+        },
+        {
+          name: 'AI Escalations',
+          label: t('SIDEBAR.AI_ESCALATIONS'),
+          to: accountScopedRoute('ai_escalations'),
+          activeOn: ['ai_escalations_conversation', 'ai_escalations'],
+        },
+        {
+          name: 'AI Managed',
+          label: t('SIDEBAR.AI_MANAGED'),
+          to: accountScopedRoute('ai_managed'),
+          activeOn: ['ai_managed_conversation', 'ai_managed'],
+        },
+        {
           name: 'All',
           label: t('SIDEBAR.ALL_CONVERSATIONS'),
           activeOn: ['inbox_conversation'],
           to: accountScopedRoute('home'),
-        },
-        {
-          name: 'Mentions',
-          label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
-          activeOn: ['conversation_through_mentions'],
-          to: accountScopedRoute('conversation_mentions'),
-        },
-        {
-          name: 'Unattended',
-          activeOn: ['conversation_through_unattended'],
-          label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
-          to: accountScopedRoute('conversation_unattended'),
         },
         {
           name: 'Folders',
@@ -252,9 +258,9 @@ const menuItems = computed(() => {
           to: accountScopedRoute('captain_documents_index'),
         },
         {
-          name: 'Responses',
-          label: t('SIDEBAR.CAPTAIN_RESPONSES'),
-          to: accountScopedRoute('captain_responses_index'),
+          name: 'Tools',
+          label: t('SIDEBAR.CAPTAIN_TOOLS'),
+          to: accountScopedRoute('captain_tools_index'),
         },
       ],
     },
@@ -459,12 +465,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-workflow',
           to: accountScopedRoute('automation_list'),
         },
-        {
-          name: 'Settings Agent Bots',
-          label: t('SIDEBAR.AGENT_BOTS'),
-          icon: 'i-lucide-bot',
-          to: accountScopedRoute('agent_bots'),
-        },
+        // {
+        //   name: 'Settings Agent Bots',
+        //   label: t('SIDEBAR.AGENT_BOTS'),
+        //   icon: 'i-lucide-bot',
+        //   to: accountScopedRoute('agent_bots'),
+        // },
         {
           name: 'Settings Macros',
           label: t('SIDEBAR.MACROS'),
@@ -477,12 +483,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-message-square-quote',
           to: accountScopedRoute('canned_list'),
         },
-        {
-          name: 'Settings Integrations',
-          label: t('SIDEBAR.INTEGRATIONS'),
-          icon: 'i-lucide-blocks',
-          to: accountScopedRoute('settings_applications'),
-        },
+        // {
+        //   name: 'Settings Integrations',
+        //   label: t('SIDEBAR.INTEGRATIONS'),
+        //   icon: 'i-lucide-blocks',
+        //   to: accountScopedRoute('settings_applications'),
+        // },
         {
           name: 'Settings Audit Logs',
           label: t('SIDEBAR.AUDIT_LOGS'),

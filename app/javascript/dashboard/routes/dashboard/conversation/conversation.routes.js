@@ -13,6 +13,33 @@ const CONVERSATION_PERMISSIONS = [
 export default {
   routes: [
     {
+      path: frontendURL('accounts/:accountId/my_inbox'),
+      name: 'my_inbox',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: () => ({ conversationType: 'my_inbox' }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/ai_escalations'),
+      name: 'ai_escalations',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: () => ({ conversationType: 'ai_escalations' }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/ai_managed'),
+      name: 'ai_managed',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: () => ({ conversationType: 'ai_managed' }),
+    },
+    {
       path: frontendURL('accounts/:accountId/dashboard'),
       name: 'home',
       meta: {
@@ -197,6 +224,42 @@ export default {
       props: route => ({
         conversationId: route.params.conversationId,
         conversationType: 'participating',
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/my_inbox/conversations/:conversation_id'),
+      name: 'my_inbox_conversation',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversation_id,
+        conversationType: 'my_inbox',
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/ai_escalations/conversations/:conversation_id'),
+      name: 'ai_escalations_conversation',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversation_id,
+        conversationType: 'ai_escalations',
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/ai_managed/conversations/:conversation_id'),
+      name: 'ai_managed_conversation',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversation_id,
+        conversationType: 'ai_managed',
       }),
     },
   ],

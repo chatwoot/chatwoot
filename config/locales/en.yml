@@ -187,8 +187,8 @@ en:
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} typically replies in a few hours.'
-      ways_to_reach_you_message_body: 'Give the team a way to reach you.'
-      email_input_box_message_body: 'Get notified by email'
+      ways_to_reach_you_message_body: 'Before we connect you with our AI agent, please give us your email so our team has a way to contact you.'
+      email_input_box_message_body: 'Please enter your email'
       csat_input_message_body: 'Please rate the conversation'
     reply:
       email:
@@ -216,6 +216,9 @@ en:
       name: 'Dyte'
       description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
       meeting_name: '%{agent_name} has started a meeting'
+    hubspot:
+      name: 'HubSpot'
+      description: 'HubSpot is a CRM platform that helps you connect with your customers. Integrating it with Chatwoot allows you to sync conversations and contacts between both platforms.'
     slack:
       name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."

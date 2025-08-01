@@ -4,6 +4,8 @@ module.exports = {
     'prettier',
     'plugin:vue/vue3-recommended',
     'plugin:vitest-globals/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
     // use recommended-legacy when upgrading the plugin to v4
     'plugin:@intlify/vue-i18n/recommended',
   ],
@@ -28,11 +30,27 @@ module.exports = {
         'no-console': 'off',
       },
     },
+    {
+      files: ['**/*.jsx', '**/*.tsx'],
+      extends: ['plugin:react/recommended', 'plugin:react-hooks/recommended'],
+      rules: {
+        'react/prop-types': 'off', // Since we're using TypeScript
+        'react/react-in-jsx-scope': 'off', // Not needed in modern React
+      },
+    },
   ],
-  plugins: ['html', 'prettier'],
+  plugins: ['html', 'prettier', 'react', 'react-hooks'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
   },
   rules: {
     'prettier/prettier': ['error'],

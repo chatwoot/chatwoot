@@ -19,7 +19,7 @@ import { documentsList } from 'dashboard/components-next/captain/pageComponents/
           :name="doc.name"
           :external-link="doc.external_link"
           :assistant="doc.assistant"
-          :created-at="doc.created_at"
+          :created-at="doc.created_at ? Date.parse(doc.created_at) : Date.now()"
         />
       </div>
     </Variant>

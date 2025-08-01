@@ -112,6 +112,7 @@ const getInReplyToMessage = parentMessage => {
         :group-with-next="shouldGroupWithNext(index, allMessages)"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
+        :current-account-id="message.account_id"
         data-clarity-mask="True"
       />
     </template>

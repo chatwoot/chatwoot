@@ -30,7 +30,7 @@ export default {
       }
       return this.isOnline
         ? this.replyTimeStatus
-        : this.$t('TEAM_AVAILABILITY.OFFLINE');
+        : this.$t('TEAM_AVAILABILITY.REPLY');
     },
     outOfOfficeMessage() {
       return this.channelConfig.outOfOfficeMessage;

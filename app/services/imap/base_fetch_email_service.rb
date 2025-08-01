@@ -106,9 +106,42 @@ class Imap::BaseFetchEmailService
   end
 
   def build_imap_client
-    imap = Net::IMAP.new(channel.imap_address, port: channel.imap_port, ssl: true)
-    imap.authenticate(authentication_type, channel.imap_login, imap_password)
-    imap.select('INBOX')
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Starting IMAP connection"
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Server: #{channel.imap_address}:#{channel.imap_port}"
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] SSL: #{channel.imap_enable_ssl}"
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Login: #{channel.imap_login}"
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Auth type: #{authentication_type}"
+
+    imap = Net::IMAP.new(channel.imap_address, port: channel.imap_port, ssl: channel.imap_enable_ssl)
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Connected to server"
+
+    # Check server capabilities
+    capabilities = imap.capability
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Server capabilities: #{capabilities.join(', ')}"
+
+    begin
+      if authentication_type == 'LOGIN'
+        Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Attempting LOGIN authentication"
+        imap.login(channel.imap_login, imap_password)
+      else
+        Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Attempting PLAIN authentication"
+        imap.authenticate(authentication_type, channel.imap_login, imap_password)
+      end
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Authentication successful"
+    rescue Net::IMAP::Error => e
+      Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Authentication failed: #{e.message}"
+      raise
+    end
+
+    # Select INBOX folder
+    begin
+      imap.select('INBOX')
+      Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Selected INBOX folder"
+    rescue Net::IMAP::Error => e
+      Rails.logger.error "[IMAP::FETCH_EMAIL_SERVICE] Failed to select INBOX: #{e.message}"
+      raise
+    end
+
     imap
   end
 

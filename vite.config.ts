@@ -22,6 +22,7 @@ import { defineConfig } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+import react from '@vitejs/plugin-react';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
 const isTestMode = process.env.TEST === 'true';
@@ -34,16 +35,29 @@ const vueOptions = {
   },
 };
 
-let plugins = [ruby(), vue(vueOptions)];
+let plugins = [ruby(), vue(vueOptions), react()];
 
 if (isLibraryMode) {
   plugins = [];
 } else if (isTestMode) {
-  plugins = [vue(vueOptions)];
+  plugins = [vue(vueOptions), react()];
 }
 
 export default defineConfig({
   plugins: plugins,
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Add include paths for Sass to search when resolving imports
+        includePaths: [
+          path.resolve(__dirname, './app/javascript/widget/assets/scss'),
+          path.resolve(__dirname, './app/javascript/shared/assets/scss'),
+          path.resolve(__dirname, './node_modules'),
+          // Add any other paths where your scss files might be located
+        ],
+      },
+    },
+  },
   build: {
     rollupOptions: {
       output: {
@@ -83,7 +97,9 @@ export default defineConfig({
       survey: path.resolve('./app/javascript/survey'),
       widget: path.resolve('./app/javascript/widget'),
       assets: path.resolve('./app/javascript/dashboard/assets'),
+      reset: path.resolve('./app/javascript/widget/assets/scss/reset.scss'),
     },
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue', '.scss'],
   },
   test: {
     environment: 'jsdom',
@@ -107,5 +123,8 @@ export default defineConfig({
     setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
     mockReset: true,
     clearMocks: true,
+  },
+  optimizeDeps: {
+    include: ['@heroui/react'],
   },
 });

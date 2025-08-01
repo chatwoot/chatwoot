@@ -4,11 +4,11 @@ import { frontendURL } from '../../../helper/URLHelper';
 import AssistantIndex from './assistants/Index.vue';
 import AssistantInboxesIndex from './assistants/inboxes/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
-import ResponsesIndex from './responses/Index.vue';
+import ToolsIndex from './tools/Index.vue';
 
 export const routes = [
   {
-    path: frontendURL('accounts/:accountId/captain/assistants'),
+    path: frontendURL('accounts/:accountId/aiagent/assistants'),
     component: AssistantIndex,
     name: 'captain_assistants_index',
     meta: {
@@ -22,7 +22,7 @@ export const routes = [
   },
   {
     path: frontendURL(
-      'accounts/:accountId/captain/assistants/:assistantId/inboxes'
+      'accounts/:accountId/aiagent/assistants/:assistantId/inboxes'
     ),
     component: AssistantInboxesIndex,
     name: 'captain_assistants_inboxes_index',
@@ -36,7 +36,7 @@ export const routes = [
     },
   },
   {
-    path: frontendURL('accounts/:accountId/captain/documents'),
+    path: frontendURL('accounts/:accountId/aiagent/documents'),
     component: DocumentsIndex,
     name: 'captain_documents_index',
     meta: {
@@ -49,9 +49,9 @@ export const routes = [
     },
   },
   {
-    path: frontendURL('accounts/:accountId/captain/responses'),
-    component: ResponsesIndex,
-    name: 'captain_responses_index',
+    path: frontendURL('accounts/:accountId/aiagent/tools'),
+    component: ToolsIndex,
+    name: 'captain_tools_index',
     meta: {
       permissions: ['administrator', 'agent'],
       featureFlag: FEATURE_FLAGS.CAPTAIN,

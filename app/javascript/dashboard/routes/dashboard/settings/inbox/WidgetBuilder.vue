@@ -160,6 +160,9 @@ export default {
         widget_color,
         reply_time,
         avatar_url,
+        widget_bubble_position,
+        widget_bubble_type,
+        widget_bubble_launcher_title
       } = this.inbox;
       this.websiteName = name;
       this.welcomeHeading = welcome_title;
@@ -168,25 +171,37 @@ export default {
       this.replyTime = reply_time;
       this.avatarUrl = avatar_url;
 
-      const savedInformation = this.getSavedInboxInformation();
-      if (savedInformation) {
-        this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
-          if (item.id === savedInformation.position) {
-            item.checked = true;
-            this.widgetBubblePosition = item.id;
-          }
-          return item;
+      // Use backend data if available
+      if (widget_bubble_position || widget_bubble_type || widget_bubble_launcher_title) {
+        this.widgetBubblePosition = widget_bubble_position;
+        this.widgetBubbleType = widget_bubble_type;
+        this.widgetBubbleLauncherTitle = widget_bubble_launcher_title;
+        
+        // Update localStorage with backend data
+        LocalStorage.set(this.storageKey, {
+          position: widget_bubble_position,
+          type: widget_bubble_type,
+          launcherTitle: widget_bubble_launcher_title
         });
-        this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
-          if (item.id === savedInformation.type) {
-            item.checked = true;
-            this.widgetBubbleType = item.id;
-          }
-          return item;
-        });
-        this.widgetBubbleLauncherTitle =
-          savedInformation.launcherTitle || 'Chat with us';
+      } else {
+        // Fallback to localStorage if no backend data
+        const savedInformation = this.getSavedInboxInformation();
+        if (savedInformation) {
+          this.widgetBubblePosition = savedInformation.position;
+          this.widgetBubbleType = savedInformation.type;
+          this.widgetBubbleLauncherTitle = savedInformation.launcherTitle;
+        }
       }
+
+      // Update UI state
+      this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
+        item.checked = item.id === this.widgetBubblePosition;
+        return item;
+      });
+      this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
+        item.checked = item.id === this.widgetBubbleType;
+        return item;
+      });
     },
     handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
@@ -239,6 +254,9 @@ export default {
             welcome_title: this.welcomeHeading,
             welcome_tagline: this.welcomeTagline,
             reply_time: this.replyTime,
+            widget_bubble_position: this.widgetBubblePosition,
+            widget_bubble_type: this.widgetBubbleType,
+            widget_bubble_launcher_title: this.widgetBubbleLauncherTitle,
           },
         };
         if (this.avatarFile) {

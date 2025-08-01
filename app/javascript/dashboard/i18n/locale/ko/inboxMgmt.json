@@ -471,7 +471,8 @@
       "PRE_CHAT_FORM": "대화 전 설문",
       "BUSINESS_HOURS": "영업시간",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot Configuration",
+      "SHOPIFY_SETTINGS": "Shopify Settings"
     },
     "SETTINGS": "설정",
     "FEATURES": {
@@ -522,7 +523,16 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "업데이트",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings",
+      "SHOPIFY_SETTINGS": "Shopify Store Information",
+      "SHOPIFY_SETTINGS_DESCRIPTION": "Manage your Shopify store integration settings",
+      "NO_SHOPIFY_STORE": "No Shopify store is associated with this inbox",
+      "SHOPIFY_CHAT_BOT": "Shopify Chat Bot",
+      "SHOPIFY_CHAT_BOT_DESCRIPTION": "Enable or disable the AI chat bot for your Shopify store",
+      "ENABLE_CHAT_BOT": "Enable Chat Bot",
+      "DISABLE_CHAT_BOT": "Disable Chat Bot",
+      "CHAT_BOT_UPDATED": "Chat bot settings updated successfully",
+      "CHAT_BOT_UPDATE_ERROR": "Failed to update chat bot settings"
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",

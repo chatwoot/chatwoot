@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -103,4 +105,7 @@ Rails.application.configure do
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+
+  # Agent Manager Service Configuration
+  config.agent_manager_service_endpoint = ENV.fetch('AGENT_MANAGER_SERVICE_ENDPOINT', 'http://agent-manager.default.svc.cluster.local:8000/api/v1')
 end

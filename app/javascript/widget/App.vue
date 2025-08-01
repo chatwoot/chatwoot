@@ -22,6 +22,13 @@ import {
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { configure, event } from 'vue-gtag';
+
+configure({
+  tagId: 'G-0TZXQ9VF8N',
+  gtagName: 'daGtag',
+  dataLayerName: 'daDataLayer',
+});
 
 export default {
   name: 'App',
@@ -37,6 +44,7 @@ export default {
     return {
       isMobile: false,
       campaignsSnoozedTill: undefined,
+      appLoadTime: null,
     };
   },
   computed: {
@@ -51,6 +59,7 @@ export default {
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
       showUnreadMessagesDialog: 'appConfig/getShowUnreadMessagesDialog',
+      lastMessage: 'conversation/getLastMessage',
     }),
     isIFrame() {
       return IFrameHelper.isIFrame();
@@ -76,6 +85,11 @@ export default {
     },
   },
   mounted() {
+    // Capture the time when conversation is loaded
+    this.appLoadTime = Date.now();
+    // Add the event listener when page is closing
+    window.addEventListener('beforeunload', this.sendDurationEvent);
+
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
@@ -95,6 +109,9 @@ export default {
     this.$store.dispatch('conversationAttributes/getAttributes');
     this.registerUnreadEvents();
     this.registerCampaignEvents();
+  },
+  beforeUnmount() {
+    window.removeEventListener('beforeunload', this.sendDurationEvent);
   },
   methods: {
     ...mapActions('appConfig', [
@@ -171,6 +188,16 @@ export default {
           });
         }
         this.unsetUnreadView();
+
+        const payload = {
+          prev_state: 'closed',
+          new_state: 'open',
+          campaign_msg: this.activeCampaign.message,
+          campaign_id: this.activeCampaign.id,
+        };
+        // TODO: remove console.log after verification
+        console.log('chat_bubble_state_changed, campaign', payload);
+        event('chat_bubble_state_changed', payload);
       });
       emitter.on('execute-campaign', campaignDetails => {
         const { customAttributes, campaignId } = campaignDetails;
@@ -196,6 +223,17 @@ export default {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
+
+        let payload = {
+          campaign_id: activeCampaign.id,
+          trigger_rule: {
+            time_on_page: activeCampaign.timeOnPage,
+            url: activeCampaign.url,
+          },
+        };
+        // TODO: remove console.log after verification
+        console.log('marketing_campaign_initiated', payload);
+        event('marketing_campaign_initiated', payload);
       }
     },
     setUnreadView() {
@@ -340,6 +378,39 @@ export default {
         this.campaignsSnoozedTill = Number(snoozedTill);
       }
     },
+    sendDurationEvent() {
+      if (this.appLoadTime) {
+        const duration = Date.now() - this.appLoadTime;
+        const messageCount = this.messageCount;
+        const lastMessageContent = this.lastMessage?.content || '';
+        const resolution = lastMessageContent.includes(
+          'Transferring you to my manager now. Please hold.'
+        )
+          ? 'resolved'
+          : 'escalated';
+
+        const payload = {
+          total_duration_ms: duration,
+          total_messages: messageCount,
+          resolution: resolution,
+        };
+        // TODO: remove console.log after verification
+        console.log('chat_session_ended', payload);
+        event('chat_session_ended', payload);
+      }
+    },
+  },
+  install: app => {
+    app.config.errorHandler = (err, instance, info) => {
+      const payload = {
+        error_code: info,
+        stack_trace: instance + ': ' + err,
+        network_state: navigator.onLine,
+      };
+      // TODO: remove console.log after verification
+      console.log('chat_error', payload);
+      event('chat_error', payload);
+    };
   },
 };
 </script>

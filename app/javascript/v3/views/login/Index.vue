@@ -126,6 +126,12 @@ export default {
         ssoConversationId: this.ssoConversationId,
       };
 
+      // Add all URL parameters to the API call
+      const urlParams = new URLSearchParams(window.location.search);
+      for (const [key, value] of urlParams.entries()) {
+        credentials[key] = value;
+      }
+
       login(credentials)
         .then(() => {
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
@@ -170,17 +176,10 @@ export default {
         class="hidden w-auto h-8 mx-auto dark:block"
       />
       <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
-        {{
-          useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
-        }}
+        {{ useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName) }}
       </h2>
-      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
-        {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
-          {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
-        </router-link>
-      </p>
     </section>
+    <!-- Regular login form for non-Shopify visitors -->
     <section
       class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
@@ -189,7 +188,7 @@ export default {
       }"
     >
       <div v-if="!email">
-        <GoogleOAuthButton v-if="showGoogleOAuth" />
+        <GoogleOAuthButton v-if="false" />
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
             v-model="credentials.email"
@@ -202,7 +201,8 @@ export default {
             :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
             :has-error="v$.credentials.email.$error"
             @input="v$.credentials.email.$touch"
-          />
+          >
+          </FormInput>
           <FormInput
             v-model="credentials.password"
             type="password"
@@ -231,6 +231,15 @@ export default {
             :button-text="$t('LOGIN.SUBMIT')"
             :loading="loginApi.showLoading"
           />
+          <div v-if="showSignupLink" class="text-center mt-4">
+            <router-link
+              :to="{ name: 'auth_signup', query: $route.query }"
+              class="text-sm text-link"
+              tabindex="5"
+            >
+              {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
+            </router-link>
+          </div>
         </form>
       </div>
       <div v-else class="flex items-center justify-center">

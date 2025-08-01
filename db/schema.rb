@@ -10,13 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_15_202035) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_25_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
   enable_extension "vector"
+
+  create_table "_sqlx_migrations", primary_key: "version", id: :bigint, default: nil, force: :cascade do |t|
+    t.text "description", null: false
+    t.timestamptz "installed_on", default: -> { "now()" }, null: false
+    t.boolean "success", null: false
+    t.binary "checksum", null: false
+    t.bigint "execution_time", null: false
+  end
 
   create_table "access_tokens", force: :cascade do |t|
     t.string "owner_type"
@@ -620,6 +628,39 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_202035) do
     t.index ["account_id"], name: "index_custom_roles_on_account_id"
   end
 
+  create_table "dashassist_shopify_account_mappings", force: :cascade do |t|
+    t.string "shop", null: false
+    t.bigint "account_id"
+    t.bigint "inbox_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_dashassist_shopify_account_mappings_on_account_id"
+    t.index ["inbox_id"], name: "index_dashassist_shopify_account_mappings_on_inbox_id"
+    t.index ["shop"], name: "index_dashassist_shopify_account_mappings_on_shop", unique: true
+  end
+
+  create_table "dashassist_shopify_sessions", force: :cascade do |t|
+    t.string "shop", null: false
+    t.string "access_token", null: false
+    t.datetime "expires_at", null: false
+    t.string "scope", default: [], null: false, array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop"], name: "index_dashassist_shopify_sessions_on_shop", unique: true
+  end
+
+  create_table "dashassist_shopify_stores", force: :cascade do |t|
+    t.string "shop", null: false
+    t.bigint "inbox_id", null: false
+    t.bigint "account_id", null: false
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_dashassist_shopify_stores_on_account_id"
+    t.index ["inbox_id"], name: "index_dashassist_shopify_stores_on_inbox_id"
+    t.index ["shop"], name: "index_dashassist_shopify_stores_on_shop", unique: true
+  end
+
   create_table "dashboard_apps", force: :cascade do |t|
     t.string "title", null: false
     t.jsonb "content", default: []
@@ -1057,6 +1098,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_202035) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
+  create_table "widget_bubble_settings", force: :cascade do |t|
+    t.bigint "channel_web_widget_id", null: false
+    t.string "position", default: "right"
+    t.string "bubble_type", default: "standard"
+    t.string "launcher_title", default: "Chat with us"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_web_widget_id"], name: "index_widget_bubble_settings_on_channel_web_widget_id"
+  end
+
   create_table "working_hours", force: :cascade do |t|
     t.bigint "inbox_id"
     t.bigint "account_id"
@@ -1075,7 +1126,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_15_202035) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "dashassist_shopify_account_mappings", "accounts"
+  add_foreign_key "dashassist_shopify_account_mappings", "inboxes"
+  add_foreign_key "dashassist_shopify_stores", "accounts"
+  add_foreign_key "dashassist_shopify_stores", "inboxes"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "widget_bubble_settings", "channel_web_widgets"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

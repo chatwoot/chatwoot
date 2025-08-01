@@ -1,6 +1,7 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import { event } from 'vue-gtag';
 
 export default {
   name: 'UserMessageBubble',
@@ -8,6 +9,10 @@ export default {
     message: {
       type: String,
       default: '',
+    },
+    messageId: {
+      type: Number,
+      required: true,
     },
     widgetColor: {
       type: String,
@@ -25,6 +30,19 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
   },
+  methods: {
+    handleLinkClick(e) {
+      if (e.target.tagName === 'A') {
+        const payload = {
+          message_id: this.messageId,
+          link_url: e.target.href,
+        };
+        // TODO: remove console.log after verification
+        console.log('conversation_link_clicked', payload);
+        event('conversation_link_clicked', payload);
+      }
+    },
+  },
 };
 </script>
 
@@ -33,6 +51,7 @@ export default {
     v-dompurify-html="formatMessage(message, false)"
     class="chat-bubble user"
     :style="{ background: widgetColor, color: textColor }"
+    @click="handleLinkClick"
   />
 </template>
 

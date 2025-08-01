@@ -37,7 +37,7 @@
   help_url: https://chwt.app/hc/help-center
 - name: agent_bots
   display_name: Agent Bots
-  enabled: false
+  enabled: true
   help_url: https://chwt.app/hc/agent-bots
 - name: macros
   display_name: Macros
@@ -138,7 +138,7 @@
   enabled: false
 - name: captain_integration
   display_name: Captain
-  enabled: false
+  enabled: true
   premium: true
 - name: custom_roles
   display_name: Custom Roles
@@ -146,7 +146,7 @@
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
-  enabled: false
+  enabled: true
 - name: report_v4
   display_name: Report V4
   enabled: false
@@ -156,7 +156,7 @@
   chatwoot_internal: true
 - name: shopify_integration
   display_name: Shopify Integration
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN

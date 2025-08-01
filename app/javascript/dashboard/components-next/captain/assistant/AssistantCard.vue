@@ -8,6 +8,7 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   id: {
@@ -26,6 +27,14 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  enabled: {
+    type: Boolean,
+    default: true,
+  },
+  tone: {
+    type: String,
+    default: 'friendly',
+  },
 });
 
 const emit = defineEmits(['action']);
@@ -36,14 +45,7 @@ const { t } = useI18n();
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const menuItems = computed(() => {
-  const allOptions = [
-    {
-      label: t('CAPTAIN.ASSISTANTS.OPTIONS.VIEW_CONNECTED_INBOXES'),
-      value: 'viewConnectedInboxes',
-      action: 'viewConnectedInboxes',
-      icon: 'i-lucide-link',
-    },
-  ];
+  const allOptions = [];
 
   if (checkPermissions(['administrator'])) {
     allOptions.push(
@@ -67,6 +69,16 @@ const menuItems = computed(() => {
 
 const lastUpdatedAt = computed(() => dynamicTime(props.updatedAt));
 
+const isRecentlyCreated = computed(() => {
+  const now = Date.now();
+  const seventyTwoHours = 72 * 60 * 60 * 1000;
+  
+  const updatedAtMs = props.updatedAt.toString().length === 10 
+    ? props.updatedAt * 1000 
+    : props.updatedAt;
+    return now - updatedAtMs < seventyTwoHours;
+});
+
 const handleAction = ({ action, value }) => {
   toggleDropdown(false);
   emit('action', { action, value, id: props.id });
@@ -76,9 +88,20 @@ const handleAction = ({ action, value }) => {
 <template>
   <CardLayout>
     <div class="flex justify-between w-full gap-1">
-      <span class="text-base text-n-slate-12 line-clamp-1">
-        {{ name }}
-      </span>
+      <div class="flex items-center gap-2">
+        <span class="text-base text-n-slate-12 line-clamp-1">
+          {{ name }}
+        </span>
+        <div v-if="isRecentlyCreated" class="relative group">
+          <Icon
+            icon="i-lucide-clock"
+            class="text-n-slate-11"
+          />
+          <div class="absolute hidden group-hover:block bg-n-slate-1 text-n-slate-12 text-xs p-2 rounded shadow-sm whitespace-nowrap">
+            {{ t('CAPTAIN.ASSISTANTS.PENDING_INDICATOR') }}
+          </div>
+        </div>
+      </div>
       <div class="flex items-center gap-2">
         <div
           v-on-clickaway="() => toggleDropdown(false)"

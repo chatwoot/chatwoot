@@ -109,6 +109,8 @@ const chatLists = useMapGetter('getAllConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
+const aiManagedChatsList = useMapGetter('getAIManagedChats');
+const aiEscalationChatsList = useMapGetter('getAIEscalationChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
@@ -152,6 +154,12 @@ const intersectionObserverOptions = computed(() => {
     root: conversationListRef.value,
     rootMargin: '100px 0px 100px 0px',
   };
+});
+
+const shouldShowChatTypeTabs = computed(() => {
+  if (hasAppliedFiltersOrActiveFolders.value) return false;
+  const mainConversationTypes = ['my_inbox', 'ai_escalations', 'ai_managed'];
+  return !props.conversationType || !mainConversationTypes.includes(props.conversationType);
 });
 
 const hasAppliedFilters = computed(() => {
@@ -262,9 +270,16 @@ const conversationListPagination = computed(() => {
 });
 
 const conversationFilters = computed(() => {
-  return {
+  let assigneeType = activeAssigneeTab.value;
+  // Ensure correct assigneeType for each conversationType tab
+  if (props.conversationType === 'my_inbox') {
+    assigneeType = 'me';
+  } else if (['ai_managed', 'ai_escalations'].includes(props.conversationType)) {
+    assigneeType = 'all';
+  }
+  const filters = {
     inboxId: props.conversationInbox ? props.conversationInbox : undefined,
-    assigneeType: activeAssigneeTab.value,
+    assigneeType,
     status: activeStatus.value,
     sortBy: activeSortBy.value,
     page: conversationListPagination.value,
@@ -272,6 +287,7 @@ const conversationFilters = computed(() => {
     teamId: props.teamId || undefined,
     conversationType: props.conversationType || undefined,
   };
+  return filters;
 });
 
 const activeTeam = computed(() => {
@@ -282,6 +298,15 @@ const activeTeam = computed(() => {
 });
 
 const pageTitle = computed(() => {
+  if (props.conversationType === 'my_inbox') {
+    return t('CHAT_LIST.MY_INBOX');
+  }
+  if (props.conversationType === 'ai_escalations') {
+    return t('CHAT_LIST.AI_ESCALATIONS');
+  }
+  if (props.conversationType === 'ai_managed') {
+    return t('CHAT_LIST.AI_MANAGED');
+  }
   if (hasAppliedFilters.value) {
     return t('CHAT_LIST.TAB_HEADING');
   }
@@ -314,6 +339,19 @@ const conversationList = computed(() => {
 
   if (!hasAppliedFiltersOrActiveFolders.value) {
     const filters = conversationFilters.value;
+    
+    const specificConversationTypes = ['my_inbox', 'ai_escalations', 'ai_managed'];
+    if (specificConversationTypes.includes(props.conversationType)) {
+      if (props.conversationType === 'my_inbox') {
+        localConversationList = [...mineChatsList.value(filters)];
+      } else if (props.conversationType === 'ai_escalations') {
+        localConversationList = [...aiEscalationChatsList.value(filters)];
+      } else if (props.conversationType === 'ai_managed') {
+        localConversationList = [...aiManagedChatsList.value(filters)];
+      }
+      return localConversationList;
+    }
+    
     if (activeAssigneeTab.value === 'me') {
       localConversationList = [...mineChatsList.value(filters)];
     } else if (activeAssigneeTab.value === 'unassigned') {
@@ -548,7 +586,13 @@ function fetchConversations() {
   store.dispatch('fetchAllConversations').then(emitConversationLoaded);
 }
 
+let hasAttemptedInitialFetch = false;
+
 function resetAndFetchData() {
+  if (chatListLoading.value && hasAttemptedInitialFetch) {
+    return;
+  }
+  hasAttemptedInitialFetch = true;
   appliedFilter.value = [];
   resetBulkActions();
   store.dispatch('conversationPage/reset');
@@ -758,19 +802,49 @@ provide('markAsRead', markAsRead);
 provide('assignPriority', assignPriority);
 provide('isConversationSelected', isConversationSelected);
 
-watch(activeTeam, () => resetAndFetchData());
+watch(activeTeam, () => {
+  resetAndFetchData();
+});
 
 watch(
-  computed(() => props.conversationInbox),
-  () => resetAndFetchData()
+  () => props.conversationInbox,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      resetAndFetchData();
+    }
+  }
 );
 watch(
-  computed(() => props.label),
-  () => resetAndFetchData()
+  () => props.label,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      resetAndFetchData();
+    }
+  }
 );
 watch(
-  computed(() => props.conversationType),
-  () => resetAndFetchData()
+  () => props.conversationType,
+  (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+      resetAndFetchData();
+    }
+  }
+);
+
+watch(chatListLoading, (newVal, oldVal) => {
+});
+
+watch(
+  () => props.conversationType,
+  newType => {
+    const specificConversationTypes = ['my_inbox', 'ai_escalations', 'ai_managed'];
+    if (
+      specificConversationTypes.includes(newType) &&
+      activeAssigneeTab.value !== wootConstants.ASSIGNEE_TYPE.ALL
+    ) {
+      activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.ALL;
+    }
+  }
 );
 
 watch(activeFolder, (newVal, oldVal) => {
@@ -793,7 +867,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
 <template>
   <div
-    class="flex flex-col flex-shrink-0 bg-n-solid-1 conversations-list-wrap"
+    class="flex flex-col flex-shrink-0 conversations-list-wrap bg-white dark:bg-slate-900"
     :class="[
       { hidden: !showConversationList },
       isOnExpandedLayout ? 'basis-full' : 'w-[360px] 2xl:w-[420px]',
@@ -832,7 +906,7 @@ watch(conversationFilters, (newVal, oldVal) => {
     />
 
     <ChatTypeTabs
-      v-if="!hasAppliedFiltersOrActiveFolders"
+      v-if="shouldShowChatTypeTabs"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
       is-compact
@@ -861,7 +935,7 @@ watch(conversationFilters, (newVal, oldVal) => {
     />
     <div
       ref="conversationListRef"
-      class="flex-1 overflow-hidden conversations-list hover:overflow-y-auto"
+      class="flex-1 overflow-hidden conversations-list hover:overflow-y-auto bg-white dark:bg-slate-900"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <DynamicScroller

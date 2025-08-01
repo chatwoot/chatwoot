@@ -151,6 +151,10 @@ export const IFrameHelper = {
     loaded: message => {
       updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
       window.$chatwoot.hasLoaded = true;
+      window.$chatwoot.position = message.config.channelConfig.widgetBubblePosition;
+      window.$chatwoot.type = message.config.channelConfig.widgetBubbleType;
+      window.$chatwoot.launcherTitle = message.config.channelConfig.widgetBubbleLauncherTitle;
+
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,

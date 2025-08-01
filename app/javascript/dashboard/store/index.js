@@ -28,6 +28,7 @@ import csat from './modules/csat';
 import customRole from './modules/customRole';
 import customViews from './modules/customViews';
 import dashboardApps from './modules/dashboardApps';
+import dashassistShopify from './modules/dashassist_shopify';
 import draftMessages from './modules/draftMessages';
 import globalConfig from 'shared/store/globalConfig';
 import inboxAssignableAgents from './modules/inboxAssignableAgents';
@@ -52,6 +53,17 @@ import captainResponses from './captain/response';
 import captainInboxes from './captain/inboxes';
 import captainBulkActions from './captain/bulkActions';
 const plugins = [];
+
+// Add a global Vuex error handler
+const errorHandler = (store) => {
+  store.subscribeAction({
+    error: (action, state, error) => {
+      console.error('Vuex Action Error:', action.type, error);
+    },
+  });
+};
+
+plugins.push(errorHandler);
 
 export default createStore({
   modules: {
@@ -83,6 +95,7 @@ export default createStore({
     customRole,
     customViews,
     dashboardApps,
+    dashassistShopify,
     draftMessages,
     globalConfig,
     inboxAssignableAgents,

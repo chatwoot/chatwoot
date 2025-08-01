@@ -4,7 +4,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 const settings = accountId => ({
   parentNav: 'settings',
   routes: [
-    'agent_bots',
+    // 'agent_bots',
     'agent_list',
     'attributes_list',
     'automation_list',
@@ -39,7 +39,6 @@ const settings = accountId => ({
     'settings_teams_list',
     'settings_teams_new',
     'sla_list',
-    'custom_roles_list',
   ],
   menuItems: [
     {
@@ -120,18 +119,18 @@ const settings = accountId => ({
       toStateName: 'automation_list',
       featureFlag: FEATURE_FLAGS.AUTOMATIONS,
     },
-    {
-      icon: 'bot',
-      label: 'AGENT_BOTS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      globalConfigFlag: 'csmlEditorHost',
-      toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
-      toStateName: 'agent_bots',
-      featureFlag: FEATURE_FLAGS.AGENT_BOTS,
-    },
+    // {
+    //   icon: 'bot',
+    //   label: 'AGENT_BOTS',
+    //   hasSubMenu: false,
+    //   meta: {
+    //     permissions: ['administrator'],
+    //   },
+    //   globalConfigFlag: 'csmlEditorHost',
+    //   toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
+    //   toStateName: 'agent_bots',
+    //   featureFlag: FEATURE_FLAGS.AGENT_BOTS,
+    // },
     {
       icon: 'flash-settings',
       label: 'MACROS',
@@ -178,18 +177,6 @@ const settings = accountId => ({
       toStateName: 'auditlogs_list',
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
-    },
-    {
-      icon: 'scan-person',
-      label: 'CUSTOM_ROLES',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
-      toStateName: 'custom_roles_list',
-      isEnterpriseOnly: true,
-      beta: true,
     },
     {
       icon: 'document-list-clock',

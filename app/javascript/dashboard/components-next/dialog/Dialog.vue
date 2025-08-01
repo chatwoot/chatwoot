@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
@@ -90,6 +90,18 @@ const confirm = () => {
   emit('confirm');
 };
 
+const isToastVisible = ref(false);
+
+onMounted(() => {
+  const handler = (e) => {
+    isToastVisible.value = !!e.detail;
+  };
+  window.addEventListener('toast-visible', handler);
+});
+onUnmounted(() => {
+  window.removeEventListener('toast-visible', () => {});
+});
+
 defineExpose({ open, close });
 </script>
 
@@ -97,10 +109,11 @@ defineExpose({ open, close });
   <Teleport to="body">
     <dialog
       ref="dialogRef"
-      class="w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl"
       :class="[
+        'w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl',
         maxWidthClass,
         overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
+        isToastVisible ? 'no-blur-backdrop' : ''
       ]"
       :dir="isRTL ? 'rtl' : 'ltr'"
       @close="close"
@@ -155,5 +168,11 @@ defineExpose({ open, close });
 <style scoped>
 dialog::backdrop {
   @apply bg-n-alpha-black1 backdrop-blur-[4px];
+}
+
+/* Add a class to remove blur for toast visibility */
+.no-blur-backdrop::backdrop {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 </style>

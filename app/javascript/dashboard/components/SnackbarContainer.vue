@@ -38,8 +38,14 @@ export default {
         message,
         action,
       });
+      // Notify toast is visible
+      window.dispatchEvent(new CustomEvent('toast-visible', { detail: true }));
       window.setTimeout(() => {
         this.snackMessages.splice(0, 1);
+        // Notify toast is hidden if no more toasts
+        if (this.snackMessages.length === 0) {
+          window.dispatchEvent(new CustomEvent('toast-visible', { detail: false }));
+        }
       }, duration);
     },
   },

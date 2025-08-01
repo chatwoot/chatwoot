@@ -90,6 +90,9 @@ export const isAConversationRoute = (
     'team_conversations',
     'folder_conversations',
     'conversation_participating',
+    'my_inbox',
+    'ai_escalations',
+    'ai_managed',
   ];
   const extendedRoutes = [
     'inbox_conversation',
@@ -100,6 +103,9 @@ export const isAConversationRoute = (
     'conversations_through_team',
     'conversations_through_folders',
     'conversation_through_participating',
+    'my_inbox_conversation',
+    'ai_escalations_conversation',
+    'ai_managed_conversation',
   ];
 
   const routes = [
@@ -128,6 +134,12 @@ export const getConversationDashboardRoute = routeName => {
       return 'conversation_participating';
     case 'conversation_through_inbox':
       return 'inbox_dashboard';
+    case 'my_inbox_conversation':
+      return 'my_inbox';
+    case 'ai_escalations_conversation':
+      return 'ai_escalations';
+    case 'ai_managed_conversation':
+      return 'ai_managed';
     default:
       return null;
   }

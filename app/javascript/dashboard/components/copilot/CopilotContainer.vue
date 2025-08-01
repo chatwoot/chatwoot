@@ -34,7 +34,13 @@ const activeAssistant = computed(() => {
   if (preferredId) {
     const preferredAssistant = assistants.value.find(a => a.id === preferredId);
     // Return the preferred assistant if found, otherwise continue to next cases
-    if (preferredAssistant) return preferredAssistant;
+    if (preferredAssistant) return {
+      id: preferredAssistant.id,
+      name: preferredAssistant.title,
+      description: preferredAssistant.guidance,
+      enabled: preferredAssistant.enabled,
+      tone: preferredAssistant.tone,
+    };
   }
 
   // If the above is not available, the assistant connected to the inbox takes preference.
@@ -42,10 +48,23 @@ const activeAssistant = computed(() => {
     const inboxMatchedAssistant = assistants.value.find(
       a => a.id === inboxAssistant.value.id
     );
-    if (inboxMatchedAssistant) return inboxMatchedAssistant;
+    if (inboxMatchedAssistant) return {
+      id: inboxMatchedAssistant.id,
+      name: inboxMatchedAssistant.title,
+      description: inboxMatchedAssistant.guidance,
+      enabled: inboxMatchedAssistant.enabled,
+      tone: inboxMatchedAssistant.tone,
+    };
   }
   // If neither of the above is available, the first assistant in the account takes preference.
-  return assistants.value[0];
+  const firstAssistant = assistants.value[0];
+  return firstAssistant ? {
+    id: firstAssistant.id,
+    name: firstAssistant.title,
+    description: firstAssistant.guidance,
+    enabled: firstAssistant.enabled,
+    tone: firstAssistant.tone,
+  } : null;
 });
 
 const setAssistant = async assistant => {

@@ -20,6 +20,11 @@ export default {
       allMessages: 'conversation/getConversation',
     }),
     isUserMessage() {
+      // Always use AgentMessage for card messages, otherwise use UserMessage for incoming
+      // Need to double check when integrate with backend
+      if (this.message.content_type === 'cards') {
+        return false;
+      }
       return this.message.message_type === MESSAGE_TYPE.INCOMING;
     },
     replyTo() {
@@ -31,18 +36,18 @@ export default {
 </script>
 
 <template>
-  <UserMessage
-    v-if="isUserMessage"
-    :id="`cwmsg-${message.id}`"
-    :message="message"
-    :reply-to="replyTo"
-  />
-  <AgentMessage
-    v-else
-    :id="`cwmsg-${message.id}`"
-    :message="message"
-    :reply-to="replyTo"
-  />
+    <UserMessage
+      v-if="isUserMessage"
+      :id="`cwmsg-${message.id}`"
+      :message="message"
+      :reply-to="replyTo"
+    />
+    <AgentMessage
+      v-else
+      :id="`cwmsg-${message.id}`"
+      :message="message"
+      :reply-to="replyTo"
+    />
 </template>
 
 <style scoped lang="scss">

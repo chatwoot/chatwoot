@@ -273,6 +273,8 @@
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Conversations",
     "INBOX": "My Inbox",
+    "AI_ESCALATIONS": "Escalated by AI",
+    "AI_MANAGED": "Managed by AI",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -280,9 +282,10 @@
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN": "AI Agent",
+    "CAPTAIN_ASSISTANTS": "Agents",
     "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_TOOLS": "Tools",
     "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Home",
     "AGENTS": "Agents",
@@ -341,7 +344,8 @@
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Read docs",
+    "AI_AGENT": "AI Agent"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
@@ -359,12 +363,16 @@
       "BUTTON_TXT": "Go to the billing portal"
     },
     "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "TITLE": "AI Agent",
+      "DESCRIPTION": "Manage usage and credits for AI Agent.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "AI Agent is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "TOOLS": {
+        "HEADER": "Tools",
+        "DESCRIPTION": "Enable and configure tools to enhance your AI assistant's capabilities"
+      }
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",

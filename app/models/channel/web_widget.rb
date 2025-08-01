@@ -36,9 +36,18 @@ class Channel::WebWidget < ApplicationRecord
                                               { pre_chat_fields:
                                                 [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,
                                                  :locale, { values: [] }, :regex_pattern, :regex_cue] }] },
-                    { selected_feature_flags: [] }].freeze
+                    { selected_feature_flags: [] },
+                    { widget_bubble_position: [] },
+                    { widget_bubble_type: [] },
+                    { widget_bubble_launcher_title: [] }].freeze
+
+  has_one :widget_bubble_setting, foreign_key: :channel_web_widget_id, dependent: :destroy
+
+  after_create :create_default_bubble_settings
+  after_save :save_widget_bubble_setting
 
   before_validation :validate_pre_chat_options
+
   validates :website_url, presence: true
   validates :widget_color, presence: true
   has_many :portals, foreign_key: 'channel_web_widget_id', dependent: :nullify, inverse_of: :channel_web_widget
@@ -61,22 +70,24 @@ class Channel::WebWidget < ApplicationRecord
 
   def web_widget_script
     "
-    <script>
-      (function(d,t) {
-        var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+\"/packs/js/sdk.js\";
-        g.defer = true;
-        g.async = true;
-        s.parentNode.insertBefore(g,s);
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: '#{website_token}',
-            baseUrl: BASE_URL
-          })
-        }
-      })(document,\"script\");
-    </script>
+    <!--DashAssist Chat Widget Start -->
+      <script>
+        (function(d,t) {
+          var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
+          var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+          g.src=BASE_URL+\"/packs/js/sdk.js\";
+          g.defer = true;
+          g.async = true;
+          s.parentNode.insertBefore(g,s);
+          g.onload=function(){
+            window.dashassistSDK.run({
+              websiteToken: '#{website_token}',
+              baseUrl: BASE_URL
+            })
+          }
+        })(document,\"script\");
+      </script>
+    <!--DashAssist Chat Widget End -->
     "
   end
 
@@ -104,5 +115,50 @@ class Channel::WebWidget < ApplicationRecord
                                            inbox: inbox,
                                            contact_attributes: { additional_attributes: additional_attributes }
                                          }).perform
+  end
+
+  def widget_bubble_position=(value)
+    build_widget_bubble_setting if widget_bubble_setting.nil?
+    widget_bubble_setting.position = value
+  end
+
+  def widget_bubble_type=(value)
+    build_widget_bubble_setting if widget_bubble_setting.nil?
+    widget_bubble_setting.bubble_type = value
+  end
+
+  def widget_bubble_launcher_title=(value)
+    build_widget_bubble_setting if widget_bubble_setting.nil?
+    widget_bubble_setting.launcher_title = value
+  end
+
+  def widget_bubble_position
+    widget_bubble_setting.position
+  end
+
+  def widget_bubble_type
+    widget_bubble_setting.bubble_type
+  end
+
+  def widget_bubble_launcher_title
+    widget_bubble_setting.launcher_title
+  end
+
+  def as_json(options = {})
+    super(options).merge(
+      widget_bubble_position: position,
+      widget_bubble_type: bubble_type,
+      widget_bubble_launcher_title: launcher_title
+    )
+  end
+
+  private
+
+  def save_widget_bubble_setting
+    widget_bubble_setting&.save!
+  end
+
+  def create_default_bubble_settings
+    create_widget_bubble_setting!(WidgetBubbleSetting.default_settings)
   end
 end

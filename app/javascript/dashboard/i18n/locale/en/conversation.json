@@ -81,7 +81,14 @@
         "RT": "RT {status}",
         "MISSED": "missed",
         "DUE": "due"
-      }
+      },
+      "STATUS_LABEL": {
+        "CLOSED": "Closed",
+        "AI_MANAGED": "Open - AI managed",
+        "OPEN": "Open",
+        "UNASSIGNED": "Unassigned"
+      },
+      "ASSIGN_TO_ME": "Assign to me"
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",

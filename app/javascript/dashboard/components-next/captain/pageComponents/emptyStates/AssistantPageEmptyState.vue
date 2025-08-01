@@ -13,14 +13,6 @@ const onClick = () => {
 </script>
 
 <template>
-  <FeatureSpotlight
-    :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
-    :note="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
-    fallback-thumbnail="/assets/images/dashboard/captain/assistant-light.svg"
-    fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-dark.svg"
-    learn-more-url="https://chwt.app/captain-assistant"
-    class="mb-8"
-  />
   <EmptyStateLayout
     :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.TITLE')"
     :subtitle="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.SUBTITLE')"

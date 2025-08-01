@@ -56,7 +56,12 @@
       "BUTTON_TEXT": "Disconnect"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details",
+      "HUBSPOT": "HubSpot is a CRM platform that helps you connect with your customers. Integrating it with {installationName} allows you to sync conversations and contacts between both platforms. To add HubSpot, you'll need to generate an access token from your HubSpot account."
+    },
+    "HUBSPOT": {
+      "NAME": "HubSpot",
+      "DESCRIPTION": "Connect your HubSpot account to sync conversations and contacts"
     }
   }
 }

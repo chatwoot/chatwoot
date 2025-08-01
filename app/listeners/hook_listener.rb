@@ -11,6 +11,16 @@ class HookListener < BaseListener
     execute_hooks(event, message)
   end
 
+  def contact_created(event)
+    contact = extract_contact_and_account(event)[0]
+    execute_hooks(event, contact)
+  end
+
+  def contact_updated(event)
+    contact = extract_contact_and_account(event)[0]
+    execute_hooks(event, contact)
+  end
+
   private
 
   def execute_hooks(event, message)

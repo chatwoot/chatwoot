@@ -67,6 +67,22 @@ const getters = {
       return isUnAssigned && shouldFilter;
     });
   },
+  getAIManagedChats: _state => activeFilters => {
+    return _state.allConversations.filter(conversation => {
+      const isUnAssigned = !conversation.meta.assignee;
+      const isAIManagedStatus = ['pending', 'resolved'].includes(conversation.status);
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      return isUnAssigned && isAIManagedStatus && shouldFilter;
+    });
+  },
+  getAIEscalationChats: _state => activeFilters => {
+    return _state.allConversations.filter(conversation => {
+      const isUnAssigned = !conversation.meta.assignee;
+      const isEscalationStatus = conversation.status === 'open';
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      return isUnAssigned && isEscalationStatus && shouldFilter;
+    });
+  },
   getAllStatusChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
       const shouldFilter = applyPageFilters(conversation, activeFilters);

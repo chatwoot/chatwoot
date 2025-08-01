@@ -4,6 +4,8 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import { parseBoolean } from '@chatwoot/utils';
+import { useAlert } from 'dashboard/composables';
 
 export default {
   components: {
@@ -19,6 +21,18 @@ export default {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     isAChatwootInstance() {
       return this.globalConfig.installationName === 'Chatwoot';
+    },
+    loginUrlWithShop() {
+      const currentQuery = this.$route.query;
+      const queryParams = new URLSearchParams();
+      
+      // Append all existing query parameters to the login URL
+      Object.keys(currentQuery).forEach(key => {
+        queryParams.append(key, currentQuery[key]);
+      });
+      
+      const queryString = queryParams.toString();
+      return queryString ? `/app/login?${queryString}` : '/app/login';
     },
   },
   beforeMount() {
@@ -54,21 +68,10 @@ export default {
             <h2
               class="mt-6 text-3xl font-medium text-left mb-7 text-n-slate-12"
             >
-              {{ $t('REGISTER.TRY_WOOT') }}
+              {{ $t('REGISTER.CONNECT_SHOPIFY') }}
             </h2>
           </div>
           <SignupForm />
-          <div class="px-1 text-sm text-n-slate-12">
-            <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
-            <router-link class="text-link text-n-brand" to="/app/login">
-              {{
-                useInstallationName(
-                  $t('LOGIN.TITLE'),
-                  globalConfig.installationName
-                )
-              }}
-            </router-link>
-          </div>
         </div>
       </div>
       <Testimonials

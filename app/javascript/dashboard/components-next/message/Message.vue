@@ -36,6 +36,8 @@ import DyteBubble from './bubbles/Dyte.vue';
 import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
+import CitationBubble from './bubbles/Citation.vue';
+import CardBubble from './bubbles/Card.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -118,6 +120,7 @@ const props = defineProps({
   conversationId: { type: Number, required: true },
   createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   currentUserId: { type: Number, required: true },
+  currentAccountId: { type: Number, required: false, default: 1 }, // TODO: once we decide how to route for citation, we will develop more
   groupWithNext: { type: Boolean, default: false },
   inboxId: { type: Number, default: null }, // eslint-disable-line vue/no-unused-properties
   inboxSupportsReplyTo: { type: Object, default: () => ({}) },
@@ -274,6 +277,10 @@ const componentToRender = computed(() => {
 
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return EmailBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.CARDS) {
+    return CardBubble;
   }
 
   if (props.contentAttributes?.isUnsupported) {
@@ -433,6 +440,11 @@ const setupHighlightTimer = () => {
 
 onMounted(setupHighlightTimer);
 
+const hasCitations = computed(() => {
+  const items = props.contentAttributes?.items || [];
+  return items.some(item => item.name === 'citations' && item.data?.length > 0);
+});
+
 provideMessageContext({
   ...toRefs(props),
   isPrivate: computed(() => props.private),
@@ -483,14 +495,30 @@ provideMessageContext({
         <Avatar v-bind="avatarInfo" :size="24" />
       </div>
       <div
-        class="[grid-area:bubble] flex"
+        class="[grid-area:bubble] flex flex-col"
         :class="{
-          'ltr:pl-9 rtl:pl-0 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:pl-9 rtl:pl-0': orientation === ORIENTATION.RIGHT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
       >
-        <Component :is="componentToRender" />
+        <component
+          :is="componentToRender"
+          v-bind="bubbleProps"
+          v-if="props.contentType !== CONTENT_TYPES.CARDS"
+          class="message-content"
+        />
+        <CardBubble
+          v-else
+          :content-attributes="props.contentAttributes"
+          :content="props.content"
+        />
+        <CitationBubble
+          v-if="hasCitations"
+          :content-attributes="contentAttributes"
+          :current-account-id="currentAccountId"
+          class="mt-1"
+        />
       </div>
       <MessageError
         v-if="contentAttributes.externalError"

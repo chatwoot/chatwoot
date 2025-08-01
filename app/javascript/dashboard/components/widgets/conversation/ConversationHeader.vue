@@ -63,6 +63,9 @@ export default {
     chatMetadata() {
       return this.chat.meta;
     },
+    isPending() {
+      return this.currentChat.status === "pending";
+    },
     backButtonUrl() {
       const {
         params: { accountId, inbox_id: inboxId, label, teamId },
@@ -127,6 +130,30 @@ export default {
         FEATURE_FLAGS.LINEAR
       );
     },
+    conversationStatusText() {
+      if (this.currentChat.status === 'resolved' || this.currentChat.status === 'closed') {
+        return this.$t('CONVERSATION.HEADER.STATUS_LABEL.CLOSED');
+      }
+      if (this.currentChat.status === 'pending') {
+        return this.$t('CONVERSATION.HEADER.STATUS_LABEL.AI_MANAGED');
+      }
+      if (this.currentChat.meta.assignee) {
+        return this.$t('CONVERSATION.HEADER.STATUS_LABEL.OPEN');
+      }
+      return this.$t('CONVERSATION.HEADER.STATUS_LABEL.UNASSIGNED');
+    },
+    conversationStatusClass() {
+      if (this.currentChat.status === 'resolved' || this.currentChat.status === 'closed') {
+        return 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200';
+      }
+      if (this.currentChat.status === 'pending') {
+        return 'bg-violet-100 dark:bg-violet-900 text-violet-700 dark:text-violet-200';
+      }
+      if (this.currentChat.meta.assignee) {
+        return 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200';
+      }
+      return 'bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-200';
+    }
   },
 };
 </script>
@@ -171,6 +198,9 @@ export default {
               class="text-n-amber-10 my-0 mx-0 min-w-[14px]"
               icon="warning"
             />
+            <div class="flex items-center ml-2 rounded text-xs font-medium px-2 py-1" :class="conversationStatusClass">
+              {{ conversationStatusText }}
+            </div>
           </div>
 
           <div

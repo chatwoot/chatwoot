@@ -76,4 +76,7 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
+
+  # Agent Manager Service Configuration
+  config.agent_manager_service_endpoint = ENV.fetch('AGENT_MANAGER_SERVICE_ENDPOINT', 'http://agent-manager.default.svc.cluster.local:8000/api/v1')
 end

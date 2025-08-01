@@ -32,6 +32,7 @@ export default {
         email: '',
         password: '',
         hCaptchaClientResponse: '',
+        shop: this.$route.query.shop || '',
       },
       didCaptchaReset: false,
       isSignupInProgress: false,
@@ -74,6 +75,18 @@ export default {
           this.globalConfig.privacyURL
         );
     },
+    loginUrlWithShop() {
+      const currentQuery = this.$route.query;
+      const queryParams = new URLSearchParams();
+      
+      // Append all existing query parameters to the login URL
+      Object.keys(currentQuery).forEach(key => {
+        queryParams.append(key, currentQuery[key]);
+      });
+      
+      const queryString = queryParams.toString();
+      return queryString ? `/app/login?${queryString}` : '/app/login';
+    },
     hasAValidCaptcha() {
       if (this.globalConfig.hCaptchaSiteKey) {
         return !!this.credentials.hCaptchaClientResponse;
@@ -106,8 +119,15 @@ export default {
       }
       this.isSignupInProgress = true;
       try {
-        await register(this.credentials);
-        window.location = DEFAULT_REDIRECT_URL;
+        const response = await register(this.credentials);
+        // Redirect to Shopify settings page if shop parameter is present
+        if (this.credentials.shop) {
+          const accountId = response.data.account_id;
+          const inboxId = response.data.inbox_id;
+          window.location = `/app/accounts/${accountId}/settings/inboxes/${inboxId}?tab=shopifySettings`;
+        } else {
+          window.location = DEFAULT_REDIRECT_URL;
+        }
       } catch (error) {
         let errorMessage =
           error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
@@ -203,13 +223,17 @@ export default {
         icon-class="arrow-chevron-right"
       />
     </form>
-    <GoogleOAuthButton v-if="showGoogleOAuth" class="flex-col-reverse">
-      {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
-    </GoogleOAuthButton>
     <p
       class="text-sm mb-1 mt-5 text-slate-800 dark:text-woot-50 [&>a]:text-woot-500 [&>a]:font-medium [&>a]:hover:text-woot-600"
       v-html="termsLink"
     />
+    <div class="mt-4 text-left text-sm text-n-slate-11">
+      {{$t('If you have an account, you can click')}}
+      <router-link :to="loginUrlWithShop" class="text-link font-medium">
+        {{$t('here')}}
+      </router-link>
+      {{$t('to connect your account')}}
+    </div>
   </div>
 </template>
 

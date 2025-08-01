@@ -14,4 +14,8 @@ class HookPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def auth?
+    @account_user.administrator?
+  end
 end

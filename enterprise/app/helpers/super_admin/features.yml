@@ -1,7 +1,7 @@
 # TODO: Move this values to features.yml itself
 # No need to replicate the same values in two places
 captain:
-  name: 'Captain'
+  name: 'AI Agent'
   description: 'Enable AI-powered conversations with your customers.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
   icon: 'icon-captain'

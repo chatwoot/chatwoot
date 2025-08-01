@@ -25,6 +25,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    hasCheckbox: {
+      type: Boolean,
+      default: false,
+    },
     inputPlaceholder: {
       type: String,
       default: 'Search',
@@ -81,6 +85,7 @@ export default {
         class="search-input"
         autofocus="true"
         :placeholder="inputPlaceholder"
+        @keydown.enter.prevent
       />
     </div>
     <div class="flex items-start justify-start flex-auto overflow-auto mt-2">
@@ -88,6 +93,7 @@ export default {
         <WootDropdownMenu>
           <WootDropdownItem v-for="option in filteredOptions" :key="option.id">
             <NextButton
+              type="button"
               slate
               :variant="isActive(option) ? 'faded' : 'ghost'"
               trailing-icon
@@ -112,6 +118,15 @@ export default {
                 :username="option.name"
                 :status="option.availability_status"
                 has-border
+              />
+              <input
+                v-if="hasCheckbox"
+                type="checkbox"
+                :checked="isActive(option)"
+                class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-n-brand dark:checked:bg-n-brand after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
+                tabindex="-1"
+                aria-hidden="true"
+                readonly
               />
             </NextButton>
           </WootDropdownItem>

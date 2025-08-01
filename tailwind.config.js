@@ -262,6 +262,7 @@ const tailwindConfig = {
       },
     }),
   ],
+  mode: 'jit',
 };
 
 module.exports = tailwindConfig;

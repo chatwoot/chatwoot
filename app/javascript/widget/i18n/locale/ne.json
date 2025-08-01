@@ -14,7 +14,8 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "हामी अनलाइन छौं",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "We are away at the moment",
+    "REPLY": "We are away at the moment but our AI agent can assist you"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "धेरै जसो केहि मिनेटमा जवाफ हुन्छ",

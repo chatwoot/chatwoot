@@ -471,7 +471,8 @@
       "PRE_CHAT_FORM": "نموذج ما قبل الدردشة",
       "BUSINESS_HOURS": "ساعات العمل",
       "WIDGET_BUILDER": "منشئ اللايف شات",
-      "BOT_CONFIGURATION": "اعدادات البوت"
+      "BOT_CONFIGURATION": "اعدادات البوت",
+      "SHOPIFY_SETTINGS": "اعدادات Shopify"
     },
     "SETTINGS": "الإعدادات",
     "FEATURES": {
@@ -522,7 +523,16 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "تحديث",
       "WHATSAPP_WEBHOOK_TITLE": "رمز التحقق من Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings",
+      "SHOPIFY_SETTINGS": "Shopify Store Information",
+      "SHOPIFY_SETTINGS_DESCRIPTION": "Manage your Shopify store integration settings",
+      "NO_SHOPIFY_STORE": "No Shopify store is associated with this inbox",
+      "SHOPIFY_CHAT_BOT": "Shopify Chat Bot",
+      "SHOPIFY_CHAT_BOT_DESCRIPTION": "Enable or disable the AI chat bot for your Shopify store",
+      "ENABLE_CHAT_BOT": "Enable Chat Bot",
+      "DISABLE_CHAT_BOT": "Disable Chat Bot",
+      "CHAT_BOT_UPDATED": "Chat bot settings updated successfully",
+      "CHAT_BOT_UPDATE_ERROR": "Failed to update chat bot settings"
     },
     "HELP_CENTER": {
       "LABEL": "مركز المساعدة",

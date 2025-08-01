@@ -93,7 +93,7 @@ export default {
   <div class="chat-bubble-wrap">
     <div
       v-if="
-        !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
+        !isCards && !isOptions && !isForm && !isArticle && !isCSAT
       "
       class="chat-bubble agent bg-n-background dark:bg-n-solid-3 text-n-slate-12"
     >
@@ -128,15 +128,26 @@ export default {
       :submitted-values="messageContentAttributes.submitted_values"
       @submit="onFormSubmit"
     />
-    <div v-if="isCards">
-      <ChatCard
-        v-for="item in messageContentAttributes.items"
-        :key="item.title"
-        :media-url="item.media_url"
-        :title="item.title"
-        :description="item.description"
-        :actions="item.actions"
-      />
+    <div v-if="isCards" class="chat-bubble agent bg-n-background dark:bg-n-solid-3 text-n-slate-12">
+      <div v-if="message">
+        <div
+          v-dompurify-html="formatMessage(message, false)"
+          class="message-content text-n-slate-12"
+        />
+      </div>
+      <div v-if="messageContentAttributes && messageContentAttributes.items">
+        <div v-for="item in messageContentAttributes.items" :key="item.title">
+          <ChatCard
+            :image-src="item.media_url"
+            :title="item.title"
+            :description="item.description"
+            :actions="item.actions"
+          />
+        </div>
+      </div>
+      <div v-else>
+        <span style="color: red;">[Debug] No items in messageContentAttributes</span>
+      </div>
     </div>
     <div v-if="isArticle">
       <ChatArticle :items="messageContentAttributes.items" />

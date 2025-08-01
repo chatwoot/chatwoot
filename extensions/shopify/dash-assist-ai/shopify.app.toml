@@ -1,0 +1,37 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "6937eb7509b3075817543a75cf8bc3af"
+name = "DashAssist.AI"
+handle = "dashassist-ai-1"
+application_url = "https://app.dashassist.ai/dashassist_shopify/standalone/install"
+embedded = false
+
+[build]
+include_config_on_deploy = true
+
+[webhooks]
+api_version = "2025-01"
+
+  [[webhooks.subscriptions]]
+  uri = "https://app.dashassist.ai/dashassist_shopify/webhooks/app_uninstalled"
+  topics = [ "app/uninstalled" ]
+
+  [[webhooks.subscriptions]]
+  uri = "https://app.dashassist.ai/dashassist_shopify/webhooks/customers_data_request"
+  compliance_topics = [ "customers/data_request" ]
+
+  [[webhooks.subscriptions]]
+  uri = "https://app.dashassist.ai/dashassist_shopify/webhooks/customers_redact"
+  compliance_topics = [ "customers/redact" ]
+
+  [[webhooks.subscriptions]]
+  uri = "https://app.dashassist.ai/dashassist_shopify/webhooks/shop_redact"
+  compliance_topics = [ "shop/redact" ]
+
+[auth]
+redirect_urls = [
+  "https://app.dashassist.ai/dashassist_shopify/standalone/callback"
+]
+
+[pos]
+embedded = false

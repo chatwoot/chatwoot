@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashassist - Shopify App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="shopify-api-key" content="<%= client_id %>" />
+  <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
+  <script type="text/javascript">
+    // Check if we're in an iframe
+    const isInIframe = window.top !== window.self;
+    console.log('Is running in iframe:', isInIframe);
+    
+    // Function to get URL parameters
+    function getQueryParams() {
+      const params = {};
+      const queryString = window.location.search.substring(1);
+      const pairs = queryString.split('&');
+      for (let i = 0; i < pairs.length; i++) {
+        const pair = pairs[i].split('=');
+        params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+      }
+      return params;
+    }
+    
+    // Get query parameters
+    const params = getQueryParams();
+    
+    // If we're in an iframe and 'embedded' parameter exists
+    if (isInIframe && params.embedded) {
+      // Create a standalone URL (remove embedded parameter)
+      const standaloneUrl = new URL(window.location.href);
+      standaloneUrl.searchParams.delete('embedded');
+      
+      // Check if we're experiencing sandboxing issues
+      let hasSandboxingIssues = false;
+      try {
+        // Try to access localStorage (will fail in sandboxed iframe)
+        window.localStorage.getItem('test');
+      } catch (error) {
+        console.log('Detected iframe sandboxing issues, will use standalone version');
+        hasSandboxingIssues = true;
+      }
+      
+      // If we have issues, redirect to standalone version in top frame
+      if (hasSandboxingIssues) {
+        console.log('Redirecting to standalone version:', standaloneUrl.toString());
+        window.top.location.href = standaloneUrl.toString();
+      }
+    }
+
+    // Function to make authenticated API calls using session token
+    // NOTE: This only verifies the request comes from Shopify App Bridge
+    // It does NOT replace user authentication - you still need to include user auth tokens
+    // when using this for endpoint calls that require user authentication
+    async function authenticatedFetch(url, options = {}) {
+      try {
+        // Wait for shopify to be ready
+        await shopify.ready;
+        
+        // Get a fresh session token (tokens expire after 1 minute)
+        // This token only verifies the request is from Shopify, not who the user is
+        const sessionToken = await shopify.idToken();
+        console.log('Received session token');
+        
+        // Add Authorization header with session token
+        // Remember: Any endpoint requiring user auth still needs user auth headers too
+        const headers = {
+          ...options.headers,
+          'Authorization': `Bearer ${sessionToken}`,
+          'Content-Type': options.headers?.['Content-Type'] || 'application/json'
+        };
+        
+        // Make the fetch request
+        const response = await fetch(url, {
+          ...options,
+          headers
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+          throw new Error(`Request failed: ${response.status} ${response.statusText} - ${errorData.error || JSON.stringify(errorData)}`);
+        }
+        
+        return response;
+      } catch (error) {
+        console.error(`Error with authenticated fetch to ${url}:`, error);
+        throw error;
+      }
+    }
+
+    // Wait for Shopify App Bridge to be ready
+    document.addEventListener('DOMContentLoaded', async function() {
+      if (params.shop) {
+        console.log('Initializing...');
+        
+        try {
+          // Wait for shopify to be ready
+          await shopify.ready;
+          console.log('App Bridge ready');
+        } catch (error) {
+          console.error('Error initializing App Bridge:', error);
+
+        }
+      } else {
+        console.log('No shop parameter found');
+      }
+      showLoginForm();
+    });
+
+    // Function to check for stored auth credentials and authenticate if available
+    
+    function showLoginForm() {
+      // Ensure the login form is visible
+      const loginForm = document.querySelector('.login-form');
+      if (loginForm) {
+        loginForm.style.display = 'block';
+      }
+    }
+
+    // Function to setup the web widget
+    async function setupWebWidget(accessToken, uid, client) {
+      const container = document.querySelector('.container');
+      
+      try {
+        // Use authenticatedFetch which adds the Shopify session token header
+        console.log('Setting up web widget via authenticatedFetch');
+        const widgetResponse = await authenticatedFetch('/dashassist_shopify/setup_widget', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'access-token': accessToken,
+            'client': client,
+            'uid': uid,
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-Shopify-Shop-Domain': '<%= @shop %>'
+          },
+          body: JSON.stringify({
+            shop: '<%= @shop %>'
+          })
+        });
+
+        if (!widgetResponse.ok) {
+          const error = await widgetResponse.json();
+          throw new Error(error.message || 'Failed to setup web widget');
+        }
+
+        const widgetData = await widgetResponse.json();
+        
+        // Show widget script after successful login
+        container.innerHTML = `
+          <h1>Welcome to Dashassist</h1>
+          <p>Your Shopify store <%= @shop %> has been successfully connected to Dashassist.</p>
+          <a href="<%= ENV['CHATWOOT_WEB_URL'] %>/app" class="app-link-button" target="_blank" rel="noopener noreferrer">Manage Widget in Dashassist App</a>
+          <h2>Installation Instructions</h2>
+          <div class="status" id="status-message" style="background-color: #e3f1df; color: #108043">
+            Widget Ready ✓
+          </div>
+          <div class="instructions">
+            <h3>Follow these steps to add the Dashassist widget to your store:</h3>
+            <ol>
+              <li>Copy the code below</li>
+              <li>Go to your Shopify admin panel</li>
+              <li>Navigate to Online Store → Themes</li>
+              <li>Click "Customize" and then click the three-dot menu (⋮) → "Edit code" on your active theme</li>
+              <li>Open the Layout folder and select theme.liquid</li>
+              <li>Paste the code at the bottom of the file, just before the closing &lt;/body&gt; tag</li>
+              <li>Click "Save"</li>
+            </ol>
+          </div>
+          <div class="script-container">
+            <h3>Widget Code:</h3>
+            <div class="copy-container">
+              <textarea id="widget-script" readonly>${widgetData.widget_script}</textarea>
+              <button id="copy-button" onclick="copyScript()">Copy Code</button>
+            </div>
+          </div>
+          <div id="copy-message" class="copy-message">Code copied to clipboard!</div>
+          <button id="logout-button" onclick="handleLogout()" class="logout-button">Logout</button>
+        `;
+
+        // Store widget script for later use
+        window.currentWidgetScript = widgetData.widget_script;
+      } catch (error) {
+        console.error('Error setting up widget:', error);
+        throw error;
+      }
+    }
+
+    function handleLogout() {
+      // Reload the page to show login form
+      window.location.reload();
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorElement = document.getElementById('login-error');
+      const container = document.querySelector('.container');
+
+      try {
+        // First, authenticate the user via authenticatedFetch for Shopify validation
+        const authResponse = await authenticatedFetch('/auth/sign_in', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-Shopify-App-Bridge': 'true' // Add this header to indicate it's a Shopify App Bridge request
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        });
+
+        if (!authResponse.ok) {
+          const error = await authResponse.json();
+          errorElement.textContent = error.message || 'Login failed. Please try again.';
+          errorElement.style.display = 'block';
+          return;
+        }
+
+        const authData = await authResponse.json();
+        console.log('Auth response:', authData);
+        
+        // Get auth token and user data from response
+        const accessToken = authData.data.access_token;
+        const uid = authData.data.uid;
+        const client = authResponse.headers.get('client'); // Get client from response headers
+
+        if (!accessToken || !uid || !client) {
+          throw new Error('Missing auth data in response');
+        }
+
+        console.log('Auth data:', { accessToken, uid, client });
+
+        // Setup web widget with auth headers
+        const widgetResponse = await fetch('/dashassist_shopify/setup_widget', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'access-token': accessToken,
+            'client': client,
+            'uid': uid,
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-Shopify-Shop-Domain': '<%= @shop %>'
+          },
+          body: JSON.stringify({
+            shop: '<%= @shop %>'
+          })
+        });
+
+        console.log('Widget request headers:', {
+          'Content-Type': 'application/json',
+          'access-token': accessToken,
+          'client': client,
+          'uid': uid,
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-Shopify-Shop-Domain': '<%= @shop %>'
+        });
+
+        if (!widgetResponse.ok) {
+          const error = await widgetResponse.json();
+          throw new Error(error.message || 'Failed to setup web widget');
+        }
+
+        const widgetData = await widgetResponse.json();
+        
+        // Show widget script after successful login
+        container.innerHTML = `
+          <h2>Installation Instructions</h2>
+          <div class="status" id="status-message" style="background-color: #e3f1df; color: #108043">
+            Widget Ready ✓
+          </div>
+          <div class="instructions">
+            <h3>Follow these steps to add the Dashassist widget to your store:</h3>
+            <ol>
+              <li>Copy the code below</li>
+              <li>Go to your Shopify admin panel</li>
+              <li>Navigate to Online Store → Themes</li>
+              <li>Click "Customize" and then click the three-dot menu (⋮) → "Edit code" on your active theme</li>
+              <li>Open the Layout folder and select theme.liquid</li>
+              <li>Paste the code at the bottom of the file, just before the closing &lt;/body&gt; tag</li>
+              <li>Click "Save"</li>
+            </ol>
+          </div>
+          <div class="script-container">
+            <h3>Widget Code:</h3>
+            <div class="copy-container">
+              <textarea id="widget-script" readonly>${widgetData.widget_script}</textarea>
+              <button id="copy-button" onclick="copyScript()">Copy Code</button>
+            </div>
+          </div>
+          <div id="copy-message" class="copy-message">Code copied to clipboard!</div>
+        `;
+
+        // Store widget script for later use
+        window.currentWidgetScript = widgetData.widget_script;
+      } catch (error) {
+        console.error('Error:', error);
+        errorElement.textContent = error.message || 'An error occurred. Please try again.';
+        errorElement.style.display = 'block';
+      }
+    }
+
+    function copyScript() {
+      const scriptArea = document.getElementById('widget-script');
+      scriptArea.select();
+      document.execCommand('copy');
+      
+      const copyMessage = document.getElementById('copy-message');
+      copyMessage.style.opacity = '1';
+      
+      setTimeout(() => {
+        copyMessage.style.opacity = '0';
+      }, 2000);
+    }
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f6f6f7;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background-color: white;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .login-form {
+      max-width: 400px;
+      margin: 40px auto;
+      background: #f9f9fa;
+      border-radius: 8px;
+      box-sizing: border-box;
+      padding: 32px 32px 32px 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #212b36;
+      font-weight: 500;
+    }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #dfe3e8;
+      border-radius: 4px;
+      font-size: 14px;
+      background: #fff;
+      box-sizing: border-box;
+      margin-bottom: 12px;
+    }
+    input[type="email"]:focus, input[type="password"]:focus {
+      outline: none;
+      border-color: #5c6ac4;
+      box-shadow: 0 0 0 1px #5c6ac4;
+    }
+    button {
+      padding: 12px;
+      background-color: #5c6ac4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #4959b3;
+    }
+    .login-form button {
+      width: 100%;
+    }
+    .error-message {
+      display: none;
+      color: #bf0711;
+      background-color: #fbeae5;
+      padding: 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .status {
+      padding: 8px 16px;
+      background-color: #e3f1df;
+      color: #108043;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+    .instructions {
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #dfe3e8;
+    }
+    .instructions h3 {
+      margin-top: 0;
+      color: #212b36;
+    }
+    .instructions ol {
+      padding-left: 20px;
+    }
+    .instructions li {
+      margin-bottom: 8px;
+      color: #454f5b;
+    }
+    .script-container {
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #dfe3e8;
+      margin-right: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .copy-container {
+      position: relative;
+      margin-right: 0;
+      width: 100%;
+    }
+    #widget-script {
+      width: 100%;
+      height: 150px;
+      padding: 12px;
+      margin-right: 50px;
+      border: 1px solid #dfe3e8;
+      border-radius: 4px;
+      background-color: #f9fafb;
+      font-family: monospace;
+      font-size: 14px;
+      resize: none;
+    }
+    #copy-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+    .copy-message {
+      background-color: #5c6ac4;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      display: inline-block;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Dashassist</h1>
+    <p>Your Shopify store <%= @shop %> has been successfully connected to Dashassist.</p>
+    <div class="login-form">
+      <h2>Login to Dashassist</h2>
+      <div id="login-error" class="error-message"></div>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html> 

@@ -38,6 +38,16 @@ class IntegrationsAPI extends ApiClient {
       shop_domain: shopDomain,
     });
   }
+
+  connectHubspot({ accessToken }) {
+    return axios.post(`${this.baseUrl()}/integrations/hubspot/auth`, {
+      access_token: accessToken,
+    });
+  }
+
+  disconnectHubspot() {
+    return axios.delete(`${this.baseUrl()}/integrations/hubspot`);
+  }
 }
 
 export default new IntegrationsAPI();
