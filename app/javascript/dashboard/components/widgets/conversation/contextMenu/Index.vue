@@ -89,7 +89,7 @@ export default {
       },
       unreadOption: {
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_UNREAD'),
-        icon: 'mail',
+        icon: 'mail-unread',
       },
       statusMenuConfig: [
         {
