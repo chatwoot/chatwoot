@@ -24,6 +24,9 @@ properties:
   attribute_model:
     type: string
     description: Attribute type(conversation_attribute/contact_attribute)
+  required_before_resolve:
+    type: boolean
+    description: Whether this attribute is required before conversation resolution
   account_id:
     type: integer
     description: Account Id

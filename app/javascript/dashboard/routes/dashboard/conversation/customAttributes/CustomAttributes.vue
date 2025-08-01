@@ -74,6 +74,10 @@ export default {
       type: String,
       default: '',
     },
+    forConversationResolve: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -91,6 +95,9 @@ export default {
         const isCallingAttribute = ['calling_status', 'calling_notes'].includes(
           attribute.attribute_key
         );
+        if (this.forConversationResolve) {
+          return attribute.required_before_resolve;
+        }
         return this.callingInfo ? isCallingAttribute : !isCallingAttribute;
       });
 

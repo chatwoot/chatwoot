@@ -80,6 +80,12 @@
       @submit="markConversationResolved"
       @cancel="toggleResolveConversationModal"
     />
+    <custom-attributes-form
+      v-if="showCustomAttributesForm"
+      :show="showCustomAttributesForm"
+      @submit="markConversationResolved"
+      @cancel="toggleCustomAttributesForm"
+    />
   </div>
 </template>
 
@@ -90,20 +96,23 @@ import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixi
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import ConversationLabelModal from '../widgets/conversation/ConversationLabelModal.vue';
+import CustomAttributesForm from '../widgets/conversation/CustomAttributesForm.vue';
 
 import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
 } from '../../routes/dashboard/commands/commandBarBusEvents';
+import attributeMixin from '../../mixins/attributeMixin';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
     ConversationLabelModal,
+    CustomAttributesForm,
   },
-  mixins: [alertMixin, keyboardEventListenerMixins],
+  mixins: [alertMixin, keyboardEventListenerMixins, attributeMixin],
   props: {
     conversationId: { type: [String, Number], required: true },
     inboxId: { type: [String, Number], required: true },
@@ -118,6 +127,8 @@ export default {
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       showResolveConversationModal: false,
+      showCustomAttributesForm: false,
+      attributeType: 'conversation_attribute',
     };
   },
   computed: {
@@ -145,6 +156,11 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId) || {};
+    },
+    isShowCustomAttributesForm() {
+      return this.attributes.some(
+        attribute => attribute.required_before_resolve
+      );
     },
   },
   mounted() {
@@ -208,6 +224,10 @@ export default {
       this.toggleStatus(this.STATUS_TYPE.OPEN);
     },
     onCmdResolveConversation() {
+      if (this.isShowCustomAttributesForm) {
+        this.toggleCustomAttributesForm();
+        return;
+      }
       if (this.inbox.add_label_to_resolve_conversation && !this.isLabelsAdded) {
         this.toggleResolveConversationModal();
       } else {
@@ -246,6 +266,9 @@ export default {
     },
     toggleResolveConversationModal() {
       this.showResolveConversationModal = !this.showResolveConversationModal;
+    },
+    toggleCustomAttributesForm() {
+      this.showCustomAttributesForm = !this.showCustomAttributesForm;
     },
   },
 };

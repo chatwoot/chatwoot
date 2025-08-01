@@ -20,3 +20,6 @@ properties:
   attribute_model:
     type: integer
     description: Attribute type(conversation_attribute- 0, contact_attribute- 1)
+  required_before_resolve:
+    type: boolean
+    description: Whether this attribute is required before conversation resolution

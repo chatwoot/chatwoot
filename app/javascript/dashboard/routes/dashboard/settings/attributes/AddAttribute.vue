@@ -86,6 +86,16 @@
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
+          <div>
+            <input
+              v-model="requiredBeforeResolve"
+              type="checkbox"
+              @input="toggleRequiredBeforeResolve"
+            />
+            {{
+              'Make this attribute required before resolving the conversation'
+            }}
+          </div>
           <div v-if="isAttributeTypeText">
             <input
               v-model="regexEnabled"
@@ -151,6 +161,7 @@ export default {
       regexPattern: null,
       regexCue: null,
       regexEnabled: false,
+      requiredBeforeResolve: false,
       models: ATTRIBUTE_MODELS,
       types: ATTRIBUTE_TYPES,
       values: [],
@@ -234,6 +245,9 @@ export default {
     onDisplayNameChange() {
       this.attributeKey = convertToAttributeSlug(this.displayName);
     },
+    toggleRequiredBeforeResolve() {
+      this.requiredBeforeResolve = !this.requiredBeforeResolve;
+    },
     toggleRegexEnabled() {
       this.regexEnabled = !this.regexEnabled;
     },
@@ -258,6 +272,7 @@ export default {
             ? new RegExp(this.regexPattern).toString()
             : null,
           regex_cue: this.regexCue,
+          required_before_resolve: this.requiredBeforeResolve,
         });
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.ADD.API.SUCCESS_MESSAGE');
         this.onClose();

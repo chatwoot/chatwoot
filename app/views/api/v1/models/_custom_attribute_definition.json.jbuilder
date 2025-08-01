@@ -8,5 +8,6 @@ json.regex_cue resource.regex_cue
 json.attribute_values resource.attribute_values
 json.attribute_model resource.attribute_model
 json.default_value resource.default_value
+json.required_before_resolve resource.required_before_resolve
 json.created_at resource.created_at
 json.updated_at resource.updated_at

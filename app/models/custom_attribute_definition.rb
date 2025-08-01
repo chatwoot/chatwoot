@@ -2,19 +2,20 @@
 #
 # Table name: custom_attribute_definitions
 #
-#  id                     :bigint           not null, primary key
-#  attribute_description  :text
-#  attribute_display_name :string
-#  attribute_display_type :integer          default("text")
-#  attribute_key          :string
-#  attribute_model        :integer          default("conversation_attribute")
-#  attribute_values       :jsonb
-#  default_value          :integer
-#  regex_cue              :string
-#  regex_pattern          :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  account_id             :bigint
+#  id                      :bigint           not null, primary key
+#  attribute_description   :text
+#  attribute_display_name  :string
+#  attribute_display_type  :integer          default("text")
+#  attribute_key           :string
+#  attribute_model         :integer          default("conversation_attribute")
+#  attribute_values        :jsonb
+#  default_value           :integer
+#  regex_cue               :string
+#  regex_pattern           :string
+#  required_before_resolve :boolean          default(FALSE), not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :bigint
 #
 # Indexes
 #
