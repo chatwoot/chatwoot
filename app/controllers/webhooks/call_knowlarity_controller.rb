@@ -269,6 +269,15 @@ class Webhooks::CallKnowlarityController < ActionController::API # rubocop:disab
 
     Rails.logger.info("Resolving conversation #{conversation.id} after call processing")
 
+    # Always assign conversation to bot user when resolving
+    bot_agent = bot_user(conversation.account)
+    if bot_agent.present?
+      conversation.update!(assignee: bot_agent)
+      Rails.logger.info("Conversation #{conversation.id} assigned to bot user: #{bot_agent.email}")
+    else
+      Rails.logger.info("No bot user found for account #{conversation.account.id}")
+    end
+
     # Resolve the conversation
     conversation.resolved!
 
