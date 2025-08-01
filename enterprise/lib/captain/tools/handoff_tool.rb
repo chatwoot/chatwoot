@@ -24,29 +24,18 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
   private
 
   def trigger_handoff(conversation, reason)
-    # Create handoff message (using existing logic from ResponseBuilderJob)
-    handoff_message = build_handoff_message(reason)
-
+    # post the reason as a private note
     conversation.messages.create!(
       message_type: :outgoing,
+      private: true,
+      sender: @assistant,
       account: conversation.account,
       inbox: conversation.inbox,
-      content: handoff_message
+      content: reason
     )
 
     # Trigger the bot handoff (sets status to open + dispatches events)
     conversation.bot_handoff!
-  end
-
-  def build_handoff_message(reason)
-    base_message = @assistant.config['handoff_message'].presence ||
-                   I18n.t('conversations.messages.handoff_message')
-
-    if reason.present?
-      "#{base_message}\n\nReason: #{reason}"
-    else
-      base_message
-    end
   end
 
   # TODO: Future enhancement - Add team assignment capability
