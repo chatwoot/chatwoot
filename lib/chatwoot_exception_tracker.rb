@@ -5,15 +5,15 @@ class ChatwootExceptionTracker
     @account = account
   end
 
-  def capture_exception
-    write_exception_to_file if Rails.env.development?
+  def capture_exception(additional_info = {})
+    write_exception_to_file(additional_info) if Rails.env.development?
     capture_exception_with_sentry if ENV['SENTRY_DSN'].present?
     Rails.logger.error @exception
   end
 
   private
 
-  def write_exception_to_file
+  def write_exception_to_file(additional_info = {})
     error_dir = Rails.root.join('errors')
     FileUtils.mkdir_p(error_dir)
     timestamp = Time.now.strftime('%Y%m%d-%H%M%S')
@@ -25,6 +25,7 @@ class ChatwootExceptionTracker
       file.puts "User: #{@user&.id} (#{@user&.email})" if @user
       file.puts "Account: #{@account&.id} (#{@account&.name})" if @account
       file.puts "Backtrace:\n#{@exception.backtrace&.join("\n")}"
+      file.puts "Additional Info: #{JSON.pretty_generate(additional_info)}" if additional_info.present?
     end
   end
 

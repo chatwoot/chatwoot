@@ -98,7 +98,12 @@ class Captain::Assistant::AgentRunnerService
     return nil unless output.is_a?(String)
 
     JSON.parse(output)
-  rescue JSON::ParserError
+  rescue JSON::ParserError => e
+    ChatwootExceptionTracker.new(e).capture_exception({
+                                                        output: output,
+                                                        assistant_id: @assistant.id,
+                                                        error_message: e.message
+                                                      })
     nil
   end
 
