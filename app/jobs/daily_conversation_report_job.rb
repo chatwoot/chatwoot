@@ -27,6 +27,7 @@ class DailyConversationReportJob < ApplicationJob
       report_time = job[:report_time]
 
       mask_data = job[:mask_data] || false
+      created_at_flag = job[:CreatedAt] || false
 
       if report_time.present?
         report_time = Time.strptime(report_time, '%H:%M').in_time_zone('Asia/Kolkata').utc.strftime('%H:%M')
@@ -53,7 +54,7 @@ class DailyConversationReportJob < ApplicationJob
                 { since: 24.hours.ago, until: Time.current }
               end
 
-      process_account(job[:account_id], current_date, range, mask_data, false, job[:frequency])
+      process_account(job[:account_id], current_date, range, mask_data, false, job[:frequency], created_at_flag: created_at_flag)
     end
   end
   # rubocop:enable Metrics/AbcSize
@@ -66,7 +67,7 @@ class DailyConversationReportJob < ApplicationJob
 
     current_date = Date.current
 
-    process_account(account_id, current_date, range, bitespeed_bot, 'custom')
+    process_account(account_id, current_date, range, bitespeed_bot, 'custom', false)
   end
 
   private
@@ -76,8 +77,8 @@ class DailyConversationReportJob < ApplicationJob
   end
 
   # rubocop:disable Metrics/ParameterLists
-  def process_account(account_id, _current_date, range, mask_data, bitespeed_bot, frequency = 'daily')
-    report = generate_report(account_id, range)
+  def process_account(account_id, _current_date, range, mask_data, bitespeed_bot, frequency = 'daily', created_at_flag: false)
+    report = generate_report(account_id, range, created_at_flag: created_at_flag)
 
     if report.present?
       Rails.logger.info "Data found for account_id: #{account_id}"
@@ -94,7 +95,7 @@ class DailyConversationReportJob < ApplicationJob
   # rubocop:enable Metrics/ParameterLists
 
   # rubocop:disable Metrics/MethodLength
-  def generate_report(account_id, range)
+  def generate_report(account_id, range, created_at_flag: false)
     # Using ActiveRecord::Base directly for sanitization
     sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
       SELECT
@@ -183,7 +184,7 @@ class DailyConversationReportJob < ApplicationJob
           ) AS first_message_after_assignment ON true
       WHERE
           conversations.account_id = :account_id
-          AND conversations.updated_at BETWEEN :since AND :until
+          AND #{created_at_flag ? 'conversations.created_at' : 'conversations.updated_at'} BETWEEN :since AND :until
     SQL
 
     ActiveRecord::Base.connection.exec_query(sql).to_a
