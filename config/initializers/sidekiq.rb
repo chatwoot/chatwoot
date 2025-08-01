@@ -15,6 +15,35 @@ Sidekiq.configure_server do |config|
     config[:skip_default_job_logging] = true
     config.logger.level = Logger.const_get(ENV.fetch('LOG_LEVEL', 'info').upcase.to_s)
   end
+
+  # Configure Sidekiq CloudWatch metrics in the server process
+  if defined?(Sidekiq::CloudWatchMetrics) && defined?(ChatwootApp) && ChatwootApp.chatwoot_cloud? && ENV['ENABLE_SIDEKIQ_CLOUDWATCH'].present?
+    require 'sidekiq/cloudwatchmetrics'
+
+    if ENV['ENABLE_SIDEKIQ_CLOUDWATCH'].present?
+      Rails.logger.info '================================================'
+      Rails.logger.info 'Sidekiq::CloudWatchMetrics defined (Server Process)'
+      Rails.logger.info 'ChatwootApp defined'
+      Rails.logger.info "ChatwootApp.chatwoot_cloud? #{ChatwootApp.chatwoot_cloud?}"
+      Rails.logger.info "ENV['ENABLE_SIDEKIQ_CLOUDWATCH'] #{ENV.fetch('ENABLE_SIDEKIQ_CLOUDWATCH', nil)}"
+      Rails.logger.info "ENV['SIDEKIQ_CLOUDWATCH_NAMESPACE'] #{ENV.fetch('SIDEKIQ_CLOUDWATCH_NAMESPACE', nil)}"
+      Rails.logger.info "ENV['SIDEKIQ_CLOUDWATCH_INTERVAL'] #{ENV.fetch('SIDEKIQ_CLOUDWATCH_INTERVAL', nil)}"
+      Rails.logger.info '================================================'
+    end
+
+    # Configure AWS CloudWatch client with explicit instance role credentials
+    cloudwatch_client = Aws::CloudWatch::Client.new(
+      region: ENV.fetch('AWS_REGION', 'us-east-1'),
+      credentials: Aws::InstanceProfileCredentials.new
+    )
+
+    # Enable Sidekiq CloudWatch metrics with the configured client
+    Sidekiq::CloudWatchMetrics.enable!(
+      namespace: ENV.fetch('SIDEKIQ_CLOUDWATCH_NAMESPACE', 'Chatwoot/Sidekiq'),
+      interval: ENV.fetch('SIDEKIQ_CLOUDWATCH_INTERVAL', '60').to_i,
+      client: cloudwatch_client
+    )
+  end
 end
 
 # https://github.com/ondrejbartas/sidekiq-cron
