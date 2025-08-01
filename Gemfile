@@ -119,6 +119,7 @@ gem 'sentry-sidekiq', '>= 5.19.0', require: false
 
 ##-- background job processing --##
 gem 'sidekiq', '>= 7.3.1'
+gem 'sidekiq-cloudwatchmetrics'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 # for sidekiq healthcheck
