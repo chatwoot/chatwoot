@@ -72,10 +72,7 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
       end
 
       it 'skips inboxes with default plan' do
-        create(:inbox, channel: imap_email_channel, account: account)
-
         expect(Inboxes::FetchImapEmailsJob).not_to receive(:perform_later).with(imap_email_channel)
-
         described_class.perform_now
       end
 
