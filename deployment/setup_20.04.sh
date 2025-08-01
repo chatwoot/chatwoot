@@ -1016,7 +1016,7 @@ EOF
   git checkout "$BRANCH" && git pull
 
   # Ensure the ruby version is upto date
-  # Parse the latest ruby version from the target branch
+  # Parse the latest ruby version
   latest_ruby_version="\$(cat '.ruby-version')"
   rvm install "ruby-\$latest_ruby_version"
   rvm use "\$latest_ruby_version" --default
