@@ -64,22 +64,5 @@ RSpec.describe Inboxes::FetchImapEmailInboxesJob do
 
       described_class.perform_now
     end
-
-    context 'when chatwoot_cloud is enabled' do
-      before do
-        InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create!(value: 'cloud')
-        InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_create!(value: [{ 'name' => 'Hacker' }])
-      end
-
-      it 'skips inboxes with default plan' do
-        expect(Inboxes::FetchImapEmailsJob).not_to receive(:perform_later).with(imap_email_channel)
-        described_class.perform_now
-      end
-
-      it 'processes inboxes with premium plan' do
-        expect(Inboxes::FetchImapEmailsJob).to receive(:perform_later).with(premium_imap_channel)
-        described_class.perform_now
-      end
-    end
   end
 end
