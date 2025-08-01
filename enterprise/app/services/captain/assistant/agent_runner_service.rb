@@ -11,9 +11,10 @@ class Captain::Assistant::AgentRunnerService
     custom_attributes additional_attributes
   ].freeze
 
-  def initialize(assistant:, conversation: nil)
+  def initialize(assistant:, conversation: nil, callbacks: {})
     @assistant = assistant
     @conversation = conversation
+    @callbacks = callbacks
   end
 
   def generate_response(message_history: [])
@@ -21,6 +22,7 @@ class Captain::Assistant::AgentRunnerService
     context = build_context(message_history)
     message_to_process = extract_last_user_message(message_history)
     runner = Agents::Runner.with_agents(*agents)
+    runner = add_callbacks_to_runner(runner) if @callbacks.any?
     result = runner.run(message_to_process, context: context)
 
     process_agent_result(result)
@@ -130,5 +132,41 @@ class Captain::Assistant::AgentRunnerService
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
 
     [assistant_agent] + scenario_agents
+  end
+
+  def add_callbacks_to_runner(runner)
+    if @callbacks[:on_agent_thinking]
+      runner = runner.on_agent_thinking do |*args|
+        @callbacks[:on_agent_thinking].call(*args)
+      rescue StandardError => e
+        Rails.logger.warn "[Captain] Callback error for agent_thinking: #{e.message}"
+      end
+    end
+
+    if @callbacks[:on_tool_start]
+      runner = runner.on_tool_start do |*args|
+        @callbacks[:on_tool_start].call(*args)
+      rescue StandardError => e
+        Rails.logger.warn "[Captain] Callback error for tool_start: #{e.message}"
+      end
+    end
+
+    if @callbacks[:on_tool_complete]
+      runner = runner.on_tool_complete do |*args|
+        @callbacks[:on_tool_complete].call(*args)
+      rescue StandardError => e
+        Rails.logger.warn "[Captain] Callback error for tool_complete: #{e.message}"
+      end
+    end
+
+    if @callbacks[:on_agent_handoff]
+      runner = runner.on_agent_handoff do |*args|
+        @callbacks[:on_agent_handoff].call(*args)
+      rescue StandardError => e
+        Rails.logger.warn "[Captain] Callback error for agent_handoff: #{e.message}"
+      end
+    end
+
+    runner
   end
 end
