@@ -20,7 +20,7 @@ export default {
           name: 'canned_list',
           meta: {
             featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
-            permissions: ['no-one-has-this-permission'],
+            permissions: ['administrator', 'agent', 'custom_role'],
           },
           component: CannedHome,
         },
