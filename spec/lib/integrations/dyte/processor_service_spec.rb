@@ -15,7 +15,7 @@ describe Integrations::Dyte::ProcessorService do
   describe '#create_a_meeting' do
     context 'when the API response is success' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings')
+        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings')
           .to_return(
             status: 200,
             body: { success: true, data: { id: 'meeting_id' } }.to_json,
@@ -32,7 +32,7 @@ describe Integrations::Dyte::ProcessorService do
 
     context 'when the API response is errored' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings')
+        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings')
           .to_return(
             status: 422,
             body: { success: false, data: { message: 'Title is required' } }.to_json,
@@ -51,7 +51,7 @@ describe Integrations::Dyte::ProcessorService do
   describe '#add_participant_to_meeting' do
     context 'when the API response is success' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings/m_id/participants')
+        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings/m_id/participants')
           .to_return(
             status: 200,
             body: { success: true, data: { id: 'random_uuid', auth_token: 'json-web-token' } }.to_json,
