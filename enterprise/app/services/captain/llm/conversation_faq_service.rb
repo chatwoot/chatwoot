@@ -94,11 +94,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
 
     {
       model: @model,
-      response_format: { type: 'json_object' },
+      # response_format: { type: 'json_object' },
       messages: [
         {
           role: 'system',
-          content: prompt
+          content: "#{prompt}\n\nPlease respond with a JSON object containing an array of FAQs in the format: {\"faqs\": [{\"question\": \"...\", \"answer\": \"...\"}]}"
         },
         {
           role: 'user',
@@ -109,10 +109,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
   end
 
   def parse_response(response)
-    content = response.dig('choices', 0, 'message', 'content')
-    return [] if content.nil?
+       # Try to extract JSON from the response
+    json_match = content.match(/\{.*\}/m)
+    return [] unless json_match
 
-    JSON.parse(content.strip).fetch('faqs', [])
+    JSON.parse(json_match[0]).fetch('faqs', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []

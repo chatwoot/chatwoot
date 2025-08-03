@@ -7,7 +7,7 @@ module Captain::ChatHelper
         model: @model,
         messages: @messages,
         tools: @tool_registry&.registered_tools || [],
-        response_format: { type: 'json_object' },
+        # response_format: { type: 'json_object' },
         temperature: @assistant&.config&.[]('temperature').to_f || 1
       }
     )
@@ -26,9 +26,10 @@ module Captain::ChatHelper
     if message['tool_calls']
       process_tool_calls(message['tool_calls'])
     else
-      message = JSON.parse(message['content'].strip)
-      persist_message(message, 'assistant')
-      message
+      content = message['content']
+      response_message = { content: content }
+      persist_message(response_message, 'assistant')
+      response_message
     end
   end
 
