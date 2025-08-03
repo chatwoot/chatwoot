@@ -46,7 +46,7 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
 
       context 'when message is an integration message' do
         before do
-          stub_request(:post, 'https://api.dyte.io/v2/meetings/m_id/participants')
+          stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings/m_id/participants')
             .to_return(
               status: 200,
               body: { success: true, data: { id: 'random_uuid', auth_token: 'json-web-token' } }.to_json,

@@ -39,7 +39,7 @@ RSpec.describe 'Dyte Integration API', type: :request do
 
     context 'when it is an agent with inbox access and the Dyte API is a success' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings')
+        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings')
           .to_return(
             status: 200,
             body: { success: true, data: { id: 'meeting_id' } }.to_json,
@@ -62,7 +62,7 @@ RSpec.describe 'Dyte Integration API', type: :request do
 
     context 'when it is an agent with inbox access and the Dyte API is errored' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings')
+        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings')
           .to_return(
             status: 422,
             body: { success: false, data: { message: 'Title is required' } }.to_json,
@@ -112,7 +112,7 @@ RSpec.describe 'Dyte Integration API', type: :request do
 
     context 'when it is an agent with inbox access and message_type is integrations' do
       before do
-        stub_request(:post, 'https://api.dyte.io/v2/meetings/m_id/participants')
+        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings/m_id/participants')
           .to_return(
             status: 200,
             body: { success: true, data: { id: 'random_uuid', auth_token: 'json-web-token' } }.to_json,
