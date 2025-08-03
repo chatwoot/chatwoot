@@ -42,13 +42,20 @@ class HookListener < BaseListener
       # Which means we will execute the same hook multiple times if the below filter isn't there
       next if hook.inbox.present? && hook.inbox != message.inbox
 
-      HookJob.perform_later(hook, event.name, message: message)
+      enqueue_hook_job(hook, event.name, message: message)
     end
   end
 
   def execute_account_hooks(event, account, event_data = {})
     account.hooks.account_hooks.find_each do |hook|
-      HookJob.perform_later(hook, event.name, event_data)
+      enqueue_hook_job(hook, event.name, event_data)
     end
+  end
+
+  def enqueue_hook_job(hook, event_name, event_data = {})
+    return if hook.disabled?
+    return unless %w[slack dialogflow google_translate leadsquared].include?(hook.app_id)
+
+    HookJob.perform_later(hook, event_name, event_data)
   end
 end

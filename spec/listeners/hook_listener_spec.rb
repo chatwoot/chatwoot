@@ -48,4 +48,54 @@ describe HookListener do
       end
     end
   end
+
+  describe 'hook job enqueuing behavior' do
+    let(:event_name) { 'message.created' }
+
+    context 'when hook is disabled' do
+      it 'does not enqueue the job' do
+        create(:integrations_hook, account: account, status: 'disabled')
+        expect(HookJob).not_to receive(:perform_later)
+        listener.message_created(event)
+      end
+    end
+
+    context 'when app_id is not in the allowed list' do
+      it 'does not enqueue the job' do
+        create(:integrations_hook, account: account, app_id: 'unsupported_app')
+        expect(HookJob).not_to receive(:perform_later)
+        listener.message_created(event)
+      end
+    end
+
+    context 'when hook is enabled and app_id is supported' do
+      it 'enqueues the job for slack' do
+        hook = create(:integrations_hook, account: account)
+        allow(HookJob).to receive(:perform_later)
+        listener.message_created(event)
+        expect(HookJob).to have_received(:perform_later).with(hook, event_name, message: message)
+      end
+
+      it 'enqueues the job for dialogflow' do
+        hook = create(:integrations_hook, :dialogflow, account: account, inbox: inbox)
+        allow(HookJob).to receive(:perform_later)
+        listener.message_created(event)
+        expect(HookJob).to have_received(:perform_later).with(hook, event_name, message: message)
+      end
+
+      it 'enqueues the job for google_translate' do
+        hook = create(:integrations_hook, :google_translate, account: account)
+        allow(HookJob).to receive(:perform_later)
+        listener.message_created(event)
+        expect(HookJob).to have_received(:perform_later).with(hook, event_name, message: message)
+      end
+
+      it 'enqueues the job for leadsquared' do
+        hook = create(:integrations_hook, :leadsquared, account: account)
+        allow(HookJob).to receive(:perform_later)
+        listener.message_created(event)
+        expect(HookJob).to have_received(:perform_later).with(hook, event_name, message: message)
+      end
+    end
+  end
 end
