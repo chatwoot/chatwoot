@@ -28,11 +28,11 @@ class Captain::Llm::ContactAttributesService < Llm::BaseOpenAiService
     prompt = Captain::Llm::SystemPromptsService.attributes_generator
     {
       model: @model,
-      # response_format: { type: 'json_object' },
+      response_format: { type: 'json_object' },
       messages: [
         {
           role: 'system',
-          content: "#{prompt}\n\nPlease respond with a JSON object containing an array of attributes in the format: {\"attributes\": [{\"name\": \"...\", \"value\": \"...\"}]}"
+          content: prompt
         },
         {
           role: 'user',
@@ -46,10 +46,7 @@ class Captain::Llm::ContactAttributesService < Llm::BaseOpenAiService
     content = response.dig('choices', 0, 'message', 'content')
     return [] if content.nil?
 
-    json_match = content.match(/\{.*\}/m)
-    return [] unless json_match
-
-    JSON.parse(json_match[0]).fetch('attributes', [])
+    JSON.parse(content.strip).fetch('attributes', [])
   rescue JSON::ParserError => e
     Rails.logger.error "Error in parsing GPT processed response: #{e.message}"
     []
