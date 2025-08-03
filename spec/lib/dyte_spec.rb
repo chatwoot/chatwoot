@@ -11,7 +11,7 @@ describe Dyte do
   context 'when create_a_meeting is called' do
     context 'when API response is success' do
       before do
-        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings')
+        stub_request(:post, 'https://api.dyte.io/v2/meetings')
           .to_return(
             status: 200,
             body: { success: true, data: { id: 'meeting_id' } }.to_json,
@@ -27,7 +27,7 @@ describe Dyte do
 
     context 'when API response is invalid' do
       before do
-        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings')
+        stub_request(:post, 'https://api.dyte.io/v2/meetings')
           .to_return(status: 422, body: { message: 'Title is required' }.to_json, headers: headers)
       end
 
@@ -47,7 +47,7 @@ describe Dyte do
 
     context 'when API response is success' do
       before do
-        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings/m_id/participants')
+        stub_request(:post, 'https://api.dyte.io/v2/meetings/m_id/participants')
           .to_return(
             status: 200,
             body: { success: true, data: { id: 'random_uuid', auth_token: 'json-web-token' } }.to_json,
@@ -63,7 +63,7 @@ describe Dyte do
 
     context 'when API response is invalid' do
       before do
-        stub_request(:post, 'https://rtk.realtime.cloudflare.com/v2/meetings/m_id/participants')
+        stub_request(:post, 'https://api.dyte.io/v2/meetings/m_id/participants')
           .to_return(status: 422, body: { message: 'Meeting ID is invalid' }.to_json, headers: headers)
       end
 

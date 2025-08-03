@@ -1,5 +1,5 @@
 class Dyte
-  BASE_URL = 'https://rtk.realtime.cloudflare.com/v2'.freeze
+  BASE_URL = 'https://api.dyte.io/v2'.freeze
   API_KEY_HEADER = 'Authorization'.freeze
   PRESET_NAME = 'group_call_host'.freeze
 
