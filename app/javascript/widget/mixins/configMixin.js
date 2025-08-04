@@ -14,6 +14,9 @@ export default {
     channelConfig() {
       return window.chatwootWebChannel;
     },
+    accountId() {
+      return window.chatwootWebChannel.accountId;
+    },
     hasEmojiPickerEnabled() {
       return this.channelConfig.enabledFeatures.includes('emoji_picker');
     },

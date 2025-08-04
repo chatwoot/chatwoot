@@ -16,9 +16,20 @@
         id="orderId"
         v-model="orderId"
         type="text"
-        placeholder="Enter Order ID (Optional)"
-        class="order-id-input rounded-lg px-4 py-2.5"
+        :placeholder="
+          isOrderIdRequired
+            ? 'Enter Order ID (Required)'
+            : 'Enter Order ID (Optional)'
+        "
+        :class="[
+          'order-id-input rounded-lg px-4 py-2.5',
+          { 'border-red-500': orderIdError },
+        ]"
+        :required="isOrderIdRequired"
       />
+      <div v-if="orderIdError" class="text-xs text-red-500 mt-1">
+        Please enter an Order ID
+      </div>
       <button
         :style="{
           background: widgetColor,
@@ -40,12 +51,14 @@ import PhoneInput from 'widget/components/PhoneInput.vue';
 import { mapActions } from 'vuex';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import configMixin from 'widget/mixins/configMixin';
 
 export default {
   name: 'OrderCard',
   components: {
     PhoneInput,
   },
+  mixins: [configMixin],
   props: {
     messageId: {
       type: Number,
@@ -58,6 +71,7 @@ export default {
       orderId: '',
       selectedDialCode: '',
       hasError: false,
+      orderIdError: false,
       inputStyles: {},
       isUpdating: false,
     };
@@ -68,6 +82,16 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    isOrderIdRequired() {
+      return this.accountId === 1321;
+    },
+  },
+  watch: {
+    orderId() {
+      if (this.orderIdError && this.orderId.trim() !== '') {
+        this.orderIdError = false;
+      }
     },
   },
   methods: {
@@ -83,6 +107,14 @@ export default {
           this.hasError = true;
           return;
         }
+
+        // Check if orderId is required for this account
+        if (this.isOrderIdRequired && this.orderId.trim() === '') {
+          this.orderIdError = true;
+          return;
+        }
+        this.orderIdError = false;
+
         await this.$store.dispatch('message/update', {
           messageId: this.messageId,
           phone: `${dialCode}${this.phoneNumber}`,
