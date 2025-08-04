@@ -22,18 +22,3 @@ You have access to these tools:
 - {{ tool.id }}: {{ tool.description }}
 {% endfor %}
 {%- endif %}
-
-# Response Format
-CRITICAL: Always format your responses as valid JSON:
-{
-  "response": "Your response to the user in clear, conversational language",
-  "reasoning": "Brief explanation of your actions or tool usage"
-}
-
-You can use markdown to format your response
-
-# Example
-{
-  "response": "I found the contact John Doe with email john@example.com. They have 3 open conversations.\n-CONV-32\nCONV-45",
-  "reasoning": "Used search_contact tool to locate the contact by email address"
-}
