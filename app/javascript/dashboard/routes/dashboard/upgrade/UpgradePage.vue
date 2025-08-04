@@ -103,7 +103,7 @@ const routeToBilling = () => {
 };
 
 onMounted(() => {
-  if (isEnterprise || isOnChatwootCloud.value) {
+  if (isEnterprise) {
     fetchLimits();
   }
 });

@@ -7,8 +7,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export function useCaptain() {
   const store = useStore();
-  const { isCloudFeatureEnabled, currentAccount, isOnChatwootCloud } =
-    useAccount();
+  const { isCloudFeatureEnabled, currentAccount } = useAccount();
   const { isEnterprise } = useConfig();
 
   const captainEnabled = computed(() => {
@@ -36,7 +35,7 @@ export function useCaptain() {
   });
 
   const fetchLimits = () => {
-    if (isEnterprise || isOnChatwootCloud.value) {
+    if (isEnterprise) {
       store.dispatch('accounts/limits');
     }
   };

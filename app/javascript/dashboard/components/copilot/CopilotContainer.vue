@@ -5,7 +5,6 @@ import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useConfig } from 'dashboard/composables/useConfig';
-import { useAccount } from 'dashboard/composables/useAccount';
 import { useWindowSize } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -21,7 +20,6 @@ defineProps({
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
 const { isEnterprise } = useConfig();
-const { isOnChatwootCloud } = useAccount();
 const { width: windowWidth } = useWindowSize();
 
 const currentUser = useMapGetter('getCurrentUser');
@@ -86,6 +84,9 @@ const setAssistant = async assistant => {
 };
 
 const shouldShowCopilotPanel = computed(() => {
+  if (!isEnterprise) {
+    return false;
+  }
   const isCaptainEnabled = isFeatureEnabledonAccount.value(
     currentAccountId.value,
     FEATURE_FLAGS.CAPTAIN
@@ -117,7 +118,7 @@ const sendMessage = async message => {
 };
 
 onMounted(() => {
-  if (isEnterprise || isOnChatwootCloud.value) {
+  if (isEnterprise) {
     store.dispatch('captainAssistants/get');
   }
 });
