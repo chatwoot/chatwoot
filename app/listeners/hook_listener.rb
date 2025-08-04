@@ -36,26 +36,34 @@ class HookListener < BaseListener
 
   private
 
-  def execute_hooks(event, message)
-    message.account.hooks.each do |hook|
-      # In case of dialogflow, we would have a hook for each inbox.
-      # Which means we will execute the same hook multiple times if the below filter isn't there
-      next if hook.inbox.present? && hook.inbox != message.inbox
+  def execute_hooks(event, account, event_data = {})
+    hooks_scope = event_data[:message].present? ? account.hooks : account.hooks.account_hooks
+    
+    hooks_scope.each do |hook|
+      # For message hooks, filter by inbox if present
+      if event_data[:message].present?
+        message = event_data[:message]
+        next if hook.inbox.present? && hook.inbox != message.inbox
+      end
+      
+      next unless supported_hook_event?(hook, event.name)
 
-      enqueue_hook_job(hook, event.name, message: message)
+      HookJob.perform_later(hook, event.name, event_data)
     end
   end
 
-  def execute_account_hooks(event, account, event_data = {})
-    account.hooks.account_hooks.find_each do |hook|
-      enqueue_hook_job(hook, event.name, event_data)
-    end
-  end
+  def supported_hook_event?(hook, event_name)
+    return false if hook.disabled?
 
-  def enqueue_hook_job(hook, event_name, event_data = {})
-    return if hook.disabled?
-    return unless %w[slack dialogflow google_translate leadsquared].include?(hook.app_id)
+    supported_events_map = {
+      'slack' => ['message.created'],
+      'dialogflow' => ['message.created', 'message.updated'],
+      'google_translate' => ['message.created'],
+      'leadsquared' => ['contact.updated', 'conversation.created', 'conversation.resolved']
+    }
 
-    HookJob.perform_later(hook, event_name, event_data)
+    return false unless supported_events_map.key?(hook.app_id)
+
+    supported_events_map[hook.app_id].include?(event_name)
   end
 end
