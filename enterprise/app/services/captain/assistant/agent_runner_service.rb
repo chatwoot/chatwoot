@@ -27,7 +27,9 @@ class Captain::Assistant::AgentRunnerService
 
     process_agent_result(result)
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @conversation.account).capture_exception
+    # when running the agent runner service in a rake task, the conversation might not have an account associated
+    # for regular production usage, it will run just fine
+    ChatwootExceptionTracker.new(e, account: @conversation&.account).capture_exception
     Rails.logger.error "[Captain V2] AgentRunnerService error: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
 
