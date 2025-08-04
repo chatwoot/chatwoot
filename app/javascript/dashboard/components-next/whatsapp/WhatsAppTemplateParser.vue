@@ -199,25 +199,12 @@ defineExpose({
         >
           <Input
             v-model="processedParams.body[key]"
-            :type="
-              key === 'otp_code'
-                ? 'tel'
-                : key === 'expiry_minutes'
-                  ? 'number'
-                  : 'text'
-            "
-            :maxlength="
-              key === 'otp_code' ? 8 : key === 'expiry_minutes' ? 3 : null
-            "
+            :type="text"
             class="flex-1"
             :placeholder="
-              key === 'otp_code'
-                ? t('WHATSAPP_TEMPLATES.PARSER.OTP_CODE')
-                : key === 'expiry_minutes'
-                  ? t('WHATSAPP_TEMPLATES.PARSER.EXPIRY_MINUTES')
-                  : t('WHATSAPP_TEMPLATES.PARSER.VARIABLE_PLACEHOLDER', {
-                      variable: key,
-                    })
+              t('WHATSAPP_TEMPLATES.PARSER.VARIABLE_PLACEHOLDER', {
+                variable: key,
+              })
             "
           />
         </div>
@@ -235,14 +222,9 @@ defineExpose({
         >
           <Input
             v-model="processedParams.buttons[index].parameter"
-            :type="button.type === 'copy_code' ? 'text' : 'text'"
-            :maxlength="button.type === 'copy_code' ? 15 : 500"
+            :type="text"
             class="flex-1"
-            :placeholder="
-              button.type === 'copy_code'
-                ? t('WHATSAPP_TEMPLATES.PARSER.COUPON_CODE')
-                : t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETER')
-            "
+            :placeholder="t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETER')"
           />
         </div>
       </div>
