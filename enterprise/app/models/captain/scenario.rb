@@ -38,6 +38,8 @@ class Captain::Scenario < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
+  delegate :temperature, :feature_faq, :feature_memory, :product_name, to: :assistant
+
   before_save :resolve_tool_references
 
   def prompt_context
