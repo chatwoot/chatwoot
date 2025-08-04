@@ -4,6 +4,7 @@ import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { differenceInDays } from 'date-fns';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useI18n } from 'vue-i18n';
@@ -22,6 +23,7 @@ const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
 const { accountId, currentAccount } = useAccount();
+const { isEnterprise } = useConfig();
 const { isAdmin } = useAdmin();
 
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
@@ -100,7 +102,11 @@ const routeToBilling = () => {
   });
 };
 
-onMounted(() => fetchLimits());
+onMounted(() => {
+  if (isEnterprise) {
+    fetchLimits();
+  }
+});
 
 defineExpose({ shouldShowUpgradePage });
 </script>
