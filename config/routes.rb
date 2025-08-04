@@ -292,6 +292,9 @@ Rails.application.routes.draw do
               delete :logo
               post :send_instructions
               get :ssl_status
+              post :upload_content
+              get :generated_content
+              post :publish_content
             end
             resources :categories
             resources :articles do

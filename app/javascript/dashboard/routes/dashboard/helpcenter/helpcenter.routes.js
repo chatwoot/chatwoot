@@ -22,6 +22,9 @@ const PortalsLocalesIndexPage = () =>
 const PortalsSettingsIndexPage = () =>
   import('./pages/PortalsSettingsIndexPage.vue');
 
+const PdfDocumentsPage = () =>
+  import('../../../components-next/HelpCenter/Pages/PdfDocumentsPage/PdfDocumentsPage.vue');
+
 const meta = {
   featureFlag: FEATURE_FLAGS.HELP_CENTER,
   permissions: ['administrator', 'agent', 'knowledge_base_manage'],
@@ -81,6 +84,12 @@ const portalRoutes = [
     name: 'portals_settings_index',
     meta,
     component: PortalsSettingsIndexPage,
+  },
+  {
+    path: getPortalRoute(':portalSlug/pdf-documents'),
+    name: 'portals_pdf_documents_index',
+    meta,
+    component: PdfDocumentsPage,
   },
   {
     path: getPortalRoute('new'),
