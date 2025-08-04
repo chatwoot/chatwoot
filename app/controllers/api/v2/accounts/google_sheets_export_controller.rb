@@ -4,7 +4,10 @@
 #
 # Actions:
 # - authorize: Returns the Google OAuth authorization URL.
+# - status: Checks authorization status from external service.
 ##
+require 'httparty'
+
 class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization
 
@@ -15,12 +18,37 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
   end
 
   def status
-    # This action is a placeholder for future use.
-    # Currently, it does not perform any operations.
-    render json: {
-      authorized: true,
-      authorization_url: build_google_auth_url
-    }
+    # Send GET request to check authorization status
+    api_endpoint = GlobalConfigService.load('EXTERNAL_TOKEN_API_URL', nil)
+    status_url = "#{api_endpoint}#{Current.account_id}/status"
+
+    begin
+      response = HTTParty.get(status_url)
+
+      if response.success?
+        authorized = response.parsed_response['authorized'] || false
+
+        if authorized
+          render json: { authorized: true, authorization_url: build_google_auth_url }, status: :ok
+        else
+          render json: {
+            authorized: false,
+            authorization_url: build_google_auth_url
+          }, status: :ok
+        end
+      else
+        render json: {
+          authorized: false,
+          authorization_url: build_google_auth_url,
+          error: 'Failed to check status from external service'
+        }, status: :bad_gateway
+      end
+    rescue StandardError => e
+      render json: {
+        error: 'Failed to connect to external service',
+        message: e.message
+      }, status: :service_unavailable
+    end
   end
 
   private
