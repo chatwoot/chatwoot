@@ -8,51 +8,70 @@ tasks:
   # docker
   # ---------------------------------------------------------------------
   docker-build-base:
-    desc: "Build base Docker image"
+    desc: 'Build base Docker image'
     cmds:
       - docker compose build base
-    
+
   docker-build:
-    desc: "Build all Docker images"
+    desc: 'Build all Docker images'
     cmds:
       - docker compose build
 
   docker-setup-dev:
-    desc: "Setup Docker development images"
+    desc: 'Setup Docker development images'
     cmds:
       - docker compose run --rm rails bundle exec rails db:chatwoot_prepare
 
   docker-setup-test:
-    desc: "Setup Docker unit-test images"
+    desc: 'Setup Docker unit-test images'
     cmds:
       - docker compose run --rm rails bundle exec rails db:chatwoot_prepare RAILS_ENV=test
-    
+
   docker-test:
-    desc: "Run the full RSpec suite inside the Rails container"
+    desc: 'Run the full RSpec suite inside the Rails container'
     cmds:
       - docker compose run --rm -e RAILS_ENV=test rails bundle exec rspec --profile=10 --format documentation
     silent: true
 
   docker-up:
-    desc: "Start the Docker containers"
+    desc: 'Start the Docker containers'
     cmds:
       - docker compose up -d
 
   docker-stop:
-    desc: "Stop the Docker containers (without removing them)"
+    desc: 'Stop the Docker containers (without removing them)'
     cmds:
       - docker compose stop
 
   docker-down:
-    desc: "Stop the Docker containers"
+    desc: 'Stop the Docker containers'
     cmds:
       - docker compose down
 
   docker-clean-volumes:
-    desc: "Delete all Docker volumes"
+    desc: 'Delete all Docker volumes'
     cmds:
       - echo "Stopping and removing containers..."
       - docker compose down -v --remove-orphans
       - docker volume prune -f
       - echo "Volume cleanup completed!"
 
+  docker-reload-env:
+    desc: 'Reload environment variables without rebuilding'
+    cmds:
+      - docker-compose stop rails sidekiq vite
+      - docker-compose rm -f rails sidekiq vite
+      - docker-compose up -d rails sidekiq vite
+
+  docker-chatwoot-build:
+    desc: 'Build the Chatwoot container'
+    cmds:
+      - echo "Stopping and removing containers..."
+      - task docker-down
+      - echo "Building..."
+      - task docker-build
+      - echo "Setting up development environment..."
+      - task docker-setup-dev
+      - echo "Starting containers..."
+      - task docker-up
+      - echo "Build completed!"

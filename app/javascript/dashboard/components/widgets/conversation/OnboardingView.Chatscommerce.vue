@@ -7,7 +7,7 @@ import {
   useStore,
 } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
-import ConfigurationBackendAPI from 'v3/api/ai_backend';
+import AIBackendAPI from 'v3/api/ai_backend';
 import Button from '../../../../shared/components/Button.vue';
 import OnboardingViewAddAgent from './OnboardingView.AddAgent.vue';
 import OnboardingViewAddChannel from './OnboardingView.AddChannel.vue';
@@ -35,6 +35,7 @@ const stepOrder = shallowRef({
   addChannelStep: 2,
   addAIAgentStep: 3,
 });
+const ONBOARDING_STEP_KEY = 'chatscommerce_onboarding_current_step';
 
 const onboardingSteps = shallowRef({
   [stepOrder.value.addAgentsStep]: {
@@ -99,23 +100,58 @@ const greetingMessage = computed(() => {
   });
 });
 
+function loadSavedStep() {
+  try {
+    const savedStep = localStorage.getItem(ONBOARDING_STEP_KEY);
+    if (savedStep !== null) {
+      const stepNumber = parseInt(savedStep, 10);
+      if (stepNumber >= 1 && stepNumber <= 3) {
+        currentStep.value = stepNumber;
+      }
+    }
+  } catch (error) {
+    useAlert(t('ONBOARDING.ERROR.STEP_NOT_LOADED'));
+    currentStep.value = 1;
+  }
+}
+
+function saveCurrentStep(step) {
+  try {
+    localStorage.setItem(ONBOARDING_STEP_KEY, step.toString());
+  } catch (error) {
+    useAlert(t('ONBOARDING.ERROR.STEP_NOT_SAVED'));
+    localStorage.setItem(ONBOARDING_STEP_KEY, '1');
+  }
+}
+
 async function finishHandler() {
   try {
     const accountId = currentAccount.value?.id;
 
     const botToken = bots.value?.[0]?.access_token;
     if (botToken) {
-      const configurationData = {
-        bot_token: botToken,
-        access_token: currentUser.value.access_token,
-        account_id: accountId,
-        inbox_id: inboxes.value?.[0]?.id,
-        tags: [],
+      const chatwootConfig = {
+        chatwoot: {
+          type: 'chatwoot',
+          enabled: true,
+          bot_api_token: botToken,
+          app_api_token: currentUser.value.access_token,
+          account_id: String(accountId),
+          inbox_id: String(inboxes.value?.[0]?.id),
+          tags: {
+            developer: 'pending',
+            pruebas: 'pending',
+            detenido: 'pending',
+            uber: 'pending',
+            procesar: 'pending',
+            soporte: 'pending',
+          },
+        },
       };
 
-      await ConfigurationBackendAPI.createConfiguration(
-        'chatwoot_config',
-        configurationData
+      await AIBackendAPI.updateOrCreateConfiguration(
+        'messaging_config',
+        chatwootConfig
       );
     }
 
@@ -128,25 +164,38 @@ async function finishHandler() {
         installationName: globalConfig.value.installationName,
       })
     );
+
+    localStorage.removeItem(ONBOARDING_STEP_KEY);
   } catch (error) {
     useAlert(t('ONBOARDING.ERROR.BOT_CONFIGURATION'));
   }
 }
+
 function backHandler() {
   currentStep.value -= 1;
+  saveCurrentStep(currentStep.value);
 }
 
 function nextHandler() {
   currentStep.value += 1;
+  saveCurrentStep(currentStep.value);
+}
+
+function handleStepClick(stepNumber) {
+  // Early return if step is not accessible
+  if (!stepCompletionStatus.value[stepNumber - 1] && stepNumber > 1) {
+    useAlert(t('ONBOARDING.ERROR.STEP_NOT_COMPLETED'));
+    return;
+  }
+
+  currentStep.value = stepNumber;
+  saveCurrentStep(currentStep.value);
 }
 
 function checkStepCompletion(step) {
   const isComplete = onboardingSteps.value[step].completeCondition.value;
   if (isComplete) {
     stepCompletionStatus.value[step] = true;
-    const nextStep =
-      step === Object.keys(onboardingSteps.value).length ? step : step + 1;
-    currentStep.value = nextStep;
   }
 }
 
@@ -158,6 +207,8 @@ watchEffect(() => {
 });
 
 onMounted(async () => {
+  loadSavedStep();
+
   const promises = [];
 
   if (!agents.value?.length) {
@@ -181,7 +232,7 @@ onMounted(async () => {
   <div>
     <div
       v-if="!isLoading"
-      class="flex flex-col min-h-screen max-h-screen lg:max-w-5xl max-w-4xl gap-4 p-8 font-inter overflow-auto"
+      class="flex flex-col min-h-screen max-h-screen lg:max-w-6xl max-w-4xl gap-4 p-8 font-inter overflow-auto"
     >
       <!--Greeting-->
       <section class="w-full mx-auto">
@@ -205,6 +256,7 @@ onMounted(async () => {
           :steps="onboardingSteps"
           :current-step="currentStep"
           :steps-completed="stepCompletionStatus"
+          @update:current-step="handleStepClick"
         />
 
         <!--OnboardingViews-->

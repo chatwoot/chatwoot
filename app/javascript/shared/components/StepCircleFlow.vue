@@ -17,16 +17,24 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['update:currentStep']);
+
 const { t } = useI18n();
 
 const getProgressClass = index => {
-  if (props.currentStep === index + 2) {
-    return 'progress-line-nextStep';
+  const currentStepIndex = props.currentStep - 1;
+
+  if (currentStepIndex === index + 1) {
+    return 'w-0 bg-n-brand animate-fillLine';
   }
-  if (props.currentStep > index + 2) {
-    return 'progress-line-completed';
+  if (currentStepIndex > index) {
+    return 'w-full bg-n-brand';
   }
-  return 'progress-line-not-completed';
+  return 'w-0';
+};
+
+const handleStepClick = stepNumber => {
+  emit('update:currentStep', stepNumber);
 };
 </script>
 
@@ -41,23 +49,47 @@ const getProgressClass = index => {
       <div
         class="w-16 h-16 rounded-full flex items-center justify-center border-2 border-slate-200 transition-transform duration-[500ms] z-10"
         :class="
-          (props.currentStep == step.props.stepNumber
-            ? 'scale-[1.3] bg-n-brand'
-            : 'scale-100 ',
-          props.currentStep >= step.props.stepNumber
-            ? 'bg-n-brand'
-            : 'bg-slate-600')
+          currentStep == step.props.stepNumber
+            ? [
+                'scale-150',
+                props.stepsCompleted[step.props.stepNumber]
+                  ? 'bg-n-brand contrast-100'
+                  : 'bg-n-slate-7',
+              ]
+            : [
+                currentStep >= step.props.stepNumber
+                  ? 'bg-n-brand contrast-100'
+                  : 'bg-n-slate-7',
+              ]
         "
       >
-        <Icon :icon="step.icon.src" :class="step.icon.class" />
+        <button
+          class="transition-transform duration-300"
+          :class="[
+            step.props.stepNumber !== currentStep ? 'hover:scale-125' : '',
+          ]"
+          @click="handleStepClick(step.props.stepNumber)"
+        >
+          <Icon :icon="step.icon.src" :class="step.icon.class" />
+        </button>
       </div>
       <!--Line-->
       <div class="relative w-full">
         <div
           v-if="index < Object.values(props.steps).length - 1"
-          class="absolute -top-12 bg-slate-200 left-1/2 h-1 w-full -z-8"
-          :class="getProgressClass(index)"
-        />
+          class="relative w-full h-1 -top-12"
+        >
+          <!-- Background Line -->
+          <div
+            class="absolute top-1/2 left-[50%] translate-x-0 translate-y-[-50%] h-1 w-full bg-slate-200 z-0"
+          />
+
+          <!-- Animated Line -->
+          <div
+            class="absolute top-1/2 left-[50%] translate-x-0 translate-y-[-50%] h-1 z-1"
+            :class="getProgressClass(index)"
+          />
+        </div>
       </div>
 
       <!--Text-->
@@ -79,43 +111,3 @@ const getProgressClass = index => {
     </div>
   </div>
 </template>
-
-d
-<style scoped>
-.progress-line-nextStep::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%;
-  background-color: theme('colors.n.brand');
-  animation: fillLine 0.5s ease-in-out forwards;
-}
-
-.progress-line-completed::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: theme('colors.n.brand');
-}
-
-.progress-line-not-completed::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%;
-  background-color: transparent;
-}
-
-@keyframes fillLine {
-  to {
-    width: 100%;
-  }
-}
-</style>
