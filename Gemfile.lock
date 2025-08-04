@@ -824,7 +824,6 @@ GEM
     squasher (0.7.2)
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
-    stripe (8.5.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
     thor (1.4.0)
@@ -1021,7 +1020,7 @@ DEPENDENCIES
   spring-watcher-listen
   squasher
   stackprof
-  stripe
+  
   telephone_number
   test-prof
   time_diff

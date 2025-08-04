@@ -53,8 +53,9 @@ class Internal::Accounts::InternalAttributesService
   # Get list of valid features that can be manually managed
   def valid_feature_list
     # Business and Enterprise plan features only
-    Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES +
-      Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES
+    # Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES +
+    #   Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES
+    []
   end
 
   # Account notes functionality removed for now

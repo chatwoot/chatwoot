@@ -97,7 +97,7 @@ namespace :chatwoot do
 
     def configure_community_variant
       update_installation_config('DEPLOYMENT_ENV', 'self-hosted')
-      update_installation_config('INSTALLATION_PRICING_PLAN', 'community')
+      update_installation_config('INSTALLATION_PRICING_PLAN', 'enterprise')
     end
 
     def configure_enterprise_variant

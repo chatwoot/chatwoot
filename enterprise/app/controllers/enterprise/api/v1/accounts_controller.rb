@@ -5,10 +5,10 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   before_action :check_cloud_env, only: [:limits, :toggle_deletion]
 
   def subscription
-    if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
-      @account.update(custom_attributes: { is_creating_customer: true })
-      Enterprise::CreateStripeCustomerJob.perform_later(@account)
-    end
+    # if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
+    #   @account.update(custom_attributes: { is_creating_customer: true })
+    #   Enterprise::CreateStripeCustomerJob.perform_later(@account)
+    # end
     head :no_content
   end
 
@@ -37,7 +37,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   end
 
   def checkout
-    return create_stripe_billing_session(stripe_customer_id) if stripe_customer_id.present?
+    # return create_stripe_billing_session(stripe_customer_id) if stripe_customer_id.present?
 
     render_invalid_billing_details
   end
@@ -78,40 +78,40 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)
   end
 
-  def stripe_customer_id
-    @account.custom_attributes['stripe_customer_id']
-  end
+  # def stripe_customer_id
+  #   @account.custom_attributes['stripe_customer_id']
+  # end
 
-  def mark_for_deletion
-    reason = 'manual_deletion'
+  # def mark_for_deletion
+  #   reason = 'manual_deletion'
 
-    if @account.mark_for_deletion(reason)
-      render json: { message: 'Account marked for deletion' }, status: :ok
-    else
-      render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
-    end
-  end
+  #   if @account.mark_for_deletion(reason)
+  #     render json: { message: 'Account marked for deletion' }, status: :ok
+  #   else
+  #     render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
+  #   end
+  # end
 
-  def unmark_for_deletion
-    if @account.unmark_for_deletion
-      render json: { message: 'Account unmarked for deletion' }, status: :ok
-    else
-      render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
-    end
-  end
+  # def unmark_for_deletion
+  #   if @account.unmark_for_deletion
+  #     render json: { message: 'Account unmarked for deletion' }, status: :ok
+  #   else
+  #     render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
+  #   end
+  # end
 
   def render_invalid_billing_details
     render_could_not_create_error('Please subscribe to a plan before viewing the billing details')
   end
 
-  def create_stripe_billing_session(customer_id)
-    session = Enterprise::Billing::CreateSessionService.new.create_session(customer_id)
-    render_redirect_url(session.url)
-  end
+  # def create_stripe_billing_session(customer_id)
+  #   session = Enterprise::Billing::CreateSessionService.new.create_session(customer_id)
+  #   render_redirect_url(session.url)
+  # end
 
-  def render_redirect_url(redirect_url)
-    render json: { redirect_url: redirect_url }
-  end
+  # def render_redirect_url(redirect_url)
+  #   render json: { redirect_url: redirect_url }
+  # end
 
   def pundit_user
     {

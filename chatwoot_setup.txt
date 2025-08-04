@@ -1,0 +1,63 @@
+# 1. Instalar dependências de sistema
+sudo apt update
+sudo apt install -y build-essential libssl-dev libreadline-dev zlib1g-dev \
+  autoconf bison libyaml-dev libncurses5-dev libffi-dev libgdbm-dev pkg-config git curl docker.io postgresql postgresql-contrib libpq-dev
+
+# 2. Configurar rbenv
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+# 3. Instalar Ruby
+rbenv install 3.4.4
+rbenv global 3.4.4
+rbenv rehash
+
+# 4. Instalar Bundler
+gem install bundler --no-document
+rbenv rehash
+
+# 5. Instalar Node.js + Corepack + pnpm
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+corepack enable
+corepack prepare pnpm@10.2.0 --activate
+
+# 6. Clonar repositório Chatwoot
+git clone https://github.com/chatwoot/chatwoot.git starchat_app
+cd starchat_app
+
+# 7. Configurar variáveis de ambiente
+cp .env.example .env
+# Editar .env:
+# RAILS_ENV=production
+# DATABASE_URL=postgresql://chatwoot:senha@localhost:5432/chatwoot_production
+# REDIS_URL=redis://localhost:6379/0
+# STRIPE_* (deixar vazio)
+# SIGNUP_ENABLED=true
+
+source .env
+
+# 8. Instalar dependências da aplicação
+bundle install --jobs 4 --without development test
+pnpm install --prod --frozen-lockfile
+
+# 9. Configurar PostgreSQL
+sudo -u postgres createuser chatwoot --pwprompt
+sudo -u postgres createdb chatwoot_production -O chatwoot
+
+# 10. Rodar migrations e seeds
+DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production bundle exec rails db:drop
+DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=production bundle exec rails db:setup
+
+# 11. Iniciar Redis usando Docker
+docker pull redis:latest
+docker run -d --name chatwoot-redis --restart unless-stopped -p 6379:6379 redis:latest
+
+# 12. Iniciar o servidor Rails (Puma)
+RAILS_ENV=production bundle exec rails server -b 0.0.0.0 -p 3000
+
+# 13. Iniciar o Sidekiq
+RAILS_ENV=production bundle exec sidekiq -e production -C config/sidekiq.yml

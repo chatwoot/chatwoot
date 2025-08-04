@@ -26,50 +26,20 @@ class Enterprise::Billing::HandleStripeEventService
   def perform(event:)
     @event = event
 
-    case @event.type
-    when 'customer.subscription.updated'
-      process_subscription_updated
-    when 'customer.subscription.deleted'
-      process_subscription_deleted
-    else
-      Rails.logger.debug { "Unhandled event type: #{event.type}" }
-    end
+    # Removido: processamento de eventos do Stripe
+    Rails.logger.debug { "Stripe event handling removido" }
   end
 
   private
 
-  def process_subscription_updated
-    plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
-
-    # skipping self hosted plan events
-    return if plan.blank? || account.blank?
-
-    update_account_attributes(subscription, plan)
-    update_plan_features
-    reset_captain_usage
-  end
-
-  def update_account_attributes(subscription, plan)
-    # https://stripe.com/docs/api/subscriptions/object
-    account.update(
-      custom_attributes: {
-        stripe_customer_id: subscription.customer,
-        stripe_price_id: subscription['plan']['id'],
-        stripe_product_id: subscription['plan']['product'],
-        plan_name: plan['name'],
-        subscribed_quantity: subscription['quantity'],
-        subscription_status: subscription['status'],
-        subscription_ends_on: Time.zone.at(subscription['current_period_end'])
-      }
-    )
-  end
-
-  def process_subscription_deleted
-    # skipping self hosted plan events
-    return if account.blank?
-
-    Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
-  end
+  # Removido: métodos relacionados ao Stripe
+  # def process_subscription_updated; end
+  # def update_account_attributes(subscription, plan); end
+  # def process_subscription_deleted; end
+  # def reset_captain_usage; end
+  # def subscription; end
+  # def find_plan(plan_id); end
+  # def default_plan?; end
 
   def update_plan_features
     if default_plan?
@@ -99,10 +69,6 @@ class Enterprise::Billing::HandleStripeEventService
     enable_plan_specific_features
   end
 
-  def reset_captain_usage
-    account.reset_response_usage
-  end
-
   def enable_plan_specific_features
     plan_name = account.custom_attributes['plan_name']
     return if plan_name.blank?
@@ -124,23 +90,9 @@ class Enterprise::Billing::HandleStripeEventService
     end
   end
 
-  def subscription
-    @subscription ||= @event.data.object
-  end
-
   def account
-    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
-  end
-
-  def find_plan(plan_id)
-    cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
-    cloud_plans.find { |config| config['product_id'].include?(plan_id) }
-  end
-
-  def default_plan?
-    cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
-    default_plan = cloud_plans.first || {}
-    account.custom_attributes['plan_name'] == default_plan['name']
+    # Mantido: busca da conta pelo stripe_customer_id, pode ser ajustado conforme necessidade
+    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", nil).first
   end
 
   def enable_account_manually_managed_features
