@@ -179,7 +179,8 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.4.0'
+gem 'ai-agents', '>= 0.4.2'
+gem 'ruby_llm-schema'
 
 gem 'shopify_api'
 
