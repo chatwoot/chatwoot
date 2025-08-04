@@ -328,7 +328,10 @@
       "FINISH": "Finish"
     },
     "ERROR": {
-      "BOT_CONFIGURATION": "Error durante la configuración del bot"
+      "BOT_CONFIGURATION": "Error durante la configuración del AI Bot",
+      "STEP_NOT_COMPLETED": "Por favor, complete los pasos anteriores antes de continuar",
+      "STEP_NOT_SAVED": "Error al guardar el paso actual",
+      "STEP_NOT_LOADED": "Error al cargar el paso actual"
     },
     "COMPLETED": "Onboarding completado. ¡Bienvenido a {installationName}!"
   },
@@ -356,20 +359,20 @@
       "ORDER_ID": "Pedido #{id}",
       "ERROR": "Error al cargar pedidos",
       "NO_SHOPIFY_ORDERS": "No se encontraron pedidos",
-              "FINANCIAL_STATUS": {
-          "PENDING": "Pendientes",
-          "AUTHORIZED": "Autorizado",
-          "PARTIALLY_PAID": "Parcialmente pagado",
-          "PAID": "Pagado",
-          "PARTIALLY_REFUNDED": "Parcialmente reembolsado",
-          "REFUNDED": "Reembolsado",
-          "VOIDED": "Anulado"
-        },
-        "FULFILLMENT_STATUS": {
-          "FULFILLED": "Enviado",
-          "PARTIALLY_FULFILLED": "Parcialmente enviado",
-          "UNFULFILLED": "No enviado"
-        }
+      "FINANCIAL_STATUS": {
+        "PENDING": "Pendientes",
+        "AUTHORIZED": "Autorizado",
+        "PARTIALLY_PAID": "Parcialmente pagado",
+        "PAID": "Pagado",
+        "PARTIALLY_REFUNDED": "Parcialmente reembolsado",
+        "REFUNDED": "Reembolsado",
+        "VOIDED": "Anulado"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Enviado",
+        "PARTIALLY_FULFILLED": "Parcialmente enviado",
+        "UNFULFILLED": "No enviado"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

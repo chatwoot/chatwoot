@@ -1,11 +1,11 @@
 import ApiClient from 'dashboard/api/ApiClient';
 
-class ConfigurationBackendAPI extends ApiClient {
+class AIBackendAPI extends ApiClient {
   constructor() {
     super('onboarding_config', { accountScoped: true });
   }
 
-  createConfiguration(configKey, configData) {
+  updateOrCreateConfiguration(configKey, configData) {
     const configurationPayload = {
       configuration: {
         key: configKey,
@@ -17,4 +17,4 @@ class ConfigurationBackendAPI extends ApiClient {
   }
 }
 
-export default new ConfigurationBackendAPI();
+export default new AIBackendAPI();

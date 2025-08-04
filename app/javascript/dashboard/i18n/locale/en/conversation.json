@@ -367,7 +367,10 @@
       "FINISH": "Finish"
     },
     "ERROR": {
-      "BOT_CONFIGURATION": "Error during bot configuration"
+      "BOT_CONFIGURATION": "Error during AI Bot configuration",
+      "STEP_NOT_COMPLETED": "Please complete the previous steps before proceeding",
+      "STEP_NOT_SAVED": "Error saving current step",
+      "STEP_NOT_LOADED": "Error loading current step"
     },
     "COMPLETED": "Onboarding completed. Welcome to {installationName}!"
   },

@@ -8,7 +8,7 @@ class ChatscommerceService::ConfigurationService
   class ConfigurationError < StandardError; end
 
   CONFIGURATION_KEYS = {
-    NOTIFICATIONS: 'notification_config',
+    NOTIFICATIONS: 'notifications_config',
     MESSAGES: 'messaging_config',
     GENERAL_STORE: 'general_store_config',
     ECOMMERCE: 'ecommerce_config',
@@ -34,18 +34,33 @@ class ChatscommerceService::ConfigurationService
   end
 
   def create_configuration(store_id, config_key, config_data)
-    configuration_data = {
-      configuration: {
-        id: nil,
-        key: config_key,
-        data: config_data,
-        store_id: store_id
-      }
+    # Get the configuration data from the API
+    response = self.class.get(
+      "#{chatscommerce_api_url}/api/configurations/",
+      query: { key: config_key, store_id: store_id },
+      headers: self.class.headers
+    )
+
+    # The API returns { "configuration": { "data": {...} } } so we extract the inner data hash
+    existing_config_data = if response.success? && response.parsed_response['configuration']
+                             response.parsed_response['configuration']['data'] || {}
+                           else
+                             {}
+                           end
+
+    # Merge with the new config data to perform an upsert
+    data_to_save = existing_config_data.merge(config_data)
+
+    # Construct the payload expected by the PUT endpoint
+    configuration_payload = {
+      key: config_key,
+      store_id: store_id,
+      data: data_to_save
     }
 
     response = self.class.put(
       "#{chatscommerce_api_url}/api/configurations/",
-      body: configuration_data.to_json,
+      body: { configuration: configuration_payload }.to_json,
       headers: self.class.headers
     )
 

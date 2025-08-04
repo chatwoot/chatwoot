@@ -15,12 +15,12 @@ RSpec.describe ChatscommerceService::ConfigurationService do
     # This makes the test independent of the actual default values.
     let(:default_configs) do
       {
-        'notification_config' => { notifications: 'enabled' },
-        'messaging_config' => { sms: 'disabled' },
-        'general_store_config' => { currency: 'USD' },
-        'ecommerce_config' => { enabled: true },
-        'calendly_config' => { link: 'https://calendly.com/test' },
-        'conversation_config' => { auto_reply: false }
+        described_class::CONFIGURATION_KEYS[:NOTIFICATIONS] => { notifications: 'enabled' },
+        described_class::CONFIGURATION_KEYS[:MESSAGES] => { sms: 'disabled' },
+        described_class::CONFIGURATION_KEYS[:GENERAL_STORE] => { currency: 'USD' },
+        described_class::CONFIGURATION_KEYS[:ECOMMERCE] => { enabled: true },
+        described_class::CONFIGURATION_KEYS[:CALENDLY] => { link: 'https://calendly.com/test' },
+        described_class::CONFIGURATION_KEYS[:CONVERSATION] => { auto_reply: false }
       }
     end
     
@@ -30,7 +30,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
       allow(service).to receive(:default_configs).and_return(default_configs)
     end
 
-    context 'when all configurations are created successfully' do
+    context 'When all configurations are created successfully in the first attempt' do
       it 'calls create_configuration for each default config' do
         # We expect the `create_configuration` method to be called once for each
         # item in our fake `default_configs` hash.
@@ -47,9 +47,9 @@ RSpec.describe ChatscommerceService::ConfigurationService do
       it 'raises a ConfigurationError and stops' do
         # In this scenario, we simulate the second call failing.
         allow(service).to receive(:create_configuration)
-          .with(store_id, 'notification_config', anything) # The first call succeeds.
+          .with(store_id, described_class::CONFIGURATION_KEYS[:NOTIFICATIONS], anything) # The first call succeeds.
         allow(service).to receive(:create_configuration)
-          .with(store_id, 'messaging_config', anything) # The second call fails.
+          .with(store_id, described_class::CONFIGURATION_KEYS[:MESSAGES], anything) # The second call fails.
           .and_raise(StandardError, 'API Error')
 
         # We assert that our service raises its custom error, wrapping the original error message.
@@ -69,10 +69,9 @@ RSpec.describe ChatscommerceService::ConfigurationService do
     let(:request_body) do
       {
         configuration: {
-          id: nil,
           key: config_key,
-          data: config_data,
-          store_id: store_id
+          store_id: store_id,
+          data: config_data
         }
       }.to_json
     end
@@ -80,10 +79,15 @@ RSpec.describe ChatscommerceService::ConfigurationService do
 
     context 'when the API call is successful' do
       let(:success_response) { { 'id' => '123', 'key' => config_key }.to_json }
+      let(:get_response) { { 'configuration' => { 'data' => {} } }.to_json }
 
       before do
-        # We stub the HTTP request, expecting the correct body,
-        # and tell it to return a successful response.
+        # Stub the GET request to fetch existing configuration with exact URL format
+        stub_request(:get, "#{api_url}/api/configurations/")
+          .with(query: { key: config_key, store_id: store_id })
+          .to_return(status: 200, body: get_response, headers: { 'Content-Type' => 'application/json' })
+        
+        # Stub the PUT request to create/update configuration
         stub_request(:put, api_endpoint)
           .with(body: request_body)
           .to_return(status: 200, body: success_response, headers: { 'Content-Type' => 'application/json' })
@@ -96,8 +100,15 @@ RSpec.describe ChatscommerceService::ConfigurationService do
     end
 
     context 'when the API call fails' do
+      let(:get_response) { { 'configuration' => { 'data' => {} } }.to_json }
+
       before do
-        # We stub the HTTP request to return a 500 server error.
+        # Stub the GET request to fetch existing configuration with exact URL format
+        stub_request(:get, "#{api_url}/api/configurations/")
+          .with(query: { key: config_key, store_id: store_id })
+          .to_return(status: 200, body: get_response, headers: { 'Content-Type' => 'application/json' })
+        
+        # Stub the PUT request to return a 500 server error
         stub_request(:put, api_endpoint)
           .with(body: request_body)
           .to_return(status: 500, body: { error: 'Server Error' }.to_json)
