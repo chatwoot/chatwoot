@@ -60,6 +60,8 @@ export default {
         :chat="conversation"
         :hide-inbox-name="false"
         hide-thumbnail
+        enable-context-menu
+        :allowed-context-menu-options="['open-new-tab', 'copy-link']"
         class="compact"
       />
     </div>
