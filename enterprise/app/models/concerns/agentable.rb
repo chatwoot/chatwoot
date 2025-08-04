@@ -7,7 +7,8 @@ module Concerns::Agentable
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
       model: agent_model,
-      temperature: temperature || 0.7
+      temperature: temperature || 0.7,
+      response_schema: agent_response_schema
     )
   end
 
@@ -43,6 +44,10 @@ module Concerns::Agentable
 
   def agent_model
     'gpt-4.1-mini'
+  end
+
+  def agent_response_schema
+    Captain::ResponseSchema
   end
 
   def prompt_context
