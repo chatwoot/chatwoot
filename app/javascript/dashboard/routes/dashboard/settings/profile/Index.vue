@@ -216,7 +216,11 @@ export default {
     </div>
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
-      :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')"
+      :description="
+        replaceInstallationName(
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')
+        )
+      "
     >
       <FontSize
         :value="currentFontSize"
