@@ -298,6 +298,8 @@ Rails.application.routes.draw do
             member do
               patch :archive
               delete :logo
+              post :send_instructions
+              get :ssl_status
             end
             resources :categories
             resources :articles do

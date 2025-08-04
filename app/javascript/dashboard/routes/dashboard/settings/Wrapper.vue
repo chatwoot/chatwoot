@@ -2,13 +2,10 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import SettingsHeader from './SettingsHeader.vue';
-
 const props = defineProps({
   headerTitle: { type: String, default: '' },
-  headerButtonText: { type: String, default: '' },
   icon: { type: String, default: '' },
   keepAlive: { type: Boolean, default: true },
-  newButtonRoutes: { type: Array, default: () => [] },
   showBackButton: { type: Boolean, default: false },
   backUrl: { type: [String, Object], default: '' },
   fullWidth: { type: Boolean, default: false },
@@ -16,16 +13,8 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const showNewButton = computed(
-  () => props.newButtonRoutes.length && !props.showBackButton
-);
-
 const showSettingsHeader = computed(
-  () =>
-    props.headerTitle ||
-    props.icon ||
-    props.showBackButton ||
-    showNewButton.value
+  () => props.headerTitle || props.icon || props.showBackButton
 );
 </script>
 
@@ -37,13 +26,10 @@ const showSettingsHeader = computed(
     >
       <SettingsHeader
         v-if="showSettingsHeader"
-        button-route="new"
         :icon="icon"
         :header-title="t(headerTitle)"
-        :button-text="t(headerButtonText)"
         :show-back-button="showBackButton"
         :back-url="backUrl"
-        :show-new-button="showNewButton"
         class="sticky top-0 z-20"
         :class="{ 'max-w-6xl w-full mx-auto': fullWidth }"
       />
