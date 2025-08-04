@@ -68,6 +68,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    allowedContextMenuOptions: {
+      type: Array,
+      default: () => [],
+    },
   },
   emits: [
     'contextMenuToggle',
@@ -151,11 +155,9 @@ export default {
     hasSlaPolicyId() {
       return this.chat?.sla_policy_id;
     },
-  },
-  methods: {
-    onCardClick(e) {
+    conversationPath() {
       const { activeInbox, chat } = this;
-      const path = frontendURL(
+      return frontendURL(
         conversationUrl({
           accountId: this.accountId,
           activeInbox,
@@ -166,18 +168,26 @@ export default {
           conversationType: this.conversationType,
         })
       );
+    },
+  },
+  methods: {
+    onCardClick(e) {
+      const path = this.conversationPath;
+      if (!path) return;
 
+      // Handle Ctrl/Cmd + Click for new tab
       if (e.metaKey || e.ctrlKey) {
+        e.preventDefault();
         window.open(
-          window.chatwootConfig.hostURL + path,
+          `${window.chatwootConfig.hostURL}${path}`,
           '_blank',
-          'noopener noreferrer nofollow'
+          'noopener,noreferrer'
         );
         return;
       }
-      if (this.isActiveChat) {
-        return;
-      }
+
+      // Skip if already active
+      if (this.isActiveChat) return;
 
       router.push({ path });
     },
@@ -359,6 +369,8 @@ export default {
         :priority="chat.priority"
         :chat-id="chat.id"
         :has-unread-messages="hasUnread"
+        :conversation-url="conversationPath"
+        :allowed-options="allowedContextMenuOptions"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
@@ -367,6 +379,7 @@ export default {
         @mark-as-read="markAsRead"
         @assign-priority="assignPriority"
         @delete-conversation="deleteConversation"
+        @close="closeContextMenu"
       />
     </ContextMenu>
   </div>
