@@ -34,7 +34,7 @@ services:
       - mailhog
       - sidekiq
     ports:
-      - 3005:3000
+      - 3000:3000
     env_file: .env
     environment:
       - VITE_DEV_SERVER_HOST=vite
@@ -92,7 +92,7 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
