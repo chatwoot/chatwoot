@@ -6,7 +6,8 @@ module Concerns::Agentable
       name: agent_name,
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
-      model: agent_model
+      model: agent_model,
+      temperature: temperature || 0.7
     )
   end
 
