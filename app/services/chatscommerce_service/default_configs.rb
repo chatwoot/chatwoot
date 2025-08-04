@@ -3,7 +3,7 @@ module ChatscommerceService::DefaultConfigs
 
   def default_configs
     {
-      'notification_config' => notification_config,
+      'notifications_config' => notifications_config,
       'messaging_config' => messaging_config,
       'general_store_config' => general_store_config,
       'ecommerce_config' => ecommerce_config,
@@ -12,7 +12,7 @@ module ChatscommerceService::DefaultConfigs
     }
   end
 
-  def notification_config
+  def notifications_config
     {
       channels: [
         {

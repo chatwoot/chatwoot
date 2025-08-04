@@ -17,16 +17,22 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['update:currentStep']);
+
 const { t } = useI18n();
 
 const getProgressClass = index => {
-  if (props.currentStep === index + 2) {
+  if (props.steps[index + 1].completeCondition.value) {
     return 'progress-line-nextStep';
   }
-  if (props.currentStep > index + 2) {
+  if (props.steps[index + 1].completeCondition.value) {
     return 'progress-line-completed';
   }
   return 'progress-line-not-completed';
+};
+
+const handleStepClick = stepNumber => {
+  emit('update:currentStep', stepNumber);
 };
 </script>
 
@@ -49,7 +55,15 @@ const getProgressClass = index => {
             : 'bg-slate-600')
         "
       >
-        <Icon :icon="step.icon.src" :class="step.icon.class" />
+        <button
+          class="transition-transform duration-300"
+          :class="[
+            step.props.stepNumber !== currentStep ? 'hover:scale-125' : '',
+          ]"
+          @click="handleStepClick(step.props.stepNumber)"
+        >
+          <Icon :icon="step.icon.src" :class="step.icon.class" />
+        </button>
       </div>
       <!--Line-->
       <div class="relative w-full">
