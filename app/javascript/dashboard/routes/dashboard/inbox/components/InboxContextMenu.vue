@@ -39,7 +39,7 @@ const onMenuItemClick = key => {
         :key="item.key"
         :option="item"
         variant="icon"
-        class="!w-32"
+        class="!w-48"
         @click.stop="onMenuItemClick(item.key)"
       />
     </div>
