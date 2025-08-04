@@ -62,6 +62,9 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def extract_text_from_content(content)
+    # Handle structured output from agents
+    return content[:response] || content['response'] || content.to_s if content.is_a?(Hash)
+
     return content unless content.is_a?(Array)
 
     text_parts = content.select { |part| part[:type] == 'text' }.pluck(:text)
@@ -75,19 +78,13 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def format_response(output)
-    parsed = parse_json_output(output)
+    return output.with_indifferent_access if output.is_a?(Hash)
 
-    if parsed.is_a?(Hash)
-      {
-        'response' => parsed['response'] || parsed['result'] || output.to_s,
-        'reasoning' => parsed['reasoning'] || parsed['thought_process'] || 'Processed by agent'
-      }
-    else
-      {
-        'response' => output.to_s,
-        'reasoning' => 'Processed by agent'
-      }
-    end
+    # Fallback for backwards compatibility
+    {
+      'response' => output.to_s,
+      'reasoning' => 'Processed by agent'
+    }
   end
 
   def error_response(error_message)
@@ -95,20 +92,6 @@ class Captain::Assistant::AgentRunnerService
       'response' => 'conversation_handoff',
       'reasoning' => "Error occurred: #{error_message}"
     }
-  end
-
-  def parse_json_output(output)
-    return output if output.is_a?(Hash)
-    return nil unless output.is_a?(String)
-
-    JSON.parse(output)
-  rescue JSON::ParserError => e
-    ChatwootExceptionTracker.new(e).capture_exception({
-                                                        output: output,
-                                                        assistant_id: @assistant.id,
-                                                        error_message: e.message
-                                                      })
-    nil
   end
 
   def build_state
