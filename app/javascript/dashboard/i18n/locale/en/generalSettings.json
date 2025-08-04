@@ -123,6 +123,50 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
       }
     },
+    "SSO": {
+      "TITLE": "Single Sign-On",
+      "DESCRIPTION": "Configure SSO authentication for your organization",
+      "FORM": {
+        "ENABLE_SSO": {
+          "LABEL": "Enable SSO",
+          "HELP": "Allow users to log in using Single Sign-On"
+        },
+        "PROVIDER_NAME": {
+          "LABEL": "Provider Name",
+          "PLACEHOLDER": "e.g., 'Okta', 'Azure AD', 'Google Workspace'",
+          "ERROR": "Please enter a provider name"
+        },
+        "LOGIN_URL": {
+          "LABEL": "SSO Login URL",
+          "PLACEHOLDER": "https://your-sso-provider.com/login",
+          "ERROR": "Please enter a valid SSO login URL",
+          "HELP": "Users will be redirected to this URL for authentication"
+        },
+        "LOGOUT_URL": {
+          "LABEL": "SSO Logout URL (Optional)",
+          "PLACEHOLDER": "https://your-sso-provider.com/logout",
+          "HELP": "Users will be redirected to this URL after logout"
+        },
+        "SECRET_KEY": {
+          "LABEL": "Secret Key",
+          "PLACEHOLDER": "Enter your SSO secret key",
+          "ERROR": "Please enter a secret key",
+          "HELP": "Secret key used to verify SSO tokens"
+        },
+        "TOKEN_EXPIRY": {
+          "LABEL": "Token Expiry (minutes)",
+          "PLACEHOLDER": "5",
+          "ERROR": "Please enter a valid expiry time",
+          "HELP": "How long SSO tokens remain valid"
+        },
+        "ERROR": "Please fix the form errors"
+      },
+      "SUBMIT": "Update SSO Settings",
+      "UPDATE": {
+        "SUCCESS": "SSO settings updated successfully",
+        "ERROR": "Failed to update SSO settings"
+      }
+    },
     "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",

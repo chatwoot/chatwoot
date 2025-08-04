@@ -47,6 +47,7 @@ class Api::V1::AccountsController < Api::BaseController
     @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email))
     @account.custom_attributes.merge!(custom_attributes_params)
     @account.settings.merge!(settings_params)
+    @account.sso_config.merge!(sso_config_params) if sso_config_params.present? && sso_feature_enabled?
     @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
     @account.save!
   end
@@ -93,6 +94,14 @@ class Api::V1::AccountsController < Api::BaseController
 
   def settings_params
     params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label)
+  end
+
+  def sso_config_params
+    params.permit(sso_config: [:enabled, :provider_name, :login_url, :logout_url, :secret_key, :token_expiry])[:sso_config]
+  end
+
+  def sso_feature_enabled?
+    @account.feature_enabled?('sso')
   end
 
   def check_signup_enabled

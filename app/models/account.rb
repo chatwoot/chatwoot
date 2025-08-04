@@ -12,6 +12,7 @@
 #  locale                :integer          default("en")
 #  name                  :string           not null
 #  settings              :jsonb
+#  sso_config            :jsonb            not null
 #  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
@@ -19,7 +20,8 @@
 #
 # Indexes
 #
-#  index_accounts_on_status  (status)
+#  index_accounts_on_sso_config  (sso_config) USING gin
+#  index_accounts_on_status      (status)
 #
 
 class Account < ApplicationRecord
@@ -55,6 +57,7 @@ class Account < ApplicationRecord
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
+  store_accessor :sso_config, :enabled, :provider_name, :login_url, :logout_url, :secret_key, :token_expiry
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -156,6 +159,43 @@ class Account < ApplicationRecord
     # we need to extract the language code from the locale
     account_locale = locale&.split('_')&.first
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
+  # SSO Configuration Methods
+  def sso_enabled?
+    ActiveModel::Type::Boolean.new.cast(sso_config['enabled'])
+  end
+
+  def sso_provider_name
+    sso_config['provider_name'].presence || 'SSO'
+  end
+
+  def sso_login_url
+    sso_config['login_url']
+  end
+
+  def sso_logout_url
+    sso_config['logout_url']
+  end
+
+  def sso_secret_key
+    sso_config['secret_key']
+  end
+
+  def sso_token_expiry
+    (sso_config['token_expiry'].presence || 5).to_i
+  end
+
+  def update_sso_config(config)
+    # Validate required fields if SSO is enabled
+    return false if ActiveModel::Type::Boolean.new.cast(config['enabled']) && (config['login_url'].blank? || config['secret_key'].blank?)
+
+    # Set default values
+    config['token_expiry'] = 5 if config['token_expiry'].blank?
+    config['provider_name'] = 'SSO' if config['provider_name'].blank?
+
+    self.sso_config = config
+    save
   end
 
   private

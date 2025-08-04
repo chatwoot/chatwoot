@@ -1,4 +1,5 @@
 json.settings resource.settings
+json.sso_config resource.sso_config
 json.created_at resource.created_at
 if resource.custom_attributes.present?
   json.custom_attributes do

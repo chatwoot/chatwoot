@@ -17,6 +17,7 @@ import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
 import AutoResolve from './components/AutoResolve.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
+import SSOConfiguration from './components/SSOConfiguration.vue';
 import SectionLayout from './components/SectionLayout.vue';
 
 export default {
@@ -28,6 +29,7 @@ export default {
     AccountDelete,
     AutoResolve,
     AudioTranscription,
+    SSOConfiguration,
     SectionLayout,
     WithLabel,
     NextInput,
@@ -76,6 +78,9 @@ export default {
         this.accountId,
         FEATURE_FLAGS.CAPTAIN
       );
+    },
+    showSSOConfig() {
+      return this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.SSO);
     },
     languagesSortedByCode() {
       const enabledLanguages = [...this.enabledLanguages];
@@ -244,6 +249,7 @@ export default {
     </div>
     <AutoResolve v-if="showAutoResolutionConfig" />
     <AudioTranscription v-if="showAudioTranscriptionConfig" />
+    <SSOConfiguration v-if="showSSOConfig" />
     <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />
