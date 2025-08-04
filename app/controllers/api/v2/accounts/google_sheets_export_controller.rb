@@ -17,7 +17,10 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
   def status
     # This action is a placeholder for future use.
     # Currently, it does not perform any operations.
-    render json: { status: 'Google Sheets export feature is active' }
+    render json: {
+      authorized: true,
+      authorization_url: build_google_auth_url
+    }
   end
 
   private
