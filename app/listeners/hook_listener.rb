@@ -36,16 +36,19 @@ class HookListener < BaseListener
 
   private
 
-  def execute_hooks(event, account, event_data = {})
-    hooks_scope = event_data[:message].present? ? account.hooks : account.hooks.account_hooks
-    
-    hooks_scope.each do |hook|
-      # For message hooks, filter by inbox if present
-      if event_data[:message].present?
-        message = event_data[:message]
-        next if hook.inbox.present? && hook.inbox != message.inbox
-      end
-      
+  def execute_hooks(event, message)
+    message.account.hooks.each do |hook|
+      # In case of dialogflow, we would have a hook for each inbox.
+      # Which means we will execute the same hook multiple times if the below filter isn't there
+      next if hook.inbox.present? && hook.inbox != message.inbox
+      next unless supported_hook_event?(hook, event.name)
+
+      HookJob.perform_later(hook, event.name, message: message)
+    end
+  end
+
+  def execute_account_hooks(event, account, event_data = {})
+    account.hooks.account_hooks.each do |hook|
       next unless supported_hook_event?(hook, event.name)
 
       HookJob.perform_later(hook, event.name, event_data)
