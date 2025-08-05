@@ -12,7 +12,8 @@ RSpec.describe ReplyMailbox do
     let(:conversation) { create(:conversation, assignee: agent, inbox: create(:inbox, account: account, greeting_enabled: false), account: account) }
     let(:described_subject) { described_class.receive reply_mail }
     let(:serialized_attributes) do
-      %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments references subject text_content to]
+      %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments references subject text_content to
+         auto_reply]
     end
 
     context 'with reply uuid present' do

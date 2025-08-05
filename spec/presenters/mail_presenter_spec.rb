@@ -49,13 +49,15 @@ RSpec.describe MailPresenter do
                                 :references,
                                 :subject,
                                 :text_content,
-                                :to
+                                :to,
+                                :auto_reply
                               ])
       expect(data[:content_type]).to include('multipart/alternative')
       expect(data[:date].to_s).to eq('2020-04-20T04:20:20-04:00')
       expect(data[:message_id]).to eq(mail.message_id)
       expect(data[:multipart]).to be(true)
       expect(data[:subject]).to eq(decorated_mail.subject)
+      expect(data[:auto_reply]).to eq(decorated_mail.auto_reply?)
     end
 
     it 'give email from in downcased format' do
@@ -135,6 +137,11 @@ RSpec.describe MailPresenter do
       it 'returns true for auto-reply emails' do
         expect(decorated_auto_reply_mail.auto_reply?).to be true
         expect(decorated_auto_reply_with_auto_submitted_mail.auto_reply?).to be true
+      end
+
+      it 'includes auto_reply status in serialized_data' do
+        expect(decorated_auto_reply_mail.serialized_data[:auto_reply]).to be true
+        expect(decorated_mail.serialized_data[:auto_reply]).to be_falsey
       end
     end
   end
