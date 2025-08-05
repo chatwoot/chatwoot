@@ -222,7 +222,7 @@ defineExpose({
         >
           <Input
             v-model="processedParams.buttons[index].parameter"
-            :type="text"
+            type="text"
             class="flex-1"
             :placeholder="t('WHATSAPP_TEMPLATES.PARSER.BUTTON_PARAMETER')"
           />
