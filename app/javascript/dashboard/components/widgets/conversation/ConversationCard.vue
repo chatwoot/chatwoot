@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useInbox } from 'dashboard/composables/useInbox';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Thumbnail from '../Thumbnail.vue';
@@ -46,7 +45,6 @@ const emit = defineEmits([
 
 const store = useStore();
 const router = useRouter();
-const { inboxBadge } = useInbox();
 
 const hovered = ref(false);
 const showContextMenu = ref(false);
@@ -259,7 +257,6 @@ const deleteConversation = () => {
       <Thumbnail
         v-if="!hideThumbnail"
         :src="currentContact.thumbnail"
-        :badge="inboxBadge"
         :username="currentContact.name"
         :status="currentContact.availability_status"
         size="32px"
