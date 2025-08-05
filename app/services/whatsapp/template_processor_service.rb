@@ -28,11 +28,15 @@ class Whatsapp::TemplateProcessorService
     template = find_template
     return if template.blank?
 
-    process_enhanced_template_params(template)
+    # Convert legacy format to enhanced format before processing
+    converter = Whatsapp::TemplateConverterService.new(template_params, template)
+    normalized_params = converter.normalize_to_enhanced
+
+    process_enhanced_template_params(template, normalized_params['processed_params'])
   end
 
-  def process_enhanced_template_params(template)
-    processed_params = template_params['processed_params']
+  def process_enhanced_template_params(template, processed_params = nil)
+    processed_params ||= template_params['processed_params']
     components = []
 
     components.concat(process_header_components(processed_params))
