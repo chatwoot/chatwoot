@@ -8,13 +8,6 @@ module IncomingEmailValidityHelper
     # This can happen in cases like bounce emails for invalid contact email address
     return false unless Devise.email_regexp.match?(@processed_mail.original_sender)
 
-    # Process bounced emails, as regular emails
-    return true if @processed_mail.bounced?
-
-    # we skip processing auto reply emails like delivery status notifications
-    # out of office replies, etc.
-    return false if auto_reply_email?
-
     true
   end
 
@@ -23,14 +16,5 @@ module IncomingEmailValidityHelper
     return false if @processed_mail.notification_email_from_chatwoot?
 
     true
-  end
-
-  def auto_reply_email?
-    if @processed_mail.auto_reply?
-      Rails.logger.info "is_auto_reply? : #{processed_mail.auto_reply?}"
-      true
-    else
-      false
-    end
   end
 end
