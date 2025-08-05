@@ -56,7 +56,8 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def ai_agent_templates
-    agent_templates = AiAgentTemplate.select(:id, :name, :template)
+    agent_templates = AiAgentTemplate.select(:id, :name)
+    agent_templates = agent_templates.jangkau if params[:agent_type] == AiAgentTemplate.agent_types[:multi_agent]
     render json: agent_templates, status: :ok
   end
 

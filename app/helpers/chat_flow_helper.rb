@@ -81,7 +81,7 @@ module ChatFlowHelper
   end
 
   def combined_system_prompt
-    identity = params[:system_prompts]
+    identity = params[:flow_data]&.dig('agents_config', 0, 'bot_prompt')
     guideline_and_task = multi_gsub(template.system_prompt_rules, placeholders)
     generate_system_prompt(identity, guideline_and_task)
   end
