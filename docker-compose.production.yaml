@@ -11,8 +11,6 @@ services:
     <<: *base
     volumes:
       - storage_data:/app/storage
-    depends_on:
-      - redis
     ports:
       - '127.0.0.1:3000:3000'
     environment:
@@ -30,8 +28,6 @@ services:
     <<: *base
     volumes:
       - storage_data:/app/storage
-    depends_on:
-      - redis
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
