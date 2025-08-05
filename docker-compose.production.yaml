@@ -47,19 +47,8 @@ services:
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
 
-  redis:
-    image: redis:alpine
-    restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
-    volumes:
-      - redis_data:/data
-    ports:
-      - '127.0.0.1:6379:6379'
-
 volumes:
   storage_data:
-  redis_data:
   vite_assets:    # Vite assets volume
   packs:          # Precompiled packs volume
   logs:           # Logs volume
