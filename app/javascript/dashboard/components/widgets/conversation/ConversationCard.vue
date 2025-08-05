@@ -68,6 +68,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    allowedContextMenuOptions: {
+      type: Array,
+      default: () => [],
+    },
   },
   emits: [
     'contextMenuToggle',
@@ -151,11 +155,9 @@ export default {
     hasSlaPolicyId() {
       return this.chat?.sla_policy_id;
     },
-  },
-  methods: {
-    onCardClick(e) {
+    conversationPath() {
       const { activeInbox, chat } = this;
-      const path = frontendURL(
+      return frontendURL(
         conversationUrl({
           accountId: this.accountId,
           activeInbox,
@@ -166,18 +168,26 @@ export default {
           conversationType: this.conversationType,
         })
       );
+    },
+  },
+  methods: {
+    onCardClick(e) {
+      const path = this.conversationPath;
+      if (!path) return;
 
+      // Handle Ctrl/Cmd + Click for new tab
       if (e.metaKey || e.ctrlKey) {
+        e.preventDefault();
         window.open(
-          window.chatwootConfig.hostURL + path,
+          `${window.chatwootConfig.hostURL}${path}`,
           '_blank',
-          'noopener noreferrer nofollow'
+          'noopener,noreferrer'
         );
         return;
       }
-      if (this.isActiveChat) {
-        return;
-      }
+
+      // Skip if already active
+      if (this.isActiveChat) return;
 
       router.push({ path });
     },
@@ -289,17 +299,21 @@ export default {
     <div
       class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 w-[calc(100%-40px)]"
     >
-      <div class="flex justify-between conversation-card--meta">
-        <InboxName v-if="showInboxName" :inbox="inbox" />
-        <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0">
+      <div class="flex items-center conversation-card--meta min-w-0">
+        <InboxName
+          v-if="showInboxName"
+          :inbox="inbox"
+          class="flex-1 min-w-0 mx-2"
+        />
+        <div class="flex items-center gap-2 flex-shrink-0">
           <span
             v-if="showAssignee && assignee.name"
-            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex text-ellipsis overflow-hidden whitespace-nowrap"
+            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center truncate"
           >
             <fluent-icon icon="person" size="12" class="text-n-slate-11" />
             {{ assignee.name }}
           </span>
-          <PriorityMark :priority="chat.priority" />
+          <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
         </div>
       </div>
       <h4
@@ -359,6 +373,8 @@ export default {
         :priority="chat.priority"
         :chat-id="chat.id"
         :has-unread-messages="hasUnread"
+        :conversation-url="conversationPath"
+        :allowed-options="allowedContextMenuOptions"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
         @assign-label="onAssignLabel"
@@ -367,6 +383,7 @@ export default {
         @mark-as-read="markAsRead"
         @assign-priority="assignPriority"
         @delete-conversation="deleteConversation"
+        @close="closeContextMenu"
       />
     </ContextMenu>
   </div>
