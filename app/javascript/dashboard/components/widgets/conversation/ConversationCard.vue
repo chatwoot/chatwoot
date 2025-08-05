@@ -299,17 +299,21 @@ export default {
     <div
       class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 w-[calc(100%-40px)]"
     >
-      <div class="flex justify-between conversation-card--meta">
-        <InboxName v-if="showInboxName" :inbox="inbox" />
-        <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0">
+      <div class="flex items-center conversation-card--meta min-w-0">
+        <InboxName
+          v-if="showInboxName"
+          :inbox="inbox"
+          class="flex-1 min-w-0 mx-2"
+        />
+        <div class="flex items-center gap-2 flex-shrink-0">
           <span
             v-if="showAssignee && assignee.name"
-            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex text-ellipsis overflow-hidden whitespace-nowrap"
+            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center truncate"
           >
             <fluent-icon icon="person" size="12" class="text-n-slate-11" />
             {{ assignee.name }}
           </span>
-          <PriorityMark :priority="chat.priority" />
+          <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
         </div>
       </div>
       <h4
