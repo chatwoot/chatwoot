@@ -11,9 +11,6 @@ services:
     <<: *base
     volumes:
       - storage_data:/app/storage
-      - vite_assets:/app/public/vite  # Mount Vite assets volume
-      - packs:/app/public/packs       # Mount precompiled packs
-      - logs:/app/logs                # Mount logs volume
     depends_on:
       - redis
     ports:
@@ -33,9 +30,6 @@ services:
     <<: *base
     volumes:
       - storage_data:/app/storage
-      - vite_assets:/app/public/vite  # Mount Vite assets volume
-      - packs:/app/public/packs       # Mount precompiled packs
-      - logs:/app/logs                # Mount logs volume
     depends_on:
       - redis
     environment:
@@ -49,6 +43,3 @@ services:
 
 volumes:
   storage_data:
-  vite_assets:    # Vite assets volume
-  packs:          # Precompiled packs volume
-  logs:           # Logs volume
