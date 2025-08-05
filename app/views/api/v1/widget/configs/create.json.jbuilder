@@ -23,7 +23,6 @@ json.website_channel_config do
   json.widget_color @web_widget.widget_color
   json.working_hours @web_widget.inbox.working_hours
   json.working_hours_enabled @web_widget.inbox.working_hours_enabled
-  json.account_id @web_widget.inbox.account_id
 end
 
 json.contact do

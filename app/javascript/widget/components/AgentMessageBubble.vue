@@ -35,7 +35,10 @@
       />
     </div>
 
-    <order-details-card :message-id="messageId" />
+    <order-details-card
+      v-if="shouldShowOrderDetailsCard"
+      :message-id="messageId"
+    />
     <pre-chat-form
       v-if="shouldShowPreChatForm"
       :message-id="messageId"
