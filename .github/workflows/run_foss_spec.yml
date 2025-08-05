@@ -2,7 +2,7 @@ name: Run Chatwoot CE spec
 on:
   push:
     branches:
-      # - development
+      - development
       - main
   # pull_request:
   workflow_dispatch:
@@ -10,6 +10,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-22.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
     services:
       postgres:
         image: pgvector/pgvector:pg15
