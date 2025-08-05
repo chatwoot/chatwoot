@@ -165,6 +165,18 @@ describe AutomationRuleListener do
         expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
       end
 
+      it 'does not call AutomationRules::ActionService if message is auto reply email' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        email_conversation = create(:conversation, inbox: email_inbox, account: account)
+        email_message = create(:message, conversation: email_conversation, account: account, content_attributes: { email: { auto_reply: true } })
+        email_event = Events::Base.new('message_created', Time.zone.now, { message: email_message })
+        allow(condition_match).to receive(:present?).and_return(true)
+
+        listener.message_created(email_event)
+        expect(AutomationRules::ActionService).not_to have_received(:new)
+      end
+
       it 'does not call AutomationRules::ActionService if conditions do not match based on content' do
         message.update!(processed_message_content: 'hi', content: "hi\n\nhello")
         allow(condition_match).to receive(:present?).and_return(false)
