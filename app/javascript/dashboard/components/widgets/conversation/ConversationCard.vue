@@ -1,12 +1,13 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useInbox } from 'dashboard/composables/useInbox';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Thumbnail from '../Thumbnail.vue';
 import MessagePreview from './MessagePreview.vue';
-import router from '../../../routes';
-import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName.vue';
-import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
@@ -14,266 +15,212 @@ import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 
-export default {
-  components: {
-    CardLabels,
-    InboxName,
-    Thumbnail,
-    ConversationContextMenu,
-    TimeAgo,
-    MessagePreview,
-    PriorityMark,
-    SLACardLabel,
-    ContextMenu,
-  },
-  mixins: [inboxMixin],
-  props: {
-    activeLabel: {
-      type: String,
-      default: '',
-    },
-    chat: {
-      type: Object,
-      default: () => {},
-    },
-    hideInboxName: {
-      type: Boolean,
-      default: false,
-    },
-    hideThumbnail: {
-      type: Boolean,
-      default: false,
-    },
-    teamId: {
-      type: [String, Number],
-      default: 0,
-    },
-    foldersId: {
-      type: [String, Number],
-      default: 0,
-    },
-    showAssignee: {
-      type: Boolean,
-      default: false,
-    },
-    conversationType: {
-      type: String,
-      default: '',
-    },
-    selected: {
-      type: Boolean,
-      default: false,
-    },
-    compact: {
-      type: Boolean,
-      default: false,
-    },
-    enableContextMenu: {
-      type: Boolean,
-      default: false,
-    },
-    allowedContextMenuOptions: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  emits: [
-    'contextMenuToggle',
-    'assignAgent',
-    'assignLabel',
-    'assignTeam',
-    'markAsUnread',
-    'markAsRead',
-    'assignPriority',
-    'updateConversationStatus',
-    'deleteConversation',
-  ],
-  data() {
-    return {
-      hovered: false,
-      showContextMenu: false,
-      contextMenu: {
-        x: null,
-        y: null,
-      },
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-      inboxesList: 'inboxes/getInboxes',
-      activeInbox: 'getSelectedInbox',
-      accountId: 'getCurrentAccountId',
-    }),
-    chatMetadata() {
-      return this.chat.meta || {};
-    },
+const props = defineProps({
+  activeLabel: { type: String, default: '' },
+  chat: { type: Object, default: () => ({}) },
+  hideInboxName: { type: Boolean, default: false },
+  hideThumbnail: { type: Boolean, default: false },
+  teamId: { type: [String, Number], default: 0 },
+  foldersId: { type: [String, Number], default: 0 },
+  showAssignee: { type: Boolean, default: false },
+  conversationType: { type: String, default: '' },
+  selected: { type: Boolean, default: false },
+  compact: { type: Boolean, default: false },
+  enableContextMenu: { type: Boolean, default: false },
+  allowedContextMenuOptions: { type: Array, default: () => [] },
+});
 
-    assignee() {
-      return this.chatMetadata.assignee || {};
-    },
+const emit = defineEmits([
+  'contextMenuToggle',
+  'assignAgent',
+  'assignLabel',
+  'assignTeam',
+  'markAsUnread',
+  'markAsRead',
+  'assignPriority',
+  'updateConversationStatus',
+  'deleteConversation',
+  'selectConversation',
+  'deSelectConversation',
+]);
 
-    currentContact() {
-      return this.$store.getters['contacts/getContact'](
-        this.chatMetadata.sender.id
-      );
-    },
+const store = useStore();
+const router = useRouter();
+const { inboxBadge } = useInbox();
 
-    isActiveChat() {
-      return this.currentChat.id === this.chat.id;
-    },
+const hovered = ref(false);
+const showContextMenu = ref(false);
+const contextMenu = ref({
+  x: null,
+  y: null,
+});
 
-    unreadCount() {
-      return this.chat.unread_count;
-    },
+const currentChat = useMapGetter('getSelectedChat');
+const inboxesList = useMapGetter('inboxes/getInboxes');
+const activeInbox = useMapGetter('getSelectedInbox');
+const accountId = useMapGetter('getCurrentAccountId');
 
-    hasUnread() {
-      return this.unreadCount > 0;
-    },
+const chatMetadata = computed(() => props.chat.meta || {});
 
-    isInboxNameVisible() {
-      return !this.activeInbox;
-    },
+const assignee = computed(() => chatMetadata.value.assignee || {});
 
-    lastMessageInChat() {
-      return getLastMessage(this.chat);
-    },
+const currentContact = computed(() => {
+  return store.getters['contacts/getContact'](chatMetadata.value.sender.id);
+});
 
-    inbox() {
-      const { inbox_id: inboxId } = this.chat;
-      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
-      return stateInbox;
-    },
+const isActiveChat = computed(() => {
+  return currentChat.value.id === props.chat.id;
+});
 
-    showInboxName() {
-      return (
-        !this.hideInboxName &&
-        this.isInboxNameVisible &&
-        this.inboxesList.length > 1
-      );
-    },
-    showMetaSection() {
-      return (
-        this.showInboxName ||
-        (this.showAssignee && this.assignee.name) ||
-        this.chat.priority
-      );
-    },
-    inboxName() {
-      const stateInbox = this.inbox;
-      return stateInbox.name || '';
-    },
-    hasSlaPolicyId() {
-      return this.chat?.sla_policy_id;
-    },
-    showLabelsSection() {
-      return this.chat.labels?.length > 0 || this.hasSlaPolicyId;
-    },
-    messagePreviewClass() {
-      return [
-        this.hasUnread ? 'font-medium text-n-slate-12' : 'text-n-slate-11',
-        !this.compact && this.hasUnread ? 'ltr:pr-4 rtl:pl-4' : '',
-        this.compact && this.hasUnread ? 'ltr:pr-6 rtl:pl-6' : '',
-      ];
-    },
-    conversationPath() {
-      const { activeInbox, chat } = this;
-      return frontendURL(
-        conversationUrl({
-          accountId: this.accountId,
-          activeInbox,
-          id: chat.id,
-          label: this.activeLabel,
-          teamId: this.teamId,
-          foldersId: this.foldersId,
-          conversationType: this.conversationType,
-        })
-      );
-    },
-  },
-  methods: {
-    onCardClick(e) {
-      const path = this.conversationPath;
-      if (!path) return;
+const unreadCount = computed(() => props.chat.unread_count);
 
-      // Handle Ctrl/Cmd + Click for new tab
-      if (e.metaKey || e.ctrlKey) {
-        e.preventDefault();
-        window.open(
-          `${window.chatwootConfig.hostURL}${path}`,
-          '_blank',
-          'noopener,noreferrer'
-        );
-        return;
-      }
+const hasUnread = computed(() => unreadCount.value > 0);
 
-      // Skip if already active
-      if (this.isActiveChat) return;
+const isInboxNameVisible = computed(() => !activeInbox.value);
 
-      router.push({ path });
-    },
-    onThumbnailHover() {
-      this.hovered = !this.hideThumbnail;
-    },
-    onThumbnailLeave() {
-      this.hovered = false;
-    },
-    onSelectConversation(checked) {
-      const action = checked ? 'selectConversation' : 'deSelectConversation';
-      this.$emit(action, this.chat.id, this.inbox.id);
-    },
-    openContextMenu(e) {
-      if (!this.enableContextMenu) return;
-      e.preventDefault();
-      this.$emit('contextMenuToggle', true);
-      this.contextMenu.x = e.pageX || e.clientX;
-      this.contextMenu.y = e.pageY || e.clientY;
-      this.showContextMenu = true;
-    },
-    closeContextMenu() {
-      this.$emit('contextMenuToggle', false);
-      this.showContextMenu = false;
-      this.contextMenu.x = null;
-      this.contextMenu.y = null;
-    },
-    onUpdateConversation(status, snoozedUntil) {
-      this.closeContextMenu();
-      this.$emit(
-        'updateConversationStatus',
-        this.chat.id,
-        status,
-        snoozedUntil
-      );
-    },
-    async onAssignAgent(agent) {
-      this.$emit('assignAgent', agent, [this.chat.id]);
-      this.closeContextMenu();
-    },
-    async onAssignLabel(label) {
-      this.$emit('assignLabel', [label.title], [this.chat.id]);
-      this.closeContextMenu();
-    },
-    async onAssignTeam(team) {
-      this.$emit('assignTeam', team, this.chat.id);
-      this.closeContextMenu();
-    },
-    async markAsUnread() {
-      this.$emit('markAsUnread', this.chat.id);
-      this.closeContextMenu();
-    },
-    async markAsRead() {
-      this.$emit('markAsRead', this.chat.id);
-      this.closeContextMenu();
-    },
-    async assignPriority(priority) {
-      this.$emit('assignPriority', priority, this.chat.id);
-      this.closeContextMenu();
-    },
-    async deleteConversation() {
-      this.$emit('deleteConversation', this.chat.id);
-      this.closeContextMenu();
-    },
-  },
+const lastMessageInChat = computed(() => getLastMessage(props.chat));
+
+const inbox = computed(() => {
+  const { inbox_id: inboxId } = props.chat;
+  const stateInbox = store.getters['inboxes/getInbox'](inboxId);
+  return stateInbox;
+});
+
+const showInboxName = computed(() => {
+  return (
+    !props.hideInboxName &&
+    isInboxNameVisible.value &&
+    inboxesList.value.length > 1
+  );
+});
+
+const showMetaSection = computed(() => {
+  return (
+    showInboxName.value ||
+    (props.showAssignee && assignee.value.name) ||
+    props.chat.priority
+  );
+});
+
+const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const showLabelsSection = computed(() => {
+  return props.chat.labels?.length > 0 || hasSlaPolicyId.value;
+});
+
+const messagePreviewClass = computed(() => {
+  return [
+    hasUnread.value ? 'font-medium text-n-slate-12' : 'text-n-slate-11',
+    !props.compact && hasUnread.value ? 'ltr:pr-4 rtl:pl-4' : '',
+    props.compact && hasUnread.value ? 'ltr:pr-6 rtl:pl-6' : '',
+  ];
+});
+
+const conversationPath = computed(() => {
+  return frontendURL(
+    conversationUrl({
+      accountId: accountId.value,
+      activeInbox: activeInbox.value,
+      id: props.chat.id,
+      label: props.activeLabel,
+      teamId: props.teamId,
+      conversationType: props.conversationType,
+      foldersId: props.foldersId,
+    })
+  );
+});
+
+const onCardClick = e => {
+  const path = conversationPath.value;
+  if (!path) return;
+
+  // Handle Ctrl/Cmd + Click for new tab
+  if (e.metaKey || e.ctrlKey) {
+    e.preventDefault();
+    window.open(
+      `${window.chatwootConfig.hostURL}${path}`,
+      '_blank',
+      'noopener,noreferrer'
+    );
+    return;
+  }
+
+  // Skip if already active
+  if (isActiveChat.value) return;
+
+  router.push({ path });
+};
+
+const onThumbnailHover = () => {
+  hovered.value = !props.hideThumbnail;
+};
+
+const onThumbnailLeave = () => {
+  hovered.value = false;
+};
+
+const onSelectConversation = checked => {
+  if (checked) {
+    emit('selectConversation', props.chat.id, inbox.value.id);
+  } else {
+    emit('deSelectConversation', props.chat.id, inbox.value.id);
+  }
+};
+
+const openContextMenu = e => {
+  if (!props.enableContextMenu) return;
+  e.preventDefault();
+  emit('contextMenuToggle', true);
+  contextMenu.value.x = e.pageX || e.clientX;
+  contextMenu.value.y = e.pageY || e.clientY;
+  showContextMenu.value = true;
+};
+
+const closeContextMenu = () => {
+  emit('contextMenuToggle', false);
+  showContextMenu.value = false;
+  contextMenu.value.x = null;
+  contextMenu.value.y = null;
+};
+
+const onUpdateConversation = (status, snoozedUntil) => {
+  closeContextMenu();
+  emit('updateConversationStatus', props.chat.id, status, snoozedUntil);
+};
+
+const onAssignAgent = agent => {
+  emit('assignAgent', agent, [props.chat.id]);
+  closeContextMenu();
+};
+
+const onAssignLabel = label => {
+  emit('assignLabel', [label.title], [props.chat.id]);
+  closeContextMenu();
+};
+
+const onAssignTeam = team => {
+  emit('assignTeam', team, props.chat.id);
+  closeContextMenu();
+};
+
+const markAsUnread = () => {
+  emit('markAsUnread', props.chat.id);
+  closeContextMenu();
+};
+
+const markAsRead = () => {
+  emit('markAsRead', props.chat.id);
+  closeContextMenu();
+};
+
+const assignPriority = priority => {
+  emit('assignPriority', priority, props.chat.id);
+  closeContextMenu();
+};
+
+const deleteConversation = () => {
+  emit('deleteConversation', props.chat.id);
+  closeContextMenu();
 };
 </script>
 
