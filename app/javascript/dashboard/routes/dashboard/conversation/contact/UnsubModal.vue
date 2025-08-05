@@ -32,7 +32,6 @@ export default {
   components: {
     Modal,
   },
-  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -50,6 +49,8 @@ export default {
       currentAccountId: 'getCurrentAccountId',
     }),
   },
+
+  mixins: [alertMixin],
 
   methods: {
     onClose() {
@@ -92,18 +93,17 @@ export default {
         this.onClose();
         this.showAlert('Unsubscribing contact');
         try {
-          // eslint-disable-next-line no-console
-          console.log('starting unsubscribing process');
-
           await axios.put(
             'https://bjzaowfrg4.execute-api.us-east-1.amazonaws.com/contact/update/subscribe',
             body
           );
-          this.showAlert('contact unsubscribed done');
-          // eslint-disable-next-line no-console
-          console.log('END UNSUB PROCESS');
+          this.showAlert('Successfully unsubscribed contact');
         } catch (err) {
-          this.showAlert('Error unsubscribing contact');
+          if (err.response && err.response.status === 409) {
+            this.showAlert('Contact already unsubscribed');
+          } else {
+            this.showAlert('Error unsubscribing contact');
+          }
         }
       } else {
         this.onClose();
