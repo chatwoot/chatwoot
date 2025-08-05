@@ -102,10 +102,37 @@ class Waha::CallbackController < ApplicationController
   end
 
   def process_initial_scan(phone_number)
+    Rails.logger.info "🎯 PROCESS_INITIAL_SCAN called for #{phone_number}"
+    Rails.logger.info "🎯 Request ID: #{request.request_id}" if request.respond_to?(:request_id)
+    Rails.logger.info "🎯 Request timestamp: #{Time.current.iso8601}"
+    Rails.logger.info "🎯 Thread ID: #{Thread.current.object_id}"
+    
+    # Deduplication based on message ID and session ID
+    message_id = params.dig(:message, :id) || params[:messageId]
+    session_id = params[:sessionID] || params[:session_id]
+    
+    if message_id.present?
+      dedup_key = "waha_callback_#{phone_number}_#{message_id}"
+      
+      # Check if we've already processed this exact callback
+      if ::Redis::Alfred.get(dedup_key)
+        Rails.logger.warn "🚫 DUPLICATE CALLBACK DETECTED for message #{message_id}. Skipping processing."
+        return head :ok
+      end
+      
+      # Mark this callback as processed (expires in 1 minute)
+      ::Redis::Alfred.setex(dedup_key, "processed_#{Time.current.to_i}", 60)
+      Rails.logger.info "✅ Callback marked as processed: #{dedup_key}"
+    end
+    
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
-    return unless channel
+    unless channel
+      Rails.logger.error "❌ No channel found for #{phone_number}"
+      return
+    end
 
     callback_params = params.except(:phone_number, :controller, :action)
+    Rails.logger.info "🎯 About to call process_waha_callback_response with params: #{callback_params}"
     
     result = channel.process_waha_callback_response(callback_params)
     Rails.logger.info "🔍 Callback processing result: #{result}"
@@ -411,6 +438,7 @@ class Waha::CallbackController < ApplicationController
 
   def broadcast_session_mismatch(channel, connected_phone, current_attempts = nil, max_attempts = nil)
     Rails.logger.info "Broadcasting session mismatch for #{channel.phone_number}"
+    Rails.logger.info "🔍 Broadcast params - current_attempts: #{current_attempts}, max_attempts: #{max_attempts}"
     
     # Check if mismatch was already broadcasted recently to prevent spam
     mismatch_cache_key = "mismatch_broadcast_#{channel.phone_number}"
@@ -425,8 +453,9 @@ class Waha::CallbackController < ApplicationController
     pubsub_token = "#{account.id}_inbox_#{inbox.id}"
 
     remaining_attempts = max_attempts && current_attempts ? max_attempts - current_attempts : nil
+    Rails.logger.info "🔍 Calculated remaining_attempts: #{remaining_attempts}"
     
-    ActionCable.server.broadcast(pubsub_token, {
+    broadcast_data = {
       event: 'whatsapp_status_changed',
       type: 'session_mismatch',
       status: 'mismatch',
@@ -440,7 +469,11 @@ class Waha::CallbackController < ApplicationController
         'WhatsApp number mismatch detected. Please scan QR code with the correct phone number.',
       inbox_id: inbox.id,
       channel_id: channel.id
-    })
+    }
+    
+    Rails.logger.info "📡 Broadcasting WebSocket message: #{broadcast_data.inspect}"
+    
+    ActionCable.server.broadcast(pubsub_token, broadcast_data)
   end
 
   def broadcast_session_failed(channel, connected_phone, failed_attempts)

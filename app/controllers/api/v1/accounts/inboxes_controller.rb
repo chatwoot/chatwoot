@@ -180,7 +180,20 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def build_status_response(status)
     waha_status = map_to_waha_status(status)
     
-    {
+    # Get attempts info if this is a WhatsApp Unofficial channel
+    attempts_info = {}
+    if @channel.respond_to?(:read_mismatch_attempts_from_cache)
+      current_attempts = @channel.read_mismatch_attempts_from_cache
+      if current_attempts > 0
+        attempts_info = {
+          current_attempts: current_attempts,
+          max_attempts: 3,
+          remaining_attempts: 3 - current_attempts
+        }
+      end
+    end
+    
+    base_response = {
       success: true,
       message: 'session info fetched successfully',
       connected: waha_status == 'logged_in',
@@ -190,6 +203,14 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
         connected: waha_status == 'logged_in'
       }
     }
+    
+    # Add attempts info if available
+    if attempts_info.any?
+      base_response[:attempts] = attempts_info
+      base_response[:data][:attempts] = attempts_info
+    end
+    
+    base_response
   end
 
   def error_status_response(error_message)
