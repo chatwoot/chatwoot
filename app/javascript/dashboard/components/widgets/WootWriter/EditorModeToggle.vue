@@ -27,7 +27,7 @@ const aiFeedbackModeSize = useElementSize(wootEditorAiFeedbackMode);
 /**
  * Handle mode click
  */
-const handleModeClick = (mode) => {
+const handleModeClick = mode => {
   emit('update:mode', mode);
 };
 
@@ -44,7 +44,9 @@ const isPrivate = computed(() => {
  * Computed boolean indicating if the editor is in AI feedback mode
  * @type {ComputedRef<boolean>}
  */
-const isAiFeedback = computed(() => props.mode === REPLY_EDITOR_MODES.AI_FEEDBACK);
+const isAiFeedback = computed(
+  () => props.mode === REPLY_EDITOR_MODES.AI_FEEDBACK
+);
 
 /**
  * Computes the width of the sliding background chip in pixels
@@ -53,7 +55,7 @@ const isAiFeedback = computed(() => props.mode === REPLY_EDITOR_MODES.AI_FEEDBAC
  */
 const width = computed(() => {
   let widthToUse = replyModeSize.width.value;
-  
+
   if (isAiFeedback.value) {
     widthToUse = aiFeedbackModeSize.width.value;
   } else if (isPrivate.value) {
@@ -71,10 +73,11 @@ const width = computed(() => {
  */
 const translateValue = computed(() => {
   let xTranslate = 0;
-  
+
   if (isAiFeedback.value) {
     // AI Feedback: Move past Reply + Private Note modes
-    xTranslate = replyModeSize.width.value + 16 + privateModeSize.width.value + 16;
+    xTranslate =
+      replyModeSize.width.value + 16 + privateModeSize.width.value + 16;
   } else if (isPrivate.value) {
     // Private Note: Move past Reply mode
     xTranslate = replyModeSize.width.value + 16;

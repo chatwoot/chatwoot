@@ -203,10 +203,14 @@ export default {
 
       // Add loading state for AI feedback
       if (this.isOnAiFeedback && this.isSubmittingAiFeedback) return true;
-      
+
       // For AI feedback mode, require message and feedback target
       if (this.isOnAiFeedback) {
-        return !this.aiFeedbackMessage || this.isMessageEmpty || this.message.length === 0;
+        return (
+          !this.aiFeedbackMessage ||
+          this.isMessageEmpty ||
+          this.message.length === 0
+        );
       }
 
       return (
@@ -272,7 +276,7 @@ export default {
     replyButtonLabel() {
       let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');
       if (this.isOnAiFeedback) {
-        sendMessageText = this.isSubmittingAiFeedback 
+        sendMessageText = this.isSubmittingAiFeedback
           ? this.$t('CONVERSATION.REPLYBOX.SUBMITTING_FEEDBACK')
           : this.$t('CONVERSATION.REPLYBOX.SUBMIT_FEEDBACK');
       } else if (this.isPrivate) {
@@ -479,7 +483,10 @@ export default {
 
     this.fetchAndSetReplyTo();
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
-    emitter.on(BUS_EVENTS.AI_FEEDBACK_TO_MESSAGE, this.handleAiFeedbackToMessage);
+    emitter.on(
+      BUS_EVENTS.AI_FEEDBACK_TO_MESSAGE,
+      this.handleAiFeedbackToMessage
+    );
 
     // A hacky fix to solve the drag and drop
     // Is showing on top of new conversation modal drag and drop
@@ -494,7 +501,10 @@ export default {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
     emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
-    emitter.off(BUS_EVENTS.AI_FEEDBACK_TO_MESSAGE, this.handleAiFeedbackToMessage);
+    emitter.off(
+      BUS_EVENTS.AI_FEEDBACK_TO_MESSAGE,
+      this.handleAiFeedbackToMessage
+    );
     emitter.off(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, this.addIntoEditor);
     emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
@@ -676,13 +686,13 @@ export default {
       if (this.isReplyButtonDisabled) {
         return;
       }
-      
+
       // Handle AI feedback submission
       if (this.isOnAiFeedback) {
         this.submitAiFeedback();
         return;
       }
-      
+
       if (!this.showMentions) {
         const isOnWhatsApp =
           this.isATwilioWhatsAppChannel ||
@@ -805,7 +815,7 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      
+
       // Handle AI feedback mode specifically
       if (mode === REPLY_EDITOR_MODES.AI_FEEDBACK) {
         // Only allow AI feedback mode if we have a message to provide feedback for
@@ -813,18 +823,21 @@ export default {
           this.replyType = mode;
         } else {
           // If no AI feedback message, show a message and don't switch
-          this.useAlert(this.$t('CONVERSATION.AI_FEEDBACK.NO_MESSAGE_SELECTED'), {
-            duration: 5000 // Show for 5 seconds instead of default 2.5 seconds
-          });
+          this.useAlert(
+            this.$t('CONVERSATION.AI_FEEDBACK.NO_MESSAGE_SELECTED'),
+            {
+              duration: 5000,
+            }
+          );
         }
         return;
       }
-      
+
       // Handle other modes (Reply and Private Note)
       if (canReply || this.isAWhatsAppChannel) {
         this.replyType = mode;
       }
-      
+
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();
@@ -1121,16 +1134,16 @@ export default {
       try {
         // Store the message we're providing feedback for
         this.aiFeedbackMessage = data.message;
-        
+
         // Save current draft before switching
         this.setToDraft(this.conversationIdByRoute, this.replyType);
-        
+
         // Switch to AI feedback mode
         this.replyType = REPLY_EDITOR_MODES.AI_FEEDBACK;
-        
+
         // Clear any existing message and set placeholder
         this.message = '';
-        
+
         // Focus the editor
         this.$nextTick(() => {
           if (this.showRichContentEditor) {
@@ -1139,64 +1152,74 @@ export default {
             this.$refs.messageInput?.focus();
           }
         });
-        
       } catch (error) {
-        console.error('Failed to handle AI feedback mode switch:', error);
+        // Failed to handle AI feedback mode switch
       }
     },
     async submitAiFeedback() {
       if (this.isSubmittingAiFeedback) return;
-      
+
       try {
         if (!this.aiFeedbackMessage || !this.message.trim()) {
           useAlert(this.$t('CONVERSATION.AI_FEEDBACK.EMPTY_FEEDBACK_ERROR'));
           return;
         }
-        
+
         this.isSubmittingAiFeedback = true;
-        
+
         const feedbackData = {
           rating: -1,
           feedback_text: this.message.trim(),
         };
-        
+
         // Check if feedback already exists (for update) or create new
-        const existingFeedback = this.aiFeedbackMessage.content_attributes?.ai_feedback;
-        
+        const existingFeedback =
+          this.aiFeedbackMessage.content_attributes?.ai_feedback;
+
         if (existingFeedback) {
           // Update existing feedback
-          await aiMessageFeedbacksAPI.update(this.aiFeedbackMessage.id, feedbackData);
+          await aiMessageFeedbacksAPI.update(
+            this.aiFeedbackMessage.id,
+            feedbackData
+          );
         } else {
           // Create new feedback
-          await aiMessageFeedbacksAPI.create(this.aiFeedbackMessage.id, feedbackData);
+          await aiMessageFeedbacksAPI.create(
+            this.aiFeedbackMessage.id,
+            feedbackData
+          );
         }
-        
+
         useAlert(this.$t('CONVERSATION.AI_FEEDBACK.SUBMIT_SUCCESS'));
-        
+
         // Emit an event to notify that feedback was submitted
-        emitter.emit('ai-feedback-submitted', { 
-          messageId: this.aiFeedbackMessage.id, 
-          feedback: feedbackData 
+        emitter.emit('ai-feedback-submitted', {
+          messageId: this.aiFeedbackMessage.id,
+          feedback: feedbackData,
         });
 
         // Exit AI feedback mode
         this.exitAiFeedbackMode();
       } catch (error) {
-        console.error('Failed to submit AI feedback:', error);
-        
+        // Failed to submit AI feedback
+
         // Provide specific error messages based on error type
         let errorMessage = this.$t('CONVERSATION.AI_FEEDBACK.SUBMIT_ERROR');
-        
+
         if (error?.response?.status === 404) {
-          errorMessage = this.$t('CONVERSATION.AI_FEEDBACK.MESSAGE_NOT_FOUND_ERROR');
+          errorMessage = this.$t(
+            'CONVERSATION.AI_FEEDBACK.MESSAGE_NOT_FOUND_ERROR'
+          );
         } else if (error?.response?.status === 403) {
           errorMessage = this.$t('CONVERSATION.AI_FEEDBACK.PERMISSION_ERROR');
         } else if (error?.response?.status === 422) {
-          errorMessage = error?.response?.data?.message || this.$t('CONVERSATION.AI_FEEDBACK.VALIDATION_ERROR');
+          errorMessage =
+            error?.response?.data?.message ||
+            this.$t('CONVERSATION.AI_FEEDBACK.VALIDATION_ERROR');
         } else if (error?.response?.data?.message) {
           errorMessage = error.response.data.message;
         }
-        
+
         useAlert(errorMessage);
       } finally {
         this.isSubmittingAiFeedback = false;
@@ -1206,7 +1229,7 @@ export default {
       // Clear AI feedback state
       this.aiFeedbackMessage = null;
       this.isSubmittingAiFeedback = false;
-      
+
       // Return to appropriate mode based on conversation permissions
       const { can_reply: canReply } = this.currentChat;
       if (canReply || this.isAWhatsAppChannel) {
@@ -1214,7 +1237,7 @@ export default {
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
-      
+
       // Restore draft message
       this.getFromDraft();
     },
@@ -1251,13 +1274,18 @@ export default {
         v-if="isOnAiFeedback && aiFeedbackMessage"
         class="ai-feedback-context bg-amber-50 dark:bg-amber-900/20 rounded-md py-2 pl-3 pr-2 text-xs tracking-wide mt-2 flex items-center gap-2 -mx-2"
       >
-        <i class="i-lucide-message-square-text text-amber-600 dark:text-amber-400 flex-shrink-0" />
+        <i
+          class="i-lucide-message-square-text text-amber-600 dark:text-amber-400 flex-shrink-0"
+        />
         <div class="flex-grow gap-1 mt-px text-xs">
           <span class="text-amber-800 dark:text-amber-200 font-medium">
             {{ $t('CONVERSATION.AI_FEEDBACK.PROVIDING_FEEDBACK_FOR') }}
           </span>
           <div class="text-amber-700 dark:text-amber-300 truncate mt-1">
-            {{ aiFeedbackMessage.content || $t('CONVERSATION.AI_FEEDBACK.NO_CONTENT') }}
+            {{
+              aiFeedbackMessage.content ||
+              $t('CONVERSATION.AI_FEEDBACK.NO_CONTENT')
+            }}
           </div>
         </div>
         <button
