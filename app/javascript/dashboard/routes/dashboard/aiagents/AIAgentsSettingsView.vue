@@ -2,10 +2,11 @@
 import { useRoute } from 'vue-router';
 import AiAgentGeneralSettingsView from './AiAgentGeneralSettingsView.vue';
 import AiAgentKnowledgeSources from './AiAgentKnowledgeSources.vue';
+import ConfigurationView from './ConfigurationView.vue';
 import { onMounted, ref } from 'vue';
 import aiAgents from '../../../api/aiAgents';
-import FollowupsSettingsView from './FollowupsSettingsView.vue';
 
+const route = useRoute();
 const tabs = [
   {
     key: '0',
@@ -17,24 +18,27 @@ const tabs = [
     index: 1,
     name: 'Sumber Pengetahuan',
   },
+  {
+    key: '2',
+    index: 2,
+    name: 'Konfigurasi',
+  },
 ];
+
 const activeIndex = ref(0);
-
-const route = useRoute();
-
 const loadingData = ref(false);
 const data = ref();
-async function showData() {
+
+const showData = async () => {
   try {
     loadingData.value = true;
-
     data.value = await aiAgents
       .detailAgent(route.params.aiAgentId)
       .then(v => v?.data);
   } finally {
     loadingData.value = false;
   }
-}
+};
 
 onMounted(() => {
   showData();
@@ -42,8 +46,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full px-8 py-8 bg-n-background overflow-auto">
-    <div class="">
+  <div class="w-full px-8 py-8 bg-n-background dark:bg-gray-900 overflow-auto">
+    <div>
       <center v-if="loadingData">
         <span class="mt-4 mb-4 spinner" />
       </center>
@@ -55,6 +59,7 @@ onMounted(() => {
         </h1>
       </div>
     </div>
+
     <woot-tabs
       :index="activeIndex"
       class="mb-3 tabs-rm-margin"
@@ -72,14 +77,17 @@ onMounted(() => {
         :show-badge="false"
       />
     </woot-tabs>
+
     <div v-show="activeIndex === 0">
       <AiAgentGeneralSettingsView :data="data" />
     </div>
+
     <div v-show="activeIndex === 1">
       <AiAgentKnowledgeSources :data="data" />
     </div>
-    <div v-show="activeIndex === 3">
-      <FollowupsSettingsView :data="data" />
+
+    <div v-show="activeIndex === 2" class="w-full">
+      <ConfigurationView :data="data" />
     </div>
   </div>
 </template>

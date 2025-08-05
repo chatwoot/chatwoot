@@ -39,8 +39,10 @@ class ApiClient {
     return url;
   }
 
-  get() {
-    return axios.get(this.url);
+  
+  get(endpoint = '') {
+    const url = endpoint ? `${this.url}/${endpoint}` : this.url;
+    return axios.get(url);
   }
 
   show(id) {
@@ -57,6 +59,20 @@ class ApiClient {
 
   delete(id) {
     return axios.delete(`${this.url}/${id}`);
+  }
+  post(endpoint = '', data = {}) {
+    const url = endpoint ? `${this.url}/${endpoint}` : this.url;
+    return axios.post(url, data);
+  }
+
+  put(endpoint = '', data = {}) {
+    const url = endpoint ? `${this.url}/${endpoint}` : this.url;
+    return axios.put(url, data);
+  }
+
+  patch(endpoint = '', data = {}) {
+    const url = endpoint ? `${this.url}/${endpoint}` : this.url;
+    return axios.patch(url, data);
   }
 }
 
