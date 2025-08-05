@@ -25,4 +25,4 @@ class AiMessageFeedbacksAPI extends ApiClient {
   }
 }
 
-export default new AiMessageFeedbacksAPI(); 
+export default new AiMessageFeedbacksAPI();
