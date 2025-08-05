@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "Excedeu o limite de conversas. O plano Hacker permite apenas 500 conversas.",
+      "INBOXES": "Excedeu o limite de caixas de entrada. O plano Hacker só suporta chat ao vivo no site. Caixas de entrada adicionais como email, WhatsApp, etc. requerem um plano pago.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Por favor, contacte o seu administrador para atualizar o plano e continuar a usar todas as funcionalidades."
+    },
     "TITLE": "Configurações da conta",
     "SUBMIT": "Atualizar configurações",
     "BACK": "Voltar",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "Não foi possível atualizar as configurações, por favor, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Apagar a sua Conta",
+      "NOTE": "Após apagar a sua conta, todos os seus dados serão apagados.",
+      "BUTTON_TEXT": "Apagar a Sua Conta",
+      "CONFIRM": {
+        "TITLE": "Apagar Conta",
+        "MESSAGE": "Apagar a sua conta é irreversível. Introduza o nome da sua conta abaixo para confirmar que pretende apagá-la permanentemente.",
+        "BUTTON_TEXT": "Excluir",
+        "DISMISS": "Cancelar",
+        "PLACE_HOLDER": "Por favor, escreva {accountName} para confirmar"
+      },
+      "SUCCESS": "Conta selecionada para apagar",
+      "FAILURE": "Não foi possível apagar a conta, tente novamente!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Eliminação da conta agendada",
+        "MESSAGE_MANUAL": "Eliminação da conta agendada para {deletionDate}. Isto foi solicitado por um administrador. Pode cancelar a eliminação antes desta data.",
+        "MESSAGE_INACTIVITY": "Eliminação da conta está agendada para {deletionDate} devido à sua inatividade. Pode cancelar a eliminação antes desta data.",
+        "CLEAR_BUTTON": "Cancelar agendamento da eliminação"
+      }
     },
     "FORM": {
       "ERROR": "Por favor, corrigir erros de formulário",
@@ -17,6 +43,34 @@
       "ACCOUNT_ID": {
         "TITLE": "ID da conta",
         "NOTE": "Este ID é necessário para integrações via API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolver conversas",
+        "NOTE": "Esta configuração permite-lhe resolver automaticamente a conversa após um determinado período de inatividade.",
+        "DURATION": {
+          "LABEL": "Duração da inatividade",
+          "HELP": "Período de inatividade após o qual a conversa é automaticamente resolvida",
+          "PLACEHOLDER": "30",
+          "ERROR": "A duração de auto-resolução deve ser entre 10 minutos e 999 dias",
+          "API": {
+            "SUCCESS": "Definições de auto-resolução atualizadas",
+            "ERROR": "Falha ao atualizar as definições de auto-resolução"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Mensagem personalizada de auto-resolução",
+          "PLACEHOLDER": "A conversa foi marcada como resolvida pelo sistema devido a 15 dias de inatividade",
+          "HELP": "Mensagem enviada ao cliente após a conversa ser automaticamente resolvida"
+        },
+        "PREFERENCES": "Preferências",
+        "LABEL": {
+          "LABEL": "Adicionar etiqueta após auto-resolução",
+          "PLACEHOLDER": "Selecionar uma etiqueta"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Ignorar conversas à espera de resposta do agente"
+        },
+        "UPDATE_BUTTON": "Salvar alterações"
       },
       "NAME": {
         "LABEL": "Nome da conta",
@@ -38,10 +92,31 @@
         "PLACEHOLDER": "E-mail de suporte da sua empresa",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Excluir conversas não atendidas",
+        "HELP": "Quando ativado, o sistema irá ignorar a resolução de conversas que ainda estão à espera de resposta de um agente."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcrever mensagens de áudio",
+        "NOTE": "Transcreva automaticamente mensagens de áudio nas conversas. Gere uma transcrição de texto sempre que uma mensagem de áudio for enviada ou recebida e apresente-a junto da mensagem.",
+        "API": {
+          "SUCCESS": "Definição de transcrição de áudio atualizada com sucesso",
+          "ERROR": "Falha ao atualizar a definição de transcrição de áudio"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Número de dias sem nenhuma atividade, após os quais o ticket se auto-resolve",
+        "LABEL": "Duração de inatividade para resolução",
+        "HELP": "Duração após a qual a conversa deve ser automaticamente resolvida se não houver atividade",
         "PLACEHOLDER": "30",
-        "ERROR": "Por favor, indique um período de resolução automática válido (mínimo de 1 dia e máximo de 999 dias)"
+        "ERROR": "A duração de auto-resolução deve ser entre 10 minutos e 999 dias",
+        "API": {
+          "SUCCESS": "Definições de auto-resolução atualizadas",
+          "ERROR": "Falha ao atualizar as definições de auto-resolução"
+        },
+        "UPDATE_BUTTON": "Atualização",
+        "MESSAGE_LABEL": "Mensagem personalizada de resolução",
+        "MESSAGE_PLACEHOLDER": "A conversa foi marcada como resolvida pelo sistema devido a 15 dias de inatividade",
+        "MESSAGE_HELP": "Esta mensagem é enviada ao cliente quando uma conversa é automaticamente resolvida pelo sistema devido à inatividade."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativa.",
@@ -51,6 +126,7 @@
     "UPDATE_CHATWOOT": "Está disponível uma nova atualização {latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
     "LEARN_MORE": "Saber mais",
     "PAYMENT_PENDING": "O seu pagamento está pendente. Por favor, atualize as suas informações de pagamento para continuar a usar o Chatwoot",
+    "UPGRADE": "Atualize para continuar a usar o Chatwoot",
     "LIMITS_UPGRADE": "A sua conta excedeu os limites de utilização. Por favor, faça um upgrade ao seu plano para continuar a utilizar o Chatwoot",
     "OPEN_BILLING": "Abrir faturação"
   },
@@ -58,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Pressione Enter para escolher",
       "ENTER_TO_REMOVE": "Pressione Enter para eliminar",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Selecionar um",
       "SELECT": "Selecionar"
     }

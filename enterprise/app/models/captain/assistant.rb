@@ -2,19 +2,24 @@
 #
 # Table name: captain_assistants
 #
-#  id          :bigint           not null, primary key
-#  config      :jsonb            not null
-#  description :string
-#  name        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :bigint           not null
+#  id                  :bigint           not null, primary key
+#  config              :jsonb            not null
+#  description         :string
+#  guardrails          :jsonb
+#  name                :string           not null
+#  response_guidelines :jsonb
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :bigint           not null
 #
 # Indexes
 #
 #  index_captain_assistants_on_account_id  (account_id)
 #
 class Captain::Assistant < ApplicationRecord
+  include Avatarable
+  include Concerns::CaptainToolsHelpers
+
   self.table_name = 'captain_assistants'
 
   belongs_to :account
@@ -26,6 +31,9 @@ class Captain::Assistant < ApplicationRecord
            dependent: :destroy_async
   has_many :inboxes,
            through: :captain_inboxes
+  has_many :messages, as: :sender, dependent: :nullify
+  has_many :copilot_threads, dependent: :destroy_async
+  has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
   validates :name, presence: true
   validates :description, presence: true
@@ -34,4 +42,36 @@ class Captain::Assistant < ApplicationRecord
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
+
+  def available_name
+    name
+  end
+
+  def push_event_data
+    {
+      id: id,
+      name: name,
+      avatar_url: avatar_url.presence || default_avatar_url,
+      description: description,
+      created_at: created_at,
+      type: 'captain_assistant'
+    }
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      avatar_url: avatar_url.presence || default_avatar_url,
+      description: description,
+      created_at: created_at,
+      type: 'captain_assistant'
+    }
+  end
+
+  private
+
+  def default_avatar_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
+  end
 end

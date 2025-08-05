@@ -23,12 +23,18 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     return;
   }
 
-  if (window.Turbo) {
-    // if this is a Rails Turbo app
-    document.addEventListener('turbo:before-render', event =>
-      restoreWidgetInDOM(event.detail.newBody)
-    );
-  }
+  // if this is a Rails Turbo app
+  document.addEventListener('turbo:before-render', event => {
+    // when morphing the page, this typically happens on reload like events
+    // say you update a "Customer" on a form and it reloads the page
+    // We have already added data-turbo-permananent to true. This
+    // will ensure that the widget it preserved
+    // Read more about morphing here: https://turbo.hotwired.dev/handbook/page_refreshes#morphing
+    // and peristing elements here: https://turbo.hotwired.dev/handbook/building#persisting-elements-across-page-loads
+    if (event.detail.renderMethod === 'morph') return;
+
+    restoreWidgetInDOM(event.detail.newBody);
+  });
 
   if (window.Turbolinks) {
     document.addEventListener('turbolinks:before-render', event => {
@@ -66,6 +72,13 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     widgetStyle: getWidgetStyle(chatwootSettings.widgetStyle) || 'standard',
     resetTriggered: false,
     darkMode: getDarkMode(chatwootSettings.darkMode),
+    welcomeTitle: chatwootSettings.welcomeTitle || '',
+    welcomeDescription: chatwootSettings.welcomeDescription || '',
+    availableMessage: chatwootSettings.availableMessage || '',
+    unavailableMessage: chatwootSettings.unavailableMessage || '',
+    enableFileUpload: chatwootSettings.enableFileUpload ?? true,
+    enableEmojiPicker: chatwootSettings.enableEmojiPicker ?? true,
+    enableEndConversation: chatwootSettings.enableEndConversation ?? true,
 
     toggle(state) {
       IFrameHelper.events.toggleBubble(state);

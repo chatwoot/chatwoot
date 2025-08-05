@@ -32,10 +32,12 @@
     "LOADING_CONVERSATIONS": "Đang tải cuộc trò chuyện",
     "CANNOT_REPLY": "Bạn không thể trả lời do",
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Hội thoại này không được phân công cho bạn. Bạn có muốn phân công hội thoại này cho chính mình?",
     "ASSIGN_TO_ME": "Phân công cho tôi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bạn chỉ có thể phản hồi hội thoại này bằng tin nhắn mẫu vì",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Bạn đang trả lời:",
     "REMOVE_SELECTION": "Xóa lựa chọn",
     "DOWNLOAD": "Tải xuống",
@@ -68,6 +70,7 @@
       "RESOLVE_ACTION": "Giải quyết",
       "REOPEN_ACTION": "Mở lại",
       "OPEN_ACTION": "Mở",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
@@ -93,6 +96,10 @@
         "NEXT_WEEK": "Tuần sau"
       }
     },
+    "MENTION": {
+      "AGENTS": "Nhà cung cấp",
+      "TEAMS": "Nhóm"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Tạm dừng đến khi",
       "APPLY": "Báo lại",
@@ -115,6 +122,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Xoá"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Đánh dấu chưa giải quyết",
       "RESOLVED": "Đánh dấu là đã giải quyết",
@@ -131,6 +143,7 @@
       "ASSIGN_LABEL": "Gán nhãn",
       "AGENTS_LOADING": "Đang tải điện thoại viên...",
       "ASSIGN_TEAM": "Gán nhóm",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id hội thoại {conversationId} được gán cho \"{agentName}\"",
@@ -205,6 +218,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Đã gán nhãn thành công",
     "ASSIGN_LABEL_FAILED": "Gán nhãn không thành công",
     "CHANGE_TEAM": "Nhóm hội thoại đã được thay đổi",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Tệp vượt quá {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB mức hạn chế",
     "MESSAGE_ERROR": "Không thể gửi tin nhắn này, vui lòng thử lại sau",
     "SENT_BY": "Gửi bởi:",
@@ -293,9 +308,11 @@
       "CONVERSATION_ACTIONS": "Hành động của \bhội thoại",
       "CONVERSATION_LABELS": "Nhãn hội thoại",
       "CONVERSATION_INFO": "Thông tin hội thoại",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Thuộc tính của liên hệ",
       "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

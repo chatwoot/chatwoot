@@ -30,7 +30,6 @@ window.chatwootSettings = {
   var BASE_URL = '';
   var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
   g.src= BASE_URL + "/packs/js/sdk.js";
-  g.defer = true;
   g.async = true;
   s.parentNode.insertBefore(g,s);
   g.onload=function(){
@@ -66,6 +65,13 @@ window.addEventListener('chatwoot:postback', function(e) {
   console.log('chatwoot:postback', e.detail)
 })
 
+window.addEventListener('chatwoot:opened', function() {
+  console.log('chatwoot:opened')
+})
+
+window.addEventListener('chatwoot:closed', function() {
+  console.log('chatwoot:closed')
+})
 
 window.addEventListener('chatwoot:on-start-conversation', function(e) {
   console.log('chatwoot:on-start-conversation', e.detail)

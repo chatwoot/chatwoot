@@ -6,40 +6,68 @@ module ConversationReplyMailerHelper
       reply_to: email_reply_to,
       subject: mail_subject,
       message_id: custom_message_id,
-      in_reply_to: in_reply_to_email
+      in_reply_to: in_reply_to_email,
+      references: references_header
     }
 
     if cc_bcc_enabled
       @options[:cc] = cc_bcc_emails[0]
       @options[:bcc] = cc_bcc_emails[1]
     end
-    ms_smtp_settings
-    google_smtp_settings
+    oauth_smtp_settings
     set_delivery_method
 
-    Rails.logger.info("Email sent from #{email_from} to #{to_emails} with subject #{mail_subject}")
-
+    # Email type detection logic:
+    # - email_reply: Sets @message with a single message
+    # - Other actions: Set @messages with a collection of messages
+    #
+    # So this check implicitly determines we're handling an email_reply
+    # and not one of the other email types (summary, transcript, etc.)
+    process_attachments_as_files_for_email_reply if @message&.attachments.present?
     mail(@options)
+  end
+
+  def process_attachments_as_files_for_email_reply
+    # Attachment processing for direct email replies (when replying to a single message)
+    #
+    # How attachments are handled:
+    # 1. Total file size (<20MB): Added directly to the email as proper attachments
+    # 2. Total file size (>20MB): Added to @large_attachments to be displayed as links in the email
+
+    @options[:attachments] = []
+    @large_attachments = []
+    current_total_size = 0
+
+    @message.attachments.each do |attachment|
+      raw_data = attachment.file.download
+      attachment_name = attachment.file.filename.to_s
+      file_size = raw_data.bytesize
+
+      # Attach files directly until we hit 20MB total
+      # After reaching 20MB, send remaining files as links
+      if current_total_size + file_size <= 20.megabytes
+        mail.attachments[attachment_name] = raw_data
+        @options[:attachments] << { name: attachment_name }
+        current_total_size += file_size
+      else
+        @large_attachments << attachment
+      end
+    end
   end
 
   private
 
-  def google_smtp_settings
-    return unless @inbox.email? && @channel.imap_enabled && @inbox.channel.google?
-
-    smtp_settings = base_smtp_settings('smtp.gmail.com')
+  def oauth_smtp_settings
+    return unless @inbox.email? && @channel.imap_enabled
+    return unless oauth_provider_domain
 
     @options[:delivery_method] = :smtp
-    @options[:delivery_method_options] = smtp_settings
+    @options[:delivery_method_options] = base_smtp_settings(oauth_provider_domain)
   end
 
-  def ms_smtp_settings
-    return unless @inbox.email? && @channel.imap_enabled && @inbox.channel.microsoft?
-
-    smtp_settings = base_smtp_settings('smtp.office365.com')
-
-    @options[:delivery_method] = :smtp
-    @options[:delivery_method_options] = smtp_settings
+  def oauth_provider_domain
+    return 'smtp.gmail.com' if @inbox.channel.google?
+    return 'smtp.office365.com' if @inbox.channel.microsoft?
   end
 
   def base_smtp_settings(domain)
@@ -52,6 +80,8 @@ module ConversationReplyMailerHelper
       tls: false,
       enable_starttls_auto: true,
       openssl_verify_mode: 'none',
+      open_timeout: 15,
+      read_timeout: 15,
       authentication: 'xoauth2'
     }
   end

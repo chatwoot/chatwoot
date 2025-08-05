@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",
         "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API",
-        "COPY": "Copiar"
+        "COPY": "Copiar",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "¿Está seguro?",
+        "CONFIRM_HINT": "Haz clic de nuevo para confirmar",
+        "RESET_SUCCESS": "Token de acceso regenerado con éxito",
+        "RESET_ERROR": "No se puede regenerar el token de acceso. Por favor, inténtalo de nuevo"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Alertas de audio",
@@ -185,7 +190,8 @@
           "OFFLINE": "Desconectado"
         },
         "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
-        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo"
+        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo",
+        "IMPERSONATING_ERROR": "No se puede cambiar la disponibilidad al suplantar a un usuario"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
@@ -280,6 +286,7 @@
     "REPORTS": "Informes",
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
+    "ACTIVE": "Activo",
     "CAPTAIN": "Capitán",
     "CAPTAIN_ASSISTANTS": "Asistentes",
     "CAPTAIN_DOCUMENTS": "Documentos",
@@ -312,6 +319,7 @@
     "CSAT": "Encuestas de Satisfacción",
     "LIVE_CHAT": "Live Chat",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Campañas",
     "ONGOING": "En Curso",
     "ONE_OFF": "One Off",
@@ -387,7 +395,8 @@
         "LABEL": "Empresa",
         "PLACEHOLDER": "Empresas de Wayne"
       },
-      "SUBMIT": "Enviar"
+      "SUBMIT": "Enviar",
+      "CANCEL": "Cancelar"
     }
   },
   "KEYBOARD_SHORTCUTS": {

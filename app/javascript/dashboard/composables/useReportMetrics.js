@@ -7,8 +7,12 @@ import { formatTime } from '@chatwoot/utils';
  * @param {string} [accountSummaryKey='getAccountSummary'] - The key for accessing account summary data.
  * @returns {Object} An object containing utility functions for report metrics.
  */
-export function useReportMetrics(accountSummaryKey = 'getAccountSummary') {
+export function useReportMetrics(
+  accountSummaryKey = 'getAccountSummary',
+  summarFetchingKey = 'getAccountSummaryFetchingStatus'
+) {
   const accountSummary = useMapGetter(accountSummaryKey);
+  const fetchingStatus = useMapGetter(summarFetchingKey);
 
   /**
    * Calculates the trend percentage for a given metric.
@@ -53,5 +57,6 @@ export function useReportMetrics(accountSummaryKey = 'getAccountSummary') {
     calculateTrend,
     isAverageMetricType,
     displayMetric,
+    fetchingStatus,
   };
 }

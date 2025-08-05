@@ -22,7 +22,11 @@ import {
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
-import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
+import {
+  CHATWOOT_ERROR,
+  CHATWOOT_POSTBACK,
+  CHATWOOT_READY,
+} from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
@@ -78,6 +82,7 @@ export const IFrameHelper = {
 
     addClasses(widgetHolder, holderClassName);
     widgetHolder.id = 'cw-widget-holder';
+    widgetHolder.dataset.turboPermanent = true;
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -161,6 +166,13 @@ export const IFrameHelper = {
         darkMode: window.$chatwoot.darkMode,
         showUnreadMessagesDialog: window.$chatwoot.showUnreadMessagesDialog,
         campaignsSnoozedTill,
+        welcomeTitle: window.$chatwoot.welcomeTitle,
+        welcomeDescription: window.$chatwoot.welcomeDescription,
+        availableMessage: window.$chatwoot.availableMessage,
+        unavailableMessage: window.$chatwoot.unavailableMessage,
+        enableFileUpload: window.$chatwoot.enableFileUpload,
+        enableEmojiPicker: window.$chatwoot.enableEmojiPicker,
+        enableEndConversation: window.$chatwoot.enableEndConversation,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
@@ -205,7 +217,7 @@ export const IFrameHelper = {
 
     postback(data) {
       dispatchWindowEvent({
-        eventName: 'chatwoot:postback',
+        eventName: CHATWOOT_POSTBACK,
         data,
       });
     },

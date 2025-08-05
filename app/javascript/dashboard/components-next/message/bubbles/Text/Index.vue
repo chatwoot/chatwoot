@@ -3,16 +3,16 @@ import { computed, ref } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
+import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import { MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
+import { useTranslations } from 'dashboard/composables/useTranslations';
 
 const { content, attachments, contentAttributes, messageType } =
   useMessageContext();
 
-const hasTranslations = computed(() => {
-  const { translations = {} } = contentAttributes.value;
-  return Object.keys(translations || {}).length > 0;
-});
+const { hasTranslations, translationContent } =
+  useTranslations(contentAttributes);
 
 const renderOriginal = ref(false);
 
@@ -22,8 +22,7 @@ const renderContent = computed(() => {
   }
 
   if (hasTranslations.value) {
-    const translations = contentAttributes.value.translations;
-    return translations[Object.keys(translations)[0]];
+    return translationContent.value;
   }
 
   return content.value;
@@ -35,12 +34,6 @@ const isTemplate = computed(() => {
 
 const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
-});
-
-const viewToggleKey = computed(() => {
-  return renderOriginal.value
-    ? 'CONVERSATION.VIEW_TRANSLATED'
-    : 'CONVERSATION.VIEW_ORIGINAL';
 });
 
 const handleSeeOriginal = () => {
@@ -55,15 +48,12 @@ const handleSeeOriginal = () => {
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
       <FormattedContent v-if="renderContent" :content="renderContent" />
-      <span class="-mt-3">
-        <span
-          v-if="hasTranslations"
-          class="text-xs text-n-slate-11 cursor-pointer hover:underline"
-          @click="handleSeeOriginal"
-        >
-          {{ $t(viewToggleKey) }}
-        </span>
-      </span>
+      <TranslationToggle
+        v-if="hasTranslations"
+        class="-mt-3"
+        :showing-original="renderOriginal"
+        @toggle="handleSeeOriginal"
+      />
       <AttachmentChips :attachments="attachments" class="gap-2" />
       <template v-if="isTemplate">
         <div

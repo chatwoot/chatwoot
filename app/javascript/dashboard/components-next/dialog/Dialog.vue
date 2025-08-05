@@ -2,9 +2,9 @@
 import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
 const props = defineProps({
   type: {
@@ -59,8 +59,6 @@ const emit = defineEmits(['confirm', 'close']);
 
 const { t } = useI18n();
 
-const isRTL = useMapGetter('accounts/isRTL');
-
 const dialogRef = ref(null);
 const dialogContentRef = ref(null);
 
@@ -94,7 +92,7 @@ defineExpose({ open, close });
 </script>
 
 <template>
-  <Teleport to="body">
+  <TeleportWithDirection to="body">
     <dialog
       ref="dialogRef"
       class="w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl"
@@ -102,7 +100,6 @@ defineExpose({ open, close });
         maxWidthClass,
         overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
       ]"
-      :dir="isRTL ? 'rtl' : 'ltr'"
       @close="close"
     >
       <OnClickOutside @trigger="close">
@@ -125,7 +122,10 @@ defineExpose({ open, close });
           <slot />
           <!-- Dialog content will be injected here -->
           <slot name="footer">
-            <div class="flex items-center justify-between w-full gap-3">
+            <div
+              v-if="showCancelButton || showConfirmButton"
+              class="flex items-center justify-between w-full gap-3"
+            >
               <Button
                 v-if="showCancelButton"
                 variant="faded"
@@ -149,7 +149,7 @@ defineExpose({ open, close });
         </form>
       </OnClickOutside>
     </dialog>
-  </Teleport>
+  </TeleportWithDirection>
 </template>
 
 <style scoped>

@@ -59,13 +59,13 @@ const resolvedMacro = computed(() => {
     >
       <div
         v-if="i !== macro.actions.length - 1"
-        class="top-[0.390625rem] absolute -bottom-1 left-0 w-px bg-slate-75 dark:bg-slate-600"
+        class="top-[0.390625rem] absolute -bottom-1 left-0 w-px bg-n-slate-6"
       />
       <div
-        class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-n-solid-1 border-2 border-solid border-n-weak dark:border-slate-600"
+        class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-n-solid-1 border-2 border-solid border-n-weak dark:border-n-slate-6"
       />
       <p class="mb-1 text-xs text-n-slate-11">
-        {{ action.actionName }}
+        {{ $t(`MACROS.ACTIONS.${action.actionName}`) }}
       </p>
       <p class="text-n-slate-12 text-sm">{{ action.actionValue }}</p>
     </div>

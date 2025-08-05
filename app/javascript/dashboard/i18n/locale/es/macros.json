@@ -83,6 +83,29 @@
       "ACTION_PARAMETERS_REQUIRED": "Se requieren parámetros de acción",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Se requiere al menos una condición",
       "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Asignar equipo",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Añadir etiqueta",
+      "REMOVE_LABEL": "Eliminar etiqueta",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Enviar transcripción por correo",
+      "MUTE_CONVERSATION": "Silenciar Conversación",
+      "SNOOZE_CONVERSATION": "Posponer conversación",
+      "RESOLVE_CONVERSATION": "Resolver conversación",
+      "SEND_ATTACHMENT": "Enviar archivo adjunto",
+      "SEND_MESSAGE": "Enviar mensaje",
+      "CHANGE_PRIORITY": "Cambiar prioridad",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Enviar Evento de Webhook"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ninguna",
+      "LOW": "Baja",
+      "MEDIUM": "Media",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
     }
   }
 }

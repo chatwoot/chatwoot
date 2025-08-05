@@ -23,6 +23,9 @@
   - action_mailbox_routing
   - low
   - scheduled_jobs
+  - deferred
+  - purgable
+  - housekeeping
   - async_database_migration
   - active_storage_analysis
   - active_storage_purge

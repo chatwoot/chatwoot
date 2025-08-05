@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
         "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API",
-        "COPY": "Copiar"
+        "COPY": "Copiar",
+        "RESET": "Reiniciar",
+        "CONFIRM_RESET": "Você tem certeza?",
+        "CONFIRM_HINT": "Clique novamente para confirmar",
+        "RESET_SUCCESS": "Token de acesso gerado novamente com sucesso",
+        "RESET_ERROR": "Não foi possível regerar o token de acesso. Por favor, tente novamente"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Alertas de áudio",
@@ -185,7 +190,8 @@
           "OFFLINE": "Offline"
         },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
-        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
+        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente",
+        "IMPERSONATING_ERROR": "Não é possível alterar a disponibilidade enquanto personifica um usuário"
       },
       "EMAIL": {
         "LABEL": "Seu e-mail",
@@ -231,7 +237,7 @@
     "EMAIL_VERIFICATION_SENT": "O e-mail de verificação foi enviado. Por favor, verifique sua caixa de entrada.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
-      "MESSAGE": "Sua conta está suspensa. Por favor, entre em contato com a equipe de suporte para mais informações."
+      "MESSAGE": "Sua conta está suspensa. Entre em contato com a equipe de suporte para obter mais informações."
     }
   },
   "COMPONENTS": {
@@ -270,7 +276,7 @@
     "NO_ITEMS": "Nenhum item",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
     "SWITCH": "Trocar",
-    "INBOX_VIEW": "",
+    "INBOX_VIEW": "Caixa de entrada",
     "CONVERSATIONS": "Conversas",
     "INBOX": "Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
@@ -279,7 +285,8 @@
     "UNATTENDED_CONVERSATIONS": "Não atendidas",
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
-    "CONTACTS": "Contato",
+    "CONTACTS": "Contatos",
+    "ACTIVE": "Ativo",
     "CAPTAIN": "Capitão",
     "CAPTAIN_ASSISTANTS": "Assistentes",
     "CAPTAIN_DOCUMENTS": "Documentos",
@@ -299,19 +306,20 @@
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
     "MACROS": "Macros",
-    "TEAMS": "Equipes",
+    "TEAMS": "Times",
     "BILLING": "Cobrança",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
     "TAGGED_WITH": "Marcado com",
     "NEW_LABEL": "Nova etiqueta",
-    "NEW_TEAM": "Nova equipe",
+    "NEW_TEAM": "Novo time",
     "NEW_INBOX": "Nova caixa de entrada",
     "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
     "LIVE_CHAT": "Chat ao vivo",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
     "ONE_OFF": "Única",
@@ -320,7 +328,7 @@
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Caixa de Entrada",
-    "REPORTS_TEAM": "Equipe",
+    "REPORTS_TEAM": "Time",
     "SET_AVAILABILITY_TITLE": "Defina como",
     "SET_YOUR_AVAILABILITY": "Disponibilidade",
     "SLA": "SLA",
@@ -345,7 +353,7 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
-    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para sua equipe.",
+    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para seu time.",
     "CURRENT_PLAN": {
       "TITLE": "Plano Atual",
       "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças",
@@ -364,7 +372,7 @@
       "BUTTON_TXT": "Comprar mais créditos",
       "DOCUMENTS": "Documentos",
       "RESPONSES": "Respostas",
-      "UPGRADE": "O Captain não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, copilot e muito mais."
+      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais."
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",
@@ -387,7 +395,8 @@
         "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Informe o nome da conta"
       },
-      "SUBMIT": "Enviar"
+      "SUBMIT": "Enviar",
+      "CANCEL": "Cancelar"
     }
   },
   "KEYBOARD_SHORTCUTS": {

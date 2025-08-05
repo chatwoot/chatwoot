@@ -80,17 +80,13 @@ const filteredCustomAttributes = computed(() =>
       customAttributes.value,
       attribute.attribute_key
     );
-    const isCheckbox = attribute.attribute_display_type === 'checkbox';
-    const defaultValue = isCheckbox ? false : '';
 
     return {
       ...attribute,
       type: 'custom_attribute',
       key: attribute.attribute_key,
-      // Set value from customAttributes if it exists, otherwise use default value
-      value: hasValue
-        ? customAttributes.value[attribute.attribute_key]
-        : defaultValue,
+      // Set value from customAttributes if it exists, otherwise use ''
+      value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
     };
   })
 );
@@ -215,7 +211,7 @@ const onUpdate = async (key, value) => {
     } else {
       store.dispatch('contacts/update', {
         id: props.contactId,
-        custom_attributes: updatedAttributes,
+        customAttributes: updatedAttributes,
       });
     }
     useAlert(t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));

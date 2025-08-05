@@ -6,24 +6,34 @@ description: Update Conversation Attributes
 security:
   - userApiKey: []
   - agentBotApiKey: []
-parameters:
-  - name: data
-    in: body
-    required: true
-    schema:
-      type: object
-      properties:
-        priority:
-          type: string
-          enum:  ["urgent", "high", "medium", "low", "none"]
-          description: "The priority of the conversation"
-        sla_policy_id:
-          type: number
-          description: "The ID of the SLA policy (Available only in Enterprise edition)"
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          priority:
+            type: string
+            enum: ['urgent', 'high', 'medium', 'low', 'none']
+            description: 'The priority of the conversation'
+            example: 'high'
+          sla_policy_id:
+            type: number
+            description: 'The ID of the SLA policy (Available only in Enterprise edition)'
+            example: 1
 responses:
-  200:
+  '200':
     description: Success
-  404:
-    description: Conversation not found
-  401:
+  '401':
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

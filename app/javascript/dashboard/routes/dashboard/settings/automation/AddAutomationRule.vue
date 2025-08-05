@@ -82,7 +82,6 @@ export default {
   data() {
     return {
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
-      automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
       show: true,
       showDeleteConfirmationModal: false,
@@ -96,6 +95,12 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    automationRuleEvents() {
+      return AUTOMATION_RULE_EVENTS.map(event => ({
+        ...event,
+        value: this.$t(`AUTOMATION.EVENTS.${event.value}`),
+      }));
+    },
     hasAutomationMutated() {
       if (
         this.automation.conditions[0].values ||
@@ -105,10 +110,14 @@ export default {
       return false;
     },
     automationActionTypes() {
-      const isSLAEnabled = this.isFeatureEnabled('sla');
-      return isSLAEnabled
+      const actionTypes = this.isFeatureEnabled('sla')
         ? AUTOMATION_ACTION_TYPES
-        : AUTOMATION_ACTION_TYPES.filter(action => action.key !== 'add_sla');
+        : AUTOMATION_ACTION_TYPES.filter(({ key }) => key !== 'add_sla');
+
+      return actionTypes.map(action => ({
+        ...action,
+        label: this.$t(`AUTOMATION.ACTIONS.${action.label}`),
+      }));
     },
   },
   mounted() {
@@ -136,6 +145,26 @@ export default {
         const automation = generateAutomationPayload(this.automation);
         this.$emit('saveAutomation', automation, this.mode);
       }
+    },
+    getTranslatedAttributes(type, event) {
+      return getAttributes(type, event).map(attribute => {
+        // Skip translation
+        // 1. If customAttributeType key is present then its rendering attributes from API
+        // 2. If contact_custom_attribute or conversation_custom_attribute is present then its rendering section title
+        const skipTranslation =
+          attribute.customAttributeType ||
+          [
+            'contact_custom_attribute',
+            'conversation_custom_attribute',
+          ].includes(attribute.key);
+
+        return {
+          ...attribute,
+          name: skipTranslation
+            ? attribute.name
+            : this.$t(`AUTOMATION.ATTRIBUTES.${attribute.name}`),
+        };
+      });
     },
   },
 };
@@ -186,7 +215,7 @@ export default {
           </label>
           <p
             v-if="hasAutomationMutated"
-            class="text-xs text-right text-green-500 pt-1 dark:text-green-500"
+            class="text-xs text-right text-n-teal-10 pt-1"
           >
             {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
           </p>
@@ -204,7 +233,7 @@ export default {
               :key="i"
               v-model="automation.conditions[i]"
               :filter-attributes="
-                getAttributes(automationTypes, automation.event_name)
+                getTranslatedAttributes(automationTypes, automation.event_name)
               "
               :input-type="
                 getInputType(

@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mensagem atualizada",
             "WEBWIDGET_TRIGGERED": "Widget de live-chat aberto pelo utilizador",
             "CONTACT_CREATED": "Contacto criado",
-            "CONTACT_UPDATED": "Contacto atualizado"
+            "CONTACT_UPDATED": "Contacto atualizado",
+            "CONVERSATION_TYPING_ON": "Conversa: a escrever",
+            "CONVERSATION_TYPING_OFF": "Conversa: a escrever desligada"
           }
         },
         "END_POINT": {
@@ -316,9 +318,24 @@
         "SUCCESS": "Problema desvinculado com sucesso",
         "ERROR": "Houve um erro ao desvincular o problema, por favor, tente novamente"
       },
+      "NO_LINKED_ISSUES": "Sem casos associados",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the integration?",
         "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "Sim, excluir",
+        "CANCEL": "Cancelar"
+      },
+      "CTA": {
+        "TITLE": "Ligar ao Linear",
+        "AGENT_DESCRIPTION": "O espaço de trabalho linear não está ligado. Solicite ao administrador que ligue um espaço de trabalho para usar esta integração.",
+        "DESCRIPTION": "O workspace Linear não está ligado. Clique no botão abaixo para ligar o seu workspace para utilizar esta integração.",
+        "BUTTON_TEXT": "Ligar workspace Linear"
+      }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Tem a certeza que pretende apagar a integração Notion?",
+        "MESSAGE": "Apagar esta integração removerá o acesso ao seu workspace Notion e encerrará todas as funcionalidades relacionadas.",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
       }
@@ -328,12 +345,48 @@
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copilot",
+      "TRY_THESE_PROMPTS": "Try these prompts",
+      "PANEL_TITLE": "Comece com o Copilot",
+      "KICK_OFF_MESSAGE": "Precisa de um resumo rápido, quer consultar conversas anteriores ou redigir uma resposta melhor? O Copilot está aqui para acelerar o processo.",
       "SEND_MESSAGE": "Enviar mensagem...",
+      "EMPTY_MESSAGE": "Ocorreu um erro ao gerar a resposta. Por favor, tente novamente.",
       "LOADER": "Captain is thinking",
       "YOU": "Você",
       "USE": "Use this",
       "RESET": "Reset",
-      "SELECT_ASSISTANT": "Select Assistant"
+      "SHOW_STEPS": "Mostrar passos",
+      "SELECT_ASSISTANT": "Select Assistant",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Resumir esta conversa",
+          "CONTENT": "Resuma os pontos-chave discutidos entre o cliente e o agente de suporte, incluindo as preocupações do cliente, as questões e as soluções ou respostas dadas pelo agente de suporte"
+        },
+        "SUGGEST": {
+          "LABEL": "Sugerir uma resposta",
+          "CONTENT": "Analise a questão do cliente e redija uma resposta que aborde eficazmente as suas preocupações ou perguntas. Certifique-se de que a resposta é clara, concisa e fornece informações úteis."
+        },
+        "RATE": {
+          "LABEL": "Avalie esta conversa",
+          "CONTENT": "Reveja a conversa para ver o quanto foram satisfeitas as necessidades do cliente. Compartilhe uma classificação até 5 com base no tom, clareza e eficácia."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "Conversas de alta prioridade",
+          "CONTENT": "Dê-me um resumo de todas as conversas abertas de alta prioridade. Inclua o ID da conversa, nome do cliente (se disponível), conteúdo da última mensagem e agente atribuído. Agrupe por estado, se relevante."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "Listar contactos",
+          "CONTENT": "Mostre-me a lista dos 10 principais contactos. Inclua nome, email ou número de telefone (se disponível), última vez visto, etiquetas (se houver)."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "Você",
+      "ASSISTANT": "Assistant",
+      "MESSAGE_PLACEHOLDER": "Escreva a sua mensagem...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use este playground para enviar mensagens para o seu assistente e verificar se ele responde com precisão, rápido e no tom esperado.",
+      "CREDIT_NOTE": "As mensagens aqui enviadas vão contar para os créditos do seu Captain."
     },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
@@ -343,7 +396,6 @@
       "CANCEL_ANYTIME": "Pode alterar ou cancelar o plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Por favor, entre em contato com o administrador para atualização."
     },
@@ -358,6 +410,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Assistants",
+      "NO_ASSISTANTS_AVAILABLE": "Não há agentes disponíveis na sua conta.",
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
@@ -373,20 +426,48 @@
         "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
       },
       "FORM": {
+        "UPDATE": "Atualização",
+        "SECTIONS": {
+          "BASIC_INFO": "Informação básica",
+          "SYSTEM_MESSAGES": "Mensagens do Sistema",
+          "INSTRUCTIONS": "Instruções",
+          "FEATURES": "Características",
+          "TOOLS": "Ferramentas "
+        },
         "NAME": {
-          "LABEL": "Assistant Name",
-          "PLACEHOLDER": "Enter a name for the assistant",
-          "ERROR": "Please provide a name for the assistant"
+          "LABEL": "Nome:",
+          "PLACEHOLDER": "Escreva o nome do assistente",
+          "ERROR": "O nome é obrigatório"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Temperatura da Resposta",
+          "DESCRIPTION": "Ajuste o quão criativo ou restritivo as respostas do assistente devem ser. Valores mais baixos produzem respostas mais focadas e deterministas, enquanto valores mais altos permitem resultados mais criativos e variados."
         },
         "DESCRIPTION": {
-          "LABEL": "Assistant Description",
-          "PLACEHOLDER": "Describe how and where this assistant will be used",
-          "ERROR": "A description is required"
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Escreva a descrição do assistente",
+          "ERROR": "A descrição é obrigatória"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
-          "ERROR": "The product name is required"
+          "PLACEHOLDER": "Escreva o nome do produto",
+          "ERROR": "O nome do produto é obrigatório"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Mensagem de Boas-vindas",
+          "PLACEHOLDER": "Escreva a mensagem de boas-vindas"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Mensagem de despedida",
+          "PLACEHOLDER": "Escreva a mensagem de despedida"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Mensagem de resolução",
+          "PLACEHOLDER": "Escreva a mensagem de resolução"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instruções",
+          "PLACEHOLDER": "Escreva as instruções para o assistente"
         },
         "FEATURES": {
           "TITLE": "Características",
@@ -397,7 +478,39 @@
       "EDIT": {
         "TITLE": "Update the assistant",
         "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
+        "NOT_FOUND": "Não foi possível encontrar o assistente. Por favor, tente novamente."
+      },
+      "SETTINGS": {
+        "BREADCRUMB": {
+          "ASSISTANT": "Assistant"
+        },
+        "BASIC_SETTINGS": {
+          "TITLE": "Basic settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "System settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "The Fun Stuff",
+          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Guardrails",
+              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+            },
+            "SCENARIOS": {
+              "TITLE": "Scenarios",
+              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Response guidelines",
+              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+            }
+          }
+        }
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
@@ -410,6 +523,100 @@
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
           "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Guardrails",
+        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "BREADCRUMB": {
+          "TITLE": "Guardrails"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Selecionar todas ({count})",
+          "UNSELECT_ALL": "Desmarcar todas ({count})",
+          "BULK_DELETE_BUTTON": "Excluir"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example guardrails",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another guardrail..."
+          },
+          "NEW": {
+            "TITLE": "Add a guardrail",
+            "CREATE": "Criar",
+            "CANCEL": "Cancelar",
+            "PLACEHOLDER": "Type in another guardrail...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Search..."
+        },
+        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Guardrails added successfully",
+            "ERROR": "There was an error adding guardrails, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Guardrails updated successfully",
+            "ERROR": "There was an error updating guardrails, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Guardrails deleted successfully",
+            "ERROR": "There was an error deleting guardrails, please try again."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Response Guidelines",
+        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "BREADCRUMB": {
+          "TITLE": "Response Guidelines"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Selecionar todas ({count})",
+          "UNSELECT_ALL": "Desmarcar todas ({count})",
+          "BULK_DELETE_BUTTON": "Excluir"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example response guidelines",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another response guideline..."
+          },
+          "NEW": {
+            "TITLE": "Add a response guideline",
+            "CREATE": "Criar",
+            "CANCEL": "Cancelar",
+            "PLACEHOLDER": "Type in another response guideline...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Search..."
+        },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Response Guidelines added successfully",
+            "ERROR": "There was an error adding response guidelines, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Response Guidelines updated successfully",
+            "ERROR": "There was an error updating response guidelines, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Response Guidelines deleted successfully",
+            "ERROR": "There was an error deleting response guidelines, please try again."
+          }
         }
       }
     },
@@ -465,6 +672,8 @@
         "CONVERSATION": "Conversation #{id}"
       },
       "SELECTED": "{count} selected",
+      "SELECT_ALL": "Selecionar todas ({count})",
+      "UNSELECT_ALL": "Desmarcar todas ({count})",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_APPROVE": {

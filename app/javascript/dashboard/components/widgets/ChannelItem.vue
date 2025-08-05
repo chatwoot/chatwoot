@@ -17,6 +17,9 @@ export default {
     hasFbConfigured() {
       return window.chatwootConfig?.fbAppId;
     },
+    hasInstagramConfigured() {
+      return window.chatwootConfig?.instagramAppId;
+    },
     isActive() {
       const { key } = this.channel;
       if (Object.keys(this.enabledFeatures).length === 0) {
@@ -32,6 +35,16 @@ export default {
         return this.enabledFeatures.channel_email;
       }
 
+      if (key === 'instagram') {
+        return (
+          this.enabledFeatures.channel_instagram && this.hasInstagramConfigured
+        );
+      }
+
+      if (key === 'voice') {
+        return this.enabledFeatures.channel_voice;
+      }
+
       return [
         'website',
         'twilio',
@@ -40,7 +53,15 @@ export default {
         'sms',
         'telegram',
         'line',
+        'instagram',
+        'voice',
       ].includes(key);
+    },
+    isComingSoon() {
+      const { key } = this.channel;
+      // Show "Coming Soon" only if the channel is marked as coming soon
+      // and the corresponding feature flag is not enabled yet.
+      return ['voice'].includes(key) && !this.isActive;
     },
   },
   methods: {
@@ -64,6 +85,7 @@ export default {
     :class="{ inactive: !isActive }"
     :title="channel.name"
     :src="getChannelThumbnail()"
+    :is-coming-soon="isComingSoon"
     @click="onItemClick"
   />
 </template>

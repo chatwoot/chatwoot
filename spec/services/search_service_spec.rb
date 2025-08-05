@@ -10,6 +10,11 @@ describe SearchService do
   let!(:harry) { create(:contact, name: 'Harry Potter', email: 'test@test.com', account_id: account.id) }
   let!(:conversation) { create(:conversation, contact: harry, inbox: inbox, account: account) }
   let!(:message) { create(:message, account: account, inbox: inbox, content: 'Harry Potter is a wizard') }
+  let!(:portal) { create(:portal, account: account) }
+  let(:article) do
+    create(:article, title: 'Harry Potter Magic Guide', content: 'Learn about wizardry', account: account, portal: portal, author: user,
+                     status: 'published')
+  end
 
   before do
     create(:inbox_member, user: user, inbox: inbox)
@@ -27,7 +32,7 @@ describe SearchService do
       it 'returns all for all' do
         search_type = 'all'
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
-        expect(search.perform.keys).to match_array(%i[contacts messages conversations])
+        expect(search.perform.keys).to match_array(%i[contacts messages conversations articles])
       end
 
       it 'returns contacts for contacts' do
@@ -46,6 +51,12 @@ describe SearchService do
         search_type = 'Conversation'
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
         expect(search.perform.keys).to match_array(%i[conversations])
+      end
+
+      it 'returns articles for articles' do
+        search_type = 'Article'
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        expect(search.perform.keys).to match_array(%i[articles])
       end
     end
 
@@ -141,6 +152,92 @@ describe SearchService do
         params = { q: new_converstion.display_id }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to include new_converstion.id
+      end
+    end
+
+    context 'when article search' do
+      it 'returns matching articles' do
+        article2 = create(:article, title: 'Spellcasting Guide',
+                                    account: account, portal: portal, author: user, status: 'published')
+        article3 = create(:article, title: 'Spellcasting Manual',
+                                    account: account, portal: portal, author: user, status: 'published')
+
+        params = { q: 'Spellcasting' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+        results = search.perform[:articles]
+
+        expect(results.length).to eq(2)
+        expect(results.map(&:id)).to contain_exactly(article2.id, article3.id)
+      end
+
+      it 'returns paginated results' do
+        # Create many articles to test pagination
+        16.times do |i|
+          create(:article, title: "Magic Article #{i}", account: account, portal: portal, author: user, status: 'published')
+        end
+
+        params = { q: 'Magic', page: 1 }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+        results = search.perform[:articles]
+
+        expect(results.length).to eq(15) # Default per_page is 15
+      end
+    end
+  end
+
+  describe '#message_base_query' do
+    let(:params) { { q: 'test' } }
+    let(:search_type) { 'Message' }
+
+    context 'when user is admin' do
+      let(:admin_user) { create(:user) }
+      let(:admin_search) do
+        create(:account_user, account: account, user: admin_user, role: 'administrator')
+        described_class.new(current_user: admin_user, current_account: account, params: params, search_type: search_type)
+      end
+
+      it 'does not filter by inbox_id' do
+        # Testing the private method itself seems like the best way to ensure
+        # that the inboxes are not added to the search query
+        base_query = admin_search.send(:message_base_query)
+
+        # Should only have the time filter, not inbox filter
+        expect(base_query.to_sql).to include('created_at >= ')
+        expect(base_query.to_sql).not_to include('inbox_id')
+      end
+    end
+
+    context 'when user is not admin' do
+      before do
+        account_user = account.account_users.find_or_create_by(user: user)
+        account_user.update!(role: 'agent')
+      end
+
+      it 'filters by accessible inbox_id when user has limited access' do
+        # Create an additional inbox that user is NOT assigned to
+        create(:inbox, account: account)
+
+        base_query = search.send(:message_base_query)
+
+        # Should have both time and inbox filters
+        expect(base_query.to_sql).to include('created_at >= ')
+        expect(base_query.to_sql).to include('inbox_id')
+      end
+
+      context 'when user has access to all inboxes' do
+        before do
+          # Create additional inbox and assign user to all inboxes
+          other_inbox = create(:inbox, account: account)
+          create(:inbox_member, user: user, inbox: other_inbox)
+        end
+
+        it 'skips inbox filtering as optimization' do
+          base_query = search.send(:message_base_query)
+
+          # Should only have the time filter, not inbox filter
+          expect(base_query.to_sql).to include('created_at >= ')
+          expect(base_query.to_sql).not_to include('inbox_id')
+        end
       end
     end
   end

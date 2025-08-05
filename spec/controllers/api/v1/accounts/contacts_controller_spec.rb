@@ -563,8 +563,11 @@ RSpec.describe 'Contacts API', type: :request do
 
   describe 'PATCH /api/v1/accounts/{account.id}/contacts/:id' do
     let(:custom_attributes) { { test: 'test', test1: 'test1' } }
-    let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
-    let(:valid_params) { { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' } } }
+    let(:additional_attributes) { { attr1: 'attr1', attr2: 'attr2' } }
+    let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes, additional_attributes: additional_attributes) }
+    let(:valid_params) do
+      { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' }, additional_attributes: { attr2: 'new attr2', attr3: 'attr3' } }
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -588,6 +591,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact.reload.name).to eq('Test Blub')
         # custom attributes are merged properly without overwriting existing ones
         expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
+        expect(contact.additional_attributes).to eq({ 'attr1' => 'attr1', 'attr2' => 'new attr2', 'attr3' => 'attr3' })
       end
 
       it 'prevents the update of contact of another account' do

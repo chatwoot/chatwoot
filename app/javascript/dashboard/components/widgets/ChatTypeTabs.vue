@@ -48,25 +48,17 @@ useKeyboardEvents(keyboardEvents);
 <template>
   <woot-tabs
     :index="activeTabIndex"
-    class="w-full px-4 py-0 tab--chat-type"
+    class="w-full px-3 -mt-1 py-0 [&_ul]:p-0"
     @change="onTabChange"
   >
     <woot-tabs-item
       v-for="(item, index) in items"
       :key="item.key"
+      class="text-sm [&_a]:font-medium"
       :index="index"
       :name="item.name"
       :count="item.count"
+      is-compact
     />
   </woot-tabs>
 </template>
-
-<style scoped lang="scss">
-.tab--chat-type {
-  ::v-deep {
-    .tabs {
-      @apply p-0;
-    }
-  }
-}
-</style>

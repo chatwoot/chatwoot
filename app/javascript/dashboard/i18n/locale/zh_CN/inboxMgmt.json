@@ -43,7 +43,17 @@
         "INBOX_NAME": "收件箱名称",
         "ADD_NAME": "为收件箱添加名称",
         "PICK_NAME": "为收件箱选择一个名称",
-        "PICK_A_VALUE": "选择一个数值"
+        "PICK_A_VALUE": "选择一个数值",
+        "CREATE_INBOX": "新增收件箱"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "在 Instagram 中继续",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "连接您的 Instagram 配置文件",
+        "HELP": "若要将您的 Instagram 配置文件添加为通道，您需要点击「继续使用 Instagram」来验证您的 Instagram 配置文件。 ",
+        "ERROR_MESSAGE": "连接到 Instagram 时出错，请重试",
+        "ERROR_AUTH": "连接到 Instagram 时出错，请重试",
+        "NEW_INBOX_SUGGESTION": "这个 Instagram 账户先前已连接到一个不同的收件箱，现在已经迁移到这里。 所有新消息都将出现在这里。旧收件箱将无法再发送或接收此账户的消息。",
+        "DUPLICATE_INBOX_BANNER": "此 Instagram 账户已迁移到新的 Instagram 通道收件箱。您将无法从此收件箱发送/接收 Instagram 消息。"
       },
       "TWITTER": {
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
@@ -212,9 +222,16 @@
         "DESC": "开始通过WhatsApp支持您的客户",
         "PROVIDERS": {
           "LABEL": "API提供商",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp 云服务",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "收件箱名称",
@@ -254,8 +271,70 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook 验证令牌"
         },
         "SUBMIT_BUTTON": "创建WhatsApp频道",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick Setup with Meta",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+        },
         "API": {
           "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "电话号码",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "账户 SID",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "身份验证令牌",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API 密钥 SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API 密钥密码",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          },
+          "TWIML_APP_SID": {
+            "LABEL": "TwiML App SID",
+            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
+            "REQUIRED": "TwiML App SID is required"
+          }
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -471,7 +550,8 @@
       "PRE_CHAT_FORM": "预聊天表单",
       "BUSINESS_HOURS": "工作时间",
       "WIDGET_BUILDER": "小部件生成器",
-      "BOT_CONFIGURATION": "机器人配置"
+      "BOT_CONFIGURATION": "机器人配置",
+      "CSAT": "客户满意度"
     },
     "SETTINGS": "设置",
     "FEATURES": {
@@ -492,9 +572,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "启用电子邮件收集框",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "在新对话中启用或禁用电子邮件收集框",
       "AUTO_ASSIGNMENT": "启用自动分配",
-      "ENABLE_CSAT": "启用CSAT",
       "SENDER_NAME_SECTION": "在电子邮件中启用代理名称",
-      "ENABLE_CSAT_SUB_TEXT": "在解决对话后启用/禁用CSAT（客户满意度）调查",
       "SENDER_NAME_SECTION_TEXT": "启用/禁用在电子邮件中显示代理名称，如果禁用，将显示业务名称",
       "ENABLE_CONTINUITY_VIA_EMAIL": "通过电子邮件启用对话连续性",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "如果有联系人的电子邮件地址，对话将会继续在电子邮件中进行。",
@@ -522,6 +600,10 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook 验证令牌",
       "WHATSAPP_WEBHOOK_SUBHEADER": "此令牌用于验证webhook端点的真实性。",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "更新预聊天表单设置"
     },
     "HELP_CENTER": {
@@ -566,6 +648,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "访客在开始聊天前应提供他们的姓名和电子邮件地址"
+      }
+    },
+    "CSAT": {
+      "TITLE": "启用CSAT",
+      "SUBTITLE": "在对话结束时自动启动 CSAT 问卷，以了解客户如何感觉到他们的支持体验。 跟踪满意的趋势并查明一段时间内需要改进的领域。",
+      "DISPLAY_TYPE": {
+        "LABEL": "显示类型"
+      },
+      "MESSAGE": {
+        "LABEL": "消息",
+        "PLACEHOLDER": "请输入一条消息以将此表格显示给用户"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "问卷规则",
+        "DESCRIPTION_PREFIX": "发送此问卷如果对话",
+        "DESCRIPTION_SUFFIX": "任意标签",
+        "OPERATOR": {
+          "CONTAINS": "包含",
+          "DOES_NOT_CONTAINS": "不包含"
+        },
+        "SELECT_PLACEHOLDER": "选择标签"
+      },
+      "NOTE": "注：每次对话只发送一次 CSAT 问卷",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT 设置更新成功",
+        "ERROR_MESSAGE": "我们无法更新 CSAT 设置。请稍后再试。"
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +861,9 @@
       "EMAIL": "电子邮件",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API 频道"
+      "API": "API 频道",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

@@ -5,6 +5,18 @@
     "LOADING": "Henter brugerdefinerede attributter",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Samtale",
+      "CONTACT": "Kontakt"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Tekst",
+      "NUMBER": "Nummer",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Liste",
+      "CHECKBOX": "Afkrydsningsfelt"
+    },
     "ADD": {
       "TITLE": "Tilføj Tilpasset Attribut",
       "SUBMIT": "Opret",

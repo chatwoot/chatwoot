@@ -4,12 +4,14 @@
       "ALL": "Всі",
       "CONTACTS": "Контакти",
       "CONVERSATIONS": "Бесіди",
-      "MESSAGES": "Текст повідомлень"
+      "MESSAGES": "Текст повідомлень",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Контакти",
       "CONVERSATIONS": "Бесіди",
-      "MESSAGES": "Текст повідомлень"
+      "MESSAGES": "Текст повідомлень",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

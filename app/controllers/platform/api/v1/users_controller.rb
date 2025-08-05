@@ -1,9 +1,9 @@
 class Platform::Api::V1::UsersController < PlatformController
   # ref: https://stackoverflow.com/a/45190318/939299
   # set resource is called for other actions already in platform controller
-  # we want to add login to that chain as well
-  before_action(only: [:login]) { set_resource }
-  before_action(only: [:login]) { validate_platform_app_permissible }
+  # we want to add login and token to that chain as well
+  before_action(only: [:login, :token]) { set_resource }
+  before_action(only: [:login, :token]) { validate_platform_app_permissible }
 
   def show; end
 
@@ -17,6 +17,8 @@ class Platform::Api::V1::UsersController < PlatformController
   def login
     render json: { url: @resource.generate_sso_link }
   end
+
+  def token; end
 
   def update
     @resource.assign_attributes(user_update_params)
