@@ -71,4 +71,11 @@ class InboxPolicy < ApplicationPolicy
 
     Current.user.assigned_inboxes.include? record
   end
+
+  def whatsapp_restart_session?
+    # Allow access to WhatsApp restart session for administrators and agents assigned to the inbox
+    return true if @account_user.administrator?
+
+    Current.user.assigned_inboxes.include? record
+  end
 end

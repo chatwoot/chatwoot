@@ -10,6 +10,7 @@ import ChannelList from './ChannelList.vue';
 import DisplayQR from './DisplayQR.vue';
 import AddAgents from './AddAgents.vue';
 import FinishSetup from './FinishSetup.vue';
+import WhatsAppStatus from './WhatsAppStatus.vue';
 
 export default {
   routes: [
@@ -71,6 +72,14 @@ export default {
               path: ':inbox_id/finish',
               name: 'settings_inbox_finish',
               component: FinishSetup,
+              meta: {
+                permissions: ['administrator'],
+              },
+            },
+            {
+              path: ':inbox_id/whatsapp-status',
+              name: 'settings_inbox_whatsapp_status',
+              component: WhatsAppStatus,
               meta: {
                 permissions: ['administrator'],
               },

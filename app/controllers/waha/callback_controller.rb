@@ -120,6 +120,11 @@ class Waha::CallbackController < ApplicationController
     when 'validate_failure'
       Rails.logger.error "❌ Initial scan validation failed. The model has already handled the broadcast."
       
+    when 'validate_failure_auto_deleted'
+      Rails.logger.error "❌ Initial scan validation failed and inbox was auto-deleted."
+      # Broadcast auto-deletion to frontend
+      broadcast_inbox_auto_deleted(channel, result[:data])
+      
     else
       Rails.logger.info "📋 No specific action needed for callback type: #{result[:type]}"
     end
@@ -441,12 +446,21 @@ class Waha::CallbackController < ApplicationController
   def broadcast_session_failed(channel, connected_phone, failed_attempts)
     Rails.logger.info "Broadcasting session failed for #{channel.phone_number} after #{failed_attempts} attempts"
     
+    # Handle auto-delete if maximum attempts reached
+    deletion_result = channel.handle_failed_validation_attempts
+    
     # Broadcast ke frontend untuk memberitahu user bahwa sudah gagal total
     inbox = channel.inbox
     return unless inbox
 
     account = inbox.account
     pubsub_token = "#{account.id}_inbox_#{inbox.id}"
+
+    message = if deletion_result[:auto_deleted]
+                'Failed to connect WhatsApp after 3 attempts. The platform has been automatically removed from your list.'
+              else
+                "Failed to connect WhatsApp after 3 attempts. #{deletion_result[:remaining_attempts]} attempts remaining."
+              end
 
     ActionCable.server.broadcast(pubsub_token, {
       event: 'whatsapp_status_changed',
@@ -455,9 +469,32 @@ class Waha::CallbackController < ApplicationController
       expected_phone: channel.phone_number,
       connected_phone: connected_phone,
       failed_attempts: failed_attempts,
-      message: 'Failed to connect WhatsApp after 3 attempts. Please close this window and try again from Platform Terhubung page.',
+      auto_deleted: deletion_result[:auto_deleted],
+      message: message,
       inbox_id: inbox.id,
       channel_id: channel.id
+    })
+  end
+
+  def broadcast_inbox_auto_deleted(channel, deletion_data)
+    Rails.logger.info "Broadcasting inbox auto-deletion for #{channel.phone_number}"
+    
+    inbox = channel.inbox
+    return unless inbox
+
+    account = inbox.account
+    pubsub_token = "#{account.id}_inbox_#{inbox.id}"
+
+    ActionCable.server.broadcast(pubsub_token, {
+      event: 'whatsapp_status_changed',
+      type: 'inbox_auto_deleted',
+      status: 'auto_deleted',
+      expected_phone: channel.phone_number,
+      failed_attempts: deletion_data[:attempts],
+      message: 'Platform WhatsApp telah dihapus otomatis karena gagal terhubung setelah 3 kali percobaan.',
+      inbox_id: inbox.id,
+      channel_id: channel.id,
+      auto_deleted: true
     })
   end
 

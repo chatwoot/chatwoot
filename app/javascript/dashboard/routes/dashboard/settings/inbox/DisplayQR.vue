@@ -157,7 +157,7 @@ export default {
 
       } else if (data.type === 'session_failed') {
         console.error('📱 WhatsApp connection failed after maximum attempts!', data);
-        this.handleConnectionFailed(data.expected_phone, data.connected_phone, data.failed_attempts);
+        this.handleConnectionFailed(data.expected_phone, data.connected_phone, data.failed_attempts, data);
       
       } else if (data.status === 'disconnected') {
         console.log('❌ WhatsApp disconnected');
@@ -343,7 +343,7 @@ export default {
       }, 10000);
     },
 
-    handleConnectionFailed(expectedPhone, connectedPhone, failedAttempts) {
+    handleConnectionFailed(expectedPhone, connectedPhone, failedAttempts, data = {}) {
       console.log(`📱 Connection failed after ${failedAttempts} attempts`);
       
       this.connectionStatus = 'failed';
@@ -354,7 +354,79 @@ export default {
       };
       this.clearIntervals();
       
-      useAlert('Gagal menghubungkan ke WhatsApp setelah 3 kali percobaan. Silakan tutup jendela ini dan coba lagi.');
+      if (data.auto_deleted) {
+        useAlert('Platform WhatsApp telah dihapus otomatis setelah 3 kali percobaan gagal. Silakan buat platform baru dari halaman Platform Terhubung.');
+        
+        // Redirect to inbox list after auto-deletion
+        setTimeout(() => {
+          this.redirectToInboxList();
+        }, 3000);
+      } else {
+        useAlert('Gagal menghubungkan ke WhatsApp setelah 3 kali percobaan. Silakan tutup jendela ini dan coba lagi.');
+      }
+    },
+
+    async rescanQR() {
+      if (this.connectionStatus === 'failed') {
+        useAlert('Tidak dapat melakukan scan ulang. Platform telah dihapus.');
+        return;
+      }
+      
+      this.isLoading = true;
+      this.connectionStatus = 'restarting';
+      
+      try {
+        console.log('🔄 Starting session restart...');
+        
+        // Restart session via API
+        const response = await WhatsAppUnofficialChannels.restartSession(this.inboxId);
+        
+        console.log('🔄 Restart response:', response);
+        
+        if (response.data?.success) {
+          const method = response.data.method || 'logout_and_reset';
+          let message = 'Session berhasil direset. Silakan scan QR code yang baru.';
+          
+          if (method === 'logout_and_reset') {
+            message = 'Session berhasil di-logout. Silakan scan QR code yang baru.';
+          } else if (method === 'force_reset') {
+            message = 'Session di-reset paksa. Silakan scan QR code yang baru.';
+          }
+            
+          useAlert(message);
+          
+          // Reset state and regenerate QR
+          this.mismatchAttempts = 0;
+          this.mismatchInfo = null;
+          this.connectionStatus = 'waiting';
+          this.countdown = 60;
+          
+          await this.generateQRCode();
+          this.startCountdown();
+          this.checkConnectionStatus();
+        } else {
+          const errorMsg = response.data?.message || 'Failed to restart session';
+          console.error('❌ Restart failed:', response.data);
+          throw new Error(errorMsg);
+        }
+      } catch (error) {
+        console.error('❌ Failed to restart session:', error);
+        
+        let errorMessage = 'Gagal melakukan restart session.';
+        
+        if (error.response?.status === 500) {
+          errorMessage = 'Server error saat restart session. Silakan coba lagi dalam beberapa saat.';
+        } else if (error.response?.status === 404) {
+          errorMessage = 'Endpoint restart tidak tersedia. Silakan refresh halaman.';
+        } else if (error.message) {
+          errorMessage = `Restart gagal: ${error.message}`;
+        }
+        
+        useAlert(errorMessage);
+        this.connectionStatus = 'disconnected';
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     redirectToInboxList() {
@@ -447,6 +519,15 @@ export default {
 
                 <div v-if="connectionStatus === 'mismatch'" class="text-red-600 dark:text-red-400 text-xs text-center">
                   <div class="mt-1">QR akan diperbarui dalam 10 detik...</div>
+                  <div class="mt-2">
+                    <button
+                      @click="rescanQR"
+                      :disabled="isLoading"
+                      class="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-1 px-3 rounded-md text-xs transition-colors disabled:cursor-not-allowed"
+                    >
+                      {{ isLoading ? 'Memuat...' : 'Scan Ulang Sekarang' }}
+                    </button>
+                  </div>
                 </div>
 
                 <div v-if="connectionStatus === 'failed'" class="text-red-600 dark:text-red-400 text-xs text-center">

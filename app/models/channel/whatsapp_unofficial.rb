@@ -213,6 +213,367 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     end
   end
 
+  # Method untuk real-time status checking langsung ke WAHA API tanpa cache
+  def real_time_status
+    Rails.logger.info "🔍 Checking real-time status for #{phone_number} from WAHA API"
+
+    # Jika tidak ada token, sudah pasti tidak terhubung
+    unless token.present?
+      return { 'data' => { 'connected' => false, 'status' => 'not_logged_in' } }
+    end
+
+    # Get previous status for comparison
+    previous_status = read_session_status_from_cache
+
+    begin
+      waha_service = Waha::WahaService.instance
+      result = waha_service.get_session_status(api_key: token)
+      
+      Rails.logger.info "WAHA real-time status response for #{phone_number}: #{result}"
+      
+      # Parse WAHA response
+      waha_status = result.dig('data', 'status') || 'disconnected'
+      connected = waha_status.downcase == 'connected'
+      
+      # Determine current status
+      current_status = connected ? 'connected' : 'disconnected'
+      
+      # Detect status change and handle disconnect
+      if previous_status != current_status
+        Rails.logger.info "🔄 Status changed for #{phone_number}: #{previous_status} → #{current_status}"
+        
+        if current_status == 'disconnected'
+          handle_auto_disconnect
+        elsif current_status == 'connected'
+          handle_auto_reconnect
+        end
+        
+        # Update cache with new status
+        write_session_status_to_cache(current_status)
+      end
+      
+      # Format response sesuai dengan format yang diharapkan frontend
+      {
+        'data' => {
+          'connected' => connected,
+          'status' => connected ? 'logged_in' : 'disconnected'
+        }
+      }
+    rescue StandardError => e
+      Rails.logger.error "Failed to get real-time status for #{phone_number}: #{e.message}"
+      
+      # If API fails, assume disconnected and handle it
+      if previous_status == 'connected'
+        Rails.logger.warn "API failed, assuming #{phone_number} is disconnected"
+        handle_auto_disconnect
+        write_session_status_to_cache('disconnected')
+      end
+      
+      # Return disconnected status on error
+      {
+        'data' => {
+          'connected' => false,
+          'status' => 'disconnected'
+        }
+      }
+    end
+  end
+
+  def set_webhook_url
+    base_url = current_application_url
+    webhook = "#{base_url}/waha/callback/#{phone_number}"
+    
+    update!(webhook_url: webhook)
+    Rails.logger.info "Webhook URL set for phone #{phone_number}: #{webhook}"
+    webhook
+  rescue StandardError => e
+    Rails.logger.error "Failed to set webhook URL for phone #{phone_number}: #{e.message}"
+    # Set default webhook URL sebagai fallback
+    fallback_webhook = "#{current_application_url}/waha/callback/#{phone_number}"
+    update!(webhook_url: fallback_webhook)
+    fallback_webhook
+  end
+
+  # Method untuk filter dan validate response dari WAHA callback berdasarkan 4 jenis callback aktual
+  def process_waha_callback_response(callback_params)
+    Rails.logger.info '🔍 Processing WAHA callback for #{phone_number}'
+    Rails.logger.info '🔍 Callback params: #{callback_params.inspect}'
+    
+    # Determine event type berdasarkan struktur callback WAHA yang sebenarnya
+    event_type = self.class.determine_event_type(callback_params)
+    Rails.logger.info '🎯 Event type determined: #{event_type}'
+    
+    case event_type
+    when 'receipt'
+      # Callback #1: Receipt untuk read/delivered status
+      Rails.logger.info '📬 Receipt callback - updating message status only'
+      return { type: 'receipt', action: 'update_message_status' }
+      
+    when 'message'
+      # Callback #2 dan #3: Regular messages (ada pushname)
+      Rails.logger.info '� Regular message callback - no phone validation needed'
+      return { type: 'regular_message', action: 'process_normally' }
+      
+    when 'initial_scan'
+      # Callback #4: Initial scan result (TIDAK ada pushname) - PERLU VALIDASI!
+      Rails.logger.info '🎯 Initial scan callback detected - validating phone number'
+      
+      # Extract phone number dari field "from"
+      connected_phone = self.class.extract_phone_from_from_field(callback_params[:from])
+      Rails.logger.info "📋 Connected phone from callback: #{connected_phone}"
+      Rails.logger.info "📋 Expected device phone: #{phone_number}"
+      
+      # ✅ GUNAKAN VALIDASI BARU YANG COMPREHENSIVE
+      validation_result = validate_callback_phone_number(connected_phone)
+      
+      if validation_result[:success]
+        Rails.logger.info "✅ Phone validation SUCCESS via new method"
+        session_id = callback_params[:sessionID]
+        return { 
+          type: 'initial_scan', 
+          action: 'validate_success', 
+          data: {
+            session_id: session_id,
+            phone_number: phone_number,
+            connected_phone: connected_phone,
+            validation_status: 'validated'
+          }
+        }
+      else
+        Rails.logger.error "❌ Phone validation FAILED via new method"
+        
+        # Check if auto-deletion occurred
+        if validation_result[:auto_deleted]
+          return { 
+            type: 'initial_scan', 
+            action: 'validate_failure_auto_deleted', 
+            data: validation_result.merge({
+              session_id: callback_params[:sessionID],
+              auto_deleted: true
+            })
+          }
+        else
+          return { 
+            type: 'initial_scan', 
+            action: 'validate_failure', 
+            data: validation_result.merge({
+              session_id: callback_params[:sessionID]
+            })
+          }
+        end
+      end
+      
+    else
+      # Unknown callback type
+      Rails.logger.info '� Unknown callback type: #{event_type} - processing normally'
+      return { type: 'unknown', action: 'process_normally' }
+    end
+  end
+
+  private
+
+  # Handle auto-detected disconnect (tanpa webhook)
+  def handle_auto_disconnect
+    Rails.logger.warn "🔌 Auto-detected disconnect for #{phone_number}"
+    
+    # Clear mismatch attempts karena ini disconnect beneran
+    clear_mismatch_attempts
+    
+    # Broadcast disconnect event via WebSocket
+    broadcast_disconnect_event
+  end
+
+  # Handle auto-detected reconnect
+  def handle_auto_reconnect  
+    Rails.logger.info "🔌 Auto-detected reconnect for #{phone_number}"
+    
+    # Clear any failure cache
+    clear_mismatch_attempts
+    
+    # Broadcast reconnect event via WebSocket
+    broadcast_reconnect_event
+  end
+
+  # Broadcast disconnect event to frontend
+  def broadcast_disconnect_event
+    begin
+      pubsub_token = "#{account_id}_inbox_#{inbox.id}"
+      
+      Rails.logger.info "Broadcasting auto-detected disconnect for #{phone_number} to #{pubsub_token}"
+      
+      ActionCable.server.broadcast(
+        pubsub_token,
+        event: 'whatsapp_status_changed',
+        type: 'auto_disconnect',
+        status: 'disconnected',
+        connected: false,
+        phone_number: phone_number,
+        timestamp: Time.current.iso8601
+      )
+    rescue StandardError => e
+      Rails.logger.error "Failed to broadcast disconnect event: #{e.message}"
+    end
+  end
+
+  # Broadcast reconnect event to frontend  
+  def broadcast_reconnect_event
+    begin
+      pubsub_token = "#{account_id}_inbox_#{inbox.id}"
+      
+      Rails.logger.info "Broadcasting auto-detected reconnect for #{phone_number} to #{pubsub_token}"
+      
+      ActionCable.server.broadcast(
+        pubsub_token,
+        event: 'whatsapp_status_changed',
+        type: 'auto_reconnect', 
+        status: 'connected',
+        connected: true,
+        phone_number: phone_number,
+        timestamp: Time.current.iso8601
+      )
+    rescue StandardError => e
+      Rails.logger.error "Failed to broadcast reconnect event: #{e.message}"
+    end
+  end
+
+  # Method untuk restart session (untuk re-scanning QR)
+  def restart_session_for_rescan
+    Rails.logger.info "🔄 Starting QR rescan for: #{phone_number}"
+
+    # Clear existing validation state - mirip dengan QR mismatch handling
+    clear_session_status_cache
+    clear_mismatch_attempts
+    
+    begin
+      if token.present?
+        waha_service = Waha::WahaService.instance
+        
+        # Step 1: Logout session seperti saat QR mismatch
+        Rails.logger.info "🚪 Logging out current session for QR rescan: #{phone_number}"
+        
+        logout_result = waha_service.logout_session(api_key: token)
+        Rails.logger.info "Logout result: #{logout_result}"
+        
+        # Step 2: Re-initialize session dengan token yang sama
+        Rails.logger.info "🔄 Re-initializing WhatsApp session for: #{phone_number}"
+        
+        initialize_result = waha_service.initialize_whatsapp_session(api_key: token)
+        Rails.logger.info "Initialize result: #{initialize_result}"
+        
+        # Step 3: Reset session status cache to 'waiting' so new QR can be generated
+        write_session_status_to_cache('waiting')
+        
+        # Step 4: Clear any existing QR cache untuk force generate QR baru
+        qr_cache_key = "whatsapp_qr_#{phone_number}"
+        ::Redis::Alfred.delete(qr_cache_key)
+        Rails.logger.info "🗑️ Cleared QR cache for #{phone_number}"
+        
+        return {
+          success: true,
+          message: 'Session restarted successfully. Ready for QR scanning.',
+          status: 'waiting',
+          method: 'logout_and_reinitialize'
+        }
+      else
+        # No token, create new device session
+        Rails.logger.info "No token found, creating new device session for #{phone_number}"
+        create_device_with_retry
+        reload
+        
+        return {
+          success: true,
+          message: 'New device session created. Ready for QR scanning.',
+          status: 'waiting'
+        }
+      end
+    rescue StandardError => e
+      Rails.logger.error "Failed to restart session for #{phone_number}: #{e.message}"
+      Rails.logger.error "Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
+      
+      # Even if restart fails, try to reset the cache so user can try again
+      write_session_status_to_cache('waiting')
+      
+      return {
+        success: true,  # Return success even on error to allow retry
+        message: 'Session reset forced. Ready for QR scanning.',
+        status: 'waiting',
+        method: 'force_reset',
+        warning: e.message
+      }
+    end
+  end
+
+  # Method untuk handle failed attempts dan auto-delete inbox
+  def handle_failed_validation_attempts
+    current_attempts = read_mismatch_attempts_from_cache
+    max_attempts = 3
+
+    Rails.logger.info "📊 Checking failed attempts for #{phone_number}: #{current_attempts}/#{max_attempts}"
+
+    if current_attempts >= max_attempts
+      Rails.logger.error "❌ Maximum attempts reached for #{phone_number}. Auto-deleting inbox..."
+      
+      # Mark as failed and delete the inbox
+      write_session_status_to_cache('failed', expires_in: 1.hour)
+      
+      # Disconnect WAHA session
+      disconnect_waha_session
+      
+      # Schedule inbox deletion
+      delete_inbox_after_failed_attempts
+      
+      {
+        success: false,
+        auto_deleted: true,
+        attempts: current_attempts,
+        max_attempts: max_attempts,
+        message: "Failed to connect after #{max_attempts} attempts. Inbox has been automatically removed."
+      }
+    else
+      remaining = max_attempts - current_attempts
+      {
+        success: false,
+        auto_deleted: false,
+        attempts: current_attempts,
+        max_attempts: max_attempts,
+        remaining_attempts: remaining,
+        message: "Connection failed. #{remaining} attempts remaining."
+      }
+    end
+  end
+
+  # Method untuk auto-delete inbox setelah max attempts
+  def delete_inbox_after_failed_attempts
+    Rails.logger.error "🗑️ Auto-deleting inbox due to failed validation attempts for #{phone_number}"
+    
+    begin
+      # Disconnect WAHA session first
+      disconnect_waha_session if token.present?
+      
+      # Clear all cache
+      clear_session_status_cache
+      clear_mismatch_attempts
+      
+      # Delete the inbox (this will also delete the channel due to dependent: :destroy)
+      if inbox.present?
+        inbox_name = inbox.name
+        inbox.destroy!
+        Rails.logger.info "✅ Inbox '#{inbox_name}' auto-deleted successfully"
+        
+        # Optionally send notification to admin
+        # AdminNotificationMailer.whatsapp_inbox_auto_deleted(self, inbox_name).deliver_later
+        
+        true
+      else
+        Rails.logger.warn "⚠️ No inbox found to delete for channel #{phone_number}"
+        false
+      end
+    rescue StandardError => e
+      Rails.logger.error "❌ Failed to auto-delete inbox for #{phone_number}: #{e.message}"
+      false
+    end
+  end
+
   def validate_callback_phone_number(callback_phone)
 
     lock_key = "validation_lock_#{phone_number}"
@@ -290,21 +651,6 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   def waha_configured?
     phone_number.present? && token.present?
-  end
-
-  def set_webhook_url
-    base_url = current_application_url
-    webhook = "#{base_url}/waha/callback/#{phone_number}"
-    
-    update!(webhook_url: webhook)
-    Rails.logger.info "Webhook URL set for phone #{phone_number}: #{webhook}"
-    webhook
-  rescue StandardError => e
-    Rails.logger.error "Failed to set webhook URL for phone #{phone_number}: #{e.message}"
-    # Set default webhook URL sebagai fallback
-    fallback_webhook = "#{current_application_url}/waha/callback/#{phone_number}"
-    update!(webhook_url: fallback_webhook)
-    fallback_webhook
   end
 
   def create_device_with_retry(max_retries: 1)
@@ -415,69 +761,6 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       status: 'logged_in',
       phone_validated: true
     }
-  end
-
-  # Method untuk filter dan validate response dari WAHA callback berdasarkan 4 jenis callback aktual
-  def process_waha_callback_response(callback_params)
-    Rails.logger.info '🔍 Processing WAHA callback for #{phone_number}'
-    Rails.logger.info '🔍 Callback params: #{callback_params.inspect}'
-    
-    # Determine event type berdasarkan struktur callback WAHA yang sebenarnya
-    event_type = self.class.determine_event_type(callback_params)
-    Rails.logger.info '🎯 Event type determined: #{event_type}'
-    
-    case event_type
-    when 'receipt'
-      # Callback #1: Receipt untuk read/delivered status
-      Rails.logger.info '📬 Receipt callback - updating message status only'
-      return { type: 'receipt', action: 'update_message_status' }
-      
-    when 'message'
-      # Callback #2 dan #3: Regular messages (ada pushname)
-      Rails.logger.info '� Regular message callback - no phone validation needed'
-      return { type: 'regular_message', action: 'process_normally' }
-      
-    when 'initial_scan'
-      # Callback #4: Initial scan result (TIDAK ada pushname) - PERLU VALIDASI!
-      Rails.logger.info '🎯 Initial scan callback detected - validating phone number'
-      
-      # Extract phone number dari field "from"
-      connected_phone = self.class.extract_phone_from_from_field(callback_params[:from])
-      Rails.logger.info "📋 Connected phone from callback: #{connected_phone}"
-      Rails.logger.info "📋 Expected device phone: #{phone_number}"
-      
-      # ✅ GUNAKAN VALIDASI BARU YANG COMPREHENSIVE
-      validation_result = validate_callback_phone_number(connected_phone)
-      
-      if validation_result[:success]
-        Rails.logger.info "✅ Phone validation SUCCESS via new method"
-        session_id = callback_params[:sessionID]
-        return { 
-          type: 'initial_scan', 
-          action: 'validate_success', 
-          data: {
-            session_id: session_id,
-            phone_number: phone_number,
-            connected_phone: connected_phone,
-            validation_status: 'validated'
-          }
-        }
-      else
-        Rails.logger.error "❌ Phone validation FAILED via new method"
-        return { 
-          type: 'initial_scan', 
-          action: 'validate_failure', 
-          data: validation_result.merge({
-            session_id: callback_params[:sessionID]
-          })
-        }
-      end
-      
-    else
-      # Unknown callback type
-      Rails.logger.info '� Unknown callback type: #{event_type} - processing normally'
-      return { type: 'unknown', action: 'process_normally' }
-    end
   end
 
   # Method helper untuk extract phone number dari chat ID WhatsApp

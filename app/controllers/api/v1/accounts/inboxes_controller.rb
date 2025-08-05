@@ -91,8 +91,18 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     Rails.logger.info "🔍 DEBUG: WhatsApp status request for inbox #{@inbox.id}, channel: #{@channel.class.name}"
     Rails.logger.info "🔍 DEBUG: Channel phone: #{@channel.phone_number if @channel.respond_to?(:phone_number)}"
 
+    # Check if this is a real-time status request (no cache)
+    force_real_time = params[:real_time] == 'true'
+
     begin
-      status = @channel.session_status
+      status = if force_real_time && @channel.respond_to?(:real_time_status)
+                 Rails.logger.info "🔍 DEBUG: Using real-time status check"
+                 @channel.real_time_status
+               else
+                 Rails.logger.info "🔍 DEBUG: Using cached status check"
+                 @channel.session_status
+               end
+      
       Rails.logger.info "🔍 DEBUG: Got status from channel: #{status}"
       
       result = build_status_response(status)
@@ -105,6 +115,43 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     end
   end
 
+  def whatsapp_restart_session
+    @channel = @inbox.channel
+    
+    Rails.logger.info "🔄 WhatsApp restart session request for inbox #{@inbox.id}"
+
+    begin
+      if @channel.respond_to?(:restart_session_for_rescan)
+        result = @channel.restart_session_for_rescan
+        
+        if result[:success]
+          render json: {
+            success: true,
+            message: result[:message],
+            status: result[:status]
+          }
+        else
+          render json: {
+            success: false,
+            message: result[:message],
+            error: result[:error]
+          }, status: :unprocessable_entity
+        end
+      else
+        render json: {
+          success: false,
+          message: 'Restart session not supported for this channel type'
+        }, status: :unprocessable_entity
+      end
+    rescue StandardError => e
+      Rails.logger.error "❌ WhatsApp restart session error: #{e.message}"
+      render json: {
+        success: false,
+        message: "Failed to restart session: #{e.message}"
+      }, status: :internal_server_error
+    end
+  end
+
   private
 
   def fetch_inbox
@@ -113,7 +160,34 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def fetch_agent_bot
-    @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
+    @agent_bot = @inbox.agent_bot
+  end
+
+  def build_status_response(status)
+    waha_status = map_to_waha_status(status)
+    
+    {
+      success: true,
+      message: 'session info fetched successfully',
+      connected: waha_status == 'logged_in',
+      status: waha_status,
+      data: {
+        status: waha_status,
+        connected: waha_status == 'logged_in'
+      }
+    }
+  end
+
+  def error_status_response(error_message)
+    {
+      success: false,
+      connected: false,
+      message: error_message,
+      data: {
+        status: 'not_logged_in',
+        connected: false
+      }
+    }
   end
 
   def create_channel
@@ -165,31 +239,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name]
   end
 
-  def build_status_response(status)
-    waha_status = map_to_waha_status(status)
-    
-    {
-      success: true,
-      message: 'session info fetched successfully',
-      data: {
-        status: waha_status,
-        connected: waha_status == 'logged_in'
-      }
-    }
-  end
-
-  def error_status_response(error_message)
-    {
-      success: false,
-      connected: false,
-      message: error_message,
-      data: {
-        status: 'not_logged_in',
-        connected: false
-      }
-    }
-  end
-
   def map_to_waha_status(status)
     actual_status = status.dig('data', 'status')
     Rails.logger.info "🔍 DEBUG: Mapping status - input: #{status}, extracted: #{actual_status}"
@@ -197,6 +246,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     result = case actual_status&.downcase
              when 'connected', 'authenticated', 'ready', 'logged_in'
                'logged_in'
+             when 'pending_validation', 'waiting'
+               'pending_validation'
+             when 'disconnected', 'not_logged_in'
+               'not_logged_in'
              else
                'not_logged_in'
              end
