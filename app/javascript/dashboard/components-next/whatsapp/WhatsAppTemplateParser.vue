@@ -199,7 +199,7 @@ defineExpose({
         >
           <Input
             v-model="processedParams.body[key]"
-            :type="text"
+            type="text"
             class="flex-1"
             :placeholder="
               t('WHATSAPP_TEMPLATES.PARSER.VARIABLE_PLACEHOLDER', {
