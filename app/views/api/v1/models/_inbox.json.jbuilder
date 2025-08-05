@@ -54,7 +54,6 @@ if resource.web_widget?
   json.channel_avatar_url resource.channel.try(:avatar_url)
   json.webhook_url resource.channel.try(:webhook_url)
   json.additional_attributes resource.channel.try(:additional_attributes)
-  json.account_id resource.inbox.account_id
 end
 
 ## Facebook Attributes
