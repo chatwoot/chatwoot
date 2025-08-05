@@ -63,11 +63,12 @@ const lastActivityAt = computed(() => {
 });
 
 const menuItems = computed(() => [
-  { key: 'delete', label: t('INBOX.MENU_ITEM.DELETE') },
   {
     key: isUnread.value ? 'mark_as_read' : 'mark_as_unread',
+    icon: isUnread.value ? 'mail' : 'mail-unread',
     label: t(`INBOX.MENU_ITEM.MARK_AS_${isUnread.value ? 'READ' : 'UNREAD'}`),
   },
+  { key: 'delete', icon: 'delete', label: t('INBOX.MENU_ITEM.DELETE') },
 ]);
 
 const messageClasses = computed(() => ({
