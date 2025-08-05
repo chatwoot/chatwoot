@@ -48,6 +48,13 @@ describe AutomationRuleListener do
         listener.conversation_created(event)
         expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
       end
+
+      it 'does not call AutomationRules::ActionService if conversation has auto_reply in additional_attributes' do
+        conversation.additional_attributes = { 'auto_reply' => true }
+        allow(condition_match).to receive(:present?).and_return(true)
+        listener.conversation_created(event)
+        expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
+      end
     end
   end
 
