@@ -56,7 +56,7 @@ RSpec.describe SupportMailbox do
     let(:described_subject) { described_class.receive support_mail }
     let(:serialized_attributes) do
       %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments references subject
-         text_content to]
+         text_content to auto_reply]
     end
     let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
 
