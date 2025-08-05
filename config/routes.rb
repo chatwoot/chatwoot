@@ -244,19 +244,6 @@ Rails.application.routes.draw do
           # Agent capacity status
           get 'agents/:agent_id/capacity', to: 'agent_capacity_policies#agent_capacity'
 
-          # Assignment Metrics
-          namespace :reports do
-            resources :assignment_metrics, only: [:index] do
-              collection do
-                get 'agent_history'
-                get 'policy_performance'
-                get 'agent_utilization'
-                get 'assignment_distribution'
-                get 'export'
-              end
-            end
-          end
-
           namespace :twitter do
             resource :authorization, only: [:create]
           end
