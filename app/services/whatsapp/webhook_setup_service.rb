@@ -9,9 +9,7 @@ class Whatsapp::WebhookSetupService
   def perform
     validate_parameters!
     # Since coexistence method does not need to register, we check it
-    unless coexistence_method?
-      register_phone_number
-    end
+    register_phone_number unless coexistence_method?
     setup_webhook
   end
 
