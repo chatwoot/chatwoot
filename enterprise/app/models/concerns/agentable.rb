@@ -43,7 +43,7 @@ module Concerns::Agentable
   end
 
   def agent_model
-    'gpt-4.1-mini'
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value || 'gpt-4.1-mini'
   end
 
   def agent_response_schema
