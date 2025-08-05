@@ -358,3 +358,12 @@ en:
 
       Transcript:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'Email is required'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'
