@@ -9,7 +9,6 @@ class V2::AiAgents::FlowData::BaseBuilder
 
   def perform(collection_name = 'default_collection')
     tpl = base_template
-    tpl[:account_id] = @account.id
     tpl[:type] = @params[:agent_type]
     if @params[:agent_type] == AiAgent.agent_types[:multi_agent]
       @templates.each do |template|

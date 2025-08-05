@@ -3,7 +3,7 @@ class V2::AiAgents::FlowData::JangkauBuilder < V2::AiAgents::FlowData::BaseBuild
 
   def base_template
     {
-      account_id: @account.id,
+      account_id: @account.id.to_s,
       type: 'multi-agent',
       enabled_agents: [],
       supervisor: {

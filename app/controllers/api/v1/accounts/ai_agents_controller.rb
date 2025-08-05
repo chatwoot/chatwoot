@@ -1,11 +1,11 @@
 class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
-  include JsonHelper
+  include ResponseFormatChatHelper
 
   before_action :ai_agent, only: [:chat]
   before_action :check_max_ai_agents, only: [:create]
 
   def index
-    ai_agents = account.ai_agents.select(:id, :account_id, :name, :description)
+    ai_agents = account.ai_agents.select(:id, :account_id, :name, :description).order(id: :desc)
     render json: ai_agents, status: :ok
   end
 
@@ -42,12 +42,12 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     Captain::Llm::AssistantChatService.new(
       params[:question],
       params[:session_id],
-      ai_agent.chat_flow_id,
+      ai_agent,
       account.id
-    ).generate_response.then do |response|
+    ).perform.then do |response|
       if response.success?
         parsed_response = response.parsed_response
-        json_data = extract_json_from_code_block(parsed_response['text'])
+        json_data = json_response(parsed_response, is_flowise: ai_agent.flowise?)
         render json: json_data, status: :ok
       else
         handle_error('Failed to generate AI response', status: :unprocessable_entity, exception: response)

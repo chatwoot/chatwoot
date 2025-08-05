@@ -188,13 +188,17 @@ class V2::AiAgents::AiAgentBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def flowise_template?
-    ai_agent_params[:template_type] == AiAgent.template_types[:flowise]
+    is_flowise = ai_agent_params[:agent_type] != AiAgent.agent_types[:multi_agent] &&
+                 ai_agent_templates.first.source_type == AiAgent.template_types[:flowise]
+
+    ai_agent_params[:template_type] = is_flowise ? AiAgent.template_types[:flowise] : AiAgent.template_types[:jangkau]
+    is_flowise
   end
 
   def should_cleanup_chat_flow?
-    return flowise_template?(ai_agent_params[:template_type]) if defined?(ai_agent_params)
+    return flowise_template? if defined?(ai_agent_params)
 
-    return flowise_template?(ai_agent.template_type) if defined?(ai_agent)
+    return flowise_template? if defined?(ai_agent)
 
     true
   end
@@ -248,11 +252,11 @@ class V2::AiAgents::AiAgentBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def ai_agent_params
-    params.require(:ai_agent).permit(
+    @ai_agent_params ||= params.require(:ai_agent).permit(
       :name, :description, :template_id, :template_ids, :template_type,
       :agent_type, :system_prompts, :welcoming_message, :routing_conditions,
       :control_flow_rules, :llm_model, :history_limit, :context_limit,
       :message_await, :message_limit, :timezone, selected_labels: %i[label_id label_condition]
-    )
+    ).to_h.with_indifferent_access
   end
 end

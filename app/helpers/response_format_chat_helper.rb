@@ -14,4 +14,12 @@ module ResponseFormatChatHelper
 
     [message, is_handover]
   end
+
+  def json_response(response, is_flowise: false)
+    if is_flowise
+      extract_json_from_code_block(response['text'])
+    else
+      response
+    end
+  end
 end
