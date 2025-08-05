@@ -8,7 +8,10 @@ class Whatsapp::WebhookSetupService
 
   def perform
     validate_parameters!
-    register_phone_number
+    # Since coexistence method does not need to register, we check it
+    unless coexistence_method?
+      register_phone_number
+    end
     setup_webhook
   end
 
@@ -63,5 +66,16 @@ class Whatsapp::WebhookSetupService
     phone_number = @channel.phone_number
 
     "#{frontend_url}/webhooks/whatsapp/#{phone_number}"
+  end
+
+  def coexistence_method?
+    using_coexistence = GlobalConfigService.load('WHATSAPP_FEATURE_TYPE', '') == 'whatsapp_business_app_onboarding'
+    phone_number_registered = @api_client.phone_number_verified?
+
+    using_coexistence && phone_number_registered
+
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Phone registration status check failed, but continuing: #{e.message}")
+    false
   end
 end

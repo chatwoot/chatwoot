@@ -102,7 +102,7 @@ const completeSignupFlow = async businessDataParam => {
       code: authCode.value,
       business_id: businessDataParam.business_id,
       waba_id: businessDataParam.waba_id,
-      phone_number_id: businessDataParam.phone_number_id,
+      phone_number_id: businessDataParam?.phone_number_id || '',
     };
 
     const responseData = await store.dispatch(
@@ -130,7 +130,10 @@ const isValidBusinessData = businessDataLocal => {
 
 // Message handling
 const handleEmbeddedSignupData = async data => {
-  if (data.event === 'FINISH') {
+  if (
+    data.event === 'FINISH' ||
+    data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
+  ) {
     const businessDataLocal = data.data;
 
     if (isValidBusinessData(businessDataLocal)) {
@@ -222,13 +225,15 @@ const tryWhatsAppLogin = () => {
     'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
   );
 
+  const featureType = window.chatwootConfig?.whatsappFeatureType || '';
+
   window.FB.login(fbLoginCallback, {
     config_id: window.chatwootConfig?.whatsappConfigurationId,
     response_type: 'code',
     override_default_response_type: true,
     extras: {
       setup: {},
-      featureType: '',
+      featureType,
       sessionInfoVersion: '3',
     },
   });
@@ -308,6 +313,25 @@ onBeforeUnmount(() => {
           <Icon icon="i-lucide-check" class="text-n-slate-11 size-4" />
           {{ benefit.text }}
         </div>
+      </div>
+
+      <div class="flex flex-col gap-2 mb-6">
+        <span class="text-sm text-n-slate-11">
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.TEXT') }}
+          {{ ' ' }}
+          <a
+            :href="
+              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_URL')
+            "
+            target="_blank"
+            rel="noopener noreferrer"
+            class="underline text-primary"
+          >
+            {{
+              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_TEXT')
+            }}
+          </a>
+        </span>
       </div>
 
       <div class="flex mt-4">
