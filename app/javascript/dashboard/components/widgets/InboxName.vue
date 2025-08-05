@@ -19,14 +19,14 @@ export default {
 </script>
 
 <template>
-  <div
-    class="inbox--name inline-flex items-center py-0.5 px-0 leading-3 whitespace-nowrap bg-none text-n-slate-11 text-xs my-0 mx-2.5"
-  >
+  <div class="flex items-center text-n-slate-11 text-xs min-w-0">
     <fluent-icon
-      class="mr-0.5 rtl:ml-0.5 rtl:mr-0"
+      class="ltr:mr-0.5 rtl:ml-0.5 flex-shrink-0"
       :icon="computedInboxClass"
       size="12"
     />
-    {{ inbox.name }}
+    <span class="truncate">
+      {{ inbox.name }}
+    </span>
   </div>
 </template>
