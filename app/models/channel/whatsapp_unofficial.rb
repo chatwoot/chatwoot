@@ -207,6 +207,8 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       { 'data' => { 'connected' => true, 'status' => 'logged_in' } }
     when 'mismatch'
       { 'data' => { 'connected' => false, 'status' => 'mismatch' } }
+    when 'waiting'
+      { 'data' => { 'connected' => false, 'status' => 'waiting_for_qr' } }
     else
       # Token ada, tapi belum ada validasi di cache. Menunggu scan.
       { 'data' => { 'connected' => false, 'status' => 'pending_validation' } }
@@ -370,6 +372,90 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     end
   end
 
+  # Method untuk restart session (untuk re-scanning QR)
+  def restart_session_for_rescan
+    Rails.logger.info "🔄 Starting COMPLETE restart for: #{phone_number}"
+
+    # Clear existing validation state
+    clear_session_status_cache
+    clear_mismatch_attempts
+    
+    begin
+      old_token = token
+      
+      if old_token.present?
+        waha_service = Waha::WahaService.instance
+        
+        # Step 1: Logout old session
+        Rails.logger.info "🚪 Logging out old session for: #{phone_number}"
+        begin
+          logout_result = waha_service.logout_session(api_key: old_token)
+          Rails.logger.info "Logout result: #{logout_result}"
+        rescue => e
+          Rails.logger.warn "Logout failed (acceptable): #{e.message}"
+        end
+        
+        # Step 2: Delete old device from WAHA server
+        Rails.logger.info "🗑️ Deleting old device from WAHA: #{old_token}"
+        begin
+          delete_result = waha_service.delete_session(api_key: old_token)
+          Rails.logger.info "Delete device result: #{delete_result}"
+        rescue => e
+          Rails.logger.warn "Delete device failed (acceptable): #{e.message}"
+        end
+        
+        # Step 3: Clear old token from database
+        Rails.logger.info "🔄 Clearing old token from database"
+        update!(token: nil)
+      end
+      
+      # Step 4: Create completely new device with new token
+      Rails.logger.info "🆕 Creating new device session for #{phone_number}"
+      create_device_with_retry
+      reload # Get the new token
+      
+      # Step 5: Initialize new session with new token
+      if token.present?
+        Rails.logger.info "🔄 Initializing new session with token: #{token[0..8]}..."
+        waha_service = Waha::WahaService.instance
+        initialize_result = waha_service.initialize_whatsapp_session(api_key: token)
+        Rails.logger.info "Initialize new session result: #{initialize_result}"
+      end
+      
+      # Step 6: Set status for QR generation
+      write_session_status_to_cache('waiting')
+      
+      # Step 7: Clear QR cache to force new QR generation
+      qr_cache_key = "whatsapp_qr_#{phone_number}"
+      ::Redis::Alfred.delete(qr_cache_key)
+      Rails.logger.info "🗑️ Cleared QR cache for #{phone_number}"
+      
+      return {
+        success: true,
+        message: 'New device session created. Ready for QR scanning.',
+        status: 'waiting',
+        method: 'complete_restart',
+        old_token: old_token.present? ? "#{old_token[0..8]}..." : 'none',
+        new_token: token.present? ? "#{token[0..8]}..." : 'none'
+      }
+      
+    rescue StandardError => e
+      Rails.logger.error "Failed to complete restart for #{phone_number}: #{e.message}"
+      Rails.logger.error "Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
+      
+      # Force reset even on error
+      write_session_status_to_cache('waiting')
+      
+      return {
+        success: true,  # Return success to allow retry
+        message: 'Session reset forced. Ready for QR scanning.',
+        status: 'waiting',
+        method: 'force_reset',
+        warning: e.message
+      }
+    end
+  end
+
   private
 
   # Handle auto-detected disconnect (tanpa webhook)
@@ -433,73 +519,6 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       )
     rescue StandardError => e
       Rails.logger.error "Failed to broadcast reconnect event: #{e.message}"
-    end
-  end
-
-  # Method untuk restart session (untuk re-scanning QR)
-  def restart_session_for_rescan
-    Rails.logger.info "🔄 Starting QR rescan for: #{phone_number}"
-
-    # Clear existing validation state - mirip dengan QR mismatch handling
-    clear_session_status_cache
-    clear_mismatch_attempts
-    
-    begin
-      if token.present?
-        waha_service = Waha::WahaService.instance
-        
-        # Step 1: Logout session seperti saat QR mismatch
-        Rails.logger.info "🚪 Logging out current session for QR rescan: #{phone_number}"
-        
-        logout_result = waha_service.logout_session(api_key: token)
-        Rails.logger.info "Logout result: #{logout_result}"
-        
-        # Step 2: Re-initialize session dengan token yang sama
-        Rails.logger.info "🔄 Re-initializing WhatsApp session for: #{phone_number}"
-        
-        initialize_result = waha_service.initialize_whatsapp_session(api_key: token)
-        Rails.logger.info "Initialize result: #{initialize_result}"
-        
-        # Step 3: Reset session status cache to 'waiting' so new QR can be generated
-        write_session_status_to_cache('waiting')
-        
-        # Step 4: Clear any existing QR cache untuk force generate QR baru
-        qr_cache_key = "whatsapp_qr_#{phone_number}"
-        ::Redis::Alfred.delete(qr_cache_key)
-        Rails.logger.info "🗑️ Cleared QR cache for #{phone_number}"
-        
-        return {
-          success: true,
-          message: 'Session restarted successfully. Ready for QR scanning.',
-          status: 'waiting',
-          method: 'logout_and_reinitialize'
-        }
-      else
-        # No token, create new device session
-        Rails.logger.info "No token found, creating new device session for #{phone_number}"
-        create_device_with_retry
-        reload
-        
-        return {
-          success: true,
-          message: 'New device session created. Ready for QR scanning.',
-          status: 'waiting'
-        }
-      end
-    rescue StandardError => e
-      Rails.logger.error "Failed to restart session for #{phone_number}: #{e.message}"
-      Rails.logger.error "Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
-      
-      # Even if restart fails, try to reset the cache so user can try again
-      write_session_status_to_cache('waiting')
-      
-      return {
-        success: true,  # Return success even on error to allow retry
-        message: 'Session reset forced. Ready for QR scanning.',
-        status: 'waiting',
-        method: 'force_reset',
-        warning: e.message
-      }
     end
   end
 

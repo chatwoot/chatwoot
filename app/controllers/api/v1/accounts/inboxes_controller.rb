@@ -119,18 +119,30 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @channel = @inbox.channel
     
     Rails.logger.info "🔄 WhatsApp restart session request for inbox #{@inbox.id}"
+    Rails.logger.info "🔍 Channel class: #{@channel.class.name}"
+    Rails.logger.info "🔍 Channel responds to restart_session_for_rescan? #{@channel.respond_to?(:restart_session_for_rescan)}"
 
     begin
       if @channel.respond_to?(:restart_session_for_rescan)
+        Rails.logger.info "🔄 Calling restart_session_for_rescan method..."
+        
         result = @channel.restart_session_for_rescan
         
+        Rails.logger.info "🔍 Restart session result: #{result.inspect}"
+        Rails.logger.info "🔍 Result success value: #{result[:success].inspect}"
+        Rails.logger.info "🔍 Result success class: #{result[:success].class}"
+        
         if result[:success]
+          Rails.logger.info "✅ Restart session SUCCESS - rendering success response"
           render json: {
             success: true,
             message: result[:message],
             status: result[:status]
           }
         else
+          Rails.logger.error "❌ Restart session FAILED - rendering error response"
+          Rails.logger.error "❌ Result message: #{result[:message]}"
+          Rails.logger.error "❌ Result error: #{result[:error]}"
           render json: {
             success: false,
             message: result[:message],
@@ -138,6 +150,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
           }, status: :unprocessable_entity
         end
       else
+        Rails.logger.error "❌ Channel does not respond to restart_session_for_rescan"
         render json: {
           success: false,
           message: 'Restart session not supported for this channel type'
@@ -145,6 +158,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       end
     rescue StandardError => e
       Rails.logger.error "❌ WhatsApp restart session error: #{e.message}"
+      Rails.logger.error "❌ Error backtrace: #{e.backtrace&.first(5)&.join("\n")}"
       render json: {
         success: false,
         message: "Failed to restart session: #{e.message}"
@@ -248,6 +262,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
                'logged_in'
              when 'pending_validation', 'waiting'
                'pending_validation'
+             when 'waiting_for_qr'
+               'waiting_for_qr'
              when 'disconnected', 'not_logged_in'
                'not_logged_in'
              else
