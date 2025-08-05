@@ -115,6 +115,14 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when the email is bounced' do
+      let!(:bounced_mail) { create_inbound_email_from_fixture('bounced_gmail.eml') }
+
+      it 'processes the bounced email' do
+        expect { class_instance.process(bounced_mail.mail, channel) }.to change(Message, :count)
+      end
+    end
+
     context 'when a reply for existing email conversation' do
       let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
       let(:reply_mail) do
