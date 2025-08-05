@@ -7,9 +7,7 @@ class Conversations::FollowUpJob < ApplicationJob
 
     last_message = conversation.messages
                                .not_activity
-                               .not_template
-                               .unscoped
-                               .order(created_at: :desc).first
+                               .not_template.last
     return if last_message.incoming?
 
     # Get follow-up message content from Stark API
@@ -43,7 +41,8 @@ class Conversations::FollowUpJob < ApplicationJob
       content_attributes: {
         follow_up: true,
         follow_up_number: follow_up_number
-      }
+      },
+      sender: conversation.inbox.agent_bot.presence || nil
     )
   end
 end

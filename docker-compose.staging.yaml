@@ -2,15 +2,13 @@ version: '3'
 
 services:
   base: &base
-    image: ghcr.io/on-cruise-control/courier:production
+    image: ghcr.io/on-cruise-control/courier:staging
     env_file: .env ## Change this file for customized env variables
     volumes:
       - storage_data:/app/storage
 
   rails:
     <<: *base
-    volumes:
-      - storage_data:/app/storage
     depends_on:
       - redis
     ports:
@@ -28,8 +26,6 @@ services:
 
   sidekiq:
     <<: *base
-    volumes:
-      - storage_data:/app/storage
     depends_on:
       - redis
     environment:
@@ -41,5 +37,16 @@ services:
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
 
+  redis:
+    image: redis:alpine
+    restart: always
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    env_file: .env
+    volumes:
+      - redis_data:/data
+    ports:
+      - '127.0.0.1:6379:6379'
+
 volumes:
   storage_data:
+  redis_data:

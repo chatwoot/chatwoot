@@ -1,0 +1,114 @@
+name: CI/CD Release
+
+on:
+  push:
+    tags:
+      - 's*'  # Trigger on any tag push prefixed with 's'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: production
+      NODE_ENV: production
+      POSTGRES_USERNAME: ${{ secrets.POSTGRES_USERNAME }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DATABASE: ${{ secrets.POSTGRES_DATABASE }}
+      REDIS_URL: ${{ secrets.REDIS_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      PGSSLMODE: ${{ secrets.PGSSLMODE }}
+      SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+      POSTMARK_API_TOKEN: ${{ secrets.POSTMARK_API_TOKEN }}
+      SOURCE_TOKEN: ${{ secrets.SOURCE_TOKEN }}
+      INGESTING_HOST: ${{ secrets.INGESTING_HOST }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+          npm install -g pnpm
+          pnpm install
+
+      - name: Precompile assets
+        run: |
+          RAILS_ENV=production bundle exec rake assets:precompile
+
+  docker-build-and-push:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Export secrets to .env file
+        run: |
+          cat <<EOF > .env
+          POSTGRES_USERNAME=${{ secrets.POSTGRES_USERNAME }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }}
+          REDIS_URL=${{ secrets.REDIS_URL }}
+          DATABASE_URL=${{ secrets.DATABASE_URL }}
+          PGSSLMODE=${{ secrets.PGSSLMODE }}
+          SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
+          POSTMARK_API_TOKEN=${{ secrets.POSTMARK_API_TOKEN }}
+          SOURCE_TOKEN=${{ secrets.SOURCE_TOKEN }}
+          INGESTING_HOST=${{ secrets.INGESTING_HOST }}
+          EOF
+
+      - name: Build Docker images with docker compose
+        run: |
+          docker compose --env-file .env -f docker-compose.production.old.yaml build base --no-cache
+          docker compose --env-file .env -f docker-compose.production.old.yaml build rails sidekiq --no-cache
+
+      - name: Tag Docker image
+        run: |
+          docker tag courier-production-v1:latest ghcr.io/on-cruise-control/courier:staging
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/on-cruise-control/courier:staging
+
+  deploy:
+    needs: docker-build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.STAGING_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to production server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} '
+            set -e
+            cd courier
+
+            echo "--- Pulling latest Docker images ---"
+            docker compose -f docker-compose.staging.yaml pull
+
+            echo "--- Starting containers ---"
+            docker compose -f docker-compose.staging.yaml up -d --pull always
+
+            echo "--- Running database migrations ---"
+            docker compose -f docker-compose.production.yaml exec rails bundle exec rails db:migrate
+          '

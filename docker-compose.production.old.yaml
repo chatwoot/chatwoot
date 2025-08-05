@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+  base: &base
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        EXECJS_RUNTIME: 'Node'
+        RAILS_ENV: 'production'
+        RAILS_SERVE_STATIC_FILES: 'true'
+        POSTMARK_API_TOKEN: ${POSTMARK_API_TOKEN}
+        SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+        SOURCE_TOKEN: ${SOURCE_TOKEN}
+        INGESTING_HOST: ${INGESTING_HOST}
+    tty: true
+    stdin_open: true
+    image: courier-production-v1:latest
+    env_file: .env
+
+  rails:
+    <<: *base
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+      args:
+        SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+        POSTMARK_API_TOKEN: ${POSTMARK_API_TOKEN}
+        SOURCE_TOKEN: ${SOURCE_TOKEN}
+        INGESTING_HOST: ${INGESTING_HOST}
+    image: courier-production-v1:latest
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - vite_assets:/app/public/vite  # Vite assets volume
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+      - logs:/app/logs
+    depends_on:
+      - redis
+      - sidekiq
+    ports:
+      - 3000:3000
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - VITE_RUBY_AUTO_BUILD=false
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    entrypoint: docker/entrypoints/rails.sh
+    command: ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+    restart: always
+
+  sidekiq:
+    <<: *base
+    image: courier-production-v1:latest
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - vite_assets:/app/public/vite  # Vite assets volume
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+      - logs:/app/logs
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    restart: always
+
+  redis:
+    image: redis:alpine
+    restart: always
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    env_file: .env
+    volumes:
+      - redis:/data/redis
+    ports:
+      - '6379:6379'
+
+volumes:
+  redis:
+  packs:
+  node_modules:
+  cache:
+  bundle:
+  vite_assets:  # Define the Vite assets volume
+  logs:
