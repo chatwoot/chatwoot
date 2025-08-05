@@ -11,11 +11,6 @@ services:
     <<: *base
     volumes:
       - storage_data:/app/storage
-      - vite_assets:/app/public/vite  # Mount Vite assets volume
-      - packs:/app/public/packs       # Mount precompiled packs
-      - logs:/app/logs                # Mount logs volume
-    depends_on:
-      - redis
     ports:
       - '127.0.0.1:3000:3000'
     environment:
@@ -33,11 +28,6 @@ services:
     <<: *base
     volumes:
       - storage_data:/app/storage
-      - vite_assets:/app/public/vite  # Mount Vite assets volume
-      - packs:/app/public/packs       # Mount precompiled packs
-      - logs:/app/logs                # Mount logs volume
-    depends_on:
-      - redis
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -47,19 +37,5 @@ services:
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
 
-  redis:
-    image: redis:alpine
-    restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
-    volumes:
-      - redis_data:/data
-    ports:
-      - '127.0.0.1:6379:6379'
-
 volumes:
   storage_data:
-  redis_data:
-  vite_assets:    # Vite assets volume
-  packs:          # Precompiled packs volume
-  logs:           # Logs volume
