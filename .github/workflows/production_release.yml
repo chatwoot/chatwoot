@@ -110,5 +110,5 @@ jobs:
             docker compose -f docker-compose.production.yaml up -d --pull always
 
             echo "--- Running database migrations ---"
-            docker compose -f docker-compose.production.yaml exec web bundle exec rails db:migrate
+            docker compose -f docker-compose.production.yaml exec bundle exec rails db:migrate
           '
