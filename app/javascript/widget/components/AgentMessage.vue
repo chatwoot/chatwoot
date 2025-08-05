@@ -68,12 +68,12 @@ export default {
       return type;
     },
     agentName() {
-      if (this.message.sender) {
-        return this.message.sender.available_name || this.message.sender.name;
-      }
-
       if (this.useInboxAvatarForBot) {
         return this.channelConfig.avatarName || this.channelConfig.websiteName;
+      }
+
+      if (this.message.sender) {
+        return this.message.sender.available_name || this.message.sender.name;
       }
 
       return this.$t('UNREAD_VIEW.BOT');
