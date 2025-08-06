@@ -717,38 +717,8 @@ const setupHighlightTimer = () => {
 
 onMounted(setupHighlightTimer);
 
-// Listen for AI feedback submission updates
-onMounted(() => {
-  const handleFeedbackUpdate = event => {
-    // Only update if the event is for this message
-    if (event && event.messageId === props.id) {
-      localAiFeedback.value = { ...localAiFeedback.value, ...event.feedback };
-    }
-  };
-
-  const handleMessageUpdate = message => {
-    // Only update if the updated message is this message
-    if (message && message.id === props.id) {
-      // Support both snake_case and camelCase keys
-      const newFeedback =
-        message.content_attributes?.ai_feedback ??
-        message.content_attributes?.aiFeedback ??
-        null;
-      if (
-        JSON.stringify(newFeedback) !== JSON.stringify(localAiFeedback.value)
-      ) {
-        localAiFeedback.value = newFeedback;
-      }
-    }
-  };
-
-  // Listen for the specific feedback submission event
-  emitter.on('ai-feedback-submitted', handleFeedbackUpdate);
-
-  // Keep the general listeners as a fallback
-  emitter.on(BUS_EVENTS.MESSAGE_SENT, handleFeedbackUpdate);
-  emitter.on(BUS_EVENTS.MESSAGE_UPDATED, handleMessageUpdate);
-});
+// AI feedback state is now fully reactive through props
+// No event listeners needed - props automatically update when the Vuex store changes
 
 // Watch for prop changes to track component lifecycle
 watch(

@@ -189,8 +189,6 @@ export const mutations = {
     if (pendingMessageIndex !== -1) {
       // chat.messages[pendingMessageIndex] is already reactive, so we can just update it
       chat.messages[pendingMessageIndex] = message;
-      // Emit event when an existing message is updated
-      emitter.emit(BUS_EVENTS.MESSAGE_UPDATED, message);
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;

@@ -1192,12 +1192,6 @@ export default {
 
         useAlert(this.$t('CONVERSATION.AI_FEEDBACK.SUBMIT_SUCCESS'));
 
-        // Emit an event to notify that feedback was submitted
-        emitter.emit('ai-feedback-submitted', {
-          messageId: this.aiFeedbackMessage.id,
-          feedback: feedbackData,
-        });
-
         // Exit AI feedback mode
         this.exitAiFeedbackMode();
       } catch (error) {
