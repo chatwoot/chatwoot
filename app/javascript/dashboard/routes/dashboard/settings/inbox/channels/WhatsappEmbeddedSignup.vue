@@ -93,9 +93,17 @@ const completeSignupFlow = async businessDataParam => {
   }
 
   isProcessing.value = true;
-  processingMessage.value = t(
-    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
-  );
+
+  // Show different processing messages based on the signup type
+  if (businessDataParam.is_business_app_onboarding) {
+    processingMessage.value = t(
+      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING_BUSINESS_APP'
+    );
+  } else {
+    processingMessage.value = t(
+      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
+    );
+  }
 
   try {
     const params = {
@@ -103,6 +111,8 @@ const completeSignupFlow = async businessDataParam => {
       business_id: businessDataParam.business_id,
       waba_id: businessDataParam.waba_id,
       phone_number_id: businessDataParam.phone_number_id,
+      is_business_app_onboarding:
+        businessDataParam.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
     };
 
     const responseData = await store.dispatch(
@@ -130,7 +140,10 @@ const isValidBusinessData = businessDataLocal => {
 
 // Message handling
 const handleEmbeddedSignupData = async data => {
-  if (data.event === 'FINISH') {
+  if (
+    data.event === 'FINISH' ||
+    data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
+  ) {
     const businessDataLocal = data.data;
 
     if (isValidBusinessData(businessDataLocal)) {
@@ -228,7 +241,7 @@ const tryWhatsAppLogin = () => {
     override_default_response_type: true,
     extras: {
       setup: {},
-      featureType: '',
+      featureType: 'whatsapp_business_app_onboarding', // Enable WhatsApp Business App coexistence
       sessionInfoVersion: '3',
     },
   });

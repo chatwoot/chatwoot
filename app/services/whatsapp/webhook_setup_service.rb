@@ -8,7 +8,8 @@ class Whatsapp::WebhookSetupService
 
   def perform
     validate_parameters!
-    register_phone_number
+    # Skip registration for mobile coexistence
+    register_phone_number unless @channel.provider_config['is_business_app_onboarding']
     setup_webhook
   end
 

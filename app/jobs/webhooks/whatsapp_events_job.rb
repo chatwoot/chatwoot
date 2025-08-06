@@ -9,6 +9,33 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
+    # Handle different webhook event types
+    if sync_event?(params)
+      handle_sync_events(channel, params)
+    else
+      handle_message_events(channel, params)
+    end
+  end
+
+  private
+
+  def sync_event?(params)
+    field = params.dig(:entry, 0, :changes, 0, :field)
+    %w[smb_app_state_sync smb_message_echoes history].include?(field)
+  end
+
+  def handle_sync_events(channel, params)
+    field = params.dig(:entry, 0, :changes, 0, :field)
+
+    case field
+    when 'smb_app_state_sync'
+      Whatsapp::ContactSyncService.new(inbox: channel.inbox, params: params).perform
+    when 'smb_message_echoes', 'history'
+      Whatsapp::ConversationSyncService.new(inbox: channel.inbox, params: params).perform
+    end
+  end
+
+  def handle_message_events(channel, params)
     case channel.provider
     when 'whatsapp_cloud'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
@@ -16,8 +43,6 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
     end
   end
-
-  private
 
   def channel_is_inactive?(channel)
     return true if channel.blank?
