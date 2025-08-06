@@ -127,9 +127,9 @@ class Captain::Document < ApplicationRecord
   def validate_file_attachment
     return unless pdf_file.attached?
 
-    return unless pdf_file.blob.byte_size > 20.megabytes
+    return unless pdf_file.blob.byte_size > 10.megabytes
 
-    errors.add(:pdf_file, 'must be less than 20MB')
+    errors.add(:pdf_file, 'must be less than 10MB')
   end
 
   def set_external_link_for_pdf

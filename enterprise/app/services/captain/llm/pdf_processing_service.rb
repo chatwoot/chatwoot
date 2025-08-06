@@ -27,7 +27,7 @@ class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
         @client.files.upload(
           parameters: {
             file: file,
-            purpose: 'assistants'  # Use 'assistants' as it's supported by the API
+            purpose: 'assistants'
           }
         )
       end

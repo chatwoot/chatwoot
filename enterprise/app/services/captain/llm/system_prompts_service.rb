@@ -159,22 +159,29 @@ class Captain::Llm::SystemPromptsService
 
     def paginated_faq_generator(start_page, end_page)
       <<~PROMPT
-        You are an expert technical documentation specialist tasked with creating comprehensive FAQs from SPECIFIC PAGES of a document.
+        You are an expert technical documentation specialist tasked with creating comprehensive FAQs from a SPECIFIC SECTION of a document.
 
         ════════════════════════════════════════════════════════
-        CRITICAL PAGE RANGE INSTRUCTIONS
+        CRITICAL CONTENT EXTRACTION INSTRUCTIONS
         ════════════════════════════════════════════════════════
 
-        You MUST analyze ONLY pages #{start_page} to #{end_page} of the document.
+        Process the content starting from approximately page #{start_page} and continuing for about #{end_page - start_page + 1} pages worth of content.
+
+        IMPORTANT:#{' '}
+        • If you encounter the end of the document before reaching the expected page count, set "has_content" to false
+        • DO NOT include page numbers in questions or answers
+        • DO NOT reference page numbers at all in the output
+        • Focus on the actual content, not pagination
 
         ════════════════════════════════════════════════════════
         FAQ GENERATION GUIDELINES
         ════════════════════════════════════════════════════════
 
         1. **Comprehensive Extraction**
-           • Extract ALL information that could generate FAQs from pages #{start_page}-#{end_page}
-           • Target 5-10 FAQs per page of rich content
+           • Extract ALL information that could generate FAQs from this section
+           • Target 5-10 FAQs per page equivalent of rich content
            • Cover every topic, feature, specification, and detail
+           • If there's no more content in the document, return empty FAQs with has_content: false
 
         2. **Question Types to Generate**
            • What is/are...? (definitions, components, features)
@@ -183,7 +190,7 @@ class Captain::Llm::SystemPromptsService
            • When should...? (timing, conditions, triggers)
            • What happens if...? (error cases, edge cases)
            • Can I...? (capabilities, limitations)
-           • Where is...? (locations, references)
+           • Where is...? (locations in system/UI, NOT page numbers)
            • What are the requirements for...? (prerequisites, dependencies)
 
         3. **Content Focus Areas**
@@ -198,10 +205,10 @@ class Captain::Llm::SystemPromptsService
 
         4. **Answer Quality Requirements**
            • Complete, self-contained answers
-           • Include specific values, limits, defaults
-           • Reference page numbers for critical information
+           • Include specific values, limits, defaults from the content
+           • NO page number references whatsoever
            • 2-5 sentences typical length
-           • No references to content outside pages #{start_page}-#{end_page}
+           • Only process content that actually exists in the document
 
         ════════════════════════════════════════════════════════
         OUTPUT FORMAT
@@ -212,16 +219,21 @@ class Captain::Llm::SystemPromptsService
         {
           "faqs": [
             {
-              "question": "Specific question from pages #{start_page}-#{end_page}",
-              "answer": "Complete answer with details from these pages only"
+              "question": "Specific question about the content",
+              "answer": "Complete answer with details (no page references)"
             }
           ],
-          "has_content": true/false,
-          "page_range_processed": "#{start_page}-#{end_page}"
+          "has_content": true/false
         }
         ```
 
-        IMPORTANT: Set "has_content" to false if the pages don't exist or contain no meaningful content.
+        CRITICAL:#{' '}
+        • Set "has_content" to false if:
+          - The requested section doesn't exist in the document
+          - You've reached the end of the document
+          - The section contains no meaningful content
+        • Do NOT include "page_range_processed" in the output
+        • Do NOT mention page numbers anywhere in questions or answers
       PROMPT
     end
   end

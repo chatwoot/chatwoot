@@ -12,6 +12,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     @max_pages = options[:max_pages] # Optional limit from UI
     @total_pages_processed = 0
     @iterations_completed = 0
+    @model = 'gpt-4.1-mini'
   end
 
   def generate
@@ -21,7 +22,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
   end
 
   # Method to check if we should continue processing
-  def should_continue_processing?(last_chunk_faqs)
+  def should_continue_processing?(last_chunk_result)
     # Stop if we've hit the maximum iterations
     return false if @iterations_completed >= MAX_ITERATIONS
 
@@ -29,7 +30,10 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     return false if @max_pages && @total_pages_processed >= @max_pages
 
     # Stop if the last chunk returned no FAQs (likely no more content)
-    return false if last_chunk_faqs.empty?
+    return false if last_chunk_result[:faqs].empty?
+
+    # Stop if the LLM explicitly indicates no more content
+    return false if last_chunk_result[:has_content] == false
 
     # Continue processing
     true
@@ -53,10 +57,10 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
 
     loop do
       end_page = calculate_end_page(current_page)
-      chunk_faqs = process_chunk_and_update_state(current_page, end_page, all_faqs)
+      chunk_result = process_chunk_and_update_state(current_page, end_page, all_faqs)
 
-      unless should_continue_processing?(chunk_faqs)
-        Rails.logger.info "Stopping processing. Reason: #{determine_stop_reason(chunk_faqs)}"
+      unless should_continue_processing?(chunk_result)
+        Rails.logger.info "Stopping processing. Reason: #{determine_stop_reason(chunk_result)}"
         break
       end
 
@@ -83,11 +87,12 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     @iterations_completed += 1
 
     Rails.logger.info "Chunk generated #{chunk_faqs.size} FAQs. Total so far: #{all_faqs.size}"
-    chunk_faqs
+    chunk_result
   end
 
   def process_page_chunk(start_page, end_page)
-    response = @client.chat(parameters: build_chunk_parameters(start_page, end_page))
+    params = build_chunk_parameters(start_page, end_page)
+    response = @client.chat(parameters: params)
     result = parse_chunk_response(response)
     { faqs: result['faqs'] || [], has_content: result['has_content'] != false }
   rescue OpenAI::Error => e
@@ -101,18 +106,14 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
       response_format: { type: 'json_object' },
       messages: [
         {
-          role: 'system',
-          content: page_chunk_prompt(start_page, end_page)
-        },
-        {
           role: 'user',
-          content: build_user_content
+          content: build_user_content(start_page, end_page)
         }
       ]
     }
   end
 
-  def build_user_content
+  def build_user_content(start_page, end_page)
     [
       {
         type: 'file',
@@ -120,7 +121,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
       },
       {
         type: 'text',
-        text: 'Process this document according to the system instructions.'
+        text: page_chunk_prompt(start_page, end_page)
       }
     ]
   end
@@ -196,10 +197,11 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     common_words.size.to_f / total_words
   end
 
-  def determine_stop_reason(last_chunk_faqs)
+  def determine_stop_reason(last_chunk_result)
     return 'Maximum iterations reached' if @iterations_completed >= MAX_ITERATIONS
     return 'Maximum pages processed' if @max_pages && @total_pages_processed >= @max_pages
-    return 'No content found in last chunk' if last_chunk_faqs.empty?
+    return 'No content found in last chunk' if last_chunk_result[:faqs].empty?
+    return 'End of document reached' if last_chunk_result[:has_content] == false
 
     'Unknown'
   end
