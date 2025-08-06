@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import WhatsappTemplateParser from './WhatsappTemplateParser.vue';
+import WhatsappTemplate from './WhatsappTemplate.vue';
 
 const props = defineProps({
   inboxId: {
@@ -105,7 +105,7 @@ const handleSendMessage = template => {
         </p>
       </template>
     </div>
-    <WhatsappTemplateParser
+    <WhatsappTemplate
       v-if="selectedTemplate"
       :template="selectedTemplate"
       @send-message="handleSendMessage"
