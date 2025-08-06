@@ -22,17 +22,21 @@ export function useChannelIcon(inbox) {
   };
 
   const channelIcon = computed(() => {
-    const type = inbox.channel_type;
+    const inboxDetails = inbox.value || inbox;
+    const type = inboxDetails.channel_type;
     let icon = channelTypeIconMap[type];
 
-    if (type === 'Channel::Email' && inbox.provider) {
-      if (Object.keys(providerIconMap).includes(inbox.provider)) {
-        icon = providerIconMap[inbox.provider];
+    if (type === 'Channel::Email' && inboxDetails.provider) {
+      if (Object.keys(providerIconMap).includes(inboxDetails.provider)) {
+        icon = providerIconMap[inboxDetails.provider];
       }
     }
 
     // Special case for Twilio whatsapp
-    if (type === 'Channel::TwilioSms' && inbox.medium?.startsWith('whatsapp')) {
+    if (
+      type === 'Channel::TwilioSms' &&
+      inboxDetails.medium?.startsWith('whatsapp')
+    ) {
       icon = 'i-ri-whatsapp-fill';
     }
 
