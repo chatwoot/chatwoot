@@ -24,9 +24,12 @@ describe Whatsapp::WebhookSetupService do
   end
 
   describe '#perform' do
-    context 'when all operations succeed' do
+    context 'when all operations succeed (classic flow)' do
       before do
+        allow(GlobalConfigService).to receive(:load)
+          .with('WHATSAPP_FEATURE_TYPE', '').and_return('')
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
+        allow(service).to receive(:coexistence_method?).and_return(false)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
         allow(api_client).to receive(:subscribe_waba_webhook)
           .with(waba_id, anything, 'test_verify_token')
@@ -52,11 +55,12 @@ describe Whatsapp::WebhookSetupService do
 
     context 'when phone registration fails' do
       before do
+        allow(GlobalConfigService).to receive(:load)
+          .with('WHATSAPP_FEATURE_TYPE', '').and_return('')
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
-        allow(api_client).to receive(:register_phone_number)
-          .and_raise('Registration failed')
-        allow(api_client).to receive(:subscribe_waba_webhook)
-          .and_return({ 'success' => true })
+        allow(service).to receive(:coexistence_method?).and_return(false)
+        allow(api_client).to receive(:register_phone_number).and_raise('Registration failed')
+        allow(api_client).to receive(:subscribe_waba_webhook).and_return({ 'success' => true })
       end
 
       it 'continues with webhook setup' do
@@ -69,10 +73,12 @@ describe Whatsapp::WebhookSetupService do
 
     context 'when webhook setup fails' do
       before do
+        allow(GlobalConfigService).to receive(:load)
+          .with('WHATSAPP_FEATURE_TYPE', '').and_return('')
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
+        allow(service).to receive(:coexistence_method?).and_return(false)
         allow(api_client).to receive(:register_phone_number)
-        allow(api_client).to receive(:subscribe_waba_webhook)
-          .and_raise('Webhook failed')
+        allow(api_client).to receive(:subscribe_waba_webhook).and_raise('Webhook failed')
       end
 
       it 'raises an error' do
@@ -84,24 +90,27 @@ describe Whatsapp::WebhookSetupService do
 
     context 'when required parameters are missing' do
       it 'raises error when channel is nil' do
-        service = described_class.new(nil, waba_id, access_token)
-        expect { service.perform }.to raise_error(ArgumentError, 'Channel is required')
+        service_invalid = described_class.new(nil, waba_id, access_token)
+        expect { service_invalid.perform }.to raise_error(ArgumentError, 'Channel is required')
       end
 
       it 'raises error when waba_id is blank' do
-        service = described_class.new(channel, '', access_token)
-        expect { service.perform }.to raise_error(ArgumentError, 'WABA ID is required')
+        service_invalid = described_class.new(channel, '', access_token)
+        expect { service_invalid.perform }.to raise_error(ArgumentError, 'WABA ID is required')
       end
 
       it 'raises error when access_token is blank' do
-        service = described_class.new(channel, waba_id, '')
-        expect { service.perform }.to raise_error(ArgumentError, 'Access token is required')
+        service_invalid = described_class.new(channel, waba_id, '')
+        expect { service_invalid.perform }.to raise_error(ArgumentError, 'Access token is required')
       end
     end
 
     context 'when PIN already exists' do
       before do
         channel.provider_config['verification_pin'] = 123_456
+        allow(GlobalConfigService).to receive(:load)
+          .with('WHATSAPP_FEATURE_TYPE', '').and_return('')
+        allow(service).to receive(:coexistence_method?).and_return(false)
         allow(api_client).to receive(:register_phone_number)
         allow(api_client).to receive(:subscribe_waba_webhook).and_return({ 'success' => true })
         allow(channel).to receive(:save!)
@@ -114,6 +123,65 @@ describe Whatsapp::WebhookSetupService do
           service.perform
         end
       end
+    end
+
+    context 'when using coexistence method and phone is already verified' do
+      before do
+        allow(service).to receive(:coexistence_method?).and_return(true)
+        allow(api_client).to receive(:subscribe_waba_webhook).and_return({ 'success' => true })
+      end
+
+      it 'skips phone registration and only subscribes webhook' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).not_to receive(:register_phone_number)
+          expect(api_client).to receive(:subscribe_waba_webhook)
+          service.perform
+        end
+      end
+    end
+
+    context 'when using coexistence method and phone is NOT verified' do
+      before do
+        allow(service).to receive(:coexistence_method?).and_return(false)
+        allow(api_client).to receive(:register_phone_number)
+        allow(api_client).to receive(:subscribe_waba_webhook).and_return({ 'success' => true })
+        allow(channel).to receive(:save!)
+      end
+
+      it 'registers phone then subscribes webhook' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).to receive(:register_phone_number)
+          expect(api_client).to receive(:subscribe_waba_webhook)
+          service.perform
+        end
+      end
+    end
+  end
+
+  describe '#coexistence_method?' do
+    let(:service_with_api_client) { described_class.new(channel, waba_id, access_token) }
+
+    it 'returns false when WHATSAPP_FEATURE_TYPE is blank' do
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_FEATURE_TYPE', '').and_return('')
+      expect(service_with_api_client.send(:coexistence_method?)).to be(false)
+    end
+
+    it 'returns false when phone is not verified' do
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_FEATURE_TYPE', '').and_return('whatsapp_business_app_onboarding')
+      allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(false)
+      expect(service_with_api_client.send(:coexistence_method?)).to be(false)
+    end
+
+    it 'returns true when feature flag and phone is verified' do
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_FEATURE_TYPE', '').and_return('whatsapp_business_app_onboarding')
+      allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
+      expect(service_with_api_client.send(:coexistence_method?)).to be(true)
+    end
+
+    it 'rescues and returns false when phone_number_verified? raises' do
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_FEATURE_TYPE', '').and_return('whatsapp_business_app_onboarding')
+      allow(api_client).to receive(:phone_number_verified?).with('123456789').and_raise('any error')
+      expect(service_with_api_client.send(:coexistence_method?)).to be(false)
     end
   end
 end

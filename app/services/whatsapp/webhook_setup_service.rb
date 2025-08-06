@@ -68,7 +68,11 @@ class Whatsapp::WebhookSetupService
 
   def coexistence_method?
     using_coexistence = GlobalConfigService.load('WHATSAPP_FEATURE_TYPE', '') == 'whatsapp_business_app_onboarding'
-    phone_number_registered = @api_client.phone_number_verified?
+
+    return false unless using_coexistence
+
+    phone_number_id = @channel.provider_config['phone_number_id']
+    phone_number_registered = @api_client.phone_number_verified?(phone_number_id)
 
     using_coexistence && phone_number_registered
 
