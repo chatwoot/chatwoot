@@ -30,6 +30,7 @@ export default {
       refreshTimer: null,
       subscription: null,
       canRestart: false,
+      isFromRestart: false, // Track if connection is from restart/re-scan
     };
   },
   computed: {
@@ -53,10 +54,10 @@ export default {
       switch (this.connectionStatus) {
         case 'connected':
         case 'logged_in':
-          return 'Terhubung';
+          return 'WhatsApp Terhubung';
         case 'disconnected':
         case 'not_logged_in':
-          return 'Terputus';
+          return 'WhatsApp Terputus';
         case 'pending_validation':
           return 'Menunggu validasi';
         case 'checking':
@@ -83,7 +84,26 @@ export default {
     },
     lastCheckedText() {
       if (!this.lastChecked) return 'Belum pernah diperiksa';
-      return `Terakhir: ${this.lastChecked.toLocaleTimeString('id-ID')}`;
+      return `Terakhir diperbarui: ${this.lastChecked.toLocaleTimeString('id-ID')}`;
+    },
+    connectedStatusText() {
+      if (this.connectionStatus === 'connected' || this.connectionStatus === 'logged_in') {
+        if (this.lastChecked) {
+          return `WhatsApp Terhubung\nTerakhir diperbarui: ${this.lastChecked.toLocaleTimeString('id-ID')}`;
+        }
+        return 'WhatsApp Terhubung';
+      }
+      return this.statusText;
+    },
+    actionButtonText() {
+      if (this.connectionStatus === 'connected' || this.connectionStatus === 'logged_in') {
+        return 'Sudah Terhubung';
+      }
+      return 'Scan Ulang';
+    },
+    showActionButton() {
+      // Always show button, but change text and disable when connected
+      return true;
     },
   },
   async mounted() {
@@ -130,9 +150,16 @@ export default {
     },
 
     async restartSession() {
+      // Prevent restart if already connected
+      if (this.connectionStatus === 'connected' || this.connectionStatus === 'logged_in') {
+        return;
+      }
+      
       if (!this.canRestart) return;
       
       this.isLoading = true;
+      this.isFromRestart = true; // Mark as restart action
+      
       try {
         const response = await WhatsAppUnofficialChannels.restartSession(this.inboxId);
         
@@ -148,6 +175,7 @@ export default {
       } catch (error) {
         console.error('Failed to restart WhatsApp session:', error);
         this.$emit('restart-error', error);
+        this.isFromRestart = false; // Reset flag on error
       } finally {
         this.isLoading = false;
       }
@@ -183,10 +211,19 @@ export default {
         this.connectionStatus = 'connected';
         this.canRestart = false;
         
-        // Auto redirect ke inbox list dengan toast success ketika berhasil terkoneksi
+        // Show success alert - different message based on context
         if (oldStatus !== 'connected') {
-          this.redirectToInboxListWithSuccess();
+          if (this.isFromRestart) {
+            // This came from re-scan QR action
+            useAlert('WhatsApp berhasil terkoneksi kembali!');
+            this.isFromRestart = false; // Reset flag
+          } else {
+            // This is just status update/auto-reconnect
+            useAlert('WhatsApp berhasil terkoneksi!');
+          }
         }
+        
+        // No auto-redirect for status component - let user stay where they are
       } else if (data.type === 'session_mismatch') {
         this.connectionStatus = 'disconnected';
         this.canRestart = true;
@@ -206,9 +243,14 @@ export default {
         this.connectionStatus = data.connected ? 'connected' : data.status;
         this.canRestart = !data.connected;
         
-        // Auto redirect ketika status berubah ke connected
+        // Show success alert when status changes to connected (without auto-redirect)
         if (data.connected && oldStatus !== 'connected') {
-          this.redirectToInboxListWithSuccess();
+          if (this.isFromRestart) {
+            useAlert('WhatsApp berhasil terkoneksi kembali!');
+            this.isFromRestart = false; // Reset flag
+          } else {
+            useAlert('WhatsApp berhasil terkoneksi!');
+          }
         }
       }
       
@@ -357,13 +399,24 @@ export default {
         </button>
         
         <button
-          v-if="canRestart"
+          v-if="showActionButton"
           @click="restartSession"
-          :disabled="isLoading"
-          class="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          title="Restart session dan scan ulang QR"
+          :disabled="isLoading || (connectionStatus === 'connected' || connectionStatus === 'logged_in')"
+          :class="{
+            'bg-blue-600 hover:bg-blue-700 text-white': canRestart && connectionStatus !== 'connected' && connectionStatus !== 'logged_in',
+            'bg-green-600 text-white cursor-not-allowed': connectionStatus === 'connected' || connectionStatus === 'logged_in',
+            'bg-gray-400 text-gray-700 cursor-not-allowed': !canRestart && connectionStatus !== 'connected' && connectionStatus !== 'logged_in'
+          }"
+          class="px-3 py-1 text-sm rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          :title="connectionStatus === 'connected' || connectionStatus === 'logged_in' ? 'WhatsApp sudah terhubung' : 'Restart session dan scan ulang QR'"
         >
-          Scan Ulang
+          <span v-if="connectionStatus === 'connected' || connectionStatus === 'logged_in'" class="flex items-center space-x-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span>{{ actionButtonText }}</span>
+          </span>
+          <span v-else>{{ actionButtonText }}</span>
         </button>
       </div>
     </div>
@@ -372,6 +425,16 @@ export default {
     <div class="flex items-center justify-between">
       <div>
         <div class="flex items-center space-x-2">
+          <!-- Connection Status Circle for better visual feedback -->
+          <div
+            class="w-3 h-3 rounded-full border border-white shadow-sm"
+            :class="{
+              'bg-green-500': connectionStatus === 'connected' || connectionStatus === 'logged_in',
+              'bg-red-500': connectionStatus === 'disconnected' || connectionStatus === 'not_logged_in',
+              'bg-yellow-500': connectionStatus === 'pending_validation',
+              'bg-gray-500': connectionStatus === 'checking' || connectionStatus === 'unknown'
+            }"
+          ></div>
           <span :class="statusColor" class="font-medium">{{ statusText }}</span>
           <div
             v-if="isLoading"
@@ -385,12 +448,13 @@ export default {
     </div>
 
     <!-- Connection Guide -->
+        <!-- Connection Guide -->
     <div
       v-if="connectionStatus === 'disconnected' || connectionStatus === 'not_logged_in'"
       class="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded"
     >
       <p class="text-sm text-red-700 dark:text-red-300">
-        WhatsApp terputus. Klik "Scan Ulang" untuk menghubungkan kembali.
+        Koneksi WhatsApp terputus. Silakan klik tombol "Scan Ulang" untuk menyambung ulang channel ini.
       </p>
     </div>
 
@@ -403,14 +467,7 @@ export default {
       </p>
     </div>
 
-    <div
-      v-else-if="connectionStatus === 'connected'"
-      class="mt-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded"
-    >
-      <p class="text-sm text-green-700 dark:text-green-300">
-        ✅ WhatsApp terhubung dan siap digunakan.
-      </p>
-    </div>
+    <!-- Note: Removed redundant green box when connected since status is already shown above -->
   </div>
 </template>
 
@@ -419,12 +476,23 @@ export default {
   animation: spin 1s linear infinite;
 }
 
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
   }
 }
 </style>
