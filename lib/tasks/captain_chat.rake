@@ -38,123 +38,160 @@ class CaptainChatSession
 
   def start
     show_assistant_info
+    show_instructions
+    chat_loop
+    show_exit_message
+  end
+
+  private
+
+  def show_instructions
     puts "💡 Type 'exit', 'quit', or 'bye' to end the session"
     puts "💡 Type 'clear' to clear message history"
-    puts "#{'-' * 50}"
+    puts('-' * 50)
+  end
 
+  def chat_loop
     loop do
       puts '' # Add spacing before prompt
       user_input = Readline.readline('👤 You: ', true)
       next unless user_input # Handle Ctrl+D
 
-      user_input = user_input.strip
-      case user_input.downcase
-      when 'exit', 'quit', 'bye'
-        break
-      when 'clear'
-        clear_history
-        next
-      when ''
-        next
-      end
-
-      process_user_message(user_input)
+      break unless handle_user_input(user_input.strip)
     end
+  end
 
+  def handle_user_input(user_input)
+    case user_input.downcase
+    when 'exit', 'quit', 'bye'
+      false
+    when 'clear'
+      clear_history
+      true
+    when ''
+      true
+    else
+      process_user_message(user_input)
+      true
+    end
+  end
+
+  def show_exit_message
     puts "\nChat session ended"
     puts "Final conversation log has #{@message_history.length} messages"
   end
 
-  private
-
   def show_assistant_info
+    show_basic_info
+    show_scenarios
+    show_available_tools
+    puts ''
+  end
+
+  def show_basic_info
     puts "🤖 Starting chat with #{@assistant.name}"
     puts "🏢 Account: #{@assistant.account.name}"
     puts "🆔 Assistant ID: #{@assistant.id}"
+  end
 
-    # Show scenarios
+  def show_scenarios
     scenarios = @assistant.scenarios.enabled
     if scenarios.any?
       puts "⚡ Enabled Scenarios (#{scenarios.count}):"
-      scenarios.each do |scenario|
-        tools_count = scenario.tools&.length || 0
-        puts "   • #{scenario.title} (#{tools_count} tools)"
-        if scenario.description.present?
-          description = scenario.description.length > 60 ? "#{scenario.description[0..60]}..." : scenario.description
-          puts "     #{description}"
-        end
-      end
+      scenarios.each { |scenario| display_scenario(scenario) }
     else
       puts '⚡ No scenarios enabled'
     end
+  end
 
-    # Show available tools
+  def display_scenario(scenario)
+    tools_count = scenario.tools&.length || 0
+    puts "   • #{scenario.title} (#{tools_count} tools)"
+    return if scenario.description.blank?
+
+    description = truncate_description(scenario.description)
+    puts "     #{description}"
+  end
+
+  def truncate_description(description)
+    description.length > 60 ? "#{description[0..60]}..." : description
+  end
+
+  def show_available_tools
     available_tools = Captain::Assistant.available_tool_ids
     if available_tools.any?
       puts "🔧 Available Tools (#{available_tools.count}): #{available_tools.join(', ')}"
     else
       puts '🔧 No tools available'
     end
-
-    puts ''
   end
 
   def process_user_message(user_input)
-    # Add user message to history
     add_to_history('user', user_input)
 
     begin
       print "🤖 #{@assistant.name}: "
-
-      # Track system messages to group them
       @current_system_messages = []
 
-      # Define callbacks for detailed visibility
-      callbacks = {
-        on_agent_thinking: proc { |agent, input|
-          agent_name = extract_name(agent)
-          @current_system_messages << "#{agent_name} is thinking..."
-          add_to_history('system', "#{agent_name} is thinking...")
-        },
-        on_tool_start: proc { |tool, args|
-          tool_name = extract_tool_name(tool)
-          @current_system_messages << "Using tool: #{tool_name}"
-          add_to_history('system', "Using tool: #{tool_name}")
-        },
-        on_tool_complete: proc { |tool, result|
-          tool_name = extract_tool_name(tool)
-          @current_system_messages << "Tool #{tool_name} completed"
-          add_to_history('system', "Tool #{tool_name} completed")
-        },
-        on_agent_handoff: proc { |from, to, reason|
-          @current_system_messages << "Handoff: #{extract_name(from)} → #{extract_name(to)} (#{reason})"
-          add_to_history('system', "Agent handoff: #{extract_name(from)} → #{extract_name(to)} (#{reason})")
-        }
-      }
-
-      # Generate response using AgentRunnerService with callbacks
-      runner = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, callbacks: callbacks)
-      result = runner.generate_response(message_history: @message_history)
-
-      response_text = result['response'] || 'No response generated'
-      reasoning = result['reasoning']
-
-      # Print grouped system messages with dimmer styling
-      puts dim_text("\n" + @current_system_messages.join("\n")) if @current_system_messages.any?
-
-      # Print the response
-      puts response_text
-
-      puts dim_italic_text("(Reasoning: #{reasoning})") if reasoning && reasoning != 'Processed by agent'
-
-      # Add assistant response to history
-      add_to_history('assistant', response_text, reasoning: reasoning)
-
+      result = generate_assistant_response
+      display_response(result)
     rescue StandardError => e
-      error_msg = "Error: #{e.message}"
-      puts "❌ #{error_msg}"
-      add_to_history('system', error_msg)
+      handle_error(e)
     end
+  end
+
+  def generate_assistant_response
+    runner = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, callbacks: build_callbacks)
+    runner.generate_response(message_history: @message_history)
+  end
+
+  def build_callbacks
+    {
+      on_agent_thinking: method(:handle_agent_thinking),
+      on_tool_start: method(:handle_tool_start),
+      on_tool_complete: method(:handle_tool_complete),
+      on_agent_handoff: method(:handle_agent_handoff)
+    }
+  end
+
+  def handle_agent_thinking(agent, _input)
+    agent_name = extract_name(agent)
+    @current_system_messages << "#{agent_name} is thinking..."
+    add_to_history('system', "#{agent_name} is thinking...")
+  end
+
+  def handle_tool_start(tool, _args)
+    tool_name = extract_tool_name(tool)
+    @current_system_messages << "Using tool: #{tool_name}"
+    add_to_history('system', "Using tool: #{tool_name}")
+  end
+
+  def handle_tool_complete(tool, _result)
+    tool_name = extract_tool_name(tool)
+    @current_system_messages << "Tool #{tool_name} completed"
+    add_to_history('system', "Tool #{tool_name} completed")
+  end
+
+  def handle_agent_handoff(from, to, reason)
+    @current_system_messages << "Handoff: #{extract_name(from)} → #{extract_name(to)} (#{reason})"
+    add_to_history('system', "Agent handoff: #{extract_name(from)} → #{extract_name(to)} (#{reason})")
+  end
+
+  def display_response(result)
+    response_text = result['response'] || 'No response generated'
+    reasoning = result['reasoning']
+
+    puts dim_text("\n#{@current_system_messages.join("\n")}") if @current_system_messages.any?
+    puts response_text
+    puts dim_italic_text("(Reasoning: #{reasoning})") if reasoning && reasoning != 'Processed by agent'
+
+    add_to_history('assistant', response_text, reasoning: reasoning)
+  end
+
+  def handle_error(error)
+    error_msg = "Error: #{error.message}"
+    puts "❌ #{error_msg}"
+    add_to_history('system', error_msg)
   end
 
   def add_to_history(role, content, agent_name: nil, reasoning: nil)
