@@ -75,8 +75,8 @@ const handleFileChange = event => {
       event.target.value = '';
       return;
     }
-    if (file.size > 20 * 1024 * 1024) {
-      // 20MB
+    if (file.size > 10 * 1024 * 1024) {
+      // 10MB
       useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.TOO_LARGE'));
       event.target.value = '';
       return;

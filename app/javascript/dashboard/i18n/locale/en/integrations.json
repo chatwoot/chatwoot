@@ -714,9 +714,9 @@
           "LABEL": "PDF File",
           "CHOOSE_FILE": "Choose PDF file",
           "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 20MB",
+          "HELP_TEXT": "Maximum file size: 10MB",
           "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 20MB limit"
+          "TOO_LARGE": "File size exceeds 10MB limit"
         },
         "NAME": {
           "LABEL": "Document Name (Optional)",
