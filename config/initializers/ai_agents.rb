@@ -7,8 +7,6 @@ Rails.application.config.after_initialize do
   model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value || 'gpt-4.1-mini'
   api_base = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com'
 
-  puts "api_base: #{api_base}"
-
   if api_key.present?
     Agents.configure do |config|
       config.openai_api_key = api_key
