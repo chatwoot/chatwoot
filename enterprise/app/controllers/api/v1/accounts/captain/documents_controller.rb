@@ -22,15 +22,12 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     return render_could_not_create_error('Missing Assistant') if @assistant.nil?
 
     @document = @assistant.documents.build(document_params)
-
-    # Handle PDF file upload if present
-    @document.pdf_file.attach(document_params[:pdf_file]) if document_params[:pdf_file].present?
-
     @document.save!
   rescue Captain::Document::LimitExceededError => e
     render_could_not_create_error(e.message)
   rescue StandardError => e
     Rails.logger.error "Document creation error: #{e.message}"
+    Rails.logger.error "Error backtrace: #{e.backtrace.first(5).join("\n")}"
     render_could_not_create_error('Failed to create document')
   end
 

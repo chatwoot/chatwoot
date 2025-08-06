@@ -1,108 +1,150 @@
 require 'rails_helper'
 
 RSpec.describe Captain::Documents::CrawlJob, type: :job do
-  let(:document) { create(:captain_document, external_link: 'https://example.com/page') }
-  let(:assistant_id) { document.assistant_id }
-  let(:webhook_url) { Rails.application.routes.url_helpers.enterprise_webhooks_firecrawl_url }
+  let(:account) { create(:account) }
+  let(:assistant) { create(:captain_assistant, account: account) }
+  let(:url_document) { create(:captain_document, assistant: assistant, account: account, external_link: 'https://example.com') }
+  let(:pdf_document) do
+    doc = create(:captain_document, assistant: assistant, account: account)
+    doc.pdf_file.attach(
+      io: File.open(Rails.root.join('spec/fixtures/files/sample.pdf')),
+      filename: 'sample.pdf',
+      content_type: 'application/pdf'
+    )
+    doc
+  end
 
   describe '#perform' do
-    context 'when CAPTAIN_FIRECRAWL_API_KEY is configured' do
-      let(:firecrawl_service) { instance_double(Captain::Tools::FirecrawlService) }
-      let(:account) { document.account }
-      let(:token) { Digest::SHA256.hexdigest("-key#{document.assistant_id}#{document.account_id}") }
-
-      before do
-        allow(Captain::Tools::FirecrawlService).to receive(:new).and_return(firecrawl_service)
-        allow(firecrawl_service).to receive(:perform)
-        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: 'test-key')
+    context 'when document has external link' do
+      it 'performs simple crawling when no firecrawl API key' do
+        allow(InstallationConfig).to receive(:find_by).and_return(nil)
+        job = described_class.new
+        expect(job).to receive(:perform_simple_crawl).with(url_document)
+        job.perform(url_document)
       end
 
-      context 'with account usage limits' do
-        before do
-          allow(account).to receive(:usage_limits).and_return({ captain: { documents: { current_available: 20 } } })
-        end
+      it 'does not perform PDF processing' do
+        allow(InstallationConfig).to receive(:find_by).and_return(nil)
+        # Mock the HTTP request made by SimplePageCrawlService
+        stub_request(:get, 'https://example.com/').to_return(status: 200, body: '<html></html>', headers: {})
 
-        it 'uses FirecrawlService with the correct crawl limit' do
-          expect(firecrawl_service).to receive(:perform).with(
-            document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            20
-          )
+        simple_crawl_service = instance_double(Captain::Tools::SimplePageCrawlService)
+        allow(Captain::Tools::SimplePageCrawlService).to receive(:new).and_return(simple_crawl_service)
+        allow(simple_crawl_service).to receive(:page_links).and_return([])
 
-          described_class.perform_now(document)
-        end
+        job = described_class.new
+        expect(job).not_to receive(:perform_pdf_processing)
+        job.perform(url_document)
+      end
+    end
+
+    context 'when document has PDF file' do
+      it 'performs PDF processing' do
+        job = described_class.new
+        expect(job).to receive(:perform_pdf_processing).with(pdf_document)
+        job.perform(pdf_document)
       end
 
-      context 'when crawl limit exceeds maximum' do
-        before do
-          allow(account).to receive(:usage_limits).and_return({ captain: { documents: { current_available: 1000 } } })
-        end
-
-        it 'caps the crawl limit at 500' do
-          expect(firecrawl_service).to receive(:perform).with(
-            document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            500
-          )
-
-          described_class.perform_now(document)
-        end
+      it 'does not perform web crawling' do
+        job = described_class.new
+        expect(job).not_to receive(:perform_simple_crawl)
+        expect(job).not_to receive(:perform_firecrawl_crawl)
+        job.perform(pdf_document)
       end
 
-      context 'with no usage limits configured' do
-        before do
-          allow(account).to receive(:usage_limits).and_return({})
-        end
+      it 'calls PDF processing service' do
+        pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
+        expect(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
+        expect(pdf_processing_service).to receive(:process)
 
-        it 'uses default crawl limit of 10' do
-          expect(firecrawl_service).to receive(:perform).with(
-            document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
-            10
-          )
+        described_class.perform_now(pdf_document)
+      end
 
-          described_class.perform_now(document)
+      it 'marks document as available after processing' do
+        pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
+        allow(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
+        allow(pdf_processing_service).to receive(:process)
+
+        expect { described_class.perform_now(pdf_document) }
+          .to change { pdf_document.reload.status }.to('available')
+      end
+
+      it 'logs successful PDF processing' do
+        pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
+        allow(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
+        allow(pdf_processing_service).to receive(:process)
+        allow(Rails.logger).to receive(:info)
+
+        described_class.perform_now(pdf_document)
+
+        expect(Rails.logger).to have_received(:info).with("Successfully processed PDF document #{pdf_document.id}")
+      end
+
+      context 'when PDF processing fails' do
+        it 'logs error and still marks document as available' do
+          pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
+          allow(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
+          allow(pdf_processing_service).to receive(:process).and_raise(StandardError, 'Processing failed')
+
+          expect(Rails.logger).to receive(:error).with("Failed to process PDF document #{pdf_document.id}: Processing failed")
+
+          expect { described_class.perform_now(pdf_document) }
+            .to change { pdf_document.reload.status }.to('available')
         end
       end
     end
 
-    context 'when CAPTAIN_FIRECRAWL_API_KEY is not configured' do
-      let(:page_links) { ['https://example.com/page1', 'https://example.com/page2'] }
-      let(:simple_crawler) { instance_double(Captain::Tools::SimplePageCrawlService) }
-
-      before do
-        allow(Captain::Tools::SimplePageCrawlService)
-          .to receive(:new)
-          .with(document.external_link)
-          .and_return(simple_crawler)
-
-        allow(simple_crawler).to receive(:page_links).and_return(page_links)
+    context 'when document is nil' do
+      it 'raises NoMethodError' do
+        expect { described_class.perform_now(nil) }
+          .to raise_error(NoMethodError)
       end
+    end
 
-      it 'enqueues SimplePageCrawlParserJob for each discovered link' do
-        page_links.each do |link|
-          expect(Captain::Tools::SimplePageCrawlParserJob)
-            .to receive(:perform_later)
-            .with(
-              assistant_id: assistant_id,
-              page_link: link
-            )
-        end
+    context 'when document has external link but no PDF file' do
+      let(:web_document) { create(:captain_document, assistant: assistant, account: account, external_link: 'https://example.com') }
 
-        # Should also crawl the original link
-        expect(Captain::Tools::SimplePageCrawlParserJob)
-          .to receive(:perform_later)
-          .with(
-            assistant_id: assistant_id,
-            page_link: document.external_link
-          )
+      it 'performs simple crawl when no firecrawl API key' do
+        allow(InstallationConfig).to receive(:find_by).and_return(nil)
+        job = described_class.new
+        expect(job).to receive(:perform_simple_crawl).with(web_document)
+        expect(job).not_to receive(:perform_pdf_processing)
 
-        described_class.perform_now(document)
+        job.perform(web_document)
       end
+    end
+  end
 
-      it 'uses SimplePageCrawlService to discover page links' do
-        expect(simple_crawler).to receive(:page_links)
-        described_class.perform_now(document)
+  describe '#perform_pdf_processing' do
+    let(:job_instance) { described_class.new }
+
+    it 'creates PDF processing service with correct parameters' do
+      pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
+      expect(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
+      expect(pdf_processing_service).to receive(:process)
+
+      job_instance.send(:perform_pdf_processing, pdf_document)
+    end
+
+    it 'marks document as available after processing' do
+      pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
+      allow(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
+      allow(pdf_processing_service).to receive(:process)
+
+      expect { job_instance.send(:perform_pdf_processing, pdf_document) }
+        .to change { pdf_document.reload.status }.to('available')
+    end
+
+    context 'when processing fails' do
+      it 'logs error and still marks document as available' do
+        pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
+        allow(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
+        allow(pdf_processing_service).to receive(:process).and_raise(StandardError, 'Test error')
+
+        expect(Rails.logger).to receive(:error).with("Failed to process PDF document #{pdf_document.id}: Test error")
+
+        expect { job_instance.send(:perform_pdf_processing, pdf_document) }
+          .to change { pdf_document.reload.status }.to('available')
       end
     end
   end
