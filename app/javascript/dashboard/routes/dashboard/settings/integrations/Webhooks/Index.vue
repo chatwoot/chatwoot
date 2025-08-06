@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useBranding } from 'shared/composables/useBranding';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
@@ -16,6 +17,10 @@ export default {
     NewWebhook,
     EditWebhook,
     WebhookRow,
+  },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return { replaceInstallationName };
   },
   data() {
     return {
@@ -99,7 +104,7 @@ export default {
       <BaseSettingsHeader
         v-if="integration.name"
         :title="integration.name"
-        :description="integration.description"
+        :description="replaceInstallationName(integration.description)"
         :link-text="$t('INTEGRATION_SETTINGS.WEBHOOK.LEARN_MORE')"
         feature-name="webhook"
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
