@@ -34,8 +34,3 @@
   title: 'Handoff to Human'
   description: 'Hand off the conversation to a human agent'
   icon: 'user-switch'
-
-- id: better_stack_status
-  title: 'Better Stack Status'
-  description: 'Check the status of Better Stack services'
-  icon: 'server'
