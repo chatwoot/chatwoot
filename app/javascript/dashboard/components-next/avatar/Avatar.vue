@@ -195,9 +195,9 @@ watch(
       <div
         v-if="inbox && !(status && STATUS_CLASSES[status])"
         :style="badgeStyles"
-        class="absolute z-20 flex items-center justify-center rounded-full backdrop-blur-sm border border-transparent flex-shrink-0"
+        class="absolute z-20 flex items-center justify-center rounded-full bg-n-solid-1 border border-transparent flex-shrink-0"
       >
-        <ChannelIcon :inbox="inbox" class="w-full h-full text-n-slate-12" />
+        <ChannelIcon :inbox="inbox" class="w-full h-full text-n-slate-11" />
       </div>
     </slot>
 
