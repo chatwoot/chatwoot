@@ -5,12 +5,15 @@ require 'agents'
 Rails.application.config.after_initialize do
   api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
   model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value || 'gpt-4.1-mini'
-  api_base = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com'
+  api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com'
 
   if api_key.present?
     Agents.configure do |config|
       config.openai_api_key = api_key
-      config.openai_api_base = api_base if api_base.present?
+      if api_endpoint.present?
+        api_base = "#{api_endpoint.chomp('/')}/v1"
+        config.openai_api_base = api_base
+      end
       config.default_model = model
       config.debug = false
     end
