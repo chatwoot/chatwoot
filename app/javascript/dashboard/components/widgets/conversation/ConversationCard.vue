@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
-import Thumbnail from '../Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
 import InboxName from '../InboxName.vue';
 import ConversationContextMenu from './contextMenu/Index.vue';
@@ -240,28 +240,34 @@ const deleteConversation = () => {
       @mouseenter="onThumbnailHover"
       @mouseleave="onThumbnailLeave"
     >
-      <label
-        v-if="hovered || selected"
-        class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-20 backdrop-blur-[2px]"
-        :class="!showInboxName ? 'mt-4' : 'mt-8'"
-        @click.stop
-      >
-        <input
-          :value="selected"
-          :checked="selected"
-          class="!m-0 cursor-pointer"
-          type="checkbox"
-          @change="onSelectConversation($event.target.checked)"
-        />
-      </label>
-      <Thumbnail
+      <Avatar
         v-if="!hideThumbnail"
+        :name="currentContact.name"
         :src="currentContact.thumbnail"
-        :username="currentContact.name"
+        :size="32"
         :status="currentContact.availability_status"
-        size="32px"
+        :inbox="inbox"
         :class="!showInboxName ? 'mt-4' : 'mt-8'"
-      />
+        hide-offline-status
+        rounded-full
+      >
+        <template #overlay="{ size }">
+          <label
+            v-if="hovered || selected"
+            class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px]"
+            :style="{ width: `${size}px`, height: `${size}px` }"
+            @click.stop
+          >
+            <input
+              :value="selected"
+              :checked="selected"
+              class="!m-0 cursor-pointer"
+              type="checkbox"
+              @change="onSelectConversation($event.target.checked)"
+            />
+          </label>
+        </template>
+      </Avatar>
     </div>
     <div
       class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 min-w-0"
