@@ -1,16 +1,68 @@
 class Captain::Documents::ResponseBuilderJob < ApplicationJob
   queue_as :low
 
-  def perform(document)
+  def perform(document, options = {})
     reset_previous_responses(document)
 
-    faqs = Captain::Llm::FaqGeneratorService.new(document.content).generate
-    faqs.each do |faq|
-      create_response(faq, document)
+    faqs = generate_faqs(document, options)
+    create_responses_from_faqs(faqs, document)
+
+    Rails.logger.info "FAQ generation complete. Total FAQs created: #{faqs.size}"
+  end
+
+  def generate_faqs(document, options)
+    if should_use_pagination?(document)
+      generate_paginated_faqs(document, options)
+    else
+      generate_standard_faqs(document)
     end
   end
 
+  def generate_paginated_faqs(document, options)
+    Rails.logger.info "Using paginated FAQ generation for document #{document.id}"
+    service = build_paginated_service(document, options)
+    faqs = service.generate
+    store_paginated_metadata(document, service)
+    faqs
+  end
+
+  def generate_standard_faqs(document)
+    Rails.logger.info "Using standard FAQ generation for document #{document.id}"
+    Captain::Llm::FaqGeneratorService.new(document.content).generate
+  end
+
+  def build_paginated_service(document, options)
+    Captain::Llm::PaginatedFaqGeneratorService.new(
+      document,
+      pages_per_chunk: options[:pages_per_chunk],
+      max_pages: options[:max_pages]
+    )
+  end
+
+  def store_paginated_metadata(document, service)
+    document.update!(
+      metadata: document.metadata.merge(
+        'faq_generation' => {
+          'method' => 'paginated',
+          'pages_processed' => service.total_pages_processed,
+          'iterations' => service.iterations_completed,
+          'timestamp' => Time.current.iso8601
+        }
+      )
+    )
+  end
+
+  def create_responses_from_faqs(faqs, document)
+    faqs.each { |faq| create_response(faq, document) }
+  end
+
   private
+
+  def should_use_pagination?(document)
+    # Auto-detect when to use pagination
+    # For now, use pagination for PDFs with OpenAI file ID
+    document.pdf_document? && document.openai_file_id.present?
+  end
 
   def reset_previous_responses(response_document)
     response_document.responses.destroy_all

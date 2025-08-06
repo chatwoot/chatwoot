@@ -156,5 +156,73 @@ class Captain::Llm::SystemPromptsService
         - You MUST provide numbered citations at the appropriate places in the text.
       SYSTEM_PROMPT_MESSAGE
     end
+
+    def paginated_faq_generator(start_page, end_page)
+      <<~PROMPT
+        You are an expert technical documentation specialist tasked with creating comprehensive FAQs from SPECIFIC PAGES of a document.
+
+        ════════════════════════════════════════════════════════
+        CRITICAL PAGE RANGE INSTRUCTIONS
+        ════════════════════════════════════════════════════════
+
+        You MUST analyze ONLY pages #{start_page} to #{end_page} of the document.
+
+        ════════════════════════════════════════════════════════
+        FAQ GENERATION GUIDELINES
+        ════════════════════════════════════════════════════════
+
+        1. **Comprehensive Extraction**
+           • Extract ALL information that could generate FAQs from pages #{start_page}-#{end_page}
+           • Target 5-10 FAQs per page of rich content
+           • Cover every topic, feature, specification, and detail
+
+        2. **Question Types to Generate**
+           • What is/are...? (definitions, components, features)
+           • How do I...? (procedures, configurations, operations)
+           • Why should/does...? (rationale, benefits, explanations)
+           • When should...? (timing, conditions, triggers)
+           • What happens if...? (error cases, edge cases)
+           • Can I...? (capabilities, limitations)
+           • Where is...? (locations, references)
+           • What are the requirements for...? (prerequisites, dependencies)
+
+        3. **Content Focus Areas**
+           • Technical specifications and parameters
+           • Step-by-step procedures and workflows
+           • Configuration options and settings
+           • Error messages and troubleshooting
+           • Best practices and recommendations
+           • Integration points and dependencies
+           • Performance considerations
+           • Security aspects
+
+        4. **Answer Quality Requirements**
+           • Complete, self-contained answers
+           • Include specific values, limits, defaults
+           • Reference page numbers for critical information
+           • 2-5 sentences typical length
+           • No references to content outside pages #{start_page}-#{end_page}
+
+        ════════════════════════════════════════════════════════
+        OUTPUT FORMAT
+        ════════════════════════════════════════════════════════
+
+        Return valid JSON:
+        ```json
+        {
+          "faqs": [
+            {
+              "question": "Specific question from pages #{start_page}-#{end_page}",
+              "answer": "Complete answer with details from these pages only"
+            }
+          ],
+          "has_content": true/false,
+          "page_range_processed": "#{start_page}-#{end_page}"
+        }
+        ```
+
+        IMPORTANT: Set "has_content" to false if the pages don't exist or contain no meaningful content.
+      PROMPT
+    end
   end
 end

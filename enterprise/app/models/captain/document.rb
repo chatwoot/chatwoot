@@ -4,7 +4,10 @@
 #
 #  id            :bigint           not null, primary key
 #  content       :text
+#  content_type  :string
 #  external_link :string           not null
+#  file_size     :bigint
+#  metadata      :jsonb
 #  name          :string
 #  status        :integer          default("in_progress"), not null
 #  created_at    :datetime         not null
@@ -26,11 +29,15 @@ class Captain::Document < ApplicationRecord
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
+  has_one_attached :pdf_file
 
-  validates :external_link, presence: true
-  validates :external_link, uniqueness: { scope: :assistant_id }
+  validates :external_link, presence: true, unless: -> { pdf_file.attached? }
+  validates :external_link, uniqueness: { scope: :assistant_id }, allow_blank: true
   validates :content, length: { maximum: 200_000 }
+  validates :pdf_file, presence: true, if: :pdf_document?
+  validate :validate_pdf_format, if: :pdf_document?
   before_validation :ensure_account_id
+  before_validation :set_external_link_for_pdf
 
   enum status: {
     in_progress: 0,
@@ -41,11 +48,33 @@ class Captain::Document < ApplicationRecord
   after_create_commit :enqueue_crawl_job
   after_create_commit :update_document_usage
   after_destroy :update_document_usage
-  after_commit :enqueue_response_builder_job
+  after_commit :enqueue_response_builder_job, on: :update, if: :should_enqueue_response_builder?
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
+
+  def pdf_document?
+    (external_link&.ends_with?('.pdf')) || (pdf_file.attached? && pdf_file.content_type == 'application/pdf')
+  end
+
+  def openai_file_id
+    metadata['openai_file_id']
+  end
+
+  def store_openai_file_id(file_id)
+    update!(metadata: metadata.merge('openai_file_id' => file_id))
+  end
+
+  def display_url
+    return external_link if external_link.present? && !external_link.start_with?('PDF:')
+
+    if pdf_file.attached?
+      Rails.application.routes.url_helpers.rails_blob_url(pdf_file, only_path: false)
+    else
+      external_link
+    end
+  end
 
   private
 
@@ -61,6 +90,12 @@ class Captain::Document < ApplicationRecord
     Captain::Documents::ResponseBuilderJob.perform_later(self)
   end
 
+  def should_enqueue_response_builder?
+    # Only enqueue when status changes to available
+    # Avoid re-enqueueing when metadata is updated by the job itself
+    saved_change_to_status? && status == 'available'
+  end
+
   def update_document_usage
     account.update_document_usage
   end
@@ -72,5 +107,24 @@ class Captain::Document < ApplicationRecord
   def ensure_within_plan_limit
     limits = account.usage_limits[:captain][:documents]
     raise LimitExceededError, 'Document limit exceeded' unless limits[:current_available].positive?
+  end
+
+  def validate_pdf_format
+    return unless pdf_file.attached?
+
+    errors.add(:pdf_file, 'must be a PDF file') unless pdf_file.content_type == 'application/pdf'
+
+    return unless pdf_file.byte_size > 512.megabytes
+
+    errors.add(:pdf_file, 'must be less than 512MB')
+  end
+
+  def set_external_link_for_pdf
+    return unless pdf_file.attached? && external_link.blank?
+
+    # Set a unique external_link for PDF files
+    # Format: PDF: filename_timestamp (without extension)
+    timestamp = Time.current.strftime('%Y%m%d%H%M%S')
+    self.external_link = "PDF: #{pdf_file.filename.base}_#{timestamp}"
   end
 end

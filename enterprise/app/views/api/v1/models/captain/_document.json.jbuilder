@@ -5,6 +5,7 @@ end
 json.content resource.content
 json.created_at resource.created_at.to_i
 json.external_link resource.external_link
+json.display_url resource.display_url
 json.id resource.id
 json.name resource.name
 json.status resource.status
