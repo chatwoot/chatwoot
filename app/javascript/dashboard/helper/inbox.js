@@ -10,6 +10,7 @@ export const INBOX_TYPES = {
   TELEGRAM: 'Channel::Telegram',
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
+  INSTAGRAM: 'Channel::Instagram',
 };
 
 const INBOX_ICON_MAP_FILL = {
@@ -22,6 +23,7 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.EMAIL]: 'i-ri-mail-fill',
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
+  [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -36,6 +38,7 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.EMAIL]: 'i-ri-mail-line',
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-line',
   [INBOX_TYPES.LINE]: 'i-ri-line-line',
+  [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-line',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -52,6 +55,9 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
 
     case INBOX_TYPES.EMAIL:
       return inbox.email || '';
+
+    case INBOX_TYPES.INSTAGRAM:
+      return inbox.instagram_id || '';
 
     default:
       return '';
@@ -86,6 +92,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
+
+    case INBOX_TYPES.INSTAGRAM:
+      return 'instagram';
 
     default:
       return 'chat';
@@ -123,6 +132,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'brand-line';
+
+    case INBOX_TYPES.INSTAGRAM:
+      return 'brand-instagram';
 
     default:
       return 'chat';

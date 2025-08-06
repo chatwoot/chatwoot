@@ -365,7 +365,7 @@ export default {
       }
     },
     onWhatsAppStatusChanged(statusData) {
-      console.log('WhatsApp status changed:', statusData);
+      // console.log('WhatsApp status changed:', statusData);
       // Handle status change if needed
     },
     onWhatsAppStatusError(error) {
@@ -373,7 +373,7 @@ export default {
       useAlert('Gagal memeriksa status WhatsApp');
     },
     onWhatsAppSessionRestarted(data) {
-      console.log('WhatsApp session restarted:', data);
+      // console.log('WhatsApp session restarted:', data);
       useAlert('Session WhatsApp berhasil direstart');
     },
     onWhatsAppRestartError(error) {
