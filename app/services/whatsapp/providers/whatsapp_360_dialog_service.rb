@@ -106,7 +106,10 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
         policy: 'deterministic',
         code: template_info[:lang_code]
       },
-      components: template_info[:parameters]
+      components: [{
+        type: 'body',
+        parameters: template_info[:parameters]
+      }]
     }
   end
 
