@@ -4,7 +4,7 @@ import { OnClickOutside } from '@vueuse/components';
 import { useToggle } from '@vueuse/core';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 
 const props = defineProps({
@@ -82,12 +82,14 @@ const hasValue = computed(() => {
             {{ selectedItem.name }}
           </h4>
         </div>
-        <Thumbnail
+        <Avatar
           v-if="hasValue && hasThumbnail"
           :src="selectedItem.thumbnail"
-          size="24px"
           :status="selectedItem.availability_status"
-          :username="selectedItem.name"
+          :name="selectedItem.name"
+          :size="24"
+          hide-offline-status
+          rounded-full
         />
       </Button>
       <div

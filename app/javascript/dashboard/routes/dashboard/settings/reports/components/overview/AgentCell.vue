@@ -1,6 +1,6 @@
 <script setup>
 import BaseCell from 'dashboard/components/table/BaseCell.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import { useMapGetter } from 'dashboard/composables/store';
 
 defineProps({
@@ -19,11 +19,13 @@ const isRTL = useMapGetter('accounts/isRTL');
       class="items-center flex text-left"
       :class="{ 'flex-row-reverse': isRTL }"
     >
-      <Thumbnail
+      <Avatar
         :src="row.original.thumbnail"
-        size="32px"
-        :username="row.original.agent"
+        :name="row.original.agent"
         :status="row.original.status"
+        :size="32"
+        hide-offline-status
+        rounded-full
       />
       <div class="items-start flex flex-col min-w-0 my-0 mx-2">
         <h6
