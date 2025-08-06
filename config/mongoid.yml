@@ -1,0 +1,38 @@
+default: &default
+  clients:
+    default:
+      options:
+        read:
+          mode: :primary
+
+development:
+  <<: *default
+  clients:
+    default:
+      uri: "<%= ENV.fetch('MONGODB_URL', 'mongodb://localhost:27017/chatwoot_excel_imports_development') %>"
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 5
+
+test:
+  <<: *default
+  clients:
+    default:
+      database: "chatwoot_excel_imports_test"
+      hosts:
+        - localhost:27017
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1
+
+production:
+  <<: *default
+  clients:
+    default:
+      uri: "<%= ENV.fetch('MONGODB_URL', 'mongodb://localhost:27017/chatwoot_excel_imports_production') %>"
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 5

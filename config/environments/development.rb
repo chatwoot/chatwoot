@@ -70,10 +70,22 @@ Rails.application.configure do
   # require 'syslog/logger'
   config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
 
-  # Bullet configuration to fix the N+1 queries
+  # Bullet configuration to fix the N+1 queries (guarded so app can boot when Bullet is incompatible)
   config.after_initialize do
-    Bullet.enable = true
-    Bullet.bullet_logger = true
-    Bullet.rails_logger = true
+  begin
+    # Try to require Bullet only when needed. If the gem isn't loaded or is incompatible,
+    # this will raise and be rescued so the app can still boot.
+    require 'bullet' unless defined?(Bullet)
+
+    if defined?(Bullet)
+      Bullet.enable = true
+      Bullet.bullet_logger = true
+      Bullet.rails_logger = true
+      # other Bullet config you may have...
+    end
+  rescue => e
+    # Log a warning instead of crashing the boot process
+    Rails.logger.warn "Bullet not loaded/configured: #{e.class}: #{e.message}"
   end
+end
 end
