@@ -9,7 +9,6 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
-import WhatsAppTemplateParser from 'dashboard/components-next/whatsapp/WhatsAppTemplateParser.vue';
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -19,9 +18,7 @@ const formState = {
   uiFlags: useMapGetter('campaigns/getUIFlags'),
   labels: useMapGetter('labels/getLabels'),
   inboxes: useMapGetter('inboxes/getWhatsAppInboxes'),
-  getFilteredWhatsAppTemplates: useMapGetter(
-    'inboxes/getFilteredWhatsAppTemplates'
-  ),
+  getWhatsAppTemplates: useMapGetter('inboxes/getWhatsAppTemplates'),
 };
 
 const initialState = {
@@ -33,7 +30,7 @@ const initialState = {
 };
 
 const state = reactive({ ...initialState });
-const templateParserRef = ref(null);
+const processedParams = ref({});
 
 const rules = {
   title: { required, minLength: minLength(1) },
@@ -70,7 +67,7 @@ const inboxOptions = computed(() =>
 
 const templateOptions = computed(() => {
   if (!state.inboxId) return [];
-  const templates = formState.getFilteredWhatsAppTemplates.value(state.inboxId);
+  const templates = formState.getWhatsAppTemplates.value(state.inboxId);
   return templates.map(template => {
     // Create a more user-friendly label from template name
     const friendlyName = template.name
@@ -91,6 +88,26 @@ const selectedTemplate = computed(() => {
     ?.template;
 });
 
+const templateString = computed(() => {
+  if (!selectedTemplate.value) return '';
+  try {
+    return (
+      selectedTemplate.value.components?.find(
+        component => component.type === 'BODY'
+      )?.text || ''
+    );
+  } catch (error) {
+    return '';
+  }
+});
+
+const processedString = computed(() => {
+  if (!templateString.value) return '';
+  return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
+    return processedParams.value[variable] || `{{${variable}}}`;
+  });
+});
+
 const getErrorMessage = (field, errorKey) => {
   const baseKey = 'CAMPAIGN.WHATSAPP.CREATE.FORM';
   return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
@@ -105,7 +122,8 @@ const formErrors = computed(() => ({
 }));
 
 const hasRequiredTemplateParams = computed(() => {
-  return templateParserRef.value?.v$?.$invalid === false || true;
+  const params = Object.values(processedParams.value);
+  return params.length === 0 || params.every(param => param.trim() !== '');
 });
 
 const isSubmitDisabled = computed(
@@ -117,18 +135,32 @@ const formatToUTCString = localDateTime =>
 
 const resetState = () => {
   Object.assign(state, initialState);
+  processedParams.value = {};
   v$.value.$reset();
 };
 
 const handleCancel = () => emit('cancel');
 
+const generateVariables = () => {
+  const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
+  if (!matchedVariables) {
+    processedParams.value = {};
+    return;
+  }
+
+  const finalVars = matchedVariables.map(match => match.replace(/{{|}}/g, ''));
+  processedParams.value = finalVars.reduce((acc, variable) => {
+    acc[variable] = processedParams.value[variable] || '';
+    return acc;
+  }, {});
+};
+
 const prepareCampaignDetails = () => {
   // Find the selected template to get its content
   const currentTemplate = selectedTemplate.value;
-  const parserData = templateParserRef.value;
 
   // Extract template content - this should be the template message body
-  const templateContent = parserData?.renderedTemplate || '';
+  const templateContent = templateString.value;
 
   // Prepare template_params object with the same structure as used in contacts
   const templateParams = {
@@ -136,7 +168,7 @@ const prepareCampaignDetails = () => {
     namespace: currentTemplate?.namespace || '',
     category: currentTemplate?.category || 'UTILITY',
     language: currentTemplate?.language || 'en_US',
-    processed_params: parserData?.processedParams || {},
+    processed_params: processedParams.value,
   };
 
   return {
@@ -166,6 +198,15 @@ watch(
   () => state.inboxId,
   () => {
     state.templateId = null;
+    processedParams.value = {};
+  }
+);
+
+// Generate variables when template changes
+watch(
+  () => state.templateId,
+  () => {
+    generateVariables();
   }
 );
 </script>
@@ -213,12 +254,62 @@ watch(
       </p>
     </div>
 
-    <!-- Template Parser -->
-    <WhatsAppTemplateParser
+    <!-- Template Preview -->
+    <div
       v-if="selectedTemplate"
-      ref="templateParserRef"
-      :template="selectedTemplate"
-    />
+      class="flex flex-col gap-4 p-4 rounded-lg bg-n-alpha-black2"
+    >
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-medium text-n-slate-12">
+          {{ selectedTemplate.name }}
+        </h3>
+        <span class="text-xs text-n-slate-11">
+          {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.LANGUAGE') }}:
+          {{ selectedTemplate.language || 'en' }}
+        </span>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <div class="rounded-md bg-n-alpha-black3">
+          <div class="text-sm whitespace-pre-wrap text-n-slate-12">
+            {{ processedString }}
+          </div>
+        </div>
+      </div>
+
+      <div class="text-xs text-n-slate-11">
+        {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.CATEGORY') }}:
+        {{ selectedTemplate.category || 'UTILITY' }}
+      </div>
+    </div>
+
+    <!-- Template Variables -->
+    <div
+      v-if="Object.keys(processedParams).length > 0"
+      class="flex flex-col gap-3"
+    >
+      <label class="text-sm font-medium text-n-slate-12">
+        {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.VARIABLES_LABEL') }}
+      </label>
+      <div class="flex flex-col gap-2">
+        <div
+          v-for="(value, key) in processedParams"
+          :key="key"
+          class="flex gap-2 items-center"
+        >
+          <Input
+            v-model="processedParams[key]"
+            type="text"
+            class="flex-1"
+            :placeholder="
+              t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.VARIABLE_PLACEHOLDER', {
+                variable: key,
+              })
+            "
+          />
+        </div>
+      </div>
+    </div>
 
     <div class="flex flex-col gap-1">
       <label for="audience" class="mb-0.5 text-sm font-medium text-n-slate-12">

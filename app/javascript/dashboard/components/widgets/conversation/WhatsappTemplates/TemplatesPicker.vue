@@ -1,6 +1,8 @@
 <script>
 import { useAlert } from 'dashboard/composables';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+// TODO: Remove this when we support all formats
+const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
 
 export default {
   components: {
@@ -21,9 +23,14 @@ export default {
   },
   computed: {
     whatsAppTemplateMessages() {
-      return this.$store.getters['inboxes/getFilteredWhatsAppTemplates'](
-        this.inboxId
-      );
+      // TODO: Remove the last filter when we support all formats
+      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
+        .filter(template => template.status.toLowerCase() === 'approved')
+        .filter(template => {
+          return template.components.every(component => {
+            return !formatsToRemove.includes(component.format);
+          });
+        });
     },
     filteredTemplateMessages() {
       return this.whatsAppTemplateMessages.filter(template =>
@@ -32,31 +39,9 @@ export default {
     },
   },
   methods: {
-    getTemplateBody(template) {
-      return (
-        template.components.find(component => component.type === 'BODY')
-          ?.text || ''
-      );
-    },
-    getTemplateHeader(template) {
-      return template.components.find(component => component.type === 'HEADER');
-    },
-    getTemplateFooter(template) {
-      return template.components.find(component => component.type === 'FOOTER');
-    },
-    getTemplateButtons(template) {
-      return template.components.find(
-        component => component.type === 'BUTTONS'
-      );
-    },
-    hasMediaContent(template) {
-      const header = this.getTemplateHeader(template);
-      return (
-        header &&
-        (header.format === 'IMAGE' ||
-          header.format === 'VIDEO' ||
-          header.format === 'DOCUMENT')
-      );
+    getTemplatebody(template) {
+      return template.components.find(component => component.type === 'BODY')
+        .text;
     },
     async refreshTemplates() {
       this.isRefreshing = true;
@@ -116,72 +101,21 @@ export default {
               <span
                 class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
               >
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }}:
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
                 {{ template.language }}
               </span>
             </div>
-            <!-- Header -->
-            <div v-if="getTemplateHeader(template)" class="mb-3">
-              <p class="text-xs font-medium text-n-slate-11">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.HEADER') || 'HEADER' }}
-              </p>
-              <div
-                v-if="getTemplateHeader(template).format === 'TEXT'"
-                class="text-sm label-body"
-              >
-                {{ getTemplateHeader(template).text }}
-              </div>
-              <div
-                v-else-if="hasMediaContent(template)"
-                class="text-sm italic text-n-slate-11"
-              >
-                {{
-                  $t('WHATSAPP_TEMPLATES.PICKER.MEDIA_CONTENT', {
-                    format: getTemplateHeader(template).format,
-                  }) || `${getTemplateHeader(template).format} media content`
-                }}
-              </div>
-            </div>
-
-            <!-- Body -->
             <div>
-              <p class="text-xs font-medium text-n-slate-11">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.BODY') || 'BODY' }}
+              <p class="font-medium">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.TEMPLATE_BODY') }}
               </p>
-              <p class="text-sm label-body">{{ getTemplateBody(template) }}</p>
+              <p class="label-body">{{ getTemplatebody(template) }}</p>
             </div>
-
-            <!-- Footer -->
-            <div v-if="getTemplateFooter(template)" class="mt-3">
-              <p class="text-xs font-medium text-n-slate-11">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.FOOTER') || 'FOOTER' }}
+            <div class="mt-5">
+              <p class="font-medium">
+                {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.CATEGORY') }}
               </p>
-              <p class="text-sm label-body">
-                {{ getTemplateFooter(template).text }}
-              </p>
-            </div>
-
-            <!-- Buttons -->
-            <div v-if="getTemplateButtons(template)" class="mt-3">
-              <p class="text-xs font-medium text-n-slate-11">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.BUTTONS') || 'BUTTONS' }}
-              </p>
-              <div class="flex flex-wrap gap-1 mt-1">
-                <span
-                  v-for="button in getTemplateButtons(template).buttons"
-                  :key="button.text"
-                  class="px-2 py-1 text-xs rounded bg-n-slate-3 text-n-slate-12"
-                >
-                  {{ button.text }}
-                </span>
-              </div>
-            </div>
-
-            <div class="mt-3">
-              <p class="text-xs font-medium text-n-slate-11">
-                {{ $t('WHATSAPP_TEMPLATES.PICKER.CATEGORY') || 'CATEGORY' }}
-              </p>
-              <p class="text-sm">{{ template.category }}</p>
+              <p>{{ template.category }}</p>
             </div>
           </div>
         </button>

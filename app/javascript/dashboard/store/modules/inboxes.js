@@ -44,50 +44,15 @@ export const getters = {
     const messagesTemplates =
       whatsAppMessageTemplates || apiInboxMessageTemplates;
 
-    return messagesTemplates;
-  },
-  getFilteredWhatsAppTemplates: $state => inboxId => {
-    const [inbox] = $state.records.filter(
-      record => record.id === Number(inboxId)
-    );
-
-    const {
-      message_templates: whatsAppMessageTemplates,
-      additional_attributes: additionalAttributes,
-    } = inbox || {};
-
-    const { message_templates: apiInboxMessageTemplates } =
-      additionalAttributes || {};
-    const templates = whatsAppMessageTemplates || apiInboxMessageTemplates;
-
-    if (!templates || !Array.isArray(templates)) {
-      return [];
+    // filtering out the whatsapp templates with media
+    if (messagesTemplates instanceof Array) {
+      return messagesTemplates.filter(template => {
+        return !template.components.some(
+          i => i.format === 'IMAGE' || i.format === 'VIDEO'
+        );
+      });
     }
-
-    return templates.filter(template => {
-      // Ensure template has required properties
-      if (!template || !template.status || !template.components) {
-        return false;
-      }
-
-      // Only show approved templates
-      if (template.status.toLowerCase() !== 'approved') {
-        return false;
-      }
-
-      // Filter out interactive templates (LIST, PRODUCT, CATALOG) and location templates
-      const hasUnsupportedComponents = template.components.some(
-        component =>
-          ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type) ||
-          (component.type === 'HEADER' && component.format === 'LOCATION')
-      );
-
-      if (hasUnsupportedComponents) {
-        return false;
-      }
-
-      return true;
-    });
+    return [];
   },
   getNewConversationInboxes($state) {
     return $state.records.filter(inbox => {
