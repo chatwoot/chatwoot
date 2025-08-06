@@ -7,7 +7,7 @@ module Concerns::Agentable
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
       model: agent_model,
-      temperature: temperature || 0.7,
+      temperature: temperature.to_f || 0.7,
       response_schema: agent_response_schema
     )
   end
