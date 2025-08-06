@@ -33,10 +33,7 @@ export function useChannelIcon(inbox) {
     }
 
     // Special case for Twilio whatsapp
-    if (
-      type === 'Channel::TwilioSms' &&
-      inboxDetails.medium?.startsWith('whatsapp')
-    ) {
+    if (type === 'Channel::TwilioSms' && inboxDetails.medium === 'whatsapp') {
       icon = 'i-ri-whatsapp-fill';
     }
 
