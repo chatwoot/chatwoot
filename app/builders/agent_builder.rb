@@ -1,21 +1,34 @@
 # The AgentBuilder class is responsible for creating a new agent.
 # It initializes with necessary attributes and provides a perform method
 # to create a user and account user in a transaction.
+#
+# Attributes:
+# @param email [String] the email of the user.
+# @param name [String] the name of the user.
+# @param role [String] the role of the user, defaults to 'agent' if not provided.
+# @param inviter [User] the user who is inviting the agent (Current.user in most cases).
+# @param availability [String] the availability status of the user, defaults to 'offline' if not provided.
+# @param auto_offline [Boolean] the auto offline status of the user.
+# @param password [String, nil] the password for the user, optional.
+# @param confirmed_at [String, Time, nil] the confirmation timestamp for the user, optional.
 class AgentBuilder
   # Initializes an AgentBuilder with necessary attributes.
-  # @param email [String] the email of the user.
-  # @param name [String] the name of the user.
-  # @param role [String] the role of the user, defaults to 'agent' if not provided.
-  # @param inviter [User] the user who is inviting the agent (Current.user in most cases).
-  # @param availability [String] the availability status of the user, defaults to 'offline' if not provided.
-  # @param auto_offline [Boolean] the auto offline status of the user.
-  pattr_initialize [:email, { name: '' }, :inviter, :account, { role: :agent }, { availability: :offline }, { auto_offline: false }]
+  pattr_initialize [
+    :email!,
+    { name: '' },
+    :inviter!,
+    :account!,
+    { role: :agent },
+    { availability: :offline },
+    { auto_offline: false },
+    { password: nil },
+    { confirmed_at: nil }
+  ]
 
-  # Creates a user and account user in a transaction.
-  # @return [User] the created user.
   def perform
     ActiveRecord::Base.transaction do
       @user = find_or_create_user
+      apply_confirmation! if confirmed_at.present? && user_needs_confirmation?
       create_account_user
     end
     @user
@@ -23,32 +36,57 @@ class AgentBuilder
 
   private
 
-  # Finds a user by email or creates a new one with a temporary password.
-  # @return [User] the found or created user.
   def find_or_create_user
     user = User.from_email(email)
     return user if user
 
-    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
-    User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
+    pwd = password.presence || generate_temp_password
+    User.create!(
+      email:                 email,
+      name:                  name,
+      password:              pwd,
+      password_confirmation: pwd
+    )
   end
 
-  # Checks if the user needs confirmation.
-  # @return [Boolean] true if the user is persisted and not confirmed, false otherwise.
   def user_needs_confirmation?
-    @user.persisted? && !@user.confirmed?
+    @user.persisted? && @user.respond_to?(:confirmed?) && !@user.confirmed?
   end
 
-  # Creates an account user linking the user to the current account.
+  def apply_confirmation!
+    if @user.respond_to?(:confirmed_at=)
+      ts = parse_confirmed_at
+      @user.update!(confirmed_at: ts)
+    else
+      @user.confirm
+    end
+  end
+  
   def create_account_user
-    AccountUser.create!({
+    base_attrs = {
       account_id: account.id,
-      user_id: @user.id,
+      user_id:    @user.id,
       inviter_id: inviter.id
-    }.merge({
-      role: role,
+    }
+    extra_attrs = {
+      role:         role,
       availability: availability,
       auto_offline: auto_offline
-    }.compact))
+    }.compact
+    AccountUser.create!(base_attrs.merge(extra_attrs))
+  end
+
+  def generate_temp_password
+    "1!aA#{SecureRandom.alphanumeric(12)}"
+  end
+
+  def parse_confirmed_at
+    case confirmed_at
+    when String then Time.zone.parse(confirmed_at)
+    when Time   then confirmed_at
+    else Time.zone.now
+    end
+  rescue
+    Time.zone.now
   end
 end

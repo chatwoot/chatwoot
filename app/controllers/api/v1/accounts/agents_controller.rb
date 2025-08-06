@@ -15,6 +15,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       role: new_agent_params['role'],
       availability: new_agent_params['availability'],
       auto_offline: new_agent_params['auto_offline'],
+      password:     new_agent_params['password'],
+      confirmed_at: new_agent_params['confirmed_at'],
       inviter: current_user,
       account: Current.account
     )
@@ -72,7 +74,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def allowed_agent_params
-    [:name, :email, :role, :availability, :auto_offline]
+    [:name, :email, :role, :availability, :auto_offline, :password, :confirmed_at]
   end
 
   def agent_params
@@ -80,7 +82,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def new_agent_params
-    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
+    params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline, :password, :confirmed_at)
   end
 
   def agents

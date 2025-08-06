@@ -1,18 +1,30 @@
-# frozen_string_literal: true
-
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
+
+  pattr_initialize [
+    :account_name,
+    :email!,
+    :confirmed,
+    :user,
+    :user_full_name,
+    :user_password,
+    { super_admin: false },
+    :locale,
+    :features
+  ]
 
   def perform
-    if @user.nil?
-      validate_email
-      validate_user
-    end
+    @features ||= {}
+
+    validate_email if @user.nil?
+    validate_user  if @user.nil?
+
     ActiveRecord::Base.transaction do
       @account = create_account
-      @user = create_and_link_user
+      apply_features(@account)
+      @user    = create_and_link_user
     end
+
     [@user, @account]
   rescue StandardError => e
     Rails.logger.debug e.inspect
@@ -21,13 +33,21 @@ class AccountBuilder
 
   private
 
+  def apply_features(account)
+    @features.each do |feature_name, enabled|
+      GlobalConfig.create!(
+        account: account,
+        key:     "feature_\#{feature_name}_enabled",
+        value:   enabled.to_s
+      )
+    end
+  end
+
   def user_full_name
-    # the empty string ensures that not-null constraint is not violated
     @user_full_name || ''
   end
 
   def account_name
-    # the empty string ensures that not-null constraint is not violated
     @account_name || ''
   end
 
@@ -36,16 +56,14 @@ class AccountBuilder
   end
 
   def validate_user
-    if User.exists?(email: @email)
-      raise UserExists.new(email: @email)
-    else
-      true
-    end
+    raise UserExists.new(email: @email) if User.exists?(email: @email)
+    true
   end
 
   def create_account
-    @account = Account.create!(name: account_name, locale: I18n.locale)
-    Current.account = @account
+    account = Account.create!(name: account_name, locale: I18n.locale)
+    Current.account = account
+    account
   end
 
   def create_and_link_user
@@ -60,17 +78,19 @@ class AccountBuilder
   def link_user_to_account(user, account)
     AccountUser.create!(
       account_id: account.id,
-      user_id: user.id,
-      role: AccountUser.roles['administrator']
+      user_id:    user.id,
+      role:       AccountUser.roles['administrator']
     )
   end
 
   def create_user
-    @user = User.new(email: @email,
-                     password: user_password,
-                     password_confirmation: user_password,
-                     name: user_full_name)
-    @user.type = 'SuperAdmin' if @super_admin
+    @user = User.new(
+      email:                @email,
+      password:             user_password,
+      password_confirmation:user_password,
+      name:                 user_full_name
+    )
+    @user.type = 'SuperAdmin' if super_admin
     @user.confirm if @confirmed
     @user.save!
   end

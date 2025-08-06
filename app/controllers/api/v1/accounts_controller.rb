@@ -22,20 +22,13 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def create
-    @user, @account = AccountBuilder.new(
-      account_name: account_params[:account_name],
-      user_full_name: account_params[:user_full_name],
-      email: account_params[:email],
-      user_password: account_params[:password],
-      locale: account_params[:locale],
-      user: current_user
-    ).perform
-    if @user
-      send_auth_headers(@user)
-      render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
-    else
-      render_error_response(CustomExceptions::Account::SignupFailed.new({}))
-    end
+    features = account_params.delete(:features) || {}
+    @user, @account = AccountBuilder.new(…params…).perform
+
+    sync_features!(@account, features)
+
+    send_auth_headers(@user)
+    render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
   end
 
   def cache_keys
@@ -44,11 +37,16 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update
+    features = account_params.delete(:features) || {}
+
     @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email))
     @account.custom_attributes.merge!(custom_attributes_params)
     @account.settings.merge!(settings_params)
-    @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
     @account.save!
+
+    sync_features!(@account, features)
+
+    render 'api/v1/accounts/show', format: :json
   end
 
   def update_active_at
@@ -60,10 +58,6 @@ class Api::V1::AccountsController < Api::BaseController
   private
 
   def ensure_account_name
-    # ensure that account_name and user_full_name is present
-    # this is becuase the account builder and the models validations are not triggered
-    # this change is to align the behaviour with the v2 accounts controller
-    # since these values are not required directly there
     return if account_params[:account_name].present?
     return if account_params[:user_full_name].present?
 
@@ -74,7 +68,7 @@ class Api::V1::AccountsController < Api::BaseController
     {
       label: fetch_value_for_key(params[:id], Label.name.underscore),
       inbox: fetch_value_for_key(params[:id], Inbox.name.underscore),
-      team: fetch_value_for_key(params[:id], Team.name.underscore)
+      team:  fetch_value_for_key(params[:id], Team.name.underscore)
     }
   end
 
@@ -84,7 +78,17 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :user_full_name)
+    params.permit(
+      :account_name,
+      :email,
+      :name,
+      :password,
+      :locale,
+      :domain,
+      :support_email,
+      :user_full_name,
+      features: {}
+    )
   end
 
   def custom_attributes_params
@@ -110,4 +114,24 @@ class Api::V1::AccountsController < Api::BaseController
       account_user: @current_account_user
     }
   end
+
+  def sync_features!(account, incoming_features)
+    existing = GlobalConfig.where(account: account).where("key LIKE ?", "feature_%_enabled").pluck(:key)
+    existing_names = existing.map { |k| k[/\Afeature_(.*)_enabled\z/, 1] }
+    all_names = (existing_names + incoming_features.keys.map(&:to_s)).uniq
+    all_names.each do |feature_name|
+      enabled = ActiveModel::Type::Boolean.new.cast(incoming_features[feature_name])
+      config_key = "feature_#{feature_name}_enabled"
+      config     = GlobalConfig.find_or_initialize_by(account: account, key: config_key)
+      if enabled
+        config.value = "true"
+        config.save!
+      else
+        config.destroy if config.persisted?
+      end
+    rescue StandardError => e
+      Rails.logger.error("Erro ao sincronizar feature '#{feature_name}': #{e.message}")
+    end
+  end
+
 end
