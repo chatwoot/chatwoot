@@ -266,16 +266,19 @@ const deleteConversation = () => {
     <div
       class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 min-w-0"
     >
-      <div v-if="showMetaSection" class="flex items-center min-w-0">
-        <InboxName
-          v-if="showInboxName"
-          :inbox="inbox"
-          class="flex-1 min-w-0 mx-2"
-        />
+      <div
+        v-if="showMetaSection"
+        class="flex items-center min-w-0 gap-1"
+        :class="{
+          'ltr:ml-2 rtl:mr-2': !compact,
+          'mx-2': compact,
+        }"
+      >
+        <InboxName v-if="showInboxName" :inbox="inbox" class="flex-1 min-w-0" />
         <div
           class="flex items-center gap-2 flex-shrink-0"
           :class="{
-            'flex-1 ltr:ml-2 rtl:mr-2 justify-between': !showInboxName,
+            'flex-1 justify-between': !showInboxName,
           }"
         >
           <span
