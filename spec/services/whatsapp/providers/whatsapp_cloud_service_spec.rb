@@ -165,19 +165,17 @@ describe Whatsapp::Providers::WhatsappCloudService do
     let(:template_body) do
       {
         messaging_product: 'whatsapp',
+        recipient_type: 'individual', # Added recipient_type field
         to: '+123456789',
+        type: 'template',
         template: {
           name: template_info[:name],
           language: {
             policy: 'deterministic',
             code: template_info[:lang_code]
           },
-          components: [
-            { type: 'body',
-              parameters: template_info[:parameters] }
-          ]
-        },
-        type: 'template'
+          components: template_info[:parameters] # Changed to use parameters directly (enhanced format)
+        }
       }
     end
 

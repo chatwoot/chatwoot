@@ -19,7 +19,7 @@ describe Whatsapp::OneoffCampaignService do
       'namespace' => '23423423_2342423_324234234_2343224',
       'category' => 'UTILITY',
       'language' => 'en',
-      'processed_params' => { 'name' => 'John', 'ticket_id' => '2332' }
+      'processed_params' => { 'body' => { 'name' => 'John', 'ticket_id' => '2332' } }
     }
   end
 
@@ -125,8 +125,13 @@ describe Whatsapp::OneoffCampaignService do
             namespace: '23423423_2342423_324234234_2343224',
             lang_code: 'en',
             parameters: array_including(
-              hash_including(type: 'text', parameter_name: 'name', text: 'John'),
-              hash_including(type: 'text', parameter_name: 'ticket_id', text: '2332')
+              hash_including(
+                type: 'body',
+                parameters: array_including(
+                  hash_including(type: 'text', parameter_name: 'name', text: 'John'),
+                  hash_including(type: 'text', parameter_name: 'ticket_id', text: '2332')
+                )
+              )
             )
           )
         )
