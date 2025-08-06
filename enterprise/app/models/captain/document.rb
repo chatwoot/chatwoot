@@ -36,6 +36,7 @@ class Captain::Document < ApplicationRecord
   validates :content, length: { maximum: 200_000 }
   validates :pdf_file, presence: true, if: :pdf_document?
   validate :validate_pdf_format, if: :pdf_document?
+  validate :validate_file_attachment, if: -> { pdf_file.attached? }
   before_validation :ensure_account_id
   before_validation :set_external_link_for_pdf
 
@@ -55,7 +56,15 @@ class Captain::Document < ApplicationRecord
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
 
   def pdf_document?
-    (external_link&.ends_with?('.pdf')) || (pdf_file.attached? && pdf_file.content_type == 'application/pdf')
+    (external_link&.ends_with?('.pdf')) || (pdf_file.attached? && pdf_file.blob.content_type == 'application/pdf')
+  end
+
+  def content_type
+    pdf_file.blob.content_type if pdf_file.attached?
+  end
+
+  def file_size
+    pdf_file.blob.byte_size if pdf_file.attached?
   end
 
   def openai_file_id
@@ -112,11 +121,15 @@ class Captain::Document < ApplicationRecord
   def validate_pdf_format
     return unless pdf_file.attached?
 
-    errors.add(:pdf_file, 'must be a PDF file') unless pdf_file.content_type == 'application/pdf'
+    errors.add(:pdf_file, 'must be a PDF file') unless pdf_file.blob.content_type == 'application/pdf'
+  end
 
-    return unless pdf_file.byte_size > 512.megabytes
+  def validate_file_attachment
+    return unless pdf_file.attached?
 
-    errors.add(:pdf_file, 'must be less than 512MB')
+    return unless pdf_file.blob.byte_size > 20.megabytes
+
+    errors.add(:pdf_file, 'must be less than 20MB')
   end
 
   def set_external_link_for_pdf

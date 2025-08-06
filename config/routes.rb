@@ -67,11 +67,7 @@ Rails.application.routes.draw do
             resources :copilot_threads, only: [:index, :create] do
               resources :copilot_messages, only: [:index, :create]
             end
-            resources :documents, only: [:index, :show, :create, :destroy] do
-              collection do
-                post :upload_pdf
-              end
-            end
+            resources :documents, only: [:index, :show, :create, :destroy]
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
