@@ -7,7 +7,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     return 'Conversation not found' unless conversation
 
     # Log the handoff with reason
-    log_tool_usage('manual_handoff', {
+    log_tool_usage('tool_handoff', {
                      conversation_id: conversation.id,
                      reason: reason || 'Agent requested handoff'
                    })
