@@ -111,39 +111,39 @@ export default {
           },
           {
             received: (data) => {
-              console.log('📡 WebSocket received:', data);
+              // console.log('📡 WebSocket received:', data);
               this.handleWebSocketMessage(data);
             },
             connected: () => {
-              console.log('📡 WebSocket connected for inbox:', this.$route.params.inbox_id);
+              // console.log('📡 WebSocket connected for inbox:', this.$route.params.inbox_id);
             },
             disconnected: () => {
-              console.log('📡 WebSocket disconnected for inbox:', this.$route.params.inbox_id);
+              // console.log('📡 WebSocket disconnected for inbox:', this.$route.params.inbox_id);
             }
           }
         );
 
-        console.log('✅ WebSocket subscription setup complete');
+        // console.log('✅ WebSocket subscription setup complete');
       } catch (error) {
         console.error('Failed to setup WebSocket:', error);
       }
     },
 
     handleWebSocketMessage(data) {
-      console.log('🔄 Processing WebSocket message:', data);
+      // console.log('🔄 Processing WebSocket message:', data);
 
       if (data.event === 'whatsapp_status_changed') {
         this.handleStatusUpdate(data);
       } else {
-        console.log('📡 Unhandled WebSocket message event:', data.event);
+        // console.log('📡 Unhandled WebSocket message event:', data.event);
       }
     },
 
     handleStatusUpdate(data) {
-      console.log('📊 Status update received:', data);
+      // console.log('📊 Status update received:', data);
 
       if (data.type === 'session_ready' || data.type === 'phone_validation_success') {
-        console.log('🎉 WhatsApp connected successfully!');
+        // console.log('🎉 WhatsApp connected successfully!');
         this.connectionStatus = 'connected';
         this.clearIntervals();
         
@@ -160,7 +160,7 @@ export default {
         this.handleConnectionFailed(data.expected_phone, data.connected_phone, data.failed_attempts, data);
       
       } else if (data.status === 'disconnected') {
-        console.log('❌ WhatsApp disconnected');
+        // console.log('❌ WhatsApp disconnected');
         if (this.connectionStatus !== 'mismatch' && this.connectionStatus !== 'connected' && this.connectionStatus !== 'failed') {
           this.connectionStatus = 'waiting';
         }
@@ -171,7 +171,7 @@ export default {
       if (this.subscription) {
         this.subscription.unsubscribe();
         this.subscription = null;
-        console.log('📡 WebSocket subscription disconnected');
+        // console.log('📡 WebSocket subscription disconnected');
       }
     },
 
@@ -179,7 +179,7 @@ export default {
       try {
         // Don't generate QR if connection already failed
         if (this.connectionStatus === 'failed') {
-          console.log('🚫 Cannot generate QR code - connection failed');
+          // console.log('🚫 Cannot generate QR code - connection failed');
           return;
         }
         
@@ -260,7 +260,7 @@ export default {
     },
 
     redirectToInboxSettings() {
-      console.log('🚀 Redirecting to inbox settings...');
+      // console.log('🚀 Redirecting to inbox settings...');
       this.proceedToNextStep();
     },
 
@@ -268,12 +268,12 @@ export default {
       if (this.countdownInterval) {
         clearInterval(this.countdownInterval);
         this.countdownInterval = null;
-        console.log('Countdown interval cleared.');
+        // console.log('Countdown interval cleared.');
       }
       if (this.statusInterval) {
         clearInterval(this.statusInterval);
         this.statusInterval = null;
-        console.log('Status interval cleared.');
+        // console.log('Status interval cleared.');
       }
     },
 
@@ -305,14 +305,14 @@ export default {
       // Debounce mismatch events - ignore if less than 10 seconds since last mismatch
       const now = Date.now();
       if (now - this.lastMismatchTime < 10000) {
-        console.log('📱 Mismatch event ignored - too frequent');
+        // console.log('📱 Mismatch event ignored - too frequent');
         return;
       }
       this.lastMismatchTime = now;
       
       // Prevent duplicate mismatch handling
       if (this.connectionStatus === 'mismatch' || this.connectionStatus === 'failed') {
-        console.log('📱 Mismatch already handled, ignoring duplicate');
+        // console.log('📱 Mismatch already handled, ignoring duplicate');
         return;
       }
       
@@ -324,7 +324,7 @@ export default {
         this.mismatchAttempts++;
       }
       
-      console.log(`📱 Mismatch attempt ${this.mismatchAttempts}/${this.maxMismatchAttempts}`);
+      // console.log(`📱 Mismatch attempt ${this.mismatchAttempts}/${this.maxMismatchAttempts}`);
       
       this.connectionStatus = 'mismatch';
       this.mismatchInfo = {
@@ -344,7 +344,7 @@ export default {
     },
 
     handleConnectionFailed(expectedPhone, connectedPhone, failedAttempts, data = {}) {
-      console.log(`📱 Connection failed after ${failedAttempts} attempts`);
+      // console.log(`📱 Connection failed after ${failedAttempts} attempts`);
       
       this.connectionStatus = 'failed';
       this.mismatchAttempts = failedAttempts;
@@ -376,12 +376,12 @@ export default {
       this.connectionStatus = 'restarting';
       
       try {
-        console.log('🔄 Starting session restart...');
+        // console.log('🔄 Starting session restart...');
         
         // Restart session via API
         const response = await WhatsAppUnofficialChannels.restartSession(this.inboxId);
         
-        console.log('🔄 Restart response:', response);
+        // console.log('🔄 Restart response:', response);
         
         if (response.data?.success) {
           const method = response.data.method || 'logout_and_reset';

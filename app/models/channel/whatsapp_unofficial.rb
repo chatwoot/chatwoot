@@ -278,9 +278,9 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       
       Rails.logger.info "WAHA real-time status response for #{phone_number}: #{result}"
       
-      # Parse WAHA response
-      waha_status = result.dig('data', 'status') || 'disconnected'
-      connected = waha_status.downcase == 'connected'
+      # Parse WAHA response - using new session/info endpoint with logged_in/not_logged_in
+      waha_status = result.dig('data', 'status') || 'not_logged_in'
+      connected = waha_status.downcase == 'logged_in'
       
       # Determine current status
       current_status = connected ? 'connected' : 'disconnected'
@@ -303,7 +303,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       {
         'data' => {
           'connected' => connected,
-          'status' => connected ? 'logged_in' : 'disconnected'
+          'status' => connected ? 'logged_in' : 'not_logged_in'
         }
       }
     rescue StandardError => e
@@ -320,7 +320,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       {
         'data' => {
           'connected' => false,
-          'status' => 'disconnected'
+          'status' => 'not_logged_in'
         }
       }
     end

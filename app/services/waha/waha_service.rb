@@ -174,7 +174,7 @@ class Waha::WahaService
 
   def get_session_status(api_key:)
     response = HTTParty.get(
-      "#{API_BASE}/whatsapp/status",
+      "#{API_BASE}/whatsapp/session/info",
       headers: {
         'Accept' => 'application/json',
         'X-API-Key' => api_key
