@@ -31,6 +31,11 @@ export function useChannelIcon(inbox) {
       }
     }
 
+    // Special case for Twilio whatsapp
+    if (type === 'Channel::TwilioSms' && inbox.medium?.startsWith('whatsapp')) {
+      icon = 'i-ri-whatsapp-fill';
+    }
+
     return icon ?? 'i-ri-global-fill';
   });
 
