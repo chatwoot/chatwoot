@@ -31,7 +31,7 @@ describe('AILoader.vue', () => {
         stubs: {
           'fluent-icon': {
             template:
-              '<span class="fluent-icon" :icon="icon" :size="size"></span>',
+              '<span class="fluent-icon" :class="$attrs.class" :data-icon="icon" :data-size="size"></span>',
             props: ['icon', 'size'],
           },
         },
@@ -51,11 +51,11 @@ describe('AILoader.vue', () => {
     });
 
     it('renders the AI wand icon with correct props', () => {
-      const icon = wrapper.findComponent({ name: 'fluent-icon' });
+      const icon = wrapper.find('.ai-typing--icon');
 
       expect(icon.exists()).toBe(true);
-      expect(icon.props('icon')).toBe('wand');
-      expect(icon.props('size')).toBe('14');
+      expect(icon.attributes('data-icon')).toBe('wand');
+      expect(icon.attributes('data-size')).toBe('14');
       expect(icon.classes()).toContain('ai-typing--icon');
     });
 
@@ -82,7 +82,9 @@ describe('AILoader.vue', () => {
         'margin-top-1'
       );
       expect(wrapper.find('.ai-typing--wrap').exists()).toBe(true);
-      expect(wrapper.find('.ai-typing--icon').exists()).toBe(true);
+      expect(wrapper.find('.ai-typing--icon').classes()).toContain(
+        'ai-typing--icon'
+      );
     });
   });
 
@@ -94,7 +96,7 @@ describe('AILoader.vue', () => {
     it('has the correct element hierarchy', () => {
       const container = wrapper.find('.animation-container');
       const aiWrap = container.find('.ai-typing--wrap');
-      const icon = aiWrap.findComponent({ name: 'fluent-icon' });
+      const icon = aiWrap.find('.ai-typing--icon');
       const label = aiWrap.find('label');
       const loaders = container.findAll('.loader');
 
@@ -150,7 +152,9 @@ describe('AILoader.vue', () => {
     it('applies correct CSS classes for styling', () => {
       expect(wrapper.find('.animation-container').exists()).toBe(true);
       expect(wrapper.find('.ai-typing--wrap').exists()).toBe(true);
-      expect(wrapper.find('.ai-typing--icon').exists()).toBe(true);
+      expect(wrapper.find('.ai-typing--icon').classes()).toContain(
+        'ai-typing--icon'
+      );
     });
 
     it('has loader elements with appropriate classes', () => {
@@ -205,16 +209,14 @@ describe('AILoader.vue', () => {
     });
 
     it('passes correct props to fluent-icon component', () => {
-      const icon = wrapper.findComponent({ name: 'fluent-icon' });
+      const icon = wrapper.find('.ai-typing--icon');
 
-      expect(icon.props()).toEqual({
-        icon: 'wand',
-        size: '14',
-      });
+      expect(icon.attributes('data-icon')).toBe('wand');
+      expect(icon.attributes('data-size')).toBe('14');
     });
 
     it('applies correct CSS class to icon', () => {
-      const icon = wrapper.findComponent({ name: 'fluent-icon' });
+      const icon = wrapper.find('.ai-typing--icon');
 
       expect(icon.classes()).toContain('ai-typing--icon');
     });

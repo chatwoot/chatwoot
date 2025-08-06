@@ -2,6 +2,9 @@
 
 require 'rails_helper'
 
+# Load the lib file using Rails.root for a more robust path
+require Rails.root.join('lib/billing/stripe_metadata_extractor')
+
 RSpec.describe StripeMetadataExtractor do
   describe '.extract_product_metadata' do
     let(:price_id) { 'price_123' }
