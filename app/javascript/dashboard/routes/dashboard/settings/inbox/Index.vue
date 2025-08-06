@@ -75,6 +75,34 @@ const handleStatusChanged = (inboxId, statusData) => {
 const getChannelIcon = (inbox) => {
   return getInboxIconByType(inbox.channel_type, inbox.phone_number, 'fill');
 };
+
+const getChannelIconColor = (inbox) => {
+  const channelType = inbox.channel_type;
+  
+  switch (channelType) {
+    case 'Channel::Whatsapp':
+    case 'Channel::WhatsappUnofficial':
+      return 'text-green-600'; // WhatsApp green
+    case 'Channel::Instagram':
+      return 'text-pink-600'; // Instagram pink/purple
+    case 'Channel::FacebookPage':
+      return 'text-blue-600'; // Facebook blue
+    case 'Channel::TwitterProfile':
+      return 'text-sky-500'; // Twitter blue
+    case 'Channel::Telegram':
+      return 'text-blue-500'; // Telegram blue
+    case 'Channel::Email':
+      return 'text-gray-600'; // Email gray
+    case 'Channel::Api':
+      return 'text-purple-600'; // API purple
+    case 'Channel::Line':
+      return 'text-green-500'; // LINE green
+    case 'Channel::WebWidget':
+      return 'text-blue-500'; // Web widget blue
+    default:
+      return 'text-gray-600'; // Default gray
+  }
+};
 </script>
 
 <template>
@@ -125,8 +153,8 @@ const getChannelIcon = (inbox) => {
                     class="w-12 h-12 bg-black-50 dark:bg-black-800 rounded-full p-2 ring ring-opacity-20 dark:ring-opacity-80 ring-black-100 dark:ring-black-900 border border-slate-100 dark:border-slate-700/50 shadow-sm flex items-center justify-center"
                   >
                     <i 
-                      :class="getChannelIcon(inbox)"
-                      class="opacity-80 text-xl"
+                      :class="[getChannelIcon(inbox), getChannelIconColor(inbox)]"
+                      class="text-xl"
                     />
                   </div>
                   
