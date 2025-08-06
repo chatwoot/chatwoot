@@ -58,19 +58,12 @@ const renderInstruction = instruction => () =>
 const scenariosExample = [
   {
     id: 1,
-    title: 'Refund Order',
-    description: 'User encountered a technical issue or error message.',
+    title: 'Prospective Buyer',
+    description:
+      'Handle customers who are showing interest in purchasing a license',
     instruction:
-      'Ask for steps to reproduce + browser/app version. Use [Known Issues](tool://known_issues) to check if it’s a known bug. File with [Create Bug Report](tool://bug_report_create) if new.',
-    tools: ['create_bug_report', 'known_issues'],
-  },
-  {
-    id: 2,
-    title: 'Product Recommendation',
-    description: 'User is unsure which product or service to choose.',
-    instruction:
-      'Ask 2–3 clarifying questions. Use [Product Match](tool://product_match[user_needs]) and suggest 2–3 options with pros/cons. Link to compare page if available.',
-    tools: ['product_match[user_needs]'],
+      'If someone is interested in purchasing a Chatwoot license, ask them for following:\n\n1. How many licenses are they willing to purchase?\n2. Are they migrating from another platform?\n. Once these details are collected, do the following steps\n1. add a private note to with the information you collected using [Add Private Note](tool://add_private_note)\n2. Add label "sales" to the contact using [Add Label to Conversation](tool://add_label_to_conversation)\n3. Reply saying "one of us will react out soon" and provide an estimated timeline for the response and [Handoff to Human](tool://handoff)',
+    tools: ['add_private_note', 'add_label_to_conversation', 'handoff'],
   },
 ];
 
