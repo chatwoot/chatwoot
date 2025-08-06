@@ -442,6 +442,14 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :accounts, only: [:create] do
         scope module: :accounts do
+          # Excel import routes
+          resources :excel_imports, only: [:create, :show, :destroy] do
+            member do
+              get :download
+              patch :save_to_server
+            end
+          end
+
           resources :summary_reports, only: [] do
             collection do
               get :agent
