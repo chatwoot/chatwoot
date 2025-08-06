@@ -282,5 +282,51 @@ describe Twilio::IncomingMessageService do
         expect(message.attachments.first.file_type).to eq('location')
       end
     end
+
+    context 'when ProfileName is provided for WhatsApp' do
+      it 'uses ProfileName as contact name' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello with profile name',
+          ProfileName: 'John Doe'
+        }
+
+        described_class.new(params: params).perform
+        contact = twilio_channel.inbox.contacts.find_by(phone_number: '+1234567890')
+        expect(contact.name).to eq('John Doe')
+      end
+
+      it 'falls back to formatted phone number when ProfileName is blank' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello without profile name',
+          ProfileName: ''
+        }
+
+        described_class.new(params: params).perform
+        contact = twilio_channel.inbox.contacts.find_by(phone_number: '+1234567890')
+        expect(contact.name).to eq('1234567890')
+      end
+
+      it 'uses formatted phone number when ProfileName is not provided' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Regular SMS message'
+        }
+
+        described_class.new(params: params).perform
+        contact = twilio_channel.inbox.contacts.find_by(phone_number: '+1234567890')
+        expect(contact.name).to eq('1234567890')
+      end
+    end
   end
 end

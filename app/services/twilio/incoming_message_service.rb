@@ -88,10 +88,14 @@ class Twilio::IncomingMessageService
 
   def contact_attributes
     {
-      name: formatted_phone_number,
+      name: contact_name,
       phone_number: phone_number,
       additional_attributes: additional_attributes
     }
+  end
+
+  def contact_name
+    params[:ProfileName].presence || formatted_phone_number
   end
 
   def additional_attributes
