@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Thumbnail from '../Thumbnail.vue';
@@ -43,7 +43,6 @@ const emit = defineEmits([
   'deSelectConversation',
 ]);
 
-const store = useStore();
 const router = useRouter();
 
 const hovered = ref(false);
@@ -57,13 +56,15 @@ const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const activeInbox = useMapGetter('getSelectedInbox');
 const accountId = useMapGetter('getCurrentAccountId');
+const contactById = useMapGetter('contacts/getContact');
+const inboxById = useMapGetter('inboxes/getInbox');
 
 const chatMetadata = computed(() => props.chat.meta || {});
 
 const assignee = computed(() => chatMetadata.value.assignee || {});
 
 const currentContact = computed(() => {
-  return store.getters['contacts/getContact'](chatMetadata.value.sender.id);
+  return contactById.value(chatMetadata.value.sender.id);
 });
 
 const isActiveChat = computed(() => {
@@ -80,7 +81,7 @@ const lastMessageInChat = computed(() => getLastMessage(props.chat));
 
 const inbox = computed(() => {
   const { inbox_id: inboxId } = props.chat;
-  const stateInbox = store.getters['inboxes/getInbox'](inboxId);
+  const stateInbox = inboxById.value(inboxId);
   return stateInbox;
 });
 
