@@ -73,7 +73,9 @@ const displayLink = computed(() => {
   }
   return props.externalLink;
 });
-const linkIcon = computed(() => isPdfDocument.value ? 'i-ph-file-pdf' : 'i-ph-link-simple');
+const linkIcon = computed(() =>
+  isPdfDocument.value ? 'i-ph-file-pdf' : 'i-ph-link-simple'
+);
 
 const handleAction = ({ action, value }) => {
   toggleDropdown(false);

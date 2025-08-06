@@ -2,7 +2,7 @@
 import { reactive, computed, ref, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, url, requiredIf } from '@vuelidate/validators';
+import { required, minLength, requiredIf } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 
@@ -31,14 +31,14 @@ const state = reactive({ ...initialState });
 const fileInputRef = ref(null);
 
 const validationRules = {
-  url: { 
-    required: requiredIf(() => state.documentType === 'url'), 
-    url: requiredIf(() => state.documentType === 'url'), 
-    minLength: minLength(1) 
+  url: {
+    required: requiredIf(() => state.documentType === 'url'),
+    url: requiredIf(() => state.documentType === 'url'),
+    minLength: minLength(1),
   },
   assistantId: { required },
-  pdfFile: { 
-    required: requiredIf(() => state.documentType === 'pdf') 
+  pdfFile: {
+    required: requiredIf(() => state.documentType === 'pdf'),
   },
 };
 
@@ -67,7 +67,7 @@ const formErrors = computed(() => ({
 
 const handleCancel = () => emit('cancel');
 
-const handleFileChange = (event) => {
+const handleFileChange = event => {
   const file = event.target.files[0];
   if (file) {
     if (file.type !== 'application/pdf') {
@@ -75,7 +75,8 @@ const handleFileChange = (event) => {
       event.target.value = '';
       return;
     }
-    if (file.size > 512 * 1024 * 1024) { // 512MB
+    if (file.size > 20 * 1024 * 1024) {
+      // 20MB
       useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.TOO_LARGE'));
       event.target.value = '';
       return;
@@ -97,16 +98,19 @@ const openFileDialog = () => {
 const prepareDocumentDetails = () => {
   const formData = new FormData();
   formData.append('document[assistant_id]', state.assistantId);
-  
+
   if (state.documentType === 'url') {
     formData.append('document[external_link]', state.url);
     formData.append('document[name]', state.name || state.url);
   } else {
     formData.append('document[pdf_file]', state.pdfFile);
-    formData.append('document[name]', state.name || state.pdfFile.name);
+    formData.append(
+      'document[name]',
+      state.name || state.pdfFile.name.replace('.pdf', '')
+    );
     // No need to send external_link for PDF - it's auto-generated in the backend
   }
-  
+
   return formData;
 };
 
@@ -129,22 +133,26 @@ const handleSubmit = async () => {
       <div class="grid grid-cols-2 gap-3 p-1 bg-n-slate-3 rounded-lg">
         <button
           type="button"
-          @click="state.documentType = 'url'"
           class="relative flex items-center justify-center gap-2 px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-200"
-          :class="state.documentType === 'url' 
-            ? 'bg-n-white text-n-slate-12 shadow-sm' 
-            : 'text-n-slate-11 hover:text-n-slate-12'"
+          :class="
+            state.documentType === 'url'
+              ? 'bg-n-white text-n-slate-12 shadow-sm'
+              : 'text-n-slate-11 hover:text-n-slate-12'
+          "
+          @click="state.documentType = 'url'"
         >
           <i class="i-ph-link-simple text-base" />
           <span>{{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.URL') }}</span>
         </button>
         <button
           type="button"
-          @click="state.documentType = 'pdf'"
           class="relative flex items-center justify-center gap-2 px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-200"
-          :class="state.documentType === 'pdf' 
-            ? 'bg-n-white text-n-slate-12 shadow-sm' 
-            : 'text-n-slate-11 hover:text-n-slate-12'"
+          :class="
+            state.documentType === 'pdf'
+              ? 'bg-n-white text-n-slate-12 shadow-sm'
+              : 'text-n-slate-11 hover:text-n-slate-12'
+          "
+          @click="state.documentType = 'pdf'"
         >
           <i class="i-ph-file-pdf text-base" />
           <span>{{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.PDF') }}</span>
@@ -175,19 +183,29 @@ const handleSubmit = async () => {
         />
         <button
           type="button"
-          @click="openFileDialog"
           class="flex items-center gap-3 px-4 py-3 border border-n-slate-6 rounded-lg cursor-pointer hover:border-n-slate-8 transition-colors w-full text-left"
           :class="state.pdfFile ? 'bg-n-slate-2' : 'bg-n-white'"
+          @click="openFileDialog"
         >
-          <div class="flex items-center justify-center w-10 h-10 bg-n-slate-3 rounded-lg">
+          <div
+            class="flex items-center justify-center w-10 h-10 bg-n-slate-3 rounded-lg"
+          >
             <i class="i-ph-file-pdf text-xl text-n-slate-11" />
           </div>
           <div class="flex-1">
             <p class="text-sm font-medium text-n-slate-12">
-              {{ state.pdfFile ? state.pdfFile.name : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.CHOOSE_FILE') }}
+              {{
+                state.pdfFile
+                  ? state.pdfFile.name
+                  : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.CHOOSE_FILE')
+              }}
             </p>
             <p class="text-xs text-n-slate-11">
-              {{ state.pdfFile ? `${(state.pdfFile.size / 1024 / 1024).toFixed(2)} MB` : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.HELP_TEXT') }}
+              {{
+                state.pdfFile
+                  ? `${(state.pdfFile.size / 1024 / 1024).toFixed(2)} MB`
+                  : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.HELP_TEXT')
+              }}
             </p>
           </div>
           <i class="i-lucide-upload text-n-slate-11" />
