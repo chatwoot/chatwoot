@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Avatar from 'next/avatar/Avatar.vue';
@@ -44,6 +44,7 @@ const emit = defineEmits([
 ]);
 
 const router = useRouter();
+const store = useStore();
 
 const hovered = ref(false);
 const showContextMenu = ref(false);
@@ -56,15 +57,17 @@ const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const activeInbox = useMapGetter('getSelectedInbox');
 const accountId = useMapGetter('getCurrentAccountId');
-const contactById = useMapGetter('contacts/getContact');
-const inboxById = useMapGetter('inboxes/getInbox');
 
 const chatMetadata = computed(() => props.chat.meta || {});
 
 const assignee = computed(() => chatMetadata.value.assignee || {});
 
+const senderId = computed(() => chatMetadata.value.sender?.id);
+
 const currentContact = computed(() => {
-  return contactById.value(chatMetadata.value.sender.id);
+  return senderId.value
+    ? store.getters['contacts/getContact'](senderId.value)
+    : {};
 });
 
 const isActiveChat = computed(() => {
@@ -79,10 +82,10 @@ const isInboxNameVisible = computed(() => !activeInbox.value);
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 
+const inboxId = computed(() => props.chat.inbox_id);
+
 const inbox = computed(() => {
-  const { inbox_id: inboxId } = props.chat;
-  const stateInbox = inboxById.value(inboxId);
-  return stateInbox;
+  return inboxId.value ? store.getters['inboxes/getInbox'](inboxId.value) : {};
 });
 
 const showInboxName = computed(() => {

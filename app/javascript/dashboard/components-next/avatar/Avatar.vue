@@ -75,11 +75,11 @@ const AVATAR_COLORS = {
   default: { bg: '#E8E8E8', text: '#60646C' },
 };
 
-const STATUS_CLASSES = {
+const STATUS_CLASSES = computed(() => ({
   online: 'bg-n-teal-10',
   busy: 'bg-n-amber-10',
   ...(props.hideOfflineStatus ? {} : { offline: 'bg-n-slate-10' }),
-};
+}));
 
 const showDefaultAvatar = computed(() => !props.src && !props.name);
 
