@@ -35,18 +35,7 @@ class ChatscommerceService::ConfigurationService
 
   def create_configuration(store_id, config_key, config_data)
     # Get the configuration data from the API
-    response = self.class.get(
-      "#{chatscommerce_api_url}/api/configurations/",
-      query: { key: config_key, store_id: store_id },
-      headers: self.class.headers
-    )
-
-    # The API returns { "configuration": { "data": {...} } } so we extract the inner data hash
-    existing_config_data = if response.success? && response.parsed_response['configuration']
-                             response.parsed_response['configuration']['data'] || {}
-                           else
-                             {}
-                           end
+    existing_config_data = get_configuration(store_id, config_key)
 
     # Merge with the new config data to perform an upsert
     data_to_save = existing_config_data.merge(config_data)
@@ -67,6 +56,18 @@ class ChatscommerceService::ConfigurationService
     handle_response(response)
 
     response.parsed_response
+  end
+
+  def get_configuration(store_id, config_key)
+    response = self.class.get(
+      "#{chatscommerce_api_url}/api/configurations/",
+      query: { key: config_key, store_id: store_id },
+      headers: self.class.headers
+    )
+
+    handle_response(response)
+
+    response.parsed_response['configuration']['data']
   end
 
   private

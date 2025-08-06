@@ -128,6 +128,29 @@ class Message < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
+  after_create_commit :trigger_notification_forwarding
+  after_create_commit :debug_callback_triggered
+  after_create_commit :debug_all_messages
+
+  def debug_callback
+    Rails.logger.info "=== CALLBACK DEBUG ==="
+    Rails.logger.info "Message created: #{id}, content: #{content}"
+    Rails.logger.info "Private: #{private?}, Outgoing: #{outgoing?}"
+  end
+
+  def debug_callback_triggered
+    Rails.logger.info "=== CALLBACK TRIGGERED ==="
+    Rails.logger.info "trigger_notification_forwarding callback called for message #{id}"
+  end
+
+  def debug_all_messages
+    Rails.logger.info "=== MESSAGE CREATED DEBUG ==="
+    Rails.logger.info "Message ID: #{id}"
+    Rails.logger.info "Content: #{content}"
+    Rails.logger.info "Private: #{private?}"
+    Rails.logger.info "Outgoing: #{outgoing?}"
+    Rails.logger.info "Message Type: #{message_type}"
+  end
 
   after_update_commit :dispatch_update_event
 
@@ -418,6 +441,25 @@ class Message < ApplicationRecord
   def ai_feedback_agent_id
     ai_feedback&.dig('agent_id')
   end
+
+
+  # Notification forward helpere methods
+  def trigger_notification_forwarding
+    return unless private? && outgoing? && notification_format?
+    
+    begin
+      service = ::ForwardNotificationService.new(self)
+      service.send_notification
+    rescue => e
+      Rails.logger.error "Error in trigger_notification_forwarding: #{e.message}"
+    end
+  end
+  
+  def notification_format?
+    content.match?(/^\[[^\]]+\]\s+.+/)
+  end
+
 end
+
 
 Message.prepend_mod_with('Message')
