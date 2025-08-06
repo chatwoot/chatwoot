@@ -118,6 +118,7 @@ Rails.application.routes.draw do
             member do
               get 'whatsapp/qr', to: 'inboxes#whatsapp_qr'
               get 'whatsapp/status', to: 'inboxes#whatsapp_status'
+              post 'whatsapp/restart', to: 'inboxes#whatsapp_restart_session'
             end
           end
 

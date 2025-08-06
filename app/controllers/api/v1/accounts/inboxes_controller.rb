@@ -91,8 +91,18 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     Rails.logger.info "🔍 DEBUG: WhatsApp status request for inbox #{@inbox.id}, channel: #{@channel.class.name}"
     Rails.logger.info "🔍 DEBUG: Channel phone: #{@channel.phone_number if @channel.respond_to?(:phone_number)}"
 
+    # Check if this is a real-time status request (no cache)
+    force_real_time = params[:real_time] == 'true'
+
     begin
-      status = @channel.session_status
+      status = if force_real_time && @channel.respond_to?(:real_time_status)
+                 Rails.logger.info "🔍 DEBUG: Using real-time status check"
+                 @channel.real_time_status
+               else
+                 Rails.logger.info "🔍 DEBUG: Using cached status check"
+                 @channel.session_status
+               end
+      
       Rails.logger.info "🔍 DEBUG: Got status from channel: #{status}"
       
       result = build_status_response(status)
@@ -105,6 +115,57 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     end
   end
 
+  def whatsapp_restart_session
+    @channel = @inbox.channel
+    
+    Rails.logger.info "🔄 WhatsApp restart session request for inbox #{@inbox.id}"
+    Rails.logger.info "🔍 Channel class: #{@channel.class.name}"
+    Rails.logger.info "🔍 Channel responds to restart_session_for_rescan? #{@channel.respond_to?(:restart_session_for_rescan)}"
+
+    begin
+      if @channel.respond_to?(:restart_session_for_rescan)
+        Rails.logger.info "🔄 Calling restart_session_for_rescan method..."
+        
+        result = @channel.restart_session_for_rescan
+        
+        Rails.logger.info "🔍 Restart session result: #{result.inspect}"
+        Rails.logger.info "🔍 Result success value: #{result[:success].inspect}"
+        Rails.logger.info "🔍 Result success class: #{result[:success].class}"
+        
+        if result[:success]
+          Rails.logger.info "✅ Restart session SUCCESS - rendering success response"
+          render json: {
+            success: true,
+            message: result[:message],
+            status: result[:status]
+          }
+        else
+          Rails.logger.error "❌ Restart session FAILED - rendering error response"
+          Rails.logger.error "❌ Result message: #{result[:message]}"
+          Rails.logger.error "❌ Result error: #{result[:error]}"
+          render json: {
+            success: false,
+            message: result[:message],
+            error: result[:error]
+          }, status: :unprocessable_entity
+        end
+      else
+        Rails.logger.error "❌ Channel does not respond to restart_session_for_rescan"
+        render json: {
+          success: false,
+          message: 'Restart session not supported for this channel type'
+        }, status: :unprocessable_entity
+      end
+    rescue StandardError => e
+      Rails.logger.error "❌ WhatsApp restart session error: #{e.message}"
+      Rails.logger.error "❌ Error backtrace: #{e.backtrace&.first(5)&.join("\n")}"
+      render json: {
+        success: false,
+        message: "Failed to restart session: #{e.message}"
+      }, status: :internal_server_error
+    end
+  end
+
   private
 
   def fetch_inbox
@@ -113,7 +174,55 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def fetch_agent_bot
-    @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
+    @agent_bot = @inbox.agent_bot
+  end
+
+  def build_status_response(status)
+    waha_status = map_to_waha_status(status)
+    
+    # Get attempts info if this is a WhatsApp Unofficial channel
+    attempts_info = {}
+    if @channel.respond_to?(:read_mismatch_attempts_from_cache)
+      current_attempts = @channel.read_mismatch_attempts_from_cache
+      if current_attempts > 0
+        attempts_info = {
+          current_attempts: current_attempts,
+          max_attempts: 3,
+          remaining_attempts: 3 - current_attempts
+        }
+      end
+    end
+    
+    base_response = {
+      success: true,
+      message: 'session info fetched successfully',
+      connected: waha_status == 'logged_in',
+      status: waha_status,
+      data: {
+        status: waha_status,
+        connected: waha_status == 'logged_in'
+      }
+    }
+    
+    # Add attempts info if available
+    if attempts_info.any?
+      base_response[:attempts] = attempts_info
+      base_response[:data][:attempts] = attempts_info
+    end
+    
+    base_response
+  end
+
+  def error_status_response(error_message)
+    {
+      success: false,
+      connected: false,
+      message: error_message,
+      data: {
+        status: 'not_logged_in',
+        connected: false
+      }
+    }
   end
 
   def create_channel
@@ -165,31 +274,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name]
   end
 
-  def build_status_response(status)
-    waha_status = map_to_waha_status(status)
-    
-    {
-      success: true,
-      message: 'session info fetched successfully',
-      data: {
-        status: waha_status,
-        connected: waha_status == 'logged_in'
-      }
-    }
-  end
-
-  def error_status_response(error_message)
-    {
-      success: false,
-      connected: false,
-      message: error_message,
-      data: {
-        status: 'not_logged_in',
-        connected: false
-      }
-    }
-  end
-
   def map_to_waha_status(status)
     actual_status = status.dig('data', 'status')
     Rails.logger.info "🔍 DEBUG: Mapping status - input: #{status}, extracted: #{actual_status}"
@@ -197,6 +281,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     result = case actual_status&.downcase
              when 'connected', 'authenticated', 'ready', 'logged_in'
                'logged_in'
+             when 'pending_validation', 'waiting'
+               'pending_validation'
+             when 'waiting_for_qr'
+               'waiting_for_qr'
+             when 'disconnected', 'not_logged_in'
+               'not_logged_in'
              else
                'not_logged_in'
              end

@@ -18,6 +18,7 @@ import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
+import WhatsAppStatus from 'dashboard/components/widgets/WhatsAppStatus.vue';
 
 export default {
   components: {
@@ -34,6 +35,7 @@ export default {
     SenderNameExamplePreview,
     MicrosoftReauthorize,
     GoogleReauthorize,
+    WhatsAppStatus,
   },
   mixins: [inboxMixin],
   setup() {
@@ -150,6 +152,18 @@ export default {
           },
         ];
       }
+
+      // Add WhatsApp Status tab for WhatsApp Unofficial channels
+      if (this.isAWhatsAppUnofficialChannel) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'whatsapp_status',
+            name: 'Status WhatsApp',
+          },
+        ];
+      }
+
       return visibleToAllChannelTabs;
     },
     currentInboxId() {
@@ -349,6 +363,22 @@ export default {
           this.$refs.businessNameInput.focus();
         });
       }
+    },
+    onWhatsAppStatusChanged(statusData) {
+      // console.log('WhatsApp status changed:', statusData);
+      // Handle status change if needed
+    },
+    onWhatsAppStatusError(error) {
+      console.error('WhatsApp status error:', error);
+      useAlert('Gagal memeriksa status WhatsApp');
+    },
+    onWhatsAppSessionRestarted(data) {
+      // console.log('WhatsApp session restarted:', data);
+      useAlert('Session WhatsApp berhasil direstart');
+    },
+    onWhatsAppRestartError(error) {
+      console.error('WhatsApp restart error:', error);
+      useAlert('Gagal restart session WhatsApp');
     },
   },
   validations: {
@@ -782,6 +812,22 @@ export default {
     </div>
     <div v-if="selectedTabKey === 'botConfiguration'">
       <BotConfiguration :inbox="inbox" />
+    </div>
+    <div v-if="selectedTabKey === 'whatsapp_status'">
+      <div class="p-8">
+        <!-- WhatsApp Status Widget -->
+        <WhatsAppStatus
+          v-if="inbox"
+          :inbox-id="inbox.id"
+          :account-id="accountId"
+          :auto-refresh="true"
+          :refresh-interval="10000"
+          @status-changed="onWhatsAppStatusChanged"
+          @status-error="onWhatsAppStatusError"
+          @session-restarted="onWhatsAppSessionRestarted"
+          @restart-error="onWhatsAppRestartError"
+        />
+      </div>
     </div>
   </div>
 </template>

@@ -16,8 +16,13 @@ class WhatsAppUnofficialChannels extends ApiClient {
     return axios.get(`${this.baseUrl()}/inboxes/${inboxId}/whatsapp/qr`);
   }
 
-  getConnectionStatus(inboxId) {
-    return axios.get(`${this.baseUrl()}/inboxes/${inboxId}/whatsapp/status`);
+  getConnectionStatus(inboxId, realTime = false) {
+    const params = realTime ? { real_time: 'true' } : {};
+    return axios.get(`${this.baseUrl()}/inboxes/${inboxId}/whatsapp/status`, { params });
+  }
+
+  restartSession(inboxId) {
+    return axios.post(`${this.baseUrl()}/inboxes/${inboxId}/whatsapp/restart`);
   }
 }
 

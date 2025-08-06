@@ -4,11 +4,13 @@ export const INBOX_TYPES = {
   TWITTER: 'Channel::TwitterProfile',
   TWILIO: 'Channel::TwilioSms',
   WHATSAPP: 'Channel::Whatsapp',
+  WHATSAPP_UNOFFICIAL: 'Channel::WhatsappUnofficial',
   API: 'Channel::Api',
   EMAIL: 'Channel::Email',
   TELEGRAM: 'Channel::Telegram',
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
+  INSTAGRAM: 'Channel::Instagram',
 };
 
 const INBOX_ICON_MAP_FILL = {
@@ -16,10 +18,12 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.FB]: 'i-ri-messenger-fill',
   [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-fill',
   [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp-fill',
+  [INBOX_TYPES.WHATSAPP_UNOFFICIAL]: 'i-ri-whatsapp-fill',
   [INBOX_TYPES.API]: 'i-ri-cloudy-fill',
   [INBOX_TYPES.EMAIL]: 'i-ri-mail-fill',
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
+  [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -29,10 +33,12 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.FB]: 'i-ri-messenger-line',
   [INBOX_TYPES.TWITTER]: 'i-ri-twitter-x-line',
   [INBOX_TYPES.WHATSAPP]: 'i-ri-whatsapp-line',
+  [INBOX_TYPES.WHATSAPP_UNOFFICIAL]: 'i-ri-whatsapp-line',
   [INBOX_TYPES.API]: 'i-ri-cloudy-line',
   [INBOX_TYPES.EMAIL]: 'i-ri-mail-line',
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-line',
   [INBOX_TYPES.LINE]: 'i-ri-line-line',
+  [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-line',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -44,10 +50,14 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
 
     case INBOX_TYPES.TWILIO:
     case INBOX_TYPES.WHATSAPP:
+    case INBOX_TYPES.WHATSAPP_UNOFFICIAL:
       return phoneNumber || '';
 
     case INBOX_TYPES.EMAIL:
       return inbox.email || '';
+
+    case INBOX_TYPES.INSTAGRAM:
+      return inbox.instagram_id || '';
 
     default:
       return '';
@@ -68,6 +78,7 @@ export const getReadableInboxByType = (type, phoneNumber) => {
       return phoneNumber?.startsWith('whatsapp') ? 'whatsapp' : 'sms';
 
     case INBOX_TYPES.WHATSAPP:
+    case INBOX_TYPES.WHATSAPP_UNOFFICIAL:
       return 'whatsapp';
 
     case INBOX_TYPES.API:
@@ -81,6 +92,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
+
+    case INBOX_TYPES.INSTAGRAM:
+      return 'instagram';
 
     default:
       return 'chat';
@@ -104,6 +118,7 @@ export const getInboxClassByType = (type, phoneNumber) => {
         : 'brand-sms';
 
     case INBOX_TYPES.WHATSAPP:
+    case INBOX_TYPES.WHATSAPP_UNOFFICIAL:
       return 'brand-whatsapp';
 
     case INBOX_TYPES.API:
@@ -117,6 +132,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'brand-line';
+
+    case INBOX_TYPES.INSTAGRAM:
+      return 'brand-instagram';
 
     default:
       return 'chat';

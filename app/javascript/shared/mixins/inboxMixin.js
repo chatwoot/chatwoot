@@ -118,8 +118,12 @@ export default {
     isAWhatsAppChannel() {
       return (
         this.channelType === INBOX_TYPES.WHATSAPP ||
+        this.channelType === INBOX_TYPES.WHATSAPP_UNOFFICIAL ||
         this.isATwilioWhatsAppChannel
       );
+    },
+    isAWhatsAppUnofficialChannel() {
+      return this.channelType === INBOX_TYPES.WHATSAPP_UNOFFICIAL;
     },
   },
   methods: {
