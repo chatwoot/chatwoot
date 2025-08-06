@@ -966,4 +966,168 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe 'notification forwarding' do
+    let!(:account) { create(:account, custom_attributes: { 'store_id' => 'test_store_123' }) }
+    let!(:user) { create(:user, account: account) }
+    let!(:inbox) { create(:inbox, account: account) }
+    let!(:conversation) { create(:conversation, account: account, inbox: inbox) }
+    let(:forward_service_double) { instance_double(ForwardNotificationService) }
+
+    before do
+      # Mock the global namespace version that the callback uses
+      allow(::ForwardNotificationService).to receive(:new).and_return(forward_service_double)
+      allow(forward_service_double).to receive(:send_notification)
+    end
+
+    describe '#notification_format?' do
+      context 'when message matches notification format' do
+        it 'returns true for valid notification format' do
+          message = build(:message, content: '[urgent] This is urgent', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be true
+        end
+
+        it 'returns true for different notification types' do
+          message = build(:message, content: '[alert] System alert', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be true
+        end
+
+        it 'returns true for notification with spaces in type' do
+          message = build(:message, content: '[system alert] Important message', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be true
+        end
+      end
+
+      context 'when message does not match notification format' do
+        it 'returns false for regular messages' do
+          message = build(:message, content: 'This is a regular message', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be false
+        end
+
+        it 'returns false for malformed notification format' do
+          message = build(:message, content: '[incomplete notification', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be false
+        end
+
+        it 'returns false for empty brackets' do
+          message = build(:message, content: '[]: Empty brackets', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be false
+        end
+      end
+    end
+
+    describe '#trigger_notification_forwarding' do
+      context 'when all conditions are met' do
+        let(:notification_message) do
+          create(:message,
+                 content: '[test] This is a test notification',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'outgoing',
+                 private: true,
+                 sender: user)
+        end
+
+        it 'creates and calls ForwardNotificationService' do
+          notification_message # trigger the callback
+
+          expect(::ForwardNotificationService).to have_received(:new).with(notification_message)
+          expect(forward_service_double).to have_received(:send_notification)
+        end
+      end
+
+      context 'when message is not private' do
+        let(:public_message) do
+          create(:message,
+                 content: '[test] This is a test notification',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'outgoing',
+                 private: false,
+                 sender: user)
+        end
+
+        it 'does not trigger forwarding service' do
+          public_message # trigger the callback
+
+          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(forward_service_double).not_to have_received(:send_notification)
+        end
+      end
+
+      context 'when message is not outgoing' do
+        let(:incoming_message) do
+          create(:message,
+                 content: '[test] This is a test notification',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'incoming',
+                 private: true)
+        end
+
+        it 'does not trigger forwarding service' do
+          incoming_message # trigger the callback
+
+          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(forward_service_double).not_to have_received(:send_notification)
+        end
+      end
+
+      context 'when message does not match notification format' do
+        let(:regular_message) do
+          create(:message,
+                 content: 'This is a regular private message',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'outgoing',
+                 private: true,
+                 sender: user)
+        end
+
+        it 'does not trigger forwarding service' do
+          regular_message # trigger the callback
+
+          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(forward_service_double).not_to have_received(:send_notification)
+        end
+      end
+
+      context 'when ForwardNotificationService raises an error' do
+        before do
+          allow(forward_service_double).to receive(:send_notification).and_raise(StandardError, 'Service error')
+          allow(Rails.logger).to receive(:error)
+        end
+
+        let(:error_message) do
+          create(:message,
+                 content: '[test] This will cause an error',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'outgoing',
+                 private: true,
+                 sender: user)
+        end
+
+        it 'logs the error and does not re-raise' do
+          expect { error_message }.not_to raise_error
+
+          expect(Rails.logger).to have_received(:error).with('Error in trigger_notification_forwarding: Service error')
+        end
+      end
+    end
+
+    describe 'after_create_commit callbacks' do
+      it 'includes trigger_notification_forwarding callback' do
+        expect(Message._commit_callbacks.select { |cb| cb.filter == :trigger_notification_forwarding }).not_to be_empty
+      end
+
+      it 'triggers callback after message creation' do
+        allow_any_instance_of(Message).to receive(:trigger_notification_forwarding)
+
+        message = create(:message, conversation: conversation, account: account)
+
+        expect(message).to have_received(:trigger_notification_forwarding)
+      end
+    end
+  end
 end
