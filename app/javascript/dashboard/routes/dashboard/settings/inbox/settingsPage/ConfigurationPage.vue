@@ -32,6 +32,7 @@ export default {
       hmacMandatory: false,
       whatsAppInboxAPIKey: '',
       isRequestingReauthorization: false,
+      isSyncingTemplates: false,
     };
   },
   validations: {
@@ -97,6 +98,19 @@ export default {
     async handleReconfigure() {
       if (this.$refs.whatsappReauth) {
         await this.$refs.whatsappReauth.requestAuthorization();
+      }
+    },
+    async syncTemplates() {
+      this.isSyncingTemplates = true;
+      try {
+        await this.$store.dispatch('inboxes/syncTemplates', this.inbox.id);
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUCCESS')
+        );
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      } finally {
+        this.isSyncingTemplates = false;
       }
     },
   },
@@ -211,7 +225,7 @@ export default {
     <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
-    <div v-if="inbox.provider_config" class="mx-8">
+      <div v-if="inbox.provider_config" class="mx-8">
       <!-- Embedded Signup Section -->
       <template v-if="isEmbeddedSignupWhatsApp">
         <SettingsSection
@@ -287,8 +301,7 @@ export default {
         </SettingsSection>
       </template>
     </div>
-
-    <WhatsappReauthorize
+  <WhatsappReauthorize
       v-if="isEmbeddedSignupWhatsApp"
       ref="whatsappReauth"
       :inbox="inbox"

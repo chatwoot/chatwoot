@@ -600,6 +600,10 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook検証トークン",
       "WHATSAPP_WEBHOOK_SUBHEADER": "このトークンはWebhookエンドポイントの信頼性を検証するために使用されます。",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "プレチャットフォーム設定を更新する"
     },
     "HELP_CENTER": {

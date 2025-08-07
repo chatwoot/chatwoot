@@ -548,4 +548,69 @@ RSpec.describe Message do
       expect(presenter).to have_received(:outgoing_content)
     end
   end
+
+  describe '#auto_reply_email?' do
+    context 'when message is not an incoming email and inbox is not email' do
+      let(:conversation) { create(:conversation) }
+      let(:message) { create(:message, conversation: conversation, message_type: :outgoing) }
+
+      it 'returns false' do
+        expect(message.auto_reply_email?).to be false
+      end
+    end
+
+    context 'when message is an incoming email' do
+      let(:email_channel) { create(:channel_email) }
+      let(:email_inbox) { create(:inbox, channel: email_channel) }
+      let(:conversation) { create(:conversation, inbox: email_inbox) }
+
+      it 'returns false when auto_reply is not set to true' do
+        message = create(
+          :message,
+          conversation: conversation,
+          message_type: :incoming,
+          content_type: 'incoming_email',
+          content_attributes: {}
+        )
+        expect(message.auto_reply_email?).to be false
+      end
+
+      it 'returns true when auto_reply is set to true' do
+        message = create(
+          :message,
+          conversation: conversation,
+          message_type: :incoming,
+          content_type: 'incoming_email',
+          content_attributes: { email: { auto_reply: true } }
+        )
+        expect(message.auto_reply_email?).to be true
+      end
+    end
+
+    context 'when inbox is email' do
+      let(:email_channel) { create(:channel_email) }
+      let(:email_inbox) { create(:inbox, channel: email_channel) }
+      let(:conversation) { create(:conversation, inbox: email_inbox) }
+
+      it 'returns false when auto_reply is not set to true' do
+        message = create(
+          :message,
+          conversation: conversation,
+          message_type: :outgoing,
+          content_attributes: {}
+        )
+        expect(message.auto_reply_email?).to be false
+      end
+
+      it 'returns true when auto_reply is set to true' do
+        message = create(
+          :message,
+          conversation: conversation,
+          message_type: :outgoing,
+          content_attributes: { email: { auto_reply: true } }
+        )
+        expect(message.auto_reply_email?).to be true
+      end
+    end
+  end
 end

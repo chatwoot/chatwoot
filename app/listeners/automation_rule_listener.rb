@@ -17,7 +17,7 @@ class AutomationRuleListener < BaseListener
   end
 
   def conversation_created(event)
-    return if performed_by_automation?(event)
+    return if performed_by_automation?(event) || ignore_auto_reply_event?(event)
 
     conversation = event.data[:conversation]
     account = conversation.account
@@ -34,7 +34,7 @@ class AutomationRuleListener < BaseListener
   end
 
   def conversation_opened(event)
-    return if performed_by_automation?(event)
+    return if performed_by_automation?(event) || ignore_auto_reply_event?(event)
 
     conversation = event.data[:conversation]
     account = conversation.account
@@ -87,8 +87,13 @@ class AutomationRuleListener < BaseListener
     event.data[:performed_by].present? && event.data[:performed_by].instance_of?(AutomationRule)
   end
 
+  def ignore_auto_reply_event?(event)
+    conversation = event.data[:conversation]
+    conversation.additional_attributes['auto_reply'].present?
+  end
+
   def ignore_message_created_event?(event)
     message = event.data[:message]
-    performed_by_automation?(event) || message.activity?
+    performed_by_automation?(event) || message.activity? || message.auto_reply_email?
   end
 end

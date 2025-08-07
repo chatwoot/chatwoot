@@ -195,6 +195,12 @@ class Message < ApplicationRecord
     true
   end
 
+  def auto_reply_email?
+    return false unless incoming_email? || inbox.email?
+
+    content_attributes.dig(:email, :auto_reply) == true
+  end
+
   def valid_first_reply?
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
