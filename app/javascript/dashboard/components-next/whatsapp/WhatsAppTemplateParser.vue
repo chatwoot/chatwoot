@@ -53,13 +53,9 @@ const bodyText = computed(() => {
   return bodyComponent.value?.text || '';
 });
 
-const hasMediaHeader = computed(() => {
-  return (
-    headerComponent.value &&
-    headerComponent.value.format &&
-    ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.value.format)
-  );
-});
+const hasMediaHeader = computed(() =>
+  ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.value?.format)
+);
 
 const formatType = computed(() => {
   const format = headerComponent.value?.format;
