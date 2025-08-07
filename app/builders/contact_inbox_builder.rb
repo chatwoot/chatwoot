@@ -5,8 +5,18 @@ class ContactInboxBuilder
   pattr_initialize [:contact, :inbox, :source_id, { hmac_verified: false }]
 
   def perform
+    Rails.logger.info "[ContactInboxBuilder] Starting contact_inbox creation - contact_id: #{@contact.id}, inbox_id: #{@inbox.id}, provided_source_id: #{@source_id}"
+
     @source_id ||= generate_source_id
-    create_contact_inbox if source_id.present?
+    Rails.logger.debug { "[ContactInboxBuilder] Using source_id: #{@source_id}" }
+
+    result = create_contact_inbox if source_id.present?
+
+    Rails.logger.info "[ContactInboxBuilder] Contact_inbox creation completed - id: #{result&.id}, source_id: #{@source_id}"
+    result
+  rescue StandardError => e
+    Rails.logger.error "[ContactInboxBuilder] Failed to create contact_inbox - error: #{e.message}, backtrace: #{e.backtrace.first(3).join(', ')}"
+    raise e
   end
 
   private
@@ -65,11 +75,19 @@ class ContactInboxBuilder
       source_id: @source_id
     }
 
-    ::ContactInbox.where(attrs).first_or_create!(hmac_verified: hmac_verified || false)
-  rescue ActiveRecord::RecordNotUnique
-    Rails.logger.info("[ContactInboxBuilder] RecordNotUnique #{@source_id} #{@contact.id} #{@inbox.id}")
+    Rails.logger.debug { "[ContactInboxBuilder] Creating contact_inbox with attrs: #{attrs.inspect}" }
+
+    contact_inbox = ::ContactInbox.where(attrs).first_or_create!(hmac_verified: hmac_verified || false)
+
+    Rails.logger.info "[ContactInboxBuilder] Contact_inbox #{contact_inbox.persisted? ? 'found existing' : 'created new'} - id: #{contact_inbox.id}"
+    contact_inbox
+  rescue ActiveRecord::RecordNotUnique => e
+    Rails.logger.warn "[ContactInboxBuilder] RecordNotUnique detected - source_id: #{@source_id}, contact_id: #{@contact.id}, inbox_id: #{@inbox.id}, error: #{e.message}"
     update_old_contact_inbox
     retry
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error "[ContactInboxBuilder] Contact_inbox creation failed - validation errors: #{e.record.errors.full_messages.join(', ')}"
+    raise e
   end
 
   def update_old_contact_inbox

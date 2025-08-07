@@ -7,13 +7,24 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def create
+    Rails.logger.info "[Widget::ConversationsController] Creating new widget conversation - inbox_id: #{permitted_params[:inbox_id]}, contact_email: #{contact_email}, contact_name: #{contact_name}"
+
     ActiveRecord::Base.transaction do
       process_update_contact
+      Rails.logger.info "[Widget::ConversationsController] Contact processed - id: #{@contact.id}, name: '#{@contact.name}'"
+
       @conversation = create_conversation
+      Rails.logger.info "[Widget::ConversationsController] Conversation created - id: #{@conversation.id}, display_id: #{@conversation.display_id}"
+
       conversation.messages.create!(message_params)
       # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
       conversation.reload
     end
+
+    Rails.logger.info "[Widget::ConversationsController] Widget conversation creation completed - conversation_id: #{@conversation.id}"
+  rescue StandardError => e
+    Rails.logger.error "[Widget::ConversationsController] Widget conversation creation failed - error: #{e.message}, backtrace: #{e.backtrace.first(3).join(', ')}"
+    raise e
   end
 
   def process_update_contact

@@ -85,12 +85,25 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def create
+    Rails.logger.info "[ContactsController] Creating new contact - account_id: #{Current.account.id}, params: #{permitted_params.except(:avatar_url,
+                                                                                                                                        :additional_attributes, :custom_attributes).inspect}"
+
     ActiveRecord::Base.transaction do
       @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
       @contact.save!
+      Rails.logger.info "[ContactsController] Contact created successfully - id: #{@contact.id}, name: '#{@contact.name}'"
+
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
     end
+
+    Rails.logger.info "[ContactsController] Contact creation completed - contact_id: #{@contact.id}, contact_inbox_id: #{@contact_inbox&.id}"
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error "[ContactsController] Contact creation failed - validation errors: #{e.record.errors.full_messages.join(', ')}"
+    raise e
+  rescue StandardError => e
+    Rails.logger.error "[ContactsController] Contact creation failed - error: #{e.message}, backtrace: #{e.backtrace.first(3).join(', ')}"
+    raise e
   end
 
   def update
