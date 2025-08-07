@@ -496,6 +496,19 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
       it 'returns unprocessable_entity error' do
         allow(whatsapp_channel).to receive(:reauthorization_required?).and_return(true)
 
+        # Stub the embedded signup service to prevent HTTP calls
+        embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+        allow(Whatsapp::EmbeddedSignupService).to receive(:new).with(
+          account: account,
+          params: {
+            code: 'test',
+            business_id: 'test',
+            waba_id: 'test'
+          },
+          inbox_id: whatsapp_inbox.id
+        ).and_return(embedded_signup_service)
+        allow(embedded_signup_service).to receive(:perform).and_return(whatsapp_channel)
+
         post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
              params: { inbox_id: whatsapp_inbox.id, code: 'test', business_id: 'test', waba_id: 'test' },
              headers: agent.create_new_auth_token,
