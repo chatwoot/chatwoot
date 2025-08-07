@@ -79,8 +79,7 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def provider_config_changed?
-    # Returns true if provider_config has changed or if this is a new record
-    new_record? || saved_change_to_provider_config? || will_save_change_to_provider_config?
+    will_save_change_to_provider_config?
   end
 
   def should_setup_webhooks?

@@ -41,6 +41,8 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   def can_upgrade_to_embedded_signup?
     channel = @inbox.channel
     return false unless channel.provider == 'whatsapp_cloud'
+
+    true
   end
 
   def render_success_response(inbox)
