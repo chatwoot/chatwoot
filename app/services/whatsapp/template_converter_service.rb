@@ -20,13 +20,15 @@ class Whatsapp::TemplateConverterService
     # Early return if already enhanced format
     return @template_params if enhanced_format?(processed_params)
 
+    # Mark as legacy format before conversion for tracking
+    @template_params['format_version'] = 'legacy'
+
     # Convert legacy formats to enhanced structure
     # TODO: Legacy format support will be deprecated and removed after 2-3 releases
     enhanced_params = convert_legacy_to_enhanced(processed_params, @template)
 
     # Replace original params with enhanced structure
     @template_params['processed_params'] = enhanced_params
-    @template_params['format_version'] = 'enhanced'
 
     @template_params
   end
