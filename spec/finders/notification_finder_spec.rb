@@ -89,13 +89,6 @@ RSpec.describe NotificationFinder do
       let(:params) { { includes: %w[read snoozed] } }
 
       it 'adjusts counts based on included statuses' do
-        expect(subject.unread_count).to eq(4)
-        expect(subject.count).to eq(6)
-      end
-
-      it 'properly filters to unread when read notifications are included' do
-        # When 'read' is included in params, @notifications contains both read and unread
-        # unread_count should filter to only unread notifications
         expect(subject.unread_count).to eq(4) # 3 unread + 1 snoozed (which is unread)
         expect(subject.count).to eq(6) # all notifications including read and snoozed
       end
