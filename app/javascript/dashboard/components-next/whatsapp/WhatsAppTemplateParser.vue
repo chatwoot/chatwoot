@@ -13,6 +13,7 @@ import {
   DEFAULT_CATEGORY,
   COMPONENT_TYPES,
   MEDIA_FORMATS,
+  findComponentByType,
 } from 'dashboard/helper/templateHelper';
 
 const props = defineProps({
@@ -42,15 +43,11 @@ const categoryLabel = computed(() => {
 });
 
 const headerComponent = computed(() => {
-  return props.template?.components?.find(
-    component => component.type === COMPONENT_TYPES.HEADER
-  );
+  return findComponentByType(props.template, COMPONENT_TYPES.HEADER);
 });
 
 const bodyComponent = computed(() => {
-  return props.template?.components?.find(
-    component => component.type === COMPONENT_TYPES.BODY
-  );
+  return findComponentByType(props.template, COMPONENT_TYPES.BODY);
 });
 
 const bodyText = computed(() => {

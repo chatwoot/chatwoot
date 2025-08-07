@@ -8,6 +8,9 @@ export const COMPONENT_TYPES = {
 };
 export const MEDIA_FORMATS = ['IMAGE', 'VIDEO', 'DOCUMENT'];
 
+export const findComponentByType = (template, type) =>
+  template.components?.find(component => component.type === type);
+
 export const processVariable = str => {
   return str.replace(/{{|}}/g, '');
 };
@@ -27,12 +30,8 @@ export const replaceTemplateVariables = (templateText, processedParams) => {
 export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
   const allVariables = {};
 
-  const bodyComponent = template.components.find(
-    component => component.type === COMPONENT_TYPES.BODY
-  );
-  const headerComponent = template.components.find(
-    component => component.type === COMPONENT_TYPES.HEADER
-  );
+  const bodyComponent = findComponentByType(template, COMPONENT_TYPES.BODY);
+  const headerComponent = findComponentByType(template, COMPONENT_TYPES.HEADER);
 
   if (!bodyComponent) return allVariables;
 
