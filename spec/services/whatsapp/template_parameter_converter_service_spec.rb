@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Whatsapp::TemplateConverterService do
+describe Whatsapp::TemplateParameterConverterService do
   let(:template) do
     {
       'name' => 'test_template',
@@ -87,7 +87,7 @@ describe Whatsapp::TemplateConverterService do
         expect(result['processed_params']).to eq({
                                                    'body' => { '1' => 'John', '2' => 'Order123' }
                                                  })
-        expect(result['format_version']).to eq('enhanced')
+        expect(result['format_version']).to eq('legacy')
       end
     end
 
@@ -105,7 +105,7 @@ describe Whatsapp::TemplateConverterService do
         expect(result['processed_params']).to eq({
                                                    'body' => { '1' => 'John', '2' => 'Order123' }
                                                  })
-        expect(result['format_version']).to eq('enhanced')
+        expect(result['format_version']).to eq('legacy')
       end
     end
 
@@ -129,7 +129,7 @@ describe Whatsapp::TemplateConverterService do
                                                      'customer_name' => 'John'
                                                    }
                                                  })
-        expect(result['format_version']).to eq('enhanced')
+        expect(result['format_version']).to eq('legacy')
       end
     end
 
