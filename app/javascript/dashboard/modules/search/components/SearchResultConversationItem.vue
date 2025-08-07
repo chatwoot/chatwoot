@@ -102,7 +102,7 @@ const visibleInfoItems = computed(() =>
           >
             <InboxName
               :inbox="inbox"
-              class="mr-2 rtl:mr-0 rtl:ml-2 bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-11 dark:text-n-slate-11"
+              class="mx-2 bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-11 dark:text-n-slate-11"
             />
           </div>
         </div>
