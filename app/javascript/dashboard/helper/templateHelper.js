@@ -1,3 +1,13 @@
+// Constants
+export const DEFAULT_LANGUAGE = 'en';
+export const DEFAULT_CATEGORY = 'UTILITY';
+export const COMPONENT_TYPES = {
+  HEADER: 'HEADER',
+  BODY: 'BODY',
+  BUTTONS: 'BUTTONS',
+};
+export const MEDIA_FORMATS = ['IMAGE', 'VIDEO', 'DOCUMENT'];
+
 export const processVariable = str => {
   return str.replace(/{{|}}/g, '');
 };
@@ -18,10 +28,10 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
   const allVariables = {};
 
   const bodyComponent = template.components.find(
-    component => component.type === 'BODY'
+    component => component.type === COMPONENT_TYPES.BODY
   );
   const headerComponent = template.components.find(
-    component => component.type === 'HEADER'
+    component => component.type === COMPONENT_TYPES.HEADER
   );
 
   if (!bodyComponent) return allVariables;
@@ -46,7 +56,7 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
 
   // Process button variables
   const buttonComponents = template.components.filter(
-    component => component.type === 'BUTTONS'
+    component => component.type === COMPONENT_TYPES.BUTTONS
   );
 
   buttonComponents.forEach(buttonComponent => {

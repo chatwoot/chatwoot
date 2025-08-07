@@ -9,6 +9,10 @@ import {
   buildTemplateParameters,
   allKeysRequired,
   replaceTemplateVariables,
+  DEFAULT_LANGUAGE,
+  DEFAULT_CATEGORY,
+  COMPONENT_TYPES,
+  MEDIA_FORMATS,
 } from 'dashboard/helper/templateHelper';
 
 const props = defineProps({
@@ -30,22 +34,22 @@ const { t } = useI18n();
 const processedParams = ref({});
 
 const languageLabel = computed(() => {
-  return `${t('WHATSAPP_TEMPLATES.PARSER.LANGUAGE')}: ${props.template.language || 'en'}`;
+  return `${t('WHATSAPP_TEMPLATES.PARSER.LANGUAGE')}: ${props.template.language || DEFAULT_LANGUAGE}`;
 });
 
 const categoryLabel = computed(() => {
-  return `${t('WHATSAPP_TEMPLATES.PARSER.CATEGORY')}: ${props.template.category || 'UTILITY'}`;
+  return `${t('WHATSAPP_TEMPLATES.PARSER.CATEGORY')}: ${props.template.category || DEFAULT_CATEGORY}`;
 });
 
 const headerComponent = computed(() => {
   return props.template?.components?.find(
-    component => component.type === 'HEADER'
+    component => component.type === COMPONENT_TYPES.HEADER
   );
 });
 
 const bodyComponent = computed(() => {
   return props.template?.components?.find(
-    component => component.type === 'BODY'
+    component => component.type === COMPONENT_TYPES.BODY
   );
 });
 
@@ -54,7 +58,7 @@ const bodyText = computed(() => {
 });
 
 const hasMediaHeader = computed(() =>
-  ['IMAGE', 'VIDEO', 'DOCUMENT'].includes(headerComponent.value?.format)
+  MEDIA_FORMATS.includes(headerComponent.value?.format)
 );
 
 const formatType = computed(() => {
