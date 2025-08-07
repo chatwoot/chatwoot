@@ -32,7 +32,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:forbidden)
-          expect(response.parsed_body['message']).to eq('WhatsApp embedded signup is not enabled for this account')
+          expect(response.parsed_body['error']).to eq('WhatsApp embedded signup is not enabled for this account')
         end
       end
 
@@ -51,7 +51,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.parsed_body['message']).to include('code')
+          expect(response.parsed_body['error']).to include('code')
         end
 
         it 'returns unprocessable entity when business_id is missing' do
@@ -64,7 +64,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.parsed_body['message']).to include('business_id')
+          expect(response.parsed_body['error']).to include('business_id')
         end
 
         it 'returns unprocessable entity when waba_id is missing' do
@@ -77,7 +77,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.parsed_body['message']).to include('waba_id')
+          expect(response.parsed_body['error']).to include('waba_id')
         end
 
         it 'creates whatsapp channel successfully' do
@@ -192,13 +192,13 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
           expect(response).to have_http_status(:unprocessable_entity)
           response_data = response.parsed_body
           expect(response_data['success']).to be false
-          expect(response_data['message']).to eq('Service error')
+          expect(response_data['error']).to eq('Service error')
         end
 
         it 'logs error when service fails' do
           allow(Whatsapp::EmbeddedSignupService).to receive(:new).and_raise(StandardError, 'Service error')
 
-          expect(Rails.logger).to receive(:error).with(/\[WHATSAPP AUTHORIZATION\] Error: Service error/)
+          expect(Rails.logger).to receive(:error).with(/\[WHATSAPP AUTHORIZATION\] Embedded signup error: Service error/)
           expect(Rails.logger).to receive(:error).with(/authorizations_controller/)
 
           post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
@@ -225,7 +225,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.parsed_body['message']).to eq('Invalid authorization code')
+          expect(response.parsed_body['error']).to eq('Invalid authorization code')
         end
 
         it 'handles channel already exists error' do
@@ -242,7 +242,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
-          expect(response.parsed_body['message']).to eq('Channel already exists')
+          expect(response.parsed_body['error']).to eq('Channel already exists')
         end
       end
 
