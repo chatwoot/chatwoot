@@ -110,7 +110,7 @@ module Billing
         return {} if active_subscriptions.empty?
 
         subscription = active_subscriptions.first
-        product_metadata = StripeMetadataExtractor.extract_product_metadata(subscription, with_logging: false)
+        product_metadata = Billing::StripeMetadataExtractor.extract_product_metadata(subscription, with_logging: false)
         self.class.limits_from_billing_provider_metadata(product_metadata)
       rescue ::Stripe::StripeError => e
         Rails.logger.error "Failed to fetch billing provider subscription metadata: #{e.message}"

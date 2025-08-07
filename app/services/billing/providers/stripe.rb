@@ -534,7 +534,7 @@ module Billing
       def extract_plan_limits_from_subscription(subscription)
         Rails.logger.info '---[EXTRACT PLAN LIMITS - START]---'
 
-        product_metadata = StripeMetadataExtractor.extract_product_metadata(subscription, with_logging: true)
+        product_metadata = Billing::StripeMetadataExtractor.extract_product_metadata(subscription, with_logging: true)
 
         Rails.logger.info "Product metadata received from extract_product_metadata: #{product_metadata.inspect}"
 
