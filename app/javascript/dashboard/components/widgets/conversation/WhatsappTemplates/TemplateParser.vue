@@ -36,7 +36,7 @@ const handleResetTemplate = () => {
       @send-message="handleSendMessage"
       @reset-template="handleResetTemplate"
     >
-      <template #actions="{ sendMessage, resetTemplate }">
+      <template #actions="{ sendMessage, resetTemplate, disabled }">
         <footer class="flex gap-2 justify-end">
           <NextButton
             faded
@@ -48,6 +48,7 @@ const handleResetTemplate = () => {
           <NextButton
             type="button"
             :label="$t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL')"
+            :disabled="disabled"
             @click="sendMessage"
           />
         </footer>

@@ -33,7 +33,7 @@ const handleBack = () => {
         @send-message="handleSendMessage"
         @back="handleBack"
       >
-        <template #actions="{ sendMessage, goBack }">
+        <template #actions="{ sendMessage, goBack, disabled }">
           <div class="flex gap-3 justify-between items-end w-full h-14">
             <Button
               :label="
@@ -53,6 +53,7 @@ const handleBack = () => {
                 )
               "
               class="w-full font-medium"
+              :disabled="disabled"
               @click="sendMessage"
             />
           </div>
