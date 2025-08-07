@@ -563,7 +563,19 @@ const menuItems = computed(() => {
           v-bind="item"
         />
       </ul>
-    </nav>
+      <div class="px-2 mb-2">
+        <a
+          href="https://crm-heycommerce.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8 text-n-slate-11 hover:bg-n-alpha-2
+  cursor-pointer"
+        >
+          <span class="i-lucide-external-link size-4"></span>
+          <span class="text-sm font-medium leading-5">CRM</span>
+        </a>
+      </div>    
+</nav>
     <section
       class="p-1 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
     >
