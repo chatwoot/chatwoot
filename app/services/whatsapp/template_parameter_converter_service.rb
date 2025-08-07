@@ -8,7 +8,7 @@
 # - Component-based: {"body": {"1": "John", "2": "Order123"}} - structured by template components
 # - Supports header, body, footer, and button parameters separately
 #
-class Whatsapp::TemplateConverterService
+class Whatsapp::TemplateParameterConverterService
   def initialize(template_params, template)
     @template_params = template_params
     @template = template

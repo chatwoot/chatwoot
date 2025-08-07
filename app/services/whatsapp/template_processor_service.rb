@@ -29,7 +29,7 @@ class Whatsapp::TemplateProcessorService
     return if template.blank?
 
     # Convert legacy format to enhanced format before processing
-    converter = Whatsapp::TemplateConverterService.new(template_params, template)
+    converter = Whatsapp::TemplateParameterConverterService.new(template_params, template)
     normalized_params = converter.normalize_to_enhanced
 
     process_enhanced_template_params(template, normalized_params['processed_params'])
@@ -122,6 +122,6 @@ class Whatsapp::TemplateProcessorService
   end
 
   def parameter_builder
-    @parameter_builder ||= Whatsapp::TemplateParameterService.new
+    @parameter_builder ||= Whatsapp::PopulateTemplateParametersService.new
   end
 end
