@@ -15,6 +15,11 @@ const props = defineProps({
   template: {
     type: Object,
     default: () => ({}),
+    validator: value => {
+      if (!value || typeof value !== 'object') return false;
+      if (!value.components || !Array.isArray(value.components)) return false;
+      return true;
+    },
   },
 });
 
@@ -33,17 +38,19 @@ const categoryLabel = computed(() => {
 });
 
 const headerComponent = computed(() => {
-  return props.template.components.find(
+  return props.template?.components?.find(
     component => component.type === 'HEADER'
   );
 });
 
 const bodyComponent = computed(() => {
-  return props.template.components.find(component => component.type === 'BODY');
+  return props.template?.components?.find(
+    component => component.type === 'BODY'
+  );
 });
 
 const bodyText = computed(() => {
-  return bodyComponent.value.text;
+  return bodyComponent.value?.text || '';
 });
 
 const hasMediaHeader = computed(() => {
@@ -54,8 +61,13 @@ const hasMediaHeader = computed(() => {
   );
 });
 
+const formatType = computed(() => {
+  const format = headerComponent.value?.format;
+  return format ? format.charAt(0) + format.slice(1).toLowerCase() : '';
+});
+
 const hasVariables = computed(() => {
-  return bodyText.value.match(/{{([^}]+)}}/g);
+  return bodyText.value?.match(/{{([^}]+)}}/g) !== null;
 });
 
 const renderedTemplate = computed(() => {
@@ -160,14 +172,8 @@ defineExpose({
         <p class="mb-2.5 text-sm font-semibold">
           {{
             $t('WHATSAPP_TEMPLATES.PARSER.MEDIA_HEADER_LABEL', {
-              type:
-                headerComponent.format.charAt(0) +
-                headerComponent.format.slice(1).toLowerCase(),
-            }) ||
-            `${
-              headerComponent.format.charAt(0) +
-              headerComponent.format.slice(1).toLowerCase()
-            } Header`
+              type: formatType,
+            }) || `${formatType} Header`
           }}
         </p>
         <div class="flex items-center mb-2.5">
@@ -177,9 +183,7 @@ defineExpose({
             class="flex-1"
             :placeholder="
               t('WHATSAPP_TEMPLATES.PARSER.MEDIA_URL_LABEL', {
-                type:
-                  headerComponent.format.charAt(0) +
-                  headerComponent.format.slice(1).toLowerCase(),
+                type: formatType,
               })
             "
             @update:model-value="updateMediaUrl"
