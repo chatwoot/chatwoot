@@ -81,11 +81,10 @@ const v$ = useVuelidate(
 );
 
 const initializeTemplateParameters = () => {
-  const templateParameters = buildTemplateParameters(
+  processedParams.value = buildTemplateParameters(
     props.template,
     hasMediaHeader.value
   );
-  processedParams.value = templateParameters;
 };
 
 const updateMediaUrl = value => {
