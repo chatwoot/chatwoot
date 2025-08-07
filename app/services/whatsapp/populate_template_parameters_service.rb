@@ -1,4 +1,4 @@
-class Whatsapp::TemplateParameterService
+class Whatsapp::PopulateTemplateParametersService
   def build_parameter(value)
     case value
     when String
