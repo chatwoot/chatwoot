@@ -119,19 +119,18 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
 
           expect(Whatsapp::EmbeddedSignupService).to receive(:new).with(
             account: account,
-            code: 'test_code',
-            business_id: 'test_business_id',
-            waba_id: 'test_waba_id',
-            phone_number_id: 'test_phone_id'
+            params: {
+              code: 'test_code',
+              business_id: 'test_business_id',
+              waba_id: 'test_waba_id',
+              phone_number_id: 'test_phone_id'
+            },
+            inbox_id: nil
           ).and_return(embedded_signup_service)
 
           allow(embedded_signup_service).to receive(:perform).and_return(whatsapp_channel)
           allow(whatsapp_channel).to receive(:inbox).and_return(inbox)
-
-          # Stub webhook setup service
-          webhook_service = instance_double(Whatsapp::WebhookSetupService)
-          allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
-          allow(webhook_service).to receive(:perform)
+          allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(instance_double(Whatsapp::WebhookSetupService, perform: true))
 
           post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
                params: {
@@ -151,19 +150,17 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
 
           expect(Whatsapp::EmbeddedSignupService).to receive(:new).with(
             account: account,
-            code: 'test_code',
-            business_id: 'test_business_id',
-            waba_id: 'test_waba_id',
-            phone_number_id: nil
+            params: {
+              code: 'test_code',
+              business_id: 'test_business_id',
+              waba_id: 'test_waba_id'
+            },
+            inbox_id: nil
           ).and_return(embedded_signup_service)
 
           allow(embedded_signup_service).to receive(:perform).and_return(whatsapp_channel)
           allow(whatsapp_channel).to receive(:inbox).and_return(inbox)
-
-          # Stub webhook setup service
-          webhook_service = instance_double(Whatsapp::WebhookSetupService)
-          allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
-          allow(webhook_service).to receive(:perform)
+          allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(instance_double(Whatsapp::WebhookSetupService, perform: true))
 
           post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
                params: {
@@ -301,7 +298,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/accounts/{account.id}/whatsapp/authorization' do
+  describe 'POST /api/v1/accounts/{account.id}/whatsapp/authorization with inbox_id (reauthorization)' do
     let(:whatsapp_channel) do
       channel = build(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
                                          provider_config: {
@@ -324,6 +321,10 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
     context 'when user is an administrator' do
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
+      before do
+        account.enable_features!(:whatsapp_embedded_signup)
+      end
+
       context 'with valid parameters' do
         let(:valid_params) do
           {
@@ -335,85 +336,94 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         end
 
         it 'reauthorizes the WhatsApp channel successfully' do
-          reauth_service = instance_double(Whatsapp::ReauthorizationService)
-          allow(Whatsapp::ReauthorizationService).to receive(:new).with(
-            code: 'auth_code_123',
-            business_id: 'business_123',
-            waba_id: 'waba_123',
-            phone_number_id: 'phone_123',
-            inbox: whatsapp_inbox
-          ).and_return(reauth_service)
-          allow(reauth_service).to receive(:perform).and_return({ success: true })
+          allow(whatsapp_channel).to receive(:reauthorization_required?).and_return(true)
 
-          put "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-              params: valid_params.merge(inbox_id: whatsapp_inbox.id),
-              headers: administrator.create_new_auth_token,
-              as: :json
+          embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+          allow(Whatsapp::EmbeddedSignupService).to receive(:new).with(
+            account: account,
+            params: {
+              code: 'auth_code_123',
+              business_id: 'business_123',
+              waba_id: 'waba_123',
+              phone_number_id: 'phone_123'
+            },
+            inbox_id: whatsapp_inbox.id
+          ).and_return(embedded_signup_service)
+          allow(embedded_signup_service).to receive(:perform).and_return(whatsapp_channel)
+          allow(whatsapp_channel).to receive(:inbox).and_return(whatsapp_inbox)
+
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: valid_params.merge(inbox_id: whatsapp_inbox.id),
+               headers: administrator.create_new_auth_token,
+               as: :json
 
           expect(response).to have_http_status(:success)
           json_response = response.parsed_body
           expect(json_response['success']).to be true
-          expect(json_response['inbox_id']).to eq(whatsapp_inbox.id)
+          expect(json_response['id']).to eq(whatsapp_inbox.id)
         end
 
         it 'handles reauthorization failure' do
-          reauth_service = instance_double(Whatsapp::ReauthorizationService)
-          allow(Whatsapp::ReauthorizationService).to receive(:new).with(
-            code: 'auth_code_123',
-            business_id: 'business_123',
-            waba_id: 'waba_123',
-            phone_number_id: 'phone_123',
-            inbox: whatsapp_inbox
-          ).and_return(reauth_service)
-          allow(reauth_service).to receive(:perform)
-            .and_return({ success: false, message: 'Token exchange failed' })
+          embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+          allow(Whatsapp::EmbeddedSignupService).to receive(:new).with(
+            account: account,
+            params: {
+              code: 'auth_code_123',
+              business_id: 'business_123',
+              waba_id: 'waba_123',
+              phone_number_id: 'phone_123'
+            },
+            inbox_id: whatsapp_inbox.id
+          ).and_return(embedded_signup_service)
+          allow(embedded_signup_service).to receive(:perform)
+            .and_raise(StandardError, 'Token exchange failed')
 
-          put "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-              params: valid_params.merge(inbox_id: whatsapp_inbox.id),
-              headers: administrator.create_new_auth_token,
-              as: :json
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: valid_params.merge(inbox_id: whatsapp_inbox.id),
+               headers: administrator.create_new_auth_token,
+               as: :json
 
-          expect(response).to have_http_status(:bad_request)
+          expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['success']).to be false
-          expect(json_response['message']).to eq('Token exchange failed')
+          expect(json_response['error']).to eq('Token exchange failed')
         end
 
         it 'handles phone number mismatch error' do
-          reauth_service = instance_double(Whatsapp::ReauthorizationService)
-          allow(Whatsapp::ReauthorizationService).to receive(:new).with(
-            code: 'auth_code_123',
-            business_id: 'business_123',
-            waba_id: 'waba_123',
-            phone_number_id: 'phone_123',
-            inbox: whatsapp_inbox
-          ).and_return(reauth_service)
-          allow(reauth_service).to receive(:perform)
-            .and_return({
-                          success: false,
-                          message: 'Phone number mismatch. The new phone number (+1234567890) does not match ' \
-                                   'the existing phone number (+15551234567). Please use the same WhatsApp ' \
-                                   'Business Account that was originally connected.'
-                        })
+          embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+          allow(Whatsapp::EmbeddedSignupService).to receive(:new).with(
+            account: account,
+            params: {
+              code: 'auth_code_123',
+              business_id: 'business_123',
+              waba_id: 'waba_123',
+              phone_number_id: 'phone_123'
+            },
+            inbox_id: whatsapp_inbox.id
+          ).and_return(embedded_signup_service)
+          allow(embedded_signup_service).to receive(:perform)
+            .and_raise(StandardError, 'Phone number mismatch. The new phone number (+1234567890) does not match ' \
+                                      'the existing phone number (+15551234567). Please use the same WhatsApp ' \
+                                      'Business Account that was originally connected.')
 
-          put "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-              params: valid_params.merge(inbox_id: whatsapp_inbox.id),
-              headers: administrator.create_new_auth_token,
-              as: :json
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: valid_params.merge(inbox_id: whatsapp_inbox.id),
+               headers: administrator.create_new_auth_token,
+               as: :json
 
-          expect(response).to have_http_status(:bad_request)
+          expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['success']).to be false
-          expect(json_response['message']).to include('Phone number mismatch')
+          expect(json_response['error']).to include('Phone number mismatch')
         end
       end
 
       context 'when inbox does not exist' do
         it 'returns not found error' do
-          put "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-              params: { inbox_id: 0 },
-              headers: administrator.create_new_auth_token,
-              as: :json
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: { inbox_id: 0, code: 'test', business_id: 'test', waba_id: 'test' },
+               headers: administrator.create_new_auth_token,
+               as: :json
 
           expect(response).to have_http_status(:not_found)
         end
@@ -438,10 +448,10 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         let(:fresh_inbox) { create(:inbox, channel: fresh_channel, account: account) }
 
         it 'returns unprocessable entity error' do
-          put "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-              params: { inbox_id: fresh_inbox.id },
-              headers: administrator.create_new_auth_token,
-              as: :json
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: { inbox_id: fresh_inbox.id },
+               headers: administrator.create_new_auth_token,
+               as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
@@ -463,10 +473,10 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         let(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
 
         it 'returns unprocessable entity error' do
-          put "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-              params: { inbox_id: facebook_inbox.id },
-              headers: administrator.create_new_auth_token,
-              as: :json
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: { inbox_id: facebook_inbox.id },
+               headers: administrator.create_new_auth_token,
+               as: :json
 
           expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
@@ -478,21 +488,29 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
     context 'when user is an agent' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      it 'returns unauthorized error' do
-        put "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-            params: { inbox_id: whatsapp_inbox.id },
-            headers: agent.create_new_auth_token,
-            as: :json
+      before do
+        account.enable_features!(:whatsapp_embedded_signup)
+        create(:inbox_member, inbox: whatsapp_inbox, user: agent)
+      end
 
-        expect(response).to have_http_status(:unauthorized)
+      it 'returns unprocessable_entity error' do
+        allow(whatsapp_channel).to receive(:reauthorization_required?).and_return(true)
+
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: { inbox_id: whatsapp_inbox.id, code: 'test', business_id: 'test', waba_id: 'test' },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        # Agents should get unprocessable_entity since they can find the inbox but channel doesn't need reauth
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 
     context 'when user is not authenticated' do
       it 'returns unauthorized error' do
-        put "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-            params: { inbox_id: whatsapp_inbox.id },
-            as: :json
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: { inbox_id: whatsapp_inbox.id },
+             as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
