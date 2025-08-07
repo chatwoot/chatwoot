@@ -88,9 +88,7 @@ const initializeTemplateParameters = () => {
 };
 
 const updateMediaUrl = value => {
-  if (!processedParams.value.header) {
-    processedParams.value.header = {};
-  }
+  processedParams.value.header ??= {};
   processedParams.value.header.media_url = value;
 };
 
