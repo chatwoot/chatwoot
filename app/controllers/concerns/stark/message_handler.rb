@@ -1,41 +1,61 @@
+require 'open-uri'
+
 module Stark
   module MessageHandler
     extend ActiveSupport::Concern
 
     def handle_response(response)
-      create_bot_response_with_image(current_conversation, response['content'], response['attachments']) if response['content'].present?
+      return unless response_valid?(response)
+
+      create_bot_response_message(current_conversation, response['content'], response['attachments']) if response['content'].present?
       process_action(event_data[:message], response['action']) if response['action'].present?
     end
-    def create_bot_response_with_image(conversation, content, attachments)
-      message = conversation.messages.new(
+
+    def create_bot_response_message(conversation, content, attachment_urls = nil)
+      create_text_message(conversation, content) if content.present?
+      create_attachment_messages(conversation, attachment_urls) if attachment_urls.is_a?(Array)
+    end
+
+    def response_valid?(response)
+      response.is_a?(Hash) && (response['content'].present? || response['action'].present?)
+    end
+
+    private
+
+    def create_text_message(conversation, content)
+      conversation.messages.create!(
         content: content,
         message_type: :outgoing,
-        content_type: 'text', 
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id,
         sender: agent_bot
       )
-    if attachments.present?
-      attachments.each do |attachment|
-        file = URI.parse(attachment).open
-        filename = File.basename(attachment)
-    
-        message.attachments.build(
-          account_id: message.account_id, 
-          file_type: "image", 
-          file: {
-            io: file, filename: filename, content_type: "image"
-          }
+    end
+
+    def create_attachment_messages(conversation, urls)
+      urls.each do |url|
+        file = URI.open(url)
+        filename = File.basename(URI.parse(url).path)
+
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: file,
+          filename: filename,
+          content_type: file.content_type
+        )
+
+        message = conversation.messages.create!(
+          message_type: :outgoing,
+          account_id: conversation.account_id,
+          inbox_id: conversation.inbox_id,
+          sender: agent_bot
+        )
+
+        message.attachments.create!(
+          account_id: message.account_id,
+          external_url: url,
+          file: blob
         )
       end
-    end 
-    
-      message.save! 
-    end
-    
-
-    def response_valid?(response)
-      response.is_a?(Hash) && (response['content'].present? || response['action'].present?)
     end
   end
 end
