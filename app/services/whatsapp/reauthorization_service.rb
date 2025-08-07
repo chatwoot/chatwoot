@@ -17,10 +17,6 @@ class Whatsapp::ReauthorizationService
 
     # Update channel configuration
     update_channel_config(channel, access_token, phone_info)
-
-    # Setup webhooks
-    setup_webhooks(channel, access_token)
-
     # Mark as reauthorized
     channel.reauthorized! if channel.respond_to?(:reauthorized!)
 
@@ -42,11 +38,5 @@ class Whatsapp::ReauthorizationService
     # Update inbox name if business name changed
     business_name = phone_info[:business_name] || phone_info[:verified_name]
     channel.inbox.update!(name: business_name) if business_name.present?
-  end
-
-  def setup_webhooks(channel, access_token)
-    return unless channel.provider == 'whatsapp_cloud'
-
-    Whatsapp::WebhookSetupService.new(channel, @business_id, access_token).perform
   end
 end
