@@ -225,7 +225,7 @@ export default {
     <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
-      <div v-if="inbox.provider_config" class="mx-8">
+    <div v-if="inbox.provider_config" class="mx-8">
       <!-- Embedded Signup Section -->
       <template v-if="isEmbeddedSignupWhatsApp">
         <SettingsSection
@@ -301,7 +301,7 @@ export default {
         </SettingsSection>
       </template>
     </div>
-  <WhatsappReauthorize
+    <WhatsappReauthorize
       v-if="isEmbeddedSignupWhatsApp"
       ref="whatsappReauth"
       :inbox="inbox"
