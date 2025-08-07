@@ -54,7 +54,7 @@ const moreThumbnailsClass = computed(() => {
       :src="user.thumbnail"
       :name="user.name"
       :size="size"
-      class="relative [&>span]:outline [&>span]:outline-1 [&>span]:outline-n-background [&>span]:shadow"
+      class="[&>span]:outline [&>span]:outline-1 [&>span]:outline-n-background [&>span]:shadow"
       :class="gapClass"
       rounded-full
     />
