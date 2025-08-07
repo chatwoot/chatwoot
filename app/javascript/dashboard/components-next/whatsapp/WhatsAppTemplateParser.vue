@@ -96,16 +96,16 @@ const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
 
-  const finalParams = processedParams.value;
+  const { name, category, language, namespace } = props.template;
 
   const payload = {
     message: renderedTemplate.value,
     templateParams: {
-      name: props.template.name,
-      category: props.template.category,
-      language: props.template.language,
-      namespace: props.template.namespace,
-      processed_params: finalParams,
+      name,
+      category,
+      language,
+      namespace,
+      processed_params: processedParams.value,
     },
   };
   emit('sendMessage', payload);
