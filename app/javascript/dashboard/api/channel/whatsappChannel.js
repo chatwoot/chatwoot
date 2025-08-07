@@ -11,10 +11,10 @@ class WhatsappChannel extends ApiClient {
   }
 
   reauthorizeWhatsApp({ inboxId, ...params }) {
-    return axios.put(
-      `${this.baseUrl()}/whatsapp/reauthorization/${inboxId}`,
-      params
-    );
+    return axios.put(`${this.baseUrl()}/whatsapp/authorization`, {
+      ...params,
+      inbox_id: inboxId,
+    });
   }
 
   // Alias for backward compatibility - both upgrade and reauth use the same endpoint
