@@ -282,7 +282,7 @@ export default {
             <woot-input
               v-model="whatsAppInboxAPIKey"
               type="text"
-              class="flex-1 mr-2"
+              class="flex-1 mr-2 [&>input]:!mb-0"
               :placeholder="
                 $t(
                   'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
@@ -295,6 +295,20 @@ export default {
             >
               {{
                 $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON')
+              }}
+            </NextButton>
+          </div>
+        </SettingsSection>
+        <SettingsSection
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
+          :sub-title="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUBHEADER')
+          "
+        >
+          <div class="flex justify-start items-center mt-2">
+            <NextButton :disabled="isSyncingTemplates" @click="syncTemplates">
+              {{
+                $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_BUTTON')
               }}
             </NextButton>
           </div>
