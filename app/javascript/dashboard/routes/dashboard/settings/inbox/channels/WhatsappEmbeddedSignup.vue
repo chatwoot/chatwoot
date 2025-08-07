@@ -225,15 +225,13 @@ const tryWhatsAppLogin = () => {
     'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
   );
 
-  const featureType = window.chatwootConfig?.whatsappFeatureType || '';
-
   window.FB.login(fbLoginCallback, {
     config_id: window.chatwootConfig?.whatsappConfigurationId,
     response_type: 'code',
     override_default_response_type: true,
     extras: {
       setup: {},
-      featureType,
+      featureType: 'whatsapp_business_app_onboarding',
       sessionInfoVersion: '3',
     },
   });
