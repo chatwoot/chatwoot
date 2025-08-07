@@ -233,7 +233,7 @@ class Conversation < ApplicationRecord
     return if campaign.present?
 
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
-    self.status = :pending if inbox.active_bot?
+    # self.status = :pending if inbox.active_bot?
   end
 
   def notify_conversation_creation

@@ -572,8 +572,8 @@ RSpec.describe Conversation do
     let!(:bot_inbox) { create(:agent_bot_inbox) }
     let(:conversation) { create(:conversation, inbox: bot_inbox.inbox) }
 
-    it 'returns conversation status as pending' do
-      expect(conversation.status).to eq('pending')
+    it 'returns conversation status as open' do
+      expect(conversation.status).to eq('open')
     end
 
     it 'returns conversation as open if campaign is present' do
@@ -587,8 +587,8 @@ RSpec.describe Conversation do
     let(:hook) { create(:integrations_hook, :dialogflow, inbox: inbox) }
     let(:conversation) { create(:conversation, inbox: hook.inbox) }
 
-    it 'returns conversation status as pending' do
-      expect(conversation.status).to eq('pending')
+    it 'returns conversation status as open' do
+      expect(conversation.status).to eq('open')
     end
   end
 
