@@ -106,7 +106,8 @@ module Stark
       {
         'content' => data['answer'],
         'action' => nil,
-        'stop_follow_up' => data['stop_follow_up']
+        'stop_follow_up' => data['stop_follow_up'],
+        'attachments' => data['attachments'] || []
       }
     end
 
