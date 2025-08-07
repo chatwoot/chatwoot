@@ -66,7 +66,7 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   rescue ActiveRecord::RecordNotFound
     render json: {
       success: false,
-      error: 'Inbox not found'
+      message: 'Inbox not found'
     }, status: :not_found
   end
 
@@ -112,7 +112,7 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     Rails.logger.error error.backtrace.join("\n")
     render json: {
       success: false,
-      error: error.message
+      message: error.message
     }, status: :unprocessable_entity
   end
 
@@ -121,7 +121,7 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
 
     render json: {
       success: false,
-      error: 'WhatsApp embedded signup is not enabled for this account'
+      message: 'WhatsApp embedded signup is not enabled for this account'
     }, status: :forbidden
   end
 
