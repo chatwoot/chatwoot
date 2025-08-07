@@ -17,7 +17,6 @@ import Modal from './Modal.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Tabs from './ui/Tabs/Tabs.vue';
 import TabsItem from './ui/Tabs/TabsItem.vue';
-import Thumbnail from './widgets/Thumbnail.vue';
 import DatePicker from './ui/DatePicker/DatePicker.vue';
 
 const WootUIKit = {
@@ -38,7 +37,6 @@ const WootUIKit = {
   Spinner,
   Tabs,
   TabsItem,
-  Thumbnail,
   DatePicker,
   install(Vue) {
     const keys = Object.keys(this);
