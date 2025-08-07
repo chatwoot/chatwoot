@@ -446,7 +446,6 @@ Rails.application.routes.draw do
           resources :excel_imports, only: [:create, :show, :destroy] do
             member do
               get :download
-              patch :save_to_server
             end
           end
 
