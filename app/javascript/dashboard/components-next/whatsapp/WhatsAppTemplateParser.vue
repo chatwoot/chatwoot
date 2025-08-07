@@ -148,7 +148,7 @@ defineExpose({
       </div>
 
       <div class="flex flex-col gap-2">
-        <div class="rounded-md bg-n-alpha-black3">
+        <div class="rounded-md">
           <div class="text-sm whitespace-pre-wrap text-n-slate-12">
             {{ renderedTemplate }}
           </div>
