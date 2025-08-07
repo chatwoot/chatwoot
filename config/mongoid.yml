@@ -9,7 +9,7 @@ development:
   <<: *default
   clients:
     default:
-      uri: "<%= ENV.fetch('MONGODB_URL', 'mongodb://localhost:27017/chatwoot_excel_imports_development') %>"
+      uri: "<%= ENV.fetch('MONGODB_URL', '') %>"
       options:
         read:
           mode: :primary
@@ -19,19 +19,17 @@ test:
   <<: *default
   clients:
     default:
-      database: "chatwoot_excel_imports_test"
-      hosts:
-        - localhost:27017
+      uri: "<%= ENV.fetch('MONGODB_URL', '') %>"
       options:
         read:
           mode: :primary
-        max_pool_size: 1
+        max_pool_size: 5
 
 production:
   <<: *default
   clients:
     default:
-      uri: "<%= ENV.fetch('MONGODB_URL', 'mongodb://localhost:27017/chatwoot_excel_imports_production') %>"
+      uri: "<%= ENV.fetch('MONGODB_URL', '') %>"
       options:
         read:
           mode: :primary
