@@ -327,6 +327,81 @@ describe Twilio::IncomingMessageService do
         contact = twilio_channel.inbox.contacts.find_by(phone_number: '+1234567890')
         expect(contact.name).to eq('1234567890')
       end
+
+      it 'updates existing contact name when current name matches phone number' do
+        # Create contact with phone number as name
+        existing_contact = create(:contact,
+                                  account: twilio_channel.inbox.account,
+                                  name: '+1234567890',
+                                  phone_number: '+1234567890')
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: twilio_channel.inbox,
+               source_id: '+1234567890')
+
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello',
+          ProfileName: 'Jane Smith'
+        }
+
+        described_class.new(params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('Jane Smith')
+      end
+
+      it 'does not update contact name when current name is different from phone number' do
+        # Create contact with human name
+        existing_contact = create(:contact,
+                                  account: twilio_channel.inbox.account,
+                                  name: 'John Doe',
+                                  phone_number: '+1234567890')
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: twilio_channel.inbox,
+               source_id: '+1234567890')
+
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello',
+          ProfileName: 'Jane Smith'
+        }
+
+        described_class.new(params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('John Doe') # Should not change
+      end
+
+      it 'updates contact name when current name matches formatted phone number' do
+        # Create contact with formatted phone number as name
+        existing_contact = create(:contact,
+                                  account: twilio_channel.inbox.account,
+                                  name: '1234567890',
+                                  phone_number: '+1234567890')
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: twilio_channel.inbox,
+               source_id: '+1234567890')
+
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello',
+          ProfileName: 'Alice Johnson'
+        }
+
+        described_class.new(params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('Alice Johnson')
+      end
     end
   end
 end
