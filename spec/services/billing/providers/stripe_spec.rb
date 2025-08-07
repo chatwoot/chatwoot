@@ -55,6 +55,8 @@ RSpec.describe Billing::Providers::Stripe do
       expect(Stripe::Subscription).to have_received(:create).with(
         customer: 'cus_123',
         items: [{ price: 'price_123', quantity: 1 }], # Always 1 for billing
+        auto_advance: true,
+        collection_method: 'charge_automatically',
         metadata: {
           plan_id: 'price_123',
           quantity: 1 # Metadata reflects the passed quantity
@@ -261,6 +263,39 @@ RSpec.describe Billing::Providers::Stripe do
 
       before do
         allow(provider).to receive(:get_subscription).with('sub_123').and_return(stripe_subscription)
+
+        # Stub the Stripe API call that happens in sync_account_features
+        stub_request(:get, 'https://api.stripe.com/v1/subscriptions')
+          .with(query: { customer: 'cus_123', status: 'all' })
+          .to_return(
+            status: 200,
+            body: {
+              object: 'list',
+              data: [stripe_subscription]
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        # Stub Price and Product API calls that might be made by StripeMetadataExtractor
+        stub_request(:get, %r{https://api\.stripe\.com/v1/prices/.*})
+          .to_return(
+            status: 200,
+            body: {
+              id: 'price_123',
+              product: 'prod_123'
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        stub_request(:get, %r{https://api\.stripe\.com/v1/products/.*})
+          .to_return(
+            status: 200,
+            body: {
+              id: 'prod_123',
+              metadata: { 'plan_name' => 'starter' }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
       end
 
       it 'handles checkout session completed events' do
@@ -302,6 +337,41 @@ RSpec.describe Billing::Providers::Stripe do
             }
           }
         }
+      end
+
+      before do
+        # Stub the Stripe API call that happens in sync_account_features
+        stub_request(:get, 'https://api.stripe.com/v1/subscriptions')
+          .with(query: { customer: 'cus_123', status: 'all' })
+          .to_return(
+            status: 200,
+            body: {
+              object: 'list',
+              data: [event_data['data']['object']]
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        # Stub Price and Product API calls that might be made by StripeMetadataExtractor
+        stub_request(:get, %r{https://api\.stripe\.com/v1/prices/.*})
+          .to_return(
+            status: 200,
+            body: {
+              id: 'price_123',
+              product: 'prod_123'
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        stub_request(:get, %r{https://api\.stripe\.com/v1/products/.*})
+          .to_return(
+            status: 200,
+            body: {
+              id: 'prod_123',
+              metadata: { 'plan_name' => 'starter' }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
       end
 
       it 'handles subscription created events' do
