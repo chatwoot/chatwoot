@@ -43,18 +43,20 @@ module Stark
           content_type: file.content_type
         )
 
-        message = conversation.messages.create!(
+        message = conversation.messages.new(
           message_type: :outgoing,
           account_id: conversation.account_id,
           inbox_id: conversation.inbox_id,
           sender: agent_bot
         )
 
-        message.attachments.create!(
+        message.attachments.new(
           account_id: message.account_id,
           external_url: url,
           file: blob
         )
+
+        message.save!
       end
     end
   end
