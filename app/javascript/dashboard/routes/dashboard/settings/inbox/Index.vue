@@ -177,9 +177,8 @@ const getStatusTooltip = (inbox) => {
   const statusText = status.connected ? 'Terhubung' : 'Terputus';
   const lastChecked = status.lastChecked || status.lastUpdated;
   const timeAgo = lastChecked ? new Date(lastChecked).toLocaleString('id-ID') : 'Tidak diketahui';
-  const source = status.updateSource === 'websocket' ? 'Real-time' : 'Manual check';
   
-  return `Status: ${statusText}\nTerakhir update: ${timeAgo}\nSumber: ${source}`;
+  return `Status: ${statusText}\nTerakhir update: ${timeAgo}`;
 };
 
 // Temporary function to test inline colors (for debugging)
