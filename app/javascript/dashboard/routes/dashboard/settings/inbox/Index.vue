@@ -72,14 +72,14 @@ const statusCheckTimer = ref(null);
 
 const handleStatusChanged = (inboxId, statusData) => {
   whatsappStatus.value[inboxId] = statusData;
-  console.log(`📱 Status changed for inbox ${inboxId}:`, statusData);
+  // console.log(`📱 Status changed for inbox ${inboxId}:`, statusData);
 };
 
 // Check status for all WhatsApp inboxes on mount and periodically
 const checkAllWhatsAppStatus = async () => {
   const whatsappInboxes = inboxesList.value.filter(inbox => isWhatsAppUnofficial(inbox));
   
-  console.log('🔄 Checking status for all WhatsApp inboxes:', whatsappInboxes.length);
+  // console.log('🔄 Checking status for all WhatsApp inboxes:', whatsappInboxes.length);
   
   for (const inbox of whatsappInboxes) {
     try {
@@ -92,7 +92,7 @@ const checkAllWhatsAppStatus = async () => {
         lastChecked: Date.now()
       };
       
-      console.log(`📱 Inbox ${inbox.id} (${inbox.name}) status:`, connected ? '🟢 Connected' : '🔴 Disconnected');
+      // console.log(`📱 Inbox ${inbox.id} (${inbox.name}) status:`, connected ? '🟢 Connected' : '🔴 Disconnected');
     } catch (error) {
       console.error(`❌ Failed to check status for inbox ${inbox.id}:`, error);
       whatsappStatus.value[inbox.id] = {
@@ -112,7 +112,7 @@ const startPeriodicStatusCheck = () => {
   
   // Then check every 15 seconds for real-time monitoring (no conditions)
   statusCheckTimer.value = setInterval(() => {
-    console.log('⏰ Periodic status check triggered - checking ALL WhatsApp inboxes for real-time updates');
+    // console.log('⏰ Periodic status check triggered - checking ALL WhatsApp inboxes for real-time updates');
     checkAllWhatsAppStatus();
   }, 15000); // 15 seconds - more frequent for real-time feel
 };
@@ -126,12 +126,12 @@ const stopPeriodicStatusCheck = () => {
 };
 
 onMounted(() => {
-  console.log('📋 Inbox list mounted, starting WhatsApp status monitoring...');
+  // console.log('📋 Inbox list mounted, starting WhatsApp status monitoring...');
   startPeriodicStatusCheck();
 });
 
 onUnmounted(() => {
-  console.log('📋 Inbox list unmounted, stopping WhatsApp status monitoring...');
+  // console.log('📋 Inbox list unmounted, stopping WhatsApp status monitoring...');
   stopPeriodicStatusCheck();
 });
 

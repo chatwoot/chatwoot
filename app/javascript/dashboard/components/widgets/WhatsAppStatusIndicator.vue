@@ -40,7 +40,6 @@ export default {
     },
   },
   async mounted() {
-    console.log(`🔍 WhatsAppStatusIndicator mounted for inbox ${this.inboxId}`);
     await this.checkStatus();
     this.setupWebSocketSubscription();
     if (this.autoRefresh) {
@@ -49,7 +48,6 @@ export default {
     
     // Add a test method to manually trigger status check for debugging
     window[`testWhatsAppStatus_${this.inboxId}`] = () => {
-      console.log(`🧪 Manual test triggered for inbox ${this.inboxId}`);
       this.checkStatus();
     };
   },
@@ -60,18 +58,12 @@ export default {
   methods: {
     async checkStatus() {
       try {
-        console.log(`🔄 Checking WhatsApp status for inbox ${this.inboxId}...`);
-        // Force real-time check for accurate red/green dot status
         const response = await WhatsAppUnofficialChannels.getConnectionStatus(this.inboxId, true);
         const newConnected = response.data?.connected || false;
         const oldConnected = this.connected;
         
         this.connected = newConnected;
-        
-        console.log(`📱 Inbox ${this.inboxId} status (real-time): ${newConnected ? '🟢 Connected' : '🔴 Disconnected'}`);
-        
-        // Always emit status change to parent, even if status hasn't changed
-        // This helps parent component track that checking was performed
+                
         this.$emit('status-changed', {
           connected: this.connected,
           inboxId: this.inboxId,
@@ -98,16 +90,9 @@ export default {
         // Use user's pubsub_token for authentication (same as BaseActionCableConnector)
         const pubsub_token = this.userPubsubToken;
         const cable = createConsumer();
-        
-        console.log(`🔌 Setting up WebSocket subscription for inbox ${this.inboxId}`);
-        console.log(`👤 User pubsub token: ${pubsub_token}`);
-        console.log(`👤 Current user ID: ${this.currentUserId}, Account ID: ${this.currentAccountId}`);
-        
+
         if (!pubsub_token || !this.currentUserId || !this.currentAccountId) {
           console.error(`❌ Cannot setup WebSocket: missing required data`);
-          console.error(`   - User pubsub token: ${pubsub_token}`);
-          console.error(`   - User ID: ${this.currentUserId}`);
-          console.error(`   - Account ID: ${this.currentAccountId}`);
           return;
         }
         
@@ -120,25 +105,17 @@ export default {
           },
           {
             connected: () => {
-              console.log(`✅ WebSocket connected for inbox ${this.inboxId}`);
             },
             disconnected: () => {
-              console.log(`❌ WebSocket disconnected for inbox ${this.inboxId}`);
             },
-            received: (data) => {
-              console.log(`📨 WebSocket message received:`, data);
-              
-              // Filter messages that are relevant to this specific inbox
+            received: (data) => {              
               if (data.event === 'whatsapp_status_changed') {
-                // Check if this message is for our inbox
                 const isForOurInbox = data.inbox_id === parseInt(this.inboxId) || 
                                     (!data.inbox_id && data.phone_number); // fallback for old messages
                 
                 if (isForOurInbox) {
-                  console.log(`� WhatsApp status change for our inbox ${this.inboxId}:`, data);
                   this.handleStatusUpdate(data);
                 } else {
-                  console.log(`📨 Ignoring WhatsApp status change for different inbox (${data.inbox_id})`);
                 }
               }
             },
@@ -150,19 +127,15 @@ export default {
     },
 
     handleStatusUpdate(data) {
-      console.log(`🔄 Handling WebSocket status update for inbox ${this.inboxId}:`, data);
       
       const oldConnected = this.connected;
       
       if (data.type === 'session_ready' || data.type === 'phone_validation_success' || data.type === 'auto_reconnect') {
         this.connected = true;
-        console.log(`📱 Inbox ${this.inboxId} status changed to: 🟢 Connected (${data.type})`);
       } else if (data.type === 'session_mismatch' || data.type === 'session_failed' || data.type === 'auto_disconnect') {
         this.connected = false;
-        console.log(`📱 Inbox ${this.inboxId} status changed to: 🔴 Disconnected (${data.type})`);
       } else if (data.status) {
         this.connected = data.connected || false;
-        console.log(`📱 Inbox ${this.inboxId} status update:`, this.connected ? '🟢 Connected' : '🔴 Disconnected');
       }
       
       if (oldConnected !== this.connected) {
@@ -185,12 +158,8 @@ export default {
 
     startAutoRefresh() {
       this.refreshTimer = setInterval(() => {
-        // Always check status for real-time monitoring, no conditions
-        console.log(`⏰ Auto-refresh triggered for inbox ${this.inboxId} (current status: ${this.connected})`);
         this.checkStatus();
-      }, this.refreshInterval);
-      
-      console.log(`⏰ Auto-refresh started for inbox ${this.inboxId} (interval: ${this.refreshInterval}ms) - UNCONDITIONAL`);
+      }, this.refreshInterval);  
     },
 
     stopAutoRefresh() {

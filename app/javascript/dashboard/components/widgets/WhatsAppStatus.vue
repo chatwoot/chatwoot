@@ -122,18 +122,10 @@ export default {
         
         const status = response.data?.status || 'unknown';
         const connected = response.data?.connected || false;
-        
-        console.log('WhatsApp Status Check:', { status, connected, response: response.data });
-        
+                
         this.connectionStatus = connected ? 'connected' : status;
         this.lastChecked = new Date();
         this.canRestart = !connected && status !== 'checking';
-        
-        console.log('Updated state:', { 
-          connectionStatus: this.connectionStatus, 
-          canRestart: this.canRestart,
-          showActionButton: this.showActionButton
-        });
         
         this.$emit('status-changed', {
           status: this.connectionStatus,
@@ -183,9 +175,6 @@ export default {
         const pubsub_token = `${this.accountId}_inbox_${this.inboxId}`;
         const cable = createConsumer();
         
-        console.log('🔌 Setting up WebSocket subscription for WhatsApp Status');
-        console.log('📡 PubSub Token:', pubsub_token);
-        
         this.subscription = cable.subscriptions.create(
           { 
             channel: 'RoomChannel',
@@ -193,19 +182,14 @@ export default {
           },
           {
             received: (data) => {
-              console.log('📡 WhatsApp Status WebSocket received:', data);
               if (data.event === 'whatsapp_status_changed') {
-                console.log('🔄 Processing whatsapp_status_changed event');
                 this.handleStatusUpdate(data);
               } else {
-                console.log('📡 Ignoring non-whatsapp event:', data.event);
               }
             },
             connected: () => {
-              console.log('✅ WhatsApp Status WebSocket connected');
             },
             disconnected: () => {
-              console.log('❌ WhatsApp Status WebSocket disconnected');
             }
           }
         );
@@ -216,43 +200,31 @@ export default {
 
     handleStatusUpdate(data) {
       const oldStatus = this.connectionStatus;
-      console.log('🔄 HandleStatusUpdate called');
-      console.log('📊 Old status:', oldStatus);
-      console.log('📊 Event data:', data);
       
       if (data.type === 'session_ready' || data.type === 'phone_validation_success' || data.type === 'auto_reconnect') {
-        console.log('✅ Setting status to connected');
         this.connectionStatus = 'connected';
         this.canRestart = false;
         
-        // Show success alert - different message based on context
         if (oldStatus !== 'connected') {
-          // Check if user is currently on QR page to avoid duplicate alerts
           const isOnQRPage = this.$route && this.$route.name === 'settings_inboxes_display_qrcode';
           
           if (!isOnQRPage) {
             if (this.isFromRestart) {
-              // This came from re-scan QR action
               useAlert('WhatsApp berhasil terkoneksi kembali!');
-              this.isFromRestart = false; // Reset flag
+              this.isFromRestart = false;
             } else {
-              // This is just status update/auto-reconnect
               useAlert('WhatsApp berhasil terkoneksi!');
             }
           }
         }
         
-        // No auto-redirect for status component - let user stay where they are
       } else if (data.type === 'session_mismatch') {
-        console.log('❌ Setting status to disconnected (mismatch)');
         this.connectionStatus = 'disconnected';
         this.canRestart = true;
       } else if (data.type === 'session_failed') {
-        console.log('❌ Setting status to disconnected (failed)');
         this.connectionStatus = 'disconnected';
         this.canRestart = !data.auto_deleted; // Can't restart if auto-deleted
       } else if (data.type === 'auto_disconnect') {
-        console.log('❌ Setting status to disconnected (auto-disconnect)');
         // Handle auto-detected disconnect from status polling
         this.connectionStatus = 'disconnected';
         this.canRestart = true;
@@ -262,7 +234,6 @@ export default {
           useAlert('WhatsApp terputus dari perangkat. Silakan scan ulang untuk menghubungkan kembali.');
         }
       } else if (data.status) {
-        console.log('📊 Setting status from data.status:', data.status, 'connected:', data.connected);
         this.connectionStatus = data.connected ? 'connected' : data.status;
         this.canRestart = !data.connected;
         
@@ -284,17 +255,13 @@ export default {
       
       this.lastChecked = new Date();
       
-      console.log('📊 Final status update - Old:', oldStatus, 'New:', this.connectionStatus);
-      
       if (oldStatus !== this.connectionStatus) {
-        console.log('🔄 Status changed, emitting status-changed event');
         this.$emit('status-changed', {
           status: this.connectionStatus,
           connected: this.connectionStatus === 'connected',
           lastChecked: this.lastChecked,
         });
       } else {
-        console.log('📊 Status unchanged, no emission needed');
       }
     },
 
@@ -308,7 +275,6 @@ export default {
     startAutoRefresh() {
       this.refreshTimer = setInterval(() => {
         // Always refresh for real-time monitoring, regardless of connection status
-        console.log(`⏰ Auto-refresh triggered for inbox ${this.inboxId} (current status: ${this.connectionStatus})`);
         this.checkStatus(true);
       }, this.refreshInterval);
     },
