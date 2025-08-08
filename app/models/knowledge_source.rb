@@ -88,4 +88,23 @@ class KnowledgeSource < ApplicationRecord
     Rails.logger.error("Unexpected error occurred: #{e.message}")
     raise e
   end
+
+  def add_excel_file!(file:, result:)
+    Rails.logger.info "Adding Excel file with result: #{result.inspect}"
+
+    knowledge_source_files.create!(
+      loader_id: result[:import_id],
+      file_name: file.file_name,
+      file_type: file.content_type,
+      file_size: file.size,
+      total_chunks: 0, # Excel files don't have chunks
+      total_chars: 0 # Excel files don't have chars
+    )
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.error("Failed to create knowledge source file: #{e.record.errors.full_messages.join(', ')}")
+    raise e
+  rescue StandardError => e
+    Rails.logger.error("Unexpected error occurred: #{e.message}")
+    raise e
+  end
 end
