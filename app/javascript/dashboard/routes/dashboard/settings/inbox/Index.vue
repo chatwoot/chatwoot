@@ -5,11 +5,12 @@ import WhatsAppStatusIndicator from 'dashboard/components/widgets/WhatsAppStatus
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import ChannelName from './components/ChannelName.vue';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
+import WhatsAppUnofficialChannels from 'dashboard/api/WhatsAppUnofficialChannels';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -67,10 +68,71 @@ const isWhatsAppUnofficial = (inbox) => {
 };
 
 const whatsappStatus = ref({});
+const statusCheckTimer = ref(null);
 
 const handleStatusChanged = (inboxId, statusData) => {
   whatsappStatus.value[inboxId] = statusData;
+  console.log(`📱 Status changed for inbox ${inboxId}:`, statusData);
 };
+
+// Check status for all WhatsApp inboxes on mount and periodically
+const checkAllWhatsAppStatus = async () => {
+  const whatsappInboxes = inboxesList.value.filter(inbox => isWhatsAppUnofficial(inbox));
+  
+  console.log('🔄 Checking status for all WhatsApp inboxes:', whatsappInboxes.length);
+  
+  for (const inbox of whatsappInboxes) {
+    try {
+      const response = await WhatsAppUnofficialChannels.getConnectionStatus(inbox.id, false);
+      const connected = response.data?.connected || false;
+      
+      whatsappStatus.value[inbox.id] = {
+        connected,
+        inboxId: inbox.id,
+        lastChecked: Date.now()
+      };
+      
+      console.log(`📱 Inbox ${inbox.id} (${inbox.name}) status:`, connected ? '🟢 Connected' : '🔴 Disconnected');
+    } catch (error) {
+      console.error(`❌ Failed to check status for inbox ${inbox.id}:`, error);
+      whatsappStatus.value[inbox.id] = {
+        connected: false,
+        inboxId: inbox.id,
+        lastChecked: Date.now(),
+        error: true
+      };
+    }
+  }
+};
+
+// Start periodic status checking
+const startPeriodicStatusCheck = () => {
+  // Check immediately on mount
+  checkAllWhatsAppStatus();
+  
+  // Then check every 30 seconds
+  statusCheckTimer.value = setInterval(() => {
+    checkAllWhatsAppStatus();
+  }, 30000); // 30 seconds
+};
+
+// Stop periodic checking
+const stopPeriodicStatusCheck = () => {
+  if (statusCheckTimer.value) {
+    clearInterval(statusCheckTimer.value);
+    statusCheckTimer.value = null;
+  }
+};
+
+onMounted(() => {
+  console.log('📋 Inbox list mounted, starting WhatsApp status monitoring...');
+  startPeriodicStatusCheck();
+});
+
+onUnmounted(() => {
+  console.log('📋 Inbox list unmounted, stopping WhatsApp status monitoring...');
+  stopPeriodicStatusCheck();
+});
 
 const getChannelIcon = (inbox) => {
   return getInboxIconByType(inbox.channel_type, inbox.phone_number, 'fill');
@@ -102,6 +164,20 @@ const getChannelIconColor = (inbox) => {
     default:
       return 'text-gray-600'; // Default gray
   }
+};
+
+const getStatusTooltip = (inbox) => {
+  const status = whatsappStatus.value[inbox.id];
+  if (!status) {
+    return 'Status belum diketahui';
+  }
+  
+  const statusText = status.connected ? 'Terhubung' : 'Terputus';
+  const lastChecked = status.lastChecked || status.lastUpdated;
+  const timeAgo = lastChecked ? new Date(lastChecked).toLocaleString('id-ID') : 'Tidak diketahui';
+  const source = status.updateSource === 'websocket' ? 'Real-time' : 'Manual check';
+  
+  return `Status: ${statusText}\nTerakhir update: ${timeAgo}\nSumber: ${source}`;
 };
 </script>
 
@@ -162,12 +238,13 @@ const getChannelIconColor = (inbox) => {
                   <div
                     v-if="isWhatsAppUnofficial(inbox)"
                     class="absolute -bottom-0 -right-1 z-10"
+                    v-tooltip.top="getStatusTooltip(inbox)"
                   >
                     <WhatsAppStatusIndicator
                       :inbox-id="inbox.id"
                       :account-id="$route.params.accountId"
                       :auto-refresh="true"
-                      :refresh-interval="15000"
+                      :refresh-interval="10000"
                       @status-changed="(data) => handleStatusChanged(inbox.id, data)"
                     />
                   </div>

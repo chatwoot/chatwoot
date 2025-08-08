@@ -223,7 +223,9 @@ class Waha::CallbackController < ApplicationController
       phone_number: channel.phone_number,
       connected: status == 'logged_in',
       inbox_id: inbox.id,
-      channel_id: channel.id
+      channel_id: channel.id,
+      account_id: account.id,
+      timestamp: Time.current.iso8601
     })
   end
 
@@ -253,6 +255,7 @@ class Waha::CallbackController < ApplicationController
       message: 'WhatsApp session is ready for messaging!',
       inbox_id: inbox.id,
       channel_id: channel.id,
+      account_id: account.id,
       timestamp: Time.current.iso8601
     })
     

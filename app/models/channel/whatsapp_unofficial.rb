@@ -677,42 +677,81 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   # Broadcast disconnect event to frontend
   def broadcast_disconnect_event
     begin
-      pubsub_token = "#{account_id}_inbox_#{inbox.id}"
+      # Broadcast to inbox-specific token (for specific monitoring)
+      inbox_pubsub_token = "#{account_id}_inbox_#{inbox.id}"
       
-      Rails.logger.info "Broadcasting auto-detected disconnect for #{phone_number} to #{pubsub_token}"
+      Rails.logger.info "🔊 Broadcasting auto-detected disconnect for #{phone_number}"
+      Rails.logger.info "🔊 Inbox PubSub Token: #{inbox_pubsub_token}"
+      Rails.logger.info "🔊 Account ID: #{account_id}, Inbox ID: #{inbox.id}"
       
-      ActionCable.server.broadcast(
-        pubsub_token,
+      broadcast_data = {
         event: 'whatsapp_status_changed',
         type: 'auto_disconnect',
         status: 'disconnected',
         connected: false,
         phone_number: phone_number,
+        inbox_id: inbox.id,
+        account_id: account_id,
         timestamp: Time.current.iso8601
-      )
+      }
+      
+      Rails.logger.info "🔊 Broadcast data: #{broadcast_data.inspect}"
+      
+      # Broadcast to inbox-specific token
+      ActionCable.server.broadcast(inbox_pubsub_token, broadcast_data)
+      
+      # Also broadcast to all users in this account for real-time updates in list views
+      account = Account.find(account_id)
+      account.users.each do |user|
+        user_pubsub_token = user.pubsub_token
+        Rails.logger.info "🔊 Also broadcasting to user #{user.id} with token: #{user_pubsub_token}"
+        ActionCable.server.broadcast(user_pubsub_token, broadcast_data)
+      end
+      
+      Rails.logger.info "✅ Disconnect event broadcasted successfully"
     rescue StandardError => e
-      Rails.logger.error "Failed to broadcast disconnect event: #{e.message}"
+      Rails.logger.error "❌ Failed to broadcast disconnect event: #{e.message}"
+      Rails.logger.error "❌ Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
     end
   end
 
   # Broadcast reconnect event to frontend  
   def broadcast_reconnect_event
     begin
-      pubsub_token = "#{account_id}_inbox_#{inbox.id}"
+      # Broadcast to inbox-specific token (for specific monitoring)
+      inbox_pubsub_token = "#{account_id}_inbox_#{inbox.id}"
       
-      Rails.logger.info "Broadcasting auto-detected reconnect for #{phone_number} to #{pubsub_token}"
+      Rails.logger.info "🔊 Broadcasting auto-detected reconnect for #{phone_number}"
+      Rails.logger.info "🔊 Inbox PubSub Token: #{inbox_pubsub_token}"
       
-      ActionCable.server.broadcast(
-        pubsub_token,
+      broadcast_data = {
         event: 'whatsapp_status_changed',
         type: 'auto_reconnect', 
         status: 'connected',
         connected: true,
         phone_number: phone_number,
+        inbox_id: inbox.id,
+        account_id: account_id,
         timestamp: Time.current.iso8601
-      )
+      }
+      
+      Rails.logger.info "🔊 Broadcast data: #{broadcast_data.inspect}"
+      
+      # Broadcast to inbox-specific token
+      ActionCable.server.broadcast(inbox_pubsub_token, broadcast_data)
+      
+      # Also broadcast to all users in this account for real-time updates in list views
+      account = Account.find(account_id)
+      account.users.each do |user|
+        user_pubsub_token = user.pubsub_token
+        Rails.logger.info "🔊 Also broadcasting to user #{user.id} with token: #{user_pubsub_token}"
+        ActionCable.server.broadcast(user_pubsub_token, broadcast_data)
+      end
+      
+      Rails.logger.info "✅ Reconnect event broadcasted successfully"
     rescue StandardError => e
-      Rails.logger.error "Failed to broadcast reconnect event: #{e.message}"
+      Rails.logger.error "❌ Failed to broadcast reconnect event: #{e.message}"
+      Rails.logger.error "❌ Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
     end
   end
 
