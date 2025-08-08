@@ -223,7 +223,9 @@ class Waha::CallbackController < ApplicationController
       phone_number: channel.phone_number,
       connected: status == 'logged_in',
       inbox_id: inbox.id,
-      channel_id: channel.id
+      channel_id: channel.id,
+      account_id: account.id,
+      timestamp: Time.current.iso8601
     })
   end
 
@@ -253,6 +255,7 @@ class Waha::CallbackController < ApplicationController
       message: 'WhatsApp session is ready for messaging!',
       inbox_id: inbox.id,
       channel_id: channel.id,
+      account_id: account.id,
       timestamp: Time.current.iso8601
     })
     
@@ -452,8 +455,27 @@ class Waha::CallbackController < ApplicationController
     account = inbox.account
     pubsub_token = "#{account.id}_inbox_#{inbox.id}"
 
+    # Check if this is a rescan context
+    current_rescan_attempts = channel.read_rescan_attempts_from_cache
+    is_rescan = current_rescan_attempts > 0
+
     remaining_attempts = max_attempts && current_attempts ? max_attempts - current_attempts : nil
     Rails.logger.info "🔍 Calculated remaining_attempts: #{remaining_attempts}"
+    Rails.logger.info "🔍 Rescan context - is_rescan: #{is_rescan}, rescan_attempts: #{current_rescan_attempts}"
+    
+    message = if remaining_attempts
+                if is_rescan
+                  "WhatsApp number mismatch detected during rescan. #{remaining_attempts} attempts remaining."
+                else
+                  "WhatsApp number mismatch detected. #{remaining_attempts} attempts remaining."
+                end
+              else
+                if is_rescan
+                  'WhatsApp number mismatch detected during rescan. Please scan QR code with the correct phone number.'
+                else
+                  'WhatsApp number mismatch detected. Please scan QR code with the correct phone number.'
+                end
+              end
     
     broadcast_data = {
       event: 'whatsapp_status_changed',
@@ -464,9 +486,9 @@ class Waha::CallbackController < ApplicationController
       current_attempts: current_attempts,
       max_attempts: max_attempts,
       remaining_attempts: remaining_attempts,
-      message: remaining_attempts ? 
-        "WhatsApp number mismatch detected. #{remaining_attempts} attempts remaining." :
-        'WhatsApp number mismatch detected. Please scan QR code with the correct phone number.',
+      rescan_context: is_rescan,
+      rescan_attempts: current_rescan_attempts,
+      message: message,
       inbox_id: inbox.id,
       channel_id: channel.id
     }

@@ -48,7 +48,6 @@ export default {
     },
 
     onStatusChanged(statusData) {
-      console.log('WhatsApp status changed:', statusData);
       // Update local state or trigger other actions if needed
     },
 
@@ -58,7 +57,6 @@ export default {
     },
 
     onSessionRestarted(data) {
-      console.log('WhatsApp session restarted:', data);
       useAlert('Session WhatsApp berhasil direstart');
     },
 

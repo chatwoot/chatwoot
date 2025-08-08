@@ -1,6 +1,7 @@
 <script>
 import WhatsAppUnofficialChannels from 'dashboard/api/WhatsAppUnofficialChannels';
 import { createConsumer } from '@rails/actioncable';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
@@ -28,12 +29,27 @@ export default {
       refreshTimer: null,
     };
   },
+  computed: {
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
+      currentUserId: 'getCurrentUserID',
+    }),
+    userPubsubToken() {
+      return this.currentUser?.pubsub_token;
+    },
+  },
   async mounted() {
     await this.checkStatus();
     this.setupWebSocketSubscription();
     if (this.autoRefresh) {
       this.startAutoRefresh();
     }
+    
+    // Add a test method to manually trigger status check for debugging
+    window[`testWhatsAppStatus_${this.inboxId}`] = () => {
+      this.checkStatus();
+    };
   },
   beforeUnmount() {
     this.stopAutoRefresh();
@@ -42,43 +58,76 @@ export default {
   methods: {
     async checkStatus() {
       try {
-        const response = await WhatsAppUnofficialChannels.getConnectionStatus(this.inboxId, false);
-        this.connected = response.data?.connected || false;
+        const response = await WhatsAppUnofficialChannels.getConnectionStatus(this.inboxId, true);
+        const newConnected = response.data?.connected || false;
+        const oldConnected = this.connected;
         
+        this.connected = newConnected;
+                
         this.$emit('status-changed', {
           connected: this.connected,
           inboxId: this.inboxId,
+          lastChecked: Date.now(),
+          statusChanged: oldConnected !== newConnected,
+          source: 'real-time'
         });
       } catch (error) {
-        console.error('Failed to check WhatsApp status:', error);
+        console.error(`❌ Failed to check WhatsApp status for inbox ${this.inboxId}:`, error);
         this.connected = false;
+        
+        this.$emit('status-changed', {
+          connected: false,
+          inboxId: this.inboxId,
+          lastChecked: Date.now(),
+          error: true,
+          source: 'real-time'
+        });
       }
     },
 
     setupWebSocketSubscription() {
       try {
-        const pubsub_token = `${this.accountId}_inbox_${this.inboxId}`;
+        // Use user's pubsub_token for authentication (same as BaseActionCableConnector)
+        const pubsub_token = this.userPubsubToken;
         const cable = createConsumer();
+
+        if (!pubsub_token || !this.currentUserId || !this.currentAccountId) {
+          console.error(`❌ Cannot setup WebSocket: missing required data`);
+          return;
+        }
         
         this.subscription = cable.subscriptions.create(
           { 
             channel: 'RoomChannel',
-            pubsub_token: pubsub_token
+            pubsub_token: pubsub_token,
+            user_id: this.currentUserId,
+            account_id: this.currentAccountId
           },
           {
-            received: (data) => {
+            connected: () => {
+            },
+            disconnected: () => {
+            },
+            received: (data) => {              
               if (data.event === 'whatsapp_status_changed') {
-                this.handleStatusUpdate(data);
+                const isForOurInbox = data.inbox_id === parseInt(this.inboxId) || 
+                                    (!data.inbox_id && data.phone_number); // fallback for old messages
+                
+                if (isForOurInbox) {
+                  this.handleStatusUpdate(data);
+                } else {
+                }
               }
             },
           }
         );
       } catch (error) {
-        console.error('Failed to setup WebSocket for status monitoring:', error);
+        console.error(`❌ Failed to setup WebSocket for inbox ${this.inboxId}:`, error);
       }
     },
 
     handleStatusUpdate(data) {
+      
       const oldConnected = this.connected;
       
       if (data.type === 'session_ready' || data.type === 'phone_validation_success' || data.type === 'auto_reconnect') {
@@ -93,6 +142,9 @@ export default {
         this.$emit('status-changed', {
           connected: this.connected,
           inboxId: this.inboxId,
+          lastUpdated: Date.now(),
+          updateSource: 'websocket',
+          updateType: data.type || 'status'
         });
       }
     },
@@ -106,10 +158,8 @@ export default {
 
     startAutoRefresh() {
       this.refreshTimer = setInterval(() => {
-        if (this.connected !== true) {
-          this.checkStatus();
-        }
-      }, this.refreshInterval);
+        this.checkStatus();
+      }, this.refreshInterval);  
     },
 
     stopAutoRefresh() {
@@ -125,11 +175,11 @@ export default {
 <template>
   <div class="relative flex items-center">
     <div
-      class="w-4 h-4 rounded-full border-2 border-white shadow-md"
+      class="w-4 h-4 rounded-full border-2 shadow-md"
       :class="{
-        'bg-green-500': connected === true,
-        'bg-red-500': connected === false,
-        'bg-gray-400': connected === null
+        'bg-green-500 border-white dark:border-slate-800': connected === true,
+        'bg-red-500 border-white dark:border-slate-800': connected === false,
+        'bg-gray-400 border-white dark:border-slate-800': connected === null
       }"
       :title="connected === true ? 'WhatsApp Terhubung' : connected === false ? 'WhatsApp Terputus' : 'Status tidak diketahui'"
     ></div>
