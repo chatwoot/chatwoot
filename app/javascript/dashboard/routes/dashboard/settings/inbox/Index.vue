@@ -135,34 +135,35 @@ onUnmounted(() => {
 });
 
 const getChannelIcon = (inbox) => {
-  return getInboxIconByType(inbox.channel_type, inbox.phone_number, 'fill');
+  const icon = getInboxIconByType(inbox.channel_type, inbox.phone_number, 'fill');
+  return icon;
 };
 
 const getChannelIconColor = (inbox) => {
   const channelType = inbox.channel_type;
-  
+
   switch (channelType) {
     case 'Channel::Whatsapp':
     case 'Channel::WhatsappUnofficial':
-      return 'text-green-600'; // WhatsApp green
+      return '!text-green-600'; // WhatsApp green with !important
     case 'Channel::Instagram':
-      return 'text-pink-600'; // Instagram pink/purple
+      return '!text-pink-600'; // Instagram pink/purple with !important
     case 'Channel::FacebookPage':
-      return 'text-blue-600'; // Facebook blue
+      return '!text-blue-600'; // Facebook blue with !important
     case 'Channel::TwitterProfile':
-      return 'text-sky-500'; // Twitter blue
+      return '!text-sky-500'; // Twitter blue with !important
     case 'Channel::Telegram':
-      return 'text-blue-500'; // Telegram blue
+      return '!text-blue-500'; // Telegram blue with !important
     case 'Channel::Email':
-      return 'text-gray-600'; // Email gray
+      return '!text-gray-600'; // Email gray with !important
     case 'Channel::Api':
-      return 'text-purple-600'; // API purple
+      return '!text-purple-600'; // API purple with !important
     case 'Channel::Line':
-      return 'text-green-500'; // LINE green
+      return '!text-green-500'; // LINE green with !important
     case 'Channel::WebWidget':
-      return 'text-blue-500'; // Web widget blue
+      return '!text-blue-500'; // Web widget blue with !important
     default:
-      return 'text-gray-600'; // Default gray
+      return '!text-gray-600'; // Default gray with !important
   }
 };
 
@@ -178,6 +179,35 @@ const getStatusTooltip = (inbox) => {
   const source = status.updateSource === 'websocket' ? 'Real-time' : 'Manual check';
   
   return `Status: ${statusText}\nTerakhir update: ${timeAgo}\nSumber: ${source}`;
+};
+
+// Temporary function to test inline colors (for debugging)
+const getInlineColorStyle = (inbox) => {
+  const channelType = inbox.channel_type;
+  
+  switch (channelType) {
+    case 'Channel::Whatsapp':
+    case 'Channel::WhatsappUnofficial':
+      return { color: '#16a34a' }; // green-600
+    case 'Channel::Instagram':
+      return { color: '#db2777' }; // pink-600
+    case 'Channel::FacebookPage':
+      return { color: '#2563eb' }; // blue-600
+    case 'Channel::TwitterProfile':
+      return { color: '#0ea5e9' }; // sky-500
+    case 'Channel::Telegram':
+      return { color: '#3b82f6' }; // blue-500
+    case 'Channel::Email':
+      return { color: '#6b7280' }; // gray-600
+    case 'Channel::Api':
+      return { color: '#9333ea' }; // purple-600
+    case 'Channel::Line':
+      return { color: '#22c55e' }; // green-500
+    case 'Channel::WebWidget':
+      return { color: '#3b82f6' }; // blue-500
+    default:
+      return { color: '#6b7280' }; // gray-600
+  }
 };
 </script>
 
@@ -229,9 +259,11 @@ const getStatusTooltip = (inbox) => {
                     class="w-12 h-12 bg-black-50 dark:bg-black-800 rounded-full p-2 ring ring-opacity-20 dark:ring-opacity-80 ring-black-100 dark:ring-black-900 border border-slate-100 dark:border-slate-700/50 shadow-sm flex items-center justify-center"
                   >
                     <i 
-                      :class="[getChannelIcon(inbox), getChannelIconColor(inbox)]"
-                      class="text-xl"
+                      :class="`${getChannelIcon(inbox)} ${getChannelIconColor(inbox)} text-xl`"
+                      :style="getInlineColorStyle(inbox)"
                     />
+                    <!-- Debug: Show class info -->
+                    <span class="sr-only">{{ getChannelIcon(inbox) }} {{ getChannelIconColor(inbox) }}</span>
                   </div>
                   
                   <!-- WhatsApp Status Indicator Circle - positioned at bottom-right corner of avatar -->
