@@ -42,7 +42,9 @@ export default {
           return 'Menghasilkan kode QR baru...';
         case 'mismatch':
           const remainingAttempts = this.maxMismatchAttempts - this.mismatchAttempts;
-          return `Nomor WhatsApp tidak sesuai! Sisa ${remainingAttempts} kesempatan`;
+          const rescanContext = this.mismatchInfo?.rescanContext;
+          const prefix = rescanContext ? 'Re-scan' : 'Nomor WhatsApp';
+          return `${prefix} tidak sesuai! Sisa ${remainingAttempts} kesempatan`;
         case 'failed':
           return 'Gagal menghubungkan ke WhatsApp';
         default:
@@ -153,7 +155,13 @@ export default {
 
       } else if (data.type === 'session_mismatch') {
         console.error('📱 Phone number mismatch detected!', data);
-        this.handlePhoneMismatch(data.expected_phone, data.connected_phone, data.current_attempts, data.remaining_attempts);
+        console.log('📊 Rescan context:', {
+          rescan_context: data.rescan_context,
+          rescan_attempts: data.rescan_attempts,
+          current_attempts: data.current_attempts,
+          remaining_attempts: data.remaining_attempts
+        });
+        this.handlePhoneMismatch(data.expected_phone, data.connected_phone, data.current_attempts, data.remaining_attempts, data.rescan_context);
 
       } else if (data.type === 'session_failed') {
         console.error('📱 WhatsApp connection failed after maximum attempts!', data);
@@ -301,7 +309,7 @@ export default {
       }
     },
 
-    handlePhoneMismatch(expectedPhone, connectedPhone, currentAttempts = null, remainingAttempts = null) {
+    handlePhoneMismatch(expectedPhone, connectedPhone, currentAttempts = null, remainingAttempts = null, rescanContext = false) {
       // Debounce mismatch events - ignore if less than 10 seconds since last mismatch
       const now = Date.now();
       if (now - this.lastMismatchTime < 10000) {
@@ -329,12 +337,17 @@ export default {
       this.connectionStatus = 'mismatch';
       this.mismatchInfo = {
         expected: expectedPhone,
-        connected: connectedPhone
+        connected: connectedPhone,
+        rescanContext: rescanContext
       };
       this.clearIntervals();
       
       const remaining = remainingAttempts !== null ? remainingAttempts : (this.maxMismatchAttempts - this.mismatchAttempts);
-      useAlert(`Nomor WhatsApp tidak sesuai! Sisa ${remaining} kesempatan lagi.`);
+      const message = rescanContext 
+        ? `Nomor WhatsApp tidak sesuai saat re-scan! Sisa ${remaining} kesempatan lagi.`
+        : `Nomor WhatsApp tidak sesuai! Sisa ${remaining} kesempatan lagi.`;
+      
+      useAlert(message);
       
       setTimeout(async () => {
         if (this.connectionStatus === 'mismatch') {

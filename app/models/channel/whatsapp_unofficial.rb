@@ -23,6 +23,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   EDITABLE_ATTRS = [:token].freeze
 
   before_destroy :clear_session_status_cache
+  before_destroy :clear_rescan_attempts
 
   before_destroy :clear_session_status_cache
 
@@ -155,12 +156,39 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     "whatsapp_mismatch_attempts_#{phone_number}"
   end
 
+  def rescan_attempts_cache_key
+    "whatsapp_rescan_attempts_#{phone_number}"
+  end
+
   def read_session_status_from_cache
     ::Redis::Alfred.get(session_status_cache_key)
   end
 
   def read_mismatch_attempts_from_cache
     ::Redis::Alfred.get(mismatch_attempts_cache_key).to_i
+  end
+
+  def read_rescan_attempts_from_cache
+    ::Redis::Alfred.get(rescan_attempts_cache_key).to_i
+  end
+
+  def increment_rescan_attempts
+    key = rescan_attempts_cache_key
+    current_value = ::Redis::Alfred.get(key).to_i
+    Rails.logger.info "REDIS: Current rescan attempts before increment: #{current_value} for #{phone_number}"
+    
+    new_attempts = ::Redis::Alfred.incr(key)
+    
+    # Set expiry only on first increment (24 hours)
+    ::Redis::Alfred.expire(key, 24.hours.to_i) if new_attempts == 1
+    
+    Rails.logger.info "REDIS: Incremented rescan attempts to #{new_attempts} for #{phone_number}"
+    new_attempts
+  end
+
+  def clear_rescan_attempts
+    ::Redis::Alfred.delete(rescan_attempts_cache_key)
+    Rails.logger.info "REDIS: Cleared rescan attempts for #{phone_number}"
   end
 
   def increment_mismatch_attempts
@@ -423,9 +451,19 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   def restart_session_for_rescan
     Rails.logger.info "🔄 Starting COMPLETE restart for: #{phone_number}"
 
-    # Clear existing validation state
+    # DON'T clear mismatch attempts - keep tracking for rescan schema
+    # Only clear session status cache
     clear_session_status_cache
-    clear_mismatch_attempts
+    
+    # Increment rescan attempts for tracking
+    rescan_attempts = increment_rescan_attempts
+    Rails.logger.info "📊 This is rescan attempt ##{rescan_attempts} for #{phone_number}"
+    
+    # Check if max rescan attempts reached
+    if rescan_attempts > 3
+      Rails.logger.error "❌ Maximum rescan attempts (3) reached for #{phone_number}"
+      return handle_failed_rescan_attempts
+    end
     
     begin
       old_token = token
@@ -538,6 +576,45 @@ class Channel::WhatsappUnofficial < ApplicationRecord
         max_attempts: max_attempts,
         remaining_attempts: remaining,
         message: "Phone number mismatch detected. #{remaining} attempts remaining."
+      }
+    end
+  end
+
+  # Method untuk handle failed rescan attempts
+  def handle_failed_rescan_attempts
+    current_attempts = read_rescan_attempts_from_cache
+    max_attempts = 3
+
+    Rails.logger.info "📊 Checking failed rescan attempts for #{phone_number}: #{current_attempts}/#{max_attempts}"
+
+    if current_attempts >= max_attempts
+      Rails.logger.error "❌ Maximum rescan attempts reached for #{phone_number}. Auto-deleting inbox..."
+      
+      # Mark as failed and delete the inbox
+      write_session_status_to_cache('failed', expires_in: 1.hour)
+      
+      # Disconnect WAHA session
+      disconnect_waha_session
+      
+      # Schedule inbox deletion
+      delete_inbox_after_failed_attempts
+      
+      {
+        success: false,
+        auto_deleted: true,
+        attempts: current_attempts,
+        max_attempts: max_attempts,
+        message: "Failed to reconnect after #{max_attempts} rescan attempts. Inbox has been automatically removed."
+      }
+    else
+      remaining = max_attempts - current_attempts
+      {
+        success: false,
+        auto_deleted: false,
+        attempts: current_attempts,
+        max_attempts: max_attempts,
+        remaining_attempts: remaining,
+        message: "Phone number mismatch detected during rescan. #{remaining} attempts remaining."
       }
     end
   end
@@ -697,6 +774,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       if expected_clean == callback_clean
         Rails.logger.info "✅ Phone validation SUCCESS - numbers match!"
         clear_mismatch_attempts
+        clear_rescan_attempts # Also clear rescan attempts on success
         write_session_status_to_cache('validated')
 
         return {
@@ -708,10 +786,20 @@ class Channel::WhatsappUnofficial < ApplicationRecord
         Rails.logger.error "❌ Phone validation FAILED - phone mismatch detected"
         Rails.logger.error "❌ Expected: #{expected_clean}, Got: #{callback_clean}"
         
+        # Check if this is a rescan attempt (rescan attempts exist)
+        current_rescan_attempts = read_rescan_attempts_from_cache
+        is_rescan = current_rescan_attempts > 0
+        
+        Rails.logger.info "📊 Mismatch context - is_rescan: #{is_rescan}, rescan_attempts: #{current_rescan_attempts}"
+        
         current_attempts = increment_mismatch_attempts
         max_attempts = 3
         
-        Rails.logger.error "❌ Mismatch attempt #{current_attempts}/#{max_attempts}"
+        if is_rescan
+          Rails.logger.error "❌ Rescan mismatch attempt #{current_attempts}/#{max_attempts} (rescan session ##{current_rescan_attempts})"
+        else
+          Rails.logger.error "❌ Initial scan mismatch attempt #{current_attempts}/#{max_attempts}"
+        end
 
         if current_attempts >= max_attempts
           Rails.logger.error "❌ Maximum mismatch attempts (#{max_attempts}) reached for #{phone_number}"
@@ -731,7 +819,8 @@ class Channel::WhatsappUnofficial < ApplicationRecord
             attempts: current_attempts,
             max_attempts: max_attempts,
             auto_deleted: true,
-            message: "Phone number validation failed after #{max_attempts} attempts."
+            message: is_rescan ? "Phone number validation failed after #{max_attempts} attempts during rescan." : "Phone number validation failed after #{max_attempts} attempts.",
+            rescan_context: is_rescan
           }
         else
           Rails.logger.error "❌ Setting mismatch status and disconnecting session"
@@ -747,10 +836,11 @@ class Channel::WhatsappUnofficial < ApplicationRecord
             status: 'mismatch',
             attempts: current_attempts,
             max_attempts: max_attempts,
-            message: 'Phone number mismatch - session logged out',
+            message: is_rescan ? 'Phone number mismatch during rescan - session logged out' : 'Phone number mismatch - session logged out',
             expected_phone: expected_clean,
             connected_phone: callback_clean,
-            logout_result: logout_result
+            logout_result: logout_result,
+            rescan_context: is_rescan
           }
         end
       end
