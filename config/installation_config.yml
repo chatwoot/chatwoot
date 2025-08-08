@@ -148,6 +148,15 @@
   description: 'Configure this if you want to use a different WhatsApp API version. Make sure its prefixed with `v`'
   value: 'v22.0'
   locked: false
+- name: WHATSAPP_FEATURE_TYPE
+  display_title: 'WhatsApp Signup Flow Type'
+  description: 'Select how the embedded signup should behave.'
+  type: select
+  value: ''
+  options:
+    '': 'Default flow (use new number)'
+    'whatsapp_business_app_onboarding': 'Coexistence (use existing WhatsApp Business number or new number)'
+  locked: false
 # ------- End of WhatsApp Channel Related Config ------- #
 
 # MARK: Microsoft Email Channel Config
