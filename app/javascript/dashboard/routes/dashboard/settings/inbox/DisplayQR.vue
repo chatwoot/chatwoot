@@ -26,18 +26,24 @@ export default {
       lastMismatchTime: 0, 
       mismatchAttempts: 0,
       maxMismatchAttempts: 3,
+      lastSuccessAlertTime: 0, // Add debouncing for success alerts
     };
   },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
     }),
+    isRescanContext() {
+      // Detect if this is a rescan by checking if we came from the inbox settings page
+      // or if there's a 'rescan' query parameter
+      return this.$route.query.rescan === 'true' || this.$route.query.context === 'rescan';
+    },
     statusMessage() {
       switch (this.connectionStatus) {
         case 'waiting':
-          return 'Menunggu dipindai...';
+          return this.isRescanContext ? 'Menunggu re-scan...' : 'Menunggu dipindai...';
         case 'connected':
-          return 'Berhasil terhubung!';
+          return this.isRescanContext ? 'Berhasil terkoneksi kembali!' : 'Berhasil terhubung!';
         case 'expired':
           return 'Menghasilkan kode QR baru...';
         case 'mismatch':
@@ -59,12 +65,20 @@ export default {
         return 'Silakan tutup jendela ini dan coba lagi dari halaman "Platform Terhubung"';
       }
       if (this.expectedPhoneNumber) {
-        return `Pastikan Anda menggunakan WhatsApp dengan nomor ${this.expectedPhoneNumber}`;
+        const context = this.isRescanContext ? 're-scan QR code' : 'scan QR code';
+        return `Pastikan Anda ${context} menggunakan WhatsApp dengan nomor ${this.expectedPhoneNumber}`;
       }
-      return 'Silakan pindai kode ini menggunakan aplikasi WhatsApp Anda';
+      const action = this.isRescanContext ? 're-scan kode ini' : 'pindai kode ini';
+      return `Silakan ${action} menggunakan aplikasi WhatsApp Anda`;
     },
     failedMessage() {
       return 'Gagal menghubungkan ke WhatsApp.';
+    },
+    pageTitle() {
+      return this.isRescanContext ? 'Re-scan QR Code WhatsApp' : this.$t('INBOX_MGMT.ADD.QRCODE.TITLE');
+    },
+    pageDescription() {
+      return this.isRescanContext ? 'Scan ulang QR code untuk menghubungkan kembali WhatsApp Anda' : this.$t('INBOX_MGMT.ADD.QRCODE.DESC');
     }
   },
   async mounted() {
@@ -146,8 +160,24 @@ export default {
 
       if (data.type === 'session_ready' || data.type === 'phone_validation_success') {
         // console.log('🎉 WhatsApp connected successfully!');
+        
+        // Prevent duplicate status handling
+        if (this.connectionStatus === 'connected') {
+          return; // Already handled
+        }
+        
         this.connectionStatus = 'connected';
         this.clearIntervals();
+        
+        // Show different success message based on context (only once)
+        if (this.isRescanContext) {
+          // Debounce success alerts - only show if more than 3 seconds since last alert
+          const now = Date.now();
+          if (now - this.lastSuccessAlertTime > 3000) {
+            useAlert('WhatsApp berhasil terkoneksi kembali!');
+            this.lastSuccessAlertTime = now;
+          }
+        }
         
         setTimeout(() => {
           this.redirectToInboxSettings();
@@ -268,8 +298,29 @@ export default {
     },
 
     redirectToInboxSettings() {
-      // console.log('🚀 Redirecting to inbox settings...');
-      this.proceedToNextStep();
+      // console.log('🚀 Redirecting based on context...');
+      if (this.isRescanContext) {
+        // For rescan, redirect back to inbox settings/status page
+        this.redirectToInboxStatusPage();
+      } else {
+        // For initial scan, proceed to add agents page
+        this.proceedToNextStep();
+      }
+    },
+
+    redirectToInboxStatusPage() {
+      // console.log('🚀 Redirecting to inbox status page (rescan context)...');
+      const accountId = this.$route.params.accountId;
+      const inboxId = this.$route.params.inbox_id;
+      
+      // Redirect to inbox detail/status page
+      router.replace({
+        name: 'settings_inbox_show',
+        params: {
+          accountId: accountId,
+          inboxId: inboxId
+        }
+      });
     },
 
     clearIntervals() {
@@ -459,8 +510,8 @@ export default {
     <div class="flex flex-wrap mx-0">
       <div class="w-full">
         <PageHeader
-          :header-title="$t('INBOX_MGMT.ADD.QRCODE.TITLE')"
-          :header-content="$t('INBOX_MGMT.ADD.QRCODE.DESC')"
+          :header-title="pageTitle"
+          :header-content="pageDescription"
         />
       </div>
 
@@ -523,7 +574,7 @@ export default {
                 </div>
 
                 <div v-if="connectionStatus === 'connected'" class="text-green-600 dark:text-green-400 text-xs">
-                  Mengarahkan ke langkah berikutnya...
+                  {{ isRescanContext ? 'Mengarahkan kembali ke pengaturan...' : 'Mengarahkan ke langkah berikutnya...' }}
                 </div>
 
                 <div v-if="connectionStatus === 'expired'" class="text-orange-600 dark:text-orange-400 text-xs">

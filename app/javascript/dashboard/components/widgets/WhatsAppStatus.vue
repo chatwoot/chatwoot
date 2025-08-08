@@ -210,13 +210,18 @@ export default {
         
         // Show success alert - different message based on context
         if (oldStatus !== 'connected') {
-          if (this.isFromRestart) {
-            // This came from re-scan QR action
-            useAlert('WhatsApp berhasil terkoneksi kembali!');
-            this.isFromRestart = false; // Reset flag
-          } else {
-            // This is just status update/auto-reconnect
-            useAlert('WhatsApp berhasil terkoneksi!');
+          // Check if user is currently on QR page to avoid duplicate alerts
+          const isOnQRPage = this.$route && this.$route.name === 'settings_inboxes_display_qrcode';
+          
+          if (!isOnQRPage) {
+            if (this.isFromRestart) {
+              // This came from re-scan QR action
+              useAlert('WhatsApp berhasil terkoneksi kembali!');
+              this.isFromRestart = false; // Reset flag
+            } else {
+              // This is just status update/auto-reconnect
+              useAlert('WhatsApp berhasil terkoneksi!');
+            }
           }
         }
         
@@ -242,11 +247,16 @@ export default {
         
         // Show success alert when status changes to connected (without auto-redirect)
         if (data.connected && oldStatus !== 'connected') {
-          if (this.isFromRestart) {
-            useAlert('WhatsApp berhasil terkoneksi kembali!');
-            this.isFromRestart = false; // Reset flag
-          } else {
-            useAlert('WhatsApp berhasil terkoneksi!');
+          // Check if user is currently on QR page to avoid duplicate alerts
+          const isOnQRPage = this.$route && this.$route.name === 'settings_inboxes_display_qrcode';
+          
+          if (!isOnQRPage) {
+            if (this.isFromRestart) {
+              useAlert('WhatsApp berhasil terkoneksi kembali!');
+              this.isFromRestart = false; // Reset flag
+            } else {
+              useAlert('WhatsApp berhasil terkoneksi!');
+            }
           }
         }
       }
@@ -290,12 +300,15 @@ export default {
     },
 
     goToQRPage() {
-      // Navigate to QR page for this inbox
+      // Navigate to QR page for this inbox with rescan context
       this.$router.push({
         name: 'settings_inboxes_display_qrcode',
         params: {
           accountId: this.accountId,
           inbox_id: this.inboxId,
+        },
+        query: {
+          rescan: 'true'
         }
       });
     },
