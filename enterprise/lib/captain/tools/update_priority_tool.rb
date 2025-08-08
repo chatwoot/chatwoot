@@ -23,7 +23,9 @@ class Captain::Tools::UpdatePriorityTool < Captain::Tools::BasePublicTool
   end
 
   def normalize_priority(priority)
-    priority == 'nil' || priority.blank? ? nil : priority
+    return nil if priority == 'nil' || priority.blank?
+
+    priority.downcase
   end
 
   def valid_priority?(priority)
