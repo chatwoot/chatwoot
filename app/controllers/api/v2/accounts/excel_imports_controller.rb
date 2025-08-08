@@ -23,7 +23,9 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
     end
 
     data_array = params[:data]
-    file_name = params[:file_name]
+    file_name = sanitize_filename(params[:file_name])
+    file_type = sanitize_mime_type(params[:file_type])
+    file_size = params[:file_size].to_i if params[:file_size]
 
     if data_array.blank? || !data_array.is_a?(Array)
       render json: { error: 'Data must be a non-empty array' }, status: :bad_request
@@ -35,6 +37,16 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
       return
     end
 
+    if file_type.blank?
+      render json: { error: 'File type is required' }, status: :bad_request
+      return
+    end
+
+    if file_size.blank? || !file_size.is_a?(Integer) || file_size <= 0
+      render json: { error: 'File size must be a positive integer' }, status: :bad_request
+      return
+    end
+
     import_service = ExcelImport::ExcelImportService.new(
       account_id: Current.account.id,
       store_id: knowledge_source.store_id,
@@ -43,6 +55,16 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
     )
 
     result = import_service.process_data_import
+
+    # Rails.logger.info "Excel import completed: #{result[:import_id]}"
+
+    file = OpenStruct.new(
+      content_type: file_type,
+      size: file_size,
+      file_name: file_name,
+    )
+
+    knowledge_source.add_excel_file!(file: file, result: result)
 
     if result[:success]
       render json: {
@@ -132,6 +154,30 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
 
   #   render json: { error: I18n.t('ai_agents.knowledge_source.file_size_error') }, status: :unprocessable_entity
   # end
+
+  private
+
+  def sanitize_filename(filename)
+    return nil if filename.blank?
+
+    # Remove dangerous characters and limit length
+    sanitized = filename.to_s.gsub(/[^a-zA-Z0-9._-]/, '_').strip
+    sanitized = sanitized[0..255] # Limit length
+    sanitized.presence
+  end
+
+  def sanitize_mime_type(mime_type)
+    return nil if mime_type.blank?
+
+    # Whitelist allowed mime types
+    allowed_types = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel',
+      'text/csv'
+    ]
+
+    mime_type.to_s.strip.downcase if allowed_types.include?(mime_type.to_s.strip.downcase)
+  end
 
   def set_ai_agent
     @ai_agent = Current.account.ai_agents.find(params[:ai_agent_id])
