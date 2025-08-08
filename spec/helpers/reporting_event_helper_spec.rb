@@ -24,7 +24,7 @@ RSpec.describe ReportingEventHelper, type: :helper do
       end
 
       it 'returns handoff event end time' do
-        expect(helper.last_non_human_activity(conversation)).to eq(handoff_event.event_end_time)
+        expect(helper.last_non_human_activity(conversation).to_i).to eq(handoff_event.event_end_time.to_i)
       end
     end
 
@@ -39,7 +39,7 @@ RSpec.describe ReportingEventHelper, type: :helper do
       end
 
       it 'returns bot resolved event end time' do
-        expect(helper.last_non_human_activity(conversation)).to eq(bot_resolved_event.event_end_time)
+        expect(helper.last_non_human_activity(conversation).to_i).to eq(bot_resolved_event.event_end_time.to_i)
       end
     end
 
@@ -100,11 +100,11 @@ RSpec.describe ReportingEventHelper, type: :helper do
         # This is the key test: last_non_human_activity should return the reopening time
         # so that first response time is calculated from when the conversation was reopened,
         # not from when it was originally created
-        expect(helper.last_non_human_activity(conversation)).to eq(reopening_time)
+        expect(helper.last_non_human_activity(conversation).to_i).to eq(reopening_time.to_i)
 
         # Verify it's not returning the creation time or bot resolution time
-        expect(helper.last_non_human_activity(conversation)).not_to eq(creation_time)
-        expect(helper.last_non_human_activity(conversation)).not_to eq(bot_resolution_time)
+        expect(helper.last_non_human_activity(conversation).to_i).not_to eq(creation_time.to_i)
+        expect(helper.last_non_human_activity(conversation).to_i).not_to eq(bot_resolution_time.to_i)
       end
     end
 
@@ -136,7 +136,7 @@ RSpec.describe ReportingEventHelper, type: :helper do
 
       it 'returns the most recent handoff or opened event' do
         # opened_event is more recent than handoff_event
-        expect(helper.last_non_human_activity(conversation)).to eq(opened_event_time)
+        expect(helper.last_non_human_activity(conversation).to_i).to eq(opened_event_time.to_i)
       end
     end
 
@@ -170,7 +170,7 @@ RSpec.describe ReportingEventHelper, type: :helper do
       end
 
       it 'returns the most recent opened event' do
-        expect(helper.last_non_human_activity(conversation)).to eq(third_opened_time)
+        expect(helper.last_non_human_activity(conversation).to_i).to eq(third_opened_time.to_i)
       end
     end
   end
