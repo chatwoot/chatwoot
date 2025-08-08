@@ -33,6 +33,12 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
       return
     end
 
+    # Backend check: limit JSON data array to 5 MB
+    if data_array.to_json.bytesize > MAX_FILE_SIZE_MB.megabytes
+      render json: { error: 'Data array exceeds maximum allowed size (5 MB)' }, status: :unprocessable_entity
+      return
+    end
+
     if file_name.blank?
       render json: { error: 'File name is required' }, status: :bad_request
       return
