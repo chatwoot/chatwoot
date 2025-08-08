@@ -111,8 +111,7 @@ const completeSignupFlow = async businessDataParam => {
       business_id: businessDataParam.business_id,
       waba_id: businessDataParam.waba_id,
       phone_number_id: businessDataParam.phone_number_id,
-      is_business_app_onboarding:
-        businessDataParam.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
+      is_business_app_onboarding: businessDataParam.is_business_app_onboarding,
     };
 
     const responseData = await store.dispatch(
@@ -144,7 +143,11 @@ const handleEmbeddedSignupData = async data => {
     data.event === 'FINISH' ||
     data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
   ) {
-    const businessDataLocal = data.data;
+    const businessDataLocal = {
+      ...data.data,
+      is_business_app_onboarding:
+        data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
+    };
 
     if (isValidBusinessData(businessDataLocal)) {
       businessData.value = businessDataLocal;
