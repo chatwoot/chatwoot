@@ -4,6 +4,7 @@ class ExcelImport::ExcelImportService
 
   field :account_id, type: Integer   # Who owns this import
   field :file_name, type: String, default: 'data_import' # Import name/identifier
+  field :description, type: String # Optional description for the import
   field :status, type: String, default: 'pending' # overall: pending/completed/failed
   field :total_rows, type: Integer # Total number of rows in the data
   field :processed_rows, type: Integer, default: 0 # Number of rows processed
@@ -14,12 +15,13 @@ class ExcelImport::ExcelImportService
 
   validates :account_id, presence: true
 
-  def initialize(account_id:, data_array:, store_id:, file_name: nil)
+  def initialize(account_id:, data_array:, store_id:, file_name: nil, description: nil)
     self.class.store_by_external_id(store_id)
     super()
     @data_array = data_array
     self.account_id = account_id
     self.file_name = file_name || 'data_import'
+    self.description = description
     self.status = 'pending'
   end
 
@@ -69,6 +71,7 @@ class ExcelImport::ExcelImportService
       processed_rows: processed_rows,
       error_count: error_count,
       file_name: file_name,
+      description: description,
       created_at: created_at,
       metadata: metadata
     }

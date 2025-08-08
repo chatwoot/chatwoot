@@ -26,6 +26,7 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
     file_name = sanitize_filename(params[:file_name])
     file_type = sanitize_mime_type(params[:file_type])
     file_size = params[:file_size].to_i if params[:file_size]
+    description = sanitize_description(params[:description])
 
     if data_array.blank? || !data_array.is_a?(Array)
       render json: { error: 'Data must be a non-empty array' }, status: :bad_request
@@ -51,7 +52,8 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
       account_id: Current.account.id,
       store_id: knowledge_source.store_id,
       file_name: file_name,
-      data_array: data_array
+      data_array: data_array,
+      description: description
     )
 
     result = import_service.process_data_import
@@ -61,7 +63,7 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
     file = OpenStruct.new(
       content_type: file_type,
       size: file_size,
-      file_name: file_name,
+      file_name: file_name
     )
 
     knowledge_source.add_excel_file!(file: file, result: result)
@@ -83,12 +85,25 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
 
   # Deletes the import record and all associated rows
   def destroy
+    file_id = params[:id] # PostgreSQL file ID
+
+    # Find the knowledge source file first
+    knowledge_source_file = @ai_agent.knowledge_source.knowledge_source_files.find_by(id: file_id)
+
+    unless knowledge_source_file
+      render json: { error: 'File not found' }, status: :not_found
+      return
+    end
+
     import_service = find_import_service
     return unless import_service
 
     begin
-      # Delete the import record and associated rows
+      # Delete the MongoDB import record and associated rows
       import_service.destroy
+
+      # Delete the PostgreSQL knowledge source file record
+      knowledge_source_file.destroy
 
       render json: {
         success: true,
@@ -124,7 +139,23 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
 
   # Finds the ExcelImportService for the given import_id, ensuring it belongs to the current account
   def find_import_service
-    import_id = params[:id]
+    file_id = params[:id] # This is the PostgreSQL file ID
+
+    # Find the knowledge source file to get the loader_id (MongoDB import_id)
+    knowledge_source_file = @ai_agent.knowledge_source.knowledge_source_files.find_by(id: file_id)
+
+    unless knowledge_source_file
+      render json: { error: 'File not found' }, status: :not_found
+      return nil
+    end
+
+    # The loader_id contains the MongoDB import_id for Excel files
+    import_id = knowledge_source_file.loader_id
+
+    unless import_id
+      render json: { error: 'Import ID not found for this file' }, status: :not_found
+      return nil
+    end
 
     begin
       import_service = ExcelImport::ExcelImportService.find(import_id)
@@ -177,6 +208,15 @@ class Api::V2::Accounts::ExcelImportsController < Api::V1::Accounts::BaseControl
     ]
 
     mime_type.to_s.strip.downcase if allowed_types.include?(mime_type.to_s.strip.downcase)
+  end
+
+  def sanitize_description(description)
+    return nil if description.blank?
+
+    # Remove potentially harmful characters and limit length
+    sanitized = description.to_s.strip
+    sanitized = sanitized[0..1000] # Limit to 1000 characters
+    sanitized.presence
   end
 
   def set_ai_agent
