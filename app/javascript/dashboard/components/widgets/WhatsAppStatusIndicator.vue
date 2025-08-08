@@ -185,14 +185,12 @@ export default {
 
     startAutoRefresh() {
       this.refreshTimer = setInterval(() => {
-        // Check status more frequently if not connected or status unknown
-        if (this.connected !== true) {
-          console.log(`⏰ Auto-refresh triggered for inbox ${this.inboxId} (status: ${this.connected})`);
-          this.checkStatus();
-        }
+        // Always check status for real-time monitoring, no conditions
+        console.log(`⏰ Auto-refresh triggered for inbox ${this.inboxId} (current status: ${this.connected})`);
+        this.checkStatus();
       }, this.refreshInterval);
       
-      console.log(`⏰ Auto-refresh started for inbox ${this.inboxId} (interval: ${this.refreshInterval}ms)`);
+      console.log(`⏰ Auto-refresh started for inbox ${this.inboxId} (interval: ${this.refreshInterval}ms) - UNCONDITIONAL`);
     },
 
     stopAutoRefresh() {

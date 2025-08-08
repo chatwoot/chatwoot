@@ -110,10 +110,11 @@ const startPeriodicStatusCheck = () => {
   // Check immediately on mount
   checkAllWhatsAppStatus();
   
-  // Then check every 30 seconds
+  // Then check every 15 seconds for real-time monitoring (no conditions)
   statusCheckTimer.value = setInterval(() => {
+    console.log('⏰ Periodic status check triggered - checking ALL WhatsApp inboxes for real-time updates');
     checkAllWhatsAppStatus();
-  }, 30000); // 30 seconds
+  }, 15000); // 15 seconds - more frequent for real-time feel
 };
 
 // Stop periodic checking
