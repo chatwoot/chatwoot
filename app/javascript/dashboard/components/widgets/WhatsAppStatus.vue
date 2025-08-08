@@ -29,7 +29,7 @@ export default {
       isLoading: false,
       refreshTimer: null,
       subscription: null,
-      canRestart: false,
+      canRestart: true, // Default to true to show button initially
       isFromRestart: false, // Track if connection is from restart/re-scan
     };
   },
@@ -38,16 +38,16 @@ export default {
       switch (this.connectionStatus) {
         case 'connected':
         case 'logged_in':
-          return 'text-green-600';
+          return 'text-green-600 dark:text-green-400';
         case 'disconnected':
         case 'not_logged_in':
-          return 'text-red-600';
+          return 'text-red-600 dark:text-red-400';
         case 'pending_validation':
-          return 'text-yellow-600';
+          return 'text-yellow-600 dark:text-yellow-400';
         case 'checking':
-          return 'text-gray-600';
+          return 'text-gray-600 dark:text-gray-400';
         default:
-          return 'text-gray-600';
+          return 'text-gray-600 dark:text-gray-400';
       }
     },
     statusText() {
@@ -95,15 +95,9 @@ export default {
       }
       return this.statusText;
     },
-    actionButtonText() {
-      if (this.connectionStatus === 'connected' || this.connectionStatus === 'logged_in') {
-        return 'Sudah Terhubung';
-      }
-      return 'Scan Ulang';
-    },
     showActionButton() {
-      // Always show button, but change text and disable when connected
-      return true;
+      // Hide button when connected, show when disconnected
+      return this.connectionStatus !== 'connected' && this.connectionStatus !== 'logged_in';
     },
   },
   async mounted() {
@@ -129,9 +123,17 @@ export default {
         const status = response.data?.status || 'unknown';
         const connected = response.data?.connected || false;
         
+        console.log('WhatsApp Status Check:', { status, connected, response: response.data });
+        
         this.connectionStatus = connected ? 'connected' : status;
         this.lastChecked = new Date();
         this.canRestart = !connected && status !== 'checking';
+        
+        console.log('Updated state:', { 
+          connectionStatus: this.connectionStatus, 
+          canRestart: this.canRestart,
+          showActionButton: this.showActionButton
+        });
         
         this.$emit('status-changed', {
           status: this.connectionStatus,
@@ -150,11 +152,6 @@ export default {
     },
 
     async restartSession() {
-      // Prevent restart if already connected
-      if (this.connectionStatus === 'connected' || this.connectionStatus === 'logged_in') {
-        return;
-      }
-      
       if (!this.canRestart) return;
       
       this.isLoading = true;
@@ -322,7 +319,7 @@ export default {
 </script>
 
 <template>
-  <div class="whatsapp-status-widget p-4 border rounded-lg bg-white dark:bg-gray-800">
+  <div class="whatsapp-status-widget p-4 border rounded-lg bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
     <!-- Status Header -->
     <div class="flex items-center justify-between mb-3">
       <div class="flex items-center space-x-2">
@@ -369,7 +366,7 @@ export default {
             d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <span class="font-medium text-gray-900 dark:text-gray-100">
+        <span class="font-medium text-gray-900 dark:text-slate-100">
           Status WhatsApp
         </span>
       </div>
@@ -398,25 +395,16 @@ export default {
           </svg>
         </button>
         
+        <!-- Debug Button - Show only when not connected -->
         <button
           v-if="showActionButton"
           @click="restartSession"
-          :disabled="isLoading || (connectionStatus === 'connected' || connectionStatus === 'logged_in')"
-          :class="{
-            'bg-blue-600 hover:bg-blue-700 text-white': canRestart && connectionStatus !== 'connected' && connectionStatus !== 'logged_in',
-            'bg-green-600 text-white cursor-not-allowed': connectionStatus === 'connected' || connectionStatus === 'logged_in',
-            'bg-gray-400 text-gray-700 cursor-not-allowed': !canRestart && connectionStatus !== 'connected' && connectionStatus !== 'logged_in'
-          }"
-          class="px-3 py-1 text-sm rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          :title="connectionStatus === 'connected' || connectionStatus === 'logged_in' ? 'WhatsApp sudah terhubung' : 'Restart session dan scan ulang QR'"
+          :disabled="isLoading"
+          class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          style="min-width: 100px;"
         >
-          <span v-if="connectionStatus === 'connected' || connectionStatus === 'logged_in'" class="flex items-center space-x-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            <span>{{ actionButtonText }}</span>
-          </span>
-          <span v-else>{{ actionButtonText }}</span>
+          <span v-if="isLoading">Memuat...</span>
+          <span v-else>Scan Ulang</span>
         </button>
       </div>
     </div>
@@ -438,7 +426,7 @@ export default {
           <span :class="statusColor" class="font-medium">{{ statusText }}</span>
           <div
             v-if="isLoading"
-            class="w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"
+            class="w-3 h-3 border-2 border-green-500 border-t-transparent rounded-full animate-spin"
           ></div>
         </div>
         <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">

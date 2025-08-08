@@ -125,11 +125,11 @@ export default {
 <template>
   <div class="relative flex items-center">
     <div
-      class="w-4 h-4 rounded-full border-2 border-white shadow-md"
+      class="w-4 h-4 rounded-full border-2 shadow-md"
       :class="{
-        'bg-green-500': connected === true,
-        'bg-red-500': connected === false,
-        'bg-gray-400': connected === null
+        'bg-green-500 border-white dark:border-slate-800': connected === true,
+        'bg-red-500 border-white dark:border-slate-800': connected === false,
+        'bg-gray-400 border-white dark:border-slate-800': connected === null
       }"
       :title="connected === true ? 'WhatsApp Terhubung' : connected === false ? 'WhatsApp Terputus' : 'Status tidak diketahui'"
     ></div>
