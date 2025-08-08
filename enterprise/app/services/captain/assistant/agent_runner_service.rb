@@ -120,38 +120,42 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def add_callbacks_to_runner(runner)
-    if @callbacks[:on_agent_thinking]
-      runner = runner.on_agent_thinking do |*args|
-        @callbacks[:on_agent_thinking].call(*args)
-      rescue StandardError => e
-        Rails.logger.warn "[Captain] Callback error for agent_thinking: #{e.message}"
-      end
-    end
-
-    if @callbacks[:on_tool_start]
-      runner = runner.on_tool_start do |*args|
-        @callbacks[:on_tool_start].call(*args)
-      rescue StandardError => e
-        Rails.logger.warn "[Captain] Callback error for tool_start: #{e.message}"
-      end
-    end
-
-    if @callbacks[:on_tool_complete]
-      runner = runner.on_tool_complete do |*args|
-        @callbacks[:on_tool_complete].call(*args)
-      rescue StandardError => e
-        Rails.logger.warn "[Captain] Callback error for tool_complete: #{e.message}"
-      end
-    end
-
-    if @callbacks[:on_agent_handoff]
-      runner = runner.on_agent_handoff do |*args|
-        @callbacks[:on_agent_handoff].call(*args)
-      rescue StandardError => e
-        Rails.logger.warn "[Captain] Callback error for agent_handoff: #{e.message}"
-      end
-    end
-
+    runner = add_agent_thinking_callback(runner) if @callbacks[:on_agent_thinking]
+    runner = add_tool_start_callback(runner) if @callbacks[:on_tool_start]
+    runner = add_tool_complete_callback(runner) if @callbacks[:on_tool_complete]
+    runner = add_agent_handoff_callback(runner) if @callbacks[:on_agent_handoff]
     runner
+  end
+
+  def add_agent_thinking_callback(runner)
+    runner.on_agent_thinking do |*args|
+      @callbacks[:on_agent_thinking].call(*args)
+    rescue StandardError => e
+      Rails.logger.warn "[Captain] Callback error for agent_thinking: #{e.message}"
+    end
+  end
+
+  def add_tool_start_callback(runner)
+    runner.on_tool_start do |*args|
+      @callbacks[:on_tool_start].call(*args)
+    rescue StandardError => e
+      Rails.logger.warn "[Captain] Callback error for tool_start: #{e.message}"
+    end
+  end
+
+  def add_tool_complete_callback(runner)
+    runner.on_tool_complete do |*args|
+      @callbacks[:on_tool_complete].call(*args)
+    rescue StandardError => e
+      Rails.logger.warn "[Captain] Callback error for tool_complete: #{e.message}"
+    end
+  end
+
+  def add_agent_handoff_callback(runner)
+    runner.on_agent_handoff do |*args|
+      @callbacks[:on_agent_handoff].call(*args)
+    rescue StandardError => e
+      Rails.logger.warn "[Captain] Callback error for agent_handoff: #{e.message}"
+    end
   end
 end
