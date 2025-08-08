@@ -11,6 +11,7 @@ import InstagramReauthorize from './channels/instagram/Reauthorize.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
+import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
@@ -44,6 +45,7 @@ export default {
     GoogleReauthorize,
     NextButton,
     InstagramReauthorize,
+    WhatsappReauthorize,
     DuplicateInboxBanner,
     Editor,
   },
@@ -87,10 +89,7 @@ export default {
       return this.tabs[this.selectedTabIndex]?.key;
     },
     shouldShowWhatsAppConfiguration() {
-      return !!(
-        this.isAWhatsAppCloudChannel &&
-        this.inbox.provider_config?.source !== 'embedded_signup'
-      );
+      return this.isAWhatsAppCloudChannel;
     },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {
@@ -244,6 +243,14 @@ export default {
 
       return (
         (this.isAGoogleInbox || isLegacyInbox) &&
+        this.inbox.reauthorization_required
+      );
+    },
+    whatsappUnauthorized() {
+      return (
+        this.isAWhatsAppChannel &&
+        this.inbox.provider === 'whatsapp_cloud' &&
+        this.inbox.provider_config?.source === 'embedded_signup' &&
         this.inbox.reauthorization_required
       );
     },
@@ -416,6 +423,7 @@ export default {
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
+      <WhatsappReauthorize v-if="whatsappUnauthorized" :inbox="inbox" />
       <DuplicateInboxBanner
         v-if="hasDuplicateInstagramInbox"
         :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
