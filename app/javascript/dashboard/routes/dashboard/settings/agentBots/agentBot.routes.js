@@ -8,7 +8,7 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/agent-bots'),
       meta: {
-        permissions: ['administrator'],
+        permissions: ['super_admin'],
       },
       component: SettingsWrapper,
       children: [
@@ -18,7 +18,7 @@ export default {
           component: Bot,
           meta: {
             featureFlag: FEATURE_FLAGS.AGENT_BOTS,
-            permissions: ['administrator'],
+            permissions: ['super_admin'],
           },
         },
       ],

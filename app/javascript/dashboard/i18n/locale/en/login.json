@@ -1,18 +1,18 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chat HeyCommerce",
+    "TITLE": "Entrar no Chat HeyCommerce",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "example{'@'}companyname.com",
-      "ERROR": "Please enter a valid email address"
+      "ERROR": "Por favor, insira um endereço de email válido"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "Senha",
+      "PLACEHOLDER": "Senha"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
+      "SUCCESS_MESSAGE": "Login realizado",
+      "ERROR_MESSAGE": "Could not connect to server. Please try again.",
       "UNAUTH": "Username or password is incorrect. Please try again."
     },
     "OAUTH": {
@@ -20,8 +20,8 @@
       "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create a new account",
+    "FORGOT_PASSWORD": "Esqueceu a senha?",
+    "CREATE_NEW_ACCOUNT": "Criar nova conta",
     "SUBMIT": "Login"
   }
 }
