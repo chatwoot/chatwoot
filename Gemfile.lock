@@ -630,6 +630,8 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rbs (3.9.4)
+      logger
     redis (5.0.6)
       redis-client (>= 0.9.0)
     redis-client (0.22.2)
@@ -706,6 +708,10 @@ GEM
     rubocop-rspec (3.6.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
+    ruby-lsp (0.26.1)
+      language_server-protocol (~> 3.17.0)
+      prism (>= 1.2, < 2.0)
+      rbs (>= 3, < 5)
     ruby-openai (7.3.1)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
@@ -987,6 +993,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  ruby-lsp (~> 0.26.1)
   ruby-openai
   scout_apm
   scss_lint

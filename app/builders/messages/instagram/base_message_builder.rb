@@ -108,16 +108,50 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
 
     @message = conversation.messages.create!(message_params)
     save_story_id
+    save_post_id
+    save_shared_content_info
+
+    return if story_message? || shared_content_message?
 
     attachments.each do |attachment|
       process_attachment(attachment)
     end
   end
 
+  def story_message?
+    # Check for both story replies and post/message replies to prevent attachment duplication
+    story_reply_attributes.present? || message_reply_attributes.present?
+  end
+
+  def shared_content_message?
+    # Check if this message contains shared content (posts/stories) that shouldn't be downloaded
+    attachments.any? { |attachment| attachment['type'] == 'share' }
+  end
+
   def save_story_id
     return if story_reply_attributes.blank?
 
     @message.save_story_info(story_reply_attributes)
+  end
+
+  def save_post_id
+    return if message_reply_attributes.blank?
+
+    @message.save_post_info(message_reply_attributes)
+  end
+
+  def save_shared_content_info
+    return unless shared_content_message?
+
+    shared_attachment = attachments.find { |attachment| attachment['type'] == 'share' }
+    return unless shared_attachment
+
+    shared_url = shared_attachment.dig('payload', 'url')
+    return unless shared_url
+
+    # Save the shared content URL in content_attributes for reference
+    current_attrs = @message.content_attributes || {}
+    @message.update!(content_attributes: current_attrs.merge(shared_content_url: shared_url))
   end
 
   def build_conversation

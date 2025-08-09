@@ -31,7 +31,8 @@ describe Webhooks::InstagramEventsJob do
       dm: build(:instagram_message_create_event).with_indifferent_access,
       standby: build(:instagram_message_standby_event).with_indifferent_access,
       unsend: build(:instagram_message_unsend_event).with_indifferent_access,
-      attachment: build(:instagram_message_attachment_event).with_indifferent_access,
+      image_attachment: build(:instagram_message_image_attachment_event).with_indifferent_access,
+      share_attachment: build(:instagram_message_share_attachment_event).with_indifferent_access,
       story_mention: build(:instagram_story_mention_event).with_indifferent_access,
       story_mention_echo: build(:instagram_story_mention_event_with_echo).with_indifferent_access,
       messaging_seen: build(:messaging_seen_event).with_indifferent_access,
@@ -104,18 +105,33 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_messenger_inbox.messages.last.reload.deleted).to be true
       end
 
-      it 'creates incoming message with attachments in the instagram inbox' do
+      it 'creates incoming message with image attachments in the instagram inbox' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
           return_object.with_indifferent_access
         )
-        instagram_webhook.perform_now(message_events[:attachment][:entry])
+        instagram_webhook.perform_now(message_events[:image_attachment][:entry])
 
         instagram_messenger_inbox.reload
 
         expect(instagram_messenger_inbox.contacts.count).to be 1
         expect(instagram_messenger_inbox.messages.count).to be 1
         expect(instagram_messenger_inbox.messages.last.attachments.count).to be 1
+      end
+
+      it 'creates incoming message with share attachments in the instagram inbox' do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          return_object.with_indifferent_access
+        )
+        instagram_webhook.perform_now(message_events[:share_attachment][:entry])
+
+        instagram_messenger_inbox.reload
+
+        expect(instagram_messenger_inbox.contacts.count).to be 1
+        expect(instagram_messenger_inbox.messages.count).to be 1
+        expect(instagram_messenger_inbox.messages.last.attachments.count).to be 0
+        expect(instagram_messenger_inbox.messages.last.content_attributes['shared_content_url']).to eq('https://www.example.com/test.jpeg')
       end
 
       it 'creates incoming message with attachments in the instagram inbox for story mention' do
@@ -186,7 +202,7 @@ describe Webhooks::InstagramEventsJob do
       before do
         # Destroy the Facebook page channel so only the Instagram direct channel exists
         instagram_messenger_inbox.destroy
-        
+
         instagram_channel.update(access_token: 'valid_instagram_token')
 
         stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-1\?.*})
@@ -251,13 +267,24 @@ describe Webhooks::InstagramEventsJob do
       end
 
       it 'creates incoming message with attachments in the instagram direct inbox' do
-        instagram_webhook.perform_now(message_events[:attachment][:entry])
+        instagram_webhook.perform_now(message_events[:image_attachment][:entry])
 
         instagram_inbox.reload
 
         expect(instagram_inbox.contacts.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
         expect(instagram_inbox.messages.last.attachments.count).to be 1
+      end
+
+      it 'creates incoming message with share attachments in the instagram direct inbox' do
+        instagram_webhook.perform_now(message_events[:share_attachment][:entry])
+
+        instagram_inbox.reload
+
+        expect(instagram_inbox.contacts.count).to be 1
+        expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.attachments.count).to be 0
+        expect(instagram_inbox.messages.last.content_attributes['shared_content_url']).to eq('https://www.example.com/test.jpeg')
       end
 
       it 'handles unsupported message' do

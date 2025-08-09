@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe ChatscommerceService::SetupService do
+RSpec.describe AiBackendService::SetupService do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
   let(:setup_service) { described_class.new }
 
   # Create "doubles" for the services that SetupService depends on.
   # These are like stand-in objects that we can control in our test.
-  let(:store_service_double) { instance_double(ChatscommerceService::StoreService) }
-  let(:configuration_service_double) { instance_double(ChatscommerceService::ConfigurationService) }
+  let(:store_service_double) { instance_double(AiBackendService::StoreService) }
+  let(:configuration_service_double) { instance_double(AiBackendService::ConfigurationService) }
 
   # A fake successful response from the store service.
   let(:store_id) { SecureRandom.uuid }
@@ -17,8 +17,8 @@ RSpec.describe ChatscommerceService::SetupService do
   before do
     # Intercept the .new method on our real services and make them
     # return our fake "doubles" instead.
-    allow(ChatscommerceService::StoreService).to receive(:new).and_return(store_service_double)
-    allow(ChatscommerceService::ConfigurationService).to receive(:new).and_return(configuration_service_double)
+    allow(AiBackendService::StoreService).to receive(:new).and_return(store_service_double)
+    allow(AiBackendService::ConfigurationService).to receive(:new).and_return(configuration_service_double)
   end
 
   describe '.setup_store' do
@@ -52,7 +52,7 @@ RSpec.describe ChatscommerceService::SetupService do
       it 'raises a SetupError and does not call ConfigurationService' do
         # We tell our store_service_double to raise a StoreError when called.
         allow(store_service_double).to receive(:create_store)
-          .and_raise(ChatscommerceService::StoreService::StoreError, 'Store API failed')
+          .and_raise(AiBackendService::StoreService::StoreError, 'Store API failed')
 
         # We assert that the configuration_service_double is *never* called.
         # If the first step fails, the second should not be attempted.
@@ -61,8 +61,8 @@ RSpec.describe ChatscommerceService::SetupService do
         # We expect our SetupService to catch the original error and raise its own
         # specific SetupError with a descriptive message.
         expect { subject }.to raise_error(
-          ChatscommerceService::SetupService::SetupError,
-          /Chatscommerce setup failed: Store API failed/
+          AiBackendService::SetupService::SetupError,
+          /AI Backend setup failed: Store API failed/
         )
       end
     end
@@ -74,12 +74,12 @@ RSpec.describe ChatscommerceService::SetupService do
 
         # We tell our configuration_service_double to raise an error when called.
         allow(configuration_service_double).to receive(:create_default_store_configs)
-          .and_raise(ChatscommerceService::ConfigurationService::ConfigurationError, 'Config API failed')
+          .and_raise(AiBackendService::ConfigurationService::ConfigurationError, 'Config API failed')
 
         # We expect our SetupService to catch this error and raise its SetupError.
         expect { subject }.to raise_error(
-          ChatscommerceService::SetupService::SetupError,
-          /Chatscommerce setup failed: Config API failed/
+          AiBackendService::SetupService::SetupError,
+          /AI Backend setup failed: Config API failed/
         )
       end
     end

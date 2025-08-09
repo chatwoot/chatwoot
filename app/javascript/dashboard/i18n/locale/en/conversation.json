@@ -259,6 +259,7 @@
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
     "BOT": "AI Bot",
+    "EXTERNAL": "External",
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
@@ -324,8 +325,8 @@
       "TITLE": "Add your channels",
       "DESCRIPTION": "Let´s add the channels where you will be receiving your conversations",
       "NEW_LINK": "Click here to add a channel",
-      "CHANNEL_AGENTS_UPDATED": "Channel Agents Update Successfully!",
-      "ADDING_AGENTS": "Adding agents to {channel}"
+      "CHANNEL_AGENTS_UPDATED": "Channel Members Update Successfully!",
+      "ADDING_AGENTS": "Adding Members to {channel}"
     },
     "ADD_AI_AGENT": {
       "TITLE": "Add your AI Bot",

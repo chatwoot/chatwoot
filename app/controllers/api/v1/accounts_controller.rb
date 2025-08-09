@@ -16,8 +16,8 @@ class Api::V1::AccountsController < Api::BaseController
               CustomExceptions::Account::UserExists,
               CustomExceptions::Account::NameExists,
               CustomExceptions::Account::UserErrors,
-              CustomExceptions::Account::ChatscommerceSetupFailed,
-              ChatscommerceAccountBuilder::BuildError,
+              CustomExceptions::Account::AIBackendSetupFailed,
+              AiBackendAccountBuilder::BuildError,
               with: :render_error_response
 
   def show
@@ -43,7 +43,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def create_with_store
-    result = ChatscommerceAccountBuilder.perform(account_params.to_h)
+    result = AiBackendAccountBuilder.perform(account_params.to_h)
 
     @user = result[:user]
     @account = result[:account]
@@ -54,7 +54,7 @@ class Api::V1::AccountsController < Api::BaseController
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
-  rescue ChatscommerceAccountBuilder::BuildError => e
+  rescue AiBackendAccountBuilder::BuildError => e
     # Log the full error for debugging but return a generic message
     Rails.logger.error "Account creation failed: #{e.message}"
     render json: { error: 'Account setup failed. Please try again later.' }, status: :unprocessable_entity

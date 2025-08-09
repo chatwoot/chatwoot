@@ -306,6 +306,13 @@ const componentToRender = computed(() => {
     return InstagramStoryBubble;
   }
 
+  if (
+    props.contentAttributes.sharedContentUrl ||
+    props.contentAttributes.storyUrl
+  ) {
+    return InstagramStoryBubble; // Reuse the same component for shared content and story replies
+  }
+
   if (Array.isArray(props.attachments) && props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;
 
@@ -461,13 +468,17 @@ const shouldRenderMessage = computed(() => {
   const isUnsupported = props.contentAttributes?.isUnsupported;
   const isAnIntegrationMessage =
     props.contentType === CONTENT_TYPES.INTEGRATIONS;
+  const hasSharedContent = !!props.contentAttributes?.sharedContentUrl;
+  const hasStoryReply = !!props.contentAttributes?.storyUrl;
 
   return (
     hasAttachments ||
     props.content ||
     isEmailContentType ||
     isUnsupported ||
-    isAnIntegrationMessage
+    isAnIntegrationMessage ||
+    hasSharedContent ||
+    hasStoryReply
   );
 });
 
@@ -670,7 +681,7 @@ const avatarInfo = computed(() => {
   // If no sender, return bot info
   if (!props.sender) {
     return {
-      name: t('CONVERSATION.BOT'),
+      name: t('CONVERSATION.EXTERNAL'),
       src: '',
     };
   }

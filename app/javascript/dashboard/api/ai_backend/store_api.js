@@ -1,7 +1,7 @@
 import axios from 'axios';
 import StoreEntity from './entities/StoreEntity';
 
-class ChatscommerceStoreApi {
+class AIBackendStoreApi {
   constructor() {
     this.apiUrl = `${window.chatwootConfig.aiBackendUrl}/api/stores/`;
   }
@@ -24,4 +24,4 @@ class ChatscommerceStoreApi {
   }
 }
 
-export default new ChatscommerceStoreApi();
+export default new AIBackendStoreApi();

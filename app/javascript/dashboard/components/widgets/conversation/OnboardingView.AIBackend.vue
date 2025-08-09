@@ -35,7 +35,7 @@ const stepOrder = shallowRef({
   addChannelStep: 2,
   addAIAgentStep: 3,
 });
-const ONBOARDING_STEP_KEY = 'chatscommerce_onboarding_current_step';
+const ONBOARDING_STEP_KEY = 'ai_backend_onboarding_current_step';
 
 const onboardingSteps = shallowRef({
   [stepOrder.value.addAgentsStep]: {
@@ -182,7 +182,6 @@ function nextHandler() {
 }
 
 function handleStepClick(stepNumber) {
-  // Early return if step is not accessible
   if (!stepCompletionStatus.value[stepNumber - 1] && stepNumber > 1) {
     useAlert(t('ONBOARDING.ERROR.STEP_NOT_COMPLETED'));
     return;
@@ -200,7 +199,6 @@ function checkStepCompletion(step) {
 }
 
 watchEffect(() => {
-  // Populate stepCompletionStatus with current completion state
   checkStepCompletion(stepOrder.value.addAgentsStep);
   checkStepCompletion(stepOrder.value.addChannelStep);
   checkStepCompletion(stepOrder.value.addAIAgentStep);
@@ -234,7 +232,6 @@ onMounted(async () => {
       v-if="!isLoading"
       class="flex flex-col min-h-screen max-h-screen lg:max-w-6xl max-w-4xl gap-4 p-8 font-inter overflow-auto"
     >
-      <!--Greeting-->
       <section class="w-full mx-auto">
         <p
           class="text-xl font-semibold text-center text-slate-900 dark:text-white font-interDisplay tracking-[0.3px]"
@@ -251,7 +248,6 @@ onMounted(async () => {
       </section>
 
       <section class="flex flex-col my-4 mb-10 h-full gap-4">
-        <!--Circle Step Indicator-->
         <StepCircleFlow
           :steps="onboardingSteps"
           :current-step="currentStep"
@@ -259,14 +255,12 @@ onMounted(async () => {
           @update:current-step="handleStepClick"
         />
 
-        <!--OnboardingViews-->
         <div class="h-full my-8 w-full mx-auto">
           <component
             :is="onboardingSteps[currentStep].component"
             v-bind="onboardingSteps[currentStep].props"
             :current-step="currentStep"
           />
-          <!--Navigation Buttons-->
           <div class="flex mt-10 justify-between">
             <div>
               <Button v-if="currentStep > 1" @click="backHandler">

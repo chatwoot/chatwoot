@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe ChatscommerceService::ConfigurationService do
+RSpec.describe AiBackendService::ConfigurationService do
   let(:service) { described_class.new }
   let(:store_id) { SecureRandom.uuid }
-  let(:api_url) { 'https://test.chatscommerce.com' }
+  let(:api_url) { 'https://test.ai-backend.com' }
 
   before do
     # Mock the method that returns the API url to ensure we don't make real calls.
-    allow(service).to receive(:chatscommerce_api_url).and_return(api_url)
+    allow(service).to receive(:ai_backend_api_url).and_return(api_url)
   end
 
   describe '#create_default_store_configs' do
@@ -23,7 +23,6 @@ RSpec.describe ChatscommerceService::ConfigurationService do
         described_class::CONFIGURATION_KEYS[:CONVERSATION] => { auto_reply: false }
       }
     end
-    
 
     before do
       # We stub the `default_configs` method on our service to return our fake hash.
@@ -31,11 +30,11 @@ RSpec.describe ChatscommerceService::ConfigurationService do
     end
 
     context 'When all configurations are created successfully in the first attempt' do
-      it 'calls create_configuration for each default config' do
-        # We expect the `create_configuration` method to be called once for each
+      it 'calls save_configuration for each default config' do
+        # We expect the `save_configuration` method to be called once for each
         # item in our fake `default_configs` hash.
         default_configs.each do |key, data|
-          expect(service).to receive(:create_configuration).with(store_id, key, data).once
+          expect(service).to receive(:save_configuration).with(store_id, key, data).once
         end
 
         # We run the method that should trigger the calls.
@@ -46,9 +45,9 @@ RSpec.describe ChatscommerceService::ConfigurationService do
     context 'when creating a configuration fails' do
       it 'raises a ConfigurationError and stops' do
         # In this scenario, we simulate the second call failing.
-        allow(service).to receive(:create_configuration)
+        allow(service).to receive(:save_configuration)
           .with(store_id, described_class::CONFIGURATION_KEYS[:NOTIFICATIONS], anything) # The first call succeeds.
-        allow(service).to receive(:create_configuration)
+        allow(service).to receive(:save_configuration)
           .with(store_id, described_class::CONFIGURATION_KEYS[:MESSAGES], anything) # The second call fails.
           .and_raise(StandardError, 'API Error')
 
@@ -56,14 +55,14 @@ RSpec.describe ChatscommerceService::ConfigurationService do
         expect do
           service.create_default_store_configs(store_id)
         end.to raise_error(
-          ChatscommerceService::ConfigurationService::ConfigurationError,
+          AiBackendService::ConfigurationService::ConfigurationError,
           /Configuration creation failed: API Error/
         )
       end
     end
   end
 
-  describe '#create_configuration' do
+  describe '#save_configuration' do
     let(:config_key) { 'test_config' }
     let(:config_data) { { setting: 'value' } }
     let(:request_body) do
@@ -86,7 +85,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
         stub_request(:get, "#{api_url}/api/configurations/")
           .with(query: { key: config_key, store_id: store_id })
           .to_return(status: 200, body: get_response, headers: { 'Content-Type' => 'application/json' })
-        
+
         # Stub the PUT request to create/update configuration
         stub_request(:put, api_endpoint)
           .with(body: request_body)
@@ -94,7 +93,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
       end
 
       it 'returns the parsed response' do
-        response = service.create_configuration(store_id, config_key, config_data)
+        response = service.save_configuration(store_id, config_key, config_data)
         expect(response).to eq(JSON.parse(success_response))
       end
     end
@@ -107,7 +106,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
         stub_request(:get, "#{api_url}/api/configurations/")
           .with(query: { key: config_key, store_id: store_id })
           .to_return(status: 200, body: get_response, headers: { 'Content-Type' => 'application/json' })
-        
+
         # Stub the PUT request to return a 500 server error
         stub_request(:put, api_endpoint)
           .with(body: request_body)
@@ -116,8 +115,8 @@ RSpec.describe ChatscommerceService::ConfigurationService do
 
       it 'raises a ConfigurationError' do
         expect do
-          service.create_configuration(store_id, config_key, config_data)
-        end.to raise_error(ChatscommerceService::ConfigurationService::ConfigurationError, /Unexpected error: 500 - \{\"error\":\"Server Error\"\}/)
+          service.save_configuration(store_id, config_key, config_data)
+        end.to raise_error(AiBackendService::ConfigurationService::ConfigurationError, /Unexpected error: 500 - \{"error":"Server Error"\}/)
       end
     end
   end

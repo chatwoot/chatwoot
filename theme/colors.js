@@ -13,8 +13,8 @@ const {
   violetDark,
 } = require('@radix-ui/colors');
 
-const CHATSCOMMERCE_PRIMARY = '#5d17ea'; // Dark purple for light mode
-const CHATSCOMMERCE_SECONDARY = '#f9f8fc'; // neutral-100
+const CUSTOM_PRIMARY = '#5d17ea'; // Dark purple for light mode
+const CUSTOM_SECONDARY = '#f9f8fc'; // neutral-100
 
 export const colors = {
   woot: {
@@ -215,8 +215,8 @@ export const colors = {
 
     black: '#000000',
     // brand: '#2781F6', // WOOT color
-    brand: CHATSCOMMERCE_PRIMARY, // Chatscommerce color
-    lightBrand: CHATSCOMMERCE_SECONDARY, // Chatscommerce color-light
+    brand: CUSTOM_PRIMARY, // Custom Brand color
+    lightBrand: CUSTOM_SECONDARY, // Custom Brand color-light
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',
