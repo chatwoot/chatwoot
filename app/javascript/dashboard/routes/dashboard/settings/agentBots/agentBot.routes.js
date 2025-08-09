@@ -1,7 +1,7 @@
-  import { FEATURE_FLAGS } from '../../../../featureFlags';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
+  import Bot from './Index.vue';
   import { frontendURL } from '../../../../helper/URLHelper';
   import SettingsWrapper from '../SettingsWrapper.vue';
-  import Bot from './Index.vue';
 
   export default {
     routes: [

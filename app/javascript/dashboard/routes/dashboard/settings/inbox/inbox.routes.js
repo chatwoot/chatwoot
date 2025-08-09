@@ -1,34 +1,32 @@
-import { FEATURE_FLAGS } from '../../../../featureFlags';
+  import { FEATURE_FLAGS } from '../../../../featureFlags';
   import { frontendURL } from '../../../../helper/URLHelper';
-  import SettingsWrapper from '../SettingsWrapper.vue';
-  import Index from './Index.vue';
+  import ChannelFactory from './ChannelFactory.vue';
+
+  import SettingsContent from '../Wrapper.vue';
+  import SettingWrapper from '../SettingsWrapper.vue';
+  import InboxHome from './Index.vue';
+  import Settings from './Settings.vue';
+  import InboxChannel from './InboxChannels.vue';
+  import ChannelList from './ChannelList.vue';
+  import AddAgents from './AddAgents.vue';
+  import FinishSetup from './FinishSetup.vue';
 
   export default {
     routes: [
       {
         path: frontendURL('accounts/:accountId/settings/inboxes'),
-        component: SettingsWrapper,
+        component: SettingWrapper,
         children: [
           {
             path: '',
-            name: 'settings_inbox_list',
-            component: Index,
-            beforeEnter: (to, from, next) => {
-              const user = store.getters.getCurrentUser;
-              if (user?.type === 'SuperAdmin') {
-                next();
-              } else {
-                next({ name: 'settings_home' });
-              }
-            },
-            meta: {
-              permissions: ['administrator'],
+            redirect: to => {
+              return { name: 'settings_inbox_list', params: to.params };
             },
           },
           {
-            path: 'new',
-            name: 'settings_inboxes_new',
-            component: () => import('./channels/Index.vue'),
+            path: 'list',
+            name: 'settings_inbox_list',
+            component: InboxHome,
             beforeEnter: (to, from, next) => {
               const user = store.getters.getCurrentUser;
               if (user?.type === 'SuperAdmin') {
@@ -38,13 +36,107 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
               }
             },
             meta: {
+              featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
               permissions: ['administrator'],
             },
+          },
+        ],
+      },
+      {
+        path: frontendURL('accounts/:accountId/settings/inboxes'),
+        component: SettingsContent,
+        props: params => {
+          const showBackButton = params.name !== 'settings_inbox_list';
+          const fullWidth = params.name === 'settings_inbox_show';
+          return {
+            headerTitle: 'INBOX_MGMT.HEADER',
+            icon: 'mail-inbox-all',
+            showBackButton,
+            fullWidth,
+          };
+        },
+        children: [
+          {
+            path: 'new',
+            component: InboxChannel,
+            children: [
+              {
+                path: '',
+                name: 'settings_inbox_new',
+                component: ChannelList,
+                beforeEnter: (to, from, next) => {
+                  const user = store.getters.getCurrentUser;
+                  if (user?.type === 'SuperAdmin') {
+                    next();
+                  } else {
+                    next({ name: 'settings_home' });
+                  }
+                },
+                meta: {
+                  featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
+                  permissions: ['administrator'],
+                },
+              },
+              {
+                path: ':inbox_id/finish',
+                name: 'settings_inbox_finish',
+                component: FinishSetup,
+                beforeEnter: (to, from, next) => {
+                  const user = store.getters.getCurrentUser;
+                  if (user?.type === 'SuperAdmin') {
+                    next();
+                  } else {
+                    next({ name: 'settings_home' });
+                  }
+                },
+                meta: {
+                  featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
+                  permissions: ['administrator'],
+                },
+              },
+              {
+                path: ':sub_page',
+                name: 'settings_inboxes_page_channel',
+                component: ChannelFactory,
+                beforeEnter: (to, from, next) => {
+                  const user = store.getters.getCurrentUser;
+                  if (user?.type === 'SuperAdmin') {
+                    next();
+                  } else {
+                    next({ name: 'settings_home' });
+                  }
+                },
+                meta: {
+                  featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
+                  permissions: ['administrator'],
+                },
+                props: route => {
+                  return { channelName: route.params.sub_page };
+                },
+              },
+              {
+                path: ':inbox_id/agents',
+                name: 'settings_inboxes_add_agents',
+                beforeEnter: (to, from, next) => {
+                  const user = store.getters.getCurrentUser;
+                  if (user?.type === 'SuperAdmin') {
+                    next();
+                  } else {
+                    next({ name: 'settings_home' });
+                  }
+                },
+                meta: {
+                  featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
+                  permissions: ['administrator'],
+                },
+                component: AddAgents,
+              },
+            ],
           },
           {
             path: ':inboxId',
-            name: 'settings_inboxes_show',
-            component: () => import('./Settings/Index.vue'),
+            name: 'settings_inbox_show',
+            component: Settings,
             beforeEnter: (to, from, next) => {
               const user = store.getters.getCurrentUser;
               if (user?.type === 'SuperAdmin') {
@@ -54,57 +146,7 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
               }
             },
             meta: {
-              permissions: ['administrator'],
-            },
-          },
-          {
-            path: ':inboxId/campaigns',
-            name: 'settings_inbox_campaigns',
-            component: () => import('./campaigns/Index.vue'),
-            beforeEnter: (to, from, next) => {
-              const user = store.getters.getCurrentUser;
-              if (user?.type === 'SuperAdmin') {
-                next();
-              } else {
-                next({ name: 'settings_home' });
-              }
-            },
-            meta: {
-              featureFlag: FEATURE_FLAGS.CAMPAIGNS,
-              permissions: ['administrator'],
-            },
-          },
-          {
-            path: ':inboxId/campaigns/new',
-            name: 'settings_inbox_campaigns_new',
-            component: () => import('./campaigns/AddCampaign.vue'),
-            beforeEnter: (to, from, next) => {
-              const user = store.getters.getCurrentUser;
-              if (user?.type === 'SuperAdmin') {
-                next();
-              } else {
-                next({ name: 'settings_home' });
-              }
-            },
-            meta: {
-              featureFlag: FEATURE_FLAGS.CAMPAIGNS,
-              permissions: ['administrator'],
-            },
-          },
-          {
-            path: ':inboxId/campaigns/:campaignId/edit',
-            name: 'settings_inbox_campaigns_edit',
-            component: () => import('./campaigns/EditCampaign.vue'),
-            beforeEnter: (to, from, next) => {
-              const user = store.getters.getCurrentUser;
-              if (user?.type === 'SuperAdmin') {
-                next();
-              } else {
-                next({ name: 'settings_home' });
-              }
-            },
-            meta: {
-              featureFlag: FEATURE_FLAGS.CAMPAIGNS,
+              featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
               permissions: ['administrator'],
             },
           },
