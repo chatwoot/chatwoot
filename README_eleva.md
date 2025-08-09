@@ -1,5 +1,5 @@
 
-# ChatsCommerce - Chatwoot Web UI/Server
+# Eleva Labs - Chatwoot Web UI/Server
 
 ## Dependencies
 - Docker

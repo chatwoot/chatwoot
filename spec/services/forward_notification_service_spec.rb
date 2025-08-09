@@ -15,9 +15,9 @@ RSpec.describe ForwardNotificationService do
   # New: scope/association proxy that responds to find_by
   let(:whatsapp_channel_scope) { instance_double('WhatsappChannelScope') }
   let(:service) { described_class.new(message) }
-  
+
   # Mock external dependencies
-  let(:config_service_double) { instance_double(ChatscommerceService::ConfigurationService) }
+  let(:config_service_double) { instance_double(AiBackendService::ConfigurationService) }
   let(:notification_config) do
     {
       'channels' => [
@@ -32,9 +32,9 @@ RSpec.describe ForwardNotificationService do
   # Test Isolation
   before do
     # Mock the configuration service
-    allow(ChatscommerceService::ConfigurationService).to receive(:new).and_return(config_service_double)
+    allow(AiBackendService::ConfigurationService).to receive(:new).and_return(config_service_double)
     allow(config_service_double).to receive(:get_configuration).and_return(notification_config)
-    
+
     # Mock the account's whatsapp_channels association to return a scope-like object
     allow(account).to receive(:whatsapp_channels).and_return(whatsapp_channel_scope)
     allow(whatsapp_channel_scope).to receive(:find_by).with(provider: 'whapi').and_return(whatsapp_channel)
@@ -202,9 +202,9 @@ RSpec.describe ForwardNotificationService do
         allow(Rails.logger).to receive(:info)
       end
 
-            it 'creates a proper message object and sends via WhatsApp channel' do
+      it 'creates a proper message object and sends via WhatsApp channel' do
         service.send(:send_via_whatsapp_channel, whatsapp_channel, target_chat, notification_message)
-        
+
         expect(whatsapp_channel).to have_received(:send_message) do |chat_id, message_obj|
           expect(chat_id).to eq(target_chat)
           expect(message_obj.content).to eq(notification_message)
@@ -214,13 +214,13 @@ RSpec.describe ForwardNotificationService do
           expect(message_obj.attachments).to eq([])
           expect(message_obj.content_attributes).to eq({})
         end
-        
+
         expect(Rails.logger).to have_received(:info).with("WhatsApp notification sent successfully to #{target_chat}. Message ID: #{mock_message_id}")
       end
 
       it 'creates message object with proper outgoing_content method' do
         service.send(:send_via_whatsapp_channel, whatsapp_channel, target_chat, notification_message)
-        
+
         expect(whatsapp_channel).to have_received(:send_message) do |_chat_id, message_obj|
           expect(message_obj.outgoing_content).to eq(notification_message)
         end
@@ -248,7 +248,7 @@ RSpec.describe ForwardNotificationService do
 
         expect(config_service_double).to have_received(:get_configuration).with(
           'test_store_123',
-          ChatscommerceService::ConfigurationService::CONFIGURATION_KEYS[:NOTIFICATIONS]
+          AiBackendService::ConfigurationService::CONFIGURATION_KEYS[:NOTIFICATIONS]
         )
         expect(result).to eq(notification_config)
       end

@@ -28,5 +28,7 @@
     "ecmel.vscode-html-css",
     // Tailwind CSS Intellisense
     "bradlc.vscode-tailwindcss",
+    // Ruby LSP
+    "Shopify.ruby-lsp"
   ]
 }

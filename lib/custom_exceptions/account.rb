@@ -49,9 +49,9 @@ module CustomExceptions::Account
     end
   end
 
-  class ChatscommerceSetupFailed < CustomExceptions::Base
+  class AIBackendSetupFailed < CustomExceptions::Base
     def initialize(message:)
-      super(message: message, key: 'chatscommerce_setup_failed')
+      super(message: message, key: 'ai_backend_setup_failed')
     end
   end
 end

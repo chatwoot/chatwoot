@@ -1,4 +1,4 @@
-class ChatscommerceAccountBuilder
+class AiBackendAccountBuilder
   include CustomExceptions::Account
 
   class BuildError < StandardError; end
@@ -18,7 +18,7 @@ class ChatscommerceAccountBuilder
   def perform
     ActiveRecord::Base.transaction do
       user, account = create_account
-      setup_chatscommerce_store(account)
+      setup_ai_backend_store(account)
       { user: user, account: account }
     end
   rescue BuildError => e
@@ -42,9 +42,11 @@ class ChatscommerceAccountBuilder
     ).perform
   end
 
-  def setup_chatscommerce_store(account)
-    ChatscommerceService::SetupService.setup_store(account, @email)
-  rescue ChatscommerceService::SetupService::SetupError => e
+  def setup_ai_backend_store(account)
+    AiBackendService::SetupService.setup_store(account, @email)
+  rescue AiBackendService::SetupService::SetupError => e
     raise BuildError, "Store setup failed, #{e.message}"
   end
 end
+
+

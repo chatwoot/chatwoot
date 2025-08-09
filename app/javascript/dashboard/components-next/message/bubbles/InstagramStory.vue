@@ -8,7 +8,8 @@ import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { MESSAGE_VARIANTS } from '../constants';
 
 const emit = defineEmits(['error']);
-const { variant, content, attachments, contentAttributes } = useMessageContext();
+const { variant, content, attachments, contentAttributes } =
+  useMessageContext();
 
 const attachment = computed(() => {
   return attachments.value[0];
