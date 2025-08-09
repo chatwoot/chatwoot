@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ChatscommerceAccountBuilder do
+RSpec.describe AiBackendAccountBuilder do
   # Define the parameters that will be passed to the builder
   let(:params) do
     {
@@ -16,7 +16,7 @@ RSpec.describe ChatscommerceAccountBuilder do
 
   # Create "doubles" for the two main dependencies of our builder
   let(:account_builder_double) { instance_double(AccountBuilder) }
-  let(:setup_service_class_double) { class_double(ChatscommerceService::SetupService) }
+  let(:setup_service_class_double) { class_double(AiBackendService::SetupService) }
 
   # Create fake user and account objects to be returned on a successful run
   let(:user) { build_stubbed(:user) }
@@ -30,7 +30,7 @@ RSpec.describe ChatscommerceAccountBuilder do
     allow(account_builder_double).to receive(:perform).and_return([user, account])
 
     # 2. Stub the SetupService: ensure no real API calls are made.
-    allow(ChatscommerceService::SetupService).to receive(:setup_store)
+    allow(AiBackendService::SetupService).to receive(:setup_store)
   end
 
   describe '#perform' do
@@ -57,7 +57,7 @@ RSpec.describe ChatscommerceAccountBuilder do
       it 'calls SetupService.setup_store with the created account and email' do
         # We check that our setup service is called with the account object
         # that was returned by the AccountBuilder double.
-        expect(ChatscommerceService::SetupService).to receive(:setup_store).with(account, params[:email])
+        expect(AiBackendService::SetupService).to receive(:setup_store).with(account, params[:email])
         perform_build
       end
 
@@ -74,7 +74,7 @@ RSpec.describe ChatscommerceAccountBuilder do
 
       it 'raises a BuildError and does not attempt to set up the store' do
         # We assert that the setup service is *never* called if account creation fails.
-        expect(ChatscommerceService::SetupService).not_to receive(:setup_store)
+        expect(AiBackendService::SetupService).not_to receive(:setup_store)
 
         # We check that our builder catches the original error and raises its own BuildError.
         expect { perform_build }.to raise_error(
@@ -84,11 +84,11 @@ RSpec.describe ChatscommerceAccountBuilder do
       end
     end
 
-    context 'when ChatscommerceService::SetupService fails' do
+    context 'when AiBackendService::SetupService fails' do
       before do
         # We simulate a failure in the setup service.
-        allow(ChatscommerceService::SetupService).to receive(:setup_store)
-          .and_raise(ChatscommerceService::SetupService::SetupError, 'Store setup failed')
+        allow(AiBackendService::SetupService).to receive(:setup_store)
+          .and_raise(AiBackendService::SetupService::SetupError, 'Store setup failed')
       end
 
       it 'raises a BuildError' do

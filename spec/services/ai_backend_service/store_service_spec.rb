@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe ChatscommerceService::StoreService do
+RSpec.describe AiBackendService::StoreService do
   let(:service) { described_class.new }
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
-  let(:api_url) { 'https://test.chatscommerce.com' }
+  let(:api_url) { 'https://test.ai-backend.com' }
   let(:store_id) { SecureRandom.uuid }
 
   before do
-    allow(service).to receive(:chatscommerce_api_url).and_return(api_url)
+    allow(service).to receive(:ai_backend_api_url).and_return(api_url)
     account.update!(custom_attributes: { store_id: store_id })
   end
 
@@ -50,7 +50,7 @@ RSpec.describe ChatscommerceService::StoreService do
       it 'raises a StoreError' do
         expect do
           service.create_store(account, user.email)
-        end.to raise_error(ChatscommerceService::StoreService::StoreError, 'Unexpected error: 500-{"error":"Store cannot be created"}')
+        end.to raise_error(AiBackendService::StoreService::StoreError, 'Unexpected error: 500-{"error":"Store cannot be created"}')
       end
     end
   end

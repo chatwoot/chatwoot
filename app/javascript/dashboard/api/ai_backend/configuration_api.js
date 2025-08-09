@@ -11,7 +11,7 @@ const CONFIGURATION_KEYS = {
   CONVERSATION: 'conversation_config',
 };
 
-class ChatscommerceConfigurationApi {
+class AIBackendConfigurationApi {
   constructor() {
     this.apiUrl = `${window.chatwootConfig.aiBackendUrl}/api/configurations/`;
   }
@@ -41,4 +41,4 @@ class ChatscommerceConfigurationApi {
   }
 }
 
-export default new ChatscommerceConfigurationApi();
+export default new AIBackendConfigurationApi();
