@@ -30,6 +30,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
         },
       ],
@@ -59,6 +67,14 @@ export default {
               meta: {
                 featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
                 permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
               },
             },
             {
@@ -68,6 +84,14 @@ export default {
               meta: {
                 featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
                 permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
               },
             },
             {
@@ -77,6 +101,14 @@ export default {
               meta: {
                 featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
                 permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
               },
               props: route => {
                 return { channelName: route.params.sub_page };
@@ -88,6 +120,14 @@ export default {
               meta: {
                 featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
                 permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
               },
               component: AddAgents,
             },
@@ -100,6 +140,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
         },
       ],

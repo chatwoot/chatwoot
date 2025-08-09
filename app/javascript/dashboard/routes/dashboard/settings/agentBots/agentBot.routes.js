@@ -9,6 +9,14 @@ export default {
       path: frontendURL('accounts/:accountId/settings/agent-bots'),
       meta: {
         permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
       },
       component: SettingsWrapper,
       children: [
@@ -19,6 +27,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.AGENT_BOTS,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
         },
       ],

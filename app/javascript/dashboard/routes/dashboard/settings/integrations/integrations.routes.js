@@ -25,6 +25,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
         },
         {
@@ -34,6 +42,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
         },
         {
@@ -43,6 +59,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
         },
       ],
@@ -79,6 +103,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
           props: route => ({ code: route.query.code }),
         },
@@ -88,6 +120,14 @@ export default {
           component: Linear,
           meta: {
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
           props: route => ({ code: route.query.code }),
         },
@@ -97,6 +137,14 @@ export default {
           component: Notion,
           meta: {
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
           props: route => ({ code: route.query.code }),
         },
@@ -107,6 +155,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
           props: route => ({ error: route.query.error }),
         },
@@ -117,6 +173,14 @@ export default {
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['super_admin'],
+            beforeEnter: (to, from, next) => {
+              const user = store.getters.getCurrentUser;
+              if (user?.type === 'SuperAdmin') {
+                next();
+              } else {
+                next({ name: 'settings_home' });
+              }
+            },
           },
           props: route => ({
             integrationId: route.params.integration_id,
