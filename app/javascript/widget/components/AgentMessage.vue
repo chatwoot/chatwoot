@@ -76,7 +76,7 @@ export default {
         return this.channelConfig.websiteName;
       }
 
-      return this.$t('UNREAD_VIEW.BOT');
+      return this.$t('CONVERSATION.EXTERNAL');
     },
     avatarUrl() {
       const displayImage = this.useInboxAvatarForBot
