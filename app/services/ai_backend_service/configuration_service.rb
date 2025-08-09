@@ -26,14 +26,14 @@ class AiBackendService::ConfigurationService
 
   def create_default_store_configs(store_id)
     CONFIGURATION_KEYS.each_value do |config_key|
-      create_configuration(store_id, config_key, default_configs[config_key])
+      save_configuration(store_id, config_key, default_configs[config_key])
     end
   rescue StandardError => e
     Rails.logger.error "Configuration creation failed: #{e.message}"
     raise ConfigurationError, "Configuration creation failed: #{e.message}"
   end
 
-  def create_configuration(store_id, config_key, config_data)
+  def save_configuration(store_id, config_key, config_data)
     existing_config_data = get_configuration(store_id, config_key)
     data_to_save = existing_config_data.merge(config_data)
 
@@ -61,9 +61,13 @@ class AiBackendService::ConfigurationService
       headers: self.class.headers
     )
 
+    # If configuration doesn't exist yet, treat it as empty rather than an error
+    return {} if response.code == 404
+
     handle_response(response)
 
-    response.parsed_response['configuration']['data']
+    body = response.parsed_response
+    body.is_a?(Hash) ? (body.dig('configuration', 'data') || {}) : {}
   end
 
   private

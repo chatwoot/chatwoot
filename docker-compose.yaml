@@ -40,6 +40,7 @@ services:
       - VITE_DEV_SERVER_HOST=vite
       - NODE_ENV=development
       - RAILS_ENV=development
+      - LISTEN_POLLING=1
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
@@ -59,6 +60,7 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
+      - LISTEN_POLLING=1
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
   vite:
@@ -80,6 +82,8 @@ services:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     entrypoint: docker/entrypoints/vite.sh
     command: bin/vite dev
 

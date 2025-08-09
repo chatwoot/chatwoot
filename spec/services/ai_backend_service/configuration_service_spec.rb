@@ -30,11 +30,11 @@ RSpec.describe AiBackendService::ConfigurationService do
     end
 
     context 'When all configurations are created successfully in the first attempt' do
-      it 'calls create_configuration for each default config' do
-        # We expect the `create_configuration` method to be called once for each
+      it 'calls save_configuration for each default config' do
+        # We expect the `save_configuration` method to be called once for each
         # item in our fake `default_configs` hash.
         default_configs.each do |key, data|
-          expect(service).to receive(:create_configuration).with(store_id, key, data).once
+          expect(service).to receive(:save_configuration).with(store_id, key, data).once
         end
 
         # We run the method that should trigger the calls.
@@ -45,9 +45,9 @@ RSpec.describe AiBackendService::ConfigurationService do
     context 'when creating a configuration fails' do
       it 'raises a ConfigurationError and stops' do
         # In this scenario, we simulate the second call failing.
-        allow(service).to receive(:create_configuration)
+        allow(service).to receive(:save_configuration)
           .with(store_id, described_class::CONFIGURATION_KEYS[:NOTIFICATIONS], anything) # The first call succeeds.
-        allow(service).to receive(:create_configuration)
+        allow(service).to receive(:save_configuration)
           .with(store_id, described_class::CONFIGURATION_KEYS[:MESSAGES], anything) # The second call fails.
           .and_raise(StandardError, 'API Error')
 
@@ -62,7 +62,7 @@ RSpec.describe AiBackendService::ConfigurationService do
     end
   end
 
-  describe '#create_configuration' do
+  describe '#save_configuration' do
     let(:config_key) { 'test_config' }
     let(:config_data) { { setting: 'value' } }
     let(:request_body) do
@@ -93,7 +93,7 @@ RSpec.describe AiBackendService::ConfigurationService do
       end
 
       it 'returns the parsed response' do
-        response = service.create_configuration(store_id, config_key, config_data)
+        response = service.save_configuration(store_id, config_key, config_data)
         expect(response).to eq(JSON.parse(success_response))
       end
     end
@@ -115,7 +115,7 @@ RSpec.describe AiBackendService::ConfigurationService do
 
       it 'raises a ConfigurationError' do
         expect do
-          service.create_configuration(store_id, config_key, config_data)
+          service.save_configuration(store_id, config_key, config_data)
         end.to raise_error(AiBackendService::ConfigurationService::ConfigurationError, /Unexpected error: 500 - \{"error":"Server Error"\}/)
       end
     end
