@@ -686,7 +686,7 @@ const avatarInfo = computed(() => {
   // If no sender, return bot info
   if (!props.sender) {
     return {
-      name: t('CONVERSATION.BOT'),
+      name: t('CONVERSATION.EXTERNAL'),
       src: '',
     };
   }
