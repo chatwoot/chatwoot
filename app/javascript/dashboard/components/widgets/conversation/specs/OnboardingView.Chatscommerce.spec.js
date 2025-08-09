@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { nextTick, computed, ref } from 'vue';
-import OnboardingViewChatscommerce from '../OnboardingView.Chatscommerce.vue';
+import OnboardingViewAIBackend from '../OnboardingView.AIBackend.vue';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({
@@ -116,11 +116,11 @@ afterAll(() => {
   delete window.chatwootConfig;
 });
 
-describe('OnboardingViewChatscommerce', () => {
+describe('OnboardingViewAIBackend', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(OnboardingViewChatscommerce, {
+    wrapper = mount(OnboardingViewAIBackend, {
       global: {
         mocks: {
           $t: (key, params) => {

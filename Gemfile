@@ -257,4 +257,5 @@ group :development, :test do
   gem 'simplecov', '>= 0.21', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
+  gem 'ruby-lsp', '~> 0.26.1'
 end

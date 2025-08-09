@@ -1,9 +1,9 @@
 require 'httparty'
 require_relative 'default_configs'
 
-class ChatscommerceService::ConfigurationService
+class AiBackendService::ConfigurationService
   include HTTParty
-  include ChatscommerceService::DefaultConfigs
+  include AiBackendService::DefaultConfigs
 
   class ConfigurationError < StandardError; end
 
@@ -17,7 +17,7 @@ class ChatscommerceService::ConfigurationService
   }.freeze
 
   def initialize
-    self.class.base_uri chatscommerce_api_url
+    self.class.base_uri ai_backend_api_url
     self.class.headers({
                          'Content-Type' => 'application/json',
                          'Authorization' => 'application/json'
@@ -34,13 +34,9 @@ class ChatscommerceService::ConfigurationService
   end
 
   def create_configuration(store_id, config_key, config_data)
-    # Get the configuration data from the API
     existing_config_data = get_configuration(store_id, config_key)
-
-    # Merge with the new config data to perform an upsert
     data_to_save = existing_config_data.merge(config_data)
 
-    # Construct the payload expected by the PUT endpoint
     configuration_payload = {
       key: config_key,
       store_id: store_id,
@@ -48,7 +44,7 @@ class ChatscommerceService::ConfigurationService
     }
 
     response = self.class.put(
-      "#{chatscommerce_api_url}/api/configurations/",
+      "#{ai_backend_api_url}/api/configurations/",
       body: { configuration: configuration_payload }.to_json,
       headers: self.class.headers
     )
@@ -60,7 +56,7 @@ class ChatscommerceService::ConfigurationService
 
   def get_configuration(store_id, config_key)
     response = self.class.get(
-      "#{chatscommerce_api_url}/api/configurations/",
+      "#{ai_backend_api_url}/api/configurations/",
       query: { key: config_key, store_id: store_id },
       headers: self.class.headers
     )
@@ -78,9 +74,11 @@ class ChatscommerceService::ConfigurationService
     raise ConfigurationError, "Unexpected error: #{response.code} - #{response.body}" unless response.success?
   end
 
-  def chatscommerce_api_url
-    Rails.application.config.chatscommerce_api_url ||
+  def ai_backend_api_url
+    Rails.application.config.ai_backend_api_url ||
       ENV['AI_BACKEND_URL'] ||
-      Rails.application.credentials.chatscommerce_api_url
+      Rails.application.credentials.ai_backend_api_url
   end
 end
+
+

@@ -1,12 +1,12 @@
 require 'httparty'
 
-class ChatscommerceService::StoreService
+class AiBackendService::StoreService
   include HTTParty
 
   class StoreError < StandardError; end
 
   def initialize
-    self.class.base_uri chatscommerce_api_url
+    self.class.base_uri ai_backend_api_url
     self.class.headers({
                          'Content-Type' => 'application/json',
                          'Authorization' => 'application/json'
@@ -17,7 +17,7 @@ class ChatscommerceService::StoreService
     store_data = build_store_data(account, user_email)
 
     response = self.class.put(
-      "#{chatscommerce_api_url}/api/stores/",
+      "#{ai_backend_api_url}/api/stores/",
       body: { store: store_data }.to_json,
       headers: self.class.headers
     )
@@ -46,9 +46,11 @@ class ChatscommerceService::StoreService
     }
   end
 
-  def chatscommerce_api_url
-    Rails.application.config.chatscommerce_api_url ||
+  def ai_backend_api_url
+    Rails.application.config.ai_backend_api_url ||
       ENV['AI_BACKEND_URL'] ||
-      Rails.application.credentials.chatscommerce_api_url
+      Rails.application.credentials.ai_backend_api_url
   end
 end
+
+

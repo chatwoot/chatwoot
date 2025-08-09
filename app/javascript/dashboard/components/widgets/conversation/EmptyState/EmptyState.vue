@@ -3,13 +3,13 @@ import { computed } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
-import OnboardingViewChatscommerce from '../OnboardingView.Chatscommerce.vue';
+import OnboardingViewAIBackend from '../OnboardingView.AIBackend.vue';
 import EmptyStateMessage from './EmptyStateMessage.vue';
 
 export default {
   components: {
     EmptyStateMessage,
-    OnboardingViewChatscommerce,
+    OnboardingViewAIBackend,
   },
   props: {
     isOnExpandedLayout: {
@@ -80,7 +80,7 @@ export default {
       v-if="!isOnboardingCompleted && !loadingChatList"
       class="clearfix mx-auto w-full flex justify-center items-center h-full"
     >
-      <OnboardingViewChatscommerce v-if="isAdmin" />
+      <OnboardingViewAIBackend v-if="isAdmin" />
       <EmptyStateMessage v-else :message="$t('CONVERSATION.NO_INBOX_AGENT')" />
     </div>
     <!-- Show empty state images if not loading -->

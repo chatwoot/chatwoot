@@ -1,4 +1,4 @@
-module ChatscommerceService::DefaultConfigs
+module AiBackendService::DefaultConfigs
   private
 
   def default_configs
@@ -99,4 +99,5 @@ module ChatscommerceService::DefaultConfigs
     }
   end
 end
+
 

@@ -311,7 +311,10 @@ const componentToRender = computed(() => {
     return InstagramStoryBubble;
   }
 
-  if (props.contentAttributes.sharedContentUrl || props.contentAttributes.storyUrl) {
+  if (
+    props.contentAttributes.sharedContentUrl ||
+    props.contentAttributes.storyUrl
+  ) {
     return InstagramStoryBubble; // Reuse the same component for shared content and story replies
   }
 
