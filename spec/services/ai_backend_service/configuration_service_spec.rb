@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe ChatscommerceService::ConfigurationService do
+RSpec.describe AiBackendService::ConfigurationService do
   let(:service) { described_class.new }
   let(:store_id) { SecureRandom.uuid }
-  let(:api_url) { 'https://test.chatscommerce.com' }
+  let(:api_url) { 'https://test.ai-backend.com' }
 
   before do
     # Mock the method that returns the API url to ensure we don't make real calls.
-    allow(service).to receive(:chatscommerce_api_url).and_return(api_url)
+    allow(service).to receive(:ai_backend_api_url).and_return(api_url)
   end
 
   describe '#create_default_store_configs' do
@@ -23,7 +23,6 @@ RSpec.describe ChatscommerceService::ConfigurationService do
         described_class::CONFIGURATION_KEYS[:CONVERSATION] => { auto_reply: false }
       }
     end
-    
 
     before do
       # We stub the `default_configs` method on our service to return our fake hash.
@@ -56,7 +55,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
         expect do
           service.create_default_store_configs(store_id)
         end.to raise_error(
-          ChatscommerceService::ConfigurationService::ConfigurationError,
+          AiBackendService::ConfigurationService::ConfigurationError,
           /Configuration creation failed: API Error/
         )
       end
@@ -86,7 +85,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
         stub_request(:get, "#{api_url}/api/configurations/")
           .with(query: { key: config_key, store_id: store_id })
           .to_return(status: 200, body: get_response, headers: { 'Content-Type' => 'application/json' })
-        
+
         # Stub the PUT request to create/update configuration
         stub_request(:put, api_endpoint)
           .with(body: request_body)
@@ -107,7 +106,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
         stub_request(:get, "#{api_url}/api/configurations/")
           .with(query: { key: config_key, store_id: store_id })
           .to_return(status: 200, body: get_response, headers: { 'Content-Type' => 'application/json' })
-        
+
         # Stub the PUT request to return a 500 server error
         stub_request(:put, api_endpoint)
           .with(body: request_body)
@@ -117,7 +116,7 @@ RSpec.describe ChatscommerceService::ConfigurationService do
       it 'raises a ConfigurationError' do
         expect do
           service.create_configuration(store_id, config_key, config_data)
-        end.to raise_error(ChatscommerceService::ConfigurationService::ConfigurationError, /Unexpected error: 500 - \{\"error\":\"Server Error\"\}/)
+        end.to raise_error(AiBackendService::ConfigurationService::ConfigurationError, /Unexpected error: 500 - \{"error":"Server Error"\}/)
       end
     end
   end
