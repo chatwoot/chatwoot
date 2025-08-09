@@ -193,7 +193,7 @@ FactoryBot.define do
     initialize_with { attributes }
   end
 
-  factory :instagram_message_attachment_event, class: Hash do
+  factory :instagram_message_share_attachment_event, class: Hash do
     transient do
       ig_entry_id { SecureRandom.uuid }
       sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
@@ -219,6 +219,74 @@ FactoryBot.define do
                     'type': 'share',
                     'payload': {
                       'url': 'https://www.example.com/test.jpeg'
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
+  factory :instagram_message_image_attachment_event, class: Hash do
+    entry do
+      [
+        {
+          'id': 'instagram-message-id-1234',
+          'time': '2021-09-08T06:34:04+0000',
+          'messaging': [
+            {
+              'sender': {
+                'id': 'Sender-id-1'
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'message': {
+                'mid': 'message-id-1',
+                'attachments': [
+                  {
+                    'type': 'image',
+                    'payload': {
+                      'url': 'https://www.example.com/test.jpeg'
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
+  factory :instagram_message_video_attachment_event, class: Hash do
+    entry do
+      [
+        {
+          'id': 'instagram-message-id-1234',
+          'time': '2021-09-08T06:34:04+0000',
+          'messaging': [
+            {
+              'sender': {
+                'id': 'Sender-id-1'
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'message': {
+                'mid': 'message-id-1',
+                'attachments': [
+                  {
+                    'type': 'video',
+                    'payload': {
+                      'url': 'https://www.example.com/test.mp4'
                     }
                   }
                 ]
