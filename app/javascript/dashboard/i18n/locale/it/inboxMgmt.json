@@ -280,6 +280,11 @@
             "SECURE_AUTH": "Autenticazione sicura basata su OAuth",
             "AUTO_CONFIG": "Configurazione automatica del webhook e del numero di telefono"
           },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
           "SUBMIT_BUTTON": "Connetti con WhatsApp Business",
           "AUTH_PROCESSING": "Autenticazione con Meta",
           "WAITING_FOR_BUSINESS_INFO": "Completa la configurazione aziendale nella finestra Meta...",
