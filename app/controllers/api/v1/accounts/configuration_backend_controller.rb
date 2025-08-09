@@ -6,7 +6,7 @@ class Api::V1::Accounts::ConfigurationBackendController < Api::V1::Accounts::Bas
 
     return render json: { error: 'Store not configured for this account' }, status: :unprocessable_entity if store_id.blank?
 
-    result = AiBackendService::SetupService.create_configuration(
+    result = AiBackendService::SetupService.save_configuration(
       store_id,
       permitted_params[:key],
       permitted_params[:data]
