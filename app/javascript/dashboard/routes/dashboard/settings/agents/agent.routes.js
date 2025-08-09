@@ -21,15 +21,7 @@ export default {
           component: AgentHome,
           meta: {
             featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
-            permissions: ['super_admin'],
-            beforeEnter: (to, from, next) => {
-              const user = store.getters.getCurrentUser;
-              if (user?.type === 'SuperAdmin') {
-                next();
-              } else {
-                next({ name: 'settings_home' });
-              }
-            },
+            permissions: ['administrator'],
           },
         },
       ],
