@@ -37,6 +37,12 @@ const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
 
+// SuperAdmin protection check
+const currentUser = useMapGetter('getCurrentUser');
+const isUserSuperAdmin = computed(() => {
+  return currentUser.value?.type === 'SuperAdmin';
+});
+
 const toggleShortcutModalFn = show => {
   if (show) {
     emit('openKeyShortcutModal');
@@ -120,7 +126,7 @@ const newReportRoutes = () => [
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
-  return [
+  const baseItems = [
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
@@ -398,105 +404,147 @@ const menuItems = computed(() => {
           }),
         },
       ],
+    }
+  ];
+
+  // Settings section with conditional children based on SuperAdmin status
+  const settingsChildren = [
+    {
+      name: 'Settings Account Settings',
+      label: t('SIDEBAR.ACCOUNT_SETTINGS'),
+      icon: 'i-lucide-briefcase',
+      to: accountScopedRoute('general_settings_index'),
+    }
+  ];
+
+  // Only show these items to SuperAdmins
+  if (isUserSuperAdmin.value) {
+    settingsChildren.push(
+      {
+        name: 'Settings Agents',
+        label: t('SIDEBAR.AGENTS'),
+        icon: 'i-lucide-square-user',
+        to: accountScopedRoute('agent_list'),
+      }
+    );
+  }
+
+  settingsChildren.push(
+    {
+      name: 'Settings Teams',
+      label: t('SIDEBAR.TEAMS'),
+      icon: 'i-lucide-users',
+      to: accountScopedRoute('settings_teams_list'),
+    }
+  );
+
+  // Only show these items to SuperAdmins
+  if (isUserSuperAdmin.value) {
+    settingsChildren.push(
+      {
+        name: 'Settings Inboxes',
+        label: t('SIDEBAR.INBOXES'),
+        icon: 'i-lucide-inbox',
+        to: accountScopedRoute('settings_inbox_list'),
+      }
+    );
+  }
+
+  settingsChildren.push(
+    {
+      name: 'Settings Labels',
+      label: t('SIDEBAR.LABELS'),
+      icon: 'i-lucide-tags',
+      to: accountScopedRoute('labels_list'),
     },
     {
-      name: 'Settings',
-      label: t('SIDEBAR.SETTINGS'),
-      icon: 'i-lucide-bolt',
-      children: [
-        {
-          name: 'Settings Account Settings',
-          label: t('SIDEBAR.ACCOUNT_SETTINGS'),
-          icon: 'i-lucide-briefcase',
-          to: accountScopedRoute('general_settings_index'),
-        },
-        {
-          name: 'Settings Agents',
-          label: t('SIDEBAR.AGENTS'),
-          icon: 'i-lucide-square-user',
-          to: accountScopedRoute('agent_list'),
-        },
-        {
-          name: 'Settings Teams',
-          label: t('SIDEBAR.TEAMS'),
-          icon: 'i-lucide-users',
-          to: accountScopedRoute('settings_teams_list'),
-        },
-        {
-          name: 'Settings Inboxes',
-          label: t('SIDEBAR.INBOXES'),
-          icon: 'i-lucide-inbox',
-          to: accountScopedRoute('settings_inbox_list'),
-        },
-        {
-          name: 'Settings Labels',
-          label: t('SIDEBAR.LABELS'),
-          icon: 'i-lucide-tags',
-          to: accountScopedRoute('labels_list'),
-        },
-        {
-          name: 'Settings Custom Attributes',
-          label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
-          icon: 'i-lucide-code',
-          to: accountScopedRoute('attributes_list'),
-        },
-        {
-          name: 'Settings Automation',
-          label: t('SIDEBAR.AUTOMATION'),
-          icon: 'i-lucide-workflow',
-          to: accountScopedRoute('automation_list'),
-        },
-        {
-          name: 'Settings Agent Bots',
-          label: t('SIDEBAR.AGENT_BOTS'),
-          icon: 'i-lucide-bot',
-          to: accountScopedRoute('agent_bots'),
-        },
-        {
-          name: 'Settings Macros',
-          label: t('SIDEBAR.MACROS'),
-          icon: 'i-lucide-toy-brick',
-          to: accountScopedRoute('macros_wrapper'),
-        },
-        {
-          name: 'Settings Canned Responses',
-          label: t('SIDEBAR.CANNED_RESPONSES'),
-          icon: 'i-lucide-message-square-quote',
-          to: accountScopedRoute('canned_list'),
-        },
-        {
-          name: 'Settings Integrations',
-          label: t('SIDEBAR.INTEGRATIONS'),
-          icon: 'i-lucide-blocks',
-          to: accountScopedRoute('settings_applications'),
-        },
-        {
-          name: 'Settings Audit Logs',
-          label: t('SIDEBAR.AUDIT_LOGS'),
-          icon: 'i-lucide-briefcase',
-          to: accountScopedRoute('auditlogs_list'),
-        },
-        {
-          name: 'Settings Custom Roles',
-          label: t('SIDEBAR.CUSTOM_ROLES'),
-          icon: 'i-lucide-shield-plus',
-          to: accountScopedRoute('custom_roles_list'),
-        },
-        {
-          name: 'Settings Sla',
-          label: t('SIDEBAR.SLA'),
-          icon: 'i-lucide-clock-alert',
-          to: accountScopedRoute('sla_list'),
-        },
-        {
-          name: 'Settings Billing',
-          label: t('SIDEBAR.BILLING'),
-          icon: 'i-lucide-credit-card',
-          to: accountScopedRoute('billing_settings_index'),
-        },
-      ],
+      name: 'Settings Custom Attributes',
+      label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
+      icon: 'i-lucide-code',
+      to: accountScopedRoute('attributes_list'),
     },
-  ];
+    {
+      name: 'Settings Automation',
+      label: t('SIDEBAR.AUTOMATION'),
+      icon: 'i-lucide-workflow',
+      to: accountScopedRoute('automation_list'),
+    }
+  );
+
+  // Only show these items to SuperAdmins
+  if (isUserSuperAdmin.value) {
+    settingsChildren.push(
+      {
+        name: 'Settings Agent Bots',
+        label: t('SIDEBAR.AGENT_BOTS'),
+        icon: 'i-lucide-bot',
+        to: accountScopedRoute('agent_bots'),
+      }
+    );
+  }
+
+  settingsChildren.push(
+    {
+      name: 'Settings Macros',
+      label: t('SIDEBAR.MACROS'),
+      icon: 'i-lucide-toy-brick',
+      to: accountScopedRoute('macros_wrapper'),
+    },
+    {
+      name: 'Settings Canned Responses',
+      label: t('SIDEBAR.CANNED_RESPONSES'),
+      icon: 'i-lucide-message-square-quote',
+      to: accountScopedRoute('canned_list'),
+    }
+  );
+
+  // Only show these items to SuperAdmins
+  if (isUserSuperAdmin.value) {
+    settingsChildren.push(
+      {
+        name: 'Settings Integrations',
+        label: t('SIDEBAR.INTEGRATIONS'),
+        icon: 'i-lucide-blocks',
+        to: accountScopedRoute('settings_applications'),
+      }
+    );
+  }
+
+  settingsChildren.push(
+    {
+      name: 'Settings Audit Logs',
+      label: t('SIDEBAR.AUDIT_LOGS'),
+      icon: 'i-lucide-briefcase',
+      to: accountScopedRoute('auditlogs_list'),
+    },
+    {
+      name: 'Settings Custom Roles',
+      label: t('SIDEBAR.CUSTOM_ROLES'),
+      icon: 'i-lucide-shield-plus',
+      to: accountScopedRoute('custom_roles_list'),
+    },
+    {
+      name: 'Settings Sla',
+      label: t('SIDEBAR.SLA'),
+      icon: 'i-lucide-clock-alert',
+      to: accountScopedRoute('sla_list'),
+    },
+    {
+      name: 'Settings Billing',
+      label: t('SIDEBAR.BILLING'),
+      icon: 'i-lucide-credit-card',
+      to: accountScopedRoute('billing_settings_index'),
+    }
+  );
+
+  const settingsSection = {
+    name: 'Settings',
+    label: t('SIDEBAR.SETTINGS'),
+    icon: 'i-lucide-bolt',
+    children: settingsChildren,
+  };
+
+  return [...baseItems, settingsSection];
 });
 </script>
 
@@ -562,20 +610,8 @@ const menuItems = computed(() => {
           :key="item.name"
           v-bind="item"
         />
-          <li class="flex">
-            <a
-              href="https://crm-heycommerce.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex items-center gap-2 px-4 py-2 rounded-lg h-10 text-n-slate-11 hover:bg-n-alpha-2
-  cursor-pointer w-full"
-            >
-              <span class="i-lucide-external-link size-4"></span>
-              <span class="text-sm font-medium leading-5">CRM</span>
-            </a>
-          </li>
-      </ul>    
-</nav>
+      </ul>
+    </nav>
     <section
       class="p-1 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
     >
