@@ -138,11 +138,11 @@
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
+      "HEADER_TITLE": "WhatsApp अभियान",
       "NEW_CAMPAIGN": "Create campaign",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "कोई WhatsApp अभियान उपलब्ध नहीं है",
+        "SUBTITLE": "अपने ग्राहकों तक सीधे पहुँचने के लिए एक WhatsApp अभियान शुरू करें। आसानी से ऑफ़र भेजें या घोषणाएँ करें। शुरू करने के लिए 'अभियान बनाएँ' पर क्लिक करें।"
       },
       "CARD": {
         "STATUS": {
@@ -155,7 +155,7 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
+        "TITLE": "WhatsApp अभियान बनाएं",
         "CANCEL_BUTTON_TEXT": "Cancel",
         "CREATE_BUTTON_TEXT": "Create",
         "FORM": {
@@ -171,14 +171,14 @@
           },
           "TEMPLATE": {
             "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
+            "PLACEHOLDER": "एक टेम्पलेट चुनें",
+            "INFO": "इस अभियान मे उपयोग करने के लिए टेम्पलेट चुनिए।",
+            "ERROR": "टेम्पलेट की अव्यश्कता है",
             "PREVIEW_TITLE": "Process {templateName}",
             "LANGUAGE": "Language",
             "CATEGORY": "Category",
             "VARIABLES_LABEL": "Variables",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "VARIABLE_PLACEHOLDER": "{variable} के लिए मूल्य दर्ज करें"
           },
           "AUDIENCE": {
             "LABEL": "Audience",
@@ -195,7 +195,7 @@
             "CANCEL": "Cancel"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "SUCCESS_MESSAGE": "WhatsApp अभियान सफलतापूर्वक बनाया गया",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }
