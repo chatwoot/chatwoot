@@ -29,5 +29,7 @@ class Sms::OneoffSmsCampaignService
 
   def send_message(to:, content:)
     channel.send_text_message(to, content)
+  rescue StandardError => e
+    Rails.logger.error("[SMS Campaign #{campaign.id}] Failed to send to #{to}: #{e.message}")
   end
 end
