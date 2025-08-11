@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "Φόρτωση πρακτόρων...",
       "ASSIGN_TEAM": "Ανάθεση ομάδας",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Η συνομιλία με αριθμό {conversationId} ανατέθηκε στον \"{agentName}\"",
