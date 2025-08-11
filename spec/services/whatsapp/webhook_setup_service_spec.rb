@@ -24,25 +24,19 @@ describe Whatsapp::WebhookSetupService do
   end
 
   describe '#perform' do
-    context 'when all operations succeed' do
+    context 'when phone number is NOT verified (should register)' do
       before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(false)
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
         allow(api_client).to receive(:subscribe_waba_webhook)
-          .with(waba_id, anything, 'test_verify_token')
-          .and_return({ 'success' => true })
+          .with(waba_id, anything, 'test_verify_token').and_return({ 'success' => true })
         allow(channel).to receive(:save!)
       end
 
-      it 'registers the phone number' do
+      it 'registers the phone number and sets up webhook' do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 223_456)
-          service.perform
-        end
-      end
-
-      it 'sets up webhook subscription' do
-        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).to receive(:subscribe_waba_webhook)
             .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
           service.perform
@@ -50,33 +44,71 @@ describe Whatsapp::WebhookSetupService do
       end
     end
 
-    context 'when phone registration fails' do
+    context 'when phone number IS verified (should NOT register)' do
       before do
-        allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
-        allow(api_client).to receive(:register_phone_number)
-          .and_raise('Registration failed')
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
         allow(api_client).to receive(:subscribe_waba_webhook)
-          .and_return({ 'success' => true })
+          .with(waba_id, anything, 'test_verify_token').and_return({ 'success' => true })
       end
 
-      it 'continues with webhook setup' do
+      it 'does NOT register phone, but sets up webhook' do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).not_to receive(:register_phone_number)
+          expect(api_client).to receive(:subscribe_waba_webhook)
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+          service.perform
+        end
+      end
+    end
+
+    context 'when phone_number_verified? raises error' do
+      before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_raise('API down')
+        allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
+        allow(api_client).to receive(:register_phone_number)
+        allow(api_client).to receive(:subscribe_waba_webhook).and_return({ 'success' => true })
+        allow(channel).to receive(:save!)
+      end
+
+      it 'tries to register phone and proceeds with webhook setup' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
           expect { service.perform }.not_to raise_error
         end
       end
     end
 
-    context 'when webhook setup fails' do
+    context 'when phone registration fails (not blocking)' do
       before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(false)
+        allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
+        allow(api_client).to receive(:register_phone_number).and_raise('Registration failed')
+        allow(api_client).to receive(:subscribe_waba_webhook).and_return({ 'success' => true })
+        allow(channel).to receive(:save!)
+      end
+
+      it 'continues with webhook setup even if registration fails' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).to receive(:register_phone_number)
+          expect(api_client).to receive(:subscribe_waba_webhook)
+          expect { service.perform }.not_to raise_error
+        end
+      end
+    end
+
+    context 'when webhook setup fails (should raise)' do
+      before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(false)
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number)
-        allow(api_client).to receive(:subscribe_waba_webhook)
-          .and_raise('Webhook failed')
+        allow(api_client).to receive(:subscribe_waba_webhook).and_raise('Webhook failed')
       end
 
       it 'raises an error' do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).to receive(:register_phone_number)
+          expect(api_client).to receive(:subscribe_waba_webhook)
           expect { service.perform }.to raise_error(/Webhook setup failed/)
         end
       end
@@ -84,24 +116,25 @@ describe Whatsapp::WebhookSetupService do
 
     context 'when required parameters are missing' do
       it 'raises error when channel is nil' do
-        service = described_class.new(nil, waba_id, access_token)
-        expect { service.perform }.to raise_error(ArgumentError, 'Channel is required')
+        service_invalid = described_class.new(nil, waba_id, access_token)
+        expect { service_invalid.perform }.to raise_error(ArgumentError, 'Channel is required')
       end
 
       it 'raises error when waba_id is blank' do
-        service = described_class.new(channel, '', access_token)
-        expect { service.perform }.to raise_error(ArgumentError, 'WABA ID is required')
+        service_invalid = described_class.new(channel, '', access_token)
+        expect { service_invalid.perform }.to raise_error(ArgumentError, 'WABA ID is required')
       end
 
       it 'raises error when access_token is blank' do
-        service = described_class.new(channel, waba_id, '')
-        expect { service.perform }.to raise_error(ArgumentError, 'Access token is required')
+        service_invalid = described_class.new(channel, waba_id, '')
+        expect { service_invalid.perform }.to raise_error(ArgumentError, 'Access token is required')
       end
     end
 
     context 'when PIN already exists' do
       before do
         channel.provider_config['verification_pin'] = 123_456
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(false)
         allow(api_client).to receive(:register_phone_number)
         allow(api_client).to receive(:subscribe_waba_webhook).and_return({ 'success' => true })
         allow(channel).to receive(:save!)

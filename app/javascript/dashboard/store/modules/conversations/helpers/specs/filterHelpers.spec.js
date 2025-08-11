@@ -602,6 +602,59 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
+    // Test for array filter values (saved views)
+    it('should handle array filter values for date comparison in saved views', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: ['2022-03-19'], // Array format from saved views
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle array filter values with is_less_than operator', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_less_than',
+          values: ['2022-03-21'], // Array format from saved views
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle array filter values with timestamp', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: [1647691200], // March 19, 2022 as array (in seconds)
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle empty array filter values', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: [], // Empty array
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
     it('should handle non-date string values in date comparison', () => {
       const conversation = { created_at: 1647777600000 }; // March 20, 2022
       const filters = [
@@ -716,6 +769,19 @@ describe('filterHelpers', () => {
             attribute_key: 'created_at',
             filter_operator: 'days_before',
             values: '3', // 3 days before March 25 = March 22
+            query_operator: 'and',
+          },
+        ];
+        expect(matchesFilters(conversation, filters)).toBe(true);
+      });
+
+      it('should handle array values for days_before operator', () => {
+        const conversation = { created_at: 1647777600000 }; // March 20, 2022
+        const filters = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'days_before',
+            values: ['3'], // Array format from saved views
             query_operator: 'and',
           },
         ];
