@@ -251,7 +251,7 @@ watch(
         <!-- Fallback Icon if no name or image -->
         <Icon
           v-else
-          v-tooltip.top-start="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
+          :title="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
           icon="i-lucide-user"
           :style="iconStyles"
         />
