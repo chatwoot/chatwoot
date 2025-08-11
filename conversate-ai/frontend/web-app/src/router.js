@@ -30,8 +30,7 @@ const routes = [
       {
         path: '',
         name: 'dashboard',
-        // For now, a placeholder component
-        component: { template: '<div><h1>Dashboard</h1><p>Welcome! This is the main dashboard content.</p></div>' },
+        component: () => import('./views/Inbox.vue'),
       },
       {
         path: '/profile',
