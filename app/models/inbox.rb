@@ -255,17 +255,15 @@ class Inbox < ApplicationRecord
   end
 
   def filter_agents_on_leave(inbox_members_scope)
-    # Get account users on active leave
-    account_user_ids_on_leave = account.account_users
-                                       .joins(:leaves)
-                                       .where(leaves: { status: 'approved' })
-                                       .where('leaves.start_date <= ? AND leaves.end_date >= ?', Date.current, Date.current)
-                                       .pluck(:id)
+    # Get users on active leave
+    user_ids_on_leave = account.leaves
+                               .where(status: :approved)
+                               .where('start_date <= ? AND end_date >= ?', Date.current, Date.current)
+                               .pluck(:user_id)
 
-    return inbox_members_scope if account_user_ids_on_leave.empty?
+    return inbox_members_scope if user_ids_on_leave.empty?
 
-    # Exclude inbox members whose account_users are on leave
-    user_ids_on_leave = account.account_users.where(id: account_user_ids_on_leave).pluck(:user_id)
+    # Exclude inbox members whose users are on leave
     inbox_members_scope.where.not(user_id: user_ids_on_leave)
   end
 

@@ -5,9 +5,8 @@ require 'rails_helper'
 RSpec.describe Leave, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
-    it { is_expected.to belong_to(:account_user) }
+    it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:approved_by).class_name('User').optional }
-    it { is_expected.to have_one(:user).through(:account_user) }
   end
 
   describe 'validations' do

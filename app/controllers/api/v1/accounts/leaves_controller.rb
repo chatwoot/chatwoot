@@ -16,10 +16,10 @@ class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
   end
 
   def create
-    account_user = find_or_authorize_account_user
+    user = find_or_authorize_user
     service = Leaves::LeaveService.new(
       account: Current.account,
-      account_user: account_user,
+      user: user,
       current_user: Current.user
     )
 
@@ -86,12 +86,11 @@ class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
     authorize @leave, :approve?
   end
 
-  def find_or_authorize_account_user
+  def find_or_authorize_user
     if params[:user_id].present? && Current.account_user.administrator?
-      user = Current.account.users.find(params[:user_id])
-      Current.account.account_users.find_by!(user: user)
+      Current.account.users.find(params[:user_id])
     else
-      Current.account.account_users.find_by!(user: Current.user)
+      Current.user
     end
   end
 
@@ -99,14 +98,14 @@ class Api::V1::Accounts::LeavesController < Api::V1::Accounts::BaseController
     @leave_service ||= if @leave
                          Leaves::LeaveService.new(
                            account: Current.account,
-                           account_user: @leave.account_user,
+                           user: @leave.user,
                            current_user: Current.user
                          )
                        else
                          # For index action, we don't have a specific leave
                          Leaves::LeaveService.new(
                            account: Current.account,
-                           account_user: nil,
+                           user: nil,
                            current_user: Current.user
                          )
                        end

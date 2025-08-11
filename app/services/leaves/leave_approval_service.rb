@@ -100,6 +100,7 @@ class Leaves::LeaveApprovalService
     # If the leave starts today or is already active, reassign conversations
     return unless leave.start_date <= Date.current
 
-    ReassignConversationsJob.perform_later(leave.account_user)
+    account_user = leave.account.account_users.find_by(user_id: leave.user_id)
+    ReassignConversationsJob.perform_later(account_user)
   end
 end

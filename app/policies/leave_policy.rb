@@ -7,7 +7,7 @@ class LeavePolicy < ApplicationPolicy
 
   def show?
     # Users can view their own leaves or admins can view all
-    record.account_user.user_id == user.id || @account_user.administrator?
+    record.user_id == user.id || @account_user.administrator?
   end
 
   def create?
@@ -15,13 +15,13 @@ class LeavePolicy < ApplicationPolicy
     # When authorizing the class (not instance), allow any authenticated user
     return true if record.is_a?(Class)
 
-    record.account_user.user_id == user.id
+    record.user_id == user.id
   end
 
   def update?
     # Users can update their own pending/rejected leaves
     # Admins can update any leave
-    @account_user.administrator? || (record.account_user.user_id == user.id && record.pending?)
+    @account_user.administrator? || (record.user_id == user.id && record.pending?)
   end
 
   def destroy?
@@ -30,7 +30,7 @@ class LeavePolicy < ApplicationPolicy
     if @account_user.administrator?
       !record.approved?
     else
-      record.account_user.user_id == user.id && record.pending?
+      record.user_id == user.id && record.pending?
     end
   end
 

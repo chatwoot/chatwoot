@@ -12,8 +12,8 @@ RSpec.describe 'Leaves API', type: :request do
   describe 'GET /api/v1/accounts/:account_id/leaves' do
     context 'when authenticated as an agent' do
       it 'returns only their own leaves' do
-        leave1 = create(:leave, account_user: agent_account_user, account: account)
-        create(:leave, account_user: account.account_users.find_by(user: another_agent), account: account)
+        leave1 = create(:leave, user: agent, account: account)
+        create(:leave, user: another_agent, account: account)
 
         get "/api/v1/accounts/#{account.id}/leaves",
             headers: agent.create_new_auth_token,
@@ -28,8 +28,8 @@ RSpec.describe 'Leaves API', type: :request do
 
     context 'when authenticated as an admin' do
       it 'returns all leaves in the account' do
-        create(:leave, account_user: agent_account_user, account: account)
-        create(:leave, account_user: account.account_users.find_by(user: another_agent), account: account)
+        create(:leave, user: agent, account: account)
+        create(:leave, user: another_agent, account: account)
 
         get "/api/v1/accounts/#{account.id}/leaves",
             headers: admin.create_new_auth_token,
@@ -88,7 +88,7 @@ RSpec.describe 'Leaves API', type: :request do
   end
 
   describe 'PUT /api/v1/accounts/:account_id/leaves/:id' do
-    let(:leave) { create(:leave, account_user: agent_account_user, account: account) }
+    let(:leave) { create(:leave, user: agent, account: account) }
 
     context 'when authenticated as the leave owner' do
       it 'updates pending leave' do
@@ -131,7 +131,7 @@ RSpec.describe 'Leaves API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/:account_id/leaves/:id/approve' do
-    let(:leave) { create(:leave, account_user: agent_account_user, account: account) }
+    let(:leave) { create(:leave, user: agent, account: account) }
 
     context 'when authenticated as an admin' do
       it 'approves the leave' do
@@ -161,7 +161,7 @@ RSpec.describe 'Leaves API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/:account_id/leaves/:id/reject' do
-    let(:leave) { create(:leave, account_user: agent_account_user, account: account) }
+    let(:leave) { create(:leave, user: agent, account: account) }
 
     context 'when authenticated as an admin' do
       it 'rejects the leave with reason' do
@@ -190,7 +190,7 @@ RSpec.describe 'Leaves API', type: :request do
 
   describe 'DELETE /api/v1/accounts/:account_id/leaves/:id' do
     context 'when deleting own pending leave' do
-      let(:leave) { create(:leave, account_user: agent_account_user, account: account) }
+      let(:leave) { create(:leave, user: agent, account: account) }
 
       it 'deletes the leave' do
         delete "/api/v1/accounts/#{account.id}/leaves/#{leave.id}",
@@ -203,7 +203,7 @@ RSpec.describe 'Leaves API', type: :request do
     end
 
     context 'when trying to delete approved leave' do
-      let(:leave) { create(:leave, :approved, account_user: agent_account_user, account: account) }
+      let(:leave) { create(:leave, :approved, user: agent, account: account) }
 
       it 'returns unauthorized' do
         delete "/api/v1/accounts/#{account.id}/leaves/#{leave.id}",

@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :leave do
     account
-    account_user
+    user
     start_date { Date.current + 1.day }
     end_date { Date.current + 7.days }
     leave_type { 'vacation' }

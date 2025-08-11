@@ -31,10 +31,8 @@
 
 class Leave < ApplicationRecord
   belongs_to :account
-  belongs_to :account_user
+  belongs_to :user
   belongs_to :approved_by, class_name: 'User', optional: true
-
-  has_one :user, through: :account_user
 
   enum leave_type: {
     vacation: 0,
@@ -92,10 +90,10 @@ class Leave < ApplicationRecord
   end
 
   def no_overlapping_leaves
-    overlapping_leaves = account_user.leaves
-                                     .approved
-                                     .where.not(id: id)
-                                     .by_date_range(start_date, end_date)
+    overlapping_leaves = user.leaves
+                             .approved
+                             .where.not(id: id)
+                             .by_date_range(start_date, end_date)
 
     return unless overlapping_leaves.exists?
 

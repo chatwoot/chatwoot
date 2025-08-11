@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Leaves::LeaveService
-  pattr_initialize [:account!, :account_user!, :current_user!]
+  pattr_initialize [:account!, :user!, :current_user!]
 
   def create(params)
-    leave = account_user.leaves.build(filtered_params(params))
+    leave = user.leaves.build(filtered_params(params))
     leave.account = account
 
     if leave.save
@@ -44,9 +44,9 @@ class Leaves::LeaveService
 
     scope = scope.by_date_range(filters[:start_date], filters[:end_date]) if filters[:start_date].present? && filters[:end_date].present?
 
-    scope = scope.joins(:account_user).where(account_users: { user_id: filters[:user_id] }) if filters[:user_id].present? && current_user_admin?
+    scope = scope.where(user_id: filters[:user_id]) if filters[:user_id].present? && current_user_admin?
 
-    scope.includes(:account_user, :user, :approved_by).order(start_date: :desc)
+    scope.includes(:user, :approved_by).order(start_date: :desc)
   end
 
   private

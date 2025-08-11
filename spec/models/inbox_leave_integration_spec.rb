@@ -34,7 +34,7 @@ RSpec.describe 'Inbox Leave Integration', skip: 'Enterprise feature', type: :mod
 
     context 'when an agent is on approved leave' do
       before do
-        create(:leave, :active, account_user: account_user1)
+        create(:leave, :active, user: user1, account: account)
       end
 
       it 'excludes the agent on leave' do
@@ -46,8 +46,8 @@ RSpec.describe 'Inbox Leave Integration', skip: 'Enterprise feature', type: :mod
 
     context 'when multiple agents are on leave' do
       before do
-        create(:leave, :active, account_user: account_user1)
-        create(:leave, :active, account_user: account_user2)
+        create(:leave, :active, user: user1, account: account)
+        create(:leave, :active, user: user2, account: account)
       end
 
       it 'excludes all agents on leave' do
@@ -58,7 +58,7 @@ RSpec.describe 'Inbox Leave Integration', skip: 'Enterprise feature', type: :mod
 
     context 'when an agent has pending leave' do
       before do
-        create(:leave, account_user: account_user1, status: 'pending')
+        create(:leave, user: user1, account: account, status: 'pending')
       end
 
       it 'does not exclude agents with pending leave' do
@@ -69,7 +69,7 @@ RSpec.describe 'Inbox Leave Integration', skip: 'Enterprise feature', type: :mod
 
     context 'when an agent has future approved leave' do
       before do
-        create(:leave, :future, account_user: account_user1)
+        create(:leave, :future, user: user1, account: account)
       end
 
       it 'does not exclude agents with future leave' do
@@ -80,7 +80,7 @@ RSpec.describe 'Inbox Leave Integration', skip: 'Enterprise feature', type: :mod
 
     context 'when an agent has past leave' do
       before do
-        create(:leave, :past, account_user: account_user1)
+        create(:leave, :past, user: user1, account: account)
       end
 
       it 'does not exclude agents with past leave' do
@@ -91,7 +91,7 @@ RSpec.describe 'Inbox Leave Integration', skip: 'Enterprise feature', type: :mod
 
     context 'with exclude_on_leave option' do
       before do
-        create(:leave, :active, account_user: account_user1)
+        create(:leave, :active, user: user1, account: account)
       end
 
       it 'excludes agents on leave by default' do
