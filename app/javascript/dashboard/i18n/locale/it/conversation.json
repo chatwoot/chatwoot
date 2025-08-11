@@ -32,12 +32,12 @@
     "LOADING_CONVERSATIONS": "Caricamento conversazioni",
     "CANNOT_REPLY": "Non puoi rispondere a causa di",
     "24_HOURS_WINDOW": "Restrizione della finestra del messaggio a 24 ore",
-    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "API_HOURS_WINDOW": "Puoi rispondere a questa conversazione solo entro {hours} ore",
     "NOT_ASSIGNED_TO_YOU": "Questa conversazione non è assegnata. Vuoi assegnare questa conversazione a te stesso?",
     "ASSIGN_TO_ME": "Assegna a me",
     "TWILIO_WHATSAPP_CAN_REPLY": "È possibile rispondere a questa conversazione solo utilizzando un messaggio modello a causa di",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrizione della finestra del messaggio a 24 ore",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Questo account Instagram è stato migrato alla nuova casella di posta del canale Instagram. Tutti i nuovi messaggi verranno visualizzati lì. Non sarà più possibile inviare messaggi da questa conversazione.",
     "REPLYING_TO": "Stai rispondendo a:",
     "REMOVE_SELECTION": "Rimuovi selezione",
     "DOWNLOAD": "Scarica",
@@ -70,7 +70,7 @@
       "RESOLVE_ACTION": "Risolvi",
       "REOPEN_ACTION": "Riapri",
       "OPEN_ACTION": "Apri",
-      "MORE_ACTIONS": "More actions",
+      "MORE_ACTIONS": "Altre azioni",
       "OPEN": "Altro",
       "CLOSE": "Chiudi",
       "DETAILS": "Dettagli",
@@ -123,8 +123,8 @@
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "Delete conversation #{conversationId}",
-      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "TITLE": "Elimina conversazione #{conversationId}",
+      "DESCRIPTION": "Sei sicuro di voler eliminare questa conversazione?",
       "CONFIRM": "Elimina"
     },
     "CARD_CONTEXT_MENU": {
@@ -143,7 +143,10 @@
       "ASSIGN_LABEL": "Assegna etichetta",
       "AGENTS_LOADING": "Caricamento agenti...",
       "ASSIGN_TEAM": "Assegna team",
-      "DELETE": "Delete conversation",
+      "DELETE": "Elimina conversazione",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID conversazione {conversationId} assegnato a \"{agentName}\"",
@@ -218,8 +221,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etichetta assegnata correttamente",
     "ASSIGN_LABEL_FAILED": "Assegnazione etichetta non riuscita",
     "CHANGE_TEAM": "Team conversazione cambiato",
-    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
-    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "SUCCESS_DELETE_CONVERSATION": "Conversazione eliminata con successo",
+    "FAIL_DELETE_CONVERSATION": "Impossibile eliminare la conversazione! Riprova",
     "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB per l'allegato",
     "MESSAGE_ERROR": "Impossibile inviare questo messaggio, riprova più tardi",
     "SENT_BY": "Inviato da:",
@@ -308,11 +311,11 @@
       "CONVERSATION_ACTIONS": "Azioni conversazione",
       "CONVERSATION_LABELS": "Etichette conversazione",
       "CONVERSATION_INFO": "Informazioni conversazione",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "Note del Contatto",
       "CONTACT_ATTRIBUTES": "Attributi contatti",
       "PREVIOUS_CONVERSATION": "Conversazioni precedenti",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "Collega con issue Linear",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
