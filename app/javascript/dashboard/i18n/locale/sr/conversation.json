@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Sledeće nedelje"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenti",
+      "TEAMS": "Timovi"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Odloži do",
       "APPLY": "Odloži",
@@ -140,6 +144,9 @@
       "AGENTS_LOADING": "Učitavanje agenata...",
       "ASSIGN_TEAM": "Dodeli tim",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Razgovor sa ID {conversationId} je dodeljen \"{agentName}\"",

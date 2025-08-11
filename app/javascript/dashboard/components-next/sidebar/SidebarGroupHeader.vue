@@ -23,10 +23,11 @@ const showBadge = useMapGetter(props.getterKeys.badge);
     :is="to ? 'router-link' : 'div'"
     class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8"
     role="button"
+    draggable="false"
     :to="to"
     :title="label"
     :class="{
-      'n-blue-text bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
+      'text-n-blue-text bg-n-alpha-2 font-medium': isActive && !hasActiveChild,
       'text-n-slate-12 font-medium': hasActiveChild,
       'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
     }"

@@ -121,16 +121,22 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def upload_file
-    return unless message.attachments.first.with_attached_file?
+    message.attachments.each do |attachment|
+      next unless attachment.with_attached_file?
 
-    result = slack_client.files_upload_v2(
-      filename: message.attachments.first.file.filename,
-      content: message.attachments.first.file.download,
-      initial_comment: 'Attached File!',
-      thread_ts: conversation.identifier,
-      channel_id: hook.reference_id
-    )
-    Rails.logger.info "slack_upload_result: #{result}"
+      begin
+        result = slack_client.files_upload_v2(
+          filename: attachment.file.filename.to_s,
+          content: attachment.file.download,
+          initial_comment: 'Attached File!',
+          thread_ts: conversation.identifier,
+          channel_id: hook.reference_id
+        )
+        Rails.logger.info "slack_upload_result: #{result}"
+      rescue Slack::Web::Api::Errors::SlackError => e
+        Rails.logger.error "Failed to upload file #{attachment.file.filename}: #{e.message}"
+      end
+    end
   end
 
   def file_type

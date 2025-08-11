@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
+import AddAccountModal from './components/app/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
@@ -136,7 +136,7 @@ export default {
   <div
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
-    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
+    class="flex flex-col w-full h-screen min-h-0"
     :class="{ 'app-rtl--wrapper': isRTL }"
     :dir="isRTL ? 'rtl' : 'ltr'"
   >

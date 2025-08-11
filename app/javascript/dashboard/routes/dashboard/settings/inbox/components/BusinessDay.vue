@@ -193,14 +193,14 @@ export default {
         />
       </div>
       <div v-if="hasError" class="date-error pt-1">
-        <span class="error text-xs text-red-300 dark:text-red-500">{{
+        <span class="error text-xs text-n-ruby-9">{{
           $t('INBOX_MGMT.BUSINESS_HOURS.DAY.VALIDATION_ERROR')
         }}</span>
       </div>
     </div>
     <div
       v-else
-      class="flex items-center flex-shrink-0 flex-grow text-sm text-slate-500 dark:text-slate-300"
+      class="flex items-center flex-shrink-0 flex-grow text-sm text-n-slate-11"
     >
       <span>
         {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.UNAVAILABLE') }}

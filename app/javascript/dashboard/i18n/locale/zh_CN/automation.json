@@ -146,8 +146,21 @@
       "SEND_WEBHOOK_EVENT": "发送 Webhook 事件",
       "SEND_ATTACHMENT": "发送附件",
       "SEND_MESSAGE": "发送消息",
+      "ADD_PRIVATE_NOTE": "添加私密注释",
       "CHANGE_PRIORITY": "更改优先级",
-      "ADD_SLA": "添加SLA"
+      "ADD_SLA": "添加SLA",
+      "OPEN_CONVERSATION": "打开对话"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "啥都没有",
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "紧急的"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "消息类型",

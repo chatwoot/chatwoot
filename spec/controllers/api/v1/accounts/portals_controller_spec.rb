@@ -210,4 +210,76 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/send_instructions' do
+    let(:portal_with_domain) { create(:portal, slug: 'portal-with-domain', account_id: account.id, custom_domain: 'docs.example.com') }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/send_instructions",
+             params: { email: 'dev@example.com' }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/send_instructions",
+             headers: agent.create_new_auth_token,
+             params: { email: 'dev@example.com' },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated admin' do
+      it 'returns error when email is missing' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/send_instructions",
+             headers: admin.create_new_auth_token,
+             params: {},
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Email is required')
+      end
+
+      it 'returns error when email is invalid' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/send_instructions",
+             headers: admin.create_new_auth_token,
+             params: { email: 'invalid-email' },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Invalid email format')
+      end
+
+      it 'returns error when custom domain is not configured' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/send_instructions",
+             headers: admin.create_new_auth_token,
+             params: { email: 'dev@example.com' },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('Custom domain is not configured')
+      end
+
+      it 'sends instructions successfully' do
+        mailer_double = instance_double(ActionMailer::MessageDelivery)
+        allow(PortalInstructionsMailer).to receive(:send_cname_instructions).and_return(mailer_double)
+        allow(mailer_double).to receive(:deliver_later)
+
+        post "/api/v1/accounts/#{account.id}/portals/#{portal_with_domain.slug}/send_instructions",
+             headers: admin.create_new_auth_token,
+             params: { email: 'dev@example.com' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['message']).to eq('Instructions sent successfully')
+        expect(PortalInstructionsMailer).to have_received(:send_cname_instructions)
+          .with(portal: portal_with_domain, recipient_email: 'dev@example.com')
+      end
+    end
+  end
 end

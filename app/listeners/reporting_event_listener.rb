@@ -47,6 +47,10 @@ class ReportingEventListener < BaseListener
     message = extract_message_and_account(event)[0]
     conversation = message.conversation
     waiting_since = event.data[:waiting_since]
+
+    return if waiting_since.blank?
+
+    # When waiting_since is nil, set reply_time to 0
     reply_time = message.created_at.to_i - waiting_since.to_i
 
     reporting_event = ReportingEvent.new(

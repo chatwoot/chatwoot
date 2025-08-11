@@ -17,30 +17,23 @@ describe Messages::Instagram::Messenger::MessageBuilder do
   let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
   let!(:instagram_message_reply_event) { build(:instagram_message_reply_event).with_indifferent_access }
   let(:fb_object) { double }
-  let(:contact) { create(:contact, id: 'Sender-id-1', name: 'Jane Dae') }
-  let(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: instagram_messenger_inbox.id, source_id: 'Sender-id-1') }
-  let(:conversation) do
-    create(:conversation, account_id: account.id, inbox_id: instagram_messenger_inbox.id, contact_id: contact.id,
-                          additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
-  end
-  let(:message) do
-    create(:message, account_id: account.id, inbox_id: instagram_messenger_inbox.id, conversation_id: conversation.id, message_type: 'outgoing',
-                     source_id: 'message-id-1')
-  end
 
   describe '#perform' do
     it 'creates contact and message for the facebook inbox' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      sender_id = messaging['sender']['id']
+
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_return(
         {
           name: 'Jane',
-          id: 'Sender-id-1',
+          id: sender_id,
           account_id: instagram_messenger_inbox.account_id,
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
-      messaging = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
+
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       described_class.new(messaging, instagram_messenger_inbox).perform
 
       instagram_messenger_inbox.reload
@@ -56,7 +49,13 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     end
 
     it 'discard echo message already sent by chatwoot' do
-      message
+      messaging = dm_params[:entry][0]['messaging'][0]
+      sender_id = messaging['sender']['id']
+      contact = create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+      conversation = create(:conversation, account_id: account.id, inbox_id: instagram_messenger_inbox.id, contact_id: contact.id,
+                                           additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
+      create(:message, account_id: account.id, inbox_id: instagram_messenger_inbox.id, conversation_id: conversation.id, message_type: 'outgoing',
+                       source_id: 'message-id-1')
 
       expect(instagram_messenger_inbox.conversations.count).to be 1
       expect(instagram_messenger_inbox.messages.count).to be 1
@@ -65,13 +64,11 @@ describe Messages::Instagram::Messenger::MessageBuilder do
       allow(fb_object).to receive(:get_object).and_return(
         {
           name: 'Jane',
-          id: 'Sender-id-1',
+          id: sender_id,
           account_id: instagram_messenger_inbox.account_id,
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
-      messaging = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
       described_class.new(messaging, instagram_messenger_inbox, outgoing_echo: true).perform
 
       instagram_messenger_inbox.reload
@@ -81,17 +78,20 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     end
 
     it 'creates message for shared reel' do
+      messaging = shared_reel_params[:entry][0]['messaging'][0]
+      sender_id = messaging['sender']['id']
+
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_return(
         {
           name: 'Jane',
-          id: 'Sender-id-1',
+          id: sender_id,
           account_id: instagram_messenger_inbox.account_id,
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
-      messaging = shared_reel_params[:entry][0]['messaging'][0]
-      contact_inbox
+
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       described_class.new(messaging, instagram_messenger_inbox).perform
 
       message = instagram_messenger_channel.inbox.messages.first
@@ -102,18 +102,20 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     end
 
     it 'creates message with for reply with story id' do
+      messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
+      sender_id = messaging['sender']['id']
+
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_return(
         {
           name: 'Jane',
-          id: 'Sender-id-1',
+          id: sender_id,
           account_id: instagram_messenger_inbox.account_id,
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
-      messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
-      contact_inbox
 
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       described_class.new(messaging, instagram_messenger_inbox).perform
 
       message = instagram_messenger_channel.inbox.messages.first
@@ -125,24 +127,26 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     end
 
     it 'creates message with for reply with mid' do
+      # create first message to ensure reply to is valid
+      first_message_data = dm_params[:entry][0]['messaging'][0]
+      sender_id = first_message_data['sender']['id']
+
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_return(
         {
           name: 'Jane',
-          id: 'Sender-id-1',
+          id: sender_id,
           account_id: instagram_messenger_inbox.account_id,
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
-      # create first message to ensure reply to is valid
-      first_message = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
-      described_class.new(first_message, instagram_messenger_inbox).perform
 
-      # create the second message with the reply to mid set
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+      described_class.new(first_message_data, instagram_messenger_inbox).perform
+
+      # create the second message with the reply to mid set, ensure same sender_id
       messaging = instagram_message_reply_event[:entry][0]['messaging'][0]
-      contact_inbox
-
+      messaging['sender']['id'] = sender_id  # Use the same sender_id
       described_class.new(messaging, instagram_messenger_inbox).perform
       first_message = instagram_messenger_channel.inbox.messages.first
       message = instagram_messenger_channel.inbox.messages.last
@@ -153,14 +157,16 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     end
 
     it 'raises exception on deleted story' do
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      sender_id = messaging['sender']['id']
+
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::ClientError.new(
                                                            190,
                                                            'This Message has been deleted by the user or the business.'
                                                          ))
 
-      messaging = story_mention_params[:entry][0][:messaging][0]
-      contact_inbox
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       described_class.new(messaging, instagram_messenger_inbox, outgoing_echo: false).perform
 
       instagram_messenger_inbox.reload
@@ -180,22 +186,24 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     end
 
     it 'does not create message for unsupported file type' do
+      # create a message with unsupported file type
+      story_mention_params[:entry][0][:messaging][0]['message']['attachments'][0]['type'] = 'unsupported_type'
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      sender_id = messaging['sender']['id']
+
       allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
       allow(fb_object).to receive(:get_object).and_return(
         {
           name: 'Jane',
-          id: 'Sender-id-1',
+          id: sender_id,
           account_id: instagram_messenger_inbox.account_id,
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
 
-      conversation
-
-      # create a message with unsupported file type
-      story_mention_params[:entry][0][:messaging][0]['message']['attachments'][0]['type'] = 'unsupported_type'
-      messaging = story_mention_params[:entry][0][:messaging][0]
-
+      contact = create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+      create(:conversation, account_id: account.id, inbox_id: instagram_messenger_inbox.id, contact_id: contact.id,
+                            additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
       described_class.new(messaging, instagram_messenger_inbox, outgoing_echo: false).perform
 
       instagram_messenger_inbox.reload
@@ -218,18 +226,22 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     it 'creates a new conversation if existing conversation is not present' do
       inital_count = Conversation.count
       message = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
+      sender_id = message['sender']['id']
 
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       described_class.new(message, instagram_messenger_inbox).perform
 
       instagram_messenger_inbox.reload
-      contact_inbox.reload
 
       expect(instagram_messenger_inbox.conversations.count).to eq(1)
       expect(Conversation.count).to eq(inital_count + 1)
     end
 
     it 'will not create a new conversation if last conversation is not resolved' do
+      message = dm_params[:entry][0]['messaging'][0]
+      sender_id = message['sender']['id']
+      contact = create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+
       existing_conversation = create(
         :conversation,
         account_id: account.id,
@@ -239,18 +251,18 @@ describe Messages::Instagram::Messenger::MessageBuilder do
         additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' }
       )
 
-      message = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
-
       described_class.new(message, instagram_messenger_inbox).perform
 
       instagram_messenger_inbox.reload
-      contact_inbox.reload
 
       expect(instagram_messenger_inbox.conversations.last.id).to eq(existing_conversation.id)
     end
 
     it 'creates a new conversation if last conversation is resolved' do
+      message = dm_params[:entry][0]['messaging'][0]
+      sender_id = message['sender']['id']
+      contact = create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+
       existing_conversation = create(
         :conversation,
         account_id: account.id,
@@ -261,13 +273,9 @@ describe Messages::Instagram::Messenger::MessageBuilder do
       )
 
       inital_count = Conversation.count
-      message = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
-
       described_class.new(message, instagram_messenger_inbox).perform
 
       instagram_messenger_inbox.reload
-      contact_inbox.reload
 
       expect(instagram_messenger_inbox.conversations.last.id).not_to eq(existing_conversation.id)
       expect(Conversation.count).to eq(inital_count + 1)
@@ -283,18 +291,22 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     it 'creates a new conversation if existing conversation is not present' do
       inital_count = Conversation.count
       message = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
+      sender_id = message['sender']['id']
 
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       described_class.new(message, instagram_messenger_inbox).perform
 
       instagram_messenger_inbox.reload
-      contact_inbox.reload
 
       expect(instagram_messenger_inbox.conversations.count).to eq(1)
       expect(Conversation.count).to eq(inital_count + 1)
     end
 
     it 'reopens last conversation if last conversation is resolved' do
+      message = dm_params[:entry][0]['messaging'][0]
+      sender_id = message['sender']['id']
+      contact = create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+
       existing_conversation = create(
         :conversation,
         account_id: account.id,
@@ -306,13 +318,9 @@ describe Messages::Instagram::Messenger::MessageBuilder do
 
       inital_count = Conversation.count
 
-      message = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
-
       described_class.new(message, instagram_messenger_inbox).perform
 
       instagram_messenger_inbox.reload
-      contact_inbox.reload
 
       expect(instagram_messenger_inbox.conversations.last.id).to eq(existing_conversation.id)
       expect(Conversation.count).to eq(inital_count)
@@ -344,7 +352,9 @@ describe Messages::Instagram::Messenger::MessageBuilder do
       allow(fb_object).to receive(:get_object).and_return(story_data)
 
       messaging = story_mention_params[:entry][0][:messaging][0]
-      contact_inbox
+      sender_id = messaging['sender']['id']
+
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       builder = described_class.new(messaging, instagram_messenger_inbox)
       builder.perform
 
@@ -358,18 +368,20 @@ describe Messages::Instagram::Messenger::MessageBuilder do
     end
 
     it 'handles story mentions specifically in the Instagram builder' do
+      messaging = story_mention_params[:entry][0][:messaging][0]
+      sender_id = messaging['sender']['id']
+
       # First allow contact info fetch
       allow(fb_object).to receive(:get_object).and_return({
         name: 'Jane',
-        id: 'Sender-id-1'
+        id: sender_id
       }.with_indifferent_access)
 
       # Then allow story data fetch
       allow(fb_object).to receive(:get_object).with(anything, fields: %w[story from])
                                               .and_return(story_data)
 
-      messaging = story_mention_params[:entry][0][:messaging][0]
-      contact_inbox
+      create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
       described_class.new(messaging, instagram_messenger_inbox).perform
 
       message = instagram_messenger_inbox.messages.first

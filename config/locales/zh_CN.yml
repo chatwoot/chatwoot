@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 zh_CN:
   hello: '您好世界'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
@@ -53,6 +58,13 @@ zh_CN:
       invalid_message_type: '无效的消息类型。不允许操作'
     slack:
       invalid_channel_id: '无效的Slack频道。请重试'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: 请检查网络连接，IMAP地址，然后再试一次。
@@ -182,6 +194,8 @@ zh_CN:
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} 已将会话静音'
       unmuted: '%{user_name} 已将会话取消静音'
       auto_resolution_message: '由于对话长时间未活跃，已将其标记为已解决。如果您需要进一步帮助，请开始新的对话。'
@@ -241,6 +255,10 @@ zh_CN:
       name: 'Linear'
       short_description: '直接在会话中创建并关联 Linear 问题。'
       description: '直接从对话窗口在 Linear 中创建问题。或者，链接现有的 Linear 问题以简化问题跟踪过程。'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
       name: 'Shopify'
       short_description: '从您的 Shopify 商店访问订单详情和客户数据。'
@@ -250,6 +268,7 @@ zh_CN:
       short_description: '与 LeadSquared CRM 同步您的联系人和对话。'
       description: '与 LeadSquared CRM 同步您的联系人和对话。 当添加新联系人时，这种集成会自动在潜在客户创建线索，并记录对话活动，为您的销售团队提供完整的上下文。'
   captain:
+    copilot_message_required: 消息是必填项
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'
     copilot:
@@ -333,3 +352,12 @@ zh_CN:
 
       副本：
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'Email 是必填项'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

@@ -3,11 +3,10 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
-import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
@@ -17,10 +16,9 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
-    SubmitButton,
+    NextButton,
     VueHcaptcha,
   },
-  mixins: [globalConfigMixin],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -195,23 +193,28 @@ export default {
         />
         <span
           v-if="!hasAValidCaptcha && didCaptchaReset"
-          class="text-xs text-red-400"
+          class="text-xs text-n-ruby-9"
         >
           {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
         </span>
       </div>
-      <SubmitButton
-        :button-text="$t('REGISTER.SUBMIT')"
+      <NextButton
+        lg
+        type="submit"
+        data-testid="submit_button"
+        class="w-full"
+        icon="i-lucide-chevron-right"
+        trailing-icon
+        :label="$t('REGISTER.SUBMIT')"
         :disabled="isSignupInProgress || !isFormValid"
-        :loading="isSignupInProgress"
-        icon-class="arrow-chevron-right"
+        :is-loading="isSignupInProgress"
       />
     </form>
     <GoogleOAuthButton v-if="showGoogleOAuth" class="flex-col-reverse">
       {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
     </GoogleOAuthButton>
     <p
-      class="text-sm mb-1 mt-5 text-slate-800 dark:text-woot-50 [&>a]:text-woot-500 [&>a]:font-medium [&>a]:hover:text-woot-600"
+      class="text-sm mb-1 mt-5 text-n-slate-12 [&>a]:text-n-brand [&>a]:font-medium [&>a]:hover:brightness-110"
       v-html="termsLink"
     />
   </div>
@@ -221,8 +224,7 @@ export default {
 .h-captcha--box {
   &::v-deep .error {
     iframe {
-      border: 1px solid var(--r-500);
-      border-radius: var(--border-radius-normal);
+      @apply rounded-md border border-n-ruby-8 dark:border-n-ruby-8;
     }
   }
 }

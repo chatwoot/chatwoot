@@ -98,6 +98,7 @@ const onClickViewDetails = () => emit('showContact', props.id);
         :src="thumbnail"
         :size="48"
         :status="availabilityStatus"
+        hide-offline-status
         rounded-full
       />
       <div class="flex flex-col gap-0.5 flex-1">

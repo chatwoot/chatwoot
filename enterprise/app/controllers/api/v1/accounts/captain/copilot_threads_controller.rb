@@ -23,14 +23,25 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
         message: { content: copilot_thread_params[:message] }
       )
 
-      copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+      build_copilot_response(copilot_message)
     end
   end
 
   private
 
+  def build_copilot_response(copilot_message)
+    if Current.account.usage_limits[:captain][:responses][:current_available].positive?
+      copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+    else
+      copilot_message.copilot_thread.copilot_messages.create!(
+        message_type: :assistant,
+        message: { content: I18n.t('captain.copilot_limit') }
+      )
+    end
+  end
+
   def ensure_message
-    return render_could_not_create_error('Message is required') if copilot_thread_params[:message].blank?
+    return render_could_not_create_error(I18n.t('captain.copilot_message_required')) if copilot_thread_params[:message].blank?
   end
 
   def assistant

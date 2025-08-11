@@ -30,7 +30,7 @@ class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseServ
     conversation = Conversation.find_by(display_id: conversation_id, account_id: @assistant.account_id)
     return 'Conversation not found' if conversation.blank?
 
-    conversation.to_llm_text
+    conversation.to_llm_text(include_private_messages: true)
   end
 
   def active?

@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "Portal excluído com sucesso",
             "DELETE_ERROR": "Erro enquanto excluía o portal"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -747,9 +753,15 @@
           "HEADER": "Domínio personalizado",
           "LABEL": "Domínio personalizado:",
           "DESCRIPTION": "Você pode hospedar seu portal em um domínio personalizado. Por exemplo, se seu site for meudominio.com e você quer o seu portal disponível em docs.meudominio.com, basta digitar isso neste campo.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "EDIT_BUTTON": "Editar domínio personalizado",
+          "EDIT_BUTTON": "Alterar",
           "ADD_BUTTON": "Adicionar domínio personalizado",
+          "STATUS": {
+            "LIVE": "Em tempo real",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
           "DIALOG": {
             "ADD_HEADER": "Adicionar domínio personalizado",
             "EDIT_HEADER": "Editar domínio personalizado",
@@ -757,13 +769,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "Atualizar domínio",
             "LABEL": "Domínio personalizado",
             "PLACEHOLDER": "Domínio personalizado do portal",
-            "ERROR": "Domínio personalizado é obrigatório"
+            "ERROR": "Domínio personalizado é obrigatório",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "Configuração de DNS",
             "DESCRIPTION": "Faça o login na conta que você tem com seu provedor DNS e adicione um registro CNAME para subdomínio apontando para chatwoot.help",
-            "HELP_TEXT": "Assim que isso for feito, você poderá entrar em contato com o nosso suporte para solicitar o certificado SSL gerado automaticamente.",
-            "CONFIRM_BUTTON_LABEL": "Entendi!"
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Enviar"
+            }
           }
         },
         "DELETE_PORTAL": {

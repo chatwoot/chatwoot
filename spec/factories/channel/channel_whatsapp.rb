@@ -36,6 +36,7 @@ FactoryBot.define do
          'status' => 'APPROVED',
          'category' => 'UTILITY',
          'language' => 'en',
+         'namespace' => '23423423_2342423_324234234_2343224',
          'components' => [
            { 'text' => "Hello {{name}},  Your support ticket with ID: \#{{ticket_id}} has been updated by the support agent.",
              'type' => 'BODY',

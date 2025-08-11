@@ -60,11 +60,9 @@ class Attachment < ApplicationRecord
   end
 
   def thumb_url
-    if file.attached? && file.representable?
-      url_for(file.representation(resize_to_fill: [250, nil]))
-    else
-      ''
-    end
+    return '' unless file.attached? && image?
+
+    url_for(file.representation(resize_to_fill: [250, nil]))
   end
 
   def with_attached_file?

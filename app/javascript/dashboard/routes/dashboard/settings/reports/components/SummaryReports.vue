@@ -59,7 +59,7 @@ const defaulSpanRender = cellProps =>
     cellProps.getValue()
   );
 
-const columns = [
+const columns = computed(() => [
   columnHelper.accessor('name', {
     header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
     width: 300,
@@ -90,7 +90,7 @@ const columns = [
     width: 200,
     cell: defaulSpanRender,
   }),
-];
+]);
 
 const renderAvgTime = value => (value ? formatTime(value) : '--');
 
@@ -142,7 +142,9 @@ const table = useVueTable({
   get data() {
     return tableData.value;
   },
-  columns,
+  get columns() {
+    return columns.value;
+  },
   enableSorting: false,
   getCoreRowModel: getCoreRowModel(),
 });

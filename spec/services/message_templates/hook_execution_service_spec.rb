@@ -111,6 +111,35 @@ describe MessageTemplates::HookExecutionService do
     end
   end
 
+  context 'when message is an auto reply email' do
+    it 'does not call any template hooks' do
+      contact = create(:contact)
+      conversation = create(:conversation, contact: contact)
+      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true, greeting_message: 'Hi, this is a greeting message')
+
+      message = create(:message, conversation: conversation, content_type: :incoming_email)
+      message.content_attributes = { email: { auto_reply: true } }
+      message.save!
+
+      greeting_service = double
+      email_collect_service = double
+      out_of_office_service = double
+
+      allow(MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
+      allow(greeting_service).to receive(:perform).and_return(true)
+      allow(MessageTemplates::Template::EmailCollect).to receive(:new).and_return(email_collect_service)
+      allow(email_collect_service).to receive(:perform).and_return(true)
+      allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+      allow(out_of_office_service).to receive(:perform).and_return(true)
+
+      described_class.new(message: message).perform
+
+      expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
+      expect(MessageTemplates::Template::EmailCollect).not_to have_received(:new)
+      expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
+    end
+  end
+
   context 'when it is after working hours' do
     it 'calls ::MessageTemplates::Template::OutOfOffice' do
       contact = create(:contact)

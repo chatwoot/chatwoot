@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Minggu depan"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agen",
+      "TEAMS": "Tim"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Tunda hingga",
       "APPLY": "Tunda",
@@ -140,6 +144,9 @@
       "AGENTS_LOADING": "Sedang memuat agen...",
       "ASSIGN_TEAM": "Tugaskan tim",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id percakapan {conversationId} ditugaskan ke \"{agentName}\"",

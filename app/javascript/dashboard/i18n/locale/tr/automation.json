@@ -146,8 +146,21 @@
       "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder",
       "SEND_ATTACHMENT": "Ek Gönder",
       "SEND_MESSAGE": "Mesaj Gönder",
+      "ADD_PRIVATE_NOTE": "Özel Bir Not Ekle",
       "CHANGE_PRIORITY": "Önceliği Değiştir",
-      "ADD_SLA": "Add SLA"
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Görüşmeyi aç"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Hiç",
+      "LOW": "Düşük",
+      "MEDIUM": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Mesaj Türü",

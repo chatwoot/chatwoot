@@ -66,6 +66,34 @@ describe ReportingEventListener do
   end
 
   describe '#reply_created' do
+    let(:contact) { create(:contact, account: account) }
+
+    def create_customer_message(conversation, created_at: Time.current)
+      create(:message,
+             message_type: 'incoming',
+             account: account,
+             inbox: inbox,
+             conversation: conversation,
+             sender: contact,
+             created_at: created_at)
+    end
+
+    def create_agent_message(conversation, created_at: Time.current, sender: user)
+      create(:message,
+             message_type: 'outgoing',
+             account: account,
+             inbox: inbox,
+             conversation: conversation,
+             sender: sender,
+             created_at: created_at)
+    end
+
+    def create_reply_event(agent_message, waiting_since, event_time = nil)
+      Events::Base.new('reply.created', event_time || agent_message.created_at,
+                       waiting_since: waiting_since,
+                       message: agent_message)
+    end
+
     it 'creates reply created event' do
       event = Events::Base.new('reply.created', Time.zone.now, waiting_since: 2.hours.ago, message: message)
       listener.reply_created(event)
@@ -73,6 +101,88 @@ describe ReportingEventListener do
       events = account.reporting_events.where(name: 'reply_time', conversation_id: message.conversation_id)
       expect(events.length).to be 1
       expect(events.first.value).to be_within(1).of(7200)
+    end
+
+    context 'when conversation is reopened' do
+      let(:resolved_conversation) do
+        create(:conversation, account: account, inbox: inbox, assignee: user,
+                              status: 'resolved', contact: contact)
+      end
+
+      context 'when customer sends message after resolution' do
+        it 'calculates reply time from the reopening message' do
+          customer_message_time = 3.hours.ago
+          create_customer_message(resolved_conversation, created_at: customer_message_time)
+
+          resolved_conversation.reload
+          expect(resolved_conversation.status).to eq('open')
+
+          agent_reply_time = 1.hour.ago
+          agent_message = create_agent_message(resolved_conversation, created_at: agent_reply_time)
+
+          event = create_reply_event(agent_message, customer_message_time)
+          listener.reply_created(event)
+
+          events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
+          expect(events.length).to be 1
+          expect(events.first.value).to be_within(60).of(7200)
+        end
+      end
+
+      context 'when conversation has multiple reopenings' do
+        it 'tracks reply time correctly for each reopening' do
+          create_customer_message(resolved_conversation, created_at: 5.hours.ago)
+          first_agent_reply = create_agent_message(resolved_conversation, created_at: 4.hours.ago)
+
+          event = create_reply_event(first_agent_reply, 5.hours.ago)
+          listener.reply_created(event)
+
+          resolved_conversation.update!(status: 'resolved')
+
+          create_customer_message(resolved_conversation, created_at: 2.hours.ago)
+          second_agent_reply = create_agent_message(resolved_conversation, created_at: 1.5.hours.ago)
+
+          event = create_reply_event(second_agent_reply, 2.hours.ago)
+          listener.reply_created(event)
+
+          events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
+                          .order(created_at: :asc)
+          expect(events.length).to be 2
+          expect(events.first.value).to be_within(60).of(3600)
+          expect(events.second.value).to be_within(60).of(1800)
+        end
+      end
+
+      context 'when conversation is manually reopened' do
+        it 'sets waiting_since when first customer message arrives after manual reopening' do
+          resolved_conversation.update!(status: 'open')
+
+          customer_message_time = 1.hour.ago
+          create_customer_message(resolved_conversation, created_at: customer_message_time)
+
+          agent_reply_time = 15.minutes.ago
+          agent_message = create_agent_message(resolved_conversation, created_at: agent_reply_time)
+
+          event = create_reply_event(agent_message, customer_message_time)
+          listener.reply_created(event)
+
+          events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
+          expect(events.length).to be 1
+          expect(events.first.value).to be_within(60).of(2700)
+        end
+      end
+
+      context 'when waiting_since is nil' do
+        it 'does not creates reply time events' do
+          agent_message = create_agent_message(resolved_conversation)
+
+          event = create_reply_event(agent_message, nil)
+          listener.reply_created(event)
+
+          events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
+          expect(events.length).to be 0
+        end
+      end
     end
   end
 

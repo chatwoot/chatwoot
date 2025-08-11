@@ -116,4 +116,5 @@ json.provider resource.channel.try(:provider)
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end

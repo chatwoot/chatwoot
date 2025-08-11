@@ -146,8 +146,21 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "تغییر اولویت",
-      "ADD_SLA": "اضافه کردن SLA"
+      "ADD_SLA": "اضافه کردن SLA",
+      "OPEN_CONVERSATION": "باز کردن گفتگو"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "هیچکدام",
+      "LOW": "پایین",
+      "MEDIUM": "متوسط",
+      "HIGH": "بالا",
+      "URGENT": "فوری"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",

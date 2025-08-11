@@ -49,5 +49,8 @@
     "HOURS": "Heures",
     "DAYS": "Jours",
     "PLACEHOLDER": "Entrez la durée"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "Coming Soon!"
   }
 }

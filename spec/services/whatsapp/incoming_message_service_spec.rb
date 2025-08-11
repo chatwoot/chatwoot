@@ -267,19 +267,16 @@ describe Whatsapp::IncomingMessageService do
                                     ] }] }.with_indifferent_access
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(Contact.all.first.name).to eq('Kedar')
-
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
 
-        # Two messages are tested deliberately to ensure multiple contact attachments work.
         m1 = whatsapp_channel.inbox.messages.first
-        contact_attachments = m1.attachments.first
         expect(m1.content).to eq('Apple Inc.')
-        expect(contact_attachments.fallback_title).to eq('+911800')
+        expect(m1.attachments.first.fallback_title).to eq('+911800')
+        expect(m1.attachments.first.meta).to eq({})
 
         m2 = whatsapp_channel.inbox.messages.last
-        contact_attachments = m2.attachments.first
         expect(m2.content).to eq('Chatwoot')
-        expect(contact_attachments.fallback_title).to eq('+1 (415) 341-8386')
+        expect(m2.attachments.first.meta).to eq({ 'firstName' => 'Chatwoot' })
       end
     end
 

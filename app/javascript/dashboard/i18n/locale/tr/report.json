@@ -193,7 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Etiketler Genel Bakış",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülmüş vakalar gibi temel ölçümlerle etiket performansını takip edin. Ayrıntılı içgörüler için bir etiket adına tıklayın.",
     "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "DOWNLOAD_LABEL_REPORTS": "Etiket raporlarını indir",

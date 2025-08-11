@@ -8,6 +8,10 @@
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Sablon keresése",
             "NO_TEMPLATES_FOUND": "Nem található sablon erre:",
+            "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+            "REFRESH_BUTTON": "Refresh templates",
+            "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+            "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
             "LABELS": {
                 "LANGUAGE": "Nyelv",
                 "TEMPLATE_BODY": "Sablon törzse",

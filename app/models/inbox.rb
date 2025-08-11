@@ -191,7 +191,7 @@ class Inbox < ApplicationRecord
   end
 
   def apply_sanitization_rules(name)
-    name.gsub(/[\\<>@"!#$%&*+=?^`{|}~]/, '')            # Remove forbidden chars
+    name.gsub(/[\\<>@"!#$%&*+=?^`{|}~:;]/, '')         # Remove forbidden chars
         .gsub(/[\x00-\x1F\x7F]/, ' ')                   # Replace control chars with spaces
         .gsub(/\A[[:punct:]]+|[[:punct:]]+\z/, '')      # Remove leading/trailing punctuation
         .gsub(/\s+/, ' ')                               # Normalize spaces

@@ -301,17 +301,30 @@ export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
 const createNode = (editorView, nodeType, content) => {
   const { state } = editorView;
   switch (nodeType) {
-    case 'mention':
-      return state.schema.nodes.mention.create({
+    case 'mention': {
+      const mentionType = content.type || 'user';
+      const displayName = content.displayName || content.name;
+
+      const mentionNode = state.schema.nodes.mention.create({
         userId: content.id,
-        userFullName: content.name,
+        userFullName: displayName,
+        mentionType,
       });
+
+      return mentionNode;
+    }
     case 'cannedResponse':
       return new MessageMarkdownTransformer(messageSchema).parse(content);
     case 'variable':
       return state.schema.text(`{{${content}}}`);
     case 'emoji':
       return state.schema.text(content);
+    case 'tool': {
+      return state.schema.nodes.tools.create({
+        id: content.id,
+        name: content.title,
+      });
+    }
     default:
       return null;
   }
@@ -345,6 +358,11 @@ const nodeCreators = {
   }),
   emoji: (editorView, content, from, to) => ({
     node: createNode(editorView, 'emoji', content),
+    from,
+    to,
+  }),
+  tool: (editorView, content, from, to) => ({
+    node: createNode(editorView, 'tool', content),
     from,
     to,
   }),
