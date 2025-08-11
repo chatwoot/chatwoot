@@ -16,7 +16,7 @@ export default [
       },
     },
     availabilityStatus: 'offline',
-    email: 'candice.matherson@chatwoot.com',
+    email: 'cande@buzzcrm.ai',
     id: 22,
     name: 'Candice Matherson',
     phoneNumber: '+14155552671',

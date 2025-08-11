@@ -15,7 +15,7 @@ properties:
   homepage_link:
     type: string
     description: link to main dashboard
-    example: https://www.chatwoot.com/
+    example: https://www.buzzcrm.ai/
   name:
     type: string
     description: Name for the portal

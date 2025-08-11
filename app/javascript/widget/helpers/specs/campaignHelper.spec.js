@@ -12,10 +12,7 @@ describe('#Campaigns Helper', () => {
   describe('#isPatternMatchingWithURL', () => {
     it('returns correct value if a valid URL is passed', () => {
       expect(
-        isPatternMatchingWithURL(
-          'https://chatwoot.com/pricing*',
-          'https://chatwoot.com/pricing/'
-        )
+        isPatternMatchingWithURL('https://buzzcrm.ai*', 'https://buzzcrm.ai')
       ).toBe(true);
 
       expect(
@@ -101,11 +98,11 @@ describe('#Campaigns Helper', () => {
             {
               id: 2,
               timeOnPage: 6,
-              url: 'https://www.chatwoot.com/about',
+              url: 'https://www.buzzcrm.ai',
               triggerOnlyDuringBusinessHours: true,
             },
           ],
-          currentURL: 'https://www.chatwoot.com/about/',
+          currentURL: 'https://www.buzzcrm.ai',
           isInBusinessHours: true,
         })
       ).toStrictEqual([

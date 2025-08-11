@@ -16,7 +16,7 @@ import FeatureSpotlight from './FeatureSpotlight.vue';
           thumbnail=""
           fallback-thumbnail="/assets/images/dashboard/captain/assistant-light.svg"
           fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-dark.svg"
-          learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101547-creating-an-assistant-with-captain"
+          learn-more-url="https://www.buzzcrm.ai"
         />
       </div>
     </Variant>
@@ -30,7 +30,7 @@ import FeatureSpotlight from './FeatureSpotlight.vue';
           thumbnail="https://i.ytimg.com/an_webp/E4xUHyAAktY/mqdefault_6s.webp?du=3000&sqp=CJaKmL4G&rs=AOn4CLCmfy1TMOcW4UsjQTgyKRp4TSGZgg"
           fallback-thumbnail="/assets/images/dashboard/captain/assistant-light.svg"
           fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-dark.svg"
-          learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101547-creating-an-assistant-with-captain"
+          learn-more-url="https://www.buzzcrm.ai"
         />
       </div>
     </Variant>

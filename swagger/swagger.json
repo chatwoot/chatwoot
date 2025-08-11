@@ -4,9 +4,9 @@
     "title": "Chatwoot",
     "description": "This is the API documentation for Chatwoot server.",
     "version": "1.1.0",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "termsOfService": "https://www.buzzcrm.ai/",
     "contact": {
-      "email": "hello@chatwoot.com"
+      "email": "info@buzzcrm.ai"
     },
     "license": {
       "name": "MIT License",
@@ -3826,7 +3826,7 @@
                       "color": "#1F93FF",
                       "custom_domain": "chatwoot.help",
                       "header_text": "Handbook",
-                      "homepage_link": "https://www.chatwoot.com",
+                      "homepage_link": "https://www.buzzcrm.ai",
                       "name": "Handbook",
                       "page_title": "Handbook",
                       "slug": "handbook",
@@ -3947,7 +3947,7 @@
                     },
                     "custom_domain": "chatwoot.help",
                     "header_text": "Handbook",
-                    "homepage_link": "https://www.chatwoot.com",
+                    "homepage_link": "https://www.buzzcrm.ai",
                     "name": "Handbook",
                     "slug": "handbook",
                     "page_title": "Handbook",
@@ -10602,7 +10602,7 @@
           "homepage_link": {
             "type": "string",
             "description": "link to main dashboard",
-            "example": "https://www.chatwoot.com/"
+            "example": "https://www.buzzcrm.ai/"
           },
           "name": {
             "type": "string",
