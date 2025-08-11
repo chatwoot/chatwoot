@@ -10,11 +10,14 @@ import router from '../widget/router';
 import { directive as onClickaway } from 'vue3-click-away';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import { plugin, defaultConfig } from '@formkit/vue';
+import FloatingVue from 'floating-vue';
 
 import {
   startsWithPlus,
   isPhoneNumberValidWithDialCode,
 } from 'shared/helpers/Validators';
+
+import 'floating-vue/dist/style.css';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
@@ -27,6 +30,11 @@ app.use(i18n);
 app.use(store);
 app.use(router);
 app.use(VueDOMPurifyHTML, domPurifyConfig);
+app.use(FloatingVue, {
+  instantMove: true,
+  arrowOverflow: false,
+  disposeTimeout: 5000000,
+});
 app.directive('on-clickaway', onClickaway);
 
 app.use(
