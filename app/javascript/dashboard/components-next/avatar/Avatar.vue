@@ -183,7 +183,10 @@ watch(
 </script>
 
 <template>
-  <span class="relative inline-flex group/avatar z-0" :style="containerStyles">
+  <span
+    class="relative inline-flex group/avatar z-0 flex-shrink-0"
+    :style="containerStyles"
+  >
     <!-- Status Badge -->
     <slot name="badge" :size="size">
       <div
@@ -248,7 +251,7 @@ watch(
         <!-- Fallback Icon if no name or image -->
         <Icon
           v-else
-          v-tooltip.top-start="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
+          :title="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
           icon="i-lucide-user"
           :style="iconStyles"
         />
