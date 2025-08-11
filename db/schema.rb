@@ -762,7 +762,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_06_140005) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assignment_policy_id"], name: "index_inbox_assignment_policies_on_assignment_policy_id"
-    t.index ["inbox_id"], name: "index_inbox_assignment_policies_on_inbox_id"
+    t.index ["inbox_id"], name: "index_inbox_assignment_policies_on_inbox_id", unique: true
   end
 
   create_table "inbox_capacity_limits", force: :cascade do |t|
