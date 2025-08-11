@@ -1,14 +1,7 @@
-from fastapi import FastAPI, HTTPException
-import logging
-import httpx
-import os
+from fastapi import Depends, FastAPI, HTTPException
+from typing import List
 
-from . import schemas
-from . import runtime
-
-# --- App Configuration ---
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+from . import schemas, runtime
 
 app = FastAPI(
     title="LLM Orchestrator & Runtime (LOR/CRun) Service",
@@ -19,11 +12,8 @@ app = FastAPI(
 # --- Lifespan Management ---
 @app.on_event("startup")
 async def startup_event():
-    logger.info("Starting LOR/CRun Service...")
-    # In a real app, we might initialize clients here
+    # This initializes the HTTP and LLM clients used by the runtime
     runtime.initialize_clients()
-    logger.info("LOR/CRun Service started.")
-
 
 # --- API Endpoints ---
 
@@ -31,32 +21,29 @@ async def startup_event():
 def read_root():
     return {"service": "LOR/CRun Service", "status": "ok"}
 
-@app.get("/health")
-def health_check():
-    # In a real app, this would check connectivity to other services and the LLM provider
-    return {"status": "ok"}
-
 @app.post("/orchestrate", response_model=schemas.OrchestrationResponse)
 async def orchestrate_turn(request: schemas.OrchestrationRequest):
     """
-    Orchestrates a single turn of a conversation.
+    Orchestrates a single turn of a conversation by executing a bytecode flow.
     """
-    logger.info(f"Orchestrating turn for conversation {request.conversation_id} with flow {request.flow_id}")
-
     try:
-        # The runtime will execute the flow and return the final response and trace
+        # 1. Call the Conversation Runtime to execute the flow
         final_response, trace = await runtime.execute_flow(
             flow_id=request.flow_id,
             conversation_history=request.conversation_history,
             context=request.context
         )
 
+        # 2. Format the response
         return schemas.OrchestrationResponse(
             conversation_id=request.conversation_id,
             response_message=final_response,
             decision_trace=trace
         )
 
+    except ValueError as e:
+        # Handle cases where the flow_id is not found
+        raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        logger.error(f"Error during orchestration: {e}")
-        raise HTTPException(status_code=500, detail="An error occurred during orchestration.")
+        # Handle other potential errors during orchestration
+        raise HTTPException(status_code=500, detail=f"An error occurred during orchestration: {e}")
