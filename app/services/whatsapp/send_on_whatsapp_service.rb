@@ -21,16 +21,19 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
       message: message
     )
 
-    name, namespace, lang_code, processed_parameters = processor.call
+    name, namespace, lang_code, processed_parameters, components = processor.call
 
     return if name.blank?
 
-    message_id = channel.send_template(message.conversation.contact_inbox.source_id, {
-                                         name: name,
-                                         namespace: namespace,
-                                         lang_code: lang_code,
-                                         parameters: processed_parameters
-                                       })
+    payload = {
+      name: name,
+      namespace: namespace,
+      lang_code: lang_code,
+      parameters: processed_parameters
+    }
+    payload[:components] = components if components.present?
+
+    message_id = channel.send_template(message.conversation.contact_inbox.source_id, payload)
     message.update!(source_id: message_id) if message_id.present?
   end
 

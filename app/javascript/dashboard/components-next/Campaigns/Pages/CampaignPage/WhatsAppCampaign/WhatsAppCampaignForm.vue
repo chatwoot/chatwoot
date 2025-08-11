@@ -3,7 +3,8 @@ import { reactive, computed, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -31,6 +32,10 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 const processedParams = ref({});
+// Rich components state
+const header = ref({ type: 'text', url: '', filename: '', text: '' });
+const buttons = ref([]);
+const footer = ref({ text: '' });
 
 const rules = {
   title: { required, minLength: minLength(1) },
@@ -41,6 +46,7 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
+const store = useStore();
 
 const isCreating = computed(() => formState.uiFlags.value.isCreating);
 
@@ -67,7 +73,9 @@ const inboxOptions = computed(() =>
 
 const templateOptions = computed(() => {
   if (!state.inboxId) return [];
-  const templates = formState.getWhatsAppTemplates.value(state.inboxId);
+  const templates = (formState.getWhatsAppTemplates.value(state.inboxId) || []).filter(t =>
+    (t.status || '').toLowerCase() === 'approved'
+  );
   return templates.map(template => {
     // Create a more user-friendly label from template name
     const friendlyName = template.name
@@ -136,6 +144,9 @@ const formatToUTCString = localDateTime =>
 const resetState = () => {
   Object.assign(state, initialState);
   processedParams.value = {};
+  header.value = { type: 'text', url: '', filename: '', text: '' };
+  buttons.value = [];
+  footer.value = { text: '' };
   v$.value.$reset();
 };
 
@@ -171,6 +182,21 @@ const prepareCampaignDetails = () => {
     processed_params: processedParams.value,
   };
 
+  // Add rich components bindings if provided
+  const componentsPayload = {};
+  if (header.value?.type) {
+    componentsPayload.header = { ...header.value };
+  }
+  if (Array.isArray(buttons.value) && buttons.value.length) {
+    componentsPayload.buttons = buttons.value.map(b => ({ ...b }));
+  }
+  if (footer.value?.text) {
+    componentsPayload.footer = { ...footer.value };
+  }
+  if (Object.keys(componentsPayload).length) {
+    Object.assign(templateParams, componentsPayload);
+  }
+
   return {
     title: state.title,
     message: templateContent,
@@ -182,6 +208,20 @@ const prepareCampaignDetails = () => {
       type: 'Label',
     })),
   };
+};
+
+const isRefreshing = ref(false);
+const refreshTemplates = async () => {
+  if (!state.inboxId) return;
+  try {
+    isRefreshing.value = true;
+    await store.dispatch('inboxes/syncTemplates', state.inboxId);
+    useAlert(t('WHATSAPP_TEMPLATES.PICKER.REFRESH_SUCCESS'));
+  } catch (e) {
+    useAlert(t('WHATSAPP_TEMPLATES.PICKER.REFRESH_ERROR'));
+  } finally {
+    isRefreshing.value = false;
+  }
 };
 
 const handleSubmit = async () => {
@@ -199,6 +239,9 @@ watch(
   () => {
     state.templateId = null;
     processedParams.value = {};
+    header.value = { type: 'text', url: '', filename: '', text: '' };
+    buttons.value = [];
+    footer.value = { text: '' };
   }
 );
 
@@ -209,6 +252,19 @@ watch(
     generateVariables();
   }
 );
+
+const handleFlowParamsInput = (event, index) => {
+  try {
+    const value = event.target.value;
+    if (value.trim() === '') {
+      buttons.value[index].params = null;
+    } else {
+      buttons.value[index].params = JSON.parse(value);
+    }
+  } catch (e) {
+    buttons.value[index].params = null;
+  }
+};
 </script>
 
 <template>
@@ -309,6 +365,63 @@ watch(
           />
         </div>
       </div>
+    </div>
+
+    <!-- Header binding -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium text-n-slate-12">Header</label>
+      <div class="grid grid-cols-3 gap-2">
+        <ComboBox
+          v-model="header.type"
+          :options="[
+            { value: 'text', label: 'Text' },
+            { value: 'image', label: 'Image URL' },
+            { value: 'video', label: 'Video URL' },
+            { value: 'document', label: 'Document URL' },
+          ]"
+          :placeholder="'Header type'"
+        />
+        <Input v-if="['image','video','document'].includes(header.type)" v-model="header.url" placeholder="https://..." />
+        <Input v-if="header.type==='document'" v-model="header.filename" placeholder="filename.pdf" />
+        <Input v-if="header.type==='text'" v-model="header.text" placeholder="Header text" />
+      </div>
+    </div>
+
+    <!-- Buttons binding (Quick Reply, URL, Phone Number, Flow) -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium text-n-slate-12">Buttons</label>
+      <div class="flex flex-col gap-2">
+        <div v-for="(btn, i) in buttons" :key="i" class="grid grid-cols-4 gap-2">
+          <ComboBox
+            v-model="btn.type"
+            :options="[
+              { value: 'QUICK_REPLY', label: 'Quick reply' },
+              { value: 'URL', label: 'URL' },
+              { value: 'PHONE_NUMBER', label: 'Phone number' },
+              { value: 'FLOW', label: 'Flow' },
+            ]"
+            :placeholder="'Type'"
+          />
+          <Input v-if="btn.type==='QUICK_REPLY'" v-model="btn.text" placeholder="Button text" />
+          <Input v-if="btn.type==='URL'" v-model="btn.url_suffix" placeholder="URL suffix or param" />
+          <Input v-if="btn.type==='PHONE_NUMBER'" v-model="btn.phone_number" placeholder="+1..." />
+          <Input v-if="btn.type==='FLOW'" v-model="btn.flow_id" placeholder="Flow ID" />
+          <Input 
+            v-if="btn.type==='FLOW'" 
+            v-model="btn.params" 
+            placeholder='Flow params JSON (optional)' 
+            @input="handleFlowParamsInput($event, i)"
+          />
+          <Button variant="faded" color="slate" type="button" :label="'Remove'" @click="buttons.splice(i,1)" />
+        </div>
+        <Button type="button" :label="'Add button'" @click="buttons.push({ type: 'QUICK_REPLY', text: '' })" />
+      </div>
+    </div>
+
+    <!-- Footer text (optional) -->
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium text-n-slate-12">Footer</label>
+      <Input v-model="footer.text" placeholder="Footer text (optional)" />
     </div>
 
     <div class="flex flex-col gap-1">

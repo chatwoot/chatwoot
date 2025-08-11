@@ -3,6 +3,7 @@ class Whatsapp::OneoffCampaignService
 
   def perform
     validate_campaign!
+    validate_template_integrity!
     process_audience(extract_audience_labels)
     campaign.completed!
   end
@@ -75,21 +76,70 @@ class Whatsapp::OneoffCampaignService
       template_params: campaign.template_params
     )
 
-    name, namespace, lang_code, processed_parameters = processor.call
+    name, namespace, lang_code, processed_parameters, components = processor.call
 
     return if name.blank?
 
-    channel.send_template(to, {
-                            name: name,
-                            namespace: namespace,
-                            lang_code: lang_code,
-                            parameters: processed_parameters
-                          })
+    payload = {
+      name: name,
+      namespace: namespace,
+      lang_code: lang_code,
+      parameters: processed_parameters
+    }
+    payload[:components] = components if components.present?
+
+    channel.send_template(to, payload)
 
   rescue StandardError => e
     Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{e.message}"
     Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
     # continue processing remaining contacts
     nil
+  end
+
+  def validate_template_integrity!
+    params = campaign.template_params || {}
+    template = find_approved_template(params)
+    raise 'Template is not approved or not found for the selected language' if template.blank?
+
+    # Validate BODY placeholders vs processed_params
+    processed = params['processed_params'] || {}
+    body = template['components']&.find { |c| c['type'] == 'BODY' }
+    if body && body['text'].is_a?(String)
+      # supports named {{var}} or numeric {{1}}
+      required_keys = body['text'].scan(/{{\s*([^}]+)\s*}}/).flatten
+      if required_keys.any?
+        # For numeric placeholders, ensure count
+        if required_keys.all? { |k| k.match?(/^\d+$/) }
+          raise 'Missing required template variables' if processed.values.compact.map(&:to_s).reject(&:empty?).length < required_keys.length
+        else
+          missing = required_keys.reject { |k| processed.key?(k) && processed[k].to_s.strip.present? }
+          raise "Missing required template variables: #{missing.join(', ')}" if missing.any?
+        end
+      end
+    end
+
+    # Validate header media urls once per campaign
+    header = params['header'] || {}
+    header_type = header['type']&.to_s&.downcase
+    return unless %w[image video document].include?(header_type)
+
+    url = header['url']
+    raise 'Header media URL is required' if url.blank?
+
+    begin
+      response = HTTParty.head(url, timeout: 5)
+      raise 'Header media URL is not reachable' unless response.success?
+    rescue StandardError
+      raise 'Header media URL is not reachable'
+    end
+  end
+
+  def find_approved_template(params)
+    channel.message_templates&.find do |t|
+      t['name'] == params['name'] &&
+        (t['language'] == params['language'] || t['language'] == params['language']&.to_s) &&
+        t['status']&.downcase == 'approved'
+    end
   end
 end

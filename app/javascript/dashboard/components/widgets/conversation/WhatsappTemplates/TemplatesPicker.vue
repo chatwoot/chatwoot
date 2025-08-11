@@ -1,8 +1,8 @@
 <script>
 import { useAlert } from 'dashboard/composables';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-// TODO: Remove this when we support all formats
-const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
+// Show all formats now that rich templates are supported
+const formatsToRemove = [];
 
 export default {
   components: {
@@ -23,14 +23,8 @@ export default {
   },
   computed: {
     whatsAppTemplateMessages() {
-      // TODO: Remove the last filter when we support all formats
       return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
-        .filter(template => template.status.toLowerCase() === 'approved')
-        .filter(template => {
-          return template.components.every(component => {
-            return !formatsToRemove.includes(component.format);
-          });
-        });
+        .filter(template => template.status.toLowerCase() === 'approved');
     },
     filteredTemplateMessages() {
       return this.whatsAppTemplateMessages.filter(template =>
@@ -40,8 +34,14 @@ export default {
   },
   methods: {
     getTemplatebody(template) {
-      return template.components.find(component => component.type === 'BODY')
-        .text;
+      const bodyComponent = template.components?.find(component => component.type === 'BODY');
+      if (bodyComponent && bodyComponent.text) {
+        return bodyComponent.text;
+      }
+      
+      // For rich templates without body text, show component types
+      const componentTypes = template.components?.map(c => c.type).join(', ') || 'No components';
+      return `[${componentTypes}]`;
     },
     async refreshTemplates() {
       this.isRefreshing = true;

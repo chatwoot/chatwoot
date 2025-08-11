@@ -44,13 +44,9 @@ export const getters = {
     const messagesTemplates =
       whatsAppMessageTemplates || apiInboxMessageTemplates;
 
-    // filtering out the whatsapp templates with media
+    // include all approved templates; filtering happens in UI when needed
     if (messagesTemplates instanceof Array) {
-      return messagesTemplates.filter(template => {
-        return !template.components.some(
-          i => i.format === 'IMAGE' || i.format === 'VIDEO'
-        );
-      });
+      return messagesTemplates;
     }
     return [];
   },

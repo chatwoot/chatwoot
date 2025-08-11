@@ -119,17 +119,18 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def template_body_parameters(template_info)
-    {
+    # Supports either explicit components or legacy body parameters
+    base = {
       name: template_info[:name],
       language: {
         policy: 'deterministic',
         code: template_info[:lang_code]
-      },
-      components: [{
-        type: 'body',
-        parameters: template_info[:parameters]
-      }]
+      }
     }
+
+    base[:components] = (template_info[:components].presence || [{ type: 'body', parameters: template_info[:parameters] }])
+
+    base
   end
 
   def whatsapp_reply_context(message)

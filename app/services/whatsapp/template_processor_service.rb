@@ -3,7 +3,9 @@ class Whatsapp::TemplateProcessorService
 
   def call
     if template_params.present?
-      process_template_with_params
+      name, namespace, language, params = process_template_with_params
+      components = build_components_from_params
+      [name, namespace, language, params, components]
     else
       process_template_from_message
     end
@@ -44,6 +46,7 @@ class Whatsapp::TemplateProcessorService
   def template_match_object(template)
     body_object = validated_body_object(template)
     return if body_object.blank?
+    return if body_object['text'].blank?
 
     template_match_regex = build_template_match_regex(body_object['text'])
     message.outgoing_content.match(template_match_regex)
@@ -66,8 +69,10 @@ class Whatsapp::TemplateProcessorService
   end
 
   def find_template
-    channel.message_templates.find do |t|
-      t['name'] == template_params['name'] && t['language'] == template_params['language'] && t['status']&.downcase == 'approved'
+    channel.message_templates&.find do |t|
+      t['name'] == template_params['name'] &&
+        t['language'] == template_params['language'] &&
+        t['status']&.downcase == 'approved'
     end
   end
 
@@ -84,12 +89,120 @@ class Whatsapp::TemplateProcessorService
     end
   end
 
+  # Build rich components array for WhatsApp Cloud/360dialog from provided params
+  # Supports:
+  # - Header media: { header: { type: 'image'|'video'|'document'|'text', url?, filename?, text? } }
+  # - Footer text: { footer: { text: '...' } } (no parameters needed; ignored by API if defined in template)
+  # - Buttons: { buttons: [ { type: 'URL'|'PHONE_NUMBER'|'QUICK_REPLY', text?, url_suffix?, phone_number? } ] }
+  def build_components_from_params
+    return unless template_params.is_a?(Hash)
+
+    template = find_template
+    return if template.blank?
+
+    result_components = []
+
+    header_def = template['components']&.find { |c| c['type'] == 'HEADER' }
+    footer_def = template['components']&.find { |c| c['type'] == 'FOOTER' }
+    buttons_def = template['components']&.find { |c| c['type'] == 'BUTTONS' }
+
+    # Header
+    if header_def.present? && template_params['header'].present?
+      header_params = template_params['header'] || {}
+      case header_params['type']&.to_s&.downcase
+      when 'image', 'video'
+        media_type = header_params['type']&.to_s&.downcase
+        media_link = header_params['url']
+        if media_link.present?
+          result_components << {
+            type: 'header',
+            parameters: [
+              { :type => media_type, media_type.to_sym => { link: media_link } }
+            ]
+          }
+        end
+      when 'document'
+        media_link = header_params['url']
+        filename = header_params['filename']
+        if media_link.present?
+          doc = { link: media_link }
+          doc[:filename] = filename if filename.present?
+          result_components << {
+            type: 'header',
+            parameters: [
+              { type: 'document', document: doc }
+            ]
+          }
+        end
+      when 'text'
+        if header_params['text'].present?
+          result_components << {
+            type: 'header',
+            parameters: [{ type: 'text', text: header_params['text'] }]
+          }
+        end
+      end
+    end
+
+    # Buttons (URL, QUICK_REPLY, PHONE_NUMBER, FLOW)
+    if buttons_def.present? && template_params['buttons'].is_a?(Array)
+      buttons_params = template_params['buttons'] || []
+      # WhatsApp expects parameters per button only when dynamic
+      buttons_params.each_with_index do |btn, idx|
+        button_type = btn['type']&.to_s&.upcase
+        case button_type
+        when 'URL'
+          suffix = btn['url_suffix'] || btn['text']
+          next if suffix.blank?
+
+          result_components << {
+            type: 'button',
+            sub_type: 'url',
+            index: idx.to_s,
+            parameters: [{ type: 'text', text: suffix }]
+          }
+        when 'FLOW'
+          payload = btn['payload'] || {}
+          # Accept convenience keys
+          payload = { flow_id: btn['flow_id'], data: btn['params'] }.compact if payload.blank? && (btn['flow_id'].present? || btn['params'].present?)
+          next if payload.blank?
+
+          result_components << {
+            type: 'button',
+            sub_type: 'flow',
+            index: idx.to_s,
+            parameters: [{ type: 'payload', payload: payload }]
+          }
+        when 'PHONE_NUMBER'
+          # No parameters required for static phone buttons
+          next
+        when 'QUICK_REPLY'
+          # No parameters required for quick reply buttons
+          next
+        end
+      end
+    end
+
+    # Footer
+    if footer_def.present? && template_params['footer'].is_a?(Hash)
+      footer_params = template_params['footer'] || {}
+      footer_text = footer_params['text']
+      if footer_text.present?
+        result_components << {
+          type: 'footer',
+          parameters: [{ type: 'text', text: footer_text }]
+        }
+      end
+    end
+
+    result_components.presence
+  end
+
   def validated_body_object(template)
-    # we don't care if its not approved template
+    # Only use approved templates
     return if template['status'] != 'approved'
 
-    # we only care about text body object in template. if not present we discard the template
-    # we don't support other forms of templates
-    template['components'].find { |obj| obj['type'] == 'BODY' && obj.key?('text') }
+    # Return the BODY component even if it has no text; rich templates may rely on media or buttons
+    template['components'].find { |obj| obj['type'] == 'BODY' }
   end
 end
