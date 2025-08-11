@@ -12,11 +12,11 @@
 - name: channel_email
   display_name: Email Channel
   enabled: true
-  help_url: https://chwt.app/hc/email
+  help_url: https://buzzcrm.ai
 - name: channel_facebook
   display_name: Facebook Channel
   enabled: true
-  help_url: https://chwt.app/hc/fb
+  help_url: https://buzzcrm.ai
 - name: channel_twitter
   display_name: Twitter Channel
   enabled: true
@@ -34,11 +34,11 @@
 - name: help_center
   display_name: Help Center
   enabled: true
-  help_url: https://chwt.app/hc/help-center
+  help_url: https://buzzcrm.ai
 - name: agent_bots
   display_name: Agent Bots
   enabled: true
-  help_url: https://chwt.app/hc/agent-bots
+  help_url: https://buzzcrm.ai
 - name: macros
   display_name: Macros
   enabled: true
@@ -48,29 +48,29 @@
 - name: team_management
   display_name: Team Management
   enabled: true
-  help_url: https://chwt.app/hc/teams
+  help_url: https://buzzcrm.ai
 - name: inbox_management
   display_name: Inbox Management
   enabled: true
 - name: labels
   display_name: Labels
   enabled: true
-  help_url: https://chwt.app/hc/labels
+  help_url: https://buzzcrm.ai
 - name: custom_attributes
   display_name: Custom Attributes
   enabled: true
-  help_url: https://chwt.app/hc/custom-attributes
+  help_url: https://buzzcrm.ai
 - name: automations
   display_name: Automations
   enabled: true
 - name: canned_responses
   display_name: Canned Responses
   enabled: true
-  help_url: https://chwt.app/hc/canned
+  help_url: https://buzzcrm.ai
 - name: integrations
   display_name: Integrations
   enabled: true
-  help_url: https://chwt.app/hc/integrations
+  help_url: https://buzzcrm.ai
 - name: voice_recorder
   display_name: Voice Recorder
   enabled: true
@@ -83,12 +83,12 @@
   enabled: true
 - name: campaigns
   display_name: Campaigns
-  enabled: true
-  help_url: https://chwt.app/hc/campaigns
+  enabled: false
+  help_url: https://buzzcrm.ai
 - name: reports
   display_name: Reports
   enabled: true
-  help_url: https://chwt.app/hc/reports
+  help_url: https://buzzcrm.ai
 - name: crm
   display_name: CRM
   enabled: true
@@ -112,8 +112,8 @@
   deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
-  enabled: false
-  help_url: https://chwt.app/hc/reply-to
+  enabled: true
+  help_url: https://buzzcrm.ai
   deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
@@ -122,17 +122,17 @@
 - name: inbox_view
   display_name: Inbox View
   enabled: false
-  chatwoot_internal: true
+  chatwoot_internal: false
 - name: sla
   display_name: SLA
   enabled: false
   premium: true
-  help_url: https://chwt.app/hc/sla
+  help_url: https://buzzcrm.ai
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
   enabled: false
   premium: true
-  chatwoot_internal: true
+  chatwoot_internal: false
 - name: linear_integration
   display_name: Linear Integration
   enabled: false
