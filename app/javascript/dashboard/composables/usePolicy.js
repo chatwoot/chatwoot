@@ -6,7 +6,6 @@ import {
   getUserPermissions,
   hasPermissions,
 } from 'dashboard/helper/permissionsHelper';
-import { PREMIUM_FEATURES } from 'dashboard/featureFlags';
 
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
@@ -50,9 +49,8 @@ export function usePolicy() {
     return true;
   };
 
-  const isPremiumFeature = featureFlag => {
-    if (!featureFlag) return true;
-    return PREMIUM_FEATURES.includes(featureFlag);
+  const isPremiumFeature = (featureFlag = null) => {
+    return false;
   };
 
   const hasPremiumEnterprise = computed(() => {
