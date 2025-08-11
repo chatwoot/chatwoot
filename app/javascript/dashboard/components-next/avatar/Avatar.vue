@@ -207,7 +207,7 @@ watch(
     <!-- Delete Avatar Button -->
     <div
       v-if="src && allowUpload"
-      class="absolute z-20 flex items-center justify-center invisible w-6 h-6 transition-all duration-300 ease-in-out opacity-0 cursor-pointer outline outline-1 outline-n-container -top-2 -right-2 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
+      class="absolute z-20 flex items-center justify-center invisible w-6 h-6 transition-all duration-300 ease-in-out opacity-0 cursor-pointer outline outline-1 outline-n-container -top-2 ltr:-right-2 rtl:-left-2 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleDismiss"
     >
       <Icon icon="i-lucide-x" class="text-n-slate-11 size-4" />
