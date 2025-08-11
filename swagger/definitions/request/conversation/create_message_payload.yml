@@ -45,60 +45,7 @@ properties:
         description: Language of the template
         example: en_US
       processed_params:
-        oneOf:
-          - type: array
-            description: Legacy format - simple array of parameter values
-            items:
-              type: string
-            example: ['John Doe', '123 Main St', '2025-01-15']
-          - type: object
-            description: Enhanced format - structured component parameters
-            properties:
-              body:
-                type: object
-                description: Body component parameters (variable placeholders)
-                additionalProperties:
-                  type: string
-                example:
-                  '1': 'John Doe'
-                  '2': '123 Main St'
-              header:
-                type: object
-                description: Header component parameters (for media templates)
-                properties:
-                  media_url:
-                    type: string
-                    format: uri
-                    description: URL for media content
-                  media_type:
-                    type: string
-                    enum: ['image', 'video', 'document']
-                    description: Type of media content
-                example:
-                  media_url: 'https://example.com/image.jpg'
-                  media_type: 'image'
-              buttons:
-                type: array
-                description: Button component parameters
-                items:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      enum: ['url', 'copy_code']
-                      description: Button type
-                    parameter:
-                      type: string
-                      description: Dynamic parameter value
-                example:
-                  - type: 'url'
-                    parameter: 'tracking123'
-                  - type: 'copy_code'
-                    parameter: 'SAVE20'
-          - type: object
-            description: Legacy format - simple object with numeric keys
-            additionalProperties:
-              type: string
-            example:
-              '1': 'John Doe'
-              '2': '123 Main St'
+        type: object
+        description: The processed param values for template variables in template
+        example:
+          1: 'Chatwoot'
