@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "エージェントを読み込む...",
       "ASSIGN_TEAM": "チームを割り当てる",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "会話 ID {conversationId} が \"{agentName}\" に割り当てられました",
