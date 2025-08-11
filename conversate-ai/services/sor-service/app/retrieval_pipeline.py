@@ -1,86 +1,93 @@
 import logging
-import numpy as np
+from sentence_transformers import SentenceTransformer
+from sqlalchemy.orm import Session
 
-# --- Placeholders for actual libraries ---
-# In a real project, these would be the actual imports for sentence-transformers, faiss, etc.
-class SentenceTransformer:
-    def __init__(self, model_name):
-        self._model_name = model_name
-        logging.info(f"Mock SentenceTransformer model '{model_name}' loaded.")
-    def encode(self, texts, convert_to_tensor=False):
-        # Return random vectors of the correct shape
-        return np.random.rand(len(texts), 384)
-
-class FAISS:
-    def __init__(self, dimension):
-        self._dimension = dimension
-        self._index = np.random.rand(100, dimension).astype('float32') # 100 dummy vectors
-        self._doc_ids = [f"doc://sample_doc_{i}" for i in range(100)]
-        logging.info(f"Mock FAISS index created with dimension {dimension}.")
-
-    def search(self, query_vectors, k):
-        # Return random distances and indices
-        distances = np.random.rand(query_vectors.shape[0], k)
-        indices = np.random.randint(0, 100, size=(query_vectors.shape[0], k))
-        return distances, indices
+from . import models, schemas
 
 # --- Globals ---
 logger = logging.getLogger(__name__)
-embedding_model = None
-vector_index = None
+embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
+logger.info("SentenceTransformer model 'all-MiniLM-L6-v2' loaded.")
 
-# --- Model Loading ---
+# --- Document Processing and Indexing ---
 
-def load_models():
+def _chunk_text(text: str, chunk_size: int = 512, overlap: int = 50) -> list[str]:
+    tokens = text.split()
+    chunks = []
+    for i in range(0, len(tokens), chunk_size - overlap):
+        chunks.append(" ".join(tokens[i:i + chunk_size]))
+    return chunks
+
+def process_and_index_document(db: Session, doc_name: str, doc_content: str, account_id: str, source_url: str = None):
+    logger.info(f"Processing document: {doc_name}")
+
+    db_document = models.Document(
+        name=doc_name,
+        account_id=account_id,
+        source_url=source_url
+    )
+    db.add(db_document)
+    db.commit()
+    db.refresh(db_document)
+
+    chunks = _chunk_text(doc_content)
+    embeddings = embedding_model.encode(chunks)
+
+    for i, chunk_content in enumerate(chunks):
+        db_chunk = models.DocumentChunk(
+            document_id=db_document.id,
+            content=chunk_content,
+            embedding=embeddings[i]
+        )
+        db.add(db_chunk)
+
+    db.commit()
+    logger.info(f"Successfully indexed document {db_document.id} with {len(chunks)} chunks.")
+    return db_document
+
+# --- Semantic Search Logic ---
+
+def search(query: str, top_k: int, db: Session, account_id: str):
     """
-    Loads the embedding model and the vector index.
+    Performs a semantic search for a given query and account.
     """
-    global embedding_model, vector_index
-    # In a real app, this would load a real model from Hugging Face or a local path
-    embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-    # The dimension should match the embedding model's output
-    vector_index = FAISS(384)
-    logger.info("Retrieval models loaded.")
+    logger.info(f"Performing semantic search for account '{account_id}' with query: '{query}'")
 
-def are_models_loaded():
-    return embedding_model is not None and vector_index is not None
+    # 1. Generate an embedding for the user's query
+    query_embedding = embedding_model.encode(query)
 
-# --- Search Logic ---
+    # 2. Perform vector similarity search in the database
+    # We use the l2_distance operator (<->) provided by pgvector.
+    # We also join with the documents table to filter by account_id.
+    similar_chunks = (
+        db.query(models.DocumentChunk)
+        .join(models.Document)
+        .filter(models.Document.account_id == account_id)
+        .order_by(models.DocumentChunk.embedding.l2_distance(query_embedding))
+        .limit(top_k)
+        .all()
+    )
 
-def search(query: str, top_k: int):
-    """
-    Performs a semantic search.
-    This is a simplified placeholder for the full SOR pipeline.
-    """
-    if not are_models_loaded():
-        raise RuntimeError("Models are not loaded.")
+    logger.info(f"Found {len(similar_chunks)} similar document chunks.")
 
-    logger.info("Step 1: Encoding query...")
-    query_vector = embedding_model.encode([query])
-
-    # --- Placeholder for Self-RAG logic ---
-    # The model would decide here if retrieval is needed. We assume it is.
-    logger.info("Step 2: Performing vector search (FAISS)...")
-    distances, indices = vector_index.search(query_vector, k=top_k)
-
-    # --- Placeholder for GraphRAG/RAPTOR logic ---
-    # Here, we would use the results from the vector search to perform
-    # more advanced retrieval, like summarizing documents (RAPTOR)
-    # or exploring connected data (GraphRAG).
-    # For now, we just format the results directly.
-    logger.info("Step 3: Formatting results into an evidence bundle...")
-
+    # 3. Format the results into an EvidenceBundle (or at least the citations part)
     citations = []
-    for i, idx in enumerate(indices[0]):
-        citations.append({
-            "doc_id": vector_index._doc_ids[idx],
-            "content": f"This is a placeholder for the content of document {idx}.",
-            "score": 1 - distances[0][i], # Convert distance to similarity score
-        })
+    for chunk in similar_chunks:
+        # The distance is not directly a confidence score, but we can use it to create one.
+        # A lower distance means higher similarity. We'll do a simple inversion for a score.
+        # This is a simplification; a real system might use a more robust scoring method.
+        score = 1 - chunk.embedding.l2_distance(query_embedding)
+        citations.append(
+            schemas.Citation(
+                doc_id=chunk.document_id,
+                content=chunk.content,
+                score=score
+            )
+        )
 
-    # Placeholder for verifications
+    # Placeholder for the Self-RAG verification step
     verifications = [
-        {"check_name": "placeholder_verification", "status": True, "details": "This check passed."}
+        schemas.Verification(check_name="retrieval_successful", status=True, details=f"Found {len(citations)} results.")
     ]
 
     return citations, verifications

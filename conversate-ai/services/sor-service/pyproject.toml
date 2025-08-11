@@ -10,14 +10,21 @@ fastapi = "^0.111.0"
 uvicorn = {extras = ["standard"], version = "^0.29.0"}
 pydantic = "^2.7.1"
 
-# For vector embeddings and search
+# For database and vector storage
+sqlalchemy = "^2.0.29"
+psycopg2-binary = "^2.9.9"
+pgvector = "^0.2.0"
+
+# For vector embeddings
 sentence-transformers = "^2.7.0"
-faiss-cpu = "^1.8.0" # Using CPU version for simplicity
 
 # Placeholder libraries for the SOTA retrieval models
-# In a real project, these might be custom libraries or from specific sources.
-graphrag = {version = "^0.1.0", optional = true} # Placeholder
-raptor-retrieval = {version = "^0.1.0", optional = true} # Placeholder
+graphrag = {version = "^0.1.0", optional = true}
+raptor-retrieval = {version = "^0.1.0", optional = true}
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+httpx = "^0.27.0"
 
 [build-system]
 requires = ["poetry-core"]

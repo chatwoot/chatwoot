@@ -1,13 +1,13 @@
-from fastapi import FastAPI
-import logging
-import time
+from fastapi import Depends, FastAPI, HTTPException, BackgroundTasks
+from sqlalchemy.orm import Session
+from typing import List
 
-from . import schemas
-from . import retrieval_pipeline
+from . import retrieval_pipeline, schemas, models
+from .database import SessionLocal, engine
+from .security import get_current_user, UserInDB
 
-# --- App Configuration ---
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Create tables
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Self-Optimizing Retrieval (SOR) Service",
@@ -15,12 +15,13 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# --- Lifespan Management (for loading models) ---
-@app.on_event("startup")
-async def startup_event():
-    logger.info("Starting SOR Service...")
-    retrieval_pipeline.load_models()
-    logger.info("SOR Service started.")
+# --- Dependency ---
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 # --- API Endpoints ---
 
@@ -28,32 +29,49 @@ async def startup_event():
 def read_root():
     return {"service": "SOR Service", "status": "ok"}
 
-@app.get("/health")
-def health_check():
-    return {"status": "ok", "models_loaded": retrieval_pipeline.are_models_loaded()}
+@app.post("/documents/", status_code=202)
+async def create_document_for_indexing(
+    doc_name: str,
+    doc_content: str,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+    current_user: UserInDB = Depends(get_current_user)
+):
+    """
+    Accepts a new document and adds it to a background queue for processing and indexing.
+    """
+    background_tasks.add_task(
+        retrieval_pipeline.process_and_index_document,
+        db=db,
+        doc_name=doc_name,
+        doc_content=doc_content,
+        account_id=current_user.account_id
+    )
+    return {"message": "Document accepted for indexing."}
+
 
 @app.post("/search", response_model=schemas.EvidenceBundle)
-async def search(query: schemas.SearchQuery):
+async def search(
+    query: schemas.SearchQuery,
+    db: Session = Depends(get_db),
+    current_user: UserInDB = Depends(get_current_user)
+):
     """
     Performs semantic search and returns an evidence bundle.
     """
-    start_time = time.time()
-    logger.info(f"Received search query: '{query.query}'")
-
-    # This is a placeholder for the full retrieval pipeline.
-    # In a real implementation, this would call the different layers
-    # of the retrieval process (GraphRAG, RAPTOR, etc.).
-    citations, verifications = retrieval_pipeline.search(query.query, query.top_k)
+    citations, verifications = retrieval_pipeline.search(
+        query=query.query,
+        top_k=query.top_k,
+        db=db,
+        account_id=current_user.account_id
+    )
 
     # Placeholder confidence score
     confidence = sum(c.score for c in citations) / len(citations) if citations else 0.0
-
-    end_time = time.time()
-    processing_time_ms = (end_time - start_time) * 1000
 
     return schemas.EvidenceBundle(
         citations=citations,
         confidence=confidence,
         verifications=verifications,
-        processing_time_ms=processing_time_ms,
+        processing_time_ms=0 # Placeholder
     )
