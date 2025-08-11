@@ -132,6 +132,9 @@ module Stark
                    .not_activity
                    .not_template
                    .unscoped
+                   .left_outer_joins(:attachments)
+                   .where(attachments: { id: nil })
+                   .where.not(content: [nil, ''])
                    .order(created_at: :desc)
                    .limit(10)
                    .map do |message|
