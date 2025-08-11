@@ -25,10 +25,6 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     @document.save!
   rescue Captain::Document::LimitExceededError => e
     render_could_not_create_error(e.message)
-  rescue StandardError => e
-    Rails.logger.error "Document creation error: #{e.message}"
-    Rails.logger.error "Error backtrace: #{e.backtrace.first(5).join("\n")}"
-    render_could_not_create_error('Failed to create document')
   end
 
   def destroy
