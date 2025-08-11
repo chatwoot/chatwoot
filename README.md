@@ -1,5 +1,4 @@
 <img src="https://buzzcrm.ai/wp-content/uploads/2025/01/logo-y-nombre.png" width="100%" alt="Header light mode"/>
-<img src="https://buzzcrm.ai/wp-content/uploads/2025/01/logo-y-nombre.png" width="100%" alt="Header dark mode"/>
 
 ___
 
