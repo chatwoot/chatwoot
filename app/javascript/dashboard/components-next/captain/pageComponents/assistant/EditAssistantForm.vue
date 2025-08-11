@@ -303,26 +303,17 @@ watch(
               <input
                 v-model="state.features.conversationFaqs"
                 type="checkbox"
-                class="form-checkbox"
               />
               {{
                 t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS')
               }}
             </label>
             <label class="flex items-center gap-2">
-              <input
-                v-model="state.features.memories"
-                type="checkbox"
-                class="form-checkbox"
-              />
+              <input v-model="state.features.memories" type="checkbox" />
               {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}
             </label>
             <label class="flex items-center gap-2">
-              <input
-                v-model="state.features.citations"
-                type="checkbox"
-                class="form-checkbox"
-              />
+              <input v-model="state.features.citations" type="checkbox" />
               {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS') }}
             </label>
           </div>
