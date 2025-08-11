@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "sor-service"
+version = "0.1.0"
+description = "Self-Optimizing Retrieval service for Conversate AI."
+authors = ["Jules <jules@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+uvicorn = {extras = ["standard"], version = "^0.29.0"}
+pydantic = "^2.7.1"
+
+# For vector embeddings and search
+sentence-transformers = "^2.7.0"
+faiss-cpu = "^1.8.0" # Using CPU version for simplicity
+
+# Placeholder libraries for the SOTA retrieval models
+# In a real project, these might be custom libraries or from specific sources.
+graphrag = {version = "^0.1.0", optional = true} # Placeholder
+raptor-retrieval = {version = "^0.1.0", optional = true} # Placeholder
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

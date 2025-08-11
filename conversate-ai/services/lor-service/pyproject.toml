@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "lor-service"
+version = "0.1.0"
+description = "LLM Orchestrator and Conversation Runtime for Conversate AI."
+authors = ["Jules <jules@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+uvicorn = {extras = ["standard"], version = "^0.29.0"}
+pydantic = "^2.7.1"
+httpx = "^0.27.0" # For making async requests to other services
+openai = "^1.28.0" # For communicating with the LLM
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

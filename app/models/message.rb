@@ -116,8 +116,6 @@ class Message < ApplicationRecord
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
   # if you want to change order, use `reorder`
-  default_scope { order(created_at: :asc) }
-
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation, touch: true

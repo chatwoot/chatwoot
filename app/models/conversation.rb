@@ -184,7 +184,7 @@ class Conversation < ApplicationRecord
   end
 
   def recent_messages
-    messages.chat.last(5)
+    messages.chat.order(created_at: :asc).last(5)
   end
 
   def csat_survey_link

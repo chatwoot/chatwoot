@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "csg-service"
+version = "0.1.0"
+description = "Manages the Conversational State Graph for Conversate AI."
+authors = ["Jules <jules@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+uvicorn = {extras = ["standard"], version = "^0.29.0"}
+neo4j = "^5.20.0"
+kafka-python = "^2.0.2"
+pydantic = "^2.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

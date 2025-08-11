@@ -14,8 +14,8 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    recap_messages = @conversation.messages.chat.where('id < ?', last_queued_id).last(10)
-    new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
+    recap_messages = @conversation.messages.chat.order(created_at: :asc).where('id < ?', last_queued_id).last(10)
+    new_messages = @conversation.messages.chat.order(created_at: :asc).where('id >= ?', last_queued_id)
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:email_reply_summarizable?)
     prepare_mail(true)
@@ -27,7 +27,7 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
+    @messages = @conversation.messages.chat.order(created_at: :asc).where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
     return false if @messages.count.zero?
 
@@ -48,7 +48,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(conversation)
 
-    @messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
+    @messages = @conversation.messages.chat.order(created_at: :asc).select(&:conversation_transcriptable?)
 
     Rails.logger.info("Email sent from #{from_email_with_name} \
       to #{to_email} with subject #{@conversation.display_id} \
