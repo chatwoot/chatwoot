@@ -10,6 +10,17 @@ body {
   @apply antialiased h-full;
 }
 
+// FloatingVue tooltip
+.v-popper--theme-tooltip {
+  .v-popper__inner {
+    @apply text-xs rounded-md max-w-96;
+  }
+
+  .v-popper__arrow-container {
+    @apply hidden;
+  }
+}
+
 .is-mobile {
   display: block;
 
