@@ -61,8 +61,8 @@ export default {
         :hide-inbox-name="false"
         hide-thumbnail
         enable-context-menu
+        compact
         :allowed-context-menu-options="['open-new-tab', 'copy-link']"
-        class="compact"
       />
     </div>
   </div>
@@ -74,13 +74,5 @@ export default {
 <style lang="scss" scoped>
 .no-label-message {
   @apply text-n-slate-11 mb-4;
-}
-
-::v-deep .conversation {
-  @apply pr-0;
-
-  .conversation--details {
-    @apply pl-2;
-  }
 }
 </style>
