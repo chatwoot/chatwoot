@@ -78,6 +78,11 @@ module Redis::Alfred
       $alfred.with { |conn| conn.hmget(key, *fields) }
     end
 
+    # get all fields and values from redis hash
+    def hgetall(key)
+      $alfred.with { |conn| conn.hgetall(key) }
+    end
+
     # sorted set operations
 
     # add score and value for a key
@@ -99,6 +104,16 @@ module Redis::Alfred
     # exclusive score is specified by prefixing (
     def zremrangebyscore(key, range_start, range_end)
       $alfred.with { |conn| conn.zremrangebyscore(key, range_start, range_end) }
+    end
+
+    # transaction operations
+
+    def multi(&)
+      $alfred.with { |conn| conn.multi(&) }
+    end
+
+    def expire(key, expiry)
+      $alfred.with { |conn| conn.expire(key, expiry) }
     end
   end
 end
