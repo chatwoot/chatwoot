@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -101,16 +101,20 @@ const openDelete = inbox => {
           <tr v-for="inbox in inboxesList" :key="inbox.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center flex-row gap-4">
-                <Thumbnail
+                <div
                   v-if="inbox.avatar_url"
-                  class="bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
-                  :src="inbox.avatar_url"
-                  :username="inbox.name"
-                  size="48px"
-                />
+                  class="bg-n-alpha-3 rounded-full size-12 p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
+                >
+                  <Avatar
+                    :src="inbox.avatar_url"
+                    :name="inbox.name"
+                    :size="30"
+                    rounded-full
+                  />
+                </div>
                 <div
                   v-else
-                  class="w-[48px] h-[48px] flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
+                  class="size-12 flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
                 >
                   <ChannelIcon class="size-5" :inbox="inbox" />
                 </div>

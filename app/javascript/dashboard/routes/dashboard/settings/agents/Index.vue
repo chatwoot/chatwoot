@@ -1,7 +1,7 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';
 import {
   useStoreGetters,
@@ -164,11 +164,13 @@ const confirmDeletion = () => {
           <tr v-for="(agent, index) in agentList" :key="agent.email">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-row items-center gap-4">
-                <Thumbnail
+                <Avatar
                   :src="agent.thumbnail"
-                  :username="agent.name"
-                  size="40px"
+                  :name="agent.name"
                   :status="agent.availability_status"
+                  :size="40"
+                  hide-offline-status
+                  rounded-full
                 />
                 <div>
                   <span class="block font-medium capitalize">

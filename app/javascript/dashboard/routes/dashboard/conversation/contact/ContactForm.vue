@@ -10,10 +10,12 @@ import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 
 export default {
   components: {
     NextButton,
+    Avatar,
   },
   props: {
     contact: {
@@ -274,18 +276,19 @@ export default {
     class="w-full px-8 pt-6 pb-8 contact--form"
     @submit.prevent="handleSubmit"
   >
-    <div>
-      <div class="w-full">
-        <woot-avatar-uploader
-          :label="$t('CONTACT_FORM.FORM.AVATAR.LABEL')"
-          :src="avatarUrl"
-          :username-avatar="name"
-          :delete-avatar="!!avatarUrl"
-          class="settings-item"
-          @on-avatar-select="handleImageUpload"
-          @on-avatar-delete="handleAvatarDelete"
-        />
-      </div>
+    <div class="flex flex-col mb-4 items-start gap-1 w-full">
+      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ $t('CONTACT_FORM.FORM.AVATAR.LABEL') }}
+      </label>
+      <Avatar
+        :src="avatarUrl"
+        :size="72"
+        :name="contact.name"
+        allow-upload
+        rounded-full
+        @upload="handleImageUpload"
+        @delete="handleAvatarDelete"
+      />
     </div>
     <div>
       <div class="w-full">
