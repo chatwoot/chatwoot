@@ -217,6 +217,13 @@ Rails.application.routes.draw do
             end
           end
 
+          # Assignment V2 Routes
+          resources :assignment_policies
+
+          resources :inboxes, only: [] do
+            resource :assignment_policy, only: [:show, :create, :destroy], controller: 'inbox_assignment_policies'
+          end
+
           namespace :twitter do
             resource :authorization, only: [:create]
           end

@@ -14,7 +14,6 @@
 #
 #  index_inbox_assignment_policies_on_assignment_policy_id  (assignment_policy_id)
 #  index_inbox_assignment_policies_on_inbox_id              (inbox_id)
-#  unique_inbox_assignment_policy                           (inbox_id) UNIQUE
 #
 
 class InboxAssignmentPolicy < ApplicationRecord
@@ -25,7 +24,6 @@ class InboxAssignmentPolicy < ApplicationRecord
   belongs_to :assignment_policy
 
   # Validations
-  validates :inbox_id, uniqueness: true
   validate :inbox_belongs_to_same_account
 
   # Delegations

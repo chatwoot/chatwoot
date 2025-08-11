@@ -9,7 +9,7 @@
 #  conversation_priority    :integer          default("earliest_created"), not null
 #  description              :text
 #  enabled                  :boolean          default(TRUE), not null
-#  fair_distribution_limit  :integer          default(10), not null
+#  fair_distribution_limit  :integer          default(100), not null
 #  fair_distribution_window :integer          default(3600), not null
 #  name                     :string(255)      not null
 #  created_at               :datetime         not null
@@ -18,16 +18,14 @@
 #
 # Indexes
 #
-#  index_assignment_policies_on_account_id    (account_id)
-#  index_assignment_policies_on_enabled       (enabled)
-#  unique_assignment_policy_name_per_account  (account_id,name) UNIQUE
+#  index_assignment_policies_on_account_id           (account_id)
+#  index_assignment_policies_on_account_id_and_name  (account_id,name) UNIQUE
+#  index_assignment_policies_on_enabled              (enabled)
 #
 
 class AssignmentPolicy < ApplicationRecord
-  include AccountCacheRevalidator
-
   # Enums
-  enum assignment_order: { round_robin: 0, balanced: 1 }
+  enum assignment_order: { round_robin: 0 }
   enum conversation_priority: { earliest_created: 0, longest_waiting: 1 }
 
   # Associations
@@ -44,12 +42,6 @@ class AssignmentPolicy < ApplicationRecord
   validates :assignment_order, inclusion: { in: assignment_orders.keys }
   validates :conversation_priority, inclusion: { in: conversation_priorities.keys }
 
-  # Validate balanced assignment is only available for enterprise
-  validate :validate_balanced_assignment_enterprise_only
-
-  # Server-side validation to prevent bypass
-  before_save :enforce_enterprise_features
-
   # Scopes
   scope :enabled, -> { where(enabled: true) }
   scope :disabled, -> { where(enabled: false) }
@@ -57,10 +49,6 @@ class AssignmentPolicy < ApplicationRecord
   # Callbacks
   after_update_commit :clear_assignment_caches
   after_destroy :clear_assignment_caches
-
-  def can_use_balanced_assignment?
-    account.feature_enabled?(:enterprise_agent_capacity) if account.respond_to?(:feature_enabled?)
-  end
 
   def webhook_data
     {
@@ -77,22 +65,6 @@ class AssignmentPolicy < ApplicationRecord
 
   private
 
-  def validate_balanced_assignment_enterprise_only
-    return unless balanced?
-    return if can_use_balanced_assignment?
-
-    errors.add(:assignment_order, 'Balanced assignment is only available for enterprise accounts')
-  end
-
-  def enforce_enterprise_features
-    # Server-side enforcement to prevent API bypass
-    return unless balanced? && !can_use_balanced_assignment?
-
-    # Force to round_robin if enterprise not available
-    self.assignment_order = 'round_robin'
-    Rails.logger.warn("Assignment V2: Forced assignment_order to round_robin for non-enterprise account #{account_id}")
-  end
-
   def clear_assignment_caches
     # Clear Redis caches when policy is updated
     Rails.cache.delete("assignment_v2:policy:#{id}")
@@ -101,3 +73,5 @@ class AssignmentPolicy < ApplicationRecord
     end
   end
 end
+
+AssignmentPolicy.prepend_mod_with('AssignmentPolicy')

@@ -53,11 +53,7 @@ class AssignmentV2::AssignmentService
   end
 
   def selector_service
-    @selector_service ||= if policy.assignment_order == 'balanced' && enterprise_enabled? && policy.can_use_balanced_assignment?
-                            ::Enterprise::AssignmentV2::BalancedSelector.new(inbox: inbox)
-                          else
-                            AssignmentV2::RoundRobinSelector.new(inbox: inbox)
-                          end
+    @selector_service ||= AssignmentV2::RoundRobinSelector.new(inbox: inbox)
   end
 
   def unassigned_conversations(limit)
@@ -110,3 +106,5 @@ class AssignmentV2::AssignmentService
     Rails.logger.error "AssignmentV2: Failed to record assignment in rate limiter: #{e.message}"
   end
 end
+
+AssignmentV2::AssignmentService.prepend_mod_with('AssignmentV2::AssignmentService')
