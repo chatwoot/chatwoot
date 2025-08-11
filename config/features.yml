@@ -76,7 +76,7 @@
   enabled: true
 - name: mobile_v2
   display_name: Mobile App V2
-  enabled: false
+  enabled: true
   deprecated: true
 - name: channel_website
   display_name: Website Channel
@@ -97,10 +97,10 @@
   enabled: true
 - name: custom_reply_email
   display_name: Custom Reply Email
-  enabled: false
+  enabled: true
 - name: custom_reply_domain
   display_name: Custom Reply Domain
-  enabled: false
+  enabled: true
 - name: audit_logs
   display_name: Audit Logs
   enabled: false
@@ -142,7 +142,7 @@
   premium: true
 - name: custom_roles
   display_name: Custom Roles
-  enabled: false
+  enabled: true
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
@@ -161,7 +161,7 @@
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: channel_instagram
   display_name: Instagram Channel
