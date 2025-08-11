@@ -133,12 +133,13 @@ describe Messages::Instagram::MessageBuilder do
     it 'creates message with reply to mid' do
       # Create first message to ensure reply to is valid
       first_messaging = dm_params[:entry][0]['messaging'][0]
-      create_instagram_contact_for_sender(first_messaging['sender']['id'], instagram_inbox)
+      sender_id = first_messaging['sender']['id']
+      create_instagram_contact_for_sender(sender_id, instagram_inbox)
       described_class.new(first_messaging, instagram_inbox).perform
 
-      # Create second message with reply to mid
+      # Create second message with reply to mid, using same sender_id
       messaging = instagram_message_reply_event[:entry][0]['messaging'][0]
-      create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+      messaging['sender']['id'] = sender_id
       described_class.new(messaging, instagram_inbox).perform
 
       first_message = instagram_inbox.messages.first
