@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 it:
   hello: 'Ciao mondo'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: Woot! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.
     reset_password_failure: Uh ho! Non siamo riusciti a trovare alcun utente con l'email specificata.
@@ -53,6 +58,13 @@ it:
       invalid_message_type: 'Invalid message type. Action not permitted'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -91,7 +103,7 @@ it:
       conversations_count: Numero di conversazioni
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
-      avg_reply_time: Avg reply time
+      avg_reply_time: Tempo medio di risposta
       resolution_count: Conteggio risoluzioni
     team_csv:
       team_name: Nome del team
@@ -135,18 +147,18 @@ it:
     no_content: 'No content'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: 'Trasferimento ad un altro agente per ulteriore assistenza.'
     messages:
       instagram_story_content: '%{story_sender} ti ha menzionato nella storia: '
       instagram_deleted_story_content: Questa storia non è più disponibile.
       deleted: Questo messaggio è stato eliminato
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: 'Scegli un elemento'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        resolved: 'La conversazione è stata segnata risolta da %{user_name} a causa di inattività'
         open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'La conversazione è stata contrassegnata come risolta da %{user_name}'
@@ -177,9 +189,9 @@ it:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
       linear:
-        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
-        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
-        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+        issue_created: 'Issue Linear %{issue_id} è stata creata da %{user_name}'
+        issue_linked: 'Issue Linear %{issue_id} è stata collegata da %{user_name}'
+        issue_unlinked: 'Issue Linear %{issue_id} è stata scollegata da %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
@@ -241,12 +253,12 @@ it:
       description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
     linear:
       name: 'Linear'
-      short_description: 'Create and link Linear issues directly from conversations.'
+      short_description: 'Crea e collega issue Linear direttamente dalle conversazioni.'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: 'Integra database, documenti e pagine direttamente con Captain.'
+      description: 'Collega il tuo spazio di lavoro Notion per consentire al Captain di accedere e generare risposte intelligenti utilizzando i contenuti dai tuoi database, documenti, e pagine per fornire più assistenza clienti contestuale.'
     shopify:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
@@ -262,8 +274,8 @@ it:
     copilot:
       using_tool: 'Using tool %{function_name}'
       completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      invalid_tool_call: 'Chiamata strumento non valida'
+      tool_not_available: 'Strumento non disponibile'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -289,7 +301,7 @@ it:
       made_with: Made with
     header:
       go_to_homepage: Website
-      visit_website: Visit website
+      visit_website: Visita sito
       appearance:
         system: System
         light: Light
@@ -323,7 +335,7 @@ it:
       one: '%{count} second'
       other: '%{count} seconds'
   automation:
-    system_name: 'Automation System'
+    system_name: 'Sistema di Automazione'
   crm:
     no_message: 'No messages in conversation'
     attachment: '[Attachment: %{type}]'
@@ -344,3 +356,12 @@ it:
 
       Transcript:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'L''email è obbligatoria'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

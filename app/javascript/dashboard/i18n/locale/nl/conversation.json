@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "Agents worden geladen...",
       "ASSIGN_TEAM": "Team toewijzen",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Gesprek id {conversationId} toegewezen aan \"{agentName}\"",
