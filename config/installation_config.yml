@@ -10,7 +10,8 @@
 # locked: if you don't specify locked attribute in yaml, the default value will be true,
 #         which means the particular config will be locked and won't be available in `super_admin/installation_configs`
 # premium: These values get overwritten unless the user is on a premium plan
-# type: The type of the config. Default is text,  boolean is also supported
+# type: The type of the config. Default is text, select and boolean are also supported
+# options: For select types, its required to have options for the select in the following pattern: "option_value":"Human readable option"
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME

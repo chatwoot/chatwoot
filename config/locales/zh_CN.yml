@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 zh_CN:
   hello: '您好世界'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
@@ -53,6 +58,13 @@ zh_CN:
       invalid_message_type: '无效的消息类型。不允许操作'
     slack:
       invalid_channel_id: '无效的Slack频道。请重试'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: 请检查网络连接，IMAP地址，然后再试一次。
@@ -340,3 +352,12 @@ zh_CN:
 
       副本：
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'Email 是必填项'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

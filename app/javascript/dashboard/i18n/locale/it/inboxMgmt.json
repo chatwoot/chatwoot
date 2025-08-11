@@ -47,13 +47,13 @@
         "CREATE_INBOX": "Crea casella"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Continua con Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Collega il tuo profilo Instagram",
+        "HELP": "Per aggiungere il tuo profilo Instagram come canale, devi autenticare il tuo profilo Instagram cliccando su 'Continua con Instagram' ",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a Instagram, riprova",
+        "ERROR_AUTH": "Si è verificato un errore nella connessione a Instagram, riprova",
+        "NEW_INBOX_SUGGESTION": "Questo account Instagram era precedentemente collegato a una casella di posta diversa ed è stato ora migrato qui. Tutti i nuovi messaggi appariranno qui. La vecchia casella di posta non sarà più in grado d'inviare o ricevere messaggi per questo account.",
+        "DUPLICATE_INBOX_BANNER": "Questo account Instagram è stato migrato alla nuova posta in arrivo del canale Instagram. Non sarai più in grado di inviare/ricevere messaggi Instagram da questa posta in arrivo."
       },
       "TWITTER": {
         "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
@@ -225,13 +225,13 @@
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD_DESC": "Configurazione rapida tramite Meta",
+          "TWILIO_DESC": "Connetti tramite credenziali Twilio",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "Seleziona il tuo API provider",
+          "DESCRIPTION": "Scegli il tuo provider WhatsApp. Puoi connetterti direttamente tramite Meta che non richiede alcuna configurazione o connetterti tramite Twilio utilizzando le credenziali del tuo account."
         },
         "INBOX_NAME": {
           "LABEL": "Nome casella",
@@ -272,59 +272,64 @@
         },
         "SUBMIT_BUTTON": "Crea un canale WhatsApp",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick Setup with Meta",
-          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "Configurazione rapida con Meta",
+          "DESC": "Sarai reindirizzato a Meta per accedere al tuo account WhatsApp Business. Avere accesso amministratore aiuterà a rendere la configurazione semplice e facile.",
           "BENEFITS": {
-            "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "No manual configuration required",
-            "SECURE_AUTH": "Secure OAuth based authentication",
-            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+            "TITLE": "Vantaggi della registrazione integrata:",
+            "EASY_SETUP": "Nessuna configurazione manuale richiesta",
+            "SECURE_AUTH": "Autenticazione sicura basata su OAuth",
+            "AUTO_CONFIG": "Configurazione automatica del webhook e del numero di telefono"
           },
-          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
-          "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
-          "PROCESSING": "Setting up your WhatsApp Business Account",
-          "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
-          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
-          "WAITING_FOR_AUTH": "Waiting for authentication...",
-          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Signup error occurred",
-          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
+          "SUBMIT_BUTTON": "Connetti con WhatsApp Business",
+          "AUTH_PROCESSING": "Autenticazione con Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Completa la configurazione aziendale nella finestra Meta...",
+          "PROCESSING": "Configurazione del tuo account WhatsApp Business",
+          "LOADING_SDK": "Caricamento del Facebook SDK...",
+          "CANCELLED": "Registrazione WhatsApp annullata",
+          "SUCCESS_TITLE": "Account WhatsApp Business connesso!",
+          "WAITING_FOR_AUTH": "In attesa dell'autenticazione...",
+          "INVALID_BUSINESS_DATA": "Dati aziendali non validi ricevuti da Facebook. Riprova.",
+          "SIGNUP_ERROR": "Errore di registrazione",
+          "AUTH_NOT_COMPLETED": "Autenticazione non completata. Riavvia il processo.",
+          "SUCCESS_FALLBACK": "Account WhatsApp Business è stato configurato con successo"
         },
         "API": {
           "ERROR_MESSAGE": "Non siamo stati in grado di salvare il canale WhatsApp"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "Canale Vocale",
+        "DESC": "Integra Twilio Voice e inizia a supportare i tuoi clienti tramite telefonate.",
         "PHONE_NUMBER": {
           "LABEL": "Numero di telefono",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "PLACEHOLDER": "Inserisci il tuo numero di telefono (es. +1234567890)",
+          "ERROR": "Fornisci un numero di telefono valido in formato E.164 (ad es. +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "SID dell'account",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "PLACEHOLDER": "Inserisci il tuo Account SID Twilio",
+            "REQUIRED": "Account SID richiesto"
           },
           "AUTH_TOKEN": {
             "LABEL": "Token di autenticazione",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "PLACEHOLDER": "Inserisci il tuo Auth Token Twilio",
+            "REQUIRED": "Auth Token richiesto"
           },
           "API_KEY_SID": {
             "LABEL": "API Key SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "PLACEHOLDER": "Inserisci il tuo SID API Twilio",
+            "REQUIRED": "API Key SID richiesto"
           },
           "API_KEY_SECRET": {
             "LABEL": "API Key Secret",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "PLACEHOLDER": "Inserisci il tuo API Key Secret Twilio",
+            "REQUIRED": "API Key Secret richiesto"
           },
           "TWIML_APP_SID": {
             "LABEL": "TwiML App SID",
@@ -598,6 +603,21 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Aggiorna",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Connetti",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
