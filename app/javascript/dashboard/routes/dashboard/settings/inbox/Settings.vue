@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';
+import Avatar from 'next/avatar/Avatar.vue';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
@@ -11,6 +12,7 @@ import InstagramReauthorize from './channels/instagram/Reauthorize.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
+import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
@@ -24,6 +26,7 @@ import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue'
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import { getInboxIconByType } from 'dashboard/helper/inbox';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
@@ -44,8 +47,10 @@ export default {
     GoogleReauthorize,
     NextButton,
     InstagramReauthorize,
+    WhatsappReauthorize,
     DuplicateInboxBanner,
     Editor,
+    Avatar,
   },
   mixins: [inboxMixin],
   setup() {
@@ -87,10 +92,7 @@ export default {
       return this.tabs[this.selectedTabIndex]?.key;
     },
     shouldShowWhatsAppConfiguration() {
-      return !!(
-        this.isAWhatsAppCloudChannel &&
-        this.inbox.provider_config?.source !== 'embedded_signup'
-      );
+      return this.isAWhatsAppCloudChannel;
     },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {
@@ -174,7 +176,10 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
-
+    inboxIcon() {
+      const { medium, channel_type: type } = this.inbox;
+      return getInboxIconByType(type, medium);
+    },
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
         return `${this.inbox.name} (${
@@ -247,6 +252,14 @@ export default {
         this.inbox.reauthorization_required
       );
     },
+    whatsappUnauthorized() {
+      return (
+        this.isAWhatsAppChannel &&
+        this.inbox.provider === 'whatsapp_cloud' &&
+        this.inbox.provider_config?.source === 'embedded_signup' &&
+        this.inbox.reauthorization_required
+      );
+    },
   },
   watch: {
     $route(to) {
@@ -276,8 +289,17 @@ export default {
       }
       return [...selected, current];
     },
+    refreshAvatarUrlOnTabChange(index) {
+      // Refresh avatar URL on tab change from inbox_settings and widgetBuilder tabs, to ensure real-time updates
+      if (
+        this.inbox &&
+        ['inbox_settings', 'widgetBuilder'].includes(this.tabs[index].key)
+      )
+        this.avatarUrl = this.inbox.avatar_url;
+    },
     onTabChange(selectedTabIndex) {
       this.selectedTabIndex = selectedTabIndex;
+      this.refreshAvatarUrlOnTabChange(selectedTabIndex);
     },
     fetchInboxSettings() {
       this.selectedTabIndex = 0;
@@ -416,6 +438,7 @@ export default {
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
+      <WhatsappReauthorize v-if="whatsappUnauthorized" :inbox="inbox" />
       <DuplicateInboxBanner
         v-if="hasDuplicateInstagramInbox"
         :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
@@ -427,14 +450,21 @@ export default {
           :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
           :show-border="false"
         >
-          <woot-avatar-uploader
-            :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
-            :src="avatarUrl"
-            class="pb-4"
-            delete-avatar
-            @on-avatar-select="handleImageUpload"
-            @on-avatar-delete="handleAvatarDelete"
-          />
+          <div class="flex flex-col mb-4 items-start gap-1">
+            <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL') }}
+            </label>
+            <Avatar
+              :src="avatarUrl"
+              :size="72"
+              :icon-name="inboxIcon"
+              name=""
+              allow-upload
+              rounded-full
+              @upload="handleImageUpload"
+              @delete="handleAvatarDelete"
+            />
+          </div>
           <woot-input
             v-model="selectedInboxName"
             class="pb-4"

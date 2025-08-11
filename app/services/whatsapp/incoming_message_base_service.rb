@@ -156,11 +156,18 @@ class Whatsapp::IncomingMessageBaseService
     phones = contact[:phones]
     phones = [{ phone: 'Phone number is not available' }] if phones.blank?
 
+    name_info = contact['name'] || {}
+    contact_meta = {
+      firstName: name_info['first_name'],
+      lastName: name_info['last_name']
+    }.compact
+
     phones.each do |phone|
       @message.attachments.new(
         account_id: @message.account_id,
         file_type: file_content_type(message_type),
-        fallback_title: phone[:phone].to_s
+        fallback_title: phone[:phone].to_s,
+        meta: contact_meta
       )
     end
   end

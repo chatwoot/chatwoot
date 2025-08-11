@@ -32,8 +32,8 @@ class Channel::Whatsapp < ApplicationRecord
   validates :phone_number, presence: true, uniqueness: true
   validate :validate_provider_config
 
+  before_save :setup_webhooks
   after_create :sync_templates
-  after_create_commit :setup_webhooks
   before_destroy :teardown_webhooks
 
   def name
@@ -78,8 +78,12 @@ class Channel::Whatsapp < ApplicationRecord
     handle_webhook_setup_error(e)
   end
 
+  def provider_config_changed?
+    will_save_change_to_provider_config?
+  end
+
   def should_setup_webhooks?
-    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present?
+    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present? && provider_config_changed?
   end
 
   def whatsapp_cloud_provider?
