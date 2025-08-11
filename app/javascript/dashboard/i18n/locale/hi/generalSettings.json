@@ -3,8 +3,8 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "AGENTS": "आप एजेंट लिमिट पार कर चुके है।आपका प्लान {allowedAgents} एजेंट्स की अनुमति देता है।",
+      "NON_ADMIN": "कृपया प्लान को अपग्रेड करने और सभी सुविधाओं का उपयोग जारी रखने के लिए अपने व्यवस्थापक से संपर्क करें।"
     },
     "TITLE": "Account settings",
     "SUBMIT": "Update settings",
@@ -15,12 +15,12 @@
       "SUCCESS": "Successfully updated account settings"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "अपना खाता हटाएं",
+      "NOTE": "एक बार जब आप अपना खाता हटा देंगे, तो आपका सारा डेटा हटा दिया जाएगा।",
+      "BUTTON_TEXT": "अपना खाता हटाएं",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "खाता हटाएं",
+        "MESSAGE": "आपका खाता हटाना अपरिवर्तनीय है। नीचे अपने खाते का नाम दर्ज करे ये पुष्टि करने के लिए की आप इसे निरंतर रूप से ख़त्म करना चाहते है।",
         "BUTTON_TEXT": "Delete",
         "DISMISS": "Cancel",
         "PLACE_HOLDER": "Please type {accountName} to confirm"
