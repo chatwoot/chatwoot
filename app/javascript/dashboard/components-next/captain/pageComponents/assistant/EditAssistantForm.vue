@@ -154,6 +154,7 @@ const handleFeaturesUpdate = () => {
       ...props.assistant.config,
       feature_faq: state.features.conversationFaqs,
       feature_memory: state.features.memories,
+      feature_citation: state.features.citations,
     },
   };
 
