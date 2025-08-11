@@ -110,23 +110,15 @@ class ReportingEventListener < BaseListener
   def conversation_assigned(event)
     conversation = extract_conversation_and_account(event)[0]
     previous_changes = event.data[:changed_attributes] || {}
-    puts "DEBUG: previous_changes = #{previous_changes.inspect}"
     return unless previous_changes['assignee_id']
 
-    puts "DEBUG: assignee_changed_to_assigned? = #{assignee_changed_to_assigned?(previous_changes)}"
-    puts "DEBUG: assignee_changed_to_unassigned? = #{assignee_changed_to_unassigned?(previous_changes)}"
-
     if assignee_changed_to_assigned?(previous_changes)
-      puts 'DEBUG: Creating assignment event'
       assignment_time_data = calculate_assignment_time(conversation, previous_changes)
-      puts "DEBUG: assignment_time_data = #{assignment_time_data.inspect}"
       create_assignment_event(conversation, assignment_time_data)
     elsif assignee_changed_to_unassigned?(previous_changes)
-      puts 'DEBUG: Creating unassignment event'
       create_unassignment_event(conversation)
     else
       # Re-assignment: user to different user
-      puts 'DEBUG: Creating re-assignment event with value 0'
       reassignment_data = { value: 0, business_hours_value: 0, start_time: conversation.updated_at }
       create_assignment_event(conversation, reassignment_data)
     end

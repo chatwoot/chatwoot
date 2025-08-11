@@ -10,6 +10,75 @@ describe ReportingEventListener do
                      account: account, inbox: inbox, conversation: conversation)
   end
 
+  describe '#conversation_assigned' do
+    it 'creates conversation_assigned event on first assignment' do
+      # Create conversation without assignee
+      test_conversation = create(:conversation, account: account, inbox: inbox, assignee: nil)
+      expect(account.reporting_events.where(name: 'conversation_assigned').count).to be 0
+
+      # Simulate assignment 10 seconds later
+      travel_to 10.seconds.from_now do
+        test_conversation.update!(assignee: user)
+        event = Events::Base.new('conversation.updated', Time.zone.now, conversation: test_conversation,
+                                                                        changed_attributes: { 'assignee_id' => [nil, user.id] })
+        listener.conversation_assigned(event)
+      end
+
+      expect(account.reporting_events.where(name: 'conversation_assigned').count).to be 1
+      assigned_event = account.reporting_events.where(name: 'conversation_assigned').first
+      expect(assigned_event.user_id).to eq user.id
+      expect(assigned_event.value).to be_within(1).of(10)
+    end
+
+    it 'creates conversation_assigned event with value 0 on re-assignment' do
+      conversation.update!(assignee: user)
+      other_user = create(:user, account: account)
+
+      # Update conversation to new assignee
+      conversation.update!(assignee: other_user)
+      event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation,
+                                                                      changed_attributes: { 'assignee_id' => [user.id, other_user.id] })
+      listener.conversation_assigned(event)
+
+      reassigned_event = account.reporting_events.where(name: 'conversation_assigned').first
+      expect(reassigned_event.user_id).to eq other_user.id
+      expect(reassigned_event.value).to eq 0
+    end
+
+    it 'creates conversation_assigned event with nil user_id on unassignment' do
+      conversation.update!(assignee: user)
+      conversation.update!(assignee: nil)
+
+      event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation,
+                                                                      changed_attributes: { 'assignee_id' => [user.id, nil] })
+      listener.conversation_assigned(event)
+
+      unassigned_event = account.reporting_events.where(name: 'conversation_assigned').first
+      expect(unassigned_event.user_id).to be_nil
+      expect(unassigned_event.value).to eq 0
+    end
+
+    it 'calculates correct time for assignment after unassignment' do
+      conversation.update!(assignee: user)
+
+      # Create unassignment event first
+      event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation,
+                                                                      changed_attributes: { 'assignee_id' => [user.id, nil] })
+      listener.conversation_assigned(event)
+
+      travel_to 5.minutes.from_now do
+        conversation.update!(assignee: user, updated_at: Time.zone.now)
+        event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation,
+                                                                        changed_attributes: { 'assignee_id' => [nil, user.id] })
+        listener.conversation_assigned(event)
+
+        reassigned_event = account.reporting_events.where(name: 'conversation_assigned').last
+        expect(reassigned_event.user_id).to eq user.id
+        expect(reassigned_event.value).to be_within(5).of(300) # 5 minutes
+      end
+    end
+  end
+
   describe '#conversation_created' do
     it 'creates conversation_created event' do
       expect(account.reporting_events.where(name: 'conversation_created').count).to be 0
