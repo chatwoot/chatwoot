@@ -363,91 +363,81 @@ const handleDrop = (event) => {
         "
       />
 
-      <!-- Excel Preview Modal -->
-      <div
-        v-if="showExcelPreviewModal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      <woot-modal
+        class="max-h-screen flex flex-col"
+        :show="showExcelPreviewModal"
+        :on-close="() => closeExcelPreview()"
       >
-        <div class="bg-white rounded-lg shadow-lg max-w-6xl max-h-[80vh] w-full mx-4 flex flex-col">
-          <!-- Modal Header -->
-          <div class="p-6 border-b border-gray-200">
-            <h2 class="text-xl font-semibold text-gray-900">
-              Excel File Preview: {{ pendingExcelFile?.name }}
-            </h2>
-            <p class="text-sm text-gray-600 mt-1">
-              Showing first 10 rows. Total rows in file may be more.
-            </p>
-          </div>
+        <woot-modal-header 
+          class="mb-4"
+          :header-title="`Excel File Preview: ${pendingExcelFile?.name}`"
+          :header-content="`Menampilkan 10 baris pertama. Total baris dalam file mungkin lebih banyak.`"
+        />
+        
+        <!-- Scrollable container for table + description -->
+        <div class="flex flex-col max-h-96 p-6 overflow-auto mb-4 flex-1">
           
-          <!-- Modal Content -->
-          <div class="p-6 flex-1 overflow-auto">
-            <div class="overflow-x-auto">
-              <table class="min-w-full border-collapse border border-gray-300">
-                <thead>
-                  <tr class="bg-gray-50">
-                    <th
-                      v-for="(header, index) in excelHeaders"
-                      :key="index"
-                      class="border border-gray-300 px-4 py-2 text-left text-sm font-medium text-gray-700"
-                    >
-                      {{ header || `Column ${index + 1}` }}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="(row, rowIndex) in excelPreviewData"
-                    :key="rowIndex"
-                    :class="rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'"
-                  >
-                    <td
-                      v-for="(cell, cellIndex) in excelHeaders"
-                      :key="cellIndex"
-                      class="border border-gray-300 px-4 py-2 text-sm text-gray-900"
-                    >
-                      {{ row[cellIndex] || '' }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            
-            <div v-if="excelPreviewData.length === 0" class="text-center py-8 text-gray-500">
-              No data found in Excel file
-            </div>
-            
-            <!-- Description Text Box -->
-            <div class="mt-6">
-              <label for="excel-description" class="block text-sm font-medium text-gray-700 mb-2">
-                Deskripsi File (Opsional)
-              </label>
-              <textarea
-                id="excel-description"
-                v-model="excelDescription"
-                rows="3"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-                placeholder="Tambahkan deskripsi atau catatan untuk file Excel ini..."
-              ></textarea>
-            </div>
-          </div>
+          <table class="min-w-full border-collapse border border-gray-300">
+            <thead>
+              <tr class="bg-gray-50">
+                <th
+                  v-for="(header, index) in excelHeaders"
+                  :key="index"
+                  class="border border-gray-300 px-4 py-2 text-left text-sm font-medium text-gray-700"
+                >
+                  {{ header || `Column ${index + 1}` }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(row, rowIndex) in excelPreviewData"
+                :key="rowIndex"
+                :class="rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'"
+              >
+                <td
+                  v-for="(cell, cellIndex) in excelHeaders"
+                  :key="cellIndex"
+                  class="border border-gray-300 px-4 py-2 text-sm text-gray-900"
+                >
+                  {{ row[cellIndex] || '' }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
           
-          <!-- Modal Footer -->
-          <div class="p-6 border-t border-gray-200 flex justify-end space-x-3">
-            <Button
-              variant="secondary"
-              @click="closeExcelPreview"
-            >
-              Batal
-            </Button>
-            <Button
-              variant="primary"
-              @click="confirmExcelUpload"
-            >
-              Tambahkan ke Antrian
-            </Button>
+          <div v-if="excelPreviewData.length === 0" class="text-center py-8 text-gray-500">
+            No data found in Excel file
+          </div>
+
+          <!-- Description Text Box -->
+          <div class="mt-6">
+            <label for="excel-description" class="block text-sm font-medium text-gray-700 mb-2">
+              Deskripsi File (Opsional)
+            </label>
+            <textarea
+              id="excel-description"
+              v-model="excelDescription"
+              rows="3"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none overflow-auto"
+              placeholder="Tambahkan deskripsi atau catatan untuk file Excel ini..."
+            ></textarea>
           </div>
         </div>
-      </div>
+        
+        <!-- Modal Footer -->
+        <div class="p-6 flex justify-end space-x-3 border-t border-gray-200">
+          <woot-button data-testid="excel-confirm" @click.prevent="confirmExcelUpload">
+            Tambahkan ke Antrian
+          </woot-button>
+          <woot-button 
+            class="button clear" 
+            @click.prevent="closeExcelPreview"
+          >
+            Batal
+          </woot-button>
+        </div>
+      </woot-modal>
     </div>
     <div class="w-[200px]">
       <div class="sticky top-0 flex flex-col gap-2 px-2">
