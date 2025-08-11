@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 id:
   hello: 'Hello world'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
@@ -53,6 +58,13 @@ id:
       invalid_message_type: 'Jenis pesan tidak valid. Tindakan tidak diizinkan'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: Periksa sambungan jaringan, alamat IMAP, dan coba lagi.
@@ -340,3 +352,12 @@ id:
 
       Transcript:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'Email is required'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

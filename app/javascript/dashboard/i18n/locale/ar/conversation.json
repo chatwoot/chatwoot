@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "جاري جلب الوكلاء...",
       "ASSIGN_TEAM": "تعيين فريق",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "معرف المحادثة {conversationId} تم تعيينه لـ \"{agentName}\"",

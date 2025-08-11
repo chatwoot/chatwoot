@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "Agentai užkraunami...",
       "ASSIGN_TEAM": "Priskirti komandą",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Pokalbis id {conversationId} priskirtas \"{agentName}\"",
