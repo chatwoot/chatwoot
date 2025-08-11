@@ -67,6 +67,23 @@ class ReportingEventListener < BaseListener
     reporting_event.save!
   end
 
+  def conversation_created(event)
+    conversation = extract_conversation_and_account(event)[0]
+
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_created',
+      value: 0,
+      value_in_business_hours: 0,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: nil,
+      conversation_id: conversation.id,
+      event_start_time: conversation.created_at,
+      event_end_time: conversation.created_at
+    )
+    reporting_event.save!
+  end
+
   def conversation_bot_handoff(event)
     conversation = extract_conversation_and_account(event)[0]
 

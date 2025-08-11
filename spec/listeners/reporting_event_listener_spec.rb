@@ -10,6 +10,30 @@ describe ReportingEventListener do
                      account: account, inbox: inbox, conversation: conversation)
   end
 
+  describe '#conversation_created' do
+    it 'creates conversation_created event' do
+      expect(account.reporting_events.where(name: 'conversation_created').count).to be 0
+      event = Events::Base.new('conversation.created', Time.zone.now, conversation: conversation)
+      listener.conversation_created(event)
+      expect(account.reporting_events.where(name: 'conversation_created').count).to be 1
+
+      created_event = account.reporting_events.where(name: 'conversation_created').first
+      expect(created_event.value).to eq 0
+      expect(created_event.conversation_id).to eq conversation.id
+    end
+
+    it 'creates conversation_created event when conversation is created' do
+      # ensure gravatar job does not send a request
+      stub_request(:get, /gravatar\.com/).to_return(status: 404, body: '', headers: {})
+
+      expect do
+        perform_enqueued_jobs do
+          create(:conversation, account: account, inbox: inbox)
+        end
+      end.to change { account.reporting_events.where(name: 'conversation_created').count }.by(1)
+    end
+  end
+
   describe '#conversation_resolved' do
     it 'creates conversation_resolved event' do
       expect(account.reporting_events.where(name: 'conversation_resolved').count).to be 0
