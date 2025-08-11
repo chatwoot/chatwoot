@@ -8,6 +8,14 @@ authors = ["Jules <jules@example.com>"]
 python = "^3.11"
 fastapi = "^0.111.0"
 uvicorn = {extras = ["standard"], version = "^0.29.0"}
+sqlalchemy = "^2.0.29"
+psycopg2-binary = "^2.9.9" # PostgreSQL driver
+passlib = {extras = ["bcrypt"], version = "^1.7.4"} # For password hashing
+python-jose = {extras = ["cryptography"], version = "^3.3.0"} # For JWT
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+httpx = "^0.27.0" # For testing the API
 
 [build-system]
 requires = ["poetry-core"]
