@@ -107,6 +107,31 @@ class ReportingEventListener < BaseListener
     reporting_event.save!
   end
 
+  def conversation_assigned(event)
+    conversation = extract_conversation_and_account(event)[0]
+    previous_changes = event.data[:changed_attributes] || {}
+    puts "DEBUG: previous_changes = #{previous_changes.inspect}"
+    return unless previous_changes['assignee_id']
+
+    puts "DEBUG: assignee_changed_to_assigned? = #{assignee_changed_to_assigned?(previous_changes)}"
+    puts "DEBUG: assignee_changed_to_unassigned? = #{assignee_changed_to_unassigned?(previous_changes)}"
+
+    if assignee_changed_to_assigned?(previous_changes)
+      puts 'DEBUG: Creating assignment event'
+      assignment_time_data = calculate_assignment_time(conversation, previous_changes)
+      puts "DEBUG: assignment_time_data = #{assignment_time_data.inspect}"
+      create_assignment_event(conversation, assignment_time_data)
+    elsif assignee_changed_to_unassigned?(previous_changes)
+      puts 'DEBUG: Creating unassignment event'
+      create_unassignment_event(conversation)
+    else
+      # Re-assignment: user to different user
+      puts 'DEBUG: Creating re-assignment event with value 0'
+      reassignment_data = { value: 0, business_hours_value: 0, start_time: conversation.updated_at }
+      create_assignment_event(conversation, reassignment_data)
+    end
+  end
+
   def conversation_opened(event)
     conversation = extract_conversation_and_account(event)[0]
 
@@ -143,6 +168,64 @@ class ReportingEventListener < BaseListener
       user_id: conversation.assignee_id,
       conversation_id: conversation.id,
       event_start_time: start_time,
+      event_end_time: conversation.updated_at
+    )
+    reporting_event.save!
+  end
+
+  def calculate_assignment_time(conversation, previous_changes)
+    previous_assignee = previous_changes['assignee_id'][0]
+
+    if previous_assignee.nil?
+      calculate_time_to_assignment(conversation)
+    else
+      # Re-assignment - value is 0
+      { value: 0, business_hours_value: 0, start_time: conversation.updated_at }
+    end
+  end
+
+  def calculate_time_to_assignment(conversation)
+    last_unassignment = find_last_unassignment_event(conversation)
+
+    start_time = if last_unassignment
+                   # Assignment after unassignment
+                   last_unassignment.event_end_time
+                 else
+                   # First assignment
+                   conversation.created_at
+                 end
+
+    time_to_assignment = conversation.updated_at.to_i - start_time.to_i
+    business_hours_value = business_hours(conversation.inbox, start_time, conversation.updated_at)
+
+    { value: time_to_assignment, business_hours_value: business_hours_value, start_time: start_time }
+  end
+
+  def create_assignment_event(conversation, time_data)
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_assigned',
+      value: time_data[:value],
+      value_in_business_hours: time_data[:business_hours_value],
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: time_data[:start_time],
+      event_end_time: conversation.updated_at
+    )
+    reporting_event.save!
+  end
+
+  def create_unassignment_event(conversation)
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_assigned',
+      value: 0,
+      value_in_business_hours: 0,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: nil,
+      conversation_id: conversation.id,
+      event_start_time: conversation.updated_at,
       event_end_time: conversation.updated_at
     )
     reporting_event.save!

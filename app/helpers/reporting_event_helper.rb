@@ -64,6 +64,31 @@ module ReportingEventHelper
     { format_time(working_hour.open_hour, working_hour.open_minutes) => format_time(working_hour.close_hour, working_hour.close_minutes) }
   end
 
+  def assignee_changed_to_assigned?(previous_changes)
+    return false unless previous_changes['assignee_id']
+
+    previous_assignee, current_assignee = previous_changes['assignee_id']
+    previous_assignee.nil? && current_assignee.present?
+  end
+
+  def assignee_changed_to_unassigned?(previous_changes)
+    return false unless previous_changes['assignee_id']
+
+    previous_assignee, current_assignee = previous_changes['assignee_id']
+    previous_assignee.present? && current_assignee.nil?
+  end
+
+  def find_last_unassignment_event(conversation)
+    last_assignment_event = ReportingEvent.where(
+      conversation_id: conversation.id,
+      name: 'conversation_assigned'
+    ).order(event_end_time: :desc).first
+
+    return last_assignment_event if last_assignment_event&.user_id.nil?
+
+    nil
+  end
+
   def format_time(hour, minute)
     hour = hour < 10 ? "0#{hour}" : hour
     minute = minute < 10 ? "0#{minute}" : minute
