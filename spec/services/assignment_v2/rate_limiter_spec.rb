@@ -308,8 +308,12 @@ RSpec.describe AssignmentV2::RateLimiter, type: :service do
       let(:policy) { create(:assignment_policy, account: account, fair_distribution_limit: 5, fair_distribution_window: 7200) }
 
       it 'uses policy window' do
-        # Create assignments 1.5 hours ago (within 2-hour window)
-        travel_to(90.minutes.ago) do
+        # Calculate the current window start based on the 2-hour window
+        current_time = Time.current
+        window_start_timestamp = (current_time.to_i / 7200) * 7200
+
+        # Create assignments 30 minutes after window start (definitely within window)
+        travel_to(Time.zone.at(window_start_timestamp + 30.minutes)) do
           3.times do
             create(:conversation, inbox: inbox, assignee: agent, updated_at: Time.current)
           end
