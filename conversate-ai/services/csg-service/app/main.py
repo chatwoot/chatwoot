@@ -61,13 +61,18 @@ async def ingest_events(events: List[schemas.IngestEvent], background_tasks: Bac
 
 def process_single_event(event: schemas.IngestEvent):
     """
-    Placeholder function for processing a single event and adding it to the graph.
+    This function is now a placeholder as the logic is moved to the consumer.
+    The consumer calls graph_db.process_event directly.
     """
     logger.info(f"Processing event {event.event_id} for actor {event.actor_id}")
-    # 1. Create/get Actor node
-    # 2. Create Turn node
-    # 3. Create Episode node if it doesn't exist
-    # 4. Link nodes together (Actor -> Turn, Turn -> Episode)
-    # 5. Process labels to create Intent/Entity nodes and link them to the Turn
-    # 6. Process outcome and link it
-    pass
+    graph_db.process_event(event)
+
+@app.get("/episodes/{episode_id}", response_model=List[schemas.Turn])
+def get_episode(episode_id: str):
+    """
+    Retrieves the history of turns for a given conversation episode.
+    """
+    history = graph_db.get_episode_history(episode_id)
+    if not history:
+        raise HTTPException(status_code=404, detail="Episode not found")
+    return history
