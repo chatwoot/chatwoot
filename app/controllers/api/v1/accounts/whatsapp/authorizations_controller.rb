@@ -57,7 +57,6 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     missing_params << 'code' if params[:code].blank?
     missing_params << 'business_id' if params[:business_id].blank?
     missing_params << 'waba_id' if params[:waba_id].blank?
-    missing_params << 'is_business_app_onboarding' if params[:is_business_app_onboarding].blank?
 
     return if missing_params.empty?
 
