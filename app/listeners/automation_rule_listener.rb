@@ -34,6 +34,28 @@ class AutomationRuleListener < BaseListener
     end
   end
 
+  private
+
+  def process_conversation_event(event, event_name)
+    return if performed_by_automation?(event)
+
+    auto_reply_skip_events = %w[conversation_created conversation_opened]
+    return if auto_reply_skip_events.include?(event_name) && ignore_auto_reply_event?(event)
+
+    conversation = event.data[:conversation]
+    account = conversation.account
+    changed_attributes = event.data[:changed_attributes]
+
+    return unless rule_present?(event_name, account)
+
+    rules = current_account_rules(event_name, account)
+
+    rules.each do |rule|
+      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
+      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
+    end
+  end
+
   def rule_present?(event_name, account)
     return if account.blank?
 
@@ -60,27 +82,5 @@ class AutomationRuleListener < BaseListener
   def ignore_message_created_event?(event)
     message = event.data[:message]
     performed_by_automation?(event) || message.activity? || message.auto_reply_email?
-  end
-
-  private
-
-  def process_conversation_event(event, event_name)
-    return if performed_by_automation?(event)
-
-    auto_reply_skip_events = %w[conversation_created conversation_opened]
-    return if auto_reply_skip_events.include?(event_name) && ignore_auto_reply_event?(event)
-
-    conversation = event.data[:conversation]
-    account = conversation.account
-    changed_attributes = event.data[:changed_attributes]
-
-    return unless rule_present?(event_name, account)
-
-    rules = current_account_rules(event_name, account)
-
-    rules.each do |rule|
-      conditions_match = ::AutomationRules::ConditionsFilterService.new(rule, conversation, { changed_attributes: changed_attributes }).perform
-      AutomationRules::ActionService.new(rule, account, conversation).perform if conditions_match.present?
-    end
   end
 end
