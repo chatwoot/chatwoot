@@ -54,7 +54,7 @@ RSpec.describe Cloudflare::CreateCustomHostnameService do
 
           stub_request(:post, 'https://api.cloudflare.com/client/v4/zones/test-zone-id/custom_hostnames')
             .with(headers: { 'Authorization' => 'Bearer test-api-key', 'Content-Type' => 'application/json' },
-                  body: { hostname: 'test.example.com' }.to_json)
+                  body: { hostname: 'test.example.com', ssl: { method: 'http', type: 'dv' } }.to_json)
             .to_return(status: 422, body: error_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
           result = service.perform
@@ -72,7 +72,7 @@ RSpec.describe Cloudflare::CreateCustomHostnameService do
 
           stub_request(:post, 'https://api.cloudflare.com/client/v4/zones/test-zone-id/custom_hostnames')
             .with(headers: { 'Authorization' => 'Bearer test-api-key', 'Content-Type' => 'application/json' },
-                  body: { hostname: 'test.example.com' }.to_json)
+                  body: { hostname: 'test.example.com', ssl: { method: 'http', type: 'dv' } }.to_json)
             .to_return(status: 200, body: success_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
           result = service.perform
@@ -92,17 +92,22 @@ RSpec.describe Cloudflare::CreateCustomHostnameService do
               }
             }
           }
+          expect(portal.ssl_settings).to eq({})
 
           stub_request(:post, 'https://api.cloudflare.com/client/v4/zones/test-zone-id/custom_hostnames')
             .with(headers: { 'Authorization' => 'Bearer test-api-key', 'Content-Type' => 'application/json' },
-                  body: { hostname: 'test.example.com' }.to_json)
+                  body: { hostname: 'test.example.com', ssl: { method: 'http', type: 'dv' } }.to_json)
             .to_return(status: 200, body: success_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
-          expect(portal).to receive(:update).with(ssl_settings: { 'cf_verification_id': 'verification-id',
-                                                                  'cf_verification_body': 'verification-body' })
-
           result = service.perform
-
+          expect(portal.ssl_settings).to eq(
+            {
+              'cf_verification_id' => 'verification-id',
+              'cf_verification_body' => 'verification-body',
+              'cf_status' => nil,
+              'cf_verification_errors' => ''
+            }
+          )
           expect(result).to eq(data: success_response['result'])
         end
       end

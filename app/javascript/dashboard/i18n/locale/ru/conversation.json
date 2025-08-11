@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "Загрузка агентов...",
       "ASSIGN_TEAM": "Назначить команду",
       "DELETE": "Удалить диалог",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID разговора {conversationId} присвоен \"{agentName}\"",

@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "Temsilciler Yükleniyor...",
       "ASSIGN_TEAM": "Takım ata",
       "DELETE": "Sohbeti sil",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Sohbet kimliği {conversationId} \"{agentName}\" tarafından atanmış",

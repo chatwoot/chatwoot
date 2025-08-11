@@ -1,0 +1,120 @@
+Delivered-To: robert.smith@gmail.com
+Return-Path: <>
+Subject: Delivery Status Notification (Failure)
+From: Mail Delivery Subsystem <mailer-daemon@googlemail.com>
+To: robert.smith@gmail.com
+Content-Type: multipart/report; boundary="00000000000093475906390e1e9b"; report-type=delivery-status
+Auto-Submitted: auto-replied
+Message-ID: <686707c9.050a0220.302e7d.0cb2.GMR@mx.google.com>
+Date: Thu, 03 Jul 2025 15:44:25 -0700 (PDT)
+X-Failed-Recipients: alex.jones@fictionalcorp.com
+
+--00000000000093475906390e1e9b
+Content-Type: multipart/related; boundary="000000000000936d8406390e1ec7"
+
+--000000000000936d8406390e1ec7
+Content-Type: multipart/alternative; boundary="000000000000936d9006390e1ec8"
+
+--000000000000936d9006390e1ec8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+
+** Address not found **
+
+Your message wasn't delivered to alex.jones@fictionalcorp.com because the address co=
+uldn't be found or is unable to receive email.
+
+Learn more here: https://support.google.com/mail/?p=3DNoSuchUser
+
+The response was:
+
+550 5.1.1 The email account that you tried to reach does not exist. Please =
+try double-checking the recipient's email address for typos or unnecessary =
+spaces. For more information, go to https://support.google.com/mail/?p=3DNo=
+SuchUser d2e1a72fcca58-74ce2b0525csor332154b3a.0 - gsmtp
+
+--000000000000936d9006390e1ec8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<style>
+* {
+font-family:Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</style>
+</head>
+<body>
+<table cellpadding=3D"0" cellspacing=3D"0" class=3D"email-wrapper" style=3D=
+"padding-top:32px;background-color:#ffffff;"><tbody>
+<tr><td>
+<table cellpadding=3D0 cellspacing=3D0><tbody>
+<tr><td style=3D"max-width:560px;padding:24px 24px 32px;background-color:#f=
+afafa;border:1px solid #e0e0e0;border-radius:2px">
+<img style=3D"padding:0 24px 16px 0;float:left" width=3D72 height=3D72 alt=
+=3D"Error Icon" src=3D"cid:icon.png">
+<table style=3D"min-width:272px;padding-top:8px"><tbody>
+<tr><td><h2 style=3D"font-size:20px;color:#212121;font-weight:bold;margin:0=
+">
+Address not found
+</h2></td></tr>
+<tr><td style=3D"padding-top:20px;color:#757575;font-size:16px;font-weight:=
+normal;text-align:left">
+Your message wasn't delivered to <a style=3D'color:#212121;text-decoration:=
+none'><b>alex.jones@fictionalcorp.com</b></a> because the address couldn't be found =
+or is unable to receive email.
+</td></tr>
+<tr><td style=3D"padding-top:24px;color:#4285F4;font-size:14px;font-weight:=
+bold;text-align:left">
+<a style=3D"text-decoration:none" href=3D"https://support.google.com/mail/?=
+p=3DNoSuchUser">LEARN MORE</a>
+</td></tr>
+</tbody></table>
+</td></tr>
+</tbody></table>
+</td></tr>
+<tr style=3D"border:none;background-color:#fff;font-size:12.8px;width:90%">
+<td align=3D"left" style=3D"padding:48px 10px">
+The response was:<br/>
+<p style=3D"font-family:monospace">
+550 5.1.1 The email account that you tried to reach does not exist. Please =
+try double-checking the recipient's email address for typos or unnecessary =
+spaces. For more information, go to https://support.google.com/mail/?p=3DNo=
+SuchUser d2e1a72fcca58-74ce2b0525csor332154b3a.0 - gsmtp
+</p>
+</td>
+</tr>
+</tbody></table>
+</body>
+</html>
+
+--000000000000936d9006390e1ec8--
+--000000000000936d8406390e1ec7
+Content-Type: image/png; name="icon.png"
+Content-Disposition: attachment; filename="icon.png"
+Content-Transfer-Encoding: base64
+Content-ID: <icon.png>
+
+--000000000000936d8406390e1ec7--
+--00000000000093475906390e1e9b
+Content-Type: message/delivery-status
+
+--00000000000093475906390e1e9b
+Content-Type: message/rfc822
+
+Date: Thu, 03 Jul 2025 15:44:23 -0700
+From: Robert Smith <robert.smith@gmail.com>
+Reply-To: robert.smith@gmail.com
+To: alex.jones@fictionalcorp.com
+Message-ID: <conversation/93775311-9416-4428-964b-862001f8a8b2/messages/27855337@gmail.com>
+In-Reply-To: <account/1/conversation/93775311-9416-4428-964b-862001f8a8b2@gmail.com>
+Subject: Just checking in
+Mime-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<p>Hey, just checking in. Let me know if you got my earlier message.</p>
+
+--00000000000093475906390e1e9b--
