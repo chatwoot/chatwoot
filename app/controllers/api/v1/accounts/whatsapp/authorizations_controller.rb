@@ -18,10 +18,6 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   def process_embedded_signup
     service = Whatsapp::EmbeddedSignupService.new(
       account: Current.account,
-      code: params[:code],
-      business_id: params[:business_id],
-      waba_id: params[:waba_id],
-      phone_number_id: params[:phone_number_id],
       params: params.permit(:code, :business_id, :waba_id, :phone_number_id, :is_business_app_onboarding).to_h.symbolize_keys,
       inbox_id: params[:inbox_id]
     )

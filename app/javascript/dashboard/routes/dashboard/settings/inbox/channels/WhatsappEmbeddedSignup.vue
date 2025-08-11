@@ -99,16 +99,9 @@ const completeSignupFlow = async businessDataParam => {
 
   isProcessing.value = true;
 
-  // Show different processing messages based on the signup type
-  if (businessDataParam.is_business_app_onboarding) {
-    processingMessage.value = t(
-      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING_BUSINESS_APP'
-    );
-  } else {
-    processingMessage.value = t(
-      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
-    );
-  }
+  processingMessage.value = t(
+    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
+  );
 
   try {
     const params = {

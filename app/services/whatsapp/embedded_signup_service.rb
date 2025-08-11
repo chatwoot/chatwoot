@@ -47,7 +47,6 @@ class Whatsapp::EmbeddedSignupService
     missing_params << 'code' if @code.blank?
     missing_params << 'business_id' if @business_id.blank?
     missing_params << 'waba_id' if @waba_id.blank?
-    missing_params << 'is_business_app_onboarding' if @is_business_app_onboarding.blank?
 
     return if missing_params.empty?
 
