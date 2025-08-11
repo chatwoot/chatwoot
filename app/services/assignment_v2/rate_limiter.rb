@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Rate limiter for assignment operations
-# Uses Redis to track assignment counts per agent per time window
+# Uses SQL to track assignment counts per agent per time window
 # based on assignment policy's fair_distribution_limit and fair_distribution_window
 class AssignmentV2::RateLimiter
   pattr_initialize [:inbox!, :user!]
@@ -12,19 +12,6 @@ class AssignmentV2::RateLimiter
     return true unless policy_exists?
 
     current_count < rate_limit
-  end
-
-  # Record an assignment for rate limiting purposes
-  # @param conversation [Conversation] The conversation being assigned
-  def record_assignment(_conversation)
-    return unless policy_exists?
-
-    key = rate_limit_key
-    redis = Redis.new(Redis::Config.app)
-    redis.multi do |multi|
-      multi.incr(key)
-      multi.expire(key, time_window)
-    end
   end
 
   # Get current rate limit status for the user
@@ -58,9 +45,16 @@ class AssignmentV2::RateLimiter
   end
 
   def current_count
-    key = rate_limit_key
-    redis = Redis.new(Redis::Config.app)
-    redis.get(key).to_i
+    # Count conversations assigned to this user in the current time window
+    # from this inbox
+    window_start = Time.zone.at(current_window)
+
+    Conversation
+      .where(inbox_id: inbox.id)
+      .where(assignee_id: user.id)
+      .where('updated_at >= ?', window_start)
+      .where.not(assignee_id: nil)
+      .count
   end
 
   def rate_limit
@@ -69,10 +63,6 @@ class AssignmentV2::RateLimiter
 
   def time_window
     policy&.fair_distribution_window || 3600
-  end
-
-  def rate_limit_key
-    "assignment_v2:rate_limit:#{user.id}:#{current_window}"
   end
 
   def current_window

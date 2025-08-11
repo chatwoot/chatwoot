@@ -104,24 +104,4 @@ RSpec.describe AssignmentPolicy, type: :model do
       )
     end
   end
-
-  describe 'cache invalidation' do
-    let(:inbox) { create(:inbox, account: account) }
-
-    before { create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy) }
-
-    it 'clears assignment caches on update' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:policy:#{assignment_policy.id}")
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
-
-      assignment_policy.update!(name: 'Updated Policy')
-    end
-
-    it 'clears assignment caches on destroy' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:policy:#{assignment_policy.id}")
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
-
-      assignment_policy.destroy!
-    end
-  end
 end

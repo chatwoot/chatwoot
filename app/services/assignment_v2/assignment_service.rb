@@ -75,7 +75,6 @@ class AssignmentV2::AssignmentService
   def assign_conversation_to_agent(conversation, agent)
     conversation.update!(assignee: agent)
     create_assignment_activity(conversation, agent)
-    record_assignment_in_rate_limiter(conversation, agent)
     true
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error "AssignmentV2: Failed to assign conversation #{conversation.id}: #{e.message}"
@@ -97,13 +96,6 @@ class AssignmentV2::AssignmentService
 
   def log_no_agents_available
     Rails.logger.warn("AssignmentV2: No agents available for inbox #{inbox.id}")
-  end
-
-  def record_assignment_in_rate_limiter(conversation, agent)
-    rate_limiter = AssignmentV2::RateLimiter.new(inbox: inbox, user: agent)
-    rate_limiter.record_assignment(conversation)
-  rescue StandardError => e
-    Rails.logger.error "AssignmentV2: Failed to record assignment in rate limiter: #{e.message}"
   end
 end
 

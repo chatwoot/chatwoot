@@ -42,14 +42,6 @@ class AssignmentPolicy < ApplicationRecord
   validates :assignment_order, inclusion: { in: assignment_orders.keys }
   validates :conversation_priority, inclusion: { in: conversation_priorities.keys }
 
-  # Scopes
-  scope :enabled, -> { where(enabled: true) }
-  scope :disabled, -> { where(enabled: false) }
-
-  # Callbacks
-  after_update_commit :clear_assignment_caches
-  after_destroy :clear_assignment_caches
-
   def webhook_data
     {
       id: id,
@@ -61,16 +53,6 @@ class AssignmentPolicy < ApplicationRecord
       fair_distribution_window: fair_distribution_window,
       enabled: enabled
     }
-  end
-
-  private
-
-  def clear_assignment_caches
-    # Clear Redis caches when policy is updated
-    Rails.cache.delete("assignment_v2:policy:#{id}")
-    inboxes.find_each do |inbox|
-      Rails.cache.delete("assignment_v2:inbox_policy:#{inbox.id}")
-    end
   end
 end
 
