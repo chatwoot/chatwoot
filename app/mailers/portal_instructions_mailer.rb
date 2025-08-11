@@ -15,7 +15,7 @@ class PortalInstructionsMailer < ApplicationMailer
   private
 
   def liquid_locals
-    { cname_record: @cname_record }
+    super.merge({ cname_record: @cname_record })
   end
 
   def generate_cname_record

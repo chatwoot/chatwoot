@@ -8,8 +8,8 @@ class Whatsapp::WebhookSetupService
 
   def perform
     validate_parameters!
-    # Skip registration for mobile coexistence
-    register_phone_number unless @channel.provider_config['is_business_app_onboarding']
+    # Skip registration for business app onboarding or if phone number is already verified
+    register_phone_number unless @channel.provider_config['is_business_app_onboarding'] || phone_number_verified?
     setup_webhook
   end
 
@@ -64,5 +64,14 @@ class Whatsapp::WebhookSetupService
     phone_number = @channel.phone_number
 
     "#{frontend_url}/webhooks/whatsapp/#{phone_number}"
+  end
+
+  def phone_number_verified?
+    phone_number_id = @channel.provider_config['phone_number_id']
+
+    @api_client.phone_number_verified?(phone_number_id)
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Phone registration status check failed, but continuing: #{e.message}")
+    false
   end
 end

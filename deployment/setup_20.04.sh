@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.4.1
+# Script Version: 3.4.2
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -990,7 +990,7 @@ EOF
    # Check if CW_VERSION is 4.0 or above
   if [[ "$(printf '%s\n' "$CW_VERSION" "4.0" | sort -V | head -n 1)" == "4.0" ]]; then
     echo "Chatwoot v4.0 and above requires pgvector support in PostgreSQL."
-    read -p "Does your postgres support pgvector and want to proceed with the upgrade? [Y/n]: " user_input
+    read -p "Does your postgres support pgvector and want to proceed with the upgrade? [y/N]: " user_input
     user_input=${user_input:-Y}
     if [[ "$user_input" =~ ^([yY][eE][sS]|[yY])$ ]]; then
       echo "Proceeding with the upgrade..."
@@ -1005,6 +1005,7 @@ EOF
   upgrade_redis
   upgrade_node
   get_pnpm
+  
   sudo -i -u chatwoot << EOF
 
   # Navigate to the Chatwoot directory
@@ -1016,9 +1017,9 @@ EOF
 
   # Ensure the ruby version is upto date
   # Parse the latest ruby version
-  latest_ruby_version="$(cat '.ruby-version')"
-  rvm install "ruby-$latest_ruby_version"
-  rvm use "$latest_ruby_version" --default
+  latest_ruby_version="\$(cat '.ruby-version')"
+  rvm install "ruby-\$latest_ruby_version"
+  rvm use "\$latest_ruby_version" --default
 
   # Update dependencies
   bundle
