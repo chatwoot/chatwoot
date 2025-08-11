@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "Notiek aģentu ielāde...",
       "ASSIGN_TEAM": "Piešķirt komandu",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Sarunas id {conversationId} piešķirts \"{agentName}\"",
