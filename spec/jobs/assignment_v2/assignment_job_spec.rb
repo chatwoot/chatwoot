@@ -43,8 +43,9 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
       end
 
       it 'assigns multiple conversations for inbox' do
+        # Mock the feature flag for assignment_v2
+        allow(inbox.account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
         allow(Inbox).to receive(:find_by).with(id: inbox.id).and_return(inbox)
-        allow(account).to receive(:assignment_v2_enabled?).and_return(true)
 
         service = instance_double(AssignmentV2::AssignmentService)
         expect(AssignmentV2::AssignmentService).to receive(:new).with(inbox: inbox).and_return(service)
@@ -54,8 +55,9 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
       end
 
       it 'logs the number of assigned conversations' do
+        # Mock the feature flag for assignment_v2
+        allow(inbox.account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
         allow(Inbox).to receive(:find_by).with(id: inbox.id).and_return(inbox)
-        allow(account).to receive(:assignment_v2_enabled?).and_return(true)
 
         service = instance_double(AssignmentV2::AssignmentService)
         allow(AssignmentV2::AssignmentService).to receive(:new).with(inbox: inbox).and_return(service)
@@ -178,9 +180,9 @@ RSpec.describe AssignmentV2::AssignmentJob, type: :job do
     it 'processes large inbox assignments in batches' do
       # Create many unassigned conversations
       create_list(:conversation, 100, inbox: inbox, assignee: nil)
-
+      # Mock the feature flag for assignment_v2
+      allow(inbox.account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
       allow(Inbox).to receive(:find_by).with(id: inbox.id).and_return(inbox)
-      allow(account).to receive(:assignment_v2_enabled?).and_return(true)
 
       service = instance_double(AssignmentV2::AssignmentService)
       allow(AssignmentV2::AssignmentService).to receive(:new).and_return(service)

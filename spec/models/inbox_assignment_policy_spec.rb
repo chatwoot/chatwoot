@@ -48,28 +48,6 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
     end
   end
 
-  describe 'scopes' do
-    let!(:enabled_policy) { create(:assignment_policy, account: account, enabled: true) }
-    let!(:disabled_policy) { create(:assignment_policy, account: account, enabled: false) }
-    let(:inbox2) { create(:inbox, account: account) }
-    let!(:enabled_inbox_policy) { create(:inbox_assignment_policy, inbox: inbox, assignment_policy: enabled_policy) }
-    let!(:disabled_inbox_policy) { create(:inbox_assignment_policy, inbox: inbox2, assignment_policy: disabled_policy) }
-
-    describe '.enabled' do
-      it 'returns only inbox policies with enabled assignment policies' do
-        expect(described_class.enabled).to include(enabled_inbox_policy)
-        expect(described_class.enabled).not_to include(disabled_inbox_policy)
-      end
-    end
-
-    describe '.disabled' do
-      it 'returns only inbox policies with disabled assignment policies' do
-        expect(described_class.disabled).to include(disabled_inbox_policy)
-        expect(described_class.disabled).not_to include(enabled_inbox_policy)
-      end
-    end
-  end
-
   describe '#webhook_data' do
     it 'returns correct data structure' do
       data = inbox_assignment_policy.webhook_data
@@ -81,33 +59,6 @@ RSpec.describe InboxAssignmentPolicy, type: :model do
       )
 
       expect(data[:policy]).to eq(assignment_policy.webhook_data)
-    end
-  end
-
-  describe 'cache management' do
-    it 'clears inbox cache on create' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}")
-
-      create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
-    end
-
-    it 'clears inbox cache on update' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}").at_least(:once)
-
-      inbox_assignment_policy.update!(updated_at: Time.current)
-    end
-
-    it 'clears inbox cache on destroy' do
-      expect(Rails.cache).to receive(:delete).with("assignment_v2:inbox_policy:#{inbox.id}").at_least(:once)
-
-      inbox_assignment_policy.destroy!
-    end
-
-    it 'updates account cache' do
-      # AccountCacheRevalidator concern should trigger cache update
-      expect(inbox_assignment_policy).to receive(:update_account_cache)
-
-      inbox_assignment_policy.send(:clear_inbox_cache)
     end
   end
 

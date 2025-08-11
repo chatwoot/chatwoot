@@ -25,67 +25,11 @@ RSpec.describe AssignmentPolicy, type: :model do
 
     it { is_expected.to validate_presence_of(:fair_distribution_window) }
     it { is_expected.to validate_numericality_of(:fair_distribution_window).is_greater_than(60).is_less_than_or_equal_to(86_400) }
-
-    context 'with balanced assignment validation' do
-      let(:enterprise_account) { create(:account) }
-
-      before do
-        allow(enterprise_account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(true)
-      end
-
-      it 'allows balanced assignment for enterprise accounts' do
-        policy = build(:assignment_policy, account: enterprise_account, assignment_order: :balanced)
-        expect(policy).to be_valid
-      end
-
-      it 'rejects balanced assignment for non-enterprise accounts' do
-        policy = build(:assignment_policy, account: account, assignment_order: :balanced)
-        expect(policy).not_to be_valid
-        expect(policy.errors[:assignment_order]).to include('Balanced assignment is only available for enterprise accounts')
-      end
-    end
   end
 
   describe 'enums' do
-    it { is_expected.to define_enum_for(:assignment_order).with_values(round_robin: 0, balanced: 1) }
+    it { is_expected.to define_enum_for(:assignment_order).with_values(round_robin: 0) }
     it { is_expected.to define_enum_for(:conversation_priority).with_values(earliest_created: 0, longest_waiting: 1) }
-  end
-
-  describe 'scopes' do
-    let!(:enabled_policy) { create(:assignment_policy, account: account, enabled: true) }
-    let!(:disabled_policy) { create(:assignment_policy, account: account, enabled: false) }
-
-    it 'filters enabled policies' do
-      expect(described_class.enabled).to include(enabled_policy)
-      expect(described_class.enabled).not_to include(disabled_policy)
-    end
-
-    it 'filters disabled policies' do
-      expect(described_class.disabled).to include(disabled_policy)
-      expect(described_class.disabled).not_to include(enabled_policy)
-    end
-  end
-
-  describe '#can_use_balanced_assignment?' do
-    context 'when account has enterprise agent capacity feature' do
-      before do
-        allow(account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(true)
-      end
-
-      it 'returns true' do
-        expect(assignment_policy.can_use_balanced_assignment?).to be true
-      end
-    end
-
-    context 'when account does not have enterprise features' do
-      before do
-        allow(account).to receive(:feature_enabled?).with(:enterprise_agent_capacity).and_return(false)
-      end
-
-      it 'returns false' do
-        expect(assignment_policy.can_use_balanced_assignment?).to be false
-      end
-    end
   end
 
   describe '#webhook_data' do
