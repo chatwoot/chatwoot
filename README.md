@@ -1,5 +1,5 @@
-<img src="./.github/screenshots/header.png#gh-light-mode-only" width="100%" alt="Header light mode"/>
-<img src="./.github/screenshots/header-dark.png#gh-dark-mode-only" width="100%" alt="Header dark mode"/>
+<img src="https://buzzcrm.ai/wp-content/uploads/2025/01/logo-y-nombre.png" width="100%" alt="Header light mode"/>
+<img src="https://buzzcrm.ai/wp-content/uploads/2025/01/logo-y-nombre.png" width="100%" alt="Header dark mode"/>
 
 ___
 
@@ -129,12 +129,5 @@ Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md)
 ## Community
 
 If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) server.
-
-## Contributors
-
-Thanks goes to all these [wonderful people](https://buzzcrm.ai/):
-
-<a href="https://buzzcrm.ai/"><img src="https://opencollective.com/buzz/contributors.svg?width=890&button=false" /></a>
-
 
 *Buzz* &copy; 2017-2025, Buzz Inc - Released under the MIT License.
