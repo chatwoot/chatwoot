@@ -61,6 +61,10 @@ gem 'redis'
 gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
+# MongoDB for Excel import storage
+gem 'mongoid', '~> 8.0'
+# Excel file processing
+gem 'roo', '~> 2.10'
 
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
@@ -192,7 +196,7 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'bullet'
+  gem 'bullet', require: false
   gem 'letter_opener'
   gem 'scss_lint', require: false
   gem 'web-console', '>= 4.2.1'
