@@ -124,10 +124,7 @@ For other supported options, checkout our [deployment page](https://buzzcrm.ai/)
 
 ## Security
 
-Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
+Looking to report a vulnerability? Email us to info@tumenteai.com
 
-## Community
-
-If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) server.
 
 *Buzz* &copy; 2017-2025, Buzz Inc - Released under the MIT License.
