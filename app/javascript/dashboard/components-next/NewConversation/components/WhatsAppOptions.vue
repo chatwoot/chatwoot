@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsappTemplateParser from './WhatsappTemplateParser.vue';
 
@@ -87,8 +88,9 @@ const handleSendMessage = template => {
       class="absolute top-full mt-1.5 max-h-96 overflow-y-auto ltr:left-0 rtl:right-0 flex flex-col gap-2 p-4 items-center w-[21.875rem] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
     >
       <div class="relative w-full">
-        <span
-          class="absolute i-lucide-search size-3.5 top-2 ltr:left-3 rtl:right-3"
+        <Icon
+          icon="i-lucide-search"
+          class="absolute size-3.5 top-2 ltr:left-3 rtl:right-3"
         />
         <input
           v-model="searchQuery"
