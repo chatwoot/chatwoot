@@ -44,11 +44,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
   include AccountCacheRevalidator
-  include AssignmentV2FeatureFlag
   include InboxAgentAvailability
-  include InboxChannelTypes
-  include InboxWebhooks
-  include InboxNameSanitization
 
   # Not allowing characters:
   validates :name, presence: true
@@ -106,13 +102,96 @@ class Inbox < ApplicationRecord
     update_account_cache
   end
 
+  # Sanitizes inbox name for balanced email provider compatibility
+  # ALLOWS: /'._- and Unicode letters/numbers/emojis
+  # REMOVES: Forbidden chars (\<>@") + spam-trigger symbols (!#$%&*+=?^`{|}~)
+  def sanitized_name
+    return default_name_for_blank_name if name.blank?
+
+    sanitized = apply_sanitization_rules(name)
+    sanitized.blank? && email? ? display_name_from_email : sanitized
+  end
+
+  def sms?
+    channel_type == 'Channel::Sms'
+  end
+
+  def facebook?
+    channel_type == 'Channel::FacebookPage'
+  end
+
+  def instagram?
+    (facebook? || instagram_direct?) && channel.instagram_id.present?
+  end
+
+  def instagram_direct?
+    channel_type == 'Channel::Instagram'
+  end
+
+  def web_widget?
+    channel_type == 'Channel::WebWidget'
+  end
+
+  def api?
+    channel_type == 'Channel::Api'
+  end
+
+  def email?
+    channel_type == 'Channel::Email'
+  end
+
+  def twilio?
+    channel_type == 'Channel::TwilioSms'
+  end
+
+  def twitter?
+    channel_type == 'Channel::TwitterProfile'
+  end
+
+  def whatsapp?
+    channel_type == 'Channel::Whatsapp'
+  end
+
   def assignable_agents
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
 
+  def active_bot?
+    agent_bot_inbox&.active? || hooks.where(app_id: %w[dialogflow],
+                                            status: 'enabled').count.positive?
+  end
+
+  def inbox_type
+    channel.name
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name
+    }
+  end
+
+  def callback_webhook_url
+    case channel_type
+    when 'Channel::TwilioSms'
+      "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/callback"
+    when 'Channel::Sms'
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
+    when 'Channel::Line'
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/line/#{channel.line_channel_id}"
+    when 'Channel::Whatsapp'
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{channel.phone_number}"
+    end
+  end
+
+  def member_ids_with_assignment_capacity
+    members.ids
+  end
+
   # Assignment V2 methods
   def assignment_v2_enabled?
-    account.assignment_v2_enabled? && assignment_policy.present? && assignment_policy.enabled?
+    account.feature_enabled?('assignment_v2') && assignment_policy.present? && assignment_policy.enabled?
   end
 
   def auto_assignment_enabled?
@@ -123,150 +202,22 @@ class Inbox < ApplicationRecord
     end
   end
 
-  # Returns inbox members who are available for assignment
-  # This method performs all filtering upfront at the database level for optimal performance
-  #
-  # Filters applied:
-  # 1. Online status - Only agents marked as 'online' in OnlineStatusTracker
-  # 2. Capacity limits (Enterprise) - Agents who haven't reached their conversation limit
-  # 3. Rate limiting - Agents who haven't exceeded rate limits (when implemented)
-  # 4. User exclusions - Specific users can be excluded (e.g., for reassignment)
-  #
-  # @param options [Hash] Additional filter options
-  # @option options [Boolean] :check_capacity (true) Whether to check capacity limits
-  # @option options [Boolean] :check_rate_limits (false) Whether to check rate limits
-  # @option options [Array<Integer>] :exclude_user_ids Users to exclude from results
-  #
-  # @return [ActiveRecord::Relation<InboxMember>] Available inbox members with preloaded users
-  #
-  # @example Get all available agents
-  #   inbox.available_agents
-  #
-  # @example Get available agents excluding specific users
-  #   inbox.available_agents(exclude_user_ids: [1, 2, 3])
-  #
-  # @example Get available agents without capacity check (faster but less accurate)
-  #   inbox.available_agents(check_capacity: false)
-  def available_agents(options = {})
-    options = { check_capacity: true }.merge(options)
-
-    # Get online agent IDs
-    online_agent_ids = fetch_online_agent_ids
-    return inbox_members.none if online_agent_ids.empty?
-
-    # Base query - only online agents
-    scope = build_online_agents_scope(online_agent_ids)
-
-    # Apply filters
-    apply_agent_filters(scope, options)
-  end
-
   private
 
-  def build_online_agents_scope(online_agent_ids)
-    inbox_members
-      .joins(:user)
-      .where(users: { id: online_agent_ids })
-      .includes(:user)
+  def default_name_for_blank_name
+    email? ? display_name_from_email : ''
   end
 
-  def apply_agent_filters(scope, options)
-    # Exclude specific users if requested
-    scope = scope.where.not(users: { id: options[:exclude_user_ids] }) if options[:exclude_user_ids].present?
-
-    # Apply capacity filtering for enterprise accounts
-    scope = filter_by_capacity(scope) if options[:check_capacity] && enterprise_capacity_enabled?
-
-    # Apply rate limiting if implemented
-    scope = filter_by_rate_limits(scope) if options[:check_rate_limits] && defined?(AssignmentV2::RateLimiter)
-
-    # Exclude agents who are on leave
-    scope = filter_agents_on_leave(scope) if options[:exclude_on_leave] != false
-
-    scope
+  def apply_sanitization_rules(name)
+    name.gsub(/[\\<>@"!#$%&*+=?^`{|}~:;]/, '')         # Remove forbidden chars
+        .gsub(/[\x00-\x1F\x7F]/, ' ')                   # Replace control chars with spaces
+        .gsub(/\A[[:punct:]]+|[[:punct:]]+\z/, '')      # Remove leading/trailing punctuation
+        .gsub(/\s+/, ' ')                               # Normalize spaces
+        .strip
   end
 
-  def fetch_online_agent_ids
-    OnlineStatusTracker.get_available_users(account_id)
-                       .select { |_key, value| value.eql?('online') }
-                       .keys
-                       .map(&:to_i)
-  end
-
-  def enterprise_capacity_enabled?
-    defined?(Enterprise) &&
-      account.custom_attributes&.dig('enterprise_features', 'capacity_management').present?
-  end
-
-  def filter_by_capacity(inbox_members_scope)
-    return inbox_members_scope unless capacity_check_required?
-
-    assignment_counts = fetch_assignment_counts
-
-    inbox_members_scope.select do |inbox_member|
-      agent_has_capacity?(inbox_member, assignment_counts)
-    end
-  end
-
-  def capacity_check_required?
-    defined?(Enterprise::InboxCapacityLimit) &&
-      account.account_users.joins(:agent_capacity_policy).exists?
-  end
-
-  def fetch_assignment_counts
-    conversations
-      .where(status: :open)
-      .where.not(assignee_id: nil)
-      .group(:assignee_id)
-      .count
-  end
-
-  def agent_has_capacity?(inbox_member, assignment_counts)
-    user = inbox_member.user
-    account_user = account.account_users.find_by(user: user)
-
-    return true unless account_user&.agent_capacity_policy_id
-
-    capacity_limit = fetch_capacity_limit(account_user.agent_capacity_policy_id)
-    return true unless capacity_limit&.conversation_limit
-
-    current_count = assignment_counts[user.id] || 0
-    current_count < capacity_limit.conversation_limit
-  end
-
-  def fetch_capacity_limit(policy_id)
-    Enterprise::InboxCapacityLimit
-      .where(agent_capacity_policy_id: policy_id)
-      .find_by(inbox_id: id)
-  end
-
-  def filter_by_rate_limits(inbox_members_scope)
-    # Filter out agents who have exceeded rate limits
-    return inbox_members_scope unless assignment_policy&.enabled?
-
-    # Get IDs of inbox members within rate limits
-    valid_inbox_member_ids = inbox_members_scope.find_each.filter_map do |inbox_member|
-      rate_limiter = AssignmentV2::RateLimiter.new(inbox: self, user: inbox_member.user)
-      inbox_member.id if rate_limiter.within_limits?
-    end
-
-    # Return filtered scope maintaining ActiveRecord relation
-    inbox_members_scope.where(id: valid_inbox_member_ids)
-  end
-
-  def filter_agents_on_leave(inbox_members_scope)
-    # Get account users on active leave
-    account_user_ids_on_leave = account.account_users
-                                       .joins(:leaves)
-                                       .where(leaves: { status: 'approved' })
-                                       .where('leaves.start_date <= ? AND leaves.end_date >= ?', Date.current, Date.current)
-                                       .pluck(:id)
-
-    return inbox_members_scope if account_user_ids_on_leave.empty?
-
-    # Exclude inbox members whose account_users are on leave
-    user_ids_on_leave = account.account_users.where(id: account_user_ids_on_leave).pluck(:user_id)
-    inbox_members_scope.where.not(user_id: user_ids_on_leave)
+  def display_name_from_email
+    channel.email.split('@').first.parameterize.titleize
   end
 
   def dispatch_create_event

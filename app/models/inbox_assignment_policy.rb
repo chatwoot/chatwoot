@@ -17,8 +17,6 @@
 #
 
 class InboxAssignmentPolicy < ApplicationRecord
-  include AccountCacheRevalidator
-
   # Associations
   belongs_to :inbox
   belongs_to :assignment_policy
