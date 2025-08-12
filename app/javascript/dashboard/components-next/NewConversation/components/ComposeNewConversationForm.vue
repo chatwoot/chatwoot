@@ -336,6 +336,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :is-loading="isCreating"
       :disable-send-button="isCreating"
       :has-selected-inbox="!!targetInbox"
+      :inbox-id="targetInbox?.id"
       :has-no-inbox="showNoInboxAlert"
       :is-dropdown-active="isAnyDropdownActive"
       :message-signature="messageSignature"
