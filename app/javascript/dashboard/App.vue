@@ -14,12 +14,13 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
-import { useLanguageSelection } from 'dashboard/composables/useLanguageSelection';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
+// NEW: Read user UI settings (profile-level locale)
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
   name: 'App',
@@ -39,14 +40,15 @@ export default {
     const { accountId } = useAccount();
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
-    const { currentLanguage } = useLanguageSelection();
+    // expose uiSettings so Options API can compute effective locale
+    const { uiSettings } = useUISettings();
 
     return {
       router,
       store,
       currentAccountId: accountId,
       currentFontSize,
-      currentLanguage,
+      uiSettings,
     };
   },
   data() {
@@ -59,9 +61,8 @@ export default {
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
-      isRTLGetter: 'accounts/isRTL',
+      isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
-      currentLanguage: 'currentLanguage',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
     }),
@@ -72,10 +73,22 @@ export default {
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
     },
-    isRTL() {
+    // Single source of truth for language:
+    // user preference if set, otherwise account locale, otherwise env default, then 'en'
+    effectiveLocale() {
+      const account = this.getAccount(this.currentAccountId) || {};
+      // uiSettings is a ref exposed from setup; on the instance it's auto-unwrapped
       const userLocale =
-        this.currentLanguage || this.getAccount(this.currentAccountId).locale;
-      return this.isRTLGetter(userLocale);
+        (this.uiSettings && this.uiSettings.locale) ||
+        (this.uiSettings &&
+          this.uiSettings.value &&
+          this.uiSettings.value.locale) ||
+        '';
+      return userLocale || account.locale || 'en';
+    },
+    // NEW: Keep direction in sync with the same locale source
+    currentDir() {
+      return this.isRTL(this.effectiveLocale) ? 'rtl' : 'ltr';
     },
   },
 
@@ -93,11 +106,19 @@ export default {
         }
       },
     },
+    // NEW: If either profile preference or account locale changes,
+    // keep vue-i18n locale in sync.
+    effectiveLocale(newVal) {
+      if (newVal) {
+        this.setLocale(newVal);
+      }
+    },
   },
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
-    this.setLocale(window.chatwootConfig.selectedLocale);
+    // CHANGED: don't force selectedLocale; use the effective locale
+    this.setLocale(this.effectiveLocale);
   },
   unmounted() {
     if (this.reconnectService) {
@@ -120,12 +141,11 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
-      const { locale, latest_chatwoot_version: latestChatwootVersion } =
+      const { latest_chatwoot_version: latestChatwootVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
-
-      const userlocale = this.currentLanguage || locale;
-      this.setLocale(userlocale);
+      // CHANGED: respect user preference if present; fallback to account
+      this.setLocale(this.effectiveLocale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);
@@ -148,9 +168,9 @@ export default {
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
     class="flex flex-col w-full h-screen min-h-0"
-    :class="{ 'app-rtl--wrapper': isRTL }"
-    :dir="isRTL ? 'rtl' : 'ltr'"
+    :dir="currentDir"
   >
+    <!-- CHANGED: derive dir from effectiveLocale -->
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
