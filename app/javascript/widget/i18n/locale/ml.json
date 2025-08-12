@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "അയയ്‌ക്കാനായില്ല, വീണ്ടും ശ്രമിക്കുക"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ഞങ്ങൾ ഓൺലൈനിലാണ്",
     "OFFLINE": "ഞങ്ങൾ ഇപ്പോൾ അകലെയാണ്"
