@@ -83,6 +83,7 @@ module Stark
         follow_up_number: @follow_up_number,
         session_id: @conversation.id,
         dealership_id: @conversation.account&.dealership_id,
+        account_id: @conversation.account_id,
         customer_id: @conversation.contact&.id,
         recent_messages: format_recent_messages
       }

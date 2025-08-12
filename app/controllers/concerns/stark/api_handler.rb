@@ -69,6 +69,7 @@ module Stark
         question: content,
         session_id: conversation.id,
         dealership_id: conversation.account&.dealership_id,
+        account_id: conversation.account_id,
         customer_id: conversation.contact&.id,
         recent_messages: format_recent_messages(conversation)
       }
