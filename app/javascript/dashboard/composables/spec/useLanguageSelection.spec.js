@@ -44,19 +44,19 @@ describe('useLanguageSelection', () => {
 
   it('returns languageOptions with correct structure', () => {
     const { languageOptions } = useLanguageSelection(mockLanguages);
-    expect(languageOptions).toHaveLength(3);
-    expect(languageOptions[0]).toHaveProperty('iso_639_1_code');
-    expect(languageOptions[0]).toHaveProperty('name');
+    expect(languageOptions.value).toHaveLength(4);
+    expect(languageOptions.value[0]).toHaveProperty('iso_639_1_code');
+    expect(languageOptions.value[0]).toHaveProperty('name');
 
     // Check specific options
     expect(
-      languageOptions.find(option => option.iso_639_1_code === 'en')
+      languageOptions.value.find(option => option.iso_639_1_code === 'en')
     ).toEqual({
       name: 'English (en)',
       iso_639_1_code: 'en',
     });
     expect(
-      languageOptions.find(option => option.iso_639_1_code === 'fr')
+      languageOptions.value.find(option => option.iso_639_1_code === 'fr')
     ).toEqual({
       name: 'Français (fr)',
       iso_639_1_code: 'fr',
