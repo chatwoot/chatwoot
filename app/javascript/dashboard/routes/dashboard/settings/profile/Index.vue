@@ -46,7 +46,7 @@ export default {
     const { languageOptions, currentLanguage, updateLanguage } =
       useLanguageSelection();
     const { replaceInstallationName } = useBranding();
-    
+
     return {
       currentFontSize,
       updateFontSize,
