@@ -4,9 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  content       :text
-#  content_type  :string
 #  external_link :string           not null
-#  file_size     :bigint
 #  metadata      :jsonb
 #  name          :string
 #  status        :integer          default("in_progress"), not null
