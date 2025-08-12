@@ -32,9 +32,9 @@ class Channel::Whatsapp < ApplicationRecord
   validates :phone_number, presence: true, uniqueness: true
   validate :validate_provider_config
 
-  before_save :setup_webhooks
   after_create :sync_templates
   before_destroy :teardown_webhooks
+  after_commit :setup_webhooks
 
   def name
     'Whatsapp'
