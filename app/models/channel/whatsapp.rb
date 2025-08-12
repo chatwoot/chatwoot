@@ -33,7 +33,6 @@ class Channel::Whatsapp < ApplicationRecord
   validate :validate_provider_config
 
   after_create :sync_templates
-  after_create :mark_as_new_record
   before_destroy :teardown_webhooks
   after_commit :setup_webhooks
 
@@ -71,29 +70,23 @@ class Channel::Whatsapp < ApplicationRecord
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
   end
 
-  def mark_as_new_record
-    @is_new_record_for_webhook = true
-  end
-
   def setup_webhooks
     return unless should_setup_webhooks?
+    return unless provider_config_changed?
 
     perform_webhook_setup
   rescue StandardError => e
     handle_webhook_setup_error(e)
-  ensure
-    # Clear the flag after use
-    @is_new_record_for_webhook = false
   end
 
   def provider_config_changed?
-    # In after_commit for new records: @is_new_record_for_webhook is set by after_create callback
+    # In after_commit for new records: previously_new_record? returns true
     # In after_commit for updates: saved_change_to_provider_config? returns true if provider_config changed
-    @is_new_record_for_webhook || saved_change_to_provider_config?
+    previously_new_record? || saved_change_to_provider_config?
   end
 
   def should_setup_webhooks?
-    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present? && provider_config_changed?
+    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present?
   end
 
   def whatsapp_cloud_provider?

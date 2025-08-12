@@ -34,8 +34,8 @@ class Whatsapp::ChannelCreationService
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
       channel = create_channel
-      create_inbox(channel)
-      channel.reload
+      inbox = create_inbox(channel)
+      channel.association(:inbox).target = inbox
       channel
     end
   end
