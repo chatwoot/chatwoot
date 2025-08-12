@@ -88,6 +88,7 @@
     >
       <add-automation-rule
         v-if="showAddPopup"
+        ref="addAutomationRule"
         :on-close="hideAddPopup"
         @saveAutomation="submitAutomation"
       />
@@ -111,6 +112,7 @@
     >
       <edit-automation-rule
         v-if="showEditPopup"
+        ref="editAutomationRule"
         :on-close="hideEditPopup"
         :selected-response="selectedResponse"
         @saveAutomation="submitAutomation"
@@ -247,6 +249,20 @@ export default {
             ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
+      } finally {
+        // Reset loading state in both success and error cases
+        if (
+          this.$refs.addAutomationRule &&
+          this.$refs.addAutomationRule.resetSubmitting
+        ) {
+          this.$refs.addAutomationRule.resetSubmitting();
+        }
+        if (
+          this.$refs.editAutomationRule &&
+          this.$refs.editAutomationRule.resetSubmitting
+        ) {
+          this.$refs.editAutomationRule.resetSubmitting();
+        }
       }
     },
     async toggleAutomation(automation, status) {

@@ -131,7 +131,11 @@
             >
               {{ $t('AUTOMATION.EDIT.CANCEL_BUTTON_TEXT') }}
             </woot-button>
-            <woot-button @click="submitAutomation">
+            <woot-button
+              :disabled="isSubmitting"
+              :loading="isSubmitting"
+              @click="submitAutomation"
+            >
               {{ $t('AUTOMATION.EDIT.SUBMIT') }}
             </woot-button>
           </div>
@@ -182,6 +186,7 @@ export default {
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'edit',
+      isSubmitting: false,
     };
   },
   computed: {

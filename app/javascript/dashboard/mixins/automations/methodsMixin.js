@@ -151,10 +151,18 @@ export default {
       }
     },
     submitAutomation() {
+      if (this.isSubmitting) return;
+      this.isSubmitting = true;
       this.$v.$touch();
-      if (this.$v.$invalid) return;
+      if (this.$v.$invalid) {
+        this.isSubmitting = false;
+        return;
+      }
       const automation = generateAutomationPayload(this.automation);
       this.$emit('saveAutomation', automation, this.mode);
+    },
+    resetSubmitting() {
+      this.isSubmitting = false;
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[
