@@ -4,344 +4,308 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:document) { create(:captain_document, assistant: assistant, account: account) }
-  let(:service) { described_class.new(document: document, assistant: assistant, requested_faq_count: 10) }
+  let(:openai_client) { instance_double(OpenAI::Client) }
+
+  let(:service) do
+    # Mock the InstallationConfig for base class initialization
+    allow(InstallationConfig).to receive(:find_by!).with(name: 'CAPTAIN_OPEN_AI_API_KEY')
+                                                   .and_return(instance_double(InstallationConfig, value: 'test-api-key'))
+    allow(OpenAI::Client).to receive(:new).and_return(openai_client)
+    described_class.new(document, { pages_per_chunk: 10 })
+  end
 
   describe '#initialize' do
-    it 'initializes with document, assistant, and requested FAQ count' do
+    it 'initializes with document and options' do
       expect(service.instance_variable_get(:@document)).to eq(document)
-      expect(service.instance_variable_get(:@assistant)).to eq(assistant)
-      expect(service.instance_variable_get(:@requested_faq_count)).to eq(10)
+      expect(service.instance_variable_get(:@pages_per_chunk)).to eq(10)
     end
 
-    it 'uses default FAQ count when not specified' do
-      default_service = described_class.new(document: document, assistant: assistant)
-      expect(default_service.instance_variable_get(:@requested_faq_count)).to eq(10)
+    it 'uses default pages per chunk when not specified' do
+      default_service = described_class.new(document)
+      expect(default_service.instance_variable_get(:@pages_per_chunk)).to eq(10)
     end
 
-    it 'accepts custom strategy' do
-      chunked_service = described_class.new(
-        document: document,
-        assistant: assistant,
-        requested_faq_count: 15,
-        strategy: 'chunked'
-      )
-      expect(chunked_service.instance_variable_get(:@strategy)).to eq('chunked')
+    it 'accepts max_pages option' do
+      service_with_max = described_class.new(document, { max_pages: 50 })
+      expect(service_with_max.instance_variable_get(:@max_pages)).to eq(50)
     end
   end
 
-  describe '#perform' do
-    let(:openai_client) { instance_double(OpenAI::Client) }
-    let(:completions_api) { instance_double(OpenAI::Completions) }
+  describe '#generate' do
+    context 'when document has no openai_file_id' do
+      before do
+        allow(document).to receive(:openai_file_id).and_return(nil)
+      end
 
-    before do
-      allow(service).to receive(:openai_client).and_return(openai_client)
-      allow(openai_client).to receive(:completions).and_return(completions_api)
+      it 'raises an error' do
+        expect { service.generate }.to raise_error('Document must have openai_file_id for paginated processing')
+      end
     end
 
-    context 'when generating FAQs successfully' do
-      let(:faq_response) do
-        {
-          'choices' => [
-            {
-              'message' => {
-                'content' => JSON.generate([
-                                             { 'question' => 'What is the product?', 'answer' => 'It is a great product.' },
-                                             { 'question' => 'How does it work?', 'answer' => 'It works seamlessly.' },
-                                             { 'question' => 'What are the features?', 'answer' => 'Many amazing features.' },
-                                             { 'question' => 'Is it secure?', 'answer' => 'Yes, very secure.' },
-                                             { 'question' => 'What is the pricing?', 'answer' => 'Competitive pricing.' }
-                                           ])
+    context 'when document has openai_file_id' do
+      before do
+        allow(document).to receive(:openai_file_id).and_return('file-123')
+      end
+
+      context 'when generating FAQs successfully' do
+        let(:faq_response) do
+          {
+            'choices' => [
+              {
+                'message' => {
+                  'content' => JSON.generate({
+                                               'faqs' => [
+                                                 { 'question' => 'What is the product?', 'answer' => 'It is a great product.' },
+                                                 { 'question' => 'How does it work?', 'answer' => 'It works seamlessly.' }
+                                               ],
+                                               'has_content' => true
+                                             })
+                }
               }
-            }
-          ]
-        }
+            ]
+          }
+        end
+
+        let(:empty_response) do
+          {
+            'choices' => [
+              {
+                'message' => {
+                  'content' => JSON.generate({
+                                               'faqs' => [],
+                                               'has_content' => false
+                                             })
+                }
+              }
+            ]
+          }
+        end
+
+        it 'generates FAQs from document' do
+          allow(openai_client).to receive(:chat).and_return(faq_response, empty_response)
+
+          result = service.generate
+          expect(result).to be_an(Array)
+          expect(result.first).to include('question', 'answer')
+        end
+
+        it 'processes multiple chunks until no more content' do
+          allow(openai_client).to receive(:chat).and_return(faq_response, faq_response, empty_response)
+
+          result = service.generate
+          expect(result.count).to eq(2) # Deduplication removes duplicates
+        end
+
+        it 'deduplicates similar FAQs' do
+          duplicate_response = {
+            'choices' => [
+              {
+                'message' => {
+                  'content' => JSON.generate({
+                                               'faqs' => [
+                                                 { 'question' => 'What is the product?', 'answer' => 'It is a great product.' },
+                                                 { 'question' => 'What is the product?', 'answer' => 'Different answer.' }
+                                               ],
+                                               'has_content' => false
+                                             })
+                }
+              }
+            ]
+          }
+
+          allow(openai_client).to receive(:chat).and_return(duplicate_response)
+
+          result = service.generate
+          expect(result.count).to eq(1)
+        end
+
+        it 'tracks total pages processed' do
+          allow(openai_client).to receive(:chat).and_return(faq_response, faq_response, empty_response)
+
+          service.generate
+          expect(service.total_pages_processed).to eq(30) # 3 chunks of 10 pages each
+        end
+
+        it 'tracks iterations completed' do
+          allow(openai_client).to receive(:chat).and_return(faq_response, faq_response, empty_response)
+
+          service.generate
+          expect(service.iterations_completed).to eq(3)
+        end
       end
 
-      before do
-        allow(completions_api).to receive(:create).and_return(faq_response)
-        allow(service).to receive(:fetch_document_content).and_return('Document content')
+      context 'when API returns error' do
+        before do
+          allow(openai_client).to receive(:chat).and_raise(OpenAI::Error, 'API error')
+        end
+
+        it 'returns empty array and logs error' do
+          expect(Rails.logger).to receive(:error).with(/Error processing pages/)
+
+          result = service.generate
+          expect(result).to eq([])
+        end
       end
 
-      it 'generates requested number of FAQs' do
-        result = service.perform
-        expect(result[:faqs_generated]).to eq(5)
+      context 'when response is malformed' do
+        let(:malformed_response) do
+          {
+            'choices' => [
+              {
+                'message' => {
+                  'content' => 'Invalid JSON'
+                }
+              }
+            ]
+          }
+        end
+
+        before do
+          allow(openai_client).to receive(:chat).and_return(malformed_response)
+        end
+
+        it 'handles JSON parsing errors gracefully' do
+          expect(Rails.logger).to receive(:error).with(/Error parsing chunk response/)
+
+          result = service.generate
+          expect(result).to eq([])
+        end
+      end
+    end
+  end
+
+  describe '#should_continue_processing?' do
+    let(:chunk_result_with_faqs) { { faqs: [{ 'question' => 'Q1', 'answer' => 'A1' }], has_content: true } }
+    let(:chunk_result_empty) { { faqs: [], has_content: false } }
+
+    it 'returns false when max iterations reached' do
+      service.instance_variable_set(:@iterations_completed, 20)
+      expect(service.should_continue_processing?(chunk_result_with_faqs)).to be false
+    end
+
+    it 'returns false when max pages reached' do
+      service.instance_variable_set(:@max_pages, 30)
+      service.instance_variable_set(:@total_pages_processed, 30)
+      expect(service.should_continue_processing?(chunk_result_with_faqs)).to be false
+    end
+
+    it 'returns false when no FAQs returned' do
+      expect(service.should_continue_processing?({ faqs: [], has_content: true })).to be false
+    end
+
+    it 'returns false when has_content is false' do
+      expect(service.should_continue_processing?({ faqs: ['faq'], has_content: false })).to be false
+    end
+
+    it 'returns true when should continue' do
+      expect(service.should_continue_processing?(chunk_result_with_faqs)).to be true
+    end
+  end
+
+  describe 'private methods' do
+    describe '#similarity_score' do
+      it 'returns 1 for identical strings' do
+        score = service.send(:similarity_score, 'Hello world', 'Hello world')
+        expect(score).to eq(1.0)
       end
 
-      it 'returns FAQ data' do
-        result = service.perform
-        expect(result[:faqs]).to be_an(Array)
-        expect(result[:faqs].first).to include('question', 'answer')
+      it 'returns 0 for completely different strings' do
+        score = service.send(:similarity_score, 'Hello', 'Goodbye')
+        expect(score).to eq(0.0)
       end
 
-      it 'tracks generation metadata' do
-        result = service.perform
-        expect(result).to include(:faqs_generated, :pages_processed, :generation_time)
+      it 'calculates partial similarity correctly' do
+        score = service.send(:similarity_score, 'Hello world', 'Hello there')
+        expect(score).to be_between(0.3, 0.4)
       end
     end
 
-    context 'when using pagination for large documents' do
-      let(:large_content) { 'Large document content ' * 5000 }
-
-      before do
-        allow(service).to receive(:fetch_document_content).and_return(large_content)
-        allow(service).to receive(:needs_pagination?).and_return(true)
-      end
-
-      it 'processes document in chunks' do
-        expect(service).to receive(:generate_faqs_in_chunks).and_call_original
-
-        allow(completions_api).to receive(:create).and_return(
-          'choices' => [{ 'message' => { 'content' => '[]' } }]
-        )
-
-        service.perform
-      end
-
-      it 'aggregates FAQs from multiple pages' do
-        page1_faqs = [
-          { 'question' => 'Q1', 'answer' => 'A1' },
-          { 'question' => 'Q2', 'answer' => 'A2' }
+    describe '#deduplicate_faqs' do
+      let(:faqs_with_duplicates) do
+        [
+          { 'question' => 'What is the product?', 'answer' => 'Answer 1' },
+          { 'question' => 'What is the product?', 'answer' => 'Answer 2' },
+          { 'question' => 'What is the product really?', 'answer' => 'Answer 3' },
+          { 'question' => 'How does it work?', 'answer' => 'Answer 4' }
         ]
-        page2_faqs = [
-          { 'question' => 'Q3', 'answer' => 'A3' },
-          { 'question' => 'Q4', 'answer' => 'A4' }
-        ]
-
-        allow(completions_api).to receive(:create).and_return(
-          { 'choices' => [{ 'message' => { 'content' => JSON.generate(page1_faqs) } }] },
-          { 'choices' => [{ 'message' => { 'content' => JSON.generate(page2_faqs) } }] }
-        )
-
-        result = service.perform
-        expect(result[:faqs]).to eq(page1_faqs + page2_faqs)
-        expect(result[:pages_processed]).to eq(2)
       end
 
-      it 'respects requested FAQ count limit' do
-        many_faqs = (1..20).map { |i| { 'question' => "Q#{i}", 'answer' => "A#{i}" } }
+      it 'removes exact duplicates' do
+        result = service.send(:deduplicate_faqs, faqs_with_duplicates)
+        questions = result.map { |f| f['question'] }
+        expect(questions.count('What is the product?')).to eq(1)
+      end
 
-        allow(completions_api).to receive(:create).and_return(
-          'choices' => [{ 'message' => { 'content' => JSON.generate(many_faqs) } }]
-        )
-
-        service_with_limit = described_class.new(
-          document: document,
-          assistant: assistant,
-          requested_faq_count: 10
-        )
-        allow(service_with_limit).to receive(:fetch_document_content).and_return(large_content)
-
-        result = service_with_limit.perform
-        expect(result[:faqs].count).to be <= 10
+      it 'removes similar questions' do
+        result = service.send(:deduplicate_faqs, faqs_with_duplicates)
+        expect(result.count).to be < faqs_with_duplicates.count
       end
     end
 
-    context 'when using different generation strategies' do
-      it 'uses default strategy' do
-        allow(service).to receive(:fetch_document_content).and_return('Content')
-        expect(service).to receive(:generate_with_default_strategy)
-
-        service.perform
+    describe '#determine_stop_reason' do
+      it 'identifies max iterations reason' do
+        service.instance_variable_set(:@iterations_completed, 20)
+        reason = service.send(:determine_stop_reason, { faqs: ['faq'] })
+        expect(reason).to eq('Maximum iterations reached')
       end
 
-      it 'uses chunked strategy when specified' do
-        chunked_service = described_class.new(
-          document: document,
-          assistant: assistant,
-          strategy: 'chunked'
-        )
-        allow(chunked_service).to receive(:fetch_document_content).and_return('Content')
-        expect(chunked_service).to receive(:generate_with_chunked_strategy)
-
-        chunked_service.perform
+      it 'identifies max pages reason' do
+        service.instance_variable_set(:@max_pages, 30)
+        service.instance_variable_set(:@total_pages_processed, 30)
+        reason = service.send(:determine_stop_reason, { faqs: ['faq'] })
+        expect(reason).to eq('Maximum pages processed')
       end
 
-      it 'uses smart chunking for optimal results' do
-        smart_service = described_class.new(
-          document: document,
-          assistant: assistant,
-          strategy: 'smart'
-        )
-        allow(smart_service).to receive(:fetch_document_content).and_return('Content')
-        expect(smart_service).to receive(:generate_with_smart_chunking)
+      it 'identifies no content reason' do
+        reason = service.send(:determine_stop_reason, { faqs: [] })
+        expect(reason).to eq('No content found in last chunk')
+      end
 
-        smart_service.perform
+      it 'identifies end of document reason' do
+        reason = service.send(:determine_stop_reason, { faqs: ['faq'], has_content: false })
+        expect(reason).to eq('End of document reached')
       end
     end
 
-    context 'when generation fails' do
+    describe '#calculate_end_page' do
+      it 'calculates end page correctly' do
+        service.instance_variable_set(:@pages_per_chunk, 10)
+        expect(service.send(:calculate_end_page, 1)).to eq(10)
+        expect(service.send(:calculate_end_page, 11)).to eq(20)
+      end
+
+      it 'respects max_pages limit' do
+        service.instance_variable_set(:@pages_per_chunk, 10)
+        service.instance_variable_set(:@max_pages, 15)
+        expect(service.send(:calculate_end_page, 11)).to eq(15)
+      end
+    end
+
+    describe '#build_chunk_parameters' do
       before do
-        allow(service).to receive(:fetch_document_content).and_return('Content')
-        allow(completions_api).to receive(:create).and_raise(StandardError, 'API error')
+        allow(document).to receive(:openai_file_id).and_return('file-123')
+        allow(Captain::Llm::SystemPromptsService).to receive(:paginated_faq_generator)
+          .and_return('Generate FAQs from pages')
       end
 
-      it 'raises the error' do
-        expect { service.perform }.to raise_error(StandardError, 'API error')
+      it 'builds correct parameters structure' do
+        params = service.send(:build_chunk_parameters, 1, 10)
+
+        expect(params[:model]).to eq('gpt-4.1-mini')
+        expect(params[:response_format]).to eq({ type: 'json_object' })
+        expect(params[:messages]).to be_an(Array)
+        expect(params[:messages].first[:role]).to eq('user')
       end
 
-      it 'logs the error with context' do
-        expect(Rails.logger).to receive(:error).with(/FAQ generation failed for document/)
+      it 'includes file reference and prompt' do
+        params = service.send(:build_chunk_parameters, 1, 10)
+        user_content = params[:messages].first[:content]
 
-        expect { service.perform }.to raise_error(StandardError)
+        expect(user_content).to be_an(Array)
+        expect(user_content.first[:type]).to eq('file')
+        expect(user_content.first[:file][:file_id]).to eq('file-123')
+        expect(user_content.last[:type]).to eq('text')
       end
-    end
-
-    context 'when response is malformed' do
-      before do
-        allow(service).to receive(:fetch_document_content).and_return('Content')
-        allow(completions_api).to receive(:create).and_return(
-          'choices' => [{ 'message' => { 'content' => 'Invalid JSON' } }]
-        )
-      end
-
-      it 'handles JSON parsing errors gracefully' do
-        result = service.perform
-        expect(result[:faqs]).to eq([])
-        expect(result[:error]).to include('Failed to parse FAQ response')
-      end
-    end
-  end
-
-  describe '#fetch_document_content' do
-    context 'when document has PDF file' do
-      before do
-        document.pdf_file.attach(
-          io: StringIO.new('PDF content'),
-          filename: 'test.pdf',
-          content_type: 'application/pdf'
-        )
-        document.metadata['openai_file_id'] = 'file-123'
-        document.save!
-      end
-
-      it 'retrieves content from OpenAI files' do
-        openai_client = instance_double(OpenAI::Client)
-        files_api = instance_double(OpenAI::Files)
-
-        allow(service).to receive(:openai_client).and_return(openai_client)
-        allow(openai_client).to receive(:files).and_return(files_api)
-        allow(files_api).to receive(:content).with(id: 'file-123').and_return('PDF text content')
-
-        content = service.send(:fetch_document_content)
-        expect(content).to eq('PDF text content')
-      end
-    end
-
-    context 'when document has external link' do
-      before do
-        document.update!(external_link: 'https://example.com/doc')
-      end
-
-      it 'fetches content from URL' do
-        expect(service).to receive(:fetch_url_content).with('https://example.com/doc').and_return('Web content')
-
-        content = service.send(:fetch_document_content)
-        expect(content).to eq('Web content')
-      end
-    end
-  end
-
-  describe '#needs_pagination?' do
-    it 'returns true for large content' do
-      large_content = 'a' * 50_000
-      expect(service.send(:needs_pagination?, large_content)).to be true
-    end
-
-    it 'returns false for small content' do
-      small_content = 'a' * 1000
-      expect(service.send(:needs_pagination?, small_content)).to be false
-    end
-
-    it 'uses configurable threshold' do
-      allow(service).to receive(:pagination_threshold).and_return(100)
-
-      expect(service.send(:needs_pagination?, 'a' * 101)).to be true
-      expect(service.send(:needs_pagination?, 'a' * 99)).to be false
-    end
-  end
-
-  describe '#chunk_content' do
-    let(:content) { 'Line 1\nLine 2\nLine 3\nLine 4\nLine 5' }
-
-    it 'splits content into chunks' do
-      chunks = service.send(:chunk_content, content, chunk_size: 2)
-      expect(chunks.count).to eq(3)
-    end
-
-    it 'maintains chunk size limit' do
-      chunks = service.send(:chunk_content, content, chunk_size: 3)
-      expect(chunks[0]).to eq("Line 1\nLine 2\nLine 3")
-      expect(chunks[1]).to eq("Line 4\nLine 5")
-    end
-
-    it 'handles overlap between chunks' do
-      chunks = service.send(:chunk_content, content, chunk_size: 3, overlap: 1)
-      expect(chunks[0]).to eq("Line 1\nLine 2\nLine 3")
-      expect(chunks[1]).to eq("Line 3\nLine 4\nLine 5")
-    end
-  end
-
-  describe '#build_faq_prompt' do
-    it 'includes document content in prompt' do
-      prompt = service.send(:build_faq_prompt, 'Document content', 5)
-      expect(prompt).to include('Document content')
-    end
-
-    it 'specifies requested FAQ count' do
-      prompt = service.send(:build_faq_prompt, 'Content', 7)
-      expect(prompt).to include('7')
-    end
-
-    it 'includes JSON format instructions' do
-      prompt = service.send(:build_faq_prompt, 'Content', 5)
-      expect(prompt).to include('JSON')
-      expect(prompt).to include('question')
-      expect(prompt).to include('answer')
-    end
-  end
-
-  describe '#parse_faq_response' do
-    it 'parses valid JSON array' do
-      json_string = '[{"question": "Q1", "answer": "A1"}]'
-      result = service.send(:parse_faq_response, json_string)
-      expect(result).to eq([{ 'question' => 'Q1', 'answer' => 'A1' }])
-    end
-
-    it 'handles empty response' do
-      result = service.send(:parse_faq_response, '[]')
-      expect(result).to eq([])
-    end
-
-    it 'returns empty array for invalid JSON' do
-      result = service.send(:parse_faq_response, 'not json')
-      expect(result).to eq([])
-    end
-
-    it 'validates FAQ structure' do
-      invalid_faqs = '[{"q": "Question without proper key"}]'
-      result = service.send(:parse_faq_response, invalid_faqs)
-      expect(result).to eq([])
-    end
-  end
-
-  describe 'performance tracking' do
-    before do
-      allow(service).to receive(:fetch_document_content).and_return('Content')
-      allow(service).to receive(:generate_faqs).and_return([])
-    end
-
-    it 'tracks generation time' do
-      result = service.perform
-      expect(result[:generation_time]).to be_a(Float)
-      expect(result[:generation_time]).to be >= 0
-    end
-
-    it 'tracks number of API calls' do
-      allow(service).to receive(:needs_pagination?).and_return(true)
-      allow(service).to receive(:chunk_content).and_return(%w[chunk1 chunk2])
-
-      result = service.perform
-      expect(result[:api_calls]).to eq(2)
     end
   end
 end
