@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsappTemplate from './WhatsappTemplate.vue';
 
@@ -73,10 +74,13 @@ const handleSendMessage = template => {
     />
     <div
       v-if="showTemplatesMenu"
-      class="absolute top-full mt-1.5 max-h-96 overflow-y-auto left-0 flex flex-col gap-2 p-4 items-center w-[21.875rem] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
+      class="absolute top-full mt-1.5 max-h-96 overflow-y-auto ltr:left-0 rtl:right-0 flex flex-col gap-2 p-4 items-center w-[21.875rem] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
     >
       <div class="relative w-full">
-        <span class="absolute top-2 left-3 i-lucide-search size-3.5" />
+        <Icon
+          icon="i-lucide-search"
+          class="absolute size-3.5 top-2 ltr:left-3 rtl:right-3"
+        />
         <input
           v-model="searchQuery"
           type="search"
@@ -85,7 +89,7 @@ const handleSendMessage = template => {
               'COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.SEARCH_PLACEHOLDER'
             )
           "
-          class="py-2 pr-2 pl-10 w-full h-8 text-sm rounded-lg border-none outline-none reset-base bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          class="w-full h-8 py-2 ltr:pl-10 rtl:pr-10 ltr:pr-2 rtl:pl-2 text-sm reset-base outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
         />
       </div>
       <div
