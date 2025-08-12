@@ -1,6 +1,33 @@
 <!-- eslint-disable vue/v-slot-style -->
 <template>
   <div class="bg-white dark:bg-slate-900">
+    <!-- Show restriction notice for Ugoo account agents -->
+    <div
+      v-if="showAssignmentRestriction"
+      class="p-3 bg-yellow-50 border-l-4 border-yellow-400 mb-4"
+    >
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg
+            class="h-5 w-5 text-yellow-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm text-yellow-700">
+            {{ $t('You can only assign conversations to yourself') }}
+          </p>
+        </div>
+      </div>
+    </div>
+
     <div class="multiselect-wrap--small">
       <contact-details-item
         compact
@@ -19,7 +46,7 @@
         </template>
       </contact-details-item>
       <multiselect-dropdown
-        :options="agentsList"
+        :options="filteredAgentsList"
         :selected-item="assignedAgent"
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
         :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
@@ -144,6 +171,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
+      getAccount: 'accounts/getAccount',
     }),
     assignedAgent: {
       get() {
@@ -161,6 +189,9 @@ export default {
             this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
           });
       },
+    },
+    currentAccount() {
+      return this.getAccount(this.currentAccountId) || {};
     },
     assignedTeam: {
       get() {
@@ -220,6 +251,30 @@ export default {
       }
       return false;
     },
+    showAssignmentRestriction() {
+      return (
+        this.currentUser.role !== 'administrator' &&
+        this.currentAccount?.custom_attributes?.restrict_agent_assignment
+      );
+    },
+    filteredAgentsList() {
+      if (this.currentUser.role === 'administrator') {
+        return this.agentsList;
+      }
+      if (this.currentAccount?.custom_attributes?.restrict_agent_assignment) {
+        return this.agentsList.filter(
+          agent => agent.id === this.currentUser.id
+        );
+      }
+
+      return this.agentsList;
+    },
+    canAssignToOthers() {
+      return (
+        this.currentUser.role === 'administrator' ||
+        !this.currentAccount?.custom_attributes?.restrict_agent_assignment
+      );
+    },
   },
   methods: {
     onSelfAssign() {
@@ -278,6 +333,12 @@ export default {
       }
     },
     onClickAssignAgent(selectedItem) {
+      // Prevent assignment to other agents for Ugoo account agents
+      if (!this.canAssignToOthers && selectedItem.id !== this.currentUser.id) {
+        this.showAlert(this.$t('CONVERSATION.ASSIGNMENT_RESTRICTED'));
+        return;
+      }
+
       if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {
         this.assignedAgent = null;
       } else {

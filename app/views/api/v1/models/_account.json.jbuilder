@@ -11,6 +11,9 @@ if resource.custom_attributes.present?
     json.calling_settings resource.custom_attributes['calling_settings'] if resource.custom_attributes['calling_settings'].present?
     json.show_label_to_agent resource.custom_attributes['show_label_to_agent'] if resource.custom_attributes['show_label_to_agent'].present?
     json.show_reports_to_agent resource.custom_attributes['show_reports_to_agent'] if resource.custom_attributes['show_reports_to_agent'].present?
+    if resource.custom_attributes['restrict_agent_assignment'].present?
+      json.restrict_agent_assignment resource.custom_attributes['restrict_agent_assignment']
+    end
     if resource.custom_attributes['hide_delete_message_button_for_agent'].present?
       json.hide_delete_message_button_for_agent resource.custom_attributes['hide_delete_message_button_for_agent']
     end
