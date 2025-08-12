@@ -50,6 +50,9 @@ Rails.application.routes.draw do
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
+            member do
+              get 'capacity', to: 'agents/capacity#show'
+            end
           end
           namespace :captain do
             resources :assistants do
@@ -97,6 +100,13 @@ Rails.application.routes.draw do
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
+          resources :agent_capacity_policies, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post 'users', to: 'agent_capacity_policies#assign_user'
+              delete 'users/:user_id', to: 'agent_capacity_policies#unassign_user'
+              put 'inbox_limits/:inbox_id', to: 'agent_capacity_policies#update_inbox_limit'
+            end
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
