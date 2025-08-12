@@ -6,8 +6,8 @@ properties:
     example: '#FFFFFF'
   custom_domain:
     type: string
-    description: Custom domain to display help center.
-    example: chatwoot.help
+    description: Custom domain to  display help center.
+    example: https://buzzcrm.ai.
   header_text:
     type: string
     description: Help center header
@@ -15,7 +15,7 @@ properties:
   homepage_link:
     type: string
     description: link to main dashboard
-    example: https://www.chatwoot.com/
+    example: https://www.buzzcrm.ai/
   name:
     type: string
     description: Name for the portal

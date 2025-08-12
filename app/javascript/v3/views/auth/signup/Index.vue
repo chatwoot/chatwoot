@@ -21,7 +21,7 @@ export default {
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     isAChatwootInstance() {
-      return this.globalConfig.installationName === 'Chatwoot';
+      return this.globalConfig.installationName === 'Buzz';
     },
   },
   beforeMount() {
@@ -49,8 +49,8 @@ export default {
               class="block w-auto h-8 dark:hidden"
             />
             <img
-              v-if="globalConfig.logoDark"
-              :src="globalConfig.logoDark"
+              v-if="globalConfig.logo"
+              :src="globalConfig.logo"
               :alt="globalConfig.installationName"
               class="hidden w-auto h-8 dark:block"
             />

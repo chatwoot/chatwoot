@@ -6,6 +6,7 @@ ARG NODE_VERSION="23.7.0"
 ARG PNPM_VERSION="10.2.0"
 ENV NODE_VERSION=${NODE_VERSION}
 ENV PNPM_VERSION=${PNPM_VERSION}
+ENV CW_EDITION="ce"
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
