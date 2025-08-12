@@ -10,19 +10,10 @@ describe Webhooks::InstagramEventsJob do
   end
 
   let!(:account) { create(:account) }
-  let(:return_object) do
-    { name: 'Jane',
-      id: 'Sender-id-1',
-      account_id: instagram_messenger_inbox.account_id,
-      profile_pic: 'https://chatwoot-assets.local/sample.png',
-      username: 'some_user_name' }
-  end
   let!(:instagram_messenger_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
   let!(:instagram_messenger_inbox) { create(:inbox, channel: instagram_messenger_channel, account: account, greeting_enabled: false) }
-
   let!(:instagram_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
   let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
-
   # Combined message events into one helper
   let(:message_events) do
     {
@@ -37,6 +28,14 @@ describe Webhooks::InstagramEventsJob do
     }
   end
 
+  def return_object_for(sender_id)
+    { name: 'Jane',
+      id: sender_id,
+      account_id: instagram_messenger_inbox.account_id,
+      profile_pic: 'https://chatwoot-assets.local/sample.png',
+      username: 'some_user_name' }
+  end
+
   describe '#perform' do
     context 'when handling messaging events for Instagram via Facebook page' do
       let(:fb_object) { double }
@@ -47,8 +46,9 @@ describe Webhooks::InstagramEventsJob do
 
       it 'creates incoming message in the instagram inbox' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        sender_id = message_events[:dm][:entry][0][:messaging][0][:sender][:id]
         allow(fb_object).to receive(:get_object).and_return(
-          return_object.with_indifferent_access
+          return_object_for(sender_id).with_indifferent_access
         )
         instagram_webhook.perform_now(message_events[:dm][:entry])
 
@@ -63,8 +63,9 @@ describe Webhooks::InstagramEventsJob do
 
       it 'creates standby message in the instagram inbox' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        sender_id = message_events[:standby][:entry][0][:standby][0][:sender][:id]
         allow(fb_object).to receive(:get_object).and_return(
-          return_object.with_indifferent_access
+          return_object_for(sender_id).with_indifferent_access
         )
         instagram_webhook.perform_now(message_events[:standby][:entry])
 
@@ -82,10 +83,11 @@ describe Webhooks::InstagramEventsJob do
       it 'handle instagram unsend message event' do
         message = create(:message, inbox_id: instagram_messenger_inbox.id, source_id: 'message-id-to-delete')
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        sender_id = message_events[:unsend][:entry][0][:messaging][0][:sender][:id]
         allow(fb_object).to receive(:get_object).and_return(
           {
             name: 'Jane',
-            id: 'Sender-id-1',
+            id: sender_id,
             account_id: instagram_messenger_inbox.account_id,
             profile_pic: 'https://chatwoot-assets.local/sample.png'
           }.with_indifferent_access
@@ -104,8 +106,9 @@ describe Webhooks::InstagramEventsJob do
 
       it 'creates incoming message with attachments in the instagram inbox' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        sender_id = message_events[:attachment][:entry][0][:messaging][0][:sender][:id]
         allow(fb_object).to receive(:get_object).and_return(
-          return_object.with_indifferent_access
+          return_object_for(sender_id).with_indifferent_access
         )
         instagram_webhook.perform_now(message_events[:attachment][:entry])
 
@@ -118,8 +121,9 @@ describe Webhooks::InstagramEventsJob do
 
       it 'creates incoming message with attachments in the instagram inbox for story mention' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        sender_id = message_events[:story_mention][:entry][0][:messaging][0][:sender][:id]
         allow(fb_object).to receive(:get_object).and_return(
-          return_object.with_indifferent_access,
+          return_object_for(sender_id).with_indifferent_access,
           { story:
             {
               mention: {
@@ -165,8 +169,9 @@ describe Webhooks::InstagramEventsJob do
 
       it 'handles unsupported message' do
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        sender_id = message_events[:unsupported][:entry][0][:messaging][0][:sender][:id]
         allow(fb_object).to receive(:get_object).and_return(
-          return_object.with_indifferent_access
+          return_object_for(sender_id).with_indifferent_access
         )
 
         instagram_webhook.perform_now(message_events[:unsupported][:entry])
@@ -184,19 +189,22 @@ describe Webhooks::InstagramEventsJob do
       before do
         instagram_channel.update(access_token: 'valid_instagram_token')
 
-        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-1\?.*})
+        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-.*\?.*})
           .to_return(
             status: 200,
-            body: {
-              name: 'Jane',
-              username: 'some_user_name',
-              profile_pic: 'https://chatwoot-assets.local/sample.png',
-              id: 'Sender-id-1',
-              follower_count: 100,
-              is_user_follow_business: true,
-              is_business_follow_user: true,
-              is_verified_user: false
-            }.to_json,
+            body: proc { |request|
+              sender_id = request.uri.path.split('/').last.split('?').first
+              {
+                name: 'Jane',
+                username: 'some_user_name',
+                profile_pic: 'https://chatwoot-assets.local/sample.png',
+                id: sender_id,
+                follower_count: 100,
+                is_user_follow_business: true,
+                is_business_follow_user: true,
+                is_verified_user: false
+              }.to_json
+            },
             headers: { 'Content-Type' => 'application/json' }
           )
       end
@@ -289,14 +297,15 @@ describe Webhooks::InstagramEventsJob do
         stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/.*\?.*})
           .to_return(status: 401, body: { error: { message: 'No matching Instagram user', code: 9010 } }.to_json)
 
+        sender_id = message_events[:dm][:entry][0][:messaging][0][:sender][:id]
         instagram_webhook.perform_now(message_events[:dm][:entry])
 
         instagram_inbox.reload
 
         expect(instagram_inbox.contacts.count).to be 1
-        expect(instagram_inbox.contacts.last.name).to eq 'Unknown (IG: Sender-id-1)'
+        expect(instagram_inbox.contacts.last.name).to eq "Unknown (IG: #{sender_id})"
         expect(instagram_inbox.contacts.last.contact_inboxes.count).to be 1
-        expect(instagram_inbox.contacts.last.contact_inboxes.first.source_id).to eq 'Sender-id-1'
+        expect(instagram_inbox.contacts.last.contact_inboxes.first.source_id).to eq sender_id
 
         expect(instagram_inbox.conversations.count).to eq 1
         expect(instagram_inbox.messages.count).to eq 1

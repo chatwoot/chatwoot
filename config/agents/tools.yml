@@ -24,3 +24,13 @@
   title: 'Add Label to Conversation'
   description: 'Add a label to a conversation'
   icon: 'tag'
+
+- id: faq_lookup
+  title: 'FAQ Lookup'
+  description: 'Search FAQ responses using semantic similarity'
+  icon: 'search'
+
+- id: handoff
+  title: 'Handoff to Human'
+  description: 'Hand off the conversation to a human agent'
+  icon: 'user-switch'
