@@ -20,6 +20,7 @@ describe Sms::OneoffSmsCampaignService do
         body: { 'id' => '1' }.to_json,
         headers: {}
       )
+      allow_any_instance_of(described_class).to receive(:channel).and_return(sms_channel) # rubocop:disable RSpec/AnyInstance
     end
 
     it 'raises error if the campaign is completed' do
@@ -51,6 +52,22 @@ describe Sms::OneoffSmsCampaignService do
       expect(Liquid::CampaignTemplateService).to receive(:new).with(campaign: campaign, contact: contact).and_call_original
 
       sms_campaign_service.perform
+    end
+
+    it 'continues processing contacts when sending message raises an error' do
+      contact_error, contact_success = FactoryBot.create_list(:contact, 2, :with_phone_number, account: account)
+      contact_error.update_labels([label1.title])
+      contact_success.update_labels([label1.title])
+
+      error_message = 'SMS provider error'
+
+      expect(sms_channel).to receive(:send_text_message).with(contact_error.phone_number, anything).and_raise(StandardError, error_message)
+      expect(sms_channel).to receive(:send_text_message).with(contact_success.phone_number, anything).and_return(nil)
+
+      expect(Rails.logger).to receive(:error).with("[SMS Campaign #{campaign.id}] Failed to send to #{contact_error.phone_number}: #{error_message}")
+
+      sms_campaign_service.perform
+      expect(campaign.reload.completed?).to be true
     end
   end
 end

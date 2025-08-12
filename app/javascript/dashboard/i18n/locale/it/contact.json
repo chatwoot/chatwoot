@@ -285,7 +285,7 @@
     "HEADER": {
       "TITLE": "Contatti",
       "SEARCH_TITLE": "Search contacts",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "Contatti attivi",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Messaggio",
       "SEND_MESSAGE": "Invia messaggio",
@@ -460,8 +460,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "Questa azione è permanente e irreversibile.",
+        "BUTTON": "Elimina ora"
       }
     },
     "DETAILS": {
@@ -471,7 +471,7 @@
       "DELETE_CONTACT": "Elimina contatto",
       "DELETE_DIALOG": {
         "TITLE": "Conferma eliminazione",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "Sei sicuro di voler eliminare questo contatto?",
         "CONFIRM": "Sì, elimina",
         "API": {
           "SUCCESS_MESSAGE": "Contatto eliminato con successo",
@@ -550,8 +550,8 @@
         "YOU": "You",
         "SAVE": "Save note",
         "EXPAND": "Expand",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "Comprimi",
+        "NO_NOTES": "Nessuna nota, puoi aggiungere note dalla pagina dei dettagli del contatto.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
     },
@@ -561,7 +561,7 @@
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "Nessun contatto corrisponde alla tua ricerca 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "Nessun contatto attivo al momento 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
