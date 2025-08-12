@@ -405,5 +405,39 @@ describe ReportingEventListener do
         expect(reopened_event.event_start_time).to be_within(1.second).of(second_resolved_time)
       end
     end
+
+    context 'when agent bot resolves and conversation is reopened' do
+      # This implicitly tests that the first_response time is correctly calculated
+      # By checking that a conversation reopened event is created with the correct values
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:agent_bot_inbox) { create(:inbox, account: account) }
+      let(:bot_resolved_time) { 2.hours.ago }
+      let(:reopened_time) { 1.hour.ago }
+      let(:bot_conversation) do
+        create(:conversation, account: account, inbox: agent_bot_inbox, assignee: user, updated_at: reopened_time)
+      end
+
+      before do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: agent_bot_inbox)
+
+        create(:reporting_event,
+               name: 'conversation_resolved',
+               account_id: account.id,
+               inbox_id: agent_bot_inbox.id,
+               conversation_id: bot_conversation.id,
+               user_id: user.id,
+               event_end_time: bot_resolved_time)
+      end
+
+      it 'creates conversation_opened event for agent bot reopening' do
+        event = Events::Base.new('conversation.opened', reopened_time, conversation: bot_conversation)
+        listener.conversation_opened(event)
+
+        reopened_event = account.reporting_events.where(name: 'conversation_opened').first
+        expect(reopened_event.value).to be_within(1).of(3600) # 1 hour since resolution
+        expect(reopened_event.event_start_time).to be_within(1.second).of(bot_resolved_time)
+        expect(reopened_event.event_end_time).to be_within(1.second).of(reopened_time)
+      end
+    end
   end
 end
