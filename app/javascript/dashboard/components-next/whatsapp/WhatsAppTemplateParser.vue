@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { requiredIf } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
@@ -145,6 +145,15 @@ const goBack = () => {
 };
 
 onMounted(initializeTemplateParameters);
+
+watch(
+  () => props.template,
+  () => {
+    initializeTemplateParameters();
+    v$.value.$reset();
+  },
+  { deep: true }
+);
 
 defineExpose({
   processedParams,
