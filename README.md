@@ -126,4 +126,4 @@ For other supported options, checkout our [deployment page](https://buzzcrm.ai/)
 Looking to report a vulnerability? Email us to info@tumenteai.com
 
 
-*Buzz* &copy; 2017-2025, Buzz Inc - Released under the MIT License.
+*Buzz* &copy; 2017-2025
