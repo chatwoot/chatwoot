@@ -13,9 +13,11 @@ psycopg2-binary = "^2.9.9"
 pydantic = "^2.7.1"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"} # For JWT validation
 
+[tool.poetry.dependencies]
+httpx = "^0.27.0"
+
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
-httpx = "^0.27.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,119 +1,100 @@
 import { defineStore } from 'pinia';
 import { useAuthStore } from './auth';
-// We will need to create these API client methods
 // import conversationsAPI from '../api/conversations';
 
 export const useConversationStore = defineStore('conversations', {
   state: () => ({
     conversations: [],
     activeConversationId: null,
-    messages: {}, // Dictionary to hold messages for each conversation
+    messages: {},
     websocket: null,
     isLoading: false,
     error: null,
   }),
 
   actions: {
-    // --- REST API Actions ---
     async fetchConversations() {
       this.isLoading = true;
       this.error = null;
       try {
-        // const response = await conversationsAPI.list();
-        // this.conversations = response.data;
-
-        // Placeholder data for now
+        // Placeholder data
         this.conversations = [
-          { id: 'conv_1', account_id: 'acc_123', status: 'open', last_activity_at: new Date().toISOString(), participants: [{ name: 'Customer 1' }] },
-          { id: 'conv_2', account_id: 'acc_123', status: 'open', last_activity_at: new Date().toISOString(), participants: [{ name: 'User 2' }] },
+          { id: 'conv_1', account_id: 'acc_123', status: 'open', last_activity_at: new Date().toISOString(), participants: [{ name: 'AI Assistant' }] },
         ];
+        // For simplicity, we'll auto-select the first conversation
+        if (this.conversations.length > 0) {
+            this.setActiveConversation(this.conversations[0].id);
+        }
       } catch (error) {
         this.error = 'Failed to fetch conversations.';
-        console.error(error);
       } finally {
         this.isLoading = false;
       }
     },
 
     async fetchMessages(conversationId) {
-      if (this.messages[conversationId]) return; // Already fetched
-
-      this.isLoading = true;
-      try {
-        // const response = await conversationsAPI.getMessages(conversationId);
-        // this.messages[conversationId] = response.data;
-
-        // Placeholder data
-         this.messages[conversationId] = [
-            { id: 'msg_1', conversation_id: conversationId, content: 'Hello there!', sender_id: 'user1', sender_type: 'user', created_at: new Date().toISOString() },
-            { id: 'msg_2', conversation_id: conversationId, content: 'Hi! How can I help?', sender_id: 'contact1', sender_type: 'contact', created_at: new Date().toISOString() },
-         ];
-      } catch (error) {
-        this.error = 'Failed to fetch messages.';
-        console.error(error);
-      } finally {
-        this.isLoading = false;
-      }
+      if (this.messages[conversationId]) return;
+      // In a real app, we'd fetch history here. For now, we start fresh.
+      this.messages[conversationId] = [];
     },
 
-    // --- WebSocket Actions ---
     setActiveConversation(conversationId) {
       if (this.activeConversationId === conversationId) return;
-
-      this.disconnect(); // Disconnect from the previous conversation
+      this.disconnect();
       this.activeConversationId = conversationId;
-      this.connect();
       this.fetchMessages(conversationId);
+      this.connect();
     },
 
     connect() {
       if (!this.activeConversationId || this.websocket) return;
-
       const authStore = useAuthStore();
-      if (!authStore.token) {
-        this.error = 'Authentication token not found.';
-        return;
-      }
+      if (!authStore.token) return;
 
-      // The WebSocket URL needs the token as a query parameter
       const wsURL = `ws://localhost:8000/ws/${this.activeConversationId}?token=${authStore.token}`;
-
       this.websocket = new WebSocket(wsURL);
-
-      this.websocket.onopen = () => {
-        console.log(`WebSocket connected for conversation ${this.activeConversationId}`);
-      };
 
       this.websocket.onmessage = (event) => {
         const message = JSON.parse(event.data);
-        // Add the new message to the state
         if (this.messages[this.activeConversationId]) {
-            this.messages[this.activeConversationId].push(message);
+            // Find if this message is an echo of one we sent and are waiting for persistence on
+            const optimisticMessageIndex = this.messages[this.activeConversationId].findIndex(m => m.id === 'optimistic-message');
+            if (optimisticMessageIndex > -1 && message.sender_type === 'user') {
+                // The backend confirmed our message, replace the optimistic one
+                this.messages[this.activeConversationId][optimisticMessageIndex] = message;
+            } else {
+                // It's a new message (e.g., from the AI)
+                this.messages[this.activeConversationId].push(message);
+            }
         }
-      };
-
-      this.websocket.onerror = (error) => {
-        console.error('WebSocket error:', error);
-        this.error = 'WebSocket connection failed.';
-      };
-
-      this.websocket.onclose = () => {
-        console.log('WebSocket disconnected.');
-        this.websocket = null;
       };
     },
 
     disconnect() {
       if (this.websocket) {
         this.websocket.close();
+        this.websocket = null;
       }
     },
 
     sendMessage(content) {
-      if (!this.websocket || this.websocket.readyState !== WebSocket.OPEN) {
-        this.error = 'WebSocket is not connected.';
-        return;
+      if (!this.websocket || this.websocket.readyState !== WebSocket.OPEN) return;
+
+      const authStore = useAuthStore();
+      // Optimistically add the user's message to the UI for instant feedback
+      const optimisticMessage = {
+        id: 'optimistic-message', // A temporary ID
+        conversation_id: this.activeConversationId,
+        content: content,
+        sender_id: authStore.user?.email || 'me',
+        sender_type: 'user',
+        created_at: new Date().toISOString(),
+      };
+      if (this.messages[this.activeConversationId]) {
+        this.messages[this.activeConversationId].push(optimisticMessage);
       }
+
+      // Send the message over the websocket
       this.websocket.send(JSON.stringify({ content }));
     },
   },
