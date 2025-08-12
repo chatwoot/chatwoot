@@ -33,12 +33,12 @@ export default {
     NextInput,
   },
   setup() {
-    const { updateUISettings } = useUISettings();
+    const { updateUISettings, uiSettings } = useUISettings();
     const { enabledLanguages } = useConfig();
     const { accountId } = useAccount();
     const v$ = useVuelidate();
 
-    return { updateUISettings, v$, enabledLanguages, accountId };
+    return { updateUISettings, uiSettings, v$, enabledLanguages, accountId };
   },
   data() {
     return {
@@ -102,9 +102,28 @@ export default {
     currentAccount() {
       return this.getAccount(this.accountId) || {};
     },
+    // Add effectiveLocale computed property
+    effectiveLocale() {
+      // Prefer user UI settings, then account, then fallback
+      const userLocale =
+        (this.uiSettings && this.uiSettings.locale) ||
+        (this.uiSettings &&
+          this.uiSettings.value &&
+          this.uiSettings.value.locale) ||
+        '';
+      return userLocale || this.currentAccount.locale || 'en';
+    },
+  },
+  watch: {
+    // Watch for changes in effectiveLocale and update direction accordingly
+    effectiveLocale(newLocale) {
+      this.updateDirectionView(newLocale);
+    },
   },
   mounted() {
     this.initializeAccount();
+    // Ensure direction is set on mount
+    this.updateDirectionView(this.effectiveLocale);
   },
   methods: {
     async initializeAccount() {
@@ -137,9 +156,10 @@ export default {
           domain: this.domain,
           support_email: this.supportEmail,
         });
-        this.$root.$i18n.locale = this.locale;
+        // Use the effectiveLocale (user preference > account > fallback)
+        this.$root.$i18n.locale = this.effectiveLocale;
         this.getAccount(this.id).locale = this.locale;
-        this.updateDirectionView(this.locale);
+        this.updateDirectionView(this.effectiveLocale);
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
