@@ -75,10 +75,12 @@ export const getters = {
         return false;
       }
 
-      // Filter out interactive templates (LIST, PRODUCT, CATALOG) and location templates
+      // Filter out interactive templates (LIST, PRODUCT, CATALOG), location templates, and call permission templates
       const hasUnsupportedComponents = template.components.some(
         component =>
-          ['LIST', 'PRODUCT', 'CATALOG'].includes(component.type) ||
+          ['LIST', 'PRODUCT', 'CATALOG', 'CALL_PERMISSION_REQUEST'].includes(
+            component.type
+          ) ||
           (component.type === 'HEADER' && component.format === 'LOCATION')
       );
 
