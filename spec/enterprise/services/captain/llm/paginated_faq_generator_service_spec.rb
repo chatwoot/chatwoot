@@ -2,16 +2,20 @@ require 'rails_helper'
 
 RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
   let(:account) { create(:account) }
+  let(:service) do
+    described_class.new(document, { pages_per_chunk: 10 })
+  end
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:document) { create(:captain_document, assistant: assistant, account: account) }
   let(:openai_client) { instance_double(OpenAI::Client) }
 
-  let(:service) do
+  before do
     # Mock the InstallationConfig for base class initialization
     allow(InstallationConfig).to receive(:find_by!).with(name: 'CAPTAIN_OPEN_AI_API_KEY')
                                                    .and_return(instance_double(InstallationConfig, value: 'test-api-key'))
+    # Allow any find_by calls to return nil by default
+    allow(InstallationConfig).to receive(:find_by).and_return(nil)
     allow(OpenAI::Client).to receive(:new).and_return(openai_client)
-    described_class.new(document, { pages_per_chunk: 10 })
   end
 
   describe '#initialize' do
