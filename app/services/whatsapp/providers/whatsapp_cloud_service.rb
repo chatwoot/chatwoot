@@ -11,7 +11,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
   end
 
-  def send_template(phone_number, template_info, message = nil)
+  def send_template(phone_number, template_info, message)
     template_body = template_body_parameters(template_info)
 
     request_body = {
