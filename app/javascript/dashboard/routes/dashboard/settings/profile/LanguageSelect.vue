@@ -3,24 +3,12 @@ import { computed } from 'vue';
 import FormSelect from 'v3/components/Form/Select.vue';
 
 const props = defineProps({
-  value: {
-    type: String,
-    default: 'en',
-  },
-  label: {
-    type: String,
-    default: '',
-  },
-  description: {
-    type: String,
-    default: '',
-  },
+  value: { type: String, default: '' }, // empty = use account default
+  options: { type: Array, required: true },
+  label: { type: String, default: '' },
+  description: { type: String, default: '' },
 });
-
 const emit = defineEmits(['change']);
-
-const languages = window.chatwootConfig.enabledLanguages || [];
-
 const selectedValue = computed({
   get: () => props.value,
   set: value => {
@@ -44,13 +32,12 @@ const selectedValue = computed({
       name="language"
       spacing="compact"
       class="min-w-28 mt-px"
-      :value="selectedValue"
-      :options="languages"
+      :options="options"
       label=""
     >
       <option
-        v-for="option in languages"
-        :key="option.iso_639_1_code"
+        v-for="option in options"
+        :key="option.iso_639_1_code || 'default'"
         :value="option.iso_639_1_code"
         :selected="option.iso_639_1_code === selectedValue"
       >
