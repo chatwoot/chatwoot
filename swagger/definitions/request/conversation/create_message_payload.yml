@@ -31,6 +31,11 @@ properties:
   template_params:
     type: object
     description: WhatsApp template parameters for sending structured messages
+    required:
+      - name
+      - category
+      - language
+      - body
     properties:
       name:
         type: string
