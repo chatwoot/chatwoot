@@ -1,5 +1,6 @@
 class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::InboxesHelper
+
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :validate_limit, only: [:create]
@@ -67,6 +68,17 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def destroy
     ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
+  end
+
+  def sync_templates
+    unless @inbox.channel.is_a?(Channel::Whatsapp)
+      return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' }
+    end
+
+    Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
+    render status: :ok, json: { message: 'Template sync initiated successfully' }
+  rescue StandardError => e
+    render status: :internal_server_error, json: { error: e.message }
   end
 
   private

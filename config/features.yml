@@ -187,3 +187,7 @@
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
   enabled: false
+- name: crm_v2
+  display_name: CRM V2
+  enabled: false
+  chatwoot_internal: true

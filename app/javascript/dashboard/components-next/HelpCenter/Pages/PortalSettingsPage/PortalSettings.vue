@@ -26,6 +26,8 @@ const emit = defineEmits([
   'updatePortal',
   'updatePortalConfiguration',
   'deletePortal',
+  'refreshStatus',
+  'sendCnameInstructions',
 ]);
 
 const { t } = useI18n();
@@ -36,6 +38,7 @@ const confirmDeletePortalDialogRef = ref(null);
 const currentPortalSlug = computed(() => route.params.portalSlug);
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
+const isFetchingSSLStatus = useMapGetter('portals/isFetchingSSLStatus');
 
 const activePortal = computed(() => {
   return props.portals?.find(portal => portal.slug === currentPortalSlug.value);
@@ -51,6 +54,14 @@ const handleUpdatePortal = portal => {
 
 const handleUpdatePortalConfiguration = portal => {
   emit('updatePortalConfiguration', portal);
+};
+
+const fetchSSLStatus = () => {
+  emit('refreshStatus');
+};
+
+const handleSendCnameInstructions = payload => {
+  emit('sendCnameInstructions', payload);
 };
 
 const openConfirmDeletePortalDialog = () => {
@@ -85,7 +96,10 @@ const handleDeletePortal = () => {
         <PortalConfigurationSettings
           :active-portal="activePortal"
           :is-fetching="isFetching"
+          :is-fetching-status="isFetchingSSLStatus"
           @update-portal-configuration="handleUpdatePortalConfiguration"
+          @refresh-status="fetchSSLStatus"
+          @send-cname-instructions="handleSendCnameInstructions"
         />
         <div class="w-full h-px bg-n-weak" />
         <div class="flex items-end justify-between w-full gap-4">

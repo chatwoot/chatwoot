@@ -1,5 +1,6 @@
 class SupportMailbox < ApplicationMailbox
   include IncomingEmailValidityHelper
+
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   before_processing :find_channel,
@@ -70,6 +71,7 @@ class SupportMailbox < ApplicationMailbox
                                                                                  additional_attributes: {
                                                                                    in_reply_to: in_reply_to,
                                                                                    source: 'email',
+                                                                                   auto_reply: @processed_mail.auto_reply?,
                                                                                    mail_subject: @processed_mail.subject,
                                                                                    initiated_at: {
                                                                                      timestamp: Time.now.utc

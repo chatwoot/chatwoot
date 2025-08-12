@@ -1,6 +1,7 @@
 class Imap::ImapMailbox
   include MailboxHelper
   include IncomingEmailValidityHelper
+
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   def process(mail, channel)
@@ -84,6 +85,7 @@ class Imap::ImapMailbox
         additional_attributes: {
           source: 'email',
           in_reply_to: in_reply_to,
+          auto_reply: @processed_mail.auto_reply?,
           mail_subject: @processed_mail.subject,
           initiated_at: {
             timestamp: Time.now.utc

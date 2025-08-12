@@ -41,6 +41,7 @@
 class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
+
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   TEMPLATE_PARAMS_SCHEMA = {
@@ -193,6 +194,12 @@ class Message < ApplicationRecord
     return false if template? && %w[input_csat text].exclude?(content_type)
 
     true
+  end
+
+  def auto_reply_email?
+    return false unless incoming_email? || inbox.email?
+
+    content_attributes.dig(:email, :auto_reply) == true
   end
 
   def valid_first_reply?
