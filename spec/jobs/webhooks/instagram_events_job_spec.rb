@@ -10,10 +10,6 @@ describe Webhooks::InstagramEventsJob do
   end
 
   let!(:account) { create(:account) }
-  let!(:instagram_messenger_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
-  let!(:instagram_messenger_inbox) { create(:inbox, channel: instagram_messenger_channel, account: account, greeting_enabled: false) }
-  let!(:instagram_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
-  let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: account, greeting_enabled: false) }
 
   def return_object_for(sender_id)
     { name: 'Jane',
@@ -23,20 +19,11 @@ describe Webhooks::InstagramEventsJob do
       username: 'some_user_name' }
   end
 
-  def reload_inbox_associations(inbox)
-    inbox.reload
-    inbox.contacts.reset
-    inbox.messages.reset
-    inbox.contact_inboxes.reset
-  end
-
   describe '#perform' do
     context 'when handling messaging events for Instagram via Facebook page' do
+      let!(:instagram_messenger_channel) { create(:channel_instagram_fb_page, account: account, instagram_id: 'chatwoot-app-user-id-1') }
+      let!(:instagram_messenger_inbox) { create(:inbox, channel: instagram_messenger_channel, account: account, greeting_enabled: false) }
       let(:fb_object) { double }
-
-      before do
-        instagram_inbox.destroy
-      end
 
       it 'creates incoming message in the instagram inbox' do
         dm_event = build(:instagram_message_create_event).with_indifferent_access
@@ -47,8 +34,6 @@ describe Webhooks::InstagramEventsJob do
           return_object_for(sender_id).with_indifferent_access
         )
         instagram_webhook.perform_now(dm_event[:entry])
-
-        reload_inbox_associations(instagram_messenger_inbox)
 
         expect(instagram_messenger_inbox.contacts.count).to be 1
         expect(instagram_messenger_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
@@ -67,8 +52,6 @@ describe Webhooks::InstagramEventsJob do
         )
         instagram_webhook.perform_now(standby_event[:entry])
 
-        reload_inbox_associations(instagram_messenger_inbox)
-
         expect(instagram_messenger_inbox.contacts.count).to be 1
         expect(instagram_messenger_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_messenger_inbox.conversations.count).to be 1
@@ -83,8 +66,6 @@ describe Webhooks::InstagramEventsJob do
         sender_id = unsend_event[:entry][0][:messaging][0][:sender][:id]
 
         message = create(:message, inbox_id: instagram_messenger_inbox.id, source_id: 'message-id-to-delete')
-        message.attachments.new(file_type: :image, external_url: 'https://www.example.com/test.jpeg')
-
         allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
         allow(fb_object).to receive(:get_object).and_return(
           {
@@ -94,6 +75,7 @@ describe Webhooks::InstagramEventsJob do
             profile_pic: 'https://chatwoot-assets.local/sample.png'
           }.with_indifferent_access
         )
+        message.attachments.new(file_type: :image, external_url: 'https://www.example.com/test.jpeg')
 
         expect(instagram_messenger_inbox.messages.count).to be 1
 
@@ -115,8 +97,6 @@ describe Webhooks::InstagramEventsJob do
         )
         instagram_webhook.perform_now(attachment_event[:entry])
 
-        reload_inbox_associations(instagram_messenger_inbox)
-
         expect(instagram_messenger_inbox.contacts.count).to be 1
         expect(instagram_messenger_inbox.messages.count).to be 1
         expect(instagram_messenger_inbox.messages.last.attachments.count).to be 1
@@ -137,14 +117,12 @@ describe Webhooks::InstagramEventsJob do
               }
             },
             from: {
-              username: sender_id, id: sender_id
+              username: 'Sender-id-1', id: 'Sender-id-1'
             },
             id: 'instagram-message-id-1234' }.with_indifferent_access
         )
 
         instagram_webhook.perform_now(story_mention_event[:entry])
-
-        reload_inbox_associations(instagram_messenger_inbox)
 
         expect(instagram_messenger_inbox.messages.count).to be 1
         expect(instagram_messenger_inbox.messages.last.attachments.count).to be 1
@@ -160,8 +138,6 @@ describe Webhooks::InstagramEventsJob do
         allow(fb_object).to receive(:get_object).and_raise(Koala::Facebook::ClientError)
 
         instagram_webhook.perform_now(story_mention_echo_event[:entry])
-
-        reload_inbox_associations(instagram_messenger_inbox)
 
         expect(instagram_messenger_inbox.contacts.count).to be 0
         expect(instagram_messenger_inbox.contact_inboxes.count).to be 0
@@ -186,8 +162,6 @@ describe Webhooks::InstagramEventsJob do
         )
 
         instagram_webhook.perform_now(unsupported_event[:entry])
-        reload_inbox_associations(instagram_messenger_inbox)
-
         expect(instagram_messenger_inbox.contacts.count).to be 1
         expect(instagram_messenger_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_messenger_inbox.conversations.count).to be 1
@@ -197,6 +171,9 @@ describe Webhooks::InstagramEventsJob do
     end
 
     context 'when handling messaging events for Instagram via Instagram login' do
+      let!(:instagram_channel) { create(:channel_instagram, account: account, instagram_id: 'chatwoot-app-user-id-1') }
+      let!(:instagram_inbox) { instagram_channel.inbox }
+
       before do
         instagram_channel.update(access_token: 'valid_instagram_token')
 
@@ -223,8 +200,6 @@ describe Webhooks::InstagramEventsJob do
       it 'creates incoming message with correct contact info in the instagram direct inbox' do
         dm_event = build(:instagram_message_create_event).with_indifferent_access
         instagram_webhook.perform_now(dm_event[:entry])
-        reload_inbox_associations(instagram_inbox)
-
         expect(instagram_inbox.contacts.count).to eq 1
         expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to eq 1
@@ -235,7 +210,7 @@ describe Webhooks::InstagramEventsJob do
       it 'sets correct instagram attributes on contact' do
         dm_event = build(:instagram_message_create_event).with_indifferent_access
         instagram_webhook.perform_now(dm_event[:entry])
-        reload_inbox_associations(instagram_inbox)
+        instagram_inbox.reload
 
         contact = instagram_inbox.contacts.last
 
@@ -272,8 +247,6 @@ describe Webhooks::InstagramEventsJob do
         attachment_event = build(:instagram_message_attachment_event).with_indifferent_access
         instagram_webhook.perform_now(attachment_event[:entry])
 
-        reload_inbox_associations(instagram_inbox)
-
         expect(instagram_inbox.contacts.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
         expect(instagram_inbox.messages.last.attachments.count).to be 1
@@ -282,8 +255,6 @@ describe Webhooks::InstagramEventsJob do
       it 'handles unsupported message' do
         unsupported_event = build(:instagram_message_unsupported_event).with_indifferent_access
         instagram_webhook.perform_now(unsupported_event[:entry])
-        reload_inbox_associations(instagram_inbox)
-
         expect(instagram_inbox.contacts.count).to be 1
         expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
@@ -298,8 +269,6 @@ describe Webhooks::InstagramEventsJob do
           .to_return(status: 401, body: { error: { message: 'Invalid OAuth access token' } }.to_json)
 
         instagram_webhook.perform_now(story_mention_echo_event[:entry])
-
-        reload_inbox_associations(instagram_inbox)
 
         expect(instagram_inbox.contacts.count).to be 0
         expect(instagram_inbox.contact_inboxes.count).to be 0
@@ -321,8 +290,6 @@ describe Webhooks::InstagramEventsJob do
         dm_event = build(:instagram_message_create_event).with_indifferent_access
         sender_id = dm_event[:entry][0][:messaging][0][:sender][:id]
         instagram_webhook.perform_now(dm_event[:entry])
-
-        reload_inbox_associations(instagram_inbox)
 
         expect(instagram_inbox.contacts.count).to be 1
         expect(instagram_inbox.contacts.last.name).to eq "Unknown (IG: #{sender_id})"
