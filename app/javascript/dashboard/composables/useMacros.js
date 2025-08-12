@@ -23,10 +23,18 @@ export const useMacros = () => {
   const getMacroDropdownValues = type => {
     switch (type) {
       case 'assign_team':
+        return [
+          { id: 'nil', name: t('AUTOMATION.NONE_OPTION') },
+          ...teams.value,
+        ];
       case 'send_email_to_team':
         return teams.value;
       case 'assign_agent':
-        return [{ id: 'self', name: 'Self' }, ...agents.value];
+        return [
+          { id: 'nil', name: t('AUTOMATION.NONE_OPTION') },
+          { id: 'self', name: 'Self' },
+          ...agents.value,
+        ];
       case 'add_label':
       case 'remove_label':
         return labels.value.map(i => ({
