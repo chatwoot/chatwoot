@@ -3,7 +3,6 @@
  * @description A composable for managing language selection throughout the application.
  * This handles language selection, application to the i18n instance, and persistence in user settings.
  */
-
 import { computed, watch } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -23,21 +22,41 @@ export const useLanguageSelection = (
   const { uiSettings, updateUISettings } = useUISettings();
   const { t, locale } = useI18n();
 
-  const languageOptions = languages;
+  const languageOptions = computed(() => [
+    {
+      name: t(
+        'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.USE_ACCOUNT_DEFAULT'
+      ),
+      iso_639_1_code: '',
+    },
+    ...(languages || []),
+  ]);
 
-  const currentLanguage = computed(() => uiSettings.value.locale || 'en');
+  // When unset, keep it empty ('') so the app falls back to account locale
+  const currentLanguage = computed(() => uiSettings.value?.locale ?? '');
 
   const updateLanguage = async languageCode => {
     try {
-      const validLanguage = languageOptions.some(
-        option => option.iso_639_1_code === languageCode
+      if (!languageCode) {
+        // Clear preference to use account default
+        await updateUISettings({ locale: null });
+        useAlert(
+          t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.UPDATE_SUCCESS')
+        );
+        return;
+      }
+
+      const valid = (languages || []).some(
+        l => l.iso_639_1_code === languageCode
       );
-      if (!validLanguage) {
+      if (!valid) {
         throw new Error(`Invalid language code: ${languageCode}`);
       }
 
       await updateUISettings({ locale: languageCode });
+      // Apply immediately if the user explicitly chose a preference
       locale.value = languageCode;
+
       useAlert(
         t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.UPDATE_SUCCESS')
       );
@@ -49,10 +68,13 @@ export const useLanguageSelection = (
     }
   };
 
+  // Only push to i18n when the user has an explicit preference
   watch(
-    () => uiSettings.value.locale,
-    newLanguage => {
-      locale.value = newLanguage || 'en';
+    () => uiSettings.value?.locale,
+    newLocale => {
+      if (newLocale) {
+        locale.value = newLocale;
+      }
     },
     { immediate: true }
   );
