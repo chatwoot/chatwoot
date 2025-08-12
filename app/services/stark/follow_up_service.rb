@@ -83,6 +83,7 @@ module Stark
         follow_up_number: @follow_up_number,
         session_id: @conversation.id,
         dealership_id: @conversation.account&.dealership_id,
+        account_id: @conversation.account_id,
         customer_id: @conversation.contact&.id,
         recent_messages: format_recent_messages
       }
@@ -132,6 +133,9 @@ module Stark
                    .not_activity
                    .not_template
                    .unscoped
+                   .left_outer_joins(:attachments)
+                   .where(attachments: { id: nil })
+                   .where.not(content: [nil, ''])
                    .order(created_at: :desc)
                    .limit(10)
                    .map do |message|
