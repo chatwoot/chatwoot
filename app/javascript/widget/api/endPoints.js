@@ -72,6 +72,7 @@ const sendMessage = (
         assign_to_agent: assignToAgent,
         product_id_for_more_info: productIdForMoreInfo,
         pre_chat_form_response: preChatFormResponse,
+        product_page: referrerURL,
       },
     },
   };

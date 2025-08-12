@@ -121,13 +121,14 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # rubocop:disable Layout/LineLength
     params.permit(message: [
                     { submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }, :user_phone_number, :user_order_id,
-                                         :selected_reply, :previous_selected_replies, :product_id, :product_id_for_more_info, :pre_chat_form_response, :assign_to_agent, :conversation_resolved] },
+                                         :selected_reply, :previous_selected_replies, :product_id, :product_id_for_more_info, :product_page, :pre_chat_form_response, :assign_to_agent, :conversation_resolved] },
                     :user_phone_number,
                     :user_order_id,
                     :selected_reply,
                     { previous_selected_replies: [] },
                     :product_id,
                     :product_id_for_more_info,
+                    :product_page,
                     { pre_chat_form_response: {} },
                     :assign_to_agent,
                     :conversation_resolved
@@ -140,7 +141,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # timestamp parameter is used in create conversation method
 
     params.permit(:id, :before, :after, :website_token, contact: [:name, :email],
-                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private, :product_id_for_more_info, :assign_to_agent, :conversation_resolved, { pre_chat_form_response: [:emailAddress, :fullName, :phoneNumber] }])
+                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private, :product_id_for_more_info, :product_page, :assign_to_agent, :conversation_resolved, { pre_chat_form_response: [:emailAddress, :fullName, :phoneNumber] }])
   end
 
   # rubocop:enable Layout/LineLength
