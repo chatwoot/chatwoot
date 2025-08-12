@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "outcome-service"
+version = "0.1.0"
+description = "Manages outcome modeling and prediction for Conversate AI."
+authors = ["Jules <jules@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+uvicorn = {extras = ["standard"], version = "^0.29.0"}
+sqlalchemy = "^2.0.29"
+psycopg2-binary = "^2.9.9"
+pydantic = "^2.7.1"
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+
+# ML and Data Science dependencies
+pandas = "^2.2.2"
+scikit-learn = "^1.4.2"
+tensorflow = "^2.16.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+httpx = "^0.27.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
