@@ -11,7 +11,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
   end
 
-  def send_template(phone_number, template_info)
+  def send_template(phone_number, template_info, message = nil)
     template_body = template_body_parameters(template_info)
 
     request_body = {
@@ -28,7 +28,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       body: request_body.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def sync_templates
@@ -92,7 +92,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def send_attachment_message(phone_number, message)
@@ -115,7 +115,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def error_message(response)
@@ -179,6 +179,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 end
