@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Couldn't send, try again"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "हामी अनलाइन छौं",
     "OFFLINE": "We are away at the moment"
