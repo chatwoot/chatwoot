@@ -1,0 +1,27 @@
+type: object
+description: WhatsApp template body component (always required)
+properties:
+  type:
+    type: string
+    enum: ['BODY']
+    description: Component type
+    example: 'BODY'
+  text:
+    type: string
+    description: Body text content with variable placeholders
+    example: 'Hello {{1}}, your order {{2}} has been confirmed and will be delivered on {{3}}.'
+  example:
+    type: object
+    description: Example values for body parameters
+    properties:
+      body_text:
+        type: array
+        description: Example values for body variables
+        items:
+          type: array
+          items:
+            type: string
+        example: [['John Doe', 'Order #12345', '2025-01-15']]
+required:
+  - type
+  - text

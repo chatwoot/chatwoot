@@ -40,6 +40,26 @@ conversation:
   $ref: ./resource/conversation.yml
 message:
   $ref: ./resource/message.yml
+
+## WhatsApp Templates
+whatsapp_template:
+  $ref: ./resource/whatsapp_template.yml
+whatsapp_template_body_parameters:
+  $ref: ./resource/whatsapp_template_body_parameters.yml
+whatsapp_template_header_parameters:
+  $ref: ./resource/whatsapp_template_header_parameters.yml
+whatsapp_template_button_parameters:
+  $ref: ./resource/whatsapp_template_button_parameters.yml
+whatsapp_template_header_component:
+  $ref: ./resource/whatsapp_template_header_component.yml
+whatsapp_template_body_component:
+  $ref: ./resource/whatsapp_template_body_component.yml
+whatsapp_template_footer_component:
+  $ref: ./resource/whatsapp_template_footer_component.yml
+whatsapp_template_buttons_component:
+  $ref: ./resource/whatsapp_template_buttons_component.yml
+whatsapp_template_examples:
+  $ref: ./resource/whatsapp_template_examples.yml
 user:
   $ref: ./resource/user.yml
 agent:

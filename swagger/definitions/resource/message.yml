@@ -37,11 +37,11 @@ properties:
     description: The source ID of the message
   content_type:
     type: string
-    enum: ["text", "input_select", "cards", "form"]
+    enum: ["text", "input_select", "cards", "form", "template"]
     description: The type of the template message
   content_attributes:
     type: object
-    description: The content attributes for each content_type
+    description: The content attributes for each content_type. For WhatsApp templates, contains template structure and parameters
   sender_type:
     type: string
     enum: ["contact", "agent", "agent_bot"]
@@ -55,6 +55,60 @@ properties:
   additional_attributes:
     type: object
     description: The additional attributes of the message
+  template_params:
+    type: object
+    description: WhatsApp template parameters when content_type is "template"
+    properties:
+      name:
+        type: string
+        description: Name of the WhatsApp template
+        example: 'order_confirmation'
+      category:
+        type: string
+        enum: ['UTILITY', 'MARKETING', 'SHIPPING_UPDATE', 'TICKET_UPDATE', 'ISSUE_RESOLUTION']
+        description: Template category
+        example: 'UTILITY'
+      language:
+        type: string
+        description: Template language code
+        example: 'en_US'
+      body:
+        type: object
+        description: Body component parameters with variable placeholders
+        additionalProperties:
+          type: string
+        example:
+          '1': 'John Doe'
+          '2': 'Order #12345'
+      header:
+        type: object
+        description: Header component parameters for media templates
+        properties:
+          media_url:
+            type: string
+            format: uri
+            description: Media URL used for the template header
+          media_type:
+            type: string
+            enum: ['image', 'video', 'document']
+            description: Type of media in the header
+        example:
+          media_url: 'https://example.com/files/receipt.pdf'
+          media_type: 'document'
+      buttons:
+        type: array
+        description: Button component parameters
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: ['url', 'copy_code']
+            parameter:
+              type: string
+        example:
+          - type: 'url'
+            parameter: 'track123456'
   processed_message_content:
     type: string
     description: The processed message content

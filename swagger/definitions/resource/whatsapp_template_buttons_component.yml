@@ -1,0 +1,89 @@
+type: object
+description: WhatsApp template buttons component (optional)
+properties:
+  type:
+    type: string
+    enum: ['BUTTONS']
+    description: Component type
+    example: 'BUTTONS'
+  buttons:
+    type: array
+    description: Array of button definitions (max 3 buttons)
+    maxItems: 3
+    items:
+      oneOf:
+        - type: object
+          description: URL button for call-to-action
+          properties:
+            type:
+              type: string
+              enum: ['URL']
+              description: Button type
+            text:
+              type: string
+              description: Button text
+              example: 'Track Order'
+            url:
+              type: string
+              description: Button URL with optional dynamic suffix
+              example: 'https://example.com/track/{{1}}'
+          required:
+            - type
+            - text
+            - url
+        - type: object
+          description: Phone number button for click-to-call
+          properties:
+            type:
+              type: string
+              enum: ['PHONE_NUMBER']
+              description: Button type
+            text:
+              type: string
+              description: Button text
+              example: 'Call Support'
+            phone_number:
+              type: string
+              description: Phone number to call
+              example: '+1234567890'
+          required:
+            - type
+            - text
+            - phone_number
+        - type: object
+          description: Copy code button for coupons/discounts
+          properties:
+            type:
+              type: string
+              enum: ['COPY_CODE']
+              description: Button type
+            text:
+              type: string
+              description: Button text
+              example: 'Copy Coupon'
+            example:
+              type: string
+              description: Example coupon code (max 15 characters)
+              pattern: '^[A-Za-z0-9]{1,15}$'
+              example: 'SAVE20'
+          required:
+            - type
+            - text
+            - example
+        - type: object
+          description: Quick reply button for user responses
+          properties:
+            type:
+              type: string
+              enum: ['QUICK_REPLY']
+              description: Button type
+            text:
+              type: string
+              description: Button text
+              example: 'Yes, reschedule'
+          required:
+            - type
+            - text
+required:
+  - type
+  - buttons

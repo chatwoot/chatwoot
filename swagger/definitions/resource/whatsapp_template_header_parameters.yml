@@ -1,0 +1,79 @@
+type: object
+description: WhatsApp template header component parameters for media templates
+properties:
+  type:
+    type: string
+    enum: ['header']
+    description: Component type identifier
+    example: 'header'
+  parameters:
+    type: array
+    description: Array of header parameter values for media content
+    items:
+      oneOf:
+        - type: object
+          description: Image header parameter
+          properties:
+            type:
+              type: string
+              enum: ['image']
+              description: Media type
+            image:
+              type: object
+              properties:
+                link:
+                  type: string
+                  format: uri
+                  description: Publicly accessible URL for the image (JPEG, PNG)
+                  example: 'https://example.com/images/product.jpg'
+          required:
+            - type
+            - image
+        - type: object
+          description: Video header parameter
+          properties:
+            type:
+              type: string
+              enum: ['video']
+              description: Media type
+            video:
+              type: object
+              properties:
+                link:
+                  type: string
+                  format: uri
+                  description: Publicly accessible URL for the video (MP4, 3GPP)
+                  example: 'https://example.com/videos/tutorial.mp4'
+          required:
+            - type
+            - video
+        - type: object
+          description: Document header parameter
+          properties:
+            type:
+              type: string
+              enum: ['document']
+              description: Media type
+            document:
+              type: object
+              properties:
+                link:
+                  type: string
+                  format: uri
+                  description: Publicly accessible URL for the document (PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT)
+                  example: 'https://example.com/files/receipt.pdf'
+                filename:
+                  type: string
+                  description: Filename for the document (optional)
+                  example: 'receipt.pdf'
+          required:
+            - type
+            - document
+    example:
+      - type: 'document'
+        document:
+          link: 'https://example.com/files/receipt.pdf'
+          filename: 'receipt.pdf'
+required:
+  - type
+  - parameters

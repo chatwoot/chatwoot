@@ -30,22 +30,55 @@ properties:
     example: 1
   template_params:
     type: object
-    description: The template params for the message in case of whatsapp Channel
+    description: WhatsApp template parameters for sending structured messages
     properties:
       name:
         type: string
-        description: Name of the template
+        description: Name of the WhatsApp template (must be approved in WhatsApp Business Manager)
         example: 'sample_issue_resolution'
       category:
         type: string
+        enum: ['UTILITY', 'MARKETING', 'SHIPPING_UPDATE', 'TICKET_UPDATE', 'ISSUE_RESOLUTION']
         description: Category of the template
-        example: UTILITY
+        example: 'UTILITY'
       language:
         type: string
-        description: Language of the template
-        example: en_US
-      processed_params:
+        description: Language code of the template (BCP 47 format)
+        example: 'en_US'
+      body:
         type: object
-        description: The processed param values for template variables in template
+        description: Body component parameters with variable placeholders
+        additionalProperties:
+          type: string
         example:
-          1: 'Chatwoot'
+          '1': 'John Doe'
+          '2': 'Order #12345'
+          '3': '2025-01-15'
+      header:
+        type: object
+        description: Header component parameters for media templates
+        properties:
+          media_url:
+            type: string
+            format: uri
+            description: Publicly accessible URL for IMAGE, VIDEO, or DOCUMENT headers
+            example: 'https://example.com/files/receipt.pdf'
+          media_type:
+            type: string
+            enum: ['image', 'video', 'document']
+            description: Type of media for the header
+            example: 'document'
+      buttons:
+        type: array
+        description: Button component parameters for interactive templates
+        items:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: ['url', 'copy_code']
+              description: Type of button parameter
+            parameter:
+              type: string
+              description: Dynamic parameter value for the button
+              example: 'otp123456'
