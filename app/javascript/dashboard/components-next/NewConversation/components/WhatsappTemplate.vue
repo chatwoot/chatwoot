@@ -25,7 +25,7 @@ const handleBack = () => {
 
 <template>
   <div
-    class="absolute top-full mt-1.5 max-h-[30rem] overflow-y-auto left-0 flex flex-col gap-4 px-4 pt-6 pb-5 items-start w-[28.75rem] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
+    class="absolute top-full mt-1.5 max-h-[30rem] overflow-y-auto ltr:left-0 rtl:right-0 flex flex-col gap-4 px-4 pt-6 pb-5 items-start w-[28.75rem] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
   >
     <div class="w-full">
       <WhatsAppTemplateParser
