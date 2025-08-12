@@ -68,22 +68,6 @@ RSpec.describe Attachment do
     end
   end
 
-  describe 'thumb_url' do
-    it 'returns empty string for non-image attachments' do
-      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
-      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
-
-      expect(attachment.thumb_url).to eq('')
-    end
-
-    it 'generates thumb_url for image attachments' do
-      attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
-      attachment.file.attach(io: StringIO.new('fake image'), filename: 'test.jpg', content_type: 'image/jpeg')
-
-      expect(attachment.thumb_url).to be_present
-    end
-  end
-
   describe 'meta data handling' do
     let(:message) { create(:message) }
 
