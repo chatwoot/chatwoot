@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 ar:
   hello: 'مرحباً بالعالم'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
     reset_password_failure: المعذرة! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
@@ -53,6 +58,13 @@ ar:
       invalid_message_type: 'نوع الرسالة غير صالح. الإجراء غير مسموح به'
     slack:
       invalid_channel_id: 'قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة وعنوان IMAP ثم حاول مرة أخرى.
@@ -91,7 +103,7 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
-      avg_reply_time: Avg reply time
+      avg_reply_time: معدل وقت الرد
       resolution_count: عدد مرات الإغلاق
     team_csv:
       team_name: اسم الفريق
@@ -135,19 +147,19 @@ ar:
     no_content: 'لا يوجد محتوى'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: 'تحويل إلى وكيل آخر لمزيد من المساعدة.'
     messages:
       instagram_story_content: 'أشار %{story_sender} إليك في القصة: '
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: 'اختر عنصر'
       delivery_status:
         error_code: 'رمز الخطأ: %{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
-        open: 'Conversation was marked open by %{user_name}'
+        resolved: 'تم تحديد هذه المحادثة كمحلولة بواسطة %{user_name} بسبب عدم النشاط'
+        open: 'تم تحديد هذه المحادثة كمفتوحة بواسطة %{user_name}'
       status:
         resolved: 'تم تحديث حالة المحادثة لـ"مغلقة" بواسطة %{user_name}'
         contact_resolved: 'تم حل المحادثة بواسطة %{contact_name}'
@@ -155,8 +167,8 @@ ar:
         pending: 'تم تحديث حالة المحادثة لـ"معلقة" بواسطة %{user_name}'
         snoozed: 'تم تأجيل المحادثة بواسطة %{user_name}'
         auto_resolved_days: 'تم وضع علامة على المحادثة كمحلولة من قبل النظام بسبب %{count} أيام من عدم النشاط'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
+        auto_resolved_hours: 'تم تحديد هذه المحادثة كمحلولة بواسطة النظام بسبب عدم النشاط لمدة %{count} ساعات'
+        auto_resolved_minutes: 'تم تحديد هذه المحادثة كمحلولة بواسطة النظام بسبب عدم النشاط لمدة %{count} دقائق'
         system_auto_open: أعاد النظام فتح المحادثة بسبب رسالة واردة جديدة.
       priority:
         added: '%{user_name} حدد الأولوية إلى %{new_priority}'
@@ -244,7 +256,7 @@ ar:
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'إنشاء مشكلات في Linear مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط مشكلات Linear القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة.'
     notion:
-      name: 'Notion'
+      name: 'نوشن'
       short_description: 'Integrate databases, documents and pages directly with Captain.'
       description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
@@ -360,3 +372,12 @@ ar:
 
       Transcript:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'البريد الإلكتروني مطلوب'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

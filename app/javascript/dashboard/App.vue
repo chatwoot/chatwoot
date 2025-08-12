@@ -240,8 +240,7 @@ export default {
   <div
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
-    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
-    :class="{ 'app-rtl--wrapper': isRTL }"
+    class="flex flex-col w-full h-screen min-h-0"
     :dir="isRTL ? 'rtl' : 'ltr'"
   >
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />

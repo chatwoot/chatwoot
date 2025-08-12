@@ -372,6 +372,7 @@ export default {
       const variables = getMessageVariables({
         conversation: this.currentChat,
         contact: this.currentContact,
+        inbox: this.inbox,
       });
       return variables;
     },
@@ -401,7 +402,7 @@ export default {
         return;
       }
 
-      // Voice channels only allow private notes  
+      // Voice channels only allow private notes
       if (this.isAVoiceChannel) {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       } else if (canReply || this.isAWhatsAppChannel) {

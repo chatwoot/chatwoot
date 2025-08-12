@@ -284,6 +284,13 @@ const addAllExample = async () => {
             {{ t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.EMPTY_MESSAGE') }}
           </span>
         </div>
+        <div v-else-if="filteredGuidelines.length === 0" class="mt-1 mb-2">
+          <span class="text-n-slate-11 text-sm">
+            {{
+              t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.SEARCH_EMPTY_MESSAGE')
+            }}
+          </span>
+        </div>
         <div v-else class="flex flex-col gap-2">
           <RuleCard
             v-for="guideline in filteredGuidelines"
