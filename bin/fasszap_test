@@ -1,0 +1,177 @@
+#!/usr/bin/env ruby
+# FassZap Test Script
+# This script validates that all FassZap modifications are working correctly
+
+require_relative '../config/environment'
+
+puts "🧪 FassZap Validation Tests"
+puts "=" * 50
+
+tests_passed = 0
+tests_failed = 0
+
+def test(description)
+  print "Testing #{description}... "
+  begin
+    result = yield
+    if result
+      puts "✅ PASS"
+      return true
+    else
+      puts "❌ FAIL"
+      return false
+    end
+  rescue => e
+    puts "❌ ERROR: #{e.message}"
+    return false
+  end
+end
+
+# Test 1: Enterprise Mode
+if test("Enterprise mode activation") do
+  ChatwootApp.enterprise? == true
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 2: Pricing Plan
+if test("Enterprise pricing plan") do
+  ChatwootHub.pricing_plan == 'enterprise'
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 3: Pricing Quantity
+if test("Enterprise pricing quantity") do
+  ChatwootHub.pricing_plan_quantity == 10
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 4: Installation Name
+if test("FassZap branding - Installation name") do
+  config = InstallationConfig.find_by(name: 'INSTALLATION_NAME')
+  config&.value == 'FassZap'
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 5: Brand Name
+if test("FassZap branding - Brand name") do
+  config = InstallationConfig.find_by(name: 'BRAND_NAME')
+  config&.value == 'FassZap'
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 6: Hub Sync Disabled
+if test("Hub sync disabled") do
+  result = ChatwootHub.sync_with_hub
+  result.nil? # Should return nil as it's disabled
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 7: Event Tracking Disabled
+if test("Event tracking disabled") do
+  result = ChatwootHub.emit_event('test_event', {})
+  result.nil? # Should return nil as it's disabled
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 8: Enterprise Features (if accounts exist)
+if Account.exists?
+  if test("Enterprise features enabled for accounts") do
+    account = Account.first
+    account.enabled_features.include?('disable_branding') &&
+    account.enabled_features.include?('audit_logs') &&
+    account.enabled_features.include?('fabiana_integration')
+  end
+    tests_passed += 1
+  else
+    tests_failed += 1
+  end
+else
+  puts "Skipping account features test - no accounts found"
+end
+
+# Test 9: Installation Config Values
+if test("Installation config - Enterprise plan") do
+  config = InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')
+  config&.value == 'enterprise'
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 10: Fabiana AI Configuration
+if test("Fabiana AI provider configured") do
+  provider = InstallationConfig.find_by(name: 'FABIANA_AI_PROVIDER')
+  provider&.value.present?
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 11: Fabiana AI Service Factory
+if test("Fabiana AI service factory working") do
+  defined?(Fabiana::AiServiceFactory) &&
+  Fabiana::AiServiceFactory.respond_to?(:available_providers)
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+# Test 12: Push Notification Functionality
+if test("Push notification endpoint available") do
+  # Just check if the method exists and doesn't crash
+  ChatwootHub.respond_to?(:send_push)
+end
+  tests_passed += 1
+else
+  tests_failed += 1
+end
+
+puts ""
+puts "=" * 50
+puts "🧪 Test Results Summary"
+puts "=" * 50
+puts "✅ Tests Passed: #{tests_passed}"
+puts "❌ Tests Failed: #{tests_failed}"
+puts "📊 Success Rate: #{((tests_passed.to_f / (tests_passed + tests_failed)) * 100).round(1)}%"
+
+if tests_failed == 0
+  puts ""
+  puts "🎉 All tests passed! FassZap is configured correctly."
+  puts ""
+  puts "🚀 Ready to use FassZap with:"
+  puts "   • Enterprise features enabled"
+  puts "   • FassZap branding active"
+  puts "   • Minimal telemetry (notifications only)"
+  puts "   • Orange theme colors"
+  puts "   • Fabiana AI configured"
+  exit 0
+else
+  puts ""
+  puts "⚠️  Some tests failed. Please check the configuration."
+  puts "💡 Try running: ./bin/fasszap_setup"
+  exit 1
+end

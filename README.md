@@ -1,11 +1,8 @@
-<img src="./.github/screenshots/header.png#gh-light-mode-only" width="100%" alt="Header light mode"/>
-<img src="./.github/screenshots/header-dark.png#gh-dark-mode-only" width="100%" alt="Header dark mode"/>
+# 🧡 FassZap
 
-___
+**Enterprise Customer Support Platform with Fabiana AI**
 
-# Chatwoot
-
-The modern customer support platform, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.
+FassZap is a privacy-focused fork of Chatwoot with enterprise features enabled by default and enhanced AI capabilities. Built for businesses that want full control over their data while enjoying premium features without licensing costs.
 
 <p>
   <a href="https://codeclimate.com/github/chatwoot/chatwoot/maintainability"><img src="https://api.codeclimate.com/v1/badges/e6e3f66332c91e5a4c0c/maintainability" alt="Maintainability"></a>

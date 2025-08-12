@@ -2,12 +2,12 @@
 # No need to replicate the same values in two places
 
 # ------- Premium Features ------- #
-captain:
-  name: 'Captain'
-  description: 'Enable AI-powered conversations with your customers.'
+fabiana:
+  name: 'Fabiana'
+  description: 'Enable AI-powered conversations with your customers using multiple AI providers.'
   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
-  icon: 'icon-captain'
-  config_key: 'captain'
+  icon: 'icon-fabiana'
+  config_key: 'fabiana'
   enterprise: true
 custom_branding:
   name: 'Custom Branding'

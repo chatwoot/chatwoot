@@ -40,19 +40,19 @@ $header-height: 5.6rem;
 
 $woot-logo-padding: $space-large $space-two;
 
-// Colors
-$color-woot: #1f93ff;
+// FassZap Colors - Orange Theme
+$color-woot: #ff7b1f; // Primary orange color
 $color-gray: #6e6f73;
 $color-light-gray: #747677;
 $color-border: #e0e6ed;
 $color-border-light: #f0f4f5;
-$color-background: #f4f6fb;
+$color-background: #fbf7f4; // Slightly orange-tinted background
 $color-border-dark: #cad0d4;
-$color-background-light: #f9fafc;
+$color-background-light: #fcf9f6; // Light orange background
 $color-white: #fff;
 $color-body: #3c4858;
 $color-heading: #1f2d3d;
-$color-extra-light-blue: #f5f7f9;
+$color-extra-light-orange: #fef9f5; // Orange equivalent of light blue
 
 $primary-color: $color-woot;
 $secondary-color: #5d7592;
@@ -64,8 +64,8 @@ $masked-bg: rgba(0, 0, 0, .4);
 
 // Color-palettes
 
-$color-primary-light: #c7e3ff;
-$color-primary-dark: darken($color-woot, 20%);
+$color-primary-light: #ffe3c7; // Orange light
+$color-primary-dark: darken($color-woot, 20%); // Orange dark
 
 // Thumbnail
 $thumbnail-radius: 4rem;

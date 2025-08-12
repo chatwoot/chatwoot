@@ -1,0 +1,115 @@
+version: '3.8'
+
+services:
+  fasszap-db:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: fasszap_production
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fasszap_secure_password
+    volumes:
+      - fasszap_postgres_data:/var/lib/postgresql/data
+    networks:
+      - fasszap_network
+
+  fasszap-redis:
+    image: redis:6-alpine
+    restart: always
+    command: redis-server --requirepass fasszap_redis_password
+    volumes:
+      - fasszap_redis_data:/data
+    networks:
+      - fasszap_network
+
+  fasszap-app:
+    build: .
+    restart: always
+    depends_on:
+      - fasszap-db
+      - fasszap-redis
+    ports:
+      - "3000:3000"
+    environment:
+      # FassZap Core Config
+      SECRET_KEY_BASE: "your_secret_key_base_here"
+      FRONTEND_URL: "http://localhost:3000"
+      DEFAULT_LOCALE: "pt_BR"
+      
+      # Enterprise Configuration
+      CW_EDITION: "enterprise"
+      INSTALLATION_PRICING_PLAN: "enterprise"
+      INSTALLATION_PRICING_PLAN_QUANTITY: "10"
+      
+      # Database
+      POSTGRES_DATABASE: "fasszap_production"
+      POSTGRES_HOST: "fasszap-db"
+      POSTGRES_USERNAME: "postgres"
+      POSTGRES_PASSWORD: "fasszap_secure_password"
+      
+      # Redis
+      REDIS_URL: "redis://:fasszap_redis_password@fasszap-redis:6379"
+      
+      # Notifications (keep for push notifications)
+      CHATWOOT_HUB_URL: "https://hub.2.chatwoot.com"
+      DISABLE_TELEMETRY: "false"
+      
+      # Rails/Node
+      RAILS_ENV: "production"
+      NODE_ENV: "production"
+      RAILS_MAX_THREADS: "5"
+      
+      # Other
+      FORCE_SSL: "false"
+      ENABLE_ACCOUNT_SIGNUP: "true"
+      INSTALLATION_ENV: "docker"
+      
+    volumes:
+      - fasszap_storage:/app/storage
+      - fasszap_public:/app/public
+    networks:
+      - fasszap_network
+    command: >
+      bash -c "
+        bundle exec rails db:chatwoot_prepare &&
+        ./bin/fasszap_setup &&
+        bundle exec rails server -b 0.0.0.0 -p 3000
+      "
+
+  fasszap-sidekiq:
+    build: .
+    restart: always
+    depends_on:
+      - fasszap-db
+      - fasszap-redis
+    environment:
+      # Same environment as app
+      SECRET_KEY_BASE: "your_secret_key_base_here"
+      FRONTEND_URL: "http://localhost:3000"
+      DEFAULT_LOCALE: "pt_BR"
+      CW_EDITION: "enterprise"
+      POSTGRES_DATABASE: "fasszap_production"
+      POSTGRES_HOST: "fasszap-db"
+      POSTGRES_USERNAME: "postgres"
+      POSTGRES_PASSWORD: "fasszap_secure_password"
+      REDIS_URL: "redis://:fasszap_redis_password@fasszap-redis:6379"
+      CHATWOOT_HUB_URL: "https://hub.2.chatwoot.com"
+      DISABLE_TELEMETRY: "false"
+      RAILS_ENV: "production"
+      NODE_ENV: "production"
+      
+    volumes:
+      - fasszap_storage:/app/storage
+    networks:
+      - fasszap_network
+    command: bundle exec sidekiq -C config/sidekiq.yml
+
+volumes:
+  fasszap_postgres_data:
+  fasszap_redis_data:
+  fasszap_storage:
+  fasszap_public:
+
+networks:
+  fasszap_network:
+    driver: bridge

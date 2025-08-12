@@ -1,0 +1,144 @@
+version: '3.8'
+
+services:
+  fasszap:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # FassZap Core Configuration
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE:-cb26527b7f0b99738ed6ac1a65992340}"
+      FRONTEND_URL: "${FRONTEND_URL:-http://localhost:3000}"
+      DEFAULT_LOCALE: "${DEFAULT_LOCALE:-pt_BR}"
+      FORCE_SSL: "${FORCE_SSL:-false}"
+      ENABLE_ACCOUNT_SIGNUP: "${ENABLE_ACCOUNT_SIGNUP:-true}"
+      
+      # Enterprise Configuration (DO NOT CHANGE)
+      CW_EDITION: "enterprise"
+      INSTALLATION_PRICING_PLAN: "enterprise"
+      INSTALLATION_PRICING_PLAN_QUANTITY: "10"
+      
+      # Database Configuration
+      POSTGRES_DATABASE: "${POSTGRES_DATABASE:-fasszap_production}"
+      POSTGRES_HOST: "${POSTGRES_HOST:-db}"
+      POSTGRES_USERNAME: "${POSTGRES_USERNAME:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-fasszap_secure_password}"
+      
+      # Redis Configuration
+      REDIS_URL: "${REDIS_URL:-redis://redis:6379}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD:-}"
+      REDIS_OPENSSL_VERIFY_MODE: "none"
+      
+      # Notifications (KEEP FOR PUSH NOTIFICATIONS)
+      CHATWOOT_HUB_URL: "https://hub.2.chatwoot.com"
+      DISABLE_TELEMETRY: "false"
+      
+      # Fabiana AI Configuration
+      FABIANA_AI_PROVIDER: "${FABIANA_AI_PROVIDER:-openai}"
+      FABIANA_OPEN_AI_API_KEY: "${FABIANA_OPEN_AI_API_KEY:-}"
+      FABIANA_OPEN_AI_MODEL: "${FABIANA_OPEN_AI_MODEL:-gpt-4o-mini}"
+      FABIANA_CHATGPT_API_KEY: "${FABIANA_CHATGPT_API_KEY:-}"
+      FABIANA_CHATGPT_MODEL: "${FABIANA_CHATGPT_MODEL:-gpt-4}"
+      FABIANA_GROQ_API_KEY: "${FABIANA_GROQ_API_KEY:-}"
+      FABIANA_GROQ_MODEL: "${FABIANA_GROQ_MODEL:-llama3-8b-8192}"
+      
+      # Rails/Node Configuration
+      RAILS_ENV: "production"
+      NODE_ENV: "production"
+      RAILS_MAX_THREADS: "${RAILS_MAX_THREADS:-5}"
+      SIDEKIQ_CONCURRENCY: "${SIDEKIQ_CONCURRENCY:-25}"
+      
+      # Other Configuration
+      INSTALLATION_ENV: "docker"
+      TRUSTED_PROXIES: "*"
+      
+    volumes:
+      - fasszap_storage:/app/storage
+      - fasszap_public:/app/public/uploads
+    depends_on:
+      - db
+      - redis
+    networks:
+      - fasszap_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/v1/accounts"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  fasszap-sidekiq:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    environment:
+      # Same environment as main app
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE:-cb26527b7f0b99738ed6ac1a65992340}"
+      FRONTEND_URL: "${FRONTEND_URL:-http://localhost:3000}"
+      DEFAULT_LOCALE: "${DEFAULT_LOCALE:-pt_BR}"
+      CW_EDITION: "enterprise"
+      POSTGRES_DATABASE: "${POSTGRES_DATABASE:-fasszap_production}"
+      POSTGRES_HOST: "${POSTGRES_HOST:-db}"
+      POSTGRES_USERNAME: "${POSTGRES_USERNAME:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-fasszap_secure_password}"
+      REDIS_URL: "${REDIS_URL:-redis://redis:6379}"
+      REDIS_PASSWORD: "${REDIS_PASSWORD:-}"
+      CHATWOOT_HUB_URL: "https://hub.2.chatwoot.com"
+      DISABLE_TELEMETRY: "false"
+      RAILS_ENV: "production"
+      NODE_ENV: "production"
+      INSTALLATION_ENV: "docker"
+      
+    volumes:
+      - fasszap_storage:/app/storage
+    depends_on:
+      - db
+      - redis
+    networks:
+      - fasszap_network
+
+  db:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "${POSTGRES_DATABASE:-fasszap_production}"
+      POSTGRES_USER: "${POSTGRES_USERNAME:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-fasszap_secure_password}"
+    volumes:
+      - fasszap_postgres_data:/var/lib/postgresql/data
+    networks:
+      - fasszap_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USERNAME:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes ${REDIS_PASSWORD:+--requirepass $REDIS_PASSWORD}
+    volumes:
+      - fasszap_redis_data:/data
+    networks:
+      - fasszap_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  fasszap_postgres_data:
+  fasszap_redis_data:
+  fasszap_storage:
+  fasszap_public:
+
+networks:
+  fasszap_network:
+    driver: bridge

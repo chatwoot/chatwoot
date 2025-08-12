@@ -1,6 +1,8 @@
 const {
   blue,
   blueDark,
+  orange, // FassZap: Added orange
+  orangeDark, // FassZap: Added orange dark
   green,
   greenDark,
   yellow,
@@ -15,18 +17,19 @@ const {
 
 export const colors = {
   woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
+    // FassZap: Changed from blue to orange
+    25: orange.orange2,
+    50: orange.orange3,
+    75: orange.orange4,
+    100: orange.orange5,
+    200: orange.orange7,
+    300: orange.orange8,
+    400: orangeDark.orange11,
+    500: orangeDark.orange10,
+    600: orangeDark.orange9,
+    700: orangeDark.orange8,
+    800: orangeDark.orange6,
+    900: orangeDark.orange2,
   },
   green: {
     50: greenDark.green12,
@@ -211,7 +214,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: '#ff7b1f', // FassZap: Changed from blue to orange
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',

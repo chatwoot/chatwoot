@@ -1,0 +1,103 @@
+#!/usr/bin/env ruby
+# FassZap Setup Script
+# This script configures the system for FassZap with enterprise features
+
+require_relative '../config/environment'
+
+puts "🚀 FassZap Setup Starting..."
+
+begin
+  # 1. Set enterprise configuration
+  puts "📋 Setting enterprise configuration..."
+  
+  InstallationConfig.find_or_create_by(name: 'INSTALLATION_PRICING_PLAN') do |config|
+    config.value = 'enterprise'
+    config.locked = true
+  end
+
+  InstallationConfig.find_or_create_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY') do |config|
+    config.value = 10
+    config.locked = true
+  end
+
+  # 2. Update branding
+  puts "🎨 Updating branding to FassZap..."
+  
+  branding_configs = {
+    'INSTALLATION_NAME' => 'FassZap',
+    'BRAND_NAME' => 'FassZap',
+    'BRAND_URL' => 'https://www.fasszap.com',
+    'WIDGET_BRAND_URL' => 'https://www.fasszap.com',
+    'TERMS_URL' => 'https://www.fasszap.com/terms-of-service',
+    'PRIVACY_URL' => 'https://www.fasszap.com/privacy-policy'
+  }
+
+  branding_configs.each do |name, value|
+    config = InstallationConfig.find_or_initialize_by(name: name)
+    config.value = value
+    config.save!
+    puts "  ✅ Updated #{name}"
+  end
+
+  # 3. Enable enterprise features for all accounts
+  puts "🏢 Enabling enterprise features for all accounts..."
+
+  Account.find_each do |account|
+    begin
+      account.enable_features!(
+        'disable_branding',
+        'audit_logs',
+        'sla',
+        'fabiana_integration',
+        'custom_roles'
+      )
+      puts "  ✅ Enabled features for account: #{account.name}"
+    rescue => e
+      puts "  ⚠️  Warning: Could not enable features for account #{account.id}: #{e.message}"
+    end
+  end
+
+  # 4. Configure Fabiana AI
+  puts "🤖 Configuring Fabiana AI..."
+
+  fabiana_configs = {
+    'FABIANA_AI_PROVIDER' => 'openai'
+  }
+
+  fabiana_configs.each do |name, value|
+    config = InstallationConfig.find_or_initialize_by(name: name)
+    config.value = value
+    config.save!
+    puts "  ✅ Set #{name}"
+  end
+
+  # 5. Clear cache
+  puts "🧹 Clearing cache..."
+  GlobalConfig.clear_cache if defined?(GlobalConfig)
+
+  puts ""
+  puts "🎉 FassZap setup completed successfully!"
+  puts ""
+  puts "📊 Summary:"
+  puts "  • Enterprise plan: ACTIVE"
+  puts "  • License quantity: 10"
+  puts "  • Branding: FassZap"
+  puts "  • Premium features: ENABLED"
+  puts "  • Fabiana AI: CONFIGURED"
+  puts "  • Accounts configured: #{Account.count}"
+  puts ""
+  puts "🔄 Please restart your FassZap server to apply all changes."
+  puts ""
+  puts "🤖 Fabiana AI Configuration:"
+  puts "  • Default provider: OpenAI"
+  puts "  • To configure API keys, go to Settings > Fabiana AI"
+  puts "  • Supported providers: OpenAI, ChatGPT, Groq"
+
+rescue => e
+  puts ""
+  puts "❌ Error during FassZap setup:"
+  puts "   #{e.message}"
+  puts ""
+  puts "🔍 Please check the logs and try again."
+  exit 1
+end

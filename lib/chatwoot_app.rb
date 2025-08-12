@@ -12,9 +12,10 @@ module ChatwootApp
   end
 
   def self.enterprise?
-    return if ENV.fetch('DISABLE_ENTERPRISE', false)
+    # FassZap: Always return true - Enterprise is the only plan
+    return false if ENV.fetch('DISABLE_ENTERPRISE', false)
 
-    @enterprise ||= root.join('enterprise').exist?
+    true # Always enterprise for FassZap
   end
 
   def self.chatwoot_cloud?

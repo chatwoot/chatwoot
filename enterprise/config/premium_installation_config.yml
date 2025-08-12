@@ -1,22 +1,22 @@
-# ------- Branding Related Config ------- #
+# ------- FassZap Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'FassZap'
 - name: LOGO_THUMBNAIL
-  value: '/brand-assets/logo_thumbnail.svg'
+  value: '/brand-assets/fasszap_logo_thumbnail.svg'
 - name: LOGO
-  value: '/brand-assets/logo.svg'
+  value: '/brand-assets/fasszap_logo.svg'
 - name: LOGO_DARK
-  value: '/brand-assets/logo_dark.svg'
+  value: '/brand-assets/fasszap_logo_dark.svg'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.fasszap.com'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.fasszap.com'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'FassZap'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://www.fasszap.com/terms-of-service'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://www.fasszap.com/privacy-policy'
 - name: DISPLAY_MANIFEST
   value: true
 # ------- End of Branding Related Config ------- #

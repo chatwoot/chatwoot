@@ -1,0 +1,91 @@
+# FassZap Dockerfile - Optimized for EasyPanel
+FROM chatwoot/chatwoot:v3.12.0
+
+# Set maintainer
+LABEL maintainer="FassZap Team"
+LABEL description="FassZap - Enterprise Customer Support Platform with Fabiana AI"
+
+# Set environment variables
+ENV RAILS_ENV=production
+ENV NODE_ENV=production
+ENV CW_EDITION=enterprise
+ENV INSTALLATION_PRICING_PLAN=enterprise
+ENV INSTALLATION_PRICING_PLAN_QUANTITY=10
+
+# Switch to root for installations
+USER root
+
+# Install additional dependencies if needed
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Switch back to app user
+USER app
+
+# Set working directory
+WORKDIR /app
+
+# Copy FassZap modifications
+COPY --chown=app:app config/installation_config.yml config/installation_config.yml
+COPY --chown=app:app config/initializers/fasszap_enterprise.rb config/initializers/fasszap_enterprise.rb
+COPY --chown=app:app enterprise/config/premium_features.yml enterprise/config/premium_features.yml
+COPY --chown=app:app enterprise/config/premium_installation_config.yml enterprise/config/premium_installation_config.yml
+COPY --chown=app:app lib/chatwoot_hub.rb lib/chatwoot_hub.rb
+COPY --chown=app:app lib/chatwoot_app.rb lib/chatwoot_app.rb
+COPY --chown=app:app public/manifest.json public/manifest.json
+
+# Copy Fabiana AI services
+COPY --chown=app:app enterprise/app/services/fabiana/ enterprise/app/services/fabiana/
+COPY --chown=app:app enterprise/app/controllers/api/v1/accounts/fabiana/ enterprise/app/controllers/api/v1/accounts/fabiana/
+COPY --chown=app:app enterprise/app/services/llm/base_open_ai_service.rb enterprise/app/services/llm/base_open_ai_service.rb
+
+# Copy CSS/SCSS modifications
+COPY --chown=app:app app/assets/stylesheets/administrate/utilities/_variables.scss app/assets/stylesheets/administrate/utilities/_variables.scss
+COPY --chown=app:app app/assets/stylesheets/administrate/library/_variables.scss app/assets/stylesheets/administrate/library/_variables.scss
+COPY --chown=app:app theme/colors.js theme/colors.js
+
+# Copy helper files
+COPY --chown=app:app app/helpers/super_admin/features.yml app/helpers/super_admin/features.yml
+
+# Copy migration
+COPY --chown=app:app db/migrate/20241212000001_enable_fasszap_enterprise.rb db/migrate/20241212000001_enable_fasszap_enterprise.rb
+
+# Copy scripts
+COPY --chown=app:app bin/fasszap_setup bin/fasszap_setup
+COPY --chown=app:app bin/fasszap_test bin/fasszap_test
+
+# Copy documentation
+COPY --chown=app:app README_FASSZAP.md README_FASSZAP.md
+
+# Make scripts executable
+RUN chmod +x bin/fasszap_setup bin/fasszap_test
+
+# Precompile assets with FassZap theme
+RUN bundle exec rails assets:precompile
+
+# Create startup script
+RUN echo '#!/bin/bash\n\
+echo "🚀 Starting FassZap..."\n\
+\n\
+# Run database preparation\n\
+bundle exec rails db:chatwoot_prepare\n\
+\n\
+# Run FassZap setup\n\
+./bin/fasszap_setup\n\
+\n\
+# Start the server\n\
+echo "✅ FassZap setup complete, starting server..."\n\
+bundle exec rails server -b 0.0.0.0 -p 3000' > /app/start_fasszap.sh
+
+RUN chmod +x /app/start_fasszap.sh
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:3000/api/v1/accounts || exit 1
+
+# Default command
+CMD ["/app/start_fasszap.sh"]

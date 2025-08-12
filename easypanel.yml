@@ -1,0 +1,138 @@
+# EasyPanel Configuration for FassZap
+name: fasszap
+services:
+  - type: app
+    data:
+      projectName: fasszap
+      serviceName: fasszap-app
+      source:
+        type: image
+        image: fasszap/fasszap:latest
+      domains:
+        - host: fasszap.yourdomain.com
+      env:
+        - key: SECRET_KEY_BASE
+          value: cb26527b7f0b99738ed6ac1a65992340
+        - key: FRONTEND_URL
+          value: https://fasszap.yourdomain.com
+        - key: DEFAULT_LOCALE
+          value: pt_BR
+        - key: FORCE_SSL
+          value: "false"
+        - key: ENABLE_ACCOUNT_SIGNUP
+          value: "true"
+        - key: CW_EDITION
+          value: enterprise
+        - key: INSTALLATION_PRICING_PLAN
+          value: enterprise
+        - key: INSTALLATION_PRICING_PLAN_QUANTITY
+          value: "10"
+        - key: POSTGRES_DATABASE
+          value: fasszap_production
+        - key: POSTGRES_HOST
+          value: fasszap-db
+        - key: POSTGRES_USERNAME
+          value: postgres
+        - key: POSTGRES_PASSWORD
+          value: fasszap_secure_password_2024
+        - key: REDIS_URL
+          value: redis://fasszap-redis:6379
+        - key: REDIS_PASSWORD
+          value: fasszap_redis_password_2024
+        - key: REDIS_OPENSSL_VERIFY_MODE
+          value: none
+        - key: CHATWOOT_HUB_URL
+          value: https://hub.2.chatwoot.com
+        - key: DISABLE_TELEMETRY
+          value: "false"
+        - key: FABIANA_AI_PROVIDER
+          value: openai
+        - key: FABIANA_OPEN_AI_API_KEY
+          value: ""
+        - key: FABIANA_OPEN_AI_MODEL
+          value: gpt-4o-mini
+        - key: FABIANA_CHATGPT_API_KEY
+          value: ""
+        - key: FABIANA_CHATGPT_MODEL
+          value: gpt-4
+        - key: FABIANA_GROQ_API_KEY
+          value: ""
+        - key: FABIANA_GROQ_MODEL
+          value: llama3-8b-8192
+        - key: RAILS_ENV
+          value: production
+        - key: NODE_ENV
+          value: production
+        - key: RAILS_MAX_THREADS
+          value: "5"
+        - key: SIDEKIQ_CONCURRENCY
+          value: "25"
+        - key: INSTALLATION_ENV
+          value: docker
+        - key: TRUSTED_PROXIES
+          value: "*"
+      ports:
+        - published: 80
+          target: 3000
+      volumes:
+        - name: fasszap-storage
+          mountPath: /app/storage
+        - name: fasszap-public
+          mountPath: /app/public/uploads
+
+  - type: app
+    data:
+      projectName: fasszap
+      serviceName: fasszap-sidekiq
+      source:
+        type: image
+        image: fasszap/fasszap:latest
+      command: bundle exec sidekiq -C config/sidekiq.yml
+      env:
+        - key: SECRET_KEY_BASE
+          value: cb26527b7f0b99738ed6ac1a65992340
+        - key: FRONTEND_URL
+          value: https://fasszap.yourdomain.com
+        - key: DEFAULT_LOCALE
+          value: pt_BR
+        - key: CW_EDITION
+          value: enterprise
+        - key: POSTGRES_DATABASE
+          value: fasszap_production
+        - key: POSTGRES_HOST
+          value: fasszap-db
+        - key: POSTGRES_USERNAME
+          value: postgres
+        - key: POSTGRES_PASSWORD
+          value: fasszap_secure_password_2024
+        - key: REDIS_URL
+          value: redis://fasszap-redis:6379
+        - key: REDIS_PASSWORD
+          value: fasszap_redis_password_2024
+        - key: CHATWOOT_HUB_URL
+          value: https://hub.2.chatwoot.com
+        - key: DISABLE_TELEMETRY
+          value: "false"
+        - key: RAILS_ENV
+          value: production
+        - key: NODE_ENV
+          value: production
+        - key: INSTALLATION_ENV
+          value: docker
+      volumes:
+        - name: fasszap-storage
+          mountPath: /app/storage
+
+  - type: postgres
+    data:
+      projectName: fasszap
+      serviceName: fasszap-db
+      password: fasszap_secure_password_2024
+      username: postgres
+      database: fasszap_production
+
+  - type: redis
+    data:
+      projectName: fasszap
+      serviceName: fasszap-redis
+      password: fasszap_redis_password_2024
