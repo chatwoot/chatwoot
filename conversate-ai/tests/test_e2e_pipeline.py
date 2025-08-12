@@ -12,27 +12,6 @@ from pathlib import Path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-# Create the __init__.py files programmatically to ensure packages are recognized
-# This is a workaround for the strange environment issues.
-# The CWD for the script when run is /app/conversate-ai
-try:
-    Path("services").mkdir(exist_ok=True)
-    Path("services/__init__.py").touch()
-    Path("services/csg_service").mkdir(exist_ok=True)
-    Path("services/csg_service/__init__.py").touch()
-    Path("services/csg_service/app").mkdir(exist_ok=True)
-    Path("services/csg_service/app/__init__.py").touch()
-    Path("services/sor_service").mkdir(exist_ok=True)
-    Path("services/sor_service/__init__.py").touch()
-    Path("services/sor_service/app").mkdir(exist_ok=True)
-    Path("services/sor_service/app/__init__.py").touch()
-    Path("services/lor_service").mkdir(exist_ok=True)
-    Path("services/lor_service/__init__.py").touch()
-    Path("services/lor_service/app").mkdir(exist_ok=True)
-    Path("services/lor_service/app/__init__.py").touch()
-    print("✅ Bootstrap: Ensured package __init__.py files exist.")
-except Exception as e:
-    print(f"🔥 Bootstrap Error: Failed to create __init__py files: {e}")
 # --- END BOOTSTRAP ---
 
 
