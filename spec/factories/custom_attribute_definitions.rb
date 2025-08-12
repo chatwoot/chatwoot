@@ -7,6 +7,7 @@ FactoryBot.define do
     attribute_display_type { 1 }
     attribute_model { 0 }
     default_value { nil }
+    required_before_resolve { false }
     account
   end
 end

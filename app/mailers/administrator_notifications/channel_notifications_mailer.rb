@@ -77,6 +77,32 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
+  def daily_custom_attributes_report(csv_url, current_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Daily Custom Attributes Report for #{current_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def weekly_custom_attributes_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Weekly Custom Attributes Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+  end
+
+  def custom_attributes_report(csv_url, since_date, until_date, bitespeed_bot)
+    return unless smtp_config_set_or_development?
+
+    subject = "Custom Attributes Report from #{since_date} to #{until_date} | #{Current.account.name.capitalize}"
+    @action_url = csv_url
+    recipients = admin_emails
+    recipients += ['jaideep+chatwootdebugreports@bitespeed.co', 'aryanm@bitespeed.co'] if bitespeed_bot
+    send_mail_with_liquid(to: recipients, subject: subject) and return
+  end
+
   def daily_agent_report(csv_url, current_date)
     return unless smtp_config_set_or_development?
 
