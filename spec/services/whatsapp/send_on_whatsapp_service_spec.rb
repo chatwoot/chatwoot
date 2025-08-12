@@ -72,6 +72,30 @@ describe Whatsapp::SendOnWhatsappService do
         expect(message.reload.source_id).to eq('123456789')
       end
 
+      it 'marks message as failed when template name is blank' do
+        processor = instance_double(Whatsapp::TemplateProcessorService)
+        allow(Whatsapp::TemplateProcessorService).to receive(:new).and_return(processor)
+        allow(processor).to receive(:call).and_return([nil, nil, nil, nil])
+
+        invalid_template_params = {
+          name: '',
+          namespace: 'test_namespace',
+          language: 'en_US',
+          category: 'UTILITY',
+          processed_params: { '1' => 'test' }
+        }
+
+        message = create(:message,
+                         additional_attributes: { template_params: invalid_template_params },
+                         conversation: conversation,
+                         message_type: :outgoing)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('Template not found or invalid template name')
+      end
+
       it 'calls channel.send_template when after 24 hour limit' do
         message = create(:message, message_type: :outgoing, content: 'Your package has been shipped. It will be delivered in 3 business days.',
                                    conversation: conversation, additional_attributes: { template_params: template_params })
