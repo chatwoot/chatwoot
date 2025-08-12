@@ -20,7 +20,9 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
   def status
     # Send GET request to check authorization status
     api_endpoint = GlobalConfigService.load('EXTERNAL_TOKEN_API_URL', nil)
-    status_url = "#{api_endpoint}#{Current.account_id}/status"
+    Rails.logger.info "Checking authorization status from external service: #{api_endpoint}"
+    status_url = "#{api_endpoint}/#{Current.account.id}/status"
+    Rails.logger.info "Authorization status URL: #{status_url}"
 
     begin
       response = HTTParty.get(status_url)
