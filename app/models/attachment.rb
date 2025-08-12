@@ -79,14 +79,31 @@ class Attachment < ApplicationRecord
   def file_metadata
     metadata = {
       extension: extension,
-      data_url: file_url,
-      thumb_url: thumb_url,
-      file_size: file.byte_size,
-      width: file.metadata[:width],
-      height: file.metadata[:height]
+      data_url: nil,
+      thumb_url: nil,
+      file_size: nil,
+      width: nil,
+      height: nil
     }
 
-    metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram? && message.incoming?
+    if file.attached?
+      metadata[:data_url] = file_url
+      metadata[:thumb_url] = thumb_url
+      metadata[:file_size] = file.byte_size
+      metadata[:width] = file.metadata[:width]
+      metadata[:height] = file.metadata[:height]
+    end
+
+    # Instagram incoming messages — override URLs
+    if message.inbox.instagram? && message.incoming?
+      metadata[:data_url] = metadata[:thumb_url] = external_url
+    end
+
+    # External URL without file attached (Stark bot case)
+    if external_url.present? && !file.attached?
+      metadata[:data_url] = metadata[:thumb_url] = external_url
+    end
+
     metadata
   end
 

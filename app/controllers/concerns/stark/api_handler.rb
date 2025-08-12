@@ -69,6 +69,7 @@ module Stark
         question: content,
         session_id: conversation.id,
         dealership_id: conversation.account&.dealership_id,
+        account_id: conversation.account_id,
         customer_id: conversation.contact&.id,
         recent_messages: format_recent_messages(conversation)
       }
@@ -78,6 +79,9 @@ module Stark
       conversation.messages
                   .not_activity
                   .not_template
+                  .left_outer_joins(:attachments)
+                  .where(attachments: { id: nil })
+                  .where.not(content: [nil, ''])
                   .reorder(created_at: :desc)
                   .limit(10)
                   .map do |message|
@@ -106,7 +110,8 @@ module Stark
       {
         'content' => data['answer'],
         'action' => nil,
-        'stop_follow_up' => data['stop_follow_up']
+        'stop_follow_up' => data['stop_follow_up'],
+        'attachments' => data['attachments'] || []
       }
     end
 
