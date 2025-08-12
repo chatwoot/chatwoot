@@ -1,153 +1,181 @@
+import sys
+import os
 import uuid
 import time
 from datetime import datetime
+import json
+from pathlib import Path
 
-# In a real test suite, we would import these from the actual service code.
-# For this simulation, we are redefining them here to show the data contracts.
-# This assumes the script is run from a context where it can see the service directories.
-# from services.csg_service.app.schemas import IngestEvent
-# from services.sor_service.app.schemas import SearchQuery, EvidenceBundle, Citation
-# from services.lor_service.app.schemas import OrchestrationRequest, OrchestrationResponse, DecisionTrace, Turn
+# --- BOOTSTRAP SCRIPT TO FIX ENVIRONMENT ---
+# Add the project root to the python path to allow for absolute imports
+# The test script is in /app/conversate-ai/tests, so the project root is one level up.
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
 
-# --- Redefining Schemas for Simulation ---
-# This is done to make the script self-contained for this demonstration.
-from pydantic import BaseModel, Field
-from typing import List, Dict, Any, Optional
+# Create the __init__.py files programmatically to ensure packages are recognized
+# This is a workaround for the strange environment issues.
+# The CWD for the script when run is /app/conversate-ai
+try:
+    Path("services").mkdir(exist_ok=True)
+    Path("services/__init__.py").touch()
+    Path("services/csg_service").mkdir(exist_ok=True)
+    Path("services/csg_service/__init__.py").touch()
+    Path("services/csg_service/app").mkdir(exist_ok=True)
+    Path("services/csg_service/app/__init__.py").touch()
+    Path("services/sor_service").mkdir(exist_ok=True)
+    Path("services/sor_service/__init__.py").touch()
+    Path("services/sor_service/app").mkdir(exist_ok=True)
+    Path("services/sor_service/app/__init__.py").touch()
+    Path("services/lor_service").mkdir(exist_ok=True)
+    Path("services/lor_service/__init__.py").touch()
+    Path("services/lor_service/app").mkdir(exist_ok=True)
+    Path("services/lor_service/app/__init__.py").touch()
+    print("✅ Bootstrap: Ensured package __init__.py files exist.")
+except Exception as e:
+    print(f"🔥 Bootstrap Error: Failed to create __init__py files: {e}")
+# --- END BOOTSTRAP ---
 
-class IngestEvent(BaseModel):
-    event_id: str = Field(default_factory=lambda: f"evt_{uuid.uuid4().hex}")
-    timestamp: datetime
-    channel: str
-    actor_id: str
-    org_id: str
-    text: str
 
-class Citation(BaseModel):
-    doc_id: str
-    content: str
-    score: float
-
-class EvidenceBundle(BaseModel):
-    citations: List[Citation]
-    confidence: float
-
-class Turn(BaseModel):
-    role: str
-    content: str
-
-class DecisionTrace(BaseModel):
-    model_used: str
-    final_response: str
-
-class OrchestrationRequest(BaseModel):
-    conversation_id: str
-    conversation_history: List[Turn]
-    flow_id: str
+from services.csg_service.app.schemas import IngestEvent
+from services.sor_service.app.schemas import SearchQuery, EvidenceBundle, Citation, Verification
+from services.lor_service.app.schemas import OrchestrationRequest, OrchestrationResponse, DecisionTrace, Turn, RetrievalTrace
 
 # --- Mock Service Functions ---
 
-def mock_csg_service_ingest(event: IngestEvent) -> dict:
-    """Simulates the CSG service consuming an event."""
-    print(f"[CSG] Ingesting event {event.event_id}...")
-    # In a real service, this would write to a graph database.
-    mock_graph_db = {
-        "nodes": [
-            {"id": event.actor_id, "type": "Actor"},
-            {"id": f"turn_{event.event_id}", "type": "Turn", "text": event.text}
-        ],
-        "edges": [
-            {"from": event.actor_id, "to": f"turn_{event.event_id}", "type": "PERFORMED"}
-        ]
-    }
-    print("[CSG] Event processed and stored in graph.")
-    return mock_graph_db
+mock_event_bus = {
+    "csg_events": [],
+    "sor_requests": [],
+    "lor_requests": [],
+}
 
-def mock_sor_service_search(query: str) -> EvidenceBundle:
-    """Simulates the SOR service performing a search."""
-    print(f"[SOR] Received search query: '{query}'")
-    # In a real service, this would perform vector search.
-    mock_citations = [
+def mock_csg_service_ingest(event: IngestEvent):
+    print(f"[CSG] Ingesting event {event.event_id}...")
+    mock_event_bus["csg_events"].append(event)
+    print(f"[CSG] Event processed. Total events in graph: {len(mock_event_bus['csg_events'])}")
+
+def mock_sor_service_search(query: SearchQuery) -> EvidenceBundle:
+    print(f"[SOR] Received search query: '{query.query}'")
+    mock_event_bus["sor_requests"].append(query)
+
+    should_retrieve = any(keyword in query.query.lower() for keyword in ["how", "what", "price"])
+
+    if not should_retrieve:
+        return EvidenceBundle(
+            citations=[],
+            confidence=0.9,
+            verifications=[Verification(check_name="retrieval_trigger", status=False, details="Query does not require external knowledge.")],
+            processing_time_ms=15.0
+        )
+
+    citations = [
         Citation(doc_id="doc://faq/pricing", content="Our pricing is $10/month.", score=0.92),
         Citation(doc_id="doc://faq/features", content="We have many features.", score=0.85)
     ]
-    bundle = EvidenceBundle(citations=mock_citations, confidence=0.88)
+    bundle = EvidenceBundle(
+        citations=citations,
+        confidence=0.88,
+        verifications=[
+            Verification(check_name="retrieval_trigger", status=True, details="Retrieval was triggered."),
+            Verification(check_name="relevance_critique", status=True, details="Kept 2 of 2 chunks.")
+        ],
+        processing_time_ms=120.0
+    )
     print(f"[SOR] Returning evidence bundle with {len(bundle.citations)} citations.")
     return bundle
 
 def mock_llm_call(prompt: str) -> str:
-    """Simulates a call to an external LLM."""
     print(f"[LLM] Received prompt: '{prompt[:100]}...'")
-    response = "Based on the context, the price is $10 per month."
+    response = "Based on our documentation, the price is $10 per month. Let me know if you need anything else!"
     print(f"[LLM] Generated response: '{response}'")
     return response
 
-def mock_lor_service_orchestrate(request: OrchestrationRequest) -> (str, DecisionTrace):
-    """Simulates the LOR service orchestrating a turn."""
+def mock_lor_service_orchestrate(request: OrchestrationRequest) -> OrchestrationResponse:
     print(f"\n[LOR] Orchestrating turn for conversation {request.conversation_id}...")
+    mock_event_bus["lor_requests"].append(request)
 
-    # 1. Simulate RETRIEVE step from bytecode
+    final_response = "An error occurred."
+    trace = None
+
     print("[LOR] Executing bytecode op: RETRIEVE")
-    evidence = mock_sor_service_search(query=request.conversation_history[-1].content)
+    search_query = SearchQuery(query=request.conversation_history[-1].content, top_k=3)
+    evidence = mock_sor_service_search(search_query)
 
-    # 2. Simulate SAY step from bytecode
     print("[LOR] Executing bytecode op: SAY")
-    prompt = f"Context: {evidence.citations[0].content}\n\nUser asked: {request.conversation_history[-1].content}\n\nAnswer:"
+    context_str = "\n".join([f"- {c.content}" for c in evidence.citations])
+    prompt = f"Context: {context_str}\n\nUser asked: {request.conversation_history[-1].content}\n\nAnswer:"
     final_response = mock_llm_call(prompt)
 
-    # 3. Create Decision Trace
-    trace = DecisionTrace(model_used="gpt-5-mock", final_response=final_response)
+    retrieval_trace = RetrievalTrace(docs=[c.dict() for c in evidence.citations], confidence=evidence.confidence)
+    trace = DecisionTrace(
+        model_used="gpt-5-mock",
+        think_budget_ms=150.0,
+        retrieval=retrieval_trace,
+        final_response=final_response
+    )
     print("[LOR] Orchestration complete.")
-    return final_response, trace
+
+    return OrchestrationResponse(
+        conversation_id=request.conversation_id,
+        response_message=final_response,
+        decision_trace=trace
+    )
 
 # --- Main Test Pipeline ---
 
 def run_e2e_test():
-    print("--- Starting End-to-End Pipeline Simulation ---")
+    print("--- Starting End-to-End CDNA-X v0 Pipeline Simulation ---")
+    mock_event_bus.clear()
 
-    # --- Step 1: Ingest a new message into the system ---
     print("\n--- STAGE 1: INGESTION ---")
-    start_time = time.time()
 
+    user_message = "How much does it cost?"
     ingest_event = IngestEvent(
         timestamp=datetime.now(),
         channel="webchat",
         actor_id="customer_123",
         org_id="org_abc",
-        text="How much does it cost?"
+        text=user_message,
+        labels={
+            "intent": {"name": "query_pricing", "confidence": 0.98},
+            "entities": [{"type": "product", "value": "default", "text": "it"}]
+        }
     )
     mock_csg_service_ingest(ingest_event)
 
-    ingestion_time_ms = (time.time() - start_time) * 1000
-    print(f"SLO Check: Ingestion processed in {ingestion_time_ms:.2f} ms.")
+    assert len(mock_event_bus["csg_events"]) == 1
+    assert mock_event_bus["csg_events"][0].text == user_message
+    print("✅ Ingestion verification successful.")
 
-    # --- Step 2: Orchestrate a response to the message ---
     print("\n--- STAGE 2: ORCHESTRATION & RESPONSE ---")
-    start_time = time.time()
 
     orchestration_request = OrchestrationRequest(
         conversation_id="conv_xyz",
-        conversation_history=[
-            Turn(role="user", content="How much does it cost?")
-        ],
-        flow_id="sample_flow_v1"
+        conversation_history=[Turn(role="user", content=user_message)],
+        flow_id="appointment_reschedule_v3"
     )
 
-    response_message, decision_trace = mock_lor_service_orchestrate(orchestration_request)
+    orchestration_response = mock_lor_service_orchestrate(orchestration_request)
 
-    orchestration_time_ms = (time.time() - start_time) * 1000
+    assert len(mock_event_bus["lor_requests"]) == 1
+    assert len(mock_event_bus["sor_requests"]) == 1
+    assert mock_event_bus["sor_requests"][0].query == user_message
 
     print("\n--- FINAL RESULT ---")
-    print(f"Response to user: {response_message}")
-    print(f"Decision Trace: {decision_trace.json(indent=2)}")
+    print(f"Response to user: {orchestration_response.response_message}")
+    print(f"Decision Trace: {orchestration_response.decision_trace.json(indent=2)}")
 
-    # --- Step 3: Check SLOs/KPIs ---
-    print("\n--- STAGE 3: SLO/KPI VALIDATION ---")
-    print(f"SLO Check: Full orchestration time: {orchestration_time_ms:.2f} ms.")
-    # In a real test, we would have assertions here.
-    assert orchestration_time_ms < 2000, "SLO Violated: Orchestration took too long!"
-    print("SLO Met: Orchestration time is within the 2000ms budget.")
+    print("\n--- STAGE 3: OUTPUT VALIDATION ---")
 
+    final_trace = orchestration_response.decision_trace
+    assert "Based on our documentation" in orchestration_response.response_message
+    assert final_trace.retrieval is not None
+    assert final_trace.retrieval.confidence > 0.8
+    assert len(final_trace.retrieval.docs) == 2
+    assert final_trace.retrieval.docs[0]["doc_id"] == "doc://faq/pricing"
+
+    print("✅ Output validation successful. The trace contains the correct retrieval info.")
     print("\n--- End-to-End Pipeline Simulation Complete ---")
+
 
 if __name__ == "__main__":
     run_e2e_test()

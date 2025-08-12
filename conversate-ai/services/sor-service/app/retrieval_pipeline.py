@@ -47,18 +47,35 @@ def process_and_index_document(db: Session, doc_name: str, doc_content: str, acc
 
 # --- Semantic Search Logic ---
 
-def search(query: str, top_k: int, db: Session, account_id: str):
+def run_self_rag_pipeline(query: str, top_k: int, db: Session, account_id: str) -> schemas.EvidenceBundle:
     """
-    Performs a semantic search for a given query and account.
+    Implements the Self-Optimizing Retrieval (SOR) pipeline v1.
+    This includes a trigger policy and a self-critique step.
     """
-    logger.info(f"Performing semantic search for account '{account_id}' with query: '{query}'")
+    start_time = time.time()
+    logger.info(f"Running Self-RAG pipeline for account '{account_id}' with query: '{query}'")
 
-    # 1. Generate an embedding for the user's query
+    # 1. Self-RAG Trigger Policy (Mock Implementation)
+    # Decides if retrieval is necessary. Here, we use a simple keyword-based rule.
+    # A real implementation would use a small, fine-tuned model.
+    keywords_that_trigger_retrieval = ["how", "what", "who", "when", "where", "why", "price", "cost"]
+    should_retrieve = any(keyword in query.lower() for keyword in keywords_that_trigger_retrieval)
+
+    if not should_retrieve:
+        logger.info("Self-RAG trigger: Retrieval not necessary.")
+        return schemas.EvidenceBundle(
+            citations=[],
+            confidence=0.9, # High confidence in not needing to retrieve
+            verifications=[
+                schemas.Verification(check_name="retrieval_trigger", status=False, details="Query does not require external knowledge.")
+            ],
+            processing_time_ms=(time.time() - start_time) * 1000
+        )
+
+    logger.info("Self-RAG trigger: Retrieval required.")
+
+    # 2. Perform Semantic Search (the existing RAG logic)
     query_embedding = embedding_model.encode(query)
-
-    # 2. Perform vector similarity search in the database
-    # We use the l2_distance operator (<->) provided by pgvector.
-    # We also join with the documents table to filter by account_id.
     similar_chunks = (
         db.query(models.DocumentChunk)
         .join(models.Document)
@@ -67,27 +84,59 @@ def search(query: str, top_k: int, db: Session, account_id: str):
         .limit(top_k)
         .all()
     )
-
     logger.info(f"Found {len(similar_chunks)} similar document chunks.")
 
-    # 3. Format the results into an EvidenceBundle (or at least the citations part)
-    citations = []
-    for chunk in similar_chunks:
-        # The distance is not directly a confidence score, but we can use it to create one.
-        # A lower distance means higher similarity. We'll do a simple inversion for a score.
-        # This is a simplification; a real system might use a more robust scoring method.
-        score = 1 - chunk.embedding.l2_distance(query_embedding)
-        citations.append(
-            schemas.Citation(
-                doc_id=chunk.document_id,
-                content=chunk.content,
-                score=score
-            )
+    if not similar_chunks:
+        return schemas.EvidenceBundle(
+            citations=[],
+            confidence=0.2, # Low confidence because we found nothing
+            verifications=[
+                schemas.Verification(check_name="retrieval_trigger", status=True, details="Retrieval was triggered."),
+                schemas.Verification(check_name="retrieval_successful", status=False, details="No relevant documents found.")
+            ],
+            processing_time_ms=(time.time() - start_time) * 1000
         )
 
-    # Placeholder for the Self-RAG verification step
+    # 3. Self-Critique Step (Mock Implementation)
+    # Filters and verifies the retrieved chunks. A real implementation would use an LLM.
     verifications = [
-        schemas.Verification(check_name="retrieval_successful", status=True, details=f"Found {len(citations)} results.")
+        schemas.Verification(check_name="retrieval_trigger", status=True, details="Retrieval was triggered."),
+        schemas.Verification(check_name="retrieval_successful", status=True, details=f"Found {len(similar_chunks)} candidate chunks.")
     ]
 
-    return citations, verifications
+    final_citations = []
+    total_score = 0
+    for chunk in similar_chunks:
+        # Mock relevance check: does the chunk contain any query terms?
+        is_relevant = any(term in chunk.content.lower() for term in query.lower().split())
+        if is_relevant:
+            score = 1 - chunk.embedding.l2_distance(query_embedding)
+            final_citations.append(
+                schemas.Citation(
+                    doc_id=chunk.document_id,
+                    content=chunk.content,
+                    score=score
+                )
+            )
+            total_score += score
+
+    verifications.append(
+        schemas.Verification(
+            check_name="relevance_critique",
+            status=True,
+            details=f"Kept {len(final_citations)} of {len(similar_chunks)} chunks after relevance check."
+        )
+    )
+
+    # 4. Assemble the final EvidenceBundle
+    confidence = (total_score / len(final_citations)) if final_citations else 0.1
+
+    evidence = schemas.EvidenceBundle(
+        citations=final_citations,
+        confidence=confidence,
+        verifications=verifications,
+        processing_time_ms=(time.time() - start_time) * 1000
+    )
+
+    logger.info(f"Self-RAG pipeline complete. Confidence: {confidence:.2f}")
+    return evidence

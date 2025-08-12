@@ -2,6 +2,8 @@ import logging
 import httpx
 from openai import OpenAI
 import os
+import time
+import json
 from typing import List, Dict, Any
 
 from . import schemas
@@ -97,13 +99,54 @@ class ConversationRuntime:
 
 
     async def _execute_retrieve(self, step: schemas.BytecodeOp):
-        # This logic is from the previous step and remains unchanged
-        sources = step.params.get("sources", [])
-        logger.info(f"RETRIEVE op: Searching for sources: {sources}")
-        # ... (implementation from previous step) ...
-        # For brevity, this is omitted, but it would call SOR/CSG services
-        self.context["retrieved_docs"] = [{"id": src, "content": f"Mock content for {src}"} for src in sources]
-        self.trace.retrieval = schemas.RetrievalTrace(docs=self.context["retrieved_docs"], confidence=0.9)
+        # This is the "Rule-Based Routing" for LOR v0. The rule is: if the flow
+        # has a RETRIEVE op, we call the SOR service.
+
+        # 1. Get the query from the last user turn
+        last_user_turn = next((turn for turn in reversed(self.conversation_history) if turn.role == 'user'), None)
+        if not last_user_turn:
+            logger.warning("RETRIEVE op: No user turn found in history to use as a query.")
+            return
+
+        query = last_user_turn.content
+        logger.info(f"RETRIEVE op: Calling SOR service with query: '{query}'")
+
+        # 2. Call the SOR service
+        sor_service_url = os.getenv("SOR_SERVICE_URL", "http://localhost:8003")
+        try:
+            response = await http_client.post(
+                f"{sor_service_url}/search",
+                json={"query": query, "top_k": 3},
+                headers={"Authorization": f"Bearer {os.getenv('INTERNAL_API_TOKEN')}"}, # Assuming services are protected
+                timeout=5.0
+            )
+            response.raise_for_status()
+            evidence_bundle_data = response.json()
+            evidence_bundle = schemas.EvidenceBundle.parse_obj(evidence_bundle_data)
+
+            # 3. Update context and trace
+            self.context["retrieved_docs"] = [c.dict() for c in evidence_bundle.citations]
+            self.trace.retrieval = schemas.RetrievalTrace(
+                docs=[c.dict() for c in evidence_bundle.citations],
+                confidence=evidence_bundle.confidence
+            )
+            logger.info(f"RETRIEVE op: Received {len(evidence_bundle.citations)} citations with confidence {evidence_bundle.confidence:.2f}")
+
+            # 4. Bandit Logging
+            log_entry = {
+                "timestamp": time.time(),
+                "flow_id": self.flow.flow_id,
+                "decision_type": "routing",
+                "decision": "call_sor_service",
+                "context": {"query": query},
+                "outcome": {"confidence": evidence_bundle.confidence, "citations_found": len(evidence_bundle.citations)}
+            }
+            logger.info(f"BANDIT_LOG: {json.dumps(log_entry)}")
+
+        except httpx.HTTPStatusError as e:
+            logger.error(f"Error calling SOR service: {e.response.status_code} - {e.response.text}")
+        except Exception as e:
+            logger.error(f"An unexpected error occurred when calling SOR service: {e}")
 
     # Other opcode implementations remain the same...
     async def _execute_plan(self, step: schemas.BytecodeOp): pass

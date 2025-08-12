@@ -90,6 +90,34 @@ def process_event(event: schemas.IngestEvent):
         session.write_transaction(_create_graph_nodes_for_event, event)
     logger.info(f"Successfully processed event {event.event_id} into the graph.")
 
+def _create_intent_and_link_to_turn(tx: ManagedTransaction, turn_node, intent_data: dict):
+    intent = schemas.Intent.parse_obj(intent_data)
+    query = (
+        "MATCH (t:Turn) WHERE id(t) = $turn_id "
+        "CREATE (i:Intent {intent_id: $intent_id, name: $name, confidence: $confidence}) "
+        "CREATE (t)-[:HAS_INTENT]->(i)"
+    )
+    tx.run(query, turn_id=turn_node.id, intent_id=intent.id, name=intent.name, confidence=intent.confidence)
+
+def _create_entity_and_link_to_turn(tx: ManagedTransaction, turn_node, entity_data: dict):
+    entity = schemas.Entity.parse_obj(entity_data)
+    query = (
+        "MATCH (t:Turn) WHERE id(t) = $turn_id "
+        "CREATE (e:Entity {entity_id: $entity_id, type: $type, value: $value, text: $text}) "
+        "CREATE (t)-[:HAS_ENTITY]->(e)"
+    )
+    tx.run(query, turn_id=turn_node.id, entity_id=entity.id, type=entity.type, value=str(entity.value), text=entity.text)
+
+def _create_outcome_and_link_to_turn(tx: ManagedTransaction, turn_node, outcome_data: dict):
+    outcome = schemas.Outcome.parse_obj(outcome_data)
+    query = (
+        "MATCH (t:Turn) WHERE id(t) = $turn_id "
+        "CREATE (o:Outcome {outcome_id: $outcome_id, type: $type, value: $value}) "
+        "CREATE (t)-[:LEAD_TO_OUTCOME]->(o)"
+    )
+    tx.run(query, turn_id=turn_node.id, outcome_id=outcome.id, type=outcome.type, value=outcome.value)
+
+
 def _create_graph_nodes_for_event(tx: ManagedTransaction, event: schemas.IngestEvent):
     # 1. Find or create the Actor node
     actor_node = _find_or_create_actor(tx, event.actor_id)
@@ -103,7 +131,19 @@ def _create_graph_nodes_for_event(tx: ManagedTransaction, event: schemas.IngestE
     # 4. Link the Actor to the Turn
     _link_actor_to_turn(tx, actor_node, turn_node)
 
-    # In a real app, we would also process intents, entities, etc. here
+    # 5. Process labels (Intents and Entities)
+    if event.labels:
+        if "intent" in event.labels and isinstance(event.labels["intent"], dict):
+            _create_intent_and_link_to_turn(tx, turn_node, event.labels["intent"])
+
+        if "entities" in event.labels and isinstance(event.labels["entities"], list):
+            for entity_data in event.labels["entities"]:
+                if isinstance(entity_data, dict):
+                    _create_entity_and_link_to_turn(tx, turn_node, entity_data)
+
+    # 6. Process outcome
+    if event.outcome and isinstance(event.outcome, dict):
+        _create_outcome_and_link_to_turn(tx, turn_node, event.outcome)
 
     return True
 

@@ -57,21 +57,12 @@ async def search(
     current_user: UserInDB = Depends(get_current_user)
 ):
     """
-    Performs semantic search and returns an evidence bundle.
+    Runs the Self-RAG pipeline and returns an evidence bundle.
     """
-    citations, verifications = retrieval_pipeline.search(
+    evidence_bundle = retrieval_pipeline.run_self_rag_pipeline(
         query=query.query,
         top_k=query.top_k,
         db=db,
         account_id=current_user.account_id
     )
-
-    # Placeholder confidence score
-    confidence = sum(c.score for c in citations) / len(citations) if citations else 0.0
-
-    return schemas.EvidenceBundle(
-        citations=citations,
-        confidence=confidence,
-        verifications=verifications,
-        processing_time_ms=0 # Placeholder
-    )
+    return evidence_bundle
