@@ -41,12 +41,16 @@ class SearchService
   end
 
   def filter_messages
-    @messages = if use_gin_search
+    @messages = if current_account.feature_enabled?('search_with_gin')
                   filter_messages_with_gin
+                elsif current_account.feature_enabled?('advanced_search')
+                  advanced_search
                 else
                   filter_messages_with_like
                 end
   end
+
+  def advanced_search; end
 
   def filter_messages_with_gin
     base_query = message_base_query
@@ -95,10 +99,6 @@ class SearchService
     accessable_inbox_ids.sort == current_account.inboxes.pluck(:id).sort
   end
 
-  def use_gin_search
-    current_account.feature_enabled?('search_with_gin')
-  end
-
   def filter_contacts
     @contacts = current_account.contacts.where(
       "name ILIKE :search OR email ILIKE :search OR phone_number
@@ -115,3 +115,5 @@ class SearchService
                                .per(15)
   end
 end
+
+SearchService.prepend_mod_with('SearchService')

@@ -4,3 +4,7 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+# Load Enterprise Edition rake tasks if they exist
+enterprise_tasks_path = File.join(Rails.root, 'enterprise', 'lib', 'tasks.rb')
+require enterprise_tasks_path if File.exist?(enterprise_tasks_path)
