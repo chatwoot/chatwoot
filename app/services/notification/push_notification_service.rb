@@ -71,6 +71,8 @@ class Notification::PushNotificationService
   rescue WebPush::ExpiredSubscription, WebPush::InvalidSubscription, WebPush::Unauthorized => e
     Rails.logger.info "WebPush subscription expired: #{e.message}"
     subscription.destroy!
+  rescue WebPush::TooManyRequests => e
+    Rails.logger.warn "WebPush rate limited for #{user.email} on account #{notification.account.id}: #{e.message}"
   rescue Errno::ECONNRESET, Net::OpenTimeout, Net::ReadTimeout => e
     Rails.logger.error "WebPush operation error: #{e.message}"
   rescue StandardError => e
