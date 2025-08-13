@@ -60,13 +60,10 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :api_headers, to: :provider_service
 
   def setup_webhooks
-    return true unless should_setup_webhooks?
-
     perform_webhook_setup
     true # Webhook setup succeeded
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
-    # Mark channel for reauthorization if webhook setup fails
     prompt_reauthorization! if respond_to?(:prompt_reauthorization!)
     false # Return false but don't raise - fail silently
   end

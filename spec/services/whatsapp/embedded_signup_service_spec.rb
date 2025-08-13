@@ -27,7 +27,7 @@ describe Whatsapp::EmbeddedSignupService do
         business_name: 'Test Business'
       }
     end
-    let(:channel) { instance_double(Channel::Whatsapp) }
+    let(:channel) { instance_double(Channel::Whatsapp, setup_webhooks: true) }
     let(:service_doubles) do
       {
         token_exchange: instance_double(Whatsapp::TokenExchangeService),
