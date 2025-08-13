@@ -509,10 +509,8 @@ const menuItems = computed(() => {
     class="bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak flex flex-col text-sm pb-1 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 transition-transform duration-200 ease-in-out md:static w-[200px] basis-[200px] md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:-translate-x-0"
     :class="[
       {
-        'ltr:translate-x-0 rtl:-translate-x-0 shadow-lg md:shadow-none':
-          isMobileSidebarOpen,
-        'ltr:-translate-x-full rtl:translate-x-full md:translate-x-0':
-          !isMobileSidebarOpen,
+        'shadow-lg md:shadow-none': isMobileSidebarOpen,
+        'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
       },
     ]"
   >
