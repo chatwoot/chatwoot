@@ -2,10 +2,13 @@
 
 require 'agents'
 
+DEFAULT_OPENAI_MODEL = 'gpt-4.1-mini'
+DEFAULT_OPENAI_ENDPOINT = 'https://api.openai.com'
+
 Rails.application.config.after_initialize do
   api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-  model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value&.presence || 'gpt-4.1-mini'
-  api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com'
+  model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value&.presence || DEFAULT_OPENAI_MODEL
+  api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || DEFAULT_OPENAI_ENDPOINT
 
   if api_key.present?
     Agents.configure do |config|
