@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require 'agents'
-require 'captain/constants'
+require 'open_ai_constants'
 
 Rails.application.config.after_initialize do
   api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-  model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value&.presence || Captain::Constants::DEFAULT_OPENAI_MODEL
-  api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || Captain::Constants::DEFAULT_OPENAI_ENDPOINT
+  model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value&.presence || OpenAiConstants::DEFAULT_MODEL
+  api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || OpenAiConstants::DEFAULT_ENDPOINT
 
   if api_key.present?
     Agents.configure do |config|
