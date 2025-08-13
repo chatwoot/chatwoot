@@ -4,7 +4,7 @@ require 'agents'
 
 Rails.application.config.after_initialize do
   api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-  model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value&.presence || OpenAiConstants::DEFAULT_MODEL
+  model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || OpenAiConstants::DEFAULT_MODEL
   api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || OpenAiConstants::DEFAULT_ENDPOINT
 
   if api_key.present?
