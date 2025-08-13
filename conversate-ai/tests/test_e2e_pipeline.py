@@ -84,7 +84,7 @@ def mock_lor_service_orchestrate(request: OrchestrationRequest) -> Orchestration
     prompt = f"Context: {context_str}\n\nUser asked: {request.conversation_history[-1].content}\n\nAnswer:"
     final_response = mock_llm_call(prompt)
 
-    retrieval_trace = RetrievalTrace(docs=[c.dict() for c in evidence.citations], confidence=evidence.confidence)
+    retrieval_trace = RetrievalTrace(docs=[c.model_dump() for c in evidence.citations], confidence=evidence.confidence)
     trace = DecisionTrace(
         model_used="gpt-5-mock",
         think_budget_ms=150.0,
@@ -144,7 +144,7 @@ def run_e2e_test():
 
     print("\n--- FINAL RESULT ---")
     print(f"Response to user: {orchestration_response.response_message}")
-    print(f"Decision Trace: {orchestration_response.decision_trace.json(indent=2)}")
+    print(f"Decision Trace: {orchestration_response.decision_trace.model_dump_json(indent=2)}")
 
     print("\n--- STAGE 3: OUTPUT VALIDATION ---")
 
