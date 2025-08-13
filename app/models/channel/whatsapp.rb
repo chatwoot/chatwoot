@@ -61,11 +61,9 @@ class Channel::Whatsapp < ApplicationRecord
 
   def setup_webhooks
     perform_webhook_setup
-    true # Webhook setup succeeded
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
-    prompt_reauthorization! if respond_to?(:prompt_reauthorization!)
-    false # Return false but don't raise - fail silently
+    prompt_reauthorization!
   end
 
   private
@@ -76,22 +74,6 @@ class Channel::Whatsapp < ApplicationRecord
 
   def validate_provider_config
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
-  end
-
-  def should_setup_webhooks?
-    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present?
-  end
-
-  def whatsapp_cloud_provider?
-    provider == 'whatsapp_cloud'
-  end
-
-  def embedded_signup_source?
-    provider_config['source'] == 'embedded_signup'
-  end
-
-  def webhook_config_present?
-    provider_config['business_account_id'].present? && provider_config['api_key'].present?
   end
 
   def perform_webhook_setup
