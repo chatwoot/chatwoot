@@ -82,6 +82,16 @@ RSpec.describe Attachment do
 
       expect(attachment.thumb_url).to be_present
     end
+
+    it 'handles unrepresentable images gracefully' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: StringIO.new('fake image'), filename: 'test.jpg', content_type: 'image/jpeg')
+
+      allow(attachment.file).to receive(:representation).and_raise(ActiveStorage::UnrepresentableError.new('Cannot represent'))
+
+      expect(Rails.logger).to receive(:warn).with(/Unrepresentable image attachment: #{attachment.id}/)
+      expect(attachment.thumb_url).to eq('')
+    end
   end
 
   describe 'meta data handling' do
