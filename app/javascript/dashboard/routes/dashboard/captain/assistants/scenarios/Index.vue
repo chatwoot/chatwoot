@@ -62,7 +62,7 @@ const scenariosExample = [
     description:
       'Handle customers who are showing interest in purchasing a license',
     instruction:
-      'If someone is interested in purchasing a license, ask them for following:\n\n1. How many licenses are they willing to purchase?\n2. Are they migrating from another platform?\n. Once these details are collected, do the following steps\n1. add a private note to with the information you collected using [Add Private Note](tool://add_private_note)\n2. Add label "sales" to the contact using [Add Label to Conversation](tool://add_label_to_conversation)\n3. Reply saying "one of us will react out soon" and provide an estimated timeline for the response and [Handoff to Human](tool://handoff)',
+      'If someone is interested in purchasing a license, ask them for following:\n\n1. How many licenses are they willing to purchase?\n2. Are they migrating from another platform?\n\n. Once these details are collected, do the following steps\n\n1. add a private note to with the information you collected using [Add Private Note](tool://add_private_note)\n2. Add label "sales" to the contact using [Add Label to Conversation](tool://add_label_to_conversation)\n3. Reply saying "one of us will reach out soon" and provide an estimated timeline for the response and [Handoff to Human](tool://handoff)',
     tools: ['add_private_note', 'add_label_to_conversation', 'handoff'],
   },
 ];
