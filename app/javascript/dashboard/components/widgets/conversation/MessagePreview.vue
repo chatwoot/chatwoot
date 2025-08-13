@@ -51,8 +51,10 @@ export default {
     },
     // Simple check: Is this a voice channel conversation?
     isVoiceChannel() {
-      return this.conversation?.meta?.channel === 'Channel::Voice' ||
-             this.conversation?.meta?.inbox?.channel_type === 'Channel::Voice';
+      return (
+        this.conversation?.meta?.channel === 'Channel::Voice' ||
+        this.conversation?.meta?.inbox?.channel_type === 'Channel::Voice'
+      );
     },
     // Check if this is a voice call message
     isVoiceCall() {
@@ -199,14 +201,13 @@ export default {
         />
         <!-- Incoming call icon -->
         <i
-          v-else-if="(callStatus === 'ended' && isIncomingCall) || (isIncomingCall)"
+          v-else-if="
+            (callStatus === 'ended' && isIncomingCall) || isIncomingCall
+          "
           class="i-ph-phone-incoming text-base"
         />
         <!-- Outgoing call icon -->
-        <i
-          v-else
-          class="i-ph-phone-outgoing text-base"
-        />
+        <i v-else class="i-ph-phone-outgoing text-base" />
       </span>
       <span>{{ parsedLastMessage }}</span>
     </template>
@@ -232,24 +233,23 @@ export default {
         >
           <!-- Missed call icon -->
           <i
-v-if="callStatus === 'missed' || callStatus === 'no-answer'" 
+            v-if="callStatus === 'missed' || callStatus === 'no-answer'"
             class="i-ph-phone-x text-base"
           />
           <!-- Active call icon -->
           <i
-v-else-if="callStatus === 'active'" 
+            v-else-if="callStatus === 'active'"
             class="i-ph-phone-call text-base"
           />
           <!-- Incoming call icon -->
           <i
-v-else-if="(callStatus === 'ended' && isIncomingCall) || (isIncomingCall)" 
+            v-else-if="
+              (callStatus === 'ended' && isIncomingCall) || isIncomingCall
+            "
             class="i-ph-phone-incoming text-base"
           />
           <!-- Outgoing call icon -->
-          <i
-v-else
-class="i-ph-phone-outgoing text-base"
-/>
+          <i v-else class="i-ph-phone-outgoing text-base" />
         </span>
         <fluent-icon
           v-else-if="messageByAgent"
@@ -290,3 +290,4 @@ class="i-ph-phone-outgoing text-base"
     </template>
   </div>
 </template>
+

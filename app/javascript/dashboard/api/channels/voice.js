@@ -53,22 +53,19 @@ class VoiceAPI extends ApiClient {
   endClientCall() {
     try {
       if (this.activeConnection) {
-        console.log('📞 Ending client WebRTC call connection');
         this.activeConnection.disconnect();
         this.activeConnection = null;
       }
-      
+
       if (this.device && this.device.state === 'busy') {
-        console.log('📞 Disconnecting all device connections');
         this.device.disconnectAll();
       }
     } catch (error) {
-      console.warn('⚠️ Error ending client call:', error);
       // Clear the connection reference even if disconnect failed
       this.activeConnection = null;
+      throw error;
     }
   }
-
 
   // Join an incoming call as an agent (join the conference)
   // This is used for the WebRTC client-side setup, not for phone calls anymore
@@ -97,7 +94,6 @@ class VoiceAPI extends ApiClient {
       payload.account_id = accountId;
     }
 
-    console.log('Calling join_call API endpoint with payload:', payload);
 
     return axios.post(`${this.url}/join_call`, payload);
   }
@@ -122,16 +118,8 @@ class VoiceAPI extends ApiClient {
 
   // Get a capability token for the Twilio Client
   getToken(inboxId) {
-    console.log(
-      `Requesting token for inbox ID: ${inboxId} at URL: ${this.url}/tokens`
-    );
-
-    // Log the base URL for debugging
-    console.log(`Base URL: ${this.baseUrl()}`);
-
     // Check if inboxId is valid
     if (!inboxId) {
-      console.error('No inbox ID provided for token request');
       return Promise.reject(new Error('Inbox ID is required'));
     }
 
@@ -154,7 +142,6 @@ class VoiceAPI extends ApiClient {
           inboxId,
         };
 
-        console.error('Token request error details:', errorInfo);
 
         // Try to extract a more useful error message from the HTML response if it's a 500 error
         if (
@@ -192,13 +179,11 @@ class VoiceAPI extends ApiClient {
     // If already initialized, return the existing device after checking its health
     if (this.initialized && this.device) {
       const deviceState = this.device.state;
-      console.log('Device already initialized, current state:', deviceState);
 
       // If the device is in a bad state, destroy and reinitialize
       if (deviceState === 'error' || deviceState === 'unregistered') {
-        console.log(
-          'Device is in a bad state, destroying and reinitializing...'
-        );
+        // Device is in a bad state, destroying and reinitializing
+        console.log('Device is in a bad state, destroying and reinitializing');
         try {
           this.device.destroy();
         } catch (e) {
@@ -208,15 +193,15 @@ class VoiceAPI extends ApiClient {
         this.initialized = false;
       } else {
         // Device is in a good state, return it
+        console.log('Device is in a good state, returning existing device');
         return this.device;
       }
     }
 
     // Device needs to be initialized or reinitialized
     try {
-      console.log(
-        `Starting Twilio Device initialization for inbox: ${inboxId}`
-      );
+      // Starting Twilio Device initialization
+      console.log('Starting Twilio Device initialization');
 
       // Import the Twilio Voice SDK
       let Device;
@@ -224,9 +209,7 @@ class VoiceAPI extends ApiClient {
         // We know the package is installed via package.json
         const { Device: TwilioDevice } = await import('@twilio/voice-sdk');
         Device = TwilioDevice;
-        console.log('✓ Twilio Voice SDK imported successfully');
       } catch (importError) {
-        console.error('✗ Failed to import Twilio Voice SDK:', importError);
         throw new Error(
           `Failed to load Twilio Voice SDK: ${importError.message}`
         );
@@ -238,20 +221,15 @@ class VoiceAPI extends ApiClient {
       }
 
       // Step 1: Get a token from the server
-      console.log(`Requesting Twilio token for inbox: ${inboxId}`);
       let response;
       try {
         response = await this.getToken(inboxId);
-        console.log(
-          `✓ Token response received with status: ${response.status}`
-        );
+        console.log('Token response received successfully');
       } catch (tokenError) {
-        console.error('✗ Token request failed:', tokenError);
 
         // Enhanced error handling for token requests
         if (tokenError.details) {
           // If we already have extracted details from the error, include those
-          console.error('Token error details:', tokenError.details);
           throw new Error(`Failed to get token: ${tokenError.message}`);
         }
 
@@ -286,7 +264,6 @@ class VoiceAPI extends ApiClient {
 
       // Validate token response
       if (!response.data || !response.data.token) {
-        console.error('✗ Invalid token response data:', response.data);
 
         // Check if we have an error message in the response
         if (response.data && response.data.error) {
@@ -300,14 +277,9 @@ class VoiceAPI extends ApiClient {
 
       // Check for warnings about missing TwiML App SID
       if (response.data.warning) {
-        console.warn('⚠️ Twilio Voice Warning:', response.data.warning);
 
         if (!response.data.has_twiml_app) {
-          console.error(
-            '🚨 IMPORTANT: Missing TwiML App SID. Browser-based calling requires a ' +
-              'TwiML App configured in Twilio Console. Set the Voice Request URL to: ' +
-              response.data.twiml_endpoint
-          );
+          // IMPORTANT: Missing TwiML App SID - requires configuration
         }
       }
 
@@ -315,15 +287,12 @@ class VoiceAPI extends ApiClient {
       const { token, identity, voice_enabled, account_sid } = response.data;
 
       // Log diagnostic information
-      console.log(`✓ Token data received for identity: ${identity}`);
-      console.log(`✓ Voice enabled: ${voice_enabled}`);
-      console.log(`✓ Twilio Account SID available: ${!!account_sid}`);
 
       // Log the TwiML endpoint that will be used
       if (response.data.twiml_endpoint) {
-        console.log(`✓ TwiML endpoint: ${response.data.twiml_endpoint}`);
+        console.log('TwiML endpoint configured:', response.data.twiml_endpoint);
       } else {
-        console.warn('⚠️ No TwiML endpoint found in token response');
+        console.log('No TwiML endpoint configured');
       }
 
       // Check if voice is enabled
@@ -353,13 +322,10 @@ class VoiceAPI extends ApiClient {
         },
       };
 
-      console.log('Creating Twilio Device with options:', deviceOptions);
 
       try {
         this.device = new Device(token, deviceOptions);
-        console.log('✓ Twilio Device created successfully');
       } catch (deviceError) {
-        console.error('✗ Failed to create Twilio Device:', deviceError);
         throw new Error(
           `Failed to create Twilio Device: ${deviceError.message}`
         );
@@ -369,14 +335,11 @@ class VoiceAPI extends ApiClient {
       this._setupDeviceEventListeners(inboxId);
 
       // Step 4: Register the device with Twilio
-      console.log('Registering Twilio Device...');
       try {
         await this.device.register();
-        console.log('✓ Twilio Device registered successfully');
         this.initialized = true;
         return this.device;
       } catch (registerError) {
-        console.error('✗ Failed to register Twilio Device:', registerError);
 
         // Handle specific registration errors
         if (registerError.message && registerError.message.includes('token')) {
@@ -399,7 +362,6 @@ class VoiceAPI extends ApiClient {
       this.device = null;
       this.initialized = false;
 
-      console.error('Failed to initialize Twilio Device:', error);
 
       // Create a detailed error with context for debugging
       const enhancedError = new Error(
@@ -443,31 +405,27 @@ class VoiceAPI extends ApiClient {
 
     // Add standard event listeners
     this.device.on('registered', () => {
-      console.log('✓ Twilio Device registered with Twilio servers');
+      console.log('Device registered successfully');
     });
 
     this.device.on('unregistered', () => {
-      console.log('⚠️ Twilio Device unregistered from Twilio servers');
+      console.log('Device unregistered');
     });
 
     this.device.on('tokenWillExpire', () => {
-      console.log('⚠️ Twilio token is about to expire, refreshing...');
       this.getToken(inboxId)
         .then(newTokenResponse => {
           if (newTokenResponse.data && newTokenResponse.data.token) {
-            console.log('✓ Successfully obtained new token');
             this.device.updateToken(newTokenResponse.data.token);
           } else {
-            console.error('✗ Failed to get a valid token for renewal');
           }
         })
         .catch(tokenError => {
-          console.error('✗ Error refreshing token:', tokenError);
+          console.log('Failed to refresh token:', tokenError);
         });
     });
 
     this.device.on('incoming', connection => {
-      console.log('📞 Incoming call received via Twilio Device');
       this.activeConnection = connection;
 
       // Set up connection-specific events
@@ -497,98 +455,94 @@ class VoiceAPI extends ApiClient {
         timestamp: new Date().toISOString(),
       };
 
-      console.error('❌ DETAILED Twilio Device Error:', errorDetails);
 
       // Provide helpful troubleshooting tips based on error code
       switch (error.code) {
         case 31000:
-          console.error(
-            '⚠️ Error 31000: General Error. This could be an authentication, configuration, or network issue.'
+          console.log(
+            '⚠️ Error 31000: General Error. This could be an authentication, configuration, or network issue.',
+            {
+              sdp: error.sdp || 'No SDP data',
+              callState: error.call ? error.call.state : 'No call state',
+              connectionState: error.connection
+                ? error.connection.state
+                : 'No connection state',
+              peerConnectionState: error.peerConnection
+                ? error.peerConnection.iceConnectionState
+                : 'No ICE state',
+              message: error.message,
+              twilioError: error,
+              info: error.info || 'No additional info',
+              solution:
+                'Check Twilio account status, SDP negotiations, and network connectivity',
+            }
           );
-          console.error('31000 Error Details:', {
-            sdp: error.sdp || 'No SDP data',
-            callState: error.call ? error.call.state : 'No call state',
-            connectionState: error.connection
-              ? error.connection.state
-              : 'No connection state',
-            peerConnectionState: error.peerConnection
-              ? error.peerConnection.iceConnectionState
-              : 'No ICE state',
-            message: error.message,
-            twilioError: error,
-            info: error.info || 'No additional info',
-            solution:
-              'Check Twilio account status, SDP negotiations, and network connectivity',
-          });
 
           // Create a network diagnostic to check connectivity
           fetch('https://status.twilio.com/api/v2/status.json')
             .then(response => response.json())
             .then(data => {
-              console.log('Twilio service status check:', data);
             })
             .catch(statusError => {
-              console.error('Failed to check Twilio status:', statusError);
+              console.log('Failed to check Twilio status:', statusError);
             });
           break;
         case 31002:
-          console.error(
+          console.log(
             '⚠️ Error 31002: Permission Denied. Your browser microphone is blocked or unavailable.'
           );
           break;
         case 31003:
-          console.error(
+          console.log(
             '⚠️ Error 31003: TwiML App Error. Your TwiML application does not exist or is misconfigured.'
           );
           break;
         case 31005:
-          console.error(
-            '⚠️ Error 31005: Error sent from gateway in HANGUP. This usually means the TwiML endpoint is not reachable or returning invalid TwiML.'
+          console.log(
+            '⚠️ Error 31005: Error sent from gateway in HANGUP. This usually means the TwiML endpoint is not reachable or returning invalid TwiML.',
+            {
+              activeConnection: this.activeConnection ? 'Yes' : 'No',
+              deviceState: this.device ? this.device.state : 'No device',
+              params: this.activeConnection
+                ? this.activeConnection.parameters
+                : 'No params',
+              twimlEndpoint:
+                this.activeConnection && this.activeConnection.parameters
+                  ? this.activeConnection.parameters.To
+                  : 'Unknown endpoint',
+              hangupReason: error.hangupReason || 'Unknown', // Capture hangup reason
+              message: error.message,
+              description: error.description,
+              customMessage: error.customMessage,
+              originalError: error.originalError
+                ? JSON.stringify(error.originalError)
+                : 'None',
+            }
           );
-          console.error('Additional details for 31005:', {
-            activeConnection: this.activeConnection ? 'Yes' : 'No',
-            deviceState: this.device ? this.device.state : 'No device',
-            params: this.activeConnection
-              ? this.activeConnection.parameters
-              : 'No params',
-            twimlEndpoint:
-              this.activeConnection && this.activeConnection.parameters
-                ? this.activeConnection.parameters.To
-                : 'Unknown endpoint',
-            hangupReason: error.hangupReason || 'Unknown', // Capture hangup reason
-            message: error.message,
-            description: error.description,
-            customMessage: error.customMessage,
-            originalError: error.originalError
-              ? JSON.stringify(error.originalError)
-              : 'None',
-          });
           break;
         case 31008:
-          console.error(
+          console.log(
             '⚠️ Error 31008: Connection Error. The call could not be established.'
           );
           break;
         case 31204:
-          console.error(
+          console.log(
             '⚠️ Error 31204: ICE Connection Failed. WebRTC connection failure, check firewall settings.'
           );
           break;
         default:
-          console.error(
+          console.log(
             `⚠️ Unspecified error with code ${error.code}: ${error.message}`
           );
       }
     });
 
     this.device.on('connect', connection => {
-      console.log('📞 Call connected');
       this.activeConnection = connection;
       this._setupConnectionEventListeners(connection);
     });
 
     this.device.on('disconnect', () => {
-      console.log('📞 Call disconnected');
       this.activeConnection = null;
     });
   }
@@ -683,21 +637,21 @@ class VoiceAPI extends ApiClient {
         },
       };
 
-      console.error(
+      console.log(
         '❌ DETAILED Connection Error with Audio Diagnostics:',
         connectionErrorDetails
       );
     });
 
     connection.on('mute', isMuted => {
-      console.log(`📞 Call ${isMuted ? 'muted' : 'unmuted'}`);
+      console.log('Connection mute status changed:', isMuted);
     });
 
     connection.on('accept', () => {
       // Enhanced logging for accept event with audio diagnostics
       const diagnostics = getAudioDiagnostics();
 
-      console.log('📞 Call accepted with audio diagnostics:', {
+      console.log('Connection accepted with diagnostics:', {
         connectionParameters: connection.parameters,
         status: connection.status && connection.status(),
         audioDiagnostics: diagnostics,
@@ -712,7 +666,7 @@ class VoiceAPI extends ApiClient {
 
       // AUDIO HEALTH CHECK AFTER CONNECTION
       setTimeout(() => {
-        console.log('🔊 AUDIO HEALTH CHECK:', {
+        console.log('Audio health check after 5 seconds:', {
           connectionActive: this.activeConnection === connection,
           connectionState: connection.status && connection.status(),
           audioTracks: window.activeAudioStream
@@ -730,7 +684,7 @@ class VoiceAPI extends ApiClient {
     });
 
     connection.on('disconnect', () => {
-      console.log('📞 Call disconnected', {
+      console.log('Connection disconnected:', {
         disconnectCause: connection.parameters
           ? connection.parameters.DisconnectCause
           : 'Unknown',
@@ -741,7 +695,7 @@ class VoiceAPI extends ApiClient {
     });
 
     connection.on('reject', () => {
-      console.log('📞 Call rejected', {
+      console.log('Connection rejected:', {
         rejectCause: connection.parameters
           ? connection.parameters.DisconnectCause
           : 'Unknown',
@@ -752,12 +706,12 @@ class VoiceAPI extends ApiClient {
 
     // Additional event for warning messages
     connection.on('warning', warning => {
-      console.warn('⚠️ Connection Warning:', warning);
+      console.log('Connection warning:', warning);
     });
 
     // Listen for TwiML processing events
     connection.on('twiml-processing', twiml => {
-      console.log('📄 Processing TwiML:', twiml);
+      console.log('Processing TwiML:', twiml);
     });
 
     // Enhanced audio events for debugging
@@ -777,7 +731,7 @@ class VoiceAPI extends ApiClient {
         if (typeof connection.getRemoteStream === 'function') {
           const remoteStream = connection.getRemoteStream();
           if (remoteStream) {
-            console.log('✅ Remote audio stream available:', {
+            console.log('Remote stream details:', {
               active: remoteStream.active,
               id: remoteStream.id,
               tracks: remoteStream.getTracks().map(t => ({
@@ -787,11 +741,11 @@ class VoiceAPI extends ApiClient {
               })),
             });
           } else {
-            console.warn('⚠️ No remote audio stream available');
+            console.log('No remote stream available');
           }
         }
       } catch (e) {
-        console.warn('Error setting up enhanced audio events:', e);
+        console.log('Error setting up advanced audio events:', e);
       }
     }
   }
@@ -869,22 +823,24 @@ class VoiceAPI extends ApiClient {
             try {
               if (typeof resolvedConnection.on === 'function') {
                 resolvedConnection.on('accept', () => {
-                  // Connection accepted
+                  console.log('Promise connection accepted');
                 });
               }
             } catch (listenerError) {
-              console.warn('Could not add listeners to Promise connection:', listenerError);
+              console.log(
+                'Could not add listeners to Promise connection:',
+                listenerError
+              );
             }
           })
           .catch(connError => {
-            console.warn('WebRTC Promise connection error:', connError);
+            console.log('Connection error:', connError);
           });
       } else {
         // It's a synchronous connection - older Twilio SDK
       }
       return connection;
     } catch (error) {
-      console.error('Error joining conference:', error);
       return null;
     }
   }
