@@ -83,12 +83,6 @@ class Channel::Whatsapp < ApplicationRecord
     Whatsapp::WebhookSetupService.new(self, business_account_id, api_key).perform
   end
 
-  def handle_webhook_setup_error(error)
-    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{error.message}"
-    # Don't raise the error to prevent channel creation from failing
-    # Webhooks can be retried later
-  end
-
   def teardown_webhooks
     Whatsapp::WebhookTeardownService.new(self).perform
   end
