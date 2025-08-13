@@ -27,7 +27,7 @@ namespace :search do
       next
     end
 
-    account_id = ENV['ACCOUNT_ID']
+    account_id = ENV.fetch('ACCOUNT_ID', nil)
     if account_id.blank?
       puts 'Please provide an ACCOUNT_ID environment variable'
       next
