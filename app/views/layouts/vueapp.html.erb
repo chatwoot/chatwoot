@@ -34,6 +34,7 @@
       window.chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
+        crmURL: '<%= ENV.fetch('CRM_URL', '') %>',
         fbAppId: '<%= @global_config['FB_APP_ID'] %>',
         instagramAppId: '<%= @global_config['INSTAGRAM_APP_ID'] %>',
         googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
@@ -79,3 +80,4 @@
     <% end %>
   </body>
 </html>
+

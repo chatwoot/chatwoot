@@ -13,6 +13,7 @@ const props = defineProps({
   label: { type: String, required: true },
   icon: { type: [String, Object, Function], default: null },
   to: { type: Object, default: null },
+  href: { type: String, default: '' },
   activeOn: { type: Array, default: () => [] },
   children: { type: Array, default: undefined },
   getterKeys: { type: Object, default: () => ({}) },
@@ -108,6 +109,11 @@ const hasActiveChild = computed(() => {
 });
 
 const toggleTrigger = () => {
+  // External link support for top-level items without children
+  if (props.href && !hasChildren.value) {
+    window.open(props.href, '_blank', 'noopener,noreferrer');
+    return;
+  }
   if (
     hasAccessibleChildren.value &&
     !isExpanded.value &&
@@ -232,3 +238,4 @@ onMounted(async () => {
   border-radius: 0 0 4px 0px;
 }
 </style>
+

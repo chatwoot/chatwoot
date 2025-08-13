@@ -37,12 +37,6 @@ const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
 
-// SuperAdmin protection check
-const currentUser = useMapGetter('getCurrentUser');
-const isUserSuperAdmin = computed(() => {
-  return currentUser.value?.type === 'SuperAdmin';
-});
-
 const toggleShortcutModalFn = show => {
   if (show) {
     emit('openKeyShortcutModal');
@@ -69,6 +63,9 @@ provideSidebarContext({
   expandedItem,
   setExpandedItem,
 });
+
+const currentUser = useMapGetter('getCurrentUser');
+const isUserSuperAdmin = computed(() => currentUser.value?.type === 'SuperAdmin');
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
@@ -126,7 +123,7 @@ const newReportRoutes = () => [
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
-  const baseItems = [
+  return [
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
@@ -404,147 +401,131 @@ const menuItems = computed(() => {
           }),
         },
       ],
-    }
+    },
+    {
+      name: 'Settings',
+      label: t('SIDEBAR.SETTINGS'),
+      icon: 'i-lucide-bolt',
+      children: [
+        ...(isUserSuperAdmin.value
+          ? [
+              {
+                name: 'Settings Account Settings',
+                label: t('SIDEBAR.ACCOUNT_SETTINGS'),
+                icon: 'i-lucide-briefcase',
+                to: accountScopedRoute('general_settings_index'),
+              },
+            ]
+          : []),
+        ...(isUserSuperAdmin.value
+          ? [
+              {
+                name: 'Settings Agents',
+                label: t('SIDEBAR.AGENTS'),
+                icon: 'i-lucide-square-user',
+                to: accountScopedRoute('agent_list'),
+              },
+            ]
+          : []),
+        {
+          name: 'Settings Teams',
+          label: t('SIDEBAR.TEAMS'),
+          icon: 'i-lucide-users',
+          to: accountScopedRoute('settings_teams_list'),
+        },
+        ...(isUserSuperAdmin.value
+          ? [
+              {
+                name: 'Settings Inboxes',
+                label: t('SIDEBAR.INBOXES'),
+                icon: 'i-lucide-inbox',
+                to: accountScopedRoute('settings_inbox_list'),
+              },
+            ]
+          : []),
+        {
+          name: 'Settings Labels',
+          label: t('SIDEBAR.LABELS'),
+          icon: 'i-lucide-tags',
+          to: accountScopedRoute('labels_list'),
+        },
+        {
+          name: 'Settings Custom Attributes',
+          label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
+          icon: 'i-lucide-code',
+          to: accountScopedRoute('attributes_list'),
+        },
+        {
+          name: 'Settings Automation',
+          label: t('SIDEBAR.AUTOMATION'),
+          icon: 'i-lucide-workflow',
+          to: accountScopedRoute('automation_list'),
+        },
+        ...(isUserSuperAdmin.value
+          ? [
+              {
+                name: 'Settings Agent Bots',
+                label: t('SIDEBAR.AGENT_BOTS'),
+                icon: 'i-lucide-bot',
+                to: accountScopedRoute('agent_bots'),
+              },
+            ]
+          : []),
+        {
+          name: 'Settings Macros',
+          label: t('SIDEBAR.MACROS'),
+          icon: 'i-lucide-toy-brick',
+          to: accountScopedRoute('macros_wrapper'),
+        },
+        {
+          name: 'Settings Canned Responses',
+          label: t('SIDEBAR.CANNED_RESPONSES'),
+          icon: 'i-lucide-message-square-quote',
+          to: accountScopedRoute('canned_list'),
+        },
+        ...(isUserSuperAdmin.value
+          ? [
+              {
+                name: 'Settings Integrations',
+                label: t('SIDEBAR.INTEGRATIONS'),
+                icon: 'i-lucide-blocks',
+                to: accountScopedRoute('settings_applications'),
+              },
+            ]
+          : []),
+        {
+          name: 'Settings Audit Logs',
+          label: t('SIDEBAR.AUDIT_LOGS'),
+          icon: 'i-lucide-briefcase',
+          to: accountScopedRoute('auditlogs_list'),
+        },
+        {
+          name: 'Settings Custom Roles',
+          label: t('SIDEBAR.CUSTOM_ROLES'),
+          icon: 'i-lucide-shield-plus',
+          to: accountScopedRoute('custom_roles_list'),
+        },
+        {
+          name: 'Settings Sla',
+          label: t('SIDEBAR.SLA'),
+          icon: 'i-lucide-clock-alert',
+          to: accountScopedRoute('sla_list'),
+        },
+        {
+          name: 'Settings Billing',
+          label: t('SIDEBAR.BILLING'),
+          icon: 'i-lucide-credit-card',
+          to: accountScopedRoute('billing_settings_index'),
+        },
+      ],
+    },
+    {
+      name: 'CrmHeycommerce',
+      label: 'CRM Hey',
+      icon: 'i-lucide-rocket',
+      href: (window?.chatwootConfig?.crmURL || 'https://crm-heycommerce.com'),
+    },
   ];
-
-  // Settings section with conditional children based on SuperAdmin status
-  const settingsChildren = [
-    {
-      name: 'Settings Account Settings',
-      label: t('SIDEBAR.ACCOUNT_SETTINGS'),
-      icon: 'i-lucide-briefcase',
-      to: accountScopedRoute('general_settings_index'),
-    }
-  ];
-
-  // Only show these items to SuperAdmins
-  if (isUserSuperAdmin.value) {
-    settingsChildren.push(
-      {
-        name: 'Settings Agents',
-        label: t('SIDEBAR.AGENTS'),
-        icon: 'i-lucide-square-user',
-        to: accountScopedRoute('agent_list'),
-      }
-    );
-  }
-
-  settingsChildren.push(
-    {
-      name: 'Settings Teams',
-      label: t('SIDEBAR.TEAMS'),
-      icon: 'i-lucide-users',
-      to: accountScopedRoute('settings_teams_list'),
-    }
-  );
-
-  // Only show these items to SuperAdmins
-  if (isUserSuperAdmin.value) {
-    settingsChildren.push(
-      {
-        name: 'Settings Inboxes',
-        label: t('SIDEBAR.INBOXES'),
-        icon: 'i-lucide-inbox',
-        to: accountScopedRoute('settings_inbox_list'),
-      }
-    );
-  }
-
-  settingsChildren.push(
-    {
-      name: 'Settings Labels',
-      label: t('SIDEBAR.LABELS'),
-      icon: 'i-lucide-tags',
-      to: accountScopedRoute('labels_list'),
-    },
-    {
-      name: 'Settings Custom Attributes',
-      label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
-      icon: 'i-lucide-code',
-      to: accountScopedRoute('attributes_list'),
-    },
-    {
-      name: 'Settings Automation',
-      label: t('SIDEBAR.AUTOMATION'),
-      icon: 'i-lucide-workflow',
-      to: accountScopedRoute('automation_list'),
-    }
-  );
-
-  // Only show these items to SuperAdmins
-  if (isUserSuperAdmin.value) {
-    settingsChildren.push(
-      {
-        name: 'Settings Agent Bots',
-        label: t('SIDEBAR.AGENT_BOTS'),
-        icon: 'i-lucide-bot',
-        to: accountScopedRoute('agent_bots'),
-      }
-    );
-  }
-
-  settingsChildren.push(
-    {
-      name: 'Settings Macros',
-      label: t('SIDEBAR.MACROS'),
-      icon: 'i-lucide-toy-brick',
-      to: accountScopedRoute('macros_wrapper'),
-    },
-    {
-      name: 'Settings Canned Responses',
-      label: t('SIDEBAR.CANNED_RESPONSES'),
-      icon: 'i-lucide-message-square-quote',
-      to: accountScopedRoute('canned_list'),
-    }
-  );
-
-  // Only show these items to SuperAdmins
-  if (isUserSuperAdmin.value) {
-    settingsChildren.push(
-      {
-        name: 'Settings Integrations',
-        label: t('SIDEBAR.INTEGRATIONS'),
-        icon: 'i-lucide-blocks',
-        to: accountScopedRoute('settings_applications'),
-      }
-    );
-  }
-
-  settingsChildren.push(
-    {
-      name: 'Settings Audit Logs',
-      label: t('SIDEBAR.AUDIT_LOGS'),
-      icon: 'i-lucide-briefcase',
-      to: accountScopedRoute('auditlogs_list'),
-    },
-    {
-      name: 'Settings Custom Roles',
-      label: t('SIDEBAR.CUSTOM_ROLES'),
-      icon: 'i-lucide-shield-plus',
-      to: accountScopedRoute('custom_roles_list'),
-    },
-    {
-      name: 'Settings Sla',
-      label: t('SIDEBAR.SLA'),
-      icon: 'i-lucide-clock-alert',
-      to: accountScopedRoute('sla_list'),
-    },
-    {
-      name: 'Settings Billing',
-      label: t('SIDEBAR.BILLING'),
-      icon: 'i-lucide-credit-card',
-      to: accountScopedRoute('billing_settings_index'),
-    }
-  );
-
-  const settingsSection = {
-    name: 'Settings',
-    label: t('SIDEBAR.SETTINGS'),
-    icon: 'i-lucide-bolt',
-    children: settingsChildren,
-  };
-
-  return [...baseItems, settingsSection];
 });
 </script>
 
@@ -601,6 +582,7 @@ const menuItems = computed(() => {
             />
           </template>
         </ComposeConversation>
+        
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
@@ -621,3 +603,4 @@ const menuItems = computed(() => {
     </section>
   </aside>
 </template>
+
