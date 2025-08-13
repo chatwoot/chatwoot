@@ -732,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Mājas lapas saite",
           "PLACEHOLDER": "Portāla mājaslapas saite",
-          "ERROR": "Nederīgs URL. Sākumlapas saitei jāsākas ar “http://” vai “https://”."
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
