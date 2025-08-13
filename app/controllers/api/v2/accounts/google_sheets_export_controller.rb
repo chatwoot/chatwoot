@@ -48,7 +48,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     rescue StandardError => e
       render json: {
         error: 'Failed to connect to external service',
-        message: e.message
+        message: e.message, api_endpoint: api_endpoint, status_url: status_url
       }, status: :service_unavailable
     end
   end
