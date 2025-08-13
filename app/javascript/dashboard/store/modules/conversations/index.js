@@ -272,10 +272,15 @@ export const mutations = {
     }
   },
 
-  [types.UPDATE_CONVERSATION_CALL_STATUS](_state, { conversationId, callStatus }) {
+  [types.UPDATE_CONVERSATION_CALL_STATUS](
+    _state,
+    { conversationId, callStatus }
+  ) {
     if (!conversationId || !callStatus) return;
-    
-    const [chat] = _state.allConversations.filter(c => c && c.id === conversationId);
+
+    const [chat] = _state.allConversations.filter(
+      c => c && c.id === conversationId
+    );
     if (chat) {
       if (!chat.additional_attributes) {
         chat.additional_attributes = {};

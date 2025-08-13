@@ -94,7 +94,6 @@ class VoiceAPI extends ApiClient {
       payload.account_id = accountId;
     }
 
-
     return axios.post(`${this.url}/join_call`, payload);
   }
 
@@ -134,6 +133,7 @@ class VoiceAPI extends ApiClient {
       )
       .catch(error => {
         // Extract useful error details for debugging
+        // eslint-disable-next-line no-unused-vars
         const errorInfo = {
           status: error.response?.status,
           statusText: error.response?.statusText,
@@ -141,7 +141,6 @@ class VoiceAPI extends ApiClient {
           url: `${this.url}/tokens`,
           inboxId,
         };
-
 
         // Try to extract a more useful error message from the HTML response if it's a 500 error
         if (
@@ -183,17 +182,17 @@ class VoiceAPI extends ApiClient {
       // If the device is in a bad state, destroy and reinitialize
       if (deviceState === 'error' || deviceState === 'unregistered') {
         // Device is in a bad state, destroying and reinitializing
-        console.log('Device is in a bad state, destroying and reinitializing');
+        // Device is in a bad state, destroying and reinitializing
         try {
           this.device.destroy();
         } catch (e) {
-          console.log('Error destroying device:', e);
+          // Error destroying device: ${e.message}
         }
         this.device = null;
         this.initialized = false;
       } else {
         // Device is in a good state, return it
-        console.log('Device is in a good state, returning existing device');
+        // Device is in a good state, returning existing device
         return this.device;
       }
     }
@@ -201,7 +200,7 @@ class VoiceAPI extends ApiClient {
     // Device needs to be initialized or reinitialized
     try {
       // Starting Twilio Device initialization
-      console.log('Starting Twilio Device initialization');
+      // Starting Twilio Device initialization
 
       // Import the Twilio Voice SDK
       let Device;
@@ -224,9 +223,8 @@ class VoiceAPI extends ApiClient {
       let response;
       try {
         response = await this.getToken(inboxId);
-        console.log('Token response received successfully');
+        // Token response received successfully
       } catch (tokenError) {
-
         // Enhanced error handling for token requests
         if (tokenError.details) {
           // If we already have extracted details from the error, include those
@@ -264,7 +262,6 @@ class VoiceAPI extends ApiClient {
 
       // Validate token response
       if (!response.data || !response.data.token) {
-
         // Check if we have an error message in the response
         if (response.data && response.data.error) {
           throw new Error(
@@ -277,22 +274,22 @@ class VoiceAPI extends ApiClient {
 
       // Check for warnings about missing TwiML App SID
       if (response.data.warning) {
-
         if (!response.data.has_twiml_app) {
           // IMPORTANT: Missing TwiML App SID - requires configuration
         }
       }
 
       // Extract token data
+      // eslint-disable-next-line no-unused-vars
       const { token, identity, voice_enabled, account_sid } = response.data;
 
       // Log diagnostic information
 
       // Log the TwiML endpoint that will be used
       if (response.data.twiml_endpoint) {
-        console.log('TwiML endpoint configured:', response.data.twiml_endpoint);
+        // TwiML endpoint configured: ${response.data.twiml_endpoint}
       } else {
-        console.log('No TwiML endpoint configured');
+        // No TwiML endpoint configured
       }
 
       // Check if voice is enabled
@@ -322,7 +319,6 @@ class VoiceAPI extends ApiClient {
         },
       };
 
-
       try {
         this.device = new Device(token, deviceOptions);
       } catch (deviceError) {
@@ -332,7 +328,7 @@ class VoiceAPI extends ApiClient {
       }
 
       // Step 3: Set up event listeners with enhanced error handling
-      this._setupDeviceEventListeners(inboxId);
+      this.setupDeviceEventListeners(inboxId);
 
       // Step 4: Register the device with Twilio
       try {
@@ -340,7 +336,6 @@ class VoiceAPI extends ApiClient {
         this.initialized = true;
         return this.device;
       } catch (registerError) {
-
         // Handle specific registration errors
         if (registerError.message && registerError.message.includes('token')) {
           throw new Error(
@@ -361,7 +356,6 @@ class VoiceAPI extends ApiClient {
       // Clear device and initialized flag in case of error
       this.device = null;
       this.initialized = false;
-
 
       // Create a detailed error with context for debugging
       const enhancedError = new Error(
@@ -397,7 +391,7 @@ class VoiceAPI extends ApiClient {
   }
 
   // Helper method to set up device event listeners
-  _setupDeviceEventListeners(inboxId) {
+  setupDeviceEventListeners(inboxId) {
     if (!this.device) return;
 
     // Remove any existing listeners to prevent duplicates
@@ -405,11 +399,11 @@ class VoiceAPI extends ApiClient {
 
     // Add standard event listeners
     this.device.on('registered', () => {
-      console.log('Device registered successfully');
+      // Device registered successfully
     });
 
     this.device.on('unregistered', () => {
-      console.log('Device unregistered');
+      // Device unregistered
     });
 
     this.device.on('tokenWillExpire', () => {
@@ -418,10 +412,11 @@ class VoiceAPI extends ApiClient {
           if (newTokenResponse.data && newTokenResponse.data.token) {
             this.device.updateToken(newTokenResponse.data.token);
           } else {
+            // No token received
           }
         })
-        .catch(tokenError => {
-          console.log('Failed to refresh token:', tokenError);
+        .catch(() => {
+          // Failed to refresh token
         });
     });
 
@@ -429,11 +424,12 @@ class VoiceAPI extends ApiClient {
       this.activeConnection = connection;
 
       // Set up connection-specific events
-      this._setupConnectionEventListeners(connection);
+      this.setupConnectionEventListeners(connection);
     });
 
     this.device.on('error', error => {
       // Enhanced error logging with full details
+      // eslint-disable-next-line no-unused-vars
       const errorDetails = {
         code: error.code,
         message: error.message,
@@ -455,91 +451,42 @@ class VoiceAPI extends ApiClient {
         timestamp: new Date().toISOString(),
       };
 
-
       // Provide helpful troubleshooting tips based on error code
       switch (error.code) {
         case 31000:
-          console.log(
-            '⚠️ Error 31000: General Error. This could be an authentication, configuration, or network issue.',
-            {
-              sdp: error.sdp || 'No SDP data',
-              callState: error.call ? error.call.state : 'No call state',
-              connectionState: error.connection
-                ? error.connection.state
-                : 'No connection state',
-              peerConnectionState: error.peerConnection
-                ? error.peerConnection.iceConnectionState
-                : 'No ICE state',
-              message: error.message,
-              twilioError: error,
-              info: error.info || 'No additional info',
-              solution:
-                'Check Twilio account status, SDP negotiations, and network connectivity',
-            }
-          );
+          // Error 31000: General Error - authentication, configuration, or network issue
 
           // Create a network diagnostic to check connectivity
           fetch('https://status.twilio.com/api/v2/status.json')
             .then(response => response.json())
-            .then(data => {
-            })
-            .catch(statusError => {
-              console.log('Failed to check Twilio status:', statusError);
+            .then(() => {})
+            .catch(() => {
+              // Failed to check Twilio status
             });
           break;
         case 31002:
-          console.log(
-            '⚠️ Error 31002: Permission Denied. Your browser microphone is blocked or unavailable.'
-          );
+          // Error 31002: Permission Denied - microphone blocked or unavailable
           break;
         case 31003:
-          console.log(
-            '⚠️ Error 31003: TwiML App Error. Your TwiML application does not exist or is misconfigured.'
-          );
+          // Error 31003: TwiML App Error - application does not exist or is misconfigured
           break;
         case 31005:
-          console.log(
-            '⚠️ Error 31005: Error sent from gateway in HANGUP. This usually means the TwiML endpoint is not reachable or returning invalid TwiML.',
-            {
-              activeConnection: this.activeConnection ? 'Yes' : 'No',
-              deviceState: this.device ? this.device.state : 'No device',
-              params: this.activeConnection
-                ? this.activeConnection.parameters
-                : 'No params',
-              twimlEndpoint:
-                this.activeConnection && this.activeConnection.parameters
-                  ? this.activeConnection.parameters.To
-                  : 'Unknown endpoint',
-              hangupReason: error.hangupReason || 'Unknown', // Capture hangup reason
-              message: error.message,
-              description: error.description,
-              customMessage: error.customMessage,
-              originalError: error.originalError
-                ? JSON.stringify(error.originalError)
-                : 'None',
-            }
-          );
+          // Error 31005: Gateway HANGUP error - TwiML endpoint unreachable or invalid
           break;
         case 31008:
-          console.log(
-            '⚠️ Error 31008: Connection Error. The call could not be established.'
-          );
+          // Error 31008: Connection Error - call could not be established
           break;
         case 31204:
-          console.log(
-            '⚠️ Error 31204: ICE Connection Failed. WebRTC connection failure, check firewall settings.'
-          );
+          // Error 31204: ICE Connection Failed - WebRTC connection failure
           break;
         default:
-          console.log(
-            `⚠️ Unspecified error with code ${error.code}: ${error.message}`
-          );
+        // Unspecified error
       }
     });
 
     this.device.on('connect', connection => {
       this.activeConnection = connection;
-      this._setupConnectionEventListeners(connection);
+      this.setupConnectionEventListeners(connection);
     });
 
     this.device.on('disconnect', () => {
@@ -548,7 +495,7 @@ class VoiceAPI extends ApiClient {
   }
 
   // Set up event listeners for the active connection with enhanced audio diagnostic logging
-  _setupConnectionEventListeners(connection) {
+  setupConnectionEventListeners(connection) {
     if (!connection) return;
 
     // Add advanced audio debug data
@@ -558,6 +505,7 @@ class VoiceAPI extends ApiClient {
 
       try {
         if (audioContext) {
+          // eslint-disable-next-line new-cap
           const context = new audioContext();
           audioInfo = {
             ...audioInfo,
@@ -609,8 +557,10 @@ class VoiceAPI extends ApiClient {
 
     connection.on('error', error => {
       // Significantly enhanced connection error logging with audio diagnostics
+      // eslint-disable-next-line no-unused-vars
       const diagnostics = getAudioDiagnostics();
 
+      // eslint-disable-next-line no-unused-vars
       const connectionErrorDetails = {
         code: error.code,
         message: error.message,
@@ -637,81 +587,44 @@ class VoiceAPI extends ApiClient {
         },
       };
 
-      console.log(
-        '❌ DETAILED Connection Error with Audio Diagnostics:',
-        connectionErrorDetails
-      );
+      // DETAILED Connection Error with Audio Diagnostics
     });
 
-    connection.on('mute', isMuted => {
-      console.log('Connection mute status changed:', isMuted);
+    connection.on('mute', () => {
+      // Connection mute status changed
     });
 
     connection.on('accept', () => {
       // Enhanced logging for accept event with audio diagnostics
+      // eslint-disable-next-line no-unused-vars
       const diagnostics = getAudioDiagnostics();
 
-      console.log('Connection accepted with diagnostics:', {
-        connectionParameters: connection.parameters,
-        status: connection.status && connection.status(),
-        audioDiagnostics: diagnostics,
-        activeAudioStream: window.activeAudioStream
-          ? {
-              active: window.activeAudioStream.active,
-              id: window.activeAudioStream.id,
-              trackCount: window.activeAudioStream.getTracks().length,
-            }
-          : 'No active stream',
-      });
+      // Connection accepted with diagnostics
 
       // AUDIO HEALTH CHECK AFTER CONNECTION
       setTimeout(() => {
-        console.log('Audio health check after 5 seconds:', {
-          connectionActive: this.activeConnection === connection,
-          connectionState: connection.status && connection.status(),
-          audioTracks: window.activeAudioStream
-            ? window.activeAudioStream.getAudioTracks().map(track => ({
-                label: track.label,
-                enabled: track.enabled,
-                readyState: track.readyState,
-                muted: track.muted,
-              }))
-            : 'No active stream',
-          // Device state after 5 seconds
-          deviceState: this.device ? this.device.state : 'No device',
-        });
+        // Audio health check after 5 seconds
       }, 5000);
     });
 
     connection.on('disconnect', () => {
-      console.log('Connection disconnected:', {
-        disconnectCause: connection.parameters
-          ? connection.parameters.DisconnectCause
-          : 'Unknown',
-        finalStatus: connection.status && connection.status(),
-        audioDiagnostics: getAudioDiagnostics(),
-      });
+      // Connection disconnected
       this.activeConnection = null;
     });
 
     connection.on('reject', () => {
-      console.log('Connection rejected:', {
-        rejectCause: connection.parameters
-          ? connection.parameters.DisconnectCause
-          : 'Unknown',
-        audioDiagnostics: getAudioDiagnostics(),
-      });
+      // Connection rejected
       this.activeConnection = null;
     });
 
     // Additional event for warning messages
-    connection.on('warning', warning => {
-      console.log('Connection warning:', warning);
+    connection.on('warning', () => {
+      // Connection warning
     });
 
     // Listen for TwiML processing events
-    connection.on('twiml-processing', twiml => {
-      console.log('Processing TwiML:', twiml);
+    connection.on('twiml-processing', () => {
+      // Processing TwiML
     });
 
     // Enhanced audio events for debugging
@@ -721,9 +634,7 @@ class VoiceAPI extends ApiClient {
         connection.on('volume', (inputVolume, outputVolume) => {
           // Log only significant volume changes to avoid console spam
           if (Math.abs(inputVolume) > 50 || Math.abs(outputVolume) > 50) {
-            console.log(
-              `🔊 Volume change - Input: ${inputVolume}, Output: ${outputVolume}`
-            );
+            // Volume change - Input: ${inputVolume}, Output: ${outputVolume}
           }
         });
 
@@ -731,21 +642,13 @@ class VoiceAPI extends ApiClient {
         if (typeof connection.getRemoteStream === 'function') {
           const remoteStream = connection.getRemoteStream();
           if (remoteStream) {
-            console.log('Remote stream details:', {
-              active: remoteStream.active,
-              id: remoteStream.id,
-              tracks: remoteStream.getTracks().map(t => ({
-                kind: t.kind,
-                enabled: t.enabled,
-                readyState: t.readyState,
-              })),
-            });
+            // Remote stream details available
           } else {
-            console.log('No remote stream available');
+            // No remote stream available
           }
         }
       } catch (e) {
-        console.log('Error setting up advanced audio events:', e);
+        // Error setting up advanced audio events
       }
     }
   }
@@ -791,15 +694,10 @@ class VoiceAPI extends ApiClient {
 
       // Make sure 'To' is explicitly a string
       const stringifiedTo = String(params.To);
-      console.log(
-        '🎯 CRITICAL CONFERENCE CONNECTION: Connecting agent to conference with To=',
-        stringifiedTo
-      );
+      // CRITICAL CONFERENCE CONNECTION: Connecting agent to conference
 
       // Follow Twilio documentation format - params should be nested under 'params' property
-      console.log(
-        '🎯 TRYING CONNECTION: Using documented format with params property'
-      );
+      // TRYING CONNECTION: Using documented format with params property
 
       // Just use the minimal required parameters
       const connection = this.device.connect({
@@ -809,10 +707,7 @@ class VoiceAPI extends ApiClient {
         },
       });
 
-      console.log(
-        '🎯 CONFERENCE CONNECTION RESULT:',
-        connection ? 'Success' : 'Failed'
-      );
+      // CONFERENCE CONNECTION RESULT: ${connection ? 'Success' : 'Failed'}
       this.activeConnection = connection;
 
       if (connection && typeof connection.then === 'function') {
@@ -823,18 +718,15 @@ class VoiceAPI extends ApiClient {
             try {
               if (typeof resolvedConnection.on === 'function') {
                 resolvedConnection.on('accept', () => {
-                  console.log('Promise connection accepted');
+                  // Promise connection accepted
                 });
               }
             } catch (listenerError) {
-              console.log(
-                'Could not add listeners to Promise connection:',
-                listenerError
-              );
+              // Could not add listeners to Promise connection
             }
           })
-          .catch(connError => {
-            console.log('Connection error:', connError);
+          .catch(() => {
+            // Connection error
           });
       } else {
         // It's a synchronous connection - older Twilio SDK

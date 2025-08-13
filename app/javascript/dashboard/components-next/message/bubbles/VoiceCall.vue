@@ -26,7 +26,8 @@ export default {
 
     status() {
       // Get call status from conversation first (most authoritative)
-      const conversationCallStatus = this.message?.conversation?.additional_attributes?.call_status;
+      const conversationCallStatus =
+        this.message?.conversation?.additional_attributes?.call_status;
       if (conversationCallStatus) {
         return this.normalizeStatus(conversationCallStatus);
       }
@@ -46,7 +47,10 @@ export default {
       }
 
       // Check for started calls
-      if (this.callData?.started_at || this.message?.conversation?.additional_attributes?.call_started_at) {
+      if (
+        this.callData?.started_at ||
+        this.message?.conversation?.additional_attributes?.call_started_at
+      ) {
         return 'in_progress';
       }
 
@@ -64,11 +68,15 @@ export default {
       }
 
       if (this.status === 'ended') {
-        return this.isIncoming ? 'i-ph-phone-incoming-fill' : 'i-ph-phone-outgoing-fill';
+        return this.isIncoming
+          ? 'i-ph-phone-incoming-fill'
+          : 'i-ph-phone-outgoing-fill';
       }
 
       // Default phone icon for ringing state
-      return this.isIncoming ? 'i-ph-phone-incoming-fill' : 'i-ph-phone-outgoing-fill';
+      return this.isIncoming
+        ? 'i-ph-phone-incoming-fill'
+        : 'i-ph-phone-outgoing-fill';
     },
 
     iconBgClass() {
@@ -122,8 +130,11 @@ export default {
 
     subtext() {
       // Check if we have agent_joined flag
-      const agentJoined = this.message?.conversation?.additional_attributes?.agent_joined === true;
-      const callStarted = !!this.message?.conversation?.additional_attributes?.call_started_at;
+      const agentJoined =
+        this.message?.conversation?.additional_attributes?.agent_joined ===
+        true;
+      const callStarted =
+        !!this.message?.conversation?.additional_attributes?.call_started_at;
 
       if (this.isIncoming) {
         if (this.status === 'ringing') {
@@ -160,8 +171,10 @@ export default {
 
     statusClass() {
       return {
-        'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100': !this.isInbox,
-        'bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100': this.isInbox,
+        'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100':
+          !this.isInbox,
+        'bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100':
+          this.isInbox,
         'call-ringing': this.status === 'ringing',
       };
     },
@@ -170,18 +183,18 @@ export default {
     normalizeStatus(status) {
       // Unified status mapping
       const statusMap = {
-        'queued': 'ringing',
-        'initiated': 'ringing',
-        'ringing': 'ringing',
+        queued: 'ringing',
+        initiated: 'ringing',
+        ringing: 'ringing',
         'in-progress': 'in_progress',
-        'active': 'in_progress',
-        'completed': 'ended',
-        'ended': 'ended',
-        'missed': 'missed',
-        'busy': 'no_answer',
-        'failed': 'no_answer',
+        active: 'in_progress',
+        completed: 'ended',
+        ended: 'ended',
+        missed: 'missed',
+        busy: 'no_answer',
+        failed: 'no_answer',
         'no-answer': 'no_answer',
-        'canceled': 'no_answer'
+        canceled: 'no_answer',
       };
 
       return statusMap[status] || status;

@@ -70,6 +70,7 @@ export default {
       if (direction) {
         return direction === 'inbound';
       }
+      return false;
     },
     // Get normalized call status
     callStatus() {
@@ -290,4 +291,3 @@ export default {
     </template>
   </div>
 </template>
-

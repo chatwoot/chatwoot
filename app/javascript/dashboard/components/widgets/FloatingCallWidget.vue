@@ -210,11 +210,11 @@ export default {
     const contactAvatarUrl = computed(() => {
       // Try props first
       if (props.avatarUrl) return props.avatarUrl;
-      
+
       // Try call data
       if (incomingCall.value?.avatarUrl) return incomingCall.value.avatarUrl;
       if (activeCall.value?.avatarUrl) return activeCall.value.avatarUrl;
-      
+
       // For voice calls, we don't show contact avatars - just return null
       return null;
     });
@@ -278,12 +278,14 @@ export default {
     const inboxAvatarUrl = computed(() => {
       // Try props first
       if (props.inboxAvatarUrl) return props.inboxAvatarUrl;
-      
+
       // Try call data
       if (callInfo.value?.inboxAvatarUrl) return callInfo.value.inboxAvatarUrl;
-      if (activeCall.value?.inboxAvatarUrl) return activeCall.value.inboxAvatarUrl;
-      if (incomingCall.value?.inboxAvatarUrl) return incomingCall.value.inboxAvatarUrl;
-      
+      if (activeCall.value?.inboxAvatarUrl)
+        return activeCall.value.inboxAvatarUrl;
+      if (incomingCall.value?.inboxAvatarUrl)
+        return incomingCall.value.inboxAvatarUrl;
+
       // No avatar available - component will show phone icon fallback
       return null;
     });
@@ -1126,7 +1128,10 @@ export default {
               useAlert('Initializing WebRTC for outbound call...', 'info');
               const initSuccess = await initializeTwilioDevice();
               if (!initSuccess) {
-                useAlert('Failed to initialize WebRTC for outbound call', 'error');
+                useAlert(
+                  'Failed to initialize WebRTC for outbound call',
+                  'error'
+                );
                 return;
               }
               // Wait for device to be in ready state
@@ -1495,7 +1500,7 @@ export default {
               class="avatar-image"
               @error="handleAvatarError"
             />
-            <i v-else class="i-ri-phone-fill text-white text-lg"></i>
+            <i v-else class="i-ri-phone-fill text-white text-lg" />
           </div>
           <div class="header-info">
             <div class="voice-label">{{ inboxDisplayName }}</div>
@@ -1688,7 +1693,7 @@ export default {
               align-items: center;
               justify-content: center;
             "
-          ></i>
+          />
           {{ inboxDisplayName }}
         </span>
         <span class="incoming-call-text">Incoming call</span>

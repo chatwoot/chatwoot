@@ -82,12 +82,16 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
-    
+
     // Check if this is a voice channel conversation (incoming call)
-    if (data.meta?.inbox?.channel_type === 'Channel::Voice' || data.channel === 'Channel::Voice') {
-      if (data.additional_attributes?.call_status === 'ringing' &&
-          data.additional_attributes?.call_sid) {
-        
+    if (
+      data.meta?.inbox?.channel_type === 'Channel::Voice' ||
+      data.channel === 'Channel::Voice'
+    ) {
+      if (
+        data.additional_attributes?.call_status === 'ringing' &&
+        data.additional_attributes?.call_sid
+      ) {
         const normalizedPayload = {
           callSid: data.additional_attributes.call_sid,
           conversationId: data.display_id || data.id,
@@ -102,7 +106,8 @@ class ActionCableConnector extends BaseActionCableConnector {
           conference_sid: data.additional_attributes?.conference_sid,
           conferenceId: data.additional_attributes?.conference_sid,
           conferenceSid: data.additional_attributes?.conference_sid,
-          requiresAgentJoin: data.additional_attributes?.requires_agent_join || false,
+          requiresAgentJoin:
+            data.additional_attributes?.requires_agent_join || false,
           callDirection: data.additional_attributes?.call_direction,
           phoneNumber: data.meta?.sender?.phone_number,
           avatarUrl: data.meta?.sender?.avatar_url,
@@ -115,7 +120,7 @@ class ActionCableConnector extends BaseActionCableConnector {
         }
       }
     }
-    
+
     this.fetchConversationStats();
   };
 
@@ -148,9 +153,12 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationUpdated = data => {
     this.app.$store.dispatch('updateConversation', data);
-    
+
     // Check if this conversation update includes call status changes
-    if (data.additional_attributes?.call_status && data.additional_attributes?.call_sid) {
+    if (
+      data.additional_attributes?.call_status &&
+      data.additional_attributes?.call_sid
+    ) {
       this.app.$store.dispatch('calls/handleCallStatusChanged', {
         callSid: data.additional_attributes.call_sid,
         status: data.additional_attributes.call_status,
@@ -158,7 +166,7 @@ class ActionCableConnector extends BaseActionCableConnector {
         inboxId: data.inbox_id,
       });
     }
-    
+
     this.fetchConversationStats();
   };
 
@@ -243,8 +251,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('inboxes/revalidate', { newKey: keys.inbox });
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
   };
-
-
 }
 
 export default {

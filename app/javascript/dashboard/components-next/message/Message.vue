@@ -306,7 +306,6 @@ const componentToRender = computed(() => {
     return InstagramStoryBubble;
   }
 
-
   if (Array.isArray(props.attachments) && props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;
 
