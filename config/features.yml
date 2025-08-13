@@ -76,14 +76,14 @@
   enabled: true
 - name: mobile_v2
   display_name: Mobile App V2
-  enabled: true
+  enabled: false
   deprecated: true
 - name: channel_website
   display_name: Website Channel
   enabled: true
 - name: campaigns
   display_name: Campaigns
-  enabled: false
+  enabled: true
   help_url: https://buzzcrm.ai
 - name: reports
   display_name: Reports
@@ -97,10 +97,10 @@
   enabled: true
 - name: custom_reply_email
   display_name: Custom Reply Email
-  enabled: true
+  enabled: false
 - name: custom_reply_domain
   display_name: Custom Reply Domain
-  enabled: true
+  enabled: false
 - name: audit_logs
   display_name: Audit Logs
   enabled: true
@@ -112,7 +112,7 @@
   deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
-  enabled: true
+  enabled: false
   help_url: https://buzzcrm.ai
   deprecated: true
 - name: insert_article_in_reply
@@ -122,7 +122,7 @@
 - name: inbox_view
   display_name: Inbox View
   enabled: true
-  chatwoot_internal: false
+  chatwoot_internal: true
 - name: sla
   display_name: SLA
   enabled: false
@@ -132,7 +132,7 @@
   display_name: Help Center Embedding Search
   enabled: true
   premium: true
-  chatwoot_internal: false
+  chatwoot_internal: true
 - name: linear_integration
   display_name: Linear Integration
   enabled: false
@@ -142,7 +142,7 @@
   premium: true
 - name: custom_roles
   display_name: Custom Roles
-  enabled: true
+  enabled: false
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
@@ -161,7 +161,7 @@
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
-  enabled: true
+  enabled: false
   chatwoot_internal: true
 - name: channel_instagram
   display_name: Instagram Channel
