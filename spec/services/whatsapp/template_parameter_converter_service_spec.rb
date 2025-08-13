@@ -133,6 +133,48 @@ describe Whatsapp::TemplateParameterConverterService do
       end
     end
 
+    context 'when processed_params is nil (parameter-less templates)' do
+      let(:nil_params) do
+        {
+          'processed_params' => nil
+        }
+      end
+
+      let(:parameterless_template) do
+        {
+          'name' => 'test_no_params_template',
+          'language' => 'en',
+          'parameter_format' => 'POSITIONAL',
+          'id' => '9876543210987654',
+          'status' => 'APPROVED',
+          'category' => 'UTILITY',
+          'previous_category' => 'MARKETING',
+          'sub_category' => 'CUSTOM',
+          'components' => [
+            {
+              'type' => 'BODY',
+              'text' => 'Thank you for contacting us! Your request has been processed successfully. Have a great day! 🙂'
+            }
+          ]
+        }
+      end
+
+      it 'converts nil to empty enhanced format' do
+        converter = described_class.new(nil_params, parameterless_template)
+        result = converter.normalize_to_enhanced
+
+        expect(result['processed_params']).to eq({})
+        expect(result['format_version']).to eq('legacy')
+      end
+
+      it 'does not raise ArgumentError for nil processed_params' do
+        expect do
+          converter = described_class.new(nil_params, parameterless_template)
+          converter.normalize_to_enhanced
+        end.not_to raise_error
+      end
+    end
+
     context 'when invalid format' do
       let(:invalid_params) do
         {
@@ -174,6 +216,26 @@ describe Whatsapp::TemplateParameterConverterService do
   end
 
   describe 'simplified conversion methods' do
+    describe '#convert_legacy_to_enhanced' do
+      it 'handles nil processed_params without raising error' do
+        converter = described_class.new({}, template)
+        result = converter.send(:convert_legacy_to_enhanced, nil, template)
+        expect(result).to eq({})
+      end
+
+      it 'returns empty hash for parameter-less templates' do
+        parameterless_template = {
+          'name' => 'no_params_template',
+          'language' => 'en',
+          'components' => [{ 'type' => 'BODY', 'text' => 'Hello World!' }]
+        }
+
+        converter = described_class.new({}, parameterless_template)
+        result = converter.send(:convert_legacy_to_enhanced, nil, parameterless_template)
+        expect(result).to eq({})
+      end
+    end
+
     describe '#convert_array_to_body_params' do
       it 'converts empty array' do
         converter = described_class.new({}, template)
