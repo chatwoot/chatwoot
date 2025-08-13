@@ -24,7 +24,21 @@ class Conversations::EventDataPresenter < SimpleDelegator
   private
 
   def push_messages
-    [messages.chat.last&.push_event_data].compact
+    # Prefer content_attributes['external_created_at'] over created_at for determining the last message
+    # Normalize external timestamps whether provided in seconds or milliseconds
+    last_chat_message = messages.chat.max_by do |message|
+      external_timestamp = message.respond_to?(:external_created_at) ? message.external_created_at : nil
+      if external_timestamp.present?
+        ts = external_timestamp.to_i
+        # If timestamp looks like milliseconds (e.g., > 10^12), convert to seconds
+        ts /= 1000 if ts > 9_999_999_999
+        ts
+      else
+        message.created_at.to_i
+      end
+    end
+
+    [last_chat_message&.push_event_data].compact
   end
 
   def push_meta
