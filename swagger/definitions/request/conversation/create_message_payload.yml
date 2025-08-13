@@ -30,22 +30,64 @@ properties:
     example: 1
   template_params:
     type: object
-    description: The template params for the message in case of whatsapp Channel
+    description: WhatsApp template parameters for sending structured messages
+    required:
+      - name
+      - category
+      - language
+      - processed_params
     properties:
       name:
         type: string
-        description: Name of the template
-        example: 'sample_issue_resolution'
+        description: Name of the WhatsApp template (must be approved in WhatsApp Business Manager)
+        example: 'purchase_receipt'
       category:
         type: string
+        enum: ['UTILITY', 'MARKETING', 'SHIPPING_UPDATE', 'TICKET_UPDATE', 'ISSUE_RESOLUTION']
         description: Category of the template
-        example: UTILITY
+        example: 'UTILITY'
       language:
         type: string
-        description: Language of the template
-        example: en_US
+        description: Language code of the template (BCP 47 format)
+        example: 'en_US'
       processed_params:
         type: object
-        description: The processed param values for template variables in template
-        example:
-          1: 'Chatwoot'
+        description: Processed template parameters organized by component type
+        properties:
+          body:
+            type: object
+            description: Body component parameters with variable placeholders
+            additionalProperties:
+              type: string
+            example:
+              '1': 'Visa'
+              '2': 'Nike'
+              '3': 'Bill'
+          header:
+            type: object
+            description: Header component parameters for media templates
+            properties:
+              media_url:
+                type: string
+                format: uri
+                description: Publicly accessible URL for IMAGE, VIDEO, or DOCUMENT headers
+                example: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+              media_type:
+                type: string
+                enum: ['image', 'video', 'document']
+                description: Type of media for the header
+                example: 'document'
+          buttons:
+            type: array
+            description: Button component parameters for interactive templates
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: ['url', 'copy_code']
+                  description: Type of button parameter
+                parameter:
+                  type: string
+                  description: Dynamic parameter value for the button
+                  example: 'SSFSDFSD'

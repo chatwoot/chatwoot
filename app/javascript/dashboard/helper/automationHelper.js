@@ -5,7 +5,7 @@ import {
 } from 'dashboard/routes/dashboard/settings/automation/operators';
 import {
   DEFAULT_MESSAGE_CREATED_CONDITION,
-  DEFAULT_CONVERSATION_OPENED_CONDITION,
+  DEFAULT_CONVERSATION_CONDITION,
   DEFAULT_OTHER_CONDITION,
   DEFAULT_ACTIONS,
 } from 'dashboard/constants/automation';
@@ -169,8 +169,11 @@ export const getDefaultConditions = eventName => {
   if (eventName === 'message_created') {
     return DEFAULT_MESSAGE_CREATED_CONDITION;
   }
-  if (eventName === 'conversation_opened') {
-    return DEFAULT_CONVERSATION_OPENED_CONDITION;
+  if (
+    eventName === 'conversation_opened' ||
+    eventName === 'conversation_resolved'
+  ) {
+    return DEFAULT_CONVERSATION_CONDITION;
   }
   return DEFAULT_OTHER_CONDITION;
 };
