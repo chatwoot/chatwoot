@@ -27,7 +27,7 @@ describe Whatsapp::EmbeddedSignupService do
         business_name: 'Test Business'
       }
     end
-    let(:channel) { instance_double(Channel::Whatsapp, setup_webhooks: true) }
+    let(:channel) { instance_double(Channel::Whatsapp) }
     let(:service_doubles) do
       {
         token_exchange: instance_double(Whatsapp::TokenExchangeService),
@@ -68,42 +68,35 @@ describe Whatsapp::EmbeddedSignupService do
       expect(service_doubles[:phone_info]).to receive(:perform).ordered
       expect(service_doubles[:token_validation]).to receive(:perform).ordered
       expect(service_doubles[:channel_creation]).to receive(:perform).ordered
+      expect(channel).to receive(:setup_webhooks).ordered
 
       result = service.perform
       expect(result).to eq(channel)
     end
 
+    it 'calls setup_webhooks on the created channel' do
+      allow(channel).to receive(:setup_webhooks)
+
+      expect(channel).to receive(:setup_webhooks).once
+      service.perform
+    end
+
     context 'when required parameters are missing' do
-      it 'raises error when code is blank' do
-        service = described_class.new(
-          account: account,
-          params: params.merge(code: '')
-        )
-        expect { service.perform }.to raise_error(ArgumentError, /Required parameters are missing: code/)
-      end
+      it 'raises error with appropriate message for missing parameters' do
+        test_cases = [
+          { params: { code: '' }, error: /Required parameters are missing: code/ },
+          { params: { business_id: '' }, error: /Required parameters are missing: business_id/ },
+          { params: { waba_id: '' }, error: /Required parameters are missing: waba_id/ },
+          { params: { code: '', business_id: '' }, error: /Required parameters are missing: code, business_id/ }
+        ]
 
-      it 'raises error when business_id is blank' do
-        service = described_class.new(
-          account: account,
-          params: params.merge(business_id: '')
-        )
-        expect { service.perform }.to raise_error(ArgumentError, /Required parameters are missing: business_id/)
-      end
-
-      it 'raises error when waba_id is blank' do
-        service = described_class.new(
-          account: account,
-          params: params.merge(waba_id: '')
-        )
-        expect { service.perform }.to raise_error(ArgumentError, /Required parameters are missing: waba_id/)
-      end
-
-      it 'raises error when multiple parameters are blank' do
-        service = described_class.new(
-          account: account,
-          params: params.merge(code: '', business_id: '')
-        )
-        expect { service.perform }.to raise_error(ArgumentError, /Required parameters are missing: code, business_id/)
+        test_cases.each do |test_case|
+          service = described_class.new(
+            account: account,
+            params: params.merge(test_case[:params])
+          )
+          expect { service.perform }.to raise_error(ArgumentError, test_case[:error])
+        end
       end
     end
 
@@ -127,7 +120,7 @@ describe Whatsapp::EmbeddedSignupService do
         )
       end
 
-      before do
+      it 'uses ReauthorizationService instead of ChannelCreationService' do
         allow(Whatsapp::ReauthorizationService).to receive(:new).with(
           account: account,
           inbox_id: inbox_id,
@@ -135,17 +128,98 @@ describe Whatsapp::EmbeddedSignupService do
           business_id: params[:business_id]
         ).and_return(reauth_service)
         allow(reauth_service).to receive(:perform).with(access_token, phone_info).and_return(channel)
-      end
+        allow(channel).to receive(:setup_webhooks)
 
-      it 'uses ReauthorizationService instead of ChannelCreationService' do
         expect(service_doubles[:token_exchange]).to receive(:perform).ordered
         expect(service_doubles[:phone_info]).to receive(:perform).ordered
         expect(service_doubles[:token_validation]).to receive(:perform).ordered
         expect(reauth_service).to receive(:perform).with(access_token, phone_info).ordered
+        expect(channel).to receive(:setup_webhooks).ordered
         expect(service_doubles[:channel_creation]).not_to receive(:perform)
 
         result = service_with_inbox.perform
         expect(result).to eq(channel)
+      end
+
+      it 'calls setup_webhooks on the reauthorized channel' do
+        allow(Whatsapp::ReauthorizationService).to receive(:new).with(
+          account: account,
+          inbox_id: inbox_id,
+          phone_number_id: params[:phone_number_id],
+          business_id: params[:business_id]
+        ).and_return(reauth_service)
+        allow(reauth_service).to receive(:perform).with(access_token, phone_info).and_return(channel)
+        allow(channel).to receive(:setup_webhooks)
+
+        expect(channel).to receive(:setup_webhooks).once
+        service_with_inbox.perform
+      end
+
+      context 'with a channel requiring reauthorization' do
+        let(:inbox) { create(:inbox, account: account) }
+        let(:whatsapp_channel) do
+          create(
+            :channel_whatsapp,
+            account: account,
+            phone_number: '+1234567890',
+            validate_provider_config: false,
+            sync_templates: false
+          )
+        end
+        let(:service_with_real_inbox) do
+          described_class.new(
+            account: account,
+            params: params,
+            inbox_id: inbox.id
+          )
+        end
+
+        before do
+          inbox.update!(channel: whatsapp_channel)
+          whatsapp_channel.prompt_reauthorization!
+
+          # Mock the service calls but use real ReauthorizationService
+          allow(Whatsapp::ReauthorizationService).to receive(:new).with(
+            account: account,
+            inbox_id: inbox.id,
+            phone_number_id: params[:phone_number_id],
+            business_id: params[:business_id]
+          ).and_call_original
+
+          allow(Whatsapp::TokenExchangeService).to receive(:new).and_return(service_doubles[:token_exchange])
+          allow(service_doubles[:token_exchange]).to receive(:perform).and_return(access_token)
+          allow(Whatsapp::PhoneInfoService).to receive(:new).and_return(service_doubles[:phone_info])
+          allow(service_doubles[:phone_info]).to receive(:perform).and_return(phone_info)
+          allow(Whatsapp::TokenValidationService).to receive(:new).and_return(service_doubles[:token_validation])
+          allow(service_doubles[:token_validation]).to receive(:perform)
+
+          # Stub the webhook validation HTTP request
+          stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+            .with(
+              body: '{"url":"https://aa228f0371f5.ngrok-free.app/webhooks/whatsapp/+1234567890"}',
+              headers: {
+                'Accept' => '*/*',
+                'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+                'Content-Type' => 'application/json',
+                'D360-Api-Key' => 'test_access_token',
+                'User-Agent' => 'Ruby'
+              }
+            )
+            .to_return(status: 200, body: '', headers: {})
+        end
+
+        it 'clears the reauthorization_required flag' do
+          expect(whatsapp_channel.reauthorization_required?).to be true
+
+          service_with_real_inbox.perform
+
+          expect(whatsapp_channel.reload.reauthorization_required?).to be false
+        end
+
+        it 'returns the reauthorized channel' do
+          result = service_with_real_inbox.perform
+          expect(result).to eq(whatsapp_channel)
+        end
       end
     end
   end
