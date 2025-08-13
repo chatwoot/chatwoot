@@ -32,6 +32,10 @@ class Integrations::Facebook::DeliveryStatus
   end
 
   def facebook_channel
-    @facebook_channel ||= Channel::FacebookPage.find_by(page_id: params.recipient_id)
+    if instance_variable_defined?(:@facebook_channel)
+      @facebook_channel
+    else
+      @facebook_channel = Channel::FacebookPage.find_by(page_id: params.recipient_id)
+    end
   end
 end

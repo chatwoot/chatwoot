@@ -86,7 +86,11 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def integration_hook
-    @integration_hook ||= Integrations::Hook.find_by(reference_id: params[:event][:channel])
+    if instance_variable_defined?(:@integration_hook)
+      @integration_hook
+    else
+      @integration_hook = Integrations::Hook.find_by(reference_id: params[:event][:channel])
+    end
   end
 
   def slack_client

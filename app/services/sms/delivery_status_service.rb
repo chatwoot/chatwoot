@@ -47,6 +47,10 @@ class Sms::DeliveryStatusService
   def message
     return unless params[:message][:id]
 
-    @message ||= inbox.messages.find_by(source_id: params[:message][:id])
+    if instance_variable_defined?(:@message)
+      @message
+    else
+      @message = inbox.messages.find_by(source_id: params[:message][:id])
+    end
   end
 end

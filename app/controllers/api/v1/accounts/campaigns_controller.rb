@@ -24,7 +24,11 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
   private
 
   def campaign
-    @campaign ||= Current.account.campaigns.find_by(display_id: params[:id])
+    if instance_variable_defined?(:@campaign)
+      @campaign
+    else
+      @campaign = Current.account.campaigns.find_by(display_id: params[:id])
+    end
   end
 
   def campaign_params

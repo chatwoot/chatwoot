@@ -31,6 +31,7 @@
 #
 class Campaign < ApplicationRecord
   include UrlHelper
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :title, presence: true

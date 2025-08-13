@@ -17,7 +17,11 @@ class NotificationSubscriptionBuilder
   end
 
   def identifier_subscription
-    @identifier_subscription ||= NotificationSubscription.find_by(identifier: identifier)
+    if instance_variable_defined?(:@identifier_subscription)
+      @identifier_subscription
+    else
+      @identifier_subscription = NotificationSubscription.find_by(identifier: identifier)
+    end
   end
 
   def move_subscription_to_user

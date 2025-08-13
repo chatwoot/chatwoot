@@ -48,7 +48,11 @@ class Webhooks::Trigger
   def message
     return if message_id.blank?
 
-    @message ||= Message.find_by(id: message_id)
+    if instance_variable_defined?(:@message)
+      @message
+    else
+      @message = Message.find_by(id: message_id)
+    end
   end
 
   def message_id

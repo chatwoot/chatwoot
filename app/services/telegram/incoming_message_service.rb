@@ -4,6 +4,7 @@
 class Telegram::IncomingMessageService
   include ::FileTypeHelper
   include ::Telegram::ParamHelpers
+
   pattr_initialize [:inbox!, :params!]
 
   def perform

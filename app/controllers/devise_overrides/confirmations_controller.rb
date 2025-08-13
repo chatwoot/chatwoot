@@ -1,5 +1,6 @@
 class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
   include AuthHelper
+
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 

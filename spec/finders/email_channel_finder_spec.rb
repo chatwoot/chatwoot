@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe EmailChannelFinder do
   include ActionMailbox::TestHelper
+
   let!(:channel_email) { create(:channel_email) }
 
   describe '#perform' do

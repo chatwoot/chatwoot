@@ -14,6 +14,7 @@ module Featurable
 
   included do
     include FlagShihTzu
+
     has_flags FEATURES.merge(column: 'feature_flags').merge(QUERY_MODE)
 
     before_create :enable_default_features

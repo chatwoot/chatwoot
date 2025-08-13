@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe V2::ReportBuilder do
   include ActiveJob::TestHelper
+
   let_it_be(:account) { create(:account) }
   let_it_be(:label_1) { create(:label, title: 'Label_1', account: account) }
   let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }

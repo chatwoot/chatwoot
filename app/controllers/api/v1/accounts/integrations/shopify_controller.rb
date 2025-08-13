@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::BaseController
   include Shopify::IntegrationHelper
+
   before_action :setup_shopify_context, only: [:orders]
   before_action :fetch_hook, except: [:auth]
   before_action :validate_contact, only: [:orders]
@@ -45,7 +46,11 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   end
 
   def contact
-    @contact ||= Current.account.contacts.find_by(id: params[:contact_id])
+    if instance_variable_defined?(:@contact)
+      @contact
+    else
+      @contact = Current.account.contacts.find_by(id: params[:contact_id])
+    end
   end
 
   def fetch_hook

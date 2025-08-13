@@ -16,7 +16,7 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def increment_response_usage
-    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
+    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i
     custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
     save
   end
@@ -54,9 +54,9 @@ module Enterprise::Account::PlanUsageAndLimits
     total_count = captain_monthly_limit[type.to_s].to_i
 
     consumed = if type == :documents
-                 custom_attributes[CAPTAIN_DOCUMENTS_USAGE].to_i || 0
+                 custom_attributes[CAPTAIN_DOCUMENTS_USAGE].to_i
                else
-                 custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
+                 custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i
                end
 
     consumed = 0 if consumed.negative?

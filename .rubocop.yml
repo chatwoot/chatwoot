@@ -3,11 +3,11 @@ plugins:
   - rubocop-rails
   - rubocop-rspec
   - rubocop-factory_bot
+  - rubocop-rspec_rails
 
 require:
   - ./rubocop/use_from_email.rb
   - ./rubocop/custom_cop_location.rb
-  - rubocop-rspec_rails
 
 Layout/LineLength:
   Max: 150
@@ -160,6 +160,27 @@ Naming/VariableNumber:
 Naming/MemoizedInstanceVariableName:
   Exclude:
     - 'app/models/message.rb'
+
+Naming/PredicateMethod:
+  Exclude:
+    - 'app/builders/messages/instagram/base_message_builder.rb'
+    - 'app/controllers/public/api/v1/csat_survey_controller.rb'
+    - 'app/controllers/public/api/v1/inboxes/messages_controller.rb'
+    - 'app/jobs/webhooks/line_events_job.rb'
+    - 'app/services/account/sign_up_email_validation_service.rb'
+    - 'app/services/automation_rules/condition_validation_service.rb'
+    - 'app/services/line/incoming_message_service.rb'
+    - 'app/services/search_service.rb'
+    - 'app/services/telegram/send_attachments_service.rb'
+    - 'app/services/twitter/webhook_subscribe_service.rb'
+    - 'app/services/whatsapp/template_parameter_converter_service.rb'
+    - 'enterprise/app/jobs/captain/conversation/response_builder_job.rb'
+    - 'enterprise/app/services/captain/tools/base_service.rb'
+    - 'enterprise/lib/captain/tool.rb'
+    - 'lib/chatwoot_app.rb'
+    - 'lib/custom_markdown_renderer.rb'
+    - 'lib/linear.rb'
+    - 'lib/redis/lock_manager.rb'
 
 Style/GuardClause:
   Exclude:

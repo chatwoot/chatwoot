@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage::DirectUploadsController
   include EnsureCurrentAccountHelper
+
   before_action :current_account
   before_action :conversation
 
@@ -12,6 +13,10 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
   private
 
   def conversation
-    @conversation ||= Current.account.conversations.find_by(display_id: params[:conversation_id])
+    if instance_variable_defined?(:@conversation)
+      @conversation
+    else
+      @conversation = Current.account.conversations.find_by(display_id: params[:conversation_id])
+    end
   end
 end

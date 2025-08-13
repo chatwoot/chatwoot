@@ -25,7 +25,11 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def inbox
-    @inbox ||= ::Inbox.find_by(id: auth_token_params[:inbox_id])
+    if instance_variable_defined?(:@inbox)
+      @inbox
+    else
+      @inbox = ::Inbox.find_by(id: auth_token_params[:inbox_id])
+    end
   end
 
   def conversation_params

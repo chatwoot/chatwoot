@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SlaPolicy, type: :model do
   include ActiveJob::TestHelper
+
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 

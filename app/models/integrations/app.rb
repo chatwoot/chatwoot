@@ -1,5 +1,6 @@
 class Integrations::App
   include Linear::IntegrationHelper
+
   attr_accessor :params
 
   def initialize(params)

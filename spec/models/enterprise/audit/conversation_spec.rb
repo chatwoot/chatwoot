@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Conversation Audit', type: :model do
+RSpec.describe Conversation do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
 

@@ -65,7 +65,11 @@ class Integrations::OpenaiBaseService
   end
 
   def conversation
-    @conversation ||= hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+    if instance_variable_defined?(:@conversation)
+      @conversation
+    else
+      @conversation = hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+    end
   end
 
   def valid_event_name?

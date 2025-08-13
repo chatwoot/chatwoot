@@ -153,7 +153,7 @@ class Inbox < ApplicationRecord
 
   def active_bot?
     agent_bot_inbox&.active? || hooks.where(app_id: %w[dialogflow],
-                                            status: 'enabled').count.positive?
+                                            status: 'enabled').any?
   end
 
   def inbox_type

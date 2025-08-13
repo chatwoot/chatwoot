@@ -1,5 +1,6 @@
 class ApplicationRecord < ActiveRecord::Base
   include Events::Types
+
   self.abstract_class = true
 
   before_validation :validates_column_content_length

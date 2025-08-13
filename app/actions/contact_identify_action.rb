@@ -55,7 +55,11 @@ class ContactIdentifyAction
   def existing_identified_contact
     return if params[:identifier].blank?
 
-    @existing_identified_contact ||= account.contacts.find_by(identifier: params[:identifier])
+    if instance_variable_defined?(:@existing_identified_contact)
+      @existing_identified_contact
+    else
+      @existing_identified_contact = account.contacts.find_by(identifier: params[:identifier])
+    end
   end
 
   def existing_email_contact
@@ -67,7 +71,11 @@ class ContactIdentifyAction
   def existing_phone_number_contact
     return if params[:phone_number].blank?
 
-    @existing_phone_number_contact ||= account.contacts.find_by(phone_number: params[:phone_number])
+    if instance_variable_defined?(:@existing_phone_number_contact)
+      @existing_phone_number_contact
+    else
+      @existing_phone_number_contact = account.contacts.find_by(phone_number: params[:phone_number])
+    end
   end
 
   def merge_contacts?(existing_contact, key)
