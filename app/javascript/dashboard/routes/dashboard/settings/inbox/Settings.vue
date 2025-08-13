@@ -757,8 +757,8 @@ export default {
             website_url: this.channelWebsiteUrl,
             webhook_url:
               this.channelType === 'Channel::WebWidget'
-                ? this.webhookUrl ??
-                  'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/webhook/webWidget/ingestor'
+                ? (this.webhookUrl ??
+                  'https://chatwoot-connector-767152501284.us-east4.run.app/chatwoot/webhook/webWidget')
                 : this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',

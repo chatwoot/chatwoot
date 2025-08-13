@@ -186,7 +186,7 @@ export default {
               welcome_title: this.channelWelcomeTitle,
               welcome_tagline: this.channelWelcomeTagline,
               webhook_url:
-                'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/webhook/webWidget/ingestor',
+                'https://chatwoot-connector-767152501284.us-east4.run.app/chatwoot/webhook/webWidget',
             },
             csat_survey_enabled: true,
             allow_messages_after_resolved: false,
