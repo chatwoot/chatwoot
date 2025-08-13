@@ -26,12 +26,12 @@ class Messages::Messenger::MessageBuilder
   def attachment_params(attachment)
     original_type = attachment['type'].to_s
     # Normalize unsupported/alternate types
-    # Treat ig_story as story_mention for downstream handling
-    normalized_type = original_type == 'ig_story' ? :story_mention : original_type.to_sym
+    # Keep ig_story as is so we can treat highlight shares distinctly
+    normalized_type = original_type.to_sym
 
     params = { file_type: normalized_type, account_id: @message.account_id }
 
-    if [:image, :file, :audio, :video, :share, :story_mention, :ig_reel].include? normalized_type
+    if [:image, :file, :audio, :video, :share, :story_mention, :ig_reel, :ig_story].include? normalized_type
       params.merge!(file_type_params(attachment))
     elsif normalized_type == :location
       params.merge!(location_params(attachment))
@@ -53,7 +53,7 @@ class Messages::Messenger::MessageBuilder
 
   def update_attachment_file_type(attachment)
     return if @message.reload.attachments.blank?
-    return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention'
+    return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention' || attachment.file_type == 'ig_story'
 
     attachment.file_type = file_type(attachment.file&.content_type)
     attachment.save!
