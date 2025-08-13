@@ -1,4 +1,4 @@
-module SearchTaskHelpers
+module Tasks::SearchTaskHelpers
   def check_opensearch_config
     if ENV['OPENSEARCH_URL'].blank?
       puts 'Skipping reindex as OPENSEARCH_URL is not configured'
@@ -15,7 +15,7 @@ end
 
 namespace :search do
   desc 'Reindex messages using searchkick'
-  include SearchTaskHelpers
+  include Tasks::SearchTaskHelpers
 
   desc 'Reindex messages for all accounts'
   task all: :environment do
