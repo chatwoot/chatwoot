@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Iniciar sesión en BuzzCRM",
+    "TITLE": "Iniciar sesión en Buzz",
     "EMAIL": {
       "LABEL": "E-mail",
       "PLACEHOLDER": "ejemplo{'@'}nombredeempresa.com",

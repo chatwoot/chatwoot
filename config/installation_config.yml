@@ -15,7 +15,7 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'BuzzCRM'
+  value: 'Buzz'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -53,6 +53,8 @@
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
   value: true
+  display_title: 'Buzz Metadata'
+  description: 'Display default Buzz metadata like favicons and upgrade warnings'
   display_title: 'Buzz Metadata'
   description: 'Display default Buzz metadata like favicons and upgrade warnings'
   type: boolean
