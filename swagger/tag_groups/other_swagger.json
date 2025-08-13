@@ -3009,6 +3009,7 @@
             "enum": [
               "conversation_created",
               "conversation_updated",
+              "conversation_resolved",
               "message_created"
             ],
             "example": "message_created",
