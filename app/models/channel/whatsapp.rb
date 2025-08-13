@@ -34,7 +34,6 @@ class Channel::Whatsapp < ApplicationRecord
 
   after_create :sync_templates
   before_destroy :teardown_webhooks
-  after_commit :setup_webhooks
 
   def name
     'Whatsapp'
@@ -60,6 +59,18 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  def setup_webhooks
+    return true unless should_setup_webhooks?
+
+    perform_webhook_setup
+    true # Webhook setup succeeded
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
+    # Mark channel for reauthorization if webhook setup fails
+    prompt_reauthorization! if respond_to?(:prompt_reauthorization!)
+    false # Return false but don't raise - fail silently
+  end
+
   private
 
   def ensure_webhook_verify_token
@@ -68,21 +79,6 @@ class Channel::Whatsapp < ApplicationRecord
 
   def validate_provider_config
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
-  end
-
-  def setup_webhooks
-    return unless should_setup_webhooks?
-    return unless provider_config_changed?
-
-    perform_webhook_setup
-  rescue StandardError => e
-    handle_webhook_setup_error(e)
-  end
-
-  def provider_config_changed?
-    # In after_commit for new records: previously_new_record? returns true
-    # In after_commit for updates: saved_change_to_provider_config? returns true if provider_config changed
-    previously_new_record? || saved_change_to_provider_config?
   end
 
   def should_setup_webhooks?
