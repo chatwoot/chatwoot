@@ -103,7 +103,10 @@ def mock_lor_service_orchestrate(request: OrchestrationRequest) -> Orchestration
 
 def run_e2e_test():
     print("--- Starting End-to-End CDNA-X v0 Pipeline Simulation ---")
-    mock_event_bus.clear()
+    # Reset the mock event bus for a clean test run, preserving the keys
+    mock_event_bus["csg_events"] = []
+    mock_event_bus["sor_requests"] = []
+    mock_event_bus["lor_requests"] = []
 
     print("\n--- STAGE 1: INGESTION ---")
 
