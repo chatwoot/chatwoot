@@ -5,7 +5,7 @@ module Enterprise::SearchService
 
     Message.search(
       search_query,
-      fields: %w[content content_attributes attachments.transcribed_text content_attributes.email.subject],
+      fields: %w[content attachments.transcribed_text content_attributes.email.subject],
       where: where_conditions,
       order: { created_at: :desc },
       page: params[:page] || 1,
