@@ -320,7 +320,7 @@
         "TITLE": "Título",
         "CATEGORY": "Categoria",
         "READ_COUNT": "Visualizações",
-        "STATUS": "Situação",
+        "STATUS": "Status",
         "LAST_EDITED": "Última edição"
       },
       "COLUMNS": {
@@ -696,7 +696,8 @@
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug é obrigatório"
+        "ERROR": "Slug é obrigatório",
+        "FORMAT_ERROR": "Por favor, insira um slug válido, por exemplo: guia do usuário"
       }
     },
     "PORTAL_SETTINGS": {

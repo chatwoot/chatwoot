@@ -4,8 +4,7 @@ import Copilot from './Copilot.vue';
 
 const supportAgent = {
   available_name: 'Pranav Raj',
-  avatar_url:
-    '',
+  avatar_url: '',
 };
 
 const messages = ref([

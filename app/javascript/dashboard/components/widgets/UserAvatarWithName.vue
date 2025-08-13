@@ -25,10 +25,7 @@ defineProps({
       :username="user.name"
       :status="user.availability_status"
     />
-    <span
-      class="my-0 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
-      :class="textClass"
-    >
+    <span class="my-0 truncate text-capitalize" :class="textClass">
       {{ user.name }}
     </span>
   </div>

@@ -159,7 +159,7 @@ watch(
         variant="faded"
         color="slate"
         :label="t('CAPTAIN.FORM.CANCEL')"
-        class="w-full bg-n-alpha-2 n-blue-text hover:bg-n-alpha-3"
+        class="w-full bg-n-alpha-2 text-n-blue-text hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button

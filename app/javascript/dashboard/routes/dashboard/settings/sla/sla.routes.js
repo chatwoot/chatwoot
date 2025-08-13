@@ -8,7 +8,11 @@ import Index from './Index.vue';
 const meta = {
   featureFlag: FEATURE_FLAGS.SLA,
   permissions: ['administrator'],
-  installationTypes: [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE,INSTALLATION_TYPES.COMMUNITY],
+  installationTypes: [
+    INSTALLATION_TYPES.CLOUD,
+    INSTALLATION_TYPES.ENTERPRISE,
+    INSTALLATION_TYPES.COMMUNITY,
+  ],
 };
 
 export default {

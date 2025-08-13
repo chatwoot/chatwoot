@@ -60,31 +60,19 @@ export default {
 
 .overlapping-thumbnail {
   position: relative;
-  box-shadow: var(--shadow-small);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
   &:not(:first-child) {
-    margin-left: var(--space-minus-smaller);
+    margin-left: -0.25rem;
   }
 
   .gap-tight {
-    margin-left: var(--space-minus-small);
+    margin-left: -0.5rem;
   }
 }
 
 .thumbnail-more-text {
-  display: inline-flex;
-  align-items: center;
-  position: relative;
-
-  margin-left: var(--space-minus-small);
-  padding: 0 var(--space-small);
-  box-shadow: var(--shadow-small);
-  background: var(--color-background);
-  border-radius: var(--space-giga);
-  border: 1px solid var(--white);
-
-  color: var(--s-600);
-  font-size: var(--font-size-mini);
-  font-weight: var(--font-weight-medium);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  @apply text-n-slate-11 bg-n-slate-4 border border-n-weak text-xs font-medium rounded-full px-2 ltr:-ml-2 rtl:-mr-2 inline-flex items-center relative;
 }
 </style>

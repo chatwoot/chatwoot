@@ -32,10 +32,9 @@ export default {
     EXPANDED: 'expanded',
   },
   DOCS_URL: 'https://www.buzzcrm.ai',
-  HELP_CENTER_DOCS_URL:
-    'https://www.buzzcrm.ai',
+  HELP_CENTER_DOCS_URL: 'https://www.buzzcrm.ai',
   TESTIMONIAL_URL: 'https://testimonials.cdn.chatwoot.com/content.json',
-  SMALL_SCREEN_BREAKPOINT: 1200,
+  SMALL_SCREEN_BREAKPOINT: 768,
   AVAILABILITY_STATUS_KEYS: ['online', 'busy', 'offline'],
   SNOOZE_OPTIONS: {
     UNTIL_NEXT_REPLY: 'until_next_reply',

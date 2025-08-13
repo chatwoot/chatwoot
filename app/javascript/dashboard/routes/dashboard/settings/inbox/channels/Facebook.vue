@@ -6,11 +6,12 @@ import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
-import { mapGetters } from 'vuex';
+
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
 import * as Sentry from '@sentry/vue';
@@ -19,12 +20,14 @@ export default {
   components: {
     LoadingState,
     PageHeader,
+    NextButton,
   },
-  mixins: [globalConfigMixin],
   setup() {
     const { accountId } = useAccount();
+    const { replaceInstallationName } = useBranding();
     return {
       accountId,
+      replaceInstallationName,
       v$: useVuelidate(),
     };
   },
@@ -64,9 +67,6 @@ export default {
     getSelectablePages() {
       return this.pageList.filter(item => !item.exists);
     },
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
   },
 
   mounted() {
@@ -207,7 +207,7 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
+    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
   >
     <div
       v-if="!hasLoginStarted"
@@ -221,12 +221,7 @@ export default {
         />
       </a>
       <p class="py-6">
-        {{
-          useInstallationName(
-            $t('INBOX_MGMT.ADD.FB.HELP'),
-            globalConfig.installationName
-          )
-        }}
+        {{ replaceInstallationName($t('INBOX_MGMT.ADD.FB.HELP')) }}
       </p>
     </div>
     <div v-else>
@@ -240,17 +235,14 @@ export default {
       <LoadingState v-else-if="showLoader" :message="emptyStateMessage" />
       <form
         v-else
-        class="flex flex-wrap flex-col mx-0"
+        class="flex flex-col flex-wrap mx-0"
         @submit.prevent="createChannel()"
       >
         <div class="w-full">
           <PageHeader
             :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
             :header-content="
-              useInstallationName(
-                $t('INBOX_MGMT.ADD.DETAILS.DESC'),
-                globalConfig.installationName
-              )
+              replaceInstallationName($t('INBOX_MGMT.ADD.DETAILS.DESC'))
             "
           />
         </div>
@@ -291,7 +283,7 @@ export default {
             </label>
           </div>
           <div class="w-full text-right">
-            <input type="submit" value="Create Inbox" class="button" />
+            <NextButton :label="$t('INBOX_MGMT.ADD.FB.CREATE_INBOX')" />
           </div>
         </div>
       </form>

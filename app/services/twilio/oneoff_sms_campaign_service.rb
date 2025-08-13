@@ -22,7 +22,8 @@ class Twilio::OneoffSmsCampaignService
     campaign.account.contacts.tagged_with(audience_labels, any: true).each do |contact|
       next if contact.phone_number.blank?
 
-      channel.send_message(to: contact.phone_number, body: campaign.message)
+      content = Liquid::CampaignTemplateService.new(campaign: campaign, contact: contact).call(campaign.message)
+      channel.send_message(to: contact.phone_number, body: content)
     end
   end
 end

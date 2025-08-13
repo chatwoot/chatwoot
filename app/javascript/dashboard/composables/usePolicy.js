@@ -6,7 +6,6 @@ import {
   getUserPermissions,
   hasPermissions,
 } from 'dashboard/helper/permissionsHelper';
-import { PREMIUM_FEATURES } from 'dashboard/featureFlags';
 
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
@@ -130,6 +129,7 @@ export function usePolicy() {
   return {
     checkPermissions,
     shouldShowPaywall,
+    isFeatureFlagEnabled,
     shouldShow,
   };
 }

@@ -19,7 +19,6 @@ const FONT_SIZE_OPTIONS = {
   DEFAULT: '16px',
   LARGE: '18px',
   LARGER: '20px',
-  EXTRA_LARGE: '22px',
 };
 
 /**

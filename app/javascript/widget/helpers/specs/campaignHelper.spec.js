@@ -12,30 +12,27 @@ describe('#Campaigns Helper', () => {
   describe('#isPatternMatchingWithURL', () => {
     it('returns correct value if a valid URL is passed', () => {
       expect(
+        isPatternMatchingWithURL('https://buzzcrm.ai*', 'https://buzzcrm.ai')
+      ).toBe(true);
+
+      expect(
         isPatternMatchingWithURL(
-          'https://www.buzzcrm.ai*',
-          'https://www.buzzcrm.ai'
+          'https://*.buzzcrm.ai/pricing/',
+          'https://app.buzzcrm.ai/pricing/'
         )
       ).toBe(true);
 
       expect(
         isPatternMatchingWithURL(
-          'https://*.chatwoot.com/pricing/',
-          'https://app.chatwoot.com/pricing/'
+          'https://{*.}?buzzcrm.ai/pricing?test=true',
+          'https://app.buzzcrm.ai/pricing/?test=true'
         )
       ).toBe(true);
 
       expect(
         isPatternMatchingWithURL(
-          'https://{*.}?chatwoot.com/pricing?test=true',
-          'https://app.chatwoot.com/pricing/?test=true'
-        )
-      ).toBe(true);
-
-      expect(
-        isPatternMatchingWithURL(
-          'https://{*.}?chatwoot.com/pricing*\\?*',
-          'https://chatwoot.com/pricing/?test=true'
+          'https://{*.}?buzzcrm.ai/pricing*\\?*',
+          'https://buzzcrm.ai/pricing/?test=true'
         )
       ).toBe(true);
     });

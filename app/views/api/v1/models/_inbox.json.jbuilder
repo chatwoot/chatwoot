@@ -8,6 +8,7 @@ json.greeting_message resource.greeting_message
 json.working_hours_enabled resource.working_hours_enabled
 json.enable_email_collect resource.enable_email_collect
 json.csat_survey_enabled resource.csat_survey_enabled
+json.csat_config resource.csat_config
 json.enable_auto_assignment resource.enable_auto_assignment
 json.auto_assignment_config resource.auto_assignment_config
 json.out_of_office_message resource.out_of_office_message
@@ -54,10 +55,18 @@ if resource.facebook?
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
 
+## Instagram Attributes
+json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.instagram?
+json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
+
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
+if resource.twilio? && Current.account_user&.administrator?
+  json.auth_token resource.channel.try(:auth_token)
+  json.account_sid resource.channel.try(:account_sid)
+end
 
 if resource.email?
   ## Email Channel Attributes
@@ -107,4 +116,5 @@ json.provider resource.channel.try(:provider)
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end

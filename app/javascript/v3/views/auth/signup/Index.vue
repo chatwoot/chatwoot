@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
@@ -11,7 +11,10 @@ export default {
     Spinner,
     Testimonials,
   },
-  mixins: [globalConfigMixin],
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return { replaceInstallationName };
+  },
   data() {
     return { isLoading: false };
   },
@@ -46,8 +49,8 @@ export default {
               class="block w-auto h-8 dark:hidden"
             />
             <img
-              v-if="globalConfig.logoDark"
-              :src="globalConfig.logoDark"
+              v-if="globalConfig.logo"
+              :src="globalConfig.logo"
               :alt="globalConfig.installationName"
               class="hidden w-auto h-8 dark:block"
             />
@@ -61,12 +64,7 @@ export default {
           <div class="px-1 text-sm text-n-slate-12">
             <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
             <router-link class="text-link text-n-brand" to="/app/login">
-              {{
-                useInstallationName(
-                  $t('LOGIN.TITLE'),
-                  globalConfig.installationName
-                )
-              }}
+              {{ replaceInstallationName($t('LOGIN.TITLE')) }}
             </router-link>
           </div>
         </div>

@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "搜尋",
       "EMPTY_STATE": "No results found"
-    }
+    },
+    "CLOSE": "關閉"
   }
 }

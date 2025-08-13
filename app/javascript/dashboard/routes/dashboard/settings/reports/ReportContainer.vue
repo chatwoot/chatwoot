@@ -19,6 +19,10 @@ export default {
       type: String,
       default: 'getAccountSummary',
     },
+    summaryFetchingKey: {
+      type: String,
+      default: 'getAccountSummaryFetchingStatus',
+    },
     reportKeys: {
       type: Object,
       default: () => ({
@@ -148,7 +152,11 @@ export default {
       :key="metric.KEY"
       class="p-4 mb-3 rounded-md"
     >
-      <ChartStats :metric="metric" :account-summary-key="accountSummaryKey" />
+      <ChartStats
+        :metric="metric"
+        :account-summary-key="accountSummaryKey"
+        :summary-fetching-key="summaryFetchingKey"
+      />
       <div class="mt-4 h-72">
         <woot-loading-state
           v-if="accountReport.isFetching[metric.KEY]"
@@ -161,7 +169,7 @@ export default {
             :collection="getCollection(metric)"
             :chart-options="getChartOptions(metric)"
           />
-          <span v-else class="text-sm text-slate-600">
+          <span v-else class="text-sm text-n-slate-10">
             {{ $t('REPORT.NO_ENOUGH_DATA') }}
           </span>
         </div>

@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "Botlar",
     "LOADING_EDITOR": "Editör Yükleniyor...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "DESCRIPTION": "Temsilci botları ekibinizin en harika üyeleri gibidir. Küçük işleri halledebilirler, böylece önemli işlere odaklanabilirsiniz. Onları deneyin. Botlarınızı bu sayfadan yönetebilir veya 'Bot Ekle' butonunu kullanarak yenilerini oluşturabilirsiniz.",
     "LEARN_MORE": "Learn about agent bots",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "Bot Adı",
-        "PLACEHOLDER": "Botunuza bir ad verin.",
-        "ERROR": "Bot adı zorunludur."
-      },
-      "DESCRIPTION": {
-        "LABEL": "Bot açıklaması",
-        "PLACEHOLDER": "Bu bot ne iş yapar?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "Lütfen yukarıdaki bot yapılandırmanızı girin.",
-        "API_ERROR": "CSML yapılandırmanız geçersiz. Lütfen düzeltin ve tekrar deneyin."
-      },
-      "SUBMIT": "Doğrula ve kaydet"
+    "GLOBAL_BOT": "Sistem botu",
+    "GLOBAL_BOT_BADGE": "Sistem",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatarı başarıyla silindi",
+      "ERROR_DELETE": "Bot avatarı silinirken hata oluştu, lütfen tekrar deneyin"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Bir temsilci botu seçin",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Bot seçin"
     },
     "ADD": {
-      "TITLE": "Yeni botu yapılandır",
+      "TITLE": "Bot Ekle",
       "CANCEL_BUTTON_TEXT": "İptal Et",
       "API": {
         "SUCCESS_MESSAGE": "Bot başarıyla eklendi.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "Bot bulunamadı. 'Yeni botu yapılandır' düğmesine tıklayarak bir bot oluşturabilirsiniz ↗",
+      "404": "Bot bulunamadı. 'Bot Ekle' butonuna tıklayarak bir bot oluşturabilirsiniz.",
       "LOADING": "Botlar alınıyor...",
-      "TYPE": "Bot türü"
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Detayları",
+        "URL": "Webhook URL'si"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
       "TITLE": "Botu sil",
-      "SUBMIT": "Sil",
-      "CANCEL_BUTTON_TEXT": "İptal Et",
-      "DESCRIPTION": "Bu botu silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+      "CONFIRM": {
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "{name} silmek istediğinizden emin misiniz?",
+        "YES": "Evet, Sil",
+        "NO": "Hayır, Sakla"
+      },
       "API": {
         "SUCCESS_MESSAGE": "Bot başarıyla silindi.",
         "ERROR_MESSAGE": "Bot silinemedi. Lütfen tekrar deneyin."
@@ -57,17 +53,51 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "Düzenle",
-      "LOADING": "Botlar alınıyor...",
       "TITLE": "Botu düzenle",
-      "CANCEL_BUTTON_TEXT": "İptal Et",
       "API": {
         "SUCCESS_MESSAGE": "Bot başarıyla güncellendi.",
         "ERROR_MESSAGE": "Bot güncellenemedi. Lütfen tekrar deneyin."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Erişim Jetonu",
+      "DESCRIPTION": "Erişim anahtarını kopyalayın ve güvenli bir yerde saklayın",
+      "COPY_SUCCESSFUL": "Erişim anahtarı panoya kopyalandı",
+      "RESET_SUCCESS": "Erişim anahtarı başarıyla yeniden oluşturuldu",
+      "RESET_ERROR": "Erişim anahtarı yeniden oluşturulamadı. Lütfen tekrar deneyin"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatarı"
+      },
+      "NAME": {
+        "LABEL": "Bot Adı",
+        "PLACEHOLDER": "Bot adını girin",
+        "REQUIRED": "Bot adı zorunludur"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Açıklama",
+        "PLACEHOLDER": "Bu bot ne iş yapar?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook URL'si",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL'si gereklidir"
+      },
+      "ERRORS": {
+        "NAME": "Bot adı zorunludur",
+        "URL": "Webhook URL'si gereklidir",
+        "VALID_URL": "Lütfen http:// veya https:// ile başlayan geçerli bir URL girin"
+      },
+      "CANCEL": "İptal Et",
+      "CREATE": "Bot Oluştur",
+      "UPDATE": "Botu Güncelle"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Webhook botunu özel hizmetlerinizle entegre etmek için yapılandırın. Bot, sohbetlerden gelen olayları alacak ve işleyebilecek."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook botu",
-      "CSML": "CSML botu"
+      "WEBHOOK": "Webhook botu"
     }
   }
 }

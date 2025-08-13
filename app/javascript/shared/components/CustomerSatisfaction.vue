@@ -1,14 +1,16 @@
 <script>
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
-import { CSAT_RATINGS } from 'shared/constants/messages';
+import { CSAT_RATINGS, CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import StarRating from 'shared/components/StarRating.vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
     Spinner,
     FluentIcon,
+    StarRating,
   },
   props: {
     messageContentAttributes: {
@@ -18,6 +20,14 @@ export default {
     messageId: {
       type: Number,
       required: true,
+    },
+    displayType: {
+      type: String,
+      default: CSAT_DISPLAY_TYPES.EMOJI,
+    },
+    message: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -47,7 +57,13 @@ export default {
     title() {
       return this.isRatingSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
-        : this.$t('CSAT.TITLE');
+        : this.message || this.$t('CSAT.TITLE');
+    },
+    isEmojiType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.EMOJI;
+    },
+    isStarType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.STAR;
     },
   },
 
@@ -88,8 +104,13 @@ export default {
         this.isUpdating = false;
       }
     },
+
     selectRating(rating) {
       this.selectedRating = rating.value;
+      this.onSubmit();
+    },
+    selectStarRating(value) {
+      this.selectedRating = value;
       this.onSubmit();
     },
   },
@@ -104,7 +125,7 @@ export default {
     <h6 class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center">
       {{ title }}
     </h6>
-    <div class="ratings flex justify-around py-5 px-4">
+    <div v-if="isEmojiType" class="ratings flex justify-around py-5 px-4">
       <button
         v-for="rating in ratings"
         :key="rating.key"
@@ -114,6 +135,12 @@ export default {
         {{ rating.emoji }}
       </button>
     </div>
+    <StarRating
+      v-else-if="isStarType"
+      :selected-rating="selectedRating"
+      :is-disabled="isRatingSubmitted"
+      @select-rating="selectStarRating"
+    />
     <form
       v-if="!isFeedbackSubmitted"
       class="feedback-form flex"

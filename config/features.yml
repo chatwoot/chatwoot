@@ -37,7 +37,7 @@
   help_url: https://buzzcrm.ai
 - name: agent_bots
   display_name: Agent Bots
-  enabled: false
+  enabled: true
   help_url: https://buzzcrm.ai
 - name: macros
   display_name: Macros
@@ -83,7 +83,7 @@
   enabled: true
 - name: campaigns
   display_name: Campaigns
-  enabled: false
+  enabled: true
   help_url: https://buzzcrm.ai
 - name: reports
   display_name: Reports
@@ -103,7 +103,7 @@
   enabled: true
 - name: audit_logs
   display_name: Audit Logs
-  enabled: false
+  enabled: true
   premium: true
 - name: response_bot
   display_name: Response Bot
@@ -112,7 +112,7 @@
   deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
-  enabled: true
+  enabled: false
   help_url: https://buzzcrm.ai
   deprecated: true
 - name: insert_article_in_reply
@@ -122,7 +122,7 @@
 - name: inbox_view
   display_name: Inbox View
   enabled: true
-  chatwoot_internal: false
+  chatwoot_internal: true
 - name: sla
   display_name: SLA
   enabled: false
@@ -150,6 +150,7 @@
 - name: report_v4
   display_name: Report V4
   enabled: true
+  deprecated: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
   enabled: true
@@ -160,4 +161,33 @@
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
+  enabled: false
+  chatwoot_internal: true
+- name: channel_instagram
+  display_name: Instagram Channel
   enabled: true
+- name: crm_integration
+  display_name: CRM Integration
+  enabled: false
+- name: channel_voice
+  display_name: Voice Channel
+  enabled: false
+  chatwoot_internal: true
+- name: notion_integration
+  display_name: Notion Integration
+  enabled: false
+- name: captain_integration_v2
+  display_name: Captain V2
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+- name: whatsapp_embedded_signup
+  display_name: WhatsApp Embedded Signup
+  enabled: false
+- name: whatsapp_campaign
+  display_name: WhatsApp Campaign
+  enabled: false
+- name: crm_v2
+  display_name: CRM V2
+  enabled: false
+  chatwoot_internal: true

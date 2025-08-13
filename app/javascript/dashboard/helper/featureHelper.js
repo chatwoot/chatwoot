@@ -13,7 +13,7 @@ const FEATURE_HELP_URLS = {
   integrations: 'https://buzzcrm.ai',
   labels: 'https://buzzcrm.ai',
   macros: 'https://buzzcrm.ai',
-  message_reply_to: 'info@buzzcrm.ai',
+  message_reply_to: 'https://buzzcrm.ai',
   reports: 'https://buzzcrm.ai',
   sla: 'https://buzzcrm.ai',
   team_management: 'https://buzzcrm.ai',

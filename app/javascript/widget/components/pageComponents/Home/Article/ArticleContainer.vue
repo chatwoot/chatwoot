@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useDarkMode } from 'widget/composables/useDarkMode';
+import { getMatchingLocale } from 'shared/helpers/portalHelper';
 
 const store = useStore();
 const router = useRouter();
@@ -20,17 +21,8 @@ const articleUiFlags = useMapGetter('article/uiFlags');
 
 const locale = computed(() => {
   const { locale: selectedLocale } = i18n;
-  const {
-    allowed_locales: allowedLocales,
-    default_locale: defaultLocale = 'en',
-  } = portal.value.config;
-  // IMPORTANT: Variation strict locale matching, Follow iso_639_1_code
-  // If the exact match of a locale is available in the list of portal locales, return it
-  // Else return the default locale. Eg: `es` will not work if `es_ES` is available in the list
-  if (allowedLocales.includes(selectedLocale)) {
-    return locale;
-  }
-  return defaultLocale;
+  const { allowed_locales: allowedLocales } = portal.value.config;
+  return getMatchingLocale(selectedLocale.value, allowedLocales);
 });
 
 const fetchArticles = () => {
@@ -46,6 +38,7 @@ const openArticleInArticleViewer = link => {
   const params = new URLSearchParams({
     show_plain_layout: 'true',
     theme: prefersDarkMode.value ? 'dark' : 'light',
+    ...(locale.value && { locale: locale.value }),
   });
 
   // Combine link with query parameters
@@ -64,7 +57,8 @@ const hasArticles = computed(
   () =>
     !articleUiFlags.value.isFetching &&
     !articleUiFlags.value.isError &&
-    !!popularArticles.value.length
+    !!popularArticles.value.length &&
+    !!locale.value
 );
 onMounted(() => fetchArticles());
 </script>

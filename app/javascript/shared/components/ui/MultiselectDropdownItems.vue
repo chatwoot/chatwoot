@@ -133,7 +133,7 @@ export default {
 }
 
 .search-input {
-  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-slate-700 dark:text-slate-100 rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-n-slate-12 rounded-md focus:border-n-brand bg-n-background dark:bg-n-background;
 }
 
 .multiselect-dropdown--item {
@@ -144,7 +144,7 @@ export default {
   }
 
   &:hover {
-    @apply bg-n-slate-2 dark:bg-n-solid-3 text-slate-800 dark:text-slate-100;
+    @apply bg-n-slate-2 dark:bg-n-solid-3 text-n-slate-12;
   }
 }
 </style>

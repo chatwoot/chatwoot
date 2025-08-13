@@ -1,12 +1,16 @@
 <script setup>
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import { computed, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import {
+  useMapGetter,
+  useStoreGetters,
+  useStore,
+} from 'dashboard/composables/store';
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -19,7 +23,12 @@ const { isAdmin } = useAdmin();
 const showDeletePopup = ref(false);
 const selectedInbox = ref({});
 
-const inboxesList = computed(() => getters['inboxes/getInboxes'].value);
+const inboxes = useMapGetter('inboxes/getInboxes');
+
+const inboxesList = computed(() => {
+  return inboxes.value?.slice().sort((a, b) => a.name.localeCompare(b.name));
+});
+
 const uiFlags = computed(() => getters['inboxes/getUIFlags'].value);
 
 const deleteConfirmText = computed(
@@ -88,9 +97,7 @@ const openDelete = inbox => {
     </template>
     <template #body>
       <table class="min-w-full overflow-x-auto">
-        <tbody
-          class="divide-y divide-n-weak flex-1 text-slate-700 dark:text-slate-100"
-        >
+        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
           <tr v-for="inbox in inboxesList" :key="inbox.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center flex-row gap-4">

@@ -1,0 +1,20 @@
+<svg
+  width="250"
+  height="100"
+  viewBox="0 0 200 100"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle cx="50" cy="50" r="50" fill="#2781F6" />
+  <path
+    d="M35 50 L50 35 L65 50 L50 65 Z"
+    fill="white"
+  />
+  <path
+    d="M50 35 L65 50 L50 65 L35 50 Z"
+    fill="white"
+  />
+  <text x="110" y="60" fill="#2781F6" font-family="Arial" font-size="40" font-weight="bold">
+    BUZZ
+  </text>
+</svg>

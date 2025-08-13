@@ -32,10 +32,12 @@
     "LOADING_CONVERSATIONS": "Chargement des conversations",
     "CANNOT_REPLY": "Vous ne pouvez pas répondre en raison de",
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
+    "API_HOURS_WINDOW": "Vous ne pouvez répondre à cette conversation que dans un délai de {hours} heures",
     "NOT_ASSIGNED_TO_YOU": "Cette conversation ne vous est pas assignée. Voulez-vous vous assigner cette conversation ?",
     "ASSIGN_TO_ME": "M’assigner la conversation",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Ce compte Instagram a été migré vers la nouvelle boîte de réception du canal Instagram. Tous les nouveaux messages y apparaîtront. Vous ne pourrez plus envoyer de messages depuis cette conversation.",
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
@@ -68,6 +70,7 @@
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
       "OPEN_ACTION": "Ouvert",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Plus",
       "CLOSE": "Fermer",
       "DETAILS": "détails",
@@ -93,6 +96,10 @@
         "NEXT_WEEK": "Semaine prochaine"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agents",
+      "TEAMS": "Équipes"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Reporter jusqu'à",
       "APPLY": "Reporter",
@@ -115,6 +122,11 @@
         "FAILED": "Impossible de modifier la priorité. Veuillez réessayer."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Supprimer"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marquer comme en attente",
       "RESOLVED": "Marquer comme résolu",
@@ -131,6 +143,7 @@
       "ASSIGN_LABEL": "Assigner une étiquette",
       "AGENTS_LOADING": "Chargement des agents...",
       "ASSIGN_TEAM": "Assigner une équipe",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assignée à \"{agentName}\"",
@@ -205,6 +218,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Étiquette attribuée avec succès",
     "ASSIGN_LABEL_FAILED": "Échec de l'attribution de l'étiquette",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} pour les pièces jointes",
     "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
@@ -293,9 +308,11 @@
       "CONVERSATION_ACTIONS": "Actions de conversation",
       "CONVERSATION_LABELS": "Étiquettes de conversation",
       "CONVERSATION_INFO": "Informations de la conversation",
+      "CONTACT_NOTES": "Notes du contact",
       "CONTACT_ATTRIBUTES": "Attributs du contact",
       "PREVIOUS_CONVERSATION": "Conversations précédentes",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
