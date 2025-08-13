@@ -1,6 +1,8 @@
 module Concerns::Agentable
   extend ActiveSupport::Concern
 
+  DEFAULT_MODEL = 'gpt-4.1-mini'
+
   def agent
     Agents::Agent.new(
       name: agent_name,
@@ -43,7 +45,7 @@ module Concerns::Agentable
   end
 
   def agent_model
-    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value || 'gpt-4.1-mini'
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value&.presence || DEFAULT_MODEL
   end
 
   def agent_response_schema
