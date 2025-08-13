@@ -22,7 +22,7 @@ RSpec.describe Captain::Llm::PdfProcessingService do
   describe '#process' do
     let(:files_api) { instance_double(OpenAI::Files) }
     let(:temp_file) { instance_double(Tempfile) }
-    let(:pdf_attachment) { instance_double(ActiveStorage::Attachment) }
+    let(:pdf_attachment) { double('pdf_attachment') } # rubocop:disable RSpec/VerifiedDoubles
 
     before do
       allow(openai_client).to receive(:files).and_return(files_api)
