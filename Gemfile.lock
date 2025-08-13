@@ -264,6 +264,9 @@ GEM
       net-http-persistent (~> 4.0)
     faraday-retry (2.2.1)
       faraday (~> 2.0)
+    faraday_middleware-aws-sigv4 (1.0.1)
+      aws-sigv4 (~> 1.0)
+      faraday (>= 2.0, < 3)
     fcm (1.0.8)
       faraday (>= 1.0.0, < 3.0)
       googleauth (~> 1)
@@ -945,6 +948,7 @@ DEPENDENCIES
   facebook-messenger
   factory_bot_rails (>= 6.4.3)
   faker
+  faraday_middleware-aws-sigv4
   fcm
   flag_shih_tzu
   foreman
