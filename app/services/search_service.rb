@@ -51,7 +51,7 @@ class SearchService
   end
 
   def should_run_advanced_search?
-    current_account.feature_enabled?('advanced_search') && ENV.fetch('OPENSEARCH_URL', nil).present?
+    ChatwootApp.advanced_search_allowed? && current_account.feature_enabled?('advanced_search')
   end
 
   def advanced_search; end
