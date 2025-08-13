@@ -1,265 +1,141 @@
-<script>
-export default {
-  name: 'VoiceCallBubble',
-  props: {
-    message: {
-      type: Object,
-      default: () => ({}),
-    },
-    isInbox: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    callData() {
-      return this.message?.contentAttributes?.data || {};
-    },
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-    isIncoming() {
-      const direction = this.callData?.call_direction;
-      if (direction) {
-        return direction === 'inbound';
-      }
-      return this.message?.messageType === 0;
-    },
+const props = defineProps({
+  message: { type: Object, default: () => ({}) },
+  isInbox: { type: Boolean, default: false },
+});
 
-    status() {
-      // Get call status from conversation first (most authoritative)
-      const conversationCallStatus =
-        this.message?.conversation?.additional_attributes?.call_status;
-      if (conversationCallStatus) {
-        return this.normalizeStatus(conversationCallStatus);
-      }
+const { t } = useI18n();
 
-      // Use the status from call data if present
-      const callStatus = this.callData?.status;
-      if (callStatus) {
-        return this.normalizeStatus(callStatus);
-      }
+const callData = computed(() => props.message?.contentAttributes?.data || {});
 
-      // Determine status from timestamps
-      if (this.callData?.ended_at) {
-        return 'ended';
-      }
-      if (this.callData?.missed) {
-        return this.isIncoming ? 'missed' : 'no_answer';
-      }
-
-      // Check for started calls
-      if (
-        this.callData?.started_at ||
-        this.message?.conversation?.additional_attributes?.call_started_at
-      ) {
-        return 'in_progress';
-      }
-
-      // Default to ringing
-      return 'ringing';
-    },
-
-    iconName() {
-      if (this.status === 'missed' || this.status === 'no_answer') {
-        return 'i-ph-phone-x-fill';
-      }
-
-      if (this.status === 'in_progress') {
-        return 'i-ph-phone-call-fill';
-      }
-
-      if (this.status === 'ended') {
-        return this.isIncoming
-          ? 'i-ph-phone-incoming-fill'
-          : 'i-ph-phone-outgoing-fill';
-      }
-
-      // Default phone icon for ringing state
-      return this.isIncoming
-        ? 'i-ph-phone-incoming-fill'
-        : 'i-ph-phone-outgoing-fill';
-    },
-
-    iconBgClass() {
-      if (this.status === 'in_progress') {
-        return 'bg-green-500';
-      }
-
-      if (this.status === 'missed' || this.status === 'no_answer') {
-        return 'bg-red-500';
-      }
-
-      if (this.status === 'ended') {
-        return 'bg-purple-500';
-      }
-
-      // Default green for ringing
-      return 'bg-green-500 pulse-animation';
-    },
-
-    labelText() {
-      if (this.status === 'in_progress') {
-        return this.$t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS');
-      }
-
-      if (this.isIncoming) {
-        if (this.status === 'ringing') {
-          return this.$t('CONVERSATION.VOICE_CALL.INCOMING_CALL');
-        }
-        if (this.status === 'missed') {
-          return this.$t('CONVERSATION.VOICE_CALL.MISSED_CALL');
-        }
-        if (this.status === 'ended') {
-          return this.$t('CONVERSATION.VOICE_CALL.CALL_ENDED');
-        }
-      } else {
-        if (this.status === 'ringing') {
-          return this.$t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
-        }
-        if (this.status === 'no_answer') {
-          return this.$t('CONVERSATION.VOICE_CALL.NO_ANSWER');
-        }
-        if (this.status === 'ended') {
-          return this.$t('CONVERSATION.VOICE_CALL.CALL_ENDED');
-        }
-      }
-
-      return this.isIncoming
-        ? this.$t('CONVERSATION.VOICE_CALL.INCOMING_CALL')
-        : this.$t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
-    },
-
-    subtext() {
-      // Check if we have agent_joined flag
-      const agentJoined =
-        this.message?.conversation?.additional_attributes?.agent_joined ===
-        true;
-      const callStarted =
-        !!this.message?.conversation?.additional_attributes?.call_started_at;
-
-      if (this.isIncoming) {
-        if (this.status === 'ringing') {
-          return this.$t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
-        }
-        if (this.status === 'in_progress') {
-          return this.$t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
-        }
-        if (this.status === 'missed' && (agentJoined || callStarted)) {
-          return this.$t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
-        }
-        if (this.status === 'missed') {
-          return this.$t('CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER');
-        }
-        if (this.status === 'ended') {
-          return this.$t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
-        }
-      } else {
-        if (this.status === 'ringing') {
-          return this.$t('CONVERSATION.VOICE_CALL.YOU_CALLED');
-        }
-        if (this.status === 'in_progress') {
-          return this.$t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
-        }
-        if (this.status === 'no_answer' || this.status === 'ended') {
-          return this.$t('CONVERSATION.VOICE_CALL.YOU_CALLED');
-        }
-      }
-
-      return this.isIncoming
-        ? this.$t('CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER')
-        : this.$t('CONVERSATION.VOICE_CALL.YOU_CALLED');
-    },
-
-    statusClass() {
-      return {
-        'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100':
-          !this.isInbox,
-        'bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100':
-          this.isInbox,
-        'call-ringing': this.status === 'ringing',
-      };
-    },
-  },
-  methods: {
-    normalizeStatus(status) {
-      // Unified status mapping
-      const statusMap = {
-        queued: 'ringing',
-        initiated: 'ringing',
-        ringing: 'ringing',
-        'in-progress': 'in_progress',
-        active: 'in_progress',
-        completed: 'ended',
-        ended: 'ended',
-        missed: 'missed',
-        busy: 'no_answer',
-        failed: 'no_answer',
-        'no-answer': 'no_answer',
-        canceled: 'no_answer',
-      };
-
-      return statusMap[status] || status;
-    },
-  },
+const normalizeStatus = status => {
+  const statusMap = {
+    queued: 'ringing',
+    initiated: 'ringing',
+    ringing: 'ringing',
+    'in-progress': 'in_progress',
+    active: 'in_progress',
+    completed: 'ended',
+    ended: 'ended',
+    missed: 'missed',
+    busy: 'no_answer',
+    failed: 'no_answer',
+    'no-answer': 'no_answer',
+    canceled: 'no_answer',
+  };
+  return statusMap[status] || status;
 };
+
+const isIncoming = computed(() => {
+  const direction = callData.value?.call_direction;
+  if (direction) return direction === 'inbound';
+  return props.message?.messageType === 0; // incoming
+});
+
+const status = computed(() => {
+  const cStatus = props.message?.conversation?.additional_attributes?.call_status;
+  if (cStatus) return normalizeStatus(cStatus);
+
+  const dStatus = callData.value?.status;
+  if (dStatus) return normalizeStatus(dStatus);
+
+  if (callData.value?.ended_at) return 'ended';
+  if (callData.value?.missed) return isIncoming.value ? 'missed' : 'no_answer';
+
+  if (
+    callData.value?.started_at ||
+    props.message?.conversation?.additional_attributes?.call_started_at
+  ) {
+    return 'in_progress';
+  }
+  return 'ringing';
+});
+
+const iconName = computed(() => {
+  if (['missed', 'no_answer'].includes(status.value)) return 'i-ph-phone-x-fill';
+  if (status.value === 'in_progress') return 'i-ph-phone-call-fill';
+  if (status.value === 'ended')
+    return isIncoming.value
+      ? 'i-ph-phone-incoming-fill'
+      : 'i-ph-phone-outgoing-fill';
+  return isIncoming.value
+    ? 'i-ph-phone-incoming-fill'
+    : 'i-ph-phone-outgoing-fill';
+});
+
+const iconBgClass = computed(() => {
+  if (status.value === 'in_progress') return 'bg-green-500';
+  if (['missed', 'no_answer'].includes(status.value)) return 'bg-red-500';
+  if (status.value === 'ended') return 'bg-purple-500';
+  // Ringing default with subtle pulse
+  return 'bg-green-500 animate-pulse';
+});
+
+const labelText = computed(() => {
+  if (status.value === 'in_progress') return t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS');
+  if (isIncoming.value) {
+    if (status.value === 'ringing') return t('CONVERSATION.VOICE_CALL.INCOMING_CALL');
+    if (status.value === 'missed') return t('CONVERSATION.VOICE_CALL.MISSED_CALL');
+    if (status.value === 'ended') return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+  } else {
+    if (status.value === 'ringing') return t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
+    if (status.value === 'no_answer') return t('CONVERSATION.VOICE_CALL.NO_ANSWER');
+    if (status.value === 'ended') return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+  }
+  return isIncoming.value
+    ? t('CONVERSATION.VOICE_CALL.INCOMING_CALL')
+    : t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
+});
+
+const subtext = computed(() => {
+  const attrs = props.message?.conversation?.additional_attributes || {};
+  const agentJoined = attrs?.agent_joined === true;
+  const callStarted = !!attrs?.call_started_at;
+  if (isIncoming.value) {
+    if (status.value === 'ringing') return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
+    if (status.value === 'in_progress') return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
+    if (status.value === 'missed' && (agentJoined || callStarted))
+      return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
+    if (status.value === 'missed') return t("CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER");
+    if (status.value === 'ended') return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
+  } else {
+    if (status.value === 'ringing') return t('CONVERSATION.VOICE_CALL.YOU_CALLED');
+    if (status.value === 'in_progress') return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
+    if (['no_answer', 'ended'].includes(status.value))
+      return t('CONVERSATION.VOICE_CALL.YOU_CALLED');
+  }
+  return isIncoming.value
+    ? t("CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER")
+    : t('CONVERSATION.VOICE_CALL.YOU_CALLED');
+});
+
+const containerRingClass = computed(() => {
+  // Add a subtle ring effect for ringing state without custom CSS
+  return status.value === 'ringing' ? 'ring-1 ring-emerald-300' : '';
+});
 </script>
 
 <template>
   <div
-    class="flex-col border border-slate-100 dark:border-slate-700 rounded-lg overflow-hidden w-full max-w-xs"
-    :class="statusClass"
+    class="flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-slate-100 bg-white text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+    :class="containerRingClass"
   >
-    <div class="flex items-center p-3 gap-3 w-full">
-      <!-- Call Icon -->
+    <div class="flex w-full items-center gap-3 p-3">
       <div
-        class="shrink-0 flex items-center justify-center size-10 rounded-full"
+        class="size-10 shrink-0 flex items-center justify-center rounded-full text-white"
         :class="iconBgClass"
       >
-        <span class="text-white text-xl" :class="[iconName]" />
+        <span class="text-xl" :class="[iconName]" />
       </div>
 
-      <!-- Call Info -->
-      <div class="flex flex-col flex-grow overflow-hidden">
-        <span class="text-base font-medium">
-          {{ labelText }}
-        </span>
-        <span class="text-xs text-slate-500">
-          {{ subtext }}
-        </span>
+      <div class="flex flex-grow flex-col overflow-hidden">
+        <span class="truncate text-base font-medium">{{ labelText }}</span>
+        <span class="text-xs text-slate-500">{{ subtext }}</span>
       </div>
     </div>
   </div>
+  
 </template>
-
-<style lang="scss" scoped>
-.pulse-animation {
-  animation: pulse 1.5s infinite;
-}
-
-.call-ringing {
-  animation: border-pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-  }
-}
-
-@keyframes border-pulse {
-  0% {
-    border-color: rgba(34, 197, 94, 0.8);
-  }
-  50% {
-    border-color: rgba(34, 197, 94, 0.2);
-  }
-  100% {
-    border-color: rgba(34, 197, 94, 0.8);
-  }
-}
-</style>
