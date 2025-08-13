@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReportingEventHelper, type: :helper do
+RSpec.describe ReportingEventHelper do
   describe '#last_non_human_activity' do
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }
