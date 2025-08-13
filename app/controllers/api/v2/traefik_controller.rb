@@ -6,9 +6,8 @@ class Api::V2::TraefikController < Api::BaseController
 
     domains << extract_hostname(helpcenter_url) if helpcenter_url.present?
     domains << extract_hostname(frontend_url) if frontend_url.present?
-    domains.uniq!
-    
-    rule = domains.map { |domain| "Host(`#{domain}`)" }.join(' || ')
+    rule = domains.uniq.map { |domain| "Host(`#{domain}`)" }.join(' || ')
+
     render json: {
       http: {
         routers: {
@@ -16,9 +15,7 @@ class Api::V2::TraefikController < Api::BaseController
             rule: rule,
             service: 'chatwoot_rails',
             entryPoints: ['websecure'],
-            tls: {
-              certResolver: 'letsencrypt' # TODO: maybe provide a way for users to change this?
-            }
+            tls: { certResolver: 'letsencrypt' } # TODO: maybe provide a way for users to change this?
           }
         }
       }
