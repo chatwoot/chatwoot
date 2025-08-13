@@ -87,13 +87,15 @@ describe Whatsapp::EmbeddedSignupService do
         # Mock webhook setup to fail
         allow(real_channel).to receive(:perform_webhook_setup).and_raise('Webhook setup error')
 
-        # Expect the channel to be marked for reauthorization
-        expect(real_channel).to receive(:prompt_reauthorization!)
-        expect(Rails.logger).to receive(:error).with('[WHATSAPP] Webhook setup failed: Webhook setup error')
+        # Verify channel is not marked for reauthorization initially
+        expect(real_channel.reauthorization_required?).to be false
 
         # The service completes successfully even if webhook fails (webhook error is rescued in setup_webhooks)
         result = service.perform
         expect(result).to eq(real_channel)
+
+        # Verify the channel is now marked for reauthorization
+        expect(real_channel.reauthorization_required?).to be true
       end
     end
 
