@@ -43,11 +43,15 @@ class SearchService
   def filter_messages
     @messages = if current_account.feature_enabled?('search_with_gin')
                   filter_messages_with_gin
-                elsif current_account.feature_enabled?('advanced_search')
+                elsif should_run_advanced_search?
                   advanced_search
                 else
                   filter_messages_with_like
                 end
+  end
+
+  def should_run_advanced_search?
+    current_account.feature_enabled?('advanced_search') && ENV.fetch('OPENSEARCH_URL', nil).present?
   end
 
   def advanced_search; end
