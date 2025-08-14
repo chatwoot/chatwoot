@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Gesprek aangemaakt",
       "CONVERSATION_UPDATED": "Gesprek bijgewerkt",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
