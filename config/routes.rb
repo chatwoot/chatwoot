@@ -97,6 +97,19 @@ Rails.application.routes.draw do
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
+          resources :agent_capacity_policies, only: [:index, :create, :show, :update, :destroy] do
+            scope module: :agent_capacity_policies do
+              resource :users, only: [] do
+                post ':user_id/assign', action: :assign
+                delete ':user_id/unassign', action: :unassign
+              end
+              resources :inbox_limits, only: [] do
+                member do
+                  put :update
+                end
+              end
+            end
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do

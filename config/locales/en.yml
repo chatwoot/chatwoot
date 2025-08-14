@@ -46,6 +46,8 @@ en:
       presence: must not be blank
     webhook:
       invalid: Invalid events
+    agent_capacity:
+      invalid_conversation_limit: 'Conversation limit must be greater than 0'
     signup:
       disposable_email: We do not allow disposable emails
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
@@ -370,6 +372,9 @@ en:
 
       Transcript:
       %{format_messages}
+  agent_capacity:
+    user_assigned: 'User assigned successfully'
+    user_unassigned: 'User unassigned successfully'
   portals:
     send_instructions:
       email_required: 'Email is required'
