@@ -1,5 +1,5 @@
 class Whatsapp::ChannelCreationService
-  def initialize(account, waba_info, phone_info, access_token, is_business_app_onboarding: false)
+  def initialize(account, waba_info, phone_info, access_token, is_business_app_onboarding = false)
     @account = account
     @waba_info = waba_info
     @phone_info = phone_info
