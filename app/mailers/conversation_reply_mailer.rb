@@ -30,7 +30,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
     @messages = @messages.reject { |m| m.template? && !m.input_csat? }
-    return false if @messages.none?
+    return false if @messages.count.zero?
 
     prepare_mail(false)
   end

@@ -363,3 +363,12 @@ Layout/EmptyLineAfterGuardClause:
 
 Performance/Count:
   Enabled: false
+
+RSpec/PredicateMatcher:
+  Enabled: false
+
+RSpec/RedundantTypeSpec:
+  Enabled: false
+
+Performance/MapPluck:
+  Enabled: false

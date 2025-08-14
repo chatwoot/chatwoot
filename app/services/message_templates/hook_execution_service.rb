@@ -33,7 +33,7 @@ class MessageTemplates::HookExecutionService
   end
 
   def first_message_from_contact?
-    conversation.messages.outgoing.none? && conversation.messages.template.none?
+    conversation.messages.outgoing.count.zero? && conversation.messages.template.count.zero?
   end
 
   def should_send_greeting?

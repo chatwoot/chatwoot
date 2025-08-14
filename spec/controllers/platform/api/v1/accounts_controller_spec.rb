@@ -109,7 +109,7 @@ RSpec.describe 'Platform Accounts API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response.size).to eq(2)
-        expect(json_response.pluck('name')).to include('Account A', 'Account B')
+        expect(json_response.map { |acc| acc['name'] }).to include('Account A', 'Account B')
       end
     end
   end
