@@ -524,9 +524,7 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
-  # FIXME: remove after https://github.com/sidekiq-cron/sidekiq-cron/pull/531/files is merged
-  # We need before we merge the PR
-  # require 'sidekiq/cron/web'
+  require 'sidekiq/cron/web'
 
   devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
   devise_scope :super_admin do
