@@ -146,8 +146,21 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "優先度を変更",
-      "ADD_SLA": "SLAを追加"
+      "ADD_SLA": "SLAを追加",
+      "OPEN_CONVERSATION": "会話を開く"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "なし",
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "緊急"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",

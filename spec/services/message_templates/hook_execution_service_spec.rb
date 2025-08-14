@@ -111,93 +111,32 @@ describe MessageTemplates::HookExecutionService do
     end
   end
 
-  context 'when CSAT Survey' do
-    let(:csat_survey) { double }
-    let(:conversation) { create(:conversation) }
+  context 'when message is an auto reply email' do
+    it 'does not call any template hooks' do
+      contact = create(:contact)
+      conversation = create(:conversation, contact: contact)
+      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true, greeting_message: 'Hi, this is a greeting message')
 
-    before do
-      allow(MessageTemplates::Template::CsatSurvey).to receive(:new).and_return(csat_survey)
-      allow(csat_survey).to receive(:perform).and_return(true)
-      create(:message, conversation: conversation, message_type: 'incoming')
-    end
+      message = create(:message, conversation: conversation, content_type: :incoming_email)
+      message.content_attributes = { email: { auto_reply: true } }
+      message.save!
 
-    it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled and can reply' do
-      conversation.inbox.update(csat_survey_enabled: true)
-      allow(conversation).to receive(:can_reply?).and_return(true)
+      greeting_service = double
+      email_collect_service = double
+      out_of_office_service = double
 
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
+      allow(MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
+      allow(greeting_service).to receive(:perform).and_return(true)
+      allow(MessageTemplates::Template::EmailCollect).to receive(:new).and_return(email_collect_service)
+      allow(email_collect_service).to receive(:perform).and_return(true)
+      allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+      allow(out_of_office_service).to receive(:perform).and_return(true)
 
-      expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).to have_received(:perform)
-    end
+      described_class.new(message: message).perform
 
-    it 'will not call ::MessageTemplates::Template::CsatSurvey when Csat is not enabled' do
-      conversation.inbox.update(csat_survey_enabled: false)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
-      twitter_channel = create(:channel_twitter_profile)
-      twitter_inbox = create(:inbox, channel: twitter_channel)
-      conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
-      conversation.inbox.update(csat_survey_enabled: true)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if another Csat was already sent' do
-      conversation.inbox.update(csat_survey_enabled: true)
-      conversation.messages.create!(message_type: 'outgoing', content_type: :input_csat, account: conversation.account, inbox: conversation.inbox)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if cannot reply' do
-      conversation.inbox.update(csat_survey_enabled: true)
-      allow(conversation).to receive(:can_reply?).and_return(false)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-
-    it 'creates activity message when CSAT not sent due to messaging window restriction' do
-      conversation.inbox.update(csat_survey_enabled: true)
-      allow(conversation).to receive(:can_reply?).and_return(false)
-      allow(conversation).to receive(:create_csat_not_sent_activity_message)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(conversation).to have_received(:create_csat_not_sent_activity_message)
+      expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
+      expect(MessageTemplates::Template::EmailCollect).not_to have_received(:new)
+      expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
     end
   end
 

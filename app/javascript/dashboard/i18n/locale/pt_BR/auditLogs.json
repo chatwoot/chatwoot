@@ -69,6 +69,9 @@
     },
     "ACCOUNT": {
       "EDIT": "O {agentName} atualizou a configuração da conta (#{id})"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} excluiu a conversa #{id}"
     }
   }
 }

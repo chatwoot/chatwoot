@@ -1,0 +1,86 @@
+<% has_multiple_locales = @portal.config["allowed_locales"].length > 1 %>
+
+<input type="checkbox" id="mobile-menu-toggle" class="peer/menu hidden" />
+
+<label for="mobile-menu-toggle" class="relative p-2 text-slate-700 dark:text-slate-200 cursor-pointer z-[60] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" aria-label="Toggle menu">
+  <%= render partial: 'icons/hamburger' %>
+</label>
+
+<div class="fixed inset-0 z-[1000] invisible select-none opacity-0 peer-checked/menu:visible peer-checked/menu:opacity-100 transition-all duration-300 sm:hidden">
+  <div class="w-full h-full bg-white dark:bg-slate-900 shadow-xl transition-transform duration-300 ease-out">
+    <div class="flex flex-col h-full">
+      <div class="flex items-center justify-end py-5 px-4 border-b border-slate-100 dark:border-slate-800">
+        <label for="mobile-menu-toggle" class="p-2 text-slate-700 dark:text-slate-200 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" aria-label="Close menu">
+          <%= render partial: 'icons/close' %>
+        </label>
+      </div>
+
+      <div class="flex-1 overflow-y-auto px-5 pb-5 pt-2 flex flex-col gap-4">
+
+        <!-- Theme Switcher Section -->
+        <div class="flex flex-col gap-2">
+          <h3 class="text-base font-medium text-slate-700 dark:text-slate-300 my-2">
+            <%= I18n.t('public_portal.header.appearance.title', default: 'Appearance') %>
+          </h3>
+          <div id="mobile-appearance-dropdown" data-current-theme="<%= @theme_from_params %>" class="appearance-menu space-y-1">
+            <button class="mobile-theme-button group flex items-center gap-3 justify-start w-full py-2 hover:text-slate-700 dark:hover:text-slate-200 text-slate-800 dark:text-slate-100 transition-colors stroke-slate-800 dark:stroke-slate-100" data-theme="system">
+              <%= render partial: 'icons/monitor' %>
+              <span class="text-lg font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
+              <span class="check-mark-icon system-theme">
+                <%= render partial: 'icons/check-mark' %>
+              </span>
+            </button>
+            <button class="mobile-theme-button group flex items-center gap-3 justify-start w-full py-2 hover:text-slate-700 dark:hover:text-slate-200 text-slate-800 dark:text-slate-100 transition-colors stroke-slate-800 dark:stroke-slate-100" data-theme="light">
+              <%= render partial: 'icons/sun' %>
+              <span class="text-lg font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
+              <span class="check-mark-icon light-theme">
+                <%= render partial: 'icons/check-mark' %>
+              </span>
+            </button>
+            <button class="mobile-theme-button group flex items-center gap-3 justify-start py-2 hover:text-slate-700 dark:hover:text-slate-200 text-slate-800 dark:text-slate-100 transition-colors stroke-slate-800 dark:stroke-slate-100" data-theme="dark">
+              <%= render partial: 'icons/moon' %>
+              <span class="text-lg font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
+              <span class="check-mark-icon dark-theme">
+                <%= render partial: 'icons/check-mark' %>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <% if has_multiple_locales %>
+          <span class="h-px bg-slate-100/70 dark:bg-slate-800/70 w-full"></span>
+        <% end %>
+
+        <!-- Locale Switcher -->
+        <% if has_multiple_locales %>
+          <div id="header-action-button" class="flex flex-col gap-2">
+            <h3 class="text-base font-medium text-slate-700 dark:text-slate-300 my-2">
+              <%= I18n.t('public_portal.header.language', default: 'Language') %>
+            </h3>
+            <div class="flex items-center gap-3 py-2 cursor-pointer stroke-slate-800 dark:stroke-slate-100">
+            <%= render partial: 'icons/globe' %>
+              <select
+                data-portal-slug="<%= @portal.slug %>"
+                class="flex-1 bg-transparent text-lg font-medium cursor-pointer focus:outline-none locale-switcher text-slate-800 dark:text-slate-100 hover:text-slate-700 dark:hover:text-slate-200"
+              >
+                <% @portal.config["allowed_locales"].each do |locale| %>
+                  <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+        <% end %>
+
+        <span class="h-px bg-slate-100/70 dark:bg-slate-800/70 w-full"></span>
+
+        <!-- Homepage Link -->
+        <% if @portal.homepage_link %>
+          <a href="<%= @portal.homepage_link %>" target="_blank" rel="noopener noreferrer nofollow" class="flex items-center gap-3 py-2 cursor-pointer stroke-slate-800 dark:stroke-slate-100 text-slate-800 dark:text-slate-100 hover:text-slate-700 dark:hover:text-slate-200 transition-colors">
+            <%= render partial: 'icons/redirect' %>
+            <span class="text-lg font-medium"><%= I18n.t('public_portal.header.visit_website') %></span>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

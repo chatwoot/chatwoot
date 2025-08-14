@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "検索",
       "EMPTY_STATE": "結果が見つかりませんでした。"
-    }
+    },
+    "CLOSE": "閉じる"
   }
 }

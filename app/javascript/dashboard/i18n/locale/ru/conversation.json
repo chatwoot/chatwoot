@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
       "OPEN_ACTION": "Открыть",
+      "MORE_ACTIONS": "Ещё действия",
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности",
@@ -95,6 +96,10 @@
         "NEXT_WEEK": "На следующей неделе"
       }
     },
+    "MENTION": {
+      "AGENTS": "Операторы",
+      "TEAMS": "Команды"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Отложить до",
       "APPLY": "Отложено",
@@ -117,6 +122,11 @@
         "FAILED": "Не удалось изменить приоритет. Пожалуйста, попробуйте еще раз."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Удалить диалог #{conversationId}",
+      "DESCRIPTION": "Вы уверены, что хотите удалить этот диалог?",
+      "CONFIRM": "Удалить"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Отметить как ожидающие",
       "RESOLVED": "Пометить как разрешено",
@@ -133,6 +143,10 @@
       "ASSIGN_LABEL": "Назначить метки",
       "AGENTS_LOADING": "Загрузка агентов...",
       "ASSIGN_TEAM": "Назначить команду",
+      "DELETE": "Удалить диалог",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID разговора {conversationId} присвоен \"{agentName}\"",
@@ -207,6 +221,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
     "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
+    "SUCCESS_DELETE_CONVERSATION": "Диалог удален",
+    "FAIL_DELETE_CONVERSATION": "Не удалось удалить диалог! Попробуйте снова",
     "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
@@ -299,6 +315,7 @@
       "CONTACT_ATTRIBUTES": "Атрибуты контакта",
       "PREVIOUS_CONVERSATION": "Предыдущие диалоги",
       "MACROS": "Макросс",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

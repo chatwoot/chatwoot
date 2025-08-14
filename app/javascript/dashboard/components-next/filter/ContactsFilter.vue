@@ -9,6 +9,7 @@ import { useContactFilterContext } from './contactProvider.js';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 import Button from 'next/button/Button.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import ConditionRow from './ConditionRow.vue';
 
 const props = defineProps({
@@ -109,16 +110,13 @@ const outsideClickHandler = [
       {{ filterModalHeaderTitle }}
     </h3>
     <div v-if="props.isSegmentView">
-      <label class="pb-6 border-b border-n-weak">
-        <div class="mb-2 text-sm text-n-slate-11">
-          {{ $t('CONTACTS_LAYOUT.FILTER.SEGMENT.LABEL') }}
-        </div>
-        <input
+      <div class="pb-6 border-b border-n-weak">
+        <Input
           v-model="segmentNameLocal"
-          class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base w-full"
+          :label="$t('CONTACTS_LAYOUT.FILTER.SEGMENT.LABEL')"
           :placeholder="t('CONTACTS_LAYOUT.FILTER.SEGMENT.INPUT_PLACEHOLDER')"
         />
-      </label>
+      </div>
     </div>
     <ul class="grid gap-4 list-none">
       <template v-for="(filter, index) in filters" :key="filter.id">

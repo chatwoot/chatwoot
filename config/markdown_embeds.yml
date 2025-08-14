@@ -1,0 +1,132 @@
+# Markdown Embed Configuration
+#
+# This file defines patterns and templates for converting URLs into embedded content
+# in markdown rendering. Each embed type has:
+#   - regex: Pattern with named capture groups (?<name>...)
+#   - template: HTML template with %{capture_group_name} placeholders
+#
+# To add a new embed type:
+# 1. Add a new top-level key
+# 2. Define the regex pattern with named capture groups: (?<name>pattern)
+# 3. Create an HTML template using %{name} placeholders matching the capture groups
+
+youtube:
+  regex: 'https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)(?<video_id>[^&/]+)'
+  template: |
+    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+     <iframe
+      src="https://www.youtube-nocookie.com/embed/%{video_id}"
+      frameborder="0"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+    </div>
+
+loom:
+  regex: 'https?://(?:www\.)?loom\.com/share/(?<video_id>[^&/]+)'
+  template: |
+    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+      <iframe
+       src="https://www.loom.com/embed/%{video_id}"
+       frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
+       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+    </div>
+
+vimeo:
+  regex: 'https?://(?:www\.)?vimeo\.com/(?<video_id>\d+)'
+  template: |
+    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+     <iframe
+      src="https://player.vimeo.com/video/%{video_id}?dnt=true"
+      frameborder="0"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+     </div>
+
+mp4:
+  regex: '(?<link_url>https?://(?:www\.)?.+\.mp4)'
+  template: |
+    <video width="640" height="360" controls>
+      <source src="%{link_url}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+arcade:
+  regex: 'https?://(?:www\.)?app\.arcade\.software/share/(?<video_id>[^&/]+)'
+  template: |
+    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+      <iframe
+        src="https://app.arcade.software/embed/%{video_id}"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowfullscreen
+        allow="fullscreen"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+      </iframe>
+    </div>
+
+wistia:
+  regex: 'https?://(?:www\.)?[^/]+\.wistia\.com/medias/(?<video_id>[^&/]+)'
+  template: |
+    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+      <script src="https://fast.wistia.com/player.js" async></script>
+      <script src="https://fast.wistia.com/embed/%{video_id}.js" async type="module"></script>
+      <style>
+        wistia-player[media-id='%{video_id}']:not(:defined) {
+          background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/%{video_id}/swatch');
+          display: block;
+          filter: blur(5px);
+          padding-top:56.25%;
+        }
+      </style>
+      <wistia-player
+        media-id="%{video_id}"
+        aspect="1.7777777777777777"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+      </wistia-player>
+    </div>
+
+bunny:
+  regex: 'https?://iframe\.mediadelivery\.net/play/(?<library_id>\d+)/(?<video_id>[^&/?]+)'
+  template: |
+    <div style="position: relative; padding-top: 56.25%;">
+      <iframe
+        src="https://iframe.mediadelivery.net/embed/%{library_id}/%{video_id}?autoplay=false&loop=false&muted=false&preload=true&responsive=true"
+        title="Bunny video player"
+        loading="lazy"
+        style="border: 0; position: absolute; top: 0; height: 100%; width: 100%;"
+        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+codepen:
+  regex: 'https?://(?:www\.)?codepen\.io/(?<user>[^/]+)/pen/(?<pen_id>[^/?]+)'
+  template: |
+    <div style="height: 400px; box-sizing: border-box; display: flex; align-items: center; justify-content: center;">
+      <iframe
+        height="400"
+        style="width: 100%;"
+        scrolling="no"
+        title="CodePen Embed"
+        src="https://codepen.io/%{user}/embed/%{pen_id}?default-tab=result"
+        frameborder="no"
+        loading="lazy"
+        allowtransparency="true"
+        allowfullscreen="true">
+      </iframe>
+    </div>
+
+github_gist:
+  regex: 'https?://gist\.github\.com/(?<username>[^/]+)/(?<gist_id>[a-f0-9]+)'
+  template: |
+    <script src="https://gist.github.com/%{username}/%{gist_id}.js"></script>
+    <noscript>
+      <div style="border: 1px solid #d1d9e0; border-radius: 6px; padding: 16px; margin: 16px 0; background: #f6f8fa;">
+        <a href="https://gist.github.com/%{username}/%{gist_id}" target="_blank" style="color: #0969da; text-decoration: none;">
+          View this gist on GitHub
+        </a>
+      </div>
+    </noscript>

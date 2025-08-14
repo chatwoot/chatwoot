@@ -21,7 +21,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="items-center bg-slate-50 flex justify-center h-full w-full">
+  <div class="items-center bg-n-slate-2 flex justify-center h-full w-full">
     <EmptyState
       :title="$t('APP_GLOBAL.ACCOUNT_SUSPENDED.TITLE')"
       :message="$t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGE')"

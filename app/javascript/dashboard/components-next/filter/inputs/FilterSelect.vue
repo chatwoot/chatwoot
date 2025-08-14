@@ -74,6 +74,7 @@ const updateSelected = newValue => {
       <slot name="trigger" :toggle="toggle">
         <Button
           ref="triggerRef"
+          type="button"
           sm
           slate
           :variant

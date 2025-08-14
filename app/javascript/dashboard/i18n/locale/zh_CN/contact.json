@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "联系人",
       "SEARCH_TITLE": "搜索联系人",
+      "ACTIVE_TITLE": "活跃的联系人",
       "SEARCH_PLACEHOLDER": "搜索……",
       "MESSAGE_BUTTON": "消息",
       "SEND_MESSAGE": "发送消息",
@@ -457,6 +458,10 @@
             "PLACEHOLDER": "添加 Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "这一操作是永久且不可逆转的。",
+        "BUTTON": "立即删除"
       }
     },
     "DETAILS": {
@@ -466,7 +471,7 @@
       "DELETE_CONTACT": "删除联系人",
       "DELETE_DIALOG": {
         "TITLE": "确认删除",
-        "DESCRIPTION": "您确定要删除此 {contactName} 联系人吗？",
+        "DESCRIPTION": "您确定要删除此联系人吗？",
         "CONFIRM": "是，删除",
         "API": {
           "SUCCESS_MESSAGE": "联系人删除成功",
@@ -545,8 +550,8 @@
         "YOU": "您",
         "SAVE": "保存备注",
         "EXPAND": "扩展",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "收起",
+        "NO_NOTES": "没有备注，您可以从联系人详细信息页面添加备注。",
         "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。"
       }
     },
@@ -555,7 +560,8 @@
       "SUBTITLE": "点击下方按钮开始添加新联系人",
       "BUTTON_LABEL": "添加联系人",
       "SEARCH_EMPTY_STATE_TITLE": "没有搜索到联系人🔍",
-      "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋"
+      "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "目前没有联系人在线 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

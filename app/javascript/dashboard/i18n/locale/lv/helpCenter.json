@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "Portāls veiksmīgi izdzēsts",
             "DELETE_ERROR": "Dzēšot portālu, radās kļūda"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -726,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Mājas lapas saite",
           "PLACEHOLDER": "Portāla mājaslapas saite",
-          "ERROR": "Nederīgs URL. Sākumlapas saitei jāsākas ar “http://” vai “https://”."
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -747,9 +753,15 @@
           "HEADER": "Pielāgots domēns",
           "LABEL": "Pielāgots domēns:",
           "DESCRIPTION": "Jūs varat izvietot savu portālu pielāgotā domēnā. Piemēram, ja jūsu vietne ir yourdomain.com un vēlaties, lai jūsu portāls būtu pieejams vietnē docs.yourdomain.com, vienkārši ievadiet to šajā laukā.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
           "PLACEHOLDER": "Portāla pielāgots domēns",
-          "EDIT_BUTTON": "Rediģēt pielāgoto domēnu",
+          "EDIT_BUTTON": "Rediģēt",
           "ADD_BUTTON": "Pievienot pielāgoto domēnu",
+          "STATUS": {
+            "LIVE": "Tiešraide",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
           "DIALOG": {
             "ADD_HEADER": "Pievienot pielāgoto domēnu",
             "EDIT_HEADER": "Rediģēt pielāgoto domēnu",
@@ -757,13 +769,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "Atjaunināt domēnu",
             "LABEL": "Pielāgots domēns",
             "PLACEHOLDER": "Portāla pielāgots domēns",
-            "ERROR": "Nepieciešams pielāgots domēns"
+            "ERROR": "Nepieciešams pielāgots domēns",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS konfigurācija",
             "DESCRIPTION": "Piesakieties sava DNS nodrošinātāja kontā un pievienojiet CNAME ierakstu apakšdomēnam, kas norāda uz chatwoot.help",
-            "HELP_TEXT": "Kad tas ir izdarīts, varat sazināties ar mūsu atbalsta dienestu, lai pieprasītu automātiski ģenerētu SSL sertifikātu.",
-            "CONFIRM_BUTTON_LABEL": "Sapratu!"
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Nosūtīt"
+            }
           }
         },
         "DELETE_PORTAL": {

@@ -17,7 +17,7 @@ defineProps({
         icon="i-lucide-sparkles"
         class="w-4 h-4 mt-0.5 flex-shrink-0 text-n-slate-9"
       />
-      <div class="text-sm text-n-slate-11">
+      <div class="text-sm text-n-slate-12">
         {{ content }}
       </div>
     </div>

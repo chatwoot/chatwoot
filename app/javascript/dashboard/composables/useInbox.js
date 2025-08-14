@@ -125,6 +125,10 @@ export const useInbox = () => {
     return channelType.value === INBOX_TYPES.INSTAGRAM;
   });
 
+  const isAVoiceChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.VOICE;
+  });
+
   return {
     inbox,
     isAFacebookInbox,
@@ -142,5 +146,6 @@ export const useInbox = () => {
     is360DialogWhatsAppChannel,
     isAnEmailChannel,
     isAnInstagramChannel,
+    isAVoiceChannel,
   };
 };

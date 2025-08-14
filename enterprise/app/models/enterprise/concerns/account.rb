@@ -11,5 +11,6 @@ module Enterprise::Concerns::Account
     has_many :captain_documents, dependent: :destroy_async, class_name: 'Captain::Document'
 
     has_many :copilot_threads, dependent: :destroy_async
+    has_many :voice_channels, dependent: :destroy_async, class_name: '::Channel::Voice'
   end
 end

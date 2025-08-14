@@ -8,6 +8,7 @@ import slugifyWithCounter from '@sindresorhus/slugify';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
 import { initializeTheme } from './portalThemeHelper.js';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -58,17 +59,13 @@ export const openExternalLinksInNewTab = () => {
 
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
-    const allLocaleSwitcher = document.querySelector('.locale-switcher');
+    document.addEventListener('change', e => {
+      const localeSwitcher = e.target.closest('.locale-switcher');
+      if (!localeSwitcher) return;
 
-    if (!allLocaleSwitcher) {
-      return false;
-    }
-
-    const { portalSlug } = allLocaleSwitcher.dataset;
-    allLocaleSwitcher.addEventListener('change', event => {
-      window.location = `/hc/${portalSlug}/${event.target.value}/`;
+      const { portalSlug } = localeSwitcher.dataset;
+      window.location.href = `/hc/${encodeURIComponent(portalSlug)}/${encodeURIComponent(localeSwitcher.value)}/`;
     });
-    return false;
   },
 
   initializeSearch: () => {
@@ -114,10 +111,22 @@ export const InitializationHelpers = {
     });
   },
 
+  setDirectionAttribute: () => {
+    const htmlElement = document.querySelector('html');
+    // If direction is already applied through props, do not apply again (iframe case)
+    const hasDirApplied = htmlElement.getAttribute('data-dir-applied');
+    if (!htmlElement || hasDirApplied) return;
+
+    const localeFromHtml = htmlElement.lang;
+    htmlElement.dir =
+      localeFromHtml && getLanguageDirection(localeFromHtml) ? 'rtl' : 'ltr';
+  },
+
   initializeThemesInPortal: initializeTheme,
 
   initialize: () => {
     openExternalLinksInNewTab();
+    InitializationHelpers.setDirectionAttribute();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {

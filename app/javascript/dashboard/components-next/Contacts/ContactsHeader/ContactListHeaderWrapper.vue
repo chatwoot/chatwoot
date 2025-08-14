@@ -36,6 +36,7 @@ const props = defineProps({
   activeSegment: { type: Object, default: null },
   hasAppliedFilters: { type: Boolean, default: false },
   isLabelView: { type: Boolean, default: false },
+  isActiveView: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -277,6 +278,7 @@ defineExpose({
     :header-title="headerTitle"
     :is-segments-view="hasActiveSegments"
     :is-label-view="isLabelView"
+    :is-active-view="isActiveView"
     :has-active-filters="hasAppliedFilters"
     :button-label="t('CONTACTS_LAYOUT.HEADER.MESSAGE_BUTTON')"
     @search="emit('search', $event)"

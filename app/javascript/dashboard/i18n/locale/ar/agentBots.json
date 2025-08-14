@@ -59,6 +59,13 @@
         "ERROR_MESSAGE": "تعذر تحديث الروبوت. يرجى المحاولة مرة أخرى."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "رمز المصادقة",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"

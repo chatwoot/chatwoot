@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Επισκόπηση Ετικετών",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_LABEL_REPORTS": "Λήψη αναφορών ετικέτας",
@@ -559,6 +560,7 @@
     "INBOX": "Εισερχόμενα",
     "AGENT": "Πράκτορας",
     "TEAM": "Ομάδα",
+    "LABEL": "Ετικέτα",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

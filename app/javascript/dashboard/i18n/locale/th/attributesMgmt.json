@@ -5,6 +5,18 @@
     "LOADING": "กำลังดึงแอตทริบิวต์ที่กำหนดเอง",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "การสนทนา",
+      "CONTACT": "ผู้ติดต่อ"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "ข้อความ",
+      "NUMBER": "ตัวเลข",
+      "LINK": "ลิงก์",
+      "DATE": "Date",
+      "LIST": "รายการ",
+      "CHECKBOX": "ช่องทำเครื่องหมาย"
+    },
     "ADD": {
       "TITLE": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
       "SUBMIT": "สร้าง",

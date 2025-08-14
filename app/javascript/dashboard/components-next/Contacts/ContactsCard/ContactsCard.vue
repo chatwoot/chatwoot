@@ -17,6 +17,7 @@ const props = defineProps({
   additionalAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
+  availabilityStatus: { type: String, default: null },
   isExpanded: { type: Boolean, default: false },
   isUpdating: { type: Boolean, default: false },
 });
@@ -92,7 +93,14 @@ const onClickViewDetails = () => emit('showContact', props.id);
 <template>
   <CardLayout :key="id" layout="row">
     <div class="flex items-center justify-start flex-1 gap-4">
-      <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
+      <Avatar
+        :name="name"
+        :src="thumbnail"
+        :size="48"
+        :status="availabilityStatus"
+        hide-offline-status
+        rounded-full
+      />
       <div class="flex flex-col gap-0.5 flex-1">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
           <span class="text-base font-medium truncate text-n-slate-12">

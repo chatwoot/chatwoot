@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "Portal deleted successfully",
             "DELETE_ERROR": "Error while deleting portal"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -726,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Home page link",
           "PLACEHOLDER": "Portal home page link",
-          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -747,9 +753,15 @@
           "HEADER": "Custom domain",
           "LABEL": "Custom domain:",
           "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
           "PLACEHOLDER": "Portal custom domain",
-          "EDIT_BUTTON": "Edit custom domain",
+          "EDIT_BUTTON": "എഡിറ്റുചെയ്യുക",
           "ADD_BUTTON": "Add custom domain",
+          "STATUS": {
+            "LIVE": "Live",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
           "DIALOG": {
             "ADD_HEADER": "Add custom domain",
             "EDIT_HEADER": "Edit custom domain",
@@ -757,13 +769,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
             "LABEL": "Custom domain",
             "PLACEHOLDER": "Portal custom domain",
-            "ERROR": "Custom domain is required"
+            "ERROR": "Custom domain is required",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
             "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
-            "CONFIRM_BUTTON_LABEL": "Got it!"
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "അയയ്‌ക്കുക"
+            }
           }
         },
         "DELETE_PORTAL": {
