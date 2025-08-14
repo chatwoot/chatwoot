@@ -6,6 +6,17 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def perform_reply
+    # If the message has both content and image attachments, send a single
+    # generic template so that the caption is attached to the image(s).
+    if message.content.present? && message.attachments.present? && image_attachments_any?
+      send_message_to_facebook fb_generic_template_message_params(message.content, image_attachments)
+      # If there are any non-image attachments, send them separately as before
+      non_image_attachments.each do |attachment|
+        send_message_to_facebook fb_attachment_message_params(attachment)
+      end
+      return
+    end
+
     send_message_to_facebook fb_text_message_params if message.content.present?
 
     if message.attachments.present?
@@ -94,10 +105,50 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     }
   end
 
+  def fb_generic_template_message_params(text_content, attachments)
+    elements = attachments.first(10).map do |attachment|
+      {
+        title: text_content,
+        image_url: attachment.download_url
+      }
+    end
+
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: elements
+          }
+        }
+      },
+      messaging_type: 'MESSAGE_TAG',
+      tag: 'ACCOUNT_UPDATE'
+    }
+  end
+
   def attachment_type(attachment)
     return attachment.file_type if %w[image audio video file].include? attachment.file_type
 
     'file'
+  end
+
+  def image_attachments
+    return [] unless message.attachments.present?
+
+    message.attachments.select { |att| att.file_type == 'image' }
+  end
+
+  def non_image_attachments
+    return [] unless message.attachments.present?
+
+    message.attachments.reject { |att| att.file_type == 'image' }
+  end
+
+  def image_attachments_any?
+    image_attachments.any?
   end
 
   def sent_first_outgoing_message_after_24_hours?

@@ -14,6 +14,7 @@ import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 export default {
   name: 'AgentMessage',
@@ -37,6 +38,12 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   data() {
     return {
@@ -189,7 +196,7 @@ export default {
             }"
           >
             <AgentMessageBubble
-              v-if="shouldDisplayAgentMessage"
+              v-if="shouldDisplayAgentMessage && !hasAttachments"
               :content-type="contentType"
               :message-content-attributes="messageContentAttributes"
               :message-id="message.id"
@@ -201,6 +208,11 @@ export default {
               class="space-y-2 chat-bubble has-attachment agent bg-n-background dark:bg-n-solid-3"
               :class="wrapClass"
             >
+              <div
+                v-if="shouldDisplayAgentMessage"
+                v-dompurify-html="formatMessage(message.content, false)"
+                class="message-content text-n-slate-12 mb-2"
+              />
               <div
                 v-for="attachment in message.attachments"
                 :key="attachment.id"

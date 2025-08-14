@@ -7,17 +7,20 @@ module Stark
     def handle_response(response)
       return unless response_valid?(response)
 
-      create_bot_response_message(current_conversation, response['content'], response['attachments']) if response['content'].present?
+      if response['content'].present? || (response['attachments'].is_a?(Array) && response['attachments'].any?)
+        create_bot_response_message(current_conversation, response['content'], response['attachments'])
+      end
       process_action(event_data[:message], response['action']) if response['action'].present?
     end
 
-    def create_bot_response_message(conversation, content, attachment_urls = nil)
+    def create_bot_response_message(conversation, content, attachments = nil)
       create_text_message(conversation, content) if content.present?
-      create_attachment_messages(conversation, attachment_urls) if attachment_urls.is_a?(Array)
+      create_attachment_messages(conversation, attachments) if attachments.is_a?(Array)
     end
 
     def response_valid?(response)
-      response.is_a?(Hash) && (response['content'].present? || response['action'].present?)
+      attachments_present = response['attachments'].is_a?(Array) && response['attachments'].any?
+      response.is_a?(Hash) && (response['content'].present? || response['action'].present? || attachments_present)
     end
 
     private
@@ -32,8 +35,12 @@ module Stark
       )
     end
 
-    def create_attachment_messages(conversation, urls)
-      urls.each do |url|
+    def create_attachment_messages(conversation, attachments)
+      attachments.each do |attachment|
+        url = attachment.is_a?(Hash) ? (attachment['url'] || attachment[:url]) : attachment
+        content = attachment.is_a?(Hash) ? (attachment['content'] || attachment[:content]) : nil
+        next if url.blank?
+
         file = URI.open(url)
         filename = File.basename(URI.parse(url).path)
 
@@ -44,6 +51,7 @@ module Stark
         )
 
         message = conversation.messages.new(
+          content: content,
           message_type: :outgoing,
           account_id: conversation.account_id,
           inbox_id: conversation.inbox_id,
