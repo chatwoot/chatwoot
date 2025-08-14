@@ -19,6 +19,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  textClasses: {
+    type: String,
+    default: '',
+  },
 });
 
 const { t } = useI18n();
@@ -73,7 +77,8 @@ const headerText = computed(() =>
         :reply-time="replyTime"
         :is-online="isOnline"
         :is-in-working-hours="isInWorkingHours"
-        class="text-n-slate-11 availability-text"
+        :class="textClasses"
+        class="text-n-slate-11"
       />
     </div>
 

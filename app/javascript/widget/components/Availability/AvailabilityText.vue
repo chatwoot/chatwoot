@@ -84,6 +84,29 @@ const nextSlot = computed(() => {
     remainingMinutes: slot.minutesUntilOpen % MINUTES_IN_HOUR,
   };
 });
+
+const roundedMinutesUntilOpen = computed(() => {
+  if (!nextSlot.value) return 0;
+  return (
+    Math.ceil(nextSlot.value.remainingMinutes / MINUTE_ROUNDING_INTERVAL) *
+    MINUTE_ROUNDING_INTERVAL
+  );
+});
+
+const adjustedHoursUntilOpen = computed(() => {
+  if (!nextSlot.value) return 0;
+  return nextSlot.value.remainingMinutes > 0
+    ? nextSlot.value.hoursUntilOpen + 1
+    : nextSlot.value.hoursUntilOpen;
+});
+
+const formattedOpeningTime = computed(() => {
+  if (!nextSlot.value) return '';
+  return getTime(
+    nextSlot.value.config.openHour || 0,
+    nextSlot.value.config.openMinutes || 0
+  );
+});
 </script>
 
 <template>
@@ -131,7 +154,7 @@ const nextSlot = computed(() => {
     <template v-else-if="nextSlot.hoursUntilOpen === 0">
       {{
         t('REPLY_TIME.BACK_IN_MINUTES', {
-          time: `${Math.ceil(nextSlot.remainingMinutes / MINUTE_ROUNDING_INTERVAL) * MINUTE_ROUNDING_INTERVAL}`,
+          time: `${roundedMinutesUntilOpen}`,
         })
       }}
     </template>
@@ -142,10 +165,7 @@ const nextSlot = computed(() => {
     >
       {{
         t('REPLY_TIME.BACK_IN_HOURS', {
-          time:
-            nextSlot.remainingMinutes > 0
-              ? nextSlot.hoursUntilOpen + 1
-              : nextSlot.hoursUntilOpen,
+          time: adjustedHoursUntilOpen,
         })
       }}
     </template>
@@ -154,10 +174,7 @@ const nextSlot = computed(() => {
     <template v-else>
       {{
         t('REPLY_TIME.BACK_AT_TIME', {
-          time: getTime(
-            nextSlot.config.openHour || 0,
-            nextSlot.config.openMinutes || 0
-          ),
+          time: formattedOpeningTime,
         })
       }}
     </template>

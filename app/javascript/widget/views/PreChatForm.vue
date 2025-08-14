@@ -1,10 +1,10 @@
 <script>
+import { useRouter } from 'vue-router';
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
 import { emitter } from 'shared/helpers/mitt';
-import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 
 export default {
   components: {
@@ -12,8 +12,8 @@ export default {
   },
   mixins: [configMixin],
   setup() {
-    const { replaceRoute } = useReplaceRoute();
-    return { replaceRoute };
+    const router = useRouter();
+    return { router };
   },
   mounted() {
     // Register event listener for conversation creation
@@ -25,7 +25,7 @@ export default {
   methods: {
     handleConversationCreated() {
       // Redirect to messages page after conversation is created
-      this.replaceRoute('messages');
+      this.router.replace({ name: 'messages' });
       // Only after successful navigation, reset the isUpdatingRoute UIflag in app/javascript/widget/router.js
       // See issue: https://github.com/chatwoot/chatwoot/issues/10736
     },

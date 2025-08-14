@@ -21,9 +21,12 @@ const getDateInTimezone = (time, utcOffset) => {
   try {
     return utcToZonedTime(dateString, utcOffset);
   } catch (error) {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     // eslint-disable-next-line no-console
-    console.warn(`Invalid timezone: ${utcOffset}, falling back to UTC`);
-    return utcToZonedTime(dateString, 'UTC');
+    console.warn(
+      `Invalid timezone: ${utcOffset}, falling back to user timezone: ${userTimezone}`
+    );
+    return utcToZonedTime(dateString, userTimezone);
   }
 };
 

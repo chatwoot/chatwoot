@@ -1,7 +1,7 @@
 <script>
 import TeamAvailability from 'widget/components/TeamAvailability.vue';
 import { mapGetters } from 'vuex';
-import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
+import { useRouter } from 'vue-router';
 import configMixin from 'widget/mixins/configMixin';
 import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';
 export default {
@@ -12,8 +12,8 @@ export default {
   },
   mixins: [configMixin],
   setup() {
-    const { replaceRoute } = useReplaceRoute();
-    return { replaceRoute };
+    const router = useRouter();
+    return { router };
   },
   computed: {
     ...mapGetters({
@@ -25,9 +25,9 @@ export default {
   methods: {
     startConversation() {
       if (this.preChatFormEnabled && !this.conversationSize) {
-        return this.replaceRoute('prechat-form');
+        return this.router.replace({ name: 'prechat-form' });
       }
-      return this.replaceRoute('messages');
+      return this.router.replace({ name: 'messages' });
     },
   },
 };
