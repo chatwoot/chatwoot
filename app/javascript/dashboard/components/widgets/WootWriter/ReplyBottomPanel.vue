@@ -94,7 +94,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasWhatsappTemplates: {
+    enableWhatsAppTemplates: {
       type: Boolean,
       default: false,
     },
@@ -333,7 +333,7 @@ export default {
         @click="toggleMessageSignature"
       />
       <NextButton
-        v-if="hasWhatsappTemplates"
+        v-if="enableWhatsAppTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         icon="i-ph-whatsapp-logo"
         slate

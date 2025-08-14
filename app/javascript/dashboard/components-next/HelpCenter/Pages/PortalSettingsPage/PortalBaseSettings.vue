@@ -7,8 +7,8 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, helpers } from '@vuelidate/validators';
-import { shouldBeUrl, isValidSlug } from 'shared/helpers/Validators';
+import { required, minLength, helpers, url } from '@vuelidate/validators';
+import { isValidSlug } from 'shared/helpers/Validators';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -71,7 +71,7 @@ const rules = {
       isValidSlug
     ),
   },
-  homePageLink: { shouldBeUrl },
+  homePageLink: { url },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -315,7 +315,9 @@ const handleAvatarDelete = () => {
           class="[&>div>button:not(.focused)]:!outline-n-weak"
         />
       </div>
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
           class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
         >
