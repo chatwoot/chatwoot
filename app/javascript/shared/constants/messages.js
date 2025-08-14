@@ -114,55 +114,55 @@ export const AUDIO_FORMATS = {
 
 export const MESSAGE_VARIABLES = [
   {
-    label: 'Conversation Id',
+    label: 'ID da Conversa',
     key: 'conversation.id',
   },
   {
-    label: 'Contact Id',
+    label: 'ID do Contato',
     key: 'contact.id',
   },
   {
-    label: 'Contact name',
+    label: 'Nome do Contato',
     key: 'contact.name',
   },
   {
-    label: 'Contact first name',
+    label: 'Primeiro Nome do Contato',
     key: 'contact.first_name',
   },
   {
-    label: 'Contact last name',
+    label: 'Último Nome do Contato',
     key: 'contact.last_name',
   },
   {
-    label: 'Contact email',
+    label: 'E-mail do Contato',
     key: 'contact.email',
   },
   {
-    label: 'Contact phone',
+    label: 'Telefone do Contato',
     key: 'contact.phone',
   },
   {
-    label: 'Agent name',
+    label: 'Nome do Agente',
     key: 'agent.name',
   },
   {
-    label: 'Agent first name',
+    label: 'Primeiro Nome do Agente',
     key: 'agent.first_name',
   },
   {
-    label: 'Agent last name',
+    label: 'Último Nome do Agente',
     key: 'agent.last_name',
   },
   {
-    label: 'Agent email',
+    label: 'E-mail do Agente',
     key: 'agent.email',
   },
   {
     key: 'inbox.name',
-    label: 'Inbox name',
+    label: 'Nome da Caixa de Entrada',
   },
   {
-    label: 'Inbox id',
+    label: 'ID da Caixa de Entrada',
     key: 'inbox.id',
   },
 ];
