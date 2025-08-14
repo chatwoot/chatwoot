@@ -1,0 +1,15 @@
+json.id assignment_policy.id
+json.name assignment_policy.name
+json.description assignment_policy.description
+json.assignment_order assignment_policy.assignment_order
+json.conversation_priority assignment_policy.conversation_priority
+json.fair_distribution_limit assignment_policy.fair_distribution_limit
+json.fair_distribution_window assignment_policy.fair_distribution_window
+json.enabled assignment_policy.enabled
+json.inbox_count assignment_policy.inboxes.count
+json.inboxes assignment_policy.inboxes do |inbox|
+  json.id inbox.id
+  json.name inbox.name
+end
+json.created_at assignment_policy.created_at
+json.updated_at assignment_policy.updated_at

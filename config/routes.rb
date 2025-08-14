@@ -217,6 +217,15 @@ Rails.application.routes.draw do
             end
           end
 
+          # Assignment V2 Routes
+          resources :assignment_policies do
+            resources :inboxes, only: [:index, :create, :destroy], controller: 'inbox_assignment_policies'
+          end
+
+          resources :inboxes, only: [] do
+            resource :assignment_policy, only: [:show], controller: 'inbox_assignment_policies'
+          end
+
           namespace :twitter do
             resource :authorization, only: [:create]
           end
@@ -425,7 +434,7 @@ Rails.application.routes.draw do
         resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
           delete :avatar, on: :member
         end
-        resources :accounts, only: [:index, :create, :show, :update, :destroy] do
+        resources :accounts, only: [:create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
               delete :destroy

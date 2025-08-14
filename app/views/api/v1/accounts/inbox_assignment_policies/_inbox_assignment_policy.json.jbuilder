@@ -1,0 +1,15 @@
+json.id inbox_assignment_policy.id
+json.inbox_id inbox_assignment_policy.inbox_id
+json.assignment_policy_id inbox_assignment_policy.assignment_policy_id
+json.assignment_policy do
+  json.id inbox_assignment_policy.assignment_policy.id
+  json.name inbox_assignment_policy.assignment_policy.name
+  json.description inbox_assignment_policy.assignment_policy.description
+  json.assignment_order inbox_assignment_policy.assignment_policy.assignment_order
+  json.conversation_priority inbox_assignment_policy.assignment_policy.conversation_priority
+  json.fair_distribution_limit inbox_assignment_policy.assignment_policy.fair_distribution_limit
+  json.fair_distribution_window inbox_assignment_policy.assignment_policy.fair_distribution_window
+  json.enabled inbox_assignment_policy.assignment_policy.enabled
+end
+json.created_at inbox_assignment_policy.created_at
+json.updated_at inbox_assignment_policy.updated_at
