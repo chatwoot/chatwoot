@@ -77,7 +77,7 @@ export default {
       };
     },
     charLengthClass() {
-      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
+      return this.charactersRemaining < 0 ? 'text-n-ruby-9' : 'text-n-slate-11';
     },
     characterLengthWarning() {
       return this.charactersRemaining < 0

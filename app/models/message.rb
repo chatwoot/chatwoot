@@ -24,6 +24,7 @@
 #
 # Indexes
 #
+#  idx_messages_account_content_created                 (account_id,content_type,created_at)
 #  index_messages_on_account_created_type               (account_id,created_at,message_type)
 #  index_messages_on_account_id                         (account_id)
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
@@ -167,7 +168,7 @@ class Message < ApplicationRecord
       additional_attributes: additional_attributes,
       content_attributes: content_attributes,
       content_type: content_type,
-      content: content,
+      content: outgoing_content,
       conversation: conversation.webhook_data,
       created_at: created_at,
       id: id,
@@ -192,6 +193,12 @@ class Message < ApplicationRecord
     return false if template? && %w[input_csat text].exclude?(content_type)
 
     true
+  end
+
+  def auto_reply_email?
+    return false unless incoming_email? || inbox.email?
+
+    content_attributes.dig(:email, :auto_reply) == true
   end
 
   def valid_first_reply?

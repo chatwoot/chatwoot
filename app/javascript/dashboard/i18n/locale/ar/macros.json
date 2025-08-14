@@ -99,6 +99,13 @@
       "CHANGE_PRIORITY": "تغيير الأولوية",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "لا شيء",
+      "LOW": "منخفضة",
+      "MEDIUM": "متوسطة",
+      "HIGH": "عالية",
+      "URGENT": "عاجل"
     }
   }
 }

@@ -76,7 +76,7 @@ export default {
           <span v-dompurify-html="title" class="ltr:mr-1 rtl:ml-1" />
           <div
             :class="`h-2 w-2 rounded-full
-              ${isOnline ? 'bg-green-500' : 'hidden'}`"
+              ${isOnline ? 'bg-n-teal-10' : 'hidden'}`"
           />
         </div>
         <div class="text-xs leading-3 text-n-slate-11">

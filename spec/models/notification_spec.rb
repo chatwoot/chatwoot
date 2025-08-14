@@ -128,6 +128,39 @@ has been assigned to you"
       expect(notification.push_message_body).to eq "#{message.sender.name}: Hey @John Peter please check this?"
     end
 
+    it 'returns appropriate body suited for the notification type conversation_mention if username contains emoji' do
+      conversation = create(:conversation)
+      content = 'Hey [@👍 customer support](mention://team/1/%F0%9F%91%8D%20customer%20support) please check this?'
+      message = create(:message, sender: create(:user), content: content, conversation: conversation)
+      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: conversation, secondary_actor: message)
+      expect(notification.push_message_body).to eq "#{message.sender.name}: Hey @👍 customer support please check this?"
+    end
+
+    it 'returns appropriate body suited for the notification type conversation_mention if team name contains emoji and spaces' do
+      conversation = create(:conversation)
+      content = 'Please check [@🚀 Development Team](mention://team/2/%F0%9F%9A%80%20Development%20Team)'
+      message = create(:message, sender: create(:user), content: content, conversation: conversation)
+      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: conversation, secondary_actor: message)
+      expect(notification.push_message_body).to eq "#{message.sender.name}: Please check @🚀 Development Team"
+    end
+
+    it 'returns appropriate body suited for the notification type conversation_mention with mixed emoji and regular mentions' do
+      conversation = create(:conversation)
+      content = 'Hey [@John Doe](mention://user/1/John%20Doe) and ' \
+                '[@👍 customer support](mention://team/1/%F0%9F%91%8D%20customer%20support) please review'
+      message = create(:message, sender: create(:user), content: content, conversation: conversation)
+      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: conversation, secondary_actor: message)
+      expect(notification.push_message_body).to eq "#{message.sender.name}: Hey @John Doe and @👍 customer support please review"
+    end
+
+    it 'returns appropriate body suited for the notification type conversation_mention with special characters in names' do
+      conversation = create(:conversation)
+      content = 'Please review [@user@domain.com](mention://user/4/user%40domain.com)'
+      message = create(:message, sender: create(:user), content: content, conversation: conversation)
+      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: conversation, secondary_actor: message)
+      expect(notification.push_message_body).to eq "#{message.sender.name}: Please review @user@domain.com"
+    end
+
     it 'calls remove duplicate notification job' do
       allow(Notification::RemoveDuplicateNotificationJob).to receive(:perform_later)
       notification = create(:notification, notification_type: 'conversation_mention')

@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 es:
   hello: 'Hola mundo'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: '¡Genial! La solicitud de restablecimiento de contraseña ha sido exitosa. Revisa tu correo para ver las instrucciones.'
     reset_password_failure: '¡Uh ho! No hemos podido encontrar ningún usuario con el correo electrónico especificado.'
@@ -53,6 +58,13 @@ es:
       invalid_message_type: 'Tipo de mensaje inválido. Acción no permitida'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, inténtalo de nuevo'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
@@ -182,6 +194,8 @@ es:
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} ha silenciado la conversación'
       unmuted: '%{user_name} ha anulado el silenciado de la conversación'
       auto_resolution_message: 'Resolviendo la conversación, ya que ha estado inactiva durante un tiempo. Por favor, inicia una nueva conversación si necesitas más ayuda.'
@@ -241,6 +255,10 @@ es:
       name: 'Lineal'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Crea problemas en Linear directamente desde tu ventana de conversación. Alternativamente, enlaza problemas existentes en Linear para un proceso de seguimiento de problemas más eficiente y ágil.'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
@@ -250,6 +268,7 @@ es:
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
+    copilot_message_required: El mensaje es obligatorio
     copilot_error: 'Conecte un asistente a esta bandeja de entrada para utilizar Copilot'
     copilot_limit: 'Te quedaste sin créditos de Copilot. Puedes comprar más créditos desde la sección de facturación.'
     copilot:
@@ -337,3 +356,12 @@ es:
 
       Transcript:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'El email es requerido'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

@@ -26,8 +26,8 @@ const isDefaultScreen = computed(() => {
     class="rounded-t-lg flex-shrink-0 transition-[max-height] duration-300"
     :class="
       isDefaultScreen
-        ? 'bg-slate-25 dark:bg-slate-800 px-4 py-5'
-        : 'bg-white dark:bg-slate-900 p-4'
+        ? 'bg-n-slate-2 dark:bg-n-solid-1 px-4 py-5'
+        : 'bg-n-slate-2 dark:bg-n-solid-1 p-4'
     "
   >
     <div class="relative top-px">
@@ -40,17 +40,15 @@ const isDefaultScreen = computed(() => {
         />
         <div v-if="!isDefaultScreen">
           <div class="flex items-center justify-start gap-1">
-            <span
-              class="text-base font-medium leading-3 text-slate-900 dark:text-white"
-            >
+            <span class="text-base font-medium leading-3 text-n-slate-12">
               {{ config.websiteName }}
             </span>
             <div
               v-if="config.isOnline"
-              class="w-2 h-2 bg-green-500 rounded-full"
+              class="w-2 h-2 bg-n-teal-10 rounded-full"
             />
           </div>
-          <span class="mt-1 text-xs text-slate-600 dark:text-slate-400">
+          <span class="mt-1 text-xs text-n-slate-11">
             {{ config.replyTime }}
           </span>
         </div>

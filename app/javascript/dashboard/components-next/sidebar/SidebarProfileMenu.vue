@@ -111,11 +111,7 @@ const allowedMenuItems = computed(() => {
 </script>
 
 <template>
-  <DropdownContainer
-    class="relative w-full min-w-0"
-    :class="{ 'z-20': isOpen }"
-    @close="emit('close')"
-  >
+  <DropdownContainer class="relative w-full min-w-0" @close="emit('close')">
     <template #trigger="{ toggle, isOpen }">
       <button
         class="flex gap-2 items-center rounded-lg cursor-pointer text-left w-full hover:bg-n-alpha-1 p-1"
