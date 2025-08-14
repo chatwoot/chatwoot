@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class AssignmentPolicyPolicy < ApplicationPolicy
   def index?
     @account_user.administrator?

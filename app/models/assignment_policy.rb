@@ -33,8 +33,6 @@ class AssignmentPolicy < ApplicationRecord
 
   enum conversation_priority: { earliest_created: 0, longest_waiting: 1 }
 
-  scope :enabled, -> { where(enabled: true) }
-
   # Default assignment order for community edition
   def assignment_order
     'round_robin'

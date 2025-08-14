@@ -48,7 +48,6 @@ en:
       invalid: Invalid events
     signup:
       disposable_email: We do not allow disposable emails
-    not_implemented: This feature is not yet implemented
     assignment_policy:
       not_found: Assignment policy not found
       no_policy_assigned: No assignment policy assigned to this inbox

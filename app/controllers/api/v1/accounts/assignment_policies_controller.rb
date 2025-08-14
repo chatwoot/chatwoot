@@ -1,7 +1,4 @@
-# frozen_string_literal: true
-
 class Api::V1::Accounts::AssignmentPoliciesController < Api::V1::Accounts::BaseController
-  include RequestExceptionHandler
   before_action :fetch_assignment_policy, only: [:show, :update, :destroy]
   before_action :check_authorization
 
@@ -12,9 +9,7 @@ class Api::V1::Accounts::AssignmentPoliciesController < Api::V1::Accounts::BaseC
   def show; end
 
   def create
-    @assignment_policy = Current.account.assignment_policies.build(assignment_policy_params)
-    @assignment_policy.save!
-    render :create, status: :created
+    @assignment_policy = Current.account.assignment_policies.create!(assignment_policy_params)
   end
 
   def update
@@ -38,10 +33,4 @@ class Api::V1::Accounts::AssignmentPoliciesController < Api::V1::Accounts::BaseC
       :fair_distribution_limit, :fair_distribution_window, :enabled
     )
   end
-
-  def check_authorization
-    authorize(AssignmentPolicy)
-  end
 end
-
-Api::V1::Accounts::AssignmentPoliciesController.prepend_mod_with('Api::V1::Accounts::AssignmentPoliciesController')

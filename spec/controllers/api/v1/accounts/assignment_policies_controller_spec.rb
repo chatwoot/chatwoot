@@ -34,11 +34,9 @@ RSpec.describe 'Assignment Policy API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
-        expect(json_response['assignment_policies']).to be_an(Array)
-        expect(json_response['assignment_policies'].first['id']).to eq(assignment_policy.id)
-        expect(json_response['assignment_policies'].first['name']).to eq(assignment_policy.name)
-        # Inboxes should NOT be included per review feedback
-        expect(json_response['assignment_policies'].first).not_to have_key('inboxes')
+        expect(json_response).to be_an(Array)
+        expect(json_response.first['id']).to eq(assignment_policy.id)
+        expect(json_response.first['name']).to eq(assignment_policy.name)
       end
     end
 
@@ -131,10 +129,10 @@ RSpec.describe 'Assignment Policy API', type: :request do
                params: valid_params
         end.to change(AssignmentPolicy, :count).by(1)
 
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:success)
         json_response = response.parsed_body
-        expect(json_response['assignment_policy']['name']).to eq('New Policy')
-        expect(json_response['assignment_policy']['assignment_order']).to eq('round_robin')
+        expect(json_response['name']).to eq('New Policy')
+        expect(json_response['assignment_order']).to eq('round_robin')
       end
 
       it 'creates with minimal params' do
@@ -146,7 +144,7 @@ RSpec.describe 'Assignment Policy API', type: :request do
                params: minimal_params
         end.to change(AssignmentPolicy, :count).by(1)
 
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:success)
       end
 
       it 'returns error for duplicate name' do
