@@ -10,9 +10,9 @@ export default {
     return {
       socialMediaLinks: [
         { key: 'facebook', icon: 'facebook', link: 'https://facebook.com/' },
-        { key: 'twitter', icon: 'twitter', link: 'https://twitter.com/' },
-        { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
-        { key: 'github', icon: 'github', link: 'https://github.com/' },
+        // { key: 'twitter', icon: 'twitter', link: 'https://twitter.com/' },
+        // { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
+        // { key: 'github', icon: 'github', link: 'https://github.com/' },
         { key: 'instagram', icon: 'instagram', link: 'https://instagram.com/' },
         { key: 'telegram', icon: 'telegram', link: 'https://t.me/' },
       ],

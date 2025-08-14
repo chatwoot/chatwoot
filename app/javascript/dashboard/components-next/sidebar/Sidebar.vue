@@ -521,7 +521,7 @@ const menuItems = computed(() => {
     },
     {
       name: 'CrmHeycommerce',
-      label: 'CRM Hey',
+      label: 'CRM HeyCommerce',
       icon: 'i-lucide-rocket',
       href: (window?.chatwootConfig?.crmURL || 'https://crm-heycommerce.com'),
     },

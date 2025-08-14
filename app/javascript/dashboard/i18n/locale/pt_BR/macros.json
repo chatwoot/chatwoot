@@ -1,27 +1,27 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "DESCRIPTION": "Uma macro é um conjunto de ações salvas que ajudam os agentes de atendimento ao cliente a concluir tarefas com facilidade. Os agentes podem definir um conjunto de ações, como etiquetar uma conversa com um rótulo, enviar uma transcrição de e-mail, atualizar um atributo personalizado, etc., e podem executar essas ações com um único clique.",
-    "LEARN_MORE": "Aprenda mais sobre macros",
-    "HEADER_BTN_TXT": "Adicionar uma nova macro",
-    "HEADER_BTN_TXT_SAVE": "Salvar macro",
-    "LOADING": "Obtendo macros",
+    "HEADER": "Atalhos",
+    "DESCRIPTION": "Uma atalho é um conjunto de ações salvas que ajudam os agentes de atendimento ao cliente a concluir tarefas com facilidade. Os agentes podem definir um conjunto de ações, como etiquetar uma conversa com um rótulo, enviar uma transcrição de e-mail, atualizar um atributo personalizado, etc., e podem executar essas ações com um único clique.",
+    "LEARN_MORE": "Aprenda mais sobre atalhos",
+    "HEADER_BTN_TXT": "Adicionar um novo atalho",
+    "HEADER_BTN_TXT_SAVE": "Salvar atalho",
+    "LOADING": "Obtendo atalhos",
     "ERROR": "Algo deu errado. Por favor, tente novamente",
-    "ORDER_INFO": "As macros serão executadas na ordem que você adicionar suas ações. Você pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
+    "ORDER_INFO": "As atalhos serão executadas na ordem que você adicionar suas ações. Você pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Nome da macro",
-          "PLACEHOLDER": "Digite um nome para sua macro",
-          "ERROR": "Nome é necessário para criar uma macro"
+          "LABEL": "Nome do atalho",
+          "PLACEHOLDER": "Digite um nome para seu atalho",
+          "ERROR": "Nome é necessário para criar um atalho"
         },
         "ACTIONS": {
           "LABEL": "Ações"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro adicionada com sucesso",
-        "ERROR_MESSAGE": "Não é possível criar a macro, por favor, tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Atalho adicionado com sucesso",
+        "ERROR_MESSAGE": "Não é possível criar o atalho, por favor, tente novamente mais tarde"
       }
     },
     "LIST": {
@@ -31,49 +31,49 @@
         "LAST_UPDATED_BY": "Ultima atualização por",
         "VISIBILITY": "Visibilidade"
       },
-      "404": "Nenhuma macro encontrada"
+      "404": "Nenhum atalho encontrado"
     },
     "DELETE": {
-      "TOOLTIP": "Excluir macro",
+      "TOOLTIP": "Excluir atalho",
       "CONFIRM": {
         "MESSAGE": "Você tem certeza que deseja excluir ",
         "YES": "Sim, excluir",
         "NO": "Não"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro excluída com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro ao excluir a macro. Por favor, tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Atalho excluído com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir o atalho. Por favor, tente novamente mais tarde"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Editar macro",
+      "TOOLTIP": "Editar atalho",
       "API": {
-        "SUCCESS_MESSAGE": "Macro atualizada com sucesso",
-        "ERROR_MESSAGE": "Não foi possível atualizar Macro, Por favor, tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Atalho atualizado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar o atalho, Por favor, tente novamente mais tarde"
       }
     },
     "EDITOR": {
       "START_FLOW": "Inicio do Fluxo",
       "END_FLOW": "Fim do Fluxo",
-      "LOADING": "Obtendo macro",
+      "LOADING": "Obtendo atalho",
       "ADD_BTN_TOOLTIP": "Adicionar nova ação",
       "DELETE_BTN_TOOLTIP": "Excluir Ação",
       "VISIBILITY": {
-        "LABEL": "Visibilidade da Macro",
+        "LABEL": "Visibilidade do Atalho",
         "GLOBAL": {
           "LABEL": "Publico",
-          "DESCRIPTION": "Esta macro está disponível publicamente para todos os agentes desta conta."
+          "DESCRIPTION": "Este atalho está disponível publicamente para todos os agentes desta conta."
         },
         "PERSONAL": {
           "LABEL": "Privada",
-          "DESCRIPTION": "Esta macro será privada para você e não estará disponível para outras pessoas."
+          "DESCRIPTION": "Este atalho será privado para você e não estará disponível para outras pessoas."
         }
       }
     },
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Executar",
-      "PREVIEW": "Pré-visualizar Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executada com sucesso"
+      "PREVIEW": "Pré-visualizar Atalho",
+      "EXECUTED_SUCCESSFULLY": "Atalho executado com sucesso"
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "A chave do atributo é necessária",
