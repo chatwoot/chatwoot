@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Enterprise::AssignmentPolicy
   ASSIGNMENT_ORDERS = {
     'round_robin' => 0,

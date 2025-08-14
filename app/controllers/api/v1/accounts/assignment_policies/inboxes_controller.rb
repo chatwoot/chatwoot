@@ -1,7 +1,7 @@
 class Api::V1::Accounts::AssignmentPolicies::InboxesController < Api::V1::Accounts::BaseController
   before_action :fetch_assignment_policy
   before_action :fetch_inbox, only: [:create, :destroy]
-  before_action :check_authorization
+  before_action -> { check_authorization(AssignmentPolicy) }
 
   def index
     @inboxes = @assignment_policy.inboxes
@@ -25,9 +25,5 @@ class Api::V1::Accounts::AssignmentPolicies::InboxesController < Api::V1::Accoun
 
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:id] || params[:inbox_id])
-  end
-
-  def check_authorization
-    authorize(AssignmentPolicy)
   end
 end

@@ -48,14 +48,13 @@ en:
       invalid: Invalid events
     signup:
       disposable_email: We do not allow disposable emails
-    assignment_policy:
-      not_found: Assignment policy not found
-      no_policy_assigned: No assignment policy assigned to this inbox
       blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
       invalid_email: You have entered an invalid email
       email_already_exists: 'You have already signed up for an account with %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Invalid data type
