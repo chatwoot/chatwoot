@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "送信できませんでした。もう一度お試しください"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "オンライン",
     "OFFLINE": "留守中"

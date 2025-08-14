@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Odeslání se nezdařilo, zkuste to znovu"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Jsme online",
     "OFFLINE": "V současné době jsme pryč"

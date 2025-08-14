@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "¡No se pudo enviar! intente nuevamente"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Estamos en línea",
     "OFFLINE": "Estamos ausentes en este momento"

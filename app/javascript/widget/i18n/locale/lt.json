@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Nepavyko išsiųsti! bandykite dar kartą"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Mes prisijungę",
     "OFFLINE": "Šiuo metu esame atsijungę"

@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "전송하지 못했습니다. 다시 시도해보세요."
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "온라인",
     "OFFLINE": "부재중"

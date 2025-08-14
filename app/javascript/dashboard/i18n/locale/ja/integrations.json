@@ -472,7 +472,8 @@
         "FEATURES": {
           "TITLE": "機能",
           "ALLOW_CONVERSATION_FAQS": "解決済みの会話からFAQを生成",
-          "ALLOW_MEMORIES": "顧客とのやり取りから重要な詳細を記憶としてキャプチャ"
+          "ALLOW_MEMORIES": "顧客とのやり取りから重要な詳細を記憶としてキャプチャ",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
