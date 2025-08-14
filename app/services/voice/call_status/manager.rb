@@ -67,6 +67,19 @@ module Voice
         TERMINAL_STATUSES.include?(status)
       end
 
+      def create_activity_message(content, additional_attributes = {})
+        return nil if content.blank?
+
+        conversation.messages.create!(
+          account_id: conversation.account_id,
+          inbox_id: conversation.inbox_id,
+          message_type: :activity,
+          content: content,
+          sender: nil,
+          additional_attributes: additional_attributes
+        )
+      end
+
       private
 
       def update_status(status, duration)
@@ -113,19 +126,6 @@ module Voice
         return 'No answer' if status == 'no_answer'
 
         'Call ended'
-      end
-
-      def create_activity_message(content, additional_attributes = {})
-        return nil if content.blank?
-
-        conversation.messages.create!(
-          account_id: conversation.account_id,
-          inbox_id: conversation.inbox_id,
-          message_type: :activity,
-          content: content,
-          sender: nil,
-          additional_attributes: additional_attributes
-        )
       end
     end
   end

@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   message: { type: Object, default: () => ({}) },
-  isInbox: { type: Boolean, default: false },
 });
 
 const { t } = useI18n();
@@ -36,7 +35,8 @@ const isIncoming = computed(() => {
 });
 
 const status = computed(() => {
-  const cStatus = props.message?.conversation?.additional_attributes?.call_status;
+  const cStatus =
+    props.message?.conversation?.additional_attributes?.call_status;
   if (cStatus) return normalizeStatus(cStatus);
 
   const dStatus = callData.value?.status;
@@ -55,7 +55,8 @@ const status = computed(() => {
 });
 
 const iconName = computed(() => {
-  if (['missed', 'no_answer'].includes(status.value)) return 'i-ph-phone-x-fill';
+  if (['missed', 'no_answer'].includes(status.value))
+    return 'i-ph-phone-x-fill';
   if (status.value === 'in_progress') return 'i-ph-phone-call-fill';
   if (status.value === 'ended')
     return isIncoming.value
@@ -75,15 +76,22 @@ const iconBgClass = computed(() => {
 });
 
 const labelText = computed(() => {
-  if (status.value === 'in_progress') return t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS');
+  if (status.value === 'in_progress')
+    return t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS');
   if (isIncoming.value) {
-    if (status.value === 'ringing') return t('CONVERSATION.VOICE_CALL.INCOMING_CALL');
-    if (status.value === 'missed') return t('CONVERSATION.VOICE_CALL.MISSED_CALL');
-    if (status.value === 'ended') return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+    if (status.value === 'ringing')
+      return t('CONVERSATION.VOICE_CALL.INCOMING_CALL');
+    if (status.value === 'missed')
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL');
+    if (status.value === 'ended')
+      return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
   } else {
-    if (status.value === 'ringing') return t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
-    if (status.value === 'no_answer') return t('CONVERSATION.VOICE_CALL.NO_ANSWER');
-    if (status.value === 'ended') return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+    if (status.value === 'ringing')
+      return t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
+    if (status.value === 'no_answer')
+      return t('CONVERSATION.VOICE_CALL.NO_ANSWER');
+    if (status.value === 'ended')
+      return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
   }
   return isIncoming.value
     ? t('CONVERSATION.VOICE_CALL.INCOMING_CALL')
@@ -95,20 +103,26 @@ const subtext = computed(() => {
   const agentJoined = attrs?.agent_joined === true;
   const callStarted = !!attrs?.call_started_at;
   if (isIncoming.value) {
-    if (status.value === 'ringing') return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
-    if (status.value === 'in_progress') return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
+    if (status.value === 'ringing')
+      return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
+    if (status.value === 'in_progress')
+      return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
     if (status.value === 'missed' && (agentJoined || callStarted))
       return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
-    if (status.value === 'missed') return t("CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER");
-    if (status.value === 'ended') return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
+    if (status.value === 'missed')
+      return t('CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER');
+    if (status.value === 'ended')
+      return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
   } else {
-    if (status.value === 'ringing') return t('CONVERSATION.VOICE_CALL.YOU_CALLED');
-    if (status.value === 'in_progress') return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
+    if (status.value === 'ringing')
+      return t('CONVERSATION.VOICE_CALL.YOU_CALLED');
+    if (status.value === 'in_progress')
+      return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
     if (['no_answer', 'ended'].includes(status.value))
       return t('CONVERSATION.VOICE_CALL.YOU_CALLED');
   }
   return isIncoming.value
-    ? t("CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER")
+    ? t('CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER')
     : t('CONVERSATION.VOICE_CALL.YOU_CALLED');
 });
 
@@ -137,5 +151,4 @@ const containerRingClass = computed(() => {
       </div>
     </div>
   </div>
-  
 </template>

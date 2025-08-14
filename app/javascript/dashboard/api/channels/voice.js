@@ -11,31 +11,44 @@ class VoiceAPI extends ApiClient {
 
   // ------------------- Server APIs -------------------
   initiateCall(contactId) {
-    if (!contactId) throw new Error('Contact ID is required to initiate a call');
+    if (!contactId)
+      throw new Error('Contact ID is required to initiate a call');
     // The endpoint is defined in the contacts namespace, not voice namespace
-    return axios.post(`${this.baseUrl().replace('/voice', '')}/contacts/${contactId}/call`);
+    return axios.post(
+      `${this.baseUrl().replace('/voice', '')}/contacts/${contactId}/call`
+    );
   }
 
   endCall(callSid, conversationId) {
-    if (!conversationId) throw new Error('Conversation ID is required to end a call');
+    if (!conversationId)
+      throw new Error('Conversation ID is required to end a call');
     if (!callSid) throw new Error('Call SID is required to end a call');
-    return axios.post(`${this.url}/end_call`, { call_sid: callSid, conversation_id: conversationId, id: conversationId });
+    return axios.post(`${this.url}/end_call`, {
+      call_sid: callSid,
+      conversation_id: conversationId,
+      id: conversationId,
+    });
   }
 
   joinCall(params) {
     const conversationId = params.conversation_id || params.conversationId;
     const callSid = params.call_sid || params.callSid;
     const payload = { call_sid: callSid, conversation_id: conversationId };
-    if (!conversationId) throw new Error('Conversation ID is required to join a call');
+    if (!conversationId)
+      throw new Error('Conversation ID is required to join a call');
     if (!callSid) throw new Error('Call SID is required to join a call');
     if (params.account_id) payload.account_id = params.account_id;
     return axios.post(`${this.url}/join_call`, payload);
   }
 
   rejectCall(callSid, conversationId) {
-    if (!conversationId) throw new Error('Conversation ID is required to reject a call');
+    if (!conversationId)
+      throw new Error('Conversation ID is required to reject a call');
     if (!callSid) throw new Error('Call SID is required to reject a call');
-    return axios.post(`${this.url}/reject_call`, { call_sid: callSid, conversation_id: conversationId });
+    return axios.post(`${this.url}/reject_call`, {
+      call_sid: callSid,
+      conversation_id: conversationId,
+    });
   }
 
   getToken(inboxId) {
@@ -45,7 +58,8 @@ class VoiceAPI extends ApiClient {
 
   // ------------------- Client (Twilio) APIs -------------------
   async initializeDevice(inboxId) {
-    if (this.initialized && this.device && this.device.state !== 'error') return this.device;
+    if (this.initialized && this.device && this.device.state !== 'error')
+      return this.device;
     if (!inboxId) throw new Error('Inbox ID is required to initialize');
 
     const { Device } = await import('@twilio/voice-sdk');
@@ -67,6 +81,14 @@ class VoiceAPI extends ApiClient {
     this.device.on('error', () => {});
     this.device.on('connect', conn => {
       this.activeConnection = conn;
+      // Listen for connection disconnect
+      conn.on('disconnect', () => {
+        this.activeConnection = null;
+        // Dispatch event to update UI when call disconnects
+        if (window.app && window.app.$store) {
+          window.app.$store.dispatch('calls/clearActiveCall');
+        }
+      });
     });
     this.device.on('disconnect', () => {
       this.activeConnection = null;
@@ -75,7 +97,9 @@ class VoiceAPI extends ApiClient {
       try {
         const r = await this.getToken(inboxId);
         if (r.data?.token) this.device.updateToken(r.data.token);
-      } catch (_) {}
+      } catch (error) {
+        // Token refresh failed
+      }
     });
 
     await this.device.register();
@@ -85,29 +109,62 @@ class VoiceAPI extends ApiClient {
 
   endClientCall() {
     try {
-      if (this.activeConnection) this.activeConnection.disconnect();
+      // Disconnect active connection first
+      if (this.activeConnection) {
+        this.activeConnection.disconnect();
+        this.activeConnection = null;
+      }
+      
+      // Disconnect all connections on the device
+      if (this.device) {
+        if (this.device.state === 'busy') {
+          this.device.disconnectAll();
+        }
+        // Also try to disconnect any ongoing connections
+        const connections = this.device.calls || [];
+        connections.forEach(call => {
+          try {
+            call.disconnect();
+          } catch (e) {
+            // Ignore individual call disconnect errors
+          }
+        });
+      }
+    } catch (error) {
       this.activeConnection = null;
-      if (this.device && this.device.state === 'busy') this.device.disconnectAll();
-    } catch (_) {
-      this.activeConnection = null;
+      // Force device disconnect as fallback
+      try {
+        if (this.device) {
+          this.device.disconnectAll();
+        }
+      } catch (fallbackError) {
+        // Final fallback failed
+      }
     }
   }
 
   joinClientCall({ To }) {
     if (!this.device || !this.initialized) throw new Error('Twilio not ready');
     if (!To) throw new Error('Missing To');
-    const connection = this.device.connect({ params: { To: String(To), is_agent: 'true' } });
+    const connection = this.device.connect({
+      params: { To: String(To), is_agent: 'true' },
+    });
     this.activeConnection = connection;
     return connection;
   }
 
   setMute(muted) {
     try {
-      if (this.activeConnection && typeof this.activeConnection.mute === 'function') {
+      if (
+        this.activeConnection &&
+        typeof this.activeConnection.mute === 'function'
+      ) {
         this.activeConnection.mute(!!muted);
         return true;
       }
-    } catch (_) {}
+    } catch (error) {
+      // Mute failed
+    }
     return false;
   }
 
