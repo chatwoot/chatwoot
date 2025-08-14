@@ -10,12 +10,11 @@
 # locked: if you don't specify locked attribute in yaml, the default value will be true,
 #         which means the particular config will be locked and won't be available in `super_admin/installation_configs`
 # premium: These values get overwritten unless the user is on a premium plan
-# type: The type of the config. Default is text, select and boolean are also supported
-# options: For select types, its required to have options for the select in the following pattern: "option_value":"Human readable option"
+# type: The type of the config. Default is text,  boolean is also supported
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'ComChat'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -31,23 +30,23 @@
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.comchat.com.br'
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.comchat.com.br'
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'Comchat'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://www.comchat.com.br/termos-de-uso'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://www.comchat.com.br/politica-de-privacidade'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
