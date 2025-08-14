@@ -24,14 +24,18 @@ class Messages::Messenger::MessageBuilder
   end
 
   def attachment_params(attachment)
-    file_type = attachment['type'].to_sym
-    params = { file_type: file_type, account_id: @message.account_id }
+    original_type = attachment['type'].to_s
+    # Normalize unsupported/alternate types
+    # Keep ig_story as is so we can treat highlight shares distinctly
+    normalized_type = original_type.to_sym
 
-    if [:image, :file, :audio, :video, :share, :story_mention, :ig_reel].include? file_type
+    params = { file_type: normalized_type, account_id: @message.account_id }
+
+    if [:image, :file, :audio, :video, :share, :story_mention, :ig_reel, :ig_story].include? normalized_type
       params.merge!(file_type_params(attachment))
-    elsif file_type == :location
+    elsif normalized_type == :location
       params.merge!(location_params(attachment))
-    elsif file_type == :fallback
+    elsif normalized_type == :fallback
       params.merge!(fallback_params(attachment))
     end
 
@@ -39,15 +43,17 @@ class Messages::Messenger::MessageBuilder
   end
 
   def file_type_params(attachment)
+    # Some Instagram payloads use story_media_url (eg: ig_story). Prefer it when present.
+    url = attachment.dig('payload', 'story_media_url') || attachment.dig('payload', 'url')
     {
-      external_url: attachment['payload']['url'],
-      remote_file_url: attachment['payload']['url']
+      external_url: url,
+      remote_file_url: url
     }
   end
 
   def update_attachment_file_type(attachment)
     return if @message.reload.attachments.blank?
-    return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention'
+    return unless attachment.file_type == 'share' || attachment.file_type == 'story_mention' || attachment.file_type == 'ig_story'
 
     attachment.file_type = file_type(attachment.file&.content_type)
     attachment.save!
