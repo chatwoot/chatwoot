@@ -1,27 +1,27 @@
 {
   "MACROS": {
-    "HEADER": "Atalhos",
-    "DESCRIPTION": "Uma atalho é um conjunto de ações salvas que ajudam os agentes de atendimento ao cliente a concluir tarefas com facilidade. Os agentes podem definir um conjunto de ações, como etiquetar uma conversa com um rótulo, enviar uma transcrição de e-mail, atualizar um atributo personalizado, etc., e podem executar essas ações com um único clique.",
-    "LEARN_MORE": "Aprenda mais sobre atalhos",
-    "HEADER_BTN_TXT": "Adicionar um novo atalho",
-    "HEADER_BTN_TXT_SAVE": "Salvar atalho",
-    "LOADING": "Obtendo atalhos",
+    "HEADER": "Comandos",
+    "DESCRIPTION": "Um comando é um conjunto de ações salvas que ajudam os agentes de atendimento ao cliente a concluir tarefas com facilidade. Os agentes podem definir um conjunto de ações, como etiquetar uma conversa com um rótulo, enviar uma transcrição de e-mail, atualizar um atributo personalizado, etc., e podem executar essas ações com um único clique.",
+    "LEARN_MORE": "Aprenda mais sobre comandos",
+    "HEADER_BTN_TXT": "Adicionar um novo comando",
+    "HEADER_BTN_TXT_SAVE": "Salvar comando",
+    "LOADING": "Obtendo comandos",
     "ERROR": "Algo deu errado. Por favor, tente novamente",
-    "ORDER_INFO": "As atalhos serão executadas na ordem que você adicionar suas ações. Você pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
+    "ORDER_INFO": "Os comandos serão executados na ordem que você adicionar suas ações. Você pode reorganizá-las arrastando-as pelo identificador ao lado de cada nó.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Nome do atalho",
-          "PLACEHOLDER": "Digite um nome para seu atalho",
-          "ERROR": "Nome é necessário para criar um atalho"
+          "LABEL": "Nome do comando",
+          "PLACEHOLDER": "Digite um nome para seu comando",
+          "ERROR": "É necessário um nome para criar um comando"
         },
         "ACTIONS": {
           "LABEL": "Ações"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atalho adicionado com sucesso",
-        "ERROR_MESSAGE": "Não é possível criar o atalho, por favor, tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Comando adicionado com sucesso",
+        "ERROR_MESSAGE": "Não é possível criar o comando, por favor, tente novamente mais tarde"
       }
     },
     "LIST": {
@@ -31,49 +31,49 @@
         "LAST_UPDATED_BY": "Ultima atualização por",
         "VISIBILITY": "Visibilidade"
       },
-      "404": "Nenhum atalho encontrado"
+      "404": "Nenhum comando encontrado"
     },
     "DELETE": {
-      "TOOLTIP": "Excluir atalho",
+      "TOOLTIP": "Excluir comando",
       "CONFIRM": {
         "MESSAGE": "Você tem certeza que deseja excluir ",
         "YES": "Sim, excluir",
         "NO": "Não"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atalho excluído com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro ao excluir o atalho. Por favor, tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Comando excluído com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro ao excluir o comando. Por favor, tente novamente mais tarde"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Editar atalho",
+      "TOOLTIP": "Editar comando",
       "API": {
-        "SUCCESS_MESSAGE": "Atalho atualizado com sucesso",
-        "ERROR_MESSAGE": "Não foi possível atualizar o atalho, Por favor, tente novamente mais tarde"
+        "SUCCESS_MESSAGE": "Comando atualizado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar o comando, Por favor, tente novamente mais tarde"
       }
     },
     "EDITOR": {
       "START_FLOW": "Inicio do Fluxo",
       "END_FLOW": "Fim do Fluxo",
-      "LOADING": "Obtendo atalho",
+      "LOADING": "Obtendo comando",
       "ADD_BTN_TOOLTIP": "Adicionar nova ação",
       "DELETE_BTN_TOOLTIP": "Excluir Ação",
       "VISIBILITY": {
-        "LABEL": "Visibilidade do Atalho",
+        "LABEL": "Visibilidade do Comando",
         "GLOBAL": {
           "LABEL": "Publico",
-          "DESCRIPTION": "Este atalho está disponível publicamente para todos os agentes desta conta."
+          "DESCRIPTION": "Este comando está disponível publicamente para todos os agentes desta conta."
         },
         "PERSONAL": {
           "LABEL": "Privada",
-          "DESCRIPTION": "Este atalho será privado para você e não estará disponível para outras pessoas."
+          "DESCRIPTION": "Este comando será privado para você e não estará disponível para outras pessoas."
         }
       }
     },
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Executar",
-      "PREVIEW": "Pré-visualizar Atalho",
-      "EXECUTED_SUCCESSFULLY": "Atalho executado com sucesso"
+      "PREVIEW": "Pré-visualizar Comando",
+      "EXECUTED_SUCCESSFULLY": "Comando executado com sucesso"
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "A chave do atributo é necessária",
