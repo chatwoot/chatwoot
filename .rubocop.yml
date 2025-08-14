@@ -372,3 +372,9 @@ RSpec/DescribeClass:
 
 Performance/MapCompact:
   Enabled: false
+
+Performance/CollectionLiteralInLoop:
+  Enabled: false
+
+Performance/MapHash:
+  Enabled: false

@@ -31,7 +31,7 @@ module Concerns::CaptainToolsHelpers
     #
     # @return [Array<String>] Array of available tool IDs
     def available_tool_ids
-      @available_tool_ids ||= available_agent_tools.pluck(:id)
+      @available_tool_ids ||= available_agent_tools.map { |tool| tool[:id] }
     end
 
     private
