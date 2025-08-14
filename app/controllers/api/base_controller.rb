@@ -1,6 +1,5 @@
 class Api::BaseController < ApplicationController
   include AccessTokenAuthHelper
-
   respond_to :json
   before_action :authenticate_access_token!, if: :authenticate_by_access_token?
   before_action :validate_bot_access_token!, if: :authenticate_by_access_token?

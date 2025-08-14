@@ -1,6 +1,5 @@
 class Messages::MessageBuilder
   include ::FileTypeHelper
-
   attr_reader :message
 
   def initialize(user, conversation, params)

@@ -161,7 +161,7 @@ Naming/MemoizedInstanceVariableName:
   Exclude:
     - 'app/models/message.rb'
 
-Naming/PredicateMethod:
+Naming/PredicateName:
   Exclude:
     - 'app/builders/messages/instagram/base_message_builder.rb'
     - 'app/controllers/public/api/v1/csat_survey_controller.rb'
@@ -355,4 +355,11 @@ FactoryBot/RedundantFactoryOption:
   Enabled: false
 
 FactoryBot/FactoryAssociationWithStrategy:
+  Enabled: false
+
+# Rules disabled to keep Rails upgrade PR focused on functional changes only
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Performance/Count:
   Enabled: false

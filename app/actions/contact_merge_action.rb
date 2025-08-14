@@ -1,6 +1,5 @@
 class ContactMergeAction
   include Events::Types
-
   pattr_initialize [:account!, :base_contact!, :mergee_contact!]
 
   def perform
