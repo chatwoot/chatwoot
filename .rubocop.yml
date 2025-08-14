@@ -378,3 +378,9 @@ Performance/CollectionLiteralInLoop:
 
 Performance/MapHash:
   Enabled: false
+
+Style/MemoizeInstanceVariable:
+  Enabled: false
+
+Style/RedundantAssignment:
+  Enabled: false

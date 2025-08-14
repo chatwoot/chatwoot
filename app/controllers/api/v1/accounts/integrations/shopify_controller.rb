@@ -46,11 +46,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   end
 
   def contact
-    if instance_variable_defined?(:@contact)
-      @contact
-    else
-      @contact = Current.account.contacts.find_by(id: params[:contact_id])
-    end
+    @contact ||= Current.account.contacts.find_by(id: params[:contact_id])
   end
 
   def fetch_hook

@@ -61,11 +61,7 @@ class Integrations::GoogleTranslate::ProcessorService
   end
 
   def hook
-    if instance_variable_defined?(:@hook)
-      @hook
-    else
-      @hook = message.account.hooks.find_by(app_id: 'google_translate')
-    end
+    @hook ||= message.account.hooks.find_by(app_id: 'google_translate')
   end
 
   def client

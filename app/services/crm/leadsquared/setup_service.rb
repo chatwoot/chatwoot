@@ -90,13 +90,13 @@ class Crm::Leadsquared::SetupService
     [
       {
         name: "#{brand_name} Conversation Started",
-        score: @hook.settings['conversation_activity_score'].to_i,
+        score: @hook.settings['conversation_activity_score'].to_i || 0,
         direction: 0,
         setting_key: 'conversation_activity_code'
       },
       {
         name: "#{brand_name} Conversation Transcript",
-        score: @hook.settings['transcript_activity_score'].to_i,
+        score: @hook.settings['transcript_activity_score'].to_i || 0,
         direction: 0,
         setting_key: 'transcript_activity_code'
       }

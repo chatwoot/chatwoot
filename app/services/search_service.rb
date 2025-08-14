@@ -2,11 +2,7 @@ class SearchService
   pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
 
   def account_user
-    if instance_variable_defined?(:@account_user)
-      @account_user
-    else
-      @account_user = current_account.account_users.find_by(user: current_user)
-    end
+    @account_user ||= current_account.account_users.find_by(user: current_user)
   end
 
   def perform

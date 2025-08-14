@@ -13,10 +13,6 @@ class Api::V1::Accounts::Conversations::DirectUploadsController < ActiveStorage:
   private
 
   def conversation
-    if instance_variable_defined?(:@conversation)
-      @conversation
-    else
-      @conversation = Current.account.conversations.find_by(display_id: params[:conversation_id])
-    end
+    @conversation ||= Current.account.conversations.find_by(display_id: params[:conversation_id])
   end
 end

@@ -7,7 +7,6 @@
 
 class ContactIdentifyAction
   include UrlHelper
-
   pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   def perform
@@ -55,11 +54,7 @@ class ContactIdentifyAction
   def existing_identified_contact
     return if params[:identifier].blank?
 
-    if instance_variable_defined?(:@existing_identified_contact)
-      @existing_identified_contact
-    else
-      @existing_identified_contact = account.contacts.find_by(identifier: params[:identifier])
-    end
+    @existing_identified_contact ||= account.contacts.find_by(identifier: params[:identifier])
   end
 
   def existing_email_contact
@@ -71,11 +66,7 @@ class ContactIdentifyAction
   def existing_phone_number_contact
     return if params[:phone_number].blank?
 
-    if instance_variable_defined?(:@existing_phone_number_contact)
-      @existing_phone_number_contact
-    else
-      @existing_phone_number_contact = account.contacts.find_by(phone_number: params[:phone_number])
-    end
+    @existing_phone_number_contact ||= account.contacts.find_by(phone_number: params[:phone_number])
   end
 
   def merge_contacts?(existing_contact, key)

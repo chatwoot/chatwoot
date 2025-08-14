@@ -39,11 +39,7 @@ class Api::V1::Accounts::CategoriesController < Api::V1::Accounts::BaseControlle
   end
 
   def portal
-    if instance_variable_defined?(:@portal)
-      @portal
-    else
-      @portal = Current.account.portals.find_by(slug: params[:portal_id])
-    end
+    @portal ||= Current.account.portals.find_by(slug: params[:portal_id])
   end
 
   def related_categories_records

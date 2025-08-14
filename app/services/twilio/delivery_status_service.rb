@@ -54,10 +54,6 @@ class Twilio::DeliveryStatusService
   def message
     return unless params[:MessageSid]
 
-    if instance_variable_defined?(:@message)
-      @message
-    else
-      @message = twilio_channel.inbox.messages.find_by(source_id: params[:MessageSid])
-    end
+    @message ||= twilio_channel.inbox.messages.find_by(source_id: params[:MessageSid])
   end
 end
