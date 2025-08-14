@@ -56,7 +56,12 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
 
     subject = "Daily Conversation Report for #{current_date} | #{Current.account.name.capitalize}"
     @action_url = csv_url
-    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co', 'aryanm@bitespeed.co'], subject: subject) and return
+    recipients = admin_emails + [
+      'jaideep+chatwootreports@bitespeed.co',
+      'aryanm@bitespeed.co',
+      'arindam@bitespeed.co'
+    ]
+    send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
   def weekly_conversation_report(csv_url, since_date, until_date)
