@@ -88,17 +88,20 @@ class ActionCableConnector extends BaseActionCableConnector {
       data.meta?.inbox?.channel_type === 'Channel::Voice' ||
       data.channel === 'Channel::Voice'
     ) {
-      if (
-        data.additional_attributes?.call_status === 'ringing' &&
-        data.additional_attributes?.call_sid
-      ) {
+      // Loosen condition: show widget as soon as we know call_sid
+      if (data.additional_attributes?.call_sid) {
+        const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
+          data.inbox_id
+        );
         const normalizedPayload = {
           callSid: data.additional_attributes.call_sid,
           conversationId: data.display_id || data.id,
           inboxId: data.inbox_id,
-          inboxName: data.meta?.inbox?.name,
-          inboxAvatarUrl: data.meta?.inbox?.avatar_url,
-          inboxPhoneNumber: data.meta?.inbox?.phone_number,
+          inboxName: data.meta?.inbox?.name || inboxFromStore?.name,
+          inboxAvatarUrl:
+            data.meta?.inbox?.avatar_url || inboxFromStore?.avatar_url,
+          inboxPhoneNumber:
+            data.meta?.inbox?.phone_number || inboxFromStore?.phone_number,
           contactName: data.meta?.sender?.name || 'Unknown Caller',
           contactId: data.meta?.sender?.id,
           accountId: data.account_id,
@@ -114,10 +117,6 @@ class ActionCableConnector extends BaseActionCableConnector {
         };
 
         this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
-
-        if (window.app && window.app.$data) {
-          window.app.$data.showCallWidget = true;
-        }
       }
     }
 
@@ -165,6 +164,49 @@ class ActionCableConnector extends BaseActionCableConnector {
         conversationId: data.display_id,
         inboxId: data.inbox_id,
       });
+
+      // Backfill: if status indicates a live call and we missed creation
+      if (
+        ['ringing', 'in_progress'].includes(
+          data.additional_attributes.call_status
+        )
+      ) {
+        const hasIncoming = this.app.$store.getters['calls/hasIncomingCall'];
+        const hasActive = this.app.$store.getters['calls/hasActiveCall'];
+        const currentIncoming = this.app.$store.getters['calls/getIncomingCall'];
+        if (
+          !hasIncoming &&
+          !hasActive &&
+          (!currentIncoming ||
+            currentIncoming.callSid !== data.additional_attributes.call_sid)
+        ) {
+          const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
+            data.inbox_id
+          );
+          const normalizedPayload = {
+            callSid: data.additional_attributes.call_sid,
+            conversationId: data.display_id || data.id,
+            inboxId: data.inbox_id,
+            inboxName: inboxFromStore?.name,
+            inboxAvatarUrl: inboxFromStore?.avatar_url,
+            inboxPhoneNumber: inboxFromStore?.phone_number,
+            contactName: data.meta?.sender?.name || 'Unknown Caller',
+            contactId: data.meta?.sender?.id,
+            accountId: data.account_id,
+            isOutbound:
+              data.additional_attributes?.call_direction === 'outbound',
+            conference_sid: data.additional_attributes?.conference_sid,
+            conferenceId: data.additional_attributes?.conference_sid,
+            conferenceSid: data.additional_attributes?.conference_sid,
+            requiresAgentJoin:
+              data.additional_attributes?.requires_agent_join || false,
+            callDirection: data.additional_attributes?.call_direction,
+            phoneNumber: data.meta?.sender?.phone_number,
+            avatarUrl: data.meta?.sender?.avatar_url,
+          };
+          this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
+        }
+      }
     }
 
     this.fetchConversationStats();

@@ -1,18 +1,15 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
-import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import VoiceAPI from 'dashboard/api/channels/voice';
 
 const store = useStore();
-const router = useRouter();
-const route = useRoute();
 const { t } = useI18n();
 
 const callDuration = ref(0);
 const durationTimer = ref(null);
+const ringTimer = ref(null);
 
 // Computed properties
 const activeCall = computed(() => store.getters['calls/getActiveCall']);
@@ -58,11 +55,39 @@ const stopDurationTimer = () => {
   }
 };
 
+const startRingTone = () => {
+  // Avoid multiple intervals
+  if (ringTimer.value) clearInterval(ringTimer.value);
+  try {
+    if (typeof window.playAudioAlert === 'function') {
+      window.playAudioAlert();
+    }
+  } catch (e) {}
+  ringTimer.value = setInterval(() => {
+    try {
+      if (typeof window.playAudioAlert === 'function') {
+        window.playAudioAlert();
+      }
+    } catch (e) {}
+  }, 2500);
+};
+
+const stopRingTone = () => {
+  if (ringTimer.value) {
+    clearInterval(ringTimer.value);
+    ringTimer.value = null;
+  }
+};
+
+const isJoining = ref(false);
+
 const joinCall = async () => {
   const callData = callInfo.value;
   if (!callData) return;
+  if (isJoined.value || isJoining.value) return;
   
   try {
+    isJoining.value = true;
     // Initialize Twilio device
     await VoiceAPI.initializeDevice(callData.inboxId);
     
@@ -99,8 +124,11 @@ const joinCall = async () => {
     }
     
     startDurationTimer();
+    stopRingTone();
   } catch (error) {
     // Join call failed
+  } finally {
+    isJoining.value = false;
   }
 };
 
@@ -110,6 +138,7 @@ const endCall = async () => {
     
     stopDurationTimer();
     callDuration.value = 0;
+    stopRingTone();
     
     // End server call first to terminate on Twilio's side
     if (callInfo.value.callSid && callInfo.value.callSid !== 'pending' && callInfo.value.conversationId) {
@@ -131,10 +160,6 @@ const endCall = async () => {
       store.dispatch('calls/clearIncomingCall');
     }
     
-    // Hide widget
-    if (window.app && window.app.$data) {
-      window.app.$data.showCallWidget = false;
-    }
   } catch (error) {
     // End call failed, but still try to clean up
     VoiceAPI.endClientCall();
@@ -144,9 +169,7 @@ const endCall = async () => {
     if (hasIncomingCall.value) {
       store.dispatch('calls/clearIncomingCall');
     }
-    if (window.app && window.app.$data) {
-      window.app.$data.showCallWidget = false;
-    }
+    stopRingTone();
   }
 };
 
@@ -175,6 +198,7 @@ const acceptCall = async () => {
     // Move to active call
     store.dispatch('calls/acceptIncomingCall');
     startDurationTimer();
+    stopRingTone();
   } catch (error) {
     // Accept call failed
   }
@@ -192,24 +216,13 @@ const rejectCall = async () => {
     
     // Clear state
     store.dispatch('calls/clearIncomingCall');
+    stopRingTone();
     
-    // Hide widget
-    if (window.app && window.app.$data) {
-      window.app.$data.showCallWidget = false;
-    }
   } catch (error) {
     // Even if reject API fails, still clean up WebRTC and state
     VoiceAPI.endClientCall();
     store.dispatch('calls/clearIncomingCall');
-    if (window.app && window.app.$data) {
-      window.app.$data.showCallWidget = false;
-    }
-  }
-};
-
-const minimizeWidget = () => {
-  if (window.app && window.app.$data) {
-    window.app.$data.showCallWidget = false;
+    stopRingTone();
   }
 };
 
@@ -227,11 +240,22 @@ watch([hasActiveCall, hasIncomingCall], ([newHasActive, newHasIncoming]) => {
   if (!newHasActive && !newHasIncoming) {
     stopDurationTimer();
     callDuration.value = 0;
-    if (window.app && window.app.$data) {
-      window.app.$data.showCallWidget = false;
-    }
+    stopRingTone();
   }
 });
+
+// Start/stop ringtone when incoming state toggles
+watch(
+  isIncoming,
+  newVal => {
+    if (newVal) {
+      startRingTone();
+    } else {
+      stopRingTone();
+    }
+  },
+  { immediate: true }
+);
 
 // Lifecycle
 onMounted(() => {
@@ -242,6 +266,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   stopDurationTimer();
+  stopRingTone();
 });
 </script>
 
@@ -266,12 +291,7 @@ onBeforeUnmount(() => {
         </div>
       </div>
       
-      <button
-        @click="minimizeWidget"
-        class="w-6 h-6 flex items-center justify-center rounded text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700"
-      >
-        <i class="i-ph-minus text-sm"></i>
-      </button>
+      <!-- Minimization removed for MVP to reduce code -->
     </div>
 
     <!-- Call Status -->

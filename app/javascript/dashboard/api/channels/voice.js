@@ -146,6 +146,19 @@ class VoiceAPI extends ApiClient {
   joinClientCall({ To }) {
     if (!this.device || !this.initialized) throw new Error('Twilio not ready');
     if (!To) throw new Error('Missing To');
+
+    // Guard: if there is already an active/connecting call, return it instead of creating a new one
+    if (this.activeConnection) {
+      return this.activeConnection;
+    }
+    if (this.device.state === 'busy') {
+      const existing = (this.device.calls || [])[0];
+      if (existing) {
+        this.activeConnection = existing;
+        return existing;
+      }
+    }
+
     const connection = this.device.connect({
       params: { To: String(To), is_agent: 'true' },
     });

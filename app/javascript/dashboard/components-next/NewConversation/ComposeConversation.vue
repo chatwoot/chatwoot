@@ -200,11 +200,6 @@ const initiateCall = async ({ contactId, inboxId }) => {
       requiresAgentJoin: true,
     });
 
-    // Show the call widget
-    if (window.app && window.app.$data) {
-      window.app.$data.showCallWidget = true;
-    }
-
     const action = {
       type: 'link',
       to: `/app/accounts/${conversation.account_id}/conversations/${conversation.id}`,

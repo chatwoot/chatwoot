@@ -4,14 +4,17 @@ module Voice
 
     def process
       find_inbox
-      create_contact
 
-      # Use a transaction to ensure conversation, message, and call status are all set together
-      # This ensures only one conversation.created event with complete call data
       ActiveRecord::Base.transaction do
-        create_conversation
-        create_voice_call_message
-        set_initial_call_status
+        find_or_create_conversation
+        # Delegate creation of voice message and initial status to the orchestrator
+        Voice::CallOrchestratorService.new(
+          account: account,
+          inbox: @inbox,
+          direction: :inbound,
+          phone_number: caller_info[:from_number],
+          call_sid: caller_info[:call_sid]
+        ).inbound!
       end
 
       generate_twiml_response
@@ -45,109 +48,24 @@ module Voice
       raise "Inbox not found for phone number #{caller_info[:to_number]}" unless @inbox.present?
     end
 
-    def create_contact
-      # Normalize the phone number
-      phone_number = caller_info[:from_number].strip
-
-      # Find or create the contact
-      @contact = account.contacts.find_or_create_by!(phone_number: phone_number) do |c|
-        c.name = phone_number
-      end
-    end
-
-    def create_conversation
-      # Create or update contact inbox
-      @contact_inbox = ContactInbox.find_or_initialize_by(
-        contact_id: @contact.id,
-        inbox_id: @inbox.id
-      )
-
-      # Set source_id if not already set
-      @contact_inbox.source_id ||= caller_info[:from_number]
-      @contact_inbox.save!
-
-      # Create a new conversation with basic call details
-      # Status will be properly set by CallStatusManager later
-      @conversation = account.conversations.create!(
-        contact_inbox_id: @contact_inbox.id,
-        inbox_id: @inbox.id,
-        contact_id: @contact.id,
-        status: :open,
-        additional_attributes: {
-          'call_sid' => caller_info[:call_sid],
-          'call_direction' => 'inbound',
-          'call_initiated_at' => Time.now.to_i,
-          'call_type' => 'inbound'
-        }
-      )
-
-      # Need to reload conversation to get the display_id populated by the database
-      @conversation.reload
-
-      # Set up conference name
-      conference_sid = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
-      @conversation.additional_attributes['conference_sid'] = conference_sid
-      @conversation.save!
-    end
-
-    def create_voice_call_message
-      # Create a single voice call message from contact for this call
-      # Initialize CallStatusManager to get normalized status
-      status_manager = Voice::CallStatus::Manager.new(
-        conversation: @conversation,
-        call_sid: caller_info[:call_sid],
-        provider: :twilio
-      )
-
-      # Get UI-friendly status for consistent display
-      ui_status = status_manager.normalized_ui_status('ringing')
-
-      message_params = {
-        content: 'Voice Call',
-        message_type: 'incoming',
-        content_type: 'voice_call',
-        content_attributes: {
-          data: {
-            call_sid: caller_info[:call_sid],
-            status: ui_status, # Use normalized UI status
-            conversation_id: @conversation.display_id,
-            call_direction: 'inbound',
-            conference_sid: @conversation.additional_attributes['conference_sid'],
-            from_number: caller_info[:from_number],
-            to_number: caller_info[:to_number],
-            meta: {
-              created_at: Time.now.to_i,
-              ringing_at: Time.now.to_i
-            }
-          }
-        }
-      }
-
-      # Create the voice call message only - this ensures it appears first
-      @voice_call_message = Messages::MessageBuilder.new(
-        @contact,
-        @conversation,
-        message_params
+    def find_or_create_conversation
+      # Delegate conversation creation/lookup to shared service to keep logic in one place
+      @conversation = Voice::ConversationFinderService.new(
+        account: account,
+        phone_number: caller_info[:from_number],
+        is_outbound: false,
+        inbox: @inbox,
+        call_sid: caller_info[:call_sid]
       ).perform
 
-    end
-
-    # Set initial call status within the transaction
-    def set_initial_call_status
-      # Set call status directly on conversation to avoid separate broadcast
-      @conversation.additional_attributes['call_status'] = 'ringing'
-      @conversation.additional_attributes['call_started_at'] = Time.now.to_i
-      @conversation.save!
-      
-      # Create activity message directly without CallStatusManager broadcast
-      custom_message = "Incoming call from #{@contact.name.presence || caller_info[:from_number]}"
-      @conversation.messages.create!(
-        account_id: @conversation.account_id,
-        inbox_id: @conversation.inbox_id,
-        message_type: :activity,
-        content: custom_message,
-        sender: nil
-      )
+      # Ensure we have a valid conference SID (ConversationFinderService sets it, but be defensive)
+      @conversation.reload
+      @conference_sid = @conversation.additional_attributes['conference_sid']
+      if @conference_sid.blank? || !@conference_sid.match?(/^conf_account_\d+_conv_\d+$/)
+        @conference_sid = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
+        @conversation.additional_attributes['conference_sid'] = @conference_sid
+        @conversation.save!
+      end
     end
 
 

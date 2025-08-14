@@ -1,20 +1,20 @@
 module Voice
   class ConversationFinderService
-    pattr_initialize [:account!, :phone_number!, :inbox, :call_sid, :is_outbound]
+    pattr_initialize [:account!, :phone_number, :inbox, :call_sid, :is_outbound]
 
     def perform
-      # Ensure we have a phone number
-      validate_and_normalize_phone_number
-
       # First try to find existing conversation by call_sid if available
       conversation = find_by_call_sid if call_sid.present?
       return conversation if conversation
 
+      # Ensure we have a phone number for new conversation creation
+      validate_and_normalize_phone_number
+
       # If not found, create a new conversation
       create_new_conversation
-    end
+  end
 
-    private
+  private
 
     def validate_and_normalize_phone_number
       # Simple validation to ensure we have something to work with
@@ -101,5 +101,6 @@ module Voice
     def generate_conference_sid(conversation)
       "conf_account_#{account.id}_conv_#{conversation.display_id}"
     end
+    public :find_by_call_sid
   end
 end

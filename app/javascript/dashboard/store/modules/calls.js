@@ -34,13 +34,6 @@ const actions = {
       } else if (isIncomingCall) {
         dispatch('clearIncomingCall');
       }
-
-      // Hide widget for any terminal status if it matches our call
-      if (isActiveCall || isIncomingCall) {
-        if (window.app?.$data) {
-          window.app.$data.showCallWidget = false;
-        }
-      }
     }
   },
 
@@ -58,9 +51,6 @@ const actions = {
     }
 
     commit('SET_ACTIVE_CALL', callData);
-    if (window.app?.$data) {
-      window.app.$data.showCallWidget = true;
-    }
   },
 
   clearActiveCall({ commit }) {
@@ -72,9 +62,6 @@ const actions = {
     }
 
     commit('CLEAR_ACTIVE_CALL');
-    if (window.app?.$data) {
-      window.app.$data.showCallWidget = false;
-    }
   },
 
   setIncomingCall({ commit, state: currentState }, callData) {
@@ -83,9 +70,6 @@ const actions = {
     if (currentState.incomingCall?.callSid === callData.callSid) return;
 
     commit('SET_INCOMING_CALL', { ...callData, receivedAt: Date.now() });
-    if (window.app?.$data) {
-      window.app.$data.showCallWidget = true;
-    }
   },
 
   clearIncomingCall({ commit }) {

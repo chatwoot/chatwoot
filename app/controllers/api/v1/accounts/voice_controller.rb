@@ -51,6 +51,14 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     call_sid = params[:call_sid] || convo_attr('call_sid')
     return render_not_found('active call') unless call_sid
 
+    # Attempt to hang up the caller if still ringing/in-progress
+    begin
+      twilio_client.calls(call_sid).update(status: 'completed') if in_progress?(call_sid)
+    rescue StandardError
+      # ignore Twilio failures; still proceed to update local state
+    end
+
+    # Mark rejection metadata and set call status to no_answer via manager for consistency
     @conversation.update!(additional_attributes: convo_attrs.merge(
       'agent_rejected' => true,
       'rejected_at'    => Time.current.to_i,
@@ -60,9 +68,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     Voice::CallStatus::Manager.new(conversation: @conversation,
                                    call_sid:    call_sid,
                                    provider:    :twilio)
-                              .create_activity_message("#{current_user.name} declined to answer",
-                                                       rejected_by: current_user.name,
-                                                       rejected_at: Time.current.to_i)
+                              .process_status_update('no_answer', nil, false, "#{current_user.name} declined the call")
 
     render_success('Call rejected by agent')
   end
