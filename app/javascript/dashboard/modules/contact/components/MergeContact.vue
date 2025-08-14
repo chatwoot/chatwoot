@@ -4,9 +4,10 @@ import { useVuelidate } from '@vuelidate/core';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
 import ContactDropdownItem from './ContactDropdownItem.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
-  components: { MergeContactSummary, ContactDropdownItem },
+  components: { MergeContactSummary, ContactDropdownItem, NextButton },
   props: {
     primaryContact: {
       type: Object,
@@ -129,15 +130,15 @@ export default {
       </div>
       <div class="flex multiselect-wrap--medium">
         <div
-          class="w-8 relative text-base text-slate-100 dark:text-slate-600 after:content-[''] after:h-12 after:w-0 after:left-4 after:absolute after:border-l after:border-solid after:border-slate-100 after:dark:border-slate-600 before:content-[''] before:h-0 before:w-4 before:left-4 before:top-12 before:absolute before:border-b before:border-solid before:border-slate-100 before:dark:border-slate-600"
+          class="w-8 relative text-base text-n-strong after:content-[''] after:h-12 after:w-0 ltr:after:left-4 rtl:after:right-4 after:absolute after:border-l after:border-solid after:border-n-strong before:content-[''] before:h-0 before:w-4 ltr:before:left-4 rtl:before:right-4 before:top-12 before:absolute before:border-b before:border-solid before:border-n-strong"
         >
           <fluent-icon
             icon="arrow-up"
-            class="absolute -top-1 left-2"
+            class="absolute -top-1 ltr:left-2 rtl:right-2"
             size="17"
           />
         </div>
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full ltr:pl-8 rtl:pr-8">
           <label class="multiselect__label">
             {{ $t('MERGE_CONTACTS.PRIMARY.TITLE') }}
             <woot-label
@@ -173,12 +174,18 @@ export default {
       :parent-contact-name="parentContactName"
     />
     <div class="flex justify-end gap-2 mt-6">
-      <woot-button variant="clear" @click.prevent="onCancel">
-        {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
-      </woot-button>
-      <woot-button type="submit" :is-loading="isMerging">
-        {{ $t('MERGE_CONTACTS.FORM.SUBMIT') }}
-      </woot-button>
+      <NextButton
+        faded
+        slate
+        type="reset"
+        :label="$t('MERGE_CONTACTS.FORM.CANCEL')"
+        @click.prevent="onCancel"
+      />
+      <NextButton
+        type="submit"
+        :is-loading="isMerging"
+        :label="$t('MERGE_CONTACTS.FORM.SUBMIT')"
+      />
     </div>
   </form>
 </template>

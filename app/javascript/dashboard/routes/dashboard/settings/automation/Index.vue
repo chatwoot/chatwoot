@@ -8,6 +8,8 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import AutomationRuleRow from './AutomationRuleRow.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
@@ -185,23 +187,21 @@ const tableHeaders = computed(() => {
         feature-name="automation"
       >
         <template #actions>
-          <woot-button
-            class="button nice rounded-md"
-            icon="add-circle"
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('AUTOMATION.HEADER_BTN_TXT')"
             @click="openAddPopup"
-          >
-            {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-n-slate-11"
+            class="py-4 ltr:pr-4 rtl:pl-4 rtl:text-right ltr:text-left font-semibold text-n-slate-11"
           >
             {{ thHeader }}
           </th>

@@ -1,12 +1,28 @@
 module PortalHelper
+  def set_og_image_url(portal_name, title)
+    cdn_url = GlobalConfig.get('OG_IMAGE_CDN_URL')['OG_IMAGE_CDN_URL']
+    return if cdn_url.blank?
+
+    client_ref = GlobalConfig.get('OG_IMAGE_CLIENT_REF')['OG_IMAGE_CLIENT_REF']
+
+    uri = URI.parse(cdn_url)
+    uri.path = '/og'
+    uri.query = URI.encode_www_form(
+      clientRef: client_ref,
+      title: title,
+      portalName: portal_name
+    )
+
+    uri.to_s
+  end
+
   def generate_portal_bg_color(portal_color, theme)
     base_color = theme == 'dark' ? 'black' : 'white'
     "color-mix(in srgb, #{portal_color} 20%, #{base_color})"
   end
 
   def generate_portal_bg(portal_color, theme)
-    bg_image = theme == 'dark' ? 'hexagon-dark.svg' : 'hexagon-light.svg'
-    "url(/assets/images/hc/#{bg_image}) #{generate_portal_bg_color(portal_color, theme)}"
+    generate_portal_bg_color(portal_color, theme)
   end
 
   def generate_gradient_to_bottom(theme)

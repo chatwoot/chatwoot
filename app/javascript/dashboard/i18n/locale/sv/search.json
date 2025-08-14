@@ -4,14 +4,19 @@
       "ALL": "Alla",
       "CONTACTS": "Kontakter",
       "CONVERSATIONS": "Konversationer",
-      "MESSAGES": "Meddelanden"
+      "MESSAGES": "Meddelanden",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Kontakter",
       "CONVERSATIONS": "Konversationer",
-      "MESSAGES": "Meddelanden"
+      "MESSAGES": "Meddelanden",
+      "ARTICLES": "Articles"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Ingen {item} hittades med orden '{query}'",
     "EMPTY_STATE_FULL": "Inga resultat hittades med orden '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ att fokusera",
@@ -21,6 +26,7 @@
     "READ_MORE": "Läs mer",
     "WROTE": "skrev:",
     "FROM": "från",
-    "EMAIL": "e-post"
+    "EMAIL": "e-post",
+    "EMAIL_SUBJECT": "ämne"
   }
 }

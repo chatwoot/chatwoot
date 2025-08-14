@@ -3,8 +3,8 @@
     "HEADER": "客服",
     "HEADER_BTN_TXT": "新增客服",
     "LOADING": "正在取得客服列表",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "代理是客戶支援團隊的成員，可以查看和回覆用戶訊息。下面的清單顯示了您帳戶中的所有代理程式。",
+    "LEARN_MORE": "了解使用者角色",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "管理員",
       "AGENT": "客服"
@@ -78,7 +78,7 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "有效的",
-          "PLACEHOLDER": "Please select an availability status",
+          "PLACEHOLDER": "請選擇可用狀態",
           "ERROR": "Availability is required"
         },
         "SUBMIT": "編輯客服"
@@ -105,6 +105,9 @@
         "AGENT": "選擇客服",
         "TEAM": "選擇團隊"
       },
+      "LIST": {
+        "NONE": "無"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "查無客服",
@@ -113,7 +116,7 @@
         "PLACEHOLDER": {
           "AGENT": "搜尋客服",
           "TEAM": "搜尋團隊",
-          "INPUT": "Search for agents"
+          "INPUT": "搜尋客服"
         }
       }
     }

@@ -105,6 +105,9 @@
         "AGENT": "Wybierz konsultanta",
         "TEAM": "Wybierz zespół"
       },
+      "LIST": {
+        "NONE": "Brak"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nie znaleziono agentów",

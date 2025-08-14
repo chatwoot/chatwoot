@@ -23,6 +23,14 @@ const filterTypes = [
     attributeModel: 'standard',
   },
   {
+    attributeKey: 'priority',
+    attributeI18nKey: 'PRIORITY',
+    inputType: 'multi_select',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
+  {
     attributeKey: 'inbox_id',
     attributeI18nKey: 'INBOX_NAME',
     inputType: 'search_select',

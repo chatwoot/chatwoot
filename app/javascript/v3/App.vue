@@ -49,10 +49,7 @@ export default {
 @tailwind components;
 @tailwind utilities;
 
-@import 'shared/assets/stylesheets/colors';
-@import 'shared/assets/stylesheets/spacing';
-@import 'shared/assets/stylesheets/font-size';
-@import 'shared/assets/stylesheets/border-radius';
+@import '../dashboard/assets/scss/next-colors';
 
 html,
 body {
@@ -67,7 +64,7 @@ body {
 }
 
 .text-link {
-  @apply text-woot-500 font-medium hover:text-woot-600;
+  @apply text-n-brand font-medium hover:text-n-blue-10;
 }
 
 .v-popper--theme-tooltip .v-popper__inner {

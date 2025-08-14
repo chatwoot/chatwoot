@@ -3,7 +3,7 @@
     "TITLE": "登录到Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "example{'@'}companyname.com",
+      "PLACEHOLDER": "实例 {'@'}companyname.com",
       "ERROR": "请输入一个有效的电子邮件"
     },
     "PASSWORD": {
@@ -11,14 +11,14 @@
       "PLACEHOLDER": "密码"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "登录成功",
+      "ERROR_MESSAGE": "无法连接Woot服务器，请稍后再试",
+      "UNAUTH": "用户名或密码不正确，请重试。"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "使用Google登录",
+      "BUSINESS_ACCOUNTS_ONLY": "请使用您的公司电子邮件地址登录",
+      "NO_ACCOUNT_FOUND": "我们找不到您的电子邮件地址的帐户。"
     },
     "FORGOT_PASSWORD": "忘记密码了？",
     "CREATE_NEW_ACCOUNT": "创建新账户",

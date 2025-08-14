@@ -41,13 +41,13 @@ const onVideoLoadError = () => {
     <div v-if="content" v-dompurify-html="formattedContent" class="mb-2" />
     <img
       v-if="!hasImgStoryError"
-      class="rounded-lg max-w-80"
+      class="rounded-lg max-w-80 skip-context-menu"
       :src="attachment.dataUrl"
       @error="onImageLoadError"
     />
     <video
       v-else-if="!hasVideoStoryError"
-      class="rounded-lg max-w-80"
+      class="rounded-lg max-w-80 skip-context-menu"
       controls
       :src="attachment.dataUrl"
       @error="onVideoLoadError"

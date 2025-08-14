@@ -4,7 +4,9 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   before_action :redirect_to_portal_with_locale, only: [:show]
   layout 'portal'
 
-  def show; end
+  def show
+    @og_image_url = helpers.set_og_image_url('', @portal.header_text)
+  end
 
   def sitemap
     @help_center_url = @portal.custom_domain || ChatwootApp.help_center_root

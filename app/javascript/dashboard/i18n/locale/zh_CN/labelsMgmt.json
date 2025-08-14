@@ -3,15 +3,15 @@
     "HEADER": "标签",
     "HEADER_BTN_TXT": "添加标签",
     "LOADING": "正在获取标签",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
+    "DESCRIPTION": "标签帮助您对对话和潜在客户进行分类和优先排序。您可以使用侧边栏将标签分配给对话或联系人。",
+    "LEARN_MORE": "了解更多关于标签的信息",
     "SEARCH_404": "没有任何项目符合此查询",
     "LIST": {
       "404": "此帐户中没有可用的标签。",
       "TITLE": "管理标签",
       "DESC": "标记可以让您将对话集中起来。",
       "TABLE_HEADER": {
-        "NAME": "姓名：",
+        "NAME": "名称",
         "DESCRIPTION": "描述信息",
         "COLOR": "颜色"
       }
@@ -20,9 +20,9 @@
       "NAME": {
         "LABEL": "标签名称",
         "PLACEHOLDER": "标签名称",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "标签名称为必填项",
+        "MINIMUM_LENGTH_ERROR": "至少需要2个字符",
+        "VALID_ERROR": "仅允许使用字母、数字、连字符和下划线"
       },
       "DESCRIPTION": {
         "LABEL": "描述信息",
@@ -41,17 +41,17 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "将标签添加到对话",
+        "MULTIPLE_SUGGESTION": "选择此标签",
+        "DESELECT": "取消选择标签",
+        "DISMISS": "忽略建议"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "取消",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "ADD_SELECTED_LABELS": "添加选定的标签",
+      "ADD_SELECTED_LABEL": "添加选定的标签",
+      "ADD_ALL_LABELS": "添加所有标签",
+      "SUGGESTED_LABELS": "建议的标签"
     },
     "ADD": {
       "TITLE": "添加标签",
@@ -76,9 +76,9 @@
       },
       "CONFIRM": {
         "TITLE": "确认删除",
-        "MESSAGE": "您确定要删除吗？ ",
-        "YES": "是，删除 ",
-        "NO": "不，保留 "
+        "MESSAGE": "您确定要删除吗？",
+        "YES": "是，删除",
+        "NO": "不，保留"
       }
     }
   }

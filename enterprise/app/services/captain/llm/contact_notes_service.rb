@@ -1,4 +1,4 @@
-class Captain::Llm::ContactNotesService < Captain::Llm::BaseOpenAiService
+class Captain::Llm::ContactNotesService < Llm::BaseOpenAiService
   def initialize(assistant, conversation)
     super()
     @assistant = assistant
@@ -26,7 +26,9 @@ class Captain::Llm::ContactNotesService < Captain::Llm::BaseOpenAiService
   end
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.notes_generator
+    account_language = @conversation.account.locale_english_name
+    prompt = Captain::Llm::SystemPromptsService.notes_generator(account_language)
+
     {
       model: @model,
       response_format: { type: 'json_object' },

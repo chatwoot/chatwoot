@@ -52,7 +52,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col absolute w-[400px] bg-n-alpha-3 outline outline-1 outline-n-container backdrop-blur-[100px] shadow-lg gap-6 rounded-xl p-6"
+    class="flex flex-col absolute w-[25rem] bg-n-alpha-3 outline outline-1 outline-n-container backdrop-blur-[100px] shadow-lg gap-6 rounded-xl p-6"
   >
     <div class="flex items-center justify-between">
       <h3>
@@ -75,7 +75,7 @@ onMounted(() => {
       <div>
         <div class="flex justify-between w-full gap-4 py-2">
           <label
-            class="text-sm font-medium whitespace-nowrap min-w-[100px] text-slate-900 dark:text-slate-50"
+            class="text-sm font-medium whitespace-nowrap min-w-[6.25rem] text-n-slate-12"
           >
             {{
               t(
@@ -90,9 +90,9 @@ onMounted(() => {
                 'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.META_DESCRIPTION_PLACEHOLDER'
               )
             "
-            class="w-[220px]"
+            class="w-[13.75rem]"
             custom-text-area-wrapper-class="!p-0 !border-0 !rounded-none !bg-transparent transition-none"
-            custom-text-area-class="max-h-[150px]"
+            custom-text-area-class="max-h-[9.375rem]"
             auto-height
             min-height="3rem"
           />
@@ -108,12 +108,12 @@ onMounted(() => {
             :label="
               t('HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.META_TITLE')
             "
-            custom-label-class="min-w-[120px]"
+            custom-label-class="min-w-[7.5rem]"
           />
         </div>
         <div class="flex justify-between w-full gap-3 py-2">
           <label
-            class="text-sm font-medium whitespace-nowrap min-w-[120px] text-slate-900 dark:text-slate-50"
+            class="text-sm font-medium whitespace-nowrap min-w-[7.5rem] text-n-slate-12"
           >
             {{
               t('HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.META_TAGS')
@@ -126,7 +126,7 @@ onMounted(() => {
                 'HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.META_TAGS_PLACEHOLDER'
               )
             "
-            class="w-[224px]"
+            class="w-[14rem]"
           />
         </div>
       </div>

@@ -6,7 +6,7 @@
     "LIST": {
       "404": "In dieser Gruppe existieren keine aktiven Gespräche."
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "Fehler beim Senden",
     "TAB_HEADING": "Gespräche",
     "MENTION_HEADING": "Erwähnungen",
     "UNATTENDED_HEADING": "Unbeaufsichtigt",
@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "hat eine URL geteilt"
+      },
+      "contact": {
+        "CONTENT": "Geteilter Kontakt"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -131,6 +134,6 @@
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
     "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen",
     "MESSAGE_READ": "Lesen",
-    "SENDING": "Sending"
+    "SENDING": "Sende"
   }
 }

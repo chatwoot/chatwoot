@@ -83,3 +83,16 @@ export const convertToPortalSlug = text => {
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '-');
 };
+
+/**
+ * Strip curly braces, commas and leading/trailing whitespace from a search key.
+ * Eg. "{{contact.name}}," => "contact.name"
+ * @param {string} searchKey
+ * @returns {string}
+ */
+export const sanitizeVariableSearchKey = (searchKey = '') => {
+  return searchKey
+    .replace(/[{}]/g, '') // remove all curly braces
+    .replace(/,/g, '') // remove commas
+    .trim();
+};

@@ -218,10 +218,13 @@ const resetForm = () => {
   Object.assign(state, defaultState);
 };
 
-watch(() => props.contactData, prepareStateBasedOnProps, {
-  immediate: true,
-  deep: true,
-});
+watch(
+  () => props.contactData?.id,
+  id => {
+    if (id) prepareStateBasedOnProps();
+  },
+  { immediate: true }
+);
 
 // Expose state to parent component for avatar upload
 defineExpose({
@@ -247,10 +250,9 @@ defineExpose({
             :placeholder="item.placeholder"
             class="[&>div>button]:h-8"
             :class="{
-              '[&>div>button]:bg-n-alpha-black2 [&>div>button]:!outline-transparent':
+              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
                 !isDetailsView,
-              '[&>div>button]:!outline-n-weak [&>div>button]:hover:!outline-n-strong [&>div>button]:!bg-n-alpha-black2':
-                isDetailsView,
+              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
             }"
             @update:model-value="handleCountrySelection"
           />
@@ -266,7 +268,9 @@ defineExpose({
             :placeholder="item.placeholder"
             :message-type="getMessageType(item.key)"
             :custom-input-class="`h-8 !pt-1 !pb-1 ${
-              !isDetailsView ? '[&:not(.error,.focus)]:!border-transparent' : ''
+              !isDetailsView
+                ? '[&:not(.error,.focus)]:!outline-transparent'
+                : ''
             }`"
             class="w-full"
             @input="
@@ -303,7 +307,7 @@ defineExpose({
             v-model="
               state.additionalAttributes.socialProfiles[item.key.toLowerCase()]
             "
-            class="w-auto min-w-[100px] text-sm bg-transparent reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
+            class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
             :placeholder="item.placeholder"
             :size="item.placeholder.length"
             @input="emit('update', state)"

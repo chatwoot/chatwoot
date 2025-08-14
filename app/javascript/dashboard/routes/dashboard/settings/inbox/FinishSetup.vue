@@ -1,9 +1,13 @@
 <script>
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
-
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 export default {
   components: {
     EmptyState,
+    NextButton,
+    DuplicateInboxBanner,
   },
   computed: {
     currentInbox() {
@@ -14,6 +18,20 @@ export default {
     isATwilioInbox() {
       return this.currentInbox.channel_type === 'Channel::TwilioSms';
     },
+    // Check if a facebook inbox exists with the same instagram_id
+    hasDuplicateInstagramInbox() {
+      const instagramId = this.currentInbox.instagram_id;
+      const facebookInbox =
+        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
+          instagramId
+        );
+
+      return (
+        this.currentInbox.channel_type === INBOX_TYPES.INSTAGRAM &&
+        facebookInbox
+      );
+    },
+
     isAEmailInbox() {
       return this.currentInbox.channel_type === 'Channel::Email';
     },
@@ -27,6 +45,13 @@ export default {
       return (
         this.currentInbox.channel_type === 'Channel::Whatsapp' &&
         this.currentInbox.provider === 'whatsapp_cloud'
+      );
+    },
+    // If the inbox is a whatsapp cloud inbox and the source is not embedded signup, then show the webhook details
+    shouldShowWhatsAppWebhookDetails() {
+      return (
+        this.isWhatsAppCloudInbox &&
+        this.currentInbox.provider_config?.source !== 'embedded_signup'
       );
     },
     message() {
@@ -48,7 +73,7 @@ export default {
         )}`;
       }
 
-      if (this.isWhatsAppCloudInbox) {
+      if (this.isWhatsAppCloudInbox && this.shouldShowWhatsAppWebhookDetails) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
         )}`;
@@ -70,8 +95,12 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
   >
+    <DuplicateInboxBanner
+      v-if="hasDuplicateInstagramInbox"
+      :content="$t('INBOX_MGMT.ADD.INSTAGRAM.NEW_INBOX_SUGGESTION')"
+    />
     <EmptyState
       :title="$t('INBOX_MGMT.FINISH.TITLE')"
       :message="message"
@@ -91,12 +120,15 @@ export default {
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div v-if="isWhatsAppCloudInbox" class="w-[50%] max-w-[50%] ml-[25%]">
+        <div
+          v-if="shouldShowWhatsAppWebhookDetails"
+          class="w-[50%] max-w-[50%] ml-[25%]"
+        >
           <p class="mt-8 font-medium text-slate-700 dark:text-slate-200">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
           </p>
           <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
-          <p class="mt-8 font-medium text-slate-700 dark:text-slate-200">
+          <p class="mt-8 font-medium text-n-slate-11">
             {{
               $t(
                 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_VERIFICATION_TOKEN'
@@ -130,22 +162,28 @@ export default {
         </div>
         <div class="flex justify-center gap-2 mt-4">
           <router-link
-            class="rounded button hollow primary"
             :to="{
               name: 'settings_inbox_show',
               params: { inboxId: $route.params.inbox_id },
             }"
           >
-            {{ $t('INBOX_MGMT.FINISH.MORE_SETTINGS') }}
+            <NextButton
+              outline
+              slate
+              :label="$t('INBOX_MGMT.FINISH.MORE_SETTINGS')"
+            />
           </router-link>
           <router-link
-            class="rounded button success"
             :to="{
               name: 'inbox_dashboard',
               params: { inboxId: $route.params.inbox_id },
             }"
           >
-            {{ $t('INBOX_MGMT.FINISH.BUTTON_TEXT') }}
+            <NextButton
+              solid
+              teal
+              :label="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
+            />
           </router-link>
         </div>
       </div>

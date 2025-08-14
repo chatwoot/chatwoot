@@ -4,6 +4,7 @@ import { ref } from 'vue';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   showResolve: {
@@ -25,9 +26,9 @@ const emit = defineEmits(['update', 'close']);
 const { t } = useI18n();
 
 const actions = ref([
-  { icon: 'checkmark', key: 'resolved' },
-  { icon: 'arrow-redo', key: 'open' },
-  { icon: 'send-clock', key: 'snoozed' },
+  { icon: 'i-lucide-check', key: 'resolved' },
+  { icon: 'i-lucide-redo', key: 'open' },
+  { icon: 'i-lucide-alarm-clock', key: 'snoozed' },
 ]);
 
 const updateConversations = key => {
@@ -67,7 +68,7 @@ const actionLabel = key => {
 <template>
   <div
     v-on-clickaway="onClose"
-    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md right-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
+    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md ltr:right-2 rtl:left-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
   >
     <div
       class="right-[var(--triangle-position)] block z-10 absolute text-left -top-3"
@@ -82,31 +83,24 @@ const actionLabel = key => {
       </svg>
     </div>
     <div class="p-2.5 flex gap-1 items-center justify-between">
-      <span class="text-sm font-medium text-slate-600 dark:text-slate-100">
+      <span class="text-sm font-medium text-n-slate-12">
         {{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}
       </span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <Button ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
     <div class="px-2.5 pt-0 pb-2.5">
       <WootDropdownMenu class="m-0 list-none">
         <template v-for="action in actions">
           <WootDropdownItem v-if="showAction(action.key)" :key="action.key">
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
+            <Button
+              ghost
+              sm
+              slate
+              class="!w-full !justify-start"
               :icon="action.icon"
-              class="hover:!bg-n-slate-3 dark:hover:!bg-n-solid-3"
+              :label="actionLabel(action.key)"
               @click="updateConversations(action.key)"
-            >
-              {{ actionLabel(action.key) }}
-            </woot-button>
+            />
           </WootDropdownItem>
         </template>
       </WootDropdownMenu>

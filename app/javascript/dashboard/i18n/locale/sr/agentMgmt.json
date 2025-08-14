@@ -105,6 +105,9 @@
         "AGENT": "Izaberite agenta",
         "TEAM": "Izaberite tim"
       },
+      "LIST": {
+        "NONE": "Niko"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nema pronađenih agenata",

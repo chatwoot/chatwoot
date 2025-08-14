@@ -1,0 +1,28 @@
+tags:
+  - Account
+operationId: get-account-details
+summary: Get account details
+description: Get the details of the current account
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/account_id'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/account_show_response'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Account not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

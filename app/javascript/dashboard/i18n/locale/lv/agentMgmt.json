@@ -105,6 +105,9 @@
         "AGENT": "Izvēlieties aģentu",
         "TEAM": "Izvēlieties komandu"
       },
+      "LIST": {
+        "NONE": "Nav"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Aģenti nav atrasti",

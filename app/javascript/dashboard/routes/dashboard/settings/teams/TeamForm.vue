@@ -1,13 +1,14 @@
 <script>
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import validations from './helpers/validations';
 import FormInput from 'v3/components/Form/Input.vue';
 import { reactive } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
-    WootSubmitButton,
+    NextButton,
     FormInput,
   },
   props: {
@@ -63,7 +64,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-shrink-0 w-full max-w-lg">
+  <div class="flex-shrink-0 w-full">
     <form class="mx-0 grid gap-4" @submit.prevent="handleSubmit">
       <FormInput
         v-model="state.title"
@@ -95,10 +96,11 @@ export default {
       </div>
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <div class="w-full">
-          <WootSubmitButton
+          <NextButton
+            type="submit"
+            :label="submitButtonText"
             :disabled="v$.title.$invalid || submitInProgress"
-            :button-text="submitButtonText"
-            :loading="submitInProgress"
+            :is-loading="submitInProgress"
           />
         </div>
       </div>

@@ -34,25 +34,21 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
       let(:business_hours) { false }
 
       it 'includes correct stats for each inbox' do
-        expect(report).to eq(
-          [
-            {
-              id: i1.id,
-              conversations_count: 1,
-              resolved_conversations_count: 0,
-              avg_resolution_time: nil,
-              avg_first_response_time: 50.0,
-              avg_reply_time: 35.0
-            }, {
-              id: i2.id,
-              conversations_count: 1,
-              resolved_conversations_count: 1,
-              avg_resolution_time: 100.0,
-              avg_first_response_time: nil,
-              avg_reply_time: nil
-            }
-          ]
-        )
+        expect(report).to contain_exactly({
+                                            id: i1.id,
+                                            conversations_count: 1,
+                                            resolved_conversations_count: 0,
+                                            avg_resolution_time: nil,
+                                            avg_first_response_time: 50.0,
+                                            avg_reply_time: 35.0
+                                          }, {
+                                            id: i2.id,
+                                            conversations_count: 1,
+                                            resolved_conversations_count: 1,
+                                            avg_resolution_time: 100.0,
+                                            avg_first_response_time: nil,
+                                            avg_reply_time: nil
+                                          })
       end
     end
 
@@ -60,25 +56,21 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
       let(:business_hours) { true }
 
       it 'uses business hours values for calculations' do
-        expect(report).to eq(
-          [
-            {
-              id: i1.id,
-              conversations_count: 1,
-              resolved_conversations_count: 0,
-              avg_resolution_time: nil,
-              avg_first_response_time: 30.0,
-              avg_reply_time: 15.0
-            }, {
-              id: i2.id,
-              conversations_count: 1,
-              resolved_conversations_count: 1,
-              avg_resolution_time: 60.0,
-              avg_first_response_time: nil,
-              avg_reply_time: nil
-            }
-          ]
-        )
+        expect(report).to contain_exactly({
+                                            id: i1.id,
+                                            conversations_count: 1,
+                                            resolved_conversations_count: 0,
+                                            avg_resolution_time: nil,
+                                            avg_first_response_time: 30.0,
+                                            avg_reply_time: 15.0
+                                          }, {
+                                            id: i2.id,
+                                            conversations_count: 1,
+                                            resolved_conversations_count: 1,
+                                            avg_resolution_time: 60.0,
+                                            avg_first_response_time: nil,
+                                            avg_reply_time: nil
+                                          })
       end
     end
 

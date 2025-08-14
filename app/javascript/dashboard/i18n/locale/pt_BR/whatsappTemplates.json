@@ -6,8 +6,12 @@
             "TEMPLATE_SELECTED_SUBTITLE": "Processar {templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Pesquisar Templates",
+            "SEARCH_PLACEHOLDER": "Pesquisar modelos",
             "NO_TEMPLATES_FOUND": "Não há templates encontrados para",
+            "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+            "REFRESH_BUTTON": "Refresh templates",
+            "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+            "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
             "LABELS": {
                 "LANGUAGE": "Idioma",
                 "TEMPLATE_BODY": "Conteúdo do Template",

@@ -36,10 +36,11 @@ const transformInbox = ({
   email,
   channelType,
   phoneNumber,
+  medium,
   ...rest
 }) => ({
   id,
-  icon: getInboxIconByType(channelType, phoneNumber, 'line'),
+  icon: getInboxIconByType(channelType, medium, 'line'),
   label: generateLabelForContactableInboxesList({
     name,
     email,
@@ -85,6 +86,21 @@ export const processContactableInboxes = inboxes => {
     ...inbox.inbox,
     sourceId: inbox.sourceId,
   }));
+};
+
+export const mergeInboxDetails = (inboxesData, inboxesList = []) => {
+  if (!inboxesData || !inboxesData.length) {
+    return [];
+  }
+
+  return inboxesData.map(inboxData => {
+    const matchingInbox =
+      inboxesList.find(inbox => inbox.id === inboxData.id) || {};
+    return {
+      ...camelcaseKeys(matchingInbox, { deep: true }),
+      ...inboxData,
+    };
+  });
 };
 
 export const prepareAttachmentPayload = (

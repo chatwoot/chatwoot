@@ -13,19 +13,16 @@ const sendMessage = () => {
 </script>
 
 <template>
-  <form
-    class="border border-n-weak bg-n-alpha-3 rounded-lg h-12 flex"
-    @submit.prevent="sendMessage"
-  >
+  <form class="relative" @submit.prevent="sendMessage">
     <input
       v-model="message"
       type="text"
       :placeholder="$t('CAPTAIN.COPILOT.SEND_MESSAGE')"
-      class="w-full reset-base bg-transparent px-4 py-3 text-n-slate-11 text-sm"
+      class="w-full reset-base bg-n-alpha-3 ltr:pl-4 ltr:pr-12 rtl:pl-12 rtl:pr-4 py-3 text-n-slate-11 text-sm border border-n-weak rounded-lg focus:outline-none focus:ring-1 focus:ring-n-blue-11 focus:border-n-blue-11"
       @keyup.enter="sendMessage"
     />
     <button
-      class="h-auto w-12 flex items-center justify-center text-n-slate-11"
+      class="absolute ltr:right-1 rtl:left-1 top-1/2 -translate-y-1/2 h-9 w-10 flex items-center justify-center text-n-slate-11 hover:text-n-blue-11"
       type="submit"
     >
       <i class="i-ph-arrow-up" />

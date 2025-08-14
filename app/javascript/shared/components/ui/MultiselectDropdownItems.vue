@@ -1,13 +1,15 @@
 <script>
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
-    Thumbnail,
+    Avatar,
+    NextButton,
   },
 
   props: {
@@ -85,37 +87,34 @@ export default {
       <div class="w-full max-h-[10rem]">
         <WootDropdownMenu>
           <WootDropdownItem v-for="option in filteredOptions" :key="option.id">
-            <woot-button
-              class="multiselect-dropdown--item"
-              :variant="isActive(option) ? 'hollow' : 'clear'"
-              color-scheme="secondary"
-              :class="{
-                active: isActive(option),
-              }"
+            <NextButton
+              slate
+              :variant="isActive(option) ? 'faded' : 'ghost'"
+              trailing-icon
+              :icon="isActive(option) ? 'i-lucide-check' : ''"
+              class="w-full !px-2.5"
               @click="() => onclick(option)"
             >
-              <div class="flex items-center gap-1.5">
-                <Thumbnail
-                  v-if="hasThumbnail"
-                  :src="option.thumbnail"
-                  size="24px"
-                  :username="option.name"
-                  :status="option.availability_status"
-                  has-border
-                />
-                <div
-                  class="flex items-center justify-between w-full min-w-0 gap-2"
+              <div
+                class="flex items-center justify-between w-full min-w-0 gap-2"
+              >
+                <span
+                  class="my-0 overflow-hidden text-sm leading-4 whitespace-nowrap text-ellipsis"
+                  :title="option.name"
                 >
-                  <span
-                    class="my-0 overflow-hidden text-sm leading-4 whitespace-nowrap text-ellipsis"
-                    :title="option.name"
-                  >
-                    {{ option.name }}
-                  </span>
-                  <fluent-icon v-if="isActive(option)" icon="checkmark" />
-                </div>
+                  {{ option.name }}
+                </span>
               </div>
-            </woot-button>
+              <Avatar
+                v-if="hasThumbnail"
+                :src="option.thumbnail"
+                :name="option.name"
+                :status="option.availability_status"
+                :size="24"
+                hide-offline-status
+                rounded-full
+              />
+            </NextButton>
           </WootDropdownItem>
         </WootDropdownMenu>
         <h4
@@ -135,7 +134,7 @@ export default {
 }
 
 .search-input {
-  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-slate-700 dark:text-slate-100 rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-n-slate-12 rounded-md focus:border-n-brand bg-n-background dark:bg-n-background;
 }
 
 .multiselect-dropdown--item {
@@ -146,7 +145,7 @@ export default {
   }
 
   &:hover {
-    @apply bg-n-slate-2 dark:bg-n-solid-3 text-slate-800 dark:text-slate-100;
+    @apply bg-n-slate-2 dark:bg-n-solid-3 text-n-slate-12;
   }
 }
 </style>

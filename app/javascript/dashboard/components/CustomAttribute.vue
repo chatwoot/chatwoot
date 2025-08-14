@@ -9,12 +9,15 @@ import { getRegexp } from 'shared/helpers/Validators';
 import { useVuelidate } from '@vuelidate/core';
 import { emitter } from 'shared/helpers/mitt';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
     MultiselectDropdown,
     HelperTextPopup,
+    NextButton,
   },
   props: {
     label: { type: String, required: true },
@@ -46,12 +49,12 @@ export default {
       if (this.isAttributeTypeDate) {
         return this.value
           ? new Date(this.value || new Date()).toLocaleDateString()
-          : '';
+          : '---';
       }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
-      return this.value;
+      return this.hasValue ? this.value : '---';
     },
     formattedValue() {
       return this.isAttributeTypeDate
@@ -79,6 +82,9 @@ export default {
     },
     isAttributeTypeDate() {
       return this.attributeType === 'date';
+    },
+    hasValue() {
+      return this.value !== null && this.value !== '';
     },
     urlValue() {
       return isValidURL(this.value) ? this.value : '---';
@@ -219,14 +225,13 @@ export default {
               class="mt-0.5"
             />
           </span>
-          <woot-button
-            v-if="showActions && value"
+          <NextButton
+            v-if="showActions && hasValue"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
-            variant="link"
-            size="medium"
-            color-scheme="secondary"
-            icon="delete"
-            class-names="flex justify-end !w-fit"
+            slate
+            sm
+            link
+            icon="i-lucide-trash-2"
             @click="onDelete"
           />
         </div>
@@ -246,10 +251,10 @@ export default {
             @keyup.enter="onUpdate"
           />
           <div>
-            <woot-button
-              size="small"
-              icon="checkmark"
-              class="ltr:rounded-l-none rtl:rounded-r-none"
+            <NextButton
+              sm
+              icon="i-lucide-check"
+              class="ltr:rounded-l-none rtl:rounded-r-none h-[34px]"
               @click="onUpdate"
             />
           </div>
@@ -279,27 +284,29 @@ export default {
           v-else
           class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
-          {{ displayValue || '---' }}
+          {{ displayValue }}
         </p>
-        <div class="flex max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
-          <woot-button
-            v-if="showActions && value"
+        <div
+          class="flex items-center max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0"
+        >
+          <NextButton
+            v-if="showActions && hasValue"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
-            variant="link"
-            size="small"
-            color-scheme="secondary"
-            icon="clipboard"
-            class-names="hidden group-hover:flex !w-6 flex-shrink-0"
+            xs
+            slate
+            ghost
+            icon="i-lucide-clipboard"
+            class="hidden group-hover:flex flex-shrink-0"
             @click="onCopy"
           />
-          <woot-button
+          <NextButton
             v-if="showActions"
             v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
-            variant="link"
-            size="small"
-            color-scheme="secondary"
-            icon="edit"
-            class-names="hidden group-hover:flex !w-6 flex-shrink-0"
+            xs
+            slate
+            ghost
+            icon="i-lucide-pen"
+            class="hidden group-hover:flex flex-shrink-0"
             @click="onEdit"
           />
         </div>

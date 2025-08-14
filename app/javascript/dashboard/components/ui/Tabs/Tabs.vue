@@ -1,6 +1,6 @@
 <script setup>
-import { ref, provide, onMounted, computed } from 'vue';
-import { useEventListener } from '@vueuse/core';
+import { ref, useTemplateRef, provide, computed, watch } from 'vue';
+import { useElementSize } from '@vueuse/core';
 
 const props = defineProps({
   index: {
@@ -11,13 +11,15 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  isCompact: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits(['change']);
+
+const tabsContainer = useTemplateRef('tabsContainer');
+const tabsList = useTemplateRef('tabsList');
+
+const { width: containerWidth } = useElementSize(tabsContainer);
+const { width: listWidth } = useElementSize(tabsList);
 
 const hasScroll = ref(false);
 
@@ -34,20 +36,16 @@ provide('updateActiveIndex', index => {
 });
 
 const computeScrollWidth = () => {
-  // TODO: use useElementSize from vueuse
-  const tabElement = document.querySelector('.tabs');
-  if (tabElement) {
-    hasScroll.value = tabElement.scrollWidth > tabElement.clientWidth;
+  if (tabsContainer.value && tabsList.value) {
+    hasScroll.value = tabsList.value.scrollWidth > tabsList.value.clientWidth;
   }
 };
 
 const onScrollClick = direction => {
-  // TODO: use useElementSize from vueuse
-  const tabElement = document.querySelector('.tabs');
-  if (tabElement) {
-    let scrollPosition = tabElement.scrollLeft;
+  if (tabsContainer.value && tabsList.value) {
+    let scrollPosition = tabsList.value.scrollLeft;
     scrollPosition += direction === 'left' ? -100 : 100;
-    tabElement.scrollTo({
+    tabsList.value.scrollTo({
       top: 0,
       left: scrollPosition,
       behavior: 'smooth',
@@ -55,33 +53,41 @@ const onScrollClick = direction => {
   }
 };
 
-useEventListener(window, 'resize', computeScrollWidth);
-onMounted(() => {
-  computeScrollWidth();
-});
+// Watch for changes in element sizes with immediate execution
+watch(
+  [containerWidth, listWidth],
+  () => {
+    computeScrollWidth();
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
   <div
-    :class="{
-      'tabs--container--with-border': border,
-      'tabs--container--compact': isCompact,
-    }"
-    class="tabs--container"
+    ref="tabsContainer"
+    class="flex"
+    :class="[border && 'border-b border-b-n-weak']"
   >
     <button
       v-if="hasScroll"
-      class="tabs--scroll-button button clear secondary button--only-icon"
+      class="items-center rounded-none cursor-pointer flex h-auto justify-center min-w-8"
       @click="onScrollClick('left')"
     >
       <fluent-icon icon="chevron-left" :size="16" />
     </button>
-    <ul :class="{ 'tabs--with-scroll': hasScroll }" class="tabs">
+    <ul
+      ref="tabsList"
+      class="border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4 list-none mb-0"
+      :class="
+        hasScroll ? 'overflow-hidden py-0 px-1 max-w-[calc(100%-64px)]' : ''
+      "
+    >
       <slot />
     </ul>
     <button
       v-if="hasScroll"
-      class="tabs--scroll-button button clear secondary button--only-icon"
+      class="items-center rounded-none cursor-pointer flex h-auto justify-center min-w-8"
       @click="onScrollClick('right')"
     >
       <fluent-icon icon="chevron-right" :size="16" />

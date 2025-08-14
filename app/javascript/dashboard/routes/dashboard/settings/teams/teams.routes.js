@@ -1,5 +1,5 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 
 import TeamsIndex from './Index.vue';
 import CreateStepWrap from './Create/Index.vue';
@@ -41,9 +41,7 @@ export default {
       props: () => {
         return {
           headerTitle: 'TEAMS_SETTINGS.HEADER',
-          headerButtonText: 'TEAMS_SETTINGS.NEW_TEAM',
           icon: 'people-team',
-          newButtonRoutes: ['settings_teams_new'],
           showBackButton: true,
         };
       },

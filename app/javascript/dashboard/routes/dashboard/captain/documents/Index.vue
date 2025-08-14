@@ -11,6 +11,7 @@ import RelatedResponses from 'dashboard/components-next/captain/pageComponents/d
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
+import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/document/LimitBanner.vue';
 
 const store = useStore();
@@ -115,6 +116,17 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreateDocument"
   >
+    <template #knowMore>
+      <FeatureSpotlightPopover
+        :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
+        :title="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
+        :note="$t('CAPTAIN.DOCUMENTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        fallback-thumbnail="/assets/images/dashboard/captain/document-popover-light.svg"
+        fallback-thumbnail-dark="/assets/images/dashboard/captain/document-popover-dark.svg"
+        learn-more-url="https://chwt.app/captain-document"
+      />
+    </template>
+
     <template #emptyState>
       <DocumentPageEmptyState @click="handleCreateDocument" />
     </template>

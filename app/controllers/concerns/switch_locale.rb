@@ -5,10 +5,11 @@ module SwitchLocale
 
   def switch_locale(&)
     # priority is for locale set in query string (mostly for widget/from js sdk)
-    locale ||= locale_from_params
+    locale ||= params[:locale]
+
     locale ||= locale_from_custom_domain
     # if locale is not set in account, let's use DEFAULT_LOCALE env variable
-    locale ||= locale_from_env_variable
+    locale ||= ENV.fetch('DEFAULT_LOCALE', nil)
     set_locale(locale, &)
   end
 
@@ -32,26 +33,30 @@ module SwitchLocale
   end
 
   def set_locale(locale, &)
-    # if locale is empty, use default_locale
-    locale ||= I18n.default_locale
+    safe_locale = validate_and_get_locale(locale)
     # Ensure locale won't bleed into other requests
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
-    I18n.with_locale(locale, &)
+    I18n.with_locale(safe_locale, &)
   end
 
-  def locale_from_params
-    I18n.available_locales.map(&:to_s).include?(params[:locale]) ? params[:locale] : nil
+  def validate_and_get_locale(locale)
+    return I18n.default_locale.to_s if locale.blank?
+
+    available_locales = I18n.available_locales.map(&:to_s)
+    locale_without_variant = locale.split('_')[0]
+
+    if available_locales.include?(locale)
+      locale
+    elsif available_locales.include?(locale_without_variant)
+      locale_without_variant
+    else
+      I18n.default_locale.to_s
+    end
   end
 
   def locale_from_account(account)
     return unless account
 
-    I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil
-  end
-
-  def locale_from_env_variable
-    return unless ENV.fetch('DEFAULT_LOCALE', nil)
-
-    I18n.available_locales.map(&:to_s).include?(ENV.fetch('DEFAULT_LOCALE')) ? ENV.fetch('DEFAULT_LOCALE') : nil
+    account.locale
   end
 end

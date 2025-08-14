@@ -24,7 +24,10 @@ export default {
     return { isUploading: false };
   },
   computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
+    }),
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;
     },
@@ -40,6 +43,9 @@ export default {
   },
   methods: {
     handleClipboardPaste(e) {
+      // If file picker is not enabled, do not allow paste
+      if (!this.shouldShowFilePicker) return;
+
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       // items is a DataTransferItemList object which does not have forEach method
       const itemsArray = Array.from(items);
@@ -147,7 +153,7 @@ export default {
     }"
     @input-file="onFileUpload"
   >
-    <button class="icon-button flex items-center justify-center">
+    <button class="min-h-8 min-w-8 flex items-center justify-center">
       <FluentIcon v-if="!isUploading.image" icon="attach" />
       <Spinner v-if="isUploading" size="small" />
     </button>

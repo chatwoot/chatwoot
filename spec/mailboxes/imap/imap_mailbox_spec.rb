@@ -59,6 +59,22 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when the email has inline attachments other than images' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('email_with_inline_pdf.eml') }
+
+      it 'creates a conversation and a message with non-image files as regular attachments' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to change(Conversation, :count).by(1)
+
+        last_message = conversation.messages.last
+        expect(last_message.attachments.count).to be 1
+
+        attachment = last_message.attachments.first
+        expect(attachment.file.blob.filename.to_s).to eq 'dummy.pdf'
+      end
+    end
+
     context 'when the email has 15 or more attachments' do
       let(:inbound_mail) { create_inbound_email_from_fixture('multiple_attachments.eml') }
 
@@ -95,7 +111,18 @@ RSpec.describe Imap::ImapMailbox do
       let(:auto_reply_mail) { create_inbound_email_from_fixture('auto_reply.eml') }
 
       it 'does not create a new conversation' do
-        expect { class_instance.process(auto_reply_mail.mail, channel) }.not_to change(Conversation, :count)
+        expect { class_instance.process(auto_reply_mail.mail, channel) }.to change(Conversation, :count)
+        expect(Conversation.last.additional_attributes['auto_reply']).to be true
+      end
+    end
+
+    context 'when the email is bounced' do
+      let!(:bounced_mail) { create_inbound_email_from_fixture('bounced_gmail.eml') }
+
+      it 'processes the bounced email' do
+        expect { class_instance.process(bounced_mail.mail, channel) }.to change(Message, :count)
+        expect(Message.last.content_attributes['email']['auto_reply']).to be true
+        expect(Conversation.last.additional_attributes['auto_reply']).to be true
       end
     end
 

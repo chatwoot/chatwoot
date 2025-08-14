@@ -10,6 +10,7 @@ import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
   ALLOWED_FILE_TYPES_FOR_LINE,
+  ALLOWED_FILE_TYPES_FOR_INSTAGRAM,
 } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
@@ -93,7 +94,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasWhatsappTemplates: {
+    enableWhatsAppTemplates: {
       type: Boolean,
       default: false,
     },
@@ -113,6 +114,10 @@ export default {
       type: String,
       required: true,
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   emits: [
     'replaceText',
@@ -127,7 +132,7 @@ export default {
     const uploadRef = ref(false);
 
     const keyboardEvents = {
-      'Alt+KeyA': {
+      '$mod+Alt+KeyA': {
         action: () => {
           // TODO: This is really hacky, we need to replace the file picker component with
           // a custom one, where the logic and the component markup is isolated.
@@ -164,11 +169,6 @@ export default {
         'is-note-mode': this.isNote,
       };
     },
-    buttonClass() {
-      return {
-        warning: this.isNote,
-      };
-    },
     showAttachButton() {
       return this.showFileUpload || this.isNote;
     },
@@ -192,6 +192,9 @@ export default {
     showAudioPlayStopButton() {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
     allowedFileTypes() {
       if (this.isATwilioWhatsAppChannel) {
         return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
@@ -199,6 +202,10 @@ export default {
       if (this.isALineChannel) {
         return ALLOWED_FILE_TYPES_FOR_LINE;
       }
+      if (this.isAnInstagramChannel || this.isInstagramDM) {
+        return ALLOWED_FILE_TYPES_FOR_INSTAGRAM;
+      }
+
       return ALLOWED_FILE_TYPES;
     },
     enableDragAndDrop() {
@@ -326,7 +333,7 @@ export default {
         @click="toggleMessageSignature"
       />
       <NextButton
-        v-if="hasWhatsappTemplates"
+        v-if="enableWhatsAppTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         icon="i-ph-whatsapp-logo"
         slate
@@ -348,10 +355,10 @@ export default {
       <transition name="modal-fade">
         <div
           v-show="uploadRef && uploadRef.dropActive"
-          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
+          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-n-slate-12 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
           <fluent-icon icon="cloud-backup" size="40" />
-          <h4 class="text-2xl break-words text-slate-900 dark:text-slate-50">
+          <h4 class="text-2xl break-words text-n-slate-12">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
         </div>
@@ -367,14 +374,15 @@ export default {
       />
     </div>
     <div class="right-wrap">
-      <woot-button
-        size="small"
-        :class-names="buttonClass"
-        :is-disabled="isSendDisabled"
+      <NextButton
+        :label="sendButtonText"
+        type="submit"
+        sm
+        :color="isNote ? 'amber' : 'blue'"
+        :disabled="isSendDisabled"
+        class="flex-shrink-0"
         @click="onSend"
-      >
-        {{ sendButtonText }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>
@@ -394,7 +402,7 @@ export default {
   }
 
   &:hover button {
-    @apply dark:bg-slate-800 bg-slate-100;
+    @apply enabled:bg-n-slate-9/20;
   }
 }
 </style>

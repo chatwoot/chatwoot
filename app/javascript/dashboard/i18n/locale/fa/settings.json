@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "پیش‌فرض",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "امضای پیام شخصی",
         "NOTE": "یک امضای منحصر به فرد ایجاد کنید تا در انتهای تمام پیام هایی که از هر صندوق ورودی ارسال می کنید نمایش داده شود. همچنین می‌توانید یک تصویر درون خطی اضافه کنید که در چت، ایمیل و صندوق‌های ورودی API پشتیبانی می‌شود.",
@@ -58,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "توکن دسترسی",
         "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود",
-        "COPY": "کپی"
+        "COPY": "کپی",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -167,7 +190,8 @@
           "OFFLINE": "آفلاین"
         },
         "SET_AVAILABILITY_SUCCESS": "در دسترس بودن با موفقیت تنظیم شد",
-        "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید"
+        "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "ایمیل شما",
@@ -194,7 +218,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "تغییر",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "Profile settings",
@@ -262,7 +286,11 @@
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
     "CONTACTS": "مخاطبین",
+    "ACTIVE": "فعال",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "صفحه اصلی",
     "AGENTS": "ایجنت ها",
     "AGENT_BOTS": "ربات‌ها",
@@ -291,6 +319,7 @@
     "CSAT": "رضایت مشتری",
     "LIVE_CHAT": "Live Chat",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "کمپین ها",
     "ONGOING": "درحال انجام",
     "ONE_OFF": "یکبار مصرف",
@@ -324,14 +353,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "صورتحساب",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "طرح فعلی",
-      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **{plan}** با مجوز **{quantity}** هستید"
+      "PLAN_NOTE": "شما در حال حاضر مشترک طرح **{plan}** با مجوز **{quantity}** هستید",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "اشتراک خود را مدیریت کنید",
       "DESCRIPTION": "فاکتورهای قبلی خود را مشاهده کنید، جزئیات صورتحساب خود را ویرایش کنید یا اشتراک خود را لغو کنید.",
       "BUTTON_TXT": "برو به پورتال صورتحساب"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "به کمک احتياج داری؟",
@@ -354,7 +395,8 @@
         "LABEL": "نام شرکت",
         "PLACEHOLDER": "شرکت ایران ناسیونال"
       },
-      "SUBMIT": "ثبت"
+      "SUBMIT": "ثبت",
+      "CANCEL": "انصراف"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -374,11 +416,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
       "SWITCH_TO_REPLY": "رفتن به پاسخ",
       "TOGGLE_SNOOZE_DROPDOWN": "تغییر حالت بازکردن تعویق"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

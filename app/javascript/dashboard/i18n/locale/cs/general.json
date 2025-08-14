@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Hledat",
       "EMPTY_STATE": "Žádné výsledky"
-    }
+    },
+    "CLOSE": "Zavřít"
   }
 }

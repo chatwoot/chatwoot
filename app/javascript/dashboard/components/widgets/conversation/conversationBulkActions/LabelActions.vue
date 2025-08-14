@@ -1,7 +1,11 @@
 <script>
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   emits: ['update', 'close', 'assign'],
   data() {
     return {
@@ -40,13 +44,7 @@ export default {
     </div>
     <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_LABELS') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <NextButton ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
     <div class="labels-list">
       <header class="labels-list__header">
@@ -58,7 +56,7 @@ export default {
             v-model="query"
             type="search"
             :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-            class="label--search_input"
+            class="reset-base !outline-0 !text-sm label--search_input"
           />
         </div>
       </header>
@@ -91,15 +89,13 @@ export default {
         </li>
       </ul>
       <footer class="labels-list__footer">
-        <woot-button
-          size="small"
-          is-expanded
-          color-scheme="primary"
+        <NextButton
+          sm
+          type="submit"
+          :label="$t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS')"
           :disabled="!selectedLabels.length"
           @click="$emit('assign', selectedLabels)"
-        >
-          <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS') }}</span>
-        </woot-button>
+        />
       </footer>
     </div>
   </div>
@@ -134,7 +130,7 @@ export default {
   @apply bg-n-alpha-black2 py-0 px-2.5 border border-solid border-n-strong rounded-md;
 
   .search-icon {
-    @apply text-slate-400 dark:text-slate-200;
+    @apply text-n-slate-10;
   }
 
   .label--search_input {
@@ -143,7 +139,7 @@ export default {
 }
 
 .labels-container {
-  @apply absolute right-2 top-12 origin-top-right w-auto z-20 max-w-[15rem] min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
+  @apply absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 max-w-[15rem] min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
 
   .header {
     @apply p-2.5;
@@ -162,8 +158,7 @@ export default {
   }
 
   .triangle {
-    right: var(--triangle-position);
-    @apply block z-10 absolute text-left -top-3;
+    @apply block z-10 absolute text-left -top-3 ltr:right-[--triangle-position] rtl:left-[--triangle-position];
 
     svg path {
       @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;
@@ -186,7 +181,7 @@ ul {
     @apply items-center rounded-md cursor-pointer flex py-1 px-2.5 hover:bg-n-slate-3 dark:hover:bg-n-solid-3;
 
     &.label-selected {
-      @apply bg-slate-50 dark:bg-slate-900;
+      @apply bg-n-slate-2;
     }
 
     span {
@@ -194,7 +189,7 @@ ul {
     }
 
     .label-checkbox {
-      @apply my-0 mr-2.5 ml-0;
+      @apply my-0 ltr:mr-2.5 rtl:ml-2.5;
     }
 
     .label-title {
@@ -202,20 +197,12 @@ ul {
     }
 
     .label-pill {
-      @apply bg-slate-50 rounded-md h-3 w-3 flex-shrink-0 border border-solid border-n-weak;
+      @apply rounded-md h-3 w-3 flex-shrink-0 border border-solid border-n-weak;
     }
   }
 }
 
 .search-container {
   @apply bg-n-alpha-3 backdrop-blur-[100px] py-0 px-2.5 sticky top-0 z-20;
-}
-
-.actions-container {
-  @apply bg-white dark:bg-slate-900 bottom-0 p-2 sticky z-20;
-
-  button {
-    @apply w-full;
-  }
 }
 </style>

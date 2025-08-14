@@ -2,7 +2,7 @@
   "MACROS": {
     "HEADER": "Macros",
     "DESCRIPTION": "Uma macro é um conjunto de ações salvas que ajudam os agentes de atendimento ao cliente a concluir tarefas com facilidade. Os agentes podem definir um conjunto de ações, como etiquetar uma conversa com um rótulo, enviar uma transcrição de e-mail, atualizar um atributo personalizado, etc., e podem executar essas ações com um único clique.",
-    "LEARN_MORE": "Aprenda mais sobre etiquetas",
+    "LEARN_MORE": "Aprenda mais sobre macros",
     "HEADER_BTN_TXT": "Adicionar uma nova macro",
     "HEADER_BTN_TXT_SAVE": "Salvar macro",
     "LOADING": "Obtendo macros",
@@ -53,7 +53,7 @@
       }
     },
     "EDITOR": {
-      "START_FLOW": "Inicio do fluxo",
+      "START_FLOW": "Inicio do Fluxo",
       "END_FLOW": "Fim do Fluxo",
       "LOADING": "Obtendo macro",
       "ADD_BTN_TOOLTIP": "Adicionar nova ação",
@@ -83,6 +83,29 @@
       "ACTION_PARAMETERS_REQUIRED": "Os parâmetros de ação são necessários",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é necessária",
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é necessária"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Atribuir um Time",
+      "ASSIGN_AGENT": "Atribuir um Agente",
+      "ADD_LABEL": "Adicionar uma Etiqueta",
+      "REMOVE_LABEL": "Remover uma Etiqueta",
+      "REMOVE_ASSIGNED_TEAM": "Remover Time Atribuído",
+      "SEND_EMAIL_TRANSCRIPT": "Enviar uma transcrição por e-mail",
+      "MUTE_CONVERSATION": "Silenciar Conversa",
+      "SNOOZE_CONVERSATION": "Adiar Conversa",
+      "RESOLVE_CONVERSATION": "Resolver Conversa",
+      "SEND_ATTACHMENT": "Enviar Anexo",
+      "SEND_MESSAGE": "Enviar uma Mensagem",
+      "CHANGE_PRIORITY": "Alterar Prioridade",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Privada",
+      "SEND_WEBHOOK_EVENT": "Enviar evento de Webhook"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nenhuma",
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
     }
   }
 }

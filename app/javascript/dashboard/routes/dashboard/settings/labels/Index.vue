@@ -8,6 +8,7 @@ import AddLabel from './AddLabel.vue';
 import EditLabel from './EditLabel.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -94,37 +95,29 @@ onBeforeMount(() => {
         feature-name="labels"
       >
         <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('LABEL_MGMT.HEADER_BTN_TXT')"
             @click="openAddPopup"
-          >
-            {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-slate-700 dark:text-slate-300"
+            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
           >
             {{ thHeader }}
           </th>
         </thead>
-        <tbody
-          class="flex-1 divide-y divide-slate-25 dark:divide-slate-800 text-slate-700 dark:text-slate-100"
-        >
+        <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
           <tr v-for="(label, index) in records" :key="label.title">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span
-                class="mb-1 font-medium break-words text-slate-700 dark:text-slate-100"
-              >
+              <span class="mb-1 font-medium break-words text-n-slate-12">
                 {{ label.title }}
               </span>
             </td>
@@ -132,7 +125,7 @@ onBeforeMount(() => {
             <td class="py-4 leading-6 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center">
                 <span
-                  class="w-4 h-4 mr-1 border border-solid rounded rtl:mr-0 rtl:ml-1 border-slate-50 dark:border-slate-700"
+                  class="w-4 h-4 mr-1 border border-solid rounded rtl:mr-0 rtl:ml-1 border-n-weak"
                   :style="{ backgroundColor: label.color }"
                 />
                 {{ label.color }}
@@ -140,23 +133,21 @@ onBeforeMount(() => {
             </td>
             <td class="py-4 min-w-xs">
               <div class="flex gap-1 justify-end">
-                <woot-button
+                <Button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
-                  class-names="grey-btn"
+                  icon="i-lucide-pen"
+                  slate
+                  xs
+                  faded
                   :is-loading="loading[label.id]"
-                  icon="edit"
                   @click="openEditPopup(label)"
                 />
-                <woot-button
+                <Button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
+                  icon="i-lucide-trash-2"
+                  xs
+                  ruby
+                  faded
                   :is-loading="loading[label.id]"
                   @click="openDeletePopup(label, index)"
                 />

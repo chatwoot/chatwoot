@@ -4,10 +4,13 @@ import { useAlert } from 'dashboard/composables';
 import PreChatFields from './PreChatFields.vue';
 import { getPreChatFields, standardFieldKeys } from 'dashboard/helper/preChat';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     PreChatFields,
     WootMessageEditor,
+    NextButton,
   },
   props: {
     inbox: {
@@ -110,7 +113,7 @@ export default {
         </select>
       </label>
       <div v-if="preChatFormEnabled">
-        <div class="w-[70%]">
+        <div>
           <label>
             {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
           </label>
@@ -122,11 +125,13 @@ export default {
             "
           />
         </div>
-        <div class="w-[70%] mt-4">
+        <div class="mt-4">
           <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
-          <table class="table w-full table-striped woot-table">
+          <table class="table w-full table-striped mt-4">
             <thead class="thead-dark">
-              <tr>
+              <tr
+                class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
+              >
                 <th scope="col" />
                 <th scope="col" />
                 <th scope="col">
@@ -161,11 +166,10 @@ export default {
         </div>
       </div>
       <div class="w-auto my-4">
-        <woot-submit-button
-          :button-text="
-            $t('INBOX_MGMT.SETTINGS_POPUP.UPDATE_PRE_CHAT_FORM_SETTINGS')
-          "
-          :loading="uiFlags.isUpdating"
+        <NextButton
+          type="submit"
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE_PRE_CHAT_FORM_SETTINGS')"
+          :is-loading="uiFlags.isUpdating"
         />
       </div>
     </form>

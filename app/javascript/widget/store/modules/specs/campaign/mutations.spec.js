@@ -7,9 +7,10 @@ vi.mock('widget/store/index.js', () => ({
 describe('#mutations', () => {
   describe('#setCampaigns', () => {
     it('set campaign records', () => {
-      const state = { records: [] };
+      const state = { records: [], uiFlags: {} };
       mutations.setCampaigns(state, campaigns);
       expect(state.records).toEqual(campaigns);
+      expect(state.uiFlags.hasFetched).toEqual(true);
     });
   });
 

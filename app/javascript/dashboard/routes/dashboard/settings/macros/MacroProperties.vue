@@ -1,5 +1,10 @@
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   inject: ['v$'],
   props: {
     macroName: {
@@ -15,8 +20,8 @@ export default {
   methods: {
     isActive(key) {
       return this.macroVisibility === key
-        ? 'bg-woot-25 dark:bg-slate-900 border-woot-200 dark:border-woot-700'
-        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-600';
+        ? 'bg-n-blue-2 dark:bg-n-blue-1 border-n-blue-3 dark:border-n-blue-4'
+        : 'bg-white dark:bg-n-solid-2 border-n-weak dark:border-n-strong';
     },
     onUpdateName(value) {
       this.$emit('update:name', value);
@@ -30,7 +35,7 @@ export default {
 
 <template>
   <div
-    class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-n-weak"
+    class="p-4 bg-n-solid-2 border border-n-weak rounded-lg shadow-sm h-full flex flex-col"
   >
     <div>
       <woot-input
@@ -43,9 +48,7 @@ export default {
       />
     </div>
     <div class="mt-2">
-      <p
-        class="block m-0 text-sm font-medium leading-[1.8] text-slate-700 dark:text-slate-100"
-      >
+      <p class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12">
         {{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}
       </p>
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
@@ -58,14 +61,14 @@ export default {
             v-if="macroVisibility === 'global'"
             icon="checkmark-circle"
             type="solid"
-            class="absolute text-woot-500 dark:text-woot-500 top-2 right-2"
+            class="absolute text-n-brand top-2 right-2"
           />
           <p
-            class="block m-0 text-sm font-medium leading-[1.8] text-slate-700 dark:text-slate-100"
+            class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12"
           >
             {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL') }}
           </p>
-          <p class="text-xs text-slate-500 dark:text-slate-200">
+          <p class="text-xs text-n-slate-11">
             {{ $t('MACROS.EDITOR.VISIBILITY.GLOBAL.DESCRIPTION') }}
           </p>
         </button>
@@ -78,38 +81,35 @@ export default {
             v-if="macroVisibility === 'personal'"
             icon="checkmark-circle"
             type="solid"
-            class="absolute text-woot-500 dark:text-woot-500 top-2 right-2"
+            class="absolute text-n-brand top-2 right-2"
           />
           <p
-            class="block m-0 text-sm font-medium leading-[1.8] text-slate-700 dark:text-slate-100"
+            class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12"
           >
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL') }}
           </p>
-          <p class="text-xs text-slate-500 dark:text-slate-200">
+          <p class="text-xs text-n-slate-11">
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.DESCRIPTION') }}
           </p>
         </button>
       </div>
       <div
-        class="mt-2 flex items-start p-2 bg-slate-50 dark:bg-slate-700 rounded-md"
+        class="mt-2 flex items-start p-2 bg-n-slate-3 dark:bg-n-solid-3 rounded-md"
       >
-        <fluent-icon icon="info" size="20" class="flex-shrink" />
-        <p
-          class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-slate-600 dark:text-slate-200"
-        >
+        <fluent-icon icon="info" size="16" class="flex-shrink-0 mt-0.5" />
+        <p class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-n-slate-11">
           {{ $t('MACROS.ORDER_INFO') }}
         </p>
       </div>
     </div>
     <div class="mt-auto w-full">
-      <woot-button
-        size="expanded"
-        color-scheme="success"
+      <NextButton
+        blue
+        solid
+        :label="$t('MACROS.HEADER_BTN_TXT_SAVE')"
         class="w-full"
         @click="$emit('submit')"
-      >
-        {{ $t('MACROS.HEADER_BTN_TXT_SAVE') }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>

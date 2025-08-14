@@ -1,7 +1,7 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';
 import {
   useStoreGetters,
@@ -13,6 +13,7 @@ import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -149,27 +150,27 @@ const confirmDeletion = () => {
         feature-name="agents"
       >
         <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('AGENT_MGMT.HEADER_BTN_TXT')"
             @click="openAddPopup"
-          >
-            {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="divide-y divide-n-weak">
         <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr v-for="(agent, index) in agentList" :key="agent.email">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-row items-center gap-4">
-                <Thumbnail
+                <Avatar
                   :src="agent.thumbnail"
-                  :username="agent.name"
-                  size="40px"
+                  :name="agent.name"
                   :status="agent.availability_status"
+                  :size="40"
+                  hide-offline-status
+                  rounded-full
                 />
                 <div>
                   <span class="block font-medium capitalize">
@@ -191,7 +192,7 @@ const confirmDeletion = () => {
                 {{ getAgentRoleName(agent) }}
 
                 <div
-                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-slate-50 shadow-lg top-14 md:top-12 dark:bg-slate-800 dark:border-slate-700"
+                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-n-weak shadow-lg top-14 md:top-12 dark:bg-n-solid-2"
                   :class="{ 'group-hover:block': agent.custom_role_id }"
                 >
                   <div class="flex flex-col gap-1 p-4">
@@ -225,24 +226,22 @@ const confirmDeletion = () => {
             </td>
             <td class="py-4">
               <div class="flex justify-end gap-1">
-                <woot-button
+                <Button
                   v-if="showEditAction(agent)"
                   v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
-                  icon="edit"
-                  class-names="grey-btn"
+                  icon="i-lucide-pen"
+                  slate
+                  xs
+                  faded
                   @click="openEditPopup(agent)"
                 />
-                <woot-button
+                <Button
                   v-if="showDeleteAction(agent)"
                   v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
+                  icon="i-lucide-trash-2"
+                  xs
+                  ruby
+                  faded
                   :is-loading="loading[agent.id]"
                   @click="openDeletePopup(agent, index)"
                 />

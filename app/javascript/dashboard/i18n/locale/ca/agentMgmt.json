@@ -3,8 +3,8 @@
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Afegir Agent",
     "LOADING": "S'està recollint la llista d'agents",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "",
+    "LEARN_MORE": "Rakibkazi",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador/a",
       "AGENT": "Agent"
@@ -104,6 +104,9 @@
       "TITLE": {
         "AGENT": "Seleccionar Agent",
         "TEAM": "Selecciona equip"
+      },
+      "LIST": {
+        "NONE": "Ningú"
       },
       "SEARCH": {
         "NO_RESULTS": {

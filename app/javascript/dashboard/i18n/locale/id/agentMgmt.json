@@ -105,6 +105,9 @@
         "AGENT": "Pilih Agen",
         "TEAM": "Pilih tim"
       },
+      "LIST": {
+        "NONE": "Tidak ada"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Tidak ada agen",

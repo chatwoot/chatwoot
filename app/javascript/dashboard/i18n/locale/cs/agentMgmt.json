@@ -105,6 +105,9 @@
         "AGENT": "Vybrat agenta",
         "TEAM": "Vybrat tým"
       },
+      "LIST": {
+        "NONE": "Nic"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nenalezeni žádní agenti",

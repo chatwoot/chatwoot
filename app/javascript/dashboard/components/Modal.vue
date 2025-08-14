@@ -2,6 +2,7 @@
 // [TODO] Use Teleport to move the modal to the end of the body
 import { ref, computed, defineEmits, onMounted } from 'vue';
 import { useEventListener } from '@vueuse/core';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const { modalType, closeOnBackdropClick, onClose } = defineProps({
   closeOnBackdropClick: { type: Boolean, default: true },
@@ -57,7 +58,7 @@ useEventListener(document.body, 'mouseup', onMouseUp);
 useEventListener(document, 'keydown', onKeydown);
 
 onMounted(() => {
-  if (onClose && typeof onClose === 'function') {
+  if (import.meta.env.DEV && onClose && typeof onClose === 'function') {
     // eslint-disable-next-line no-console
     console.warn(
       "[DEPRECATED] The 'onClose' prop is deprecated. Please use the 'close' event instead."
@@ -85,11 +86,11 @@ onMounted(() => {
         @mouse.stop
         @mousedown="event => event.stopPropagation()"
       >
-        <woot-button
+        <Button
           v-if="showCloseButton"
-          color-scheme="secondary"
-          icon="dismiss"
-          variant="clear"
+          ghost
+          slate
+          icon="i-lucide-x"
           class="absolute z-10 ltr:right-2 rtl:left-2 top-2"
           @click="close"
         />

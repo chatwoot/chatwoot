@@ -13,34 +13,14 @@ const props = defineProps({
     validator: value =>
       value.every(option => 'value' in option && 'label' in option),
   },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  modelValue: {
-    type: [String, Number],
-    default: '',
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  searchPlaceholder: {
-    type: String,
-    default: '',
-  },
-  emptyState: {
-    type: String,
-    default: '',
-  },
-  message: {
-    type: String,
-    default: '',
-  },
-  hasError: {
-    type: Boolean,
-    default: false,
-  },
+  placeholder: { type: String, default: '' },
+  modelValue: { type: [String, Number], default: '' },
+  disabled: { type: Boolean, default: false },
+  searchPlaceholder: { type: String, default: '' },
+  emptyState: { type: String, default: '' },
+  message: { type: String, default: '' },
+  hasError: { type: Boolean, default: false },
+  useApiResults: { type: Boolean, default: false }, // useApiResults prop to determine if search is handled by API
 });
 
 const emit = defineEmits(['update:modelValue', 'search']);
@@ -54,6 +34,12 @@ const dropdownRef = ref(null);
 const comboboxRef = ref(null);
 
 const filteredOptions = computed(() => {
+  // For API search, don't filter options locally
+  if (props.useApiResults && search.value) {
+    return props.options;
+  }
+
+  // For local search, filter options based on search term
   const searchTerm = search.value.toLowerCase();
   return props.options.filter(option =>
     option.label.toLowerCase().includes(searchTerm)
@@ -110,7 +96,7 @@ watch(
         :label="selectedLabel"
         trailing-icon
         :disabled="disabled"
-        class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6"
+        class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6 [&:not(.focused)]:hover:enabled:outline-n-slate-6 [&:not(.focused)]:dark:hover:enabled:outline-n-slate-6 [&:not(.focused)]:dark:outline-n-weak focus:outline-n-brand"
         :class="{ focused: open }"
         :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
         @click="toggleDropdown"

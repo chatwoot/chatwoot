@@ -1,12 +1,14 @@
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    Thumbnail,
+    Avatar,
     Spinner,
+    NextButton,
   },
   props: {
     selectedInboxes: {
@@ -94,13 +96,7 @@ export default {
     </div>
     <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <NextButton ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
     <div class="container">
       <div
@@ -121,19 +117,21 @@ export default {
                 v-model="query"
                 type="search"
                 :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-                class="agent--search_input"
+                class="reset-base !outline-0 !text-sm agent--search_input"
               />
             </div>
           </li>
           <li v-for="agent in filteredAgents" :key="agent.id">
             <div class="agent-list-item" @click="assignAgent(agent)">
-              <Thumbnail
+              <Avatar
+                :name="agent.name"
                 :src="agent.thumbnail"
                 :status="agent.availability_status"
-                :username="agent.name"
-                size="22px"
+                :size="22"
+                hide-offline-status
+                rounded-full
               />
-              <span class="my-0 text-slate-800 dark:text-slate-75">
+              <span class="my-0 text-n-slate-12">
                 {{ agent.name }}
               </span>
             </div>
@@ -161,21 +159,21 @@ export default {
             }}
           </p>
           <div class="agent-confirmation-actions">
-            <woot-button
-              color-scheme="primary"
-              variant="smooth"
+            <NextButton
+              faded
+              sm
+              slate
+              type="reset"
+              :label="$t('BULK_ACTION.GO_BACK_LABEL')"
               @click="goBack"
-            >
-              {{ $t('BULK_ACTION.GO_BACK_LABEL') }}
-            </woot-button>
-            <woot-button
-              color-scheme="primary"
-              variant="flat"
+            />
+            <NextButton
+              sm
+              type="submit"
+              :label="$t('BULK_ACTION.YES')"
               :is-loading="uiFlags.isUpdating"
               @click="submit"
-            >
-              {{ $t('BULK_ACTION.YES') }}
-            </woot-button>
+            />
           </div>
         </div>
       </div>
@@ -185,7 +183,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__agents {
-  @apply max-w-[75%] absolute right-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
+  @apply max-w-[75%] absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
   .header {
     @apply p-2.5;
 
@@ -202,7 +200,7 @@ export default {
     .agent-list-search {
       @apply py-0 px-2.5 bg-n-alpha-black2 border border-solid border-n-strong rounded-md;
       .search-icon {
-        @apply text-slate-400 dark:text-slate-200;
+        @apply text-n-slate-10;
       }
 
       .agent--search_input {
@@ -211,8 +209,7 @@ export default {
     }
   }
   .triangle {
-    right: var(--triangle-position);
-    @apply block z-10 absolute -top-3 text-left;
+    @apply block z-10 absolute -top-3 text-left ltr:right-[--triangle-position] rtl:left-[--triangle-position];
 
     svg path {
       @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;
@@ -252,6 +249,6 @@ ul {
 }
 
 .agent__list-loading {
-  @apply m-2.5 rounded-md bg-slate-25 dark:bg-slate-900 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
+  @apply m-2.5 rounded-md dark:bg-n-solid-3 bg-n-slate-2 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
 }
 </style>

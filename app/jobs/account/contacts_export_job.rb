@@ -29,9 +29,9 @@ class Account::ContactsExportJob < ApplicationJob
       result = ::Contacts::FilterService.new(@account, @account_user, @params).perform
       result[:contacts]
     elsif @params[:label].present?
-      @account.contacts.resolved_contacts.tagged_with(@params[:label], any: true)
+      @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2')).tagged_with(@params[:label], any: true)
     else
-      @account.contacts.resolved_contacts
+      @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
     end
   end
 
@@ -51,7 +51,7 @@ class Account::ContactsExportJob < ApplicationJob
 
   def send_mail
     file_url = account_contact_export_url
-    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: @account)
+    mailer = AdministratorNotifications::AccountNotificationMailer.with(account: @account)
     mailer.contact_export_complete(file_url, @account_user.email)&.deliver_later
   end
 

@@ -67,4 +67,91 @@ RSpec.describe Attachment do
       expect(message.attachments.first.push_event_data[:data_url]).not_to eq message.attachments.first.external_url
     end
   end
+
+  describe 'thumb_url' do
+    it 'returns empty string for non-image attachments' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+
+      expect(attachment.thumb_url).to eq('')
+    end
+
+    it 'generates thumb_url for image attachments' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: StringIO.new('fake image'), filename: 'test.jpg', content_type: 'image/jpeg')
+
+      expect(attachment.thumb_url).to be_present
+    end
+
+    it 'handles unrepresentable images gracefully' do
+      attachment = message.attachments.create!(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: StringIO.new('fake image'), filename: 'test.jpg', content_type: 'image/jpeg')
+
+      allow(attachment.file).to receive(:representation).and_raise(ActiveStorage::UnrepresentableError.new('Cannot represent'))
+
+      expect(Rails.logger).to receive(:warn).with(/Unrepresentable image attachment: #{attachment.id}/)
+      expect(attachment.thumb_url).to eq('')
+    end
+  end
+
+  describe 'meta data handling' do
+    let(:message) { create(:message) }
+
+    context 'when attachment is a contact type' do
+      let(:contact_attachment) do
+        message.attachments.create!(
+          account_id: message.account_id,
+          file_type: :contact,
+          fallback_title: '+1234567890',
+          meta: {
+            first_name: 'John',
+            last_name: 'Doe'
+          }
+        )
+      end
+
+      it 'stores and retrieves meta data correctly' do
+        expect(contact_attachment.meta['first_name']).to eq('John')
+        expect(contact_attachment.meta['last_name']).to eq('Doe')
+      end
+
+      it 'includes meta data in push_event_data' do
+        event_data = contact_attachment.push_event_data
+        expect(event_data[:meta]).to eq({
+                                          'first_name' => 'John',
+                                          'last_name' => 'Doe'
+                                        })
+      end
+
+      it 'returns empty hash for meta if not set' do
+        attachment = message.attachments.create!(
+          account_id: message.account_id,
+          file_type: :contact,
+          fallback_title: '+1234567890'
+        )
+        expect(attachment.push_event_data[:meta]).to eq({})
+      end
+    end
+
+    context 'when meta is used with other file types' do
+      let(:image_attachment) do
+        attachment = message.attachments.new(
+          account_id: message.account_id,
+          file_type: :image,
+          meta: { description: 'Test image' }
+        )
+        attachment.file.attach(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+        attachment.save!
+        attachment
+      end
+
+      it 'preserves meta data with file attachments' do
+        expect(image_attachment.meta['description']).to eq('Test image')
+      end
+    end
+  end
 end

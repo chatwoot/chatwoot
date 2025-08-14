@@ -47,17 +47,17 @@ const removeAttachment = id => {
       <div
         v-for="attachment in filteredImageAttachments"
         :key="attachment.id"
-        class="relative group/image w-[72px] h-[72px]"
+        class="relative group/image w-[4.5rem] h-[4.5rem]"
       >
         <img
-          class="object-cover w-[72px] h-[72px] rounded-lg"
+          class="object-cover w-[4.5rem] h-[4.5rem] rounded-lg"
           :src="attachment.thumb"
         />
         <Button
           variant="ghost"
           icon="i-lucide-trash"
           color="slate"
-          class="absolute top-1 right-1 !w-5 !h-5 transition-opacity duration-150 ease-in-out opacity-0 group-hover/image:opacity-100"
+          class="absolute top-1 ltr:right-1 rtl:left-1 !w-5 !h-5 transition-opacity duration-150 ease-in-out opacity-0 group-hover/image:opacity-100"
           @click="removeAttachment(attachment.resource.id)"
         />
       </div>
@@ -69,7 +69,7 @@ const removeAttachment = id => {
       <div
         v-for="attachment in filteredNonImageAttachments"
         :key="attachment.id"
-        class="max-w-[300px] inline-flex items-center h-8 min-w-0 bg-n-alpha-2 dark:bg-n-solid-3 rounded-lg gap-3 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2"
+        class="max-w-[18.75rem] inline-flex items-center h-8 min-w-0 bg-n-alpha-2 dark:bg-n-solid-3 rounded-lg gap-3 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2"
       >
         <span class="text-sm font-medium text-n-slate-11">
           {{ fileNameWithEllipsis(attachment.resource) }}

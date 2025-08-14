@@ -2,6 +2,7 @@
 import BaseSettingsListItem from '../../components/BaseSettingsListItem.vue';
 import SLAResponseTime from './SLAResponseTime.vue';
 import SLABusinessHoursLabel from './SLABusinessHoursLabel.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
   slaName: {
@@ -39,7 +40,7 @@ const emit = defineEmits(['delete']);
 
 <template>
   <BaseSettingsListItem
-    class="sm:divide-x sm:divide-slate-75 sm:dark:divide-slate-700/50"
+    class="sm:divide-x sm:divide-n-weak"
     :title="slaName"
     :description="description"
   >
@@ -48,7 +49,7 @@ const emit = defineEmits(['delete']);
     </template>
     <template #rightSection>
       <div
-        class="flex items-center divide-x rtl:divide-x-reverse sm:rtl:!border-l-0 sm:rtl:!border-r sm:rtl:border-solid sm:rtl:border-slate-75 sm:rtl:dark:border-slate-700/50 gap-1.5 w-fit sm:w-full sm:gap-0 sm:justify-between divide-slate-75 dark:divide-slate-700/50"
+        class="flex items-center divide-x rtl:divide-x-reverse sm:rtl:!border-l-0 sm:rtl:!border-r sm:rtl:border-solid sm:rtl:border-n-weak gap-1.5 w-fit sm:w-full sm:gap-0 sm:justify-between divide-n-weak"
       >
         <SLAResponseTime response-type="FRT" :response-time="firstResponse" />
         <SLAResponseTime response-type="NRT" :response-time="nextResponse" />
@@ -56,13 +57,12 @@ const emit = defineEmits(['delete']);
       </div>
     </template>
     <template #actions>
-      <woot-button
+      <Button
         v-tooltip.top="$t('SLA.FORM.DELETE')"
-        variant="smooth"
-        color-scheme="alert"
-        size="tiny"
-        icon="delete"
-        class-names="grey-btn"
+        faded
+        ruby
+        xs
+        icon="i-lucide-trash-2"
         :is-loading="isLoading"
         @click="emit('delete')"
       />
