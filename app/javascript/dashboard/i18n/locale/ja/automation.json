@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "会話が作成されました",
       "CONVERSATION_UPDATED": "会話が更新されました",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {

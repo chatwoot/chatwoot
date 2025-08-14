@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "לא ניתן לשלוח, נסה שוב"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "אנחנו אונליין",
     "OFFLINE": "אנחנו לא זמינים כרגע"
