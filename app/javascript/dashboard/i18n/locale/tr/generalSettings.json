@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "Sohbet sınırını aştınız. Hacker planı yalnızca 500 sohbete izin verir.",
+      "INBOXES": "Gelen kutusu sınırını aştınız. Hacker planı yalnızca web sitesi canlı sohbetini destekler. E-posta, WhatsApp gibi ek gelen kutuları ücretli plan gerektirir.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Tüm özellikleri kullanmaya devam etmek için lütfen yöneticinizle iletişime geçin ve planı yükseltin."
     },
     "TITLE": "Hesap Ayarları",
     "SUBMIT": "Ayarları Güncelle",
@@ -15,23 +15,23 @@
       "SUCCESS": "Hesap ayarları başarıyla güncellendi"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "Hesabınızı silin",
+      "NOTE": "Hesabınızı sildikten sonra tüm verileriniz silinecektir.",
+      "BUTTON_TEXT": "Hesabınızı Silin",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "Hesabı Sil",
+        "MESSAGE": "Hesabınızı silmek geri alınamaz. Kalıcı olarak silmek istediğinizi onaylamak için aşağıya hesap adınızı girin.",
         "BUTTON_TEXT": "Sil",
         "DISMISS": "İptal Et",
         "PLACE_HOLDER": "{accountName} yazarak onaylayın"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Hesap silinmek üzere işaretlendi",
+      "FAILURE": "Hesap silinemedi, tekrar deneyin!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Hesap silinmek üzere planlandı",
+        "MESSAGE_MANUAL": "Bu hesap {deletionDate} tarihinde silinmek üzere planlandı. Bu, bir yönetici tarafından talep edildi. Bu tarihten önce silmeyi iptal edebilirsiniz.",
+        "MESSAGE_INACTIVITY": "Bu hesap, hesap etkinliği olmadığı için {deletionDate} tarihinde silinmek üzere planlandı. Bu tarihten önce silmeyi iptal edebilirsiniz.",
+        "CLEAR_BUTTON": "Planlanan Silmeyi İptal Et"
       }
     },
     "FORM": {
@@ -43,6 +43,34 @@
       "ACCOUNT_ID": {
         "TITLE": "Hesap Kimliği",
         "NOTE": "API tabanlı bir entegrasyon oluşturuyorsanız bu kimlik gereklidir"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Sohbetleri otomatik çöz",
+        "NOTE": "Bu yapılandırma, belirli bir süre etkinlik olmadığında sohbeti otomatik olarak çözmenizi sağlar.",
+        "DURATION": {
+          "LABEL": "Etkinliksizlik süresi",
+          "HELP": "Sohbetin otomatik olarak çözüleceği etkinliksizlik süresi",
+          "PLACEHOLDER": "30",
+          "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
+          "API": {
+            "SUCCESS": "Otomatik çözme ayarları başarıyla güncellendi",
+            "ERROR": "Otomatik çözme ayarları güncellenemedi"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Özel otomatik çözüm mesajı",
+          "PLACEHOLDER": "Sohbet, 15 gün etkinlik olmadığı için sistem tarafından çözüldü olarak işaretlendi",
+          "HELP": "Sohbet otomatik olarak çözüldükten sonra müşteriye gönderilen mesaj"
+        },
+        "PREFERENCES": "Tercihler",
+        "LABEL": {
+          "LABEL": "Otomatik çözümden sonra etiket ekle",
+          "PLACEHOLDER": "Etiket seç"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Temsilci yanıtı bekleyen sohbetleri atla"
+        },
+        "UPDATE_BUTTON": "Değişiklikleri Kaydet"
       },
       "NAME": {
         "LABEL": "Hesap Adı",
@@ -64,10 +92,31 @@
         "PLACEHOLDER": "Şirketinizin destek e-postası",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Yanıtsız sohbetleri hariç tut",
+        "HELP": "Etkinleştirildiğinde, sistem hâlâ temsilci yanıtı bekleyen sohbetleri çözmeyi atlayacaktır."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Sesli Mesajları Yazıya Döktür",
+        "NOTE": "Sohbetlerdeki sesli mesajları otomatik olarak yazıya dökün. Bir sesli mesaj gönderildiğinde veya alındığında bir metin dökümü oluşturun ve mesajın yanında gösterin.",
+        "API": {
+          "SUCCESS": "Sesli mesaj transkripsiyon ayarı başarıyla güncellendi",
+          "ERROR": "Sesli yazıya dökme ayarı güncellenemedi"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Etkinlik yoksa, bir biletin otomatik olarak çözülmesi gereken gün sayısı",
+        "LABEL": "Çözüm için etkinliksizlik süresi",
+        "HELP": "Bir sohbette etkinlik yoksa otomatik çözüm için süre",
         "PLACEHOLDER": "30",
-        "ERROR": "Lütfen geçerli bir otomatik çözüm süresi girin (minimum 1 gün ve maksimum 999 gün)"
+        "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
+        "API": {
+          "SUCCESS": "Otomatik çözme ayarları başarıyla güncellendi",
+          "ERROR": "Otomatik çözme ayarları güncellenemedi"
+        },
+        "UPDATE_BUTTON": "Güncelleme",
+        "MESSAGE_LABEL": "Özel çözüm mesajı",
+        "MESSAGE_PLACEHOLDER": "Sohbet, 15 gün etkinlik olmadığı için sistem tarafından çözüldü olarak işaretlendi",
+        "MESSAGE_HELP": "Bu mesaj, bir sohbet sistem tarafından etkinliksizlik nedeniyle otomatik olarak çözüldüğünde müşteriye gönderilir."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Hesabınız için e-posta ile iletişim devre dışı bırakıldı.",
@@ -77,7 +126,7 @@
     "UPDATE_CHATWOOT": "{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
     "LEARN_MORE": "Daha Fazla",
     "PAYMENT_PENDING": "Ödemeniz bekliyor. Devam etmek için ödeme bilgilerinizi güncelleyin.",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "UPGRADE": "Chatwoot'u kullanmaya devam etmek için yükseltin",
     "LIMITS_UPGRADE": "Hesabınız kullanım sınırlarını aştı, lütfen Chatwoot'u kullanmaya devam etmek için planınızı yükseltin",
     "OPEN_BILLING": "Fatura Detayları"
   },
@@ -85,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Seçmek için enter tuşuna basın",
       "ENTER_TO_REMOVE": "Kaldırmak için enter tuşuna basın",
+      "NO_OPTIONS": "Liste boş",
       "SELECT_ONE": "Birini seç",
       "SELECT": "Seç"
     }

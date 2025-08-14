@@ -1,19 +1,19 @@
 <script>
-import { ref } from 'vue';
+import { ref, provide } from 'vue';
 // composable
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
-import { useMapGetter } from 'dashboard/composables/store';
 
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
-import NextMessageList from 'next/message/MessageList.vue';
 import TypingIndicator from 'next/Conversation/Chips/TypingIndicator.vue';
 import UnreadIndicator from 'next/Conversation/Chips/UnreadIndicator.vue';
+import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -37,49 +37,29 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { FEATURE_FLAGS } from '../../../featureFlags';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
-
-import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    Message,
-    NextMessageList,
+    MessageList,
     ReplyBox,
     TypingIndicator,
     UnreadIndicator,
     Banner,
     ConversationLabelSuggestion,
-    NextButton,
+    Spinner,
   },
   mixins: [inboxMixin],
-  props: {
-    isContactPanelOpen: {
-      type: Boolean,
-      default: false,
-    },
-    isInboxView: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
+    const conversationPanelRef = ref(null);
     const { isEnterprise } = useConfig();
-
-    const closePopOutReplyBox = () => {
-      isPopOutReplyBox.value = false;
-    };
-
-    const showPopOutReplyBox = () => {
-      isPopOutReplyBox.value = !isPopOutReplyBox.value;
-    };
 
     const keyboardEvents = {
       Escape: {
-        action: closePopOutReplyBox,
+        action: () => {
+          isPopOutReplyBox.value = false;
+        },
       },
     };
 
@@ -106,18 +86,18 @@ export default {
       currentAccountId.value,
       FEATURE_FLAGS.CHATWOOT_V4
     );
+    provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
       isEnterprise,
       isPopOutReplyBox,
-      closePopOutReplyBox,
-      showPopOutReplyBox,
       isAIIntegrationEnabled,
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
       useNewScrollBehavior,
       showNextBubbles,
+      conversationPanelRef,
     };
   },
   data() {
@@ -184,26 +164,6 @@ export default {
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
-    conversationType() {
-      const { additional_attributes: additionalAttributes } = this.currentChat;
-      const type = additionalAttributes ? additionalAttributes.type : '';
-      return type || '';
-    },
-
-    isATweet() {
-      return this.conversationType === 'tweet';
-    },
-    isRightOrLeftIcon() {
-      if (this.isContactPanelOpen) {
-        return 'arrow-chevron-right';
-      }
-      return 'arrow-chevron-left';
-    },
-    getLastSeenAt() {
-      const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-      return contactLastSeenAt;
-    },
-
     // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
@@ -284,9 +244,6 @@ export default {
       return this.$t('CONVERSATION.UNREAD_COUNT', {
         count: formatter.format(this.unreadMessageCount),
       });
-    },
-    isInstagramDM() {
-      return this.conversationType === 'instagram_direct_message';
     },
     inboxSupportsReplyTo() {
       const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
@@ -487,9 +444,6 @@ export default {
         relevantMessages
       );
     },
-    onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
-    },
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;
       this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
@@ -598,22 +552,9 @@ export default {
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
-    <div class="flex justify-end">
-      <NextButton
-        faded
-        xs
-        slate
-        class="!rounded-r-none rtl:rotate-180 !rounded-2xl !fixed z-10"
-        :icon="
-          isContactPanelOpen ? 'i-ph-caret-right-fill' : 'i-ph-caret-left-fill'
-        "
-        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
-        @click="onToggleContactPanel"
-      />
-    </div>
-    <NextMessageList
-      v-if="showNextBubbles"
-      class="conversation-panel"
+    <MessageList
+      ref="conversationPanelRef"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
@@ -623,8 +564,10 @@ export default {
       <template #beforeAll>
         <transition name="slide-up">
           <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-          <li class="min-h-[4rem]">
-            <span v-if="shouldShowSpinner" class="spinner message" />
+          <li
+            class="min-h-[4rem] flex flex-shrink-0 flex-grow-0 items-center flex-auto justify-center max-w-full mt-0 mr-0 mb-1 ml-0 relative first:mt-auto last:mb-0"
+          >
+            <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
           </li>
         </transition>
       </template>
@@ -646,63 +589,12 @@ export default {
           :conversation-id="currentChat.id"
         />
       </template>
-    </NextMessageList>
-    <ul v-else class="conversation-panel">
-      <transition name="slide-up">
-        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-        <li class="min-h-[4rem]">
-          <span v-if="shouldShowSpinner" class="spinner message" />
-        </li>
-      </transition>
-      <Message
-        v-for="message in readMessages"
-        :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <UnreadIndicator
-          :label="unreadMessageLabel"
-          variant="primary"
-          class="mx-auto"
-          @intersect="onUnreadBadgeIntersect"
-        />
-      </li>
-      <Message
-        v-for="message in unReadMessages"
-        :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <ConversationLabelSuggestion
-        v-if="shouldShowLabelSuggestions"
-        :suggested-labels="labelSuggestions"
-        :chat-labels="currentChat.labels"
-        :conversation-id="currentChat.id"
-      />
-    </ul>
+    </MessageList>
     <div
-      class="conversation-footer"
+      class="flex relative flex-col"
       :class="{
         'modal-mask': isPopOutReplyBox,
-        'bg-n-background': showNextBubbles && !isPopOutReplyBox,
+        'bg-n-background': !isPopOutReplyBox,
       }"
     >
       <div
@@ -718,8 +610,8 @@ export default {
         />
       </div>
       <ReplyBox
-        v-model:popout-reply-box="isPopOutReplyBox"
-        @toggle-popout="showPopOutReplyBox"
+        :pop-out-reply-box="isPopOutReplyBox"
+        @update:pop-out-reply-box="isPopOutReplyBox = $event"
       />
     </div>
   </div>
@@ -727,7 +619,7 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
-  @apply absolute;
+  @apply fixed;
 
   &::v-deep {
     .ProseMirror-woot-style {
@@ -751,7 +643,7 @@ export default {
     }
 
     .emoji-dialog {
-      @apply absolute left-auto bottom-1;
+      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
     }
   }
 }

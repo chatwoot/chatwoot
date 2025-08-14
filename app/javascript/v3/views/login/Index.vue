@@ -6,29 +6,30 @@ import { parseBoolean } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-
-// mixins
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import SessionStorage from 'shared/helpers/sessionStorage';
+import { useBranding } from 'shared/composables/useBranding';
 
 // components
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import SubmitButton from '../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
 };
 
+const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
+
 export default {
   components: {
     FormInput,
     GoogleOAuthButton,
     Spinner,
-    SubmitButton,
+    NextButton,
   },
-  mixins: [globalConfigMixin],
   props: {
     ssoAuthToken: { type: String, default: '' },
     ssoAccountId: { type: String, default: '' },
@@ -37,7 +38,11 @@ export default {
     authError: { type: String, default: '' },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+      v$: useVuelidate(),
+    };
   },
   data() {
     return {
@@ -112,6 +117,14 @@ export default {
       this.loginApi.message = message;
       useAlert(this.loginApi.message);
     },
+    handleImpersonation() {
+      // Detects impersonation mode via URL and sets a session flag to prevent user settings changes during impersonation.
+      const urlParams = new URLSearchParams(window.location.search);
+      const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
+      if (impersonation) {
+        SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
+      }
+    },
     submitLogin() {
       this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
@@ -128,6 +141,7 @@ export default {
 
       login(credentials)
         .then(() => {
+          this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {
@@ -170,9 +184,7 @@ export default {
         class="hidden w-auto h-8 mx-auto dark:block"
       />
       <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
-        {{
-          useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
-        }}
+        {{ replaceInstallationName($t('LOGIN.TITLE')) }}
       </h2>
       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
@@ -225,11 +237,15 @@ export default {
               </router-link>
             </p>
           </FormInput>
-          <SubmitButton
-            :disabled="loginApi.showLoading"
+          <NextButton
+            lg
+            type="submit"
+            data-testid="submit_button"
+            class="w-full"
             :tabindex="3"
-            :button-text="$t('LOGIN.SUBMIT')"
-            :loading="loginApi.showLoading"
+            :label="$t('LOGIN.SUBMIT')"
+            :disabled="loginApi.showLoading"
+            :is-loading="loginApi.showLoading"
           />
         </form>
       </div>

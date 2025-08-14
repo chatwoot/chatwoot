@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Megoldva",
       "REOPEN_ACTION": "Újranyitás",
       "OPEN_ACTION": "Megnyitás",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Tovább",
       "CLOSE": "Bezárás",
       "DETAILS": "részletek",
@@ -95,6 +96,10 @@
         "NEXT_WEEK": "Jövő héten"
       }
     },
+    "MENTION": {
+      "AGENTS": "Ügynökök",
+      "TEAMS": "Csapatok"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Halasztás eddig",
       "APPLY": "Halasztás",
@@ -117,6 +122,11 @@
         "FAILED": "Nem sikerült megváltoztatni a prioritást. Kérlek, próbáld újra."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Törlés"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Függőben levőként megjelölés",
       "RESOLVED": "Megjelölés megoldottként",
@@ -133,6 +143,10 @@
       "ASSIGN_LABEL": "Cimke hozzáadása",
       "AGENTS_LOADING": "Ügynökök betöltése...",
       "ASSIGN_TEAM": "Csapat hozzárendelése",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
@@ -207,6 +221,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Címke sikeresen hozzárendelve",
     "ASSIGN_LABEL_FAILED": "Címke hozzárendelése sikertelen",
     "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} limitet",
     "MESSAGE_ERROR": "Nem tudsz üzenetet küldeni, kérlek, próbáld újra",
     "SENT_BY": "Küldő:",
@@ -299,6 +315,7 @@
       "CONTACT_ATTRIBUTES": "Kontakt Tulajdonságok",
       "PREVIOUS_CONVERSATION": "Korábbi beszélgetések",
       "MACROS": "Makrók",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

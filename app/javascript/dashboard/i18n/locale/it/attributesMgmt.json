@@ -5,6 +5,18 @@
     "LOADING": "Recupero degli attributi personalizzati",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Conversazioni",
+      "CONTACT": "Contatto"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Testo",
+      "NUMBER": "Numero",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Elenco",
+      "CHECKBOX": "Checkbox"
+    },
     "ADD": {
       "TITLE": "Aggiungi attributo personalizzato",
       "SUBMIT": "Crea",

@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Criar campanha",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Concluído",
+          "SCHEDULED": "Agendada"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Enviado de",
+          "ON": "ativado"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "Cancelar",
+        "CREATE_BUTTON_TEXT": "Criar",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Título",
+            "PLACEHOLDER": "Por favor, digite o título da campanha",
+            "ERROR": "Título é obrigatório"
+          },
+          "INBOX": {
+            "LABEL": "Selecionar caixa de entrada",
+            "PLACEHOLDER": "Selecionar caixa de entrada",
+            "ERROR": "Caixa de entrada obrigatória"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Processar {templateName}",
+            "LANGUAGE": "Idioma",
+            "CATEGORY": "Categoria",
+            "VARIABLES_LABEL": "Variáveis",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "Público",
+            "PLACEHOLDER": "Selecionar etiquetas dos clientes",
+            "ERROR": "Público é necessário"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Horário agendado",
+            "PLACEHOLDER": "Por favor insira a hora",
+            "ERROR": "Horário agendado é necessário"
+          },
+          "BUTTONS": {
+            "CREATE": "Criar",
+            "CANCEL": "Cancelar"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "Houve um erro. Por favor, tente novamente."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Você tem certeza que deseja excluir?",
       "DESCRIPTION": "A ação de exclusão é permanente e não pode ser revertida.",

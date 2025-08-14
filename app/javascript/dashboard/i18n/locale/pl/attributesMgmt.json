@@ -5,6 +5,18 @@
     "LOADING": "Pobieranie atrybutów niestandardowych",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Rozmowa",
+      "CONTACT": "Kontakt"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Tekst",
+      "NUMBER": "Numer",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Lista",
+      "CHECKBOX": "Pole Wyboru"
+    },
     "ADD": {
       "TITLE": "Dodaj Atrybut Niestandardowy",
       "SUBMIT": "Utwórz",

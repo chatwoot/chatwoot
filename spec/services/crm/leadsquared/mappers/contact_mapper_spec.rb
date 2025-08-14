@@ -16,6 +16,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ContactMapper do
           name: 'John',
           last_name: 'Doe',
           email: 'john@example.com',
+          # the phone number is intentionally wrong
           phone_number: '+1234567890'
         )
 
@@ -28,6 +29,19 @@ RSpec.describe Crm::Leadsquared::Mappers::ContactMapper do
           'Mobile' => '+1234567890',
           'Source' => 'Test Brand'
         )
+      end
+
+      it 'represents the phone number correctly' do
+        contact.update!(
+          name: 'John',
+          last_name: 'Doe',
+          email: 'john@example.com',
+          phone_number: '+917507684392'
+        )
+
+        mapped_data = described_class.map(contact)
+
+        expect(mapped_data).to include('Mobile' => '+91-7507684392')
       end
     end
   end

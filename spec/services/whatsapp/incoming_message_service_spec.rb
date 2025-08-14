@@ -267,19 +267,16 @@ describe Whatsapp::IncomingMessageService do
                                     ] }] }.with_indifferent_access
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(Contact.all.first.name).to eq('Kedar')
-
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
 
-        # Two messages are tested deliberately to ensure multiple contact attachments work.
         m1 = whatsapp_channel.inbox.messages.first
-        contact_attachments = m1.attachments.first
         expect(m1.content).to eq('Apple Inc.')
-        expect(contact_attachments.fallback_title).to eq('+911800')
+        expect(m1.attachments.first.fallback_title).to eq('+911800')
+        expect(m1.attachments.first.meta).to eq({})
 
         m2 = whatsapp_channel.inbox.messages.last
-        contact_attachments = m2.attachments.first
         expect(m2.content).to eq('Chatwoot')
-        expect(contact_attachments.fallback_title).to eq('+1 (415) 341-8386')
+        expect(m2.attachments.first.meta).to eq({ 'firstName' => 'Chatwoot' })
       end
     end
 
@@ -372,6 +369,101 @@ describe Whatsapp::IncomingMessageService do
 
         expect(Redis::Alfred.get(key)).to be_truthy
         Redis::Alfred.delete(key)
+      end
+    end
+
+    context 'when profile name is available for contact updates' do
+      let(:wa_id) { '1234567890' }
+      let(:phone_number) { "+#{wa_id}" }
+
+      it 'updates existing contact name when current name matches phone number' do
+        # Create contact with phone number as name
+        existing_contact = create(:contact,
+                                  account: whatsapp_channel.inbox.account,
+                                  name: phone_number,
+                                  phone_number: phone_number)
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: whatsapp_channel.inbox,
+               source_id: wa_id)
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Jane Smith' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'message123', 'text' => { 'body' => 'Hello' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('Jane Smith')
+      end
+
+      it 'does not update contact name when current name is different from phone number' do
+        # Create contact with human name
+        existing_contact = create(:contact,
+                                  account: whatsapp_channel.inbox.account,
+                                  name: 'John Doe',
+                                  phone_number: phone_number)
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: whatsapp_channel.inbox,
+               source_id: wa_id)
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Jane Smith' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'message123', 'text' => { 'body' => 'Hello' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('John Doe') # Should not change
+      end
+
+      it 'updates contact name when current name matches formatted phone number' do
+        formatted_number = TelephoneNumber.parse(phone_number).international_number
+
+        # Create contact with formatted phone number as name
+        existing_contact = create(:contact,
+                                  account: whatsapp_channel.inbox.account,
+                                  name: formatted_number,
+                                  phone_number: phone_number)
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: whatsapp_channel.inbox,
+               source_id: wa_id)
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Alice Johnson' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'message123', 'text' => { 'body' => 'Hello' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('Alice Johnson')
+      end
+
+      it 'does not update when profile name is blank' do
+        # Create contact with phone number as name
+        existing_contact = create(:contact,
+                                  account: whatsapp_channel.inbox.account,
+                                  name: phone_number,
+                                  phone_number: phone_number)
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: whatsapp_channel.inbox,
+               source_id: wa_id)
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => '' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'message123', 'text' => { 'body' => 'Hello' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq(phone_number) # Should not change
       end
     end
   end

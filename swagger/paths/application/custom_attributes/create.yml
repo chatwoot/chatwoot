@@ -5,16 +5,22 @@ summary: Add a new custom attribute
 description: Add a new custom attribute to account
 security:
   - userApiKey: []
-parameters:
-  - name: data
-    in: body
-    required: true
-    schema:
-      $ref: '#/definitions/custom_attribute_create_update_payload'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/custom_attribute_create_update_payload'
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-       $ref: '#/definitions/custom_attribute'
-  403:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/custom_attribute'
+  '403':
     description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

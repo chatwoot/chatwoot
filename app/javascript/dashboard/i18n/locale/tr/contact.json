@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "Kişiler",
       "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Aktif kişiler",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Mesaj",
       "SEND_MESSAGE": "Mesajı Gönder",
@@ -457,6 +458,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "Bu işlem kalıcıdır ve geri alınamaz.",
+        "BUTTON": "Şimdi sil"
       }
     },
     "DETAILS": {
@@ -466,7 +471,7 @@
       "DELETE_CONTACT": "Kişiyi Sil",
       "DELETE_DIALOG": {
         "TITLE": "Silmeyi onayla",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Bu kişiyi silmek istediğinizden emin misiniz?",
         "CONFIRM": "Evet, Sil",
         "API": {
           "SUCCESS_MESSAGE": "Kişi başarıyla silindi",
@@ -545,8 +550,8 @@
         "YOU": "Sen",
         "SAVE": "Save note",
         "EXPAND": "Genişlet",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "Daralt",
+        "NO_NOTES": "Not yok, kişi detayları sayfasından not ekleyebilirsiniz.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
     },
@@ -555,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "Aramanızla eşleşen kişi bulunamadı 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "Şu anda aktif kişi yok 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

@@ -170,4 +170,21 @@ describe('#actions', () => {
       ]);
     });
   });
+  describe('#resetAccessToken', () => {
+    it('sends correct actions if API is success', async () => {
+      const mockResponse = {
+        data: { ...agentBotRecords[0], access_token: 'new_token_123' },
+      };
+      axios.post.mockResolvedValue(mockResponse);
+      const result = await actions.resetAccessToken(
+        { commit },
+        agentBotRecords[0].id
+      );
+
+      expect(commit.mock.calls).toEqual([
+        [types.EDIT_AGENT_BOT, mockResponse.data],
+      ]);
+      expect(result).toBe(mockResponse.data);
+    });
+  });
 });

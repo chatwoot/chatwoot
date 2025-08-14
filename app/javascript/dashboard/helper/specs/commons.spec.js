@@ -3,6 +3,7 @@ import {
   convertToAttributeSlug,
   convertToCategorySlug,
   convertToPortalSlug,
+  sanitizeVariableSearchKey,
 } from '../commons';
 
 describe('#createPendingMessage', () => {
@@ -78,5 +79,39 @@ describe('convertToCategorySlug', () => {
 describe('convertToPortalSlug', () => {
   it('should convert to slug', () => {
     expect(convertToPortalSlug('Room rental')).toBe('room-rental');
+  });
+});
+
+describe('sanitizeVariableSearchKey', () => {
+  it('removes braces', () => {
+    expect(sanitizeVariableSearchKey('{{contact.name}}')).toBe('contact.name');
+  });
+
+  it('removes right braces', () => {
+    expect(sanitizeVariableSearchKey('contact.name}}')).toBe('contact.name');
+  });
+
+  it('removes braces, comma and whitespace', () => {
+    expect(sanitizeVariableSearchKey(' {{contact.name }},')).toBe(
+      'contact.name'
+    );
+  });
+
+  it('trims whitespace', () => {
+    expect(sanitizeVariableSearchKey('  contact.name  ')).toBe('contact.name');
+  });
+
+  it('handles multiple commas', () => {
+    expect(sanitizeVariableSearchKey('{{contact.name}},,')).toBe(
+      'contact.name'
+    );
+  });
+
+  it('returns empty string when only braces/commas/whitespace', () => {
+    expect(sanitizeVariableSearchKey(' {  }, , ')).toBe('');
+  });
+
+  it('returns empty string for undefined input', () => {
+    expect(sanitizeVariableSearchKey()).toBe('');
   });
 });

@@ -29,6 +29,7 @@ const i18nMap = {
   'Channel::Line': 'LINE',
   'Channel::Api': 'API',
   'Channel::Instagram': 'INSTAGRAM',
+  'Channel::Voice': 'VOICE',
 };
 
 const twilioChannelName = () => {

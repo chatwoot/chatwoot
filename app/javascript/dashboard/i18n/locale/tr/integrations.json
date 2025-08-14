@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mesaj Güncellendi",
             "WEBWIDGET_TRIGGERED": "Kullanıcı tarafından canlı sohbet widget'ı açıldı",
             "CONTACT_CREATED": "Kişi Oluşturuldu",
-            "CONTACT_UPDATED": "Kişi Güncellendi"
+            "CONTACT_UPDATED": "Kişi Güncellendi",
+            "CONVERSATION_TYPING_ON": "Sohbet Yazıyor Açık",
+            "CONVERSATION_TYPING_OFF": "Sohbet Yazıyor Kapalı"
           }
         },
         "END_POINT": {
@@ -316,9 +318,24 @@
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
       },
+      "NO_LINKED_ISSUES": "Bağlanmış sorun bulunamadı",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the integration?",
         "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "Evet, sil",
+        "CANCEL": "İptal Et"
+      },
+      "CTA": {
+        "TITLE": "Linear'a bağlan",
+        "AGENT_DESCRIPTION": "Doğrusal çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için yöneticinizden bir çalışma alanı bağlamasını isteyin.",
+        "DESCRIPTION": "Linear çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için çalışma alanınızı bağlamak üzere aşağıdaki düğmeye tıklayın.",
+        "BUTTON_TEXT": "Linear çalışma alanını bağlayın"
+      }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the Notion integration?",
+        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
         "CONFIRM": "Evet, sil",
         "CANCEL": "İptal Et"
       }
@@ -328,21 +345,48 @@
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copilot",
+      "TRY_THESE_PROMPTS": "Try these prompts",
+      "PANEL_TITLE": "Copilot ile başlayın",
+      "KICK_OFF_MESSAGE": "Hızlı bir özet mi lazım, geçmiş sohbetleri mi kontrol etmek istiyorsunuz ya da daha iyi bir yanıt mı yazmak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
       "SEND_MESSAGE": "Mesajı Gönder...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "Yanıt oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
       "LOADER": "Captain is thinking",
       "YOU": "Sen",
       "USE": "Use this",
       "RESET": "Reset",
-      "SELECT_ASSISTANT": "Select Assistant"
+      "SHOW_STEPS": "Adımları göster",
+      "SELECT_ASSISTANT": "Select Assistant",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Bu sohbeti özetle",
+          "CONTENT": "Müşteri ile destek temsilcisi arasında tartışılan ana noktaları özetle; müşterinin endişeleri, soruları ve temsilcinin sunduğu çözümler veya yanıtlar dahil"
+        },
+        "SUGGEST": {
+          "LABEL": "Bir yanıt öner",
+          "CONTENT": "Müşterinin sorusunu analiz edin ve endişelerini veya sorularını etkili bir şekilde ele alan bir yanıt taslağı oluşturun. Yanıtın açık, öz ve bilgilendirici olmasını sağlayın."
+        },
+        "RATE": {
+          "LABEL": "Bu sohbeti değerlendir",
+          "CONTENT": "Sohbetin müşterinin ihtiyaçlarını ne kadar karşıladığını gözden geçirin. Ton, açıklık ve etkililik açısından 5 üzerinden bir puan verin."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "Yüksek öncelikli sohbetler",
+          "CONTENT": "Tüm yüksek öncelikli açık sohbetlerin bir özetini verin. Sohbet kimliği, müşteri adı (varsa), son mesaj içeriği ve atanan temsilciyi ekleyin. Gerekirse duruma göre gruplayın."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "Kişileri listele",
+          "CONTENT": "İlk 10 kişiyi göster. Ad, e-posta veya telefon numarası (varsa), son görülme zamanı ve etiketler (varsa) dahil olsun."
+        }
+      }
     },
     "PLAYGROUND": {
       "USER": "Sen",
       "ASSISTANT": "Assistant",
       "MESSAGE_PLACEHOLDER": "Mesajınız...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Oyun Alanı",
+      "DESCRIPTION": "Bu oyun alanını asistanınıza mesaj göndermek ve yanıtlarının doğru, hızlı ve beklediğiniz tonda olup olmadığını kontrol etmek için kullanın.",
+      "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
     },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
@@ -352,7 +396,6 @@
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
@@ -367,6 +410,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Assistants",
+      "NO_ASSISTANTS_AVAILABLE": "Hesabınızda kullanılabilir asistan yok.",
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
@@ -384,51 +428,90 @@
       "FORM": {
         "UPDATE": "Güncelleme",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
+          "BASIC_INFO": "Temel Bilgiler",
+          "SYSTEM_MESSAGES": "Sistem Mesajları",
+          "INSTRUCTIONS": "Talimatlar",
           "FEATURES": "Özellikleri",
-          "TOOLS": "Tools "
+          "TOOLS": "Araçlar "
         },
         "NAME": {
           "LABEL": "İsim",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Asistan adını girin",
+          "ERROR": "Ad gereklidir"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Yanıt Sıcaklığı",
+          "DESCRIPTION": "Asistanın yanıtlarının ne kadar yaratıcı veya kısıtlayıcı olması gerektiğini ayarlayın. Düşük değerler daha odaklı ve deterministik yanıtlar üretir, yüksek değerler ise daha yaratıcı ve çeşitli yanıtlar sağlar."
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Asistan açıklamasını girin",
+          "ERROR": "Açıklama gereklidir"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Ürün adını girin",
+          "ERROR": "The product name is required"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Karşılama Mesajı",
+          "PLACEHOLDER": "Karşılama mesajı girin"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Aktarım Mesajı",
+          "PLACEHOLDER": "Aktarım mesajı girin"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Çözüm Mesajı",
+          "PLACEHOLDER": "Çözüm mesajı girin"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "Talimatlar",
+          "PLACEHOLDER": "Asistan için talimatları girin"
         },
         "FEATURES": {
           "TITLE": "Özellikleri",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
+          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
         "TITLE": "Update the assistant",
         "SUCCESS_MESSAGE": "The assistant has been successfully updated",
         "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "Asistan bulunamadı. Lütfen tekrar deneyin."
+      },
+      "SETTINGS": {
+        "BREADCRUMB": {
+          "ASSISTANT": "Assistant"
+        },
+        "BASIC_SETTINGS": {
+          "TITLE": "Basic settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "System settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "The Fun Stuff",
+          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Guardrails",
+              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+            },
+            "SCENARIOS": {
+              "TITLE": "Scenarios",
+              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Response guidelines",
+              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+            }
+          }
+        }
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
@@ -441,6 +524,169 @@
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
           "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Guardrails",
+        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "BREADCRUMB": {
+          "TITLE": "Guardrails"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "Sil"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example guardrails",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another guardrail..."
+          },
+          "NEW": {
+            "TITLE": "Add a guardrail",
+            "CREATE": "Yarat",
+            "CANCEL": "İptal Et",
+            "PLACEHOLDER": "Type in another guardrail...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Search..."
+        },
+        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Guardrails added successfully",
+            "ERROR": "There was an error adding guardrails, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Guardrails updated successfully",
+            "ERROR": "There was an error updating guardrails, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Guardrails deleted successfully",
+            "ERROR": "There was an error deleting guardrails, please try again."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Response Guidelines",
+        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "BREADCRUMB": {
+          "TITLE": "Response Guidelines"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "Sil"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example response guidelines",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another response guideline..."
+          },
+          "NEW": {
+            "TITLE": "Add a response guideline",
+            "CREATE": "Yarat",
+            "CANCEL": "İptal Et",
+            "PLACEHOLDER": "Type in another response guideline...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Search..."
+        },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Response Guidelines added successfully",
+            "ERROR": "There was an error adding response guidelines, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Response Guidelines updated successfully",
+            "ERROR": "There was an error updating response guidelines, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Response Guidelines deleted successfully",
+            "ERROR": "There was an error deleting response guidelines, please try again."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Scenarios",
+        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "BREADCRUMB": {
+          "TITLE": "Scenarios"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "Sil"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example scenarios",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "TOOLS_USED": "Tools used :"
+          },
+          "NEW": {
+            "CREATE": "Add a scenario",
+            "TITLE": "Create a scenario",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "Başlık",
+                "PLACEHOLDER": "Enter a name for the scenario",
+                "ERROR": "Scenario name is required"
+              },
+              "DESCRIPTION": {
+                "LABEL": "Açıklama",
+                "PLACEHOLDER": "Describe how and where this scenario will be used",
+                "ERROR": "Scenario description is required"
+              },
+              "INSTRUCTION": {
+                "LABEL": "How to handle",
+                "PLACEHOLDER": "Describe how and where this scenario will be handled",
+                "ERROR": "Scenario content is required"
+              },
+              "CREATE": "Yarat",
+              "CANCEL": "İptal Et"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "İptal Et",
+          "UPDATE": "Update changes"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Search..."
+        },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Scenarios added successfully",
+            "ERROR": "There was an error adding scenarios, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Scenarios updated successfully",
+            "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Scenarios deleted successfully",
+            "ERROR": "There was an error deleting scenarios, please try again."
+          }
         }
       }
     },
@@ -496,6 +742,8 @@
         "CONVERSATION": "Conversation #{id}"
       },
       "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Sil",
       "BULK_APPROVE": {

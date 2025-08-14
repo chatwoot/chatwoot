@@ -38,6 +38,11 @@ class Api::V1::ProfilesController < Api::BaseController
     head :ok
   end
 
+  def reset_access_token
+    @user.access_token.regenerate_token
+    @user.reload
+  end
+
   private
 
   def set_user

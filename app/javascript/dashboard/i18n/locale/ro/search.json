@@ -4,12 +4,14 @@
       "ALL": "Toate",
       "CONTACTS": "Contacte",
       "CONVERSATIONS": "Conversații",
-      "MESSAGES": "Mesaje"
+      "MESSAGES": "Mesaje",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Contacte",
       "CONVERSATIONS": "Conversații",
-      "MESSAGES": "Mesaje"
+      "MESSAGES": "Mesaje",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

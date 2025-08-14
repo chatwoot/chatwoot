@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "Kontaktpersonas",
       "SEARCH_TITLE": "Meklēt kontaktpersonas",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Meklēt...",
       "MESSAGE_BUTTON": "Ziņojums",
       "SEND_MESSAGE": "Sūtīt ziņojumu",
@@ -457,6 +458,10 @@
             "PLACEHOLDER": "Pievienot Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +471,7 @@
       "DELETE_CONTACT": "Dzēst kontaktpersonu",
       "DELETE_DIALOG": {
         "TITLE": "Apstiprināt Dzēšanu",
-        "DESCRIPTION": "Vai tiešām vēlaties dzēst šo {contactName} kontaktpersonu?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "Jā, Dzēst",
         "API": {
           "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi izdzēsta",
@@ -555,7 +560,8 @@
       "SUBTITLE": "Sāciet pievienot jaunas kontaktpersonas, noklikšķinot uz tālāk esošās pogas",
       "BUTTON_LABEL": "Pievienot kontaktpersonu",
       "SEARCH_EMPTY_STATE_TITLE": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
-      "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋"
+      "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

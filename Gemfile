@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '3.3.3'
+ruby '3.4.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.0.8.4'
+gem 'rails', '~> 7.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -33,6 +33,8 @@ gem 'liquid'
 gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
+# used in swagger build
+gem 'json_refs'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack', '>= 6.7.0'
 # a utility tool for streaming, flexible and safe downloading of remote files
@@ -119,6 +121,8 @@ gem 'sentry-sidekiq', '>= 5.19.0', require: false
 gem 'sidekiq', '>= 7.3.1'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
+# for sidekiq healthcheck
+gem 'sidekiq_alive'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -175,6 +179,10 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
+gem 'ai-agents', '>= 0.4.3'
+
+# TODO: Move this gem as a dependency of ai-agents
+gem 'ruby_llm-schema'
 
 gem 'shopify_api'
 
@@ -195,9 +203,6 @@ group :development do
   gem 'letter_opener'
   gem 'scss_lint', require: false
   gem 'web-console', '>= 4.2.1'
-
-  # used in swagger build
-  gem 'json_refs'
 
   # When we want to squash migrations
   gem 'squasher'
@@ -237,6 +242,7 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
   gem 'simplecov', '0.17.1', require: false

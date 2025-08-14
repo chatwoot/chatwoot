@@ -1,6 +1,10 @@
 class SearchService
   pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
 
+  def account_user
+    @account_user ||= current_account.account_users.find_by(user: current_user)
+  end
+
   def perform
     case search_type
     when 'Message'
@@ -9,8 +13,10 @@ class SearchService
       { conversations: filter_conversations }
     when 'Contact'
       { contacts: filter_contacts }
+    when 'Article'
+      { articles: filter_articles }
     else
-      { contacts: filter_contacts, messages: filter_messages, conversations: filter_conversations }
+      { contacts: filter_contacts, messages: filter_messages, conversations: filter_conversations, articles: filter_articles }
     end
   end
 
@@ -76,8 +82,17 @@ class SearchService
   end
 
   def message_base_query
-    current_account.messages.where(inbox_id: accessable_inbox_ids)
-                   .where('created_at >= ?', 3.months.ago)
+    query = current_account.messages.where('created_at >= ?', 3.months.ago)
+    query = query.where(inbox_id: accessable_inbox_ids) unless should_skip_inbox_filtering?
+    query
+  end
+
+  def should_skip_inbox_filtering?
+    account_user.administrator? || user_has_access_to_all_inboxes?
+  end
+
+  def user_has_access_to_all_inboxes?
+    accessable_inbox_ids.sort == current_account.inboxes.pluck(:id).sort
   end
 
   def use_gin_search
@@ -88,6 +103,15 @@ class SearchService
     @contacts = current_account.contacts.where(
       "name ILIKE :search OR email ILIKE :search OR phone_number
       ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
-    ).resolved_contacts.order_on_last_activity_at('desc').page(params[:page]).per(15)
+    ).resolved_contacts(
+      use_crm_v2: current_account.feature_enabled?('crm_v2')
+    ).order_on_last_activity_at('desc').page(params[:page]).per(15)
+  end
+
+  def filter_articles
+    @articles = current_account.articles
+                               .text_search(search_query)
+                               .page(params[:page])
+                               .per(15)
   end
 end

@@ -1,0 +1,8 @@
+type: object
+properties:
+  count:
+    type: integer
+    description: Total number of contacts
+  current_page:
+    type: string
+    description: Current page number 

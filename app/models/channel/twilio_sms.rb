@@ -30,6 +30,11 @@ class Channel::TwilioSms < ApplicationRecord
   # The same parameter is used to store api_key_secret if api_key authentication is opted
   validates :auth_token, presence: true
 
+  EDITABLE_ATTRS = [
+    :account_sid,
+    :auth_token
+  ].freeze
+
   # Must have _one_ of messaging_service_sid _or_ phone_number, and messaging_service_sid is preferred
   validates :messaging_service_sid, uniqueness: true, presence: true, unless: :phone_number?
   validates :phone_number, absence: true, if: :messaging_service_sid?

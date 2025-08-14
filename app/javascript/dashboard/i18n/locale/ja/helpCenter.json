@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "ポータルが正常に削除されました",
             "DELETE_ERROR": "ポータルの削除中にエラーが発生しました"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -726,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "ホームページリンク",
           "PLACEHOLDER": "ポータルホームページリンク",
-          "ERROR": "無効なURLです。ホームページリンクは「http://」または「https://」で始まる必要があります。"
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "スラッグ",
@@ -747,9 +753,15 @@
           "HEADER": "カスタムドメイン",
           "LABEL": "カスタムドメイン:",
           "DESCRIPTION": "ポータルをカスタムドメインでホストできます。例えば、あなたのウェブサイトがyourdomain.comで、ポータルをdocs.yourdomain.comで利用したい場合、このフィールドに入力してください。",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
           "PLACEHOLDER": "ポータルカスタムドメイン",
-          "EDIT_BUTTON": "カスタムドメインを編集",
+          "EDIT_BUTTON": "編集",
           "ADD_BUTTON": "カスタムドメインを追加",
+          "STATUS": {
+            "LIVE": "Live",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
           "DIALOG": {
             "ADD_HEADER": "カスタムドメインを追加",
             "EDIT_HEADER": "カスタムドメインを編集",
@@ -757,13 +769,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "ドメインを更新",
             "LABEL": "カスタムドメイン",
             "PLACEHOLDER": "ポータルカスタムドメイン",
-            "ERROR": "カスタムドメインは必須です"
+            "ERROR": "カスタムドメインは必須です",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS設定",
             "DESCRIPTION": "DNSプロバイダーのアカウントにログインし、サブドメインのCNAMEレコードをchatwoot.helpにポイントするように追加してください。",
-            "HELP_TEXT": "これが完了したら、自動生成されたSSL証明書のリクエストのためにサポートに連絡できます。",
-            "CONFIRM_BUTTON_LABEL": "了解しました！"
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "送信"
+            }
           }
         },
         "DELETE_PORTAL": {
