@@ -124,18 +124,6 @@
         "FACEBOOK": {
           "PLACEHOLDER": "Digite o nome de usuário do Facebook",
           "LABEL": "Facebook"
-        },
-        "TWITTER": {
-          "PLACEHOLDER": "Digite o nome de usuário Twitter",
-          "LABEL": "Twitter"
-        },
-        "LINKEDIN": {
-          "PLACEHOLDER": "Digite o nome de usuário do LinkedIn",
-          "LABEL": "LinkedIn"
-        },
-        "GITHUB": {
-          "PLACEHOLDER": "Digite o nome de usuário do Github",
-          "LABEL": "Github"
         }
       }
     },
@@ -445,17 +433,8 @@
           "FACEBOOK": {
             "PLACEHOLDER": "Adicionar Facebook"
           },
-          "GITHUB": {
-            "PLACEHOLDER": "Adicionar Github"
-          },
           "INSTAGRAM": {
             "PLACEHOLDER": "Adicionar Instagram"
-          },
-          "LINKEDIN": {
-            "PLACEHOLDER": "Adicionar LinkedIn"
-          },
-          "TWITTER": {
-            "PLACEHOLDER": "Adicionar Twitter"
           }
         }
       },

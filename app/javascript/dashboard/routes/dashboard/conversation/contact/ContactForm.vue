@@ -51,15 +51,9 @@ export default {
       city: '',
       socialProfileUserNames: {
         facebook: '',
-        twitter: '',
-        linkedin: '',
-        github: '',
       },
       socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
-        { key: 'twitter', prefixURL: 'https://twitter.com/' },
-        { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
-        { key: 'github', prefixURL: 'https://github.com/' },
       ],
     };
   },
@@ -163,13 +157,9 @@ export default {
       this.avatarUrl = this.contact.thumbnail || '';
       const {
         social_profiles: socialProfiles = {},
-        screen_name: twitterScreenName,
       } = additionalAttributes;
       this.socialProfileUserNames = {
-        twitter: socialProfiles.twitter || twitterScreenName || '',
         facebook: socialProfiles.facebook || '',
-        linkedin: socialProfiles.linkedin || '',
-        github: socialProfiles.github || '',
         instagram: socialProfiles.instagram || '',
       };
     },

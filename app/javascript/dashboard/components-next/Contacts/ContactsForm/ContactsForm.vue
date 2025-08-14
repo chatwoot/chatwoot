@@ -41,11 +41,8 @@ const FORM_CONFIG = {
 };
 
 const SOCIAL_CONFIG = {
-  // LINKEDIN: 'i-ri-linkedin-box-fill',
   FACEBOOK: 'i-ri-facebook-circle-fill',
   INSTAGRAM: 'i-ri-instagram-line',
-  // TWITTER: 'i-ri-twitter-x-fill',
-  // GITHUB: 'i-ri-github-fill',
 };
 
 const defaultState = {
@@ -63,10 +60,7 @@ const defaultState = {
     city: '',
     socialProfiles: {
       facebook: '',
-      github: '',
       instagram: '',
-      linkedin: '',
-      twitter: '',
     },
   },
 };

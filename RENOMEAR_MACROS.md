@@ -293,9 +293,23 @@ Após fazer as alterações:
 
 ---
 
+## ✅ ALTERAÇÕES CONFIRMADAS
+
+### **STATUS DE IMPLEMENTAÇÃO:**
+
+**📁 app/javascript/dashboard/i18n/locale/pt_BR/settings.json**
+- ✅ **CONCLUÍDO** - Linha 308: `"MACROS": "Atalhos"` ✨
+- ✅ **TESTADO** - Menu lateral "Configurações" → "Atalhos"
+
+**📁 Próximas alterações recomendadas:**
+- 📋 `conversation.json` - Sidebar da conversa
+- 📋 `macros.json` - Página completa de macros
+
+---
+
 ## 📞 Suporte
 
 Este documento foi criado para facilitar a customização do Chatwoot. Para dúvidas técnicas específicas, consulte a documentação oficial do Chatwoot.
 
 **Data de criação:** Dezembro 2024  
-**Versão:** 1.0
+**Versão:** 1.1 - Atualizada com confirmações de implementação
