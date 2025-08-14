@@ -367,8 +367,8 @@ Performance/Count:
 RSpec/PredicateMatcher:
   Enabled: false
 
-RSpec/RedundantTypeSpec:
+RSpec/DescribeClass:
   Enabled: false
 
-Performance/MapPluck:
+Performance/MapCompact:
   Enabled: false
