@@ -11,16 +11,34 @@ class Whatsapp::EmbeddedSignupService
 
   def perform
     validate_parameters!
-    # Exchange code for user access token
-    access_token = Whatsapp::TokenExchangeService.new(@code).perform
+    access_token = exchange_code_for_token
+    phone_info = fetch_phone_info(access_token)
+    validate_token_access(access_token)
 
-    # Fetch phone information
-    phone_info = Whatsapp::PhoneInfoService.new(@waba_id, @phone_number_id, access_token).perform
+    channel = create_or_reauthorize_channel(access_token, phone_info)
+    channel.setup_webhooks
+    channel
 
-    # Validate token has access to the WABA
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Embedded signup failed: #{e.message}")
+    raise e
+  end
+
+  private
+
+  def exchange_code_for_token
+    Whatsapp::TokenExchangeService.new(@code).perform
+  end
+
+  def fetch_phone_info(access_token)
+    Whatsapp::PhoneInfoService.new(@waba_id, @phone_number_id, access_token).perform
+  end
+
+  def validate_token_access(access_token)
     Whatsapp::TokenValidationService.new(access_token, @waba_id).perform
+  end
 
-    # Reauthorization flow if inbox_id is present
+  def create_or_reauthorize_channel(access_token, phone_info)
     if @inbox_id.present?
       Whatsapp::ReauthorizationService.new(
         account: @account,
@@ -29,18 +47,12 @@ class Whatsapp::EmbeddedSignupService
         business_id: @business_id
       ).perform(access_token, phone_info)
     else
-      # Create channel for new authorization
       waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
       channel = Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token, @is_business_app_onboarding).perform
       enable_sync_features(channel, access_token) if channel && @is_business_app_onboarding
       channel
     end
-  rescue StandardError => e
-    Rails.logger.error("[WHATSAPP] Embedded signup failed: #{e.message}")
-    raise e
   end
-
-  private
 
   def validate_parameters!
     missing_params = []
