@@ -1,13 +1,13 @@
 <script>
 import { ref, provide } from 'vue';
 // composable
+import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-import Message from './Message.vue';
 import TypingIndicator from 'next/Conversation/Chips/TypingIndicator.vue';
 import UnreadIndicator from 'next/Conversation/Chips/UnreadIndicator.vue';
 import MessageList from 'next/message/MessageList.vue';
@@ -38,6 +38,7 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
