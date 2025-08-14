@@ -6,7 +6,7 @@
           v-if="showAvatar"
           :src="contact.thumbnail"
           size="56px"
-          :username="contact.name"
+          :username="displayName"
           :status="contact.availability_status"
         />
         <woot-button
@@ -22,7 +22,7 @@
           <h3
             class="flex-shrink min-w-0 text-base text-slate-800 dark:text-slate-100 capitalize my-0 max-w-full break-words"
           >
-            {{ contact.name }}
+            {{ displayName }}
           </h3>
           <div class="flex flex-row items-center gap-1">
             <fluent-icon
@@ -218,6 +218,7 @@ import {
 } from '../../../../helper/routeHelpers';
 import Calling from '../../../../api/callling';
 import callingIcon from '../../../../assets/images/calling.svg';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -312,6 +313,9 @@ export default {
     // Delete Modal
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
+    },
+    displayName() {
+      return getContactDisplayName(this.contact);
     },
     shouldShowContactDetails() {
       const contactMasking =

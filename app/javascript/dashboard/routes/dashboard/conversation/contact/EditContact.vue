@@ -3,9 +3,7 @@
   <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
     <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
-        :header-title="`${$t('EDIT_CONTACT.TITLE')} - ${
-          contact.name || contact.email
-        }`"
+        :header-title="`${$t('EDIT_CONTACT.TITLE')} - ${displayName}`"
         :header-content="$t('EDIT_CONTACT.DESC')"
       />
       <contact-form
@@ -22,6 +20,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import ContactForm from './ContactForm.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -42,6 +41,9 @@ export default {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
     }),
+    displayName() {
+      return getContactDisplayName(this.contact);
+    },
   },
 
   methods: {

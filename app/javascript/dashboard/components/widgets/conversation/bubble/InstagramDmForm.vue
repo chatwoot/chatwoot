@@ -67,13 +67,13 @@
               <thumbnail
                 :src="contact.thumbnail"
                 size="24px"
-                :username="contact.name"
+                :username="displayName"
                 :status="contact.availability_status"
               />
               <h4
                 class="m-0 ml-2 mr-2 text-slate-700 dark:text-slate-100 text-sm"
               >
-                {{ contact.name }}
+                {{ displayName }}
               </h4>
             </div>
           </label>
@@ -144,6 +144,7 @@ import inboxMixin, { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import conversationsApi from '../../../../api/conversations';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -260,6 +261,9 @@ export default {
     },
     inbox() {
       return this.targetInbox;
+    },
+    displayName() {
+      return getContactDisplayName(this.contact);
     },
   },
   watch: {

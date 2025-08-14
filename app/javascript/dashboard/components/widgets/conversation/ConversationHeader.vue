@@ -15,7 +15,7 @@
         <Thumbnail
           :src="currentContact.thumbnail"
           :badge="inboxBadge"
-          :username="currentContact.name"
+          :username="displayName"
           :status="currentContact.availability_status"
         />
         <div
@@ -33,7 +33,7 @@
               <span
                 class="text-base font-medium leading-tight text-slate-900 dark:text-slate-100"
               >
-                {{ currentContact.name }}
+                {{ displayName }}
               </span>
             </woot-button>
             <fluent-icon
@@ -95,6 +95,7 @@ import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Linear from './linear/index.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -198,6 +199,9 @@ export default {
         this.accountId,
         FEATURE_FLAGS.LINEAR
       );
+    },
+    displayName() {
+      return getContactDisplayName(this.currentContact);
     },
   },
 

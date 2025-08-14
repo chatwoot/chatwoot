@@ -3,7 +3,7 @@
   <woot-modal :show.sync="show" size="medium" :on-close="onCancel">
     <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
-        :header-title="`Send Instagram DM to ${contact.name}`"
+        :header-title="`Send Instagram DM to ${displayName}`"
       />
       <instagram-dm-form
         :contact="contact"
@@ -20,6 +20,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import InstagramDmForm from './InstagramDmForm.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -50,6 +51,9 @@ export default {
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
+    },
+    displayName() {
+      return getContactDisplayName(this.contact);
     },
   },
   watch: {

@@ -2,7 +2,7 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
-      :header-title="`Unsubscribe - ${contact.name}`"
+      :header-title="`Unsubscribe - ${displayName}`"
       :header-content="`Are you sure you want to unsubscribe ${contact.phone_number}?`"
     />
     <div class="modal-footer delete-item">
@@ -28,6 +28,7 @@ import axios from 'axios';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import Modal from '../../../../components/Modal';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 export default {
   components: {
     Modal,
@@ -48,9 +49,14 @@ export default {
       uiFlags: 'contacts/getUIFlags',
       currentAccountId: 'getCurrentAccountId',
     }),
+    displayName() {
+      return getContactDisplayName(this.contact);
+    },
   },
 
   mixins: [alertMixin],
+
+  created() {},
 
   methods: {
     onClose() {

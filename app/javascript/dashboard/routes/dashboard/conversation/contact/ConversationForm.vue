@@ -65,13 +65,13 @@
               <thumbnail
                 :src="contact.thumbnail"
                 size="24px"
-                :username="contact.name"
+                :username="displayName"
                 :status="contact.availability_status"
               />
               <h4
                 class="m-0 ml-2 mr-2 text-slate-700 dark:text-slate-100 text-sm"
               >
-                {{ contact.name }}
+                {{ displayName }}
               </h4>
             </div>
           </label>
@@ -283,6 +283,7 @@ import FileUpload from 'vue-upload-component';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import WhatsappTemplates from './WhatsappTemplates.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -462,6 +463,9 @@ export default {
     },
     allowedFileTypes() {
       return ALLOWED_FILE_TYPES;
+    },
+    displayName() {
+      return getContactDisplayName(this.contact);
     },
   },
   watch: {

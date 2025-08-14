@@ -3,13 +3,13 @@
     <thumbnail
       :src="contact.thumbnail"
       size="64px"
-      :username="contact.name"
+      :username="displayName"
       :status="contact.availability_status"
     />
 
     <div class="contact--details">
       <h2 class="text-lg contact--name">
-        {{ contact.name }}
+        {{ displayName }}
       </h2>
       <h3 class="text-base contact--work">
         {{ contact.title }}
@@ -44,6 +44,7 @@
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from 'dashboard/routes/dashboard/conversation/contact/SocialIcons.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -58,6 +59,9 @@ export default {
   },
 
   computed: {
+    displayName() {
+      return getContactDisplayName(this.contact);
+    },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
     },

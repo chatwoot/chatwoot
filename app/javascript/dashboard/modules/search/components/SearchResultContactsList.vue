@@ -10,7 +10,7 @@
       <li v-for="contact in contacts" :key="contact.id">
         <search-result-contact-item
           :id="contact.id"
-          :name="contact.name"
+          :name="contactDisplayName(contact)"
           :email="contact.email"
           :phone="contact.phone_number"
           :account-id="accountId"
@@ -23,6 +23,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 import SearchResultSection from './SearchResultSection.vue';
 import SearchResultContactItem from './SearchResultContactItem.vue';
@@ -54,6 +55,11 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+  },
+  methods: {
+    contactDisplayName(contact) {
+      return getContactDisplayName(contact);
+    },
   },
 };
 </script>

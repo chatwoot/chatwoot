@@ -10,7 +10,7 @@
       <li v-for="conversation in conversations" :key="conversation.id">
         <search-result-conversation-item
           :id="conversation.id"
-          :name="conversation.contact.name"
+          :name="contactDisplayName(conversation.contact)"
           :email="conversation.contact.email"
           :account-id="accountId"
           :inbox="conversation.inbox"
@@ -25,6 +25,7 @@
 import { mapGetters } from 'vuex';
 import SearchResultSection from './SearchResultSection.vue';
 import SearchResultConversationItem from './SearchResultConversationItem.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -53,6 +54,11 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+  },
+  methods: {
+    contactDisplayName(contact) {
+      return getContactDisplayName(contact);
+    },
   },
 };
 </script>

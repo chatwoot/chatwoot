@@ -26,7 +26,7 @@
       v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
-      :username="currentContact.name"
+      :username="displayName"
       :status="currentContact.availability_status"
       size="40px"
     />
@@ -53,7 +53,7 @@
       <h4
         class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis font-medium overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-slate-900 dark:text-slate-100"
       >
-        {{ currentContact.name }}
+        {{ displayName }}
       </h4>
       <message-preview
         v-if="lastMessageInChat"
@@ -131,6 +131,7 @@ import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -274,6 +275,9 @@ export default {
     },
     hasSlaPolicyId() {
       return this.chat?.sla_policy_id;
+    },
+    displayName() {
+      return getContactDisplayName(this.currentContact);
     },
   },
   watch: {

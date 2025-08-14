@@ -4,7 +4,7 @@
   >
     <settings-header
       button-route="new"
-      :header-title="contact.name"
+      :header-title="displayName"
       show-back-button
       :back-button-label="$t('CONTACT_PROFILE.BACK_BUTTON')"
       :back-url="backUrl"
@@ -13,7 +13,7 @@
       <thumbnail
         v-if="contact.thumbnail"
         :src="contact.thumbnail"
-        :username="contact.name"
+        :username="displayName"
         size="32px"
         class="mr-2 rtl:mr-0 rtl:ml-2"
       />
@@ -60,6 +60,7 @@ import ContactNotes from 'dashboard/modules/notes/NotesOnContactPage.vue';
 import SettingsHeader from '../../settings/SettingsHeader.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 
 export default {
   components: {
@@ -98,6 +99,9 @@ export default {
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
+    },
+    displayName() {
+      return getContactDisplayName(this.contact);
     },
     backUrl() {
       return `/app/accounts/${this.$route.params.accountId}/contacts`;

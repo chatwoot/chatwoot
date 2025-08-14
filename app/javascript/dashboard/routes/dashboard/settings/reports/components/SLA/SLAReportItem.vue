@@ -2,6 +2,7 @@
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import CardLabels from 'dashboard/components/widgets/conversation/conversationCardComponents/CardLabels.vue';
 import SLAViewDetails from './SLAViewDetails.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 defineProps({
   slaName: {
     type: String,
@@ -34,7 +35,7 @@ defineProps({
       </span>
       <span class="text-slate-600 dark:text-slate-300">with </span>
       <span class="text-slate-700 dark:text-slate-200 capitalize truncate">{{
-        conversation.contact.name
+        getContactDisplayName(conversation.contact)
       }}</span>
       <card-labels
         class="w-[80%]"

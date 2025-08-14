@@ -33,6 +33,7 @@ import { getCountryFlag } from 'dashboard/helper/flag';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { getContactDisplayName } from 'shared/helpers/contactHelper';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
 import rtlMixin from 'shared/mixins/rtlMixin';
@@ -107,6 +108,7 @@ export default {
         const { created_at: createdAt } = item;
         return {
           ...item,
+          name: getContactDisplayName(item),
           phone_number: item.phone_number || '---',
           company: additional.company_name || '---',
           profiles: additional.social_profiles || {},
