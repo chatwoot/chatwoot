@@ -1,4 +1,4 @@
-class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder # rubocop:disable Metrics/ClassLength
+class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder
   private
 
   def create
@@ -7,26 +7,25 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder # rubocop:
     document_store = AiAgents::FlowiseService.add_document_store(ai_agent_params)
 
     begin
-      chat_flow = load_chat_flow(document_store['id'])
+      chat_flow = build_flow_data(document_store['id'])
 
       ActiveRecord::Base.transaction do
         account.ai_agents.add_ai_agent(ai_agent_params, chat_flow, document_store)
       end
     rescue StandardError => e
       Rails.logger.error("❌ Failed to create AI Agent: #{e.message}")
-      cleanup_resources(chat_flow, document_store)
+      cleanup_resources(document_store)
       raise e
     end
   end
 
   def destroy
-    chat_flow_id = ai_agent.chat_flow_id
     store_id = ai_agent.knowledge_source&.store_id
 
     raise StandardError, 'Failed to delete AI Agent' unless ai_agent.destroy
 
     begin
-      cleanup_resources(chat_flow_id, store_id)
+      cleanup_resources(store_id)
     rescue StandardError => e
       Rails.logger.error("❌ Failed to delete chat flow: #{e.message}")
       raise 'Failed to delete chat flow'
@@ -46,13 +45,11 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder # rubocop:
     raise 'Failed to update AI Agent'
   end
 
-  def load_chat_flow(document_store_id)
+  def build_flow_data(document_store_id)
     store_config, collection_name = flowise_builder.store_config(document_store_id)
-    flow_data = build_flow_data(collection_name)
-    display_flow_data = build_display_flow_data(flow_data, collection_name)
-    flowise_chat_flow = load_flowise_chat_flow(collection_name) if flowise_template?
+    flow_data = jangkau_builder.perform(collection_name)
 
-    build_response(flowise_chat_flow, flow_data, display_flow_data, store_config)
+    build_response(flow_data, store_config)
   rescue StandardError => e
     Rails.logger.error("❌ Failed to load chat flow: #{e.message}")
     raise e
@@ -65,17 +62,8 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder # rubocop:
     raise e
   end
 
-  def cleanup_resources(chat_flow, document_store)
-    cleanup_chat_flow(chat_flow)
+  def cleanup_resources(document_store)
     cleanup_document_store(document_store)
-  end
-
-  def cleanup_chat_flow(chat_flow)
-    chat_flow_id = extract_id(chat_flow)
-    return if chat_flow_id.blank?
-    return unless should_cleanup_chat_flow?
-
-    AiAgents::FlowiseService.delete_chat_flow(id: chat_flow_id)
   end
 
   def cleanup_document_store(document_store)
@@ -83,12 +71,6 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder # rubocop:
     return if store_id.blank?
 
     AiAgents::FlowiseService.delete_document_store(store_id: store_id)
-  end
-
-  def load_flowise_chat_flow(collection_name)
-    chat_flow_name = generate_chat_flow_name
-
-    AiAgents::FlowiseService.load_chat_flow(chat_flow_name, build_flow_data(collection_name))
   end
 
   def update_flowise_chat_flow
@@ -103,27 +85,10 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder # rubocop:
     "#{environment_prefix} - #{ai_agent_params[:name]}"
   end
 
-  def build_flow_data(collection_name = 'default_collection')
-    if flowise_template?
-      flowise_builder.create_flow_data
-    else
-      jangkau_builder.perform(collection_name)
-    end
-  end
-
-  def build_display_flow_data(flow_data, collection_name = 'default_collection')
-    if flowise_template?
-      flowise_builder.perform(collection_name)
-    else
-      flow_data
-    end
-  end
-
-  def build_response(flowise_chat_flow, flow_data, display_flow_data, store_config)
+  def build_response(flow_data, store_config)
     {
-      'id' => flowise_chat_flow&.dig('id'),
       'flow_data' => flow_data,
-      'display_flow_data' => display_flow_data,
+      'display_flow_data' => flow_data,
       'store_config' => store_config
     }
   end
@@ -135,22 +100,6 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder # rubocop:
     when String, Integer
       resource
     end
-  end
-
-  def flowise_template?
-    is_flowise = ai_agent_params[:agent_type] != AiAgent.agent_types[:multi_agent] &&
-                 ai_agent_templates.first.source_type == AiAgent.template_types[:flowise]
-
-    ai_agent_params[:template_type] = is_flowise ? AiAgent.template_types[:flowise] : AiAgent.template_types[:jangkau]
-    is_flowise
-  end
-
-  def should_cleanup_chat_flow?
-    return flowise_template? if defined?(ai_agent_params)
-
-    return flowise_template? if defined?(ai_agent)
-
-    true
   end
 
   def flowise_builder
@@ -229,8 +178,8 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder # rubocop:
   def ai_agent_params
     @ai_agent_params ||= params.require(:ai_agent).permit(
       :name, :description, :template_id, :template_ids, :template_type, :agent_type,
-      :system_prompts, :welcoming_message, :routing_conditions, :control_flow_rules, 
-      :llm_model, :history_limit, :context_limit, :message_await, :message_limit, :timezone, 
+      :system_prompts, :welcoming_message, :routing_conditions, :control_flow_rules,
+      :llm_model, :history_limit, :context_limit, :message_await, :message_limit, :timezone,
       flow_data: {}, selected_labels: %i[label_id label_condition]
     ).to_h.with_indifferent_access
   end

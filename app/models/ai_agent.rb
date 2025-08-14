@@ -37,7 +37,7 @@ class AiAgent < ApplicationRecord
   validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }
 
   enum template_type: { flowise: 'FLOWISE', jangkau: 'JANGKAU' }
-  enum agent_type: { single_agent: 'single-agent', multi_agent: 'multi-agent', custom_agent: 'custom-agent' }
+  enum agent_type: { single_agent: 'single_agent', multi_agent: 'multi_agent', custom_agent: 'custom_agent' }
 
   scope :flowise, -> { where(template_type: :flowise) }
   scope :jangkau, -> { where(template_type: :jangkau) }
@@ -53,6 +53,14 @@ class AiAgent < ApplicationRecord
       name: name,
       type: 'agent_bot'
     }
+  end
+
+  def self.agent_type_matches?(param_type, enum_key)
+    agent_types[param_type] == agent_types[enum_key]
+  end
+
+  def self.source_type_matches?(param_type, enum_key)
+    template_types[param_type] == template_types[enum_key]
   end
 
   def self.add_ai_agent(params, chat_flow, document_store)
@@ -82,6 +90,7 @@ class AiAgent < ApplicationRecord
       name: name,
       description: description,
       agent_type: agent_type,
+      template_type: template_type,
       display_flow_data: display_flow_data,
       created_at: created_at,
       updated_at: updated_at
@@ -116,12 +125,7 @@ class AiAgent < ApplicationRecord
   end
 
   def base_attributes
-    %i[
-      id uid name description system_prompts welcoming_message
-      routing_conditions control_flow_rules model_name
-      history_limit context_limit message_await message_limit
-      timezone created_at updated_at account_id chat_flow_id
-    ]
+    %i[id uid name description welcoming_message agent_type template_type display_flow_data]
   end
 
   def included_associations

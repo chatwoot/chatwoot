@@ -28,4 +28,8 @@ class AiAgentTemplate < ApplicationRecord
   scope :single_agent, -> { where(agent_type: :single_agent) }
   scope :multi_agent, -> { where(agent_type: :multi_agent) }
   scope :custom_agent, -> { where(agent_type: :custom_agent) }
+
+  def self.agent_type_matches?(param_type, enum_key)
+    agent_types[param_type] == agent_types[enum_key]
+  end
 end

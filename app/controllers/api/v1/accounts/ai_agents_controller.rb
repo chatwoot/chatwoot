@@ -47,7 +47,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     ).perform.then do |response|
       if response.success?
         parsed_response = response.parsed_response
-        json_data = json_response(parsed_response, is_flowise: ai_agent.flowise?)
+        json_data = json_response(parsed_response)
         render json: json_data, status: :ok
       else
         handle_error('Failed to generate AI response', status: :unprocessable_entity, exception: response)
@@ -56,8 +56,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def ai_agent_templates
-    agent_templates = AiAgentTemplate.select(:id, :name)
-    agent_templates = agent_templates.jangkau if params[:agent_type] == AiAgentTemplate.agent_types[:multi_agent]
+    agent_templates = AiAgentTemplate.jangkau.select(:id, :name)
     render json: agent_templates, status: :ok
   end
 

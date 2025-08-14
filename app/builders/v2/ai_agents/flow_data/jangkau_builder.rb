@@ -4,12 +4,9 @@ class V2::AiAgents::FlowData::JangkauBuilder < V2::AiAgents::FlowData::BaseBuild
   def base_template
     {
       account_id: @account.id.to_s,
+      bot_name: '',
       type: 'multi-agent',
       enabled_agents: [],
-      supervisor: {
-        system_prompt: '',
-        routing_system: []
-      },
       agents_config: []
     }
   end

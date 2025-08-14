@@ -7,13 +7,21 @@ class V2::AiAgents::FlowData::BaseBuilder
     @params = params
   end
 
-  def perform(collection_name = 'default_collection')
+  def perform(collection_name = 'default_collection') # rubocop:disable Metrics/MethodLength
     tpl = base_template
     tpl[:type] = @params[:agent_type]
+    tpl[:bot_name] = @params[:name]
+
+    @templates.each do |template|
+      tpl[:enabled_agents] << template.name_id
+    end
+
     if @params[:agent_type] == AiAgent.agent_types[:multi_agent]
+      tpl[:supervisor] = {
+        persona: supervisor_prompt,
+        routing_system: []
+      }
       @templates.each do |template|
-        tpl[:enabled_agents] << template.name_id
-        tpl[:supervisor][:system_prompt] = supervisor_prompt
         tpl[:supervisor][:routing_system] << {
           name: template.name_id,
           description: template.description
@@ -28,10 +36,14 @@ class V2::AiAgents::FlowData::BaseBuilder
 
   def agent_object(template, collection_name = 'default_collection')
     {
+      agent_id: SecureRandom.alphanumeric(8),
       type: template.name_id,
       name: template.name,
-      description: template.description,
-      bot_prompt: template.system_prompt,
+      bot_prompt: {
+        persona: template.system_prompt,
+        instructions: template.system_prompt_rules,
+        handover_conditions: template.handover_prompt
+      },
       configurations: {},
       collection_name: collection_name,
       tools: [
@@ -48,7 +60,7 @@ class V2::AiAgents::FlowData::BaseBuilder
 
   def supervisor_prompt
     <<~PROMPT
-      Anda adalah Supervisor AI yang bertugas untuk mengarahkan setiap pertanyaan pengguna ke agen yang paling relevan berdasarkan aturan berikut:\n\n- customer_service: Menangani pertanyaan terkait layanan pelanggan seperti keluhan, bantuan akun, pengembalian dana, status pesanan, atau pertanyaan umum seputar produk dan layanan.\n- booking: Menangani permintaan pemesanan seperti membuat, mengubah, atau membatalkan reservasi; pengecekan ketersediaan jadwal; serta pertanyaan terkait konfirmasi dan detail pemesanan.\n\nJangan memberikan jawaban langsung kepada pengguna. Tugas Anda adalah menganalisis maksud pertanyaan dan memilih agen yang sesuai.
+      Anda adalah Agen layanan untuk sebuah bisnis. Peran Anda adalah memberikan dukungan pelanggan yang membantu, profesional, dan empatik. Gunakan Bahasa Indonesia untuk membalas pelanggan, kecuali pelanggan berbicara dalam bahasa lain.
     PROMPT
   end
 end
