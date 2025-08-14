@@ -472,7 +472,8 @@
         "FEATURES": {
           "TITLE": "Funcionalidades",
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
-          "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente."
+          "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente.",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {

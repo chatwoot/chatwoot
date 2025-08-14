@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ما آنلاین هستیم",
     "OFFLINE": "در حال حاضر دردسترس نیستیم"
