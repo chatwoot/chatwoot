@@ -30,9 +30,10 @@ RSpec.describe AssignmentPolicy, type: :model do
     end
   end
 
-  describe 'enum values' do
-    it 'includes balanced in assignment_order enum' do
-      expect(described_class.assignment_orders).to include('balanced' => 1)
+  describe 'assignment order constants' do
+    it 'includes balanced in ASSIGNMENT_ORDERS constant' do
+      expect(Enterprise::AssignmentPolicy::ASSIGNMENT_ORDERS).to include('balanced' => 1)
+      expect(Enterprise::AssignmentPolicy::ASSIGNMENT_ORDERS).to include('round_robin' => 0)
     end
   end
 end

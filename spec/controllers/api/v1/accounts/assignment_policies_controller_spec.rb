@@ -27,10 +27,7 @@ RSpec.describe 'Assignment Policy API', type: :request do
         expect(response.body).to include(assignment_policy.name)
       end
 
-      it 'returns assignment policies with included inboxes' do
-        inbox = create(:inbox, account: account)
-        create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
-
+      it 'returns assignment policies' do
         get "/api/v1/accounts/#{account.id}/assignment_policies",
             headers: admin.create_new_auth_token,
             as: :json
@@ -38,7 +35,10 @@ RSpec.describe 'Assignment Policy API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['assignment_policies']).to be_an(Array)
-        expect(json_response['assignment_policies'].first['inboxes']).to be_present
+        expect(json_response['assignment_policies'].first['id']).to eq(assignment_policy.id)
+        expect(json_response['assignment_policies'].first['name']).to eq(assignment_policy.name)
+        # Inboxes should NOT be included per review feedback
+        expect(json_response['assignment_policies'].first).not_to have_key('inboxes')
       end
     end
 
