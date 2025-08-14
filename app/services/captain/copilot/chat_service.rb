@@ -59,7 +59,7 @@ class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
     Rails.logger.info("🤖 AI Response: #{send_message.body}")
 
     response = send_message.parsed_response
-    message, is_handover = parsed_response(response, is_flowise: @context.ai_agent.flowise?)
+    message, is_handover = parsed_response(response)
 
     Rails.logger.info("🤖 AI Reply: #{message}, Handover: #{is_handover}")
 
