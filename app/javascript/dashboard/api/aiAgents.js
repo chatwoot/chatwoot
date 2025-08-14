@@ -3,117 +3,130 @@
 import ApiClient from './ApiClient';
 
 class AiAgents extends ApiClient {
-  constructor() {
-    super('ai_agents', { accountScoped: true });
-  }
+    constructor() {
+        super('ai_agents', { accountScoped: true });
+    }
 
-  getAiAgents() {
-    return this.get();
-  }
+    getAiAgents() {
+        return this.get();
+    }
 
-  createAiAgent(name, templateId) {
-    return this.create({
-      name,
-      template_id: templateId,
-    });
-  }
+    createAiAgent(name, templateId) {
+        return this.create({
+            name,
+            template_id: templateId,
+        });
+    }
 
-  removeAiAgent(idAgent) {
-    return this.delete(idAgent);
-  }
+    removeAiAgent(idAgent) {
+        return this.delete(idAgent);
+    }
 
-  detailAgent(idAgent) {
-    return this.show(idAgent);
-  }
+    detailAgent(idAgent) {
+        return this.show(idAgent);
+    }
 
-  updateAgent(idAgent, data) {
-    return this.update(idAgent, data);
-  }
+    updateAgent(idAgent, data) {
+        return this.update(idAgent, data);
+    }
 
-  listAiTemplate() {
-    return axios.get(`${this.url}/ai_agent_templates`);
-  }
+    listAiTemplate() {
+        return axios.get(`${this.url}/ai_agent_templates`);
+    }
 
-  updateAgentFollowups(idAgent, data) {
-    return axios.patch(`${this.url}/${idAgent}/update_followups`, data);
-  }
+    updateAgentFollowups(idAgent, data) {
+        return axios.patch(`${this.url}/${idAgent}/update_followups`, data);
+    }
 
-  getKnowledgeSources(idAgent) {
-    return axios.get(`${this.url}/${idAgent}/knowledge_sources`);
-  }
+    getKnowledgeSources(idAgent) {
+        return axios.get(`${this.url}/${idAgent}/knowledge_sources`);
+    }
 
-  addKnowledgeText(idAgent, data) {
-    return axios.post(`${this.url}/${idAgent}/knowledge_sources/text`, {
-      id: null,
-      text: data.text,
-      tab: data.tab,
-    });
-  }
+    addKnowledgeText(idAgent, data) {
+        return axios.post(`${this.url}/${idAgent}/knowledge_sources/text`, {
+            id: null,
+            text: data.text,
+            tab: data.tab,
+        });
+    }
 
-  updateKnowledgeText(idAgent, data) {
-    return axios.patch(`${this.url}/${idAgent}/knowledge_sources/text`, {
-      id: data.id,
-      text: data.text,
-      tab: data.tab,
-    });
-  }
+    updateKnowledgeText(idAgent, data) {
+        return axios.patch(`${this.url}/${idAgent}/knowledge_sources/text`, {
+            id: data.id,
+            text: data.text,
+            tab: data.tab,
+        });
+    }
 
-  deleteKnowledgeText(idAgent, textId) {
-    return axios.delete(
-      `${this.url}/${idAgent}/knowledge_sources/text/${textId}`
-    );
-  }
+    deleteKnowledgeText(idAgent, textId) {
+        return axios.delete(
+            `${this.url}/${idAgent}/knowledge_sources/text/${textId}`
+        );
+    }
 
-  addKnowledgeFile(idAgent, formData) {
-    return axios.post(
-      `${this.url}/${idAgent}/knowledge_sources/file`,
-      formData
-    );
-  }
+    addKnowledgeFile(idAgent, formData) {
+        return axios.post(
+            `${this.url}/${idAgent}/knowledge_sources/file`,
+            formData
+        );
+    }
 
-  deleteKnowledgeFile(idAgent, fileId) {
-    return axios.delete(
-      `${this.url}/${idAgent}/knowledge_sources/file/${fileId}`
-    );
-  }
+    addExcelKnowledgeFile(idAgent, data) {
+        return axios.post(
+            `/api/v2/accounts/${this.accountIdFromRoute}/ai_agents/${idAgent}/knowledge_sources/excel_imports`,
+            data
+        );
+    }
 
-  collectKnowledgeLinksWebsite(idAgent, data) {
-    return axios.post(
-      `${this.url}/${idAgent}/knowledge_sources/website/links`,
-      data
-    );
-  }
+    deleteExcelKnowledgeFile(idAgent, fileId) {
+        return axios.delete(
+            `/api/v2/accounts/${this.accountIdFromRoute}/ai_agents/${idAgent}/knowledge_sources/excel_imports/${fileId}`
+        );
+    }
 
-  addKnowledgeWebsite(idAgent, data) {
-    return axios.post(`${this.url}/${idAgent}/knowledge_sources/website`, data);
-  }
+    deleteKnowledgeFile(idAgent, fileId) {
+        return axios.delete(
+            `${this.url}/${idAgent}/knowledge_sources/file/${fileId}`
+        );
+    }
 
-  editKnowledgeWebsite(idAgent, data) {
-    return axios.patch(
-      `${this.url}/${idAgent}/knowledge_sources/website`,
-      data
-    );
-  }
+    collectKnowledgeLinksWebsite(idAgent, data) {
+        return axios.post(
+            `${this.url}/${idAgent}/knowledge_sources/website/links`,
+            data
+        );
+    }
 
-  deleteKnowledgeWebsite(idAgent, data) {
-    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/website`, {
-      data: data,
-    });
-  }
+    addKnowledgeWebsite(idAgent, data) {
+        return axios.post(`${this.url}/${idAgent}/knowledge_sources/website`, data);
+    }
 
-  createOrUpdateKnowledgeQna(idAgent, data) {
-    return axios.post(`${this.url}/${idAgent}/knowledge_sources/qna`, data);
-  }
+    editKnowledgeWebsite(idAgent, data) {
+        return axios.patch(
+            `${this.url}/${idAgent}/knowledge_sources/website`,
+            data
+        );
+    }
 
-  deleteKnowledgeQna(idAgent, qnaId) {
-    return axios.delete(
-      `${this.url}/${idAgent}/knowledge_sources/qna/${qnaId}`
-    );
-  }
+    deleteKnowledgeWebsite(idAgent, data) {
+        return axios.delete(`${this.url}/${idAgent}/knowledge_sources/website`, {
+            data: data,
+        });
+    }
 
-  chat(idAgent, data) {
-    return axios.post(`${this.url}/${idAgent}/chat`, data);
-  }
+    createOrUpdateKnowledgeQna(idAgent, data) {
+        return axios.post(`${this.url}/${idAgent}/knowledge_sources/qna`, data);
+    }
+
+    deleteKnowledgeQna(idAgent, qnaId) {
+        return axios.delete(
+            `${this.url}/${idAgent}/knowledge_sources/qna/${qnaId}`
+        );
+    }
+
+    chat(idAgent, data) {
+        return axios.post(`${this.url}/${idAgent}/chat`, data);
+    }
 }
 
 export default new AiAgents();

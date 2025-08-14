@@ -44,7 +44,21 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   isAValidEvent = data => {
-    return this.app.$store.getters.getCurrentAccountId === data.account_id;
+    // Add null safety check for data and account_id
+    if (!data || typeof data !== 'object') {
+      console.warn('⚠️ ActionCable received invalid data:', data);
+      return false;
+    }
+    
+    // For WhatsApp status events, we might not always have account_id
+    // so we allow them through and let individual components filter
+    if (data.event === 'whatsapp_status_changed') {
+      return true;
+    }
+    
+    // For other events, check account_id match
+    const currentAccountId = this.app.$store.getters.getCurrentAccountId;
+    return currentAccountId === data.account_id;
   };
 
   onMessageUpdated = data => {

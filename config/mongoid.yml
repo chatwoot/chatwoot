@@ -1,0 +1,36 @@
+default: &default
+  clients:
+    default:
+      options:
+        read:
+          mode: :primary
+
+development:
+  <<: *default
+  clients:
+    default:
+      uri: "<%= ENV.fetch('MONGODB_URL', '') %>"
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 5
+
+test:
+  <<: *default
+  clients:
+    default:
+      uri: "<%= ENV.fetch('MONGODB_URL', '') %>"
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 5
+
+production:
+  <<: *default
+  clients:
+    default:
+      uri: "<%= ENV.fetch('MONGODB_URL', '') %>"
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 5

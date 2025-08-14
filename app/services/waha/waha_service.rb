@@ -172,6 +172,22 @@ class Waha::WahaService
     handle_response(response, "send image")
   end
 
+  def get_session_status(api_key:)
+    response = HTTParty.get(
+      "#{API_BASE}/whatsapp/session/info",
+      headers: {
+        'Accept' => 'application/json',
+        'X-API-Key' => api_key
+      }
+    )
+
+    if response.success?
+      return response.parsed_response
+    end
+
+    raise "Failed to get session status: #{response.body}"
+  end
+
   private
 
   def handle_response(response, action_name)

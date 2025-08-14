@@ -102,10 +102,37 @@ class Waha::CallbackController < ApplicationController
   end
 
   def process_initial_scan(phone_number)
+    Rails.logger.info "🎯 PROCESS_INITIAL_SCAN called for #{phone_number}"
+    Rails.logger.info "🎯 Request ID: #{request.request_id}" if request.respond_to?(:request_id)
+    Rails.logger.info "🎯 Request timestamp: #{Time.current.iso8601}"
+    Rails.logger.info "🎯 Thread ID: #{Thread.current.object_id}"
+    
+    # Deduplication based on message ID and session ID
+    message_id = params.dig(:message, :id) || params[:messageId]
+    session_id = params[:sessionID] || params[:session_id]
+    
+    if message_id.present?
+      dedup_key = "waha_callback_#{phone_number}_#{message_id}"
+      
+      # Check if we've already processed this exact callback
+      if ::Redis::Alfred.get(dedup_key)
+        Rails.logger.warn "🚫 DUPLICATE CALLBACK DETECTED for message #{message_id}. Skipping processing."
+        return head :ok
+      end
+      
+      # Mark this callback as processed (expires in 1 minute)
+      ::Redis::Alfred.setex(dedup_key, "processed_#{Time.current.to_i}", 60)
+      Rails.logger.info "✅ Callback marked as processed: #{dedup_key}"
+    end
+    
     channel = Channel::WhatsappUnofficial.find_by(phone_number: phone_number)
-    return unless channel
+    unless channel
+      Rails.logger.error "❌ No channel found for #{phone_number}"
+      return
+    end
 
     callback_params = params.except(:phone_number, :controller, :action)
+    Rails.logger.info "🎯 About to call process_waha_callback_response with params: #{callback_params}"
     
     result = channel.process_waha_callback_response(callback_params)
     Rails.logger.info "🔍 Callback processing result: #{result}"
@@ -119,6 +146,11 @@ class Waha::CallbackController < ApplicationController
       
     when 'validate_failure'
       Rails.logger.error "❌ Initial scan validation failed. The model has already handled the broadcast."
+      
+    when 'validate_failure_auto_deleted'
+      Rails.logger.error "❌ Initial scan validation failed and inbox was auto-deleted."
+      # Broadcast auto-deletion to frontend
+      broadcast_inbox_auto_deleted(channel, result[:data])
       
     else
       Rails.logger.info "📋 No specific action needed for callback type: #{result[:type]}"
@@ -191,7 +223,9 @@ class Waha::CallbackController < ApplicationController
       phone_number: channel.phone_number,
       connected: status == 'logged_in',
       inbox_id: inbox.id,
-      channel_id: channel.id
+      channel_id: channel.id,
+      account_id: account.id,
+      timestamp: Time.current.iso8601
     })
   end
 
@@ -221,6 +255,7 @@ class Waha::CallbackController < ApplicationController
       message: 'WhatsApp session is ready for messaging!',
       inbox_id: inbox.id,
       channel_id: channel.id,
+      account_id: account.id,
       timestamp: Time.current.iso8601
     })
     
@@ -406,6 +441,7 @@ class Waha::CallbackController < ApplicationController
 
   def broadcast_session_mismatch(channel, connected_phone, current_attempts = nil, max_attempts = nil)
     Rails.logger.info "Broadcasting session mismatch for #{channel.phone_number}"
+    Rails.logger.info "🔍 Broadcast params - current_attempts: #{current_attempts}, max_attempts: #{max_attempts}"
     
     # Check if mismatch was already broadcasted recently to prevent spam
     mismatch_cache_key = "mismatch_broadcast_#{channel.phone_number}"
@@ -419,9 +455,29 @@ class Waha::CallbackController < ApplicationController
     account = inbox.account
     pubsub_token = "#{account.id}_inbox_#{inbox.id}"
 
+    # Check if this is a rescan context
+    current_rescan_attempts = channel.read_rescan_attempts_from_cache
+    is_rescan = current_rescan_attempts > 0
+
     remaining_attempts = max_attempts && current_attempts ? max_attempts - current_attempts : nil
+    Rails.logger.info "🔍 Calculated remaining_attempts: #{remaining_attempts}"
+    Rails.logger.info "🔍 Rescan context - is_rescan: #{is_rescan}, rescan_attempts: #{current_rescan_attempts}"
     
-    ActionCable.server.broadcast(pubsub_token, {
+    message = if remaining_attempts
+                if is_rescan
+                  "WhatsApp number mismatch detected during rescan. #{remaining_attempts} attempts remaining."
+                else
+                  "WhatsApp number mismatch detected. #{remaining_attempts} attempts remaining."
+                end
+              else
+                if is_rescan
+                  'WhatsApp number mismatch detected during rescan. Please scan QR code with the correct phone number.'
+                else
+                  'WhatsApp number mismatch detected. Please scan QR code with the correct phone number.'
+                end
+              end
+    
+    broadcast_data = {
       event: 'whatsapp_status_changed',
       type: 'session_mismatch',
       status: 'mismatch',
@@ -430,16 +486,23 @@ class Waha::CallbackController < ApplicationController
       current_attempts: current_attempts,
       max_attempts: max_attempts,
       remaining_attempts: remaining_attempts,
-      message: remaining_attempts ? 
-        "WhatsApp number mismatch detected. #{remaining_attempts} attempts remaining." :
-        'WhatsApp number mismatch detected. Please scan QR code with the correct phone number.',
+      rescan_context: is_rescan,
+      rescan_attempts: current_rescan_attempts,
+      message: message,
       inbox_id: inbox.id,
       channel_id: channel.id
-    })
+    }
+    
+    Rails.logger.info "📡 Broadcasting WebSocket message: #{broadcast_data.inspect}"
+    
+    ActionCable.server.broadcast(pubsub_token, broadcast_data)
   end
 
   def broadcast_session_failed(channel, connected_phone, failed_attempts)
     Rails.logger.info "Broadcasting session failed for #{channel.phone_number} after #{failed_attempts} attempts"
+    
+    # Handle auto-delete if maximum attempts reached
+    deletion_result = channel.handle_failed_validation_attempts
     
     # Broadcast ke frontend untuk memberitahu user bahwa sudah gagal total
     inbox = channel.inbox
@@ -448,6 +511,12 @@ class Waha::CallbackController < ApplicationController
     account = inbox.account
     pubsub_token = "#{account.id}_inbox_#{inbox.id}"
 
+    message = if deletion_result[:auto_deleted]
+                'Failed to connect WhatsApp after 3 attempts. The platform has been automatically removed from your list.'
+              else
+                "Failed to connect WhatsApp after 3 attempts. #{deletion_result[:remaining_attempts]} attempts remaining."
+              end
+
     ActionCable.server.broadcast(pubsub_token, {
       event: 'whatsapp_status_changed',
       type: 'session_failed',
@@ -455,9 +524,32 @@ class Waha::CallbackController < ApplicationController
       expected_phone: channel.phone_number,
       connected_phone: connected_phone,
       failed_attempts: failed_attempts,
-      message: 'Failed to connect WhatsApp after 3 attempts. Please close this window and try again from Platform Terhubung page.',
+      auto_deleted: deletion_result[:auto_deleted],
+      message: message,
       inbox_id: inbox.id,
       channel_id: channel.id
+    })
+  end
+
+  def broadcast_inbox_auto_deleted(channel, deletion_data)
+    Rails.logger.info "Broadcasting inbox auto-deletion for #{channel.phone_number}"
+    
+    inbox = channel.inbox
+    return unless inbox
+
+    account = inbox.account
+    pubsub_token = "#{account.id}_inbox_#{inbox.id}"
+
+    ActionCable.server.broadcast(pubsub_token, {
+      event: 'whatsapp_status_changed',
+      type: 'inbox_auto_deleted',
+      status: 'auto_deleted',
+      expected_phone: channel.phone_number,
+      failed_attempts: deletion_data[:attempts],
+      message: 'Platform WhatsApp telah dihapus otomatis karena gagal terhubung setelah 3 kali percobaan.',
+      inbox_id: inbox.id,
+      channel_id: channel.id,
+      auto_deleted: true
     })
   end
 

@@ -156,6 +156,7 @@ GEM
       msgpack (~> 1.2)
     brakeman (5.4.1)
     browser (5.3.1)
+    bson (5.1.1)
     builder (3.3.0)
     bullet (7.0.7)
       activesupport (>= 3.0.0)
@@ -479,6 +480,14 @@ GEM
     minitest (5.25.4)
     mock_redis (0.36.0)
       ruby2_keywords
+    mongo (2.21.2)
+      base64
+      bson (>= 4.14.1, < 6.0.0)
+    mongoid (8.1.11)
+      activemodel (>= 5.1, < 8.1, != 7.0.0)
+      concurrent-ruby (>= 1.0.5, < 2.0)
+      mongo (>= 2.18.0, < 3.0.0)
+      ruby2_keywords (~> 0.0.5)
     msgpack (1.7.0)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -645,6 +654,9 @@ GEM
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.3.9)
+    roo (2.10.1)
+      nokogiri (~> 1)
+      rubyzip (>= 1.3.0, < 3.0.0)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.2)
@@ -701,6 +713,7 @@ GEM
       sexp_processor (~> 4.6)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
+    rubyzip (2.4.1)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -918,6 +931,7 @@ DEPENDENCIES
   maxminddb
   meta_request (>= 0.8.3)
   mock_redis
+  mongoid (~> 8.0)
   neighbor
   net-smtp (~> 0.3.4)
   newrelic-sidekiq-metrics (>= 1.6.2)
@@ -943,6 +957,7 @@ DEPENDENCIES
   responders (>= 3.1.1)
   rest-client
   reverse_markdown
+  roo (~> 2.10)
   rspec-rails (>= 6.1.5)
   rspec_junit_formatter
   rubocop

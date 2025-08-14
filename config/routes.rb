@@ -118,6 +118,7 @@ Rails.application.routes.draw do
             member do
               get 'whatsapp/qr', to: 'inboxes#whatsapp_qr'
               get 'whatsapp/status', to: 'inboxes#whatsapp_status'
+              post 'whatsapp/restart', to: 'inboxes#whatsapp_restart_session'
             end
           end
 
@@ -195,7 +196,7 @@ Rails.application.routes.draw do
               member do
                 get :status
                 get :qr_code
-                post :start_session  # Route baru untuk alur callback yang benar
+                post :start_session # Route baru untuk alur callback yang benar
               end
             end
             resource :twilio_channel, only: [:create]
@@ -441,6 +442,15 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :accounts, only: [:create] do
         scope module: :accounts do
+          # AI Agents with nested Excel import routes
+          resources :ai_agents, only: [] do
+            resources :excel_imports, path: 'knowledge_sources/excel_imports', only: [:create, :show, :destroy] do
+              member do
+                get :download
+              end
+            end
+          end
+
           resources :summary_reports, only: [] do
             collection do
               get :agent
@@ -463,12 +473,10 @@ Rails.application.routes.draw do
               get :ai_agent_metrics
             end
           end
-          resource :google_sheets_export, only: [:create], controller: 'google_sheets_export' do
+          resource :google_sheets_export, only: [], controller: 'google_sheets_export' do
             collection do
-              post :create
               get :authorize
               get :status
-              get :callback
             end
           end
         end

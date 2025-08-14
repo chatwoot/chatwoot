@@ -103,7 +103,8 @@
     "vuedraggable": "^4.1.0",
     "vuex": "~4.1.0",
     "vuex-router-sync": "6.0.0-rc.1",
-    "wavesurfer.js": "7.8.6"
+    "wavesurfer.js": "7.8.6",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
