@@ -1,6 +1,5 @@
 class V2::Reports::BotMetricsBuilder
   include DateRangeHelper
-
   attr_reader :account, :params
 
   def initialize(account, params)
@@ -42,13 +41,13 @@ class V2::Reports::BotMetricsBuilder
   end
 
   def bot_resolution_rate
-    return 0 if bot_conversations.none?
+    return 0 if bot_conversations.count.zero?
 
     bot_resolutions_count.to_f / bot_conversations.count * 100
   end
 
   def bot_handoff_rate
-    return 0 if bot_conversations.none?
+    return 0 if bot_conversations.count.zero?
 
     bot_handoffs_count.to_f / bot_conversations.count * 100
   end

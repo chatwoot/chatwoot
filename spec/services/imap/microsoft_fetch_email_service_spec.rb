@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Imap::MicrosoftFetchEmailService do
   include ActionMailbox::TestHelper
-
   let(:logger) { instance_double(ActiveSupport::Logger, info: true, error: true) }
   let(:account) { create(:account) }
   let(:microsoft_channel) { create(:channel_email, :microsoft_email, account: account) }

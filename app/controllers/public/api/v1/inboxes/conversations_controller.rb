@@ -1,6 +1,5 @@
 class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::InboxesController
   include Events::Types
-
   before_action :set_conversation, only: [:toggle_typing, :update_last_seen, :show, :toggle_status]
 
   def index

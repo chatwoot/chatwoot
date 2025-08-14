@@ -1,7 +1,6 @@
 class Imap::ImapMailbox
   include MailboxHelper
   include IncomingEmailValidityHelper
-
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   def process(mail, channel)

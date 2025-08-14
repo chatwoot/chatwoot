@@ -1,6 +1,5 @@
 class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   include RegexHelper
-
   pattr_initialize [:message!, :hook!]
 
   def perform

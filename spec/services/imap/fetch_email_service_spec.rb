@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Imap::FetchEmailService do
   include ActionMailbox::TestHelper
-
   let(:logger) { instance_double(ActiveSupport::Logger, info: true, error: true) }
   let(:account) { create(:account) }
   let(:imap_email_channel) { create(:channel_email, :imap_email, account: account) }

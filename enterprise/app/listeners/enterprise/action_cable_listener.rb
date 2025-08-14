@@ -1,6 +1,5 @@
 module Enterprise::ActionCableListener
   include Events::Types
-
   def copilot_message_created(event)
     copilot_message = event.data[:copilot_message]
     copilot_thread = copilot_message.copilot_thread

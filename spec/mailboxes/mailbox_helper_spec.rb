@@ -7,7 +7,6 @@ RSpec.describe MailboxHelper do
   let(:mailbox_helper_obj) do
     Class.new do
       include MailboxHelper
-
       attr_accessor :conversation, :processed_mail
 
       def initialize(conversation, processed_mail)

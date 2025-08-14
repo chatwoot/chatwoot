@@ -17,7 +17,6 @@
 class Channel::Instagram < ApplicationRecord
   include Channelable
   include Reauthorizable
-
   self.table_name = 'channel_instagram'
 
   AUTHORIZATION_ERROR_THRESHOLD = 1

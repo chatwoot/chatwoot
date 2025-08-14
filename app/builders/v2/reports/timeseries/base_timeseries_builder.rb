@@ -1,7 +1,6 @@
 class V2::Reports::Timeseries::BaseTimeseriesBuilder
   include TimezoneHelper
   include DateRangeHelper
-
   DEFAULT_GROUP_BY = 'day'.freeze
 
   pattr_initialize :account, :params

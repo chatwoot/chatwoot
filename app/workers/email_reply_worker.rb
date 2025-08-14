@@ -1,6 +1,5 @@
 class EmailReplyWorker
   include Sidekiq::Worker
-
   sidekiq_options queue: :mailers, retry: 3
 
   def perform(message_id)

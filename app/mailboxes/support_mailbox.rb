@@ -1,6 +1,5 @@
 class SupportMailbox < ApplicationMailbox
   include IncomingEmailValidityHelper
-
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   before_processing :find_channel,

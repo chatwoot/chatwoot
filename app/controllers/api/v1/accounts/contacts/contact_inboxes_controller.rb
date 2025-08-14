@@ -1,6 +1,5 @@
 class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts::Contacts::BaseController
   include HmacConcern
-
   before_action :ensure_inbox, only: [:create]
 
   def create

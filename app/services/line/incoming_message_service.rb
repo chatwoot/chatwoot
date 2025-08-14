@@ -3,7 +3,6 @@
 
 class Line::IncomingMessageService
   include ::FileTypeHelper
-
   pattr_initialize [:inbox!, :params!]
   LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/android/sticker.png'.freeze
 

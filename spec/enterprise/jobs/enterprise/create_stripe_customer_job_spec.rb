@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Enterprise::CreateStripeCustomerJob, type: :job do
   include ActiveJob::TestHelper
-
   subject(:job) { described_class.perform_later(account) }
 
   let(:account) { create(:account) }

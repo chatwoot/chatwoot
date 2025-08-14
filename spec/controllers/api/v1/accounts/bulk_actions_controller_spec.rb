@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
   include ActiveJob::TestHelper
-
   let(:account) { create(:account) }
   let(:agent_1) { create(:user, account: account, role: :agent) }
   let(:agent_2) { create(:user, account: account, role: :agent) }
