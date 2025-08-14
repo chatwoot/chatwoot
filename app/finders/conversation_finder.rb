@@ -72,7 +72,7 @@ class ConversationFinder
 
   def set_inboxes
     @inbox_ids = if params[:inbox_id]
-                   @current_user.assigned_inboxes.where(id: params[:inbox_id])
+                   @current_user.assigned_inboxes.where(id: params[:inbox_id]).pluck(:id)
                  else
                    @current_user.assigned_inboxes.pluck(:id)
                  end
