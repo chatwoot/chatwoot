@@ -19,7 +19,7 @@ describe Whatsapp::OneoffCampaignService do
       'namespace' => '23423423_2342423_324234234_2343224',
       'category' => 'UTILITY',
       'language' => 'en',
-      'processed_params' => { 'name' => 'John', 'ticket_id' => '2332' }
+      'processed_params' => { 'body' => { 'name' => 'John', 'ticket_id' => '2332' } }
     }
   end
 
@@ -125,10 +125,16 @@ describe Whatsapp::OneoffCampaignService do
             namespace: '23423423_2342423_324234234_2343224',
             lang_code: 'en',
             parameters: array_including(
-              hash_including(type: 'text', parameter_name: 'name', text: 'John'),
-              hash_including(type: 'text', parameter_name: 'ticket_id', text: '2332')
+              hash_including(
+                type: 'body',
+                parameters: array_including(
+                  hash_including(type: 'text', parameter_name: 'name', text: 'John'),
+                  hash_including(type: 'text', parameter_name: 'ticket_id', text: '2332')
+                )
+              )
             )
-          )
+          ),
+          nil
         )
 
         described_class.new(campaign: campaign).perform
@@ -159,8 +165,8 @@ describe Whatsapp::OneoffCampaignService do
 
         allow(whatsapp_channel).to receive(:send_template).and_return(nil)
 
-        expect(whatsapp_channel).to receive(:send_template).with(contact_error.phone_number, anything).and_raise(StandardError, error_message)
-        expect(whatsapp_channel).to receive(:send_template).with(contact_success.phone_number, anything).once
+        expect(whatsapp_channel).to receive(:send_template).with(contact_error.phone_number, anything, nil).and_raise(StandardError, error_message)
+        expect(whatsapp_channel).to receive(:send_template).with(contact_success.phone_number, anything, nil).once
 
         expect(Rails.logger).to receive(:error)
           .with("Failed to send WhatsApp template message to #{contact_error.phone_number}: #{error_message}")
