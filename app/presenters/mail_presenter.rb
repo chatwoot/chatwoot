@@ -103,7 +103,8 @@ class MailPresenter < SimpleDelegator
       references: references,
       subject: subject,
       text_content: text_content,
-      to: to
+      to: to,
+      auto_reply: auto_reply?
     }
   end
 

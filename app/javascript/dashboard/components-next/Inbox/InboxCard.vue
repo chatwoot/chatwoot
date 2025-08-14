@@ -49,8 +49,8 @@ const isUnread = computed(() => !props.inboxItem?.readAt);
 const inbox = computed(() => props.stateInbox);
 
 const inboxIcon = computed(() => {
-  const { phoneNumber, channelType } = inbox.value;
-  return getInboxIconByType(channelType, phoneNumber);
+  const { channelType, medium } = inbox.value;
+  return getInboxIconByType(channelType, medium);
 });
 
 const hasSlaThreshold = computed(() => {
@@ -63,11 +63,12 @@ const lastActivityAt = computed(() => {
 });
 
 const menuItems = computed(() => [
-  { key: 'delete', label: t('INBOX.MENU_ITEM.DELETE') },
   {
     key: isUnread.value ? 'mark_as_read' : 'mark_as_unread',
+    icon: isUnread.value ? 'mail' : 'mail-unread',
     label: t(`INBOX.MENU_ITEM.MARK_AS_${isUnread.value ? 'READ' : 'UNREAD'}`),
   },
+  { key: 'delete', icon: 'delete', label: t('INBOX.MENU_ITEM.DELETE') },
 ]);
 
 const messageClasses = computed(() => ({

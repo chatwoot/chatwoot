@@ -26,6 +26,7 @@ const initialState = {
   features: {
     conversationFaqs: false,
     memories: false,
+    citations: false,
   },
 };
 
@@ -57,6 +58,7 @@ const updateStateFromAssistant = assistant => {
   state.features = {
     conversationFaqs: config.feature_faq || false,
     memories: config.feature_memory || false,
+    citations: config.feature_citation || false,
   };
 };
 
@@ -76,6 +78,7 @@ const handleBasicInfoUpdate = async () => {
       product_name: state.productName,
       feature_faq: state.features.conversationFaqs,
       feature_memory: state.features.memories,
+      feature_citation: state.features.citations,
     },
   };
 
@@ -123,20 +126,16 @@ watch(
       </label>
       <div class="flex flex-col gap-2">
         <label class="flex items-center gap-2">
-          <input
-            v-model="state.features.conversationFaqs"
-            type="checkbox"
-            class="form-checkbox"
-          />
+          <input v-model="state.features.conversationFaqs" type="checkbox" />
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CONVERSATION_FAQS') }}
         </label>
         <label class="flex items-center gap-2">
-          <input
-            v-model="state.features.memories"
-            type="checkbox"
-            class="form-checkbox"
-          />
+          <input v-model="state.features.memories" type="checkbox" />
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}
+        </label>
+        <label class="flex items-center gap-2">
+          <input v-model="state.features.citations" type="checkbox" />
+          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS') }}
         </label>
       </div>
     </div>
