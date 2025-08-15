@@ -80,56 +80,16 @@ class Channel::Voice < ApplicationRecord
     # Generate a public URL for Twilio to request TwiML (must set FRONTEND_URL)
     host = ENV.fetch('FRONTEND_URL')
 
-    # Use the simplest possible TwiML endpoint
-    callback_url = "#{host}/twilio/voice/simple"
-
-    # Start building query parameters
-    query_params = []
-
-    # Make sure conference_sid is URL-safe and correctly formatted
-    if conference_sid.present?
-      # Check format - it should be like 'conf_account_123_conv_456'
-      if !conference_sid.match?(/^conf_account_\d+_conv_\d+$/)
-        # If format is wrong, log an error and try to fix it
-        Rails.logger.error("🚨 MALFORMED CONFERENCE NAME: '#{conference_sid}'")
-
-        # Try to extract account_id and conversation_id from the string if possible
-        if conference_sid.include?('_account_') && conference_sid.include?('_conv_')
-          # It has the parts but wrong format, let's try to keep it
-          Rails.logger.info("🔄 Using conference name as-is: '#{conference_sid}'")
-        else
-          # Can't salvage it, generate a placeholder with timestamp to avoid collisions
-          timestamp = Time.now.to_i
-          Rails.logger.warn("🚨 GENERATING PLACEHOLDER CONFERENCE NAME with timestamp #{timestamp}")
-          conference_sid = "conf_placeholder_#{timestamp}"
-        end
-      else
-        # Format looks good, continue
-        Rails.logger.info("✅ VALIDATED CONFERENCE NAME: '#{conference_sid}'")
-      end
-
-      # Add URL-encoded conference name as a parameter
-      query_params << "conference_sid=#{CGI.escape(conference_sid)}"
-    else
-      # No conference name provided, log this as a warning
-      Rails.logger.warn("⚠️ NO CONFERENCE NAME PROVIDED for outgoing call to #{to}")
-    end
-
-    # Add agent ID as a parameter if provided
-    query_params << "agent_id=#{agent_id}" if agent_id.present?
-
-    # Append query parameters to URL if any exist
-    if query_params.any?
-      callback_url += "?#{query_params.join('&')}"
-      Rails.logger.info("📞 OUTBOUND CALL: Using callback URL with params: #{callback_url}")
-    end
+    # Use phone-scoped TwiML endpoint for this inbox
+    phone_digits = phone_number.delete_prefix('+')
+    callback_url = "#{host}/twilio/voice/call/#{phone_digits}"
 
     # Parameters including status callbacks for call progress tracking
     params = {
       from: phone_number,
       to: to,
       url: callback_url,
-      status_callback: "#{host}/twilio/voice/status_callback",
+      status_callback: "#{host}/twilio/voice/status/#{phone_digits}",
       status_callback_event: %w[initiated ringing answered completed failed busy no-answer canceled],
       status_callback_method: 'POST'
     }

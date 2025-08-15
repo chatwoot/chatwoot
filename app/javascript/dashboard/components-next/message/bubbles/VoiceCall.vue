@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { normalizeStatus, isInbound } from 'dashboard/helper/voice';
 
 const props = defineProps({
   message: { type: Object, default: () => ({}) },
@@ -10,28 +11,10 @@ const { t } = useI18n();
 
 const callData = computed(() => props.message?.contentAttributes?.data || {});
 
-const normalizeStatus = status => {
-  const statusMap = {
-    queued: 'ringing',
-    initiated: 'ringing',
-    ringing: 'ringing',
-    'in-progress': 'in_progress',
-    active: 'in_progress',
-    completed: 'ended',
-    ended: 'ended',
-    missed: 'missed',
-    busy: 'no_answer',
-    failed: 'no_answer',
-    'no-answer': 'no_answer',
-    canceled: 'no_answer',
-  };
-  return statusMap[status] || status;
-};
 
 const isIncoming = computed(() => {
   const direction = callData.value?.call_direction;
-  if (direction) return direction === 'inbound';
-  return props.message?.messageType === 0; // incoming
+  return isInbound(direction, props.message?.messageType);
 });
 
 const status = computed(() => {

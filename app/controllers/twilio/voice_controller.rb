@@ -1,40 +1,55 @@
-class Twilio::VoiceController < ActionController::Base
+class Twilio::VoiceController < ApplicationController
   skip_forgery_protection
 
-  before_action :set_call_details, only: %i[status_callback simple_twiml]
-  before_action :set_inbox,        only: %i[status_callback simple_twiml]
+  before_action :set_call_details, only: %i[status call_twiml]
+  before_action :set_inbox,        only: %i[status call_twiml]
+  before_action :validate_twilio_signature, only: %i[status call_twiml]
 
- 
-  def status_callback
-    return head :ok unless @inbox
-
-    conversation = Voice::ConversationFinderService.new(
-      account:      @inbox.account,
-      call_sid:     @call_sid,
-      phone_number: incoming_number,
-      is_outbound:  outbound?,
-      inbox:        @inbox
-    ).perform
-
-    Voice::CallStatus::Manager.new(
-      conversation: conversation,
-      call_sid:     @call_sid,
-      provider:     :twilio
-    ).process_status_update(params[:CallStatus], params[:CallDuration]&.to_i, first_status_response?)
-
-    head :ok
+  def status
+    begin
+      if @inbox
+        conversation = find_conversation_from_params(@inbox.account)
+        if conversation
+          Voice::ConferenceManagerService.new(
+            conversation: conversation,
+            event: params[:StatusCallbackEvent],
+            call_sid: @call_sid,
+            participant_label: params[:ParticipantLabel]
+          ).process
+        end
+      end
+    rescue StandardError => e
+      Rails.logger.error("Twilio::VoiceController#status error: #{e.message}")
+    ensure
+      head :no_content
+    end
   end
 
-  def simple_twiml
+  def call_twiml
     return fallback_twiml unless @inbox
 
-    conversation = Voice::ConversationFinderService.new(
-      account:      @inbox.account,
-      call_sid:     @call_sid,
-      phone_number: incoming_number,
-      is_outbound:  outbound?,
-      inbox:        @inbox
-    ).perform
+    # Determine if this leg is agent (TwiML App conf join) or caller (PSTN)
+    to_param = params[:To].to_s
+    agent_leg = to_param.start_with?('conf_account_') || params[:is_agent] == 'true' || params[:identity].to_s.start_with?('agent-')
+
+    conversation = if agent_leg
+                      find_conversation_by_conference_to(@inbox.account, to_param) ||
+                        Voice::ConversationFinderService.new(
+                          account:      @inbox.account,
+                          call_sid:     @call_sid,
+                          phone_number: incoming_number,
+                          is_outbound:  outbound?,
+                          inbox:        @inbox
+                        ).perform
+                    else
+                      Voice::ConversationFinderService.new(
+                        account:      @inbox.account,
+                        call_sid:     @call_sid,
+                        phone_number: incoming_number,
+                        is_outbound:  outbound?,
+                        inbox:        @inbox
+                      ).perform
+                    end
 
     Voice::CallStatus::Manager.new(
       conversation: conversation,
@@ -53,31 +68,27 @@ class Twilio::VoiceController < ActionController::Base
     )
 
     render_twiml do |r|
-      r.say(message: 'Please wait while we connect you to an agent')
-
-
-      # Set up the conference
-      conference_callback_url = "#{base_url}/api/v1/accounts/#{@inbox.account_id}/channels/voice/webhooks/conference_status"
-      Rails.logger.info("📞 VoiceController: Setting conference callback to: #{conference_callback_url}")
+      # For incoming PSTN calls, play a brief prompt
+      r.say(message: 'Please wait while we connect you to an agent') unless agent_leg
 
       r.dial do |d|
         d.conference(
           conference_sid,
-          startConferenceOnEnter: outbound? ? true : false,  # Start conference for outbound calls
+          startConferenceOnEnter: agent_leg,
           endConferenceOnExit:    true,
           beep:                   false,
           muted:                  false,
           waitUrl:                '',
           earlyMedia:             true,
-          statusCallback:         conference_callback_url,
+          statusCallback:         status_callback_url,
           statusCallbackMethod:   'POST',
           statusCallbackEvent:    'start end join leave',
-          participantLabel:       "caller-#{@call_sid.last(8)}",
+          participantLabel:       "#{agent_leg ? 'agent' : 'caller'}-#{@call_sid.last(8)}"
         )
       end
     end
   rescue StandardError => e
-    Rails.logger.error("Error creating voice conversation: #{e.message}")
+    Rails.logger.error("Twilio::VoiceController#call_twiml error: #{e.message}")
     fallback_twiml
   end
 
@@ -89,7 +100,10 @@ class Twilio::VoiceController < ActionController::Base
   end
 
   def set_inbox
-    @inbox = find_inbox(outbound? ? params[:From] : params[:To])
+    # Resolve inbox strictly from the route-scoped phone param (digits only, no '+')
+    digits = params[:phone].to_s.gsub(/\D/, '')
+    phone  = digits.present? ? "+#{digits}" : nil
+    @inbox = find_inbox(phone)
   end
 
   def outbound?
@@ -100,72 +114,94 @@ class Twilio::VoiceController < ActionController::Base
     outbound? ? params[:To] : params[:From]
   end
 
-  def first_status_response?
-    params[:IsFirstResponseForStatus] == 'true'
-  end
-
   def render_twiml(status: :ok)
     response = Twilio::TwiML::VoiceResponse.new
     yield response
     render xml: response.to_s, status: status
   end
 
-  def build_message(conversation, content)
-    Messages::MessageBuilder.new(
-      nil,
-      conversation,
-      content:               content,
-      message_type:          :activity,
-      additional_attributes: { call_sid: @call_sid, call_status: 'in_progress', user_input: true }
-    ).perform
-  end
-
-  def input_text
-    return "Caller pressed #{params[:Digits]}"           if params[:Digits].present?
-    return "Caller said: \"#{params[:SpeechResult]}\""   if params[:SpeechResult].present?
-
-    'Caller responded'
-  end
-
   def ensure_conference_sid(conversation, supplied)
-    sid = supplied.presence ||
-           conversation.additional_attributes['conference_sid']
-
+    sid = supplied.presence || conversation.additional_attributes['conference_sid']
     return sid if sid&.match?(/^conf_account_\d+_conv_\d+$/)
 
     "conf_account_#{@inbox.account_id}_conv_#{conversation.display_id}"
   end
 
   def fallback_twiml
-    render_twiml do |r|
-      r.say(message: 'Hello from Chatwoot. This is a courtesy call to check on your recent signup.')
-      r.pause(length: 1)
-      r.say(message: 'We will connect you with an agent shortly.')
-      r.hangup
-    end
-  end
-
-  def base_url
-    ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+    render_twiml { |r| r.hangup }
   end
 
   def find_inbox(phone_number)
     return nil if phone_number.blank?
 
+    normalized = phone_number.to_s
+    variants = [normalized, normalized.delete_prefix('+')]
+
     Inbox.joins('INNER JOIN channel_voice ON channel_voice.account_id = inboxes.account_id AND inboxes.channel_id = channel_voice.id')
-         .find_by('channel_voice.phone_number = ?', phone_number)
+         .where('channel_voice.phone_number IN (?)', variants)
+         .first
   end
 
-  def find_or_create_conversation(inbox, phone_number, call_sid)
-    Voice::ConversationFinderService.new(
-      account:      inbox.account,
-      call_sid:     call_sid,
-      phone_number: phone_number,
-      is_outbound:  false,
-      inbox:        inbox
-    ).perform
-  rescue StandardError => e
-    Rails.logger.error("find_or_create_conversation error: #{e.message}")
+  def find_conversation_by_conference_to(account, to)
+    return nil unless to.start_with?('conf_account_')
+    match = to.match(/conf_account_(\d+)_conv_(\d+)/)
+    return nil unless match && match[2]
+    account.conversations.find_by(display_id: match[2])
+  end
+
+  # No additional helpers needed; phone-scoped routes handle lookup
+
+  def status_callback_url
+    phone_param = @inbox&.channel&.respond_to?(:phone_number) ? @inbox.channel.phone_number.to_s.delete_prefix('+') : nil
+    "#{base_url}/twilio/voice/status/#{phone_param}"
+  end
+
+  def base_url
+    env_url = ENV['FRONTEND_URL']
+    (env_url.present? ? env_url : request.base_url).to_s.chomp('/')
+  end
+
+  def find_conversation_from_params(account)
+    conf_sid = params[:ConferenceSid]
+    if conf_sid.present?
+      conv = account.conversations.where("additional_attributes->>'conference_sid' = ?", conf_sid).first
+      return conv if conv
+
+      if conf_sid.start_with?('conf_account_')
+        match = conf_sid.match(/conf_account_(\d+)_conv_(\d+)/)
+        if match && match[2]
+          return account.conversations.find_by(display_id: match[2])
+        end
+      end
+    end
     nil
   end
+
+  def validate_twilio_signature
+    signature = request.headers['X-Twilio-Signature']
+    unless signature.present?
+      head :unauthorized and return
+    end
+
+    # Resolve token strictly from the resolved inbox (phone-scoped URL or number lookup)
+    cfg = @inbox&.channel&.provider_config_hash || {}
+    auth_token = cfg['auth_token']
+
+    # If no auth_token configured yet, skip signature validation (MVP)
+    return if auth_token.blank?
+
+    validator = Twilio::Security::RequestValidator.new(auth_token)
+    url = request.original_url
+    # Use only the request's native param source for signature validation
+    params_hash = request.post? ? request.request_parameters : request.query_parameters
+    valid = validator.validate(url, params_hash, signature)
+    unless valid
+      Rails.logger.error("Invalid Twilio signature for URL: #{url}")
+      head :unauthorized and return
+    end
+  rescue StandardError => e
+    Rails.logger.error("Twilio signature validation error: #{e.message}")
+    head :unauthorized and return
+  end
+
 end

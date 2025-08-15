@@ -2,6 +2,7 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { ATTACHMENT_ICONS } from 'shared/constants/messages';
+import { normalizeStatus } from 'dashboard/helper/voice';
 
 export default {
   name: 'MessagePreview',
@@ -78,7 +79,7 @@ export default {
 
       // Backend now sends unified statuses directly
       const status = this.conversation?.additional_attributes?.call_status;
-      return status || 'ended';
+      return normalizeStatus(status) || 'ended';
     },
     // Voice call icon based on status
     voiceCallIcon() {

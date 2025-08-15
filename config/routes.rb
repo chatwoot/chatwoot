@@ -101,16 +101,6 @@ Rails.application.routes.draw do
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
-            namespace :voice do
-              # Voice webhooks using resource scope to avoid plural/singular confusion
-              resource :webhooks, only: [], controller: 'webhooks' do
-                collection do
-                  post :incoming
-                  match :conference_status, via: [:post, :options]  # Allow both POST and OPTIONS
-                  match :incoming, via: [:post, :options]           # Allow both POST and OPTIONS
-                end
-              end
-            end
           end
           resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do
@@ -201,12 +191,11 @@ Rails.application.routes.draw do
 
           # Voice call management - using resource to avoid plural/singular confusion
           resource :voice, only: [], controller: 'voice' do
-            member do
+            collection do
               post :end_call
               post :join_call
               post :reject_call
-              # Explicitly set the format for TwiML to ensure proper Content-Type headers
-              match :twiml_for_client, via: [:get, :post, :options], defaults: { format: :xml } # Allow GET, POST, and OPTIONS
+              match :twiml_for_client, via: [:get, :post], defaults: { format: :xml }
             end
           end
 
@@ -519,6 +508,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+  # Twilio Voice webhooks follow the twilio namespace routes
 
   namespace :twitter do
     resource :callback, only: [:show]
@@ -542,9 +532,10 @@ Rails.application.routes.draw do
     # Use resource scope to avoid plural/singular confusion
     resource :voice, only: [], controller: 'voice' do
       collection do
-        get :simple, action: :simple_twiml
-        post :simple, action: :simple_twiml
-        post :status_callback
+        # Phone-number-scoped endpoints (digits only, no '+')
+        get 'call/:phone', action: :call_twiml
+        post 'call/:phone', action: :call_twiml
+        post 'status/:phone', action: :status
       end
     end
   end

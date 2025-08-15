@@ -65,7 +65,7 @@ class Api::V1::Accounts::Voice::TokensController < Api::V1::Accounts::BaseContro
         api_key_secret:   cfg['api_key_secret'],
         outgoing_app_sid: cfg['outgoing_application_sid'],
         phone_number:     @voice_inbox.channel.phone_number,
-        twiml_url:        "#{ENV.fetch('FRONTEND_URL', '')}/api/v1/accounts/#{Current.account.id}/voice/twiml_for_client"
+        twiml_url:        "#{ENV.fetch('FRONTEND_URL', '')}/twilio/voice/call/#{@voice_inbox.channel.phone_number.delete_prefix('+')}"
       }.with_indifferent_access.merge(client_identity:)
     end
   end

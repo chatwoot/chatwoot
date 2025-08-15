@@ -45,6 +45,25 @@ export default {
     whatsappAppId() {
       return window.chatwootConfig?.whatsappAppId;
     },
+    voiceTwimlUrl() {
+      // TwiML App Voice URL - phone-scoped
+      const configured = window.chatwootConfig?.hostURL;
+      const base = (configured && configured.trim()) || window.location.origin;
+      const origin = base.replace(/\/$/, '');
+      const digits = (this.inbox.phone_number || '').replace(/^\+/, '');
+      return `${origin}/twilio/voice/call/${digits}`;
+    },
+    voiceCallWebhookUrl() {
+      // Unified TwiML endpoint
+      return this.voiceTwimlUrl;
+    },
+    voiceStatusCallbackUrl() {
+      const configured = window.chatwootConfig?.hostURL;
+      const base = (configured && configured.trim()) || window.location.origin;
+      const origin = base.replace(/\/$/, '');
+      const digits = (this.inbox.phone_number || '').replace(/^\+/, '');
+      return `${origin}/twilio/voice/status/${digits}`;
+    },
   },
   watch: {
     inbox() {
@@ -124,6 +143,33 @@ export default {
       :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
     >
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
+    </SettingsSection>
+  </div>
+  <div v-else-if="isAVoiceChannel" class="mx-8">
+    <SettingsSection
+      :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
+      :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
+    >
+      <div class="space-y-4">
+        <div>
+          <div class="text-sm text-slate-500 mb-1">
+            {{ $t('INBOX_MGMT.ADD.TWILIO_VOICE.CALL_WEBHOOK_LABEL') }}
+          </div>
+          <woot-code :script="voiceCallWebhookUrl" lang="html" />
+        </div>
+        <div>
+          <div class="text-sm text-slate-500 mb-1">
+            {{ $t('INBOX_MGMT.ADD.TWILIO_VOICE.TWIML_APP_VOICE_LABEL') }}
+          </div>
+          <woot-code :script="voiceTwimlUrl" lang="html" />
+        </div>
+        <div>
+          <div class="text-sm text-slate-500 mb-1">
+            {{ $t('INBOX_MGMT.ADD.TWILIO_VOICE.STATUS_CALLBACK_LABEL') }}
+          </div>
+          <woot-code :script="voiceStatusCallbackUrl" lang="html" />
+        </div>
+      </div>
     </SettingsSection>
   </div>
   <div v-else-if="isALineChannel" class="mx-8">

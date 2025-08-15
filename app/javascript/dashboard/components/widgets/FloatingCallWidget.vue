@@ -1,15 +1,14 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
-import { useI18n } from 'vue-i18n';
 import VoiceAPI from 'dashboard/api/channels/voice';
+import { useRingtone } from 'dashboard/composables/useRingtone';
 
 const store = useStore();
-const { t } = useI18n();
 
 const callDuration = ref(0);
 const durationTimer = ref(null);
-const ringTimer = ref(null);
+const { start: startRingTone, stop: stopRingTone } = useRingtone();
 
 // Computed properties
 const activeCall = computed(() => store.getters['calls/getActiveCall']);
@@ -20,11 +19,16 @@ const hasActiveCall = computed(() => store.getters['calls/hasActiveCall']);
 const isIncoming = computed(() => {
   return hasIncomingCall.value && !hasActiveCall.value && !incomingCall.value?.isOutbound;
 });
-const isOutgoing = computed(() => {
-  return (hasIncomingCall.value && incomingCall.value?.isOutbound) || (hasActiveCall.value && !isJoined.value);
-});
-const callInfo = computed(() => isIncoming.value ? incomingCall.value : activeCall.value || incomingCall.value);
 const isJoined = computed(() => activeCall.value && activeCall.value.isJoined);
+const isOutgoing = computed(() => {
+  return (
+    (hasIncomingCall.value && incomingCall.value?.isOutbound) ||
+    (hasActiveCall.value && !isJoined.value)
+  );
+});
+const callInfo = computed(() =>
+  isIncoming.value ? incomingCall.value : activeCall.value || incomingCall.value
+);
 
 const formattedCallDuration = computed(() => {
   const minutes = Math.floor(callDuration.value / 60);
@@ -55,29 +59,7 @@ const stopDurationTimer = () => {
   }
 };
 
-const startRingTone = () => {
-  // Avoid multiple intervals
-  if (ringTimer.value) clearInterval(ringTimer.value);
-  try {
-    if (typeof window.playAudioAlert === 'function') {
-      window.playAudioAlert();
-    }
-  } catch (e) {}
-  ringTimer.value = setInterval(() => {
-    try {
-      if (typeof window.playAudioAlert === 'function') {
-        window.playAudioAlert();
-      }
-    } catch (e) {}
-  }, 2500);
-};
-
-const stopRingTone = () => {
-  if (ringTimer.value) {
-    clearInterval(ringTimer.value);
-    ringTimer.value = null;
-  }
-};
+// Ringtone handled via useRingtone composable
 
 const isJoining = ref(false);
 
@@ -174,34 +156,8 @@ const endCall = async () => {
 };
 
 const acceptCall = async () => {
-  if (!incomingCall.value) return;
-  
-  try {
-    // Initialize Twilio device
-    const device = await VoiceAPI.initializeDevice(incomingCall.value.inboxId);
-    
-    // Join the call
-    await VoiceAPI.joinCall({
-      conversation_id: incomingCall.value.conversationId,
-      call_sid: incomingCall.value.callSid,
-      account_id: store.getters.getCurrentAccountId,
-    });
-    
-    // Join client call
-    const conferenceParams = {
-      To: `conf_account_${store.getters.getCurrentAccountId}_conv_${incomingCall.value.conversationId}`,
-      account_id: store.getters.getCurrentAccountId,
-    };
-    
-    VoiceAPI.joinClientCall(conferenceParams);
-    
-    // Move to active call
-    store.dispatch('calls/acceptIncomingCall');
-    startDurationTimer();
-    stopRingTone();
-  } catch (error) {
-    // Accept call failed
-  }
+  // Reuse join logic; acceptIncomingCall will be triggered via joinCall flow
+  await joinCall();
 };
 
 const rejectCall = async () => {
@@ -298,25 +254,25 @@ onBeforeUnmount(() => {
     <div class="p-4 text-center">
       <div v-if="isIncoming">
         <p class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
-          Incoming Call
+          {{ $t('CONVERSATION.VOICE_CALL.INCOMING_CALL') }}
         </p>
         <p class="text-sm text-slate-500 dark:text-slate-400">
-          Please answer or decline
+          {{ $t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET') }}
         </p>
       </div>
       
       <div v-else-if="isOutgoing">
         <p class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
-          Outgoing Call
+          {{ $t('CONVERSATION.VOICE_CALL.OUTGOING_CALL') }}
         </p>
         <p class="text-sm text-slate-500 dark:text-slate-400">
-          Connecting...
+          {{ $t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET') }}
         </p>
       </div>
       
       <div v-else-if="isJoined">
         <p class="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-1">
-          Call in Progress
+          {{ $t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS') }}
         </p>
         <p class="text-2xl font-mono text-green-600 dark:text-green-400">
           {{ formattedCallDuration }}
@@ -325,7 +281,7 @@ onBeforeUnmount(() => {
       
       <div v-else>
         <p class="text-lg font-semibold text-slate-900 dark:text-slate-100">
-          Connecting...
+          {{ $t('CONVERSATION.VOICE_CALL.OUTGOING_CALL') }}
         </p>
       </div>
     </div>
@@ -337,7 +293,7 @@ onBeforeUnmount(() => {
         class="flex-1 flex items-center justify-center space-x-2 bg-red-100 hover:bg-red-200 text-red-700 px-4 py-3 rounded-lg"
       >
         <i class="i-ph-phone-x text-lg"></i>
-        <span>Decline</span>
+        <span>{{ $t('CONVERSATION.VOICE_CALL.REJECT_CALL') }}</span>
       </button>
       
       <button
@@ -345,7 +301,7 @@ onBeforeUnmount(() => {
         class="flex-1 flex items-center justify-center space-x-2 bg-green-100 hover:bg-green-200 text-green-700 px-4 py-3 rounded-lg"
       >
         <i class="i-ph-phone text-lg"></i>
-        <span>Accept</span>
+        <span>{{ $t('CONVERSATION.VOICE_CALL.JOIN_CALL') }}</span>
       </button>
     </div>
 
@@ -356,7 +312,7 @@ onBeforeUnmount(() => {
         class="flex items-center justify-center space-x-2 bg-red-100 hover:bg-red-200 text-red-700 px-6 py-3 rounded-lg"
       >
         <i class="i-ph-phone-x text-lg"></i>
-        <span>Cancel</span>
+        <span>{{ $t('CONVERSATION.VOICE_CALL.END_CALL') }}</span>
       </button>
     </div>
 
@@ -367,7 +323,7 @@ onBeforeUnmount(() => {
         class="flex items-center justify-center space-x-2 bg-red-100 hover:bg-red-200 text-red-700 px-6 py-3 rounded-lg"
       >
         <i class="i-ph-phone-x text-lg"></i>
-        <span>End Call</span>
+        <span>{{ $t('CONVERSATION.VOICE_CALL.END_CALL') }}</span>
       </button>
     </div>
   </div>

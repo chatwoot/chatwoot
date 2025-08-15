@@ -63,9 +63,7 @@ export default {
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
-      activeCall: 'calls/getActiveCall',
       hasActiveCall: 'calls/hasActiveCall',
-      incomingCall: 'calls/getIncomingCall',
       hasIncomingCall: 'calls/hasIncomingCall',
     }),
     hasAccounts() {

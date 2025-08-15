@@ -144,6 +144,7 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
+        this.isAVoiceChannel ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
         this.shouldShowWhatsAppConfiguration ||
         this.isAWebWidgetInbox

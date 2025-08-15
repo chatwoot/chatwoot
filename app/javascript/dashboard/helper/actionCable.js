@@ -106,11 +106,6 @@ class ActionCableConnector extends BaseActionCableConnector {
           contactId: data.meta?.sender?.id,
           accountId: data.account_id,
           isOutbound: data.additional_attributes?.call_direction === 'outbound',
-          conference_sid: data.additional_attributes?.conference_sid,
-          conferenceId: data.additional_attributes?.conference_sid,
-          conferenceSid: data.additional_attributes?.conference_sid,
-          requiresAgentJoin:
-            data.additional_attributes?.requires_agent_join || false,
           callDirection: data.additional_attributes?.call_direction,
           phoneNumber: data.meta?.sender?.phone_number,
           avatarUrl: data.meta?.sender?.avatar_url,
@@ -195,11 +190,6 @@ class ActionCableConnector extends BaseActionCableConnector {
             accountId: data.account_id,
             isOutbound:
               data.additional_attributes?.call_direction === 'outbound',
-            conference_sid: data.additional_attributes?.conference_sid,
-            conferenceId: data.additional_attributes?.conference_sid,
-            conferenceSid: data.additional_attributes?.conference_sid,
-            requiresAgentJoin:
-              data.additional_attributes?.requires_agent_join || false,
             callDirection: data.additional_attributes?.call_direction,
             phoneNumber: data.meta?.sender?.phone_number,
             avatarUrl: data.meta?.sender?.avatar_url,
