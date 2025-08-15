@@ -19,7 +19,7 @@ By default, it renders:
   <meta name="ROBOTS" content="NOODP">
   <meta name="viewport" content="initial-scale=1">
   <title>
-    <%= content_for(:title) %> - <%= application_title %>
+    <%= content_for(:title) || "ComChat" %>
   </title>
   <%= render "stylesheet" %>
   <%= vite_client_tag %>
