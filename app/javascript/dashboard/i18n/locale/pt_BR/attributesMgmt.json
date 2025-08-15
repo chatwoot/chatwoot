@@ -13,9 +13,9 @@
       "TEXT": "Texto",
       "NUMBER": "Número",
       "LINK": "Link",
-      "DATE": "Date",
+      "DATE": "Data",
       "LIST": "Lista",
-      "CHECKBOX": "Checkbox"
+      "CHECKBOX": "Booleano"
     },
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",

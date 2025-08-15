@@ -60,7 +60,7 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Texto",
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Booleano",
       "CREATED_AT": "Criado em",
       "LAST_ACTIVITY": "Última atividade"
     },

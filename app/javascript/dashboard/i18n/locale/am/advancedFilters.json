@@ -60,7 +60,7 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Text",
       "CUSTOM_ATTRIBUTE_NUMBER": "Number",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Boolean",
       "CREATED_AT": "Created at",
       "LAST_ACTIVITY": "Last activity"
     },
