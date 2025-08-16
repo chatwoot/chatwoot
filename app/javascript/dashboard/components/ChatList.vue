@@ -973,9 +973,7 @@ watch(conversationFilters, (newVal, oldVal) => {
         </template>
         <template #after>
           <div v-if="chatListLoading" class="flex justify-center my-4">
-            <Spinner
-              class="text-n-brand dark:text-n-lightBrand dark:text-n-lightBrand"
-            />
+            <Spinner class="text-n-brand dark:text-n-lightBrand" />
           </div>
           <p
             v-else-if="showEndOfListMessage"

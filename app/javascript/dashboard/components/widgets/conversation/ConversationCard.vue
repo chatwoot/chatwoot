@@ -13,6 +13,7 @@ import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import AIEnableBanner from 'dashboard/components/ui/AIEnableBanner.vue';
 
 export default {
   components: {
@@ -25,6 +26,7 @@ export default {
     PriorityMark,
     SLACardLabel,
     ContextMenu,
+    AIEnableBanner,
   },
   mixins: [inboxMixin],
   props: {
@@ -113,6 +115,11 @@ export default {
 
     isActiveChat() {
       return this.currentChat.id === this.chat.id;
+    },
+
+    isAiEnabled() {
+      // Only contact-level flag drives AI state now
+      return !!this.currentContact?.custom_attributes?.ai_enabled;
     },
 
     unreadCount() {
@@ -242,6 +249,19 @@ export default {
       this.$emit('deleteConversation', this.chat.id);
       this.closeContextMenu();
     },
+    async onToggleAi() {
+      const contactId = this.chatMetadata?.sender?.id;
+      if (!contactId) return;
+      const next = !this.isAiEnabled;
+      const customAttributes = {
+        ...(this.currentContact?.custom_attributes || {}),
+        ai_enabled: next,
+      };
+      await this.$store.dispatch('contacts/update', {
+        id: contactId,
+        customAttributes,
+      });
+    },
   },
 };
 </script>
@@ -328,15 +348,20 @@ export default {
           {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
-      <div class="absolute flex flex-col mt-4 ltr:right-4 rtl:left-4 top-4">
+      <div
+        class="absolute flex flex-col justify-end ltr:right-4 rtl:left-4 top-4"
+      >
         <span class="ml-auto font-normal leading-4 text-xxs">
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
           />
+          <div class="flex w-full justify-end items-end gap-2">
+            <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
+          </div>
         </span>
         <span
-          class="unread shadow-lg rounded-full hidden text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
+          class="unread hidden absolute -right-3 -bottom-4 shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>

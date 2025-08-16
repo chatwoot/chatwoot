@@ -33,12 +33,12 @@ RSpec.describe Contact do
 
     it 'sets custom_attributes to {} when nil' do
       contact = create(:contact, custom_attributes: nil)
-      expect(contact.custom_attributes).to eq({})
+      expect(contact.custom_attributes).to eq({ 'ai_enabled' => true })
     end
 
     it 'sets custom_attributes to {} when empty string' do
       contact = create(:contact, custom_attributes: '')
-      expect(contact.custom_attributes).to eq({})
+      expect(contact.custom_attributes).to eq({ 'ai_enabled' => true })
     end
 
     it 'sets additional_attributes to {} when nil' do
@@ -49,6 +49,11 @@ RSpec.describe Contact do
     it 'sets additional_attributes to {} when empty string' do
       contact = create(:contact, additional_attributes: '')
       expect(contact.additional_attributes).to eq({})
+    end
+
+    it 'defaults ai_enabled to true when missing on creation' do
+      contact = create(:contact, custom_attributes: {})
+      expect(contact.custom_attributes['ai_enabled']).to eq(true)
     end
   end
 
