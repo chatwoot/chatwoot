@@ -334,8 +334,8 @@
     },
     "NOTION": {
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "TITLE": "Você tem certeza que deseja excluir a integração com Notion?",
+        "MESSAGE": "Excluir essa integração removerá o acesso ao seu espaço de trabalho Notion e encerrará todas as funcionalidades relacionadas.",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
       }
@@ -473,7 +473,7 @@
           "TITLE": "Funcionalidades",
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
           "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas"
         }
       },
       "EDIT": {
@@ -487,11 +487,11 @@
           "ASSISTANT": "Assistente"
         },
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
+          "TITLE": "Configurações básicas",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
+          "TITLE": "Configurações do sistema",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
         },
         "CONTROL_ITEMS": {
@@ -507,7 +507,7 @@
               "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
+              "TITLE": "Diretrizes de resposta",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
@@ -551,7 +551,7 @@
             "CREATE": "Criar",
             "CANCEL": "Cancelar",
             "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "Testar tudo"
           }
         },
         "LIST": {
@@ -599,7 +599,7 @@
             "CREATE": "Criar",
             "CANCEL": "Cancelar",
             "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "Testar tudo"
           }
         },
         "LIST": {
