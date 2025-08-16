@@ -15,6 +15,7 @@ import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import AIEnableBanner from 'dashboard/components/ui/AIEnableBanner.vue';
+import { useAlert } from 'dashboard/composables';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -47,6 +48,7 @@ const emit = defineEmits([
 
 const router = useRouter();
 const store = useStore();
+const { showAlert } = useAlert();
 
 const hovered = ref(false);
 const showContextMenu = ref(false);
@@ -149,6 +151,12 @@ const isAiEnabled = computed(() => {
   return !!currentContact.value?.custom_attributes?.ai_enabled;
 });
 
+const hasAiImplemented = computed(() => {
+  const inboxId = props.chat.inbox_id;
+  const activeAgentBot = store.getters['agentBots/getActiveAgentBot'](inboxId);
+  return !!activeAgentBot?.id;
+});
+
 const onCardClick = e => {
   const path = conversationPath.value;
   if (!path) return;
@@ -240,6 +248,10 @@ const assignPriority = priority => {
 const deleteConversation = () => {
   emit('deleteConversation', props.chat.id);
   closeContextMenu();
+};
+
+const notAiImplementedNotification = () => {
+  showAlert('AI_NOT_IMPLEMENTED_NOTIFICATION');
 };
 
 const onToggleAi = async () => {
@@ -378,8 +390,15 @@ const onToggleAi = async () => {
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
           />
-          <div class="flex w-full justify-end items-end gap-2">
-            <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
+          <div
+            :class="hasAiImplemented ? 'opacity-100' : 'opacity-40'"
+            class="w-full flex justify-end items-end gap-2"
+            @click="!hasAiImplemented && notAiImplementedNotification()"
+          >
+            <AIEnableBanner
+              :ai-enable="isAiEnabled && hasAiImplemented"
+              @toggle-ai="onToggleAi"
+            />
           </div>
         </span>
         <span

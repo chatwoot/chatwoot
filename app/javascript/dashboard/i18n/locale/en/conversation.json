@@ -478,5 +478,6 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
-  }
+  },
+  "AI_NOT_IMPLEMENTED_NOTIFICATION": "No AI is assigned for this channel"
 }
