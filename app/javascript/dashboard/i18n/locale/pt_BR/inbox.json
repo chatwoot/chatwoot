@@ -77,7 +77,7 @@
       "TITLE": "Reauthorization Required",
       "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
       "BUTTON_TEXT": "Reconnect WhatsApp",
-      "LOADING_FACEBOOK": "Loading Facebook SDK...",
+      "LOADING_FACEBOOK": "Carregando SDK do Facebook...",
       "SUCCESS": "WhatsApp reconnected successfully",
       "ERROR": "Failed to reconnect WhatsApp. Please try again.",
       "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
