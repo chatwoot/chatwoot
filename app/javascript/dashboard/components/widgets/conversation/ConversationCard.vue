@@ -14,6 +14,7 @@ import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 import AIEnableBanner from 'dashboard/components/ui/AIEnableBanner.vue';
+import { useAlert } from 'dashboard/composables';
 
 export default {
   components: {
@@ -122,6 +123,13 @@ export default {
       return !!this.currentContact?.custom_attributes?.ai_enabled;
     },
 
+    hasAiImplemented() {
+      const inboxId = this.chat.inbox_id;
+      const activeAgentBot =
+        this.$store.getters['agentBots/getActiveAgentBot'](inboxId);
+      return !!activeAgentBot?.id;
+    },
+
     unreadCount() {
       return this.chat.unread_count;
     },
@@ -158,6 +166,12 @@ export default {
     hasSlaPolicyId() {
       return this.chat?.sla_policy_id;
     },
+  },
+  mounted() {
+    // Load all agent bots first, then fetch the specific inbox relationship
+    this.$store.dispatch('agentBots/get').then(() => {
+      this.$store.dispatch('agentBots/fetchAgentBotInbox', this.chat.inbox_id);
+    });
   },
   methods: {
     onCardClick(e) {
@@ -240,6 +254,9 @@ export default {
     async markAsRead() {
       this.$emit('markAsRead', this.chat.id);
       this.closeContextMenu();
+    },
+    notAiImplementedNotification() {
+      useAlert(this.$t('AI_NOT_IMPLEMENTED_NOTIFICATION'));
     },
     async assignPriority(priority) {
       this.$emit('assignPriority', priority, this.chat.id);
@@ -353,8 +370,15 @@ export default {
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
           />
-          <div class="flex w-full justify-end items-end gap-2">
-            <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
+          <div
+            :class="hasAiImplemented ? 'opacity-100' : 'opacity-40'"
+            class="w-full flex justify-end items-end gap-2"
+            @click="!hasAiImplemented && notAiImplementedNotification()"
+          >
+            <AIEnableBanner
+              :ai-enable="isAiEnabled && hasAiImplemented"
+              @toggle-ai="onToggleAi"
+            />
           </div>
         </span>
         <span

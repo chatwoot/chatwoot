@@ -451,5 +451,6 @@
     "NO_CONTENT": "Sin contenido de mensaje",
     "CANCEL_FEEDBACK": "Cancelar comentarios",
     "NO_MESSAGE_SELECTED": "Haz clic en el pulgar abajo en un mensaje de IA para dar comentarios"
-  }
+  },
+  "AI_NOT_IMPLEMENTED_NOTIFICATION": "Ningún AI esta asignado para este canal"
 }
