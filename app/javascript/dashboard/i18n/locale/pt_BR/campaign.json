@@ -155,7 +155,7 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
+        "TITLE": "Criar campanha do WhatsApp",
         "CANCEL_BUTTON_TEXT": "Cancelar",
         "CREATE_BUTTON_TEXT": "Criar",
         "FORM": {
@@ -171,7 +171,7 @@
           },
           "TEMPLATE": {
             "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
+            "PLACEHOLDER": "Selecione um modelo",
             "INFO": "Select a template to use for this campaign.",
             "ERROR": "Template is required",
             "PREVIEW_TITLE": "Processar {templateName}",
