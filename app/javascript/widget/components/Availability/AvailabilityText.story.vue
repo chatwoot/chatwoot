@@ -111,6 +111,13 @@ const createVariant = (
     props.isInWorkingHours = false;
     props.isOnline = false;
   }
+  if (title.includes('in 1 hour')) {
+    // Monday 08:00 AM, office opens at 9:00 AM (exactly in 1 hour)
+    // At exactly 1 hour difference, remainingMinutes = 0
+    props.time = new Date('2024-07-15T08:00:00.000Z');
+    props.isInWorkingHours = false;
+    props.isOnline = false;
+  }
   if (title.includes('Back Same Day - At Time')) {
     // Monday 05:00 AM, office opens at 9:00 AM (at 9:00 AM)
     props.time = new Date('2024-07-15T05:00:00.000Z');
@@ -170,6 +177,12 @@ const variants = [
   ),
   createVariant(
     'Back Same Day - In Hours (e.g., in 2 hours)',
+    {},
+    false,
+    false
+  ),
+  createVariant(
+    'Back Same Day - Exactly an Hour (e.g., in 1 hour)',
     {},
     false,
     false

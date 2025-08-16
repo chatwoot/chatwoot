@@ -163,11 +163,7 @@ const formattedOpeningTime = computed(() => {
     <template
       v-else-if="nextSlot.hoursUntilOpen < HOUR_THRESHOLD_FOR_EXACT_TIME"
     >
-      {{
-        t('REPLY_TIME.BACK_IN_HOURS', {
-          time: adjustedHoursUntilOpen,
-        })
-      }}
+      {{ t('REPLY_TIME.BACK_IN_HOURS', adjustedHoursUntilOpen) }}
     </template>
 
     <!-- Same day - 3+ hours away (eg: at 10:00 AM) -->
