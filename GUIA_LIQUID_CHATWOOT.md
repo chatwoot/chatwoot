@@ -537,7 +537,38 @@ Mensagem visível aqui
 ```
 *Remove espaços em branco extras*
 
-### **9.4 Aninhamento Complexo**
+### **9.4 Controle de Espaços em Branco para WhatsApp**
+
+**Este é um dos pontos mais importantes para garantir que suas mensagens fiquem perfeitas em canais como WhatsApp.**
+
+**O Problema:** O Liquid processa a lógica (`{% if %}`), mas mantém a quebra de linha daquela tag. No WhatsApp, isso vira uma linha em branco.
+
+**A Solução:** Use hifens (`-`) dentro das suas tags de lógica para "comer" os espaços em branco antes e/ou depois delas.
+
+- `{%-` remove o espaço/quebra de linha **antes**.
+- `-%}` remove o espaço/quebra de linha **depois**.
+
+**Regra de ouro:** Use `{%- ... -%}` em **TODAS** as suas tags de lógica para não ter erro.
+
+#### **Exemplo: Antes vs. Depois**
+
+**Código ANTES (gera linhas vazias no WhatsApp):**
+```liquid
+{% if contact.name %}
+  {% assign nome = contact.name | split: " " | first %}
+{% endif %}
+Olá {{nome}}!
+```
+
+**Código DEPOIS (perfeito no WhatsApp):**
+```liquid
+{%- if contact.name -%}
+  {%- assign nome = contact.name | split: " " | first -%}
+{%- endif -%}
+Olá {{nome}}!
+```
+
+### **9.5 Aninhamento Complexo**
 
 ```liquid
 {% for message in conversation.recent_messages %}
@@ -613,5 +644,5 @@ Este guia cobre **100% das funcionalidades Liquid** disponíveis no Chatwoot. Pa
 3. Use o **modo DEBUG** com `{{ variable | inspect }}` para ver estruturas
 
 **Última atualização:** Dezembro 2024
-**Versão:** 1.0 - Guia completo das funcionalidades Liquid
+**Versão:** 1.1 - Adicionado controle de whitespace para WhatsApp
 

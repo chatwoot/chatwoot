@@ -12,8 +12,6 @@
     "ATTRIBUTE_TYPES": {
       "TEXT": "Texto",
       "NUMBER": "Número",
-      "PERCENT": "Percentual",
-      "CURRENCY": "Moeda",
       "LINK": "Link",
       "DATE": "Data",
       "LIST": "Lista",
