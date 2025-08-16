@@ -95,3 +95,7 @@ yarn-debug.log*
 .claude/settings.local.json
 .cursor
 CLAUDE.local.md
+
+# keep log dir without logs
+log/*
+!log/.keep
