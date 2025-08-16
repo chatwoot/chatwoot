@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useRouter, useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
@@ -10,6 +11,7 @@ import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardMessagePreview from './CardMessagePreview.vue';
 import CardMessagePreviewWithMeta from './CardMessagePreviewWithMeta.vue';
 import CardPriorityIcon from './CardPriorityIcon.vue';
+import AIEnableBanner from 'dashboard/components/ui/AIEnableBanner.vue';
 
 const props = defineProps({
   conversation: {
@@ -32,6 +34,7 @@ const props = defineProps({
 
 const router = useRouter();
 const route = useRoute();
+const store = useStore();
 
 const cardMessagePreviewWithMetaRef = ref(null);
 
@@ -64,6 +67,10 @@ const showMessagePreviewWithoutMeta = computed(() => {
   );
 });
 
+const isAiEnabled = computed(() => {
+  return !!currentContact.value?.custom_attributes?.ai_enabled;
+});
+
 const onCardClick = e => {
   const path = frontendURL(
     conversationUrl({
@@ -81,6 +88,17 @@ const onCardClick = e => {
     return;
   }
   router.push({ path });
+};
+
+const onToggleAi = async () => {
+  const contactId = currentContact.value?.id;
+  if (!contactId) return;
+  const next = !isAiEnabled.value;
+
+  await store.dispatch('contacts/toggleAi', {
+    id: contactId,
+    aiEnabled: next,
+  });
 };
 </script>
 
@@ -103,6 +121,7 @@ const onCardClick = e => {
           {{ currentContactName }}
         </h4>
         <div class="flex items-center gap-2">
+          <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
           <CardPriorityIcon :priority="conversation.priority || null" />
           <div
             v-tooltip.left="inboxName"

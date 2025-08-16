@@ -359,4 +359,113 @@ describe('#actions', () => {
       ).rejects.toThrow(Error);
     });
   });
+
+  describe('#toggleAi', () => {
+    const getters = {
+      getContact: vi.fn(() => ({
+        id: 1,
+        name: 'John Doe',
+        custom_attributes: { existing_key: 'value' },
+      })),
+    };
+
+    it('sends correct mutations if API is success', async () => {
+      axios.patch.mockResolvedValue({
+        data: { ai_enabled: true },
+      });
+
+      const result = await actions.toggleAi(
+        { commit, getters },
+        { id: 1, aiEnabled: true }
+      );
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [
+          types.EDIT_CONTACT,
+          {
+            id: 1,
+            name: 'John Doe',
+            custom_attributes: {
+              existing_key: 'value',
+              ai_enabled: true,
+            },
+          },
+        ],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+      ]);
+      expect(result).toEqual({ ai_enabled: true });
+    });
+
+    it('sends correct mutations when toggling to false', async () => {
+      axios.patch.mockResolvedValue({
+        data: { ai_enabled: false },
+      });
+
+      await actions.toggleAi({ commit, getters }, { id: 1, aiEnabled: false });
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [
+          types.EDIT_CONTACT,
+          {
+            id: 1,
+            name: 'John Doe',
+            custom_attributes: {
+              existing_key: 'value',
+              ai_enabled: false,
+            },
+          },
+        ],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+
+    it('handles contact without existing custom attributes', async () => {
+      const gettersWithoutAttrs = {
+        getContact: vi.fn(() => ({
+          id: 1,
+          name: 'John Doe',
+        })),
+      };
+
+      axios.patch.mockResolvedValue({
+        data: { ai_enabled: true },
+      });
+
+      await actions.toggleAi(
+        { commit, getters: gettersWithoutAttrs },
+        { id: 1, aiEnabled: true }
+      );
+
+      expect(commit.mock.calls[1]).toEqual([
+        types.EDIT_CONTACT,
+        {
+          id: 1,
+          name: 'John Doe',
+          custom_attributes: {
+            ai_enabled: true,
+          },
+        },
+      ]);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({
+        response: {
+          status: 422,
+          data: { message: 'Invalid parameters' },
+        },
+      });
+
+      await expect(
+        actions.toggleAi({ commit, getters }, { id: 1, aiEnabled: true })
+      ).rejects.toThrow();
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
 });

@@ -535,7 +535,8 @@ RSpec.describe 'Contacts API', type: :request do
 
         # custom attributes are updated
         json_response = response.parsed_body
-        expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
+        expected_ai_enabled = ENV.fetch('CW_DEFAULT_AI_BOT_ENABLED', 'false') == 'true'
+        expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'ai_enabled' => expected_ai_enabled, 'test' => 'test', 'test1' => 'test1' })
       end
 
       it 'does not create the contact' do
@@ -590,7 +591,8 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(contact.reload.name).to eq('Test Blub')
         # custom attributes are merged properly without overwriting existing ones
-        expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
+        expected_ai_enabled = ENV.fetch('CW_DEFAULT_AI_BOT_ENABLED', 'false') == 'true'
+        expect(contact.custom_attributes).to eq({ 'ai_enabled' => expected_ai_enabled, 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
         expect(contact.additional_attributes).to eq({ 'attr1' => 'attr1', 'attr2' => 'new attr2', 'attr3' => 'attr3' })
       end
 
@@ -747,7 +749,8 @@ RSpec.describe 'Contacts API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(contact.reload.custom_attributes).to eq({ 'test1' => 'test1' })
+        expected_ai_enabled = ENV.fetch('CW_DEFAULT_AI_BOT_ENABLED', 'false') == 'true'
+        expect(contact.reload.custom_attributes).to eq({ 'ai_enabled' => expected_ai_enabled, 'test1' => 'test1' })
       end
     end
   end
@@ -777,6 +780,70 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect { contact.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
         expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/contacts/{id}/toggle_ai' do
+    let!(:contact) { create(:contact, account: account) }
+    
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/toggle_ai"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'toggles AI enabled to true' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/toggle_ai",
+              params: { ai_enabled: true },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['ai_enabled']).to be true
+        expect(contact.reload.custom_attributes['ai_enabled']).to be true
+      end
+
+      it 'toggles AI enabled to false' do
+        contact.update!(custom_attributes: { ai_enabled: true })
+        
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/toggle_ai",
+              params: { ai_enabled: false },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['ai_enabled']).to be false
+        expect(contact.reload.custom_attributes['ai_enabled']).to be false
+      end
+
+      it 'returns error when ai_enabled parameter is missing' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/toggle_ai",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('ai_enabled parameter is required')
+      end
+
+      it 'preserves existing custom attributes' do
+        existing_attrs = { existing_key: 'existing_value' }
+        contact.update!(custom_attributes: existing_attrs)
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/toggle_ai",
+              params: { ai_enabled: true },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        reloaded_attrs = contact.reload.custom_attributes
+        expect(reloaded_attrs['existing_key']).to eq('existing_value')
+        expect(reloaded_attrs['ai_enabled']).to be true
       end
     end
   end

@@ -1,8 +1,6 @@
 # Docker Compose file for building the base image in GitHub Actions
 # Usage: docker-compose -f .devcontainer/docker-compose.base.yml build base
 
-version: '3'
-
 services:
   base:
     build:

@@ -15,6 +15,7 @@ const {
 
 const CUSTOM_PRIMARY = '#5d17ea'; // Dark purple for light mode
 const CUSTOM_SECONDARY = '#f9f8fc'; // neutral-100
+const CUSTOM_INACTIVE = '#494949'; // gray-5
 
 export const colors = {
   woot: {
@@ -240,5 +241,6 @@ export const colors = {
     strong: 'rgb(var(--border-strong) / <alpha-value>)',
     'blue-border': 'rgba(var(--border-blue))',
     'blue-text': 'rgba(var(--text-blue))',
+    inactive: CUSTOM_INACTIVE,
   },
 };

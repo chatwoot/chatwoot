@@ -35,6 +35,12 @@ class ContactAPI extends ApiClient {
     return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
   }
 
+  toggleAi(id, aiEnabled) {
+    return axios.patch(`${this.url}/${id}/toggle_ai`, {
+      ai_enabled: aiEnabled,
+    });
+  }
+
   getConversations(contactId) {
     return axios.get(`${this.url}/${contactId}/conversations`);
   }

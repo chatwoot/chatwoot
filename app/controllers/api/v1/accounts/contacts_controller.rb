@@ -13,7 +13,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
-  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
+  before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes, :toggle_ai]
   before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
   def index
@@ -127,6 +127,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def avatar
     @contact.avatar.purge if @contact.avatar.attached?
     @contact
+  end
+
+  def toggle_ai
+    ai_enabled = params[:ai_enabled]
+    return render json: { error: 'ai_enabled parameter is required' }, status: :unprocessable_entity if ai_enabled.nil?
+
+    @contact.custom_attributes = (@contact.custom_attributes || {}).merge('ai_enabled' => ai_enabled)
+    @contact.save!
+
+    render json: { ai_enabled: @contact.custom_attributes['ai_enabled'] }, status: :ok
   end
 
   private
