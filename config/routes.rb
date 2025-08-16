@@ -170,6 +170,7 @@ Rails.application.routes.draw do
               get :contactable_inboxes
               post :destroy_custom_attributes
               delete :avatar
+              patch :toggle_ai
             end
             scope module: :contacts do
               resources :conversations, only: [:index]

@@ -128,6 +128,27 @@ export const actions = {
     }
   },
 
+  toggleAi: async ({ commit, getters }, { id, aiEnabled }) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await ContactAPI.toggleAi(id, aiEnabled);
+      const existingContact = getters.getContact(id);
+      const updatedContact = {
+        ...existingContact,
+        custom_attributes: {
+          ...(existingContact.custom_attributes || {}),
+          ai_enabled: response.data.ai_enabled,
+        },
+      };
+      commit(types.EDIT_CONTACT, updatedContact);
+      commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+      return response.data;
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+      throw handleContactOperationErrors(error);
+    }
+  },
+
   create: async ({ commit }, { isFormData = false, ...contactParams }) => {
     const decamelizedContactParams = snakecaseKeys(contactParams, {
       deep: true,

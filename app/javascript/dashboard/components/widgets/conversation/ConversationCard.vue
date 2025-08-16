@@ -14,6 +14,7 @@ import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import AIEnableBanner from 'dashboard/components/ui/AIEnableBanner.vue';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -143,6 +144,11 @@ const conversationPath = computed(() => {
   );
 });
 
+const isAiEnabled = computed(() => {
+  // Only contact-level flag drives AI state now
+  return !!currentContact.value?.custom_attributes?.ai_enabled;
+});
+
 const onCardClick = e => {
   const path = conversationPath.value;
   if (!path) return;
@@ -234,6 +240,17 @@ const assignPriority = priority => {
 const deleteConversation = () => {
   emit('deleteConversation', props.chat.id);
   closeContextMenu();
+};
+
+const onToggleAi = async () => {
+  const contactId = chatMetadata.value?.sender?.id;
+  if (!contactId) return;
+  const next = !isAiEnabled.value;
+
+  await store.dispatch('contacts/toggleAi', {
+    id: contactId,
+    aiEnabled: next,
+  });
 };
 </script>
 
@@ -354,18 +371,19 @@ const deleteConversation = () => {
         </span>
       </p>
       <div
-        class="absolute flex flex-col ltr:right-3 rtl:left-3"
-        :class="showMetaSection ? 'top-8' : 'top-4'"
+        class="absolute flex flex-col justify-end ltr:right-4 rtl:left-4 top-4"
       >
         <span class="ml-auto font-normal leading-4 text-xxs">
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
           />
+          <div class="flex w-full justify-end items-end gap-2">
+            <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
+          </div>
         </span>
         <span
-          class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
-          :class="hasUnread ? 'block' : 'hidden'"
+          class="unread hidden absolute -right-3 -bottom-4 shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
