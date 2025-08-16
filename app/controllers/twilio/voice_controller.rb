@@ -183,12 +183,16 @@ class Twilio::VoiceController < ApplicationController
       head :unauthorized and return
     end
 
-    # Resolve token strictly from the resolved inbox (phone-scoped URL or number lookup)
-    cfg = @inbox&.channel&.provider_config_hash || {}
-    auth_token = cfg['auth_token']
+    # Require inbox resolved from phone-scoped URL
+    unless @inbox
+      head :unauthorized and return
+    end
 
-    # If no auth_token configured yet, skip signature validation (MVP)
-    return if auth_token.blank?
+    cfg = @inbox.channel.provider_config_hash || {}
+    auth_token = cfg['auth_token']
+    unless auth_token.present?
+      head :unauthorized and return
+    end
 
     validator = Twilio::Security::RequestValidator.new(auth_token)
     url = request.original_url

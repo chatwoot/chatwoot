@@ -189,19 +189,14 @@ Rails.application.routes.draw do
             post :sync_templates, on: :member
           end
 
-          # Voice call management - using resource to avoid plural/singular confusion
+          # Voice call management
           resource :voice, only: [], controller: 'voice' do
             collection do
               post :end_call
               post :join_call
               post :reject_call
-              match :twiml_for_client, via: [:get, :post], defaults: { format: :xml }
+              post :token
             end
-          end
-
-          # Voice call client SDK support
-          namespace :voice do
-            resources :tokens, only: [:create]
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do

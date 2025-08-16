@@ -2,11 +2,7 @@ require 'twilio-ruby'
 
 class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   before_action :fetch_conversation, only: %i[end_call join_call reject_call]
-  skip_before_action :authenticate_user!, only: :twiml_for_client
-  protect_from_forgery with: :null_session, only: :twiml_for_client
-
-  before_action :render_options, if: -> { request.options? }
-  after_action  :set_cors_headers, if: -> { action_name == 'twiml_for_client' }
+  before_action :set_voice_inbox, only: %i[token]
 
   # ---------- PUBLIC ACTIONS --------------------------------------------------
 
@@ -74,14 +70,18 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   end
 
 
-  # TwiML for agent WebRTC dial‑in
-  def twiml_for_client
-    to          = params[:To] || params[:to]
-    return render_twiml_error('Missing conference ID parameter') if to.blank?
+  # Token for client SDK
+  def token
+    payload = Voice::TokenService.new(
+      inbox: @voice_inbox,
+      user: Current.user,
+      account: Current.account
+    ).generate
 
-    render xml: build_twiml(to), content_type: 'text/xml'
+    render json: payload
   rescue StandardError => e
-    render_twiml_error(e.message)
+    Rails.logger.error("Voice::Token error: #{e.class} - #{e.message}")
+    render json: { error: 'Failed to generate token' }, status: :internal_server_error
   end
 
   # ---------- PRIVATE ---------------------------------------------------------
@@ -89,18 +89,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   private
 
   # ---- Helpers ---------------------------------------------------------------
-
-  def render_options
-    head :ok
-  end
-
-  def set_cors_headers
-    headers['Content-Type']                 ||= 'text/xml; charset=utf-8'
-    headers['Access-Control-Allow-Origin']   = '*'
-    headers['Access-Control-Allow-Methods']  = 'POST, GET, OPTIONS'
-    headers['Access-Control-Allow-Headers']  = 'Content-Type, X-Twilio-Signature'
-    headers['Access-Control-Max-Age']        = '86400'
-  end
 
   def render_success(msg) = render json: { status: 'success', message: msg }
   def render_not_found(resource) = render json: { error: "No #{resource} found" }, status: :not_found
@@ -154,49 +142,9 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   end
 
 
-  # ---- TwiML -----------------------------------------------------------------
+  # ---- Tokens ---------------------------------------------------------------
 
-  def build_twiml(conference_sid)
-    # Check if this is an outbound call by looking at the conversation
-    is_outbound = @conversation&.additional_attributes&.dig('call_direction') == 'outbound'
-    
-    Twilio::TwiML::VoiceResponse.new do |r|
-
-      r.dial do |dial|
-        dial.conference(
-          conference_sid,
-          startConferenceOnEnter: !is_outbound,  # Don't start conference for outbound calls (contact already started it)
-          endConferenceOnExit:    true,
-          muted:                  false,
-          beep:                   false,
-          waitUrl:                '',
-          earlyMedia:             true,
-          statusCallback:         conference_callback_url,
-          statusCallbackEvent:    'start end join leave',
-          statusCallbackMethod:   'POST',
-          participantLabel:       "agent-#{params[:agent_id] || current_user&.id}"
-        )
-      end
-    end.to_s
-  end
-
-  def conference_callback_url
-    account_id = params[:account_id] || Current.account&.id
-    "#{base_url.chomp('/')}/api/v1/accounts/#{account_id}/channels/voice/webhooks/conference_status"
-  end
-
-  def base_url
-    ENV.fetch('FRONTEND_URL', '')
-  end
-
-  # ---- TwiML Error -----------------------------------------------------------
-
-  def render_twiml_error(message)
-    response = Twilio::TwiML::VoiceResponse.new do |r|
-      r.say(message: "Error: #{message}")
-      r.hangup
-    end
-    set_cors_headers
-    render xml: response.to_s, content_type: 'text/xml'
+  def set_voice_inbox
+    @voice_inbox = Current.account.inboxes.find(params[:inbox_id])
   end
 end

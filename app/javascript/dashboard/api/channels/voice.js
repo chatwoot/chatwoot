@@ -53,7 +53,7 @@ class VoiceAPI extends ApiClient {
 
   getToken(inboxId) {
     if (!inboxId) return Promise.reject(new Error('Inbox ID is required'));
-    return axios.post(`${this.url}/tokens`, { inbox_id: inboxId });
+    return axios.post(`${this.url}/token`, { inbox_id: inboxId });
   }
 
   // ------------------- Client (Twilio) APIs -------------------
