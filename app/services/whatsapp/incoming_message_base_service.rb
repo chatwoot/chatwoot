@@ -38,9 +38,17 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def process_statuses
-    return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
+    status = @processed_params[:statuses].first
+    whatsapp_message_id = status[:id]
 
-    update_message_with_status(@message, @processed_params[:statuses].first)
+    # Try to find regular message first
+    message_found = find_message_by_source_id(whatsapp_message_id)
+
+    # Update regular message if found
+    update_message_with_status(@message, status) if message_found
+
+    # Always try to update campaign message (whether regular message exists or not)
+    update_campaign_message_with_status(whatsapp_message_id, status)
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
   end
@@ -190,5 +198,40 @@ class Whatsapp::IncomingMessageBaseService
     phone_number = "+#{@processed_params[:messages].first[:from]}"
     formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
     @contact.name == phone_number || @contact.name == formatted_phone_number
+  end
+
+  def update_campaign_message_with_status(whatsapp_message_id, status)
+    campaign_message = CampaignMessage.find_by(message_id: whatsapp_message_id)
+    return unless campaign_message
+
+    update_attributes = build_campaign_message_attributes(status)
+    campaign_message.update!(update_attributes)
+  end
+
+  def build_campaign_message_attributes(status)
+    status_value = status[:status]
+    attributes = { status: status_value }
+
+    add_timestamp_to_attributes(attributes, status_value)
+    add_error_to_attributes(attributes, status) if status_value == 'failed'
+
+    attributes
+  end
+
+  def add_timestamp_to_attributes(attributes, status_value)
+    timestamp_field = case status_value
+                      when 'delivered' then :delivered_at
+                      when 'read' then :read_at
+                      end
+
+    attributes[timestamp_field] = Time.current if timestamp_field
+  end
+
+  def add_error_to_attributes(attributes, status)
+    return if status[:errors].blank?
+
+    error = status[:errors]&.first
+    attributes[:error_code] = error[:code]
+    attributes[:error_description] = "#{error[:code]}: #{error[:title]}"
   end
 end

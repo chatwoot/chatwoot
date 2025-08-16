@@ -10,7 +10,7 @@
 #  enabled                            :boolean          default(TRUE)
 #  message                            :text             not null
 #  scheduled_at                       :datetime
-#  template_params                    :jsonb
+#  template_params                    :jsonb            not null
 #  title                              :string           not null
 #  trigger_only_during_business_hours :boolean          default(FALSE)
 #  trigger_rules                      :jsonb
@@ -45,6 +45,8 @@ class Campaign < ApplicationRecord
   belongs_to :inbox
   belongs_to :sender, class_name: 'User', optional: true
 
+  has_many :campaign_messages, dependent: :destroy
+
   enum campaign_type: { ongoing: 0, one_off: 1 }
   # TODO : enabled attribute is unneccessary . lets move that to the campaign status with additional statuses like draft, disabled etc.
   enum campaign_status: { active: 0, completed: 1 }
@@ -53,6 +55,16 @@ class Campaign < ApplicationRecord
 
   before_validation :ensure_correct_campaign_attributes
   after_commit :set_display_id, unless: :display_id?
+
+  def analytics_metrics
+    {
+      total: campaign_messages.count,
+      sent: campaign_messages.sent.count,
+      delivered: campaign_messages.delivered.count,
+      read: campaign_messages.read.count,
+      failed: campaign_messages.failed.count
+    }
+  end
 
   def trigger!
     return unless one_off?

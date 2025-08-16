@@ -1,0 +1,5 @@
+json.total @campaign.analytics_metrics[:total]
+json.sent @campaign.analytics_metrics[:sent]
+json.delivered @campaign.analytics_metrics[:delivered]
+json.read @campaign.analytics_metrics[:read]
+json.failed @campaign.analytics_metrics[:failed]

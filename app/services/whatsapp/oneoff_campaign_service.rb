@@ -45,19 +45,12 @@ class Whatsapp::OneoffCampaignService
   end
 
   def process_contact(contact)
-    Rails.logger.info "Processing contact: #{contact.name} (#{contact.phone_number})"
+    campaign_message = create_campaign_message(contact)
 
-    if contact.phone_number.blank?
-      Rails.logger.info "Skipping contact #{contact.name} - no phone number"
-      return
-    end
+    return handle_contact_validation_errors(campaign_message, contact) unless contact_valid?(contact)
 
-    if campaign.template_params.blank?
-      Rails.logger.error "Skipping contact #{contact.name} - no template_params found for WhatsApp campaign"
-      return
-    end
-
-    send_whatsapp_template_message(to: contact.phone_number)
+    whatsapp_message_id = send_whatsapp_template_message(to: contact.phone_number)
+    update_campaign_message_status(campaign_message, whatsapp_message_id)
   end
 
   def process_audience(audience_labels)
@@ -69,6 +62,35 @@ class Whatsapp::OneoffCampaignService
     Rails.logger.info "Campaign #{campaign.id} processing completed"
   end
 
+  def contact_valid?(contact)
+    contact.phone_number.present? && campaign.template_params.present?
+  end
+
+  def handle_contact_validation_errors(campaign_message, contact)
+    if contact.phone_number.blank?
+      campaign_message.update!(status: 'failed', error_code: 'missing_phone_number',
+                               error_description: 'Contact has no phone number')
+    elsif campaign.template_params.blank?
+      campaign_message.update!(status: 'failed', error_code: 'missing_template_params',
+                               error_description: 'No template_params found for WhatsApp campaign')
+    end
+  end
+
+  def update_campaign_message_status(campaign_message, whatsapp_message_id)
+    if whatsapp_message_id
+      campaign_message.update!(message_id: whatsapp_message_id, status: 'sent', sent_at: Time.current)
+    else
+      campaign_message.update!(status: 'failed', error_description: 'Failed to send WhatsApp template message')
+    end
+  end
+
+  def create_campaign_message(contact)
+    campaign.campaign_messages.create!(
+      contact: contact,
+      status: 'pending'
+    )
+  end
+
   def send_whatsapp_template_message(to:)
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
@@ -77,7 +99,7 @@ class Whatsapp::OneoffCampaignService
 
     name, namespace, lang_code, processed_parameters = processor.call
 
-    return if name.blank?
+    return nil if name.blank?
 
     channel.send_template(to, {
                             name: name,

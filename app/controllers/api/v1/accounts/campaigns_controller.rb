@@ -21,6 +21,17 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def analytics_metrics; end
+
+  def analytics_contacts
+    campaign_messages = @campaign.campaign_messages.includes(:contact)
+    campaign_messages = campaign_messages.by_status(params[:status]) if params[:status].present?
+
+    page = params[:page] || 1
+    per_page = params[:per_page] || 25
+    @paginated_messages = campaign_messages.page(page).per(per_page)
+  end
+
   private
 
   def campaign

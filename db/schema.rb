@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_16_044639) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -246,6 +246,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
+  end
+
+  create_table "campaign_messages", force: :cascade do |t|
+    t.bigint "campaign_id", null: false
+    t.bigint "contact_id", null: false
+    t.string "message_id"
+    t.string "status", default: "pending", null: false
+    t.string "error_code"
+    t.text "error_description"
+    t.datetime "sent_at"
+    t.datetime "delivered_at"
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id", "status"], name: "index_campaign_messages_on_campaign_id_and_status"
+    t.index ["campaign_id"], name: "index_campaign_messages_on_campaign_id"
+    t.index ["contact_id"], name: "index_campaign_messages_on_contact_id"
+    t.index ["message_id"], name: "index_campaign_messages_on_message_id", unique: true
+    t.index ["status"], name: "index_campaign_messages_on_status"
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -1202,6 +1221,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "campaign_messages", "campaigns"
+  add_foreign_key "campaign_messages", "contacts"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

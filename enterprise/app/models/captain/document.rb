@@ -6,6 +6,7 @@
 #  content       :text
 #  external_link :string           not null
 #  name          :string
+#  source_type   :string           default("url")
 #  status        :integer          default("in_progress"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -17,6 +18,7 @@
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
+#  index_captain_documents_on_source_type                     (source_type)
 #  index_captain_documents_on_status                          (status)
 #
 class Captain::Document < ApplicationRecord
