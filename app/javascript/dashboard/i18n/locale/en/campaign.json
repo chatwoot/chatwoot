@@ -211,6 +211,7 @@
         "BASIC_DETAILS": "Basic Details",
         "SELECT_TEMPLATE": "Select Template",
         "SELECT_AUDIENCE": "Select Audience",
+        "ACCOUNT_HEALTH": "Account Health",
         "SCHEDULE_TEMPLATE": "Schedule Template"
       },
       "TITLE": {
@@ -250,6 +251,19 @@
         "VIEW_CONTACTS": "view contacts",
         "SENDING_TO": "You are sending this campaign to",
         "CONTACTS_TOTAL": "contacts"
+      },
+      "ACCOUNT_HEALTH": {
+        "MESSAGING_TIER": "Messaging Tier:",
+        "ACCOUNT_HEALTH": "Account Health:",
+        "ACCOUNT_STATUS": "Account Status:",
+        "TIER_DESCRIPTION": "TIER 3 (MAX 100,000 CUSTOMERS IN 24 HOURS)",
+        "STATUS_CONNECTED": "CONNECTED",
+        "HEALTH_GREEN": "GREEN",
+        "HEALTH_YELLOW": "YELLOW", 
+        "HEALTH_RED": "RED",
+        "LEARN_MORE": "Learn more about Tiers",
+        "QUALITY_RATING": "Quality rating",
+        "API_CONNECTION": "API connection"
       }
     },
     "PLAYGROUND": {

@@ -46,7 +46,7 @@ watch(
 </script>
 
 <template>
-  <div class="p-4 h-full bg-white rounded-lg border">
+  <div class="p-4 h-full bg-white rounded-lg border border-n-slate-4">
     <h3 class="mb-4 text-lg font-semibold">
       {{ t('CAMPAIGN.PLAYGROUND.TITLE') }}
     </h3>

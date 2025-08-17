@@ -366,6 +366,83 @@ watch(
       </div>
     </Accordion>
 
+    <!-- Account Health Section -->
+    <Accordion :title="t('CAMPAIGN.FORM.SECTIONS.ACCOUNT_HEALTH')">
+      <div class="flex flex-col gap-6 pt-4">
+        <!-- Messaging Tier Card -->
+        <div class="p-4 border rounded-lg bg-n-alpha-1 border-n-weak">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-2">
+              <span class="i-lucide-gauge text-lg text-n-slate-10" />
+              <div>
+                <h4 class="text-sm font-medium text-n-slate-12">
+                  {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.MESSAGING_TIER') }}
+                </h4>
+                <p class="text-xs text-n-slate-11 mt-1">
+                  {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.TIER_DESCRIPTION') }}
+                </p>
+              </div>
+            </div>
+            <a
+              href="https://www.zoko.io/learning-article/whatsapp-business-api-messaging-limits-and-how-to-upgrade-to-the-next-tier"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1 text-n-blue-11 hover:text-n-blue-12 text-xs underline"
+            >
+              {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.LEARN_MORE') }}
+              <span class="i-lucide-external-link text-xs" />
+            </a>
+          </div>
+        </div>
+
+        <!-- Account Health Status -->
+        <div class="p-4 border rounded-lg bg-n-alpha-1 border-n-weak">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="i-lucide-heart-pulse text-lg text-green-600" />
+              <div>
+                <h4 class="text-sm font-medium text-n-slate-12">
+                  {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.ACCOUNT_HEALTH') }}
+                </h4>
+                <p class="text-xs text-n-slate-11 mt-1">
+                  {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.QUALITY_RATING') }}
+                </p>
+              </div>
+            </div>
+            <span
+              class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-green-600 rounded-full"
+            >
+              <span class="w-1.5 h-1.5 bg-white rounded-full mr-1.5" />
+              {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.HEALTH_GREEN') }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Account Status -->
+        <div class="p-4 border rounded-lg bg-n-alpha-1 border-n-weak">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="i-lucide-wifi text-lg text-blue-600" />
+              <div>
+                <h4 class="text-sm font-medium text-n-slate-12">
+                  {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.ACCOUNT_STATUS') }}
+                </h4>
+                <p class="text-xs text-n-slate-11 mt-1">
+                  {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.API_CONNECTION') }}
+                </p>
+              </div>
+            </div>
+            <span
+              class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-blue-700 bg-blue-100 rounded-full"
+            >
+              <span class="w-1.5 h-1.5 bg-blue-600 rounded-full mr-1.5" />
+              {{ t('CAMPAIGN.FORM.ACCOUNT_HEALTH.STATUS_CONNECTED') }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </Accordion>
+
     <!-- Schedule Template Section -->
     <Accordion :title="t('CAMPAIGN.FORM.SECTIONS.SCHEDULE_TEMPLATE')">
       <div class="flex flex-col gap-4 pt-4">
