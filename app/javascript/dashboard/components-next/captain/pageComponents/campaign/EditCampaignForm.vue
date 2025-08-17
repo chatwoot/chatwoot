@@ -273,9 +273,6 @@ watch(
           <p class="mt-1 text-xs text-n-slate-11">
             {{ t('CAMPAIGN.FORM.TEMPLATE.INFO') }}
           </p>
-          <div class="mt-4 text-xs italic text-gray-500">
-            {{ t('CAMPAIGN.PLAYGROUND.PREVIEW_NOTE') }}
-          </div>
         </div>
 
         <!-- Template Parser -->
