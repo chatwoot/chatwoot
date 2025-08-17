@@ -1,25 +1,25 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Entradas",
-    "DESCRIPTION": "Un canal es el modo de comunicación que tu cliente elige para interactuar contigo. Una bandeja de entrada es donde administras interacciones para un canal específico. Puede incluir comunicaciones de diversas fuentes como correo electrónico, chat en vivo y redes sociales.",
-    "LEARN_MORE": "Aprende más sobre las entradas",
-    "RECONNECTION_REQUIRED": "Tu bandeja de entrada está desconectada. No recibirás mensajes nuevos hasta que lo vuelvas a autorizar.",
+    "HEADER": "Canales",
+    "DESCRIPTION": "Un canal es el modo de comunicación que tu cliente elige para interactuar contigo.",
+    "LEARN_MORE": "Aprende más sobre los canales",
+    "RECONNECTION_REQUIRED": "Tu canal está desconectado. No recibirás mensajes nuevos hasta que lo vuelvas a autorizar.",
     "CLICK_TO_RECONNECT": "Haga clic aquí para volver a conectar.",
     "LIST": {
-      "404": "No hay entradas adjuntas a esta cuenta."
+      "404": "No hay canales adjuntos a esta cuenta."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Elegir canal",
-        "BODY": "Elija el proveedor que desea integrar con Chatwoot."
+        "BODY": "Elija el proveedor que desea integrar"
       },
       "INBOX": {
-        "TITLE": "Crear bandeja de entrada",
-        "BODY": "Autenticar tu cuenta y crear una bandeja de entrada."
+        "TITLE": "Crear canal",
+        "BODY": "Autenticar tu cuenta y crear un canal."
       },
       "AGENT": {
-        "TITLE": "Añadir agentes",
-        "BODY": "Añadir agentes a la bandeja de entrada creada."
+        "TITLE": "Añadir miembros",
+        "BODY": "Añadir miembros al canal creado."
       },
       "FINISH": {
         "TITLE": "Voilà!",
@@ -28,9 +28,9 @@
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Nombre de la bandeja de entrada",
-        "PLACEHOLDER": "Introduzca el nombre de la bandeja de entrada (por ejemplo: Acme Inc)",
-        "ERROR": "Por favor, introduzca un nombre de bandeja de entrada válido"
+        "LABEL": "Nombre del canal",
+        "PLACEHOLDER": "Introduzca el nombre del canal (por ejemplo: Acme Inc)",
+        "ERROR": "Por favor, introduzca un nombre de canal válido"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nombre del sitio web",
@@ -40,11 +40,11 @@
         "HELP": "PS: Al iniciar sesión, sólo tenemos acceso a los mensajes de tu Página. Tus mensajes privados nunca pueden ser accedidos por Chatwoot.",
         "CHOOSE_PAGE": "Elegir página",
         "CHOOSE_PLACEHOLDER": "Seleccione una página de la lista",
-        "INBOX_NAME": "Nombre de la bandeja de entrada",
-        "ADD_NAME": "Añada un nombre para su bandeja de entrada",
-        "PICK_NAME": "Elija un nombre para su bandeja de entrada",
+        "INBOX_NAME": "Nombre del canal",
+        "ADD_NAME": "Añada un nombre para su canal",
+        "PICK_NAME": "Elija un nombre para su canal",
         "PICK_A_VALUE": "Elija un valor",
-        "CREATE_INBOX": "Crear bandeja de entrada"
+        "CREATE_INBOX": "Crear Canal"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
@@ -52,8 +52,8 @@
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "NEW_INBOX_SUGGESTION": "Esta cuenta de Instagram se ha vinculado previamente a un canal diferente y ahora se ha migrado aquí. Todos los nuevos mensajes se mostrarán aquí. El antiguo canal ya no podrá enviar o recibir mensajes para esta cuenta.",
+        "DUPLICATE_INBOX_BANNER": "Esta cuenta de Instagram se ha migrado al nuevo canal de Instagram. Ya no podrás enviar/recibir mensajes de Instagram desde este canal."
       },
       "TWITTER": {
         "HELP": "Para añadir tu perfil de Twitter como un canal, necesitas autenticar tu perfil de Twitter haciendo clic en 'Iniciar sesión con Twitter' ",
@@ -107,7 +107,7 @@
           "LABEL": "Color del widget",
           "PLACEHOLDER": "Actualizar el color del widget usado en el widget"
         },
-        "SUBMIT_BUTTON": "Crear bandeja de entrada",
+        "SUBMIT_BUTTON": "Crear canal",
         "API": {
           "ERROR_MESSAGE": "No pudimos crear un canal del sitio web, por favor inténtalo de nuevo"
         }
@@ -147,8 +147,8 @@
           "ERROR": "Este campo es obligatorio"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nombre de la bandeja de entrada",
-          "PLACEHOLDER": "Por favor, introduzca un nombre de bandeja de entrada",
+          "LABEL": "Nombre del canal",
+          "PLACEHOLDER": "Por favor, introduzca un nombre de canal",
           "ERROR": "Este campo es obligatorio"
         },
         "PHONE_NUMBER": {
@@ -198,8 +198,8 @@
             "ERROR": "Este campo es obligatorio"
           },
           "INBOX_NAME": {
-            "LABEL": "Nombre de la bandeja de entrada",
-            "PLACEHOLDER": "Por favor, introduzca un nombre de bandeja de entrada",
+            "LABEL": "Nombre del canal",
+            "PLACEHOLDER": "Por favor, introduzca un nombre de canal",
             "ERROR": "Este campo es obligatorio"
           },
           "PHONE_NUMBER": {
@@ -227,8 +227,8 @@
           "360_DIALOG": "360 Diálogo"
         },
         "INBOX_NAME": {
-          "LABEL": "Nombre de la bandeja de entrada",
-          "PLACEHOLDER": "Por favor, introduzca un nombre de bandeja de entrada",
+          "LABEL": "Nombre del canal",
+          "PLACEHOLDER": "Por favor, introduzca un nombre de canal",
           "ERROR": "Este campo es obligatorio"
         },
         "PHONE_NUMBER": {
@@ -288,7 +288,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canal de Email",
-        "DESC": "Integre su bandeja de entrada del email.",
+        "DESC": "Integre su canal de email.",
         "CHANNEL_NAME": {
           "LABEL": "Nombre del canal",
           "PLACEHOLDER": "Por favor, introduzca un nombre de canal",
@@ -352,18 +352,18 @@
         "DESC": "Chatwoot soporta widgets de Live Chat, Facebook Messenger, perfiles de Twitter, WhatsApp, correos electrónicos, etc., como canales. Si quieres construir un canal personalizado, puedes crearlo usando el canal API. Para empezar, elige uno de los canales a continuación."
       },
       "AGENTS": {
-        "TITLE": "Agentes",
-        "DESC": "Aquí puede agregar agentes para administrar su recién creada bandeja de entrada. Sólo estos agentes seleccionados tendrán acceso a su bandeja de entrada. Los agentes que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como agente a todas las bandejas de entrada que crees.",
-        "VALIDATION_ERROR": "Añade al menos un agente a tu nueva bandeja de entrada",
-        "PICK_AGENTS": "Elegir agentes para la bandeja de entrada"
+        "TITLE": "Miembros",
+        "DESC": "Aquí puede agregar miembros para administrar su recién creado canal. Sólo estos miembros seleccionados tendrán acceso a su canal. Los miembros que no forman parte de este canal no podrán ver o responder a los mensajes de este canal cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todos los canales, debes añadirte como miembro a todos los canales que crees.",
+        "VALIDATION_ERROR": "Añade al menos un miembro a tu nuevo canal",
+        "PICK_AGENTS": "Elegir miembros para el canal"
       },
       "DETAILS": {
-        "TITLE": "Detalles de la bandeja de entrada",
-        "DESC": "En el menú desplegable de abajo, selecciona la página de Facebook que quieres conectar a Chatwoot. También puede dar un nombre personalizado a su bandeja de entrada para una mejor identificación."
+        "TITLE": "Detalles del canal",
+        "DESC": "En el menú desplegable de abajo, selecciona la página de Facebook que quieres conectar a Chatwoot. También puede dar un nombre personalizado a su canal para una mejor identificación."
       },
       "FINISH": {
         "TITLE": "¡Se ha clavado!",
-        "DESC": "Has terminado de integrar correctamente tu página de Facebook con Chatwoot. La próxima vez que un cliente envíe un mensaje a tu Página, la conversación aparecerá automáticamente en tu bandeja de entrada.<br>También le estamos proporcionando un script de widget que puede agregar fácilmente a su sitio web. Una vez que esto está en vivo en tu sitio web, los clientes pueden enviarle mensajes directamente desde su sitio web sin la ayuda de ninguna herramienta externa y la conversación aparecerá aquí, en Chatwoot.<br>¿Genial, eh? Bueno, estamos seguros de que intentaremos ser :)"
+        "DESC": "Has terminado de integrar correctamente tu página de Facebook con Chatwoot. La próxima vez que un cliente envíe un mensaje a tu Página, la conversación aparecerá automáticamente en tu canal.<br>También le estamos proporcionando un script de widget que puede agregar fácilmente a su sitio web. Una vez que esto está en vivo en tu sitio web, los clientes pueden enviarle mensajes directamente desde su sitio web sin la ayuda de ninguna herramienta externa y la conversación aparecerá aquí, en Chatwoot.<br>¿Genial, eh? Bueno, estamos seguros de que intentaremos ser :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Selecciona tu proveedor de correo",
@@ -371,14 +371,14 @@
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Haga clic en el botón Iniciar sesión con Microsoft para empezar. Serás redirigido a la página de inicio de sesión de correo electrónico. Una vez que aceptes los permisos solicitados, serás redirigido al paso de creación de la bandeja de entrada.",
+        "DESCRIPTION": "Haga clic en el botón Iniciar sesión con Microsoft para empezar. Serás redirigido a la página de inicio de sesión de correo electrónico. Una vez que aceptes los permisos solicitados, serás redirigido al paso de creación de tu canal.",
         "EMAIL_PLACEHOLDER": "Introduzca la dirección de correo",
         "SIGN_IN": "Iniciar sesión con Microsoft",
         "ERROR_MESSAGE": "Hubo un error al conectarse a Microsoft, por favor inténtalo de nuevo"
       },
       "GOOGLE": {
         "TITLE": "Correo de Google",
-        "DESCRIPTION": "Haga clic en el botón Iniciar sesión con Google para empezar. Serás redirigido a la página de inicio de sesión de correo electrónico. Una vez que aceptes los permisos solicitados, serás redirigido al paso de creación de la bandeja de entrada.",
+        "DESCRIPTION": "Haga clic en el botón Iniciar sesión con Google para empezar. Serás redirigido a la página de inicio de sesión de correo electrónico. Una vez que aceptes los permisos solicitados, serás redirigido al paso de creación de tu canal.",
         "SIGN_IN": "Iniciar sesión con Google",
         "EMAIL_PLACEHOLDER": "Introduzca la dirección de correo",
         "ERROR_MESSAGE": "Se ha producido un error al conectar a Google, por favor inténtelo nuevamente"
@@ -390,28 +390,28 @@
       "ERROR_FB_AUTH": "Algo salió mal, Por favor actualiza la página...",
       "ERROR_FB_UNAUTHORIZED": "No estás autorizado a realizar esta acción. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Asegúrate de tener acceso a la página de Facebook con control completo. Puedes leer más sobre los roles de Facebook <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Creando tu bandeja de entrada...",
-      "TITLE": "Configurar detalles de la Bandeja de Entrada",
+      "CREATING_CHANNEL": "Creando tu canal...",
+      "TITLE": "Configurar detalles del canal",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Añadir agentes",
-      "ADD_AGENTS": "Añadiendo agentes a tu bandeja de entrada..."
+      "BUTTON_TEXT": "Añadir miembros",
+      "ADD_AGENTS": "Añadiendo miembros a tu canal..."
     },
     "FINISH": {
-      "TITLE": "¡Tu bandeja de entrada está lista!",
+      "TITLE": "¡Tu canal está lista!",
       "MESSAGE": "Ahora puedes colaborar con tus clientes a través de tu nuevo canal. Feliz soporte",
       "BUTTON_TEXT": "Llévame allí",
       "MORE_SETTINGS": "Más ajustes",
-      "WEBSITE_SUCCESS": "Has terminado de crear un canal del sitio web. Copia el código que se muestra a continuación y pégalo en tu sitio web. La próxima vez que un cliente use el chat en vivo, la conversación aparecerá automáticamente en su bandeja de entrada."
+      "WEBSITE_SUCCESS": "Has terminado de crear un canal del sitio web. Copia el código que se muestra a continuación y pégalo en tu sitio web. La próxima vez que un cliente use el chat en vivo, la conversación aparecerá automáticamente en su canal."
     },
     "REAUTH": "Reautorizar",
     "VIEW": "Ver",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Configuración de bandeja de entrada actualizada correctamente",
+        "SUCCESS_MESSAGE": "Configuración de canal actualizada correctamente",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto-asignación actualizada correctamente",
-        "ERROR_MESSAGE": "No pudimos actualizar la configuración de la bandeja de entrada. Por favor, inténtalo de nuevo más tarde."
+        "ERROR_MESSAGE": "No pudimos actualizar la configuración del canal. Por favor, inténtalo de nuevo más tarde."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activado",
@@ -423,12 +423,12 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Nombre del remitente",
-        "SUB_TEXT": "Seleccione el nombre que se muestra al cliente cuando reciba correos electrónicos de sus agentes.",
+        "SUB_TEXT": "Seleccione el nombre que se muestra al cliente cuando reciba correos electrónicos de sus miembros.",
         "FOR_EG": "Por ejemplo:",
         "FRIENDLY": {
           "TITLE": "Amigable",
           "FROM": "De",
-          "SUBTITLE": "Añada el nombre del agente que envió la respuesta en el nombre del remitente para que sea amistoso."
+          "SUBTITLE": "Añada el nombre del miembro que envió la respuesta en el nombre del remitente para que sea amistoso."
         },
         "PROFESSIONAL": {
           "TITLE": "Profesional",
@@ -467,15 +467,15 @@
         "NO": "No, mantenerlo "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Bandeja de entrada eliminada correctamente",
-        "ERROR_MESSAGE": "No se pudo eliminar la bandeja de entrada. Inténtalo de nuevo más tarde.",
-        "AVATAR_SUCCESS_MESSAGE": "Avatar de bandeja de entrada eliminado correctamente",
-        "AVATAR_ERROR_MESSAGE": "No se pudo eliminar el avatar de la bandeja de entrada. Inténtalo de nuevo más tarde."
+        "SUCCESS_MESSAGE": "Canal eliminado correctamente",
+        "ERROR_MESSAGE": "No se pudo eliminar el canal. Inténtalo de nuevo más tarde.",
+        "AVATAR_SUCCESS_MESSAGE": "Avatar de canal eliminado correctamente",
+        "AVATAR_ERROR_MESSAGE": "No se pudo eliminar el avatar del canal. Inténtalo de nuevo más tarde."
       }
     },
     "TABS": {
       "SETTINGS": "Ajustes",
-      "COLLABORATORS": "Colaboradores",
+      "COLLABORATORS": "Miembros",
       "CONFIGURATION": "Configuración",
       "CAMPAIGN": "Campañas",
       "PRE_CHAT_FORM": "Pre-formulario de chat",
@@ -490,34 +490,34 @@
       "DISPLAY_FILE_PICKER": "Mostrar el selector de archivos en el widget",
       "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget",
       "ALLOW_END_CONVERSATION": "Permitir a los usuarios finalizar conversaciones desde el widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Usar nombre de bandeja de entrada y avatar para el bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Usar nombre de canal y avatar para el bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
       "MESSENGER_SUB_HEAD": "Coloca este botón dentro de tu etiqueta cuerpo",
-      "INBOX_AGENTS": "Agentes",
-      "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar agentes de esta bandeja de entrada",
+      "INBOX_AGENTS": "Miembros",
+      "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar miembros de este canal",
       "AGENT_ASSIGNMENT": "Asignación de conversación",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Actualizar configuración de la asignación de conversación",
       "UPDATE": "Actualizar",
       "ENABLE_EMAIL_COLLECT_BOX": "Activar caja de recolección de correo electrónico",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
       "AUTO_ASSIGNMENT": "Activar asignación automática",
-      "SENDER_NAME_SECTION": "Habilitar nombre del agente en el correo electrónico",
-      "SENDER_NAME_SECTION_TEXT": "Habilitar/Deshabilitar mostrando el nombre del agente en el correo electrónico, si está deshabilitado, mostrará el nombre del negocio",
+      "SENDER_NAME_SECTION": "Habilitar nombre del miembro en el correo electrónico",
+      "SENDER_NAME_SECTION_TEXT": "Habilitar/Deshabilitar mostrando el nombre del miembro en el correo electrónico, si está deshabilitado, mostrará el nombre del negocio",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidad de conversación por correo electrónico",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Las conversaciones continuarán por correo electrónico si la dirección de correo electrónico de contacto está disponible.",
       "LOCK_TO_SINGLE_CONVERSATION": "Bloquear a una sola conversación",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Activar o desactivar múltiples conversaciones para el mismo contacto en esta bandeja de entrada",
-      "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
-      "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Activar o desactivar múltiples conversaciones para el mismo contacto en este canal",
+      "INBOX_UPDATE_TITLE": "Ajustes del canal",
+      "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu canal",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los miembros añadidos a este canal.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
       "HMAC_DESCRIPTION": "Para validar la identidad del usuario, puede pasar un `identifier_hash` para cada usuario. Puedes generar un hash HMAC sha256 usando el `identifier` con la clave que se muestra aquí.",
       "HMAC_LINK_TO_DOCS": "Puedes leer más aquí.",
       "HMAC_MANDATORY_VERIFICATION": "Forzar validación de identidad de usuario",
       "HMAC_MANDATORY_DESCRIPTION": "Si está activado, las peticiones que no tengan el `identifier_hash` serán rechazadas.",
-      "INBOX_IDENTIFIER": "Identificador de bandeja de entrada",
+      "INBOX_IDENTIFIER": "Identificador de canal",
       "INBOX_IDENTIFIER_SUB_TEXT": "Usa el token `inbox_identifier` que se muestra aquí para autenticar tus clientes API.",
       "FORWARD_EMAIL_TITLE": "Reenviar al correo",
       "FORWARD_EMAIL_SUB_TEXT": "Empieze a reenviar su emails a la siguiente dirección de email.",
@@ -538,12 +538,12 @@
       "PLACEHOLDER": "Seleccione Centro de Ayuda",
       "SELECT_PLACEHOLDER": "Seleccione Centro de Ayuda",
       "REMOVE": "Eliminar Centro de Ayuda",
-      "SUB_TEXT": "Adjuntar un Centro de Ayuda con la bandeja de entrada"
+      "SUB_TEXT": "Adjuntar un Centro de Ayuda con el canal"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Límite de asignación automática",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Por favor ingrese un valor mayor a 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limite la cantidad máxima de conversaciones de esta bandeja de entrada que se pueden asignar automáticamente a un agente"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limite la cantidad máxima de conversaciones de este canal que se pueden asignar automáticamente a un miembro"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
@@ -609,9 +609,9 @@
       "WEEKLY_TITLE": "Establecer sus horas semanales",
       "TIMEZONE_LABEL": "Seleccione la zona horaria",
       "UPDATE": "Actualice las horas de atención",
-      "TOGGLE_AVAILABILITY": "Habilite la disponibilidad de atención para esta bandeja de entrada",
+      "TOGGLE_AVAILABILITY": "Habilite la disponibilidad de atención para este canal",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensaje no disponible para visitantes",
-      "TOGGLE_HELP": "Al habilitar el horario de atención se mostraran las horas disponibles en el \"widget\" del chat en vivo si todos los agentes están fuera de línea. Fuera de las horas disponibles los visitantes pueden ser notificado con un mensaje y una forma PreChat.",
+      "TOGGLE_HELP": "Al habilitar el horario de atención se mostraran las horas disponibles en el \"widget\" del chat en vivo si todos los miembros están fuera de línea. Fuera de las horas disponibles los visitantes pueden ser notificado con un mensaje y una forma PreChat.",
       "DAY": {
         "ENABLE": "Activar la disponibilidad para este día",
         "UNAVAILABLE": "No disponible",
@@ -626,7 +626,7 @@
       "SUBTITLE": "Configura los detalles de IMAP",
       "NOTE_TEXT": "Para habilitar SMTP, por favor configure IMAP.",
       "UPDATE": "Actualizar ajustes IMAP",
-      "TOGGLE_AVAILABILITY": "Habilitar configuración IMAP para esta bandeja de entrada",
+      "TOGGLE_AVAILABILITY": "Habilitar configuración IMAP para este canal",
       "TOGGLE_HELP": "Habilitar IMAP ayudará al usuario a recibir correo electrónico",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configuración IMAP actualizada correctamente",
@@ -658,7 +658,7 @@
       "TITLE": "SMTP",
       "SUBTITLE": "Configura tus detalles de SMTP",
       "UPDATE": "Actualizar ajustes SMTP",
-      "TOGGLE_AVAILABILITY": "Habilitar configuración SMTP para esta bandeja de entrada",
+      "TOGGLE_AVAILABILITY": "Habilitar configuración SMTP para este canal",
       "TOGGLE_HELP": "Habilitar SMTP ayudará al usuario a enviar correo electrónico",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configuración SMTP actualizada correctamente",

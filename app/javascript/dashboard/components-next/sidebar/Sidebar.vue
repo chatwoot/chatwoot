@@ -9,13 +9,13 @@ import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 
-import Button from 'dashboard/components-next/button/Button.vue';
+// import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
-import Logo from 'next/icon/Logo.vue';
-import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+// import Logo from 'next/icon/Logo.vue';
+// import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
 const emit = defineEmits([
   'closeKeyShortcutModal',
@@ -43,12 +43,16 @@ useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 // and also when the user refreshes the page
 const expandedItem = useStorage(
   'next-sidebar-expanded-item',
-  null,
+  [],
   sessionStorage
 );
 
 const setExpandedItem = name => {
-  expandedItem.value = expandedItem.value === name ? null : name;
+  if (expandedItem.value.includes(name)) {
+    expandedItem.value = expandedItem.value.filter(item => item !== name);
+  } else {
+    expandedItem.value = [...expandedItem.value, name];
+  }
 };
 provideSidebarContext({
   expandedItem,
@@ -95,28 +99,28 @@ const newReportRoutes = () => [
     to: accountScopedRoute('inbox_reports_index'),
     activeOn: ['inbox_reports_show'],
   },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports_index'),
-    activeOn: ['team_reports_show'],
-  },
+  // {
+  //   name: 'Reports Team',
+  //   label: t('SIDEBAR.REPORTS_TEAM'),
+  //   to: accountScopedRoute('team_reports_index'),
+  //   activeOn: ['team_reports_show'],
+  // },
 ];
 
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
-    {
-      name: 'Inbox',
-      label: t('SIDEBAR.INBOX'),
-      icon: 'i-lucide-inbox',
-      to: accountScopedRoute('inbox_view'),
-      activeOn: ['inbox_view', 'inbox_view_conversation'],
-      getterKeys: {
-        badge: 'notifications/getHasUnreadNotifications',
-      },
-    },
+    // {
+    //   name: 'Inbox',
+    //   label: t('SIDEBAR.INBOX'),
+    //   icon: 'i-lucide-inbox',
+    //   to: accountScopedRoute('inbox_view'),
+    //   activeOn: ['inbox_view', 'inbox_view_conversation'],
+    //   getterKeys: {
+    //     badge: 'notifications/getHasUnreadNotifications',
+    //   },
+    // },
     {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
@@ -128,12 +132,12 @@ const menuItems = computed(() => {
           activeOn: ['inbox_conversation'],
           to: accountScopedRoute('home'),
         },
-        {
-          name: 'Mentions',
-          label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
-          activeOn: ['conversation_through_mentions'],
-          to: accountScopedRoute('conversation_mentions'),
-        },
+        // {
+        //   name: 'Mentions',
+        //   label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
+        //   activeOn: ['conversation_through_mentions'],
+        //   to: accountScopedRoute('conversation_mentions'),
+        // },
         {
           name: 'Unattended',
           activeOn: ['conversation_through_unattended'],
@@ -397,12 +401,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-square-user',
           to: accountScopedRoute('agent_list'),
         },
-        {
-          name: 'Settings Teams',
-          label: t('SIDEBAR.TEAMS'),
-          icon: 'i-lucide-users',
-          to: accountScopedRoute('settings_teams_list'),
-        },
+        // {
+        //   name: 'Settings Teams',
+        //   label: t('SIDEBAR.TEAMS'),
+        //   icon: 'i-lucide-users',
+        //   to: accountScopedRoute('settings_teams_list'),
+        // },
         {
           name: 'Settings Inboxes',
           label: t('SIDEBAR.INBOXES'),
@@ -493,10 +497,10 @@ const menuItems = computed(() => {
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
-        <div class="grid flex-shrink-0 size-6 place-content-center">
+        <!-- <div class="grid flex-shrink-0 size-6 place-content-center">
           <Logo class="size-4" />
-        </div>
-        <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
+        </div> 
+        <div class="flex-shrink-0 w-px h-3 bg-n-strong" /> -->
         <SidebarAccountSwitcher
           class="flex-grow min-w-0 -mx-1"
           @show-create-account-modal="emit('showCreateAccountModal')"
@@ -517,6 +521,7 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
+        <!--
         <ComposeConversation align-position="right">
           <template #trigger="{ toggle }">
             <Button
@@ -528,6 +533,7 @@ const menuItems = computed(() => {
             />
           </template>
         </ComposeConversation>
+        -->
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">

@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_instagram_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_instagram_inbox_settings'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_email_inbox_settings'
+    get '/app/accounts/:account_id/conversations', to: 'dashboard#index', as: 'app_conversations'
+    get '/app/accounts/:account_id/dashboard', to: 'dashboard#index', as: 'app_dashboard'
 
     resource :widget, only: [:show]
     namespace :survey do
@@ -38,6 +40,9 @@ Rails.application.routes.draw do
       # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update] do
+        collection do
+          post :create_with_store
+        end
         member do
           post :update_active_at
           get :cache_keys
@@ -95,6 +100,7 @@ Rails.application.routes.draw do
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
+          resources :ai_message_feedbacks, only: [:create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -288,7 +294,9 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :knowledge_bases, only: [:index, :show, :create, :update, :destroy]
           resources :upload, only: [:create]
+          post 'onboarding_config', to: 'configuration_backend#create'
         end
       end
       # end of account scoped api routes
@@ -349,6 +357,10 @@ Rails.application.routes.draw do
       resources :accounts, only: [:create] do
         scope module: :accounts do
           resources :prompts, only: [:index, :update]
+          resource :subscription, only: [:create, :show] do
+            get :portal, on: :member
+            get :limits, on: :member
+          end
           resources :summary_reports, only: [] do
             collection do
               get :agent
@@ -468,6 +480,21 @@ Rails.application.routes.draw do
     resources :accounts do
       resources :conversations, only: [:show]
     end
+  end
+
+  # ----------------------------------------------------------------------
+  # Routes for billing webhooks
+  namespace :webhooks do
+    # Generic billing webhook endpoints (provider-agnostic)
+    post 'billing/process_event', to: 'billing#process_event'
+    get 'billing/health', to: 'billing#health'
+
+    # Legacy Stripe-specific endpoints (for backward compatibility)
+    post 'stripe/process_event', to: 'billing#process_event'
+    get 'stripe/health', to: 'billing#health'
+
+    # Shopify compliance webhooks
+    post 'shopify/compliance', to: 'shopify#compliance'
   end
 
   # ----------------------------------------------------------------------

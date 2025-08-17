@@ -55,6 +55,7 @@ export default {
     useKeyboardEvents(keyboardEvents);
 
     return {
+      setReplyMode,
       handleModeToggle,
       handleReplyClick,
       handleNoteClick,
@@ -73,7 +74,7 @@ export default {
       };
     },
     charLengthClass() {
-      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
+      return this.charactersRemaining < 0 ? 'text-n-ruby-9' : 'text-n-slate-11';
     },
     characterLengthWarning() {
       return this.charactersRemaining < 0
@@ -86,11 +87,7 @@ export default {
 
 <template>
   <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
-    <EditorModeToggle
-      :mode="mode"
-      class="mt-3"
-      @toggle-mode="handleModeToggle"
-    />
+    <EditorModeToggle :mode="mode" class="mt-3" @update:mode="setReplyMode" />
     <div class="flex items-center mx-4 my-0">
       <div v-if="isMessageLengthReachingThreshold" class="text-xs">
         <span :class="charLengthClass">

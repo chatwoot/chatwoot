@@ -1,13 +1,13 @@
 @mixin label-multiselect-hover {
   &::after {
-    @apply text-n-brand;
+    @apply text-n-brand dark:text-n-lightBrand;
   }
 
   &:hover {
     @apply bg-n-slate-3;
 
     &::after {
-      @apply text-n-blue-text;
+      @apply text-n-brand dark:text-n-lightBrand;
     }
   }
 }
@@ -15,6 +15,10 @@
 .multiselect {
   &:not(.no-margin) {
     @apply mb-4;
+  }
+
+  &.invalid .multiselect__tags {
+    @apply border-0 outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8;
   }
 
   &.multiselect--disabled {
@@ -124,8 +128,7 @@
   }
 
   .multiselect__input {
-    @include ghost-input;
-    @apply text-sm h-[2.875rem] mb-0 p-0;
+    @apply text-sm h-[2.875rem] mb-0 p-0 shadow-none border-transparent hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none active:border-transparent active:shadow-none;
   }
 
   .multiselect__single {

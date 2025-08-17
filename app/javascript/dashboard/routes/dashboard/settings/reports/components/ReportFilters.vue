@@ -188,7 +188,7 @@ export default {
               :username="props.option.name"
               size="22px"
             />
-            <span class="my-0 text-slate-800 truncate dark:text-slate-75">{{
+            <span class="my-0 text-n-slate-12 truncate">{{
               props.option.name
             }}</span>
           </div>
@@ -201,7 +201,7 @@ export default {
               :username="props.option.name"
               size="22px"
             />
-            <p class="my-0 text-slate-800 dark:text-slate-75">
+            <p class="my-0 text-n-slate-12">
               {{ props.option.name }}
             </p>
           </div>
@@ -230,7 +230,7 @@ export default {
               class="w-5 h-5 rounded-full"
             />
 
-            <span class="my-0 text-slate-800 truncate dark:text-slate-75">
+            <span class="my-0 text-n-slate-12 truncate">
               {{ props.option.title }}
             </span>
           </div>
@@ -239,10 +239,10 @@ export default {
           <div class="flex items-center min-w-0 gap-2">
             <div
               :style="{ backgroundColor: props.option.color }"
-              class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-slate-100 dark:border-slate-800"
+              class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-n-weak"
             />
 
-            <span class="my-0 text-slate-800 truncate dark:text-slate-75">
+            <span class="my-0 text-n-slate-12 truncate">
               {{ props.option.title }}
             </span>
           </div>

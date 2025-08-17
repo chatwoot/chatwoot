@@ -27,6 +27,10 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def billing_access?
+    @account_user.administrator?
+  end
+
   def toggle_deletion?
     @account_user.administrator?
   end

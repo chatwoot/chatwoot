@@ -40,6 +40,16 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
+
+  # Mock Stripe billing jobs in tests by default to prevent HTTP calls
+  # but skip mocking when we're explicitly testing billing job behavior
+  config.before do
+    unless RSpec.current_example&.file_path&.include?('jobs/billing')
+      allow(Billing::ProvisionStripeSubscriptionJob).to receive(:perform_later)
+      allow(Billing::CreateCustomerJob).to receive(:perform_later)
+    end
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = Rails.root.join('spec/fixtures')
 

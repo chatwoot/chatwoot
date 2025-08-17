@@ -60,7 +60,7 @@ export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
 
 // https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
 export const ALLOWED_FILE_TYPES_FOR_INSTAGRAM =
-  'image/png, image/jpeg, video/mp4, video/mov, video/webm';
+  'image/png, image/jpeg, video/mp4, video/mov, video/webm, audio/aac, audio/mp4, audio/wav, audio/mpeg, audio/ogg';
 
 export const CSAT_RATINGS = [
   {

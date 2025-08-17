@@ -264,12 +264,10 @@ export default {
       v-if="showQueryOperator"
       class="flex items-center justify-center relative my-2.5 mx-0"
     >
-      <hr
-        class="absolute w-full border-b border-solid border-slate-75 dark:border-slate-800"
-      />
+      <hr class="absolute w-full border-b border-solid border-n-weak" />
       <select
         v-model="query_operator"
-        class="relative w-auto mb-0 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600"
+        class="relative w-auto mb-0 bg-n-background text-n-slate-12 border-n-weak"
       >
         <option value="and">
           {{ $t('FILTER.QUERY_DROPDOWN_LABELS.AND') }}
@@ -285,7 +283,7 @@ export default {
 <style lang="scss" scoped>
 .filter__answer--wrap {
   input {
-    @apply bg-white dark:bg-slate-900 mb-0 text-slate-800 dark:text-slate-100 border-slate-75 dark:border-slate-600;
+    @apply bg-n-background mb-0 text-n-slate-12 border-n-weak;
   }
 }
 

@@ -1,3 +1,5 @@
+import wootConstants from 'dashboard/constants/globals';
+
 export const frontendURL = (path, params) => {
   const stringifiedParams = params ? `?${new URLSearchParams(params)}` : '';
   return `/app/${path}${stringifiedParams}`;
@@ -21,11 +23,13 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/team/${teamId}/conversations/${id}`;
   } else if (foldersId && foldersId !== 0) {
     url = `accounts/${accountId}/custom_view/${foldersId}/conversations/${id}`;
-  } else if (conversationType === 'mention') {
+  } else if (conversationType === wootConstants.CONVERSATION_TYPE.MENTION) {
     url = `accounts/${accountId}/mentions/conversations/${id}`;
-  } else if (conversationType === 'participating') {
+  } else if (
+    conversationType === wootConstants.CONVERSATION_TYPE.PARTICIPATING
+  ) {
     url = `accounts/${accountId}/participating/conversations/${id}`;
-  } else if (conversationType === 'unattended') {
+  } else if (conversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED) {
     url = `accounts/${accountId}/unattended/conversations/${id}`;
   }
   return url;

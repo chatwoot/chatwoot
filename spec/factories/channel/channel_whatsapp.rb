@@ -78,6 +78,8 @@ FactoryBot.define do
       if channel_whatsapp.provider == 'whatsapp_cloud'
         channel_whatsapp.provider_config = channel_whatsapp.provider_config.merge({ 'api_key' => 'test_key', 'phone_number_id' => '123456789',
                                                                                     'business_account_id' => '123456789' })
+      elsif channel_whatsapp.provider == 'whapi'
+        channel_whatsapp.provider_config = channel_whatsapp.provider_config.merge({ 'api_key' => 'test_key', 'phone_number_id' => 'whapi_phone_id' })
       end
     end
 

@@ -1,0 +1,68 @@
+---
+# Billing Plans Configuration
+# This file defines the subscription plans available and the features associated with each plan.
+# Features are referenced from config/features.yml
+
+plans:
+  community:
+    name: "Community"
+    description: "Basic features for community members after subscription ends"
+    price_id: null  # No external price ID for community plan
+    feature_tiers:
+      - "community" # Only basic community features
+    limits: # Fallback limits for community plan (in case the limits are not set in the payment provider)
+      agents: 0
+      inboxes: 0
+      conversations_monthly: 0
+  free_trial:
+    name: "Free Trial"
+    description: "Basic features for small teams on a trial basis"
+    price_id: null  # No external price ID for free trial plan
+    trial_expires_in_days: 7
+    feature_tiers:
+      - "starter" # Starter tier features are available to free trial plans for trial_expires_in_days
+    limits: # This are the limits that are used directly since there's no payment provider for free trial plan
+      agents: 2 # We need to set this to 2 since we want to be able
+      #to have have the 1 agent (admin) and 1 agent (user)
+      inboxes: 2 # We need to set this to 2 since we want to be able
+      #to create inboxes for 1 channel in Instagram and 1 channel in WhatsApp
+      conversations_monthly: 1000
+
+  starter:
+    name: "Starter"
+    description: "Perfect for growing teams"
+    price_id: "price_1RdbcC4TqKLiHbZ87crta9vQ"
+    feature_tiers:
+      - "starter"
+    limits: # Fallback limits for community plan (in case the limits are not set in the payment provider)
+      agents: 5
+      inboxes: 2
+      conversations_monthly: 4000
+
+  professional:
+    name: "Professional"
+    description: "Advanced features for professional teams"
+    price_id: "THIS_SHOULD_BE_REPLACED_WITH_ACTUAL_PRICE_ID"  # TODO: Replace with actual payment provider price ID
+    feature_tiers:
+      - "starter"
+      - "professional"
+    limits: # Fallback limits for community plan (in case the limits are not set in the payment provider)
+      agents: 15
+      inboxes: 2
+      conversations_monthly: 10000
+
+  enterprise:
+    name: "Enterprise"
+    description: "Full feature set for large organizations"
+    price_id: "THIS_SHOULD_BE_REPLACED_WITH_ACTUAL_PRICE_ID"  # TODO: Replace with actual payment provider price ID
+    feature_tiers:
+      - "starter"
+      - "professional"
+      - "enterprise"
+    limits: # Fallback limits for community plan (in case the limits are not set in the payment provider)
+      agents: -1  # Unlimited
+      inboxes: -1  # Unlimited
+      conversations_monthly: -1  # Unlimited
+
+# Default plan for new accounts
+default_plan: "free_trial" 

@@ -572,8 +572,8 @@ RSpec.describe Conversation do
     let!(:bot_inbox) { create(:agent_bot_inbox) }
     let(:conversation) { create(:conversation, inbox: bot_inbox.inbox) }
 
-    it 'returns conversation status as pending' do
-      expect(conversation.status).to eq('pending')
+    it 'returns conversation status as open' do
+      expect(conversation.status).to eq('open')
     end
 
     it 'returns conversation as open if campaign is present' do
@@ -587,8 +587,8 @@ RSpec.describe Conversation do
     let(:hook) { create(:integrations_hook, :dialogflow, inbox: inbox) }
     let(:conversation) { create(:conversation, inbox: hook.inbox) }
 
-    it 'returns conversation status as pending' do
-      expect(conversation.status).to eq('pending')
+    it 'returns conversation status as open' do
+      expect(conversation.status).to eq('open')
     end
   end
 
@@ -769,6 +769,91 @@ RSpec.describe Conversation do
         ]
       end
     end
+
+    describe 'sort_on_unread_count' do
+      let!(:conversation_no_unread) { create(:conversation, agent_last_seen_at: Time.current) }
+      let!(:conversation_with_unread) { create(:conversation, agent_last_seen_at: 1.hour.ago) }
+      let!(:conversation_never_seen) { create(:conversation, agent_last_seen_at: nil) }
+
+      before do
+        # Create unread messages for different conversations
+        create_list(:message, 3, conversation: conversation_with_unread,
+                                 message_type: :incoming, private: false, created_at: 30.minutes.ago)
+        create_list(:message, 2, conversation: conversation_never_seen,
+                                 message_type: :incoming, private: false, created_at: 30.minutes.ago)
+        # No unread messages for conversation_no_unread since agent_last_seen_at is current
+      end
+
+      it 'returns conversations sorted by unread count in descending order by default' do
+        records = described_class.sort_on_unread_count
+        unread_counts = records.map(&:unread_count)
+
+        # Verify conversations with more unread messages come first
+        expect(unread_counts.first).to be >= unread_counts.second
+        expect(unread_counts.second).to be >= unread_counts.last
+
+        # Verify specific conversations are in correct order
+        expect(records.first.id).to eq(conversation_with_unread.id)
+        expect(records.map(&:id)).to include(conversation_never_seen.id, conversation_no_unread.id)
+      end
+
+      it 'returns conversations sorted by unread count in ascending order when specified' do
+        records = described_class.sort_on_unread_count(:asc)
+        unread_counts = records.map(&:unread_count)
+
+        # Verify conversations with fewer unread messages come first
+        expect(unread_counts.first).to be <= unread_counts.second
+        expect(unread_counts.second).to be <= unread_counts.last
+
+        # Conversation with no unread should be first
+        expect(records.first.id).to eq(conversation_no_unread.id)
+      end
+
+      it 'handles conversations with agent_last_seen_at as NULL correctly' do
+        records = described_class.sort_on_unread_count
+        never_seen_record = records.find { |r| r.id == conversation_never_seen.id }
+
+        # Conversation never seen by agent should have unread_count > 0
+        expect(never_seen_record.unread_count).to be > 0
+      end
+
+      it 'falls back to last_activity_at when unread counts are equal' do
+        # Mock timestamps for predictable testing
+        base_time = Time.zone.parse('2024-01-01 12:00:00')
+        agent_seen_time = base_time - 2.hours
+        message_time = base_time - 1.hour
+        recent_activity_time = base_time - 30.minutes
+        older_activity_time = base_time - 3.hours
+
+        travel_to base_time do
+          # Create two conversations with same unread count but different last_activity_at
+          conversation_recent = create(:conversation,
+                                       agent_last_seen_at: agent_seen_time,
+                                       last_activity_at: recent_activity_time)
+          conversation_older = create(:conversation,
+                                      agent_last_seen_at: agent_seen_time,
+                                      last_activity_at: older_activity_time)
+
+          # Create same number of unread messages for both (created after agent_last_seen_at)
+          create(:message, conversation: conversation_recent, message_type: :incoming,
+                           private: false, created_at: message_time)
+          create(:message, conversation: conversation_older, message_type: :incoming,
+                           private: false, created_at: message_time)
+
+          records = described_class.where(id: [conversation_recent.id, conversation_older.id])
+                                   .sort_on_unread_count
+
+          # Verify both conversations have the same unread count
+          expect(records.first.unread_count).to eq(records.second.unread_count)
+          expect(records.first.unread_count).to eq(1)
+
+          # According to the implementation, secondary sort is "last_activity_at DESC"
+          # So conversation with more recent last_activity_at should come first
+          expect(records.first.id).to eq(conversation_recent.id)
+          expect(records.second.id).to eq(conversation_older.id)
+        end
+      end
+    end
   end
 
   describe 'cached_label_list_array' do
@@ -834,6 +919,119 @@ RSpec.describe Conversation do
       allow(message_window_service).to receive(:can_reply?).and_return(false)
       expect(conversation.can_reply?).to be false
       expect(message_window_service).to have_received(:can_reply?)
+    end
+  end
+
+  describe 'reply time calculation flows' do
+    include ActiveJob::TestHelper
+
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, assignee: agent, waiting_since: nil) }
+    let(:conversation_start_time) { 5.hours.ago }
+
+    before do
+      create(:inbox_member, user: agent, inbox: inbox)
+      # rubocop:disable Rails/SkipsModelValidations
+      conversation.update_column(:waiting_since, nil)
+      conversation.update_column(:created_at, conversation_start_time)
+      # rubocop:enable Rails/SkipsModelValidations
+      conversation.messages.destroy_all
+      conversation.reporting_events.destroy_all
+      conversation.reload
+    end
+
+    def create_customer_message(conversation, created_at: Time.current)
+      message = nil
+      perform_enqueued_jobs do
+        message = create(:message,
+                         message_type: 'incoming',
+                         account: conversation.account,
+                         inbox: conversation.inbox,
+                         conversation: conversation,
+                         sender: conversation.contact,
+                         created_at: created_at)
+      end
+      message
+    end
+
+    def create_agent_message(conversation, created_at: Time.current)
+      message = nil
+      perform_enqueued_jobs do
+        message = create(:message,
+                         message_type: 'outgoing',
+                         account: conversation.account,
+                         inbox: conversation.inbox,
+                         conversation: conversation,
+                         sender: conversation.assignee,
+                         created_at: created_at)
+      end
+      message
+    end
+
+    it 'correctly tracks waiting_since and creates first response time events' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+
+      # Agent replies - this should create first response event
+      agent_reply1_time = 4.hours.ago
+      create_agent_message(conversation, created_at: agent_reply1_time)
+
+      first_response_events = account.reporting_events.where(name: 'first_response', conversation_id: conversation.id)
+      expect(first_response_events.count).to eq(1)
+      expect(first_response_events.first.value).to be_within(1.second).of(1.hour)
+
+      # the first response should also clear the waiting_since
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'does not reset waiting_since if customer sends another message' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+
+      create_customer_message(conversation, created_at: 3.hours.ago)
+      conversation.reload
+      expect(conversation.waiting_since).to be_within(1.second).of(conversation_start_time)
+    end
+
+    it 'records the correct reply_time for subsequent messages' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      create_agent_message(conversation, created_at: 4.hours.ago)
+      create_customer_message(conversation, created_at: 3.hours.ago)
+
+      create_agent_message(conversation, created_at: 2.hours.ago)
+      reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+      expect(reply_events.count).to eq(1)
+      expect(reply_events.first.value).to be_within(1.second).of(1.hour)
+
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'records zero reply time if an agent sends a message after resolution' do
+      create_customer_message(conversation, created_at: conversation_start_time)
+      create_agent_message(conversation, created_at: 4.hours.ago)
+      create_customer_message(conversation, created_at: 3.hours.ago)
+
+      conversation.toggle_status
+      expect(conversation.status).to eq('resolved')
+
+      conversation.toggle_status
+      expect(conversation.status).to eq('open')
+
+      conversation.reload
+      expect(conversation.waiting_since).to be_nil
+
+      create_agent_message(conversation, created_at: 1.hour.ago)
+      # update_waiting_since will ensure that no events were created since the waiting_since was nil
+      # if the event is created it should log zero value, we have handled that in the reporting_event_listener
+      reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+      expect(reply_events.count).to eq(0)
     end
   end
 end

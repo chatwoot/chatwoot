@@ -34,8 +34,6 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
   def process_messages(entry)
     messages(entry).each do |messaging|
-      Rails.logger.info("Instagram Events Job Messaging: #{messaging}")
-
       instagram_id = instagram_id(messaging)
       channel = find_channel(instagram_id)
 

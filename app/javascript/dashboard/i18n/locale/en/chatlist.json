@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Pending Response: Shortest first"
+      },
+      "unread_count_desc": {
+        "TEXT": "Unread messages: Most first"
       }
     },
     "ATTACHMENTS": {

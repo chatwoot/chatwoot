@@ -235,6 +235,10 @@ const tailwindConfig = {
         '50%': { transform: 'translateX(-0.234375rem)' },
         '75%': { transform: 'translateX(0.234375rem)' },
       },
+      fillLine: {
+        from: { width: '0%' },
+        to: { width: '100%' },
+      },
     },
     animation: {
       ...defaultTheme.animation,
@@ -243,6 +247,7 @@ const tailwindConfig = {
       'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       'card-select': 'card-select 0.25s ease-in-out',
       shake: 'shake 0.3s ease-in-out 0s 2',
+      fillLine: 'fillLine 0.5s ease-in-out forwards',
     },
   },
   plugins: [

@@ -55,23 +55,19 @@ const handleAction = ({ action, value }) => {
   <CardLayout>
     <div class="flex justify-between gap-2">
       <div class="flex items-center justify-start gap-2">
-        <span
-          class="text-sm font-medium text-slate-900 dark:text-slate-50 line-clamp-1"
-        >
+        <span class="text-sm font-medium text-n-slate-12 line-clamp-1">
           {{ locale }} ({{ localeCode }})
         </span>
         <span
           v-if="isDefault"
-          class="bg-n-alpha-2 h-6 inline-flex items-center justify-center rounded-md text-xs border-px border-transparent text-n-blue-text px-2 py-0.5"
+          class="bg-n-alpha-2 h-6 inline-flex items-center justify-center rounded-md text-xs border-px border-transparent text-n-brand dark:text-n-lightBrand px-2 py-0.5"
         >
           {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DEFAULT') }}
         </span>
       </div>
       <div class="flex items-center justify-end gap-4">
         <div class="flex items-center gap-4">
-          <span
-            class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap"
-          >
+          <span class="text-sm text-n-slate-11 whitespace-nowrap">
             {{
               $t(
                 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.ARTICLES_COUNT',
@@ -79,10 +75,8 @@ const handleAction = ({ action, value }) => {
               )
             }}
           </span>
-          <div class="w-px h-3 bg-slate-75 dark:bg-slate-800" />
-          <span
-            class="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap"
-          >
+          <div class="w-px h-3 bg-n-weak" />
+          <span class="text-sm text-n-slate-11 whitespace-nowrap">
             {{
               $t(
                 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.CATEGORIES_COUNT',

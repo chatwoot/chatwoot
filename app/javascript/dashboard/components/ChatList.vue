@@ -31,6 +31,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import IntersectionObserver from './IntersectionObserver.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -91,7 +92,7 @@ const conversationDynamicScroller = ref(null);
 
 provide('contextMenuElementTarget', conversationDynamicScroller);
 
-const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
+const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ALL);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
@@ -300,13 +301,15 @@ const pageTitle = computed(() => {
   if (props.label) {
     return `#${props.label}`;
   }
-  if (props.conversationType === 'mention') {
+  if (props.conversationType === wootConstants.CONVERSATION_TYPE.MENTION) {
     return t('CHAT_LIST.MENTION_HEADING');
   }
-  if (props.conversationType === 'participating') {
+  if (
+    props.conversationType === wootConstants.CONVERSATION_TYPE.PARTICIPATING
+  ) {
     return t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
   }
-  if (props.conversationType === 'unattended') {
+  if (props.conversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED) {
     return t('CHAT_LIST.UNATTENDED_HEADING');
   }
   if (hasActiveFolders.value) {
@@ -656,9 +659,9 @@ function redirectToConversationList() {
 
   let conversationType = '';
   if (isOnMentionsView({ route: { name } })) {
-    conversationType = 'mention';
+    conversationType = wootConstants.CONVERSATION_TYPE.MENTION;
   } else if (isOnUnattendedView({ route: { name } })) {
-    conversationType = 'unattended';
+    conversationType = wootConstants.CONVERSATION_TYPE.UNATTENDED;
   }
   router.push(
     conversationListPageURL({
@@ -765,6 +768,12 @@ useEventListener(conversationDynamicScroller, 'scroll', handleScroll);
 onMounted(() => {
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
+
+  // Set default sorting for unattended conversations to prioritize unread messages
+  if (props.conversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED) {
+    activeSortBy.value = wootConstants.SORT_BY_TYPE.UNREAD_COUNT_DESC;
+  }
+
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
   resetAndFetchData();
@@ -818,7 +827,17 @@ watch(
 );
 watch(
   computed(() => props.conversationType),
-  () => resetAndFetchData()
+  newConversationType => {
+    // Set default sorting for unattended conversations to prioritize unread messages
+    if (newConversationType === wootConstants.CONVERSATION_TYPE.UNATTENDED) {
+      activeSortBy.value = wootConstants.SORT_BY_TYPE.UNREAD_COUNT_DESC;
+      store.dispatch(
+        'setChatSortFilter',
+        wootConstants.SORT_BY_TYPE.UNREAD_COUNT_DESC
+      );
+    }
+    resetAndFetchData();
+  }
 );
 
 watch(activeFolder, (newVal, oldVal) => {
@@ -953,12 +972,14 @@ watch(conversationFilters, (newVal, oldVal) => {
           </DynamicScrollerItem>
         </template>
         <template #after>
-          <div v-if="chatListLoading" class="text-center">
-            <span class="mt-4 mb-4 spinner" />
+          <div v-if="chatListLoading" class="flex justify-center my-4">
+            <Spinner
+              class="text-n-brand dark:text-n-lightBrand dark:text-n-lightBrand"
+            />
           </div>
           <p
             v-else-if="showEndOfListMessage"
-            class="p-4 text-center text-slate-400 dark:text-slate-300"
+            class="p-4 text-center text-n-slate-11"
           >
             {{ $t('CHAT_LIST.EOF') }}
           </p>

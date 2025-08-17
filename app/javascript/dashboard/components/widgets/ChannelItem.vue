@@ -1,5 +1,6 @@
 <script>
 import ChannelSelector from '../ChannelSelector.vue';
+import { CUSTOM_EVENTS } from 'shared/constants/customEvents';
 export default {
   components: { ChannelSelector },
   props: {
@@ -12,7 +13,7 @@ export default {
       required: true,
     },
   },
-  emits: ['channelItemClick'],
+  emits: [CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK],
   computed: {
     hasFbConfigured() {
       return window.chatwootConfig?.fbAppId;
@@ -57,6 +58,12 @@ export default {
         'voice',
       ].includes(key);
     },
+    isComingSoon() {
+      const { key } = this.channel;
+      // Show "Coming Soon" only if the channel is marked as coming soon
+      // and the corresponding feature flag is not enabled yet.
+      return ['voice'].includes(key) && !this.isActive;
+    },
   },
   methods: {
     getChannelThumbnail() {
@@ -67,7 +74,7 @@ export default {
     },
     onItemClick() {
       if (this.isActive) {
-        this.$emit('channelItemClick', this.channel.key);
+        this.$emit(CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK, this.channel.key);
       }
     },
   },
@@ -79,6 +86,7 @@ export default {
     :class="{ inactive: !isActive }"
     :title="channel.name"
     :src="getChannelThumbnail()"
+    :is-coming-soon="isComingSoon"
     @click="onItemClick"
   />
 </template>

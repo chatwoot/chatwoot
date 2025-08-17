@@ -1,7 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { createStore } from 'vuex';
 import EditPrompt from '../EditPrompt.vue';
+
+// Create a simple mock store
+let mockStore;
 
 // Mock the composition API dependencies that are complex to test
 vi.mock('vue-router', () => ({
@@ -10,7 +12,7 @@ vi.mock('vue-router', () => ({
 }));
 
 vi.mock('vue-i18n', () => ({
-  useI18n: () => ({ t: (key) => key }),
+  useI18n: () => ({ t: key => key }),
 }));
 
 vi.mock('dashboard/composables', () => ({
@@ -19,13 +21,10 @@ vi.mock('dashboard/composables', () => ({
 
 vi.mock('dashboard/composables/store', () => ({
   useStore: () => mockStore,
-  useMapGetter: (getter) => ({
+  useMapGetter: getter => ({
     value: mockStore.getters[getter],
   }),
 }));
-
-// Create a simple mock store
-let mockStore;
 
 describe('EditPrompt.vue', () => {
   let wrapper;
@@ -56,7 +55,8 @@ describe('EditPrompt.vue', () => {
         global: {
           stubs: {
             PromptEditor: {
-              template: '<div data-testid="prompt-editor">Mock PromptEditor</div>',
+              template:
+                '<div data-testid="prompt-editor">Mock PromptEditor</div>',
               props: ['prompt', 'isUpdating', 'isSaved', 'isReadonly'],
             },
           },
@@ -66,14 +66,18 @@ describe('EditPrompt.vue', () => {
       // Wait for the loading state to finish
       await wrapper.vm.$nextTick();
       // Wait for async dispatch to complete
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise(resolve => {
+        setTimeout(resolve, 0);
+      });
       // Wait for the component to update after loading completes
       await wrapper.vm.$nextTick();
-      
+
       // Check if PromptEditor exists or if we're still in loading state
-      const hasPromptEditor = wrapper.find('[data-testid="prompt-editor"]').exists();
+      const hasPromptEditor = wrapper
+        .find('[data-testid="prompt-editor"]')
+        .exists();
       const hasLoadingText = wrapper.text().includes('PROMPTS_PAGE.LOADING');
-      
+
       // At least one should be true (either loaded or loading)
       expect(hasPromptEditor || hasLoadingText).toBe(true);
     });
@@ -103,7 +107,9 @@ describe('EditPrompt.vue', () => {
 
       // Wait for async operations
       await wrapper.vm.$nextTick();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise(resolve => {
+        setTimeout(resolve, 0);
+      });
 
       expect(mockStore.dispatch).toHaveBeenCalledWith('prompts/get');
     });
@@ -115,7 +121,8 @@ describe('EditPrompt.vue', () => {
         global: {
           stubs: {
             PromptEditor: {
-              template: '<div data-testid="prompt-editor">Mock PromptEditor</div>',
+              template:
+                '<div data-testid="prompt-editor">Mock PromptEditor</div>',
               props: ['prompt', 'isUpdating', 'isSaved', 'isReadonly'],
             },
           },
@@ -124,7 +131,9 @@ describe('EditPrompt.vue', () => {
 
       // Wait for loading to complete
       await wrapper.vm.$nextTick();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise(resolve => {
+        setTimeout(resolve, 0);
+      });
       await wrapper.vm.$nextTick();
 
       const promptEditor = wrapper.findComponent({ name: 'PromptEditor' });
@@ -150,10 +159,12 @@ describe('EditPrompt.vue', () => {
 
       // Wait for async operations
       await wrapper.vm.$nextTick();
-      await new Promise(resolve => setTimeout(resolve, 0));
+      await new Promise(resolve => {
+        setTimeout(resolve, 0);
+      });
 
       // Component should still mount without throwing
       expect(wrapper.exists()).toBe(true);
     });
   });
-}); 
+});

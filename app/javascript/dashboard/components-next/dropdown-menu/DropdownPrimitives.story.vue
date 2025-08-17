@@ -51,7 +51,7 @@ const menuItems = ref([
     :layout="{ type: 'grid', width: 400, height: 800 }"
   >
     <Variant title="Profile Menu">
-      <div class="p-4 bg-white h-[500px] dark:bg-slate-900">
+      <div class="p-4 bg-n-background h-[500px]">
         <DropdownContainer>
           <template #trigger="{ toggle }">
             <Button label="Open Menu" size="sm" @click="toggle" />

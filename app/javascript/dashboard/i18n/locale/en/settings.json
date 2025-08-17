@@ -55,7 +55,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any channel.",
         "BTN_TEXT": "Save message signature",
         "API_ERROR": "Couldn't save signature! Try again",
         "API_SUCCESS": "Signature saved successfully",
@@ -232,9 +232,9 @@
     "TRIAL_MESSAGE": "days trial remaining.",
     "TRAIL_BUTTON": "Buy Now",
     "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your email for the verification email.",
     "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your email.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
@@ -269,16 +269,16 @@
   "CONFIRM_EMAIL": "Verifying...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Add Channel"
     }
   },
   "SIDEBAR": {
     "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
+    "INBOX_VIEW": "Channel View",
     "CONVERSATIONS": "Conversations",
-    "INBOX": "My Inbox",
+    "INBOX": "My Channel",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -292,10 +292,10 @@
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Home",
-    "AGENTS": "Agents",
-    "AGENT_BOTS": "Bots",
+    "AGENTS": "Members",
+    "AGENT_BOTS": "AI Bots",
     "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Inboxes",
+    "INBOXES": "Channels",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
@@ -309,13 +309,13 @@
     "PROMPTS": "Prompts",
     "TEAMS": "Teams",
     "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_FOLDER": "Filters",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
     "TAGGED_WITH": "Tagged with",
     "NEW_LABEL": "New label",
     "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
+    "NEW_INBOX": "New channel",
     "REPORTS_CONVERSATION": "Conversations",
     "CSAT": "CSAT",
     "LIVE_CHAT": "Live Chat",
@@ -324,10 +324,10 @@
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agents",
+    "REPORTS_BOT": "AI Bots",
+    "REPORTS_AGENT": "Members",
     "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
+    "REPORTS_INBOX": "Channel",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "SET_YOUR_AVAILABILITY": "Set your availability",
@@ -335,7 +335,7 @@
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Your channel connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ARTICLES": "Articles",
@@ -358,13 +358,18 @@
       "TITLE": "Current Plan",
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
       "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "RENEWS_ON": "Renews on",
+      "ENDS_ON": "Ends on",
+      "STATUS": "Status"
     },
     "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "BUTTON_TXT": "Go to billing portal"
+    },
+    "SETUP_IN_PROGRESS": {
+      "MESSAGE": "Subscription setup in progress..."
     },
     "CAPTAIN": {
       "TITLE": "Captain",
@@ -379,7 +384,26 @@
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "PLANS": {
+      "community": "Community",
+      "free_trial": "Free trial",
+      "starter": "Starter",
+      "professional": "Professional",
+      "enterprise": "Enterprise"
+    },
+    "SUBSCRIPTION_STATUS": {
+      "active": "Active",
+      "cancelled": "Cancelled",
+      "canceled": "Cancelled",
+      "inactive": "Inactive",
+      "past_due": "Past Due",
+      "unpaid": "Unpaid",
+      "incomplete": "Incomplete",
+      "incomplete_expired": "Incomplete Expired",
+      "trialing": "Trialing",
+      "paused": "Paused"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
@@ -423,7 +447,6 @@
     "DESCRIPTION": "Configure prompts for your account. These prompts can be used in the composer to quickly write a message.",
     "EMPTY_STATE": "No prompts found. Create your first prompt to get started.",
     "LOADING": "Loading prompts...",
-    "EDIT": "Edit",
     "DELETE": "Delete",
     "ADD": {
       "TITLE": "Add Prompt",

@@ -48,7 +48,7 @@ export default {
     <div class="macro__node">
       <div>
         <span
-          class="bg-n-solid-blue text-n-blue-text py-1 px-1.5 leading-none text-sm rounded-md"
+          class="bg-n-solid-blue text-n-brand dark:text-n-lightBrand py-1 px-1.5 leading-none text-sm rounded-md"
         >
           {{ $t('MACROS.EDITOR.START_FLOW') }}
         </span>
@@ -102,7 +102,7 @@ export default {
     <div class="macro__node">
       <div>
         <span
-          class="bg-n-solid-blue text-n-blue-text py-1 px-1.5 leading-none text-sm rounded-md"
+          class="bg-n-solid-blue text-n-brand dark:text-n-lightBrand py-1 px-1.5 leading-none text-sm rounded-md"
         >
           {{ $t('MACROS.EDITOR.END_FLOW') }}
         </span>
@@ -118,33 +118,26 @@ export default {
 
 .macro__node:not(:last-child) {
   position: relative;
-  padding-bottom: var(--space-large);
+  padding-bottom: 2rem;
 }
 
 .macro__node:not(:last-child):not(.sortable-chosen):after,
 .macros__nodes-draggable:after {
-  content: '';
-  position: absolute;
-  height: var(--space-large);
-  width: var(--space-smaller);
-  margin-left: var(--space-medium);
-
-  border-left: 1px dashed var(--s-500);
+  @apply border-l dark:border-n-blue-11 border-n-blue-7 border-dashed ltr:ml-6 rtl:mr-6 absolute h-8 w-1 content-[""];
 }
 
 .macros__nodes-draggable {
   position: relative;
-  padding-bottom: var(--space-large);
+  padding-bottom: 2rem;
 }
 
 .macros__node-action-container {
   position: relative;
   .drag-handle {
     position: absolute;
-    left: var(--space-minus-medium);
-    top: var(--space-smaller);
+    left: -1.5rem;
+    top: 0.25rem;
     cursor: move;
-    color: var(--s-400);
   }
 }
 </style>

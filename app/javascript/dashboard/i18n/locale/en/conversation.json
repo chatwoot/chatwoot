@@ -6,11 +6,11 @@
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
     "DASHBOARD_APP_TAB_MESSAGES": "Messages",
     "UNVERIFIED_SESSION": "The identity of this user is not verified",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
+    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your channel.",
     "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
+    "NO_INBOX_1": "Hola! Looks like you haven't added any channels yet.",
     "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
+    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any channel. Please contact your administrator",
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
@@ -28,7 +28,7 @@
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
+    "LOADING_INBOXES": "Loading channels",
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
@@ -44,6 +44,9 @@
     "UNKNOWN_FILE_TYPE": "Unknown File",
     "SAVE_CONTACT": "Save Contact",
     "NO_CONTENT": "No content to display",
+    "CARD": {
+      "VIEW_MORE": "View More"
+    },
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
       "LOCATION": "{sender} has shared a location",
@@ -96,6 +99,10 @@
         "NEXT_WEEK": "Next week"
       }
     },
+    "MENTION": {
+      "AGENTS": "Members",
+      "TEAMS": "Teams"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze until",
       "APPLY": "Snooze",
@@ -135,15 +142,15 @@
         "TOMORROW": "Until tomorrow",
         "NEXT_WEEK": "Until next week"
       },
-      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_AGENT": "Assign member",
       "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
+      "AGENTS_LOADING": "Loading members...",
       "ASSIGN_TEAM": "Assign team",
       "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "FAILED": "Couldn't assign member. Please try again."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
@@ -160,7 +167,7 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
+      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Members",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
       "CLICK_HERE": "Click here to update",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
@@ -168,6 +175,7 @@
     "REPLYBOX": {
       "REPLY": "Reply",
       "PRIVATE_NOTE": "Private Note",
+      "AI_FEEDBACK_MODE": "AI Feedback",
       "SEND": "Send",
       "CREATE": "Add Note",
       "INSERT_READ_MORE": "Read more",
@@ -182,6 +190,10 @@
       "DRAG_DROP": "Drag and drop here to attach",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "AI_FEEDBACK_MODE": "AI Feedback",
+      "AI_FEEDBACK_INPUT": "Provide feedback about this AI response...",
+      "SUBMIT_FEEDBACK": "Submit Feedback",
+      "SUBMITTING_FEEDBACK": "Submitting...",
       "": "",
       "EMAIL_HEAD": {
         "TO": "TO",
@@ -206,6 +218,33 @@
         }
       }
     },
+    "AI_FEEDBACK": {
+      "GOOD_RESPONSE": "Good response",
+      "UNDO_POSITIVE_FEEDBACK": "Click to undo positive feedback",
+      "POOR_RESPONSE": "Poor response - click to provide feedback",
+      "POOR_RESPONSE_LABEL": "Feedback on this response:",
+      "FEEDBACK_SUBMITTED": "Feedback submitted",
+      "THUMBS_UP_SUCCESS": "Positive feedback submitted successfully",
+      "POSITIVE_FEEDBACK_REMOVED": "Positive feedback removed successfully",
+      "THUMBS_DOWN_SUCCESS": "Negative feedback submitted successfully",
+      "SUBMIT_SUCCESS": "Feedback submitted successfully",
+      "SUBMIT_ERROR": "Failed to submit feedback. Please try again.",
+      "FEEDBACK_MODE_ACTIVATED": "Feedback mode activated. Describe what could be improved.",
+      "EDIT_MODE_ACTIVATED": "Edit mode activated. Update your feedback in the composer.",
+      "EDIT_FEEDBACK": "Edit feedback",
+      "DELETE_FEEDBACK": "Delete feedback",
+      "MORE_ACTIONS": "More actions",
+      "DELETE_SUCCESS": "Feedback deleted successfully",
+      "DELETE_ERROR": "Failed to delete feedback. Please try again.",
+      "EMPTY_FEEDBACK_ERROR": "Please provide feedback text before submitting",
+      "MESSAGE_NOT_FOUND_ERROR": "Message not found. Please refresh and try again.",
+      "PERMISSION_ERROR": "You don't have permission to provide feedback on this message",
+      "VALIDATION_ERROR": "Invalid feedback data. Please try again.",
+      "PROVIDING_FEEDBACK_FOR": "Providing feedback for:",
+      "NO_CONTENT": "No message content",
+      "CANCEL_FEEDBACK": "Cancel feedback",
+      "NO_MESSAGE_SELECTED": "Click thumbs down on an AI message to provide feedback"
+    },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
     "CHANGE_STATUS_FAILED": "Conversation status change failed",
@@ -219,11 +258,12 @@
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
-    "BOT": "Bot",
+    "BOT": "AI Bot",
+    "EXTERNAL": "External",
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Select Member",
       "REMOVE": "Remove",
       "ASSIGN": "Assign"
     },
@@ -256,7 +296,7 @@
     "SEND_EMAIL_ERROR": "There was an error, please try again",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Send the transcript to the assigned member",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",
@@ -265,8 +305,8 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to {installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
+    "TITLE": "Welcome to {installationName}!",
+    "DESCRIPTION": "Thanks for signing up. Please follow the steps below to get started.",
     "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
     "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
     "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
@@ -274,12 +314,24 @@
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
       "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status.",
-      "NEW_LINK": "Click here to create an inbox"
+      "NEW_LINK": "Click here to create a channel"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "First, you can bring in your team members to assist you. Invite your team members by email.",
       "NEW_LINK": "Click here to invite a team member"
+    },
+    "ADD_CHANNEL": {
+      "TITLE": "Add your channels",
+      "DESCRIPTION": "Let´s add the channels where you will be receiving your conversations",
+      "NEW_LINK": "Click here to add a channel",
+      "CHANNEL_AGENTS_UPDATED": "Channel Members Update Successfully!",
+      "ADDING_AGENTS": "Adding Members to {channel}"
+    },
+    "ADD_AI_AGENT": {
+      "TITLE": "Add your AI Bot",
+      "DESCRIPTION": "Let´s add the AI Bot that will be helping you with your conversations",
+      "NEW_LINK": "Click here to add an AI Bot"
     },
     "LABELS": {
       "TITLE": "Organize conversations with labels",
@@ -288,12 +340,24 @@
     },
     "CANNED_RESPONSES": {
       "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Members can type the '/' character followed by the shortcode to insert a response.",
       "NEW_LINK": "Click here to create a canned response"
-    }
+    },
+    "BUTTON": {
+      "PREVIOUS": "Previous",
+      "NEXT": "Next",
+      "FINISH": "Finish"
+    },
+    "ERROR": {
+      "BOT_CONFIGURATION": "Error during AI Bot configuration",
+      "STEP_NOT_COMPLETED": "Please complete the previous steps before proceeding",
+      "STEP_NOT_SAVED": "Error saving current step",
+      "STEP_NOT_LOADED": "Error loading current step"
+    },
+    "COMPLETED": "Onboarding completed. Welcome to {installationName}!"
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
+    "ASSIGNEE_LABEL": "Assigned Member",
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {

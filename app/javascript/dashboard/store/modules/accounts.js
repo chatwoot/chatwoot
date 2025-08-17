@@ -3,6 +3,7 @@ import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
 import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
+import BillingAPI from '../../api/v2/billing';
 import { throwErrorMessage } from '../utils/api';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
@@ -45,6 +46,10 @@ export const getters = {
   isFeatureEnabledonAccount: $state => (id, featureName) => {
     const { features = {} } = findRecordById($state, id);
     return features[featureName] || false;
+  },
+  isOnboardingCompleted: $state => id => {
+    const account = findRecordById($state, id);
+    return account.custom_attributes.onboarding_completed || false;
   },
 };
 
@@ -116,8 +121,14 @@ export const actions = {
   checkout: async ({ commit }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
-      const response = await EnterpriseAccountAPI.checkout();
-      window.location = response.data.redirect_url;
+      const response = await BillingAPI.getBillingPortal();
+      if (response.data.success && response.data.data.session_url) {
+        window.location = response.data.data.session_url;
+      } else {
+        throw new Error(
+          response.data.error || 'Failed to create billing portal session'
+        );
+      }
     } catch (error) {
       throwErrorMessage(error);
     } finally {
@@ -125,12 +136,71 @@ export const actions = {
     }
   },
 
-  subscription: async ({ commit }) => {
+  subscription: async ({ commit, getters: storeGetters }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
-      await EnterpriseAccountAPI.subscription();
+      const response = await BillingAPI.getSubscription();
+      if (response.data.success) {
+        // Update account attributes while preserving existing data including features
+        const accountId = response.data.data.account_id;
+        const existingAccount = storeGetters.getAccount(accountId);
+        const updatedAccount = {
+          ...existingAccount,
+          custom_attributes: {
+            ...existingAccount.custom_attributes,
+            plan_name: response.data.data.plan_name,
+            subscription_status: response.data.data.subscription_status,
+            subscription_ends_on: response.data.data.subscription_ends_on,
+            stripe_customer_id: response.data.data.customer_id,
+            plan_limits: response.data.data.plan_limits,
+            cancel_at_period_end: response.data.data.cancel_at_period_end,
+            canceled_at: response.data.data.canceled_at,
+            ended_at: response.data.data.ended_at,
+          },
+        };
+        commit(types.default.EDIT_ACCOUNT, updatedAccount);
+      }
     } catch (error) {
       throwErrorMessage(error);
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
+    }
+  },
+
+  createSubscription: async (
+    { commit, getters: storeGetters },
+    { planName = 'free_trial' } = {}
+  ) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
+    try {
+      const response = await BillingAPI.createSubscription(planName);
+
+      if (response.data.success) {
+        // If the backend sends a checkout URL, redirect the user immediately
+        if (response.data.data.checkout_url) {
+          window.location = response.data.data.checkout_url;
+          return; // Stop execution to allow for redirect
+        }
+
+        // Otherwise, update the account data with the new subscription information while preserving existing data
+        const accountId = response.data.data.account_id;
+        const existingAccount = storeGetters.getAccount(accountId);
+        const updatedAccount = {
+          ...existingAccount,
+          custom_attributes: {
+            ...existingAccount.custom_attributes,
+            plan_name: response.data.data.plan_name,
+            subscription_status: response.data.data.subscription_status,
+            stripe_customer_id: response.data.data.customer_id,
+          },
+        };
+        commit(types.default.EDIT_ACCOUNT, updatedAccount);
+        return;
+      }
+      throw new Error(response.data.error || 'Failed to create subscription');
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error; // Re-throw to be caught by the component
     } finally {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
     }
@@ -138,8 +208,10 @@ export const actions = {
 
   limits: async ({ commit }) => {
     try {
-      const response = await EnterpriseAccountAPI.getLimits();
-      commit(types.default.SET_ACCOUNT_LIMITS, response.data);
+      const response = await BillingAPI.getLimits();
+      if (response.data.success) {
+        commit(types.default.SET_ACCOUNT_LIMITS, response.data.data);
+      }
     } catch (error) {
       // silent error
     }

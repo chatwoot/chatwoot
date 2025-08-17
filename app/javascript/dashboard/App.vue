@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
+import AddAccountModal from './components/app/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';

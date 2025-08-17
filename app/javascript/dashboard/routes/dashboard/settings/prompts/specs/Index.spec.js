@@ -2,8 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import Index from '../Index.vue';
-import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 
 // Mock the router
 const mockRouter = {
@@ -11,7 +9,7 @@ const mockRouter = {
 };
 
 // Mock the $t function for internationalization
-const mockT = vi.fn((key) => key);
+const mockT = vi.fn(key => key);
 
 describe('Index.vue', () => {
   let wrapper;
@@ -54,10 +52,6 @@ describe('Index.vue', () => {
             $router: mockRouter,
             $t: mockT,
           },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
-          },
         },
       });
 
@@ -90,10 +84,6 @@ describe('Index.vue', () => {
             $router: mockRouter,
             $t: mockT,
           },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
-          },
         },
       });
 
@@ -107,7 +97,9 @@ describe('Index.vue', () => {
 
       // Check that prompt texts are displayed
       expect(wrapper.text()).toContain('Hello! How can I help you today?');
-      expect(wrapper.text()).toContain('Thank you for contacting us. Have a great day!');
+      expect(wrapper.text()).toContain(
+        'Thank you for contacting us. Have a great day!'
+      );
     });
 
     it('should handle prompts with long text correctly', () => {
@@ -129,10 +121,6 @@ describe('Index.vue', () => {
             $router: mockRouter,
             $t: mockT,
           },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
-          },
         },
       });
 
@@ -153,10 +141,6 @@ describe('Index.vue', () => {
             $router: mockRouter,
             $t: mockT,
           },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
-          },
         },
       });
 
@@ -174,10 +158,6 @@ describe('Index.vue', () => {
           mocks: {
             $router: mockRouter,
             $t: mockT,
-          },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
           },
         },
       });
@@ -207,10 +187,6 @@ describe('Index.vue', () => {
           mocks: {
             $router: mockRouter,
             $t: mockT,
-          },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
           },
         },
       });
@@ -243,10 +219,6 @@ describe('Index.vue', () => {
             $router: mockRouter,
             $t: mockT,
           },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
-          },
         },
       });
 
@@ -272,10 +244,6 @@ describe('Index.vue', () => {
             $router: mockRouter,
             $t: mockT,
           },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
-          },
         },
       });
 
@@ -283,9 +251,7 @@ describe('Index.vue', () => {
     });
 
     it('should hide prompt list when loading', () => {
-      const mockPrompts = [
-        { id: 1, prompt_key: 'greeting', text: 'Hello!' },
-      ];
+      const mockPrompts = [{ id: 1, prompt_key: 'greeting', text: 'Hello!' }];
 
       getters['prompts/getPrompts'].mockReturnValue(mockPrompts);
       getters['prompts/getUIFlags'].mockReturnValue({ isFetching: true });
@@ -297,10 +263,6 @@ describe('Index.vue', () => {
             $router: mockRouter,
             $t: mockT,
           },
-          stubs: {
-            BaseSettingsHeader: true,
-            NextButton: true,
-          },
         },
       });
 
@@ -309,4 +271,4 @@ describe('Index.vue', () => {
       expect(mockT).toHaveBeenCalledWith('PROMPTS_PAGE.LOADING');
     });
   });
-}); 
+});

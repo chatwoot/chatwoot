@@ -1,19 +1,27 @@
 <script>
 import PageHeader from '../../SettingsSubPageHeader.vue';
-import Twilio from './Twilio.vue';
-import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
-import CloudWhatsapp from './CloudWhatsapp.vue';
+// import Twilio from './Twilio.vue';
+// import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
+// import CloudWhatsapp from './CloudWhatsapp.vue';
+import Whapi from './Whapi.vue';
 
 export default {
   components: {
     PageHeader,
-    Twilio,
-    ThreeSixtyDialogWhatsapp,
-    CloudWhatsapp,
+    // Twilio,
+    // ThreeSixtyDialogWhatsapp,
+    // CloudWhatsapp,
+    Whapi,
+  },
+  props: {
+    disabledAutoRoute: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      provider: 'whatsapp_cloud',
+      provider: 'whapi',
     };
   },
 };
@@ -31,18 +39,24 @@ export default {
       <label>
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
         <select v-model="provider">
-          <option value="whatsapp_cloud">
+          <!-- <option value="whatsapp_cloud">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD') }}
           </option>
           <option value="twilio">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO') }}
+          </option> -->
+          <option value="whapi">
+            {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHAPI') }}
           </option>
         </select>
       </label>
     </div>
-
-    <Twilio v-if="provider === 'twilio'" type="whatsapp" />
-    <ThreeSixtyDialogWhatsapp v-else-if="provider === '360dialog'" />
-    <CloudWhatsapp v-else />
+    <Whapi
+      v-if="provider === 'whapi'"
+      :disabled-auto-route="disabledAutoRoute"
+    />
+    <!-- <Twilio v-else-if="provider === 'twilio'" type="whatsapp" />
+    <ThreeSixtyDialogWhatsapp v-else-if="provider === '360dialog'" /> -->
+    <!-- <CloudWhatsapp v-else /> -->
   </div>
 </template>

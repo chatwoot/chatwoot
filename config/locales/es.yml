@@ -34,6 +34,7 @@ es:
       email_already_exists: 'Ya te has registrado en una cuenta con %{email}'
       invalid_params: 'Inválido, por favor comprueba los parámetros de registro e inténtalo de nuevo'
       failed: Registro fallido
+      account_name_already_exists: 'El nombre de la empresa %{name} ya existe'
     data_import:
       data_type:
         invalid: Tipo de datos no válido
@@ -221,7 +222,7 @@ es:
     slack:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "Integra Chatwoot con Slack para mantener a tu equipo sincronizado. Esta integración te permite recibir notificaciones de nuevas conversaciones y responder directamente desde la interfaz de Slack."
+      description: 'Integra Chatwoot con Slack para mantener a tu equipo sincronizado. Esta integración te permite recibir notificaciones de nuevas conversaciones y responder directamente desde la interfaz de Slack.'
     webhooks:
       name: 'Webhook'
       description: 'Los eventos de webhook proporcionan actualizaciones en tiempo real sobre las actividades en tu cuenta de Chatwoot. Puedes suscribirte a los eventos que prefieras y Chatwoot te enviará llamadas HTTP con las actualizaciones.'
@@ -232,7 +233,7 @@ es:
     google_translate:
       name: 'Traductor de Google'
       short_description: 'Automatically translate customer messages for agents.'
-      description: "Integra Google Translate para ayudar a los agentes a traducir fácilmente los mensajes de los clientes. Esta integración detecta automáticamente el idioma y lo convierte al idioma preferido del agente o del administrador."
+      description: 'Integra Google Translate para ayudar a los agentes a traducir fácilmente los mensajes de los clientes. Esta integración detecta automáticamente el idioma y lo convierte al idioma preferido del agente o del administrador.'
     openai:
       name: 'OpenAI'
       short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
@@ -337,3 +338,34 @@ es:
 
       Transcript:
       %{format_messages}
+
+  add_knowledge_source_button: 'Agregar fuente de conocimiento'
+  knowledge_source:
+    choose_type: 'Elegir tipo'
+    webpage:
+      title: 'URL del sitio web'
+      url_label: 'URL del sitio web'
+      url_placeholder: 'Ingresa la URL del sitio web'
+      crawl_subpages: 'Rastrear subpáginas'
+      url_required: 'Se requiere la URL'
+    file:
+      title: 'Subir archivos'
+      upload_title: 'Arrastra archivos para subir'
+      upload_description: 'Arrastra y suelta archivos aquí o haz clic para explorar'
+      browse: 'Buscar archivos'
+      supported_types: 'Tipos de archivo compatibles: PDF, DOC, DOCX, TXT, CSV'
+      upload_error: 'Error al subir archivo'
+      size_limit_error: 'El tamaño del archivo excede el límite máximo'
+    image:
+      title: 'Subir imágenes'
+      upload_title: 'Arrastra archivos para subir'
+      upload_description: 'Se admiten archivos de imagen de hasta 2 MB.'
+      browse: 'Buscar imágenes'
+      supported_types: 'Tipos de imagen compatibles: JPG, PNG, GIF, WebP'
+    url:
+      upload_error: 'Error al procesar URL'
+    cancel: 'Cancelar'
+    continue: 'Continuar'
+    add_source: 'Agregar fuente'
+    success_message: 'Fuente de conocimiento agregada exitosamente'
+    create_error: 'Error al crear fuente de conocimiento'

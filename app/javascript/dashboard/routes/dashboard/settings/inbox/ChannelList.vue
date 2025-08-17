@@ -4,13 +4,20 @@ import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
+import { CUSTOM_EVENTS } from 'shared/constants/customEvents';
 export default {
   components: {
     ChannelItem,
     PageHeader,
   },
   mixins: [globalConfigMixin],
+  props: {
+    disabledAutoRoute: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: [CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK],
   data() {
     return {
       enabledFeatures: {},
@@ -21,29 +28,31 @@ export default {
       return this.$store.getters['accounts/getAccount'](this.accountId);
     },
     channelList() {
-      const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
+      // const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
       return [
-        { key: 'website', name: 'Website' },
-        { key: 'facebook', name: 'Messenger' },
+        // { key: 'website', name: 'Website' },
+        // { key: 'facebook', name: 'Messenger' },
         { key: 'whatsapp', name: 'WhatsApp' },
-        { key: 'sms', name: 'SMS' },
-        { key: 'email', name: 'Email' },
-        {
-          key: 'api',
-          name: apiChannelName || 'API',
-          thumbnail: apiChannelThumbnail,
-        },
-        { key: 'telegram', name: 'Telegram' },
-        { key: 'line', name: 'Line' },
+        // { key: 'sms', name: 'SMS' },
+        // { key: 'email', name: 'Email' },
+        // {
+        //   key: 'api',
+        //   name: apiChannelName || 'API',
+        //   thumbnail: apiChannelThumbnail,
+        // },
+        // { key: 'telegram', name: 'Telegram' },
+        // { key: 'line', name: 'Line' },
         { key: 'instagram', name: 'Instagram' },
-        { key: 'voice', name: 'Voice' },
+        // { key: 'voice', name: 'Voice' },
       ];
     },
+    emits: [CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK],
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       globalConfig: 'globalConfig/get',
     }),
   },
+
   mounted() {
     this.initializeEnabledFeatures();
   },
@@ -56,6 +65,10 @@ export default {
         sub_page: channel,
         accountId: this.accountId,
       };
+      if (this.disabledAutoRoute) {
+        this.$emit(CUSTOM_EVENTS.ON_CHANNEL_ITEM_CLICK, channel);
+        return;
+      }
       router.push({ name: 'settings_inboxes_page_channel', params });
     },
   },
@@ -84,7 +97,7 @@ export default {
         :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
+        @on-channel-item-click="initChannelAuth"
       />
     </div>
   </div>

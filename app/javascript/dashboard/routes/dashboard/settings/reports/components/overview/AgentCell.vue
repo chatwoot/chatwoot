@@ -27,11 +27,11 @@ const isRTL = useMapGetter('accounts/isRTL');
       />
       <div class="items-start flex flex-col min-w-0 my-0 mx-2">
         <h6
-          class="overflow-hidden text-sm m-0 leading-[1.2] text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+          class="overflow-hidden text-sm m-0 leading-[1.2] text-n-slate-12 whitespace-nowrap text-ellipsis"
         >
           {{ row.original.agent }}
         </h6>
-        <span class="text-xs text-slate-600 dark:text-slate-200">
+        <span class="text-xs text-n-slate-11">
           {{ row.original.email }}
         </span>
       </div>

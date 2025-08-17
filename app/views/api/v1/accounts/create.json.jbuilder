@@ -20,6 +20,7 @@ json.data do
       json.active_at account_user.active_at
       json.role account_user.role
       json.locale account_user.account.locale
+      json.store_id account_user.account.custom_attributes['store_id']
     end
   end
 end

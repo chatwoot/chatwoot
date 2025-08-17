@@ -1,5 +1,9 @@
 # Chatwoot Development Guidelines
 
+## Taskfile
+- Check Taskfile.yml to build, setup, run stuff
+- If a command not found here, use the below
+
 ## Build / Test / Lint
 
 - **Setup**: `bundle install && pnpm install`
@@ -10,6 +14,7 @@
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
 - **Run Project**: `overmind start -f Procfile.dev`
+- **Run Unit Tests**: Override `POSTGRES_HOST` and `REDIS_URL`(redis://:password@localhost:6379/0) environment variables.  e.g: POSTGRES_HOST=localhost REDIS_URL=redis://localhost:6379/0 RAILS_ENV=test bundle exec rspec ...
 
 ## Code Style
 
@@ -47,12 +52,16 @@
 ## Project-Specific
 
 - **Translations**:
-  - Only update `en.yml` and `en.json`
+  - Update both `en/es.yml` and `en/es.json`
+  - Backend i18n → `en/es.yml`, Frontend i18n → `en/es.json`
   - Other languages are handled by the community
-  - Backend i18n → `en.yml`, Frontend i18n → `en.json`
 - **Frontend**:
   - Use `components-next/` for message bubbles (the rest is being deprecated)
 
 ## Ruby Best Practices
 
 - Use compact `module/class` definitions; avoid nested styles
+
+## Concepts
+- **INBOXES**: Referred to as "Channels" in locales/UI labels.
+- **AGENTS**: Referred to as "Members" in locales/UI labels.

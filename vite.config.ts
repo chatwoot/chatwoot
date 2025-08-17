@@ -73,6 +73,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, './app/javascript'),
       vue: 'vue/dist/vue.esm-bundler.js',
       components: path.resolve('./app/javascript/dashboard/components'),
       next: path.resolve('./app/javascript/dashboard/components-next'),
@@ -107,5 +108,13 @@ export default defineConfig({
     setupFiles: ['fake-indexeddb/auto', 'vitest.setup.js'],
     mockReset: true,
     clearMocks: true,
+  },
+  server: {
+    host: '0.0.0.0',
+    port: 3036,
+    allowedHosts: ['vite', 'localhost'],
+    watch: {
+      usePolling: true,
+    },
   },
 });

@@ -33,6 +33,30 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
+        key: 'status',
+        name: 'STATUS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'assignee_id',
+        name: 'ASSIGNEE_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'team_id',
+        name: 'TEAM_NAME',
+        inputType: 'search_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'priority',
+        name: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
         key: 'conversation_language',
         name: 'CONVERSATION_LANGUAGE',
         inputType: 'multi_select',
@@ -82,7 +106,10 @@ export const AUTOMATIONS = {
         key: 'snooze_conversation',
         name: 'SNOOZE_CONVERSATION',
       },
-
+      {
+        key: 'open_conversation',
+        name: 'OPEN_CONVERSATION',
+      },
       {
         key: 'resolve_conversation',
         name: 'RESOLVE_CONVERSATION',
@@ -506,6 +533,11 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'resolve_conversation',
     label: 'RESOLVE_CONVERSATION',
+    inputType: null,
+  },
+  {
+    key: 'open_conversation',
+    label: 'OPEN_CONVERSATION',
     inputType: null,
   },
   {

@@ -73,8 +73,10 @@ export default {
 <template>
   <div>
     <div class="add-agents__header" />
-    <table class="woot-table">
-      <thead>
+    <table>
+      <thead
+        class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
+      >
         <tr>
           <td class="ltr:pl-2.5 rtl:pr-2.5">
             <div class="flex items-center">
@@ -87,10 +89,10 @@ export default {
               />
             </div>
           </td>
-          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
+          <td class="text-n-slate-12 ltr:pl-2.5 rtl:pr-2.5">
             {{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}
           </td>
-          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
+          <td class="text-n-slate-12 ltr:pl-2.5 rtl:pr-2.5">
             {{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}
           </td>
         </tr>
@@ -100,6 +102,7 @@ export default {
           v-for="agent in agentList"
           :key="agent.id"
           :class="agentRowClass(agent.id)"
+          class="border-b border-n-weak [&>td]:p-2.5 [&>td]:text-n-slate-12"
         >
           <td class="w-12">
             <div class="flex items-center">
@@ -118,7 +121,7 @@ export default {
                 :username="agent.name"
                 :status="agent.availability_status"
               />
-              <h4 class="text-base mb-0 text-slate-800 dark:text-slate-100">
+              <h4 class="text-base mb-0 text-n-slate-12">
                 {{ agent.name }}
               </h4>
             </div>

@@ -53,19 +53,20 @@ $color-white: #fff;
 $color-body: #3c4858;
 $color-heading: #1f2d3d;
 $color-extra-light-blue: #f5f7f9;
+$color-cc: #5d17ea;
 
-$primary-color: $color-woot;
+$primary-color: $color-cc;
 $secondary-color: #5d7592;
 $success-color: #44ce4b;
 $warning-color: #ffc532;
 $alert-color: #ff382d;
 
-$masked-bg: rgba(0, 0, 0, .4);
+$masked-bg: rgba(0, 0, 0, 0.4);
 
 // Color-palettes
 
 $color-primary-light: #c7e3ff;
-$color-primary-dark: darken($color-woot, 20%);
+$color-primary-dark: darken($color-cc, 20%);
 
 // Thumbnail
 $thumbnail-radius: 4rem;
@@ -77,14 +78,13 @@ $conv-header-height: 4rem;
 
 $inbox-thumb-size: 4.8rem;
 
-
 // Snackbar default
 $woot-snackbar-bg: #323232;
 $woot-snackbar-button: #ffeb3b;
 
-$swift-ease-out-duration: .4s !default;
-$swift-ease-out-timing-function: cubic-bezier(.25, .8, .25, 1) !default;
+$swift-ease-out-duration: 0.4s !default;
+$swift-ease-out-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !default;
 $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !default;
 
 // Transitions
-$transition-ease-in: all 0.250s ease-in;
+$transition-ease-in: all 0.25s ease-in;

@@ -57,7 +57,7 @@ export default {
   <button
     v-else
     :key="action.payload"
-    class="action-button button !bg-n-background dark:!bg-n-alpha-black1 text-n-brand"
+    class="action-button button !bg-n-background dark:!bg-n-alpha-black1 text-n-brand dark:text-n-lightBrand"
     :style="{ borderColor: widgetColor, color: widgetColor }"
     @click="onClick"
   >

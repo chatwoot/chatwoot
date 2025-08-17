@@ -180,6 +180,37 @@ describe ConversationFinder do
       end
     end
 
+    context 'with sort_by unread_count_desc' do
+      let(:params) { { sort_by: 'unread_count_desc', assignee_type: 'all' } }
+
+      it 'sorts conversations by unread message count in descending order' do
+        # Create conversations with different unread message counts
+        conversation_with_3_unread = create(:conversation, account: account, inbox: inbox,
+                                                           agent_last_seen_at: 1.hour.ago)
+        conversation_with_1_unread = create(:conversation, account: account, inbox: inbox,
+                                                           agent_last_seen_at: 30.minutes.ago)
+        conversation_with_no_unread = create(:conversation, account: account, inbox: inbox,
+                                                            agent_last_seen_at: Time.current)
+
+        # Create messages after agent_last_seen_at to simulate unread messages
+        create_list(:message, 3, conversation: conversation_with_3_unread,
+                                 message_type: :incoming, private: false,
+                                 created_at: 30.minutes.ago)
+        create(:message, conversation: conversation_with_1_unread,
+                         message_type: :incoming, private: false,
+                         created_at: 15.minutes.ago)
+
+        result = conversation_finder.perform
+        conversations = result[:conversations]
+
+        # Verify that conversations are sorted by unread count (desc)
+        # Note: The exact unread counts will be calculated by the SQL query
+        expect(conversations.first.id).to eq(conversation_with_3_unread.id)
+        expect(conversations.find { |c| c.id == conversation_with_1_unread.id }).to be_present
+        expect(conversations.find { |c| c.id == conversation_with_no_unread.id }).to be_present
+      end
+    end
+
     context 'with pagination' do
       let(:params) { { status: 'open', assignee_type: 'me', page: 1 } }
 

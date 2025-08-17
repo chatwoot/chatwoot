@@ -4,12 +4,10 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
-import PopOverSearch from './search/PopOverSearch.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 import { emitter } from 'shared/helpers/mitt';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import SidepanelSwitch from 'dashboard/components-next/Conversation/SidepanelSwitch.vue';
 import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
 
@@ -17,7 +15,6 @@ export default {
   components: {
     ChatList,
     ConversationBox,
-    PopOverSearch,
     CmdBarConversationSnooze,
     SidepanelSwitch,
     ConversationSidebar,
@@ -58,12 +55,13 @@ export default {
   },
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
-    const { accountId } = useAccount();
+    const { accountId, currentAccount } = useAccount();
 
     return {
       uiSettings,
       updateUISettings,
       accountId,
+      currentAccount,
     };
   },
   data() {
@@ -75,13 +73,21 @@ export default {
     ...mapGetters({
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    isOnboardingCompleted() {
+      return this.currentAccount.custom_attributes.onboarding_completed;
+    },
+
     showConversationList() {
-      return this.isOnExpandedLayout ? !this.conversationId : true;
+      if (this.isOnboardingCompleted) {
+        return this.isOnExpandedLayout ? !this.conversationId : true;
+      }
+      return !this.isOnExpandedLayout;
     },
     showMessageView() {
-      return this.conversationId ? true : !this.isOnExpandedLayout;
+      return this.conversationId || !this.isOnboardingCompleted
+        ? true
+        : !this.isOnExpandedLayout;
     },
     isOnExpandedLayout() {
       const {
@@ -99,12 +105,6 @@ export default {
 
       const { is_contact_sidebar_open: isContactSidebarOpen } = this.uiSettings;
       return isContactSidebarOpen;
-    },
-    showPopOverSearch() {
-      return !this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.CHATWOOT_V4
-      );
     },
   },
   watch: {
@@ -215,13 +215,7 @@ export default {
       :folders-id="foldersId"
       :is-on-expanded-layout="isOnExpandedLayout"
       @conversation-load="onConversationLoad"
-    >
-      <PopOverSearch
-        v-if="showPopOverSearch"
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle-conversation-layout="toggleConversationLayout"
-      />
-    </ChatList>
+    />
     <ConversationBox
       v-if="showMessageView"
       :inbox-id="inboxId"

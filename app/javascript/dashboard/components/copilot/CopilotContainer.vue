@@ -8,7 +8,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 defineProps({
   conversationInboxType: {
     type: String,
-    required: true,
+    default: '',
   },
 });
 

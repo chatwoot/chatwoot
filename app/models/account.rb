@@ -79,6 +79,7 @@ class Account < ApplicationRecord
   has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
+  has_many :knowledge_bases, dependent: :destroy_async, class_name: 'KnowledgeBase'
   has_many :labels, dependent: :destroy_async
   has_many :line_channels, dependent: :destroy_async, class_name: '::Channel::Line'
   has_many :mentions, dependent: :destroy_async
@@ -108,6 +109,7 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  after_create_commit :enqueue_stripe_provisioning_job
   after_destroy :remove_account_sequences
 
   def agents
@@ -163,6 +165,10 @@ class Account < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  def enqueue_stripe_provisioning_job
+    Billing::ProvisionStripeSubscriptionJob.perform_later(id, 'starter')
   end
 
   trigger.after(:insert).for_each(:row) do

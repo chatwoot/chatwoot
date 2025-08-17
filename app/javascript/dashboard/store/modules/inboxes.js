@@ -22,6 +22,9 @@ export const state = {
     isUpdatingIMAP: false,
     isUpdatingSMTP: false,
   },
+  onboarding: {
+    onboardingConcluded: false,
+  },
 };
 
 export const getters = {

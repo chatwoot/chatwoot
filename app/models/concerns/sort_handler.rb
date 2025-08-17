@@ -18,6 +18,20 @@ module SortHandler
       order(generate_sql_query("waiting_since #{sort_direction.to_s.upcase} NULLS LAST, created_at ASC"))
     end
 
+    def sort_on_unread_count(sort_direction = :desc)
+      # Count unread messages (messages created after agent_last_seen_at)
+      # If agent_last_seen_at is NULL, consider all messages as unread
+      select('conversations.*, COALESCE((
+        SELECT COUNT(*)
+        FROM messages
+        WHERE messages.conversation_id = conversations.id
+        AND messages.message_type = 0
+        AND messages.private = false
+        AND (conversations.agent_last_seen_at IS NULL OR messages.created_at > conversations.agent_last_seen_at)
+      ), 0) as unread_count')
+        .order(generate_sql_query("unread_count #{sort_direction.to_s.upcase}, last_activity_at DESC"))
+    end
+
     def last_messaged_conversations
       Message.except(:order).select(
         'DISTINCT ON (conversation_id) conversation_id, id, created_at, message_type'

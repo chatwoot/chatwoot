@@ -1,9 +1,5 @@
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
-import {
-  ROLES,
-  CONVERSATION_PERMISSIONS,
-} from 'dashboard/constants/permissions.js';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import CannedHome from './Index.vue';
 
@@ -24,7 +20,7 @@ export default {
           name: 'canned_list',
           meta: {
             featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
-            permissions: ['no-one-has-this-permission'],
+            permissions: ['administrator', 'agent', 'custom_role'],
           },
           component: CannedHome,
         },

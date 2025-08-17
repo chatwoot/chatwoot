@@ -51,16 +51,16 @@ const openInNewTab = url => {
       <div class="flex items-center gap-3">
         <div
           v-if="iconName"
-          class="flex items-center w-10 h-10 p-1 rounded-full bg-woot-25/60 dark:bg-woot-900/60"
+          class="flex items-center w-10 h-10 p-1 rounded-full bg-n-blue-2"
         >
           <div
-            class="flex items-center justify-center w-full h-full rounded-full bg-woot-75/70 dark:bg-woot-800/40"
+            class="flex items-center justify-center w-full h-full rounded-full bg-n-blue-3"
           >
             <fluent-icon
               size="14"
               :icon="iconName"
               type="outline"
-              class="flex-shrink-0 text-n-brand"
+              class="flex-shrink-0 text-n-brand dark:text-n-lightBrand"
             />
           </div>
         </div>
@@ -85,12 +85,12 @@ const openInNewTab = url => {
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-blue-text hover:underline"
+          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-brand dark:text-n-lightBrand hover:underline"
         >
           {{ linkText }}
           <Icon
             icon="i-lucide-chevron-right"
-            class="flex-shrink-0 text-n-blue-text size-4"
+            class="flex-shrink-0 text-n-brand dark:text-n-lightBrand size-4"
           />
         </a>
       </CustomBrandPolicyWrapper>

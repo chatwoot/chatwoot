@@ -47,7 +47,7 @@
     "ATTRIBUTES": {
       "STATUS": "Estado",
       "ASSIGNEE_NAME": "Nombre Asignado",
-      "INBOX_NAME": "Nombre de la bandeja de entrada",
+      "INBOX_NAME": "Nombre del canal",
       "TEAM_NAME": "Nombre del equipo",
       "CONVERSATION_IDENTIFIER": "Identificador de conversacion",
       "CAMPAIGN_NAME": "Nombre de Campaña",

@@ -88,9 +88,7 @@ const openDelete = inbox => {
     </template>
     <template #body>
       <table class="min-w-full overflow-x-auto">
-        <tbody
-          class="divide-y divide-n-weak flex-1 text-slate-700 dark:text-slate-100"
-        >
+        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
           <tr v-for="inbox in inboxesList" :key="inbox.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center flex-row gap-4">

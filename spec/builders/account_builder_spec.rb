@@ -53,5 +53,49 @@ RSpec.describe AccountBuilder do
            .and change(AccountUser, :count).by(1)
       end
     end
+
+    context 'when an account is created' do
+      it 'adds a correctly formatted store_id to custom_attributes' do
+        _user, account = account_builder.perform
+
+        # 1. Check if the store_id exists in custom_attributes
+        expect(account.custom_attributes).to have_key('store_id')
+
+        # 2. Check if the store_id is formatted correctly
+        # We generate the expected ID based on the new account's ID and compare.
+        expected_padded_id = account.id.to_s.rjust(12, '0')
+        expected_store_id = "00000000-0000-0000-0000-#{expected_padded_id}"
+        expect(account.custom_attributes['store_id']).to eq(expected_store_id)
+      end
+
+      it 'sets initial free trial plan with billing status provisioning_pending' do
+        _user, account = account_builder.perform
+
+        expect(account.custom_attributes['plan_name']).to eq('free_trial')
+        expect(account.custom_attributes['subscription_status']).to eq('active')
+        expect(account.custom_attributes['billing_status']).to eq('provisioning_pending')
+        expect(account.custom_attributes['subscription_ends_on']).to be_present
+      end
+
+      it 'sets trial plan limits correctly' do
+        _user, account = account_builder.perform
+
+        expect(account.limits).to include(
+          'agents' => 2,
+          'inboxes' => be_present,
+          'conversations_monthly' => be_present
+        )
+      end
+
+      it 'sets subscription_ends_on to future date based on trial period' do
+        _user, account = account_builder.perform
+
+        ends_on = Time.parse(account.custom_attributes['subscription_ends_on'])
+        expected_end_date = 7.days.from_now
+
+        # Allow for small time differences during test execution
+        expect(ends_on).to be_within(5.seconds).of(expected_end_date)
+      end
+    end
   end
 end

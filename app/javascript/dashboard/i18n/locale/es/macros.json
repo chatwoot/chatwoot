@@ -1,7 +1,7 @@
 {
   "MACROS": {
     "HEADER": "Macros",
-    "DESCRIPTION": "Una macro es un conjunto de acciones guardadas que ayudan a los agentes de servicio al cliente a completar fácilmente las tareas. Los agentes pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic.",
+    "DESCRIPTION": "Una macro es un conjunto de acciones guardadas que ayudan a los miembros de servicio al cliente a completar fácilmente las tareas. Los miembros pueden definir un conjunto de acciones como etiquetar una conversación con una etiqueta, enviar una transcripción de correo electrónico, actualizar un atributo personalizado, etc. y pueden ejecutar estas acciones en un solo clic.",
     "LEARN_MORE": "Más información sobre macros",
     "HEADER_BTN_TXT": "Añadir una nueva macro",
     "HEADER_BTN_TXT_SAVE": "Guardar macro",
@@ -62,7 +62,7 @@
         "LABEL": "Visibilidad de macro",
         "GLOBAL": {
           "LABEL": "Público",
-          "DESCRIPTION": "Esta macro está disponible públicamente para todos los agentes de esta cuenta."
+          "DESCRIPTION": "Esta macro está disponible públicamente para todos los miembros de esta cuenta."
         },
         "PERSONAL": {
           "LABEL": "Privado",
@@ -85,20 +85,20 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
-      "MUTE_CONVERSATION": "Silenciar Conversación",
+      "ASSIGN_TEAM": "Asignar equipo",
+      "ASSIGN_AGENT": "Asignar miembro",
+      "ADD_LABEL": "Añadir etiqueta",
+      "REMOVE_LABEL": "Eliminar etiqueta",
+      "REMOVE_ASSIGNED_TEAM": "Eliminar equipo asignado",
+      "SEND_EMAIL_TRANSCRIPT": "Enviar transcripción por email",
+      "MUTE_CONVERSATION": "Silenciar conversación",
       "SNOOZE_CONVERSATION": "Posponer conversación",
       "RESOLVE_CONVERSATION": "Resolver conversación",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
+      "SEND_ATTACHMENT": "Enviar archivo adjunto",
+      "SEND_MESSAGE": "Enviar mensaje",
       "CHANGE_PRIORITY": "Cambiar prioridad",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "ADD_PRIVATE_NOTE": "Añadir nota privada",
+      "SEND_WEBHOOK_EVENT": "Enviar evento webhook"
     }
   }
 }

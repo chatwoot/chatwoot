@@ -1,14 +1,15 @@
 <script>
+import { computed } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
-import OnboardingView from '../OnboardingView.vue';
+import OnboardingViewAIBackend from '../OnboardingView.AIBackend.vue';
 import EmptyStateMessage from './EmptyStateMessage.vue';
 
 export default {
   components: {
-    OnboardingView,
     EmptyStateMessage,
+    OnboardingViewAIBackend,
   },
   props: {
     isOnExpandedLayout: {
@@ -18,12 +19,16 @@ export default {
   },
   setup() {
     const { isAdmin } = useAdmin();
-
-    const { accountScopedUrl } = useAccount();
+    const { accountScopedUrl, currentAccount } = useAccount();
+    const isOnboardingCompleted = computed(
+      () =>
+        currentAccount.value?.custom_attributes?.onboarding_completed || false
+    );
 
     return {
       isAdmin,
       accountScopedUrl,
+      isOnboardingCompleted,
     };
   },
   computed: {
@@ -58,7 +63,7 @@ export default {
       ) {
         return 'h-full overflow-auto w-full';
       }
-      return 'flex-1 min-w-0 px-0 flex flex-col items-center justify-center h-full';
+      return 'flex-1 min-w-0 px-0 flex flex-col items-center justify-center h-full w-full';
     },
   },
 };
@@ -70,18 +75,18 @@ export default {
       v-if="uiFlags.isFetching || loadingChatList"
       :message="loadingIndicatorMessage"
     />
-    <!-- No inboxes attached -->
+    <!-- Onboarding not completed -->
     <div
-      v-if="!inboxesList.length && !uiFlags.isFetching && !loadingChatList"
-      class="clearfix mx-auto"
+      v-if="!isOnboardingCompleted && !loadingChatList"
+      class="clearfix mx-auto w-full flex justify-center items-center h-full"
     >
-      <OnboardingView v-if="isAdmin" />
+      <OnboardingViewAIBackend v-if="isAdmin" />
       <EmptyStateMessage v-else :message="$t('CONVERSATION.NO_INBOX_AGENT')" />
     </div>
     <!-- Show empty state images if not loading -->
 
     <div
-      v-else-if="!uiFlags.isFetching && !loadingChatList"
+      v-else-if="!uiFlags.isFetching"
       class="flex flex-col items-center justify-center h-full"
     >
       <!-- No conversations available -->

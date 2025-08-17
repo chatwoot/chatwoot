@@ -360,3 +360,17 @@
   value: 'v22.0'
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
+
+# ------- OG Image Related Config ------- #
+- name: OG_IMAGE_CDN_URL
+  display_title: 'OG Image CDN URL'
+  description: 'The CDN URL for serving OG images'
+  value: ''
+  locked: false
+- name: OG_IMAGE_CLIENT_REF
+  display_title: 'OG Image Client Reference'
+  description: 'Token used to block unauthorized access to OG images'
+  value: ''
+  locked: false
+  type: secret
+# ------- End of OG Image Related Config ------- #

@@ -99,7 +99,7 @@ const formattedMessage = computed(() => {
 
 const notificationDetails = computed(() => {
   const type = props.inboxItem?.notificationType?.toUpperCase() || '';
-  const [icon = '', color = 'text-n-blue-text'] =
+  const [icon = '', color = 'text-n-brand dark:text-n-lightBrand'] =
     NOTIFICATION_TYPES_MAPPING[type] || [];
   return { text: type ? t(`INBOX.TYPES_NEXT.${type}`) : '', icon, color };
 });
@@ -180,11 +180,19 @@ onBeforeMount(contextMenuActions.close);
                 : 'i-lucide-alarm-clock-off'
             "
             class="flex-shrink-0 size-4"
-            :class="!isUnread ? 'text-n-slate-11' : 'text-n-blue-text'"
+            :class="
+              !isUnread
+                ? 'text-n-slate-11'
+                : 'text-n-brand dark:text-n-lightBrand'
+            "
           />
           <span
             class="text-xs font-medium truncate"
-            :class="!isUnread ? 'text-n-slate-11' : 'text-n-blue-text'"
+            :class="
+              !isUnread
+                ? 'text-n-slate-11'
+                : 'text-n-brand dark:text-n-lightBrand'
+            "
           >
             {{ snoozedText }}
           </span>

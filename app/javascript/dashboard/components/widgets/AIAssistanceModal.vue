@@ -30,13 +30,13 @@ export default {
   computed: {
     headerTitle() {
       const translationKey = this.aiOption?.toUpperCase();
-      return translationKey
-        ? this.$t(`INTEGRATION_SETTINGS.OPEN_AI.WITH_AI`, {
-            option: this.$t(
-              `INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.${translationKey}`
-            ),
-          })
-        : '';
+      if (!translationKey) return '';
+
+      // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
+      const optionKey = `INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.${translationKey}`;
+      return this.$t(`INTEGRATION_SETTINGS.OPEN_AI.WITH_AI`, {
+        option: this.$t(optionKey),
+      });
     },
   },
   mounted() {
@@ -50,8 +50,15 @@ export default {
 
     async generateAIContent(type = 'rephrase') {
       this.isGenerating = true;
-      this.generatedContent = await this.processEvent(type);
-      this.isGenerating = false;
+      try {
+        this.generatedContent = await this.processEvent(type);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('AI content generation failed:', error);
+        this.generatedContent = '';
+      } finally {
+        this.isGenerating = false;
+      }
     },
     applyText() {
       this.recordAnalytics(this.aiOption);
@@ -70,11 +77,11 @@ export default {
       @submit.prevent="applyText"
     >
       <div v-if="draftMessage" class="w-full">
-        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
+        <h4 class="mt-1 text-base text-n-slate-12">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
         </h4>
         <p v-dompurify-html="formatMessage(draftMessage, false)" />
-        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
+        <h4 class="mt-1 text-base text-n-slate-12">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
           }}

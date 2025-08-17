@@ -10,7 +10,7 @@
         },
         "CAMPAIGN_DETAILS": {
           "SENT_BY": "Sent by",
-          "BOT": "Bot",
+          "BOT": "AI Bots",
           "FROM": "from",
           "URL": "URL:"
         }
@@ -35,9 +35,9 @@
             "ERROR": "Message is required"
           },
           "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
+            "LABEL": "Select Channel",
+            "PLACEHOLDER": "Select Channel",
+            "ERROR": "Channel is required"
           },
           "SENT_BY": {
             "LABEL": "Sent by",
@@ -112,9 +112,9 @@
             "ERROR": "Message is required"
           },
           "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
+            "LABEL": "Select Channel",
+            "PLACEHOLDER": "Select Channel",
+            "ERROR": "Channel is required"
           },
           "AUDIENCE": {
             "LABEL": "Audience",

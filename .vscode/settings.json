@@ -1,6 +1,25 @@
 {
-    "cSpell.words": [
+  // Ensure Ruby LSP runs via Bundler for this workspace
+  "rubyLsp.useBundler": true,
+  // You are using RVM locally
+  "rubyLsp.rubyVersionManager": "rvm",
+  // Optional: enable diagnostics and code navigation features (on by default, kept for clarity)
+  "rubyLsp.features": {
+    "codeActions": true,
+    "codeLens": true,
+    "diagnostics": true,
+    "documentHighlights": true,
+    "documentSymbols": true,
+    "formatting": true,
+    "hover": true,
+    "inlayHint": true,
+    "onTypeFormatting": true,
+    "selectionRanges": true,
+    "semanticHighlighting": true,
+    "semanticTokens": true
+  },
+  "cSpell.words": [
         "chatwoot",
         "dompurify"
-    ]
+  ]
 }

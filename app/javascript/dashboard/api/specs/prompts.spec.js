@@ -56,7 +56,10 @@ describe('PromptAPI', () => {
         expect(response.data).toHaveLength(1);
         expect(response.data[0]).toHaveProperty('id', 1);
         expect(response.data[0]).toHaveProperty('prompt_key', 'greeting');
-        expect(response.data[0]).toHaveProperty('text', 'Hello! How can I help you today?');
+        expect(response.data[0]).toHaveProperty(
+          'text',
+          'Hello! How can I help you today?'
+        );
       });
 
       it('should handle network errors gracefully', async () => {
@@ -70,14 +73,18 @@ describe('PromptAPI', () => {
         const mockError = new Error('Request failed with status code 500');
         axiosMock.get.mockRejectedValue(mockError);
 
-        await expect(PromptAPI.get()).rejects.toThrow('Request failed with status code 500');
+        await expect(PromptAPI.get()).rejects.toThrow(
+          'Request failed with status code 500'
+        );
       });
 
       it('should handle authentication errors (401) gracefully', async () => {
         const mockError = new Error('Request failed with status code 401');
         axiosMock.get.mockRejectedValue(mockError);
 
-        await expect(PromptAPI.get()).rejects.toThrow('Request failed with status code 401');
+        await expect(PromptAPI.get()).rejects.toThrow(
+          'Request failed with status code 401'
+        );
       });
 
       it('should verify the correct URL construction', () => {
@@ -109,7 +116,10 @@ describe('PromptAPI', () => {
         expect(response.status).toBe(200);
         expect(response.data).toEqual(mockResponse);
         expect(axiosMock.patch).toHaveBeenCalledTimes(1);
-        expect(axiosMock.patch).toHaveBeenCalledWith(`${PromptAPI.url}/${promptId}`, updateData);
+        expect(axiosMock.patch).toHaveBeenCalledWith(
+          `${PromptAPI.url}/${promptId}`,
+          updateData
+        );
       });
 
       it('should handle successful update with updated object', async () => {
@@ -133,7 +143,10 @@ describe('PromptAPI', () => {
 
         expect(response.data).toHaveProperty('id', promptId);
         expect(response.data).toHaveProperty('text', updateData.text);
-        expect(response.data).toHaveProperty('prompt_key', updateData.prompt_key);
+        expect(response.data).toHaveProperty(
+          'prompt_key',
+          updateData.prompt_key
+        );
         expect(response.data).toHaveProperty('updated_at');
       });
 
@@ -156,7 +169,9 @@ describe('PromptAPI', () => {
 
         axiosMock.patch.mockRejectedValue(mockError);
 
-        await expect(PromptAPI.update(promptId, invalidData)).rejects.toMatchObject({
+        await expect(
+          PromptAPI.update(promptId, invalidData)
+        ).rejects.toMatchObject({
           response: {
             status: 422,
             data: {
@@ -178,7 +193,9 @@ describe('PromptAPI', () => {
 
         axiosMock.patch.mockRejectedValue(mockError);
 
-        await expect(PromptAPI.update(promptId, updateData)).rejects.toThrow('Request failed with status code 404');
+        await expect(PromptAPI.update(promptId, updateData)).rejects.toThrow(
+          'Request failed with status code 404'
+        );
       });
 
       it('should send correct payload with proper structure', async () => {
@@ -188,7 +205,10 @@ describe('PromptAPI', () => {
           prompt_key: 'greeting_formal',
         };
 
-        axiosMock.patch.mockResolvedValue({ status: 200, data: { id: promptId, ...updateData } });
+        axiosMock.patch.mockResolvedValue({
+          status: 200,
+          data: { id: promptId, ...updateData },
+        });
 
         await PromptAPI.update(promptId, updateData);
 
@@ -200,4 +220,4 @@ describe('PromptAPI', () => {
       });
     });
   });
-}); 
+});

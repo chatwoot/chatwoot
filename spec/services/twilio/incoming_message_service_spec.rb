@@ -260,5 +260,27 @@ describe Twilio::IncomingMessageService do
         expect(conversation.reload.messages.last.attachments.map(&:file_type)).to contain_exactly('image', 'image')
       end
     end
+
+    context 'when a location message is received' do
+      let(:params_with_location) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          MessageType: 'location',
+          Latitude: '12.160894393921',
+          Longitude: '75.265205383301'
+        }
+      end
+
+      it 'creates a message with location attachment' do
+        described_class.new(params: params_with_location).perform
+
+        message = conversation.reload.messages.last
+        expect(message.attachments.count).to eq(1)
+        expect(message.attachments.first.file_type).to eq('location')
+      end
+    end
   end
 end

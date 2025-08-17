@@ -19,10 +19,7 @@ const routerParams = computed(() => ({
     <router-link :to="routerParams" class="hover:underline">
       {{ `#${row.original.conversationId}` }}
     </router-link>
-    <div
-      v-tooltip="row.original.createdAt"
-      class="text-slate-600 dark:text-slate-200 text-sm"
-    >
+    <div v-tooltip="row.original.createdAt" class="text-n-slate-11 text-sm">
       {{ row.original.createdAgo }}
     </div>
   </div>

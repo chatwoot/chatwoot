@@ -110,7 +110,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def update_last_seen
-    update_last_seen_on_conversation(DateTime.now.utc, assignee?)
+    agent_last_seen_at = DateTime.now.utc
+    update_last_seen_on_conversation(agent_last_seen_at, assignee?)
+
+    # Send read receipts for WhatsApp messages when agent views conversation
+    Whatsapp::SendReadReceiptsJob.perform_later(@conversation.id, agent_last_seen_at)
   end
 
   def unread

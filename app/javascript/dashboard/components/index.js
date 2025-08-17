@@ -15,7 +15,6 @@ import Label from './ui/Label.vue';
 import LoadingState from './widgets/LoadingState.vue';
 import ModalHeader from './ModalHeader.vue';
 import Modal from './Modal.vue';
-import SidemenuIcon from './SidemenuIcon.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Tabs from './ui/Tabs/Tabs.vue';
 import TabsItem from './ui/Tabs/TabsItem.vue';
@@ -38,7 +37,6 @@ const WootUIKit = {
   LoadingState,
   Modal,
   ModalHeader,
-  SidemenuIcon,
   Spinner,
   Tabs,
   TabsItem,

@@ -1,36 +1,133 @@
 {
   "PROMPTS_PAGE": {
     "TITLE": "Prompts",
-    "DESCRIPTION": "Configura prompts para tu cuenta. Estos prompts se pueden usar en el editor para escribir un mensaje rápidamente.",
-    "ADD_BUTTON": "Agregar prompt",
+    "DESCRIPTION": "Configura los prompts para tu cuenta. Estos prompts se pueden usar en el compositor para escribir rápidamente un mensaje.",
+    "ADD_BUTTON": "Añadir prompt",
+    "ADD_KNOWLEDGE_SOURCE_BUTTON": "Añadir fuente de conocimiento",
+    "KNOWLEDGE_SOURCE": {
+      "TITLE": "Añadir fuente de conocimiento",
+      "TYPE": {
+        "LABEL": "Tipo",
+        "WEBPAGE": "Página web",
+        "FILE": "Archivo",
+        "IMAGE": "Imagen"
+      },
+      "WEBPAGE": {
+        "PUBLIC_URL": "URL pública",
+        "CRAWL_SUBPAGES": "Rastrear este enlace para todas las subpáginas"
+      },
+      "FILE": {
+        "LABEL": "Archivo",
+        "BROWSE": "Examinar archivos",
+        "SUPPORTED_TYPES": "Tipos de archivo de texto hasta 2MB admitidos."
+      },
+      "IMAGE": {
+        "LABEL": "Imagen",
+        "BROWSE": "Examinar imágenes",
+        "SUPPORTED_TYPES": "Tipos de archivo de imagen hasta 2MB admitidos."
+      },
+      "ACTIONS": {
+        "CONTINUE": "Continuar",
+        "ADD_SOURCE": "Añadir fuente",
+        "CANCEL": "Cancelar"
+      }
+    },
+    "KNOWLEDGE_SOURCES": {
+      "TITLE": "Fuentes de conocimiento",
+      "UPLOADED_ON": "Subido el {date}"
+    },
     "SEARCH_PLACEHOLDER": "Buscar prompts",
     "TABLE_HEADER": {
-      "PROMPT_KEY": "Clave del prompt",
+      "PROMPT_KEY": "Clave del Prompt",
       "TEXT": "Texto",
       "ACTIONS": "Acciones"
     },
     "FORM": {
       "EDIT_TITLE": "Editar prompt",
       "PROMPT_KEY": {
-        "LABEL": "Clave del prompt",
-        "PLACEHOLDER": "p. ej., saludo"
+        "LABEL": "Clave del Prompt",
+        "PLACEHOLDER": "ej., saludo"
       },
       "TEXT": {
         "LABEL": "Texto",
-        "PLACEHOLDER": "Introduce el texto del prompt"
+        "PLACEHOLDER": "Ingresa el texto del prompt"
       },
       "SUBMIT_BUTTON": "Guardar",
       "CANCEL_BUTTON": "Cancelar"
     },
     "EDIT": {
-      "TITLE": "Editar prompt",
-      "SUCCESS_MESSAGE": "Atajo actualizado correctamente.",
-      "ERROR_MESSAGE": "No se pudo actualizar el atajo. Por favor, inténtalo de nuevo."
+      "TITLE": "Editar Prompt",
+      "SUCCESS_MESSAGE": "Prompt actualizado exitosamente.",
+      "ERROR_MESSAGE": "No se pudo actualizar el prompt. Por favor intenta de nuevo."
     },
     "EDITOR": {
       "SAVING": "Guardando...",
       "SAVED": "Guardado",
       "UPDATE_BUTTON_TEXT": "Actualizar"
+    },
+    "EMPTY_STATE": "No se encontraron prompts. Crea tu primer prompt para comenzar.",
+    "LOADING": "Cargando prompts...",
+    "EDIT": "Editar"
+  },
+  "ADD_KNOWLEDGE_SOURCE_BUTTON": "Añadir fuente de conocimiento",
+  "KNOWLEDGE_SOURCE": {
+    "TITLE": "Fuentes de Conocimiento",
+    "LOADING": "Cargando fuentes de conocimiento...",
+    "EMPTY_STATE": "No se encontraron fuentes de conocimiento. Añade tu primera fuente de conocimiento para comenzar.",
+    "FETCH_ERROR": "Error al cargar las fuentes de conocimiento",
+    "DELETE_SUCCESS": "Fuente de conocimiento eliminada exitosamente",
+    "DELETE_ERROR": "Error al eliminar la fuente de conocimiento",
+    "CHOOSE_TYPE": "Elige el tipo de fuente de conocimiento",
+    "CONTINUE": "Continuar",
+    "ADD_SOURCE": "Añadir fuente",
+    "CANCEL": "Cancelar",
+    "SUCCESS_MESSAGE": "Fuente de conocimiento creada exitosamente.",
+    "CREATE_ERROR": "Error al crear la fuente de conocimiento.",
+    "TYPE": {
+      "URL": "URL",
+      "FILE": "Archivo",
+      "IMAGE": "Imagen",
+      "UNKNOWN": "Desconocido"
+    },
+    "DATE": {
+      "TODAY": "Añadido hoy",
+      "YESTERDAY": "Añadido ayer",
+      "DAYS_AGO": "Añadido hace {count} días",
+      "WEEK_AGO": "Añadido hace 1 semana",
+      "WEEKS_AGO": "Añadido hace {count} semanas",
+      "MONTHS_AGO": "Añadido hace {count} meses"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Eliminar Fuente de Conocimiento",
+      "MESSAGE": "¿Estás seguro de que quieres eliminar \"{name}\"? Esta acción no se puede deshacer.",
+      "DELETE": "Eliminar",
+      "CANCEL": "Cancelar"
+    },
+    "WEBPAGE": {
+      "TITLE": "Página web",
+      "URL_LABEL": "URL del sitio web",
+      "URL_PLACEHOLDER": "https://ejemplo.com",
+      "URL_REQUIRED": "Por favor ingresa una URL válida.",
+      "CRAWL_SUBPAGES": "Rastrear todas las subpáginas"
+    },
+    "FILE": {
+      "TITLE": "Archivo",
+      "UPLOAD_TITLE": "Subir archivos",
+      "UPLOAD_DESCRIPTION": "Elige archivos para añadir a tu base de conocimiento",
+      "BROWSE": "Examinar archivos",
+      "SUPPORTED_TYPES": "Soportados: PDF, DOC, DOCX, TXT, CSV, XLS, XLSX",
+      "SIZE_LIMIT_ERROR": "El tamaño del archivo excede el límite de 40MB.",
+      "UPLOAD_ERROR": "Error al subir el archivo. Por favor intenta de nuevo."
+    },
+    "IMAGE": {
+      "TITLE": "Imagen",
+      "UPLOAD_TITLE": "Subir imágenes",
+      "UPLOAD_DESCRIPTION": "Elige imágenes para añadir a tu base de conocimiento",
+      "BROWSE": "Examinar imágenes",
+      "SUPPORTED_TYPES": "Soportados: JPG, JPEG, PNG, GIF, BMP, WEBP"
+    },
+    "URL": {
+      "UPLOAD_ERROR": "Error al procesar la URL. Por favor verifica la URL e intenta de nuevo."
     }
   }
 } 

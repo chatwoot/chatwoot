@@ -42,4 +42,16 @@ module CustomExceptions::Account
       I18n.t 'errors.plan_upgrade_required.failed'
     end
   end
+
+  class NameExists < CustomExceptions::Base
+    def message
+      I18n.t('errors.signup.account_name_already_exists', name: @data[:name])
+    end
+  end
+
+  class AIBackendSetupFailed < CustomExceptions::Base
+    def initialize(message:)
+      super(message: message, key: 'ai_backend_setup_failed')
+    end
+  end
 end

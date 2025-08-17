@@ -41,6 +41,8 @@ RSpec.describe Instagram::CallbacksController do
       end
 
       it 'creates instagram channel and inbox' do
+
+        account.update!(custom_attributes:{"onboarding_completed" => true})
         expect do
           get :show, params: valid_params
         end.to change(Channel::Instagram, :count).by(1).and change(Inbox, :count).by(1)

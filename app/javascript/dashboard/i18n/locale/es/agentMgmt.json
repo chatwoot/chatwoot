@@ -1,18 +1,18 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agentes",
-    "HEADER_BTN_TXT": "Añadir agente",
-    "LOADING": "Se están listando los agentes",
-    "DESCRIPTION": "Un agente es miembro de su equipo de atención al cliente, quién puede ver y responder a los mensajes del usuario.  La siguiente lista muestra todos los agentes en su cuenta.",
+    "HEADER": "Miembros",
+    "HEADER_BTN_TXT": "Añadir miembro",
+    "LOADING": "Se están listando los miembros",
+    "DESCRIPTION": "Miembros de su equipo de atención al cliente, quién puede ver y responder a los mensajes del usuario.  La siguiente lista muestra todos los miembros en su cuenta.",
     "LEARN_MORE": "Aprender acerca de roles de usuario",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador",
       "AGENT": "Agente"
     },
     "LIST": {
-      "404": "No hay agentes asociados a esta cuenta",
-      "TITLE": "Administrar agentes en tu equipo",
-      "DESC": "Puedes añadir/eliminar agentes a/en tu equipo.",
+      "404": "No hay miembros asociados a esta cuenta",
+      "TITLE": "Administrar miembros en tu equipo",
+      "DESC": "Puedes añadir/eliminar miembros a/en tu equipo.",
       "NAME": "Nombre",
       "EMAIL": "Correo electrónico",
       "STATUS": "Estado",
@@ -22,35 +22,35 @@
       "AVAILABLE_CUSTOM_ROLE": "Permisos personalizados de rol disponibles"
     },
     "ADD": {
-      "TITLE": "Añadir agente a tu equipo",
-      "DESC": "Puedes añadir personas que podrán manejar el soporte para tus bandejas de entrada.",
+      "TITLE": "Añadir miembro a tu equipo",
+      "DESC": "Puedes añadir personas que podrán manejar el soporte para tus canales.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
-          "LABEL": "Nombre del agente",
-          "PLACEHOLDER": "Introduce el nombre del agente"
+          "LABEL": "Nombre del miembro",
+          "PLACEHOLDER": "Introduce el nombre del miembro"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de agente",
+          "LABEL": "Tipo de miembro",
           "PLACEHOLDER": "Seleccione un tipo",
-          "ERROR": "El tipo de agente es obligatorio"
+          "ERROR": "El tipo de miembro es obligatorio"
         },
         "EMAIL": {
           "LABEL": "Dirección de correo",
-          "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del agente"
+          "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del miembro"
         },
-        "SUBMIT": "Añadir agente"
+        "SUBMIT": "Añadir miembro"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agente añadido correctamente",
-        "EXIST_MESSAGE": "El correo electrónico del agente ya está en uso, por favor intente otra dirección de correo electrónico",
+        "SUCCESS_MESSAGE": "Miembro añadido correctamente",
+        "EXIST_MESSAGE": "El correo electrónico del miembro ya está en uso, por favor intente otra dirección de correo electrónico",
         "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Eliminar",
       "API": {
-        "SUCCESS_MESSAGE": "Agente eliminado correctamente",
+        "SUCCESS_MESSAGE": "Miembro eliminado correctamente",
         "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       },
       "CONFIRM": {
@@ -61,38 +61,38 @@
       }
     },
     "EDIT": {
-      "TITLE": "Editar agente",
+      "TITLE": "Editar miembro",
       "FORM": {
         "NAME": {
-          "LABEL": "Nombre del agente",
-          "PLACEHOLDER": "Por favor, introduzca un nombre del agente"
+          "LABEL": "Nombre del miembro",
+          "PLACEHOLDER": "Por favor, introduzca un nombre del miembro"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de agente",
+          "LABEL": "Tipo de miembro",
           "PLACEHOLDER": "Por favor, seleccione un rol",
-          "ERROR": "El tipo de agente es obligatorio"
+          "ERROR": "El tipo de miembro es obligatorio"
         },
         "EMAIL": {
           "LABEL": "Dirección de email",
-          "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del agente"
+          "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del miembro"
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Disponibilidad",
           "PLACEHOLDER": "Por favor, seleccione un estado de disponibilidad",
           "ERROR": "La disponibilidad es necesaria"
         },
-        "SUBMIT": "Editar agente"
+        "SUBMIT": "Editar miembro"
       },
       "BUTTON_TEXT": "Editar",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Agente actualizado correctamente",
+        "SUCCESS_MESSAGE": "Miembro actualizado correctamente",
         "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Restablecer contraseña",
-        "ADMIN_SUCCESS_MESSAGE": "Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña al agente",
-        "SUCCESS_MESSAGE": "Contraseña del agente restablecida con éxito",
+        "ADMIN_SUCCESS_MESSAGE": "Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña al miembro",
+        "SUCCESS_MESSAGE": "Contraseña del miembro restablecida con éxito",
         "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       }
     },
@@ -102,7 +102,7 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Ninguna",
       "TITLE": {
-        "AGENT": "Seleccionar agente",
+        "AGENT": "Seleccionar miembro",
         "TEAM": "Seleccionar equipo"
       },
       "LIST": {
@@ -110,13 +110,13 @@
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No se encontraron agentes",
+          "AGENT": "No se encontraron miembros",
           "TEAM": "No se encontraron equipos"
         },
         "PLACEHOLDER": {
-          "AGENT": "Buscar agentes",
+          "AGENT": "Buscar miembros",
           "TEAM": "Buscar equipos",
-          "INPUT": "Búsqueda por agentes"
+          "INPUT": "Búsqueda por miembros"
         }
       }
     }

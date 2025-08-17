@@ -187,6 +187,7 @@ export const mutations = {
 
     const pendingMessageIndex = findPendingMessageIndex(chat, message);
     if (pendingMessageIndex !== -1) {
+      // chat.messages[pendingMessageIndex] is already reactive, so we can just update it
       chat.messages[pendingMessageIndex] = message;
     } else {
       chat.messages.push(message);

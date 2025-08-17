@@ -4,6 +4,7 @@ import { useTrack } from 'dashboard/composables';
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
 import InboxEmptyState from './InboxEmptyState.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -14,6 +15,7 @@ export default {
     InboxItemHeader,
     InboxEmptyState,
     ConversationBox,
+    Spinner,
   },
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
@@ -191,9 +193,9 @@ export default {
       />
       <div
         v-if="isConversationLoading"
-        class="flex items-center h-[calc(100%-56px)] justify-center bg-slate-25 dark:bg-slate-800"
+        class="flex items-center h-[calc(100%-56px)] my-4 justify-center bg-n-solid-1"
       >
-        <span class="my-4 spinner" />
+        <Spinner class="text-n-brand dark:text-n-lightBrand" />
       </div>
       <ConversationBox
         v-else

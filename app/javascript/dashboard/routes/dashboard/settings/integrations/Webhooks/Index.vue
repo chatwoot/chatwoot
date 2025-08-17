@@ -115,7 +115,7 @@ export default {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
@@ -125,9 +125,7 @@ export default {
             {{ thHeader }}
           </th>
         </thead>
-        <tbody
-          class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
-        >
+        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
           <WebhookRow
             v-for="(webHookItem, index) in records"
             :key="webHookItem.id"

@@ -171,6 +171,16 @@ describe AutomationRuleListener do
         listener.message_created(event)
         expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
       end
+
+      it 'passes conversation attributes to conditions filter service' do
+        conversation.update!(status: :open, priority: :high)
+        listener.message_created(event)
+        expect(AutomationRules::ConditionsFilterService).to have_received(:new).with(
+          automation_rule,
+          conversation,
+          { message: message, changed_attributes: { content: %w[nil Hi] } }
+        )
+      end
     end
   end
 end

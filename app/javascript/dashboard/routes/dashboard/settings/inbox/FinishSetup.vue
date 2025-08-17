@@ -114,11 +114,11 @@ export default {
           />
         </div>
         <div v-if="isWhatsAppCloudInbox" class="w-[50%] max-w-[50%] ml-[25%]">
-          <p class="mt-8 font-medium text-slate-700 dark:text-slate-200">
+          <p class="mt-8 font-medium text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
           </p>
           <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
-          <p class="mt-8 font-medium text-slate-700 dark:text-slate-200">
+          <p class="mt-8 font-medium text-n-slate-11">
             {{
               $t(
                 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_VERIFICATION_TOKEN'

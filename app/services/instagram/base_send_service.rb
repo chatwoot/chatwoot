@@ -19,7 +19,12 @@ class Instagram::BaseSendService < Base::SendOnChannelService
   end
 
   def send_content
-    send_message(message_params)
+    params = if message.content_type == 'cards'
+               carousel_message_params
+             else
+               message_params
+             end
+    send_message(params)
   end
 
   def handle_error(error)
@@ -37,14 +42,103 @@ class Instagram::BaseSendService < Base::SendOnChannelService
     merge_human_agent_tag(params)
   end
 
+  def carousel_message_params
+    elements = build_carousel_elements
+    
+    params = {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'generic',
+            elements: elements
+          }
+        }
+      }
+    }
+    
+    # Log the payload for debugging
+    Rails.logger.debug("Instagram Carousel Payload: #{params.to_json}")
+    
+    merge_human_agent_tag(params)
+  end
+
+  def build_carousel_elements
+    return [] unless message.content_attributes['items'].present?
+
+    message.content_attributes['items'].filter_map do |item|
+      next unless item['title'].present?
+
+      element = {
+        title: item['title'].to_s.truncate(80),
+        subtitle: item['description'].to_s.truncate(80),
+        image_url: item['media_url']
+      }
+
+      if item['actions'].present?
+        buttons = build_carousel_buttons(item['actions'])
+        element[:buttons] = buttons if buttons.present?
+
+        first_link_action = item['actions'].find { |a| a['type'] == 'link' }
+        if first_link_action && first_link_action['uri'].present?
+          element[:default_action] = {
+            type: 'web_url',
+            url: first_link_action['uri']
+          }
+        end
+      end
+
+      element
+    end
+  end
+
+  def build_carousel_buttons(actions)
+    return [] if actions.blank?
+
+    actions.first(3).filter_map do |action|
+      next unless action.is_a?(Hash) && action['type'].present? && action['text'].present?
+
+      case action['type']
+      when 'link'
+        next unless action['uri'].present?
+        {
+          type: 'web_url',
+          title: action['text'].to_s.truncate(20),
+          url: action['uri'].to_s
+        }
+      when 'postback'
+        next unless action['payload'].present?
+        {
+          type: 'postback',
+          title: action['text'].to_s.truncate(20),
+          payload: action['payload'].to_s.truncate(1000)
+        }
+      end
+    end
+  end
+
   def attachment_message_params(attachment)
+    Rails.logger.info "Instagram: Processing attachment - file_type: #{attachment.file_type}, content_type: #{attachment.file.content_type}, filename: #{attachment.file.filename}"
+    
+    # Convert audio files to Instagram-compatible format if needed
+    attachment_url = if attachment.file_type == 'audio'
+                       Rails.logger.info "Instagram: Audio attachment detected, initiating conversion process"
+                       Instagram::AudioConversionService.convert_to_instagram_format(attachment)
+                     else
+                       Rails.logger.info "Instagram: Non-audio attachment, using original URL"
+                       attachment.download_url
+                     end
+
+    Rails.logger.info "Instagram: Final attachment URL: #{attachment_url}"
+
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment.download_url
+            url: attachment_url
           }
         }
       }

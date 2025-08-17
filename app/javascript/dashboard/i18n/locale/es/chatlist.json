@@ -9,7 +9,7 @@
     "FAILED_TO_SEND": "Error al enviar",
     "TAB_HEADING": "Conversaciones",
     "MENTION_HEADING": "Menciones",
-    "UNATTENDED_HEADING": "Desatendido",
+    "UNATTENDED_HEADING": "Desatendidos",
     "SEARCH": {
       "INPUT": "Búsqueda de Personas, Chats, Respuestas Salvadas .."
     },
@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Respuesta pendiente: la más corta primero"
+      },
+      "unread_count_desc": {
+        "TEXT": "Mensajes no leídos: Más primero"
       }
     },
     "ATTACHMENTS": {

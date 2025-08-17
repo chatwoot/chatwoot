@@ -328,9 +328,7 @@ export default {
           {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
-      <div
-        class="absolute flex flex-col conversation--meta ltr:right-4 rtl:left-4 top-4"
-      >
+      <div class="absolute flex flex-col mt-4 ltr:right-4 rtl:left-4 top-4">
         <span class="ml-auto font-normal leading-4 text-xxs">
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
@@ -338,7 +336,7 @@ export default {
           />
         </span>
         <span
-          class="unread shadow-lg rounded-full hidden text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
+          class="unread shadow-lg rounded-full hidden text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>

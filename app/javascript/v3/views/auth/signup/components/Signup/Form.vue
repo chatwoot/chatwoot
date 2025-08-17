@@ -4,20 +4,19 @@ import { required, minLength, email } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
-import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
-import { register } from '../../../../../api/auth';
-import * as CompanyEmailValidator from 'company-email-validator';
+import { registerWithStore } from '../../../../../api/auth';
+import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 
 export default {
   components: {
     FormInput,
     GoogleOAuthButton,
-    SubmitButton,
+    NextButton,
     VueHcaptcha,
   },
   mixins: [globalConfigMixin],
@@ -52,9 +51,6 @@ export default {
         email: {
           required,
           email,
-          businessEmailValidator(value) {
-            return CompanyEmailValidator.isCompanyEmail(value);
-          },
         },
         password: {
           required,
@@ -108,12 +104,16 @@ export default {
         return;
       }
       this.isSignupInProgress = true;
+
       try {
-        await register(this.credentials);
+        await registerWithStore(this.credentials);
+
+        // Success! Redirect
         window.location = DEFAULT_REDIRECT_URL;
       } catch (error) {
-        let errorMessage =
+        const errorMessage =
           error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
+
         this.resetCaptcha();
         useAlert(errorMessage);
       } finally {
@@ -140,30 +140,28 @@ export default {
 <template>
   <div class="flex-1 px-1 overflow-auto">
     <form class="space-y-3" @submit.prevent="submit">
-      <div class="grid grid-cols-2 gap-2">
-        <FormInput
-          v-model="credentials.fullName"
-          name="full_name"
-          class="flex-1"
-          :class="{ error: v$.credentials.fullName.$error }"
-          :label="$t('REGISTER.FULL_NAME.LABEL')"
-          :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
-          :has-error="v$.credentials.fullName.$error"
-          :error-message="$t('REGISTER.FULL_NAME.ERROR')"
-          @blur="v$.credentials.fullName.$touch"
-        />
-        <FormInput
-          v-model="credentials.accountName"
-          name="account_name"
-          class="flex-1"
-          :class="{ error: v$.credentials.accountName.$error }"
-          :label="$t('REGISTER.COMPANY_NAME.LABEL')"
-          :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
-          :has-error="v$.credentials.accountName.$error"
-          :error-message="$t('REGISTER.COMPANY_NAME.ERROR')"
-          @blur="v$.credentials.accountName.$touch"
-        />
-      </div>
+      <FormInput
+        v-model="credentials.fullName"
+        name="full_name"
+        class="flex-1"
+        :class="{ error: v$.credentials.fullName.$error }"
+        :label="$t('REGISTER.FULL_NAME.LABEL')"
+        :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
+        :has-error="v$.credentials.fullName.$error"
+        :error-message="$t('REGISTER.FULL_NAME.ERROR')"
+        @blur="v$.credentials.fullName.$touch"
+      />
+      <FormInput
+        v-model="credentials.accountName"
+        name="account_name"
+        class="flex-1"
+        :class="{ error: v$.credentials.accountName.$error }"
+        :label="$t('REGISTER.COMPANY_NAME.LABEL')"
+        :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
+        :has-error="v$.credentials.accountName.$error"
+        :error-message="$t('REGISTER.COMPANY_NAME.ERROR')"
+        @blur="v$.credentials.accountName.$touch"
+      />
       <FormInput
         v-model="credentials.email"
         type="email"
@@ -195,23 +193,28 @@ export default {
         />
         <span
           v-if="!hasAValidCaptcha && didCaptchaReset"
-          class="text-xs text-red-400"
+          class="text-xs text-n-ruby-9"
         >
           {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
         </span>
       </div>
-      <SubmitButton
-        :button-text="$t('REGISTER.SUBMIT')"
+      <NextButton
+        lg
+        type="submit"
+        data-testid="submit_button"
+        class="w-full"
+        icon="i-lucide-chevron-right"
+        trailing-icon
+        :label="$t('REGISTER.SUBMIT')"
         :disabled="isSignupInProgress || !isFormValid"
-        :loading="isSignupInProgress"
-        icon-class="arrow-chevron-right"
+        :is-loading="isSignupInProgress"
       />
     </form>
     <GoogleOAuthButton v-if="showGoogleOAuth" class="flex-col-reverse">
       {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
     </GoogleOAuthButton>
     <p
-      class="text-sm mb-1 mt-5 text-slate-800 dark:text-woot-50 [&>a]:text-woot-500 [&>a]:font-medium [&>a]:hover:text-woot-600"
+      class="text-sm mb-1 mt-5 text-n-slate-12 [&>a]:text-n-brand dark:text-n-lightBrand [&>a]:font-medium [&>a]:hover:brightness-110"
       v-html="termsLink"
     />
   </div>
@@ -221,8 +224,7 @@ export default {
 .h-captcha--box {
   &::v-deep .error {
     iframe {
-      border: 1px solid var(--r-500);
-      border-radius: var(--border-radius-normal);
+      @apply rounded-md border border-n-ruby-8 dark:border-n-ruby-8;
     }
   }
 }

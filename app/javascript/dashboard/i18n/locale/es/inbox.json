@@ -1,12 +1,12 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Mi bandeja de entrada",
+      "TITLE": "Canales",
       "DISPLAY_DROPDOWN": "Mostrar",
       "LOADING": "Cargando notificaciones",
       "404": "No hay notificaciones activas en este grupo.",
       "NO_NOTIFICATIONS": "Sin notificaciones",
-      "NOTE": "Notificaciones de todas las entradas suscritas",
+      "NOTE": "Notificaciones de todos los canales suscritos",
       "NO_MESSAGES_AVAILABLE": "¡Ups! No se pueden obtener mensajes",
       "SNOOZED_UNTIL": "Posponer hasta",
       "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",

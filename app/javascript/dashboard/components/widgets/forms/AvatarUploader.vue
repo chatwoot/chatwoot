@@ -53,7 +53,7 @@ export default {
       :src="src"
       :username="usernameAvatar"
     />
-    <div v-if="src && deleteAvatar" class="avatar-delete-btn">
+    <div v-if="src && deleteAvatar" class="my-1">
       <NextButton
         outline
         xs
@@ -74,10 +74,3 @@ export default {
     </label>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.avatar-delete-btn {
-  margin-top: var(--space-smaller);
-  margin-bottom: var(--space-smaller);
-}
-</style>

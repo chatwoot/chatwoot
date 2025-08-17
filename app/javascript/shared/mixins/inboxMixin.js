@@ -89,6 +89,12 @@ export default {
         this.whatsAppAPIProvider === 'default'
       );
     },
+    isAWhapiChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP &&
+        this.whatsAppAPIProvider === 'whapi'
+      );
+    },
     chatAdditionalAttributes() {
       const { additional_attributes: additionalAttributes } = this.chat || {};
       return additionalAttributes || {};

@@ -6,10 +6,10 @@ import { required, minLength, email } from '@vuelidate/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
-import SubmitButton from '../../../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
-  components: { FormInput, SubmitButton },
+  components: { FormInput, NextButton },
   mixins: [globalConfigMixin],
   setup() {
     return { v$: useVuelidate() };
@@ -98,15 +98,22 @@ export default {
           :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
           @input="v$.credentials.email.$touch"
         />
-        <SubmitButton
+        <NextButton
+          lg
+          type="submit"
+          data-testid="submit_button"
+          class="w-full"
+          :label="$t('RESET_PASSWORD.SUBMIT')"
           :disabled="v$.credentials.email.$invalid || resetPassword.showLoading"
-          :button-text="$t('RESET_PASSWORD.SUBMIT')"
-          :loading="resetPassword.showLoading"
+          :is-loading="resetPassword.showLoading"
         />
       </div>
       <p class="mt-4 -mb-1 text-sm text-n-slate-11">
         {{ $t('RESET_PASSWORD.GO_BACK_TO_LOGIN') }}
-        <router-link to="/auth/login" class="text-link text-n-brand">
+        <router-link
+          to="/auth/login"
+          class="text-link text-n-brand dark:text-n-lightBrand"
+        >
           {{ $t('COMMON.CLICK_HERE') }}.
         </router-link>
       </p>

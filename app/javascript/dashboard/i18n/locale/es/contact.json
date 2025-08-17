@@ -152,15 +152,15 @@
     "BUTTON_LABEL": "Iniciar conversación",
     "TITLE": "Nueva conversación",
     "DESC": "Iniciar una conversación enviando un mensaje nuevo.",
-    "NO_INBOX": "No se encontró la bandeja de entrada para iniciar una nueva conversación con este contacto.",
+    "NO_INBOX": "No se encontró el canal para iniciar una nueva conversación con este contacto.",
     "FORM": {
       "TO": {
         "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Bandeja de entrada",
-        "PLACEHOLDER": "Elegir bandeja de entrada",
-        "ERROR": "Seleccione una bandeja de entrada"
+        "LABEL": "Canal",
+        "PLACEHOLDER": "Elegir canal",
+        "ERROR": "Seleccione un canal"
       },
       "SUBJECT": {
         "LABEL": "Asunto",
@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Los datos de contacto de <strong>{primaryContactName}</strong> se copiarán en <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR_MESSAGE": "Something went wrong. Please try again later."
+              "ERROR_MESSAGE": "Algo salió mal. Por favor, inténtalo de nuevo más tarde."
     },
     "FORM": {
       "SUBMIT": " Combinar contactos",
@@ -285,7 +285,7 @@
     "HEADER": {
       "TITLE": "Contactos",
       "SEARCH_TITLE": "Buscar contactos",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "Contactos activos",
       "SEARCH_PLACEHOLDER": "Buscar...",
       "MESSAGE_BUTTON": "Mensaje",
       "SEND_MESSAGE": "Enviar mensaje",
@@ -460,8 +460,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "Esta acción es permanente e irreversible.",
+        "BUTTON": "Eliminar ahora"
       }
     },
     "DETAILS": {
@@ -471,7 +471,7 @@
       "DELETE_CONTACT": "Eliminar contacto",
       "DELETE_DIALOG": {
         "TITLE": "Confirmar eliminación",
-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+        "DESCRIPTION": "¿Está seguro de que desea eliminar este contacto?",
         "CONFIRM": "Sí, eliminar",
         "API": {
           "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
@@ -550,8 +550,8 @@
         "YOU": "Tú",
         "SAVE": "Guardar nota",
         "EXPAND": "Expandir",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+        "COLLAPSE": "Contraer",
+        "NO_NOTES": "No hay notas, puedes añadir notas desde la página de detalles del contacto.",
         "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior."
       }
     },
@@ -561,7 +561,7 @@
       "BUTTON_LABEL": "Añadir contacto",
       "SEARCH_EMPTY_STATE_TITLE": "No hay contactos que coincidan con tu búsqueda 🔍",
       "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos en este momento 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -572,7 +572,7 @@
       "GO_TO_CONVERSATION": "Ver",
       "SUCCESS_MESSAGE": "¡El mensaje fue enviado con éxito!",
       "ERROR_MESSAGE": "Se ha producido un error al crear la conversación. Por favor, inténtalo de nuevo más tarde.",
-      "NO_INBOX_ALERT": "No hay bandejas de entrada disponibles para iniciar una conversación con este contacto.",
+      "NO_INBOX_ALERT": "No hay canales disponibles para iniciar una conversación con este contacto.",
       "CONTACT_SELECTOR": {
         "LABEL": "Para:",
         "TAG_INPUT_PLACEHOLDER": "Buscar un contacto con nombre, correo electrónico o número de teléfono",
@@ -580,7 +580,7 @@
       },
       "INBOX_SELECTOR": {
         "LABEL": "Vía:",
-        "BUTTON": "Mostrar bandejas de entrada"
+        "BUTTON": "Mostrar canales"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "Asunto :",

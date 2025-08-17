@@ -267,6 +267,23 @@ RSpec.describe Message do
       message = create(:message)
       expect(message.webhook_data.key?(:attachments)).to be false
     end
+
+    it 'uses outgoing_content for webhook content' do
+      message = create(:message, content: 'Test content')
+      expect(message).to receive(:outgoing_content).and_return('Outgoing test content')
+
+      webhook_data = message.webhook_data
+      expect(webhook_data[:content]).to eq('Outgoing test content')
+    end
+
+    it 'includes CSAT survey link in webhook content for input_csat messages' do
+      inbox = create(:inbox, channel: create(:channel_api))
+      conversation = create(:conversation, inbox: inbox)
+      message = create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience')
+
+      expect(message.outgoing_content).to include('survey/responses/')
+      expect(message.webhook_data[:content]).to include('survey/responses/')
+    end
   end
 
   context 'when message is created' do
@@ -529,6 +546,470 @@ RSpec.describe Message do
       expect(message.outgoing_content).to eq('Presented content')
       expect(MessageContentPresenter).to have_received(:new).with(message)
       expect(presenter).to have_received(:outgoing_content)
+    end
+  end
+
+  describe 'AI feedback functionality' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Test message') }
+    let(:agent) { create(:user, account: conversation.account, role: :agent) }
+    let(:admin) { create(:user, account: conversation.account, role: :administrator) }
+
+    describe 'storing AI feedback in content_attributes' do
+      context 'when adding new AI feedback' do
+        it 'stores feedback with all required fields' do
+          feedback = {
+            'rating' => 'positive',
+            'feedback_text' => 'This AI response was very helpful',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']).to be_present
+          expect(message.content_attributes['ai_feedback']['rating']).to eq('positive')
+          expect(message.content_attributes['ai_feedback']['feedback_text']).to eq('This AI response was very helpful')
+          expect(message.content_attributes['ai_feedback']['agent_id']).to eq(agent.id)
+          expect(message.content_attributes['ai_feedback']['created_at']).to be_present
+        end
+
+        it 'stores feedback with only rating' do
+          feedback = {
+            'rating' => 'negative',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']['rating']).to eq('negative')
+          expect(message.content_attributes['ai_feedback']['feedback_text']).to be_nil
+          expect(message.content_attributes['ai_feedback']['agent_id']).to eq(agent.id)
+        end
+
+        it 'stores feedback with only feedback text' do
+          feedback = {
+            'feedback_text' => 'Could be improved with more context',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']['rating']).to be_nil
+          expect(message.content_attributes['ai_feedback']['feedback_text']).to eq('Could be improved with more context')
+          expect(message.content_attributes['ai_feedback']['agent_id']).to eq(agent.id)
+        end
+
+        it 'preserves other content_attributes when adding feedback' do
+          message.content_attributes = { 'other_data' => 'keep this', 'another_field' => 123 }
+          message.save!
+
+          feedback = {
+            'rating' => 'positive',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']).to be_present
+          expect(message.content_attributes['other_data']).to eq('keep this')
+          expect(message.content_attributes['another_field']).to eq(123)
+        end
+      end
+
+      context 'when updating existing AI feedback' do
+        let(:original_feedback) do
+          {
+            'rating' => 'positive',
+            'feedback_text' => 'Original feedback',
+            'agent_id' => agent.id,
+            'created_at' => 1.hour.ago.utc.iso8601
+          }
+        end
+
+        before do
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => original_feedback)
+          message.save!
+        end
+
+        it 'updates feedback while preserving created_at' do
+          updated_feedback = original_feedback.merge(
+            'rating' => 'negative',
+            'feedback_text' => 'Updated feedback text',
+            'updated_at' => Time.current.utc.iso8601
+          )
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => updated_feedback)
+          message.save!
+
+          ai_feedback = message.content_attributes['ai_feedback']
+          expect(ai_feedback['rating']).to eq('negative')
+          expect(ai_feedback['feedback_text']).to eq('Updated feedback text')
+          expect(ai_feedback['agent_id']).to eq(agent.id)
+          expect(ai_feedback['created_at']).to eq(original_feedback['created_at'])
+          expect(ai_feedback['updated_at']).to be_present
+        end
+
+        it 'allows partial updates' do
+          updated_feedback = original_feedback.merge(
+            'rating' => 'neutral',
+            'updated_at' => Time.current.utc.iso8601
+          )
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => updated_feedback)
+          message.save!
+
+          ai_feedback = message.content_attributes['ai_feedback']
+          expect(ai_feedback['rating']).to eq('neutral')
+          expect(ai_feedback['feedback_text']).to eq('Original feedback') # Unchanged
+          expect(ai_feedback['created_at']).to eq(original_feedback['created_at'])
+        end
+      end
+
+      context 'when removing AI feedback' do
+        before do
+          feedback = {
+            'rating' => 'positive',
+            'feedback_text' => 'Feedback to remove',
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          message.save!
+        end
+
+        it 'removes AI feedback completely' do
+          message.content_attributes = message.content_attributes.except('ai_feedback')
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']).to be_nil
+        end
+
+        it 'preserves other content_attributes when removing feedback' do
+          message.content_attributes = message.content_attributes.merge('other_data' => 'keep this')
+          message.save!
+
+          message.content_attributes = message.content_attributes.except('ai_feedback')
+          message.save!
+
+          expect(message.content_attributes['ai_feedback']).to be_nil
+          expect(message.content_attributes['other_data']).to eq('keep this')
+        end
+      end
+    end
+
+    describe 'AI feedback validation and edge cases' do
+      it 'handles empty content_attributes gracefully' do
+        message.content_attributes = {}
+        message.save!
+
+        expect(message.content_attributes['ai_feedback']).to be_nil
+        expect { message.save! }.not_to raise_error
+      end
+
+      it 'handles nil content_attributes gracefully' do
+        message.content_attributes = nil
+        message.save!
+
+        expect(message.content_attributes).to eq({})
+        expect { message.save! }.not_to raise_error
+      end
+
+      it 'preserves AI feedback through message updates' do
+        feedback = {
+          'rating' => 'positive',
+          'feedback_text' => 'Great response',
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+        message.save!
+
+        # Update other message attributes
+        message.update!(content: 'Updated message content')
+
+        message.reload
+        expect(message.content_attributes['ai_feedback']).to be_present
+        expect(message.content_attributes['ai_feedback']['rating']).to eq('positive')
+      end
+
+      it 'allows different rating values' do
+        %w[positive negative neutral].each do |rating|
+          feedback = {
+            'rating' => rating,
+            'agent_id' => agent.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+
+          message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+          expect { message.save! }.not_to raise_error
+
+          expect(message.content_attributes['ai_feedback']['rating']).to eq(rating)
+        end
+      end
+
+      it 'handles long feedback text' do
+        long_text = 'a' * 2000
+        feedback = {
+          'rating' => 'positive',
+          'feedback_text' => long_text,
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+        expect { message.save! }.not_to raise_error
+
+        expect(message.content_attributes['ai_feedback']['feedback_text']).to eq(long_text)
+      end
+
+      it 'handles special characters in feedback text' do
+        special_text = 'Feedback with émojis 🤖 and symbols @#$%^&*()'
+        feedback = {
+          'rating' => 'positive',
+          'feedback_text' => special_text,
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback)
+        expect { message.save! }.not_to raise_error
+
+        expect(message.content_attributes['ai_feedback']['feedback_text']).to eq(special_text)
+      end
+    end
+
+    describe 'AI feedback query and retrieval' do
+      it 'provides access to AI feedback data via Ruby hash operations' do
+        feedback_data = {
+          'rating' => 'positive',
+          'feedback_text' => 'Test feedback',
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => feedback_data)
+        message.save!
+        message.reload
+
+        # Test accessing nested JSON values via Ruby hash
+        expect(message.content_attributes['ai_feedback']).to be_present
+        expect(message.content_attributes['ai_feedback']['rating']).to eq('positive')
+        expect(message.content_attributes['ai_feedback']['feedback_text']).to eq('Test feedback')
+        expect(message.content_attributes['ai_feedback']['agent_id']).to eq(agent.id)
+      end
+
+      it 'supports retrieving AI feedback using Hash dig method' do
+        message.content_attributes = message.content_attributes.merge(
+          'ai_feedback' => {
+            'rating' => 'negative',
+            'feedback_text' => 'Could be better',
+            'agent_id' => admin.id,
+            'created_at' => Time.current.utc.iso8601
+          }
+        )
+        message.save!
+        message.reload
+
+        # Test accessing nested values using dig
+        expect(message.content_attributes.dig('ai_feedback', 'rating')).to eq('negative')
+        expect(message.content_attributes.dig('ai_feedback', 'feedback_text')).to eq('Could be better')
+        expect(message.content_attributes.dig('ai_feedback', 'agent_id')).to eq(admin.id)
+        expect(message.content_attributes.dig('ai_feedback', 'created_at')).to be_present
+      end
+
+      it 'maintains data integrity through save and reload cycles' do
+        original_feedback = {
+          'rating' => 'positive',
+          'feedback_text' => 'Excellent AI response',
+          'agent_id' => agent.id,
+          'created_at' => Time.current.utc.iso8601
+        }
+
+        message.content_attributes = message.content_attributes.merge('ai_feedback' => original_feedback)
+        message.save!
+
+        # Reload from database and verify data integrity
+        reloaded_message = Message.find(message.id)
+        ai_feedback = reloaded_message.content_attributes['ai_feedback']
+
+        expect(ai_feedback['rating']).to eq(original_feedback['rating'])
+        expect(ai_feedback['feedback_text']).to eq(original_feedback['feedback_text'])
+        expect(ai_feedback['agent_id']).to eq(original_feedback['agent_id'])
+        expect(ai_feedback['created_at']).to eq(original_feedback['created_at'])
+      end
+    end
+  end
+
+  describe 'notification forwarding' do
+    let!(:account) { create(:account, custom_attributes: { 'store_id' => 'test_store_123' }) }
+    let!(:user) { create(:user, account: account) }
+    let!(:inbox) { create(:inbox, account: account) }
+    let!(:conversation) { create(:conversation, account: account, inbox: inbox) }
+    let(:forward_service_double) { instance_double(ForwardNotificationService) }
+
+    before do
+      # Mock the global namespace version that the callback uses
+      allow(::ForwardNotificationService).to receive(:new).and_return(forward_service_double)
+      allow(forward_service_double).to receive(:send_notification)
+    end
+
+    describe '#notification_format?' do
+      context 'when message matches notification format' do
+        it 'returns true for valid notification format' do
+          message = build(:message, content: '[urgent] This is urgent', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be true
+        end
+
+        it 'returns true for different notification types' do
+          message = build(:message, content: '[alert] System alert', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be true
+        end
+
+        it 'returns true for notification with spaces in type' do
+          message = build(:message, content: '[system alert] Important message', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be true
+        end
+      end
+
+      context 'when message does not match notification format' do
+        it 'returns false for regular messages' do
+          message = build(:message, content: 'This is a regular message', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be false
+        end
+
+        it 'returns false for malformed notification format' do
+          message = build(:message, content: '[incomplete notification', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be false
+        end
+
+        it 'returns false for empty brackets' do
+          message = build(:message, content: '[]: Empty brackets', conversation: conversation, account: account)
+          expect(message.send(:notification_format?)).to be false
+        end
+      end
+    end
+
+    describe '#trigger_notification_forwarding' do
+      context 'when all conditions are met' do
+        let(:notification_message) do
+          create(:message,
+                 content: '[test] This is a test notification',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'outgoing',
+                 private: true,
+                 sender: user)
+        end
+
+        it 'creates and calls ForwardNotificationService' do
+          notification_message # trigger the callback
+
+          expect(::ForwardNotificationService).to have_received(:new).with(notification_message)
+          expect(forward_service_double).to have_received(:send_notification)
+        end
+      end
+
+      context 'when message is not private' do
+        let(:public_message) do
+          create(:message,
+                 content: '[test] This is a test notification',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'outgoing',
+                 private: false,
+                 sender: user)
+        end
+
+        it 'does not trigger forwarding service' do
+          public_message # trigger the callback
+
+          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(forward_service_double).not_to have_received(:send_notification)
+        end
+      end
+
+      context 'when message is not outgoing' do
+        let(:incoming_message) do
+          create(:message,
+                 content: '[test] This is a test notification',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'incoming',
+                 private: true)
+        end
+
+        it 'does not trigger forwarding service' do
+          incoming_message # trigger the callback
+
+          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(forward_service_double).not_to have_received(:send_notification)
+        end
+      end
+
+      context 'when message does not match notification format' do
+        let(:regular_message) do
+          create(:message,
+                 content: 'This is a regular private message',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'outgoing',
+                 private: true,
+                 sender: user)
+        end
+
+        it 'does not trigger forwarding service' do
+          regular_message # trigger the callback
+
+          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(forward_service_double).not_to have_received(:send_notification)
+        end
+      end
+
+      context 'when ForwardNotificationService raises an error' do
+        before do
+          allow(forward_service_double).to receive(:send_notification).and_raise(StandardError, 'Service error')
+          allow(Rails.logger).to receive(:error)
+        end
+
+        let(:error_message) do
+          create(:message,
+                 content: '[test] This will cause an error',
+                 conversation: conversation,
+                 account: account,
+                 message_type: 'outgoing',
+                 private: true,
+                 sender: user)
+        end
+
+        it 'logs the error and does not re-raise' do
+          expect { error_message }.not_to raise_error
+
+          expect(Rails.logger).to have_received(:error).with('Error in trigger_notification_forwarding: Service error')
+        end
+      end
+    end
+
+    describe 'after_create_commit callbacks' do
+      it 'includes trigger_notification_forwarding callback' do
+        expect(Message._commit_callbacks.select { |cb| cb.filter == :trigger_notification_forwarding }).not_to be_empty
+      end
+
+      it 'triggers callback after message creation' do
+        allow_any_instance_of(Message).to receive(:trigger_notification_forwarding)
+
+        message = create(:message, conversation: conversation, account: account)
+
+        expect(message).to have_received(:trigger_notification_forwarding)
+      end
     end
   end
 end

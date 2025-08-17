@@ -33,7 +33,7 @@ const emit = defineEmits(['upgrade']);
         class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-blue"
       >
         <Icon
-          class="flex-shrink-0 text-n-brand size-[14px]"
+          class="flex-shrink-0 text-n-brand dark:text-n-lightBrand size-[14px]"
           icon="i-lucide-lock-keyhole"
         />
       </span>

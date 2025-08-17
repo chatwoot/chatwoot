@@ -3,6 +3,39 @@
     "TITLE": "Prompts",
     "DESCRIPTION": "Configure prompts for your account. These prompts can be used in the composer to quickly write a message.",
     "ADD_BUTTON": "Add prompt",
+    "ADD_KNOWLEDGE_SOURCE_BUTTON": "Add knowledge source",
+    "KNOWLEDGE_SOURCE": {
+      "TITLE": "Add knowledge source",
+      "TYPE": {
+        "LABEL": "Type",
+        "WEBPAGE": "Webpage",
+        "FILE": "File",
+        "IMAGE": "Image"
+      },
+      "WEBPAGE": {
+        "PUBLIC_URL": "Public URL",
+        "CRAWL_SUBPAGES": "Crawl this link for all subpages"
+      },
+      "FILE": {
+        "LABEL": "File",
+        "BROWSE": "Browse files",
+        "SUPPORTED_TYPES": "Text-based file types up to 2MB supported."
+      },
+      "IMAGE": {
+        "LABEL": "Image",
+        "BROWSE": "Browse images",
+        "SUPPORTED_TYPES": "Image file types up to 2MB supported."
+      },
+      "ACTIONS": {
+        "CONTINUE": "Continue",
+        "ADD_SOURCE": "Add source",
+        "CANCEL": "Cancel"
+      }
+    },
+    "KNOWLEDGE_SOURCES": {
+      "TITLE": "Knowledge sources",
+      "UPLOADED_ON": "Uploaded on {date}"
+    },
     "SEARCH_PLACEHOLDER": "Search prompts",
     "TABLE_HEADER": {
       "PROMPT_KEY": "Prompt Key",
@@ -31,6 +64,70 @@
       "SAVING": "Saving...",
       "SAVED": "Saved",
       "UPDATE_BUTTON_TEXT": "Update"
+    },
+    "EMPTY_STATE": "No prompts found. Create your first prompt to get started.",
+    "LOADING": "Loading prompts...",
+    "EDIT": "Edit"
+  },
+  "ADD_KNOWLEDGE_SOURCE_BUTTON": "Add knowledge source",
+  "KNOWLEDGE_SOURCE": {
+    "TITLE": "Knowledge Sources",
+    "LOADING": "Loading knowledge sources...",
+    "EMPTY_STATE": "No knowledge sources found. Add your first knowledge source to get started.",
+    "FETCH_ERROR": "Failed to load knowledge sources",
+    "DELETE_SUCCESS": "Knowledge source deleted successfully",
+    "DELETE_ERROR": "Failed to delete knowledge source",
+    "CHOOSE_TYPE": "Choose the type of knowledge source",
+    "CONTINUE": "Continue",
+    "ADD_SOURCE": "Add source",
+    "CANCEL": "Cancel",
+    "SUCCESS_MESSAGE": "Knowledge source created successfully.",
+    "CREATE_ERROR": "Failed to create knowledge source.",
+    "TYPE": {
+      "URL": "URL",
+      "FILE": "File",
+      "IMAGE": "Image",
+      "UNKNOWN": "Unknown"
+    },
+    "DATE": {
+      "TODAY": "Added today",
+      "YESTERDAY": "Added yesterday",
+      "DAYS_AGO": "Added {count} days ago",
+      "WEEK_AGO": "Added 1 week ago",
+      "WEEKS_AGO": "Added {count} weeks ago",
+      "MONTHS_AGO": "Added {count} months ago"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Delete Knowledge Source",
+      "MESSAGE": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel"
+    },
+    "WEBPAGE": {
+      "TITLE": "Webpage",
+      "URL_LABEL": "Website URL",
+      "URL_PLACEHOLDER": "https://example.com",
+      "URL_REQUIRED": "Please enter a valid URL.",
+      "CRAWL_SUBPAGES": "Crawl all subpages"
+    },
+    "FILE": {
+      "TITLE": "File",
+      "UPLOAD_TITLE": "Upload files",
+      "UPLOAD_DESCRIPTION": "Choose files to add to your knowledge base",
+      "BROWSE": "Browse files",
+      "SUPPORTED_TYPES": "Supported: PDF, DOC, DOCX, TXT, CSV, XLS, XLSX",
+      "SIZE_LIMIT_ERROR": "File size exceeds the 40MB limit.",
+      "UPLOAD_ERROR": "Failed to upload file. Please try again."
+    },
+    "IMAGE": {
+      "TITLE": "Image",
+      "UPLOAD_TITLE": "Upload images",
+      "UPLOAD_DESCRIPTION": "Choose images to add to your knowledge base",
+      "BROWSE": "Browse images",
+      "SUPPORTED_TYPES": "Supported: JPG, JPEG, PNG, GIF, BMP, WEBP"
+    },
+    "URL": {
+      "UPLOAD_ERROR": "Failed to process URL. Please check the URL and try again."
     }
   }
 } 

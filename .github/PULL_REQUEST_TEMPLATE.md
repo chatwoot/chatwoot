@@ -3,7 +3,7 @@
 ## Description
 
 Please include a summary of the change and issue(s) fixed. Also, mention relevant motivation, context, and any dependencies that this change requires.
-Fixes # (issue)
+ClickUp ticket = [CU-EXAMPLE](url)
 
 ## Type of change
 

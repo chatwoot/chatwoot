@@ -98,20 +98,60 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     # Therefore, we need to check if the message already exists before creating it.
     return if message_already_exists?
 
+    if carousel?
+      @message = conversation.messages.create!(carousel_message_params)
+      # carousels are handled as a single message, so we can return here
+      return
+    end
+
     return if message_content.blank? && all_unsupported_files?
 
     @message = conversation.messages.create!(message_params)
     save_story_id
+    save_post_id
+    save_shared_content_info
+
+    return if story_message? || shared_content_message?
 
     attachments.each do |attachment|
       process_attachment(attachment)
     end
   end
 
+  def story_message?
+    # Check for both story replies and post/message replies to prevent attachment duplication
+    story_reply_attributes.present? || message_reply_attributes.present?
+  end
+
+  def shared_content_message?
+    # Check if this message contains shared content (posts/stories) that shouldn't be downloaded
+    attachments.any? { |attachment| attachment['type'] == 'share' }
+  end
+
   def save_story_id
     return if story_reply_attributes.blank?
 
     @message.save_story_info(story_reply_attributes)
+  end
+
+  def save_post_id
+    return if message_reply_attributes.blank?
+
+    @message.save_post_info(message_reply_attributes)
+  end
+
+  def save_shared_content_info
+    return unless shared_content_message?
+
+    shared_attachment = attachments.find { |attachment| attachment['type'] == 'share' }
+    return unless shared_attachment
+
+    shared_url = shared_attachment.dig('payload', 'url')
+    return unless shared_url
+
+    # Save the shared content URL in content_attributes for reference
+    current_attrs = @message.content_attributes || {}
+    @message.update!(content_attributes: current_attrs.merge(shared_content_url: shared_url))
   end
 
   def build_conversation
@@ -124,6 +164,48 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
 
   def additional_conversation_attributes
     {}
+  end
+
+  def carousel?
+    return false if attachments.blank?
+
+    attachment = attachments.first
+    attachment[:type] == 'template' && attachment.dig(:payload, :template_type) == 'generic'
+  end
+
+  def carousel_message_params
+    message_params.merge(
+      content_type: :cards,
+      content_attributes: message_params[:content_attributes].merge(
+        items: carousel_items
+      )
+    )
+  end
+
+  def carousel_items
+    elements = attachments.first.dig(:payload, :elements)
+    return [] if elements.blank?
+
+    elements.map do |element|
+      {
+        title: element[:title],
+        description: element[:subtitle],
+        media_url: element[:image_url],
+        actions: carousel_item_actions(element[:buttons])
+      }
+    end
+  end
+
+  def carousel_item_actions(buttons)
+    return [] if buttons.blank?
+
+    buttons.map do |button|
+      if button[:type] == 'web_url'
+        { type: 'link', text: button[:title], uri: button[:url] }
+      elsif button[:type] == 'postback'
+        { type: 'postback', text: button[:title], payload: button[:payload] }
+      end
+    end.compact
   end
 
   def conversation_params

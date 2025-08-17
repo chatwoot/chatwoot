@@ -37,25 +37,25 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Personaliza la apariencia de tu panel de Chatwoot.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
-          "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Predeterminado",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
-          }
+          "TITLE": "Tamaño de fuente",
+          "NOTE": "Ajusta el tamaño del texto en el panel según tu preferencia.",
+          "UPDATE_SUCCESS": "Tu configuración de fuente se ha actualizado correctamente",
+          "UPDATE_ERROR": "Hay un error al actualizar la configuración de fuente, por favor inténtalo de nuevo",
+                      "OPTIONS": {
+              "SMALLER": "Más pequeño",
+              "SMALL": "Pequeño",
+              "DEFAULT": "Predeterminado",
+              "LARGE": "Grande",
+              "LARGER": "Más grande",
+              "EXTRA_LARGE": "Extra grande"
+            }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma de mensaje personal",
-        "NOTE": "Crea una firma de mensaje única para que aparezca al final de cada mensaje que envíes desde cualquier bandeja de entrada. También puede incluir una imagen en línea, que es soportada en las bandejas de entrada de live-chat, correo electrónico y API.",
+        "NOTE": "Crea una firma de mensaje única para que aparezca al final de cada mensaje que envíes desde cualquier canal.",
         "BTN_TEXT": "Guardar firma de mensaje",
         "API_ERROR": "¡No se pudo guardar la firma! Inténtalo de nuevo",
         "API_SUCCESS": "Firma guardada correctamente",
@@ -70,18 +70,18 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contraseña",
-        "NOTE": "Actualizar tu contraseña restablecería tus entradas en varios dispositivos.",
+        "NOTE": "Actualizar tu contraseña te invalida la sesión en todos los dispositivos.",
         "BTN_TEXT": "Cambiar contraseña"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",
         "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API",
         "COPY": "Copiar",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "RESET": "Restablecer",
+        "CONFIRM_RESET": "¿Está seguro?",
+        "CONFIRM_HINT": "Haga clic de nuevo para confirmar",
+        "RESET_SUCCESS": "Token de acceso regenerado correctamente",
+        "RESET_ERROR": "No se pudo regenerar el token de acceso. Por favor, inténtalo de nuevo"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Alertas de audio",
@@ -130,9 +130,9 @@
         "CONVERSATION_MENTION": "Enviar notificaciones por correo electrónico cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envirar notificaciones por correo electrónico cuando un nuevo mensaje es creado en una conversación asignada",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones por correo electrónico cuando se crea un nuevo mensaje en una conversación participante",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Enviar notificaciones por email cuando una conversación no cumple con el SLA de primera respuesta",
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificaciones por email cuando una conversación no cumple con el SLA de siguiente respuesta",
+        "SLA_MISSED_RESOLUTION": "Enviar notificaciones por email cuando una conversación no cumple con el SLA de resolución"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferencias de notificación",
@@ -145,9 +145,9 @@
           "CONVERSATION_MENTION": "Has sido mencionado en una conversación",
           "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación asignada",
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Un nuevo mensaje se ha creado en una conversación en la que participas",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "Una conversación carece de resolución SLA"
+          "SLA_MISSED_FIRST_RESPONSE": "Una conversación no cumple con el SLA de primera respuesta",
+          "SLA_MISSED_NEXT_RESPONSE": "Una conversación no cumple con el SLA de siguiente respuesta",
+          "SLA_MISSED_RESOLUTION": "Una conversación no cumple con el SLA de resolución"
         },
         "BROWSER_PERMISSION": "Activa las notificaciones push en tu navegador para que puedas recibirlas"
       },
@@ -165,9 +165,9 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones push cuando se crea un nuevo mensaje en una conversación participante",
         "HAS_ENABLED_PUSH": "Ha habilitado notificaciones push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificaciones push",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "Enviar notificaciones push cuando una conversación no cumple con el SLA de primera respuesta",
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificaciones push cuando una conversación no cumple con el SLA de siguiente respuesta",
+        "SLA_MISSED_RESOLUTION": "Enviar notificaciones push cuando una conversación no cumple con el SLA de resolución"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagen de perfil"
@@ -191,7 +191,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
         "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "IMPERSONATING_ERROR": "No se puede cambiar la disponibilidad mientras se está suplantando a un usuario"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
@@ -232,9 +232,9 @@
     "TRIAL_MESSAGE": "días de prueba restantes.",
     "TRAIL_BUTTON": "Comprar ahora",
     "DELETED_USER": "Usuario eliminado",
-    "EMAIL_VERIFICATION_PENDING": "Parece que aún no has verificado tu dirección de correo electrónico. Por favor, revisa tu bandeja de entrada para ver el correo electrónico de verificación.",
+    "EMAIL_VERIFICATION_PENDING": "Parece que aún no has verificado tu dirección de correo electrónico. Por favor, revisa tu email para ver el correo electrónico de verificación.",
     "RESEND_VERIFICATION_MAIL": "Reenviar correo de verificación",
-    "EMAIL_VERIFICATION_SENT": "El correo electrónico de verificación ha sido enviado. Por favor, comprueba tu bandeja de entrada.",
+    "EMAIL_VERIFICATION_SENT": "El correo electrónico de verificación ha sido enviado. Por favor, comprueba tu email.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Cuenta suspendida",
       "MESSAGE": "Tu cuenta está suspendida. Comuníquese con el equipo de soporte para obtener más información."
@@ -269,20 +269,20 @@
   "CONFIRM_EMAIL": "Verificando...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Añadir bandeja de entrada"
+      "NEW_INBOX": "Agregar Canal"
     }
   },
   "SIDEBAR": {
     "NO_ITEMS": "No hay elementos",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizando:",
     "SWITCH": "Cambiar",
-    "INBOX_VIEW": "Vista del buzón",
+    "INBOX_VIEW": "Vista del canal",
     "CONVERSATIONS": "Conversaciones",
-    "INBOX": "Mi bandeja de entrada",
-    "ALL_CONVERSATIONS": "Todas las conversaciones",
+    "INBOX": "Canales",
+    "ALL_CONVERSATIONS": "Todas",
     "MENTIONED_CONVERSATIONS": "Menciones",
     "PARTICIPATING_CONVERSATIONS": "Participar",
-    "UNATTENDED_CONVERSATIONS": "Desatendido",
+    "UNATTENDED_CONVERSATIONS": "Desatendidos",
     "REPORTS": "Informes",
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
@@ -292,15 +292,15 @@
     "CAPTAIN_DOCUMENTS": "Documentos",
     "CAPTAIN_RESPONSES": "Preguntas frecuentes",
     "HOME": "Inicio",
-    "AGENTS": "Agentes",
-    "AGENT_BOTS": "Bots",
+    "AGENTS": "Miembros",
+    "AGENT_BOTS": "AI Bots",
     "AUDIT_LOGS": "Auditoría de registros",
-    "INBOXES": "Entradas",
+    "INBOXES": "Canales",
     "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
     "PROFILE_SETTINGS": "Ajustes del perfil",
-    "ACCOUNT_SETTINGS": "Configuración de la cuenta",
+    "ACCOUNT_SETTINGS": "Configuración",
     "APPLICATIONS": "Aplicaciones",
     "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos personalizados",
@@ -308,7 +308,7 @@
     "MACROS": "Macros",
     "TEAMS": "Equipos",
     "BILLING": "Facturación",
-    "CUSTOM_VIEWS_FOLDER": "Carpetas",
+    "CUSTOM_VIEWS_FOLDER": "Filtros",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos los contactos",
     "TAGGED_WITH": "Etiquetado con",
@@ -323,10 +323,10 @@
     "ONGOING": "En Curso",
     "ONE_OFF": "One Off",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agentes",
+    "REPORTS_BOT": "AI Bots",
+    "REPORTS_AGENT": "Miembros",
     "REPORTS_LABEL": "Etiquetas",
-    "REPORTS_INBOX": "Bandeja de entrada",
+    "REPORTS_INBOX": "Canales",
     "REPORTS_TEAM": "Equipo",
     "SET_AVAILABILITY_TITLE": "Ponte como",
     "SET_YOUR_AVAILABILITY": "Establecer su disponibilidad",
@@ -357,7 +357,9 @@
       "TITLE": "Plan actual",
       "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias",
       "SEAT_COUNT": "Número de asientos",
-      "RENEWS_ON": "Renueva el"
+      "RENEWS_ON": "Renueva el",
+      "ENDS_ON": "Termina el",
+      "STATUS": "Estado"
     },
     "VIEW_PRICING": "Ver precios",
     "MANAGE_SUBSCRIPTION": {
@@ -378,7 +380,26 @@
       "DESCRIPTION": "¿Tienes a algún problema en la facturación? Estamos aquí para ayudarte.",
       "BUTTON_TXT": "Chatea con nosotros"
     },
-    "NO_BILLING_USER": "Tu cuenta de facturación está siendo configurada. Por favor, actualiza la página e inténtalo de nuevo."
+    "NO_BILLING_USER": "Tu cuenta de facturación está siendo configurada. Por favor, actualiza la página e inténtalo de nuevo.",
+    "PLANS": {
+      "community": "Comunidad",
+      "free_trial": "Versión gratuita",
+      "starter": "Inicial",
+      "professional": "Profesional",
+      "enterprise": "Empresarial"
+    },
+    "SUBSCRIPTION_STATUS": {
+      "active": "Activo",
+      "cancelled": "Cancelado",
+      "canceled": "Cancelado",
+      "inactive": "Inactivo",
+      "past_due": "Vencido",
+      "unpaid": "Sin Pagar",
+      "incomplete": "Incompleto",
+      "incomplete_expired": "Incompleto Expirado",
+      "trialing": "En Prueba",
+      "paused": "Pausado"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",
