@@ -242,7 +242,15 @@
       "SCHEDULED_AT": {
         "LABEL": "Schedule Time"
       },
-      "UPDATE": "Update"
+      "UPDATE": "Update",
+      "CONTACT_COUNT": {
+        "LABEL_PREFIX": "#",
+        "HAS_AROUND": "has around",
+        "CONTACTS_TAGGED": "contacts tagged",
+        "VIEW_CONTACTS": "view contacts",
+        "SENDING_TO": "You are sending this campaign to",
+        "CONTACTS_TOTAL": "contacts"
+      }
     },
     "PLAYGROUND": {
       "TITLE": "Template Preview",

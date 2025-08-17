@@ -103,6 +103,30 @@ const audienceList = computed(() => {
   );
 });
 
+const selectedLabels = computed(() => {
+  if (!state.selectedAudience?.length) return [];
+  return (
+    formState.labels.value?.filter(label =>
+      state.selectedAudience.includes(label.id)
+    ) || []
+  );
+});
+
+const totalContactsForSelectedLabels = computed(() => {
+  // Mock calculation - in real implementation this would come from the API
+  return selectedLabels.value.reduce((total, label) => {
+    // Mock contact counts for demonstration
+    const mockCounts = {
+      premium: 909,
+      billing: 1000,
+    };
+    const labelName = label.title.toLowerCase();
+    return (
+      total + (mockCounts[labelName] || Math.floor(Math.random() * 500) + 100)
+    );
+  }, 0);
+});
+
 const updateStateFromCampaign = campaign => {
   state.title = campaign.title || '';
   state.description = campaign.description || '';
@@ -176,6 +200,13 @@ const handleScheduleTemplateUpdate = () => {
   };
 
   emit('submit', payload);
+};
+
+const handleViewContacts = label => {
+  // Mock function - in real implementation this would navigate to contacts filtered by label
+  // eslint-disable-next-line no-console
+  console.log(`Viewing contacts for label: ${label.title}`);
+  // In real implementation: router.push({ name: 'contacts', query: { label: label.id } });
 };
 
 watch(
@@ -285,6 +316,45 @@ watch(
             :message="formErrors.audience"
             class="[&>div>button]:bg-n-alpha-black2"
           />
+        </div>
+
+        <!-- Contact Count Information -->
+        <div v-if="selectedLabels.length > 0" class="flex flex-col gap-2 mt-2">
+          <!-- Individual label contact counts -->
+          <div class="space-y-1">
+            <div
+              v-for="label in selectedLabels"
+              :key="label.id"
+              class="flex gap-2 items-center text-sm text-n-slate-11"
+            >
+              <div>
+                <span class="font-medium">
+                  {{ t('CAMPAIGN.FORM.CONTACT_COUNT.LABEL_PREFIX')
+                  }}{{ label.title.toLowerCase() }}
+                </span>
+                <span>
+                  {{ t('CAMPAIGN.FORM.CONTACT_COUNT.HAS_AROUND') }}
+                  {{ label.title.toLowerCase() === 'premium' ? '909' : '1000' }}
+                  {{ t('CAMPAIGN.FORM.CONTACT_COUNT.CONTACTS_TAGGED') }}
+                </span>
+              </div>
+              <Button
+                :label="t('CAMPAIGN.FORM.CONTACT_COUNT.VIEW_CONTACTS')"
+                variant="link"
+                size="xs"
+                @click="handleViewContacts(label)"
+              />
+            </div>
+          </div>
+
+          <!-- Total contact count -->
+          <div class="p-3 mt-2 rounded-md bg-n-alpha-2">
+            <p class="text-sm font-medium text-n-slate-12">
+              {{ t('CAMPAIGN.FORM.CONTACT_COUNT.SENDING_TO') }}
+              {{ totalContactsForSelectedLabels }}
+              {{ t('CAMPAIGN.FORM.CONTACT_COUNT.CONTACTS_TOTAL') }}
+            </p>
+          </div>
         </div>
 
         <div class="flex justify-end">
