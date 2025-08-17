@@ -276,7 +276,11 @@
       "NO_TITLE": "No title set",
       "NO_MESSAGE": "No message set",
       "NO_TYPE": "No type set",
-      "PREVIEW_NOTE": "This is a preview of how your campaign will appear to recipients."
+      "PREVIEW_NOTE": "This is a preview of how your campaign will appear to recipients.",
+      "EMPTY_STATE": {
+        "TITLE": "Select a template to preview",
+        "SUBTITLE": "Choose a WhatsApp template from the 'Select Template' section above to see how your WhatsApp message will appear to recipients."
+      }
     },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",

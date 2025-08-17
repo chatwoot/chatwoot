@@ -25,7 +25,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['submit']);
+const emit = defineEmits(['submit', 'templateChange', 'variablesChange']);
 
 const { t } = useI18n();
 
@@ -49,6 +49,7 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 const templateParserRef = ref(null);
+const templateVariables = ref({});
 
 const validationRules = {
   title: { required, minLength: minLength(1) },
@@ -209,6 +210,11 @@ const handleViewContacts = label => {
   // In real implementation: router.push({ name: 'contacts', query: { label: label.id } });
 };
 
+const handleVariablesUpdate = variables => {
+  templateVariables.value = variables || {};
+  emit('variablesChange', templateVariables.value);
+};
+
 watch(
   () => props.campaign,
   newCampaign => {
@@ -217,6 +223,22 @@ watch(
     }
   },
   { immediate: true }
+);
+
+watch(
+  () => selectedTemplate.value,
+  newTemplate => {
+    emit('templateChange', newTemplate);
+  },
+  { immediate: true }
+);
+
+watch(
+  () => templateVariables.value,
+  newVariables => {
+    emit('variablesChange', newVariables);
+  },
+  { deep: true }
 );
 </script>
 
@@ -280,6 +302,7 @@ watch(
           v-if="selectedTemplate"
           ref="templateParserRef"
           :template="selectedTemplate"
+          @variables-update="handleVariablesUpdate"
         />
 
         <div class="flex justify-end">
@@ -331,6 +354,7 @@ watch(
                 </span>
                 <span>
                   {{ t('CAMPAIGN.FORM.CONTACT_COUNT.HAS_AROUND') }}
+                  <!-- eslint-disable-next-line @intlify/vue-i18n/no-raw-text -->
                   {{ label.title.toLowerCase() === 'premium' ? '909' : '1000' }}
                   {{ t('CAMPAIGN.FORM.CONTACT_COUNT.CONTACTS_TAGGED') }}
                 </span>

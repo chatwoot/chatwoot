@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -13,6 +13,8 @@ const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 const campaignId = route.params.campaignId;
+const selectedTemplate = ref(null);
+const templateVariables = ref({});
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetching = computed(() => uiFlags.value.fetchingItem);
 const allCampaigns = computed(() => store.getters['campaigns/getAllCampaigns']);
@@ -55,6 +57,14 @@ const handleSubmit = async updatedCampaign => {
   }
 };
 
+const handleTemplateChange = template => {
+  selectedTemplate.value = template;
+};
+
+const handleVariablesChange = variables => {
+  templateVariables.value = variables;
+};
+
 onMounted(() => {
   if (!isCampaignAvailable.value) {
     store.dispatch('campaigns/get');
@@ -90,10 +100,15 @@ onMounted(() => {
             :campaign="campaign"
             mode="edit"
             @submit="handleSubmit"
+            @template-change="handleTemplateChange"
+            @variables-change="handleVariablesChange"
           />
         </div>
         <div class="w-[400px] hidden lg:block h-full">
-          <CampaignPlayground :campaign-id="Number(campaignId)" />
+          <CampaignPlayground
+            :selected-template="selectedTemplate"
+            :template-variables="templateVariables"
+          />
         </div>
       </div>
     </template>

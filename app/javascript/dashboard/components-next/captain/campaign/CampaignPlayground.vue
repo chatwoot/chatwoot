@@ -1,22 +1,19 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'dashboard/composables/store';
 
 const props = defineProps({
-  campaignId: {
-    type: Number,
-    required: true,
+  selectedTemplate: {
+    type: Object,
+    default: null,
+  },
+  templateVariables: {
+    type: Object,
+    default: () => ({}),
   },
 });
 
 const { t } = useI18n();
-const store = useStore();
-
-const campaign = computed(() => {
-  const allCampaigns = store.getters['campaigns/getAllCampaigns'];
-  return allCampaigns.find(c => c.id === props.campaignId);
-});
 
 // Template data based on templates.json examples
 const templateExamples = {
@@ -62,30 +59,31 @@ const templateExamples = {
 };
 
 const getTemplatePreview = () => {
-  // Default template if none selected
-  const defaultTemplate = {
-    body: 'Hey there! Thanks for reaching out to us. Could you let us know what you need to help us better assist you?',
-    buttons: [{ type: 'URL', text: 'See options' }],
-  };
-
-  if (!campaign.value?.template_params?.name) {
-    return defaultTemplate;
+  // If no template selected, return null to show empty state
+  if (!props.selectedTemplate) {
+    return null;
   }
 
-  const templateName = campaign.value.template_params.name;
+  const templateName = props.selectedTemplate.name;
   const templateExample = templateExamples[templateName];
 
   if (templateExample) {
     let processedBody = templateExample.body;
 
-    // Replace variables with example values
-    if (templateExample.variables) {
-      Object.entries(templateExample.variables).forEach(([key, value]) => {
+    // Use actual template variables if provided, otherwise fall back to examples
+    const variablesToUse =
+      Object.keys(props.templateVariables).length > 0
+        ? props.templateVariables
+        : templateExample.variables;
+
+    // Replace variables with actual or example values
+    if (variablesToUse) {
+      Object.entries(variablesToUse).forEach(([key, value]) => {
         // Handle both positional ({{1}}) and named ({{name}}) variables
         const pattern = `{{${key}}}`;
         processedBody = processedBody.replace(
           new RegExp(pattern.replace(/[{}]/g, '\\$&'), 'g'),
-          value
+          value || `{{${key}}}`
         );
       });
     }
@@ -97,7 +95,44 @@ const getTemplatePreview = () => {
     };
   }
 
-  return defaultTemplate;
+  // Fallback for templates not in our examples - use raw template data
+  if (props.selectedTemplate.components) {
+    const components = props.selectedTemplate.components;
+    const headerComponent = components.find(c => c.type === 'HEADER');
+    const bodyComponent = components.find(c => c.type === 'BODY');
+    const buttonComponent = components.find(c => c.type === 'BUTTONS');
+
+    let processedBody = bodyComponent
+      ? bodyComponent.text || 'Message content'
+      : 'No message content';
+
+    // Replace variables in body text with actual values
+    if (
+      props.templateVariables &&
+      Object.keys(props.templateVariables).length > 0
+    ) {
+      Object.entries(props.templateVariables).forEach(([key, value]) => {
+        const pattern = `{{${key}}}`;
+        processedBody = processedBody.replace(
+          new RegExp(pattern.replace(/[{}]/g, '\\$&'), 'g'),
+          value || `{{${key}}}`
+        );
+      });
+    }
+
+    return {
+      header: headerComponent
+        ? {
+            type: headerComponent.format || 'TEXT',
+            content: headerComponent.text || 'Header',
+          }
+        : null,
+      body: processedBody,
+      buttons: buttonComponent ? buttonComponent.buttons : null,
+    };
+  }
+
+  return null;
 };
 
 const templatePreview = computed(() => getTemplatePreview());
@@ -114,9 +149,25 @@ const templatePreview = computed(() => getTemplatePreview());
 
     <!-- WhatsApp Preview Container -->
     <div class="flex flex-col p-4 h-96">
-      <!-- WhatsApp-style Message Bubble -->
-      <div class="flex justify-center">
-        <div class="max-w-xs">
+      <!-- Empty State (No Template Selected) -->
+      <div
+        v-if="!templatePreview"
+        class="flex flex-col flex-1 justify-center items-center"
+      >
+        <div class="text-center">
+          <h4 class="mb-1 text-sm font-medium text-n-slate-12">
+            {{ t('CAMPAIGN.PLAYGROUND.EMPTY_STATE.TITLE') }}
+          </h4>
+          <p class="text-xs text-n-slate-11">
+            {{ t('CAMPAIGN.PLAYGROUND.EMPTY_STATE.SUBTITLE') }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Template Preview (Template Selected) -->
+      <div v-else>
+        <!-- WhatsApp-style Message Bubble -->
+        <div class="flex justify-center">
           <div
             class="p-3 rounded-lg border bg-n-slate-2 text-n-slate-12 border-n-slate-4"
           >
@@ -167,20 +218,19 @@ const templatePreview = computed(() => getTemplatePreview());
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Spacer -->
-      <div class="flex-1 min-h-4" />
+        <!-- Spacer -->
+        <div class="flex-1 min-h-4" />
 
-      <!-- Preview Note -->
-      <div class="p-3 rounded-lg bg-n-alpha-2">
-        <!-- eslint-disable-next-line vue/no-bare-strings-in-template, @intlify/vue-i18n/no-raw-text -->
-        <p class="text-xs leading-relaxed text-center text-n-slate-11">
-          This is a preview of how your campaign will appear to recipients and
-          it may vary slightly per OS and channel. Perform a live test to
-          confirm. Default value for variables highlighted will be stored upon
-          saving.
-        </p>
+        <!-- Preview Note -->
+        <div class="p-3 rounded-lg bg-n-alpha-2">
+          <!-- eslint-disable-next-line vue/no-bare-strings-in-template, @intlify/vue-i18n/no-raw-text -->
+          <p class="text-xs leading-relaxed text-center text-n-slate-11">
+            This is a preview of how your WhatsApp message will appear to
+            recipients and may vary slightly depending on the device. Perform a
+            test send to confirm the final appearance.
+          </p>
+        </div>
       </div>
     </div>
   </div>
