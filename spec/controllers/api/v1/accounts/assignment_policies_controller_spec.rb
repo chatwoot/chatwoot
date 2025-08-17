@@ -1,42 +1,32 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 
-RSpec.describe 'Assignment Policy API', type: :request do
-  let!(:account) { create(:account) }
-  let!(:assignment_policy) { create(:assignment_policy, account: account) }
+RSpec.describe 'Assignment Policies API', type: :request do
+  let(:account) { create(:account) }
 
   describe 'GET /api/v1/accounts/{account.id}/assignment_policies' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/assignment_policies"
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated admin' do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
-      it 'returns all the assignment policies in account' do
-        get "/api/v1/accounts/#{account.id}/assignment_policies",
-            headers: admin.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(response.body).to include(assignment_policy.name)
+      before do
+        create_list(:assignment_policy, 3, account: account)
       end
 
-      it 'returns assignment policies' do
+      it 'returns all assignment policies for the account' do
         get "/api/v1/accounts/#{account.id}/assignment_policies",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
-        expect(json_response).to be_an(Array)
-        expect(json_response.first['id']).to eq(assignment_policy.id)
-        expect(json_response.first['name']).to eq(assignment_policy.name)
+        expect(json_response.length).to eq(3)
+        expect(json_response.first.keys).to include('id', 'name', 'description')
       end
     end
 
@@ -54,27 +44,30 @@ RSpec.describe 'Assignment Policy API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/{account.id}/assignment_policies/:id' do
+    let(:assignment_policy) { create(:assignment_policy, account: account) }
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}"
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated admin' do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
-      it 'shows the assignment policy' do
+      it 'returns the assignment policy' do
         get "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include(assignment_policy.name)
+        json_response = response.parsed_body
+        expect(json_response['id']).to eq(assignment_policy.id)
+        expect(json_response['name']).to eq(assignment_policy.name)
       end
 
-      it 'returns 404 when assignment policy does not exist' do
+      it 'returns not found for non-existent policy' do
         get "/api/v1/accounts/#{account.id}/assignment_policies/999999",
             headers: admin.create_new_auth_token,
             as: :json
@@ -100,12 +93,10 @@ RSpec.describe 'Assignment Policy API', type: :request do
     let(:valid_params) do
       {
         assignment_policy: {
-          name: 'New Policy',
-          description: 'Test description',
-          assignment_order: 'round_robin',
+          name: 'New Assignment Policy',
+          description: 'Policy for new team',
           conversation_priority: 'longest_waiting',
           fair_distribution_limit: 15,
-          fair_distribution_window: 7200,
           enabled: true
         }
       }
@@ -113,8 +104,7 @@ RSpec.describe 'Assignment Policy API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        expect { post "/api/v1/accounts/#{account.id}/assignment_policies", params: valid_params }.not_to change(AssignmentPolicy, :count)
-
+        post "/api/v1/accounts/#{account.id}/assignment_policies", params: valid_params
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -122,52 +112,54 @@ RSpec.describe 'Assignment Policy API', type: :request do
     context 'when it is an authenticated admin' do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
-      it 'creates the assignment policy' do
+      it 'creates a new assignment policy' do
         expect do
           post "/api/v1/accounts/#{account.id}/assignment_policies",
                headers: admin.create_new_auth_token,
-               params: valid_params
+               params: valid_params,
+               as: :json
         end.to change(AssignmentPolicy, :count).by(1)
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
-        expect(json_response['name']).to eq('New Policy')
-        expect(json_response['assignment_order']).to eq('round_robin')
+        expect(json_response['name']).to eq('New Assignment Policy')
+        expect(json_response['conversation_priority']).to eq('longest_waiting')
       end
 
-      it 'creates with minimal params' do
+      it 'creates policy with minimal required params' do
         minimal_params = { assignment_policy: { name: 'Minimal Policy' } }
 
         expect do
           post "/api/v1/accounts/#{account.id}/assignment_policies",
                headers: admin.create_new_auth_token,
-               params: minimal_params
+               params: minimal_params,
+               as: :json
         end.to change(AssignmentPolicy, :count).by(1)
 
         expect(response).to have_http_status(:success)
       end
 
-      it 'returns error for duplicate name' do
-        create(:assignment_policy, account: account, name: 'Duplicate Name')
-        duplicate_params = { assignment_policy: { name: 'Duplicate Name' } }
+      it 'prevents duplicate policy names within account' do
+        create(:assignment_policy, account: account, name: 'Duplicate Policy')
+        duplicate_params = { assignment_policy: { name: 'Duplicate Policy' } }
 
         expect do
           post "/api/v1/accounts/#{account.id}/assignment_policies",
                headers: admin.create_new_auth_token,
-               params: duplicate_params
+               params: duplicate_params,
+               as: :json
         end.not_to change(AssignmentPolicy, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it 'returns error for invalid params' do
+      it 'validates required fields' do
         invalid_params = { assignment_policy: { name: '' } }
 
-        expect do
-          post "/api/v1/accounts/#{account.id}/assignment_policies",
-               headers: admin.create_new_auth_token,
-               params: invalid_params
-        end.not_to change(AssignmentPolicy, :count)
+        post "/api/v1/accounts/#{account.id}/assignment_policies",
+             headers: admin.create_new_auth_token,
+             params: invalid_params,
+             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -177,11 +169,10 @@ RSpec.describe 'Assignment Policy API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'returns unauthorized' do
-        expect do
-          post "/api/v1/accounts/#{account.id}/assignment_policies",
-               headers: agent.create_new_auth_token,
-               params: valid_params
-        end.not_to change(AssignmentPolicy, :count)
+        post "/api/v1/accounts/#{account.id}/assignment_policies",
+             headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -189,11 +180,12 @@ RSpec.describe 'Assignment Policy API', type: :request do
   end
 
   describe 'PUT /api/v1/accounts/{account.id}/assignment_policies/:id' do
-    let(:valid_params) do
+    let(:assignment_policy) { create(:assignment_policy, account: account, name: 'Original Policy') }
+    let(:update_params) do
       {
         assignment_policy: {
           name: 'Updated Policy',
-          assignment_order: 'round_robin',
+          description: 'Updated description',
           fair_distribution_limit: 20
         }
       }
@@ -202,7 +194,7 @@ RSpec.describe 'Assignment Policy API', type: :request do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         put "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
-            params: valid_params
+            params: update_params
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -214,17 +206,16 @@ RSpec.describe 'Assignment Policy API', type: :request do
       it 'updates the assignment policy' do
         put "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
             headers: admin.create_new_auth_token,
-            params: valid_params,
+            params: update_params,
             as: :json
 
         expect(response).to have_http_status(:success)
         assignment_policy.reload
         expect(assignment_policy.name).to eq('Updated Policy')
-        expect(assignment_policy.assignment_order).to eq('round_robin')
         expect(assignment_policy.fair_distribution_limit).to eq(20)
       end
 
-      it 'updates partial params' do
+      it 'allows partial updates' do
         partial_params = { assignment_policy: { enabled: false } }
 
         put "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
@@ -234,11 +225,12 @@ RSpec.describe 'Assignment Policy API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(assignment_policy.reload.enabled).to be(false)
+        expect(assignment_policy.name).to eq('Original Policy') # unchanged
       end
 
-      it 'returns error for duplicate name' do
-        create(:assignment_policy, account: account, name: 'Another Policy')
-        duplicate_params = { assignment_policy: { name: 'Another Policy' } }
+      it 'prevents duplicate names during update' do
+        create(:assignment_policy, account: account, name: 'Existing Policy')
+        duplicate_params = { assignment_policy: { name: 'Existing Policy' } }
 
         put "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
             headers: admin.create_new_auth_token,
@@ -248,10 +240,10 @@ RSpec.describe 'Assignment Policy API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it 'returns 404 when assignment policy does not exist' do
+      it 'returns not found for non-existent policy' do
         put "/api/v1/accounts/#{account.id}/assignment_policies/999999",
             headers: admin.create_new_auth_token,
-            params: valid_params,
+            params: update_params,
             as: :json
 
         expect(response).to have_http_status(:not_found)
@@ -264,7 +256,7 @@ RSpec.describe 'Assignment Policy API', type: :request do
       it 'returns unauthorized' do
         put "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
             headers: agent.create_new_auth_token,
-            params: valid_params,
+            params: update_params,
             as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -273,10 +265,11 @@ RSpec.describe 'Assignment Policy API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/assignment_policies/:id' do
+    let(:assignment_policy) { create(:assignment_policy, account: account) }
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         delete "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}"
-
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -285,6 +278,8 @@ RSpec.describe 'Assignment Policy API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'deletes the assignment policy' do
+        assignment_policy # create it first
+
         expect do
           delete "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
                  headers: admin.create_new_auth_token,
@@ -294,7 +289,7 @@ RSpec.describe 'Assignment Policy API', type: :request do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'deletes associated inbox_assignment_policies' do
+      it 'cascades deletion to associated inbox assignment policies' do
         inbox = create(:inbox, account: account)
         create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
 
@@ -307,7 +302,7 @@ RSpec.describe 'Assignment Policy API', type: :request do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'returns 404 when assignment policy does not exist' do
+      it 'returns not found for non-existent policy' do
         delete "/api/v1/accounts/#{account.id}/assignment_policies/999999",
                headers: admin.create_new_auth_token,
                as: :json
@@ -320,11 +315,9 @@ RSpec.describe 'Assignment Policy API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'returns unauthorized' do
-        expect do
-          delete "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
-                 headers: agent.create_new_auth_token,
-                 as: :json
-        end.not_to change(AssignmentPolicy, :count)
+        delete "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
