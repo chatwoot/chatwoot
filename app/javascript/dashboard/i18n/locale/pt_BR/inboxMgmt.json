@@ -304,7 +304,7 @@
       },
       "VOICE": {
         "TITLE": "Canal de Voz",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "DESC": "Integre o Twilio Voice e comece a oferecer suporte a seus clientes através de chamadas telefônicas.",
         "PHONE_NUMBER": {
           "LABEL": "Número de Telefone",
           "PLACEHOLDER": "Digite seu número de telefone (por exemplo, +551234567890)",
@@ -319,27 +319,27 @@
           "AUTH_TOKEN": {
             "LABEL": "Token de autenticação",
             "PLACEHOLDER": "Por favor, digite seu Token de Autenticação do Twilio",
-            "REQUIRED": "Auth Token is required"
+            "REQUIRED": "Um Token de autenticação é necessário"
           },
           "API_KEY_SID": {
             "LABEL": "Chave da API SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "PLACEHOLDER": "Insira sua chave de API do Twilio SID",
+            "REQUIRED": "API Key SID é obrigatório"
           },
           "API_KEY_SECRET": {
             "LABEL": "Segredo da Chave API",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "PLACEHOLDER": "Digite o segredo da sua chave de API do Twilio",
+            "REQUIRED": "Segredo da chave da API é obrigatório"
           },
           "TWIML_APP_SID": {
             "LABEL": "TwiML App SID",
-            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
-            "REQUIRED": "TwiML App SID is required"
+            "PLACEHOLDER": "Insira seu Twilio TwiML App SID (começa com AP)",
+            "REQUIRED": "TwiML App SID é obrigatório"
           }
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "Criar Canal de Voz",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "Não conseguimos criar o canal de voz"
         }
       },
       "API_CHANNEL": {
@@ -603,11 +603,11 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar Chave de API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave de API aqui",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualizar",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "Inscrição incorporada do WhatsApp",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Esta caixa de entrada está conectada através da inscrição incorporada do WhatsApp.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "Você pode reconfigurar esta caixa de entrada para atualizar suas configurações do WhatsApp Business.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigurar",
+      "WHATSAPP_CONNECT_TITLE": "Conectar ao WhatsApp Business",
       "WHATSAPP_CONNECT_SUBHEADER": ".",
       "WHATSAPP_CONNECT_DESCRIPTION": "Conecte esta caixa de entrada ao WhatsApp Business para ter recursos aprimorados e um gerenciamento mais fácil.",
       "WHATSAPP_CONNECT_BUTTON": "Conectar",
@@ -621,9 +621,9 @@
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificação Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do webhook endpoint.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sincronizar Modelos",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Sincronize manualmente os modelos de mensagens do WhatsApp para atualizar seus modelos disponíveis.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sincronizar Modelos",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sincronização de modelos iniciada com sucesso. Pode demorar alguns minutos para atualizar.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
     },
     "HELP_CENTER": {
@@ -883,7 +883,7 @@
       "LINE": "Line",
       "API": "Canal da API",
       "INSTAGRAM": "Instagram",
-      "VOICE": "Voice"
+      "VOICE": "Voz"
     }
   }
 }
