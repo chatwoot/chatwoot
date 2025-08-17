@@ -201,6 +201,61 @@
         }
       }
     },
+    "EDIT": {
+      "SUCCESS_MESSAGE": "Campaign updated successfully",
+      "ERROR_MESSAGE": "There was an error. Please try again.",
+      "NOT_FOUND": "Campaign not found"
+    },
+    "FORM": {
+      "SECTIONS": {
+        "BASIC_DETAILS": "Basic Details",
+        "SELECT_TEMPLATE": "Select Template",
+        "SELECT_AUDIENCE": "Select Audience",
+        "SCHEDULE_TEMPLATE": "Schedule Template"
+      },
+      "TITLE": {
+        "LABEL": "Campaign Title",
+        "PLACEHOLDER": "Enter campaign title"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Enter campaign description"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Enter your campaign message"
+      },
+      "TEMPLATE": {
+        "LABEL": "Template",
+        "SELECT": "Select a template",
+        "INFO": "Select a template to use for this campaign."
+      },
+      "AUDIENCE": {
+        "LABEL": "Audience",
+        "SELECT": "Select audience"
+      },
+      "CAMPAIGN_TYPE": {
+        "LABEL": "Campaign Type",
+        "ONGOING": "Ongoing",
+        "ONE_OFF": "One-off"
+      },
+      "SCHEDULED_AT": {
+        "LABEL": "Schedule Time"
+      },
+      "UPDATE": "Update"
+    },
+    "PLAYGROUND": {
+      "TITLE": "Template Preview",
+      "CAMPAIGN_TITLE": "Campaign Title",
+      "MESSAGE_PREVIEW": "Message Preview",
+      "TEMPLATE": "Template",
+      "AUDIENCE": "Audience",
+      "CAMPAIGN_TYPE": "Campaign Type",
+      "NO_TITLE": "No title set",
+      "NO_MESSAGE": "No message set",
+      "NO_TYPE": "No type set",
+      "PREVIEW_NOTE": "This is a preview of how your campaign will appear to recipients."
+    },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
