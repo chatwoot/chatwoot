@@ -285,7 +285,6 @@ export default {
           icon="i-ri-phone-fill"
           size="sm"
           :tooltip-label="$t('CONTACT_PANEL.CALL')"
-          :hide-without-phone="false"
           slate
           faded
         />

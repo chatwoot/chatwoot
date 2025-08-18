@@ -14,7 +14,6 @@ const props = defineProps({
   icon: { type: [String, Object, Function], default: '' },
   size: { type: String, default: 'sm' },
   tooltipLabel: { type: String, default: '' },
-  hideWithoutPhone: { type: Boolean, default: false },
 });
 
 defineOptions({ inheritAttrs: false });
@@ -30,17 +29,12 @@ const voiceInboxes = computed(() =>
 );
 const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
 
-const shouldRender = computed(() => {
-  if (!hasVoiceInboxes.value) return false;
-  if (props.hideWithoutPhone) return !!props.phone;
-  return true;
-});
+// Unified behavior: hide when no phone
+const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
 
-const isDisabled = computed(() => !props.phone);
 const dialogRef = ref(null);
 
 const onClick = () => {
-  if (isDisabled.value) return;
   if (voiceInboxes.value.length > 1) {
     dialogRef.value?.open();
     return;
@@ -64,7 +58,6 @@ const onPickInbox = () => {
       :label="label"
       :icon="icon"
       :size="size"
-      :disabled="isDisabled"
       @click="onClick"
     />
 

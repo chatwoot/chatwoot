@@ -104,7 +104,6 @@ const closeMobileSidebar = () => {
                 :phone="selectedContact?.phoneNumber"
                 :label="$t('CONTACT_PANEL.CALL')"
                 size="sm"
-                hide-without-phone
               />
               <ComposeConversation :contact-id="contactId">
                 <template #trigger="{ toggle }">
