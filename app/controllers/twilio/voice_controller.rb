@@ -32,30 +32,14 @@ class Twilio::VoiceController < ApplicationController
     to_param = params[:To].to_s
     agent_leg = to_param.start_with?('conf_account_') || params[:is_agent] == 'true' || params[:identity].to_s.start_with?('agent-')
 
-    conversation = if agent_leg
-                      find_conversation_by_conference_to(@inbox.account, to_param) ||
-                        Voice::ConversationFinderService.new(
-                          account:      @inbox.account,
-                          call_sid:     @call_sid,
-                          phone_number: incoming_number,
-                          is_outbound:  outbound?,
-                          inbox:        @inbox
-                        ).perform
-                    else
-                      Voice::ConversationFinderService.new(
-                        account:      @inbox.account,
-                        call_sid:     @call_sid,
-                        phone_number: incoming_number,
-                        is_outbound:  outbound?,
-                        inbox:        @inbox
-                      ).perform
-                    end
-
-    Voice::CallStatus::Manager.new(
-      conversation: conversation,
-      call_sid:     @call_sid,
-      provider:     :twilio
-    ).process_status_update('in_progress', nil, true)
+    conversation = find_conversation_by_conference_to(@inbox.account, to_param) ||
+                   Voice::ConversationFinderService.new(
+                     account:      @inbox.account,
+                     call_sid:     @call_sid,
+                     phone_number: incoming_number,
+                     is_outbound:  outbound?,
+                     inbox:        @inbox
+                   ).perform
 
     conference_sid = ensure_conference_sid(conversation, params[:conference_name])
 
@@ -66,6 +50,16 @@ class Twilio::VoiceController < ApplicationController
         'requires_agent_join'  => true
       )
     )
+
+    # Ensure a call message exists for incoming PSTN leg (do not create for agent leg)
+    ensure_call_message(conversation, conference_sid) unless agent_leg
+
+    # Set initial status to ringing on first TwiML response
+    Voice::CallStatus::Manager.new(
+      conversation: conversation,
+      call_sid:     @call_sid,
+      provider:     :twilio
+    ).process_status_update('ringing', nil, true)
 
     render_twiml do |r|
       # For incoming PSTN calls, play a brief prompt
@@ -125,6 +119,24 @@ class Twilio::VoiceController < ApplicationController
     return sid if sid&.match?(/^conf_account_\d+_conv_\d+$/)
 
     "conf_account_#{@inbox.account_id}_conv_#{conversation.display_id}"
+  end
+
+  def ensure_call_message(conversation, conference_sid)
+    existing = conversation.messages.voice_calls.order(created_at: :desc).first
+    return if existing.present?
+
+    from_number = outbound? ? @inbox.channel&.phone_number : incoming_number
+    to_number   = outbound? ? incoming_number : @inbox.channel&.phone_number
+
+    Voice::CallMessageBuilder.new(
+      conversation:   conversation,
+      direction:      outbound? ? 'outbound' : 'inbound',
+      call_sid:       @call_sid,
+      conference_sid: conference_sid,
+      from_number:    from_number,
+      to_number:      to_number,
+      user:           nil
+    ).perform
   end
 
   def fallback_twiml

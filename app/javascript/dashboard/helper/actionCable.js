@@ -160,6 +160,16 @@ class ActionCableConnector extends BaseActionCableConnector {
         inboxId: data.inbox_id,
       });
 
+      // Reflect call status onto the latest voice call message in the store
+      try {
+        this.app.$store.commit('UPDATE_CONVERSATION_CALL_STATUS', {
+          conversationId: data.display_id,
+          callStatus: data.additional_attributes.call_status,
+        });
+      } catch (_) {
+        // ignore store commit failures
+      }
+
       // Backfill: if status indicates a live call and we missed creation
       if (
         ['ringing', 'in_progress'].includes(
@@ -168,7 +178,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       ) {
         const hasIncoming = this.app.$store.getters['calls/hasIncomingCall'];
         const hasActive = this.app.$store.getters['calls/hasActiveCall'];
-        const currentIncoming = this.app.$store.getters['calls/getIncomingCall'];
+        const currentIncoming =
+          this.app.$store.getters['calls/getIncomingCall'];
         if (
           !hasIncoming &&
           !hasActive &&

@@ -7,6 +7,13 @@ export function useRingtone(intervalMs = 2500) {
       clearInterval(timer.value);
       timer.value = null;
     }
+    try {
+      if (typeof window.stopAudioAlert === 'function') {
+        window.stopAudioAlert();
+      }
+    } catch (_) {
+      // ignore stop errors
+    }
   };
 
   const play = () => {

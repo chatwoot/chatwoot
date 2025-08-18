@@ -102,23 +102,11 @@ export const actions = {
 
       if (isVoiceCall) {
         const accountId = window.store.getters['accounts/getCurrentAccountId'];
-
-        if (contactId) {
-          // Use the regular contacts call endpoint for existing contacts
-          const response = await axios.post(
-            `/api/v1/accounts/${accountId}/contacts/${contactId}/call`
-          );
-          data = response.data;
-        } else {
-          // For direct phone calls without a contact, use a special endpoint
-          // Add phoneNumber to the payload for voice call
-          payload.phone_number = params.phoneNumber || '';
-          const response = await axios.post(
-            `/api/v1/accounts/${accountId}/conversations/trigger_voice`,
-            payload
-          );
-          data = response.data;
-        }
+        // MVP: Only support calls to existing contacts via the contacts endpoint
+        const response = await axios.post(
+          `/api/v1/accounts/${accountId}/contacts/${contactId}/call`
+        );
+        data = response.data;
       } else {
         // Regular conversation creation
         const response = await ConversationApi.create(payload);

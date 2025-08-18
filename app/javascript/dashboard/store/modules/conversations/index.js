@@ -1,4 +1,5 @@
 import types from '../../mutation-types';
+import { normalizeStatus } from 'dashboard/helper/voice';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import { findPendingMessageIndex } from './helpers';
@@ -286,6 +287,24 @@ export const mutations = {
         chat.additional_attributes = {};
       }
       chat.additional_attributes.call_status = callStatus;
+
+      // Also update the latest voice call message status if present
+      const messages = chat.messages || [];
+      const lastCallIndex = [...messages].reverse().findIndex(m => {
+        const ct = m.content_type || m.contentType;
+        return ct === 'voice_call' || ct === 12; // enum fallback
+      });
+      if (lastCallIndex !== -1) {
+        const idx = messages.length - 1 - lastCallIndex;
+        const msg = messages[idx];
+        const key = msg.content_attributes
+          ? 'content_attributes'
+          : 'contentAttributes';
+        const container = msg[key] || {};
+        container.data = container.data || {};
+        container.data.status = normalizeStatus(callStatus);
+        msg[key] = container;
+      }
     }
   },
 
