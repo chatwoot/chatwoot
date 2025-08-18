@@ -208,16 +208,27 @@ export default {
 
 <template>
   <div class="bg-n-background">
-    <!-- Etiquetas - PRIMEIRA POSIÇÃO -->
-    <div>
-      <ContactDetailsItem
-        compact
-        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
+    <!-- Prioridade - PRIMEIRA POSIÇÃO -->
+    <div class="multiselect-wrap--small">
+      <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
+      <MultiselectDropdown
+        :options="priorityOptions"
+        :selected-item="assignedPriority"
+        :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"
+        :multiselector-placeholder="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SELECT_PLACEHOLDER')
+        "
+        :no-search-result="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.NO_RESULTS')
+        "
+        :input-placeholder="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
+        "
+        @select="onClickAssignPriority"
       />
-      <ConversationLabels :conversation-id="conversationId" />
     </div>
     
-    <!-- Atribuir Agente -->
+    <!-- Atribuir Agente - SEGUNDA POSIÇÃO -->
     <div class="multiselect-wrap--small">
       <ContactDetailsItem
         compact
@@ -250,7 +261,7 @@ export default {
       />
     </div>
     
-    <!-- Atribuir Equipe -->
+    <!-- Atribuir Equipe - TERCEIRA POSIÇÃO -->
     <div class="multiselect-wrap--small">
       <ContactDetailsItem
         compact
@@ -271,24 +282,13 @@ export default {
       />
     </div>
     
-    <!-- Prioridade -->
-    <div class="multiselect-wrap--small">
-      <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
-      <MultiselectDropdown
-        :options="priorityOptions"
-        :selected-item="assignedPriority"
-        :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"
-        :multiselector-placeholder="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SELECT_PLACEHOLDER')
-        "
-        :no-search-result="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.NO_RESULTS')
-        "
-        :input-placeholder="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
-        "
-        @select="onClickAssignPriority"
+    <!-- Etiquetas da Conversa - QUARTA POSIÇÃO (ÚLTIMA) -->
+    <div>
+      <ContactDetailsItem
+        compact
+        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
       />
+      <ConversationLabels :conversation-id="conversationId" />
     </div>
   </div>
 </template>

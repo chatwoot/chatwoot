@@ -9,6 +9,7 @@ import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -28,6 +29,7 @@ export default {
     ComposeConversation,
     SocialIcons,
     ContactMergeModal,
+    ContactLabels,
   },
   props: {
     contact: {
@@ -249,6 +251,10 @@ export default {
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
+          <!-- Etiquetas do Contato - Entre empresa e redes sociais -->
+          <div v-if="contact.id" class="w-full py-2">
+            <ContactLabels :contact-id="contact.id" />
+          </div>
           <ContactInfoRow
             v-if="location || additionalAttributes.location"
             :value="location || additionalAttributes.location"
