@@ -241,3 +241,4 @@ curl -X POST "https://chat.showmotos.shop/api/v1/accounts/1/contacts" \
 **📊 Pro Tip**: Use `additional_attributes` para dados dinâmicos e `custom_attributes` para dados estruturados que você quer filtrar/segmentar depois.
 
 
+

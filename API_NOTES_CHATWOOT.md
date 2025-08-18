@@ -122,3 +122,4 @@ curl -X POST "https://chat.showmotos.shop/api/v1/accounts/1/contacts/123/notes" 
 **✨ Resultado:** Note aparece imediatamente na timeline do contato no Chatwoot!
 
 
+
