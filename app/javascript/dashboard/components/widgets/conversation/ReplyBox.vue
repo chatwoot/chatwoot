@@ -101,7 +101,7 @@ export default {
       recordingAudioState: '',
       recordingAudioDurationText: '',
       isUploading: false,
-      replyType: REPLY_EDITOR_MODES.NOTE,
+      replyType: REPLY_EDITOR_MODES.REPLY,
       mentionSearchKey: '',
       hasSlashCommand: false,
       bccEmails: '',

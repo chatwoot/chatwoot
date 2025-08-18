@@ -4,48 +4,26 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   before_action :fetch_conversation, only: %i[end_call join_call reject_call]
   before_action :set_voice_inbox, only: %i[token]
 
-  # ---------- PUBLIC ACTIONS --------------------------------------------------
-
   def end_call
     call_sid = params[:call_sid] || convo_attr('call_sid')
-    return render_not_found('active call') unless call_sid
+    return render_not_found_error('No active call found') unless call_sid
 
-    manager = Voice::CallStatus::Manager.new(conversation: @conversation,
-                                             call_sid:    call_sid,
-                                             provider:    :twilio)
-    # If the call never connected (still ringing) treat as no_answer for better UX on outbound calls
-    desired = if @conversation.additional_attributes&.dig('call_status') == 'ringing'
-                'no_answer'
-              else
-                'completed'
-              end
-    manager.process_status_update(desired, nil, false, "Call ended by #{current_user.name}")
-
-    # Attempt to end the Twilio call leg; ignore failures so our UI state finalizes
     begin
       twilio_client.calls(call_sid).update(status: 'completed') if in_progress?(call_sid)
     rescue StandardError
-      # ignore
+      # ignore provider errors
     end
 
-    # Force-broadcast a conversation update so the UI reflects terminal status
-    begin
-      @conversation.reload
-      @conversation.dispatch_conversation_updated_event
-    rescue StandardError
-      # ignore broadcast failures
-    end
-
-    render_success('Call successfully ended')
+    render json: { status: 'success', message: 'Call successfully ended' }
   rescue StandardError => e
-    render_error("Failed to end call: #{e.message}")
+    render_internal_server_error("Failed to end call: #{e.message}")
   end
 
   def join_call
     call_sid = params[:call_sid] || convo_attr('call_sid')
     outbound  = convo_attr('requires_agent_join') == true
 
-    return render_not_found('active call') unless call_sid || outbound
+    return render_not_found_error('No active call found') unless call_sid || outbound
 
     conference_sid = convo_attr('conference_sid') || create_conference_sid!
     update_join_metadata!(call_sid)
@@ -59,33 +37,27 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       account_id:     Current.account.id
     }
   rescue StandardError => e
-    render_error("Failed to join call: #{e.message}")
+    render_internal_server_error("Failed to join call: #{e.message}")
   end
 
   def reject_call
     call_sid = params[:call_sid] || convo_attr('call_sid')
-    return render_not_found('active call') unless call_sid
+    return render_not_found_error('No active call found') unless call_sid
 
-    # Attempt to hang up the caller if still ringing/in-progress
     begin
       twilio_client.calls(call_sid).update(status: 'completed') if in_progress?(call_sid)
     rescue StandardError
-      # ignore Twilio failures; still proceed to update local state
+      # ignore provider errors
     end
 
-    # Mark rejection metadata and set call status to no_answer via manager for consistency
+    # Mark rejection metadata; status will be updated via Twilio webhooks
     @conversation.update!(additional_attributes: convo_attrs.merge(
       'agent_rejected' => true,
       'rejected_at'    => Time.current.to_i,
       'rejected_by'    => user_meta
     ))
 
-    Voice::CallStatus::Manager.new(conversation: @conversation,
-                                   call_sid:    call_sid,
-                                   provider:    :twilio)
-                              .process_status_update('no_answer', nil, false, "#{current_user.name} declined the call")
-
-    render_success('Call rejected by agent')
+    render json: { status: 'success', message: 'Call rejected by agent' }
   end
 
 
@@ -103,15 +75,8 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     render json: { error: 'Failed to generate token' }, status: :internal_server_error
   end
 
-  # ---------- PRIVATE ---------------------------------------------------------
-
   private
 
-  # ---- Helpers ---------------------------------------------------------------
-
-  def render_success(msg) = render json: { status: 'success', message: msg }
-  def render_not_found(resource) = render json: { error: "No #{resource} found" }, status: :not_found
-  def render_error(msg) = render json: { error: msg }, status: :internal_server_error
 
   def fetch_conversation
     @conversation = Current.account.conversations.find_by(display_id: params[:conversation_id])
@@ -153,19 +118,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       'joined_by'    => user_meta
     )
 
-    # Do not flip status back from a terminal state
-    terminal = %w[ended missed no_answer]
-    unless terminal.include?(convo_attr('call_status')) || convo_attr('call_ended_at').present?
-      attrs['call_status'] = 'in_progress'
-      @conversation.update!(additional_attributes: attrs)
-
-      Voice::CallStatus::Manager.new(conversation: @conversation,
-                                     call_sid:    call_sid,
-                                     provider:    :twilio)
-                                .process_status_update('in_progress', nil, false, "#{current_user.name} joined the call")
-    else
-      @conversation.update!(additional_attributes: attrs)
-    end
+    @conversation.update!(additional_attributes: attrs)
   end
 
 

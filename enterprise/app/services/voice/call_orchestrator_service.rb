@@ -25,11 +25,6 @@ module Voice
         user: nil
       ).perform
 
-      Voice::CallStatus::Manager.new(
-        conversation: @conversation,
-        call_sid: call_sid,
-        provider: :twilio
-      ).process_status_update('ringing', nil, true, "Incoming call from #{phone_number}")
 
       @conversation
     end
@@ -75,11 +70,6 @@ module Voice
 
       @conversation.update(last_activity_at: Time.current)
 
-      Voice::CallStatus::Manager.new(
-        conversation: @conversation,
-        call_sid: call_details[:call_sid],
-        provider: :twilio
-      ).process_status_update('initiated', nil, true, "Outgoing call to #{contact.name || contact.phone_number}")
 
       [@conversation, call_details]
     end
@@ -97,4 +87,3 @@ module Voice
     end
   end
 end
-

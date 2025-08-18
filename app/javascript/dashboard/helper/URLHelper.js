@@ -110,23 +110,12 @@ export const hasValidAvatarUrl = avatarUrl => {
 };
 
 export const timeStampAppendedURL = dataUrl => {
-  try {
-    // Make sure the URL is valid before trying to construct it
-    if (!dataUrl || typeof dataUrl !== 'string') {
-      return '';
-    }
-
-    const url = new URL(dataUrl);
-    if (!url.searchParams.has('t')) {
-      url.searchParams.append('t', Date.now());
-    }
-
-    return url.toString();
-  } catch (error) {
-    // If URL construction fails, just return the original URL
-    console.error('Invalid URL in timeStampAppendedURL:', error);
-    return dataUrl || '';
+  const url = new URL(dataUrl);
+  if (!url.searchParams.has('t')) {
+    url.searchParams.append('t', Date.now());
   }
+
+  return url.toString();
 };
 
 export const getHostNameFromURL = url => {

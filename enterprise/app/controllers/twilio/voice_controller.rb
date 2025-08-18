@@ -7,16 +7,22 @@ class Twilio::VoiceController < ApplicationController
 
   def status
     begin
-      if @inbox
-        conversation = find_conversation_from_params(@inbox.account)
-        if conversation
-          Voice::ConferenceManagerService.new(
-            conversation: conversation,
-            event: params[:StatusCallbackEvent],
-            call_sid: @call_sid,
-            participant_label: params[:ParticipantLabel]
-          ).process
-        end
+      return head :no_content unless @inbox
+
+      conversation = find_conversation_from_params(@inbox.account)
+      return head :no_content unless conversation
+
+      if params[:StatusCallbackEvent].present?
+        Voice::ConferenceManagerService.new(
+          conversation: conversation,
+          event: params[:StatusCallbackEvent],
+          call_sid: @call_sid,
+          participant_label: params[:ParticipantLabel]
+        ).process
+      elsif params[:CallStatus].present?
+        Voice::CallStatus::Manager
+          .new(conversation: conversation, call_sid: @call_sid, provider: :twilio)
+          .process_status_update(params[:CallStatus], params[:CallDuration])
       end
     rescue StandardError => e
       Rails.logger.error("Twilio::VoiceController#status error: #{e.message}")
@@ -28,7 +34,6 @@ class Twilio::VoiceController < ApplicationController
   def call_twiml
     return fallback_twiml unless @inbox
 
-    # Determine if this leg is agent (TwiML App conf join) or caller (PSTN)
     to_param = params[:To].to_s
     agent_leg = to_param.start_with?('conf_account_') || params[:is_agent] == 'true' || params[:identity].to_s.start_with?('agent-')
 
@@ -43,8 +48,6 @@ class Twilio::VoiceController < ApplicationController
 
     conference_sid = ensure_conference_sid(conversation, params[:conference_name])
 
-    # Update conversation metadata without flipping direction on agent/client legs
-    # or overriding a previously set direction
     updated_attrs = conversation.additional_attributes.merge(
       'conference_sid'      => conference_sid,
       'requires_agent_join' => true
@@ -54,18 +57,9 @@ class Twilio::VoiceController < ApplicationController
     end
     conversation.update!(additional_attributes: updated_attrs)
 
-    # Ensure a call message exists for incoming PSTN leg (do not create for agent leg)
     ensure_call_message(conversation, conference_sid) unless agent_leg
 
-    # Set initial status to ringing on first TwiML response
-    Voice::CallStatus::Manager.new(
-      conversation: conversation,
-      call_sid:     @call_sid,
-      provider:     :twilio
-    ).process_status_update('ringing', nil, true)
-
     render_twiml do |r|
-      # For incoming PSTN calls, play a brief prompt
       r.say(message: 'Please wait while we connect you to an agent') unless agent_leg
 
       r.dial do |d|

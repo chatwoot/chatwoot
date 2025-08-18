@@ -13,19 +13,19 @@ class ContactInboxBuilder
 
   def generate_source_id
     case @inbox.channel_type
-      when 'Channel::TwilioSms'
-        twilio_source_id
-      when 'Channel::Whatsapp'
-        wa_source_id
-      when 'Channel::Email'
-        email_source_id
-      when 'Channel::Sms'
-        phone_source_id
-      when 'Channel::Api', 'Channel::WebWidget'
-        SecureRandom.uuid
-      else
-        raise "Unsupported operation for this channel: #{@inbox.channel_type}"
-      end
+    when 'Channel::TwilioSms'
+      twilio_source_id
+    when 'Channel::Whatsapp'
+      wa_source_id
+    when 'Channel::Email'
+      email_source_id
+    when 'Channel::Sms'
+      phone_source_id
+    when 'Channel::Api', 'Channel::WebWidget'
+      SecureRandom.uuid
+    else
+      raise "Unsupported operation for this channel: #{@inbox.channel_type}"
+    end
   end
 
   def email_source_id
@@ -35,7 +35,7 @@ class ContactInboxBuilder
   end
 
   def phone_source_id
-    raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number.present?
+    raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number
 
     @contact.phone_number
   end

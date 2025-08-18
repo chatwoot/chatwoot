@@ -30,10 +30,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    buttonSlot: {
-      type: Boolean,
-      default: false,
-    },
   },
   methods: {
     async onCopy(e) {
@@ -68,18 +64,15 @@ export default {
       <span v-else class="text-sm text-n-slate-11">
         {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
       </span>
-      <div class="flex items-center">
-        <NextButton
-          v-if="showCopy"
-          ghost
-          xs
-          slate
-          class="ltr:-ml-1 rtl:-mr-1"
-          icon="i-lucide-clipboard"
-          @click="onCopy"
-        />
-        <slot v-if="buttonSlot" name="button" />
-      </div>
+      <NextButton
+        v-if="showCopy"
+        ghost
+        xs
+        slate
+        class="ltr:-ml-1 rtl:-mr-1"
+        icon="i-lucide-clipboard"
+        @click="onCopy"
+      />
     </a>
 
     <div v-else class="flex items-center gap-2 text-n-slate-11">
