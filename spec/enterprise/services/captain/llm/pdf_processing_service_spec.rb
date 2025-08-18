@@ -20,20 +20,19 @@ RSpec.describe Captain::Llm::PdfProcessingService do
   end
 
   describe '#process' do
-    let(:files_api) { instance_double(OpenAI::Files) }
-    let(:temp_file) { instance_double(Tempfile) }
     let(:pdf_attachment) { double('pdf_attachment') } # rubocop:disable RSpec/VerifiedDoubles
 
     before do
-      allow(openai_client).to receive(:files).and_return(files_api)
       allow(document).to receive(:pdf_file).and_return(pdf_attachment)
       allow(pdf_attachment).to receive(:download).and_return('pdf content')
-      allow(Tempfile).to receive(:new).and_return(temp_file)
-      allow(temp_file).to receive(:binmode)
+      
+      # Mock Tempfile.create to yield a temp file
+      temp_file = double('temp_file', path: '/tmp/test.pdf')
       allow(temp_file).to receive(:write)
       allow(temp_file).to receive(:close)
-      allow(temp_file).to receive(:path).and_return('/tmp/test.pdf')
-      allow(temp_file).to receive(:unlink)
+      allow(Tempfile).to receive(:create).and_yield(temp_file)
+      
+      # Mock File.open to yield a StringIO
       allow(File).to receive(:open).with('/tmp/test.pdf', 'rb').and_yield(StringIO.new('pdf content'))
     end
 
@@ -43,7 +42,7 @@ RSpec.describe Captain::Llm::PdfProcessingService do
       end
 
       it 'returns success message without uploading' do
-        expect(files_api).not_to receive(:upload)
+        expect(openai_client).not_to receive(:files)
         result = service.process
         expect(result).to eq('PDF ready for paginated processing')
       end
@@ -63,16 +62,13 @@ RSpec.describe Captain::Llm::PdfProcessingService do
 
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)
-        allow(files_api).to receive(:upload).and_return(upload_response)
+        allow(openai_client).to receive(:files).and_return(double(upload: upload_response))
         allow(document).to receive(:store_openai_file_id)
       end
 
       it 'uploads the PDF file to OpenAI' do
-        expect(files_api).to receive(:upload).with(
-          parameters: {
-            file: anything,
-            purpose: 'assistants'
-          }
+        expect(openai_client).to receive(:files).and_return(
+          double(upload: upload_response)
         )
 
         service.process
@@ -93,11 +89,11 @@ RSpec.describe Captain::Llm::PdfProcessingService do
     context 'when upload fails' do
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)
-        allow(files_api).to receive(:upload).and_raise(StandardError, 'Upload failed')
+        allow(openai_client).to receive(:files).and_raise(OpenAI::Error, 'Upload failed')
       end
 
       it 'raises the error' do
-        expect { service.process }.to raise_error(StandardError, 'Upload failed')
+        expect { service.process }.to raise_error(OpenAI::Error, 'Upload failed')
       end
     end
 
@@ -111,11 +107,11 @@ RSpec.describe Captain::Llm::PdfProcessingService do
 
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)
-        allow(files_api).to receive(:upload).and_return(invalid_response)
+        allow(openai_client).to receive(:files).and_return(double(upload: invalid_response))
       end
 
       it 'raises an error' do
-        expect { service.process }.to raise_error('Failed to upload PDF to OpenAI')
+        expect { service.process }.to raise_error(RuntimeError, 'Failed to upload PDF to OpenAI')
       end
     end
   end

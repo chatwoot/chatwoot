@@ -18,14 +18,11 @@ class Captain::Documents::CrawlJob < ApplicationJob
   def perform_pdf_processing(document)
     pdf_processor = Captain::Llm::PdfProcessingService.new(document)
     pdf_processor.process
-
-    # Mark document as available - content is not needed for paginated processing
     document.update!(status: :available)
-
     Rails.logger.info "Successfully processed PDF document #{document.id}"
   rescue StandardError => e
     Rails.logger.error "Failed to process PDF document #{document.id}: #{e.message}"
-    document.update!(status: :available)
+    raise # Re-raise to let job framework handle retry logic
   end
 
   def perform_simple_crawl(document)
