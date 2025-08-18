@@ -116,7 +116,7 @@ describe('#getters', () => {
       const spy = vi.spyOn(languageHelpers, 'getLanguageDirection');
 
       expect(getters.isRTL(state, null, rootState, rootGetters)).toBe(false);
-      expect(spy).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith('en');
     });
   });
 });
