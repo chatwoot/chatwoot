@@ -97,7 +97,7 @@ const menuItems = computed(() => {
     },
     {
       show: currentUser.value.type === 'SuperAdmin',
-      showOnCustomBrandedInstance: false,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),
       icon: 'i-lucide-castle',
       link: '/super_admin',
