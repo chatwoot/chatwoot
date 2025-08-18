@@ -89,6 +89,8 @@ export default {
     this.initializeColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
+
+    document.title = 'Comchat';
   },
   unmounted() {
     if (this.reconnectService) {
