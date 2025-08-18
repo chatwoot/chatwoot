@@ -213,8 +213,7 @@
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
-# ! DO NOT change the order of features EVER
-# ! This are the features that are not available in the Chatwoot original codebase, make sure to add them at the end of the file
+  tier: starter
 - name: contacts
   display_name: Contacts
   enabled: true
@@ -223,3 +222,11 @@
   display_name: Prompts
   enabled: true
   tier: starter
+- name: channel_whatsapp_whapi_partner
+  display_name: "WhatsApp: Whapi Partner Onboarding"
+  enabled: true
+  tier: starter
+
+# ! DO NOT change the order of features EVER
+# ! This are the features that are not available in the Chatwoot original codebase, make sure to add them at the end of the file
+# Gate rollout for WhatsApp -> Whapi partner onboarding flow

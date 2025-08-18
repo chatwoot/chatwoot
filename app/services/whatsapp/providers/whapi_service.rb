@@ -22,6 +22,15 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   end
 
   def validate_provider_config?
+    # For Whapi partner channels in pending status, we don't require health check
+    # since the WhatsApp connection is established after QR code scanning
+    if whatsapp_channel.whapi_partner_channel? && whatsapp_channel.whapi_connection_status == 'pending'
+      # Validate that we have the required token from partner API
+      return whatsapp_channel.provider_config['api_key'].present? || 
+             whatsapp_channel.provider_config['whapi_channel_token'].present?
+    end
+
+    # For regular Whapi channels or connected partner channels, perform health check
     response = HTTParty.get("#{api_base_path}/health", headers: api_headers)
     response.success?
   rescue Net::ReadTimeout, Net::OpenTimeout, SocketError => e

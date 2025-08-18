@@ -4,6 +4,17 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
   # echoes, and status updates.
 
   def perform
+    # Handle Whapi connection status events first
+    if params['events']&.any?
+      correlation_id = params['correlation_id'] || SecureRandom.uuid
+      Whatsapp::WhapiConnectionStatusService.new(
+        channel: inbox.channel,
+        params: params,
+        correlation_id: correlation_id
+      ).perform
+      return
+    end
+
     # The WHAPI payload can contain either 'messages' or 'statuses'
     if params['messages']&.any?
       process_messages
@@ -237,7 +248,7 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
     return if contacts.blank?
 
     contacts.each do |contact_payload|
-      contact_name = contact_payload.dig(:name, :formatted_name)
+      contact_name = contact_payload.is_a?(Hash) ? contact_payload.dig(:name, :formatted_name) : nil
       phones = contact_payload[:phones]
       phones = [{ phone: 'Phone number not available' }] if phones.blank?
 
@@ -253,6 +264,8 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
 
   def extract_content(message)
     message_type = message[:type].to_s
+    return nil unless message.is_a?(Hash)
+    
     case message_type
     when 'text'
       message.dig(:text, :body)
@@ -277,7 +290,7 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
   end
 
   def process_in_reply_to(message)
-    quoted_message_id = message.dig(:context, :quoted_id)
+    quoted_message_id = message.is_a?(Hash) ? message.dig(:context, :quoted_id) : nil
     return unless quoted_message_id
 
     # The base service expects `id` inside context, but WHAPI gives `quoted_id`

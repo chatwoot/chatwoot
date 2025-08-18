@@ -17,6 +17,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
       'conversation.status_changed': this.onStatusChange,
+      // Whapi partner channel connection lifecycle
+      whapi_channel_status_updated: this.onWhapiChannelStatusUpdated,
       'user:logout': this.onLogout,
       'page:reload': this.onReload,
       'assignee.changed': this.onAssigneeChanged,
@@ -79,6 +81,23 @@ class ActionCableConnector extends BaseActionCableConnector {
       this.app.$store.dispatch('updateConversation', payload);
     }
     this.fetchConversationStats();
+  };
+
+  onWhapiChannelStatusUpdated = data => {
+    const {
+      inbox_id: inboxId,
+      connection_status: status,
+      phone_number: phone,
+    } = data;
+    this.app.$store.commit('inboxes/UPDATE_INBOX_ATTRIBUTES', {
+      id: inboxId,
+      provider_config: {
+        ...(this.app.$store.getters['inboxes/getInbox'](inboxId)
+          .provider_config || {}),
+        connection_status: status,
+      },
+      phone_number: phone,
+    });
   };
 
   onConversationCreated = data => {

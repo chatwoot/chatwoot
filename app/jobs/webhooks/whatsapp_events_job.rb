@@ -2,6 +2,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
   queue_as :low
 
   def perform(params = {})
+    correlation_id = params['correlation_id'] || SecureRandom.uuid
     channel = find_channel_from_whatsapp_business_payload(params)
 
     if channel_is_inactive?(channel)
@@ -11,11 +12,11 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
     case channel.provider
     when 'whatsapp_cloud'
-      Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
+      Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params.merge('correlation_id' => correlation_id)).perform
     when 'whapi'
-      Whatsapp::IncomingMessageWhapiService.new(inbox: channel.inbox, params: params).perform
+      Whatsapp::IncomingMessageWhapiService.new(inbox: channel.inbox, params: params.merge('correlation_id' => correlation_id)).perform
     else
-      Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
+      Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params.merge('correlation_id' => correlation_id)).perform
     end
   end
 
@@ -41,14 +42,41 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     # we will give priority to the phone_number in the payload
     return get_channel_from_wb_payload(params) if params[:object] == 'whatsapp_business_account'
 
-    find_channel_by_url_param(params)
+    # Try to find by phone number first for traditional endpoints
+    channel = find_channel_by_url_param(params)
+    return channel if channel
+
+    # For Whapi partner posts to /webhooks/whapi, match by channel_id in payload
+    whapi_channel_id = params[:channel_id] || params['channel_id'] || (params.is_a?(Hash) ? params.dig('channel', 'id') : nil)
+    if whapi_channel_id.present?
+      return Channel::Whatsapp.where(provider: 'whapi')
+                              .detect { |ch| ch.provider_config&.[]('whapi_channel_id') == whapi_channel_id }
+    end
+
+    # For Whapi partner channels, try to find by whapi_channel_id if no phone_number
+    find_channel_by_whapi_id(params)
   end
 
   def get_channel_from_wb_payload(wb_params)
-    phone_number = "+#{wb_params[:entry].first[:changes].first.dig(:value, :metadata, :display_phone_number)}"
-    phone_number_id = wb_params[:entry].first[:changes].first.dig(:value, :metadata, :phone_number_id)
+    entry = wb_params[:entry]&.first
+    change = entry[:changes]&.first if entry.is_a?(Hash)
+    value = change[:value] if change.is_a?(Hash)
+    metadata = value[:metadata] if value.is_a?(Hash)
+    
+    return nil unless metadata.is_a?(Hash)
+    
+    phone_number = "+#{metadata[:display_phone_number]}"
+    phone_number_id = metadata[:phone_number_id]
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
     # validate to ensure the phone number id matches the whatsapp channel
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
+  end
+
+  def find_channel_by_whapi_id(params)
+    whapi_channel_id = params[:channel_id] || params['channel_id']
+    return unless whapi_channel_id
+
+    Channel::Whatsapp.where(provider: 'whapi')
+                     .find { |ch| ch.provider_config['whapi_channel_id'] == whapi_channel_id }
   end
 end
