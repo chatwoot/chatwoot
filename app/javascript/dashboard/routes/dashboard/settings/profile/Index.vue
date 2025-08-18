@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFontSize } from 'dashboard/composables/useFontSize';
-import { useLanguageSelection } from 'dashboard/composables/useLanguageSelection';
 import { useBranding } from 'shared/composables/useBranding';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
@@ -12,7 +11,7 @@ import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import FontSize from './FontSize.vue';
-import LanguageSelect from './LanguageSelect.vue';
+import UserLanguageSelect from './UserLanguageSelect.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
@@ -30,7 +29,7 @@ export default {
     MessageSignature,
     FormSection,
     FontSize,
-    LanguageSelect,
+    UserLanguageSelect,
     UserProfilePicture,
     Policy,
     UserBasicDetails,
@@ -43,8 +42,6 @@ export default {
   setup() {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
     const { currentFontSize, updateFontSize } = useFontSize();
-    const { languageOptions, currentLanguage, updateLanguage } =
-      useLanguageSelection();
     const { replaceInstallationName } = useBranding();
 
     return {
@@ -52,9 +49,6 @@ export default {
       updateFontSize,
       isEditorHotKeyEnabled,
       updateUISettings,
-      languageOptions,
-      currentLanguage,
-      updateLanguage,
       replaceInstallationName,
     };
   },
@@ -238,15 +232,11 @@ export default {
         "
         @change="updateFontSize"
       />
-      <LanguageSelect
-        v-model="currentLanguage"
-        :value="currentLanguage"
-        :options="languageOptions"
+      <UserLanguageSelect
         :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
         :description="
           $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
         "
-        @change="updateLanguage"
       />
     </FormSection>
     <FormSection

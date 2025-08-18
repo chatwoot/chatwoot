@@ -73,23 +73,6 @@ export default {
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
     },
-    // Single source of truth for language:
-    // user preference if set, otherwise account locale, otherwise env default, then 'en'
-    effectiveLocale() {
-      const account = this.getAccount(this.currentAccountId) || {};
-      // uiSettings is a ref exposed from setup; on the instance it's auto-unwrapped
-      const userLocale =
-        (this.uiSettings && this.uiSettings.locale) ||
-        (this.uiSettings &&
-          this.uiSettings.value &&
-          this.uiSettings.value.locale) ||
-        '';
-      return userLocale || account.locale || 'en';
-    },
-    // NEW: Keep direction in sync with the same locale source
-    currentDir() {
-      return this.isRTL(this.effectiveLocale) ? 'rtl' : 'ltr';
-    },
   },
 
   watch: {
@@ -106,19 +89,14 @@ export default {
         }
       },
     },
-    // NEW: If either profile preference or account locale changes,
-    // keep vue-i18n locale in sync.
-    effectiveLocale(newVal) {
-      if (newVal) {
-        this.setLocale(newVal);
-      }
-    },
   },
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
     // CHANGED: don't force selectedLocale; use the effective locale
-    this.setLocale(this.effectiveLocale);
+    this.setLocale(
+      this.uiSettings?.locale || window.chatwootConfig.selectedLocale
+    );
   },
   unmounted() {
     if (this.reconnectService) {
@@ -141,11 +119,11 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
-      const { latest_chatwoot_version: latestChatwootVersion } =
+      const { locale, latest_chatwoot_version: latestChatwootVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       // CHANGED: respect user preference if present; fallback to account
-      this.setLocale(this.effectiveLocale);
+      this.setLocale(this.uiSettings?.locale || locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);
@@ -168,9 +146,8 @@ export default {
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
     class="flex flex-col w-full h-screen min-h-0"
-    :dir="currentDir"
+    :dir="isRTL ? 'rtl' : 'ltr'"
   >
-    <!-- CHANGED: derive dir from effectiveLocale -->
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />

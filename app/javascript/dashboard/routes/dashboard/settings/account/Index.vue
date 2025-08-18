@@ -7,7 +7,6 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
-import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import NextInput from 'next/input/Input.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -102,28 +101,9 @@ export default {
     currentAccount() {
       return this.getAccount(this.accountId) || {};
     },
-    // Add effectiveLocale computed property
-    effectiveLocale() {
-      // Prefer user UI settings, then account, then fallback
-      const userLocale =
-        (this.uiSettings && this.uiSettings.locale) ||
-        (this.uiSettings &&
-          this.uiSettings.value &&
-          this.uiSettings.value.locale) ||
-        '';
-      return userLocale || this.currentAccount.locale || 'en';
-    },
-  },
-  watch: {
-    // Watch for changes in effectiveLocale and update direction accordingly
-    effectiveLocale(newLocale) {
-      this.updateDirectionView(newLocale);
-    },
   },
   mounted() {
     this.initializeAccount();
-    // Ensure direction is set on mount
-    this.updateDirectionView(this.effectiveLocale);
   },
   methods: {
     async initializeAccount() {
@@ -131,7 +111,7 @@ export default {
         const { name, locale, id, domain, support_email, features } =
           this.getAccount(this.accountId);
 
-        this.$root.$i18n.locale = locale;
+        this.$root.$i18n.locale = this.uiSettings?.locale || locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -156,21 +136,18 @@ export default {
           domain: this.domain,
           support_email: this.supportEmail,
         });
-        // Use the effectiveLocale (user preference > account > fallback)
-        this.$root.$i18n.locale = this.effectiveLocale;
+        // If user locale is set, update the locale with user locale
+        if (this.uiSettings?.locale) {
+          this.$root.$i18n.locale = this.uiSettings?.locale;
+        } else {
+          // If user locale is not set, update the locale with account locale
+          this.$root.$i18n.locale = this.locale;
+        }
         this.getAccount(this.id).locale = this.locale;
-        this.updateDirectionView(this.effectiveLocale);
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
-    },
-
-    updateDirectionView(locale) {
-      const isRTLSupported = getLanguageDirection(locale);
-      this.updateUISettings({
-        rtl_view: isRTLSupported,
-      });
     },
   },
 };
