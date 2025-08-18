@@ -1,5 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-
+<body>
+</body>
 
 <%
   user_id = 1
@@ -14,12 +15,13 @@
 
 window.chatwootSettings = {
   hideMessageBubble: false,
+  // showUnreadMessagesDialog: false,
   // baseDomain: '.loca.lt',
   position: '<%= @widget_position %>',
   locale: 'en',
   useBrowserLanguage: true,
   type: '<%= @widget_type %>',
-  showPopoutButton: true,
+  // showPopoutButton: true,
   widgetStyle: '<%= @widget_style %>',
   darkMode: '<%= @dark_mode %>',
 };
@@ -28,7 +30,6 @@ window.chatwootSettings = {
   var BASE_URL = '';
   var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
   g.src= BASE_URL + "/packs/js/sdk.js";
-  g.defer = true;
   g.async = true;
   s.parentNode.insertBefore(g,s);
   g.onload=function(){
@@ -58,5 +59,21 @@ window.addEventListener('chatwoot:error', function(e) {
 
 window.addEventListener('chatwoot:on-message', function(e) {
   console.log('chatwoot:on-message', e.detail)
+})
+
+window.addEventListener('chatwoot:postback', function(e) {
+  console.log('chatwoot:postback', e.detail)
+})
+
+window.addEventListener('chatwoot:opened', function() {
+  console.log('chatwoot:opened')
+})
+
+window.addEventListener('chatwoot:closed', function() {
+  console.log('chatwoot:closed')
+})
+
+window.addEventListener('chatwoot:on-start-conversation', function(e) {
+  console.log('chatwoot:on-start-conversation', e.detail)
 })
 </script>

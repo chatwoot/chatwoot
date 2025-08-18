@@ -1,13 +1,5 @@
-<template>
-  <channel-selector
-    :class="{ inactive: !isActive }"
-    :title="channel.name"
-    :src="getChannelThumbnail()"
-    @click="onItemClick"
-  />
-</template>
 <script>
-import ChannelSelector from '../ChannelSelector';
+import ChannelSelector from '../ChannelSelector.vue';
 export default {
   components: { ChannelSelector },
   props: {
@@ -20,7 +12,14 @@ export default {
       required: true,
     },
   },
+  emits: ['channelItemClick'],
   computed: {
+    hasFbConfigured() {
+      return window.chatwootConfig?.fbAppId;
+    },
+    hasInstagramConfigured() {
+      return window.chatwootConfig?.instagramAppId;
+    },
     isActive() {
       const { key } = this.channel;
       if (Object.keys(this.enabledFeatures).length === 0) {
@@ -30,13 +29,20 @@ export default {
         return this.enabledFeatures.channel_website;
       }
       if (key === 'facebook') {
-        return this.enabledFeatures.channel_facebook;
-      }
-      if (key === 'twitter') {
-        return this.enabledFeatures.channel_twitter;
+        return this.enabledFeatures.channel_facebook && this.hasFbConfigured;
       }
       if (key === 'email') {
         return this.enabledFeatures.channel_email;
+      }
+
+      if (key === 'instagram') {
+        return (
+          this.enabledFeatures.channel_instagram && this.hasInstagramConfigured
+        );
+      }
+
+      if (key === 'voice') {
+        return this.enabledFeatures.channel_voice;
       }
 
       return [
@@ -47,7 +53,15 @@ export default {
         'sms',
         'telegram',
         'line',
+        'instagram',
+        'voice',
       ].includes(key);
+    },
+    isComingSoon() {
+      const { key } = this.channel;
+      // Show "Coming Soon" only if the channel is marked as coming soon
+      // and the corresponding feature flag is not enabled yet.
+      return ['voice'].includes(key) && !this.isActive;
     },
   },
   methods: {
@@ -59,9 +73,19 @@ export default {
     },
     onItemClick() {
       if (this.isActive) {
-        this.$emit('channel-item-click', this.channel.key);
+        this.$emit('channelItemClick', this.channel.key);
       }
     },
   },
 };
 </script>
+
+<template>
+  <ChannelSelector
+    :class="{ inactive: !isActive }"
+    :title="channel.name"
+    :src="getChannelThumbnail()"
+    :is-coming-soon="isComingSoon"
+    @click="onItemClick"
+  />
+</template>

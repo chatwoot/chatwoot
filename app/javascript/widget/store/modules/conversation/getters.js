@@ -16,6 +16,13 @@ export const getters = {
     }
     return {};
   },
+  getLastMessage: _state => {
+    const conversation = Object.values(_state.conversations);
+    if (conversation.length) {
+      return conversation[conversation.length - 1];
+    }
+    return {};
+  },
   getGroupedConversation: _state => {
     const conversationGroupedByDate = groupBy(
       Object.values(_state.conversations),

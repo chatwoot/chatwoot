@@ -23,17 +23,30 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
         "DESC": "( Ukupno )"
+      },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Broj rešenih",
+        "DESC": "( Ukupno )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "( Ukupno )"
+      },
+      "REPLY_TIME": {
+        "NAME": "Customer waiting time",
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -44,32 +57,6 @@
       "LAST_YEAR": "Poslednja godina",
       "CUSTOM_DATE_RANGE": "Prilagođen opseg vremena"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Poslednjih 7 dana"
-      },
-      {
-        "id": 1,
-        "name": "Poslednjih 30 dana"
-      },
-      {
-        "id": 2,
-        "name": "Poslednja 3 meseca"
-      },
-      {
-        "id": 3,
-        "name": "Poslednjih 6 meseci"
-      },
-      {
-        "id": 4,
-        "name": "Poslednja godina"
-      },
-      {
-        "id": 5,
-        "name": "Prilagođen opseg vremena"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Primeni",
       "PLACEHOLDER": "Izaberite opseg vremena"
@@ -124,16 +111,21 @@
       {
         "id": 3,
         "groupBy": "Mesec"
-      },
-      {
-        "id": 4,
-        "groupBy": "Godina"
       }
     ],
-    "BUSINESS_HOURS": "Radno vreme"
+    "BUSINESS_HOURS": "Radno vreme",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Ništa nije pronađeno"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Pregled agenata",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_AGENT_REPORTS": "Preuzmi izveštaj o agentima",
@@ -155,13 +147,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -201,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Pregled oznaka",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_LABEL_REPORTS": "Preuzmi izveštaj o oznakama",
@@ -222,13 +215,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -268,6 +261,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Pregled prijemnih sandučića",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_INBOX_REPORTS": "Preuzmi izveštaj o prijemnim sandučićima",
@@ -289,13 +283,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -335,6 +329,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Pregled tima",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_TEAM_REPORTS": "Preuzmi izveštaj o timu",
@@ -356,13 +351,13 @@
         "NAME": "Vreme prvog odgovora",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme prvog odgovora je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme prvog odgovora je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Vreme rešavanja",
         "DESC": "( Prosečno )",
         "INFO_TEXT": "Ukupan broj razgovora korišćen za izračunavanje:",
-        "TOOLTIP_TEXT": "Vreme rešenja je %{metricValue} (zasnovano na %{conversationCount} razgovora)"
+        "TOOLTIP_TEXT": "Vreme rešenja je {metricValue} (zasnovano na {conversationCount} razgovora)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Broj rešenih",
@@ -433,6 +428,27 @@
       }
     }
   },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "Pregled",
     "LIVE": "Uživo",
@@ -441,13 +457,15 @@
       "LOADING_MESSAGE": "Učitavanje metrike razgovora...",
       "OPEN": "Otvoreni",
       "UNATTENDED": "Nedodeljeni",
-      "UNASSIGNED": "Nedodeljen"
+      "UNASSIGNED": "Nedodeljen",
+      "PENDING": "Nerešen"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Razgovori prema agentima",
@@ -455,7 +473,19 @@
       "NO_AGENTS": "Nema razgovora po agentima",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OTVORENI",
+        "OPEN": "Otvoreni",
+        "UNATTENDED": "Nedodeljeni",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Tim",
+        "OPEN": "Otvoreni",
         "UNATTENDED": "Nedodeljeni",
         "STATUS": "Status"
       }
@@ -475,5 +505,66 @@
     "THURSDAY": "Thursday",
     "FRIDAY": "Friday",
     "SATURDAY": "Saturday"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Ništa nije pronađeno",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Naziv agenta",
+        "INBOXES": "Naziv prijemnog sandučeta",
+        "LABELS": "Naziv oznake",
+        "TEAMS": "Naziv tima"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Prijemno sanduče",
+      "AGENTS": "Agent",
+      "LABELS": "Oznaka",
+      "TEAMS": "Tim"
+    },
+    "WITH": "with",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "Razgovor",
+        "AGENT": "Agent"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Prijemno sanduče",
+    "AGENT": "Agent",
+    "TEAM": "Tim",
+    "LABEL": "Oznaka",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Broj rešenih",
+    "CONVERSATIONS": "Broj razgovora"
   }
 }

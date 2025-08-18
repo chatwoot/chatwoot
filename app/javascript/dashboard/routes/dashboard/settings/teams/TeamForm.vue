@@ -1,54 +1,16 @@
-<template>
-  <div class="row">
-    <div class="small-12 medium-8 columns">
-      <form class="row" @submit.prevent="handleSubmit">
-        <woot-input
-          v-model.trim="title"
-          :class="{ error: $v.title.$error }"
-          class="medium-12 columns"
-          :label="$t('TEAMS_SETTINGS.FORM.NAME.LABEL')"
-          :placeholder="$t('TEAMS_SETTINGS.FORM.NAME.PLACEHOLDER')"
-          @input="$v.title.$touch"
-        />
-
-        <woot-input
-          v-model.trim="description"
-          :class="{ error: $v.description.$error }"
-          class="medium-12 columns"
-          :label="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.LABEL')"
-          :placeholder="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.PLACEHOLDER')"
-          @input="$v.description.$touch"
-        />
-
-        <div class="medium-12">
-          <input v-model="allowAutoAssign" type="checkbox" :value="true" />
-          <label for="conversation_creation">
-            {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
-          </label>
-        </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
-            <woot-submit-button
-              :disabled="$v.title.$invalid || submitInProgress"
-              :button-text="submitButtonText"
-              :loading="submitInProgress"
-            />
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</template>
-
 <script>
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import validations from './helpers/validations';
+import FormInput from 'v3/components/Form/Input.vue';
+import { reactive } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    WootSubmitButton,
+    NextButton,
+    FormInput,
   },
-
   props: {
     onSubmit: {
       type: Function,
@@ -67,33 +29,81 @@ export default {
       default: '',
     },
   },
-  data() {
-    const formData = this.formData || {};
+  setup(props) {
+    const formData = props.formData || {};
     const {
       description = '',
       name: title = '',
       allow_auto_assign: allowAutoAssign = true,
     } = formData;
 
-    return {
+    const state = reactive({
       description,
       title,
       allowAutoAssign,
-    };
+    });
+
+    const rules = validations;
+    const v$ = useVuelidate(rules, state);
+    return { state, v$ };
   },
-  validations,
   methods: {
     handleSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       this.onSubmit({
-        description: this.description,
-        name: this.title,
-        allow_auto_assign: this.allowAutoAssign,
+        description: this.state.description,
+        name: this.state.title,
+        allow_auto_assign: this.state.allowAutoAssign,
       });
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex-shrink-0 w-full">
+    <form class="mx-0 grid gap-4" @submit.prevent="handleSubmit">
+      <FormInput
+        v-model="state.title"
+        name="title"
+        spacing="compact"
+        :label="$t('TEAMS_SETTINGS.FORM.NAME.LABEL')"
+        :placeholder="$t('TEAMS_SETTINGS.FORM.NAME.PLACEHOLDER')"
+        :has-error="v$.title.$error"
+        :error-message="v$.title.$error ? v$.title.$errors[0].$message : ''"
+        @blur="v$.title.$touch"
+      />
+      <FormInput
+        v-model="state.description"
+        name="description"
+        spacing="compact"
+        :label="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.LABEL')"
+        :placeholder="$t('TEAMS_SETTINGS.FORM.DESCRIPTION.PLACEHOLDER')"
+        :has-error="v$.description.$error"
+        :error-message="
+          v$.description.$error ? v$.description.$errors[0].$message : ''
+        "
+        @blur="v$.description.$touch"
+      />
+      <div class="w-full flex items-center gap-2">
+        <input v-model="state.allowAutoAssign" type="checkbox" :value="true" />
+        <label for="conversation_creation">
+          {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
+        </label>
+      </div>
+      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="w-full">
+          <NextButton
+            type="submit"
+            :label="submitButtonText"
+            :disabled="v$.title.$invalid || submitInProgress"
+            :is-loading="submitInProgress"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+</template>

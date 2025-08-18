@@ -19,7 +19,13 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
-    # message allready exists so we don't need to process
+    # We don't support reactions & ephemeral message now, we need to skip processing the message
+    # if the webhook event is a reaction or an ephermal message or an unsupported message.
+    return if unprocessable_message_type?(message_type)
+
+    # Multiple webhook event can be received against the same message due to misconfigurations in the Meta
+    # business manager account. While we have not found the core reason yet, the following line ensure that
+    # there are no duplicate messages created.
     return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
 
     cache_message_source_id_in_redis
@@ -49,8 +55,6 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_messages
-    return if unprocessable_message_type?(message_type)
-
     message = @processed_params[:messages].first
     log_error(message) && return if error_webhook_event?(message)
 
@@ -88,10 +92,19 @@ class Whatsapp::IncomingMessageBaseService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+
+    # Update existing contact name if ProfileName is available and current name is just phone number
+    update_contact_with_profile_name(contact_params)
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.last
+    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
+    @conversation = if @inbox.lock_to_single_conversation
+                      @contact_inbox.conversations.last
+                    else
+                      @contact_inbox.conversations
+                                    .where.not(status: :resolved).last
+                    end
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
@@ -138,8 +151,7 @@ class Whatsapp::IncomingMessageBaseService
       message_type: :incoming,
       sender: @contact,
       source_id: message[:id].to_s,
-      in_reply_to_external_id: @in_reply_to_external_id,
-      in_reply_to: @in_reply_to
+      in_reply_to_external_id: @in_reply_to_external_id
     )
   end
 
@@ -147,12 +159,36 @@ class Whatsapp::IncomingMessageBaseService
     phones = contact[:phones]
     phones = [{ phone: 'Phone number is not available' }] if phones.blank?
 
+    name_info = contact['name'] || {}
+    contact_meta = {
+      firstName: name_info['first_name'],
+      lastName: name_info['last_name']
+    }.compact
+
     phones.each do |phone|
       @message.attachments.new(
         account_id: @message.account_id,
         file_type: file_content_type(message_type),
-        fallback_title: phone[:phone].to_s
+        fallback_title: phone[:phone].to_s,
+        meta: contact_meta
       )
     end
+  end
+
+  def update_contact_with_profile_name(contact_params)
+    profile_name = contact_params.dig(:profile, :name)
+    return if profile_name.blank?
+    return if @contact.name == profile_name
+
+    # Only update if current name exactly matches the phone number or formatted phone number
+    return unless contact_name_matches_phone_number?
+
+    @contact.update!(name: profile_name)
+  end
+
+  def contact_name_matches_phone_number?
+    phone_number = "+#{@processed_params[:messages].first[:from]}"
+    formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
+    @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end

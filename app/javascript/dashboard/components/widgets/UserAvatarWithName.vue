@@ -1,44 +1,34 @@
-<template>
-  <div class="row--user-block">
-    <thumbnail
-      :src="user.thumbnail"
-      :size="size"
-      :username="user.name"
-      :status="user.availability_status"
-    />
-    <h6 class="text-block-title user-name text-truncate text-capitalize">
-      {{ user.name }}
-    </h6>
-  </div>
-</template>
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+<script setup>
+import Avatar from 'next/avatar/Avatar.vue';
 
-export default {
-  components: {
-    Thumbnail,
+defineProps({
+  user: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    user: {
-      type: Object,
-      default: () => {},
-    },
-    size: {
-      type: String,
-      default: '20px',
-    },
+  size: {
+    type: Number,
+    default: 20,
   },
-};
+  textClass: {
+    type: String,
+    default: 'text-sm text-n-slate-12',
+  },
+});
 </script>
 
-<style scoped lang="scss">
-.row--user-block {
-  align-items: center;
-  display: flex;
-  text-align: left;
-
-  .user-name {
-    margin: 0 var(--space-small);
-  }
-}
-</style>
+<template>
+  <div class="flex items-center gap-1.5 text-left">
+    <Avatar
+      :src="user.thumbnail"
+      :size="size"
+      :name="user.name"
+      :status="user.availability_status"
+      hide-offline-status
+      rounded-full
+    />
+    <span class="my-0 truncate text-capitalize" :class="textClass">
+      {{ user.name }}
+    </span>
+  </div>
+</template>

@@ -2,11 +2,11 @@ import { actions } from '../../conversation/actions';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
-jest.mock('../../../../helpers/uuid');
-jest.mock('widget/helpers/axios');
+vi.mock('../../../../helpers/uuid');
+vi.mock('widget/helpers/axios');
 
-const commit = jest.fn();
-const dispatch = jest.fn();
+const commit = vi.fn();
+const dispatch = vi.fn();
 
 describe('#actions', () => {
   describe('#createConversation', () => {
@@ -17,7 +17,8 @@ describe('#actions', () => {
           messages: [{ id: 1, content: 'This is a test message' }],
         },
       });
-      let windowSpy = jest.spyOn(window, 'window', 'get');
+
+      let windowSpy = vi.spyOn(window, 'window', 'get');
       windowSpy.mockImplementation(() => ({
         WOOT_WIDGET: {
           $root: {
@@ -96,8 +97,8 @@ describe('#actions', () => {
     it('sends correct mutations', async () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
-      const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
-      const windowSpy = jest.spyOn(window, 'window', 'get');
+      const spy = vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      const windowSpy = vi.spyOn(window, 'window', 'get');
       windowSpy.mockImplementation(() => ({
         WOOT_WIDGET: {
           $root: {
@@ -110,7 +111,10 @@ describe('#actions', () => {
           search: '?param=1',
         },
       }));
-      await actions.sendMessage({ commit, dispatch }, { content: 'hello' });
+      await actions.sendMessage(
+        { commit, dispatch },
+        { content: 'hello', replyTo: 124 }
+      );
       spy.mockRestore();
       windowSpy.mockRestore();
       expect(dispatch).toBeCalledWith('sendMessageWithData', {
@@ -119,6 +123,7 @@ describe('#actions', () => {
         created_at: 1466424490,
         id: '1111',
         message_type: 0,
+        replyTo: 124,
         status: 'in_progress',
       });
     });
@@ -128,11 +133,14 @@ describe('#actions', () => {
     it('sends correct mutations', () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
-      const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      const spy = vi.spyOn(global, 'Date').mockImplementation(() => mockDate);
       const thumbUrl = '';
       const attachment = { thumbUrl, fileType: 'file' };
 
-      actions.sendAttachment({ commit, dispatch }, { attachment });
+      actions.sendAttachment(
+        { commit, dispatch },
+        { attachment, replyTo: 135 }
+      );
       spy.mockRestore();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: '1111',
@@ -140,6 +148,7 @@ describe('#actions', () => {
         status: 'in_progress',
         created_at: 1466424490,
         message_type: 0,
+        replyTo: 135,
         attachments: [
           {
             thumb_url: '',
@@ -223,7 +232,7 @@ describe('#actions', () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
         conversations: {
-          '454': {
+          454: {
             id: 454,
             content: 'hi',
             message_type: 0,
@@ -232,7 +241,7 @@ describe('#actions', () => {
             created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
             conversation_id: 20,
           },
-          '463': {
+          463: {
             id: 463,
             content: 'ss',
             message_type: 0,
@@ -269,7 +278,7 @@ describe('#actions', () => {
           'setMissingMessagesInConversation',
 
           {
-            '454': {
+            454: {
               id: 454,
               content: 'hi',
               message_type: 0,
@@ -278,7 +287,7 @@ describe('#actions', () => {
               created_at: 1682244355,
               conversation_id: 20,
             },
-            '463': {
+            463: {
               id: 463,
               content: 'ss',
               message_type: 0,
@@ -287,7 +296,7 @@ describe('#actions', () => {
               created_at: 1682490729,
               conversation_id: 20,
             },
-            '465': {
+            465: {
               id: 465,
               content: 'hi',
               message_type: 0,
@@ -305,7 +314,7 @@ describe('#actions', () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
         conversations: {
-          '454': {
+          454: {
             id: 454,
             content: 'hi',
             message_type: 0,
@@ -314,7 +323,7 @@ describe('#actions', () => {
             created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
             conversation_id: 20,
           },
-          '463': {
+          463: {
             id: 463,
             content: 'ss',
             message_type: 0,
@@ -352,7 +361,7 @@ describe('#actions', () => {
           'setMissingMessagesInConversation',
 
           {
-            '454': {
+            454: {
               id: 454,
               content: 'hi',
               message_type: 0,
@@ -361,7 +370,7 @@ describe('#actions', () => {
               created_at: 1682244355,
               conversation_id: 20,
             },
-            '460': {
+            460: {
               id: 460,
               content: 'Hi how are you',
               message_type: 0,
@@ -370,7 +379,7 @@ describe('#actions', () => {
               created_at: 1682417926,
               conversation_id: 20,
             },
-            '463': {
+            463: {
               id: 463,
               content: 'ss',
               message_type: 0,
@@ -388,7 +397,7 @@ describe('#actions', () => {
       const state = {
         uiFlags: { allMessagesLoaded: false },
         conversation: {
-          '454': {
+          454: {
             id: 454,
             content: 'hi',
             message_type: 0,
@@ -397,7 +406,7 @@ describe('#actions', () => {
             created_at: 1682244355, //  Sunday, 23 April 2023 10:05:55
             conversation_id: 20,
           },
-          '463': {
+          463: {
             id: 463,
             content: 'ss',
             message_type: 0,

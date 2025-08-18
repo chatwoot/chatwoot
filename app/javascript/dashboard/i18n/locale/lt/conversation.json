@@ -12,6 +12,12 @@
     "NO_INBOX_2": " norint pradėti",
     "NO_INBOX_AGENT": "Oi! Atrodo, kad nesate jokio gautų laiškų aplanko dalis. Susisiekite su administratoriumi",
     "SEARCH_MESSAGES": "Ieškokite pranešimų pokalbiuose",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "norėdami atidaryti komandų meniu",
+      "KEYBOARD_SHORTCUTS": "norėdami peržiūrėti sparčiuosius klavišus"
+    },
     "SEARCH": {
       "TITLE": "Ieškoti pranešimų",
       "RESULT_TITLE": "Rezultatų Paieška",
@@ -26,23 +32,36 @@
     "LOADING_CONVERSATIONS": "Pokalbiai parsiunčiami",
     "CANNOT_REPLY": "Jūs negalite atsakyti dėl",
     "24_HOURS_WINDOW": "Pranešimų apribojimas 24 valandoms",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Šis pokalbis jums nepriskirtas. Ar norėtumėte priskirti šį pokalbį sau?",
     "ASSIGN_TO_ME": "Priskirti man",
     "TWILIO_WHATSAPP_CAN_REPLY": "Į šį pokalbį galite atsakyti tik naudodami šablono pranešimą, nes",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pranešimų apribojimas 24 valandoms",
-    "SELECT_A_TWEET_TO_REPLY": "Pasirinkite tweetą, į kurį norite atsakyti.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Jūs atsakote į:",
     "REMOVE_SELECTION": "Pašalinti Pasirinkimą",
     "DOWNLOAD": "Parsisiųsti",
     "UNKNOWN_FILE_TYPE": "Nežinomas failas",
-    "SAVE_CONTACT": "Išsaugoti",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} pradėjo susitikimą"
+    },
     "UPLOADING_ATTACHMENTS": "Įkeliami priedai...",
     "REPLIED_TO_STORY": "Atsakė į tavo pasakojimą",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Facebook Messenger programėlėje.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Instagram programėlėje.",
     "SUCCESS_DELETE_MESSAGE": "Pranešimas ištrintas sėkmingai",
     "FAIL_DELETE_MESSSAGE": "Nepavyko ištrinti pranešimo! Bandykite dar kartą",
     "NO_RESPONSE": "Nėra atsakymo",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Reitingas",
     "FEEDBACK_TITLE": "Grįžtamasis ryšys",
+    "REPLY_MESSAGE_NOT_FOUND": "Pranešimas nepasiekiamas",
     "CARD": {
       "SHOW_LABELS": "Rodyti etiketes",
       "HIDE_LABELS": "Slėpti etiketes"
@@ -51,13 +70,21 @@
       "RESOLVE_ACTION": "Išspręsti",
       "REOPEN_ACTION": "Atidarykite iš naujo",
       "OPEN_ACTION": "Atidaryti",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Daugiau",
       "CLOSE": "Uždaryti",
       "DETAILS": "smulkesnė informacija",
       "SNOOZED_UNTIL": "Atidėta iki",
       "SNOOZED_UNTIL_TOMORROW": "Atidėta iki rytojaus",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atidėta iki kitos savaitės",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Atidėta iki kito atsakymo"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Atidėta iki kito atsakymo",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Pažymėti kaip laukiantį",
@@ -68,6 +95,10 @@
         "TOMORROW": "Rytoj",
         "NEXT_WEEK": "Kitą savaitę"
       }
+    },
+    "MENTION": {
+      "AGENTS": "Agentai",
+      "TEAMS": "Komandos"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Atidėti iki",
@@ -87,14 +118,20 @@
         "SELECT_PLACEHOLDER": "Nėra",
         "INPUT_PLACEHOLDER": "Pasirinkti prioritetą",
         "NO_RESULTS": "Nieko nerasta",
-        "SUCCESSFUL": "Prioritetas pokalbiui id %{conversationId} pakeistas į %{priority}",
+        "SUCCESSFUL": "Prioritetas pokalbiui id {conversationId} pakeistas į {priority}",
         "FAILED": "Nepavyko pakeisti prioriteto. Prašau, pabandykite dar kartą."
       }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Ištrinti"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Pažymėti kaip laukiantį",
       "RESOLVED": "Pažymėti kaip išspręstą",
       "MARK_AS_UNREAD": "Pažymėti kaip neperskaitytą",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Atidaryti pokalbį",
       "SNOOZE": {
         "TITLE": "Atidėti",
@@ -106,17 +143,21 @@
       "ASSIGN_LABEL": "Priskirti etiketę",
       "AGENTS_LOADING": "Agentai užkraunami...",
       "ASSIGN_TEAM": "Priskirti komandą",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Pokalbis id %{conversationId} priskirtas \"%{agentName}\"",
+          "SUCCESFUL": "Pokalbis id {conversationId} priskirtas \"{agentName}\"",
           "FAILED": "Nepavyko priskirti agento. Prašau, pabandykite dar kartą."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Priskirta etiketė #%{labelName} pokalbiui id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nepavyko priskirti etiketės. Prašau, pabandykite dar kartą."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Priskirta komanda #%{team} pokalbiui id %{conversationId}",
+          "SUCCESFUL": "Priskirta komanda #{team} pokalbiui id {conversationId}",
           "FAILED": "Nepavyko priskirti komandos. Prašau, pabandykite dar kartą."
         }
       }
@@ -128,14 +169,17 @@
       "MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Pradėkite nuo „/“, kad pasirinktumėte Atsakymo Ruošinį.",
       "PRIVATE_MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Tai bus matoma tik Agentams",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Pranešimo parašas nesukonfigūruotas, sukonfigūruokite jį profilio nustatymuose.",
-      "CLICK_HERE": "Spausti čia kad atnaujinti"
+      "CLICK_HERE": "Spausti čia kad atnaujinti",
+      "WHATSAPP_TEMPLATES": "Whatsapp Šablonai"
     },
     "REPLYBOX": {
       "REPLY": "Atsakyti",
       "PRIVATE_NOTE": "Privati pastaba",
       "SEND": "Siųsti",
       "CREATE": "Pridėti pastabą",
-      "TWEET": "Tweetinti",
+      "INSERT_READ_MORE": "Skaityti daugiau",
+      "DISMISS_REPLY": "Atšaukti atsakymą",
+      "REPLYING_TO": "Atsakant į:",
       "TIP_FORMAT_ICON": "Rodyti raiškiojo teksto redagavimo priemonę",
       "TIP_EMOJI_ICON": "Parodyti emodžio parinkiklį",
       "TIP_ATTACH_ICON": "Pridėti failus",
@@ -147,6 +191,7 @@
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "Kam",
         "ADD_BCC": "Pridėti bcc",
         "CC": {
           "LABEL": "CC",
@@ -176,6 +221,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiketė sėkmingai priskirta",
     "ASSIGN_LABEL_FAILED": "Etiketės priskirti nepavyko",
     "CHANGE_TEAM": "Pasikeitė pokalbių komanda",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB priedo apribojimą",
     "MESSAGE_ERROR": "Nepavyko išsiųsti šio pranešimo, bandykite dar kartą vėliau",
     "SENT_BY": "Siuntėjas:",
@@ -189,6 +236,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopijuoti",
+      "REPLY_TO": "Atsakyti į šią žinutę",
       "DELETE": "Ištrinti",
       "CREATE_A_CANNED_RESPONSE": "Pridėti Atsakymų Ruošinius",
       "TRANSLATE": "Išversti",
@@ -200,6 +248,10 @@
         "DELETE": "Ištrinti",
         "CANCEL": "Atšaukti"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontaktas",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -220,27 +272,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Sveiki 👋, Sveiki atvykę į %{installationName}!",
-    "DESCRIPTION": "Ačiū, kad užsiregistravote. Norime, kad išnaudotumėte visas %{installationName} galimybes. Štai keletas dalykų, kuriuos galite padaryti naudodami %{installationName}, kad patirtis būtų maloni.",
+    "TITLE": "Sveiki 👋, Sveiki atvykę į {installationName}!",
+    "DESCRIPTION": "Ačiū, kad užsiregistravote. Norime, kad išnaudotumėte visas {installationName} galimybes. Štai keletas dalykų, kuriuos galite padaryti naudodami {installationName}, kad patirtis būtų maloni.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Skaitykite mūsų naujausius atnaujinimus",
     "ALL_CONVERSATION": {
       "TITLE": "Visi jūsų pokalbiai vienoje vietoje",
-      "DESCRIPTION": "Peržiūrėkite visus savo klientų pokalbius vienoje informacijos suvestinėje. Galite filtruoti pokalbius pagal gaunamą kanalą, etiketę ir būseną."
+      "DESCRIPTION": "Peržiūrėkite visus savo klientų pokalbius vienoje informacijos suvestinėje. Galite filtruoti pokalbius pagal gaunamą kanalą, etiketę ir būseną.",
+      "NEW_LINK": "Spustelėkite čia, kad sukurtumėte gautų laiškų aplanką"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pakvieskite savo komandos narius",
       "DESCRIPTION": "Kadangi ruošiatės kalbėtis su savo klientu, pasikvieskite savo komandos draugus, kad jie jums padėtų. Galite pakviesti savo komandos draugus įtraukę jų el. pašto adresus į agentų sąrašą.",
       "NEW_LINK": "Spustelėkite čia, kad pakviestumėte komandos narį"
     },
-    "INBOXES": {
-      "TITLE": "Sujungti Gautų Laiškų Aplankus",
-      "DESCRIPTION": "Prijunkite įvairius kanalus, kuriais jūsų klientai kalbėtų su jumis. Tai gali būti svetainės live-chat, jūsų Facebook ar Twitter ar net jūsų WhatsApp numeris.",
-      "NEW_LINK": "Spustelėkite čia, kad sukurtumėte gautų laiškų aplanką"
-    },
     "LABELS": {
       "TITLE": "Tvarkykite pokalbius etiketėmis",
       "DESCRIPTION": "Etiketės suteikia lengvesnį būdą suskirstyti pokalbį į kategorijas. Sukurkite keletą etikečių, pvz., #palaikymo-klausimas, #atsiskaitymo-klausimas ir kt., kad vėliau galėtumėte jas naudoti pokalbyje.",
       "NEW_LINK": "Spustelėkite čia, kad sukurtumėte žymas"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -255,13 +311,36 @@
       "CONVERSATION_ACTIONS": "Pokalbio veiksmai",
       "CONVERSATION_LABELS": "Pokalbio Etiketės",
       "CONVERSATION_INFO": "Pokalbio Informacija",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Kontakto Požymiai",
       "PREVIOUS_CONVERSATION": "Ankstesni pokalbiai",
-      "MACROS": "Makrokomandos"
+      "MACROS": "Makrokomandos",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Laukiama",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Sukurti požymį",
+    "NO_RECORDS_FOUND": "Požymių nerasta",
     "UPDATE": {
       "SUCCESS": "Požymis atnaujintas sėkmingai",
       "ERROR": "Nepavyko atnaujinti požymio. Pabandykite dar kartą vėliau"
@@ -286,17 +365,18 @@
     "TO": "Kam",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Tema"
+    "SUBJECT": "Tema",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Dalyvaujantys",
     "SIDEBAR_TITLE": "Pokalbio dalyviai",
     "NO_RECORDS_FOUND": "Nieko nerasta",
     "ADD_PARTICIPANTS": "Pasirinkti dalyvius",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} kiti",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} kitas",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} dalyvauja žmonių.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} dalyvauja asmenų.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} kiti",
+    "REMANING_PARTICIPANT_TEXT": "+{count} kitas",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} dalyvauja žmonių.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} dalyvauja asmenų.",
     "NO_PARTICIPANTS_TEXT": "Niekas nedalyvauja!.",
     "WATCH_CONVERSATION": "Prisijungti pire pokalbio",
     "YOU_ARE_WATCHING": "Jūs dalyvaujate",
@@ -311,5 +391,16 @@
     "ORIGINAL_CONTENT": "Originalus turinys",
     "TRANSLATED_CONTENT": "Išverstas turinys",
     "NO_TRANSLATIONS_AVAILABLE": "Nėra šio turinio vertimo"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

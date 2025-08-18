@@ -1,8 +1,12 @@
+import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import { matchesFilters } from './helpers/filterHelpers';
 import {
-  MESSAGE_TYPE,
-  CONVERSATION_PRIORITY_ORDER,
-} from 'shared/constants/messages';
-import { applyPageFilters } from './helpers';
+  getUserPermissions,
+  getUserRole,
+} from '../../../helper/permissionsHelper';
+import camelcaseKeys from 'camelcase-keys';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -10,21 +14,39 @@ export const getSelectedChatConversation = ({
 }) =>
   allConversations.filter(conversation => conversation.id === selectedChatId);
 
-// getters
 const getters = {
-  getAllConversations: ({ allConversations, chatSortFilter }) => {
-    const comparator = {
-      latest: (a, b) => b.last_activity_at - a.last_activity_at,
-      sort_on_created_at: (a, b) => a.created_at - b.created_at,
-      sort_on_priority: (a, b) => {
-        return (
-          CONVERSATION_PRIORITY_ORDER[a.priority] -
-          CONVERSATION_PRIORITY_ORDER[b.priority]
-        );
-      },
-    };
+  getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
+    return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
+  },
+  getFilteredConversations: (
+    { allConversations, chatSortFilter, appliedFilters },
+    _,
+    __,
+    rootGetters
+  ) => {
+    const currentUser = rootGetters.getCurrentUser;
+    const currentUserId = rootGetters.getCurrentUser.id;
+    const currentAccountId = rootGetters.getCurrentAccountId;
 
-    return allConversations.sort(comparator[chatSortFilter]);
+    const permissions = getUserPermissions(currentUser, currentAccountId);
+    const userRole = getUserRole(currentUser, currentAccountId);
+
+    return allConversations
+      .filter(conversation => {
+        const matchesFilterResult = matchesFilters(
+          conversation,
+          appliedFilters
+        );
+        const allowedForRole = applyRoleFilter(
+          conversation,
+          userRole,
+          permissions,
+          currentUserId
+        );
+
+        return matchesFilterResult && allowedForRole;
+      })
+      .sort((a, b) => sortComparator(a, b, chatSortFilter));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {
     const selectedChat = allConversations.find(
@@ -32,27 +54,20 @@ const getters = {
     );
     return selectedChat || {};
   },
-  getSelectedChatAttachments: (_state, _getters) => {
-    const selectedChat = _getters.getSelectedChat;
-    const { attachments } = selectedChat;
-    return attachments;
+  getSelectedChatAttachments: ({ selectedChatId, attachments }) => {
+    return attachments[selectedChatId] || [];
   },
+  getChatListFilters: ({ conversationFilters }) => conversationFilters,
   getLastEmailInSelectedChat: (stage, _getters) => {
     const selectedChat = _getters.getSelectedChat;
     const { messages = [] } = selectedChat;
     const lastEmail = [...messages].reverse().find(message => {
-      const {
-        content_attributes: contentAttributes = {},
-        message_type: messageType,
-      } = message;
-      const { email = {} } = contentAttributes;
-      const isIncomingOrOutgoing =
-        messageType === MESSAGE_TYPE.OUTGOING ||
-        messageType === MESSAGE_TYPE.INCOMING;
-      if (email.from && isIncomingOrOutgoing) {
-        return true;
-      }
-      return false;
+      const { message_type: messageType } = message;
+      if (message.private) return false;
+
+      return [MESSAGE_TYPE.OUTGOING, MESSAGE_TYPE.INCOMING].includes(
+        messageType
+      );
     });
 
     return lastEmail;
@@ -69,8 +84,16 @@ const getters = {
       return isChatMine;
     });
   },
+  getAppliedConversationFiltersV2: _state => {
+    // TODO: Replace existing one with V2 after migrating the filters to use camelcase
+    return _state.appliedFilters.map(camelcaseKeys);
+  },
   getAppliedConversationFilters: _state => {
     return _state.appliedFilters;
+  },
+  getAppliedConversationFiltersQuery: _state => {
+    const hasAppliedFilters = _state.appliedFilters.length !== 0;
+    return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
   },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
@@ -79,10 +102,24 @@ const getters = {
       return isUnAssigned && shouldFilter;
     });
   },
-  getAllStatusChats: _state => activeFilters => {
+  getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
+    const currentUser = rootGetters.getCurrentUser;
+    const currentUserId = rootGetters.getCurrentUser.id;
+    const currentAccountId = rootGetters.getCurrentAccountId;
+
+    const permissions = getUserPermissions(currentUser, currentAccountId);
+    const userRole = getUserRole(currentUser, currentAccountId);
+
     return _state.allConversations.filter(conversation => {
       const shouldFilter = applyPageFilters(conversation, activeFilters);
-      return shouldFilter;
+      const allowedForRole = applyRoleFilter(
+        conversation,
+        userRole,
+        permissions,
+        currentUserId
+      );
+
+      return shouldFilter && allowedForRole;
     });
   },
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
@@ -115,6 +152,14 @@ const getters = {
   },
   getConversationLastSeen: _state => {
     return _state.conversationLastSeen;
+  },
+
+  getContextMenuChatId: _state => {
+    return _state.contextMenuChatId;
+  },
+
+  getCopilotAssistant: _state => {
+    return _state.copilotAssistant;
   },
 };
 

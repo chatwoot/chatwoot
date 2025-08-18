@@ -2,13 +2,14 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 
 import getUuid from '../../../helpers/uuid';
-export const createTemporaryMessage = ({ attachments, content }) => {
+export const createTemporaryMessage = ({ attachments, content, replyTo }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
     id: getUuid(),
     content,
     attachments,
     status: 'in_progress',
+    replyTo,
     created_at: timestamp,
     message_type: MESSAGE_TYPE.INCOMING,
   };

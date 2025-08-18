@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ما آنلاین هستیم",
     "OFFLINE": "در حال حاضر دردسترس نیستیم"
@@ -20,21 +25,23 @@
     "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
     "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "دوباره آنلاین خواهیم شد"
   },
-  "DAY_NAMES": [
-    "یک‌شنبه",
-    "دوشنبه",
-    "سه‌شنبه",
-    "چهارشنبه",
-    "پنج‌شنبه",
-    "جمعه",
-    "شنبه"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "یک‌شنبه",
+    "MONDAY": "دوشنبه",
+    "TUESDAY": "سه‌شنبه",
+    "WEDNESDAY": "چهارشنبه",
+    "THURSDAY": "پنج‌شنبه",
+    "FRIDAY": "جمعه",
+    "SATURDAY": "شنبه"
+  },
   "START_CONVERSATION": "شروع گفتگو",
   "END_CONVERSATION": "پایان گفتگو",
   "CONTINUE_CONVERSATION": "ادامه گفتگو",
+  "YOU": "شما",
   "START_NEW_CONVERSATION": "یک مکالمه جدید را شروع کنید",
+  "VIEW_UNREAD_MESSAGES": "شما پیام خوانده نشده دارید",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
     "CLOSE_MESSAGES_BUTTON": "بستن",
@@ -63,10 +70,13 @@
         "VALID_ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
       },
       "PHONE_NUMBER": {
-        "LABEL": "شماره تلفن",
+        "LABEL": "شماره موبایل",
         "PLACEHOLDER": "لطفا شماره تلفن خود را وارد کنید",
         "REQUIRED_ERROR": "شماره تلفن مورد نیاز است",
-        "VALID_ERROR": "شماره تلفن باید با فرمت E.164 باشد، به عنوان مثال: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "لطفا\" یک کد کشور انتخاب کنید",
+        "VALID_ERROR": "لطفا\" یک شماره موبایل معتبر وارد نمایید",
+        "DROPDOWN_EMPTY": "نتیجه‌ای یافت نشد",
+        "DROPDOWN_SEARCH": "جستجوی کشور"
       },
       "MESSAGE": {
         "LABEL": "پیام",
@@ -76,7 +86,8 @@
     },
     "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید",
     "IS_REQUIRED": "مورد نیاز است",
-    "REQUIRED": "ضروری"
+    "REQUIRED": "ضروری",
+    "REGEX_ERROR": "لطفا یک ورودی معتبر ارائه دهید"
   },
   "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
   "CHAT_FORM": {
@@ -85,8 +96,9 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "جستجوی ایموجی",
-    "NOT_FOUND": "هیچ ایموجی با جستجوی شما مطابقت ندارد"
+    "PLACEHOLDER": "جستجوی اموجی",
+    "NOT_FOUND": "هیچ اموجی با جستجوی شما مطابقت ندارد",
+    "ARIA_LABEL": "انتخاب اموجی"
   },
   "CSAT": {
     "TITLE": "به گفتگوی خود امتیاز دهید",
@@ -100,8 +112,36 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "برای عضویت اینجا را کلیک کنید",
+      "CLICK_HERE_TO_JOIN": "برای ملحق شدن اینجا را کلیک کنید",
       "LEAVE_THE_ROOM": "تماس را ترک کنید"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "مقالات محبوب",
+    "VIEW_ALL_ARTICLES": "مشاهده همه مقالات",
+    "IFRAME_LOAD_ERROR": "در لود مقاله خطایی رخ داده است، لطفا\" صفحه را رفرش و دوباره تلاش نمایید."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "پیام تصویری"
+    },
+    "audio": {
+      "CONTENT": "پیام صوتی"
+    },
+    "video": {
+      "CONTENT": "پیام ویدیویی"
+    },
+    "file": {
+      "CONTENT": "ضمیمه فایل"
+    },
+    "location": {
+      "CONTENT": "موقعیت جغرافیایی"
+    },
+    "fallback": {
+      "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "در حال پاسخ دهی به:"
   }
 }

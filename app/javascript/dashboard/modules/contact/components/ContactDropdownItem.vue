@@ -1,11 +1,38 @@
+<script setup>
+import Avatar from 'next/avatar/Avatar.vue';
+
+defineProps({
+  name: {
+    type: String,
+    default: '',
+  },
+  thumbnail: {
+    type: String,
+    default: '',
+  },
+  email: {
+    type: String,
+    default: '',
+  },
+  phoneNumber: {
+    type: String,
+    default: '',
+  },
+  identifier: {
+    type: [String, Number],
+    required: true,
+  },
+});
+</script>
+
 <template>
   <div class="option-item--user">
-    <thumbnail :src="thumbnail" size="28px" :username="name" />
+    <Avatar :src="thumbnail" :size="28" :name="name" rounded-full />
     <div class="option__user-data">
       <h5 class="option__title">
         {{ name }}
         <span v-if="identifier" class="user-identifier">
-          (ID: {{ identifier }})
+          {{ $t('MERGE_CONTACTS.DROPDOWN_ITEM.ID', { identifier }) }}
         </span>
       </h5>
       <p class="option__body">
@@ -23,86 +50,38 @@
   </div>
 </template>
 
-<script>
-import Thumbnail from '../../../components/widgets/Thumbnail';
-
-export default {
-  components: {
-    Thumbnail,
-  },
-  props: {
-    name: {
-      type: String,
-      default: '',
-    },
-    thumbnail: {
-      type: String,
-      default: '',
-    },
-    email: {
-      type: String,
-      default: '',
-    },
-    phoneNumber: {
-      type: String,
-      default: '',
-    },
-    identifier: {
-      type: [String, Number],
-      required: true,
-    },
-  },
-};
-</script>
-
 <style lang="scss" scoped>
 .option-item--user {
-  display: flex;
-  align-items: center;
+  @apply flex items-center;
 }
 .user-identifier {
-  font-size: var(--font-size-mini);
-  margin-left: var(--space-micro);
-  color: var(--s-700);
+  @apply text-xs ml-0.5 text-n-slate-12;
 }
 .option__user-data {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  margin-left: var(--space-small);
-  margin-right: var(--space-small);
+  @apply flex flex-col flex-grow ml-2 mr-2;
 }
 .option__body,
 .option__title {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  line-height: 1.2;
-  font-size: var(--font-size-small);
+  @apply flex items-center justify-start leading-[1.2] text-sm;
 }
 .option__body .icon {
-  position: relative;
-  top: 1px;
-  margin-right: var(--space-micro);
+  @apply relative top-px mr-0.5 rtl:mr-0 rtl:ml-0.5;
 }
 .option__title {
-  font-weight: var(--font-weight-medium);
-  margin-bottom: var(--space-micro);
+  @apply text-n-slate-12 font-medium mb-0.5;
 }
 .option__body {
-  font-size: var(--font-size-mini);
-  color: var(--s-700);
+  @apply text-xs text-n-slate-12 mt-1;
 }
 
 .option__user-data .option__body {
   > .phone-icon-wrap,
   > .email-icon-wrap {
-    width: auto;
+    @apply w-auto flex items-center;
   }
 }
 
 .merge-contact--icon {
-  margin-bottom: var(--space-minus-micro);
-  margin-right: var(--space-micro);
+  @apply -mb-0.5 mr-0.5;
 }
 </style>

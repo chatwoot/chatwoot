@@ -27,19 +27,20 @@ export const isJSONValid = value => {
 
 export const getTypingUsersText = (users = []) => {
   const count = users.length;
+  const [firstUser, secondUser] = users;
+
   if (count === 1) {
-    const [user] = users;
-    return `${user.name} is typing`;
+    return ['TYPING.ONE', { user: firstUser.name }];
   }
 
   if (count === 2) {
-    const [first, second] = users;
-    return `${first.name} and ${second.name} are typing`;
+    return [
+      'TYPING.TWO',
+      { user: firstUser.name, secondUser: secondUser.name },
+    ];
   }
 
-  const [user] = users;
-  const rest = users.length - 1;
-  return `${user.name} and ${rest} others are typing`;
+  return ['TYPING.MULTIPLE', { user: firstUser.name, count: count - 1 }];
 };
 
 export const createPendingMessage = data => {
@@ -81,4 +82,17 @@ export const convertToPortalSlug = text => {
     .toLowerCase()
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '-');
+};
+
+/**
+ * Strip curly braces, commas and leading/trailing whitespace from a search key.
+ * Eg. "{{contact.name}}," => "contact.name"
+ * @param {string} searchKey
+ * @returns {string}
+ */
+export const sanitizeVariableSearchKey = (searchKey = '') => {
+  return searchKey
+    .replace(/[{}]/g, '') // remove all curly braces
+    .replace(/,/g, '') // remove commas
+    .trim();
 };

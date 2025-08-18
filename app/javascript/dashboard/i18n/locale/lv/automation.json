@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatizācijas",
+    "HEADER": "Automatizācija",
+    "DESCRIPTION": "Automatizācija var aizstāt un racionalizēt esošos procesus, kuriem nepieciešama manuāla piepūle, piemēram, etiķešu pievienošana un sarunu piešķiršana vispiemērotākajam aģentam. Tas ļauj komandai koncentrēties uz savām stiprajām pusēm, vienlaikus samazinot laiku, kas pavadīts ikdienas uzdevumiem.",
+    "LEARN_MORE": "Uzzināt vairāk par automatizāciju",
     "HEADER_BTN_TXT": "Pievienot Automatizācijas Noteikumu",
     "LOADING": "Notiek automatizācijas noteikumu iegūšana",
-    "SIDEBAR_TXT": "<p><b>Automatizācijas Noteikumi</b> <p>Automatizācija var aizstāt un automatizēt esošos procesus, kuriem nepieciešama manuāla piepūle. Izmantojot automatizāciju, Jūs varat veikt daudzas darbības, tostarp pievienot etiķetes un piešķirt sarunu labākajam aģentam. Šādi komanda koncentrēsies uz to, kas viņiem padodas vislabāk, un mazāk laika veltītīs manuāliem uzdevumiem.</p>",
     "ADD": {
       "TITLE": "Pievienot Automatizācijas Noteikumu",
       "SUBMIT": "Izveidot",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Aktīvs",
-        "Izveidots"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "ACTIVE": "Aktīvs",
+        "CREATED_ON": "Izveidots"
+      },
       "404": "Automatizācijas noteikumi nav atrasti"
     },
     "DELETE": {
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Lai saglabātu, ir nepieciešama vismaz viena darbība",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Ievadiet savu ziņojumu šeit",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Izvēlieties komandas"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Izvēlieties komandas",
+      "EMAIL_INPUT_PLACEHOLDER": "Ievadiet e-pastu",
+      "URL_INPUT_PLACEHOLDER": "Ievadiet URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Aktivizēt Automatizācijas Noteikumu",
@@ -113,6 +116,68 @@
       "LABEL_UPLOADING": "Notiek augšupielāde...",
       "LABEL_UPLOADED": "Veiksmīgi Augšupielādēts",
       "LABEL_UPLOAD_FAILED": "Augšupielāde neizdevās"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Nepieciešama atribūta atslēga",
+      "FILTER_OPERATOR_REQUIRED": "Nepieciešams filtra operators",
+      "VALUE_REQUIRED": "Nepieciešama vērtība",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Vērtībai ir jābūt no 1 līdz 998",
+      "ACTION_PARAMETERS_REQUIRED": "Nepieciešami darbības parametri",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Ir nepieciešams vismaz viens nosacījums",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Ir nepieciešama vismaz viena darbība"
+    },
+    "NONE_OPTION": "Nav",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Saruna izveidota",
+      "CONVERSATION_UPDATED": "Saruna Atjaunināta",
+      "MESSAGE_CREATED": "Ziņojums Izveidots",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Saruna Atvērta"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Piešķirt Aģentam",
+      "ASSIGN_TEAM": "Piešķirt Komandai",
+      "ADD_LABEL": "Pievienot Etiķeti",
+      "REMOVE_LABEL": "Noņemt Etiķeti",
+      "SEND_EMAIL_TO_TEAM": "Nosūtīt E-pastu Komandai",
+      "SEND_EMAIL_TRANSCRIPT": "Nosūtīt uz E-pastu Transkriptu",
+      "MUTE_CONVERSATION": "Izslēgt Sarunu",
+      "SNOOZE_CONVERSATION": "Atlikt Sarunu",
+      "RESOLVE_CONVERSATION": "Atrisināt Sarunu",
+      "SEND_WEBHOOK_EVENT": "Nosūtīt Webhook Notikumu",
+      "SEND_ATTACHMENT": "Sūtīt Pielikumu",
+      "SEND_MESSAGE": "Nosūtīt Ziņojumu",
+      "ADD_PRIVATE_NOTE": "Pievienot Privātu Piezīmi",
+      "CHANGE_PRIORITY": "Mainīt prioritāti",
+      "ADD_SLA": "Pievienot SLA",
+      "OPEN_CONVERSATION": "Atvērt sarunu"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nav",
+      "LOW": "Zema",
+      "MEDIUM": "Vidēja",
+      "HIGH": "Augsta",
+      "URGENT": "Steidzama"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Ziņojuma Tips",
+      "MESSAGE_CONTAINS": "Ziņojums Satur",
+      "EMAIL": "E-pasts",
+      "INBOX": "Iesūtne",
+      "CONVERSATION_LANGUAGE": "Sarunas Valoda",
+      "PHONE_NUMBER": "Telefona numurs",
+      "STATUS": "Statuss",
+      "BROWSER_LANGUAGE": "Pārlūkprogrammas Valoda",
+      "MAIL_SUBJECT": "E-pasta Tēma",
+      "COUNTRY_NAME": "Valsts",
+      "REFERER_LINK": "Novirzītāja Saite",
+      "ASSIGNEE_NAME": "Uzdevuma saņēmējs",
+      "TEAM_NAME": "Komanda",
+      "PRIORITY": "Prioritāte"
     }
   }
 }

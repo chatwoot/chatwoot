@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Ο κωδικός σας άλλαξε με επιτυχία",
     "AFTER_EMAIL_CHANGED": "Το προφίλ σας ενημερώθηκε επιτυχώς, παρακαλώ κάντε είσοδο (login) επειδή τα στοιχεία εισόδου σας έχουν αλλάξει",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Εικόνα Προφίλ",
       "ERROR": "Παρακαλώ διορθώστε τα λάθη της φόρμας",
       "REMOVE_IMAGE": "Διαγραφή",
@@ -34,12 +35,33 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Προεπιλογή",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Προσωπική υπογραφή μηνύματος",
-        "NOTE": "Δημιουργήστε μια προσωπική υπογραφή, η οποία θα προστεθεί σε όλα τα μηνύματα που στέλνετε από τα εισερχόμενα email σας. Χρησιμοποιήστε τον επεξεργαστή πλούσιου περιεχομένου για να δημιουργήσετε μια εξατομικευμένη υπογραφή.",
+        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
         "BTN_TEXT": "Αποθήκευση υπογραφής μηνύματος",
         "API_ERROR": "Δεν ήταν δυνατή η αποθήκευση της υπογραφής! Δοκιμάστε ξανά",
-        "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία"
+        "API_SUCCESS": "Η υπογραφή αποθηκεύτηκε με επιτυχία",
+        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Υπογραφή μηνύματος",
@@ -53,13 +75,38 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Κώδικας Πρόσβασης (Access Token)",
-        "NOTE": "Χρησιμοποιείται σε περίπτωση εξωτερικής ενοποίησης της εφαρμογής με κώδικα (API)"
+        "NOTE": "Χρησιμοποιείται σε περίπτωση εξωτερικής ενοποίησης της εφαρμογής με κώδικα (API)",
+        "COPY": "Αντιγραφή",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Ειδοποιήσεις Ήχου",
-        "NOTE": "Ενεργοποίηση ηχητικών ειδοποιήσεων για νέα μηνύματα και συνομιλίες.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
+        "ALERT_TYPES": {
+          "NONE": "Κανένα",
+          "MINE": "Assigned",
+          "ALL": "Όλες",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
         "ALERT_TYPE": {
-          "TITLE": "Ειδοποίηση συμβάντων:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Κανένα",
           "ASSIGNED": "Ανατεθειμένες Συνομιλίες",
           "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες"
@@ -71,7 +118,9 @@
           "TITLE": "Συνθήκες προειδοποίησης:",
           "CONDITION_ONE": "Αποστολή ειδοποιήσεων ήχου μόνο αν το παράθυρο του προγράμματος περιήγησης δεν είναι ενεργό",
           "CONDITION_TWO": "Ειδοποίηση κάθε 30s μέχρι να διαβαστούν όλες οι αντιστοιχισμένες συνομιλίες"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Read more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Ειδοποιήσεις Email",
@@ -80,7 +129,27 @@
         "CONVERSATION_CREATION": "Να στέλνεται ειδοποίηση όταν δημιουργείται μια νέα συνομιλία",
         "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων email όταν αναφέρεστε σε μια συνομιλία",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης email όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Οι προτιμήσεις σας για τις ειδοποιήσεις ενημερώθηκαν",
@@ -95,7 +164,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης push όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Έχετε ενεργοποιήσει τις ειδοποιήσεις push για αυτόν τον browser.",
-        "REQUEST_PUSH": "Ενεργοποποίηση των ειδοποιήσεων push"
+        "REQUEST_PUSH": "Ενεργοποποίηση των ειδοποιήσεων push",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Εικόνα Προφίλ"
@@ -112,13 +184,14 @@
       },
       "AVAILABILITY": {
         "LABEL": "Διαθεσιμότητα",
-        "STATUSES_LIST": [
-          "Στην Γραμμή",
-          "Απασχολημένος",
-          "Εκτός"
-        ],
+        "STATUS": {
+          "ONLINE": "Στην Γραμμή",
+          "BUSY": "Απασχολημένος",
+          "OFFLINE": "Εκτός"
+        },
         "SET_AVAILABILITY_SUCCESS": "Η διαθεσιμότητα ορίστηκε με επιτυχία",
-        "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά"
+        "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Η διεύθυνση email",
@@ -144,18 +217,24 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Να αλλάξει",
-    "CHANGE_ACCOUNTS": "Αλλαγή Λογαριασμού",
-    "CONTACT_SUPPORT": "Υποστήριξη Επαφών",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
-    "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
-    "KEYBOARD_SHORTCUTS": "Συντομεύσεις Πληκτρολογίου",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Κονσόλα",
-    "LOGOUT": "Έξοδος (Logout)"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ημέρες δοκιμαστικής περιόδου απομένουν.",
     "TRAIL_BUTTON": "Αγόρασε τώρα",
     "DELETED_USER": "Διαγραμμένος Χρήστης",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Αναστολή Λογαριασμού",
       "MESSAGE": "Ο λογαριασμός σας έχει ανασταλεί. Επικοινωνήστε με την ομάδα υποστήριξης για περισσότερες πληροφορίες."
@@ -181,6 +260,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Καταχώρηση"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Επιβεβαίωση...",
@@ -190,9 +273,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
     "SWITCH": "Εναλλαγή",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Συζητήσεις",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
     "MENTIONED_CONVERSATIONS": "Αναφορές",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -200,6 +286,11 @@
     "REPORTS": "Αναφορές",
     "SETTINGS": "Ρυθμίσεις",
     "CONTACTS": "Επαφές",
+    "ACTIVE": "Ενεργή",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Αρχική",
     "AGENTS": "Πράκτορες",
     "AGENT_BOTS": "Bots",
@@ -226,43 +317,62 @@
     "NEW_INBOX": "Νέο Κιβώτιο εισερχόμενων",
     "REPORTS_CONVERSATION": "Συζητήσεις",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Καμπάνιες",
     "ONGOING": "Σε Εξέλιξη",
     "ONE_OFF": "Ένα/μία από",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Πράκτορες",
     "REPORTS_LABEL": "Ετικέτες",
     "REPORTS_INBOX": "Εισερχόμενα",
     "REPORTS_TEAM": "Ομάδα",
     "SET_AVAILABILITY_TITLE": "Ορίστε τον εαυτό σας ως",
+    "SET_YOUR_AVAILABILITY": "Ορίστε τη διαθεσιμότητά σας",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Επισκόπηση",
-    "FACEBOOK_REAUTHORIZE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
-      "TITLE": "Κέντρο Βοήθειας (Beta)",
-      "ALL_ARTICLES": "Όλα Τα Άρθρα",
-      "MY_ARTICLES": "Τα Άρθρα Μου",
-      "DRAFT": "Πρόχειρο",
-      "ARCHIVED": "Αρχειοθετημένο",
-      "CATEGORY": "Κατηγορία",
-      "SETTINGS": "Ρυθμίσεις",
-      "CATEGORY_EMPTY_MESSAGE": "Δεν βρέθηκαν κατηγορίες"
+      "TITLE": "Help Center",
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Κατηγορίες",
+      "LOCALES": "Γλώσσες",
+      "SETTINGS": "Ρυθμίσεις"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Αυτόματη σήμανση εκτός σύνδεσης",
-      "INFO_TEXT": "Αφήστε το σύστημα να σας σηματοδοτήσει αυτόματα εκτός σύνδεσης, όταν δεν χρησιμοποιείτε την εφαρμογή ή τον πίνακα ελέγχου."
+      "INFO_TEXT": "Αφήστε το σύστημα να σας σηματοδοτήσει αυτόματα εκτός σύνδεσης, όταν δεν χρησιμοποιείτε την εφαρμογή ή τον πίνακα ελέγχου.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Ανάγνωση εγγράφων"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Χρεώσεις",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Τρέχον Πλάνο",
-      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **%{plan}** με **%{quantity}** άδειες"
+      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **{plan}** με **{quantity}** άδειες",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Διαχειριστείτε τη συνδρομή σας",
       "DESCRIPTION": "Δείτε τα προηγούμενα τιμολόγια σας, επεξεργαστείτε τα στοιχεία χρέωσης ή ακυρώστε τη συνδρομή σας.",
       "BUTTON_TXT": "Μετάβαση στην πύλη χρέωσης"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Χρειάζεστε βοήθεια;",
@@ -285,7 +395,8 @@
         "LABEL": "Όνομα Εταιρείας",
         "PLACEHOLDER": "Wayne Α. Ε"
       },
-      "SUBMIT": "Καταχώρηση"
+      "SUBMIT": "Καταχώρηση",
+      "CANCEL": "Άκυρο"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -302,15 +413,9 @@
       "GO_TO_REPORTS_SIDEBAR": "Πλευρική μπάρα αναφορών",
       "MOVE_TO_NEXT_TAB": "Μετακίνηση στην επόμενη καρτέλα στη λίστα συνομιλιών",
       "GO_TO_SETTINGS": "Μετάβαση στις ρυθμίσεις",
-      "SWITCH_CONVERSATION_STATUS": "Εναλλαγή στην επόμενη κατάσταση συνομιλίας",
       "SWITCH_TO_PRIVATE_NOTE": "Αλλαγή σε Ιδιωτική Σημείωση",
       "SWITCH_TO_REPLY": "Εναλλαγή σε απάντηση",
       "TOGGLE_SNOOZE_DROPDOWN": "Εναλλαγή αναβολής dropdown"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / °C.",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

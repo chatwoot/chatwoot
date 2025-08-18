@@ -2,18 +2,18 @@
   "CONTACTS_FILTER": {
     "TITLE": "Filtrar contactos",
     "SUBTITLE": "Añada filtros a continuación y pulse 'Enviar' para filtrar contactos.",
-    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "EDIT_CUSTOM_SEGMENT": "Editar segmento",
+    "CUSTOM_VIEWS_SUBTITLE": "Agregar o quitar filtros y actualiza tu segmento.",
     "ADD_NEW_FILTER": "Añadir Filtro",
     "CLEAR_ALL_FILTERS": "Limpiar todos los filtros",
     "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
     "SUBMIT_BUTTON_LABEL": "Enviar",
-    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "UPDATE_BUTTON_LABEL": "Actualizar segmento",
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpiar filtros",
     "EMPTY_VALUE_ERROR": "El valor es requerido",
-    "SEGMENT_LABEL": "Segment Name",
-    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "SEGMENT_LABEL": "Nombre del segmento",
+    "SEGMENT_QUERY_LABEL": "Consulta de segmentos",
     "TOOLTIP_LABEL": "Filtrar contactos",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "Y",
@@ -30,6 +30,9 @@
       "is_lesser_than": "Es menor que",
       "days_before": "Es X días antes"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "El valor es requerido"
+    },
     "ATTRIBUTES": {
       "NAME": "Nombre",
       "EMAIL": "E-mail",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
       "CREATED_AT": "Creado el",
       "LAST_ACTIVITY": "Última actividad",
-      "REFERER_LINK": "Enlace de referencia"
+      "REFERER_LINK": "Enlace de referencia",
+      "BLOCKED": "Bloqueado"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtros estándar",

@@ -11,34 +11,48 @@ RSpec.describe EmailReplyWorker, type: :worker do
   let(:mailer_action) { double }
 
   describe '#perform' do
-    before do
-      allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
-      allow(mailer).to receive(:email_reply).and_return(mailer_action)
-      allow(mailer_action).to receive(:deliver_later).and_return(true)
+    context 'when emails are successfully sent' do
+      before do
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
+        allow(mailer).to receive(:email_reply).and_return(mailer_action)
+        allow(mailer_action).to receive(:deliver_now).and_return(true)
+      end
+
+      it 'calls mailer action with message' do
+        described_class.new.perform(message.id)
+        expect(mailer).to have_received(:email_reply).with(message)
+        expect(mailer_action).to have_received(:deliver_now)
+      end
+
+      it 'does not call mailer action with a private message' do
+        described_class.new.perform(private_message.id)
+        expect(mailer).not_to have_received(:email_reply)
+        expect(mailer_action).not_to have_received(:deliver_now)
+      end
+
+      it 'calls mailer action with a CSAT message' do
+        described_class.new.perform(template_message.id)
+        expect(mailer).to have_received(:email_reply).with(template_message)
+        expect(mailer_action).to have_received(:deliver_now)
+      end
+
+      it 'does not call mailer action with an incoming message' do
+        described_class.new.perform(incoming_message.id)
+        expect(mailer).not_to have_received(:email_reply)
+        expect(mailer_action).not_to have_received(:deliver_now)
+      end
     end
 
-    it 'calls mailer action with message' do
-      described_class.new.perform(message.id)
-      expect(mailer).to have_received(:email_reply).with(message)
-      expect(mailer_action).to have_received(:deliver_later)
-    end
+    context 'when emails are not sent' do
+      before do
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
+        allow(mailer).to receive(:email_reply).and_return(mailer_action)
+        allow(mailer_action).to receive(:deliver_now).and_raise(ArgumentError)
+      end
 
-    it 'does not call mailer action with a private message' do
-      described_class.new.perform(private_message.id)
-      expect(mailer).not_to have_received(:email_reply)
-      expect(mailer_action).not_to have_received(:deliver_later)
-    end
-
-    it 'calls mailer action with a CSAT message' do
-      described_class.new.perform(template_message.id)
-      expect(mailer).to have_received(:email_reply).with(template_message)
-      expect(mailer_action).to have_received(:deliver_later)
-    end
-
-    it 'does not call mailer action with an incoming message' do
-      described_class.new.perform(incoming_message.id)
-      expect(mailer).not_to have_received(:email_reply)
-      expect(mailer_action).not_to have_received(:deliver_later)
+      it 'mark message as failed' do
+        expect { described_class.new.perform(message.id) }.to change { message.reload.status }.from('sent').to('failed')
+      end
     end
   end
 end

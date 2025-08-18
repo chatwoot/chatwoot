@@ -23,7 +23,7 @@ class AutoAssignment::InboxRoundRobinService
 
   # end of queue management functions
 
-  # allowed member ids = [assignable online agents supplied by the assignement service]
+  # allowed member ids = [assignable online agents supplied by the assignment service]
   # the values of allowed member ids should be in string format
   def available_agent(allowed_agent_ids: [])
     reset_queue unless validate_queue?

@@ -3,8 +3,8 @@ import { getters } from '../../contacts';
 describe('#getters', () => {
   it('getCurrentUser', () => {
     const user = {
-      email: 'thoma@sphadikam.com',
-      name: 'Adu Thoma',
+      has_email: true,
+      has_name: true,
       avatar_url: '',
       identifier_hash: 'malana_hash',
     };
@@ -12,8 +12,8 @@ describe('#getters', () => {
       currentUser: user,
     };
     expect(getters.getCurrentUser(state)).toEqual({
-      email: 'thoma@sphadikam.com',
-      name: 'Adu Thoma',
+      has_email: true,
+      has_name: true,
       avatar_url: '',
       identifier_hash: 'malana_hash',
     });

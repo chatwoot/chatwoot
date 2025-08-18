@@ -1,0 +1,46 @@
+{
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Predloge za WhatsApp",
+      "SUBTITLE": "Izberite predlogo WhatsApp, ki jo želite poslati",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Išči predloge",
+      "NO_TEMPLATES_FOUND": "Ni najdenih predlog za",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Kategorija",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Jezik",
+        "TEMPLATE_BODY": "Telo predloge",
+        "CATEGORY": "Kategorija"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Spremenljivke",
+      "LANGUAGE": "Jezik",
+      "CATEGORY": "Kategorija",
+      "VARIABLE_PLACEHOLDER": "Vnesi vrednost {variable}",
+      "GO_BACK_LABEL": "Pojdi nazaj",
+      "SEND_MESSAGE_LABEL": "Pošlji sporočilo",
+      "FORM_ERROR_MESSAGE": "Prosimo, izpolnite vse spremenljivke pred pošiljanjem",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "BUTTON_PARAMETER": "Enter button parameter"
+    }
+  }
+}

@@ -3,18 +3,19 @@
     "LINK": "إعدادات الملف الشخصي",
     "TITLE": "إعدادات الملف الشخصي",
     "BTN_TEXT": "تعديل الملف الشخصي",
-    "DELETE_AVATAR": "حذف الصورة الشخصية",
+    "DELETE_AVATAR": "حذف الصورة الرمزية",
     "AVATAR_DELETE_SUCCESS": "تم حذف الصورة الشخصية بنجاح",
     "AVATAR_DELETE_FAILED": "حدث خطأ أثناء حذف الصورة الشخصية، الرجاء المحاولة مرة أخرى",
     "UPDATE_SUCCESS": "تم تحديث حسابك بنجاح",
     "PASSWORD_UPDATE_SUCCESS": "تم تغيير كلمة المرور بنجاح",
     "AFTER_EMAIL_CHANGED": "تم تحديث ملفك الشخصي بنجاح، الرجاء تسجيل الدخول مرة أخرى حيث أنه قد تم تغيير بيانات تسجيل الدخول الخاصة بك",
     "FORM": {
+      "PICTURE": "صورة الملف الشخصي",
       "AVATAR": "صورة الملف الشخصي",
       "ERROR": "الرجاء إصلاح الأخطاء في النموذج",
       "REMOVE_IMAGE": "حذف",
       "UPLOAD_IMAGE": "رفع صورة",
-      "UPDATE_IMAGE": "تعديل الصورة",
+      "UPDATE_IMAGE": "تحديث الصورة",
       "PROFILE_SECTION": {
         "TITLE": "الملف الشخصي",
         "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
@@ -34,12 +35,33 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "افتراضي",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "توقيع الرسالة الشخصية",
-        "NOTE": "إنشاء توقيع رسالة شخصية يتم إضافتها إلى جميع الرسائل التي ترسلها من المنصة. استخدم محرر المحتوى الغني لإنشاء توقيع شديد التخصيص.",
+        "NOTE": "إنشاء توقيع رسالة فريدة تظهر في نهاية كل رسالة ترسلها من أي صندوق وارد. يمكنك أيضًا تضمين صورة داخلية، مدعومة في الدردشة المباشرة، والبريد الإلكتروني، وصناديق API الواردة.",
         "BTN_TEXT": "حفظ توقيع الرسالة",
         "API_ERROR": "تعذر إرسال الرسالة! حاول مرة أخرى",
-        "API_SUCCESS": "تم حفظ التوقيع بنجاح"
+        "API_SUCCESS": "تم حفظ التوقيع بنجاح",
+        "IMAGE_UPLOAD_ERROR": "تعذر رفع الصورة! حاول مرة أخرى",
+        "IMAGE_UPLOAD_SUCCESS": "تم إضافة الصورة بنجاح. الرجاء النقر على الحفظ لحفظ التوقيع",
+        "IMAGE_UPLOAD_SIZE_ERROR": "حجم الصورة يجب أن يكون أقل من {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "توقيع الرسالة",
@@ -53,15 +75,40 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "رمز المصادقة",
-        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع Chatwoot"
+        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع Chatwoot",
+        "COPY": "نسخ",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "الإشعارات الصوتية",
-        "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
-        "ALERT_TYPE": {
-          "TITLE": "أحداث التنبيه:",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
+        "ALERT_TYPES": {
           "NONE": "لا شيء",
-          "ASSIGNED": "المحادثات المسندة",
+          "MINE": "المعين",
+          "ALL": "الكل",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
+        "ALERT_TYPE": {
+          "TITLE": "تنبيه الأحداث للمحادثات",
+          "NONE": "لا شيء",
+          "ASSIGNED": "المحادثات المعينة",
           "ALL_CONVERSATIONS": "كل المحادثات"
         },
         "DEFAULT_TONE": {
@@ -71,7 +118,9 @@
           "TITLE": "شروط التنبيه:",
           "CONDITION_ONE": "إرسال تنبيهات صوتية فقط إذا كانت نافذة المتصفح غير نشطة",
           "CONDITION_TWO": "إرسال تنبيهات كل 30 ثانية حتى يتم قراءة جميع المحادثات المعينة"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "اقرأ المزيد"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "إشعارات البريد الإلكتروني",
@@ -80,7 +129,27 @@
         "CONVERSATION_CREATION": "إرسال إشعارات للبريد الإلكتروني عند ورود محادثة جديدة",
         "CONVERSATION_MENTION": "إرسال إشعارات بالبريد الإلكتروني عندما يتم ذكرك في محادثة",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات البريد الإلكتروني عند إنشاء رسالة جديدة في محادثة موكلة",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "البريد الإلكتروني",
+        "PUSH": "الإشعارات الفورية",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "يتم تحديث إعدادات الإشعارات بنجاح",
@@ -95,7 +164,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "إرسال إشعارات التنية عند إنشاء رسالة جديدة في محادثة موكلة",
         "HAS_ENABLED_PUSH": "لقد قمت بتمكين الإشعارات لهذا المتصفح.",
-        "REQUEST_PUSH": "تفعيل إشعارات المتصفح"
+        "REQUEST_PUSH": "تفعيل إشعارات المتصفح",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "صورة الملف الشخصي"
@@ -112,13 +184,14 @@
       },
       "AVAILABILITY": {
         "LABEL": "التوفر",
-        "STATUSES_LIST": [
-          "متصل",
-          "مشغول",
-          "غير متصل"
-        ],
+        "STATUS": {
+          "ONLINE": "متصل",
+          "BUSY": "مشغول",
+          "OFFLINE": "غير متصل"
+        },
         "SET_AVAILABILITY_SUCCESS": "تم تعيين التوافر بنجاح",
-        "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى"
+        "SET_AVAILABILITY_ERROR": "تعذر تعيين التوافر، الرجاء المحاولة مرة أخرى",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "عنوان البريد الإلكتروني الخاص بك",
@@ -144,18 +217,24 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
-    "CHANGE_ACCOUNTS": "تبديل الحساب",
-    "CONTACT_SUPPORT": "تواصل مع الدعم",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
-    "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
-    "KEYBOARD_SHORTCUTS": "اختصارات لوحة المفاتيح",
-    "SUPER_ADMIN_CONSOLE": "وحدة تحكم المدير المتميز",
-    "LOGOUT": "تسجيل الخروج"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
     "TRAIL_BUTTON": "اشترك الآن",
-    "DELETED_USER": "حذف المستخدم",
+    "DELETED_USER": "المستخدم المحذوف",
+    "EMAIL_VERIFICATION_PENDING": "يبدو أنك لم تتحقق من عنوان بريدك الإلكتروني بعد. الرجاء التحقق من صندوق الوارد الخاص بك للتحقق من البريد الإلكتروني.",
+    "RESEND_VERIFICATION_MAIL": "إعادة إرسال رسالة التحقق",
+    "EMAIL_VERIFICATION_SENT": "تم إرسال البريد الإلكتروني للتحقق. الرجاء التحقق من البريد الوارد الخاص بك.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "تم تعليق الحساب",
       "MESSAGE": "تم تعليق حسابك. يرجى الاتصال بفريق الدعم للمزيد من المعلومات."
@@ -181,6 +260,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "إرسال"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "جار التحقق...",
@@ -190,9 +273,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "مشاهدة حاليا:",
     "SWITCH": "تبديل",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "المحادثات",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "كل المحادثات",
     "MENTIONED_CONVERSATIONS": "الإشارات",
     "PARTICIPATING_CONVERSATIONS": "شارك",
@@ -200,13 +286,18 @@
     "REPORTS": "التقارير",
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
+    "ACTIVE": "مفعل",
+    "CAPTAIN": "قائد",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "الرئيسية",
-    "AGENTS": "موظف الدعم",
-    "AGENT_BOTS": "البوتات",
+    "AGENTS": "وكيل الدعم",
+    "AGENT_BOTS": "الروبوتات",
     "AUDIT_LOGS": "سجلات التدقيق",
     "INBOXES": "قنوات التواصل",
     "NOTIFICATIONS": "الإشعارات",
-    "CANNED_RESPONSES": "الردود السريعة",
+    "CANNED_RESPONSES": "الردود الجاهزة",
     "INTEGRATIONS": "خيارات الربط",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
@@ -226,43 +317,62 @@
     "NEW_INBOX": "صندوق الوارد الجديد",
     "REPORTS_CONVERSATION": "المحادثات",
     "CSAT": "تقييم رضاء العملاء",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "واتساب",
     "CAMPAIGNS": "الحملات",
     "ONGOING": "جارية",
     "ONE_OFF": "إيقاف واحد",
-    "REPORTS_AGENT": "موظف الدعم",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "رد آلي",
+    "REPORTS_AGENT": "وكيل الدعم",
     "REPORTS_LABEL": "الوسوم",
     "REPORTS_INBOX": "صندوق الوارد",
     "REPORTS_TEAM": "الفريق",
     "SET_AVAILABILITY_TITLE": "تعيين نفسك كـ",
+    "SET_YOUR_AVAILABILITY": "قم بتعيين توافرك",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "تجريبي",
     "REPORTS_OVERVIEW": "نظرة عامة",
-    "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
+    "REAUTHORIZE": "انتهت صلاحية اتصال صندوق الوارد الخاص بك، يرجى إعادة الاتصال\n لمواصلة تلقي وإرسال الرسائل",
     "HELP_CENTER": {
-      "TITLE": "مركز المساعدة (نسخة تجريبية)",
-      "ALL_ARTICLES": "جميع المقالات",
-      "MY_ARTICLES": "مقالاتي",
-      "DRAFT": "مسودة",
-      "ARCHIVED": "مؤرشفة",
-      "CATEGORY": "الفئة",
-      "SETTINGS": "الإعدادات",
-      "CATEGORY_EMPTY_MESSAGE": "لم يتم العثور على فئات"
+      "TITLE": "مركز المساعدة",
+      "ARTICLES": "Articles",
+      "CATEGORIES": "الفئات",
+      "LOCALES": "اللغات",
+      "SETTINGS": "الإعدادات"
     },
+    "CHANNELS": "القنوات",
     "SET_AUTO_OFFLINE": {
       "TEXT": "وضع علامة غير متصل تلقائيا",
-      "INFO_TEXT": "السماح للنظام بوضع علامة  غير متصل أوتوماتيكياً  عندما لا تستخدم التطبيق أو لوحة التحكم."
+      "INFO_TEXT": "السماح للنظام بوضع علامة غير متصل تلقائياً عند عدم استخدام التطبيق أو لوحة التحكم.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "قراءة المستندات"
   },
   "BILLING_SETTINGS": {
     "TITLE": "الفواتير",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "الباقة الحالية",
-      "PLAN_NOTE": "أنت مشترك حاليا في باقة**%{plan}** مع تراخيص **%{quantity}**"
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**{plan}** مع تراخيص **{quantity}**",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "إدارة الاشتراك الخاص بك",
       "DESCRIPTION": "عرض فواتيرك السابقة، تحرير تفاصيل الفوترة الخاصة بك، أو إلغاء اشتراكك.",
       "BUTTON_TXT": "الذهاب إلى بوابة الفوترة"
+    },
+    "CAPTAIN": {
+      "TITLE": "قائد",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "تحتاج مساعدة؟",
@@ -282,10 +392,11 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم الشركة",
+        "LABEL": "اسم المنشأة",
         "PLACEHOLDER": "مؤسسة Wayne"
       },
-      "SUBMIT": "إرسال"
+      "SUBMIT": "إرسال",
+      "CANCEL": "إلغاء"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -302,15 +413,9 @@
       "GO_TO_REPORTS_SIDEBAR": "الذهاب إلى شريط التقارير الجانبي",
       "MOVE_TO_NEXT_TAB": "نقل إلى علامة التبويب التالية في قائمة المحادثات",
       "GO_TO_SETTINGS": "انتقل إلى الإعدادات",
-      "SWITCH_CONVERSATION_STATUS": "التبديل إلى حالة المحادثة التالية",
       "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
       "SWITCH_TO_REPLY": "التبديل إلى الرد",
       "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘\n",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

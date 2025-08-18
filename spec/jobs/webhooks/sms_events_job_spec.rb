@@ -43,13 +43,42 @@ RSpec.describe Webhooks::SmsEventsJob do
   end
 
   context 'when valid params' do
-    it 'calls Sms::IncomingMessageService' do
+    it 'calls Sms::IncomingMessageService if the message type is message-received' do
       process_service = double
       allow(Sms::IncomingMessageService).to receive(:new).and_return(process_service)
       allow(process_service).to receive(:perform)
       expect(Sms::IncomingMessageService).to receive(:new).with(inbox: sms_channel.inbox,
                                                                 params: params[:message].with_indifferent_access)
       expect(process_service).to receive(:perform)
+      described_class.perform_now(params)
+    end
+
+    it 'calls Sms::DeliveryStatusService if the message type is message-delivered' do
+      params[:type] = 'message-delivered'
+      process_service = double
+      allow(Sms::DeliveryStatusService).to receive(:new).and_return(process_service)
+      allow(process_service).to receive(:perform)
+      expect(Sms::DeliveryStatusService).to receive(:new).with(channel: sms_channel,
+                                                               params: params[:message].with_indifferent_access)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(params)
+    end
+
+    it 'calls Sms::DeliveryStatusService if the message type is message-failed' do
+      params[:type] = 'message-failed'
+      process_service = double
+      allow(Sms::DeliveryStatusService).to receive(:new).and_return(process_service)
+      allow(process_service).to receive(:perform)
+      expect(Sms::DeliveryStatusService).to receive(:new).with(channel: sms_channel,
+                                                               params: params[:message].with_indifferent_access)
+      expect(process_service).to receive(:perform)
+      described_class.perform_now(params)
+    end
+
+    it 'does not call any service if the message type is not supported' do
+      params[:type] = 'message-sent'
+      expect(Sms::IncomingMessageService).not_to receive(:new)
+      expect(Sms::DeliveryStatusService).not_to receive(:new)
       described_class.perform_now(params)
     end
   end

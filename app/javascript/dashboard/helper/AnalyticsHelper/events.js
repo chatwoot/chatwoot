@@ -3,11 +3,15 @@ export const CONVERSATION_EVENTS = Object.freeze({
   SENT_MESSAGE: 'Sent a message',
   SENT_PRIVATE_NOTE: 'Sent a private note',
   INSERTED_A_CANNED_RESPONSE: 'Inserted a canned response',
+  TRANSLATE_A_MESSAGE: 'Translated a message',
   INSERTED_A_VARIABLE: 'Inserted a variable',
+  INSERTED_AN_EMOJI: 'Inserted an emoji',
+  INSERTED_A_TOOL: 'Inserted a tool',
   USED_MENTIONS: 'Used mentions',
   SEARCH_CONVERSATION: 'Searched conversations',
   APPLY_FILTER: 'Applied filters in the conversation list',
   CHANGE_PRIORITY: 'Assigned priority to a conversation',
+  INSERT_ARTICLE_LINK: 'Inserted article into reply via article search',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({
@@ -15,6 +19,9 @@ export const ACCOUNT_EVENTS = Object.freeze({
   ADDED_A_CUSTOM_ATTRIBUTE: 'Added a custom attribute',
   ADDED_AN_INBOX: 'Added an inbox',
   OPEN_MESSAGE_CONTEXT_MENU: 'Opened message context menu',
+  OPENED_NOTIFICATIONS: 'Opened notifications',
+  MARK_AS_READ_NOTIFICATIONS: 'Marked notifications as read',
+  OPEN_CONVERSATION_VIA_NOTIFICATION: 'Opened conversation via notification',
 });
 
 export const LABEL_EVENTS = Object.freeze({
@@ -81,4 +88,46 @@ export const OPEN_AI_EVENTS = Object.freeze({
   SUMMARIZE: 'OpenAI: Used summarize',
   REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
   REPHRASE: 'OpenAI: Used rephrase',
+  FIX_SPELLING_AND_GRAMMAR: 'OpenAI: Used fix spelling and grammar',
+  SHORTEN: 'OpenAI: Used shorten',
+  EXPAND: 'OpenAI: Used expand',
+  MAKE_FRIENDLY: 'OpenAI: Used make friendly',
+  MAKE_FORMAL: 'OpenAI: Used make formal',
+  SIMPLIFY: 'OpenAI: Used simplify',
+  APPLY_LABEL_SUGGESTION: 'OpenAI: Apply label from suggestion',
+  DISMISS_LABEL_SUGGESTION: 'OpenAI: Dismiss label suggestions',
+  ADDED_AI_INTEGRATION_VIA_CTA_BUTTON:
+    'OpenAI: Added AI integration via CTA button',
+  DISMISS_AI_SUGGESTION: 'OpenAI: Dismiss AI suggestions',
+});
+
+export const COPILOT_EVENTS = Object.freeze({
+  SEND_SUGGESTED: 'Copilot: Send suggested message',
+  SEND_MESSAGE: 'Copilot: Sent a message',
+  USE_CAPTAIN_RESPONSE: 'Copilot: Used captain response',
+});
+
+export const GENERAL_EVENTS = Object.freeze({
+  COMMAND_BAR: 'Used commandbar',
+});
+
+export const INBOX_EVENTS = Object.freeze({
+  OPEN_CONVERSATION_VIA_INBOX: 'Opened conversation via inbox',
+  MARK_NOTIFICATION_AS_READ: 'Marked notification as read',
+  MARK_ALL_NOTIFICATIONS_AS_READ: 'Marked all notifications as read',
+  MARK_NOTIFICATION_AS_UNREAD: 'Marked notification as unread',
+  DELETE_NOTIFICATION: 'Deleted notification',
+  DELETE_ALL_NOTIFICATIONS: 'Deleted all notifications',
+});
+
+export const SLA_EVENTS = Object.freeze({
+  CREATE: 'Created an SLA',
+  UPDATE: 'Updated an SLA',
+  DELETED: 'Deleted an SLA',
+});
+
+export const LINEAR_EVENTS = Object.freeze({
+  CREATE_ISSUE: 'Created a linear issue',
+  LINK_ISSUE: 'Linked a linear issue',
+  UNLINK_ISSUE: 'Unlinked a linear issue',
 });

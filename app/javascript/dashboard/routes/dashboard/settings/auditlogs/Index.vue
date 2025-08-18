@@ -1,43 +1,116 @@
-<template>
-  <div class="column content-box audit-log--settings">
-    <!-- List Audit Logs -->
-    <div>
-      <div>
-        <p
-          v-if="!uiFlags.fetchingList && !records.length"
-          class="no-items-error-message"
-        >
-          {{ $t('AUDIT_LOGS.LIST.404') }}
-        </p>
-        <woot-loading-state
-          v-if="uiFlags.fetchingList"
-          :message="$t('AUDIT_LOGS.LOADING')"
-        />
+<script setup>
+import { useAlert } from 'dashboard/composables';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import {
+  generateTranslationPayload,
+  generateLogActionKey,
+} from 'dashboard/helper/auditlogHelper';
+import { computed, onMounted, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
-        <table
-          v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table width-100"
-        >
-          <colgroup>
-            <col class="column-activity" />
-            <col />
-            <col />
-          </colgroup>
+const getters = useStoreGetters();
+const store = useStore();
+const router = useRouter();
+const records = computed(() => getters['auditlogs/getAuditLogs'].value);
+const uiFlags = computed(() => getters['auditlogs/getUIFlags'].value);
+const meta = computed(() => getters['auditlogs/getMeta'].value);
+const agentList = computed(() => getters['agents/getAgents'].value);
+
+const { t } = useI18n();
+const route = useRoute();
+
+const routerPage = computed(() => Number(route.query.page ?? 1));
+
+const fetchAuditLogs = page => {
+  try {
+    store.dispatch('auditlogs/fetch', { page });
+  } catch (error) {
+    const errorMessage = error?.message || t('AUDIT_LOGS.API.ERROR_MESSAGE');
+    useAlert(errorMessage);
+  }
+};
+
+const generateLogText = auditLogItem => {
+  const payload = generateTranslationPayload(auditLogItem, agentList.value);
+  const translationKey = generateLogActionKey(auditLogItem);
+
+  const joinIfArray = value => {
+    return Array.isArray(value) ? value.join(', ') : value;
+  };
+
+  const mergedPayload = {
+    ...payload,
+    attributes: joinIfArray(payload.attributes),
+    values: joinIfArray(payload.values),
+  };
+  return t(translationKey, mergedPayload);
+};
+
+const onPageChange = page => {
+  router.push({ name: 'auditlogs_list', query: { page: page } });
+};
+
+onMounted(() => {
+  store.dispatch('agents/get');
+  fetchAuditLogs(routerPage.value);
+});
+
+watch(routerPage, (newPage, oldPage) => {
+  if (newPage !== oldPage) {
+    fetchAuditLogs(newPage);
+  }
+});
+
+const tableHeaders = computed(() => {
+  return [
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.ACTIVITY'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.TIME'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.IP_ADDRESS'),
+  ];
+});
+</script>
+
+<template>
+  <div class="flex-1 overflow-auto">
+    <BaseSettingsHeader
+      :title="$t('AUDIT_LOGS.HEADER')"
+      :description="$t('AUDIT_LOGS.DESCRIPTION')"
+      :link-text="$t('AUDIT_LOGS.LEARN_MORE')"
+      feature-name="audit_logs"
+    />
+
+    <div class="mt-6 flex-1 text-n-slate-11">
+      <woot-loading-state
+        v-if="uiFlags.fetchingList"
+        :message="$t('AUDIT_LOGS.LOADING')"
+      />
+      <p
+        v-else-if="!records.length"
+        class="flex flex-col items-center justify-center h-full text-base p-8"
+      >
+        {{ $t('AUDIT_LOGS.LIST.404') }}
+      </p>
+      <div v-else class="min-w-full overflow-x-auto">
+        <table class="divide-y divide-n-weak">
           <thead>
-            <!-- Header -->
             <th
-              v-for="thHeader in $t('AUDIT_LOGS.LIST.TABLE_HEADER')"
+              v-for="thHeader in tableHeaders"
               :key="thHeader"
+              class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11"
             >
               {{ thHeader }}
             </th>
           </thead>
-          <tbody>
+          <tbody class="divide-y divide-n-weak text-n-slate-11">
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <td class="wrap-break-words">
+              <td class="py-4 ltr:pr-4 rtl:pl-4 break-all whitespace-nowrap">
                 {{ generateLogText(auditLogItem) }}
               </td>
-              <td class="wrap-break-words">
+              <td class="py-4 ltr:pr-4 rtl:pl-4 break-all whitespace-nowrap">
                 {{
                   messageTimestamp(
                     auditLogItem.created_at,
@@ -45,142 +118,20 @@
                   )
                 }}
               </td>
-              <td class="remote-address">
+              <td class="py-4 w-[8.75rem]">
                 {{ auditLogItem.remote_address }}
               </td>
             </tr>
           </tbody>
         </table>
+        <TableFooter
+          :current-page="Number(meta.currentPage)"
+          :total-count="meta.totalEntries"
+          :page-size="meta.perPage"
+          class="border-n-weak border-t !px-0 py-4"
+          @page-change="onPageChange"
+        />
       </div>
     </div>
-    <table-footer
-      :current-page="Number(meta.currentPage)"
-      :total-count="meta.totalEntries"
-      :page-size="meta.perPage"
-      @page-change="onPageChange"
-    />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import TableFooter from 'dashboard/components/widgets/TableFooter';
-import timeMixin from 'dashboard/mixins/time';
-import alertMixin from 'shared/mixins/alertMixin';
-
-export default {
-  components: {
-    TableFooter,
-  },
-  mixins: [alertMixin, timeMixin],
-  data() {
-    return {
-      loading: {},
-      auditLogsAPI: {
-        message: '',
-      },
-    };
-  },
-  beforeRouteEnter(to, from, next) {
-    // Fetch Audit Logs on page load without manual refresh
-    next(vm => {
-      vm.fetchAuditLogs();
-    });
-  },
-  computed: {
-    ...mapGetters({
-      records: 'auditlogs/getAuditLogs',
-      uiFlags: 'auditlogs/getUIFlags',
-      meta: 'auditlogs/getMeta',
-      agentList: 'agents/getAgents',
-    }),
-  },
-  mounted() {
-    // Fetch API Call
-    this.$store.dispatch('agents/get');
-  },
-  methods: {
-    fetchAuditLogs() {
-      const page = this.$route.query.page ?? 1;
-      this.$store.dispatch('auditlogs/fetch', { page }).catch(error => {
-        const errorMessage =
-          error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
-      });
-    },
-    getAgentName(email) {
-      if (email === null) {
-        return this.$t('AUDIT_LOGS.DEFAULT_USER');
-      }
-      const agentName = this.agentList.find(agent => agent.email === email)
-        ?.name;
-      // If agent does not exist(removed/deleted), return email from audit log
-      return agentName || email;
-    },
-    generateLogText(auditLogItem) {
-      const agentName = this.getAgentName(auditLogItem.username);
-      const auditableType = auditLogItem.auditable_type.toLowerCase();
-      const action = auditLogItem.action.toLowerCase();
-      const auditId = auditLogItem.auditable_id;
-      const logActionKey = `${auditableType}:${action}`;
-
-      const translationPayload = {
-        agentName,
-        id: auditId,
-      };
-
-      const translationKeys = {
-        'automationrule:create': `AUDIT_LOGS.AUTOMATION_RULE.ADD`,
-        'automationrule:update': `AUDIT_LOGS.AUTOMATION_RULE.EDIT`,
-        'automationrule:destroy': `AUDIT_LOGS.AUTOMATION_RULE.DELETE`,
-        'webhook:create': `AUDIT_LOGS.WEBHOOK.ADD`,
-        'webhook:update': `AUDIT_LOGS.WEBHOOK.EDIT`,
-        'webhook:destroy': `AUDIT_LOGS.WEBHOOK.DELETE`,
-        'inbox:create': `AUDIT_LOGS.INBOX.ADD`,
-        'inbox:update': `AUDIT_LOGS.INBOX.EDIT`,
-        'inbox:destroy': `AUDIT_LOGS.INBOX.DELETE`,
-        'user:sign_in': `AUDIT_LOGS.USER_ACTION.SIGN_IN`,
-        'user:sign_out': `AUDIT_LOGS.USER_ACTION.SIGN_OUT`,
-        'team:create': `AUDIT_LOGS.TEAM.ADD`,
-        'team:update': `AUDIT_LOGS.TEAM.EDIT`,
-        'team:destroy': `AUDIT_LOGS.TEAM.DELETE`,
-        'macro:create': `AUDIT_LOGS.MACRO.ADD`,
-        'macro:update': `AUDIT_LOGS.MACRO.EDIT`,
-        'macro:destroy': `AUDIT_LOGS.MACRO.DELETE`,
-      };
-
-      return this.$t(translationKeys[logActionKey] || '', translationPayload);
-    },
-    onPageChange(page) {
-      window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
-      try {
-        this.$store.dispatch('auditlogs/fetch', { page });
-      } catch (error) {
-        const errorMessage =
-          error?.message || this.$t('AUDIT_LOGS.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
-      }
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-.audit-log--settings {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-
-  .remote-address {
-    width: 14rem;
-  }
-
-  .wrap-break-words {
-    word-break: break-all;
-    white-space: normal;
-  }
-
-  .column-activity {
-    width: 60%;
-  }
-}
-</style>

@@ -1,69 +1,19 @@
-<template>
-  <div class="top-box">
-    <div class="mode-wrap button-group">
-      <woot-button
-        variant="clear"
-        class="button--reply"
-        :class="replyButtonClass"
-        @click="handleReplyClick"
-      >
-        {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
-      </woot-button>
-
-      <woot-button
-        class="button--note"
-        variant="clear"
-        color-scheme="warning"
-        :class="noteButtonClass"
-        @click="handleNoteClick"
-      >
-        {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-      </woot-button>
-    </div>
-    <div class="action-wrap">
-      <div v-if="isMessageLengthReachingThreshold" class="tabs-title">
-        <span :class="charLengthClass">
-          {{ characterLengthWarning }}
-        </span>
-      </div>
-    </div>
-    <woot-button
-      v-if="popoutReplyBox"
-      variant="clear"
-      icon="dismiss"
-      color-scheme="secondary"
-      class-names="popout-button"
-      @click="$emit('click')"
-    />
-    <woot-button
-      v-else
-      variant="clear"
-      icon="resize-large"
-      color-scheme="secondary"
-      class-names="popout-button"
-      @click="$emit('click')"
-    />
-  </div>
-</template>
-
 <script>
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import {
-  hasPressedAltAndPKey,
-  hasPressedAltAndLKey,
-} from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import EditorModeToggle from './EditorModeToggle.vue';
+
 export default {
   name: 'ReplyTopPanel',
-  mixins: [eventListenerMixins],
+  components: {
+    NextButton,
+    EditorModeToggle,
+  },
   props: {
     mode: {
       type: String,
       default: REPLY_EDITOR_MODES.REPLY,
-    },
-    setReplyMode: {
-      type: Function,
-      default: () => {},
     },
     isMessageLengthReachingThreshold: {
       type: Boolean,
@@ -73,10 +23,43 @@ export default {
       type: Number,
       default: () => 0,
     },
-    popoutReplyBox: {
-      type: Boolean,
-      default: false,
-    },
+  },
+  emits: ['setReplyMode', 'togglePopout'],
+  setup(props, { emit }) {
+    const setReplyMode = mode => {
+      emit('setReplyMode', mode);
+    };
+    const handleReplyClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.REPLY);
+    };
+    const handleNoteClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.NOTE);
+    };
+    const handleModeToggle = () => {
+      const newMode =
+        props.mode === REPLY_EDITOR_MODES.REPLY
+          ? REPLY_EDITOR_MODES.NOTE
+          : REPLY_EDITOR_MODES.REPLY;
+      setReplyMode(newMode);
+    };
+    const keyboardEvents = {
+      'Alt+KeyP': {
+        action: () => handleNoteClick(),
+        allowOnFocusedInput: true,
+      },
+      'Alt+KeyL': {
+        action: () => handleReplyClick(),
+        allowOnFocusedInput: true,
+      },
+    };
+    useKeyboardEvents(keyboardEvents);
+
+    return {
+      handleModeToggle,
+      handleReplyClick,
+      handleNoteClick,
+      REPLY_EDITOR_MODES,
+    };
   },
   computed: {
     replyButtonClass() {
@@ -90,7 +73,7 @@ export default {
       };
     },
     charLengthClass() {
-      return this.charactersRemaining < 0 ? 'message-error' : 'message-length';
+      return this.charactersRemaining < 0 ? 'text-n-ruby-9' : 'text-n-slate-11';
     },
     characterLengthWarning() {
       return this.charactersRemaining < 0
@@ -98,91 +81,28 @@ export default {
         : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
     },
   },
-  methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndPKey(e)) {
-        this.handleNoteClick();
-      }
-      if (hasPressedAltAndLKey(e)) {
-        this.handleReplyClick();
-      }
-    },
-    handleReplyClick() {
-      this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
-    },
-    handleNoteClick() {
-      this.setReplyMode(REPLY_EDITOR_MODES.NOTE);
-    },
-  },
 };
 </script>
 
-<style lang="scss" scoped>
-.top-box {
-  display: flex;
-  justify-content: space-between;
-
-  background: var(--b-50);
-}
-
-.button-group {
-  border: 0;
-  padding: 0;
-  margin: 0;
-
-  .button {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-    padding: var(--space-one) var(--space-normal);
-    margin: 0;
-    position: relative;
-    z-index: 1;
-
-    &.is-active {
-      background: white;
-    }
-  }
-
-  .button--reply {
-    border-radius: 0;
-    border-right: 1px solid var(--color-border);
-
-    &:hover,
-    &:focus {
-      border-right: 1px solid var(--color-border);
-    }
-  }
-
-  .button--note {
-    border-radius: 0;
-
-    &.is-active {
-      border-right: 1px solid var(--color-border);
-      background: var(--y-50);
-    }
-
-    &:hover,
-    &:active {
-      color: var(--y-700);
-    }
-  }
-}
-
-.button--note {
-  color: var(--y-600);
-}
-
-.action-wrap {
-  display: flex;
-  align-items: center;
-  margin: 0 var(--space-normal);
-  font-size: var(--font-size-mini);
-
-  .message-error {
-    color: var(--r-600);
-  }
-  .message-length {
-    color: var(--s-600);
-  }
-}
-</style>
+<template>
+  <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
+    <EditorModeToggle
+      :mode="mode"
+      class="mt-3"
+      @toggle-mode="handleModeToggle"
+    />
+    <div class="flex items-center mx-4 my-0">
+      <div v-if="isMessageLengthReachingThreshold" class="text-xs">
+        <span :class="charLengthClass">
+          {{ characterLengthWarning }}
+        </span>
+      </div>
+    </div>
+    <NextButton
+      ghost
+      class="ltr:rounded-bl-md rtl:rounded-br-md ltr:rounded-br-none rtl:rounded-bl-none ltr:rounded-tl-none rtl:rounded-tr-none text-n-slate-11 ltr:rounded-tr-[11px] rtl:rounded-tl-[11px]"
+      icon="i-lucide-maximize-2"
+      @click="$emit('togglePopout')"
+    />
+  </div>
+</template>

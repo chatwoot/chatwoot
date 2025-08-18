@@ -1,84 +1,42 @@
-<template>
-  <FormulateForm
-    v-model="formValues"
-    class="flex flex-1 flex-col p-6 overflow-y-auto"
-    @submit="onSubmit"
-  >
-    <div
-      v-if="shouldShowHeaderMessage"
-      v-dompurify-html="formatMessage(headerMessage, false)"
-      class="mb-4 text-sm leading-5 pre-chat-header-message"
-      :class="$dm('text-black-800', 'dark:text-slate-50')"
-    />
-    <FormulateInput
-      v-for="item in enabledPreChatFields"
-      :key="item.name"
-      :name="item.name"
-      :type="item.type"
-      :label="getLabel(item)"
-      :placeholder="getPlaceHolder(item)"
-      :validation="getValidation(item)"
-      :options="getOptions(item)"
-      :label-class="context => labelClass(context)"
-      :input-class="context => inputClass(context)"
-      :validation-messages="{
-        isPhoneE164OrEmpty: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
-        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
-        required: $t('PRE_CHAT_FORM.REQUIRED'),
-      }"
-    />
-    <FormulateInput
-      v-if="!hasActiveCampaign"
-      name="message"
-      type="textarea"
-      :label-class="context => labelClass(context)"
-      :input-class="context => inputClass(context)"
-      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
-      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-      validation="required"
-      :validation-messages="{
-        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
-      }"
-    />
-
-    <custom-button
-      class="font-medium my-5"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      :disabled="isCreating"
-    >
-      <spinner v-if="isCreating" class="p-0" />
-      {{ $t('START_CONVERSATION') }}
-    </custom-button>
-  </FormulateForm>
-</template>
-
 <script>
-import CustomButton from 'shared/components/Button';
-import Spinner from 'shared/components/Spinner';
+import CustomButton from 'shared/components/Button.vue';
+import Spinner from 'shared/components/Spinner.vue';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
+import { getRegexp } from 'shared/helpers/Validators';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import routerMixin from 'widget/mixins/routerMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
+import { FormKit, createInput } from '@formkit/vue';
+import PhoneInput from 'widget/components/Form/PhoneInput.vue';
+
 export default {
   components: {
     CustomButton,
     Spinner,
+    FormKit,
   },
-  mixins: [routerMixin, darkModeMixin, messageFormatterMixin, configMixin],
+  mixins: [routerMixin, configMixin],
   props: {
     options: {
       type: Object,
       default: () => {},
     },
   },
+  emits: ['submitPreChat'],
+  setup() {
+    const phoneInput = createInput(PhoneInput, {
+      props: ['hasErrorInPhoneInput'],
+    });
+    const { formatMessage } = useMessageFormatter();
+
+    return { formatMessage, phoneInput };
+  },
   data() {
     return {
       locale: this.$root.$i18n.locale,
+      hasErrorInPhoneInput: false,
       message: '',
       formValues: {},
       labels: {
@@ -92,9 +50,13 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isCreating: 'conversation/getIsCreating',
+      isConversationRouting: 'appConfig/getIsUpdatingRoute',
       activeCampaign: 'campaign/getActiveCampaign',
       currentUser: 'contacts/getCurrentUser',
     }),
+    isCreatingConversation() {
+      return this.isCreating || this.isConversationRouting;
+    },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
@@ -102,7 +64,10 @@ export default {
       return !isEmptyObject(this.activeCampaign);
     },
     shouldShowHeaderMessage() {
-      return this.hasActiveCampaign || this.preChatFormEnabled;
+      return (
+        this.hasActiveCampaign ||
+        (this.preChatFormEnabled && !!this.headerMessage)
+      );
     },
     headerMessage() {
       if (this.preChatFormEnabled) {
@@ -117,9 +82,10 @@ export default {
       return this.preChatFormEnabled ? this.options.preChatFields : [];
     },
     filteredPreChatFields() {
-      const isUserEmailAvailable = !!this.currentUser.email;
-      const isUserPhoneNumberAvailable = !!this.currentUser.phone_number;
+      const isUserEmailAvailable = this.currentUser.has_email;
+      const isUserPhoneNumberAvailable = this.currentUser.has_phone_number;
       const isUserIdentifierAvailable = !!this.currentUser.identifier;
+
       const isUserNameAvailable = !!(
         isUserIdentifierAvailable ||
         isUserEmailAvailable ||
@@ -143,7 +109,10 @@ export default {
         .filter(field => field.enabled)
         .map(field => ({
           ...field,
-          type: this.findFieldType(field.type),
+          type:
+            field.name === 'phoneNumber'
+              ? this.phoneInput
+              : this.findFieldType(field.type),
         }));
     },
     conversationCustomAttributes() {
@@ -170,42 +139,26 @@ export default {
       });
       return contactAttributes;
     },
-    inputStyles() {
-      return `mt-2 border rounded w-full py-2 px-3 text-slate-700 outline-none`;
-    },
-    isInputDarkOrLightMode() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')} ${this.$dm(
-        'text-slate-700',
-        'dark:text-slate-50'
-      )}`;
-    },
-    inputBorderColor() {
-      return `${this.$dm('border-black-200', 'dark:border-black-500')}`;
-    },
   },
   methods: {
-    labelClass(context) {
-      const { hasErrors } = context;
-      if (!hasErrors) {
-        return `text-xs font-medium ${this.$dm(
-          'text-black-800',
-          'dark:text-slate-50'
-        )}`;
-      }
-      return `text-xs font-medium ${this.$dm(
-        'text-red-400',
-        'dark:text-red-400'
-      )}`;
+    labelClass(input) {
+      const { state } = input.context;
+      const hasErrors = state.invalid;
+      return !hasErrors ? 'text-n-slate-12' : 'text-n-ruby-10';
     },
-    inputClass(context) {
-      const { hasErrors, classification, type } = context;
+    inputClass(input) {
+      const { state, family: classification, type } = input.context;
+      const hasErrors = state.invalid;
       if (classification === 'box' && type === 'checkbox') {
         return '';
       }
-      if (!hasErrors) {
-        return `${this.inputStyles} hover:border-black-300 focus:border-black-300 ${this.isInputDarkOrLightMode} ${this.inputBorderColor}`;
+      if (type === 'phoneInput') {
+        this.hasErrorInPhoneInput = hasErrors;
       }
-      return `${this.inputStyles} border-red-200 hover:border-red-300 focus:border-red-300 ${this.isInputDarkOrLightMode}`;
+      if (!hasErrors) {
+        return `mt-1 rounded w-full py-2 px-3`;
+      }
+      return `mt-1 rounded w-full py-2 px-3 error`;
     },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
@@ -223,26 +176,37 @@ export default {
       }
       return this.formValues[name] || null;
     },
-    getValidation({ type, name }) {
-      if (!this.isContactFieldRequired(name)) {
-        return '';
-      }
+    getValidation({ type, name, field_type, regex_pattern }) {
+      let regex = regex_pattern ? getRegexp(regex_pattern) : null;
       const validations = {
         emailAddress: 'email',
-        phoneNumber: 'isPhoneE164OrEmpty',
+        phoneNumber: ['startsWithPlus', 'isValidPhoneNumber'],
         url: 'url',
         date: 'date',
         text: null,
         select: null,
         number: null,
         checkbox: false,
+        contact_attribute: regex ? [['matches', regex]] : null,
+        conversation_attribute: regex ? [['matches', regex]] : null,
       };
       const validationKeys = Object.keys(validations);
-      const validation = 'bail|required';
-      if (validationKeys.includes(name) || validationKeys.includes(type)) {
-        const validationType = validations[type] || validations[name];
-        return validationType ? `${validation}|${validationType}` : validation;
+      const isRequired = this.isContactFieldRequired(name);
+      const validation = isRequired ? ['required'] : ['optional'];
+
+      if (
+        validationKeys.includes(name) ||
+        validationKeys.includes(type) ||
+        validationKeys.includes(field_type)
+      ) {
+        const validationType =
+          validations[type] || validations[name] || validations[field_type];
+        const allValidations = validationType
+          ? validation.concat(validationType)
+          : validation;
+        return allValidations.join('|');
       }
+
       return '';
     },
     findFieldType(type) {
@@ -266,15 +230,14 @@ export default {
         });
         return values;
       }
-      return null;
+      return {};
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
-      const { email } = this.currentUser;
-      this.$emit('submit', {
+      this.$emit('submitPreChat', {
         fullName,
         phoneNumber,
-        emailAddress: emailAddress || email,
+        emailAddress,
         message,
         activeCampaignId: this.activeCampaign.id,
         conversationCustomAttributes: this.conversationCustomAttributes,
@@ -284,41 +247,111 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
-::v-deep {
-  .wrapper[data-type='checkbox'] {
-    .formulate-input-wrapper {
-      display: flex;
-      align-items: center;
 
-      label {
-        margin-left: 0.2rem;
-      }
+<template>
+  <!-- hide the default submit button for now -->
+  <FormKit
+    v-model="formValues"
+    type="form"
+    form-class="flex flex-col flex-1 w-full p-6 overflow-y-auto"
+    :incomplete-message="false"
+    :submit-attrs="{
+      inputClass: 'hidden',
+      wrapperClass: 'hidden',
+    }"
+    @submit="onSubmit"
+  >
+    <div
+      v-if="shouldShowHeaderMessage"
+      v-dompurify-html="formatMessage(headerMessage, false)"
+      class="mb-4 text-base leading-5 text-n-slate-12 [&>p>.link]:text-n-blue-text [&>p>.link]:hover:underline"
+    />
+    <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
+    If we just pass the options as is even with null or undefined or false,
+    it assumes we are trying to make a multicheckbox. This is the best we have for now -->
+    <FormKit
+      v-for="item in enabledPreChatFields"
+      :key="item.name"
+      :name="item.name"
+      :type="item.type"
+      :label="getLabel(item)"
+      :placeholder="getPlaceHolder(item)"
+      :validation="getValidation(item)"
+      v-bind="
+        item.type === 'select'
+          ? {
+              options: getOptions(item),
+            }
+          : undefined
+      "
+      :label-class="context => `text-sm font-medium ${labelClass(context)}`"
+      :input-class="context => inputClass(context)"
+      :validation-messages="{
+        startsWithPlus: $t(
+          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
+        ),
+        isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
+        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
+        required: $t('PRE_CHAT_FORM.REQUIRED'),
+        matches: item.regex_cue
+          ? item.regex_cue
+          : $t('PRE_CHAT_FORM.REGEX_ERROR'),
+      }"
+      :has-error-in-phone-input="hasErrorInPhoneInput"
+    />
+    <FormKit
+      v-if="!hasActiveCampaign"
+      name="message"
+      type="textarea"
+      :label-class="context => `text-sm font-medium ${labelClass(context)}`"
+      :input-class="context => inputClass(context)"
+      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
+      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
+      validation="required"
+      :validation-messages="{
+        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
+      }"
+    />
+
+    <CustomButton
+      class="mt-3 mb-5 font-medium flex items-center justify-center gap-2"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      :disabled="isCreatingConversation"
+    >
+      <Spinner v-if="isCreatingConversation" class="p-0" />
+      {{ $t('START_CONVERSATION') }}
+    </CustomButton>
+  </FormKit>
+</template>
+
+<style lang="scss">
+.formkit-outer {
+  @apply mt-2;
+
+  .formkit-inner {
+    input.error,
+    textarea.error,
+    select.error {
+      @apply outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 focus:outline-n-ruby-9 dark:focus:outline-n-ruby-9;
+    }
+
+    input[type='checkbox'] {
+      @apply size-4 outline-none;
     }
   }
-  @media (prefers-color-scheme: dark) {
-    .wrapper {
-      .formulate-input-element--date,
-      .formulate-input-element--checkbox {
-        input {
-          color-scheme: dark;
-        }
-      }
-    }
-  }
-  .wrapper[data-type='textarea'] {
-    .formulate-input-element--textarea {
-      textarea {
-        min-height: 8rem;
-      }
-    }
-  }
-  .pre-chat-header-message {
-    .link {
-      color: $color-woot;
-      text-decoration: underline;
-    }
-  }
+}
+
+[data-invalid] .formkit-message {
+  @apply text-n-ruby-10 block text-xs font-normal my-0.5 w-full;
+}
+
+.formkit-outer[data-type='checkbox'] .formkit-wrapper {
+  @apply flex items-center gap-2 px-0.5;
+}
+
+.formkit-messages {
+  @apply list-none m-0 p-0;
 }
 </style>

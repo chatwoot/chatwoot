@@ -1,32 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Κιβώτια Εισερχομένων",
-    "SIDEBAR_TXT": "<p><b>Κιβώτιο Εισερχομένων</b></p> <p> Όταν συνδέετε μια ιστοσελίδα ή μια σελίδα του Facebook με το Chatwoot αυτό καλείται ως <b>Κιβώτιο Εισερχομένων</b>. Μπορείτε να έχετε απεριόριστα κιβώτια σε ένα λογαριασμό. </p><p> Πατήστε στο <b>Προσθήκη Κιβωτίου</b> για να συνδέετε μια ιστοσελίδα ή μια σελίδα Facebook. </p><p> Στον Πίνακα Ελέγχου (Dashboard), μπορείτε να δείτε όλες τις συνομιλίες από όλα τα κιβώτια σε ένα μέρος και να απαντήσετε στις συζητήσεις από την καρτέλα `Συνομιλίες`. </p><p> Μπορείτε επίσης να δείτε τις συνομιλίες που αφορούν ένα συγκεκριμένο κιβώτιο επιλέγοντάς το από το αριστερό τμήμα του πίνακα ελέγχου (dashboard). </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Δεν υπάρχουν κιβώτια εισερχομένων σε αυτόν τον λογαριασμό."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Επιλογή Καναλιού",
-        "route": "settings_inbox_new",
-        "body": "Επίλεξετε το κανάλι που θέλετε να ενσωματώσετε στο Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Επιλογή Καναλιού",
+        "BODY": "Επίλεξετε το κανάλι που θέλετε να ενσωματώσετε στο Chatwoot."
       },
-      {
-        "title": "Δημιουργία Κιβωτίου",
-        "route": "settings_inboxes_page_channel",
-        "body": "Πιστοποιήστε τον λογαριασμό σας και δημιουργείστε κιβώτιο Εισερχομένων."
+      "INBOX": {
+        "TITLE": "Δημιουργία Κιβωτίου",
+        "BODY": "Πιστοποιήστε τον λογαριασμό σας και δημιουργείστε κιβώτιο Εισερχομένων."
       },
-      {
-        "title": "Προσθήκη Πρακτόρων",
-        "route": "settings_inboxes_add_agents",
-        "body": "Προσθέστε πράκτορες στο κιβώτιο που δημιουργήθηκε."
+      "AGENT": {
+        "TITLE": "Προσθήκη Πρακτόρων",
+        "BODY": "Προσθέστε πράκτορες στο κιβώτιο που δημιουργήθηκε."
       },
-      {
-        "title": "Έξοχα!",
-        "route": "settings_inbox_finish",
-        "body": "Είσαστε έτοιμοι να ξεκινήσετε!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Είσαστε έτοιμοι να ξεκινήσετε!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Όνομα Κιβωτίου",
@@ -43,8 +42,18 @@
         "CHOOSE_PLACEHOLDER": "Επιλέξτε σελίδα από την Λίστα",
         "INBOX_NAME": "Όνομα Κιβωτίου",
         "ADD_NAME": "Ονοματίστε το κιβώτιο σας",
-        "PICK_NAME": "Διαλέξτε όνομα για το κιβώτιο",
-        "PICK_A_VALUE": "Επιλέξτε τιμή"
+        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_A_VALUE": "Επιλέξτε τιμή",
+        "CREATE_INBOX": "Δημιουργία Κιβωτίου"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Για να προσθέσετε το Προφίλ Twitter ως κανάλι, πρέπει να επικυρώστε το Προφίλ σας στο Twiter κάνοντας click στο 'Είσοδος με το Twitter' ",
@@ -62,7 +71,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Σύνδεσμος Webhook",
-          "PLACEHOLDER": "Εισάγετε τη διεύθυνση Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
         },
         "CHANNEL_DOMAIN": {
@@ -111,6 +120,17 @@
           "PLACEHOLDER": "Παρακαλώ εισάγετε το SID του Λογαριασμού Twilio",
           "ERROR": "Το πεδίο είναι απαραίτητο"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "SID Υπηρεσίας Μηνυμάτων",
           "PLACEHOLDER": "Παρακαλώ εισάγετε το Twilio Messaging Service SID σας",
@@ -132,7 +152,7 @@
           "ERROR": "Το πεδίο είναι απαραίτητο"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Αριθμός τηλεφώνου",
+          "LABEL": "Αριθμός Τηλεφώνου",
           "PLACEHOLDER": "Παρακαλώ εισάγετε έναν αριθμό τηλεφώνου από τον οποίο θα σταλεί το μήνυμα.",
           "ERROR": "Παρακαλώ δώστε έναν έγκυρο αριθμό τηλεφώνου που ξεκινά με ένα σύμβολο `+` και δεν περιέχει κενά."
         },
@@ -164,12 +184,12 @@
           },
           "API_KEY": {
             "LABEL": "Κλειδί API",
-            "PLACEHOLDER": "Παρακαλώ εισάγετε το Bandwith API κλειδί σας",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Το πεδίο είναι απαραίτητο"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Παρακαλώ εισάγετε το Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Το πεδίο είναι απαραίτητο"
           },
           "APPLICATION_ID": {
@@ -202,9 +222,16 @@
         "DESC": "Ξεκινήστε να υποστηρίζετε τους πελάτες σας μέσω του WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "Διάλογος 360"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Όνομα Κιβωτίου",
@@ -228,7 +255,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token Επαλήθευσης Webhook",
-          "PLACEHOLDER": "Εισάγετε ένα Token επαλήθευσης που θέλετε να ρυθμίσετε για το facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Παρακαλώ εισάγετε μια έγκυρη τιμή."
         },
         "API_KEY": {
@@ -244,8 +271,75 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Token Επαλήθευσης Webhook"
         },
         "SUBMIT_BUTTON": "Δημιουργία Καναλιού WhatsApp",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick Setup with Meta",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+        },
         "API": {
           "ERROR_MESSAGE": "Δεν ήμασταν σε θέση να αποθηκεύσουμε το κανάλι WhatsApp"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "Αριθμός Τηλεφώνου",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "SID Λογαριασμού",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Auth Token",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Key SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API Key Secret",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          },
+          "TWIML_APP_SID": {
+            "LABEL": "TwiML App SID",
+            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
+            "REQUIRED": "TwiML App SID is required"
+          }
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -258,7 +352,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Σύνδεσμος Webhook",
-          "SUBTITLE": "Ρυθμίστε το url το οποίο θα λαμβάνει callbacks όταν κάτι συμβαίνει.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Σύνδεσμος Webhook"
         },
         "SUBMIT_BUTTON": "Δημιουργία API Καναλιού",
@@ -268,7 +362,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Κανάλι Email",
-        "DESC": "Συνδέστε ένα κιβώτιο εισερχομένων email.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Όνομα καναλιού",
           "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα καναλιού",
@@ -334,7 +428,7 @@
       "AGENTS": {
         "TITLE": "Πράκτορες",
         "DESC": "Εδώ μπορείτε να προσθέσετε πράκτορες στο κιβώτιο που μόλις δημιουργήσατε. Μονο αυτοί οι επιλεγμένοι πράκτορες θα έχουν πρόσβαση στο κιβώτιο. Οι πράκτορες που δεν ανήκουν σε αυτο το κιβώτιο δεν θα έχουν την δυνατότητα να ανταποκρίνονται σε μηνήματα αυτού του κιβωτίου όταν κάνουν login στο σύστημα. <br> <b>ΥΓ:</b> Ως Διαχειριστής, αν θέλετε πρόσβαση σε όλα τα κιβώτια, θα πρέπει να προσθέσετε τον εαυτό σας σε όλα τα κιβώτια που δημιουργείτε.",
-        "VALIDATION_ERROR": "Προσθέστε τουλάχιστον ένα πράκτορα στο κιβώτιο εισερχομένων",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Επιλέξτε πράκτορες για το κιβώτιο"
       },
       "DETAILS": {
@@ -353,13 +447,23 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Πιστοποίηση ταυτότητας στο Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Κάτι πήγε στραβά, Παρακαλώ ανανεώστε την σελίδα...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Δημιουργία κιβωτίου εισερχομένων...",
       "TITLE": "Διαμόρφωση λεπτομερειών κιβωτίου",
       "DESC": ""
@@ -390,6 +494,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Ενεργό",
         "DISABLED": "Ανενεργό"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "από",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Save"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Ενεργό",
@@ -432,7 +555,8 @@
       "PRE_CHAT_FORM": "Φόρμα Προ-Συνομιλίας",
       "BUSINESS_HOURS": "Ώρες Εργασίας",
       "WIDGET_BUILDER": "Δημιουργός Widget",
-      "BOT_CONFIGURATION": "Ρυθμίσεις Bot"
+      "BOT_CONFIGURATION": "Ρυθμίσεις Bot",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Ρυθμίσεις",
     "FEATURES": {
@@ -453,8 +577,8 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Ενεργοποιήσετε το πλαίσιο συλλογής email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ενεργοποίηση ή απενεργοποίηση του πλαισίου συλλογής μηνυμάτων ηλεκτρονικού ταχυδρομείου στη νέα συνομιλία",
       "AUTO_ASSIGNMENT": "Επιτρέπεται η αυτόματη αντιστοίχιση",
-      "ENABLE_CSAT": "Ενεργοποίηση CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Ενεργοποίηση/Απενεργοποίηση της έρευνας CSAT (ικανοποίηση πελατών) μετά την επίλυση μιας συνομιλίας",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Ενεργοποίηση της συνέχειας συνομιλίας μέσω email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Οι συζητήσεις θα συνεχίσουν μέσω email αν η διεύθυνση ηλεκτρονικού ταχυδρομείου επαφής είναι διαθέσιμη.",
       "LOCK_TO_SINGLE_CONVERSATION": "Κλείδωμα σε μία μόνο συζήτηση",
@@ -474,13 +598,32 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Επιτρέψτε τα μηνύματα μετά την επίλυση της συνομιλίας",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Επιτρέψτε στους τελικούς χρήστες να στέλνουν μηνύματα ακόμη και μετά την επίλυση της συζήτησης.",
       "WHATSAPP_SECTION_SUBHEADER": "Αυτό το κλειδί API χρησιμοποιείται για την ενσωμάτωση με τα API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Κλειδί API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Ενημέρωση",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Σύνδεση",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Token Επαλήθευσης Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "HELP_CENTER": {
@@ -527,6 +670,32 @@
         "LABEL": "Οι επισκέπτες θα πρέπει να συμπληρώνουν το όνομα και τη διεύθυνση ηλεκτρονικού ταχυδρομείου τους πριν από την έναρξη της συνομιλίας"
       }
     },
+    "CSAT": {
+      "TITLE": "Ενεργοποίηση CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Μήνυμα",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "περιέχει",
+          "DOES_NOT_CONTAINS": "δεν περιέχει"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+      }
+    },
     "BUSINESS_HOURS": {
       "TITLE": "Ορίστε τη διαθεσιμότητά σας",
       "SUBTITLE": "Ορίστε τη διαθεσιμότητα στο livechat widget σας",
@@ -535,7 +704,7 @@
       "UPDATE": "Ενημέρωση ρυθμίσεων ωραρίου",
       "TOGGLE_AVAILABILITY": "Ενεργοποίηση διαθεσιμότητας ωραρίου για αυτό το κιβώτιο εισερχομένων",
       "UNAVAILABLE_MESSAGE_LABEL": "Μήνυμα μη διαθεσιμότητας για τους επισκέπτες",
-      "TOGGLE_HELP": "Η ενεργοποίηση της διαθεσιμότητας ωραρίου θα δείξει τις διαθέσιμες ώρες στο widget συνομιλίας ακόμα και αν όλοι οι πράκτορες είναι εκτός σύνδεσης. Εκτός των διαθέσιμων ωρών οι επισκέπτες μπορούν να προειδοποιηθούν με ένα μήνυμα και μια φόρμα προ-συνομιλίας.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Ενεργοποιήσετε τη διαθεσιμότητα για αυτήν την ημέρα",
         "UNAVAILABLE": "Μη διαθέσιμος",
@@ -551,7 +720,7 @@
       "NOTE_TEXT": "Για να ενεργοποιήσετε το SMTP, παρακαλώ ρυθμίστε το IMAP.",
       "UPDATE": "Ενημέρωση ρυθμίσεων IMAP",
       "TOGGLE_AVAILABILITY": "Ενεργοποίηση ρυθμίσεων IMAP για αυτά τα εισερχόμενα",
-      "TOGGLE_HELP": "Η ενεργοποίηση του IMAP θα βοηθήσει το χρήστη να λάβει email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Οι ρυθμίσεις IMAP ενημερώθηκαν επιτυχώς",
         "ERROR_MESSAGE": "Αδυναμία ενημέρωσης των ρυθμίσεων IMAP"
@@ -699,7 +868,22 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Κανάλι API",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

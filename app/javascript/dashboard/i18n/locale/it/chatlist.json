@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Non ci sono conversazioni attive in questo gruppo."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Conversazioni",
     "MENTION_HEADING": "Menzioni",
     "UNATTENDED_HEADING": "Non partecipate",
@@ -41,15 +42,40 @@
       "STATUS": "Stato",
       "ORDER_BY": "Order by"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Created",
+        "OLDEST": "Creato il:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Creato il"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Last activity:",
+        "ACTIVE": "Last activity"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      "sort_on_priority": {
-        "TEXT": "Priorità"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
+      },
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
+      },
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {
@@ -68,8 +94,14 @@
       "location": {
         "CONTENT": "Posizione"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "ha condiviso un url"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -101,6 +133,7 @@
     "NO_CONTENT": "Nessun contenuto disponibile",
     "HIDE_QUOTED_TEXT": "Nascondi testo citato",
     "SHOW_QUOTED_TEXT": "Mostra testo citato",
-    "MESSAGE_READ": "Leggi"
+    "MESSAGE_READ": "Leggi",
+    "SENDING": "Sending"
   }
 }

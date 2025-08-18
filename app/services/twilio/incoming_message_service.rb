@@ -8,8 +8,8 @@ class Twilio::IncomingMessageService
 
     set_contact
     set_conversation
-    @message = @conversation.messages.create!(
-      content: params[:Body],
+    @message = @conversation.messages.build(
+      content: message_body,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
@@ -17,6 +17,8 @@ class Twilio::IncomingMessageService
       source_id: params[:SmsSid]
     )
     attach_files
+    attach_location if location_message?
+    @message.save!
   end
 
   private
@@ -46,6 +48,10 @@ class Twilio::IncomingMessageService
     TelephoneNumber.parse(phone_number).international_number
   end
 
+  def message_body
+    params[:Body]&.delete("\u0000")
+  end
+
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:From],
@@ -55,6 +61,9 @@ class Twilio::IncomingMessageService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+
+    # Update existing contact name if ProfileName is available and current name is just phone number
+    update_contact_name_if_needed
   end
 
   def conversation_params
@@ -68,7 +77,13 @@ class Twilio::IncomingMessageService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.first
+    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
+    @conversation = if @inbox.lock_to_single_conversation
+                      @contact_inbox.conversations.last
+                    else
+                      @contact_inbox.conversations.where
+                                    .not(status: :resolved).last
+                    end
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
@@ -76,10 +91,14 @@ class Twilio::IncomingMessageService
 
   def contact_attributes
     {
-      name: formatted_phone_number,
+      name: contact_name,
       phone_number: phone_number,
       additional_attributes: additional_attributes
     }
+  end
+
+  def contact_name
+    params[:ProfileName].presence || formatted_phone_number
   end
 
   def additional_attributes
@@ -95,23 +114,80 @@ class Twilio::IncomingMessageService
   end
 
   def attach_files
-    return if params[:MediaUrl0].blank?
+    num_media = params[:NumMedia].to_i
+    return if num_media.zero?
 
-    attachment_file = Down.download(
-      params[:MediaUrl0]
-    )
+    num_media.times do |i|
+      media_url = params[:"MediaUrl#{i}"]
+      attach_single_file(media_url) if media_url.present?
+    end
+  end
 
-    attachment = @message.attachments.new(
+  def attach_single_file(media_url)
+    attachment_file = download_attachment_file(media_url)
+    return if attachment_file.blank?
+
+    @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_type(params[:MediaContentType0])
+      file_type: file_type(attachment_file.content_type),
+      file: {
+        io: attachment_file,
+        filename: attachment_file.original_filename,
+        content_type: attachment_file.content_type
+      }
     )
+  end
 
-    attachment.file.attach(
-      io: attachment_file,
-      filename: attachment_file.original_filename,
-      content_type: attachment_file.content_type
+  def download_attachment_file(media_url)
+    download_with_auth(media_url)
+  rescue Down::Error, Down::ClientError => e
+    handle_download_attachment_error(e, media_url)
+  end
+
+  def download_with_auth(media_url)
+    auth_credentials = if twilio_channel.api_key_sid.present?
+                         # When using api_key_sid, the auth token should be the api_secret_key
+                         [twilio_channel.api_key_sid, twilio_channel.auth_token]
+                       else
+                         # When using account_sid, the auth token is the account's auth token
+                         [twilio_channel.account_sid, twilio_channel.auth_token]
+                       end
+
+    Down.download(media_url, http_basic_authentication: auth_credentials)
+  end
+
+  def handle_download_attachment_error(error, media_url)
+    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying without auth"
+    Down.download(media_url)
+  rescue StandardError => e
+    Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
+    nil
+  end
+
+  def location_message?
+    params[:MessageType] == 'location' && params[:Latitude].present? && params[:Longitude].present?
+  end
+
+  def attach_location
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: :location,
+      coordinates_lat: params[:Latitude].to_f,
+      coordinates_long: params[:Longitude].to_f
     )
+  end
 
-    @message.save!
+  def update_contact_name_if_needed
+    return if params[:ProfileName].blank?
+    return if @contact.name == params[:ProfileName]
+
+    # Only update if current name exactly matches the phone number or formatted phone number
+    return unless contact_name_matches_phone_number?
+
+    @contact.update!(name: params[:ProfileName])
+  end
+
+  def contact_name_matches_phone_number?
+    @contact.name == phone_number || @contact.name == formatted_phone_number
   end
 end

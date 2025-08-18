@@ -55,8 +55,12 @@ RSpec.describe 'DashboardAppsController', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/dashboard_apps' do
     let(:payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'https://link.com' }] } } }
+    let(:no_ssl_payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'http://link.com' }] } } }
     let(:invalid_type_payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'dda', url: 'https://link.com' }] } } }
     let(:invalid_url_payload) { { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'com' }] } } }
+    let(:non_http_url_payload) do
+      { dashboard_app: { title: 'CRM Dashboard', content: [{ type: 'frame', url: 'ftp://wontwork.chatwoot.com/hello-world' }] } }
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -82,10 +86,34 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]
       end
 
+      it 'creates the dashboard app even if the URL does not have SSL' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
+                                                                params: no_ssl_payload
+        end.to change(DashboardApp, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['title']).to eq 'CRM Dashboard'
+        expect(json_response['content'][0]['link']).to eq payload[:dashboard_app][:content][0][:link]
+        expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]
+      end
+
       it 'does not create the dashboard app if invalid URL' do
         expect do
           post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
                                                                 params: invalid_url_payload
+        end.not_to change(DashboardApp, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = response.parsed_body
+        expect(json_response['message']).to eq 'Content : Invalid data'
+      end
+
+      it 'does not create the dashboard app if non HTTP URL' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
+                                                                params: non_http_url_payload
         end.not_to change(DashboardApp, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)

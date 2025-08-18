@@ -8,6 +8,8 @@ import {
   isMonday,
   isToday,
   setHours,
+  setMinutes,
+  setSeconds,
 } from 'date-fns';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -36,7 +38,7 @@ export const findNextDay = currentDate => {
 };
 
 export const setHoursToNine = date => {
-  return setHours(date, 9, 0, 0);
+  return setSeconds(setMinutes(setHours(date, 9), 0), 0);
 };
 
 export const findSnoozeTime = (snoozeType, currentDate = new Date()) => {
@@ -53,7 +55,7 @@ export const findSnoozeTime = (snoozeType, currentDate = new Date()) => {
 
   return parsedDate ? getUnixTime(parsedDate) : null;
 };
-export const conversationReopenTime = snoozedUntil => {
+export const snoozedReopenTime = snoozedUntil => {
   if (!snoozedUntil) {
     return null;
   }
@@ -63,4 +65,33 @@ export const conversationReopenTime = snoozedUntil => {
     return format(date, 'h.mmaaa');
   }
   return snoozedUntil ? format(date, 'd MMM, h.mmaaa') : null;
+};
+
+export const snoozedReopenTimeToTimestamp = snoozedUntil => {
+  return snoozedUntil ? getUnixTime(new Date(snoozedUntil)) : null;
+};
+export const shortenSnoozeTime = snoozedUntil => {
+  if (!snoozedUntil) {
+    return null;
+  }
+  const unitMap = {
+    minutes: 'm',
+    minute: 'm',
+    hours: 'h',
+    hour: 'h',
+    days: 'd',
+    day: 'd',
+    months: 'mo',
+    month: 'mo',
+    years: 'y',
+    year: 'y',
+  };
+  const shortenTime = snoozedUntil
+    .replace(/^in\s+/i, '')
+    .replace(
+      /\s(minute|hour|day|month|year)s?\b/gi,
+      (match, unit) => unitMap[unit.toLowerCase()] || match
+    );
+
+  return shortenTime;
 };

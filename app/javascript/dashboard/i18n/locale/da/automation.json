@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatiseringer",
+    "HEADER": "Automatisering",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Tilføj Automatiseringsregel",
     "LOADING": "Henter automatiseringsregler",
-    "SIDEBAR_TXT": "<p><b>Automatiseringsregler</b> <p>Automatisering kan erstatte og automatisere eksisterende processer, der kræver manuel indsats. Du kan gøre mange ting med automatisering, herunder tilføje etiketter og tildele samtale til den bedste agent. Så holdet fokuserer på, hvad de gør bedst, og bruger mere lidt tid på manuelle opgaver.</p>",
     "ADD": {
       "TITLE": "Tilføj Automatiseringsregel",
       "SUBMIT": "Opret",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Navn",
-        "Beskrivelse",
-        "Aktiv",
-        "Oprettet den"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "DESCRIPTION": "Beskrivelse",
+        "ACTIVE": "Aktiv",
+        "CREATED_ON": "Oprettet den"
+      },
       "404": "Ingen automatiseringsregler fundet"
     },
     "DELETE": {
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Du skal have mindst én handling for at gemme",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Indtast din besked her",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Vælg teams"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Vælg teams",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Aktivér Automatiseringsregel",
@@ -113,6 +116,68 @@
       "LABEL_UPLOADING": "Uploader...",
       "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Mislykkedes"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Værdi er påkrævet",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Ingen",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Samtale Oprettet",
+      "CONVERSATION_UPDATED": "Samtale Opdateret",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Gør Samtale Lydløs",
+      "SNOOZE_CONVERSATION": "Udsæt Samtale",
+      "RESOLVE_CONVERSATION": "Løs Samtale",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Åbn samtale"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ingen",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Indbakke",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Telefonnummer",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Browser Sprog",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Land",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Team",
+      "PRIORITY": "Priority"
     }
   }
 }

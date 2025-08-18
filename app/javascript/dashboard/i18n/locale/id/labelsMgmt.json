@@ -3,25 +3,26 @@
     "HEADER": "Label",
     "HEADER_BTN_TXT": "Tambah label",
     "LOADING": "Mengambil label",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-    "SIDEBAR_TXT": "<p><b>Label</b> <p>Label membantu Anda mengkategorikan percakapan dan memprioritaskannya. Anda dapat menetapkan label ke percakapan dari panel samping. <br /><br />Label terikat ke akun dan bisa digunakan untuk membuat alur kerja kustom di organisasi Anda. Anda dapat menetapkan warna khusus ke label, ini membuatnya lebih mudah untuk mengidentifikasi label. Anda akan dapat menampilkan label di sidebar untuk memfilter percakapan dengan mudah.</p>",
     "LIST": {
       "404": "Tidak ada label yang tersedia di akun ini.",
       "TITLE": "Kelola label",
       "DESC": "Label memungkinkan Anda mengelompokkan percakapan menjadi satu.",
-      "TABLE_HEADER": [
-        "Nama",
-        "Deskripsi",
-        "Warna"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "COLOR": "Warna"
+      }
     },
     "FORM": {
       "NAME": {
         "LABEL": "Nama Label",
         "PLACEHOLDER": "Nama label",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "Nama label wajib diisi",
+        "MINIMUM_LENGTH_ERROR": "Panjang minimal 2 diperlukan",
+        "VALID_ERROR": "Hanya Abjad, Angka, Tanda Hubung, dan Garis Bawah yang diperbolehkan"
       },
       "DESCRIPTION": {
         "LABEL": "Deskripsi",
@@ -37,6 +38,20 @@
       "CREATE": "Buat",
       "DELETE": "Hapus",
       "CANCEL": "Batalkan"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Tutup",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Tambah label",

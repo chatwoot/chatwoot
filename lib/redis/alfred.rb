@@ -7,11 +7,12 @@ module Redis::Alfred
     # key operations
 
     # set a value in redis
-    def set(key, value)
-      $alfred.with { |conn| conn.set(key, value) }
+    def set(key, value, nx: false, ex: false) # rubocop:disable Naming/MethodParameterName
+      $alfred.with { |conn| conn.set(key, value, nx: nx, ex: ex) }
     end
 
     # set a key with expiry period
+    # TODO: Deprecate this method, use set with ex: 1.day instead
     def setex(key, value, expiry = 1.day)
       $alfred.with { |conn| conn.setex(key, expiry, value) }
     end
@@ -28,6 +29,10 @@ module Redis::Alfred
     # sets key to 0 before operation if key doesn't exist
     def incr(key)
       $alfred.with { |conn| conn.incr(key) }
+    end
+
+    def exists?(key)
+      $alfred.with { |conn| conn.exists?(key) }
     end
 
     # list operations

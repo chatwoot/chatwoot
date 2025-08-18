@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "לא ניתן לשלוח, נסה שוב"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "אנחנו אונליין",
     "OFFLINE": "אנחנו לא זמינים כרגע"
@@ -22,19 +27,21 @@
     "IN_A_DAY": "מענה ממוצע לאחר יום",
     "BACK_IN": "We will be back online"
   },
-  "DAY_NAMES": [
-    "יום ראשון",
-    "יום שני",
-    "יום שלישי",
-    "יום רביעי",
-    "יום חמישי",
-    "שישי",
-    "יום שבת"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "יום ראשון",
+    "MONDAY": "יום שני",
+    "TUESDAY": "יום שלישי",
+    "WEDNESDAY": "יום רביעי",
+    "THURSDAY": "יום חמישי",
+    "FRIDAY": "שישי",
+    "SATURDAY": "יום שבת"
+  },
   "START_CONVERSATION": "התחל שיחה",
   "END_CONVERSATION": "סיים שיחה",
   "CONTINUE_CONVERSATION": "המשך שיחה",
+  "YOU": "You",
   "START_NEW_CONVERSATION": "התחל שיחה חדשה",
+  "VIEW_UNREAD_MESSAGES": "You have unread messages",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
     "CLOSE_MESSAGES_BUTTON": "סגור",
@@ -66,7 +73,10 @@
         "LABEL": "מספר טלפון",
         "PLACEHOLDER": "אנא הזן את מספר הטלפון שלך",
         "REQUIRED_ERROR": "נדרש מספר טלפון",
-        "VALID_ERROR": "מספר הטלפון צריך להיות בפורמט E.164, למשל: +1415555555"
+        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "VALID_ERROR": "Please enter a valid phone number",
+        "DROPDOWN_EMPTY": "לא נמצאו תוצאות",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "הודעה",
@@ -76,7 +86,8 @@
     },
     "CAMPAIGN_HEADER": "אנא ספק את שמך ואת הדוא\"ל שלך לפני תחילת השיחה",
     "IS_REQUIRED": "is required",
-    "REQUIRED": "נדרש"
+    "REQUIRED": "נדרש",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -86,7 +97,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "חפש אימוג'י",
-    "NOT_FOUND": "אין אמוג'י שתואם את החיפוש שלך"
+    "NOT_FOUND": "אין אמוג'י שתואם את החיפוש שלך",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "דרג את השיחה שלך",
@@ -103,5 +115,33 @@
       "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
       "LEAVE_THE_ROOM": "עזוב את השיחה"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Popular Articles",
+    "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "הודעת תמונה"
+    },
+    "audio": {
+      "CONTENT": "הודעות קוליות"
+    },
+    "video": {
+      "CONTENT": "הודעות וידאו"
+    },
+    "file": {
+      "CONTENT": "קובץ מצורף"
+    },
+    "location": {
+      "CONTENT": "מיקום"
+    },
+    "fallback": {
+      "CONTENT": "שיתף קישור"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

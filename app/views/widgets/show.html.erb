@@ -11,9 +11,10 @@
         locale: '<%= @web_widget.account.locale %>',
         websiteName: '<%= @web_widget.inbox.name %>',
         websiteToken: '<%= @web_widget.website_token %>',
-        welcomeTagline: '<%= @web_widget.welcome_tagline %>',
+        welcomeTagline: <%= @web_widget.welcome_tagline.to_json.html_safe %>,
         welcomeTitle: '<%= @web_widget.welcome_title %>',
         widgetColor: '<%= @web_widget.widget_color %>',
+        portal: <%= @web_widget.inbox.portal.to_json.html_safe %>,
         enabledFeatures: <%= @web_widget.selected_feature_flags.to_json.html_safe %>,
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         replyTime: '<%= @web_widget.reply_time %>',
@@ -26,17 +27,17 @@
         utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].now.formatted_offset %>',
         timezone: '<%= @web_widget.inbox.timezone %>',
         allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>,
-        disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>
+        disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
-    <%= javascript_pack_tag 'widget' %>
-    <%= stylesheet_pack_tag 'widget' %>
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'widget' %>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app" class="h-full"></div>
     <%= yield %>
   </body>
 </html>

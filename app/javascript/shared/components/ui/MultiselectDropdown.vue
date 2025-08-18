@@ -1,195 +1,122 @@
+<script setup>
+import { computed, defineEmits } from 'vue';
+import { OnClickOutside } from '@vueuse/components';
+import { useToggle } from '@vueuse/core';
+
+import Button from 'dashboard/components-next/button/Button.vue';
+import Avatar from 'next/avatar/Avatar.vue';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
+
+const props = defineProps({
+  options: {
+    type: Array,
+    default: () => [],
+  },
+  selectedItem: {
+    type: Object,
+    default: () => ({}),
+  },
+  hasThumbnail: {
+    type: Boolean,
+    default: true,
+  },
+  multiselectorTitle: {
+    type: String,
+    default: '',
+  },
+  multiselectorPlaceholder: {
+    type: String,
+    default: 'None',
+  },
+  noSearchResult: {
+    type: String,
+    default: 'No results found',
+  },
+  inputPlaceholder: {
+    type: String,
+    default: 'Search',
+  },
+});
+
+const emit = defineEmits(['select']);
+const [showSearchDropdown, toggleDropdown] = useToggle(false);
+
+const onCloseDropdown = () => toggleDropdown(false);
+const onClickSelectItem = value => {
+  emit('select', value);
+  onCloseDropdown();
+};
+
+const hasValue = computed(() => {
+  if (props.selectedItem && props.selectedItem.id) {
+    return true;
+  }
+  return false;
+});
+</script>
+
 <template>
-  <div
-    v-on-clickaway="onCloseDropdown"
-    class="selector-wrap"
-    @keyup.esc="onCloseDropdown"
-  >
-    <woot-button
-      variant="hollow"
-      color-scheme="secondary"
-      class="selector-button"
-      @click="toggleDropdown"
-    >
-      <div class="selector-user-wrap">
-        <Thumbnail
-          v-if="hasValue && hasThumbnail"
-          :src="selectedItem.thumbnail"
-          size="24px"
-          :status="selectedItem.availability_status"
-          :username="selectedItem.name"
-        />
-        <div class="selector-name-wrap">
-          <h4
-            v-if="!hasValue"
-            class="not-selected text-ellipsis text-block-title"
-          >
+  <OnClickOutside @trigger="onCloseDropdown">
+    <div class="relative w-full mb-2" @keyup.esc="onCloseDropdown">
+      <Button
+        slate
+        outline
+        trailing-icon
+        :icon="
+          showSearchDropdown ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
+        "
+        class="w-full !px-2"
+        @click="
+          () => toggleDropdown() // ensure that the event is not passed to the button
+        "
+      >
+        <div class="flex items-center justify-between w-full min-w-0">
+          <h4 v-if="!hasValue" class="text-sm text-ellipsis text-n-slate-12">
             {{ multiselectorPlaceholder }}
           </h4>
           <h4
             v-else
-            class="selector-name text-truncate text-block-title"
+            class="items-center overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
             :title="selectedItem.name"
           >
             {{ selectedItem.name }}
           </h4>
-          <i v-if="showSearchDropdown" class="icon ion-chevron-up" />
-          <i v-else class="icon ion-chevron-down" />
         </div>
-      </div>
-    </woot-button>
-    <div
-      :class="{ 'dropdown-pane--open': showSearchDropdown }"
-      class="dropdown-pane"
-    >
-      <div class="dropdown__header">
-        <h4 class="text-block-title text-truncate">
-          {{ multiselectorTitle }}
-        </h4>
-        <woot-button
-          icon="dismiss"
-          size="tiny"
-          color-scheme="secondary"
-          variant="clear"
-          @click="onCloseDropdown"
+        <Avatar
+          v-if="hasValue && hasThumbnail"
+          :src="selectedItem.thumbnail"
+          :status="selectedItem.availability_status"
+          :name="selectedItem.name"
+          :size="24"
+          hide-offline-status
+          rounded-full
+        />
+      </Button>
+      <div
+        :class="{
+          'block visible': showSearchDropdown,
+          'hidden invisible': !showSearchDropdown,
+        }"
+        class="box-border top-[2.625rem] w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]"
+      >
+        <div class="flex items-center justify-between mb-1">
+          <h4
+            class="m-0 overflow-hidden text-sm text-n-slate-11 whitespace-nowrap text-ellipsis"
+          >
+            {{ multiselectorTitle }}
+          </h4>
+          <Button ghost slate xs icon="i-lucide-x" @click="onCloseDropdown" />
+        </div>
+        <MultiselectDropdownItems
+          v-if="showSearchDropdown"
+          :options="options"
+          :selected-items="[selectedItem]"
+          :has-thumbnail="hasThumbnail"
+          :input-placeholder="inputPlaceholder"
+          :no-search-result="noSearchResult"
+          @select="onClickSelectItem"
         />
       </div>
-      <multiselect-dropdown-items
-        v-if="showSearchDropdown"
-        :options="options"
-        :selected-items="[selectedItem]"
-        :has-thumbnail="hasThumbnail"
-        :input-placeholder="inputPlaceholder"
-        :no-search-result="noSearchResult"
-        @click="onClickSelectItem"
-      />
     </div>
-  </div>
+  </OnClickOutside>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
-import { mixin as clickaway } from 'vue-clickaway';
-export default {
-  components: {
-    Thumbnail,
-    MultiselectDropdownItems,
-  },
-  mixins: [clickaway],
-  props: {
-    options: {
-      type: Array,
-      default: () => [],
-    },
-    selectedItem: {
-      type: Object,
-      default: () => ({}),
-    },
-    hasThumbnail: {
-      type: Boolean,
-      default: true,
-    },
-    multiselectorTitle: {
-      type: String,
-      default: '',
-    },
-    multiselectorPlaceholder: {
-      type: String,
-      default: 'None',
-    },
-    noSearchResult: {
-      type: String,
-      default: 'No results found',
-    },
-    inputPlaceholder: {
-      type: String,
-      default: 'Search',
-    },
-  },
-  data() {
-    return {
-      showSearchDropdown: false,
-    };
-  },
-  computed: {
-    hasValue() {
-      if (this.selectedItem && this.selectedItem.id) {
-        return true;
-      }
-      return false;
-    },
-  },
-  methods: {
-    toggleDropdown() {
-      this.showSearchDropdown = !this.showSearchDropdown;
-    },
-
-    onCloseDropdown() {
-      this.showSearchDropdown = false;
-    },
-
-    onClickSelectItem(value) {
-      this.$emit('click', value);
-      this.onCloseDropdown();
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-.selector-wrap {
-  position: relative;
-  width: 100%;
-  margin-bottom: var(--space-small);
-
-  .selector-button {
-    width: 100%;
-    border: 1px solid var(--s-200);
-    padding-left: var(--space-one);
-    padding-right: var(--space-one);
-
-    &:hover {
-      border: 1px solid var(--color-border);
-    }
-  }
-
-  .selector-user-wrap {
-    display: flex;
-  }
-
-  .selector-name-wrap {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    min-width: 0;
-    align-items: center;
-  }
-
-  .not-selected {
-    margin: 0 var(--space-small) 0 0;
-  }
-
-  .selector-name {
-    align-items: center;
-    line-height: 1.2;
-    margin: 0 var(--space-small);
-  }
-
-  .dropdown-pane {
-    box-sizing: border-box;
-    top: 4.2rem;
-    width: 100%;
-  }
-}
-
-.dropdown__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-smaller);
-
-  .text-block-title {
-    margin: 0;
-  }
-}
-</style>

@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatisierungen",
+    "HEADER": "Automatisierung",
+    "DESCRIPTION": "Mittels Automatisierung können bestehende Prozesse ersetzt und rationalisiert werden, die manuellen Aufwand erfordern, z. B. das Hinzufügen von Etiketten und die Zuweisung von Gesprächen an den am besten geeigneten Agenten. So kann sich das Team auf seine Stärken konzentrieren und gleichzeitig den Zeitaufwand für Routineaufgaben reduzieren.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
     "LOADING": "Automatisierungsregeln abrufen",
-    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation kann bestehende Prozesse ersetzen und automatisieren, die manuellen Aufwand erfordern. Mit der Automatisierung kannst Du viele Dinge tun, darunter das Hinzufügen von Labels und das Zuweisen von Gesprächen zum besten Agenten. Das Team konzentriert sich also auf das, was es am besten kann, und verbringt weniger Zeit mit manuellen Aufgaben.</p>",
     "ADD": {
       "TITLE": "Automatisierungsregel hinzufügen",
       "SUBMIT": "Erstellen",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Name",
-        "Beschreibung",
-        "Aktiv",
-        "Erstellt am"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Beschreibung",
+        "ACTIVE": "Aktiv",
+        "CREATED_ON": "Erstellt am"
+      },
       "404": "Keine Automatisierungsregeln gefunden"
     },
     "DELETE": {
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Zum Speichern ist mindestens eine Aktion erforderlich",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen",
+      "EMAIL_INPUT_PLACEHOLDER": "E-Mail eingeben",
+      "URL_INPUT_PLACEHOLDER": "URL eingeben"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Automatisierungsregel aktivieren",
@@ -113,6 +116,68 @@
       "LABEL_UPLOADING": "Hochladen...",
       "LABEL_UPLOADED": "Erfolgreich hochgeladen",
       "LABEL_UPLOAD_FAILED": "Upload fehlgeschlagen"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribut-Schlüssel ist erforderlich",
+      "FILTER_OPERATOR_REQUIRED": "Filter-Operator ist erforderlich",
+      "VALUE_REQUIRED": "Wert ist erforderlich",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Wert muss zwischen 1 und 998 liegen",
+      "ACTION_PARAMETERS_REQUIRED": "Aktionsparameter sind erforderlich",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Mindestens eine Bedingung ist erforderlich",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Mindestens eine Aktion ist erforderlich"
+    },
+    "NONE_OPTION": "Keine",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Konversation erstellt",
+      "CONVERSATION_UPDATED": "Konversation aktualisiert",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Unterhaltung stummschalten",
+      "SNOOZE_CONVERSATION": "Snooze-Konversation",
+      "RESOLVE_CONVERSATION": "Unterhaltung als gelöst kennzeichnen",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Priorität ändern",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Unterhaltung öffnen"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Keine",
+      "LOW": "Niedrig",
+      "MEDIUM": "Mittel",
+      "HIGH": "Hoch",
+      "URGENT": "Dringend"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-Mail",
+      "INBOX": "Posteingang",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Telefonnummer",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Browsersprache",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Land",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Zugewiesener",
+      "TEAM_NAME": "Team",
+      "PRIORITY": "Priorität"
     }
   }
 }

@@ -30,6 +30,9 @@
       "is_lesser_than": "È minore di",
       "days_before": "È x giorni prima"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Il valore è obbligatorio"
+    },
     "ATTRIBUTES": {
       "NAME": "Nome",
       "EMAIL": "Email",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Creato il",
       "LAST_ACTIVITY": "Ultima attività",
-      "REFERER_LINK": "Link di riferimento"
+      "REFERER_LINK": "Link di riferimento",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtri standard",

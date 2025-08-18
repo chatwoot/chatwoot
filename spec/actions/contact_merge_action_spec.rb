@@ -18,6 +18,7 @@ describe ContactMergeAction do
       create(:conversation, contact: base_contact)
       create(:conversation, contact: mergee_contact)
       create(:message, sender: mergee_contact)
+      create(:note, contact: mergee_contact, account: mergee_contact.account)
     end
   end
 
@@ -65,6 +66,17 @@ describe ContactMergeAction do
       it 'moves the messages to base contact' do
         contact_merge
         expect(base_contact.messages.count).to be 2
+      end
+    end
+
+    context 'when mergee contact has notes' do
+      it 'moves the notes to base contact' do
+        expect(base_contact.notes.count).to be 0
+        expect(mergee_contact.notes.count).to be 2
+
+        contact_merge
+
+        expect(base_contact.reload.notes.count).to be 2
       end
     end
 

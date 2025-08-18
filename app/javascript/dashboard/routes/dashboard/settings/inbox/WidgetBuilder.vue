@@ -1,177 +1,33 @@
-<template>
-  <div class="settings--content">
-    <div class="widget-builder-container">
-      <div class="settings-container">
-        <div class="settings-content">
-          <form @submit.prevent="updateWidget">
-            <woot-avatar-uploader
-              :label="
-                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
-              "
-              :src="avatarUrl"
-              delete-avatar
-              @change="handleImageUpload"
-              @onAvatarDelete="handleAvatarDelete"
-            />
-            <woot-input
-              v-model.trim="websiteName"
-              :class="{ error: $v.websiteName.$error }"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.LABEL'
-                )
-              "
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.PLACE_HOLDER'
-                )
-              "
-              :error="websiteNameValidationErrorMsg"
-              @blur="$v.websiteName.$touch"
-            />
-            <woot-input
-              v-model.trim="welcomeHeading"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.LABEL'
-                )
-              "
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.PLACE_HOLDER'
-                )
-              "
-            />
-            <woot-input
-              v-model.trim="welcomeTagline"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.LABEL'
-                )
-              "
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
-                )
-              "
-            />
-            <label>
-              {{
-                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.LABEL')
-              }}
-              <select v-model="replyTime">
-                <option
-                  v-for="option in getReplyTimeOptions"
-                  :key="option.key"
-                  :value="option.value"
-                >
-                  {{ option.text }}
-                </option>
-              </select>
-            </label>
-            <label>
-              {{
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_COLOR_LABEL'
-                )
-              }}
-              <woot-color-picker v-model="color" />
-            </label>
-            <input-radio-group
-              name="widget-bubble-position"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION_LABEL'
-                )
-              "
-              :items="widgetBubblePositions"
-              :action="handleWidgetBubblePositionChange"
-            />
-            <input-radio-group
-              name="widget-bubble-type"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE_LABEL'
-                )
-              "
-              :items="widgetBubbleTypes"
-              :action="handleWidgetBubbleTypeChange"
-            />
-            <woot-input
-              v-model.trim="widgetBubbleLauncherTitle"
-              :label="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.LABEL'
-                )
-              "
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.PLACE_HOLDER'
-                )
-              "
-            />
-            <woot-submit-button
-              class="submit-button"
-              :button-text="
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.BUTTON_TEXT'
-                )
-              "
-              :loading="uiFlags.isUpdating"
-              :disabled="$v.$invalid || uiFlags.isUpdating"
-            />
-          </form>
-        </div>
-      </div>
-      <div class="widget-container">
-        <input-radio-group
-          name="widget-view-options"
-          :items="getWidgetViewOptions"
-          :action="handleWidgetViewChange"
-          :style="{ 'text-align': 'center' }"
-        />
-        <div v-if="isWidgetPreview" class="widget-preview">
-          <Widget
-            :welcome-heading="welcomeHeading"
-            :welcome-tagline="welcomeTagline"
-            :website-name="websiteName"
-            :logo="avatarUrl"
-            is-online
-            :reply-time="replyTime"
-            :color="color"
-            :widget-bubble-position="widgetBubblePosition"
-            :widget-bubble-launcher-title="widgetBubbleLauncherTitle"
-            :widget-bubble-type="widgetBubbleType"
-          />
-        </div>
-        <div v-else class="widget-script">
-          <woot-code :script="widgetScript" />
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import Widget from 'dashboard/modules/widget-preview/components/Widget';
-import InputRadioGroup from './components/InputRadioGroup';
-import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { useAlert } from 'dashboard/composables';
+import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
+import InputRadioGroup from './components/InputRadioGroup.vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import Avatar from 'next/avatar/Avatar.vue';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
     Widget,
     InputRadioGroup,
+    NextButton,
+    Editor,
+    Avatar,
   },
-  mixins: [alertMixin],
   props: {
     inbox: {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -220,6 +76,7 @@ export default {
           checked: false,
         },
       ],
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -288,7 +145,7 @@ export default {
       ];
     },
     websiteNameValidationErrorMsg() {
-      return this.$v.websiteName.$error
+      return this.v$.websiteName.$error
         ? this.$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.ERROR')
         : '';
     },
@@ -355,13 +212,13 @@ export default {
         await this.$store.dispatch('inboxes/deleteInboxAvatar', this.inbox.id);
         this.avatarFile = null;
         this.avatarUrl = '';
-        this.showAlert(
+        useAlert(
           this.$t(
             'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.DELETE.API.SUCCESS_MESSAGE'
           )
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message
             ? error.message
             : this.$t(
@@ -394,13 +251,13 @@ export default {
           payload.avatar = this.avatarFile;
         }
         await this.$store.dispatch('inboxes/updateInbox', payload);
-        this.showAlert(
+        useAlert(
           this.$t(
             'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.SUCCESS_MESSAGE'
           )
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message ||
             this.$t(
               'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.ERROR_MESSAGE'
@@ -415,60 +272,174 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
-
-.widget-builder-container {
-  display: flex;
-  flex-direction: row;
-  padding: var(--space-one);
-  @include breakpoint(900px down) {
-    flex-direction: column;
-  }
-}
-
-.settings-container {
-  width: 40%;
-  @include breakpoint(900px down) {
-    width: 100%;
-  }
-
-  .settings-content {
-    padding: var(--space-normal) var(--space-zero);
-    overflow-y: scroll;
-    min-height: 100%;
-
-    .submit-button {
-      margin-top: var(--space-normal);
-    }
-  }
-}
-
-.widget-container {
-  width: 60%;
-
-  @include breakpoint(900px down) {
-    width: 100%;
-  }
-
-  .widget-preview {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    min-height: 65rem;
-    margin: var(--space-zero) var(--space-two) var(--space-two) var(--space-two);
-    padding: var(--space-one) var(--space-one) var(--space-one) var(--space-one);
-    background: var(--s-50);
-
-    @include breakpoint(500px down) {
-      background: none;
-    }
-  }
-  .widget-script {
-    margin: 0 var(--space-two);
-    padding: var(--space-one);
-    background: var(--s-50);
-  }
-}
-</style>
+<template>
+  <div class="mx-8">
+    <div class="flex p-2.5">
+      <div class="w-100 lg:w-[40%]">
+        <div class="min-h-full py-4 overflow-y-scroll px-px">
+          <form @submit.prevent="updateWidget">
+            <div class="flex flex-col mb-4 items-start gap-1 w-full">
+              <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+                {{
+                  $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.LABEL')
+                }}
+              </label>
+              <Avatar
+                :src="avatarUrl"
+                :size="72"
+                icon-name="i-ri-global-fill"
+                name=""
+                allow-upload
+                rounded-full
+                @upload="handleImageUpload"
+                @delete="handleAvatarDelete"
+              />
+            </div>
+            <woot-input
+              v-model="websiteName"
+              :class="{ error: v$.websiteName.$error }"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.PLACE_HOLDER'
+                )
+              "
+              :error="websiteNameValidationErrorMsg"
+              @blur="v$.websiteName.$touch"
+            />
+            <woot-input
+              v-model="welcomeHeading"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_HEADING.PLACE_HOLDER'
+                )
+              "
+            />
+            <Editor
+              v-model="welcomeTagline"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
+                )
+              "
+              :max-length="255"
+              :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+              class="mb-4"
+            />
+            <label>
+              {{
+                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.REPLY_TIME.LABEL')
+              }}
+              <select v-model="replyTime">
+                <option
+                  v-for="option in getReplyTimeOptions"
+                  :key="option.key"
+                  :value="option.value"
+                >
+                  {{ option.text }}
+                </option>
+              </select>
+            </label>
+            <label>
+              {{
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_COLOR_LABEL'
+                )
+              }}
+              <woot-color-picker v-model="color" />
+            </label>
+            <InputRadioGroup
+              name="widget-bubble-position"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION_LABEL'
+                )
+              "
+              :items="widgetBubblePositions"
+              :action="handleWidgetBubblePositionChange"
+            />
+            <InputRadioGroup
+              name="widget-bubble-type"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE_LABEL'
+                )
+              "
+              :items="widgetBubbleTypes"
+              :action="handleWidgetBubbleTypeChange"
+            />
+            <woot-input
+              v-model="widgetBubbleLauncherTitle"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.PLACE_HOLDER'
+                )
+              "
+            />
+            <NextButton
+              type="submit"
+              class="mt-4"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.BUTTON_TEXT'
+                )
+              "
+              :is-loading="uiFlags.isUpdating"
+              :disabled="v$.$invalid || uiFlags.isUpdating"
+            />
+          </form>
+        </div>
+      </div>
+      <div class="w-100 lg:w-3/5">
+        <InputRadioGroup
+          name="widget-view-options"
+          class="text-center"
+          :items="getWidgetViewOptions"
+          :action="handleWidgetViewChange"
+        />
+        <div
+          v-if="isWidgetPreview"
+          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-n-slate-3 rounded-lg"
+        >
+          <Widget
+            :welcome-heading="welcomeHeading"
+            :welcome-tagline="welcomeTagline"
+            :website-name="websiteName"
+            :logo="avatarUrl"
+            is-online
+            :reply-time="replyTime"
+            :color="color"
+            :widget-bubble-position="widgetBubblePosition"
+            :widget-bubble-launcher-title="widgetBubbleLauncherTitle"
+            :widget-bubble-type="widgetBubbleType"
+          />
+        </div>
+        <div
+          v-else
+          class="mx-5 p-2.5 bg-n-slate-3 rounded-lg dark:bg-n-solid-3"
+        >
+          <woot-code :script="widgetScript" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

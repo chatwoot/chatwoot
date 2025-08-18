@@ -3,10 +3,10 @@ import { actions } from '../actions';
 import { types } from '../mutations';
 import { apiResponse } from './fixtures';
 
-const commit = jest.fn();
-const dispatch = jest.fn();
+const commit = vi.fn();
+const dispatch = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#index', () => {
@@ -131,6 +131,36 @@ describe('#actions', () => {
           types.SET_HELP_PORTAL_UI_FLAG,
           { uiFlags: { isUpdating: false }, portalSlug: 'campaign' },
         ],
+      ]);
+    });
+  });
+
+  describe('#sslStatus', () => {
+    it('commits SET_SSL_SETTINGS with data from API', async () => {
+      axios.get.mockResolvedValue({
+        data: { status: 'active', verification_errors: [] },
+      });
+      await actions.sslStatus({ commit }, { portalSlug: 'domain' });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_UI_FLAG, { isFetchingSSLStatus: true }],
+        [
+          types.SET_SSL_SETTINGS,
+          {
+            portalSlug: 'domain',
+            sslSettings: { status: 'active', verification_errors: [] },
+          },
+        ],
+        [types.SET_UI_FLAG, { isFetchingSSLStatus: false }],
+      ]);
+    });
+    it('throws error and does not commit when API fails', async () => {
+      axios.get.mockRejectedValue({ message: 'error' });
+      await expect(
+        actions.sslStatus({ commit }, { portalSlug: 'domain' })
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_UI_FLAG, { isFetchingSSLStatus: true }],
+        [types.SET_UI_FLAG, { isFetchingSSLStatus: false }],
       ]);
     });
   });

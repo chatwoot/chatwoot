@@ -1,45 +1,17 @@
-<template>
-  <div class="column content-box">
-    <div class="row">
-      <div class="small-12 columns integrations-wrap">
-        <div class="row integrations">
-          <div v-if="integrationLoaded" class="small-12 columns integration">
-            <integration
-              :integration-id="integration.id"
-              :integration-logo="integration.logo"
-              :integration-name="integration.name"
-              :integration-description="integration.description"
-              :integration-enabled="integration.enabled"
-              :integration-action="integrationAction()"
-            />
-          </div>
-          <div v-if="integration.enabled" class="small-12 columns integration">
-            <IntegrationHelpText />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
 <script>
-import { mapGetters } from 'vuex';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import Integration from './Integration';
-import IntegrationHelpText from './IntegrationHelpText';
+import Integration from './Integration.vue';
+import IntegrationHelpText from './IntegrationHelpText.vue';
 
 export default {
   components: {
     Integration,
     IntegrationHelpText,
   },
-  mixins: [globalConfigMixin],
-
   props: {
     integrationId: {
       type: [String, Number],
       required: true,
     },
-    code: { type: String, default: '' },
   },
   data() {
     return {
@@ -52,14 +24,9 @@ export default {
         this.integrationId
       );
     },
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
-      accountId: 'getCurrentAccountId',
-    }),
   },
   mounted() {
-    this.intializeSlackIntegration();
+    this.fetchIntegrations();
   },
   methods: {
     integrationAction() {
@@ -68,15 +35,28 @@ export default {
       }
       return this.integration.action;
     },
-    async intializeSlackIntegration() {
+    async fetchIntegrations() {
       await this.$store.dispatch('integrations/get', this.integrationId);
-      if (this.code) {
-        await this.$store.dispatch('integrations/connectSlack', this.code);
-        // we are clearing code from the path as subsequent request would throw error
-        this.$router.replace(this.$route.path);
-      }
       this.integrationLoaded = true;
     },
   },
 };
 </script>
+
+<template>
+  <div class="max-w-6xl">
+    <div v-if="integrationLoaded">
+      <Integration
+        :integration-id="integration.id"
+        :integration-logo="integration.logo"
+        :integration-name="integration.name"
+        :integration-description="integration.description"
+        :integration-enabled="integration.enabled"
+        :integration-action="integrationAction()"
+      />
+    </div>
+    <div v-if="integration.enabled">
+      <IntegrationHelpText />
+    </div>
+  </div>
+</template>

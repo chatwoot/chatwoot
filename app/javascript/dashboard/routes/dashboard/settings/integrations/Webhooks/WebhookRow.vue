@@ -1,81 +1,71 @@
+<script setup>
+import { computed } from 'vue';
+import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
+import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
+import { useI18n } from 'vue-i18n';
+
+import Button from 'dashboard/components-next/button/Button.vue';
+
+const props = defineProps({
+  webhook: {
+    type: Object,
+    required: true,
+  },
+  index: {
+    type: Number,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['edit', 'delete']);
+const { t } = useI18n();
+const subscribedEvents = computed(() => {
+  const { subscriptions } = props.webhook;
+  return subscriptions
+    .map(event =>
+      t(
+        getI18nKey(
+          'INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.EVENTS',
+          event
+        )
+      )
+    )
+    .join(', ');
+});
+</script>
+
 <template>
   <tr>
-    <td>
-      <div class="webhook--link">{{ webhook.url }}</div>
-      <span class="webhook--subscribed-events">
-        <span class="webhook--subscribed-label">
+    <td class="py-4 ltr:pr-4 rtl:pl-4">
+      <div class="font-medium break-words text-n-slate-12">
+        {{ webhook.url }}
+      </div>
+      <div class="block mt-1 text-sm text-n-slate-11">
+        <span class="font-medium">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.SUBSCRIBED_EVENTS') }}:
         </span>
-        <show-more :text="subscribedEvents" :limit="60" />
-      </span>
+        <ShowMore :text="subscribedEvents" :limit="60" />
+      </div>
     </td>
-    <td class="button-wrapper">
-      <woot-button
-        v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')"
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        icon="edit"
-        @click="$emit('edit', webhook)"
-      />
-      <woot-button
-        v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')"
-        variant="smooth"
-        color-scheme="alert"
-        size="tiny"
-        icon="dismiss-circle"
-        @click="$emit('delete', webhook, index)"
-      />
+    <td class="py-4 min-w-xs">
+      <div class="flex justify-end gap-1">
+        <Button
+          v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')"
+          icon="i-lucide-pen"
+          slate
+          xs
+          faded
+          @click="emit('edit', webhook)"
+        />
+        <Button
+          v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')"
+          icon="i-lucide-trash-2"
+          xs
+          ruby
+          faded
+          @click="emit('delete', webhook, index)"
+        />
+      </div>
     </td>
   </tr>
 </template>
-<script>
-import webhookMixin from './webhookMixin';
-import ShowMore from 'dashboard/components/widgets/ShowMore';
-
-export default {
-  components: { ShowMore },
-  mixins: [webhookMixin],
-  props: {
-    webhook: {
-      type: Object,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-  },
-  computed: {
-    subscribedEvents() {
-      const { subscriptions } = this.webhook;
-      return subscriptions.map(event => this.getEventLabel(event)).join(', ');
-    },
-  },
-};
-</script>
-<style scoped lang="scss">
-.webhook--link {
-  color: var(--s-700);
-  font-weight: var(--font-weight-medium);
-  word-break: break-word;
-}
-
-.webhook--subscribed-events {
-  color: var(--s-500);
-  font-size: var(--font-size-mini);
-}
-
-.webhook--subscribed-label {
-  font-weight: var(--font-weight-medium);
-}
-
-.button-wrapper {
-  max-width: var(--space-mega);
-  min-width: auto;
-
-  button:nth-child(2) {
-    margin-left: var(--space-normal);
-  }
-}
-</style>

@@ -1,16 +1,64 @@
-import Index from './Index';
-import SettingsContent from '../Wrapper';
-import Webhook from './Webhooks/Index';
-import DashboardApps from './DashboardApps/Index';
-import ShowIntegration from './ShowIntegration';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
+import SettingsWrapper from '../SettingsWrapper.vue';
+import IntegrationHooks from './IntegrationHooks.vue';
+import Index from './Index.vue';
+import Webhook from './Webhooks/Index.vue';
+import DashboardApps from './DashboardApps/Index.vue';
+import Slack from './Slack.vue';
+import SettingsContent from '../Wrapper.vue';
+import Linear from './Linear.vue';
+import Notion from './Notion.vue';
+import Shopify from './Shopify.vue';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/integrations'),
+      component: SettingsWrapper,
+      props: {},
+      children: [
+        {
+          path: '',
+          name: 'settings_applications',
+          component: Index,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'dashboard_apps',
+          component: DashboardApps,
+          name: 'settings_integrations_dashboard_apps',
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'webhook',
+          component: Webhook,
+          name: 'settings_integrations_webhook',
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/settings/integrations'),
       component: SettingsContent,
       props: params => {
+        const integrationId = params.params?.integration_id;
+        const hideHeader = ['dialogflow'].includes(integrationId);
+
+        // Don't show header
+        if (hideHeader) {
+          return {};
+        }
+
         const showBackButton = params.name !== 'settings_integrations';
         const backUrl =
           params.name === 'settings_integrations_integration'
@@ -25,34 +73,54 @@ export default {
       },
       children: [
         {
-          path: '',
-          name: 'settings_integrations',
-          component: Index,
-          roles: ['administrator'],
+          path: 'slack',
+          name: 'settings_integrations_slack',
+          component: Slack,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+          props: route => ({ code: route.query.code }),
         },
         {
-          path: 'webhook',
-          component: Webhook,
-          name: 'settings_integrations_webhook',
-          roles: ['administrator'],
+          path: 'linear',
+          name: 'settings_integrations_linear',
+          component: Linear,
+          meta: {
+            permissions: ['administrator'],
+          },
+          props: route => ({ code: route.query.code }),
         },
         {
-          path: 'dashboard-apps',
-          component: DashboardApps,
-          name: 'settings_integrations_dashboard_apps',
-          roles: ['administrator'],
+          path: 'notion',
+          name: 'settings_integrations_notion',
+          component: Notion,
+          meta: {
+            permissions: ['administrator'],
+          },
+          props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'shopify',
+          name: 'settings_integrations_shopify',
+          component: Shopify,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+          props: route => ({ error: route.query.error }),
         },
         {
           path: ':integration_id',
-          name: 'settings_integrations_integration',
-          component: ShowIntegration,
-          roles: ['administrator'],
-          props: route => {
-            return {
-              integrationId: route.params.integration_id,
-              code: route.query.code,
-            };
+          name: 'settings_applications_integration',
+          component: IntegrationHooks,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
           },
+          props: route => ({
+            integrationId: route.params.integration_id,
+          }),
         },
       ],
     },

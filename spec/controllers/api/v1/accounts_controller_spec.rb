@@ -61,10 +61,9 @@ RSpec.describe 'Accounts API', type: :request do
                params: params,
                as: :json
 
-          expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
-          expect(account_builder).to have_received(:perform)
+          expect(AccountBuilder).not_to have_received(:new)
           expect(response).to have_http_status(:forbidden)
-          expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
+          expect(response.body).to eq({ message: I18n.t('errors.signup.invalid_params') }.to_json)
         end
       end
     end
@@ -120,7 +119,7 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows an account' do
-        account.update(auto_resolve_duration: 30)
+        account.update(name: 'new name')
 
         get "/api/v1/accounts/#{account.id}",
             headers: admin.create_new_auth_token,
@@ -131,7 +130,6 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response.body).to include(account.locale)
         expect(response.body).to include(account.domain)
         expect(response.body).to include(account.support_email)
-        expect(response.body).to include(account.auto_resolve_duration.to_s)
         expect(response.body).to include(account.locale)
       end
     end
@@ -190,7 +188,12 @@ RSpec.describe 'Accounts API', type: :request do
         locale: 'en',
         domain: 'example.com',
         support_email: 'care@example.com',
-        auto_resolve_duration: 40
+        auto_resolve_after: 40,
+        auto_resolve_message: 'Auto resolved',
+        auto_resolve_ignore_waiting: false,
+        timezone: 'Asia/Kolkata',
+        industry: 'Technology',
+        company_size: '1-10'
       }
 
       it 'modifies an account' do
@@ -204,7 +207,33 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.locale).to eq(params[:locale])
         expect(account.reload.domain).to eq(params[:domain])
         expect(account.reload.support_email).to eq(params[:support_email])
-        expect(account.reload.auto_resolve_duration).to eq(params[:auto_resolve_duration])
+
+        %w[auto_resolve_after auto_resolve_message auto_resolve_ignore_waiting].each do |attribute|
+          expect(account.reload.settings[attribute]).to eq(params[attribute.to_sym])
+        end
+
+        %w[timezone industry company_size].each do |attribute|
+          expect(account.reload.custom_attributes[attribute]).to eq(params[attribute.to_sym])
+        end
+      end
+
+      it 'updates onboarding step to invite_team if onboarding step is present in account custom attributes' do
+        account.update(custom_attributes: { onboarding_step: 'account_update' })
+        put "/api/v1/accounts/#{account.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_team')
+      end
+
+      it 'will not update onboarding step if onboarding step is not present in account custom attributes' do
+        put "/api/v1/accounts/#{account.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(account.reload.custom_attributes['onboarding_step']).to be_nil
       end
 
       it 'Throws error 422' do

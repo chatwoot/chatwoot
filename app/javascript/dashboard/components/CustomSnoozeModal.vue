@@ -1,35 +1,13 @@
-<template>
-  <div class="column">
-    <woot-modal-header :header-title="$t('CONVERSATION.CUSTOM_SNOOZE.TITLE')" />
-    <form class="row modal-content" @submit.prevent="chooseTime">
-      <date-picker
-        v-model="snoozeTime"
-        type="datetime"
-        inline
-        :lang="lang"
-        :disabled-date="disabledDate"
-        :disabled-time="disabledTime"
-        :popup-style="{ width: '100%' }"
-      />
-      <div class="modal-footer justify-content-end w-full">
-        <woot-button variant="clear" @click.prevent="onClose">
-          {{ this.$t('CONVERSATION.CUSTOM_SNOOZE.CANCEL') }}
-        </woot-button>
-        <woot-button>
-          {{ this.$t('CONVERSATION.CUSTOM_SNOOZE.APPLY') }}
-        </woot-button>
-      </div>
-    </form>
-  </div>
-</template>
-
 <script>
-import DatePicker from 'vue2-datepicker';
+import DatePicker from 'vue-datepicker-next';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     DatePicker,
+    NextButton,
   },
+  emits: ['close', 'chooseTime'],
 
   data() {
     return {
@@ -47,7 +25,7 @@ export default {
       this.$emit('close');
     },
     chooseTime() {
-      this.$emit('choose-time', this.snoozeTime);
+      this.$emit('chooseTime', this.snoozeTime);
     },
     disabledDate(date) {
       // Disable all the previous dates
@@ -65,11 +43,35 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.modal-footer {
-  padding: var(--space-two);
-}
-.modal-content {
-  padding: var(--space-small) var(--space-two) var(--space-zero);
-}
-</style>
+<template>
+  <div class="flex flex-col">
+    <woot-modal-header :header-title="$t('CONVERSATION.CUSTOM_SNOOZE.TITLE')" />
+    <form
+      class="modal-content w-full pt-2 px-5 pb-6"
+      @submit.prevent="chooseTime"
+    >
+      <DatePicker
+        v-model:value="snoozeTime"
+        type="datetime"
+        inline
+        input-class="mx-input "
+        :lang="lang"
+        :disabled-date="disabledDate"
+        :disabled-time="disabledTime"
+      />
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('CONVERSATION.CUSTOM_SNOOZE.CANCEL')"
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
+          :label="$t('CONVERSATION.CUSTOM_SNOOZE.APPLY')"
+        />
+      </div>
+    </form>
+  </div>
+</template>

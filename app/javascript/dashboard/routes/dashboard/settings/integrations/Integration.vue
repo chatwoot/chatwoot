@@ -1,22 +1,92 @@
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { frontendURL } from '../../../../helper/URLHelper';
+import { useAlert } from 'dashboard/composables';
+import { useBranding } from 'shared/composables/useBranding';
+
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+
+const props = defineProps({
+  integrationId: {
+    type: [String, Number],
+    required: true,
+  },
+  integrationName: { type: String, default: '' },
+  integrationDescription: { type: String, default: '' },
+  integrationEnabled: { type: Boolean, default: false },
+  integrationAction: { type: String, default: '' },
+  actionButtonText: { type: String, default: '' },
+  deleteConfirmationText: { type: Object, default: () => ({}) },
+});
+
+const { t } = useI18n();
+const store = useStore();
+const router = useRouter();
+const { replaceInstallationName } = useBranding();
+
+const dialogRef = ref(null);
+
+const accountId = computed(() => store.getters.getCurrentAccountId);
+
+const openDeletePopup = () => {
+  if (dialogRef.value) {
+    dialogRef.value.open();
+  }
+};
+
+const closeDeletePopup = () => {
+  if (dialogRef.value) {
+    dialogRef.value.close();
+  }
+};
+
+const deleteIntegration = async () => {
+  try {
+    await store.dispatch('integrations/deleteIntegration', props.integrationId);
+    useAlert(t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE'));
+  }
+};
+
+const confirmDeletion = () => {
+  closeDeletePopup();
+  deleteIntegration();
+  router.push({ name: 'settings_applications' });
+};
+</script>
+
 <template>
-  <div class="row">
-    <div class="integration--image">
-      <img :src="'/dashboard/images/integrations/' + integrationLogo" />
+  <div
+    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow gap-6"
+  >
+    <div
+      class="flex items-start lg:items-center justify-start flex-1 m-0 gap-6 flex-col lg:flex-row"
+    >
+      <div class="flex h-16 w-16 items-center justify-center flex-shrink-0">
+        <img
+          :src="`/dashboard/images/integrations/${integrationId}.png`"
+          class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
+        />
+        <img
+          :src="`/dashboard/images/integrations/${integrationId}-dark.png`"
+          class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
+        />
+      </div>
+      <div>
+        <h3 class="mb-1 text-xl font-medium text-n-slate-12">
+          {{ integrationName }}
+        </h3>
+        <p class="text-n-slate-11 text-sm leading-6">
+          {{ replaceInstallationName(integrationDescription) }}
+        </p>
+      </div>
     </div>
-    <div class="integration--type column">
-      <h3 class="integration--title">
-        {{ integrationName }}
-      </h3>
-      <p>
-        {{
-          useInstallationName(
-            integrationDescription,
-            globalConfig.installationName
-          )
-        }}
-      </p>
-    </div>
-    <div class="small-2 column button-wrap">
+    <div class="flex justify-center items-center mb-0">
       <router-link
         :to="
           frontendURL(
@@ -26,99 +96,53 @@
       >
         <div v-if="integrationEnabled">
           <div v-if="integrationAction === 'disconnect'">
-            <div @click="openDeletePopup()">
-              <woot-submit-button
-                :button-text="
-                  $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
-                "
-                icon-class="dismiss-circle"
-                button-class="nice alert"
-              />
-            </div>
+            <Button
+              :label="
+                actionButtonText ||
+                $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
+              "
+              faded
+              ruby
+              @click="openDeletePopup"
+            />
           </div>
           <div v-else>
-            <button class="button nice">
-              {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
-            </button>
+            <Button
+              faded
+              blue
+              :label="t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE')"
+            />
           </div>
         </div>
       </router-link>
       <div v-if="!integrationEnabled">
-        <a :href="integrationAction" class="button success nice">
-          {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
-        </a>
+        <slot name="action">
+          <a :href="integrationAction">
+            <Button
+              faded
+              blue
+              :label="t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT')"
+            />
+          </a>
+        </slot>
       </div>
     </div>
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')"
-      :message="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')"
-      :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
-      :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
+    <Dialog
+      ref="dialogRef"
+      type="alert"
+      :title="
+        deleteConfirmationText.title ||
+        t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')
+      "
+      :description="
+        deleteConfirmationText.message ||
+        t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')
+      "
+      :confirm-button-label="
+        t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')
+      "
+      :cancel-button-label="t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
+      @confirm="confirmDeletion"
     />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import { frontendURL } from '../../../../helper/URLHelper';
-import alertMixin from 'shared/mixins/alertMixin';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
-export default {
-  mixins: [alertMixin, globalConfigMixin],
-  props: {
-    integrationId: {
-      type: [String, Number],
-      required: true,
-    },
-    integrationLogo: { type: String, default: '' },
-    integrationName: { type: String, default: '' },
-    integrationDescription: { type: String, default: '' },
-    integrationEnabled: { type: Boolean, default: false },
-    integrationAction: { type: String, default: '' },
-  },
-  data() {
-    return {
-      showDeleteConfirmationPopup: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-      accountId: 'getCurrentAccountId',
-      globalConfig: 'globalConfig/get',
-    }),
-  },
-  methods: {
-    frontendURL,
-    openDeletePopup() {
-      this.showDeleteConfirmationPopup = true;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    confirmDeletion() {
-      this.closeDeletePopup();
-      this.deleteIntegration(this.deleteIntegration);
-      this.$router.push({ name: 'settings_integrations' });
-    },
-    async deleteIntegration() {
-      try {
-        await this.$store.dispatch(
-          'integrations/deleteIntegration',
-          this.integrationId
-        );
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE')
-        );
-      } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
-        );
-      }
-    },
-  },
-};
-</script>

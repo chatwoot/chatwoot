@@ -1,3 +1,83 @@
+<script>
+import { ref } from 'vue';
+import { mapGetters } from 'vuex';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import Spinner from 'shared/components/Spinner.vue';
+import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
+import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
+
+export default {
+  components: {
+    Spinner,
+    LabelDropdown,
+    AddLabel,
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+
+    const {
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+    } = useConversationLabels();
+
+    const showSearchDropdownLabel = ref(false);
+
+    const toggleLabels = () => {
+      showSearchDropdownLabel.value = !showSearchDropdownLabel.value;
+    };
+
+    const closeDropdownLabel = () => {
+      showSearchDropdownLabel.value = false;
+    };
+
+    const keyboardEvents = {
+      KeyL: {
+        action: e => {
+          e.preventDefault();
+          toggleLabels();
+        },
+      },
+      Escape: {
+        action: () => {
+          if (showSearchDropdownLabel.value) {
+            toggleLabels();
+          }
+        },
+        allowOnFocusedInput: true,
+      },
+    };
+    useKeyboardEvents(keyboardEvents);
+    return {
+      isAdmin,
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+      showSearchDropdownLabel,
+      closeDropdownLabel,
+      toggleLabels,
+    };
+  },
+  data() {
+    return {
+      selectedLabels: [],
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      conversationUiFlags: 'conversationLabels/getUIFlags',
+    }),
+  },
+};
+</script>
+
 <template>
   <div class="sidebar-labels-wrap">
     <div
@@ -6,87 +86,43 @@
     >
       <div
         v-on-clickaway="closeDropdownLabel"
-        class="label-wrap"
+        class="label-wrap flex flex-wrap"
         @keyup.esc="closeDropdownLabel"
       >
-        <add-label @add="toggleLabels" />
+        <AddLabel @add="toggleLabels" />
         <woot-label
           v-for="label in activeLabels"
           :key="label.id"
           :title="label.title"
           :description="label.description"
-          :show-close="true"
+          show-close
           :color="label.color"
           variant="smooth"
-          @click="removeLabelFromConversation"
+          class="max-w-[calc(100%-0.5rem)]"
+          @remove="removeLabelFromConversation"
         />
 
-        <div class="dropdown-wrap">
-          <div
-            :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
-            class="dropdown-pane"
-          >
-            <label-dropdown
-              v-if="showSearchDropdownLabel"
-              :account-labels="accountLabels"
-              :selected-labels="savedLabels"
-              @add="addLabelToConversation"
-              @remove="removeLabelFromConversation"
-            />
-          </div>
+        <div
+          :class="{
+            'block visible': showSearchDropdownLabel,
+            'hidden invisible': !showSearchDropdownLabel,
+          }"
+          class="border rounded-lg bg-n-alpha-3 top-6 backdrop-blur-[100px] absolute w-full shadow-lg border-n-strong dark:border-n-strong p-2 box-border z-[9999]"
+        >
+          <LabelDropdown
+            v-if="showSearchDropdownLabel"
+            :account-labels="accountLabels"
+            :selected-labels="savedLabels"
+            :allow-creation="isAdmin"
+            @add="addLabelToConversation"
+            @remove="removeLabelFromConversation"
+          />
         </div>
       </div>
     </div>
-    <spinner v-else />
+    <Spinner v-else />
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner';
-import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
-import AddLabel from 'shared/components/ui/dropdown/AddLabel';
-import { mixin as clickaway } from 'vue-clickaway';
-import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-
-export default {
-  components: {
-    Spinner,
-    LabelDropdown,
-    AddLabel,
-  },
-
-  mixins: [clickaway, conversationLabelMixin],
-  props: {
-    conversationId: {
-      type: Number,
-      required: true,
-    },
-  },
-
-  data() {
-    return {
-      selectedLabels: [],
-      showSearchDropdownLabel: false,
-    };
-  },
-
-  computed: {
-    ...mapGetters({
-      conversationUiFlags: 'conversationLabels/getUIFlags',
-      labelUiFlags: 'conversationLabels/getUIFlags',
-    }),
-  },
-  methods: {
-    toggleLabels() {
-      this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
-    },
-    closeDropdownLabel() {
-      this.showSearchDropdownLabel = false;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .sidebar-labels-wrap {
@@ -96,28 +132,8 @@ export default {
   width: 100%;
 
   .label-wrap {
-    line-height: var(--space-medium);
+    line-height: 1.5rem;
     position: relative;
-
-    .dropdown-wrap {
-      display: flex;
-      left: -1px;
-      margin-right: var(--space-medium);
-      position: absolute;
-      top: var(--space-medium);
-      width: 100%;
-
-      .dropdown-pane {
-        width: 100%;
-        box-sizing: border-box;
-      }
-    }
   }
-}
-
-.error {
-  color: var(--r-500);
-  font-size: var(--font-size-mini);
-  font-weight: var(--font-weight-medium);
 }
 </style>

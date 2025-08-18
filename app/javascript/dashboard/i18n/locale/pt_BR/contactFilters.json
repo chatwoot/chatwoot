@@ -1,19 +1,19 @@
 {
   "CONTACTS_FILTER": {
-    "TITLE": "Filtrar contatos",
+    "TITLE": "Filtrar Contatos",
     "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar conversas.",
-    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
+    "EDIT_CUSTOM_SEGMENT": "Alterar segmento",
+    "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize seu segmento.",
     "ADD_NEW_FILTER": "Adicionar filtro",
     "CLEAR_ALL_FILTERS": "Limpar Filtros",
     "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para salvar",
     "SUBMIT_BUTTON_LABEL": "Enviar",
-    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "UPDATE_BUTTON_LABEL": "Atualizar segmento",
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar Filtros",
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
-    "SEGMENT_LABEL": "Segment Name",
-    "SEGMENT_QUERY_LABEL": "Segment Query",
+    "SEGMENT_LABEL": "Nome do segmento",
+    "SEGMENT_QUERY_LABEL": "Consulta de Segmento",
     "TOOLTIP_LABEL": "Filtrar contatos",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "OU",
@@ -30,9 +30,12 @@
       "is_lesser_than": "É menor que",
       "days_before": "É x dias antes"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Valor obrigatório"
+    },
     "ATTRIBUTES": {
       "NAME": "Nome",
-      "EMAIL": "e-mail",
+      "EMAIL": "E-mail",
       "PHONE_NUMBER": "Número de telefone",
       "IDENTIFIER": "Identificador",
       "CITY": "Cidade",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Criado em",
       "LAST_ACTIVITY": "Última atividade",
-      "REFERER_LINK": "Link de origem"
+      "REFERER_LINK": "Link de origem",
+      "BLOCKED": "Bloqueado"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtros Padrão",

@@ -1,156 +1,181 @@
-<template>
-  <ul
-    v-if="items.length"
-    class="vertical dropdown menu mention--box"
-    :class="{ 'with-bottom-border': items.length <= 4 }"
-  >
-    <li
-      v-for="(agent, index) in items"
-      :id="`mention-item-${index}`"
-      :key="agent.id"
-      :class="{ active: index === selectedIndex }"
-      @click="onAgentSelect(index)"
-      @mouseover="onHover(index)"
-    >
-      <div class="mention--thumbnail">
-        <woot-thumbnail
-          :src="agent.thumbnail"
-          :username="agent.name"
-          size="32px"
-        />
-      </div>
-      <div class="mention--metadata text-truncate">
-        <h5 class="text-block-title mention--user-name text-truncate">
-          {{ agent.name }}
-        </h5>
-        <div class="text-truncate mention--email text-truncate">
-          {{ agent.email }}
-        </div>
-      </div>
-    </li>
-  </ul>
-</template>
+<script setup>
+import Avatar from 'next/avatar/Avatar.vue';
+import { ref, computed, watch, nextTick } from 'vue';
+import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
+import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
+import { useI18n } from 'vue-i18n';
 
-<script>
-import { mapGetters } from 'vuex';
-import mentionSelectionKeyboardMixin from '../mentions/mentionSelectionKeyboardMixin';
-export default {
-  mixins: [mentionSelectionKeyboardMixin],
-  props: {
-    searchKey: {
-      type: String,
-      default: '',
-    },
+const props = defineProps({
+  searchKey: {
+    type: String,
+    default: '',
   },
-  data() {
-    return { selectedIndex: 0 };
-  },
-  computed: {
-    ...mapGetters({ agents: 'agents/getVerifiedAgents' }),
-    items() {
-      if (!this.searchKey) {
-        return this.agents;
-      }
+});
 
-      return this.agents.filter(agent =>
-        agent.name
-          .toLocaleLowerCase()
-          .includes(this.searchKey.toLocaleLowerCase())
+const emit = defineEmits(['selectAgent']);
+
+const { t } = useI18n();
+const getters = useStoreGetters();
+const agents = computed(() => getters['agents/getVerifiedAgents'].value);
+const teams = useMapGetter('teams/getTeams');
+
+const tagAgentsRef = ref(null);
+const selectedIndex = ref(0);
+
+const items = computed(() => {
+  const search = props.searchKey?.trim().toLowerCase() || '';
+
+  const buildItems = (list, type, infoKey) =>
+    list
+      .map(item => ({
+        ...item,
+        type,
+        displayName: item.name,
+        displayInfo: item[infoKey],
+      }))
+      .filter(item =>
+        search ? item.displayName.toLowerCase().includes(search) : true
       );
-    },
-  },
-  watch: {
-    items(newListOfAgents) {
-      if (newListOfAgents.length < this.selectedIndex + 1) {
-        this.selectedIndex = 0;
-      }
-    },
-  },
 
-  methods: {
-    handleKeyboardEvent(e) {
-      this.processKeyDownEvent(e);
-      this.$el.scrollTop = 50 * this.selectedIndex;
+  const categories = [
+    {
+      title: t('CONVERSATION.MENTION.AGENTS'),
+      data: buildItems(agents.value, 'user', 'email'),
     },
-    onHover(index) {
-      this.selectedIndex = index;
+    {
+      title: t('CONVERSATION.MENTION.TEAMS'),
+      data: buildItems(teams.value, 'team', 'description'),
     },
-    onAgentSelect(index) {
-      this.selectedIndex = index;
-      this.onSelect();
-    },
-    onSelect() {
-      this.$emit('click', this.items[this.selectedIndex]);
-    },
-  },
+  ];
+
+  return categories.flatMap(({ title, data }) =>
+    data.length
+      ? [
+          { type: 'header', title, id: `${title.toLowerCase()}-header` },
+          ...data,
+        ]
+      : []
+  );
+});
+
+const selectableItems = computed(() => {
+  return items.value.filter(item => item.type !== 'header');
+});
+
+const getSelectableIndex = item => {
+  return selectableItems.value.findIndex(
+    selectableItem =>
+      selectableItem.type === item.type && selectableItem.id === item.id
+  );
+};
+
+const adjustScroll = () => {
+  nextTick(() => {
+    if (tagAgentsRef.value) {
+      const selectedElement = tagAgentsRef.value.querySelector(
+        `#mention-item-${selectedIndex.value}`
+      );
+      if (selectedElement) {
+        selectedElement.scrollIntoView({
+          block: 'nearest',
+          behavior: 'auto',
+        });
+      }
+    }
+  });
+};
+
+const onSelect = () => {
+  emit('selectAgent', selectableItems.value[selectedIndex.value]);
+};
+
+useKeyboardNavigableList({
+  items: selectableItems,
+  onSelect,
+  adjustScroll,
+  selectedIndex,
+});
+
+watch(selectableItems, newListOfAgents => {
+  if (newListOfAgents.length < selectedIndex.value + 1) {
+    selectedIndex.value = 0;
+  }
+});
+
+const onHover = index => {
+  selectedIndex.value = index;
+};
+
+const onAgentSelect = index => {
+  selectedIndex.value = index;
+  onSelect();
 };
 </script>
 
-<style scoped lang="scss">
-.mention--box {
-  background: var(--white);
-  border-radius: var(--border-radius-normal);
-  border-top: 1px solid var(--color-border);
-  box-shadow: var(--shadow-medium);
-  font-size: var(--font-size-small);
-  left: 0;
-  bottom: 100%;
-  line-height: 1.2;
-  max-height: 20rem;
-  overflow: auto;
-  padding: var(--space-small) var(--space-small) 0 var(--space-small);
-  position: absolute;
-  width: 100%;
-  z-index: 100;
-
-  &.with-bottom-border {
-    border-bottom: var(--space-small) solid var(--white);
-
-    li {
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-
-  li {
-    align-items: center;
-    border-radius: var(--border-radius-normal);
-    display: flex;
-    padding: var(--space-small);
-
-    &.active {
-      background: var(--s-50);
-
-      .mention--user-name {
-        color: var(--s-900);
-      }
-      .mention--email {
-        color: var(--s-800);
-      }
-    }
-
-    &:last-child {
-      margin-bottom: var(--space-small);
-    }
-  }
-}
-
-.mention--thumbnail {
-  margin-right: var(--space-small);
-}
-
-.mention--user-name {
-  margin-bottom: 0;
-}
-
-.mention--email {
-  color: var(--s-700);
-  font-size: var(--font-size-mini);
-}
-
-.mention--metadata {
-  flex: 1;
-  max-width: 100%;
-}
-</style>
+<template>
+  <div>
+    <ul
+      v-if="items.length"
+      ref="tagAgentsRef"
+      class="vertical dropdown menu mention--box bg-n-solid-1 p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-n-strong"
+      role="listbox"
+    >
+      <li
+        v-for="item in items"
+        :id="
+          item.type === 'header'
+            ? undefined
+            : `mention-item-${getSelectableIndex(item)}`
+        "
+        :key="`${item.type}-${item.id}`"
+      >
+        <!-- Section Header -->
+        <div
+          v-if="item.type === 'header'"
+          class="px-2 py-2 text-xs font-medium tracking-wide capitalize text-n-slate-11"
+        >
+          {{ item.title }}
+        </div>
+        <!-- Selectable Item -->
+        <div
+          v-else
+          :class="{
+            'bg-n-alpha-black2': getSelectableIndex(item) === selectedIndex,
+          }"
+          class="flex items-center px-2 py-1 rounded-md cursor-pointer"
+          role="option"
+          @click="onAgentSelect(getSelectableIndex(item))"
+          @mouseover="onHover(getSelectableIndex(item))"
+        >
+          <div class="ltr:mr-2 rtl:ml-2">
+            <Avatar
+              :src="item.thumbnail"
+              :name="item.displayName"
+              rounded-full
+            />
+          </div>
+          <div
+            class="overflow-hidden flex-1 max-w-full whitespace-nowrap text-ellipsis"
+          >
+            <h5
+              class="overflow-hidden mb-0 text-sm capitalize whitespace-nowrap text-n-slate-11 text-ellipsis"
+              :class="{
+                'text-n-slate-12': getSelectableIndex(item) === selectedIndex,
+              }"
+            >
+              {{ item.displayName }}
+            </h5>
+            <div
+              class="overflow-hidden text-xs whitespace-nowrap text-ellipsis text-n-slate-10"
+              :class="{
+                'text-n-slate-11': getSelectableIndex(item) === selectedIndex,
+              }"
+            >
+              {{ item.displayInfo }}
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>

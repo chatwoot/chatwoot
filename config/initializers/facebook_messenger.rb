@@ -29,17 +29,18 @@ Rails.application.reloader.to_prepare do
   end
 
   Facebook::Messenger::Bot.on :delivery do |delivery|
-    # delivery.ids       # => 'mid.1457764197618:41d102a3e1ae206a38'
-    # delivery.sender    # => { 'id' => '1008372609250235' }
-    # delivery.recipient # => { 'id' => '2015573629214912' }
-    # delivery.at        # => 2016-04-22 21:30:36 +0200
-    # delivery.seq       # => 37
-    updater = Integrations::Facebook::DeliveryStatus.new(delivery)
-    updater.perform
-    Rails.logger.info "Human was online at #{delivery.at}"
+    Rails.logger.info "Recieved delivery status #{delivery.to_json}"
+    Webhooks::FacebookDeliveryJob.perform_later(delivery.to_json)
+  end
+
+  Facebook::Messenger::Bot.on :read do |read|
+    Rails.logger.info "Recieved read status  #{read.to_json}"
+    Webhooks::FacebookDeliveryJob.perform_later(read.to_json)
   end
 
   Facebook::Messenger::Bot.on :message_echo do |message|
-    Webhooks::FacebookEventsJob.perform_later(message.to_json)
+    # Add delay to prevent race condition where echo arrives before send message API completes
+    # This avoids duplicate messages when echo comes early during API processing
+    Webhooks::FacebookEventsJob.set(wait: 2.seconds).perform_later(message.to_json)
   end
 end

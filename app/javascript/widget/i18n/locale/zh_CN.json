@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "无法发送，请重试"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "在线",
     "OFFLINE": "当前已离线"
@@ -20,21 +25,23 @@
     "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
     "IN_A_FEW_HOURS": "通常在几小时内回复您",
     "IN_A_DAY": "通常在一天之内回复您",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "我们将重新上线"
   },
-  "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "周日",
+    "MONDAY": "周一",
+    "TUESDAY": "周二",
+    "WEDNESDAY": "周三",
+    "THURSDAY": "周四",
+    "FRIDAY": "周五",
+    "SATURDAY": "周六"
+  },
   "START_CONVERSATION": "开始会话",
   "END_CONVERSATION": "结束对话",
   "CONTINUE_CONVERSATION": "继续对话",
+  "YOU": "您",
   "START_NEW_CONVERSATION": "开始新的对话",
+  "VIEW_UNREAD_MESSAGES": "您有未读消息",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
     "CLOSE_MESSAGES_BUTTON": "关闭",
@@ -59,14 +66,17 @@
       "EMAIL_ADDRESS": {
         "LABEL": "电子邮件地址",
         "PLACEHOLDER": "请输入您的邮箱地址",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "电子邮件地址是必填项",
         "VALID_ERROR": "请输入一个有效的电子邮件"
       },
       "PHONE_NUMBER": {
         "LABEL": "电话号码",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
+        "PLACEHOLDER": "请输入您的手机号码",
+        "REQUIRED_ERROR": "电话号码是必填项",
+        "DIAL_CODE_VALID_ERROR": "请选择国家代码",
+        "VALID_ERROR": "请输入一个有效的电话号码",
+        "DROPDOWN_EMPTY": "没有检索到相关信息",
+        "DROPDOWN_SEARCH": "搜索国家/地区"
       },
       "MESSAGE": {
         "LABEL": "消息",
@@ -75,8 +85,9 @@
       }
     },
     "CAMPAIGN_HEADER": "请在开始对话之前提供您的姓名和电子邮件",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "Required"
+    "IS_REQUIRED": "是必填项",
+    "REQUIRED": "必填项",
+    "REGEX_ERROR": "请提供一个有效的值"
   },
   "FILE_SIZE_LIMIT": "文件超过大小 {MAXIMUM_FILE_UPLOAD_SIZE} 附件限制",
   "CHAT_FORM": {
@@ -85,8 +96,9 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "搜索表情符号",
+    "NOT_FOUND": "没有适合你的搜索结果",
+    "ARIA_LABEL": "Emoji选择器"
   },
   "CSAT": {
     "TITLE": "评价您的对话",
@@ -100,8 +112,36 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "点击这里加入",
+      "LEAVE_THE_ROOM": "离开来电"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "最受欢迎文章",
+    "VIEW_ALL_ARTICLES": "查看所有文章",
+    "IFRAME_LOAD_ERROR": "加载文章时出错，请刷新页面后重试。"
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "图片消息"
+    },
+    "audio": {
+      "CONTENT": "音频消息"
+    },
+    "video": {
+      "CONTENT": "视频消息"
+    },
+    "file": {
+      "CONTENT": "附件"
+    },
+    "location": {
+      "CONTENT": "位置"
+    },
+    "fallback": {
+      "CONTENT": "分享了一个网址"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "回复："
   }
 }

@@ -1,25 +1,3 @@
-<template>
-  <div :class="labelClass" :style="labelStyle" :title="description">
-    <span v-if="icon" class="label-action--button">
-      <fluent-icon :icon="icon" size="12" class="label--icon" />
-    </span>
-    <span
-      v-if="variant === 'smooth' && title && !icon"
-      :style="{ background: color }"
-      class="label-color-dot"
-    />
-    <span v-if="!href">{{ title }}</span>
-    <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
-    <button
-      v-if="showClose"
-      class="label-close--button"
-      :style="{ color: textColor }"
-      @click="onClick"
-    >
-      <fluent-icon icon="dismiss" size="12" class="close--icon" />
-    </button>
-  </div>
-</template>
 <script>
 import { getContrastingTextColor } from '@chatwoot/utils';
 
@@ -66,9 +44,11 @@ export default {
       default: '',
     },
   },
+  emits: ['remove'],
   computed: {
     textColor() {
       if (this.variant === 'smooth') return '';
+      if (this.variant === 'dashed') return '';
       return this.color || getContrastingTextColor(this.bgColor);
     },
     labelClass() {
@@ -95,146 +75,139 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('click', this.title);
+      this.$emit('remove', this.title);
     },
   },
 };
 </script>
 
-<style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
+<template>
+  <div
+    class="inline-flex ltr:mr-1 rtl:ml-1 mb-1"
+    :class="labelClass"
+    :style="labelStyle"
+    :title="description"
+  >
+    <span v-if="icon" class="label-action--button">
+      <fluent-icon :icon="icon" size="12" class="label--icon cursor-pointer" />
+    </span>
+    <span
+      v-if="['smooth', 'dashed'].includes(variant) && title && !icon"
+      :style="{ background: color }"
+      class="label-color-dot flex-shrink-0"
+    />
+    <span v-if="!href" class="whitespace-nowrap text-ellipsis overflow-hidden">
+      {{ title }}
+    </span>
+    <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
+    <button
+      v-if="showClose"
+      class="label-close--button p-0"
+      :style="{ color: textColor }"
+      @click="onClick"
+    >
+      <fluent-icon icon="dismiss" size="12" class="close--icon" />
+    </button>
+  </div>
+</template>
 
+<style scoped lang="scss">
 .label {
-  display: inline-flex;
-  align-items: center;
-  font-weight: var(--font-weight-medium);
-  gap: var(--space-smaller);
-  margin-right: var(--space-smaller);
-  margin-bottom: var(--space-smaller);
-  padding: var(--space-smaller);
-  background: var(--s-50);
-  color: var(--s-800);
-  border: 1px solid var(--s-75);
-  height: var(--space-medium);
+  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-n-slate-3 text-n-slate-12 border border-solid border-n-strong h-6;
 
   &.small {
-    font-size: var(--font-size-mini);
-    padding: var(--space-micro) var(--space-smaller);
-    line-height: 1.2;
-    height: var(--space-two);
-  }
-
-  .label--icon {
-    cursor: pointer;
+    @apply text-xs py-0.5 px-1 leading-tight h-5;
   }
 
   &.small .label--icon,
   &.small .close--icon {
-    font-size: var(--font-size-nano);
+    @apply text-[0.5rem];
   }
 
   a {
-    font-size: var(--font-size-mini);
+    @apply text-xs;
     &:hover {
-      text-decoration: underline;
+      @apply underline;
     }
   }
 
   /* Color Schemes */
   &.primary {
-    background: var(--w-100);
-    color: var(--w-900);
-    border: 1px solid var(--w-200);
+    @apply bg-n-blue-5 text-n-blue-12 border border-solid border-n-blue-7;
+
     a {
-      color: var(--w-900);
+      @apply text-n-blue-12;
     }
     .label-color-dot {
-      background: var(--w-600);
+      @apply bg-n-blue-9;
     }
   }
   &.secondary {
-    background: var(--s-100);
-    color: var(--s-900);
-    border: 1px solid var(--s-200);
+    @apply bg-n-slate-5 text-n-slate-12 border border-solid border-n-slate-7;
+
     a {
-      color: var(--s-900);
+      @apply text-n-slate-12;
     }
     .label-color-dot {
-      background: var(--s-600);
+      @apply bg-n-slate-9;
     }
   }
   &.success {
-    background: var(--g-100);
-    color: var(--g-900);
-    border: 1px solid var(--g-200);
+    @apply bg-n-teal-5 text-n-teal-12 border border-solid border-n-teal-7;
+
     a {
-      color: var(--g-900);
+      @apply text-n-teal-12;
     }
     .label-color-dot {
-      background: var(--g-600);
+      @apply bg-n-teal-9;
     }
   }
   &.alert {
-    background: var(--r-100);
-    color: var(--r-900);
-    border: 1px solid var(--r-200);
+    @apply bg-n-ruby-5 text-n-ruby-12 border border-solid border-n-ruby-7;
+
     a {
-      color: var(--r-900);
+      @apply text-n-ruby-12;
     }
     .label-color-dot {
-      background: var(--r-600);
+      @apply bg-n-ruby-9;
     }
   }
   &.warning {
-    background: var(--y-100);
-    color: var(--y-900);
-    border: 1px solid var(--y-200);
+    @apply bg-n-amber-5 text-n-amber-12 border border-solid border-n-amber-7;
+
     a {
-      color: var(--y-900);
+      @apply text-n-amber-12;
     }
     .label-color-dot {
-      background: var(--y-900);
+      @apply bg-n-amber-9;
     }
   }
 
   &.smooth {
-    background: transparent;
-    border: 1px solid var(--s-100);
-    color: var(--s-700);
+    @apply bg-transparent text-n-slate-11 dark:text-n-slate-12 border border-solid border-n-strong;
+  }
+
+  &.dashed {
+    @apply bg-transparent text-n-slate-11 dark:text-n-slate-12 border border-dashed border-n-strong;
   }
 }
 
 .label-close--button {
-  color: var(--s-800);
-  margin-bottom: var(--space-minus-micro);
-  border-radius: var(--border-radius-small);
-  cursor: pointer;
+  @apply text-n-slate-11 -mb-0.5 rounded-sm cursor-pointer flex items-center justify-center hover:bg-n-slate-3;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background: var(--s-100);
+  svg {
+    @apply text-n-slate-11;
   }
 }
 
 .label-action--button {
-  display: flex;
-  margin-right: var(--space-smaller);
+  @apply flex mr-1;
 }
 
 .label-color-dot {
-  display: inline-block;
-  width: var(--space-slab);
-  height: var(--space-slab);
-  border-radius: var(--border-radius-small);
-  box-shadow: var(--shadow-small);
+  @apply inline-block w-3 h-3 rounded-sm shadow-sm;
 }
 .label.small .label-color-dot {
-  width: var(--space-small);
-  height: var(--space-small);
-  border-radius: var(--border-radius-small);
-  box-shadow: var(--shadow-small);
+  @apply w-2 h-2 rounded-sm shadow-sm;
 }
 </style>

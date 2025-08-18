@@ -30,7 +30,59 @@ FactoryBot.define do
          'components' =>
          [{ 'text' => 'Your package has been shipped. It will be delivered in {{1}} business days.', 'type' => 'BODY' },
           { 'text' => 'This message is from an unverified business.', 'type' => 'FOOTER' }],
-         'rejected_reason' => 'NONE' }]
+         'rejected_reason' => 'NONE' },
+       {
+         'name' => 'ticket_status_updated',
+         'status' => 'APPROVED',
+         'category' => 'UTILITY',
+         'language' => 'en',
+         'namespace' => '23423423_2342423_324234234_2343224',
+         'components' => [
+           { 'text' => "Hello {{name}},  Your support ticket with ID: \#{{ticket_id}} has been updated by the support agent.",
+             'type' => 'BODY',
+             'example' => { 'body_text_named_params' => [
+               { 'example' => 'John', 'param_name' => 'name' },
+               { 'example' => '2332', 'param_name' => 'ticket_id' }
+             ] } }
+         ],
+         'sub_category' => 'CUSTOM',
+         'parameter_format' => 'NAMED'
+       },
+       {
+         'name' => 'ticket_status_updated',
+         'status' => 'APPROVED',
+         'category' => 'UTILITY',
+         'language' => 'en_US',
+         'components' => [
+           { 'text' => "Hello {{last_name}},  Your support ticket with ID: \#{{ticket_id}} has been updated by the support agent.",
+             'type' => 'BODY',
+             'example' => { 'body_text_named_params' => [
+               { 'example' => 'Dale', 'param_name' => 'last_name' },
+               { 'example' => '2332', 'param_name' => 'ticket_id' }
+             ] } }
+         ],
+         'sub_category' => 'CUSTOM',
+         'parameter_format' => 'NAMED'
+       },
+       {
+         'name' => 'test_no_params_template',
+         'status' => 'APPROVED',
+         'category' => 'UTILITY',
+         'language' => 'en',
+         'namespace' => 'ed41a221_133a_4558_a1d6_192960e3aee9',
+         'id' => '9876543210987654',
+         'length' => 1,
+         'parameter_format' => 'POSITIONAL',
+         'previous_category' => 'MARKETING',
+         'sub_category' => 'CUSTOM',
+         'components' => [
+           {
+             'text' => 'Thank you for contacting us! Your request has been processed successfully. Have a great day! 🙂',
+             'type' => 'BODY'
+           }
+         ],
+         'rejected_reason' => 'NONE'
+       }]
     end
     message_templates_last_updated { Time.now.utc }
 

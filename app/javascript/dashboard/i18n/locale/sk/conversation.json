@@ -12,11 +12,17 @@
     "NO_INBOX_2": " na začiatok",
     "NO_INBOX_AGENT": "Zdá sa, že nie ste súčasťou žiadnej schránky. Obráťte sa na svojho správcu",
     "SEARCH_MESSAGES": "Vyhľadávanie správ v konverzáciách",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
-      "TITLE": "Search messages",
+      "TITLE": "Prehľadávať správy",
       "RESULT_TITLE": "Search Results",
       "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
+      "PLACEHOLDER": "Napíšte niečo pre vyhľadanie správ",
       "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "Unread Messages",
@@ -26,23 +32,36 @@
     "LOADING_CONVERSATIONS": "Načítavajú sa konverzácie",
     "CANNOT_REPLY": "Neviete odpovedať, pretože",
     "24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Prideliť mne",
     "TWILIO_WHATSAPP_CAN_REPLY": "Na túto konverzáciu môžete odpovedať len pomocou šablóny správy z dôvodu",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-hodinové obmedzenie okna správ",
-    "SELECT_A_TWEET_TO_REPLY": "Vyberte tweet, na ktorý chcete odpovedať.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Odpovedáte na:",
     "REMOVE_SELECTION": "Odstrániť výber",
     "DOWNLOAD": "Stiahnuť",
     "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "Prílohy sa nahrávajú...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Správa bola úspešne odstránená",
     "FAIL_DELETE_MESSSAGE": "Správu sa nepodarilo vymazať! Skúste to znova",
     "NO_RESPONSE": "Žiadna odpoveď",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Hodnotenia",
     "FEEDBACK_TITLE": "Spätná väzba",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -51,13 +70,21 @@
       "RESOLVE_ACTION": "Vyriešiť",
       "REOPEN_ACTION": "Znovu otvoriť",
       "OPEN_ACTION": "Otvoriť",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Viac",
       "CLOSE": "Zatvoriť",
       "DETAILS": "detaily",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odložené do zajtra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odložené do ďalšieho týždňa",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označiť ako čakajúce na vybavenie",
@@ -68,6 +95,10 @@
         "TOMORROW": "Zajtra",
         "NEXT_WEEK": "Ďalší ťýždeň"
       }
+    },
+    "MENTION": {
+      "AGENTS": "Agenti",
+      "TEAMS": "Teams"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Odložiť do",
@@ -87,14 +118,20 @@
         "SELECT_PLACEHOLDER": "Žiadne",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Žiadne výsledky neboli nájdené",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Vymazať"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označiť ako čakajúce na vybavenie",
       "RESOLVED": "Mark as resolved",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Reopen conversation",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -106,17 +143,21 @@
       "ASSIGN_LABEL": "Assign label",
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
+          "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
         }
       }
@@ -128,14 +169,17 @@
       "MSG_INPUT": "Shift + enter pre nový riadok. Ak chcete vybrať Uloženú odpoveď, začnite klávesou '/'.",
       "PRIVATE_MSG_INPUT": "Shift + enter pre nový riadok. Toto bude viditeľné len pre agentov",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "CLICK_HERE": "Click here to update",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "Odpovedať",
       "PRIVATE_NOTE": "Súkromná správa",
       "SEND": "Poslať",
       "CREATE": "Pridať poznámku",
-      "TWEET": "Tweet",
+      "INSERT_READ_MORE": "Read more",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Zobraziť rozšírený textový editor",
       "TIP_EMOJI_ICON": "Zobraz výber emotikonov",
       "TIP_ATTACH_ICON": "Pripojiť súbory",
@@ -147,6 +191,7 @@
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Pridať skrytú kópiu",
         "CC": {
           "LABEL": "Kópia",
@@ -176,6 +221,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
@@ -189,6 +236,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copy",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Vymazať",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
@@ -200,6 +248,10 @@
         "DELETE": "Vymazať",
         "CANCEL": "Zrušiť"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -220,27 +272,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Ahoj 👋, vitaj v %{installationName}!",
-    "DESCRIPTION": "Ďakujeme za registráciu. Chceme, aby ste z %{installationName} vyťažili čo najviac. Tu je niekoľko vecí, ktoré môžete urobiť v %{installationName}, aby ste si spríjemnili zážitok.",
+    "TITLE": "Ahoj 👋, vitaj v {installationName}!",
+    "DESCRIPTION": "Ďakujeme za registráciu. Chceme, aby ste z {installationName} vyťažili čo najviac. Tu je niekoľko vecí, ktoré môžete urobiť v {installationName}, aby ste si spríjemnili zážitok.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Prečítajte si naše novinky",
     "ALL_CONVERSATION": {
       "TITLE": "Všetky vaše konverzácie na jednom mieste",
-      "DESCRIPTION": "Zobrazte si všetky konverzácie od svojich zákazníkov na jednom ovládacom paneli. Konverzácie môžete filtrovať podľa prichádzajúceho kanála, štítku a statusu."
+      "DESCRIPTION": "Zobrazte si všetky konverzácie od svojich zákazníkov na jednom ovládacom paneli. Konverzácie môžete filtrovať podľa prichádzajúceho kanála, štítku a statusu.",
+      "NEW_LINK": "Kliknite sem pre vytvorenie schránky"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvite členov svojho tímu",
       "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
       "NEW_LINK": "Kliknite sem pre pozvanie člena tímu"
     },
-    "INBOXES": {
-      "TITLE": "Spojiť schránky",
-      "DESCRIPTION": "Prepojte rôzne kanály, cez ktoré s vami vaši zákazníci komunikujú. Môže to byť webový live-chat, vaša stránka na Facebooku alebo Twitteri alebo dokonca vaše číslo na WhatsApp.",
-      "NEW_LINK": "Kliknite sem pre vytvorenie schránky"
-    },
     "LABELS": {
       "TITLE": "Usporiadajte si konverzácie pomocou štítkov",
       "DESCRIPTION": "Štítky umožňujú jednoduchšie kategorizovať konverzáciu. Vytvorte si niekoľko štítkov, napríklad #podpora-dotaz, #vyuctovanie-otazka atď., aby ste ich mohli neskôr použiť v konverzácii.",
       "NEW_LINK": "Kliknutím sem vytvoríte tagy"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -255,13 +311,36 @@
       "CONVERSATION_ACTIONS": "Akcie konverzácie",
       "CONVERSATION_LABELS": "Označenia konverzácii",
       "CONVERSATION_INFO": "Informácie o konverzácii",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Atribúty kontaktu",
       "PREVIOUS_CONVERSATION": "Prechádzajúce konverzácie",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Čaká sa na",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Vytvoriť atribút",
+    "NO_RECORDS_FOUND": "Žiadne atribúty neboli nájdené",
     "UPDATE": {
       "SUCCESS": "Atribút úspešne nahraný",
       "ERROR": "Nie je možné aktualizovať atribút. Skúste to prosím neskôr"
@@ -286,17 +365,18 @@
     "TO": "Pre",
     "BCC": "Skrytá kópia",
     "CC": "Kópia",
-    "SUBJECT": "Predmet"
+    "SUBJECT": "Predmet",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Žiadne výsledky neboli nájdené",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
@@ -311,5 +391,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

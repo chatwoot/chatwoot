@@ -3,17 +3,18 @@
     "HEADER": "Oznake",
     "HEADER_BTN_TXT": "Dodaj oznaku",
     "LOADING": "Preuzimanje oznaka",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Nema razultata",
-    "SIDEBAR_TXT": "<p><b>Oznake</b> <p>Oznake vam pomažu da kategorišete razgovore i učinite ih prioritetnim. Možete dodeliti oznaku razgovoru iz trake sa strane. <br /><br />Oznake su povezane sa nalogom i mogu biti korišćene za pravljenje prilagođenih radnih tokova u vašoj organizaciji. Možete dodeliti prilagođenu boju oznaci, što će je učiniti lakšom za identifikaciju. Možete da prikažete oznaku na traci sa strane da bi ste lakše filtrirali razgovore.</p>",
     "LIST": {
       "404": "Ne postoje dostupne oznake u ovom nalogu.",
       "TITLE": "Upravljanje oznakama",
       "DESC": "Oznake vam omogućavaju da grupišete razgovore.",
-      "TABLE_HEADER": [
-        "Ime",
-        "Opis",
-        "Bojan"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Opis",
+        "COLOR": "Bojan"
+      }
     },
     "FORM": {
       "NAME": {
@@ -37,6 +38,20 @@
       "CREATE": "Napravi",
       "DELETE": "Izbriši",
       "CANCEL": "Otkaži"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Add label to conversation",
+        "MULTIPLE_SUGGESTION": "Select this label",
+        "DESELECT": "Deselect label",
+        "DISMISS": "Dismiss suggestion"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Dismiss",
+      "ADD_SELECTED_LABELS": "Add selected labels",
+      "ADD_SELECTED_LABEL": "Add selected label",
+      "ADD_ALL_LABELS": "Add all labels",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Dodaj oznaku",

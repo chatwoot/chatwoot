@@ -32,10 +32,6 @@ class Channel::FacebookPage < ApplicationRecord
     'Facebook'
   end
 
-  def messaging_window_enabled?
-    false
-  end
-
   def create_contact_inbox(instagram_id, name)
     @contact_inbox = ::ContactInboxWithContactBuilder.new({
                                                             source_id: instagram_id,
@@ -46,38 +42,21 @@ class Channel::FacebookPage < ApplicationRecord
 
   def subscribe
     # ref https://developers.facebook.com/docs/messenger-platform/reference/webhook-events
-    response = Facebook::Messenger::Subscriptions.subscribe(
+    Facebook::Messenger::Subscriptions.subscribe(
       access_token: page_access_token,
       subscribed_fields: %w[
         messages message_deliveries message_echoes message_reads standby messaging_handovers
       ]
     )
-  rescue => e
+  rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
 
   def unsubscribe
     Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
-  end
-
-  # TODO: We will be removing this code after instagram_manage_insights is implemented
-  def fetch_instagram_story_link(message)
-    k = Koala::Facebook::API.new(page_access_token)
-    result = k.get_object(message.source_id, fields: %w[story]) || {}
-    story_link = result['story']['mention']['link']
-    # If the story is expired then it raises the ClientError and if the story is deleted with valid story-id it responses with nil
-    delete_instagram_story(message) if story_link.blank?
-    story_link
-  rescue Koala::Facebook::ClientError => e
-    delete_instagram_story(message)
-  end
-
-  def delete_instagram_story(message)
-    message.attachments.destroy_all
-    message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'), content_attributes: {})
   end
 end

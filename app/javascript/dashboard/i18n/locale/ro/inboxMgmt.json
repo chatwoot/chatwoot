@@ -1,32 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Căsuțe",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Când conectezi un site web sau o pagină de Facebook la Chatwoot, se numește <b>Inbox</b>. Poți avea inbox-uri nelimitate în contul tău din Chatwoot. </p><p> Faceţi clic pe <b>Adăugaţi Inbox</b> pentru a conecta un website sau o pagină Facebook. </p><p> În tabloul de bord, poți vedea toate conversațiile din toate cutiile tale într-un singur loc și să le răspunzi sub fila `Conversations`. </p><p> De asemenea, poți vedea conversații specifice unei căsuțe poștale făcând clic pe numele inbox-ului din panoul stâng al tabloului de bord. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Nu există căsuțe poștale atașate acestui cont."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Alege canalul",
-        "route": "setare_inbox_nou",
-        "body": "Alegeți serviciul pe care doriți să-l integrați cu Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Alege canalul",
+        "BODY": "Alegeți serviciul pe care doriți să-l integrați cu Chatwoot."
       },
-      {
-        "title": "Crează căsuța",
-        "route": "pagina_setari_casute_serviciu",
-        "body": "Autentifică-te cu contul tău și creează un inbox."
+      "INBOX": {
+        "TITLE": "Crează căsuța",
+        "BODY": "Autentifică-te cu contul tău și creează un inbox."
       },
-      {
-        "title": "Adaugă Agent",
-        "route": "setări_inbox_adaug_agent",
-        "body": "Adaugă agenți la inbox-ul creat."
+      "AGENT": {
+        "TITLE": "Adaugă Agent",
+        "BODY": "Adaugă agenți la inbox-ul creat."
       },
-      {
-        "title": "Voila!",
-        "route": "finalizare_setari_inbox",
-        "body": "Toate setarile sunt facute!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Toate setarile sunt facute!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nume Inbox",
@@ -43,8 +42,18 @@
         "CHOOSE_PLACEHOLDER": "Selectaţi o pagină din listă",
         "INBOX_NAME": "Nume Inbox",
         "ADD_NAME": "Adaugă un nume pentru inbox-ul tău",
-        "PICK_NAME": "Alege un nume pentru Inbox-ul tău",
-        "PICK_A_VALUE": "Alege o valoare"
+        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_A_VALUE": "Alege o valoare",
+        "CREATE_INBOX": "Crează căsuța"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Pentru a vă adăuga profilul de Twitter ca si canal, trebuie să vă autentificați profilul de Twitter făcând clic pe \"Conectați-vă cu Twitter\" ",
@@ -62,7 +71,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL Webhook",
-          "PLACEHOLDER": "Introduceți adresa URL Webhook",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Te rog introdu un URL valid"
         },
         "CHANNEL_DOMAIN": {
@@ -109,6 +118,17 @@
         "ACCOUNT_SID": {
           "LABEL": "Cont SID",
           "PLACEHOLDER": "Te rugăm să introduci ID-ul contului Twilio",
+          "ERROR": "Acest câmp este obligatoriu"
+        },
+        "API_KEY": {
+          "USE_API_KEY": "Use API Key Authentication",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Please enter your API Key SID",
+          "ERROR": "Acest câmp este obligatoriu"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Please enter your API Key Secret",
           "ERROR": "Acest câmp este obligatoriu"
         },
         "MESSAGING_SERVICE_SID": {
@@ -164,12 +184,12 @@
           },
           "API_KEY": {
             "LABEL": "Cheie API",
-            "PLACEHOLDER": "Vă rugăm să introduceți cheia API Bandwith",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Acest câmp este obligatoriu"
           },
           "API_SECRET": {
             "LABEL": "API secret",
-            "PLACEHOLDER": "Vă rugăm să introduceți Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Acest câmp este obligatoriu"
           },
           "APPLICATION_ID": {
@@ -202,9 +222,16 @@
         "DESC": "Începeți să vă sprijiniți clienții prin WhatsApp.",
         "PROVIDERS": {
           "LABEL": "Furnizor API",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Nume Inbox",
@@ -228,7 +255,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verifica token-ul",
-          "PLACEHOLDER": "Introduceți un simbol verifica pe care doriți să configurați pentru webhooks Facebook.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Vă rugăm să introduceți o valoare validă."
         },
         "API_KEY": {
@@ -244,8 +271,75 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Token de verificare Webhook"
         },
         "SUBMIT_BUTTON": "Creați canalul WhatsApp",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick Setup with Meta",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+        },
         "API": {
           "ERROR_MESSAGE": "Nu am reușit să salvăm canalul WhatsApp"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "Număr de telefon",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "Cont SID",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Token de autentificare",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Key SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API Key Secret",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          },
+          "TWIML_APP_SID": {
+            "LABEL": "TwiML App SID",
+            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
+            "REQUIRED": "TwiML App SID is required"
+          }
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -258,7 +352,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL Webhook",
-          "SUBTITLE": "Configurați adresa URL în cazul în care doriți să primiți apeluri inverse pentru evenimente.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "URL Webhook"
         },
         "SUBMIT_BUTTON": "Creare canal API",
@@ -268,7 +362,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canal de e-mail",
-        "DESC": "Integrați-vă inboxul de e-mail.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nume canal",
           "PLACEHOLDER": "Te rugăm să introduci un conținut",
@@ -334,7 +428,7 @@
       "AGENTS": {
         "TITLE": "Agenți",
         "DESC": "Aici puteți adăuga agenți care să gestioneze inboxul nou creat. Numai acești agenți selectați vor avea acces la căsuța poștală. Agenții care nu fac parte din această căsuță poștală nu vor putea vedea sau răspunde la mesajele din această căsuță atunci când se autentifică. <br> <b>PS:</b> În calitate de administrator, dacă aveţi nevoie de acces la toate mesajele, ar trebui să vă adăugați ca agent la toate cutiile de mesaje pe care le creați.",
-        "VALIDATION_ERROR": "Adăugați cel puțin un agent în noul Inbox",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Alegerea agenților pentru inbox"
       },
       "DETAILS": {
@@ -353,13 +447,23 @@
         "TITLE": "E-mail Microsoft",
         "DESCRIPTION": "Faceți clic pe butonul Conectare cu Microsoft pentru a începe. Veți redirecționa către pagina de conectare la e-mail. După ce acceptați permisiunile solicitate, veți fi redirecționat înapoi la pasul de creare a inboxului.",
         "EMAIL_PLACEHOLDER": "Introdu adresa de e-mail",
-        "HELP": "Pentru a vă adăuga contul Microsoft ca canal, trebuie să vă autentificați contul Microsoft făcând clic pe \"Conectați-vă cu Microsoft\" ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "A existat o eroare la conectarea la Microsoft, încercați din nou"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Introdu adresa de e-mail",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autentificare prin Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Ceva nu a mers bine, reîmprospătați pagina...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Se creează inbox...",
       "TITLE": "Configurare detalii inbox",
       "DESC": ""
@@ -390,6 +494,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Activat",
         "DISABLED": "Dezactivat"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Amical",
+          "FROM": "de la",
+          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesională",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "Salvează"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Activat",
@@ -432,7 +555,8 @@
       "PRE_CHAT_FORM": "Formular pre chat",
       "BUSINESS_HOURS": "Program de lucru",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Configurarea botului"
+      "BOT_CONFIGURATION": "Configurarea botului",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Setări",
     "FEATURES": {
@@ -453,8 +577,8 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Caseta Activare colectare e-mail",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Caseta Activarea sau dezactivarea colectării e-mailurilor în conversația nouă",
       "AUTO_ASSIGNMENT": "Activare atribuire automată",
-      "ENABLE_CSAT": "Activați CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Activați/dezactivați sondajul CSAT (Satisfacția clienților) după rezolvarea unei conversații",
+      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activați continuitatea conversației prin e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversațiile vor continua prin e-mail dacă adresa de e-mail de contact este disponibilă.",
       "LOCK_TO_SINGLE_CONVERSATION": "Blocarea la o singură conversație",
@@ -474,13 +598,32 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permiteți rezolvarea mesajelor după ce conversația a fost rezolvată",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației.",
       "WHATSAPP_SECTION_SUBHEADER": "Această cheie API este utilizată pentru integrarea cu API-urile WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Introduceți cheia actualizată pentru a fi utilizată pentru integrarea cu API-urile WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Cheie API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Actualizați cheia API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introduceți noua cheie API aici",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizare",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verifica token-ul",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Conectează-te",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
+      "WHATSAPP_WEBHOOK_TITLE": "Token de verificare Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Acest simbol este utilizat pentru a verifica autenticitatea punctului final webhook.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizarea setărilor formularului pre-chat"
     },
     "HELP_CENTER": {
@@ -527,6 +670,32 @@
         "LABEL": "Vizitatorii ar trebui să furnizeze numele și adresa lor de e-mail înainte de a începe chat-ul"
       }
     },
+    "CSAT": {
+      "TITLE": "Activați CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "conține",
+          "DOES_NOT_CONTAINS": "nu conține"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+      }
+    },
     "BUSINESS_HOURS": {
       "TITLE": "Setați-vă disponibilitatea",
       "SUBTITLE": "Setați-vă disponibilitatea pe widget-ul livechat",
@@ -535,7 +704,7 @@
       "UPDATE": "Actualizarea setărilor orelor de lucru",
       "TOGGLE_AVAILABILITY": "Activați disponibilitatea afacerii pentru acest inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Mesaj indisponibil pentru vizitatori",
-      "TOGGLE_HELP": "Activarea disponibilității afacerii va afișa orele disponibile pe widget-ul de chat live, chiar dacă toți agenții sunt offline. În afara orelor disponibile, vizitorii pot fi avertizați cu un mesaj și un formular de pre-chat.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Activați disponibilitatea pentru această zi",
         "UNAVAILABLE": "Indisponibil",
@@ -551,7 +720,7 @@
       "NOTE_TEXT": "Pentru a activa SMTP, vă rugăm să configurați IMAP.",
       "UPDATE": "Actualizarea setărilor IMAP",
       "TOGGLE_AVAILABILITY": "Activarea configurației IMAP pentru acest inbox",
-      "TOGGLE_HELP": "Activarea IMAP va ajuta utilizatorul să primească e-mailuri",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Setările IMAP actualizate cu succes",
         "ERROR_MESSAGE": "Imposibil de actualizat setările IMAP"
@@ -699,7 +868,22 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Alți furnizori"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-mail",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Canal API",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

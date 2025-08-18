@@ -9,6 +9,13 @@ class AccountAPI extends ApiClient {
   createAccount(data) {
     return axios.post(`${this.apiVersion}/accounts`, data);
   }
+
+  async getCacheKeys() {
+    const response = await axios.get(
+      `/api/v1/accounts/${this.accountIdFromRoute}/cache_keys`
+    );
+    return response.data.cache_keys;
+  }
 }
 
 export default new AccountAPI();

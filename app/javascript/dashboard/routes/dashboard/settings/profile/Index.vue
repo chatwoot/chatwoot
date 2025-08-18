@@ -1,147 +1,55 @@
-<template>
-  <div class="columns profile--settings">
-    <form @submit.prevent="updateUser('profile')">
-      <div class="small-12 row profile--settings--row">
-        <div class="columns small-3">
-          <h4 class="block-title">
-            {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
-          </h4>
-          <p>{{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.NOTE') }}</p>
-        </div>
-        <div class="columns small-9 medium-5">
-          <woot-avatar-uploader
-            :label="$t('PROFILE_SETTINGS.FORM.PROFILE_IMAGE.LABEL')"
-            :src="avatarUrl"
-            @change="handleImageUpload"
-          />
-          <div v-if="showDeleteButton" class="avatar-delete-btn">
-            <woot-button
-              type="button"
-              color-scheme="alert"
-              variant="hollow"
-              size="small"
-              @click="deleteAvatar"
-            >
-              {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
-            </woot-button>
-          </div>
-          <label :class="{ error: $v.name.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.NAME.LABEL') }}
-            <input
-              v-model="name"
-              type="text"
-              :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              @input="$v.name.$touch"
-            />
-            <span v-if="$v.name.$error" class="message">
-              {{ $t('PROFILE_SETTINGS.FORM.NAME.ERROR') }}
-            </span>
-          </label>
-          <label :class="{ error: $v.displayName.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL') }}
-            <input
-              v-model="displayName"
-              type="text"
-              :placeholder="
-                $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')
-              "
-              @input="$v.displayName.$touch"
-            />
-          </label>
-          <label
-            v-if="!globalConfig.disableUserProfileUpdate"
-            :class="{ error: $v.email.$error }"
-          >
-            {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
-            <input
-              v-model.trim="email"
-              type="email"
-              :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
-              @input="$v.email.$touch"
-            />
-            <span v-if="$v.email.$error" class="message">
-              {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
-            </span>
-          </label>
-          <woot-button type="submit" :is-loading="isProfileUpdating">
-            {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
-          </woot-button>
-        </div>
-      </div>
-    </form>
-    <message-signature />
-    <div class="profile--settings--row row">
-      <div class="columns small-3">
-        <h4 class="block-title">
-          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE') }}
-        </h4>
-        <p>
-          {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE') }}
-        </p>
-      </div>
-      <div class="columns small-9 medium-5 card-preview">
-        <button
-          v-for="keyOption in keyOptions"
-          :key="keyOption.key"
-          class="preview-button"
-          @click="toggleEditorMessageKey(keyOption.key)"
-        >
-          <preview-card
-            :heading="keyOption.heading"
-            :content="keyOption.content"
-            :src="keyOption.src"
-            :active="isEditorHotKeyEnabled(uiSettings, keyOption.key)"
-          />
-        </button>
-      </div>
-    </div>
-    <change-password v-if="!globalConfig.disableUserProfileUpdate" />
-    <notification-settings />
-    <div class="profile--settings--row row">
-      <div class="columns small-3">
-        <h4 class="block-title">
-          {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
-        </h4>
-        <p>
-          {{
-            useInstallationName(
-              $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
-              globalConfig.installationName
-            )
-          }}
-        </p>
-      </div>
-      <div class="columns small-9 medium-5">
-        <masked-text :value="currentUser.access_token" />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { clearCookiesOnLogout } from '../../../../store/utils/api';
-import NotificationSettings from './NotificationSettings';
-import alertMixin from 'shared/mixins/alertMixin';
-import ChangePassword from './ChangePassword';
-import MessageSignature from './MessageSignature';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import uiSettingsMixin, {
-  isEditorHotKeyEnabled,
-} from 'dashboard/mixins/uiSettings';
-import MaskedText from 'dashboard/components/MaskedText.vue';
-import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useBranding } from 'shared/composables/useBranding';
+import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import UserProfilePicture from './UserProfilePicture.vue';
+import UserBasicDetails from './UserBasicDetails.vue';
+import MessageSignature from './MessageSignature.vue';
+import FontSize from './FontSize.vue';
+import HotKeyCard from './HotKeyCard.vue';
+import ChangePassword from './ChangePassword.vue';
+import NotificationPreferences from './NotificationPreferences.vue';
+import AudioNotifications from './AudioNotifications.vue';
+import FormSection from 'dashboard/components/FormSection.vue';
+import AccessToken from './AccessToken.vue';
+import Policy from 'dashboard/components/policy.vue';
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
 
 export default {
   components: {
-    NotificationSettings,
-    ChangePassword,
     MessageSignature,
-    PreviewCard,
-    MaskedText,
+    FormSection,
+    FontSize,
+    UserProfilePicture,
+    Policy,
+    UserBasicDetails,
+    HotKeyCard,
+    ChangePassword,
+    NotificationPreferences,
+    AudioNotifications,
+    AccessToken,
   },
-  mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
+  setup() {
+    const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
+    const { currentFontSize, updateFontSize } = useFontSize();
+    const { replaceInstallationName } = useBranding();
+
+    return {
+      currentFontSize,
+      updateFontSize,
+      isEditorHotKeyEnabled,
+      updateUISettings,
+      replaceInstallationName,
+    };
+  },
   data() {
     return {
       avatarFile: '',
@@ -149,42 +57,35 @@ export default {
       name: '',
       displayName: '',
       email: '',
-      isProfileUpdating: false,
-      errorMessage: '',
-      keyOptions: [
+      messageSignature: '',
+      hotKeys: [
         {
           key: 'enter',
-          src: '/assets/images/dashboard/editor/enter-editor.png',
-          heading: this.$t(
+          title: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
           ),
-          content: this.$t(
+          description: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
           ),
+          lightImage: '/assets/images/dashboard/profile/hot-key-enter.svg',
+          darkImage: '/assets/images/dashboard/profile/hot-key-enter-dark.svg',
         },
         {
           key: 'cmd_enter',
-          src: '/assets/images/dashboard/editor/cmd-editor.png',
-          heading: this.$t(
+          title: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
           ),
-          content: this.$t(
+          description: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
           ),
+          lightImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
+          darkImage:
+            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
         },
       ],
+      notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      audioNotificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
     };
-  },
-  validations: {
-    name: {
-      required,
-      minLength: minLength(1),
-    },
-    displayName: {},
-    email: {
-      required,
-      email,
-    },
   },
   computed: {
     ...mapGetters({
@@ -192,13 +93,6 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
-  },
-  watch: {
-    currentUserId(newCurrentUserId, prevCurrentUserId) {
-      if (prevCurrentUserId !== newCurrentUserId) {
-        this.initializeUser();
-      }
-    },
   },
   mounted() {
     if (this.currentUserId) {
@@ -211,98 +105,202 @@ export default {
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
+      this.messageSignature = this.currentUser.message_signature;
     },
-    isEditorHotKeyEnabled,
-    async updateUser() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
-        return;
-      }
-
-      this.isProfileUpdating = true;
-      const hasEmailChanged = this.currentUser.email !== this.email;
+    async dispatchUpdate(payload, successMessage, errorMessage) {
+      let alertMessage = '';
       try {
-        await this.$store.dispatch('updateProfile', {
-          name: this.name,
-          email: this.email,
-          avatar: this.avatarFile,
-          displayName: this.displayName,
-        });
-        this.isProfileUpdating = false;
-        if (hasEmailChanged) {
-          clearCookiesOnLogout();
-          this.errorMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
-        }
-        this.errorMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
+        await this.$store.dispatch('updateProfile', payload);
+        alertMessage = successMessage;
+
+        return true; // return the value so that the status can be known
       } catch (error) {
-        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
-        if (error?.response?.data?.error) {
-          this.errorMessage = error.response.data.error;
-        }
+        alertMessage = parseAPIErrorResponse(error) || errorMessage;
+
+        return false; // return the value so that the status can be known
       } finally {
-        this.isProfileUpdating = false;
-        this.showAlert(this.errorMessage);
+        useAlert(alertMessage);
       }
     },
-    handleImageUpload({ file, url }) {
+    async updateProfile(userAttributes) {
+      const { name, email, displayName } = userAttributes;
+      const hasEmailChanged = this.currentUser.email !== email;
+      this.name = name || this.name;
+      this.email = email || this.email;
+      this.displayName = displayName || this.displayName;
+
+      const updatePayload = {
+        name: this.name,
+        email: this.email,
+        displayName: this.displayName,
+        avatar: this.avatarFile,
+      };
+
+      const success = await this.dispatchUpdate(
+        updatePayload,
+        hasEmailChanged
+          ? this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED')
+          : this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'),
+        this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
+      );
+
+      if (hasEmailChanged && success) clearCookiesOnLogout();
+    },
+    async updateSignature(signature) {
+      const payload = { message_signature: signature };
+      let successMessage = this.$t(
+        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
+      );
+      let errorMessage = this.$t(
+        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
+      );
+
+      await this.dispatchUpdate(payload, successMessage, errorMessage);
+    },
+    updateProfilePicture({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
     },
-    async deleteAvatar() {
+    async deleteProfilePicture() {
       try {
         await this.$store.dispatch('deleteAvatar');
         this.avatarUrl = '';
         this.avatarFile = '';
-        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
       } catch (error) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
     },
-    showDeleteButton() {
-      return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
-    },
-    toggleEditorMessageKey(key) {
-      this.updateUISettings({ editor_message_key: key });
-      this.showAlert(
-        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
+    toggleHotKey(key) {
+      this.hotKeys = this.hotKeys.map(hotKey =>
+        hotKey.key === key ? { ...hotKey, active: !hotKey.active } : hotKey
       );
+      this.updateUISettings({ editor_message_key: key });
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS'));
+    },
+    async onCopyToken(value) {
+      await copyTextToClipboard(value);
+      useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+    },
+    async resetAccessToken() {
+      const success = await this.$store.dispatch('resetAccessToken');
+      if (success) {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS'));
+      } else {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR'));
+      }
     },
   },
 };
 </script>
 
-<style lang="scss">
-@import '~dashboard/assets/scss/variables.scss';
-@import '~dashboard/assets/scss/mixins.scss';
-
-.profile--settings {
-  overflow: auto;
-  padding: 24px;
-}
-
-.profile--settings--row {
-  @include border-normal-bottom;
-  align-items: center;
-  display: flex;
-  padding: $space-normal;
-
-  .small-3 {
-    padding: $space-normal $space-medium $space-normal 0;
-  }
-
-  .small-9 {
-    padding: $space-normal;
-  }
-
-  .card-preview {
-    display: flex;
-    flex-direction: row;
-
-    .preview-button {
-      cursor: pointer;
-      margin-right: var(--space-normal);
-    }
-  }
-}
-</style>
+<template>
+  <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
+    <div class="flex flex-col gap-6">
+      <h2 class="text-2xl font-medium text-n-slate-12">
+        {{ $t('PROFILE_SETTINGS.TITLE') }}
+      </h2>
+      <UserProfilePicture
+        :src="avatarUrl"
+        :name="name"
+        @change="updateProfilePicture"
+        @delete="deleteProfilePicture"
+      />
+      <UserBasicDetails
+        :name="name"
+        :display-name="displayName"
+        :email="email"
+        :email-enabled="!globalConfig.disableUserProfileUpdate"
+        @update-user="updateProfile"
+      />
+    </div>
+    <FormSection
+      :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
+      :description="
+        replaceInstallationName(
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')
+        )
+      "
+    >
+      <FontSize
+        :value="currentFontSize"
+        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
+        "
+        @change="updateFontSize"
+      />
+    </FormSection>
+    <FormSection
+      :title="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
+      :description="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')"
+    >
+      <MessageSignature
+        :message-signature="messageSignature"
+        @update-signature="updateSignature"
+      />
+    </FormSection>
+    <FormSection
+      :title="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
+      :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
+    >
+      <div
+        class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
+      >
+        <button
+          v-for="hotKey in hotKeys"
+          :key="hotKey.key"
+          class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
+          :class="
+            isEditorHotKeyEnabled(hotKey.key)
+              ? 'outline-n-brand/30'
+              : 'outline-n-weak'
+          "
+        >
+          <HotKeyCard
+            :key="hotKey.title"
+            :title="hotKey.title"
+            :description="hotKey.description"
+            :light-image="hotKey.lightImage"
+            :dark-image="hotKey.darkImage"
+            :active="isEditorHotKeyEnabled(hotKey.key)"
+            @click="toggleHotKey(hotKey.key)"
+          />
+        </button>
+      </div>
+    </FormSection>
+    <FormSection
+      v-if="!globalConfig.disableUserProfileUpdate"
+      :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
+    >
+      <ChangePassword />
+    </FormSection>
+    <Policy :permissions="audioNotificationPermissions">
+      <FormSection
+        :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
+        "
+      >
+        <AudioNotifications />
+      </FormSection>
+    </Policy>
+    <Policy :permissions="notificationPermissions">
+      <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+        <NotificationPreferences />
+      </FormSection>
+    </Policy>
+    <FormSection
+      :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
+      :description="
+        replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
+      "
+    >
+      <AccessToken
+        :value="currentUser.access_token"
+        @on-copy="onCopyToken"
+        @on-reset="resetAccessToken"
+      />
+    </FormSection>
+  </div>
+</template>

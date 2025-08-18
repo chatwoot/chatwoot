@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "Service Level Agreements",
+    "ADD_ACTION": "Dodaj",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
+    "LOADING": "Fetching SLAs",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create SLAs",
+      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    "LIST": {
+      "404": "There are no SLAs available in this account.",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
+      "BUSINESS_HOURS_ON": "Delovni čas je vklopljen",
+      "BUSINESS_HOURS_OFF": "Delovni čas je izklopljen",
+      "RESPONSE_TYPES": {
+        "FRT": "Prag časa prvega odziva",
+        "NRT": "Prag časa naslednjega odziva",
+        "RT": "Prag časa razrešitve",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Ime SLA",
+        "PLACEHOLDER": "Ime SLA",
+        "REQUIRED_ERROR": "Zahtevano je ime SLA",
+        "MINIMUM_LENGTH_ERROR": "Zahtevana je najmanjša dolžina 2",
+        "VALID_ERROR": "Dovoljene so samo črke, številke, vezaji in podčrtaji"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Opis",
+        "PLACEHOLDER": "SLA za premium stranke"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Čas prvega odziva",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Čas naslednjega odziva",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Čas razrešitve",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Delovni čas",
+        "PLACEHOLDER": "Samo v delovnem času"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Prag mora biti število in večje od nič"
+      },
+      "EDIT": "Uredi",
+      "CREATE": "Ustvari",
+      "DELETE": "Izbriši",
+      "CANCEL": "Prekliči"
+    },
+    "ADD": {
+      "TITLE": "Dodaj",
+      "DESC": "Prijazne obljube za odlično storitev!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA je bil uspešno dodan",
+        "ERROR_MESSAGE": "Prišlo je do napake, prosimo, poskusite znova"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Izbriši SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "First response time",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
+    }
+  }
+}

@@ -1,42 +1,22 @@
+<script setup>
+import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
+
+defineProps({
+  inbox: {
+    type: Object,
+    default: () => {},
+  },
+});
+</script>
+
 <template>
-  <div class="inbox--name">
-    <fluent-icon class="inbox--icon" :icon="computedInboxClass" size="12" />
-    {{ inbox.name }}
+  <div class="flex items-center text-n-slate-11 text-xs min-w-0">
+    <ChannelIcon
+      :inbox="inbox"
+      class="size-3 ltr:mr-0.5 rtl:ml-0.5 flex-shrink-0"
+    />
+    <span class="truncate">
+      {{ inbox.name }}
+    </span>
   </div>
 </template>
-<script>
-import { getInboxClassByType } from 'dashboard/helper/inbox';
-
-export default {
-  props: {
-    inbox: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  computed: {
-    computedInboxClass() {
-      const { phone_number: phoneNumber, channel_type: type } = this.inbox;
-      const classByType = getInboxClassByType(type, phoneNumber);
-      return classByType;
-    },
-  },
-};
-</script>
-<style scoped>
-.inbox--name {
-  align-items: center;
-  display: inline-flex;
-  padding: var(--space-micro) 0;
-  line-height: var(--space-slab);
-  font-weight: var(--font-weight-medium);
-  background: none;
-  color: var(--s-600);
-  font-size: var(--font-size-mini);
-  margin: 0 var(--space-one);
-}
-
-.inbox--icon {
-  margin-right: var(--space-micro);
-}
-</style>

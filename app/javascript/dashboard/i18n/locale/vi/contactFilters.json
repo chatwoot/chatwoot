@@ -30,6 +30,9 @@
       "is_lesser_than": "Nhỏ hơn",
       "days_before": "Khoảng x ngày trước"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Giá trị bắt buộc có"
+    },
     "ATTRIBUTES": {
       "NAME": "Tên",
       "EMAIL": "Thư điện tử",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Tạo vào lúc",
       "LAST_ACTIVITY": "Hành động cuối cùng",
-      "REFERER_LINK": "Liên kết người gới thiệu"
+      "REFERER_LINK": "Liên kết người gới thiệu",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",

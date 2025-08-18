@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "Service Level Agreements",
+    "ADD_ACTION": "Afegeix SLA",
+    "ADD_ACTION_LONG": "Crea una nova política de SLA",
+    "DESCRIPTION": "Els acords de nivell de servei (SLA) són contractes que defineixen expectatives clares entre el vostre equip i els clients. Estableixen estàndards de temps de resposta i resolució, creen un marc de responsabilitat i garanteixen una experiència coherent i d'alta qualitat.",
+    "LEARN_MORE": "Més informació sobre SLA",
+    "LOADING": "S'estan obtenint SLAs",
+    "PAYWALL": {
+      "TITLE": "Actualitza per crear SLA",
+      "AVAILABLE_ON": "La funció SLA només està disponible als plans Business i Enterprise.",
+      "UPGRADE_PROMPT": "Actualitza el teu pla per accedir a funcions avançades com ara gestió d'equips, automatitzacions, atributs personalitzats i molt més.",
+      "UPGRADE_NOW": "Actualitza ara",
+      "CANCEL_ANYTIME": "Pots canviar o cancel·lar el teu pla en qualsevol moment"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "La funció SLA només està disponible als plans de pagament.",
+      "UPGRADE_PROMPT": "Actualitza a un pla de pagament per accedir a funcions avançades com els registres d'auditoria, la capacitat de l'agent i molt més.",
+      "ASK_ADMIN": "Posa't en contacte amb el vostre administrador per obtenir l'actualització."
+    },
+    "LIST": {
+      "404": "No hi ha cap SLA disponible en aquest compte.",
+      "EMPTY": {
+        "TITLE_1": "Empresa P0",
+        "DESC_1": "Problemes plantejats pels clients empresarials, que requereixen atenció immediata.",
+        "TITLE_2": "Empresa P1",
+        "DESC_2": "Problemes plantejats pels clients empresarials, que cal reconèixer ràpidament."
+      },
+      "BUSINESS_HOURS_ON": "Horari comercial activat",
+      "BUSINESS_HOURS_OFF": "Horari comercial desactivat",
+      "RESPONSE_TYPES": {
+        "FRT": "Primer llindar de temps de resposta",
+        "NRT": "Següent llindar de temps de resposta",
+        "RT": "Llindar de temps de resolució",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nom del SLA",
+        "PLACEHOLDER": "Nom del SLA",
+        "REQUIRED_ERROR": "El nom del SLA és obligatori",
+        "MINIMUM_LENGTH_ERROR": "Es requereix una longitud mínima de 2",
+        "VALID_ERROR": "Només es permeten alfabets, números, guionet i guió baix"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripció",
+        "PLACEHOLDER": "SLA per a clients premium"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Primer Temps de Resposta",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Pròxim temps de resposta",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Temps de resolució",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Horari comercial",
+        "PLACEHOLDER": "Només durant l'horari comercial"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "El llindar ha de ser un nombre i més gran que zero"
+      },
+      "EDIT": "Edita",
+      "CREATE": "Crear",
+      "DELETE": "Esborrar",
+      "CANCEL": "Cancel·la"
+    },
+    "ADD": {
+      "TITLE": "Afegeix SLA",
+      "DESC": "Promeses amistoses per a un gran servei!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA afegit correctament",
+        "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Suprimeix el SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "S'ha esborrat el SLA correctament",
+        "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirma l'esborrat",
+        "MESSAGE": "Estàs segur que vols suprimir ",
+        "YES": "Si, esborra ",
+        "NO": "No, segueix "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "Faltes SLA",
+      "FRT": "Primer temps de resposta",
+      "NRT": "Pròxim temps de resposta",
+      "RT": "Temps de resolució",
+      "SHOW_MORE": "{count} més",
+      "HIDE": "Amaga {count} files"
+    }
+  }
+}

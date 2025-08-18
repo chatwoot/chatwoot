@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "אוטומציות",
+    "HEADER": "אוטומציה",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "הוספת אוטומציה",
     "LOADING": "חיבור אוטומציות",
-    "SIDEBAR_TXT": "<p><b>אוטומציות</b> <p>האוטומציות יכולות להחליף פעולות שאתם עושים בדרך כלל בצורה ידנית. ניתן לעשות שלל דברים עם אוטומציה לדוגמא הוספת תויית ושיוך שיחה לסוכן בהתאם לחוקים מוגדרים מראש. זה יאפשר לצוות שלכם להתמקד בדברים החשובים באמת ולתת למערכת לעשות פעולות אוטומיות.</p>",
     "ADD": {
       "TITLE": "הוספת אוטומציה",
       "SUBMIT": "צור",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "שם",
-        "תיאור",
-        "פעיל",
-        "נוצר ב"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "שם",
+        "DESCRIPTION": "תיאור",
+        "ACTIVE": "פעיל",
+        "CREATED_ON": "נוצר ב"
+      },
       "404": "לא נמצאו אוטומציות"
     },
     "DELETE": {
@@ -93,7 +94,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "נדרשת פעולה אחת לפחות",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "הכנס כאן את ההודעה",
-      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות"
+      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "הפעל אוטומציה",
@@ -113,6 +116,68 @@
       "LABEL_UPLOADING": "מעלה...",
       "LABEL_UPLOADED": "קובץ הועלה בהצלחה",
       "LABEL_UPLOAD_FAILED": "העלאה נכשלה"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "חובה ערך",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "כלום",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "השיחה נוצרה",
+      "CONVERSATION_UPDATED": "השיחה עודכנה",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "השיחה נפתחה"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "השתק שיחה",
+      "SNOOZE_CONVERSATION": "נודניק שיחה",
+      "RESOLVE_CONVERSATION": "פתור שיחה",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "שיחה פתוחה"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "כלום",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "אימייל",
+      "INBOX": "תיבת הדואר הנכנס",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "מספר טלפון",
+      "STATUS": "מצב",
+      "BROWSER_LANGUAGE": "שפת דפדפן",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "מדינה",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "צוות",
+      "PRIORITY": "Priority"
     }
   }
 }

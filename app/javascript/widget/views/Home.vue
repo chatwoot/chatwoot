@@ -1,45 +1,21 @@
-<template>
-  <div class="flex flex-1 flex-col justify-end">
-    <div class="flex flex-1 overflow-auto">
-      <!-- Load Conversation List Components Here -->
-    </div>
-    <team-availability
-      :available-agents="availableAgents"
-      :has-conversation="!!conversationSize"
-      @start-conversation="startConversation"
-    />
-  </div>
-</template>
-
 <script>
-import configMixin from '../mixins/configMixin';
-import TeamAvailability from 'widget/components/TeamAvailability';
+import TeamAvailability from 'widget/components/TeamAvailability.vue';
 import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
+import configMixin from 'widget/mixins/configMixin';
+import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';
 export default {
   name: 'Home',
   components: {
+    ArticleContainer,
     TeamAvailability,
   },
   mixins: [configMixin, routerMixin],
-  props: {
-    hasFetched: {
-      type: Boolean,
-      default: false,
-    },
-    isCampaignViewClicked: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {};
-  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
+      unreadMessageCount: 'conversation/getUnreadMessageCount',
     }),
   },
   methods: {
@@ -52,3 +28,16 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="z-50 flex flex-col justify-end flex-1 w-full p-4 gap-4">
+    <TeamAvailability
+      :available-agents="availableAgents"
+      :has-conversation="!!conversationSize"
+      :unread-count="unreadMessageCount"
+      @start-conversation="startConversation"
+    />
+
+    <ArticleContainer />
+  </div>
+</template>

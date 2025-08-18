@@ -1,153 +1,97 @@
+<script setup>
+import { computed, inject, defineModel } from 'vue';
+import { useMacros } from 'dashboard/composables/useMacros';
+import { useI18n } from 'vue-i18n';
+import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
+const props = defineProps({
+  singleNode: {
+    type: Boolean,
+    default: false,
+  },
+  errorKey: {
+    type: String,
+    default: '',
+  },
+  fileName: {
+    type: String,
+    default: '',
+  },
+});
+
+defineEmits(['resetAction', 'deleteNode']);
+
+const { t } = useI18n();
+const macroActionTypes = inject('macroActionTypes');
+const { getMacroDropdownValues } = useMacros();
+
+const actionData = defineModel({
+  type: Object,
+  required: true,
+});
+
+const errorMessage = computed(() => {
+  if (!props.errorKey) return '';
+  return t(`MACROS.ERRORS.${props.errorKey}`);
+});
+
+const showActionInput = computed(() => {
+  if (
+    actionData.value.action_name === 'send_email_to_team' ||
+    actionData.value.action_name === 'send_message'
+  )
+    return false;
+  const type = macroActionTypes.value.find(
+    action => action.key === actionData.value.action_name
+  ).inputType;
+  return !!type;
+});
+
+const dropdownValues = () => {
+  return getMacroDropdownValues(actionData.value.action_name);
+};
+</script>
+
 <template>
-  <div class="macro__node-action-container">
-    <woot-button
+  <div class="relative flex items-start w-full min-w-0 basis-full">
+    <NextButton
       v-if="!singleNode"
-      size="small"
-      variant="clear"
-      color-scheme="secondary"
-      icon="navigation"
-      class="macros__node-drag-handle"
+      ghost
+      sm
+      slate
+      icon="i-lucide-menu"
+      class="absolute cursor-move ltr:-left-10 rtl:-right-10 ltr:mr-2 rtl:ml-2 macros__node-drag-handle"
     />
     <div
-      class="macro__node-action-item"
-      :class="{
-        'has-error': hasError($v.macro.actions.$each[index]),
-      }"
+      class="flex-grow p-2 ltr:mr-2 rtl:ml-2 rounded-md shadow-sm outline outline-1 outline-n-weak"
+      :class="
+        errorKey
+          ? 'animate-shake bg-n-ruby-8/20 outline-n-ruby-5 dark:outline-n-ruby-5'
+          : 'bg-n-background dark:bg-n-solid-1'
+      "
     >
-      <action-input
+      <ActionInput
         v-model="actionData"
         :action-types="macroActionTypes"
         :dropdown-values="dropdownValues()"
         :show-action-input="showActionInput"
         :show-remove-button="false"
-        :is-macro="true"
-        :v="$v.macro.actions.$each[index]"
+        is-macro
+        :error-message="errorMessage"
         :initial-file-name="fileName"
-        @resetAction="$emit('resetAction')"
+        @reset-action="$emit('resetAction')"
       />
     </div>
-    <woot-button
+    <NextButton
       v-if="!singleNode"
       v-tooltip="$t('MACROS.EDITOR.DELETE_BTN_TOOLTIP')"
-      icon="delete"
-      size="small"
-      variant="smooth"
-      color-scheme="alert"
+      icon="i-lucide-trash-2"
+      sm
+      faded
+      ruby
+      class="flex-shrink-0"
       @click="$emit('deleteNode')"
     />
   </div>
 </template>
-
-<script>
-import ActionInput from 'dashboard/components/widgets/AutomationActionInput';
-import macrosMixin from 'dashboard/mixins/macrosMixin';
-import { mapGetters } from 'vuex';
-
-export default {
-  components: {
-    ActionInput,
-  },
-  mixins: [macrosMixin],
-  inject: ['macroActionTypes', '$v'],
-  props: {
-    singleNode: {
-      type: Boolean,
-      default: false,
-    },
-    value: {
-      type: Object,
-      default: () => ({}),
-    },
-    index: {
-      type: Number,
-      default: 0,
-    },
-    fileName: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    ...mapGetters({
-      labels: 'labels/getLabels',
-      teams: 'teams/getTeams',
-      agents: 'agents/getAgents',
-    }),
-    actionData: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit('input', value);
-      },
-    },
-    showActionInput() {
-      if (
-        this.actionData.action_name === 'send_email_to_team' ||
-        this.actionData.action_name === 'send_message'
-      )
-        return false;
-      const type = this.macroActionTypes.find(
-        action => action.key === this.actionData.action_name
-      ).inputType;
-      return !!type;
-    },
-  },
-  methods: {
-    dropdownValues() {
-      return this.getDropdownValues(this.value.action_name, this.$store);
-    },
-    hasError(v) {
-      return !!(v.action_params.$dirty && v.action_params.$error);
-    },
-  },
-};
-</script>
-
-<style scoped lang="scss">
-.macros__node-drag-handle {
-  position: absolute;
-  left: var(--space-minus-large);
-  cursor: move;
-}
-.macro__node-action-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-basis: 100%;
-  min-width: 0;
-  width: 100%;
-
-  .macro__node-action-item {
-    flex-grow: 1;
-    background-color: var(--white);
-    padding: var(--space-small);
-    margin-right: var(--space-small);
-    border-radius: var(--border-radius-medium);
-    box-shadow: var(--shadow);
-
-    &.has-error {
-      animation: shake 0.3s ease-in-out 0s 2;
-      background-color: var(--r-50);
-    }
-  }
-}
-
-@keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(0.375rem);
-  }
-  50% {
-    transform: translateX(-0.375rem);
-  }
-  75% {
-    transform: translateX(0.375rem);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-</style>

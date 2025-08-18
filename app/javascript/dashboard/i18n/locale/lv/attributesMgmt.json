@@ -3,7 +3,20 @@
     "HEADER": "Pielāgotas Īpašības",
     "HEADER_BTN_TXT": "Pievienot Pielāgotu Īpašību",
     "LOADING": "Notiek pielāgotu īpašību iegūšana",
-    "SIDEBAR_TXT": "<p><b>Pielāgotas Īpašības</b> <p>Pielāgotas īpašības izseko faktus par jūsu kontaktpersonām/sarunu, piemēram, abonēšanas plānu vai kad viņi pasūtīja pirmo preci utt. <br /><br />Lai izveidotu Pielāgotu Īpašību, noklikšķiniet uz <b>Pievienot Pielāgotu Īpašību.</b> Jūs varat arī rediģēt vai dzēst esošu Pielāgotu Īpašību, noklikšķinot uz Rediģēt vai Dzēst pogas.</p>",
+    "DESCRIPTION": "Pielāgots atribūts ļauj izsekot papildu informāciju par jūsu kontaktpersonām vai sarunām, piemēram, abonēšanas plānu vai viņu pirmā pirkuma datumu. Varat pievienot dažāda veida pielāgotus atribūtus, piemēram, tekstu, sarakstus vai skaitļus, lai tvertu konkrētu jums nepieciešamo informāciju.",
+    "LEARN_MORE": "Uzzināt vairāk par pielāgotajiem atribūtiem",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Saruna",
+      "CONTACT": "Kontaktpersona"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Teksts",
+      "NUMBER": "Numurs",
+      "LINK": "Saite",
+      "DATE": "Date",
+      "LIST": "Saraksts",
+      "CHECKBOX": "Izvēles rūtiņa"
+    },
     "ADD": {
       "TITLE": "Pievienot Pielāgotu Īpašību",
       "SUBMIT": "Izveidot",
@@ -39,6 +52,17 @@
           "PLACEHOLDER": "Ievadiet pielāgotas īpašības atslēgu",
           "ERROR": "Nepieciešama atslēga",
           "IN_VALID": "Nederīga atslēga"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Šablons",
+          "PLACEHOLDER": "Lūdzu, ievadiet pielāgotu atribūtu regex šablonu. (Neobligāti)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Norādījums",
+          "PLACEHOLDER": "Lūdzu, ievadiet regex šablona norādījumu. (Neobligāti)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Iespējot regex pārbaudi"
         }
       },
       "API": {
@@ -53,7 +77,7 @@
         "ERROR_MESSAGE": "Nevarēja izdzēst pielāgoto īpašību. Mēģiniet vēlreiz."
       },
       "CONFIRM": {
-        "TITLE": "Vai tiešām vēlaties dzēst - %{attributeName}",
+        "TITLE": "Vai esat pārliecināts, ka vēlaties izdzēst - {attributeName}",
         "PLACE_HOLDER": "Lai apstiprinātu, lūdzu, uzrakstiet {attributeName}",
         "MESSAGE": "Dzēšana noņems pielāgoto īpašību",
         "YES": "Dzēst ",
@@ -80,12 +104,12 @@
       "CONTACT": "Kontaktpersona"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Tips",
-        "Atslēga"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "TYPE": "Tips",
+        "KEY": "Atslēga"
+      },
       "BUTTONS": {
         "EDIT": "Rediģēt",
         "DELETE": "Dzēst"
@@ -93,6 +117,17 @@
       "EMPTY_RESULT": {
         "404": "Nav izveidotas pielāgotas īpašības",
         "NOT_FOUND": "Nav nokonfigurētas pielāgotas īpašības"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Šablons",
+        "PLACEHOLDER": "Lūdzu, ievadiet pielāgotu atribūtu regex šablonu. (Neobligāti)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Norādījums",
+        "PLACEHOLDER": "Lūdzu, ievadiet regex šablona norādījumu. (Neobligāti)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Iespējot regex pārbaudi"
       }
     }
   }

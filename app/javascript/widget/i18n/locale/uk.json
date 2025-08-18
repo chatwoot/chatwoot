@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Не вдалося надіслати, спробуйте ще раз"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Ми онлайн",
     "OFFLINE": "Нас наразі немає"
@@ -20,21 +25,23 @@
     "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
     "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
     "IN_A_DAY": "Зазвичай, відповідаємо протягом доби",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "Ми повернемось в мережу"
   },
-  "DAY_NAMES": [
-    "Неділя",
-    "Понеділок",
-    "Вівторок",
-    "Середа",
-    "Четвер",
-    "П'ятниця",
-    "Субота"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Неділя",
+    "MONDAY": "Понеділок",
+    "TUESDAY": "Вівторок",
+    "WEDNESDAY": "Середа",
+    "THURSDAY": "Четвер",
+    "FRIDAY": "П'ятниця",
+    "SATURDAY": "Субота"
+  },
   "START_CONVERSATION": "Розпочати розмову",
   "END_CONVERSATION": "Закінчити спілкування",
   "CONTINUE_CONVERSATION": "Продовжити спілкування",
+  "YOU": "Ви",
   "START_NEW_CONVERSATION": "Розпочати нову розмову",
+  "VIEW_UNREAD_MESSAGES": "У Вас є непрочитані повідомлення",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",
     "CLOSE_MESSAGES_BUTTON": "Закрити",
@@ -66,7 +73,10 @@
         "LABEL": "Номер телефону",
         "PLACEHOLDER": "Будь ласка, введіть номер телефону",
         "REQUIRED_ERROR": "Номер телефону є обов'язковим",
-        "VALID_ERROR": "Номер телефону має бути в форматі E.164; наприклад: + 1415555555"
+        "DIAL_CODE_VALID_ERROR": "Будь ласка, оберіть код країни",
+        "VALID_ERROR": "Будь ласка, введіть правильний номер телефону",
+        "DROPDOWN_EMPTY": "Результатів не знайдено",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Текст повідомлення",
@@ -76,7 +86,8 @@
     },
     "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
     "IS_REQUIRED": "обов'язково",
-    "REQUIRED": "Обов'язково"
+    "REQUIRED": "Обов'язково",
+    "REGEX_ERROR": "Будь ласка, введіть коректний текст"
   },
   "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -86,7 +97,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Пошук емодзі",
-    "NOT_FOUND": "Немає емодзі, що відповідають пошуковому запиту"
+    "NOT_FOUND": "Немає емодзі, що відповідають пошуковому запиту",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Оцініть вашу бесіду",
@@ -103,5 +115,33 @@
       "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
       "LEAVE_THE_ROOM": "Залишити дзвінок"
     }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Популярні статті",
+    "VIEW_ALL_ARTICLES": "Переглянути всі статті",
+    "IFRAME_LOAD_ERROR": "Помилка при завантаженні статті, будь ласка, оновіть сторінку та повторіть спробу."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Повідомлення з картинкою"
+    },
+    "audio": {
+      "CONTENT": "Аудіо-повідомлення"
+    },
+    "video": {
+      "CONTENT": "Відеоповідомлення"
+    },
+    "file": {
+      "CONTENT": "Повідомлення з файлом"
+    },
+    "location": {
+      "CONTENT": "Місцезнаходження"
+    },
+    "fallback": {
+      "CONTENT": "поділився посиланням"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Відповісти:"
   }
 }

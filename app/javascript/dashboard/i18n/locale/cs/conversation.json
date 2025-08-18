@@ -12,6 +12,12 @@
     "NO_INBOX_2": " začít",
     "NO_INBOX_AGENT": "Uh Oh! Vypadá to, že nejste součástí žádné schránky. Obraťte se na správce",
     "SEARCH_MESSAGES": "Hledat zprávy v konverzacích",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "Hledat zprávy",
       "RESULT_TITLE": "Výsledky hledání",
@@ -26,23 +32,36 @@
     "LOADING_CONVERSATIONS": "Načítání konverzací",
     "CANNOT_REPLY": "Nemůžete odpovědět z důvodu",
     "24_HOURS_WINDOW": "24 hodinové omezení okna",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Tato konverzace vám není přiřazena. Chcete si přiřadit tuto konverzaci?",
     "ASSIGN_TO_ME": "Přiřadit mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Na tuto konverzaci můžete odpovědět pouze pomocí šablony zprávy z důvodu",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hodinové omezení okna",
-    "SELECT_A_TWEET_TO_REPLY": "Vyberte prosím tweet, na který chcete odpovědět.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
     "UNKNOWN_FILE_TYPE": "Neznámý soubor",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Zpráva byla úspěšně smazána",
     "FAIL_DELETE_MESSSAGE": "Zpráva se nepodařilo odstranit! Zkuste to znovu",
     "NO_RESPONSE": "Bez odpovědi",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Hodnocení",
     "FEEDBACK_TITLE": "Zpětná vazba",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
@@ -51,13 +70,21 @@
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
       "OPEN_ACTION": "Otevřít",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Více",
       "CLOSE": "Zavřít",
       "DETAILS": "Podrobnosti",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do zítřka",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do příštího týdne",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do další odpovědi"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do další odpovědi",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označit jako nevyřízené",
@@ -68,6 +95,10 @@
         "TOMORROW": "Zítra",
         "NEXT_WEEK": "Příští týden"
       }
+    },
+    "MENTION": {
+      "AGENTS": "Agenti",
+      "TEAMS": "Týmy"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Odložit do",
@@ -87,14 +118,20 @@
         "SELECT_PLACEHOLDER": "Nic",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "Žádné výsledky",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Vymazat"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označit jako nevyřízené",
       "RESOLVED": "Označit jako vyřešené",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Znovu otevřít konverzaci",
       "SNOOZE": {
         "TITLE": "Odložit",
@@ -106,17 +143,21 @@
       "ASSIGN_LABEL": "Přiřadit štítek",
       "AGENTS_LOADING": "Načítání agentů...",
       "ASSIGN_TEAM": "Přiřadit tým",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Konverzace id %{conversationId} přiřazena \"%{agentName}\"",
+          "SUCCESFUL": "Konverzace id {conversationId} přiřazena \"{agentName}\"",
           "FAILED": "Nelze přiřadit agenta. Zkuste to prosím znovu."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Přiřazený štítek #%{labelName} ke konverzaci id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nelze přiřadit štítek. Zkuste to prosím znovu."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Přiřazený tým #%{team} ke konverzaci id %{conversationId}",
+          "SUCCESFUL": "Přiřazený tým #{team} ke konverzaci id {conversationId}",
           "FAILED": "Nelze přiřadit tým. Zkuste to prosím znovu."
         }
       }
@@ -128,14 +169,17 @@
       "MSG_INPUT": "Shift + zadejte pro nový řádek. Začněte '/' pro výběr zrušené odpovědi.",
       "PRIVATE_MSG_INPUT": "Shift + zadejte pro nový řádek. Toto bude viditelné pouze pro agenty",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Podpis zprávy není nakonfigurován, prosím nakonfigurujte jej v nastavení profilu.",
-      "CLICK_HERE": "Klikněte zde pro aktualizaci"
+      "CLICK_HERE": "Klikněte zde pro aktualizaci",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "Odpověď",
       "PRIVATE_NOTE": "Soukromá poznámka",
       "SEND": "Poslat",
       "CREATE": "Přidat poznámku",
-      "TWEET": "Tweet",
+      "INSERT_READ_MORE": "Read more",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Zobrazit formátovaný textový editor",
       "TIP_EMOJI_ICON": "Zobrazit výběr emoji",
       "TIP_ATTACH_ICON": "Přiložit soubory",
@@ -147,6 +191,7 @@
       "STOP_AUDIO_RECORDING": "Zastavit nahrávání zvuku",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "Přidat bcc",
         "CC": {
           "LABEL": "CC",
@@ -176,6 +221,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Štítek byl úspěšně přiřazen",
     "ASSIGN_LABEL_FAILED": "Přiřazení štítku se nezdařilo",
     "CHANGE_TEAM": "Tým konverzace se změnil",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
     "SENT_BY": "Odeslal:",
@@ -189,6 +236,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopírovat",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "Vymazat",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
@@ -200,6 +248,10 @@
         "DELETE": "Vymazat",
         "CANCEL": "Zrušit"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -220,27 +272,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Ahoj, 👋, Vítejte na %{installationName}!",
-    "DESCRIPTION": "Děkujeme za registraci. Chceme, abyste získali maximum z %{installationName}. Zde je několik věcí, které můžete v %{installationName} udělat, abyste udělali zážitek příjemný.",
+    "TITLE": "Ahoj, 👋, Vítejte na {installationName}!",
+    "DESCRIPTION": "Děkujeme za registraci. Chceme, abyste získali maximum z {installationName}. Zde je několik věcí, které můžete v {installationName} udělat, abyste udělali zážitek příjemný.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Přečtěte si nejnovější aktualizace",
     "ALL_CONVERSATION": {
       "TITLE": "Všechny vaše konverzace na jednom místě",
-      "DESCRIPTION": "Zobrazit všechny konverzace od zákazníků na jednom nástěnce. Můžete filtrovat konverzace podle příchozího kanálu, popisku a stavu."
+      "DESCRIPTION": "Zobrazit všechny konverzace od zákazníků na jednom nástěnce. Můžete filtrovat konverzace podle příchozího kanálu, popisku a stavu.",
+      "NEW_LINK": "Klikněte zde pro vytvoření schránky"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Pozvěte své členy týmu",
       "DESCRIPTION": "Vzhledem k tomu, že se připravujete na rozhovor se zákazníkem, přiveďte své týmové spolupracovníky, kteří Vám pomohou. Můžete pozvat své spolupracovníky přidáním jejich e-mailové adresy do seznamu agentů.",
       "NEW_LINK": "Klikněte zde pro pozvání člena týmu"
     },
-    "INBOXES": {
-      "TITLE": "Připojit schránky",
-      "DESCRIPTION": "Připojte různé kanály, pomocí kterých budou Vaši zákazníci s Vámi mluvit. Může to být živý chat, Vaše Facebook nebo Twitter stránka nebo dokonce Vaše WhatsApp číslo.",
-      "NEW_LINK": "Klikněte zde pro vytvoření schránky"
-    },
     "LABELS": {
       "TITLE": "Spravovat konverzace s popisky",
       "DESCRIPTION": "Štítky poskytují jednodušší způsob, jak kategorizovat vaši konverzaci. Vytvořte nějaké štítky jako #podpora, #fakturace atd., abyste je mohli použít v konverzaci později.",
       "NEW_LINK": "Klikněte zde pro vytvoření štítků"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -255,13 +311,36 @@
       "CONVERSATION_ACTIONS": "Akce konverzace",
       "CONVERSATION_LABELS": "Štítky konverzace",
       "CONVERSATION_INFO": "Informace o konverzaci",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Atributy kontaktu",
       "PREVIOUS_CONVERSATION": "Předchozí konverzace",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Čekající",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Vytvořit atribut",
+    "NO_RECORDS_FOUND": "Nebyly nalezeny žádné atributy",
     "UPDATE": {
       "SUCCESS": "Atribut byl úspěšně aktualizován",
       "ERROR": "Atribut nelze aktualizovat. Zkuste to prosím později"
@@ -286,17 +365,18 @@
     "TO": "Komu",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Předmět"
+    "SUBJECT": "Předmět",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "Žádné výsledky",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
@@ -311,5 +391,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

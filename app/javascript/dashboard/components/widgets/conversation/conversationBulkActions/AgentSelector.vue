@@ -1,116 +1,15 @@
-<template>
-  <div v-on-clickaway="onCloseAgentList" class="bulk-action__agents">
-    <div class="triangle">
-      <svg height="12" viewBox="0 0 24 12" width="24">
-        <path
-          d="M20 12l-8-8-12 12"
-          fill="var(--white)"
-          fill-rule="evenodd"
-          stroke="var(--s-50)"
-          stroke-width="1px"
-        />
-      </svg>
-    </div>
-    <div class="header flex-between">
-      <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
-    </div>
-    <div class="container">
-      <div
-        v-if="assignableAgentsUiFlags.isFetching"
-        class="agent__list-loading"
-      >
-        <spinner />
-        <p>{{ $t('BULK_ACTION.AGENT_LIST_LOADING') }}</p>
-      </div>
-      <div v-else class="agent__list-container">
-        <ul v-if="!selectedAgent">
-          <li class="search-container">
-            <div class="agent-list-search flex-between">
-              <fluent-icon icon="search" class="search-icon" size="16" />
-              <input
-                ref="search"
-                v-model="query"
-                type="search"
-                placeholder="Search"
-                class="agent--search_input"
-              />
-            </div>
-          </li>
-          <li v-for="agent in filteredAgents" :key="agent.id">
-            <div class="agent-list-item" @click="assignAgent(agent)">
-              <thumbnail
-                :src="agent.thumbnail"
-                :status="agent.availability_status"
-                :username="agent.name"
-                size="22px"
-              />
-              <span class="reports-option__title">{{ agent.name }}</span>
-            </div>
-          </li>
-        </ul>
-        <div v-else class="agent-confirmation-container">
-          <p v-if="selectedAgent.id">
-            {{
-              $t('BULK_ACTION.ASSIGN_CONFIRMATION_LABEL', {
-                conversationCount,
-                conversationLabel,
-              })
-            }}
-            <strong>
-              {{ selectedAgent.name }}
-            </strong>
-            <span>?</span>
-          </p>
-          <p v-else>
-            {{
-              $t('BULK_ACTION.UNASSIGN_CONFIRMATION_LABEL', {
-                conversationCount,
-                conversationLabel,
-              })
-            }}
-          </p>
-          <div class="agent-confirmation-actions">
-            <woot-button
-              color-scheme="primary"
-              variant="smooth"
-              @click="goBack"
-            >
-              {{ $t('BULK_ACTION.GO_BACK_LABEL') }}
-            </woot-button>
-            <woot-button
-              color-scheme="primary"
-              variant="flat"
-              :is-loading="uiFlags.isUpdating"
-              @click="submit"
-            >
-              {{ $t('BULK_ACTION.YES') }}
-            </woot-button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import Spinner from 'shared/components/Spinner';
-import { mixin as clickaway } from 'vue-clickaway';
+import Avatar from 'next/avatar/Avatar.vue';
+import Spinner from 'shared/components/Spinner.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    Thumbnail,
+    Avatar,
     Spinner,
+    NextButton,
   },
-  mixins: [clickaway],
   props: {
     selectedInboxes: {
       type: Array,
@@ -121,6 +20,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['select', 'close'],
   data() {
     return {
       query: '',
@@ -131,7 +31,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'bulkActions/getUIFlags',
-      inboxes: 'inboxes/getInboxes',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     filteredAgents() {
@@ -188,112 +87,168 @@ export default {
 };
 </script>
 
+<template>
+  <div v-on-clickaway="onCloseAgentList" class="bulk-action__agents">
+    <div class="triangle">
+      <svg height="12" viewBox="0 0 24 12" width="24">
+        <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
+      </svg>
+    </div>
+    <div class="flex items-center justify-between header">
+      <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
+      <NextButton ghost xs slate icon="i-lucide-x" @click="onClose" />
+    </div>
+    <div class="container">
+      <div
+        v-if="assignableAgentsUiFlags.isFetching"
+        class="agent__list-loading"
+      >
+        <Spinner />
+        <p>{{ $t('BULK_ACTION.AGENT_LIST_LOADING') }}</p>
+      </div>
+      <div v-else class="agent__list-container">
+        <ul v-if="!selectedAgent">
+          <li class="search-container">
+            <div
+              class="flex items-center justify-between h-8 gap-2 agent-list-search"
+            >
+              <fluent-icon icon="search" class="search-icon" size="16" />
+              <input
+                v-model="query"
+                type="search"
+                :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
+                class="reset-base !outline-0 !text-sm agent--search_input"
+              />
+            </div>
+          </li>
+          <li v-for="agent in filteredAgents" :key="agent.id">
+            <div class="agent-list-item" @click="assignAgent(agent)">
+              <Avatar
+                :name="agent.name"
+                :src="agent.thumbnail"
+                :status="agent.availability_status"
+                :size="22"
+                hide-offline-status
+                rounded-full
+              />
+              <span class="my-0 text-n-slate-12">
+                {{ agent.name }}
+              </span>
+            </div>
+          </li>
+        </ul>
+        <div v-else class="agent-confirmation-container">
+          <p v-if="selectedAgent.id">
+            {{
+              $t('BULK_ACTION.ASSIGN_CONFIRMATION_LABEL', {
+                conversationCount,
+                conversationLabel,
+              })
+            }}
+            <strong>
+              {{ selectedAgent.name }}
+            </strong>
+            <span>?</span>
+          </p>
+          <p v-else>
+            {{
+              $t('BULK_ACTION.UNASSIGN_CONFIRMATION_LABEL', {
+                conversationCount,
+                conversationLabel,
+              })
+            }}
+          </p>
+          <div class="agent-confirmation-actions">
+            <NextButton
+              faded
+              sm
+              slate
+              type="reset"
+              :label="$t('BULK_ACTION.GO_BACK_LABEL')"
+              @click="goBack"
+            />
+            <NextButton
+              sm
+              type="submit"
+              :label="$t('BULK_ACTION.YES')"
+              :is-loading="uiFlags.isUpdating"
+              @click="submit"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 .bulk-action__agents {
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  border: 1px solid var(--s-50);
-  box-shadow: var(--shadow-dropdown-pane);
-  max-width: 75%;
-  position: absolute;
-  right: var(--space-small);
-  top: var(--space-larger);
-  transform-origin: top right;
-  width: auto;
-  z-index: var(--z-index-twenty);
-  min-width: var(--space-giga);
+  @apply max-w-[75%] absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
   .header {
-    padding: var(--space-one);
+    @apply p-2.5;
 
     span {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
+      @apply text-sm font-medium;
     }
   }
 
   .container {
-    max-height: var(--space-giga);
-    overflow-y: auto;
+    @apply overflow-y-auto max-h-[15rem];
     .agent__list-container {
-      height: 100%;
+      @apply h-full;
     }
     .agent-list-search {
-      padding: 0 var(--space-one);
-      border: 1px solid var(--s-100);
-      border-radius: var(--border-radius-medium);
-      background-color: var(--s-50);
+      @apply py-0 px-2.5 bg-n-alpha-black2 border border-solid border-n-strong rounded-md;
       .search-icon {
-        color: var(--s-400);
+        @apply text-n-slate-10;
       }
 
       .agent--search_input {
-        border: 0;
-        font-size: var(--font-size-mini);
-        margin: 0;
-        background-color: transparent;
-        height: unset;
+        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset] w-full;
       }
     }
   }
   .triangle {
-    display: block;
-    z-index: var(--z-index-one);
-    position: absolute;
-    top: var(--space-minus-slab);
-    right: var(--triangle-position);
-    text-align: left;
+    @apply block z-10 absolute -top-3 text-left ltr:right-[--triangle-position] rtl:left-[--triangle-position];
+
+    svg path {
+      @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;
+    }
   }
 }
 ul {
-  margin: 0;
-  list-style: none;
+  @apply m-0 list-none;
+
+  li {
+    &:last-child {
+      .agent-list-item {
+        @apply last:rounded-b-lg;
+      }
+    }
+  }
 }
 
 .agent-list-item {
-  display: flex;
-  align-items: center;
-  padding: var(--space-one);
-  cursor: pointer;
-  &:hover {
-    background-color: var(--s-50);
-  }
+  @apply flex items-center p-2.5 gap-2 cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3;
   span {
-    font-size: var(--font-size-small);
+    @apply text-sm;
   }
 }
 
 .agent-confirmation-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: var(--space-one);
+  @apply flex flex-col h-full p-2.5;
   p {
-    flex-grow: 1;
+    @apply flex-grow;
   }
   .agent-confirmation-actions {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-one);
+    @apply w-full grid grid-cols-2 gap-2.5;
   }
 }
 .search-container {
-  padding: 0 var(--space-one);
-  position: sticky;
-  top: 0;
-  z-index: var(--z-index-twenty);
-  background-color: var(--white);
+  @apply py-0 px-2.5 sticky top-0 z-20 bg-n-alpha-3 backdrop-blur-[100px];
 }
 
 .agent__list-loading {
-  height: calc(95% - var(--space-one));
-  margin: var(--space-one);
-  border-radius: var(--border-radius-medium);
-  background-color: var(--s-50);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: var(--space-two);
+  @apply m-2.5 rounded-md dark:bg-n-solid-3 bg-n-slate-2 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
 }
 </style>

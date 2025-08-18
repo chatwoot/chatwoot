@@ -1,80 +1,73 @@
-class Instagram::MessageText < Instagram::WebhooksBaseService
-  include HTTParty
-
+class Instagram::MessageText < Instagram::BaseMessageText
   attr_reader :messaging
 
-  base_uri 'https://graph.facebook.com/v11.0/'
-
-  def initialize(messaging)
-    super()
-    @messaging = messaging
+  def ensure_contact(ig_scope_id)
+    result = fetch_instagram_user(ig_scope_id)
+    find_or_create_contact(result) if result.present?
   end
 
-  def perform
-    create_test_text
-    instagram_id, contact_id = instagram_and_contact_ids
-    inbox_channel(instagram_id)
-    # person can connect the channel and then delete the inbox
-    return if @inbox.blank?
-    # This channel might require reauthorization, may be owner might have changed the fb password
-    return if @inbox.channel.reauthorization_required?
+  def fetch_instagram_user(ig_scope_id)
+    fields = 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user,is_verified_user'
+    url = "#{base_uri}/#{ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
 
-    return unsend_message if message_is_deleted?
+    response = HTTParty.get(url)
 
-    ensure_contact(contact_id) if contacts_first_message?(contact_id)
+    return process_successful_response(response) if response.success?
 
-    create_message
+    handle_error_response(response, ig_scope_id) || {}
   end
 
   private
 
-  def instagram_and_contact_ids
-    if agent_message_via_echo?
-      [@messaging[:sender][:id], @messaging[:recipient][:id]]
-    else
-      [@messaging[:recipient][:id], @messaging[:sender][:id]]
-    end
+  def process_successful_response(response)
+    result = JSON.parse(response.body).with_indifferent_access
+    {
+      'name' => result['name'],
+      'username' => result['username'],
+      'profile_pic' => result['profile_pic'],
+      'id' => result['id'],
+      'follower_count' => result['follower_count'],
+      'is_user_follow_business' => result['is_user_follow_business'],
+      'is_business_follow_user' => result['is_business_follow_user'],
+      'is_verified_user' => result['is_verified_user']
+    }.with_indifferent_access
   end
 
-  def ensure_contact(ig_scope_id)
-    begin
-      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(ig_scope_id) || {}
-    rescue Koala::Facebook::AuthenticationError => e
-      @inbox.channel.authorization_error!
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    rescue StandardError, Koala::Facebook::ClientError => e
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-    end
+  def handle_error_response(response, ig_scope_id)
+    parsed_response = response.parsed_response
+    parsed_response = JSON.parse(parsed_response) if parsed_response.is_a?(String)
+    error_message = parsed_response.dig('error', 'message')
+    error_code = parsed_response.dig('error', 'code')
 
-    find_or_create_contact(result) if defined?(result) && result.present?
+    # https://developers.facebook.com/docs/messenger-platform/error-codes
+    # Access token has expired or become invalid.
+    channel.authorization_error! if error_code == 190
+
+    # TODO: Remove this once we have a better way to handle this error.
+    # https://developers.facebook.com/docs/messenger-platform/instagram/features/user-profile/#user-consent
+    # The error typically occurs when the connected Instagram account attempts to send a message to a user
+    # who has never messaged this Instagram account before.
+    # We can only get consent to access a user's profile if they have previously sent a message to the connected Instagram account.
+    # In such cases, we receive the error "User consent is required to access user profile".
+    # We can safely ignore this error.
+    return if error_code == 230
+
+    # The error occurs when Facebook tries to validate the Facebook App created to authorize Instagram integration.
+    # The Facebook's agent uses a Bot to make tests on the App where is not a valid user via API,
+    # returning `{"error"=>{"message"=>"No matching Instagram user", "type"=>"IGApiException", "code"=>9010}}`.
+    # Then Facebook rejects the request saying this app is still not ready once the integration with Instagram didn't work.
+    # We can safely create an unknown contact, making this integration work.
+    return unknown_user(ig_scope_id) if error_code == 9010
+
+    Rails.logger.warn("[InstagramUserFetchError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id} ig_scope_id #{ig_scope_id}")
+    Rails.logger.warn("[InstagramUserFetchError]: #{error_message} #{error_code}")
+
+    exception = StandardError.new("#{error_message} (Code: #{error_code}, IG Scope ID: #{ig_scope_id})")
+    ChatwootExceptionTracker.new(exception, account: @inbox.account).capture_exception
   end
 
-  def agent_message_via_echo?
-    @messaging[:message][:is_echo].present?
-  end
-
-  def message_is_deleted?
-    @messaging[:message][:is_deleted].present?
-  end
-
-  # if contact was present before find out contact_inbox to create message
-  def contacts_first_message?(ig_scope_id)
-    @contact_inbox = @inbox.contact_inboxes.where(source_id: ig_scope_id).last
-    @contact_inbox.blank? && @inbox.channel.instagram_id.present?
-  end
-
-  def sent_via_test_webhook?
-    @messaging[:sender][:id] == '12334' && @messaging[:recipient][:id] == '23245'
-  end
-
-  def unsend_message
-    message_to_delete = @inbox.messages.find_by(
-      source_id: @messaging[:message][:mid]
-    )
-    return if message_to_delete.blank?
-
-    message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
+  def base_uri
+    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
   end
 
   def create_message
@@ -83,64 +76,10 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     Messages::Instagram::MessageBuilder.new(@messaging, @inbox, outgoing_echo: agent_message_via_echo?).perform
   end
 
-  def create_test_text
-    return unless sent_via_test_webhook?
-
-    Rails.logger.info('Probably Test data.')
-
-    messenger_channel = Channel::FacebookPage.last
-    @inbox = ::Inbox.find_by(channel: messenger_channel)
-    return unless @inbox
-
-    @contact = create_test_contact
-
-    @conversation ||= create_test_conversation(conversation_params)
-
-    @message = @conversation.messages.create!(test_message_params)
-  end
-
-  def create_test_contact
-    @contact_inbox = @inbox.contact_inboxes.where(source_id: @messaging[:sender][:id]).first
-    unless @contact_inbox
-      @contact_inbox ||= @inbox.channel.create_contact_inbox(
-        'sender_username', 'sender_username'
-      )
-    end
-
-    @contact_inbox.contact
-  end
-
-  def create_test_conversation(conversation_params)
-    Conversation.find_by(conversation_params) || build_conversation(conversation_params)
-  end
-
-  def test_message_params
+  def unknown_user(ig_scope_id)
     {
-      account_id: @conversation.account_id,
-      inbox_id: @conversation.inbox_id,
-      message_type: 'incoming',
-      source_id: @messaging[:message][:mid],
-      content: @messaging[:message][:text],
-      sender: @contact
-    }
-  end
-
-  def build_conversation(conversation_params)
-    Conversation.create!(
-      conversation_params.merge(
-        contact_inbox_id: @contact_inbox.id
-      )
-    )
-  end
-
-  def conversation_params
-    {
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      contact_id: @contact.id,
-      additional_attributes: {
-        type: 'instagram_direct_message'
-      }
-    }
+      'name' => "Unknown (IG: #{ig_scope_id})",
+      'id' => ig_scope_id
+    }.with_indifferent_access
   end
 end

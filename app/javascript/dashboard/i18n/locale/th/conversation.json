@@ -12,6 +12,12 @@
     "NO_INBOX_2": " ที่จะเริ่มต้น",
     "NO_INBOX_AGENT": "เอ่อโอ้! ดูเหมือนว่าคุณไม่ได้เป็นส่วนหนึ่งของกล่องจดหมายใด ๆ โปรดติดต่อผู้ดูแลระบบของคุณ",
     "SEARCH_MESSAGES": "ค้นหาข้อความในการสนทนา",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "ค้นหาข้อความ",
       "RESULT_TITLE": "ผลการค้นหา",
@@ -26,23 +32,36 @@
     "LOADING_CONVERSATIONS": "กำลังโหลดการสนทนา",
     "CANNOT_REPLY": "คุณไม่สามารถตอบกลับได้เนื่องจาก",
     "24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "การสนทนานี้ไม่ได้ถูกมอบหมายให้คุณ ต้องการที่จะจัดการด้วยตัวเองหรือไม่?",
     "ASSIGN_TO_ME": "มอบหมายให้ฉัน",
     "TWILIO_WHATSAPP_CAN_REPLY": "คุณสามารถตอบกลับการสนทนานี้ได้โดยใช้รูปแบบข้อความที่กำหนดเท่านั้น",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
-    "SELECT_A_TWEET_TO_REPLY": "โปรดเลือกทวีตที่ต้องการตอบกลับ",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "คุณกำลังตอบกลับ:",
     "REMOVE_SELECTION": "ลบตัวเลือก",
     "DOWNLOAD": "ดาวโหลด",
     "UNKNOWN_FILE_TYPE": "Unknown File",
-    "SAVE_CONTACT": "Save",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "กำลังอัปโหลดไฟล์แนบ",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "ลบข้อความสำเร็จเเล้ว",
     "FAIL_DELETE_MESSSAGE": "ไม่สามารถลบข้อความได้ โปรดลองใหม่อีกครั้ง",
     "NO_RESPONSE": "ไม่มีการตอบกลับ",
+    "RESPONSE": "Response",
     "RATING_TITLE": "การประเมิน",
     "FEEDBACK_TITLE": "ผลตอบรับ",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "แสดงป้ายกำกับ",
       "HIDE_LABELS": "ซ่อนป้ายกำกับ"
@@ -51,13 +70,21 @@
       "RESOLVE_ACTION": "เสร็จสิ้น",
       "REOPEN_ACTION": "เปิดใหม่อีกครั้ง",
       "OPEN_ACTION": "เปิด",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
       "DETAILS": "รายละเอียด",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "พักการสนทนาจนถึงพรุ่งนี้",
       "SNOOZED_UNTIL_NEXT_WEEK": "พักการสนทนาจนถึงสัปดาห์หน้า",
-      "SNOOZED_UNTIL_NEXT_REPLY": "พักการสนทนาจนกว่าจะมีการตอบกลับถัดไป"
+      "SNOOZED_UNTIL_NEXT_REPLY": "พักการสนทนาจนกว่าจะมีการตอบกลับถัดไป",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
@@ -68,6 +95,10 @@
         "TOMORROW": "พรุ่งนี้",
         "NEXT_WEEK": "สัปดาห์หน้า"
       }
+    },
+    "MENTION": {
+      "AGENTS": "พนักงาน",
+      "TEAMS": "ทีม"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "พักการสนทนาจนถึง",
@@ -87,14 +118,20 @@
         "SELECT_PLACEHOLDER": "ไม่มี",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "No results found",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "ลบ"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
       "RESOLVED": "Mark as resolved",
       "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "เปิดการสนทนาอีกครั้ง",
       "SNOOZE": {
         "TITLE": "Snooze",
@@ -106,17 +143,21 @@
       "ASSIGN_LABEL": "Assign label",
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "รหัสการสนทนา %{conversationId} ถูกมอบหมายให้กับ %{agentName}",
+          "SUCCESFUL": "รหัสการสนทนา {conversationId} ถูกมอบหมายให้กับ {agentName}",
           "FAILED": "Couldn't assign agent. Please try again."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "มอบหมายให้ทีม %{team} มาดูแลการสนทนารหัส %{conversationId}",
+          "SUCCESFUL": "มอบหมายให้ทีม {team} มาดูแลการสนทนารหัส {conversationId}",
           "FAILED": "ไม่สามารถมอบหมายให้กับทีมได้ โปรดลองใหม่อีกครั้ง"
         }
       }
@@ -128,14 +169,17 @@
       "MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ เริ่มต้นด้วย '/' เพื่อเลือกคำตอบสำเร็จรูป",
       "PRIVATE_MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ สิ่งนี้จะปรากฏแก่พนักงานเท่านั้น",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "ข้อความลายเซ็นต์ไม่ได้ถูกตั้งค่า โปรดปรับแต่งในหน้าตั้งค่าข้อมูลส่วนตัว",
-      "CLICK_HERE": "คลิกที่นี่เพื่ออัปเดต"
+      "CLICK_HERE": "คลิกที่นี่เพื่ออัปเดต",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "ตอบ",
       "PRIVATE_NOTE": "โน้ตส่วนตัว",
       "SEND": "ส่ง",
       "CREATE": "เพิ่มโน้ต",
-      "TWEET": "ทวิต",
+      "INSERT_READ_MORE": "Read more",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "เเสดงเครื่องมือแก้ไขข้อความริช",
       "TIP_EMOJI_ICON": "แสดงตัวเลือกอีโมจิ",
       "TIP_ATTACH_ICON": "เพิ่มไฟล์แนบ",
@@ -147,6 +191,7 @@
       "STOP_AUDIO_RECORDING": "หยุดบันทึกเสียง",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "เพิ่ม BCC",
         "CC": {
           "LABEL": "CC",
@@ -176,6 +221,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "ไฟล์ของคุณมีขนาดเกิน {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ โปรดลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
@@ -189,6 +236,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "คัดลอก",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "ลบ",
       "CREATE_A_CANNED_RESPONSE": "เพิ่มไปยังชุดคำตอบสำเร็จรูป",
       "TRANSLATE": "Translate",
@@ -200,6 +248,10 @@
         "DELETE": "ลบ",
         "CANCEL": "ยกเลิก"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "ผู้ติดต่อ",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -220,27 +272,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "สวัสดี 👋, ยินดีต้อนรับเข้าสู่ %{installationName}!",
-    "DESCRIPTION": "ขอบคุณสำหรับการสมัคร เราอยากให้คุณได้ใช้งาน %{installationName} อย่างเต็มที่ เเละนี่คือสิ่งเล็กน้อยที่คุณสามารถทำได้ใน %{installationName} เพื่อประสบการณ์การใช้งานที่ดียิ่งขึ้น",
+    "TITLE": "สวัสดี 👋, ยินดีต้อนรับเข้าสู่ {installationName}!",
+    "DESCRIPTION": "ขอบคุณสำหรับการสมัคร เราอยากให้คุณได้ใช้งาน {installationName} อย่างเต็มที่ เเละนี่คือสิ่งเล็กน้อยที่คุณสามารถทำได้ใน {installationName} เพื่อประสบการณ์การใช้งานที่ดียิ่งขึ้น",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "อ่านการอัปเดตล่าสุด",
     "ALL_CONVERSATION": {
       "TITLE": "รวมการสนทนาของคุณทั้งหมดในที่เดียว",
-      "DESCRIPTION": "ดูการสนทนาทั้งหมดจากลูกค้าของคุณในหน้าเดียว คุณสามารถเลือกดูการสนทนาตามช่องทางที่ส่งข้อความ, ตามป้ายกำกับ หรือตามสถานะของการสนทนาได้"
+      "DESCRIPTION": "ดูการสนทนาทั้งหมดจากลูกค้าของคุณในหน้าเดียว คุณสามารถเลือกดูการสนทนาตามช่องทางที่ส่งข้อความ, ตามป้ายกำกับ หรือตามสถานะของการสนทนาได้",
+      "NEW_LINK": "คลิกที่นี่เพื่อสร้างกล่องข้อความ"
     },
     "TEAM_MEMBERS": {
       "TITLE": "เชิญสมาชิกในทีมของคุณ",
       "DESCRIPTION": "ในเมื่อคุณพร้อมจะคุยกับลูกค้าแล้ว ให้เพื่อนร่วมทีมเข้ามาช่วยคุณ คุณสามารถเชิญเพื่อนร่วมทีมได้โดยการเพิ่มอีเมลของเขาลงในรายชื่อพนักงาน",
       "NEW_LINK": "คลิกที่นี่เพื่อเชิญสมาชิกในทีม"
     },
-    "INBOXES": {
-      "TITLE": "เชื่อมต่อกล่องข้อความ",
-      "DESCRIPTION": "เชื่อมต่อช่องทางต่างๆ ที่ลูกค้าพูดคุยกับคุณ อาจเป็นแชทในเว็บไซต์, เพจ Facebook หรือ Twitter ของคุณ หรือแม้กระทั่งหมายเลข WhatsApp ของคุณ",
-      "NEW_LINK": "คลิกที่นี่เพื่อสร้างกล่องข้อความ"
-    },
     "LABELS": {
       "TITLE": "จัดกลุ่มการสนทนาด้วยป้ายกำกับ",
       "DESCRIPTION": "การติดป้ายกำกับเป็นวิธีง่ายๆเพื่อจัดกลุ่มการสนทนาของคุณ ลองสร้างป้ายกำกับ เช่น #ต้องการความช่วยเหลือ, #คำถามเรื่องใบเสร็จ หรือป้ายอื่นๆ ที่คุณจะนำมาใช้จัดระเบียบการสนทนาในอนาคต",
       "NEW_LINK": "คลิกที่นี่เพื่อสร้างแท็ก"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -255,13 +311,36 @@
       "CONVERSATION_ACTIONS": "การดำเนินการสนทนา",
       "CONVERSATION_LABELS": "ป้ายกำกับการสนทนา",
       "CONVERSATION_INFO": "ข้อมูลการสนทนา",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "แอตทริบิวต์ผู้ติดต่อ",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า",
-      "MACROS": "คีย์ลัด"
+      "MACROS": "คีย์ลัด",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "กำลังร้องขอ",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "สร้างแอตทริบิวต์",
+    "NO_RECORDS_FOUND": "ไม่พบข้อมูล",
     "UPDATE": {
       "SUCCESS": "อัปเดตแอตทริบิวต์สำเร็จแล้ว",
       "ERROR": "ไม่สามารถอัปเดตแอตทริบิวต์ได้ โปรดลองใหม่อีกครั้ง"
@@ -286,17 +365,18 @@
     "TO": "ถึง",
     "BCC": "สำเนาลับ",
     "CC": "สำเนา",
-    "SUBJECT": "หัวเรื่อง"
+    "SUBJECT": "หัวเรื่อง",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "No results found",
     "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
@@ -311,5 +391,16 @@
     "ORIGINAL_CONTENT": "Original Content",
     "TRANSLATED_CONTENT": "Translated Content",
     "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

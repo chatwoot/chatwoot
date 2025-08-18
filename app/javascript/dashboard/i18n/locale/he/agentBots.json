@@ -1,73 +1,103 @@
 {
   "AGENT_BOTS": {
     "HEADER": "בוטים",
-    "LOADING_EDITOR": "טוען את העורך...",
-    "HEADER_BTN_TXT": "הוסף הגדרת בוט",
-    "SIDEBAR_TXT": "<p><b>סוכן בוט</b> <p>סוכני בוט מאפשרים לך לבצע אוטומציה של השיחה</p>",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "שם הבוט",
-        "PLACEHOLDER": "תן שם לבוט שלך",
-        "ERROR": "חובה לתת שם לבוט"
-      },
-      "DESCRIPTION": {
-        "LABEL": "תיאור הבוט",
-        "PLACEHOLDER": "מה הבוט הזה עושה?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "נא הכנס את הגדרות ה-CSML עבור הבוט שלך",
-        "API_ERROR": "הגדרות ה-CSML אינם תקינים, נא לתקן ולנסות שוב."
-      },
-      "SUBMIT": "אמת ושמור"
+    "LOADING_EDITOR": "Loading editor...",
+    "DESCRIPTION": "בוטים של סוכנים הם כמו החברים הכי נפלאים בצוות שלכם. הם יכולים להתמודד עם הדברים הקטנים, כך שאתם יכולים להתמקד בדברים החשובים. נסו אותם. אתם יכולים לנהל את הבוטים שלכם מדף זה או ליצור חדשים באמצעות כפתור 'הוסף בוט'.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "בוט מערכת",
+    "GLOBAL_BOT_BADGE": "System",
+    "AVATAR": {
+      "SUCCESS_DELETE": "בוט אווטר נמחק בהצלחה",
+      "ERROR_DELETE": "תקלה במחיקת בוט אווטר, יש לנסות שוב"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "בחר סוכן בוט",
-      "DESC": "תוכל להגדיר את סוכן הבוט מתוך הרשימה עבור תיבת דואר זו. הבוט יכול לנהל את השיחה ולהעביר אותה לנציג אנושי כשיידרש.",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
       "SUBMIT": "עדכן",
-      "DISCONNECT": "נתק בוט",
-      "SUCCESS_MESSAGE": "סוכן הבוט עודכן בהצלחה",
-      "DISCONNECTED_SUCCESS_MESSAGE": "סוכן הבוט נותק בהצלחה",
-      "ERROR_MESSAGE": "עדכון סוכן הבוט נכשל, אנא נסה מאוחר יותר",
-      "DISCONNECTED_ERROR_MESSAGE": "ניתוק סוכן הבוט נכשל, אנא נסה מאוחר יותר",
-      "SELECT_PLACEHOLDER": "בחר בוט"
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "סוכן הבוט עודכן בהצלחה.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "סוכן הבוט נותק בהצלחה.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
     },
     "ADD": {
-      "TITLE": "הגדר בוט חדש",
+      "TITLE": "הוסף בוט",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "API": {
-        "SUCCESS_MESSAGE": "הבוט התווסף בהצלחה",
-        "ERROR_MESSAGE": "הוספת הבוט נכשלה, אנא נסה מאוחר יותר"
+        "SUCCESS_MESSAGE": "הבוט התווסף בהצלחה.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
       }
     },
     "LIST": {
-      "404": "לא נמצאו בוטים, תוכל ליצור אחד בתפריט \"הגדר בוט חדש\" ↗",
-      "LOADING": "מבצע משיכת בוטים...",
-      "TYPE": "סוג הבוט"
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "LOADING": "Fetching bots...",
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "כתובת אתר של Webhook"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
-      "TITLE": "מחק בוט",
-      "SUBMIT": "מחק",
-      "CANCEL_BUTTON_TEXT": "ביטול",
-      "DESCRIPTION": "האם אתה בטוח שברצונך למחוק בוט זה? פעולה זו לא ניתנת לשחזור",
+      "TITLE": "Delete bot",
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "כן, מחק",
+        "NO": "לא, השאר"
+      },
       "API": {
-        "SUCCESS_MESSAGE": "הבוט נמחק בהצלחה",
-        "ERROR_MESSAGE": "מחיקת הבוט נכשלה, אנא נסה מאוחר יותר"
+        "SUCCESS_MESSAGE": "הבוט נמחק בהצלחה.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "ערוך",
-      "LOADING": "מבצע משיכת בוטים...",
-      "TITLE": "ערוך בוט",
-      "CANCEL_BUTTON_TEXT": "ביטול",
+      "TITLE": "Edit bot",
       "API": {
-        "SUCCESS_MESSAGE": "הבוט עודכן בהצלחה",
-        "ERROR_MESSAGE": "עדכון הבוט נכשל, אנא נסה מאוחר יותר"
+        "SUCCESS_MESSAGE": "הבוט עודכן בהצלחה.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "אסימון",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Bot name",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "חובה לתת שם לבוט"
+      },
+      "DESCRIPTION": {
+        "LABEL": "תיאור",
+        "PLACEHOLDER": "מה הבוט הזה עושה?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "כתובת אתר של Webhook",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "חובה לתת שם לבוט",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "ביטול",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook בוט",
-      "CSML": "CSML בוט"
+      "WEBHOOK": "Webhook bot"
     }
   }
 }

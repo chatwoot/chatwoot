@@ -1,13 +1,21 @@
+# rubocop:disable Layout/LineLength
+
 # == Schema Information
 #
 # Table name: contacts
 #
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
+#  blocked               :boolean          default(FALSE), not null
+#  contact_type          :integer          default("visitor")
+#  country_code          :string           default("")
 #  custom_attributes     :jsonb
 #  email                 :string
 #  identifier            :string
 #  last_activity_at      :datetime
+#  last_name             :string           default("")
+#  location              :string           default("")
+#  middle_name           :string           default("")
 #  name                  :string           default("")
 #  phone_number          :string
 #  created_at            :datetime         not null
@@ -17,18 +25,25 @@
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_account_id_and_contact_type         (account_id,contact_type)
+#  index_contacts_on_account_id_and_last_activity_at     (account_id,last_activity_at DESC NULLS LAST)
+#  index_contacts_on_blocked                             (blocked)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
-#  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))  # rubocop:disable Layout/LineLength
+#  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
+#  index_resolved_contact_account_id                     (account_id) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  uniq_email_per_account_contact                        (email,account_id) UNIQUE
 #  uniq_identifier_per_account_contact                   (identifier,account_id) UNIQUE
 #
+
+# rubocop:enable Layout/LineLength
 
 class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
   include Labelable
+  include LlmFormattable
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
@@ -49,11 +64,22 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
+  before_save :sync_contact_attributes
+
+  enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(
         sanitize_sql_for_order("\"contacts\".\"last_activity_at\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_created_at, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction}
           NULLS LAST")
       )
     )
@@ -103,6 +129,18 @@ class Contact < ApplicationRecord
     )
   }
 
+  # Find contacts that:
+  # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
+  # 2. Have no conversations
+  # 3. Are older than the specified time period
+  scope :stale_without_conversations, lambda { |time_period|
+    where('contacts.email IS NULL OR contacts.email = ?', '')
+      .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
+      .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
+      .where('contacts.created_at < ?', time_period)
+      .where.missing(:conversations)
+  }
+
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
@@ -117,6 +155,7 @@ class Contact < ApplicationRecord
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
+      blocked: blocked,
       type: 'contact'
     }
   end
@@ -132,17 +171,26 @@ class Contact < ApplicationRecord
       identifier: identifier,
       name: name,
       phone_number: phone_number,
-      thumbnail: avatar_url
+      thumbnail: avatar_url,
+      blocked: blocked
     }
   end
 
-  def self.resolved_contacts
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+  def self.resolved_contacts(use_crm_v2: false)
+    if use_crm_v2
+      where(contact_type: 'lead')
+    else
+      where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    end
   end
 
   def discard_invalid_attrs
     phone_number_format
     email_format
+  end
+
+  def self.from_email(email)
+    find_by(email: email&.downcase)
   end
 
   private
@@ -178,6 +226,10 @@ class Contact < ApplicationRecord
   def prepare_jsonb_attributes
     self.additional_attributes = {} if additional_attributes.blank?
     self.custom_attributes = {} if custom_attributes.blank?
+  end
+
+  def sync_contact_attributes
+    ::Contacts::SyncAttributes.new(self).perform
   end
 
   def dispatch_create_event

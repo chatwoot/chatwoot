@@ -12,6 +12,12 @@
     "NO_INBOX_2": " pour commencer",
     "NO_INBOX_AGENT": "Oh Oh ! Il semble que vous ne faites parti d'aucune boîte de réception. Veuillez contacter votre administrateur",
     "SEARCH_MESSAGES": "Rechercher des messages dans les conversations",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "pour ouvrir le menu de commande",
+      "KEYBOARD_SHORTCUTS": "pour afficher les raccourcis clavier"
+    },
     "SEARCH": {
       "TITLE": "Rechercher des messages",
       "RESULT_TITLE": "Résultats de recherche",
@@ -26,42 +32,63 @@
     "LOADING_CONVERSATIONS": "Chargement des conversations",
     "CANNOT_REPLY": "Vous ne pouvez pas répondre en raison de",
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
+    "API_HOURS_WINDOW": "Vous ne pouvez répondre à cette conversation que dans un délai de {hours} heures",
     "NOT_ASSIGNED_TO_YOU": "Cette conversation ne vous est pas assignée. Voulez-vous vous assigner cette conversation ?",
     "ASSIGN_TO_ME": "M’assigner la conversation",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
-    "SELECT_A_TWEET_TO_REPLY": "Veuillez sélectionner un tweet auquel répondre.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Ce compte Instagram a été migré vers la nouvelle boîte de réception du canal Instagram. Tous les nouveaux messages y apparaîtront. Vous ne pourrez plus envoyer de messages depuis cette conversation.",
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
     "UNKNOWN_FILE_TYPE": "Fichier inconnu",
-    "SAVE_CONTACT": "Enregistrer",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} a démarré une réunion"
+    },
     "UPLOADING_ATTACHMENTS": "Envoi des pièces jointes...",
-    "REPLIED_TO_STORY": "Replied to your story",
+    "REPLIED_TO_STORY": "A répondu à votre histoire",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
     "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
     "NO_RESPONSE": "Pas de réponse",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Note",
     "FEEDBACK_TITLE": "Commentaires",
+    "REPLY_MESSAGE_NOT_FOUND": "Message indisponible",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Afficher les étiquettes",
+      "HIDE_LABELS": "Masquer les étiquettes"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
       "OPEN_ACTION": "Ouvert",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Plus",
       "CLOSE": "Fermer",
       "DETAILS": "détails",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "Reporter jusqu'à",
       "SNOOZED_UNTIL_TOMORROW": "Reporté jusqu'à demain",
       "SNOOZED_UNTIL_NEXT_WEEK": "Reporté jusqu'à la semaine prochaine",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "manqué",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marquer comme en attente",
-      "SNOOZE_UNTIL": "Snooze",
+      "SNOOZE_UNTIL": "Reporter",
       "SNOOZE": {
         "TITLE": "Reporter jusqu'à",
         "NEXT_REPLY": "Réponse suivante",
@@ -69,9 +96,13 @@
         "NEXT_WEEK": "Semaine prochaine"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agents",
+      "TEAMS": "Équipes"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Reporter jusqu'à",
-      "APPLY": "Snooze",
+      "APPLY": "Reporter",
       "CANCEL": "Annuler"
     },
     "PRIORITY": {
@@ -85,39 +116,49 @@
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Aucun",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "Sélectionner la priorité",
         "NO_RESULTS": "Aucun résultat trouvé",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "SUCCESSFUL": "La priorité de la conversation id {conversationId} a été changée en {priority}",
+        "FAILED": "Impossible de modifier la priorité. Veuillez réessayer."
       }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Supprimer"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marquer comme en attente",
-      "RESOLVED": "Mark as resolved",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "RESOLVED": "Marquer comme résolu",
+      "MARK_AS_UNREAD": "Marquer comme non lu",
+      "MARK_AS_READ": "Marquer comme lu",
       "REOPEN": "Reprendre la conversation",
       "SNOOZE": {
-        "TITLE": "Snooze",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "TITLE": "Reporter",
+        "NEXT_REPLY": "Jusqu’à la prochaine réponse",
+        "TOMORROW": "Jusqu'à demain",
+        "NEXT_WEEK": "Jusqu'à la semaine prochaine"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "Assigner un agent",
+      "ASSIGN_LABEL": "Assigner une étiquette",
+      "AGENTS_LOADING": "Chargement des agents...",
+      "ASSIGN_TEAM": "Assigner une équipe",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "Conversation id {conversationId} assignée à \"{agentName}\"",
+          "FAILED": "Impossible d'assigner l'agent. Veuillez réessayer."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
+          "FAILED": "Impossible d'assigner l'étiquette. Veuillez réessayer."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "Équipe assignée «{team}» à la conversation id {conversationId}",
+          "FAILED": "Impossible d'assigner l'équipe. Veuillez réessayer."
         }
       }
     },
@@ -128,14 +169,17 @@
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
       "PRIVATE_MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Cela ne sera visible que par les agents",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La signature du message n'est pas configurée, veuillez le configurer dans les paramètres du profil.",
-      "CLICK_HERE": "Cliquez ici pour mettre à jour"
+      "CLICK_HERE": "Cliquez ici pour mettre à jour",
+      "WHATSAPP_TEMPLATES": "Modèles WhatsApp"
     },
     "REPLYBOX": {
       "REPLY": "Répondre",
       "PRIVATE_NOTE": "Note privée",
       "SEND": "Envoyer",
       "CREATE": "Ajouter une note",
-      "TWEET": "Tweeter",
+      "INSERT_READ_MORE": "En savoir plus",
+      "DISMISS_REPLY": "Annuler la réponse",
+      "REPLYING_TO": "Répondre à:",
       "TIP_FORMAT_ICON": "Afficher l'éditeur de texte enrichi",
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
@@ -147,6 +191,7 @@
       "STOP_AUDIO_RECORDING": "Arrêter l'enregistrement audio",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "À",
         "ADD_BCC": "Ajouter cci",
         "CC": {
           "LABEL": "CC",
@@ -160,8 +205,8 @@
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Variables indéfinies",
+        "MESSAGE": "Vous avez {undefinedVariablesCount} variables indéfinies dans votre message : {undefinedVariables}. Voulez-vous quand même envoyer le message ?",
         "CONFIRM": {
           "YES": "Envoyer",
           "CANCEL": "Annuler"
@@ -170,13 +215,15 @@
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
     "CHANGE_STATUS": "Statut de la conversation modifié",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "Le changement de statut de la conversation a échoué",
     "CHANGE_AGENT": "Responsable de la conversation modifié",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
+    "CHANGE_AGENT_FAILED": "Échec du changement de responsable",
+    "ASSIGN_LABEL_SUCCESFUL": "Étiquette attribuée avec succès",
+    "ASSIGN_LABEL_FAILED": "Échec de l'attribution de l'étiquette",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} pour les pièces jointes",
     "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
     "BOT": "Bot",
@@ -189,17 +236,22 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copier",
+      "REPLY_TO": "Répondre à ce message",
       "DELETE": "Supprimer",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
-      "TRANSLATE": "Translate",
-      "COPY_PERMALINK": "Copy link to the message",
-      "LINK_COPIED": "Message URL copied to the clipboard",
+      "CREATE_A_CANNED_RESPONSE": "Ajouter aux réponses préenregistrées",
+      "TRANSLATE": "Traduire",
+      "COPY_PERMALINK": "Copier le lien vers le message",
+      "LINK_COPIED": "URL du message copiée dans le presse-papiers",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Are you sure you want to delete this message?",
-        "MESSAGE": "You cannot undo this action",
+        "TITLE": "Êtes-vous sûr de vouloir supprimer ce message ?",
+        "MESSAGE": "Vous ne pouvez pas annuler cette action",
         "DELETE": "Supprimer",
         "CANCEL": "Annuler"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -220,27 +272,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Salut 👋, Bienvenue sur %{installationName}!",
-    "DESCRIPTION": "Merci pour votre inscription. Nous souhaitons que vous tiriez le meilleur parti de %{installationName}. Voici quelques actions que vous pouvez effectuer dans %{installationName} pour rendre votre expérience agréable.",
+    "TITLE": "Salut 👋, Bienvenue sur {installationName}!",
+    "DESCRIPTION": "Merci pour votre inscription. Nous souhaitons que vous tiriez le meilleur parti de {installationName}. Voici quelques actions que vous pouvez effectuer dans {installationName} pour rendre votre expérience agréable.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "Consultez nos dernières mises à jour",
     "ALL_CONVERSATION": {
       "TITLE": "Toutes vos conversations en un seul lieu",
-      "DESCRIPTION": "Visualisez toutes les conversations de vos clients dans un seul tableau de bord. Vous pouvez filtrer les conversations par le canal entrant, l'étiquette et le statut."
+      "DESCRIPTION": "Visualisez toutes les conversations de vos clients dans un seul tableau de bord. Vous pouvez filtrer les conversations par le canal entrant, l'étiquette et le statut.",
+      "NEW_LINK": "Cliquez ici pour créer une boîte de réception"
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invitez les membres de votre équipe",
       "DESCRIPTION": "Puisque vous vous apprêtez à parler à votre client, amenez vos coéquipiers pour vous aider. Vous pouvez inviter vos coéquipiers en ajoutant leurs adresses e-mail à la liste des agents.",
       "NEW_LINK": "Cliquez ici pour inviter un membre de l'équipe"
     },
-    "INBOXES": {
-      "TITLE": "Connecter les boîtes de réception",
-      "DESCRIPTION": "Connectez différents canaux à travers lesquels vos clients vous parleraient. Il peut s'agir d'un chat de site internet, de votre page Facebook ou Twitter ou même de votre numéro WhatsApp.",
-      "NEW_LINK": "Cliquez ici pour créer une boîte de réception"
-    },
     "LABELS": {
       "TITLE": "Organiser les conversations avec des labels",
       "DESCRIPTION": "Les labels fournissent un moyen plus facile de catégoriser votre conversation. Créez des étiquettes comme #demande-support, #question-facturation etc., afin que vous puissiez les utiliser dans une conversation plus tard.",
       "NEW_LINK": "Cliquez ici pour créer des tags"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "Create canned responses",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -255,13 +311,36 @@
       "CONVERSATION_ACTIONS": "Actions de conversation",
       "CONVERSATION_LABELS": "Étiquettes de conversation",
       "CONVERSATION_INFO": "Informations de la conversation",
+      "CONTACT_NOTES": "Notes du contact",
       "CONTACT_ATTRIBUTES": "Attributs du contact",
       "PREVIOUS_CONVERSATION": "Conversations précédentes",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "En attente",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Créer un attribut",
+    "NO_RECORDS_FOUND": "Aucun attribut trouvé",
     "UPDATE": {
       "SUCCESS": "Attribut mis à jour avec succès",
       "ERROR": "Impossible de mettre à jour l'attribut. Veuillez réessayer plus tard"
@@ -286,30 +365,42 @@
     "TO": "À",
     "BCC": "Cci",
     "CC": "Cc",
-    "SUBJECT": "Objet"
+    "SUBJECT": "Objet",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
+    "SIDEBAR_MENU_TITLE": "Participe",
+    "SIDEBAR_TITLE": "Participants à une conversation",
     "NO_RECORDS_FOUND": "Aucun résultat trouvé",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "ADD_PARTICIPANTS": "Sélectionner des participants",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} autres utilisateurs",
+    "REMANING_PARTICIPANT_TEXT": "+{count} autre",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} personnes participent.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} personne participe.",
+    "NO_PARTICIPANTS_TEXT": "Personne ne participe !.",
+    "WATCH_CONVERSATION": "Rejoindre une conversation",
+    "YOU_ARE_WATCHING": "Vous participez",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "Impossible de mettre à jour, essayez à nouveau !",
+      "SUCCESS_MESSAGE": "Participants mis à jour !"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "Voir le contenu traduit",
+    "DESC": "Vous pouvez voir le contenu traduit dans chaque langue.",
+    "ORIGINAL_CONTENT": "Contenu original",
+    "TRANSLATED_CONTENT": "Contenu traduit",
+    "NO_TRANSLATIONS_AVAILABLE": "Aucune traduction n'est disponible pour ce contenu"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

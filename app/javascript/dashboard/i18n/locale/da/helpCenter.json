@@ -1,8 +1,14 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Hjælpecenter",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Opret et selvbetjeningscenter til dine kunder. Hjælp dem med at finde svar hurtigt, uden at vente. Strømlin forespørgsler, øge agent effektivitet og øge kundesupport.",
+      "CREATE_PORTAL_BUTTON": "Opret Portal"
+    },
     "HEADER": {
       "FILTER": "Filtrer efter",
       "SORT": "Sorter efter",
+      "LOCALE": "Landestandard",
       "SETTINGS_BUTTON": "Indstillinger",
       "NEW_BUTTON": "Ny Artikel",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +21,12 @@
         "MINE": "Alle Artikler",
         "DRAFT": "Kladde Artikler",
         "ARCHIVED": "Arkiverede Artikler"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Vælg sprog",
+        "PLACEHOLDER": "Vælg sprog",
+        "NO_RESULT": "Ingen sprog fundet",
+        "SEARCH_PLACEHOLDER": "Søg efter sprog"
       }
     },
     "EDIT_HEADER": {
@@ -32,11 +44,12 @@
       "IMAGE_UPLOAD": {
         "TITLE": "Upload billede",
         "UPLOADING": "Uploader...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "Billede blev uploadet",
+        "ERROR": "Fejl under overførsel af billede",
+        "UN_AUTHORIZED_ERROR": "Du har ikke tilladelse til at overføre billeder",
+        "ERROR_FILE_SIZE": "Billedets størrelse skal være mindre end {size}MB",
+        "ERROR_FILE_FORMAT": "Billedformatet skal være jpg, jpeg eller png",
+        "ERROR_FILE_DIMENSIONS": "Billeddimensioner skal være mindre end 2000 x 2000 px"
       }
     },
     "ARTICLE_SETTINGS": {
@@ -75,12 +88,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "Ikke Kategoriseret",
+      "SEARCH_RESULTS": "Søgeresultater for {query}",
+      "EMPTY_TEXT": "Søg efter artikler at indsætte i svar.",
+      "SEARCH_LOADER": "Søger...",
+      "INSERT_ARTICLE": "Indsæt",
+      "NO_RESULT": "Ingen artikler fundet",
+      "COPY_LINK": "Kopier artikellink til udklipsholder",
+      "OPEN_LINK": "Åbn artikel i ny fane",
+      "PREVIEW_LINK": "Forhåndsvis artikel"
     },
     "PORTAL": {
       "HEADER": "Portals",
@@ -141,6 +157,12 @@
             "DELETE_SUCCESS": "Portal slettet",
             "DELETE_ERROR": "Fejl under sletning af portal"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -179,26 +201,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Information om hjælpecenter",
-            "route": "new_portal_information",
-            "body": "Grundlæggende oplysninger om portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Opret grundlæggende portal indstillinger"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Information om hjælpecenter",
+            "BODY": "Grundlæggende oplysninger om portal"
           },
-          {
-            "title": "Tilpasning af hjælpecenter",
-            "route": "portal_tilpasning",
-            "body": "Tilpas portal",
-            "UPDATE_PORTAL_BUTTON": "Opdater portalindstillinger"
+          "CUSTOMIZATION": {
+            "TITLE": "Tilpasning af hjælpecenter",
+            "BODY": "Tilpas portal"
           },
-          {
-            "title": "Voila! 🎉",
-            "route": "portal_finish",
-            "body": "Du er klar!",
-            "FINISH": "Afslut"
+          "FINISH": {
+            "TITLE": "Voila! 🎉",
+            "BODY": "Du er klar!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Tilbage",
           "BASIC_SETTINGS_PAGE": {
@@ -220,7 +236,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "Dette logo vil blive vist i portalens header."
+          "HELP_TEXT": "Dette logo vil blive vist i portalens header.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploadet",
+          "IMAGE_UPLOAD_ERROR": "Logo blev slettet",
+          "IMAGE_DELETE_ERROR": "Fejl under sletning af logo"
         },
         "NAME": {
           "LABEL": "Navn",
@@ -236,13 +255,13 @@
         "DOMAIN": {
           "LABEL": "Tilpasset Domæne",
           "PLACEHOLDER": "Portal brugerdefineret domæne",
-          "HELP_TEXT": "Tilføj kun hvis du vil bruge et brugerdefineret domæne, til dine portaler. Eksempelvis https://example.com",
+          "HELP_TEXT": "Tilføj kun Hvis du vil bruge et brugerdefineret domæne til dine portaler. Eks.: {exampleURL}",
           "ERROR": "Indtast et gyldigt domæne URL"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Link Til Hjemmeside",
           "PLACEHOLDER": "Link til portalens hjemmeside",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "HELP_TEXT": "Linket, der bruges til at vende tilbage fra portalen til hjemmesiden. Eks.: {exampleURL}",
           "ERROR": "Indtast en gyldig URL til startsiden"
         },
         "THEME_COLOR": {
@@ -306,12 +325,13 @@
       "HEADERS": {
         "TITLE": "Titel",
         "CATEGORY": "Kategori",
-        "READ_COUNT": "Læse antal",
+        "READ_COUNT": "Visninger",
         "STATUS": "Status",
         "LAST_EDITED": "Sidst redigeret"
       },
       "COLUMNS": {
-        "BY": "af"
+        "BY": "af",
+        "AUTHOR_NOT_AVAILABLE": "Forfatteren er ikke tilgængelig"
       }
     },
     "EDIT_ARTICLE": {
@@ -325,12 +345,18 @@
     "PUBLISH_ARTICLE": {
       "API": {
         "ERROR": "Fejl under publicering af artikel",
-        "SUCCESS": "Article published successfully"
+        "SUCCESS": "Artiklen er publiceret"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
         "ERROR": "Fejl under arkivering af artikel",
+        "SUCCESS": "Artikel arkiveret"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Fejl under lagring af artikel",
         "SUCCESS": "Artikel arkiveret"
       }
     },
@@ -365,7 +391,7 @@
         "NAME": {
           "LABEL": "Navn",
           "PLACEHOLDER": "Kategori navn",
-          "HELP_TEXT": "Kategorinavnet vil blive brugt i den offentlige vendende portal til at kategorisere artikler.",
+          "HELP_TEXT": "Kategorinavn og ikon vil blive brugt i den offentlige portal til at kategorisere artikler.",
           "ERROR": "Navn er påkrævet"
         },
         "SLUG": {
@@ -396,7 +422,7 @@
         "NAME": {
           "LABEL": "Navn",
           "PLACEHOLDER": "Kategori navn",
-          "HELP_TEXT": "Kategorinavnet vil blive brugt i den offentlige vendende portal til at kategorisere artikler.",
+          "HELP_TEXT": "Kategorinavn og ikon vil blive brugt i den offentlige portal til at kategorisere artikler.",
           "ERROR": "Navn er påkrævet"
         },
         "SLUG": {
@@ -423,6 +449,362 @@
         "API": {
           "SUCCESS_MESSAGE": "Kategori slettet",
           "ERROR_MESSAGE": "Kan ikke slette kategori"
+        }
+      }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Søg efter artikler",
+      "PLACEHOLDER": "Søg efter artikler",
+      "NO_RESULT": "Ingen artikler fundet",
+      "SEARCHING": "Søger...",
+      "SEARCH_BUTTON": "Søg",
+      "INSERT_ARTICLE": "Indsæt link",
+      "IFRAME_ERROR": "URL er tom eller ugyldig. Kan ikke vise indholdet.",
+      "OPEN_ARTICLE_SEARCH": "Indsæt artikel fra Hjælpecenter",
+      "SUCCESS_ARTICLE_INSERTED": "Artikel indsat",
+      "PREVIEW_LINK": "Forhåndsvis artikel",
+      "CANCEL": "Luk",
+      "BACK": "Tilbage",
+      "BACK_RESULTS": "Tilbage til resultater"
+    },
+    "UPGRADE_PAGE": {
+      "TITLE": "Hjælpecenter",
+      "DESCRIPTION": "Opret brugervenlige selvbetjeningsportaler. Hjælp dine brugere med at få adgang til artiklerne og få support 24/7. Opgrader dit abonnement for at aktivere denne funktion.",
+      "SELF_HOSTED_DESCRIPTION": "Opret brugervenlige selvbetjeningsportaler. Hjælp dine brugere med at få adgang til artiklerne og få support 24/7. Kontakt din administrator for at aktivere denne funktion.",
+      "BUTTON": {
+        "LEARN_MORE": "Lær mere",
+        "UPGRADE": "Opgrader"
+      },
+      "FEATURES": {
+        "PORTALS": {
+          "TITLE": "Flere portaler",
+          "DESCRIPTION": "Opret flere selvbetjeningscentre for forskellige produkter ved hjælp af samme konto."
+        },
+        "LOCALES": {
+          "TITLE": "Fuld understøttelse af flere sprog på samme tid",
+          "DESCRIPTION": "Lokaliser portalen på dit sprog. Vi understøtter alle landestandarder og tillader oversættelser for alle artikler."
+        },
+        "SEO": {
+          "TITLE": "SEO venligt design",
+          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+        },
+        "API": {
+          "TITLE": "Full API support",
+          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+        }
+      }
+    },
+    "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Udgiv",
+            "DRAFT": "Kladde",
+            "ARCHIVE": "Archive",
+            "DELETE": "Slet"
+          },
+          "STATUS": {
+            "DRAFT": "Kladde",
+            "PUBLISHED": "Publiceret",
+            "ARCHIVED": "Arkiveret"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Mine",
+          "DRAFT": "Kladde",
+          "PUBLISHED": "Publiceret",
+          "ARCHIVED": "Arkiveret"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Ny kategori",
+        "EDIT_CATEGORY": "Rediger kategori",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Ingen kategorier fundet",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategori oprettet",
+            "ERROR_MESSAGE": "Kan ikke oprette kategori"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategori opdateret",
+            "ERROR_MESSAGE": "Kan ikke opdatere kategori"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Kategori slettet",
+            "ERROR_MESSAGE": "Kan ikke slette kategori"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Opret kategori",
+          "EDIT": "Rediger kategori",
+          "DESCRIPTION": "Redigering af en kategori vil opdatere kategorien i den offentlige vender portal.",
+          "PORTAL": "Portal",
+          "LOCALE": "Landestandard"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Navn",
+            "PLACEHOLDER": "Kategori navn",
+            "ERROR": "Navn er påkrævet"
+          },
+          "SLUG": {
+            "LABEL": "Snegl",
+            "PLACEHOLDER": "Kategori slug for webls",
+            "ERROR": "Slug er påkrævet",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Beskrivelse",
+            "PLACEHOLDER": "Giv en kort beskrivelse af kategorien.",
+            "ERROR": "Beskrivelse er påkrævet"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Opret",
+          "EDIT": "Opdater",
+          "CANCEL": "Annuller"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "Standard",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Slet"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Tilføj en ny landestandard",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Select locale..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Landestandard tilføjet",
+          "ERROR_MESSAGE": "Kan ikke tilføje locale. Prøv igen."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Gemmer...",
+          "SAVED": "Gemt"
+        },
+        "PREVIEW": "Eksempelvisning",
+        "PUBLISH": "Udgiv",
+        "DRAFT": "Kladde",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Ikke Kategoriseret",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Meta beskrivelse",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Meta titel",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Meta tags",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Fejl under lagring af artikel"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Portals",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "artikler",
+      "DOMAIN": "domæne",
+      "PORTAL_NAME": "Portal navn"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Opret",
+      "NAME": {
+        "LABEL": "Navn",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Navn er påkrævet"
+      },
+      "SLUG": {
+        "LABEL": "Snegl",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Slug er påkrævet",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Logo",
+          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Logo blev slettet",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Billedets størrelse skal være mindre end {size}MB"
+        },
+        "NAME": {
+          "LABEL": "Navn",
+          "PLACEHOLDER": "Portal navn",
+          "ERROR": "Navn er påkrævet"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Portal header tekst"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Portal side titel"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Link til portalens hjemmeside",
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Snegl",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Tilpasset domæne",
+          "LABEL": "Tilpasset domæne:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "PLACEHOLDER": "Portal brugerdefineret domæne",
+          "EDIT_BUTTON": "Rediger",
+          "ADD_BUTTON": "Add custom domain",
+          "STATUS": {
+            "LIVE": "Levende",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Tilpasset domæne",
+            "PLACEHOLDER": "Portal brugerdefineret domæne",
+            "ERROR": "Custom domain is required",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Send"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Slet portal",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Slet"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal oprettet",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Portal opdateret",
+          "ERROR_MESSAGE": "Unable to update portal"
         }
       }
     }

@@ -65,5 +65,21 @@ RSpec.describe BulkActionsJob do
       expect(Conversation.second.assignee_id).to eq(agent.id)
       expect(Conversation.third.assignee_id).to eq(agent.id)
     end
+
+    it 'bulk updates the snoozed_until' do
+      params = {
+        type: 'Conversation',
+        fields: { status: 'snoozed', snoozed_until: Time.zone.now },
+        ids: Conversation.first(3).pluck(:display_id)
+      }
+
+      expect(Conversation.first.snoozed_until).to be_nil
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      expect(Conversation.first.snoozed_until).to be_present
+      expect(Conversation.second.snoozed_until).to be_present
+      expect(Conversation.third.snoozed_until).to be_present
+    end
   end
 end

@@ -1,77 +1,26 @@
-<template>
-  <div
-    class="conversation-details-wrap"
-    :class="{ 'with-border-right': !isOnExpandedLayout }"
-  >
-    <conversation-header
-      v-if="currentChat.id"
-      :chat="currentChat"
-      :is-contact-panel-open="isContactPanelOpen"
-      :show-back-button="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
-    <woot-tabs
-      v-if="dashboardApps.length && currentChat.id"
-      :index="activeIndex"
-      class="dashboard-app--tabs"
-      @change="onDashboardAppTabChange"
-    >
-      <woot-tabs-item
-        v-for="tab in dashboardAppTabs"
-        :key="tab.key"
-        :name="tab.name"
-        :show-badge="false"
-      />
-    </woot-tabs>
-    <div v-show="!activeIndex" class="messages-and-sidebar">
-      <messages-view
-        v-if="currentChat.id"
-        :inbox-id="inboxId"
-        :is-contact-panel-open="isContactPanelOpen"
-        @contact-panel-toggle="onToggleContactPanel"
-      />
-      <empty-state v-else :is-on-expanded-layout="isOnExpandedLayout" />
-      <div v-show="showContactPanel" class="conversation-sidebar-wrap">
-        <contact-panel
-          v-if="showContactPanel"
-          :conversation-id="currentChat.id"
-          :inbox-id="currentChat.inbox_id"
-          :on-toggle="onToggleContactPanel"
-        />
-      </div>
-    </div>
-    <dashboard-app-frame
-      v-for="(dashboardApp, index) in dashboardApps"
-      v-show="activeIndex - 1 === index"
-      :key="currentChat.id + '-' + dashboardApp.id"
-      :is-visible="activeIndex - 1 === index"
-      :config="dashboardApps[index].content"
-      :current-chat="currentChat"
-    />
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
-import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel';
-import ConversationHeader from './ConversationHeader';
+import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
-import EmptyState from './EmptyState';
-import MessagesView from './MessagesView';
+import EmptyState from './EmptyState/EmptyState.vue';
+import MessagesView from './MessagesView.vue';
 
 export default {
   components: {
-    ContactPanel,
     ConversationHeader,
     DashboardAppFrame,
     EmptyState,
     MessagesView,
   },
-
   props: {
     inboxId: {
       type: [Number, String],
       default: '',
       required: false,
+    },
+    isInboxView: {
+      type: Boolean,
+      default: false,
     },
     isContactPanelOpen: {
       type: Boolean,
@@ -94,10 +43,12 @@ export default {
       return [
         {
           key: 'messages',
+          index: 0,
           name: this.$t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
         },
-        ...this.dashboardApps.map(dashboardApp => ({
+        ...this.dashboardApps.map((dashboardApp, index) => ({
           key: `dashboard-${dashboardApp.id}`,
+          index: index + 1,
           name: dashboardApp.title,
         })),
       ];
@@ -107,10 +58,13 @@ export default {
     },
   },
   watch: {
-    'currentChat.inbox_id'(inboxId) {
-      if (inboxId) {
-        this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
-      }
+    'currentChat.inbox_id': {
+      immediate: true,
+      handler(inboxId) {
+        if (inboxId) {
+          this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+        }
+      },
     },
     'currentChat.id'() {
       this.fetchLabels();
@@ -128,77 +82,61 @@ export default {
       }
       this.$store.dispatch('conversationLabels/get', this.currentChat.id);
     },
-    onToggleContactPanel() {
-      this.$emit('contact-panel-toggle');
-    },
     onDashboardAppTabChange(index) {
       this.activeIndex = index;
     },
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
 
-.conversation-details-wrap {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  width: 100%;
-  background: var(--color-background-light);
-
-  &.with-border-right {
-    border-right: 1px solid var(--color-border);
-  }
-}
-
-.dashboard-app--tabs {
-  background: var(--white);
-  margin-top: -1px;
-  min-height: var(--dashboard-app-tabs-height);
-}
-
-.messages-and-sidebar {
-  display: flex;
-  background: var(--color-background-light);
-  margin: 0;
-  height: 100%;
-  min-height: 0;
-}
-
-.conversation-sidebar-wrap {
-  border-right: 1px solid var(--color-border);
-  height: auto;
-  flex: 0 0;
-  z-index: var(--z-index-low);
-  overflow: auto;
-  background: white;
-  flex-basis: 100%;
-
-  @include breakpoint(medium up) {
-    flex-basis: 28rem;
-  }
-
-  @include breakpoint(large up) {
-    flex-basis: 30em;
-  }
-
-  @include breakpoint(xlarge up) {
-    flex-basis: 31em;
-  }
-
-  @include breakpoint(xxlarge up) {
-    flex-basis: 33rem;
-  }
-
-  @include breakpoint(xxxlarge up) {
-    flex-basis: 40rem;
-  }
-
-  &::v-deep .contact--panel {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-  }
-}
-</style>
+<template>
+  <div
+    class="conversation-details-wrap flex flex-col min-w-0 w-full bg-n-background relative"
+    :class="{
+      'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
+    }"
+  >
+    <ConversationHeader
+      v-if="currentChat.id"
+      :chat="currentChat"
+      :show-back-button="isOnExpandedLayout && !isInboxView"
+    />
+    <woot-tabs
+      v-if="dashboardApps.length && currentChat.id"
+      :index="activeIndex"
+      class="-mt-px border-t border-t-n-background"
+      @change="onDashboardAppTabChange"
+    >
+      <woot-tabs-item
+        v-for="tab in dashboardAppTabs"
+        :key="tab.key"
+        :index="tab.index"
+        :name="tab.name"
+        :show-badge="false"
+        is-compact
+        class="[&_a]:pt-1"
+      />
+    </woot-tabs>
+    <div v-show="!activeIndex" class="flex h-full min-h-0 m-0">
+      <MessagesView
+        v-if="currentChat.id"
+        :inbox-id="inboxId"
+        :is-inbox-view="isInboxView"
+      />
+      <EmptyState
+        v-if="!currentChat.id && !isInboxView"
+        :is-on-expanded-layout="isOnExpandedLayout"
+      />
+      <slot />
+    </div>
+    <DashboardAppFrame
+      v-for="(dashboardApp, index) in dashboardApps"
+      v-show="activeIndex - 1 === index"
+      :key="currentChat.id + '-' + dashboardApp.id"
+      :is-visible="activeIndex - 1 === index"
+      :config="dashboardApps[index].content"
+      :position="index"
+      :current-chat="currentChat"
+    />
+  </div>
+</template>

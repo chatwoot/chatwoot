@@ -3,25 +3,26 @@
     "HEADER": "Cimkék",
     "HEADER_BTN_TXT": "Cimke hozzáadása",
     "LOADING": "Cimkék letöltése",
+    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
+    "LEARN_MORE": "Learn more about labels",
     "SEARCH_404": "Nincs megfelelő elem",
-    "SIDEBAR_TXT": "<p><b>Cimkék</b><p>A cimkék segítenek kategorizálni és priorizálni a beszélgetéseket. A beszélgetésekhez cimkét rendelhetsz az oldalpanelben <br /><br />A cimkék a fiókodhoz vannak kötve. A cimkékkel egyedi munkameneteket hozhatsz létre a szervezetedben. Egyedi színt adhatsz a cimkéknek a könnyű azonosíthatóság érdekében. Az oldalsávban meg tudod majd jeleníteni a cimkéket hogy könnyen szűrhesd a beszélgetéseket</p>",
     "LIST": {
       "404": "Nincs megfelelő cimke ebben a fiókban.",
       "TITLE": "Cimkék kezelése",
       "DESC": "A cimkék a beszélgetések csoportokba rendezését segítik.",
-      "TABLE_HEADER": [
-        "Név",
-        "Leírás",
-        "Szín"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Név",
+        "DESCRIPTION": "Leírás",
+        "COLOR": "Szín"
+      }
     },
     "FORM": {
       "NAME": {
         "LABEL": "Cimke neve",
         "PLACEHOLDER": "Cimke neve",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "A cimke nevének megadása kötelező",
+        "MINIMUM_LENGTH_ERROR": "Minimum 2 karakter hosszúnak kell lennie",
+        "VALID_ERROR": "Kizárólag betűk, számok, kötőjel és alulvonás szerepelhet"
       },
       "DESCRIPTION": {
         "LABEL": "Leírás",
@@ -37,6 +38,20 @@
       "CREATE": "Létrehozás",
       "DELETE": "Törlés",
       "CANCEL": "Mégse"
+    },
+    "SUGGESTIONS": {
+      "TOOLTIP": {
+        "SINGLE_SUGGESTION": "Címke hozzáadása a beszélgetéshez",
+        "MULTIPLE_SUGGESTION": "Válassza ki ezt a címkét",
+        "DESELECT": "Címke kijelölésének megszüntetése",
+        "DISMISS": "Javaslatok kihagyása"
+      },
+      "POWERED_BY": "Chatwoot AI",
+      "DISMISS": "Elutasítás",
+      "ADD_SELECTED_LABELS": "Kijelölt címkék hozzáadása",
+      "ADD_SELECTED_LABEL": "Kijelölt címke hozzáadása",
+      "ADD_ALL_LABELS": "Minden címke hozzáadása",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Cimke hozzáadása",

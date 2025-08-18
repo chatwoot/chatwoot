@@ -1,139 +1,42 @@
-<template>
-  <div class="custom-attribute">
-    <div class="title-wrap">
-      <h4 class="text-block-title title error">
-        <div v-if="isAttributeTypeCheckbox" class="checkbox-wrap">
-          <input
-            v-model="editedValue"
-            class="checkbox"
-            type="checkbox"
-            @change="onUpdate"
-          />
-        </div>
-        <div class="name-button__wrap">
-          <span
-            class="attribute-name"
-            :class="{ error: $v.editedValue.$error }"
-          >
-            {{ label }}
-          </span>
-          <woot-button
-            v-if="showActions"
-            v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
-            variant="link"
-            size="medium"
-            color-scheme="secondary"
-            icon="delete"
-            class-names="delete-button"
-            @click="onDelete"
-          />
-        </div>
-      </h4>
-    </div>
-    <div v-if="notAttributeTypeCheckboxAndList">
-      <div v-show="isEditing">
-        <div class="input-group small">
-          <input
-            ref="inputfield"
-            v-model="editedValue"
-            :type="inputType"
-            class="input-group-field"
-            autofocus="true"
-            :class="{ error: $v.editedValue.$error }"
-            @blur="$v.editedValue.$touch"
-            @keyup.enter="onUpdate"
-          />
-          <div class="input-group-button">
-            <woot-button size="small" icon="checkmark" @click="onUpdate" />
-          </div>
-        </div>
-        <span v-if="shouldShowErrorMessage" class="error-message">
-          {{ errorMessage }}
-        </span>
-      </div>
-      <div
-        v-show="!isEditing"
-        class="value--view"
-        :class="{ 'is-editable': showActions }"
-      >
-        <a
-          v-if="isAttributeTypeLink"
-          :href="value"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="value"
-        >
-          {{ urlValue }}
-        </a>
-        <p v-else class="value">
-          {{ displayValue || '---' }}
-        </p>
-        <div class="action-buttons__wrap">
-          <woot-button
-            v-if="showActions"
-            v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
-            variant="link"
-            size="small"
-            color-scheme="secondary"
-            icon="clipboard"
-            class-names="edit-button"
-            @click="onCopy"
-          />
-          <woot-button
-            v-if="showActions"
-            v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
-            variant="link"
-            size="small"
-            color-scheme="secondary"
-            icon="edit"
-            class-names="edit-button"
-            @click="onEdit"
-          />
-        </div>
-      </div>
-    </div>
-    <div v-if="isAttributeTypeList">
-      <multiselect-dropdown
-        :options="listOptions"
-        :selected-item="selectedItem"
-        :has-thumbnail="false"
-        :multiselector-placeholder="
-          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.PLACEHOLDER')
-        "
-        :no-search-result="
-          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.NO_RESULT')
-        "
-        :input-placeholder="
-          $t(
-            'CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.SEARCH_INPUT_PLACEHOLDER'
-          )
-        "
-        @click="onUpdateListValue"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { format, parseISO } from 'date-fns';
-import { required, url } from 'vuelidate/lib/validators';
+import { required, url } from '@vuelidate/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import { isValidURL } from '../helper/URLHelper';
+import { getRegexp } from 'shared/helpers/Validators';
+import { useVuelidate } from '@vuelidate/core';
+import { emitter } from 'shared/helpers/mitt';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
     MultiselectDropdown,
+    HelperTextPopup,
+    NextButton,
   },
   props: {
     label: { type: String, required: true },
+    description: { type: String, default: '' },
     values: { type: Array, default: () => [] },
     value: { type: [String, Number, Boolean], default: '' },
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
+    attributeRegex: {
+      type: String,
+      default: null,
+    },
+    regexCue: { type: String, default: null },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
+  },
+  emits: ['update', 'delete', 'copy'],
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -141,16 +44,17 @@ export default {
       editedValue: null,
     };
   },
-
   computed: {
     displayValue() {
       if (this.isAttributeTypeDate) {
-        return new Date(this.value || new Date()).toLocaleDateString();
+        return this.value
+          ? new Date(this.value || new Date()).toLocaleDateString()
+          : '---';
       }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
-      return this.value;
+      return this.hasValue ? this.value : '---';
     },
     formattedValue() {
       return this.isAttributeTypeDate
@@ -179,8 +83,14 @@ export default {
     isAttributeTypeDate() {
       return this.attributeType === 'date';
     },
+    hasValue() {
+      return this.value !== null && this.value !== '';
+    },
     urlValue() {
       return isValidURL(this.value) ? this.value : '---';
+    },
+    hrefURL() {
+      return isValidURL(this.value) ? this.value : '';
     },
     notAttributeTypeCheckboxAndList() {
       return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
@@ -189,11 +99,16 @@ export default {
       return this.isAttributeTypeLink ? 'url' : this.attributeType;
     },
     shouldShowErrorMessage() {
-      return this.$v.editedValue.$error;
+      return this.v$.editedValue.$error;
     },
     errorMessage() {
-      if (this.$v.editedValue.url) {
+      if (this.v$.editedValue.url) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
+      }
+      if (!this.v$.editedValue.regexValidation) {
+        return this.regexCue
+          ? this.regexCue
+          : this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
@@ -202,6 +117,10 @@ export default {
     value() {
       this.isEditing = false;
       this.editedValue = this.formattedValue;
+    },
+    contactId() {
+      // Fix to solve validation not resetting when contactId changes in contact page
+      this.v$.$reset();
     },
   },
 
@@ -212,15 +131,22 @@ export default {
       };
     }
     return {
-      editedValue: { required },
+      editedValue: {
+        required,
+        regexValidation: value => {
+          return !(
+            this.attributeRegex && !getRegexp(this.attributeRegex).test(value)
+          );
+        },
+      },
     };
   },
   mounted() {
     this.editedValue = this.formattedValue;
-    bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    emitter.on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
-  destroyed() {
-    bus.$off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+  unmounted() {
+    emitter.off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   methods: {
     onFocusAttribute(focusAttributeKey) {
@@ -232,6 +158,10 @@ export default {
       if (this.$refs.inputfield) {
         this.$refs.inputfield.focus();
       }
+    },
+    onClickAway() {
+      this.v$.$reset();
+      this.isEditing = false;
     },
     onEdit() {
       this.isEditing = true;
@@ -250,8 +180,8 @@ export default {
         this.attributeType === 'date'
           ? parseISO(this.editedValue)
           : this.editedValue;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       this.isEditing = false;
@@ -259,6 +189,7 @@ export default {
     },
     onDelete() {
       this.isEditing = false;
+      this.v$.$reset();
       this.$emit('delete', this.attributeKey);
     },
     onCopy() {
@@ -268,99 +199,153 @@ export default {
 };
 </script>
 
+<template>
+  <div class="px-4 py-3">
+    <div class="flex items-center mb-1">
+      <h4 class="flex items-center w-full m-0 text-sm error">
+        <div v-if="isAttributeTypeCheckbox" class="flex items-center">
+          <input
+            v-model="editedValue"
+            class="!my-0 ltr:mr-2 ltr:ml-0 rtl:mr-0 rtl:ml-2"
+            type="checkbox"
+            @change="onUpdate"
+          />
+        </div>
+        <div class="flex items-center justify-between w-full">
+          <span
+            class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
+            :class="
+              v$.editedValue.$error ? 'text-n-ruby-11' : 'text-n-slate-12'
+            "
+          >
+            {{ label }}
+            <HelperTextPopup
+              v-if="description"
+              :message="description"
+              class="mt-0.5"
+            />
+          </span>
+          <NextButton
+            v-if="showActions && hasValue"
+            v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
+            slate
+            sm
+            link
+            icon="i-lucide-trash-2"
+            @click="onDelete"
+          />
+        </div>
+      </h4>
+    </div>
+    <div v-if="notAttributeTypeCheckboxAndList">
+      <div v-if="isEditing" v-on-clickaway="onClickAway">
+        <div class="flex items-center w-full mb-2">
+          <input
+            ref="inputfield"
+            v-model="editedValue"
+            :type="inputType"
+            class="!h-8 ltr:!rounded-r-none rtl:!rounded-l-none !mb-0 !text-sm"
+            autofocus="true"
+            :class="{ error: v$.editedValue.$error }"
+            @blur="v$.editedValue.$touch"
+            @keyup.enter="onUpdate"
+          />
+          <div>
+            <NextButton
+              sm
+              icon="i-lucide-check"
+              class="ltr:rounded-l-none rtl:rounded-r-none h-[34px]"
+              @click="onUpdate"
+            />
+          </div>
+        </div>
+        <span
+          v-if="shouldShowErrorMessage"
+          class="block w-full -mt-px text-sm font-normal text-n-ruby-11"
+        >
+          {{ errorMessage }}
+        </span>
+      </div>
+      <div
+        v-show="!isEditing"
+        class="flex group"
+        :class="{ 'is-editable': showActions }"
+      >
+        <a
+          v-if="isAttributeTypeLink"
+          :href="hrefURL"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+        >
+          {{ urlValue }}
+        </a>
+        <p
+          v-else
+          class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+        >
+          {{ displayValue }}
+        </p>
+        <div
+          class="flex items-center max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0"
+        >
+          <NextButton
+            v-if="showActions && hasValue"
+            v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
+            xs
+            slate
+            ghost
+            icon="i-lucide-clipboard"
+            class="hidden group-hover:flex flex-shrink-0"
+            @click="onCopy"
+          />
+          <NextButton
+            v-if="showActions"
+            v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
+            xs
+            slate
+            ghost
+            icon="i-lucide-pen"
+            class="hidden group-hover:flex flex-shrink-0"
+            @click="onEdit"
+          />
+        </div>
+      </div>
+    </div>
+    <div v-if="isAttributeTypeList">
+      <MultiselectDropdown
+        :options="listOptions"
+        :selected-item="selectedItem"
+        :has-thumbnail="false"
+        :multiselector-placeholder="
+          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.PLACEHOLDER')
+        "
+        :no-search-result="
+          $t('CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.NO_RESULT')
+        "
+        :input-placeholder="
+          $t(
+            'CUSTOM_ATTRIBUTES.FORM.ATTRIBUTE_TYPE.LIST.SEARCH_INPUT_PLACEHOLDER'
+          )
+        "
+        @select="onUpdateListValue"
+      />
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
-.custom-attribute {
-  padding: var(--space-slab) var(--space-normal);
-}
-
-.title-wrap {
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--space-mini);
-}
-.title {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  width: 100%;
-}
-.checkbox-wrap {
-  display: flex;
-  align-items: center;
-}
-.checkbox {
-  margin: 0 var(--space-small) 0 0;
-}
-.name-button__wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-.attribute-name {
-  width: 100%;
-  &.error {
-    color: var(--r-400);
-  }
-}
-.title--icon {
-  width: var(--space-two);
-}
-.edit-button {
-  display: none;
-}
-.delete-button {
-  display: flex;
-  justify-content: flex-end;
-  width: var(--space-normal);
-}
-.value--view {
-  display: flex;
-
-  &.is-editable:hover {
-    .value {
-      background: var(--color-background);
-      margin-bottom: 0;
-    }
-    .edit-button {
-      display: block;
-    }
-  }
-
-  .action-buttons__wrap {
-    display: flex;
-    max-width: var(--space-larger);
-  }
-}
-.value {
-  display: inline-block;
-  min-width: var(--space-mega);
-  border-radius: var(--border-radius-small);
-  margin-bottom: 0;
-  word-break: break-all;
-  padding: var(--space-micro) var(--space-smaller);
-}
-.error-message {
-  color: var(--r-400);
-  display: block;
-  font-size: 1.4rem;
-  font-size: var(--font-size-small);
-  font-weight: 400;
-  margin-bottom: 1rem;
-  margin-top: -1.6rem;
-  width: 100%;
-}
-
 ::v-deep {
   .selector-wrap {
-    margin: 0;
-    top: var(--space-smaller);
+    @apply m-0 top-1;
+
     .selector-name {
-      margin-left: 0;
+      @apply ml-0;
     }
   }
+
   .name {
-    margin-left: 0;
+    @apply ml-0;
   }
 }
 </style>

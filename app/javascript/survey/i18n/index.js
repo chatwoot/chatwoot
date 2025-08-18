@@ -1,4 +1,5 @@
 import ar from './locale/ar.json';
+import bg from './locale/bg.json';
 import ca from './locale/ca.json';
 import cs from './locale/cs.json';
 import da from './locale/da.json';
@@ -28,6 +29,7 @@ import pt_BR from './locale/pt_BR.json';
 import ro from './locale/ro.json';
 import ru from './locale/ru.json';
 import sk from './locale/sk.json';
+import sr from './locale/sr.json';
 import sv from './locale/sv.json';
 import ta from './locale/ta.json';
 import th from './locale/th.json';
@@ -39,6 +41,7 @@ import zh_TW from './locale/zh_TW.json';
 
 export default {
   ar,
+  bg,
   ca,
   cs,
   da,
@@ -68,6 +71,7 @@ export default {
   ro,
   ru,
   sk,
+  sr,
   sv,
   ta,
   th,

@@ -1,36 +1,16 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
+import WhatsappChannel from '../../api/channel/whatsappChannel';
 import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
+import camelcaseKeys from 'camelcase-keys';
 import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
-
-const buildInboxData = inboxParams => {
-  const formData = new FormData();
-  const { channel = {}, ...inboxProperties } = inboxParams;
-  Object.keys(inboxProperties).forEach(key => {
-    formData.append(key, inboxProperties[key]);
-  });
-  const { selectedFeatureFlags, ...channelParams } = channel;
-  // selectedFeatureFlags needs to be empty when creating a website channel
-  if (selectedFeatureFlags) {
-    if (selectedFeatureFlags.length) {
-      selectedFeatureFlags.forEach(featureFlag => {
-        formData.append(`channel[selected_feature_flags][]`, featureFlag);
-      });
-    } else {
-      formData.append('channel[selected_feature_flags][]', '');
-    }
-  }
-  Object.keys(channelParams).forEach(key => {
-    formData.append(`channel[${key}]`, channel[key]);
-  });
-  return formData;
-};
+import { channelActions, buildInboxData } from './inboxes/channelActions';
 
 export const state = {
   records: [],
@@ -64,22 +44,57 @@ export const getters = {
     const messagesTemplates =
       whatsAppMessageTemplates || apiInboxMessageTemplates;
 
-    // filtering out the whatsapp templates with media
-    if (messagesTemplates instanceof Array) {
-      return messagesTemplates.filter(template => {
-        return !template.components.some(
-          i => i.format === 'IMAGE' || i.format === 'VIDEO'
-        );
-      });
+    return messagesTemplates;
+  },
+  getFilteredWhatsAppTemplates: $state => inboxId => {
+    const [inbox] = $state.records.filter(
+      record => record.id === Number(inboxId)
+    );
+
+    const {
+      message_templates: whatsAppMessageTemplates,
+      additional_attributes: additionalAttributes,
+    } = inbox || {};
+
+    const { message_templates: apiInboxMessageTemplates } =
+      additionalAttributes || {};
+    const templates = whatsAppMessageTemplates || apiInboxMessageTemplates;
+
+    if (!templates || !Array.isArray(templates)) {
+      return [];
     }
-    return [];
+
+    return templates.filter(template => {
+      // Ensure template has required properties
+      if (!template || !template.status || !template.components) {
+        return false;
+      }
+
+      // Only show approved templates
+      if (template.status.toLowerCase() !== 'approved') {
+        return false;
+      }
+
+      // Filter out interactive templates (LIST, PRODUCT, CATALOG), location templates, and call permission templates
+      const hasUnsupportedComponents = template.components.some(
+        component =>
+          ['LIST', 'PRODUCT', 'CATALOG', 'CALL_PERMISSION_REQUEST'].includes(
+            component.type
+          ) ||
+          (component.type === 'HEADER' && component.format === 'LOCATION')
+      );
+
+      if (hasUnsupportedComponents) {
+        return false;
+      }
+
+      return true;
+    });
   },
   getNewConversationInboxes($state) {
     return $state.records.filter(inbox => {
-      const {
-        channel_type: channelType,
-        phone_number: phoneNumber = '',
-      } = inbox;
+      const { channel_type: channelType, phone_number: phoneNumber = '' } =
+        inbox;
 
       const isEmailChannel = channelType === INBOX_TYPES.EMAIL;
       const isSmsChannel =
@@ -93,6 +108,12 @@ export const getters = {
       record => record.id === Number(inboxId)
     );
     return inbox || {};
+  },
+  getInboxById: $state => inboxId => {
+    const [inbox] = $state.records.filter(
+      record => record.id === Number(inboxId)
+    );
+    return camelcaseKeys(inbox || {}, { deep: true });
   },
   getUIFlags($state) {
     return $state.uiFlags;
@@ -112,9 +133,28 @@ export const getters = {
         (item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms')
     );
   },
+  getWhatsAppInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.WHATSAPP
+    );
+  },
   dialogFlowEnabledInboxes($state) {
     return $state.records.filter(
       item => item.channel_type !== INBOX_TYPES.EMAIL
+    );
+  },
+  getFacebookInboxByInstagramId: $state => instagramId => {
+    return $state.records.find(
+      item =>
+        item.instagram_id === instagramId &&
+        item.channel_type === INBOX_TYPES.FB
+    );
+  },
+  getInstagramInboxByInstagramId: $state => instagramId => {
+    return $state.records.find(
+      item =>
+        item.instagram_id === instagramId &&
+        item.channel_type === INBOX_TYPES.INSTAGRAM
     );
   },
 };
@@ -185,7 +225,7 @@ export const actions = {
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw new Error(error);
+      throw error;
     }
   },
   createFBChannel: async ({ commit }, params) => {
@@ -201,6 +241,25 @@ export const actions = {
       throw new Error(error);
     }
   },
+  createWhatsAppEmbeddedSignup: async ({ commit }, params) => {
+    try {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
+      const response = await WhatsappChannel.createEmbeddedSignup(params);
+      commit(types.default.ADD_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      sendAnalyticsEvent('whatsapp');
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      throw error;
+    }
+  },
+  ...channelActions,
+  // TODO: Extract other create channel methods to separate files to reduce file size
+  // - createChannel
+  // - createWebsiteChannel
+  // - createTwilioChannel
+  // - createFBChannel
   updateInbox: async ({ commit }, { id, formData = true, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: true });
     try {
@@ -259,6 +318,13 @@ export const actions = {
   deleteInboxAvatar: async (_, inboxId) => {
     try {
       await InboxesAPI.deleteInboxAvatar(inboxId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  syncTemplates: async (_, inboxId) => {
+    try {
+      await InboxesAPI.syncTemplates(inboxId);
     } catch (error) {
       throw new Error(error);
     }

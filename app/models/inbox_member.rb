@@ -35,3 +35,5 @@ class InboxMember < ApplicationRecord
     ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox).remove_agent_from_queue(user_id) if inbox.present?
   end
 end
+
+InboxMember.include_mod_with('Audit::InboxMember')

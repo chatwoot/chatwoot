@@ -1,11 +1,38 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
     "TITLE": "Paskyros nustatymai",
     "SUBMIT": "Atnaujinti nustatymai",
     "BACK": "Atgal",
+    "DISMISS": "Atsisakyti",
     "UPDATE": {
       "ERROR": "Nepavyko atnaujinti nustatymų, bandykite dar kartą!",
       "SUCCESS": "Sėkmingai atnaujinti paskyros nustatymai"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Ištrinti",
+        "DISMISS": "Atšaukti",
+        "PLACE_HOLDER": "Įveskite {accountName}, kad patvirtintumėte"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
     },
     "FORM": {
       "ERROR": "Ištaisykite formos klaidas",
@@ -16,6 +43,34 @@
       "ACCOUNT_ID": {
         "TITLE": "Paskyros ID",
         "NOTE": "Šis ID reikalingas, jei kuriate API pagrįstą integraciją"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
       },
       "NAME": {
         "LABEL": "Paskyros vardas",
@@ -37,19 +92,41 @@
         "PLACEHOLDER": "Jūsų įmonės pagalbos el. paštas",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Dienų skaičius, po kurio bilietas turi būti automatiškai uždarytas, jei nėra jokios veiklos",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Įveskite tinkamą automatinio išsprendimo trukmę (mažiausiai 1 diena ir daugiausia 999 dienos)"
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Atnaujinti",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Jūsų paskyroje leistas pokalbių tęstinumas su el. laiškais.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Dabar galite gauti el. laiškus pasirinktame domene."
       }
     },
-    "UPDATE_CHATWOOT": "Yra Chatwoot naujinimas %{latestChatwootVersion}. Atnaujinkite savo versiją.",
+    "UPDATE_CHATWOOT": "Yra Chatwoot naujinimas {latestChatwootVersion}. Atnaujinkite savo versiją.",
     "LEARN_MORE": "Sužinoti daugiau",
     "PAYMENT_PENDING": "Laukiama jūsų mokėjimo. Atnaujinkite savo mokėjimo informaciją, kad galėtumėte toliau naudoti Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Jūsų paskyra viršijo naudojimo apribojimus, atnaujinkite savo planą, kad galėtumėte toliau naudoti Chatwoot",
     "OPEN_BILLING": "Atidaryti mokėjimą"
   },
@@ -57,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Paspauskite Enter, kad pasirinktumėte",
       "ENTER_TO_REMOVE": "Paspausti Enter, kad pašalintumėte",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Pasirinkti vieną",
       "SELECT": "Pasirinkti"
     }
@@ -86,12 +164,17 @@
       "conversation_assignment": "Pokalbis priskirtas",
       "assigned_conversation_new_message": "Naujas pranešimas",
       "participating_conversation_new_message": "Naujas pranešimas",
-      "conversation_mention": "Paminėjimas"
+      "conversation_mention": "Paminėjimas",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Atsijungti nuo Chatwoot"
+      "OFFLINE": "Atsijungęs",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Atnaujinti"
@@ -103,12 +186,17 @@
       "GENERAL": "Pagrindinis",
       "REPORTS": "Ataskaitos",
       "CONVERSATION": "Pokalbis",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Pakeisti Priskirtąjį",
       "CHANGE_PRIORITY": "Pakeisti Prioritetą",
       "CHANGE_TEAM": "Pakeisti Komandą",
+      "SNOOZE_CONVERSATION": "Atidėti Pokalbį",
       "ADD_LABEL": "Pridėti etiketę pokalbiui",
       "REMOVE_LABEL": "Pašalinti pokalbio etiketę",
-      "SETTINGS": "Nustatymai"
+      "SETTINGS": "Nustatymai",
+      "AI_ASSIST": "AI pagalba",
+      "APPEARANCE": "Išvaizda",
+      "SNOOZE_NOTIFICATION": "Atidėti pranešimą"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Eikite į Pokalbio informacijos skydelį",
@@ -130,6 +218,7 @@
       "GO_TO_NOTIFICATIONS": "Eikite į Perspėjimus",
       "ADD_LABELS_TO_CONVERSATION": "Pridėti etiketę pokalbiui",
       "ASSIGN_AN_AGENT": "Priskirti Agentą",
+      "AI_ASSIST": "AI pagalba",
       "ASSIGN_PRIORITY": "Nustatyti prioritetą",
       "ASSIGN_A_TEAM": "Priskirti komandą",
       "MUTE_CONVERSATION": "Tildyti pokalbį",
@@ -141,10 +230,22 @@
       "SNOOZE_CONVERSATION": "Atidėti Pokalbį",
       "UNTIL_NEXT_REPLY": "Iki kito atsakymo",
       "UNTIL_NEXT_WEEK": "Iki kitos savaitės",
-      "UNTIL_TOMORROW": "Iki rytojaus"
+      "UNTIL_TOMORROW": "Iki rytojaus",
+      "UNTIL_NEXT_MONTH": "Iki kito mėnesio",
+      "AN_HOUR_FROM_NOW": "Iki valandos nuo dabar",
+      "UNTIL_CUSTOM_TIME": "Personalizuotas...",
+      "CHANGE_APPEARANCE": "Keisti išvaizdą",
+      "LIGHT_MODE": "Šviesus",
+      "DARK_MODE": "Tamsus",
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Atidėti pranešimą"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Paleidžiama informacijos suvestinės programa..."
+  },
+  "COMMON": {
+    "OR": "Ar",
+    "CLICK_HERE": "paspausti čia"
   }
 }

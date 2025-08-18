@@ -10,6 +10,7 @@ export class DataManager {
 
   async initDb() {
     if (this.db) return this.db;
+    const dbName = `cw-store-${this.accountId}`;
     this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
       upgrade(db) {
         db.createObjectStore('cache-keys');
@@ -18,6 +19,13 @@ export class DataManager {
         db.createObjectStore('team', { keyPath: 'id' });
       },
     });
+
+    // Store the database name in LocalStorage
+    const dbNames = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
+    if (!dbNames.includes(dbName)) {
+      dbNames.push(dbName);
+      localStorage.setItem('cw-idb-names', JSON.stringify(dbNames));
+    }
 
     return this.db;
   }

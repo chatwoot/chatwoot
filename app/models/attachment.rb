@@ -9,6 +9,7 @@
 #  external_url     :string
 #  fallback_title   :string
 #  file_type        :integer          default("image")
+#  meta             :jsonb
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  account_id       :integer          not null
@@ -38,15 +39,13 @@ class Attachment < ApplicationRecord
   has_one_attached :file
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
-  enum file_type: [:image, :audio, :video, :file, :location, :fallback, :share, :story_mention, :contact]
+  enum file_type: { :image => 0, :audio => 1, :video => 2, :file => 3, :location => 4, :fallback => 5, :share => 6, :story_mention => 7,
+                    :contact => 8, :ig_reel => 9 }
 
   def push_event_data
     return unless file_type
-    return base_data.merge(location_metadata) if file_type.to_sym == :location
-    return base_data.merge(fallback_data) if file_type.to_sym == :fallback
-    return base_data.merge(contact_metadata) if file_type.to_sym == :contact
 
-    base_data.merge(file_metadata)
+    base_data.merge(metadata_for_file_type)
   end
 
   # NOTE: the URl returned does a 301 redirect to the actual file
@@ -61,24 +60,57 @@ class Attachment < ApplicationRecord
   end
 
   def thumb_url
-    if file.attached? && file.representable?
+    return '' unless file.attached? && image?
+
+    begin
       url_for(file.representation(resize_to_fill: [250, nil]))
-    else
+    rescue ActiveStorage::UnrepresentableError => e
+      Rails.logger.warn "Unrepresentable image attachment: #{id} (#{file.filename}) - #{e.message}"
       ''
     end
   end
 
+  def with_attached_file?
+    [:image, :audio, :video, :file].include?(file_type.to_sym)
+  end
+
   private
+
+  def metadata_for_file_type
+    case file_type.to_sym
+    when :location
+      location_metadata
+    when :fallback
+      fallback_data
+    when :contact
+      contact_metadata
+    when :audio
+      audio_metadata
+    else
+      file_metadata
+    end
+  end
+
+  def audio_metadata
+    audio_file_data = base_data.merge(file_metadata)
+    audio_file_data.merge(
+      {
+        transcribed_text: meta&.[]('transcribed_text') || ''
+      }
+    )
+  end
 
   def file_metadata
     metadata = {
       extension: extension,
       data_url: file_url,
       thumb_url: thumb_url,
-      file_size: file.byte_size
+      file_size: file.byte_size,
+      width: file.metadata[:width],
+      height: file.metadata[:height]
     }
 
-    metadata[:data_url] = metadata[:thumb_url] = external_url if message.instagram_story_mention?
+    metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram? && message.incoming?
     metadata
   end
 
@@ -109,7 +141,8 @@ class Attachment < ApplicationRecord
 
   def contact_metadata
     {
-      fallback_title: fallback_title
+      fallback_title: fallback_title,
+      meta: meta || {}
     }
   end
 
@@ -140,3 +173,5 @@ class Attachment < ApplicationRecord
     file_content_type.start_with?('image/', 'video/', 'audio/')
   end
 end
+
+Attachment.include_mod_with('Concerns::Attachment')

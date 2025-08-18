@@ -1,57 +1,18 @@
-<template>
-  <div class="wizard-body columns content-box small-9">
-    <form class="row" @submit.prevent="addAgents">
-      <div class="medium-12 columns">
-        <page-header
-          :header-title="headerTitle"
-          :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.DESC')"
-        />
-      </div>
-
-      <div class="medium-12 columns">
-        <div v-if="$v.selectedAgents.$error">
-          <p class="error-message">
-            {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
-          </p>
-        </div>
-        <agent-selector
-          v-if="showAgentsList"
-          :agent-list="agentList"
-          :selected-agents="selectedAgents"
-          :update-selected-agents="updateSelectedAgents"
-          :is-working="isCreating"
-          :submit-button-text="
-            $t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
-          "
-        />
-        <spinner v-else />
-      </div>
-    </form>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner';
-import alertMixin from 'shared/mixins/alertMixin';
-
 import router from '../../../../index';
-import PageHeader from '../../SettingsSubPageHeader';
-import AgentSelector from '../AgentSelector';
+import { useAlert } from 'dashboard/composables';
+import { useVuelidate } from '@vuelidate/core';
+
+import Spinner from 'shared/components/Spinner.vue';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import AgentSelector from '../AgentSelector.vue';
 
 export default {
   components: {
     Spinner,
     PageHeader,
     AgentSelector,
-  },
-  mixins: [alertMixin],
-
-  props: {
-    team: {
-      type: Object,
-      default: () => {},
-    },
   },
   validations: {
     selectedAgents: {
@@ -60,7 +21,9 @@ export default {
       },
     },
   },
-
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       selectedAgents: [],
@@ -110,7 +73,7 @@ export default {
 
   methods: {
     updateSelectedAgents(newAgentList) {
-      this.$v.selectedAgents.$touch();
+      this.v$.selectedAgents.$touch();
       this.selectedAgents = [...newAgentList];
     },
     async addAgents() {
@@ -131,10 +94,47 @@ export default {
         });
         this.$store.dispatch('teams/get');
       } catch (error) {
-        this.showAlert(error.message);
+        useAlert(error.message);
       }
       this.isCreating = false;
     },
   },
 };
 </script>
+
+<template>
+  <div
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
+  >
+    <form
+      class="flex flex-wrap mx-0 overflow-x-auto"
+      @submit.prevent="addAgents"
+    >
+      <div class="w-full">
+        <PageHeader
+          :header-title="headerTitle"
+          :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.DESC')"
+        />
+      </div>
+
+      <div class="w-full">
+        <div v-if="v$.selectedAgents.$error">
+          <p class="error-message pb-2">
+            {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
+          </p>
+        </div>
+        <AgentSelector
+          v-if="showAgentsList"
+          :agent-list="agentList"
+          :selected-agents="selectedAgents"
+          :update-selected-agents="updateSelectedAgents"
+          :is-working="isCreating"
+          :submit-button-text="
+            $t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
+          "
+        />
+        <Spinner v-else />
+      </div>
+    </form>
+  </div>
+</template>

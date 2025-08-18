@@ -1,96 +1,19 @@
-<template>
-  <div role="dialog" class="emoji-dialog">
-    <div class="emoji-list--wrap">
-      <div class="emoji-search--wrap">
-        <input
-          ref="searchbar"
-          v-model="search"
-          type="text"
-          class="emoji-search--input"
-          :placeholder="$t('EMOJI.PLACEHOLDER')"
-        />
-      </div>
-      <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
-        <h5 class="emoji-category--title">
-          {{ selectedKey }}
-        </h5>
-        <div class="emoji--row">
-          <button
-            v-for="item in filterEmojisByCategory"
-            :key="item.slug"
-            v-dompurify-html="item.emoji"
-            class="emoji--item"
-            track-by="$index"
-            @click="onClick(item.emoji)"
-          />
-        </div>
-      </div>
-      <div v-else ref="emojiItem" class="emoji-item">
-        <div v-for="category in filterAllEmojisBySearch" :key="category.slug">
-          <h5 v-if="category.emojis.length > 0" class="emoji-category--title">
-            {{ category.name }}
-          </h5>
-          <div v-if="category.emojis.length > 0" class="emoji--row">
-            <button
-              v-for="item in category.emojis"
-              :key="item.slug"
-              v-dompurify-html="item.emoji"
-              class="emoji--item"
-              track-by="$index"
-              @click="onClick(item.emoji)"
-            />
-          </div>
-        </div>
-        <div v-if="hasEmptySearchResult" class="empty-message">
-          <div class="emoji-icon">
-            <fluent-icon icon="emoji" size="48" />
-          </div>
-          <span class="empty-message--text">
-            {{ $t('EMOJI.NOT_FOUND') }}
-          </span>
-        </div>
-      </div>
-
-      <div class="emoji-dialog--footer" role="menu">
-        <ul>
-          <li>
-            <button
-              class="emoji--item"
-              :class="{ active: selectedKey === 'Search' }"
-              @click="changeCategory('Search')"
-            >
-              <fluent-icon icon="search" size="16" />
-            </button>
-          </li>
-          <li
-            v-for="category in categories"
-            :key="category.slug"
-            @click="changeCategory(category.name)"
-          >
-            <button
-              v-dompurify-html="getFirstEmojiByCategoryName(category.name)"
-              class="emoji--item"
-              :class="{ active: selectedKey === category.name }"
-              @click="changeCategory(category.name)"
-            />
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import emojis from './emojisGroup.json';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 const SEARCH_KEY = 'Search';
 
 export default {
-  components: { FluentIcon },
+  components: { FluentIcon, NextButton },
   props: {
     onClick: {
       type: Function,
       default: () => {},
+    },
+    showRemoveButton: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -153,173 +76,178 @@ export default {
       return categoryItem ? categoryItem.emojis[0].emoji : '';
     },
     focusSearchInput() {
-      this.$refs.searchbar.focus();
+      this.$nextTick(() => {
+        this.$refs.searchbar.focus();
+      });
     },
   },
 };
 </script>
-<style lang="scss">
-/**
- * All the units used below are pixels due to variable name conflict in widget and dashboard
- **/
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
 
-$space-smaller: 4px;
-$space-small: 8px;
-$space-slab: 12px;
-$space-normal: 16px;
-$space-two: 20px;
-$space-medium: 24px;
-$space-large: 28px;
-$space-larger: 32px;
+<template>
+  <div
+    role="dialog"
+    class="emoji-dialog bg-n-background shadow-lg rounded-md outline outline-1 outline-n-weak box-content h-[18.75rem] absolute right-0 -top-[95px] w-80 z-20"
+  >
+    <div class="flex flex-col">
+      <div class="flex gap-2 m-2 sticky top-2">
+        <input
+          ref="searchbar"
+          v-model="search"
+          type="text"
+          class="focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
+          :placeholder="$t('EMOJI.PLACEHOLDER')"
+        />
+        <NextButton
+          v-if="showRemoveButton"
+          faded
+          sm
+          slate
+          class="flex-shrink-0"
+          :label="$t('EMOJI.REMOVE')"
+          @click="onClick('')"
+        />
+      </div>
+      <div v-if="hasNoSearch" ref="emojiItem" class="emoji-item">
+        <h5
+          class="text-sm text-n-slate-12 font-medium leading-normal m-0 py-1 px-2 capitalize"
+        >
+          {{ selectedKey }}
+        </h5>
+        <div class="emoji--row">
+          <button
+            v-for="item in filterEmojisByCategory"
+            :key="item.slug"
+            v-dompurify-html="item.emoji"
+            class="emoji--item"
+            track-by="$index"
+            @click="onClick(item.emoji)"
+          />
+        </div>
+      </div>
+      <div v-else ref="emojiItem" class="emoji-item">
+        <div v-for="category in filterAllEmojisBySearch" :key="category.slug">
+          <h5
+            v-if="category.emojis.length > 0"
+            class="text-sm text-n-slate-12 font-medium leading-normal m-0 py-1 px-2 capitalize"
+          >
+            {{ category.name }}
+          </h5>
+          <div v-if="category.emojis.length > 0" class="emoji--row">
+            <button
+              v-for="item in category.emojis"
+              :key="item.slug"
+              v-dompurify-html="item.emoji"
+              class="emoji--item"
+              track-by="$index"
+              @click="onClick(item.emoji)"
+            />
+          </div>
+        </div>
+        <div
+          v-if="hasEmptySearchResult"
+          class="items-center flex flex-col h-[13.25rem] justify-center"
+        >
+          <div class="text-n-slate-11 mb-2">
+            <FluentIcon icon="emoji" size="48" />
+          </div>
+          <span class="text-n-slate-11 text-sm font-medium">
+            {{ $t('EMOJI.NOT_FOUND') }}
+          </span>
+        </div>
+      </div>
 
-$font-size-tiny: 12px;
-$font-size-small: 14px;
-$font-size-default: 16px;
-$font-size-medium: 18px;
+      <div
+        class="emoji-dialog--footer relative w-full py-0 rounded-b-[0.34rem] px-1 bg-n-slate-3"
+        role="menu"
+      >
+        <ul
+          class="flex relative left-[2px] rtl:left-[unset] rtl:right-[2px] list-none m-0 overflow-auto py-1 px-0"
+        >
+          <li>
+            <button
+              class="emoji--item"
+              :class="{ active: selectedKey === 'Search' }"
+              @click="changeCategory('Search')"
+            >
+              <FluentIcon icon="search" size="16" class="text-n-slate-11" />
+            </button>
+          </li>
+          <li
+            v-for="category in categories"
+            :key="category.slug"
+            @click="changeCategory(category.name)"
+          >
+            <button
+              v-dompurify-html="getFirstEmojiByCategoryName(category.name)"
+              class="emoji--item"
+              :class="{ active: selectedKey === category.name }"
+              @click="changeCategory(category.name)"
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
 
-$color-bg: #ebf0f5;
+<style scoped>
+@tailwind components;
 
-$border-radius-normal: 5px;
+@layer components {
+  .box-shadow-blue {
+    box-shadow:
+      0 0 0 1px #1f93ff,
+      0 0 1px 2px #c7e3ff;
+  }
 
-.emoji-dialog {
-  @include elegant-card;
-  background: $color-white;
-  border-radius: $space-small;
-  box-sizing: content-box;
-  height: 300px;
-  position: absolute;
-  right: 0;
-  top: -95px;
-  width: 320px;
-  z-index: 1;
-
-  &::before {
-    @include arrow(bottom, $color-bg, $space-slab);
-    bottom: -$space-slab;
-    position: absolute;
-    right: $space-two;
+  .box-shadow-dark {
+    box-shadow:
+      0 0 0 1px #212222,
+      0 0 1px 2px #4c5155;
   }
 }
+</style>
 
-.emoji-list--wrap {
-  display: flex;
-  flex-direction: column;
+<style lang="scss">
+.emoji-dialog {
+  &::before {
+    @apply absolute -bottom-3 h-3 w-6 bg-n-slate-3 content-[""];
+    clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+  }
 }
 
 .emoji--item {
-  background: transparent;
-  border: 0;
-  border-radius: $space-smaller;
-  cursor: pointer;
-  font-size: $font-size-medium;
-  height: $space-medium;
-  margin: 0;
-  padding: 0 $space-smaller;
-
-  &:hover {
-    background: var(--s-75);
-  }
+  @apply bg-transparent border-0 rounded cursor-pointer text-lg h-6 m-0 py-0 px-1 hover:bg-n-slate-4;
 }
 
 .emoji--row {
-  box-sizing: border-box;
-  padding: $space-smaller;
+  @apply box-border p-1;
 
   .emoji--item {
-    height: 26px;
-    line-height: 1.5;
-    margin: $space-smaller;
-    width: 26px;
-  }
-}
-
-.emoji-search--wrap {
-  margin: $space-small;
-  position: sticky;
-  top: $space-small;
-
-  .emoji-search--input {
-    background-color: $color-bg;
-    border: 1px solid transparent;
-    border-radius: $border-radius-normal;
-    font-size: $font-size-small;
-    height: $space-larger;
-    margin: 0;
-    padding: $space-small;
-    width: 100%;
-
-    &:focus {
-      box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
-    }
-  }
-}
-
-.empty-message {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  height: 212px;
-  justify-content: center;
-
-  .emoji-icon {
-    color: var(--s-200);
-    margin-bottom: $space-small;
-  }
-  .empty-message--text {
-    color: var(--s-200);
-    font-size: $font-size-small;
-    font-weight: 500;
+    @apply h-[1.625rem] w-[1.625rem] leading-normal m-1;
   }
 }
 
 .emoji-item {
-  height: 212px;
-  overflow-y: auto;
-}
-
-.emoji-category--title {
-  color: $color-heading;
-  font-size: $font-size-small;
-  font-weight: 500;
-  line-height: 1.5;
-  margin: 0;
-  padding: $space-smaller $space-small;
-  text-transform: capitalize;
+  @apply h-[13.25rem] overflow-y-auto;
 }
 
 .emoji-dialog--footer {
-  background-color: $color-bg;
-  bottom: 0;
-  padding: 0 $space-smaller;
-  position: sticky;
-
   ul {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    overflow: auto;
-    padding: $space-smaller 0;
-
     > li {
-      align-items: center;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      padding: $space-smaller;
+      @apply items-center cursor-pointer flex justify-center p-1;
     }
 
     li .active {
-      background: $color-white;
+      @apply bg-n-background;
     }
+
     .emoji--item {
-      align-items: center;
-      display: flex;
-      font-size: $font-size-small;
+      @apply items-center flex text-sm;
 
       &:hover {
-        background: $color-bg;
+        @apply bg-n-slate-2;
       }
     }
   }

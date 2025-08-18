@@ -1,39 +1,21 @@
-<template>
-  <div class="wizard-body small-12 medium-9 columns height-auto">
-    <page-header
-      :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
-      :header-content="
-        useInstallationName(
-          $t('INBOX_MGMT.ADD.AUTH.DESC'),
-          globalConfig.installationName
-        )
-      "
-    />
-    <div class="row channel-list">
-      <channel-item
-        v-for="channel in channelList"
-        :key="channel.key"
-        :channel="channel"
-        :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
-import ChannelItem from 'dashboard/components/widgets/ChannelItem';
+import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 import router from '../../../index';
-import PageHeader from '../SettingsSubPageHeader';
+import PageHeader from '../SettingsSubPageHeader.vue';
 import { mapGetters } from 'vuex';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 
 export default {
   components: {
     ChannelItem,
     PageHeader,
   },
-  mixins: [globalConfigMixin],
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+    };
+  },
   data() {
     return {
       enabledFeatures: {},
@@ -48,7 +30,6 @@ export default {
       return [
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Messenger' },
-        { key: 'twitter', name: 'Twitter' },
         { key: 'whatsapp', name: 'WhatsApp' },
         { key: 'sms', name: 'SMS' },
         { key: 'email', name: 'Email' },
@@ -59,6 +40,8 @@ export default {
         },
         { key: 'telegram', name: 'Telegram' },
         { key: 'line', name: 'Line' },
+        { key: 'instagram', name: 'Instagram' },
+        { key: 'voice', name: 'Voice' },
       ];
     },
     ...mapGetters({
@@ -71,25 +54,38 @@ export default {
   },
   methods: {
     async initializeEnabledFeatures() {
-      await this.$store.dispatch('accounts/get', this.accountId);
       this.enabledFeatures = this.account.features;
     },
     initChannelAuth(channel) {
       const params = {
-        page: 'new',
         sub_page: channel,
+        accountId: this.accountId,
       };
       router.push({ name: 'settings_inboxes_page_channel', params });
     },
   },
 };
 </script>
-<style scoped>
-.height-auto {
-  height: auto;
-}
 
-.channel-list {
-  margin-top: var(--space-medium);
-}
-</style>
+<template>
+  <div
+    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
+  >
+    <PageHeader
+      class="max-w-4xl"
+      :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
+      :header-content="replaceInstallationName($t('INBOX_MGMT.ADD.AUTH.DESC'))"
+    />
+    <div
+      class="grid max-w-3xl grid-cols-2 mx-0 mt-6 sm:grid-cols-3 lg:grid-cols-4"
+    >
+      <ChannelItem
+        v-for="channel in channelList"
+        :key="channel.key"
+        :channel="channel"
+        :enabled-features="enabledFeatures"
+        @channel-item-click="initChannelAuth"
+      />
+    </div>
+  </div>
+</template>

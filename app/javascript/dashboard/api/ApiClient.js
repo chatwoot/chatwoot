@@ -15,9 +15,8 @@ class ApiClient {
 
   // eslint-disable-next-line class-methods-use-this
   get accountIdFromRoute() {
-    const isInsideAccountScopedURLs = window.location.pathname.includes(
-      '/app/accounts'
-    );
+    const isInsideAccountScopedURLs =
+      window.location.pathname.includes('/app/accounts');
 
     if (isInsideAccountScopedURLs) {
       return window.location.pathname.split('/')[3];

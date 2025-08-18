@@ -48,18 +48,21 @@
       "size": "basic"
     }
   },
-  "stack": "heroku-20",
+  "stack": "heroku-24",
   "image": "heroku/ruby",
   "addons": [
     {
       "plan": "heroku-redis:mini"
     },
     {
-      "plan": "heroku-postgresql:mini"
+      "plan": "heroku-postgresql:essential-0"
     }
   ],
-  "stack": "heroku-20",
+  "stack": "heroku-24",
   "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
     {
       "url": "heroku/ruby"
     }
@@ -68,6 +71,11 @@
     "test": {
       "scripts": {
         "test": "bundle exec rake test"
+      }
+    },
+    "review": {
+      "scripts": {
+        "postdeploy": "bundle exec rails db:seed"
       }
     }
   }

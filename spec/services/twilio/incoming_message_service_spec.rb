@@ -24,7 +24,32 @@ describe Twilio::IncomingMessageService do
       expect(conversation.reload.messages.last.content).to eq('testing3')
     end
 
-    it 'creates a new conversation' do
+    it 'removes null bytes' do
+      params = {
+        SmsSid: 'SMxx',
+        From: '+12345',
+        AccountSid: 'ACxxx',
+        MessagingServiceSid: twilio_channel.messaging_service_sid,
+        Body: "remove\u0000 null bytes\u0000"
+      }
+
+      described_class.new(params: params).perform
+      expect(conversation.reload.messages.last.content).to eq('remove null bytes')
+    end
+
+    it 'wont throw error when the body is empty' do
+      params = {
+        SmsSid: 'SMxx',
+        From: '+12345',
+        AccountSid: 'ACxxx',
+        MessagingServiceSid: twilio_channel.messaging_service_sid
+      }
+
+      described_class.new(params: params).perform
+      expect(conversation.reload.messages.last.content).to be_nil
+    end
+
+    it 'creates a new conversation when payload is from different number' do
       params = {
         SmsSid: 'SMxx',
         From: '+123456',
@@ -37,6 +62,7 @@ describe Twilio::IncomingMessageService do
       expect(twilio_channel.inbox.conversations.count).to eq(2)
     end
 
+    # Since we support the case with phone number as well. the previous case is with accoud_sid and messaging_service_sid
     context 'with a phone number' do
       let!(:twilio_channel) do
         create(:channel_twilio_sms, :with_phone_number, account: account, account_sid: 'ACxxx',
@@ -56,7 +82,7 @@ describe Twilio::IncomingMessageService do
         expect(conversation.reload.messages.last.content).to eq('testing3')
       end
 
-      it 'creates a new conversation' do
+      it 'creates a new conversation when payload is from different number' do
         params = {
           SmsSid: 'SMxx',
           From: '+123456',
@@ -67,6 +93,55 @@ describe Twilio::IncomingMessageService do
 
         described_class.new(params: params).perform
         expect(twilio_channel.inbox.conversations.count).to eq(2)
+      end
+
+      it 'reopen last conversation if last conversation is resolved and lock to single conversation is enabled' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          To: twilio_channel.phone_number,
+          Body: 'testing3'
+        }
+
+        twilio_channel.inbox.update(lock_to_single_conversation: true)
+        conversation.update(status: 'resolved')
+        described_class.new(params: params).perform
+        # message appended to the last conversation
+        expect(conversation.reload.messages.last.content).to eq('testing3')
+        expect(conversation.reload.status).to eq('open')
+      end
+
+      it 'creates a new conversation if last conversation is resolved and lock to single conversation is disabled' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          To: twilio_channel.phone_number,
+          Body: 'testing3'
+        }
+
+        twilio_channel.inbox.update(lock_to_single_conversation: false)
+        conversation.update(status: 'resolved')
+        described_class.new(params: params).perform
+        expect(twilio_channel.inbox.conversations.count).to eq(2)
+        expect(twilio_channel.inbox.conversations.last.messages.last.content).to eq('testing3')
+      end
+
+      it 'will not create a new conversation if last conversation is not resolved and lock to single conversation is disabled' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          To: twilio_channel.phone_number,
+          Body: 'testing3'
+        }
+
+        twilio_channel.inbox.update(lock_to_single_conversation: false)
+        conversation.update(status: Conversation.statuses.except('resolved').keys.sample)
+        described_class.new(params: params).perform
+        expect(twilio_channel.inbox.conversations.count).to eq(1)
+        expect(twilio_channel.inbox.conversations.last.messages.last.content).to eq('testing3')
       end
     end
 
@@ -92,6 +167,240 @@ describe Twilio::IncomingMessageService do
 
         described_class.new(params: params).perform
         expect(twilio_sms_channel.inbox.conversations.count).to eq(1)
+      end
+    end
+
+    context 'when a message with an attachment is received' do
+      before do
+        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
+          .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+      end
+
+      let(:params_with_attachment) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'testing3',
+          NumMedia: '1',
+          MediaContentType0: 'image/jpeg',
+          MediaUrl0: 'https://chatwoot-assets.local/sample.png'
+        }
+      end
+
+      it 'creates a new message with media in existing conversation' do
+        described_class.new(params: params_with_attachment).perform
+        expect(conversation.reload.messages.last.content).to eq('testing3')
+        expect(conversation.reload.messages.last.attachments.count).to eq(1)
+        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
+      end
+    end
+
+    context 'when there is an error downloading the attachment' do
+      before do
+        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
+          .to_raise(Down::Error.new('Download error'))
+
+        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
+          .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
+      end
+
+      let(:params_with_attachment_error) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'testing3',
+          NumMedia: '1',
+          MediaContentType0: 'image/jpeg',
+          MediaUrl0: 'https://chatwoot-assets.local/sample.png'
+        }
+      end
+
+      it 'retries downloading the attachment without a token after an error' do
+        expect do
+          described_class.new(params: params_with_attachment_error).perform
+        end.not_to raise_error
+
+        expect(conversation.reload.messages.last.content).to eq('testing3')
+        expect(conversation.reload.messages.last.attachments.count).to eq(1)
+        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
+      end
+    end
+
+    context 'when a message with multiple attachments is received' do
+      before do
+        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
+          .to_return(status: 200, body: 'image data 1', headers: { 'Content-Type' => 'image/png' })
+        stub_request(:get, 'https://chatwoot-assets.local/sample.jpg')
+          .to_return(status: 200, body: 'image data 2', headers: { 'Content-Type' => 'image/jpeg' })
+      end
+
+      let(:params_with_multiple_attachments) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'testing multiple media',
+          NumMedia: '2',
+          MediaContentType0: 'image/png',
+          MediaUrl0: 'https://chatwoot-assets.local/sample.png',
+          MediaContentType1: 'image/jpeg',
+          MediaUrl1: 'https://chatwoot-assets.local/sample.jpg'
+        }
+      end
+
+      it 'creates a new message with multiple media attachments in existing conversation' do
+        described_class.new(params: params_with_multiple_attachments).perform
+        expect(conversation.reload.messages.last.content).to eq('testing multiple media')
+        expect(conversation.reload.messages.last.attachments.count).to eq(2)
+        expect(conversation.reload.messages.last.attachments.map(&:file_type)).to contain_exactly('image', 'image')
+      end
+    end
+
+    context 'when a location message is received' do
+      let(:params_with_location) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          MessageType: 'location',
+          Latitude: '12.160894393921',
+          Longitude: '75.265205383301'
+        }
+      end
+
+      it 'creates a message with location attachment' do
+        described_class.new(params: params_with_location).perform
+
+        message = conversation.reload.messages.last
+        expect(message.attachments.count).to eq(1)
+        expect(message.attachments.first.file_type).to eq('location')
+      end
+    end
+
+    context 'when ProfileName is provided for WhatsApp' do
+      it 'uses ProfileName as contact name' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello with profile name',
+          ProfileName: 'John Doe'
+        }
+
+        described_class.new(params: params).perform
+        contact = twilio_channel.inbox.contacts.find_by(phone_number: '+1234567890')
+        expect(contact.name).to eq('John Doe')
+      end
+
+      it 'falls back to formatted phone number when ProfileName is blank' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello without profile name',
+          ProfileName: ''
+        }
+
+        described_class.new(params: params).perform
+        contact = twilio_channel.inbox.contacts.find_by(phone_number: '+1234567890')
+        expect(contact.name).to eq('1234567890')
+      end
+
+      it 'uses formatted phone number when ProfileName is not provided' do
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Regular SMS message'
+        }
+
+        described_class.new(params: params).perform
+        contact = twilio_channel.inbox.contacts.find_by(phone_number: '+1234567890')
+        expect(contact.name).to eq('1234567890')
+      end
+
+      it 'updates existing contact name when current name matches phone number' do
+        # Create contact with phone number as name
+        existing_contact = create(:contact,
+                                  account: twilio_channel.inbox.account,
+                                  name: '+1234567890',
+                                  phone_number: '+1234567890')
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: twilio_channel.inbox,
+               source_id: '+1234567890')
+
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello',
+          ProfileName: 'Jane Smith'
+        }
+
+        described_class.new(params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('Jane Smith')
+      end
+
+      it 'does not update contact name when current name is different from phone number' do
+        # Create contact with human name
+        existing_contact = create(:contact,
+                                  account: twilio_channel.inbox.account,
+                                  name: 'John Doe',
+                                  phone_number: '+1234567890')
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: twilio_channel.inbox,
+               source_id: '+1234567890')
+
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello',
+          ProfileName: 'Jane Smith'
+        }
+
+        described_class.new(params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('John Doe') # Should not change
+      end
+
+      it 'updates contact name when current name matches formatted phone number' do
+        # Create contact with formatted phone number as name
+        existing_contact = create(:contact,
+                                  account: twilio_channel.inbox.account,
+                                  name: '1234567890',
+                                  phone_number: '+1234567890')
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: twilio_channel.inbox,
+               source_id: '+1234567890')
+
+        params = {
+          SmsSid: 'SMxx',
+          From: '+1234567890',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'Hello',
+          ProfileName: 'Alice Johnson'
+        }
+
+        described_class.new(params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('Alice Johnson')
       end
     end
   end

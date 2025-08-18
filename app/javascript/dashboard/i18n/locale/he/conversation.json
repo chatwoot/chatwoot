@@ -12,6 +12,12 @@
     "NO_INBOX_2": " להתחיל",
     "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
     "SEARCH_MESSAGES": "חפש הודעות בשיחות",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
+    "EMPTY_STATE": {
+      "CMD_BAR": "to open command menu",
+      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+    },
     "SEARCH": {
       "TITLE": "חפש הודעות",
       "RESULT_TITLE": "תוצאות חיפוש",
@@ -26,23 +32,36 @@
     "LOADING_CONVERSATIONS": "טוען שיחות",
     "CANNOT_REPLY": "לא ניתן להשיב עקב",
     "24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "השיחה לא שייכת לך, האם תרצה לשייך אותה אליך?",
     "ASSIGN_TO_ME": "שייך לעצמך",
     "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
-    "SELECT_A_TWEET_TO_REPLY": "אנא בחר ציוץ להשיב.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "אתה משיב ל:",
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
     "UNKNOWN_FILE_TYPE": "קובץ לא ידוע",
-    "SAVE_CONTACT": "שמור",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} has started a meeting"
+    },
     "UPLOADING_ATTACHMENTS": "מעלה קובץ מצורף...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "ההודעה נמחקה בהצלחה",
     "FAIL_DELETE_MESSSAGE": "לא ניתן למחוק את ההודעה! נסה שוב",
     "NO_RESPONSE": "אין תגובה",
+    "RESPONSE": "Response",
     "RATING_TITLE": "דירוג",
     "FEEDBACK_TITLE": "משוב",
+    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "הצג תויות",
       "HIDE_LABELS": "הסתר תוויות"
@@ -51,13 +70,21 @@
       "RESOLVE_ACTION": "פתרון",
       "REOPEN_ACTION": "פתח מחדש",
       "OPEN_ACTION": "פתח",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "עוד",
       "CLOSE": "סגור",
       "DETAILS": "פרטים",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
       "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא",
-      "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה"
+      "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "סמן כממתין",
@@ -68,6 +95,10 @@
         "TOMORROW": "מחר",
         "NEXT_WEEK": "שבוע הבא"
       }
+    },
+    "MENTION": {
+      "AGENTS": "סוכנים",
+      "TEAMS": "צוותים"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "השהה עד",
@@ -87,14 +118,20 @@
         "SELECT_PLACEHOLDER": "כלום",
         "INPUT_PLACEHOLDER": "Select priority",
         "NO_RESULTS": "לא נמצאו תוצאות",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
+        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
         "FAILED": "Couldn't change priority. Please try again."
       }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "מחק"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "סמן כממתין",
       "RESOLVED": "סמן כפתור",
       "MARK_AS_UNREAD": "סמן כלא נקרא",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "פתח מחדש את השיחה",
       "SNOOZE": {
         "TITLE": "נודניק",
@@ -106,17 +143,21 @@
       "ASSIGN_LABEL": "ההקצה תווית",
       "AGENTS_LOADING": "טוען סוכנים...",
       "ASSIGN_TEAM": "שייך צוות",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "מזהה שיחה %{conversationId} קושר ל %{agentName}",
+          "SUCCESFUL": "מזהה שיחה {conversationId} קושר ל {agentName}",
           "FAILED": "השמת הסוכן לא הצליחה. בבקשה נסה שנית."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "התוית %{labelName} קושרה למזהה שיחה %{conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "לא ניתן לקשר שורה. אנא נסו שנית"
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "הצוות %{team} קושר לשיחה מספר %{conversationId}",
+          "SUCCESFUL": "הצוות {team} קושר לשיחה מספר {conversationId}",
           "FAILED": "השמה לצוות לא הצליחה, בבקשה נסה שנית."
         }
       }
@@ -128,14 +169,17 @@
       "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
       "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "חתימת הודעה אינה מוגדרת, נא הגדר אותה בהגדרות הפרופיל.",
-      "CLICK_HERE": "לחץ כאן כדי לעדכן"
+      "CLICK_HERE": "לחץ כאן כדי לעדכן",
+      "WHATSAPP_TEMPLATES": "תבניות וואטסאפ"
     },
     "REPLYBOX": {
       "REPLY": "הגב",
       "PRIVATE_NOTE": "הערה פרטית",
       "SEND": "שלח",
       "CREATE": "הוסף הערה",
-      "TWEET": "ציוץ",
+      "INSERT_READ_MORE": "קרא עוד",
+      "DISMISS_REPLY": "Dismiss reply",
+      "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "הצג עורך טקסט עשיר",
       "TIP_EMOJI_ICON": "הצג בחירת אימוג'ים",
       "TIP_ATTACH_ICON": "הוסף קבצים",
@@ -147,6 +191,7 @@
       "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
       "": "",
       "EMAIL_HEAD": {
+        "TO": "TO",
         "ADD_BCC": "הוסף bcc",
         "CC": {
           "LABEL": "CC",
@@ -176,6 +221,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "סמן משימה כבוצעה בהצלחה",
     "ASSIGN_LABEL_FAILED": "סמן משימה כנכשלה",
     "CHANGE_TEAM": "שיחת קבוצה השתנתה",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "הקובץ גדול מ{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}MB מגבלת העלאה",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
@@ -189,6 +236,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "העתק",
+      "REPLY_TO": "Reply to this message",
       "DELETE": "מחק",
       "CREATE_A_CANNED_RESPONSE": "הוסף לתגובות מוכנות",
       "TRANSLATE": "תרגום",
@@ -200,6 +248,10 @@
         "DELETE": "מחק",
         "CANCEL": "ביטול"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "איש קשר",
+      "COPILOT": "טייס משנה"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -220,27 +272,31 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "היי 👋, ברוך הבא ל%{installationName}!",
-    "DESCRIPTION": "תודה על ההרשמה. אנחנו רוצים לתת לך את הכי הרבה מ %{installationName}. הינה כמה דברים שאתה יכול לעשות עם %{installationName} לחוויה טובה.",
+    "TITLE": "היי 👋, ברוך הבא ל{installationName}!",
+    "DESCRIPTION": "תודה על ההרשמה. אנחנו רוצים לתת לך את הכי הרבה מ {installationName}. הינה כמה דברים שאתה יכול לעשות עם {installationName} לחוויה טובה.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
     "READ_LATEST_UPDATES": "תקרא את העדכונים אחרונים",
     "ALL_CONVERSATION": {
       "TITLE": "כל השיחות שלך במקום אחד",
-      "DESCRIPTION": "צפה בכל השיחות שלך עם הלקוחות בדאשבורד אחד. אתה יכול לסנן את השיחות לפי הערוץ, התווית והסטטוס."
+      "DESCRIPTION": "צפה בכל השיחות שלך עם הלקוחות בדאשבורד אחד. אתה יכול לסנן את השיחות לפי הערוץ, התווית והסטטוס.",
+      "NEW_LINK": "לחץ כאן כדי ליצור תיבה"
     },
     "TEAM_MEMBERS": {
       "TITLE": "הזמן את חברי הצוות שלך",
       "DESCRIPTION": "מאחר ואתם מוכנים לדבר עם הלקוח, הביאו את חברי הצוות שלכם לעזור לכם. תוכלו להזמין חברי צוות על ידי הוספה של כתובת הדוא\"ל שלהם לרשימת הסוכנים.",
       "NEW_LINK": "לחץ כאן כדי להזמין חבר צוות"
     },
-    "INBOXES": {
-      "TITLE": "התחבר לתיבות",
-      "DESCRIPTION": "חבר ערוצים שונים דרכם הלקוחות שלך היו מדברים איתך. זה יכול להיות אתר צ'אט חי, דף הפייסבוק או הטוויטר שלך או אפילו מספר הוואטסאפ שלך.",
-      "NEW_LINK": "לחץ כאן כדי ליצור תיבה"
-    },
     "LABELS": {
       "TITLE": "ארגן שיחות עם תוויות",
       "DESCRIPTION": "תוויות מספקות דרך קלה יותר לסווג את השיחה שלך. צור כמה תוויות כמו #support-enquiry, #billing-question וכו', כדי שתוכל להשתמש בהן בשיחה מאוחר יותר.",
       "NEW_LINK": "לחץ כאן כדי ליצור תגיות"
+    },
+    "CANNED_RESPONSES": {
+      "TITLE": "צור תבניות תגובה מוכנות\n\n",
+      "DESCRIPTION": "תבניות תגובה מוכנות מראש מאפשרות לך להגיב במהירות לשיחה. הסוכנים יכולים להקליד את התו '/' ואחריו קוד קצר כדי להוסיף תגובה.",
+      "NEW_LINK": "לחץ כאן כדי ליצור תבנית תגובה מוכנה"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -255,13 +311,36 @@
       "CONVERSATION_ACTIONS": "פעולות בשיחה",
       "CONVERSATION_LABELS": "תוויות שיחה",
       "CONVERSATION_INFO": "מידע על שיחה",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "תכונות יצירת קשר",
       "PREVIOUS_CONVERSATION": "שיחות קודמות",
-      "MACROS": "מאקרו"
+      "MACROS": "מאקרו",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "ממתין ל",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "צור תכונה",
+    "NO_RECORDS_FOUND": "לא נמצאו מאפיינים",
     "UPDATE": {
       "SUCCESS": "המאפיין עודכן בהצלחה",
       "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"
@@ -286,17 +365,18 @@
     "TO": "אל",
     "BCC": "עותק מוסתר",
     "CC": "עותק",
-    "SUBJECT": "נושא"
+    "SUBJECT": "נושא",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "משתתף",
     "SIDEBAR_TITLE": "משתתפים בשיחה",
     "NO_RECORDS_FOUND": "לא נמצאו תוצאות",
     "ADD_PARTICIPANTS": "בחר משתתפים",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
+    "REMANING_PARTICIPANT_TEXT": "+{count} other",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
     "NO_PARTICIPANTS_TEXT": "אף אחד לא משתתף!.",
     "WATCH_CONVERSATION": "הצטרף לשיחה",
     "YOU_ARE_WATCHING": "אתה משתתף",
@@ -311,5 +391,16 @@
     "ORIGINAL_CONTENT": "תוכן מקורי",
     "TRANSLATED_CONTENT": "תוכן מתורגם",
     "NO_TRANSLATIONS_AVAILABLE": "אין תרגומים זמינים לתוכן זה"
+  },
+  "TYPING": {
+    "ONE": "{user} מקליד/ה",
+    "TWO": "{user} ו-{secondUser} מקלידים",
+    "MULTIPLE": "{user} ו {count} משתמשים אחרים מקלידים"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

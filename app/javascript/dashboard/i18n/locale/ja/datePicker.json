@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "適用",
+    "CLEAR_BUTTON": "クリア",
+    "DATE_RANGE_INPUT": {
+      "START": "開始日",
+      "END": "終了日"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "日付範囲",
+      "LAST_7_DAYS": "過去 7 日間",
+      "LAST_30_DAYS": "過去 30 日間",
+      "LAST_3_MONTHS": "過去 3 ヶ月",
+      "LAST_6_MONTHS": "過去 6 ヶ月",
+      "LAST_YEAR": "過去 1 年",
+      "CUSTOM_RANGE": "カスタム日付範囲"
+    }
+  }
+}

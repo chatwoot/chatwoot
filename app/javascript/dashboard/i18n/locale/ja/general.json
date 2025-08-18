@@ -1,0 +1,10 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "{firstIndex}-{lastIndex} の {totalCount} アイテムを表示",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "検索",
+      "EMPTY_STATE": "結果が見つかりませんでした。"
+    },
+    "CLOSE": "閉じる"
+  }
+}

@@ -77,7 +77,7 @@ class MailPresenter < SimpleDelegator
     mail.attachments.map do |attachment|
       blob = ActiveStorage::Blob.create_and_upload!(
         io: StringIO.new(attachment.body.to_s),
-        filename: attachment.filename,
+        filename: attachment.filename.presence || "attachment_#{SecureRandom.hex(4)}",
         content_type: attachment.content_type
       )
       { original: attachment, blob: blob }
@@ -100,10 +100,27 @@ class MailPresenter < SimpleDelegator
       message_id: message_id,
       multipart: multipart?,
       number_of_attachments: number_of_attachments,
+      references: references,
       subject: subject,
       text_content: text_content,
-      to: to
+      to: to,
+      auto_reply: auto_reply?
     }
+  end
+
+  def in_reply_to
+    return if @mail.in_reply_to.blank?
+
+    # Although the "in_reply_to" field in the email can potentially hold multiple values,
+    # our current system does not have the capability to handle this.
+    # FIX ME: Address this issue by returning the complete results and utilizing them for querying conversations.
+    @mail.in_reply_to.is_a?(Array) ? @mail.in_reply_to.first : @mail.in_reply_to
+  end
+
+  def references
+    return [] if @mail.references.blank?
+
+    Array.wrap(@mail.references)
   end
 
   def from
@@ -137,7 +154,28 @@ class MailPresenter < SimpleDelegator
     end
   end
 
+  def auto_reply?
+    auto_submitted? || x_auto_reply?
+  end
+
+  def bounced?
+    @mail.bounced? || @mail['X-Failed-Recipients'].try(:value).present?
+  end
+
+  def notification_email_from_chatwoot?
+    # notification emails are send via mailer sender email address. so it should match
+    original_sender == Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
+  end
+
   private
+
+  def auto_submitted?
+    @mail['Auto-Submitted'].present? && @mail['Auto-Submitted'].value != 'no'
+  end
+
+  def x_auto_reply?
+    @mail['X-Autoreply'].present? && @mail['X-Autoreply'].value == 'yes'
+  end
 
   # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
   def encode_to_unicode(str)

@@ -19,6 +19,9 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
                   else
                     Current.account.associated_audits.none
                   end
+    return if audit_logs_enabled?
+
+    Rails.logger.warn("Audit logs are disabled for account #{Current.account.id}")
   end
 
   def audit_logs_enabled?

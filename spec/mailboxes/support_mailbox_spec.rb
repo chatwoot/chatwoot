@@ -16,6 +16,17 @@ RSpec.describe SupportMailbox do
     end
   end
 
+  describe 'when bounced email with out a sender is recieved' do
+    let(:account) { create(:account) }
+    let(:bounced_email) { create_inbound_email_from_fixture('bounced_with_no_from.eml') }
+    let(:described_subject) { described_class.receive bounced_email }
+
+    it 'shouldnt throw an error' do
+      create(:channel_email, email: 'support@example.com', account: account)
+      expect { described_subject }.not_to raise_error
+    end
+  end
+
   describe 'when an account is suspended' do
     let(:account) { create(:account, status: :suspended) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
@@ -44,8 +55,8 @@ RSpec.describe SupportMailbox do
     let(:support_in_reply_to_mail) { create_inbound_email_from_fixture('support_in_reply_to.eml') }
     let(:described_subject) { described_class.receive support_mail }
     let(:serialized_attributes) do
-      %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments subject
-         text_content to]
+      %w[bcc cc content_type date from html_content in_reply_to message_id multipart number_of_attachments references subject
+         text_content to auto_reply]
     end
     let(:conversation) { Conversation.where(inbox_id: channel_email.inbox).last }
 
@@ -97,6 +108,29 @@ RSpec.describe SupportMailbox do
 
       it 'set proper content_type' do
         expect(conversation.messages.last.content_type).to eq('incoming_email')
+      end
+    end
+
+    describe 'email with references header' do
+      let(:mail_with_references) { create_inbound_email_from_fixture('mail_with_references.eml') }
+      let(:described_subject) { described_class.receive mail_with_references }
+
+      before do
+        # reuse the existing channel_email that's already set to 'care@example.com'
+        described_subject
+      end
+
+      it 'includes references in the message content_attributes' do
+        message = conversation.messages.last
+        email_attributes = message.content_attributes['email']
+
+        expect(email_attributes['references']).to be_present
+        expect(email_attributes['references']).to eq(['4e6e35f5a38b4_479f13bb90078178@small-app-01.mail', 'test-reference-id'])
+      end
+
+      it 'includes references in serialized email attributes' do
+        message = conversation.messages.last
+        expect(message.content_attributes['email'].keys).to include('references')
       end
     end
 

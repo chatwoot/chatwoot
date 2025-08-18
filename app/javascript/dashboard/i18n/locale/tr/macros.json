@@ -1,78 +1,111 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "Kısayollar",
+    "DESCRIPTION": "Kısayol; müşteri hizmetleri temsilcilerinin görevleri kolayca tamamlamasına yardımcı olan bir dizi kaydedilmiş eylemdir. Müşteri temsilcileri, bir görüşmeyi bir etiketle etiketlemek, e-posta ile konuşma özetini göndermek, özel bir özelliği güncellemek gibi bir dizi eylem tanımlayabilir ve bu eylemleri tek bir tıklamayla çalıştırabilirler.",
+    "LEARN_MORE": "Makrolar hakkında daha fazla bilgi edinin",
+    "HEADER_BTN_TXT": "Yeni bir kısayol ekle",
+    "HEADER_BTN_TXT_SAVE": "Kısayolu Kaydet",
+    "LOADING": "Kısayollar alınıyor",
+    "ERROR": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin",
+    "ORDER_INFO": "Kısayollar eklediğiniz sırayla çalışacaktır. Bunları sürükleyerek her düğmenin yanındaki tutamakla yeniden düzenleyebilirsiniz.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "Kısayol adı",
+          "PLACEHOLDER": "Kısayol için bir ad girin",
+          "ERROR": "Bir kısayol oluşturmak için isim gereklidir"
         },
         "ACTIONS": {
-          "LABEL": "Hareketler"
+          "LABEL": "Eylemler"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "Kısayol başarıyla eklendi",
+        "ERROR_MESSAGE": "Kısayol oluşturulamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "İsim",
-        "Created by",
-        "Last updated by",
-        "Visibility"
-      ],
-      "404": "No macros found"
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "CREATED BY": "Tarafından oluşturuldu",
+        "LAST_UPDATED_BY": "Son güncelleyen",
+        "VISIBILITY": "Görünürlük"
+      },
+      "404": "Hiç kısayol bulunamadı"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "Kısayolu Sil",
       "CONFIRM": {
-        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "MESSAGE": "Silmek istediğinizden emin misiniz?",
         "YES": "Evet, Sil",
         "NO": "Hayır"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "Kısayol başarıyla silindi",
+        "ERROR_MESSAGE": "Kısayol silinirken bir hata oluştu. Lütfen daha sonra tekrar deneyin"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "Kısayolu Düzenle",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "Kısayol başarıyla güncellendi",
+        "ERROR_MESSAGE": "Kısayol güncellenemedi, Lütfen daha sonra tekrar deneyin"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "Akışı Başlat",
+      "END_FLOW": "Akışı Bitir",
+      "LOADING": "Kısayol alınıyor",
+      "ADD_BTN_TOOLTIP": "Yeni eylem ekle",
+      "DELETE_BTN_TOOLTIP": "Eylemi Sil",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "Kısayol Görünürlüğü",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "Genel",
+          "DESCRIPTION": "Bu kısayol, tüm temsilciler için genel olarak kullanılabilir."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "Özel",
+          "DESCRIPTION": "Bu kısayol, size özel olacak ve başkaları tarafından kullanılamayacaktır."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "Çalıştır",
+      "PREVIEW": "Kısayol Ön İzlemesi",
+      "EXECUTED_SUCCESSFULLY": "Kısayol başarıyla çalıştırıldı"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Özellik anahtarı gereklidir",
+      "FILTER_OPERATOR_REQUIRED": "Filtre operatörü gereklidir",
+      "VALUE_REQUIRED": "Değer gereklidir",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Değer 1 ile 998 arasında olmalıdır",
+      "ACTION_PARAMETERS_REQUIRED": "Eylem parametreleri gereklidir",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "En az bir koşul gereklidir",
+      "ATLEAST_ONE_ACTION_REQUIRED": "En az bir eylem gereklidir"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Bir Ekibe Ata",
+      "ASSIGN_AGENT": "Bir Temsilci Ata",
+      "ADD_LABEL": "Etiket Ekle",
+      "REMOVE_LABEL": "Etiketi Kaldır",
+      "REMOVE_ASSIGNED_TEAM": "Atanan Ekibi Kaldır",
+      "SEND_EMAIL_TRANSCRIPT": "E-posta Dökümü Gönder",
+      "MUTE_CONVERSATION": "Konuşmayı Sessize Al",
+      "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
+      "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
+      "SEND_ATTACHMENT": "Ek Gönder",
+      "SEND_MESSAGE": "Mesaj Gönder",
+      "CHANGE_PRIORITY": "Önceliği Değiştir",
+      "ADD_PRIVATE_NOTE": "Özel Bir Not Ekle",
+      "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Hiç",
+      "LOW": "Düşük",
+      "MEDIUM": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
     }
   }
 }

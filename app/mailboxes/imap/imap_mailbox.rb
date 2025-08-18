@@ -1,5 +1,6 @@
 class Imap::ImapMailbox
   include MailboxHelper
+  include IncomingEmailValidityHelper
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   def process(mail, channel)
@@ -9,8 +10,10 @@ class Imap::ImapMailbox
     load_inbox
     decorate_mail
 
-    # prevent loop from chatwoot notification emails
-    return if notification_email_from_chatwoot?
+    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} : message_id #{@processed_mail.message_id}")
+
+    # Skip processing email if it belongs to any of the edge cases
+    return unless incoming_email_from_valid_email?
 
     ActiveRecord::Base.transaction do
       find_or_create_contact
@@ -56,7 +59,7 @@ class Imap::ImapMailbox
   end
 
   def in_reply_to
-    @inbound_mail.in_reply_to
+    @processed_mail.in_reply_to
   end
 
   def find_message_by_references
@@ -81,6 +84,7 @@ class Imap::ImapMailbox
         additional_attributes: {
           source: 'email',
           in_reply_to: in_reply_to,
+          auto_reply: @processed_mail.auto_reply?,
           mail_subject: @processed_mail.subject,
           initiated_at: {
             timestamp: Time.now.utc
@@ -91,7 +95,7 @@ class Imap::ImapMailbox
   end
 
   def find_or_create_contact
-    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender)
+    @contact = @inbox.contacts.from_email(@processed_mail.original_sender)
     if @contact.present?
       @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
     else

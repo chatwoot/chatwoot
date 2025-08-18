@@ -1,44 +1,10 @@
-<template>
-  <div class="banner" :class="bannerClasses">
-    <span class="banner-message">
-      {{ bannerMessage }}
-      <a
-        v-if="hrefLink"
-        :href="hrefLink"
-        rel="noopener noreferrer nofollow"
-        target="_blank"
-      >
-        {{ hrefLinkText }}
-      </a>
-    </span>
-    <div class="actions">
-      <woot-button
-        v-if="hasActionButton"
-        size="tiny"
-        icon="arrow-right"
-        :variant="actionButtonVariant"
-        color-scheme="primary"
-        class-names="banner-action__button"
-        @click="onClick"
-      >
-        {{ actionButtonLabel }}
-      </woot-button>
-      <woot-button
-        v-if="hasCloseButton"
-        size="tiny"
-        :color-scheme="colorScheme"
-        icon="dismiss-circle"
-        class-names="banner-action__button"
-        @click="onClickClose"
-      >
-        {{ $t('GENERAL_SETTINGS.DISMISS') }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     bannerMessage: {
       type: String,
@@ -58,11 +24,15 @@ export default {
     },
     actionButtonVariant: {
       type: String,
-      default: '',
+      default: 'faded',
     },
     actionButtonLabel: {
       type: String,
       default: '',
+    },
+    actionButtonIcon: {
+      type: String,
+      default: 'i-lucide-arrow-right',
     },
     colorScheme: {
       type: String,
@@ -73,6 +43,7 @@ export default {
       default: false,
     },
   },
+  emits: ['primaryAction', 'close'],
   computed: {
     bannerClasses() {
       const classList = [this.colorScheme];
@@ -82,10 +53,22 @@ export default {
       }
       return classList;
     },
+    // TODO - Remove this method when we standardize
+    // the button color and variant names
+    getButtonColor() {
+      const colorMap = {
+        primary: 'blue',
+        secondary: 'blue',
+        alert: 'ruby',
+        warning: 'amber',
+      };
+
+      return colorMap[this.colorScheme] || 'blue';
+    },
   },
   methods: {
     onClick(e) {
-      this.$emit('click', e);
+      this.$emit('primaryAction', e);
     },
     onClickClose(e) {
       this.$emit('close', e);
@@ -94,89 +77,86 @@ export default {
 };
 </script>
 
+<template>
+  <div
+    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white woot-banner"
+    :class="bannerClasses"
+  >
+    <span class="banner-message">
+      {{ bannerMessage }}
+      <a
+        v-if="hrefLink"
+        :href="hrefLink"
+        rel="noopener noreferrer nofollow"
+        target="_blank"
+      >
+        {{ hrefLinkText }}
+      </a>
+    </span>
+    <div class="actions">
+      <NextButton
+        v-if="hasActionButton"
+        xs
+        :icon="actionButtonIcon"
+        :variant="actionButtonVariant"
+        :color="getButtonColor"
+        :label="actionButtonLabel"
+        @click="onClick"
+      />
+      <NextButton
+        v-if="hasCloseButton"
+        xs
+        icon="i-lucide-circle-x"
+        :color="getButtonColor"
+        :label="$t('GENERAL_SETTINGS.DISMISS')"
+        @click="onClickClose"
+      />
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .banner {
-  --x-padding: var(--space-normal);
-  --y-padding: var(--space-slab);
-
-  display: flex;
-  gap: var(--x-padding);
-  color: var(--white);
-  font-size: var(--font-size-mini);
-  padding: var(--y-padding) var(--x-padding);
-  justify-content: center;
-
   &.primary {
-    background: var(--w-500);
-    .banner-action__button {
-      background: var(--w-600);
-      border: none;
-      color: var(--white);
-
-      &:hover {
-        background: var(--w-800);
-      }
-    }
+    @apply bg-n-brand;
   }
 
   &.secondary {
-    background: var(--s-200);
-    color: var(--s-800);
+    @apply bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-12;
     a {
-      color: var(--s-800);
+      @apply text-n-slate-12;
     }
   }
 
   &.alert {
-    background: var(--r-500);
-    .banner-action__button {
-      background: var(--r-700);
-      border: none;
-      color: var(--white);
+    @apply bg-n-ruby-3 text-n-ruby-12;
 
-      &:hover {
-        background: var(--r-800);
-      }
+    a {
+      @apply text-n-ruby-12;
     }
   }
 
   &.warning {
-    background: var(--y-600);
-    color: var(--y-500);
+    @apply bg-n-amber-5 text-n-amber-12;
     a {
-      color: var(--y-500);
+      @apply text-n-amber-12;
     }
   }
 
   &.gray {
-    background: var(--b-500);
-    .banner-action__button {
-      color: var(--white);
-    }
+    @apply text-n-gray-10 dark:text-n-gray-10;
   }
 
   a {
-    margin-left: var(--space-smaller);
-    text-decoration: underline;
-    color: var(--white);
-    font-size: var(--font-size-mini);
-  }
-
-  .banner-action__button {
-    ::v-deep .button__content {
-      white-space: nowrap;
-    }
+    @apply ml-1 underline text-n-amber-12 text-xs;
   }
 
   .banner-message {
-    display: flex;
-    align-items: center;
+    @apply flex items-center;
   }
 
   .actions {
-    display: flex;
-    gap: var(--space-smaller);
-    right: var(--y-padding);
+    @apply flex gap-1 right-3;
   }
 }
 </style>

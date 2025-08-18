@@ -5,7 +5,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
   skip_before_action :authenticate_user!, raise: false
 
   def create
-    @user = User.find_by(email: params[:email])
+    @user = User.from_email(params[:email])
     if @user
       @user.send_reset_password_instructions
       build_response(I18n.t('messages.reset_password_success'), 200)

@@ -1,167 +1,109 @@
-<template>
-  <div v-on-clickaway="onClose" class="actions-container">
-    <div class="triangle">
-      <svg height="12" viewBox="0 0 24 12" width="24">
-        <path
-          d="M20 12l-8-8-12 12"
-          fill="var(--white)"
-          fill-rule="evenodd"
-          stroke="var(--s-50)"
-          stroke-width="1px"
-        />
-      </svg>
-    </div>
-    <div class="header flex-between">
-      <span>{{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
-    </div>
-    <div class="container">
-      <woot-dropdown-menu>
-        <template v-for="action in actions">
-          <woot-dropdown-item v-if="showAction(action.key)" :key="action.key">
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
-              :icon="action.icon"
-              @click="updateConversations(action.key)"
-            >
-              {{ actionLabel(action.key) }}
-            </woot-button>
-          </woot-dropdown-item>
-        </template>
-      </woot-dropdown-menu>
-    </div>
-  </div>
-</template>
+<script setup>
+import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
 
-<script>
-import { mixin as clickaway } from 'vue-clickaway';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: {
-    WootDropdownItem,
-    WootDropdownMenu,
+const props = defineProps({
+  showResolve: {
+    type: Boolean,
+    default: true,
   },
-  mixins: [clickaway],
-  props: {
-    selectedInboxes: {
-      type: Array,
-      default: () => [],
-    },
-    conversationCount: {
-      type: Number,
-      default: 0,
-    },
-    showResolve: {
-      type: Boolean,
-      default: true,
-    },
-    showReopen: {
-      type: Boolean,
-      default: true,
-    },
-    showSnooze: {
-      type: Boolean,
-      default: true,
-    },
+  showReopen: {
+    type: Boolean,
+    default: true,
   },
-  data() {
-    return {
-      query: '',
-      selectedAction: null,
-      actions: [
-        {
-          icon: 'checkmark',
-          key: 'resolved',
-        },
-        {
-          icon: 'arrow-redo',
-          key: 'open',
-        },
-        {
-          icon: 'send-clock',
-          key: 'snoozed',
-        },
-      ],
-    };
+  showSnooze: {
+    type: Boolean,
+    default: true,
   },
-  methods: {
-    updateConversations(key) {
-      this.$emit('update', key);
-    },
-    goBack() {
-      this.selectedAgent = null;
-    },
-    onClose() {
-      this.$emit('close');
-    },
-    showAction(key) {
-      const actionsMap = {
-        resolved: this.showResolve,
-        open: this.showReopen,
-        snoozed: this.showSnooze,
-      };
-      return actionsMap[key] || false;
-    },
-    actionLabel(key) {
-      const labelsMap = {
-        resolved: this.$t('CONVERSATION.HEADER.RESOLVE_ACTION'),
-        open: this.$t('CONVERSATION.HEADER.REOPEN_ACTION'),
-        snoozed: this.$t('BULK_ACTION.UPDATE.SNOOZE_UNTIL_NEXT_REPLY'),
-      };
-      return labelsMap[key] || '';
-    },
-  },
+});
+
+const emit = defineEmits(['update', 'close']);
+
+const { t } = useI18n();
+
+const actions = ref([
+  { icon: 'i-lucide-check', key: 'resolved' },
+  { icon: 'i-lucide-redo', key: 'open' },
+  { icon: 'i-lucide-alarm-clock', key: 'snoozed' },
+]);
+
+const updateConversations = key => {
+  if (key === 'snoozed') {
+    // If the user clicks on the snooze option from the bulk action change status dropdown.
+    // Open the snooze option for bulk action in the cmd bar.
+    const ninja = document.querySelector('ninja-keys');
+    ninja?.open({ parent: 'bulk_action_snooze_conversation' });
+  } else {
+    emit('update', key);
+  }
+};
+
+const onClose = () => {
+  emit('close');
+};
+
+const showAction = key => {
+  const actionsMap = {
+    resolved: props.showResolve,
+    open: props.showReopen,
+    snoozed: props.showSnooze,
+  };
+  return actionsMap[key] || false;
+};
+
+const actionLabel = key => {
+  const labelsMap = {
+    resolved: t('CONVERSATION.HEADER.RESOLVE_ACTION'),
+    open: t('CONVERSATION.HEADER.REOPEN_ACTION'),
+    snoozed: t('BULK_ACTION.UPDATE.SNOOZE_UNTIL'),
+  };
+  return labelsMap[key] || '';
 };
 </script>
 
-<style scoped lang="scss">
-.actions-container {
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  border: 1px solid var(--s-50);
-  box-shadow: var(--shadow-dropdown-pane);
-  position: absolute;
-  right: var(--space-small);
-  top: var(--space-larger);
-  transform-origin: top right;
-  width: auto;
-  z-index: var(--z-index-twenty);
-
-  .header {
-    padding: var(--space-one);
-
-    span {
-      font-size: var(--font-size-small);
-      font-weight: var(--font-weight-medium);
-    }
-  }
-  .container {
-    padding: var(--space-one);
-    padding-top: var(--space-zero);
-  }
-
-  .triangle {
-    display: block;
-    position: absolute;
-    right: var(--triangle-position);
-    text-align: left;
-    top: var(--space-minus-slab);
-    z-index: var(--z-index-one);
-  }
-}
-
-ul {
-  margin: 0;
-  list-style: none;
-}
-</style>
+<template>
+  <div
+    v-on-clickaway="onClose"
+    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md ltr:right-2 rtl:left-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
+  >
+    <div
+      class="right-[var(--triangle-position)] block z-10 absolute text-left -top-3"
+    >
+      <svg height="12" viewBox="0 0 24 12" width="24">
+        <path
+          d="M20 12l-8-8-12 12"
+          fill-rule="evenodd"
+          stroke-width="1px"
+          class="fill-n-alpha-3 backdrop-blur-[100px] stroke-n-weak"
+        />
+      </svg>
+    </div>
+    <div class="p-2.5 flex gap-1 items-center justify-between">
+      <span class="text-sm font-medium text-n-slate-12">
+        {{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}
+      </span>
+      <Button ghost xs slate icon="i-lucide-x" @click="onClose" />
+    </div>
+    <div class="px-2.5 pt-0 pb-2.5">
+      <WootDropdownMenu class="m-0 list-none">
+        <template v-for="action in actions">
+          <WootDropdownItem v-if="showAction(action.key)" :key="action.key">
+            <Button
+              ghost
+              sm
+              slate
+              class="!w-full !justify-start"
+              :icon="action.icon"
+              :label="actionLabel(action.key)"
+              @click="updateConversations(action.key)"
+            />
+          </WootDropdownItem>
+        </template>
+      </WootDropdownMenu>
+    </div>
+  </div>
+</template>

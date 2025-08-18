@@ -1,32 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "قنوات التواصل",
-    "SIDEBAR_TXT": "<p><b>قنوات التواصل</b></p> <p> عند ربطك لموقع ويب أو صفحة فيسبوك إلى Chatwoot، يتم تسميتها <b>قناة تواصل</b>. يمكنك إنشاء قنوات تواصل غير محدودة من مختلف الأنواع في حساب Chatwoot الخاص بك. </p><p> انقر فوق <b>إضافة قناة تواصل</b> لربط موقع الويب أو صفحة فيسبوك الخاصة بك. </p><p> من لوحة الإدارة، يمكنك رؤية جميع المحادثات من جميع صناديق الوارد الخاصة بك والرد عليها من مكان موّحد عبر الضغط على علامة التبويب \"المحادثات\". </p><p> يمكنك أيضًا مشاهدة المحادثات الخاصة بصندوق وارد معين بالنقر على اسم صندوق الوارد على الجزء الجانبي من لوحة الإدارة. </p>",
+    "DESCRIPTION": "القناة هي وضع الاتصال الذي يختاره العميل للتفاعل معك. صندوق الوارد هو المكان الذي تدير فيه التفاعلات لقناة معينة. ويمكن أن تشمل الاتصالات من مصادر مختلفة مثل البريد الإلكتروني، والمحادثة الحية، ووسائط الإعلام الاجتماعية.",
+    "LEARN_MORE": "تعلم المزيد عن صناديق البريد",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "لا توجد صناديق وارد لقنوات تواصل مرتبطة بهذا الحساب."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "اختر قناة",
-        "route": "settings_inbox_new",
-        "body": "اختر الخدمة التي تود ربطها مع حسابك في Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "اختر قناة",
+        "BODY": "اختر الخدمة التي تود ربطها مع حسابك في Chatwoot."
       },
-      {
-        "title": "إنشاء قناة تواصل",
-        "route": "settings_inboxes_page_channel",
-        "body": "قم بالمصادقة على حسابك وإنشاء قناة التواصل."
+      "INBOX": {
+        "TITLE": "إنشاء قناة تواصل",
+        "BODY": "قم بالمصادقة على حسابك وإنشاء قناة التواصل."
       },
-      {
-        "title": "إضافة موظفين",
-        "route": "settings_inboxes_add_agents",
-        "body": "إضافة موظفين إلى صندوق الوارد الخاص بقناة التواصل التي تم إنشاؤها."
+      "AGENT": {
+        "TITLE": "إضافة وكلاء",
+        "BODY": "إضافة وكلاء إلى صندوق الوارد الخاص بقناة التواصل التي تم إنشاؤها."
       },
-      {
-        "title": "مرحى!",
-        "route": "settings_inbox_finish",
-        "body": "أصبح كل شيء جاهزاً الآن!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "أصبح كل شيء جاهزاً الآن!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "اسم صندوق الوارد لقناة التواصل",
@@ -43,8 +42,18 @@
         "CHOOSE_PLACEHOLDER": "اختر صفحة من القائمة",
         "INBOX_NAME": "اسم صندوق الوارد لقناة التواصل",
         "ADD_NAME": "قم بتعيين اسم لصندوق الوارد الخاص بقناتك الجديدة",
-        "PICK_NAME": "اختر اسم لقناة التواصل الخاصة بك",
-        "PICK_A_VALUE": "اختر قيمة"
+        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_A_VALUE": "اختر قيمة",
+        "CREATE_INBOX": "إنشاء قناة تواصل"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
@@ -62,7 +71,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "PLACEHOLDER": "أدخل رابط Webhook",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "الرجاء إدخال عنوان URL صالح"
         },
         "CHANNEL_DOMAIN": {
@@ -109,6 +118,17 @@
         "ACCOUNT_SID": {
           "LABEL": "معرف حساب Twilio (يعرف أيضاً بـ Account SID)",
           "PLACEHOLDER": "الرجاء إدخال معرف حساب Twilio الخاص بك (يعرف أيضاً بـ Account SID)",
+          "ERROR": "هذا الحقل مطلوب"
+        },
+        "API_KEY": {
+          "USE_API_KEY": "استخدم مفتاح مصادقة API",
+          "LABEL": "مفتاح API SID",
+          "PLACEHOLDER": "الرجاء إدخال معرف مفتاح واجهة برمجة التطبيقات API الخاص بك",
+          "ERROR": "هذا الحقل مطلوب"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "مفتاح سر API",
+          "PLACEHOLDER": "الرجاء إدخال سر مفتاح API الخاص بك",
           "ERROR": "هذا الحقل مطلوب"
         },
         "MESSAGING_SERVICE_SID": {
@@ -164,12 +184,12 @@
           },
           "API_KEY": {
             "LABEL": "مفتاح API",
-            "PLACEHOLDER": "الرجاء إدخال مفتاح API الخاص بك",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "هذا الحقل مطلوب"
           },
           "API_SECRET": {
             "LABEL": "سرية API",
-            "PLACEHOLDER": "الرجاء إدخال مفتاح API الخاص بك",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "هذا الحقل مطلوب"
           },
           "APPLICATION_ID": {
@@ -202,9 +222,16 @@
         "DESC": "ابدأ في دعم عملائك عبر واتس آب.",
         "PROVIDERS": {
           "LABEL": "API Provider",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "تويليو",
           "WHATSAPP_CLOUD": "واتساب السحابة",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "اسم صندوق الوارد لقناة التواصل",
@@ -217,18 +244,18 @@
           "ERROR": "الرجاء تقديم رقم هاتف صالح يبدأ بإشارة '+' ولا يحتوي على أي مسافات."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "رقم الهاتف",
+          "LABEL": "مُعرف رَقَم الهاتف",
           "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الذي تم الحصول عليه من لوحة تحكم مطور الفيسبوك.",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "معرف حساب الأعمال",
-          "PLACEHOLDER": "الرجاء إدخال معرف حساب الأعمال الذي تم الحصول عليه من لوحة تحكم مطور الفيسبوك.",
+          "LABEL": "مُعرف حساب الأعمال",
+          "PLACEHOLDER": "الرجاء إدخال مُعرف حساب الأعمال الذي تم الحصول عليه من لوحة تحكم مطور الفيسبوك.",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "رمز التحقق من Webhook",
-          "PLACEHOLDER": "أدخل رمز التحقق الذي تريد إعداده لفيسبوك على شبكة الويب.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "API_KEY": {
@@ -244,8 +271,75 @@
           "WEBHOOK_VERIFICATION_TOKEN": "رمز التحقق من Webhook"
         },
         "SUBMIT_BUTTON": "إنشاء قناة واتساب",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick Setup with Meta",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+        },
         "API": {
           "ERROR_MESSAGE": "لم نتمكن من حفظ قناة واتساب"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "رقم الهاتف",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "معرف حساب Twilio (يعرف أيضاً بـ Account SID)",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "رمز المصادقة Auth Token",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "مفتاح API SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "مفتاح سر API",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          },
+          "TWIML_APP_SID": {
+            "LABEL": "TwiML App SID",
+            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
+            "REQUIRED": "TwiML App SID is required"
+          }
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -258,7 +352,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "SUBTITLE": "تكوين عنوان URL حيث تريد تلقي ردود المكالمات على الأحداث.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "رابط Webhook"
         },
         "SUBMIT_BUTTON": "إنشاء قناة API",
@@ -268,7 +362,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "قناة البريد الالكتروني",
-        "DESC": "ربط البريد الإلكتروني الخاص بك.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "اسم القناة",
           "PLACEHOLDER": "الرجاء إدخال اسم القناة",
@@ -332,9 +426,9 @@
         "DESC": "يدعم أدوات الدردشة الحية، والميسنجر الفيسبوك، وملفات التويتر الشخصية، و WhatsApp، ورسائل البريد الإلكتروني، إلخ، كقنوات. إذا كنت ترغب في إنشاء قناة مخصصة، يمكنك إنشاءها باستخدام قناة API. للبدء، اختر إحدى القنوات أدناه."
       },
       "AGENTS": {
-        "TITLE": "موظف الدعم",
+        "TITLE": "وكيل الدعم",
         "DESC": "هنا يمكنك إضافة موظفين لإدارة صندوق الوارد الخاص بقناة تواصلك التي تم إنشاؤها حديثاً. الموظفين الذين يتم تحديدهم هنا هم فقط من يمكنهم الوصول إلى صندوق الوارد الخاص بتلك القناة. الموظفين الذين ليسوا جزءاً من صندوق الوارد هذا لن يكونوا قادرين على رؤية أو الرد على الرسائل في قناة التواصل هذه عند تسجيل الدخول. <br> <b>ملحوظة:</b> كمسؤول، إذا كنت بحاجة إلى الوصول إلى جميع صناديق الوارد، يجب عليك إضافة نفسك كموظف لجميع صناديق الوارد الخاصة بقنوات التواصل التي تنشئها.",
-        "VALIDATION_ERROR": "إضافة وكيل واحد على الأقل إلى علبة الوارد الجديدة",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "اختر وكلاء لصندوق الوارد"
       },
       "DETAILS": {
@@ -346,27 +440,37 @@
         "DESC": "لقد تم بنجاح ربط صفحة فيسبوك الخاصة بك مع Chatwoot. في المرة القادمة التي يرسل فيها العملاء رسالة إلى صفحتك، ستظهر المحادثة تلقائيًا على صندوق الوارد الخاص بك هنا.<br>نحن نزودك أيضًا بالكود النصي لصندوق دردشة الماسنجر والذي يمكنك إضافته بسهولة إلى الموقع الخاص بك لاستقبال الرسائل من الزوار كذلك. بمجرد أن يتم ذلك على موقع الويب الخاص بك، يمكن للعملاء مراسلتك من موقع الويب الخاص بك بدون الحاجة لأي أدوات خارجية وستظهر المحادثة هنا على Chatwoot.<br>رائع، أليس كذلك؟ نحن بالتأكيد نحاول أن نكون الأفضل :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
+        "TITLE": "حدد مزود البريد الإلكتروني الخاص بك",
         "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "SIGN_IN": "تسجيل الدخول باستخدام Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "البريد الإلكتروني لجوجل",
+        "DESCRIPTION": "انقر على تسجيل الدخول باستخدام زر جوجل للبدء. سيتم إعادة توجيهك إلى صفحة تسجيل الدخول بالبريد الإلكتروني. بمجرد قبول الأذونات المطلوبة، سيتم إعادة توجيهك إلى خطوة إنشاء علبة الوارد.",
+        "SIGN_IN": "تسجيل الدخول باستخدام Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بجوجل، الرجاء المحاولة مرة أخرى"
       }
     },
     "DETAILS": {
       "LOADING_FB": "جار المصادقة والربط مع الفيسبوك...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "حدث خطأ ما، الرجاء تحديث الصفحة...",
+      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "جار إنشاء قناة التواصل...",
       "TITLE": "تهيئة إعدادات قناة التواصل",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "إضافة موظفين",
-      "ADD_AGENTS": "إضافة موظفين إلى صندوق الوارد الخاص بالقناة..."
+      "BUTTON_TEXT": "إضافة وكلاء",
+      "ADD_AGENTS": "إضافة وكلاء إلى صندوق الوارد الخاص بالقناة..."
     },
     "FINISH": {
       "TITLE": "أصبحت قناة التواصل جاهزة الآن!",
@@ -391,6 +495,25 @@
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
       },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sender name",
+        "SUB_TEXT": "حدد الاسم الذي يظهر للعميل الخاص بك عندما يتلقى رسائل البريد الإلكتروني من الوكلاء الخاصين.",
+        "FOR_EG": "For eg:",
+        "FRIENDLY": {
+          "TITLE": "Friendly",
+          "FROM": "من",
+          "SUBTITLE": "يضاف اسم الوكيل الذي أرسل الرد باسم المرسل لجعله صديقا."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Professional",
+          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Configure your business name",
+          "PLACEHOLDER": "Enter your business name",
+          "SAVE_BUTTON_TEXT": "حفظ"
+        }
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
@@ -404,7 +527,7 @@
         "DISABLED": "معطّل"
       },
       "ENABLE_HMAC": {
-        "LABEL": "تمكين"
+        "LABEL": "تفعيل"
       }
     },
     "DELETE": {
@@ -432,7 +555,8 @@
       "PRE_CHAT_FORM": "نموذج ما قبل الدردشة",
       "BUSINESS_HOURS": "ساعات العمل",
       "WIDGET_BUILDER": "منشئ اللايف شات",
-      "BOT_CONFIGURATION": "اعدادات البوت"
+      "BOT_CONFIGURATION": "اعدادات البوت",
+      "CSAT": "تقييم رضاء العملاء"
     },
     "SETTINGS": "الإعدادات",
     "FEATURES": {
@@ -445,16 +569,16 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",
       "MESSENGER_SUB_HEAD": "ضع هذا الكود داخل وسم الـ body في موقعك",
-      "INBOX_AGENTS": "موظف الدعم",
-      "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة موظفين من قناة التواصل هذه",
-      "AGENT_ASSIGNMENT": "إسناد المحادثات",
+      "INBOX_AGENTS": "وكيل الدعم",
+      "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة وكلاء من صندوق الوارد هذا",
+      "AGENT_ASSIGNMENT": "تعيين المحادثة",
       "AGENT_ASSIGNMENT_SUB_TEXT": "تحديث إعدادات إسناد المحادثات",
       "UPDATE": "تحديث",
       "ENABLE_EMAIL_COLLECT_BOX": "تفعيل صندوق جمع البريد الإلكتروني",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "تمكين أو تعطيل مربع جمع البريد الإلكتروني في محادثة جديدة",
       "AUTO_ASSIGNMENT": "تفعيل الإسناد التلقائي",
-      "ENABLE_CSAT": "تمكين تقييم خدمة العملاء",
-      "ENABLE_CSAT_SUB_TEXT": "تمكين/تعطيل تقييم خدمة العملاء بعد إنتهاء المحادثة",
+      "SENDER_NAME_SECTION": "تمكين اسم الوكيل في البريد الإلكتروني",
+      "SENDER_NAME_SECTION_TEXT": "تمكين/تعطيل إظهار اسم الوكيل في البريد الإلكتروني، إذا تم تعطيله فسيظهر اسم المنشأة",
       "ENABLE_CONTINUITY_VIA_EMAIL": "تمكين استمرارية المحادثة عبر البريد الإلكتروني",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "المحادثات ستستمر عبر البريد الإلكتروني إذا كان عنوان البريد الإلكتروني لجهة الاتصال متاحاً.",
       "LOCK_TO_SINGLE_CONVERSATION": "قفل إلى محادثة واحدة",
@@ -474,17 +598,36 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة.",
       "WHATSAPP_SECTION_SUBHEADER": "يتم استخدام مفتاح API هذا للتكامل مع واتسب APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "مفتاح API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "تحديث",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "ربط الاتصال",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "رمز التحقق من Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
+      "LABEL": "مركز المساعدة",
       "PLACEHOLDER": "Select Help Center",
       "SELECT_PLACEHOLDER": "Select Help Center",
       "REMOVE": "Remove Help Center",
@@ -527,6 +670,32 @@
         "LABEL": "يجب على الزوار تقديم اسمهم وعنوان بريدهم الإلكتروني قبل بدء المحادثة"
       }
     },
+    "CSAT": {
+      "TITLE": "تمكين تقييم خدمة العملاء",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "رسالة",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "يحتوي",
+          "DOES_NOT_CONTAINS": "لا يحتوي"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+      }
+    },
     "BUSINESS_HOURS": {
       "TITLE": "قم بتعيين توافرك",
       "SUBTITLE": "تعيين توافرك على أداة الدردشة المباشرة الخاصة بك",
@@ -551,7 +720,7 @@
       "NOTE_TEXT": "لتمكين SMTP ، الرجاء تكوين IMAP.",
       "UPDATE": "تحديث الإعدادات",
       "TOGGLE_AVAILABILITY": "تمكين تكوين IMAP لهذا البريد الوارد",
-      "TOGGLE_HELP": "تمكين IMAP سيساعد المستخدم على تلقي البريد الإلكتروني",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "تم تحديث إعدادات IMAP بنجاح",
         "ERROR_MESSAGE": "غير قادر على تحديث إعدادات IMAP"
@@ -605,7 +774,7 @@
         "PLACE_HOLDER": "كلمة المرور"
       },
       "DOMAIN": {
-        "LABEL": "الدومين",
+        "LABEL": "النطاق",
         "PLACE_HOLDER": "الدومين"
       },
       "ENCRYPTION": "التشفير",
@@ -699,7 +868,22 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "الموقع الإلكتروني",
+      "TWITTER_PROFILE": "تويتر",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "واتساب",
+      "SMS": "SMS",
+      "EMAIL": "البريد الإلكتروني",
+      "TELEGRAM": "تيليجرام",
+      "LINE": "Line",
+      "API": "قناة API",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

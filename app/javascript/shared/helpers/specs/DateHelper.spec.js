@@ -1,7 +1,6 @@
 import {
   formatDate,
   formatUnixDate,
-  formatDigitToString,
   isTimeAfter,
   generateRelativeTime,
 } from '../DateHelper';
@@ -44,14 +43,6 @@ describe('#DateHelper', () => {
         yesterdayText: 'Yesterday',
       })
     ).toEqual('Yesterday');
-  });
-});
-describe('#formatDigitToString', () => {
-  it('returns date compatabile string from number is less than 9', () => {
-    expect(formatDigitToString(8)).toEqual('08');
-  });
-  it('returns date compatabile string from number is greater than 9', () => {
-    expect(formatDigitToString(11)).toEqual('11');
   });
 });
 

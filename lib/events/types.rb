@@ -33,6 +33,7 @@ module Events::Types
   # message events
   MESSAGE_CREATED = 'message.created'
   FIRST_REPLY_CREATED = 'first.reply.created'
+  REPLY_CREATED = 'reply.created'
   MESSAGE_UPDATED = 'message.updated'
 
   # contact events
@@ -41,10 +42,19 @@ module Events::Types
   CONTACT_MERGED = 'contact.merged'
   CONTACT_DELETED = 'contact.deleted'
 
+  # contact events
+  INBOX_CREATED = 'inbox.created'
+  INBOX_UPDATED = 'inbox.updated'
+
   # notification events
   NOTIFICATION_CREATED = 'notification.created'
+  NOTIFICATION_DELETED = 'notification.deleted'
+  NOTIFICATION_UPDATED = 'notification.updated'
 
   # agent events
   AGENT_ADDED = 'agent.added'
   AGENT_REMOVED = 'agent.removed'
+
+  # copilot events
+  COPILOT_MESSAGE_CREATED = 'copilot.message.created'
 end

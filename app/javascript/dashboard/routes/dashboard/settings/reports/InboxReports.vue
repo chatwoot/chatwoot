@@ -1,19 +1,14 @@
+<script setup>
+import WootReports from './components/WootReports.vue';
+</script>
+
 <template>
-  <woot-reports
+  <WootReports
     key="inbox-reports"
     type="inbox"
     getter-key="inboxes/getInboxes"
     action-key="inboxes/get"
     :download-button-label="$t('INBOX_REPORTS.DOWNLOAD_INBOX_REPORTS')"
+    :report-title="$t('INBOX_REPORTS.HEADER')"
   />
 </template>
-
-<script>
-import WootReports from './components/WootReports';
-
-export default {
-  components: {
-    WootReports,
-  },
-};
-</script>

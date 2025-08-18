@@ -25,5 +25,12 @@ RSpec.describe AutomationRule do
         expect(Audited::Audit.where(auditable_type: 'AutomationRule', action: 'destroy').count).to eq 1
       end
     end
+
+    context 'when automation rule is in enterprise namespace' do
+      it 'has associated sla methods available' do
+        expect(automation_rule.conditions_attributes).to include('sla_policy_id')
+        expect(automation_rule.actions_attributes).to include('add_sla')
+      end
+    end
   end
 end

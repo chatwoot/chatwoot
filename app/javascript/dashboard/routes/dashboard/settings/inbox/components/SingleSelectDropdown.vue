@@ -1,20 +1,3 @@
-<template>
-  <div>
-    <label for="dropdown-select">
-      {{ label }}
-    </label>
-    <select
-      id="dropdown-select"
-      v-model="value"
-      name="dropdown-select"
-      @change="action(value)"
-    >
-      <option v-for="option in options" :key="option.key">
-        {{ option.value }}
-      </option>
-    </select>
-  </div>
-</template>
 <script>
 export default {
   props: {
@@ -42,3 +25,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <label for="dropdown-select">
+      {{ label }}
+    </label>
+    <select
+      id="dropdown-select"
+      v-model="value"
+      name="dropdown-select"
+      @change="action(value)"
+    >
+      <option v-for="option in options" :key="option.key">
+        {{ option.value }}
+      </option>
+    </select>
+  </div>
+</template>

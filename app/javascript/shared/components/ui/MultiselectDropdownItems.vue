@@ -1,71 +1,15 @@
-<template>
-  <div class="dropdown-wrap">
-    <div class="search-wrap">
-      <input
-        ref="searchbar"
-        v-model="search"
-        type="text"
-        class="search-input"
-        autofocus="true"
-        :placeholder="inputPlaceholder"
-      />
-    </div>
-    <div class="list-scroll-container">
-      <div class="multiselect-dropdown--list">
-        <woot-dropdown-menu>
-          <woot-dropdown-item
-            v-for="option in filteredOptions"
-            :key="option.id"
-          >
-            <woot-button
-              class="multiselect-dropdown--item"
-              :variant="isActive(option) ? 'hollow' : 'clear'"
-              color-scheme="secondary"
-              :class="{
-                active: isActive(option),
-              }"
-              @click="() => onclick(option)"
-            >
-              <div class="user-wrap">
-                <Thumbnail
-                  v-if="hasThumbnail"
-                  :src="option.thumbnail"
-                  size="24px"
-                  :username="option.name"
-                  :status="option.availability_status"
-                  has-border
-                />
-                <div class="name-wrap">
-                  <span
-                    class="name text-truncate text-block-title"
-                    :title="option.name"
-                  >
-                    {{ option.name }}
-                  </span>
-                  <fluent-icon v-if="isActive(option)" icon="checkmark" />
-                </div>
-              </div>
-            </woot-button>
-          </woot-dropdown-item>
-        </woot-dropdown-menu>
-        <h4 v-if="noResult" class="no-result text-truncate text-block-title">
-          {{ noSearchResult }}
-        </h4>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
-    Thumbnail,
+    Avatar,
+    NextButton,
   },
 
   props: {
@@ -90,6 +34,7 @@ export default {
       default: 'No results found',
     },
   },
+  emits: ['select'],
 
   data() {
     return {
@@ -114,7 +59,7 @@ export default {
 
   methods: {
     onclick(option) {
-      this.$emit('click', option);
+      this.$emit('select', option);
     },
     focusInput() {
       this.$refs.searchbar.focus();
@@ -126,94 +71,81 @@ export default {
 };
 </script>
 
+<template>
+  <div class="dropdown-wrap">
+    <div class="flex-auto flex-grow-0 flex-shrink-0 mb-2 max-h-8">
+      <input
+        ref="searchbar"
+        v-model="search"
+        type="text"
+        class="search-input"
+        autofocus="true"
+        :placeholder="inputPlaceholder"
+      />
+    </div>
+    <div class="flex items-start justify-start flex-auto overflow-auto mt-2">
+      <div class="w-full max-h-[10rem]">
+        <WootDropdownMenu>
+          <WootDropdownItem v-for="option in filteredOptions" :key="option.id">
+            <NextButton
+              slate
+              :variant="isActive(option) ? 'faded' : 'ghost'"
+              trailing-icon
+              :icon="isActive(option) ? 'i-lucide-check' : ''"
+              class="w-full !px-2.5"
+              @click="() => onclick(option)"
+            >
+              <div
+                class="flex items-center justify-between w-full min-w-0 gap-2"
+              >
+                <span
+                  class="my-0 overflow-hidden text-sm leading-4 whitespace-nowrap text-ellipsis"
+                  :title="option.name"
+                >
+                  {{ option.name }}
+                </span>
+              </div>
+              <Avatar
+                v-if="hasThumbnail"
+                :src="option.thumbnail"
+                :name="option.name"
+                :status="option.availability_status"
+                :size="24"
+                hide-offline-status
+                rounded-full
+              />
+            </NextButton>
+          </WootDropdownItem>
+        </WootDropdownMenu>
+        <h4
+          v-if="noResult"
+          class="w-full justify-center items-center flex text-n-slate-10 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+        >
+          {{ noSearchResult }}
+        </h4>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .dropdown-wrap {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-height: 20rem;
-}
-
-.search-wrap {
-  margin-bottom: var(--space-small);
-  flex: 0 0 auto;
-  max-height: var(--space-large);
+  @apply w-full flex flex-col max-h-[12.5rem];
 }
 
 .search-input {
-  margin: 0;
-  width: 100%;
-  border: 1px solid transparent;
-  height: var(--space-large);
-  font-size: var(--font-size-small);
-  padding: var(--space-small);
-  background-color: var(--color-background);
-
-  &:focus {
-    border: 1px solid var(--w-500);
-  }
-}
-
-.list-scroll-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex: 1 1 auto;
-  overflow: auto;
-}
-
-.multiselect-dropdown--list {
-  width: 100%;
-  max-height: 16rem;
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-n-slate-12 rounded-md focus:border-n-brand bg-n-background dark:bg-n-background;
 }
 
 .multiselect-dropdown--item {
-  justify-content: space-between;
-  width: 100%;
+  @apply justify-between w-full;
 
   &.active {
-    background: var(--s-25);
-    border-color: var(--s-50);
-    font-weight: var(--font-weight-medium);
-  }
-
-  &:focus {
-    background-color: var(--color-background-light);
+    @apply bg-n-slate-2 dark:bg-n-solid-3 border-n-weak/50 dark:border-n-weak font-medium;
   }
 
   &:hover {
-    color: var(--s-800);
-    background-color: var(--color-background);
+    @apply bg-n-slate-2 dark:bg-n-solid-3 text-n-slate-12;
   }
-}
-
-.user-wrap {
-  display: flex;
-  align-items: center;
-}
-
-.name-wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 0;
-  width: 100%;
-  align-items: center;
-}
-
-.name {
-  line-height: var(--space-normal);
-  margin: 0 var(--space-small);
-}
-
-.icon {
-  margin-left: var(--space-smaller);
-}
-
-.no-result {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding: var(--space-small) var(--space-one);
 }
 </style>

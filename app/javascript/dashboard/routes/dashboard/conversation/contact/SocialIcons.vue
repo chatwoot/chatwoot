@@ -1,18 +1,3 @@
-<template>
-  <div v-if="availableProfiles.length" class="social--icons">
-    <a
-      v-for="profile in availableProfiles"
-      :key="profile.key"
-      :href="`${profile.link}${socialProfiles[profile.key]}`"
-      target="_blank"
-      rel="noopener noreferrer nofollow"
-      class="contact--social-icon"
-    >
-      <fluent-icon :icon="`brand-${profile.key}`" size="16" />
-    </a>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -29,6 +14,7 @@ export default {
         { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
         { key: 'github', icon: 'github', link: 'https://github.com/' },
         { key: 'instagram', icon: 'instagram', link: 'https://instagram.com/' },
+        { key: 'telegram', icon: 'telegram', link: 'https://t.me/' },
       ],
     };
   },
@@ -42,15 +28,21 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.social--icons {
-  align-items: flex-end;
-  display: flex;
-  margin: var(--space-small) 0 var(--space-smaller);
-}
-
-.contact--social-icon {
-  padding-right: var(--space-slab);
-  color: var(--color-body);
-}
-</style>
+<!-- eslint-disable-next-line vue/no-root-v-if -->
+<template>
+  <div v-if="availableProfiles.length" class="flex items-end gap-3 mx-0 my-2">
+    <a
+      v-for="profile in availableProfiles"
+      :key="profile.key"
+      :href="`${profile.link}${socialProfiles[profile.key]}`"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
+      <fluent-icon
+        :icon="`brand-${profile.key}`"
+        size="16"
+        class="text-n-slate-11 hover:text-n-slate-10"
+      />
+    </a>
+  </div>
+</template>

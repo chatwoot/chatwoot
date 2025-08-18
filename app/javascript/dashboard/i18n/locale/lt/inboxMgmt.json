@@ -1,32 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Gautų laiškų aplankai",
-    "SIDEBAR_TXT": "<p><b>Gautų laiškų aplankas</b></p> <p> Kai prijungiate svetainė arba Facebook puslapį prie Chatwood, tai vadinama <b>Gautų Laiškų Aplankas</b>. Savo Chatwoot paskyroje galite turėti neribotą gautųjų laiškų aplankų skaičių. </p><p> Spustelėkite <b>Pridėti gautųjų laiškų aplanką</b>, kad susietumėte svetainę arba Facebook puslapį. </p><p> Informacijos suvestinėje galite matyti visus pokalbius iš visų gautųjų laiškų aplankų vienoje vietoje ir atsakyti į juos skirtuke „Pokalbiai“. </p><p> Taip pat galite peržiūrėti pokalbius, susijusius su gautų laiškų aplankais, spustelėję pavadinimą kairėje prietaisų skydelio srityje. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Prie šios paskyros nėra pridėtų gautųjų laiškų aplankų."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Pasirinkti Kanalą",
-        "route": "settings_inbox_new",
-        "body": "Pasirinkite paslaugų teikėją, kurį norite integruoti su Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Pasirinkti Kanalą",
+        "BODY": "Pasirinkite paslaugų teikėją, kurį norite integruoti su Chatwoot."
       },
-      {
-        "title": "Sukurti Gautų Laiškų Aplanką",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autentifikuokite savo paskyrą ir susikurkite gautų laiškų aplanką."
+      "INBOX": {
+        "TITLE": "Sukurti Gautų Laiškų Aplanką",
+        "BODY": "Autentifikuokite savo paskyrą ir susikurkite gautų laiškų aplanką."
       },
-      {
-        "title": "Pridėti Agentus",
-        "route": "settings_inboxes_add_agents",
-        "body": "Pridėti agentus pire gautų laiškų oplanko."
+      "AGENT": {
+        "TITLE": "Pridėti Agentus",
+        "BODY": "Pridėti agentus pire gautų laiškų oplanko."
       },
-      {
-        "title": "Voila!",
-        "route": "settings_inbox_finish",
-        "body": "Esate pasiruošę pradėti!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Esate pasiruošę pradėti!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
@@ -43,8 +42,18 @@
         "CHOOSE_PLACEHOLDER": "Psirinkti puslapį iš sąrašo",
         "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
         "ADD_NAME": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
-        "PICK_NAME": "Pasirinkite Gautų Laiškų Aplanko Pavadinimą",
-        "PICK_A_VALUE": "Pasirinkti reikšmę"
+        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_A_VALUE": "Pasirinkti reikšmę",
+        "CREATE_INBOX": "Sukurti Gautų Laiškų Aplanką"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Norėdami pridėti savo Twitter profilį kaip kanalą, turite patvirtinti savo Twitter profilį spustelėdami „Prisijungti naudojant Twitter“ ",
@@ -62,7 +71,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Įveskite savo Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Prašome įvesti tesingą URL adresą"
         },
         "CHANNEL_DOMAIN": {
@@ -109,6 +118,17 @@
         "ACCOUNT_SID": {
           "LABEL": "Paskyros SID",
           "PLACEHOLDER": "Įveskite Twilio paskyros SID",
+          "ERROR": "Šis laukas yra privalomas"
+        },
+        "API_KEY": {
+          "USE_API_KEY": "Naudokite API Key autentifikavimą",
+          "LABEL": "API Key SID",
+          "PLACEHOLDER": "Įveskite savo API Key SID",
+          "ERROR": "Šis laukas yra privalomas"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Key Secret",
+          "PLACEHOLDER": "Įveskite savo API Key Secret",
           "ERROR": "Šis laukas yra privalomas"
         },
         "MESSAGING_SERVICE_SID": {
@@ -164,12 +184,12 @@
           },
           "API_KEY": {
             "LABEL": "API raktas",
-            "PLACEHOLDER": "Įveskite savo Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Šis laukas yra privalomas"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Įveskite savo Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Šis laukas yra privalomas"
           },
           "APPLICATION_ID": {
@@ -202,9 +222,16 @@
         "DESC": "Pradėkite palaikyti savo klientus naudodami WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API tiekėjas",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
@@ -228,7 +255,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Tikrinti Prieigos Raktą",
-          "PLACEHOLDER": "Įveskite patvirtinimo prieigos raktą, kurį norite sukonfigūruoti Facebook Webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Prašau įveskite teisingą reikšmę."
         },
         "API_KEY": {
@@ -244,8 +271,75 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Patikros Prieigos Raktas"
         },
         "SUBMIT_BUTTON": "Sukurti WhatsApp Kanalą",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick Setup with Meta",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+        },
         "API": {
           "ERROR_MESSAGE": "Mes negalėjome išsaugoti WhatsApp kanalo"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "Telefono numeris",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "Paskyros SID",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Prieigos Raktas",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Key SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API Key Secret",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          },
+          "TWIML_APP_SID": {
+            "LABEL": "TwiML App SID",
+            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
+            "REQUIRED": "TwiML App SID is required"
+          }
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -258,7 +352,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Sukonfigūruokite URL, į kurį norite gauti atgalinius skambučius.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Sukurti API kanalą",
@@ -268,7 +362,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "El. pašto kanalas",
-        "DESC": "Integruokite el. pašto dėžutę.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalo Pavadinimas",
           "PLACEHOLDER": "Prašome įrašyti kanalo pavadinimą",
@@ -334,7 +428,7 @@
       "AGENTS": {
         "TITLE": "Agentai",
         "DESC": "Čia galite pridėti agentų, kad galėtumėte tvarkyti naujai sukurtus gautų laiškų aplanką. Tik šie pasirinkti agentai turės prieigą prie jūsų gautų laiškų aplanko. Agentai, kurie nėra šio dalis, prisijungę negalės matyti pranešimų arba atsakyti į juos. <br> <b>PS:</b> Jei jums reikia prieigos prie visų gautų laiškų aplankų, turėtumėte įtraukti save kaip agentą prie visų sukurtų aplankų, kaip administratorius.",
-        "VALIDATION_ERROR": "Pridėkite bent vieną agentą prie naujojo gautų laiškų aplanko",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Pasirinkite agentus gautų laiškų aplankams"
       },
       "DETAILS": {
@@ -353,13 +447,23 @@
         "TITLE": "Microsoft El. paštas",
         "DESCRIPTION": "Spustelėkite mygtuką Prisijungti naudojant Microsoft, kad pradėtumėte. Būsite nukreipti į prisijungimo el. pašto pagalba puslapį. Kai sutiksite su prašomais leidimais, būsite nukreipti atgal į gautų laiškų aplanko kūrimo veiksmą.",
         "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
-        "HELP": "Norėdami pridėti „Microsoft“ paskyrą kaip kanalą, jūs turite autentifikuoti savo Microsoft paskyrą spustelėdami „Prisijungti naudojant Microsoft“ ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "Prisijungiant prie Microsoft įvyko klaida, bandykite dar kartą"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autentifikuojamas jus naudojant Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Kažkas nepavyko, atnaujinkite puslapį...",
+      "ERROR_FB_UNAUTHORIZED": "Jūs nesate įgalioti atlikti šį veiksmą. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Įsitikinkite, kad turite prieigą prie „Facebook“ puslapio su visapusiška kontrole. Daugiau apie „Facebook“ vaidmenis galite perskaityti <a href=\" https://www.facebook.com/help/187316341316631\">čia</a>.",
       "CREATING_CHANNEL": "Kuriamas gautų laiškų aplankas...",
       "TITLE": "Konfigūruoti gautų laiškų aplanko informaciją",
       "DESC": ""
@@ -390,6 +494,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Leisti",
         "DISABLED": "Išjungta"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Siuntėjo vardas",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "FOR_EG": "Pvz:",
+        "FRIENDLY": {
+          "TITLE": "Draugiškas",
+          "FROM": "nuo",
+          "SUBTITLE": "Prie siuntėjo vardo pridėkite atsakymą išsiuntusio agento vardą, kad atsakymas būtų draugiškas."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesionalas",
+          "SUBTITLE": "Naudokite tik sukonfigūruotą įmonės pavadinimą kaip siuntėjo vardą el. pašto antraštėje."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Sukonfigūruokite įmonės pavadinimą",
+          "PLACEHOLDER": "Įveskite įmonės pavadinimą",
+          "SAVE_BUTTON_TEXT": "Išsaugoti"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Leisti",
@@ -432,7 +555,8 @@
       "PRE_CHAT_FORM": "Anketa, rodoma prieš pokalbio internetu pradžią",
       "BUSINESS_HOURS": "Darbo valandos",
       "WIDGET_BUILDER": "Valdiklių kūrimo priemonė",
-      "BOT_CONFIGURATION": "Boto konfiguracija"
+      "BOT_CONFIGURATION": "Boto konfiguracija",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Nustatymai",
     "FEATURES": {
@@ -453,8 +577,8 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Leisti el. pašto surinkimo dėžutę",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Naujame pokalbyje leiskite arba drauskite el. pašto surinkimo dėžutę",
       "AUTO_ASSIGNMENT": "Įjunkti automatinį priskyrimą",
-      "ENABLE_CSAT": "Leisti CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Leisti/neleisti CSAT (klientų pasitenkinimo) apklausą, kai baigsite pokalbį",
+      "SENDER_NAME_SECTION": "Leisti agento vardą el. pašte",
+      "SENDER_NAME_SECTION_TEXT": "Įjungti/išjungti agento vardo rodymą el. pašte, jei išjungta, bus rodomas įmonės pavadinimas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Leisti pokalbio tęstinumą el. paštu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Jei kontaktinis el. pašto adresas yra pasiekiamas, pokalbiai bus tęsiami el. paštu.",
       "LOCK_TO_SINGLE_CONVERSATION": "Laikykitės vieno pokalbio",
@@ -474,13 +598,32 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Leisti pranešimus pokalbiui pasibaigus",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Leiskite galutiniams vartotojams siųsti pranešimus net pokalbiui pasibaigus.",
       "WHATSAPP_SECTION_SUBHEADER": "Šis API Raktas naudojamas integracijai su WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Įveskite atnaujintą raktą, kuris bus naudojamas integruojant su WhatsApp API.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API raktas",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atnaujinti API raktą",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Įveskite naują API Raktą čia",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atnaujinti",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Tikrinti Prieigos Raktą",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Sujungti",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Patikros Prieigos Raktas",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis prieigos raktas naudojamas „webhook“ galutinio taško autentiškumui patikrinti.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atnaujinkite išankstinio pokalbio internetu formos nustatymus"
     },
     "HELP_CENTER": {
@@ -527,6 +670,32 @@
         "LABEL": "Prieš pradėdami pokalbį lankytojai turėtų nurodyti savo vardą ir el. pašto adresą"
       }
     },
+    "CSAT": {
+      "TITLE": "Leisti CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Žinutė",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "sudėtyje yra",
+          "DOES_NOT_CONTAINS": "sudėtyje nėra"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+      }
+    },
     "BUSINESS_HOURS": {
       "TITLE": "Nustatykite savo pasiekiamumą",
       "SUBTITLE": "Nustatykite savo pasiekiamumą tiesioginio pokalbio valdiklyje",
@@ -535,7 +704,7 @@
       "UPDATE": "Atnaujinti darbo laiko nustatymus",
       "TOGGLE_AVAILABILITY": "Leisti verslo pasiekiamumą šiam gautų laiškų aplankui",
       "UNAVAILABLE_MESSAGE_LABEL": "Pranešimas lankytojams apie nepasiekiamumą",
-      "TOGGLE_HELP": "Leidus įmonės pasiekiamumą bus rodomos galimos darbo valandos tiesioginio pokalbio valdiklyje, net jei visi agentai neprisijungę. Ne darbo valandomis lankytojai gali būti įspėti pranešimu ir išankstinio pokalbio forma.",
+      "TOGGLE_HELP": "Nustačius darbo laiką, bus rodomos darbo valandos chato valdiklyje, net jei visi agentai neprisijungę. Ne darbo valandomis lankytojai gali būti įspėti pranešimu ir išankstinio pokalbio forma.",
       "DAY": {
         "ENABLE": "Įgalinti pasiekiamumą šiai dienai",
         "UNAVAILABLE": "Nepasiekiamas",
@@ -551,7 +720,7 @@
       "NOTE_TEXT": "Norėdami įjungti SMTP, sukonfigūruokite IMAP.",
       "UPDATE": "Atnaujinti IMAP nustatymus",
       "TOGGLE_AVAILABILITY": "Leisti IMAP konfigūraciją šiam gautų laiškų aplankui",
-      "TOGGLE_HELP": "Įjungus IMAP, vartotojas galės gauti el. laiškus",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP nustatymai atnaujinti sėkmingai",
         "ERROR_MESSAGE": "Nepavyko atnaujinti IMAP nustatymų"
@@ -699,7 +868,22 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Kiti Tiekėjai"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Internetinis puslapis",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "El. paštas",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API kanalas",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

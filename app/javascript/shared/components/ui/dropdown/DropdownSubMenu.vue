@@ -1,13 +1,5 @@
-<template>
-  <li class="sub-menu-container">
-    <ul class="sub-menu-li-container">
-      <woot-dropdown-header v-if="title" :title="title" />
-      <slot />
-    </ul>
-  </li>
-</template>
 <script>
-import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
+import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
 
 export default {
   name: 'WootDropdownMenu',
@@ -24,12 +16,12 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.sub-menu-container {
-  margin-top: var(--space-micro);
-}
 
-.sub-menu-li-container {
-  margin: 0;
-}
-</style>
+<template>
+  <li class="!mt-0.5">
+    <ul class="!m-0">
+      <WootDropdownHeader v-if="title" :title="title" />
+      <slot />
+    </ul>
+  </li>
+</template>

@@ -2,8 +2,21 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Atributos Personalizados",
     "HEADER_BTN_TXT": "Criar atributo personalizado",
-    "LOADING": "Buscando atributos",
-    "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo personalizado rastreia fatos sobre seus contatos/conversa — como o plano de inscrição, ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um atributo personalizado, basta clicar no <b>Criar atributo</b> Você também pode editar ou apagar um atributo já criado.</p>",
+    "LOADING": "Buscando atributos personalizados",
+    "DESCRIPTION": "Um atributo personalizado controla detalhes adicionais sobre seus contatos ou conversas — como o plano de assinatura ou a data de sua primeira compra. Você pode adicionar diferentes tipos de atributos personalizados, como texto, listas ou números, para capturar as informações específicas que você precisa.",
+    "LEARN_MORE": "Saiba mais sobre atributos personalizados",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Conversas",
+      "CONTACT": "Contato"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Texto",
+      "NUMBER": "Número",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Lista",
+      "CHECKBOX": "Checkbox"
+    },
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
       "SUBMIT": "Criar",
@@ -39,6 +52,17 @@
           "PLACEHOLDER": "Digite a chave de atributo personalizada",
           "ERROR": "A chave é obrigatória",
           "IN_VALID": "Chave inválida"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Por favor, insira o padrão de expressão regular para atributo personalizado. (Opcional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Por favor, insira uma dica para o padrão de expressão regular. (Opcional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Habilitar validação do regex"
         }
       },
       "API": {
@@ -53,7 +77,7 @@
         "ERROR_MESSAGE": "Não foi possível excluir o atributo personalizado. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Tem certeza que deseja excluir - %{attributeName}",
+        "TITLE": "Tem certeza que deseja excluir - {attributeName}",
         "PLACE_HOLDER": "Digite {attributeName} para confirmar",
         "MESSAGE": "Excluindo removerá o atributo personalizado",
         "YES": "Excluir ",
@@ -80,12 +104,12 @@
       "CONTACT": "Contato"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nome",
-        "Descrição",
-        "Tipo",
-        "Chave"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrição",
+        "TYPE": "Tipo",
+        "KEY": "Chave"
+      },
       "BUTTONS": {
         "EDIT": "Alterar",
         "DELETE": "Excluir"
@@ -93,6 +117,17 @@
       "EMPTY_RESULT": {
         "404": "Não há atributos personalizados criados",
         "NOT_FOUND": "Não há atributos personalizados configurados"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Por favor, insira o padrão de expressão regular para atributo personalizado. (Opcional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Por favor, insira uma dica para o padrão de expressão regular. (Opcional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Habilitar validação da expressão regular"
       }
     }
   }

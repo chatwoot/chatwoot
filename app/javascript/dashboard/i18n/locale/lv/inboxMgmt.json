@@ -1,32 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Iesūtnes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Chatwoot risinājumam pievienoto tīmekļa vietni vai Facebook lapu sauc par <b>Iesūtni</b>. Jūsu Chatwoot kontā var atrasties neierobežots iesūtņu skaits. </p><p> Noklikšķiniet uz <b>Pievienot Iesūtni</b> lai pievienotu tīmekļa vietni vai Facebook lapu. </p><p> Informācijas panelī Jūs varat apskatīt visas sarunas, no visām savām iesūtnēm, un atbildēt uz tām cilnē `Sarunas`. </p><p> Jūs varat arī apskatīt sarunas, kas piesaistītas noteiktai iesūtnei, noklikšķinot uz iesūtnes nosaukuma informācijas paneļa kreisajā rūtī. </p>",
+    "DESCRIPTION": "Kanāls ir saziņas veids, ko klients izvēlas saziņai ar jums. Iesūtne ir vieta, kur pārvaldāt mijiedarbības ar noteiktu kanālu. Tas var ietvert saziņu no dažādiem avotiem, piemēram, e-pasta, tiešsaistes tērzēšanas un sociālajiem medijiem.",
+    "LEARN_MORE": "Uzzināt vairāk par iesūtnēm",
+    "RECONNECTION_REQUIRED": "Jūsu iesūtne ir atvienota. Jūs nesaņemsiet jaunus ziņojumus, kamēr nebūsiet tos atkārtoti autorizējis.",
+    "CLICK_TO_RECONNECT": "Noklikšķiniet šeit, lai atkārtoti izveidotu savienojumu.",
     "LIST": {
       "404": "Šim kontam nav pievienota neviena Iesūtne."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Izvēlieties Kanālu",
-        "route": "settings_inbox_new",
-        "body": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Izvēlieties Kanālu",
+        "BODY": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
       },
-      {
-        "title": "Izveidot Iesūtni",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autentificēt savu kontu un izveidot iesūtni."
+      "INBOX": {
+        "TITLE": "Izveidot Iesūtni",
+        "BODY": "Autentificēt savu kontu un izveidot iesūtni."
       },
-      {
-        "title": "Pievienot Aģentus",
-        "route": "settings_inboxes_add_agents",
-        "body": "Pievienojiet aģentus izveidotajai iesūtnei."
+      "AGENT": {
+        "TITLE": "Pievienot Aģentus",
+        "BODY": "Pievienojiet aģentus izveidotajai iesūtnei."
       },
-      {
-        "title": "Gatavs!",
-        "route": "settings_inbox_finish",
-        "body": "Jūs varat sākt darboties!"
+      "FINISH": {
+        "TITLE": "Gatavs!",
+        "BODY": "Jūs varat sākt darboties!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Iesūtnes Nosaukums",
@@ -43,8 +42,18 @@
         "CHOOSE_PLACEHOLDER": "Izvēlieties lapu no saraksta",
         "INBOX_NAME": "Iesūtnes Nosaukums",
         "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
-        "PICK_NAME": "Izvēlieties savai iesūtnei nosaukumu",
-        "PICK_A_VALUE": "Izvēlieties vērtību"
+        "PICK_NAME": "Lūdzu ievadiet Iesūtnes nosaukumu",
+        "PICK_A_VALUE": "Izvēlieties vērtību",
+        "CREATE_INBOX": "Izveidot Iesūtni"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Turpināt ar Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Pievienot savu Instagram Profilu",
+        "HELP": "Lai pievienotu savu Instagram profilu kā kanālu, jums ir jāautentificē savs Instagram profils, noklikšķinot uz 'Turpināt ar Instagram' ",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "ERROR_AUTH": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Lai pievienotu savu Twitter profilu kā kanālu, Jums ir jāautentificē savs Twitter profils, noklikšķinot uz \"Pierakstīties ar Twitter\"' ",
@@ -62,7 +71,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Ievadiet savu Webhook URL",
+          "PLACEHOLDER": "Lūdzu ievadiet Webhook URL",
           "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
         "CHANNEL_DOMAIN": {
@@ -111,6 +120,17 @@
           "PLACEHOLDER": "Lūdzu, ievadiet sava Twilio konta SID",
           "ERROR": "Šis lauks ir nepieciešams"
         },
+        "API_KEY": {
+          "USE_API_KEY": "Izmantot API Atslēgas Autentifikāciju",
+          "LABEL": "API Atslēgas SID",
+          "PLACEHOLDER": "Lūdzu, ievadiet savu API Atslēgas SID",
+          "ERROR": "Šis lauks ir nepieciešams"
+        },
+        "API_KEY_SECRET": {
+          "LABEL": "API Atslēgas Noslēpums",
+          "PLACEHOLDER": "Lūdzu, ievadiet savu API Atslēgas Noslēpumu",
+          "ERROR": "Šis lauks ir nepieciešams"
+        },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Ziņapmaiņas Pakalpojuma SID",
           "PLACEHOLDER": "Lūdzu, ievadiet savu Twilio ziņojumapmaiņas pakalpojuma SID",
@@ -132,7 +152,7 @@
           "ERROR": "Šis lauks ir nepieciešams"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Tālruņa numurs",
+          "LABEL": "Telefona numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
           "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
         },
@@ -164,12 +184,12 @@
           },
           "API_KEY": {
             "LABEL": "API atslēga",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API atslēgu",
+            "PLACEHOLDER": "Lūdzu ievadiet Bandwidth API Key",
             "ERROR": "Šis lauks ir nepieciešams"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API Secret",
+            "PLACEHOLDER": "Lūdzu ievadiet Bandwidth API Secret",
             "ERROR": "Šis lauks ir nepieciešams"
           },
           "APPLICATION_ID": {
@@ -202,9 +222,16 @@
         "DESC": "Sāciet atbalstīt savus klientus, izmantojot WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Pakalpojumu Sniedzējs",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Iesūtnes Nosaukums",
@@ -228,7 +255,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Pārbaudes Token",
-          "PLACEHOLDER": "Ievadiet verifikācijas token, kuru vēlaties nokonfigurēt priekš Facebook webhooks.",
+          "PLACEHOLDER": "Ievadiet verifikācijas token, ko vēlaties izmantot priekš Facebook webhook.",
           "ERROR": "Lūdzu, ievadiet derīgu vērtību."
         },
         "API_KEY": {
@@ -244,8 +271,75 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verifikācijas Token"
         },
         "SUBMIT_BUTTON": "Izveidot WhatsApp kanālu",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick Setup with Meta",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+        },
         "API": {
           "ERROR_MESSAGE": "Mēs nevarējām saglabāt WhatsApp kanālu"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "Telefona numurs",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "Konta SID",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Auth Token",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Atslēgas SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API Atslēgas Noslēpums",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          },
+          "TWIML_APP_SID": {
+            "LABEL": "TwiML App SID",
+            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
+            "REQUIRED": "TwiML App SID is required"
+          }
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -268,7 +362,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-pasta Kanāls",
-        "DESC": "Integrēt savu e-pasta iesūtni.",
+        "DESC": "Integrēt sava e-pasta iesūtni.",
         "CHANNEL_NAME": {
           "LABEL": "Kanāla Nosaukums",
           "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
@@ -334,7 +428,7 @@
       "AGENTS": {
         "TITLE": "Aģenti",
         "DESC": "Šeit Jūs varat pievienot aģentus, lai pārvaldītu savu jaunizveidoto iesūtni. Tikai šiem atlasītajiem aģentiem būs piekļuve Jūsu iesūtnei. Aģenti, kas neietilpst šajā iesūtnē, nevarēs redzēt ziņojumus vai atbildēt uz ziņojumiem šajā iesūtnē, kad būs pierakstījušies sistēmā. <br> <b>PS:</b> Ja jums kā administratoram ir nepieciešama piekļuve pie visām iesūtnēm, jums ir jāpievieno sevi kā aģentu visām izveidotajām iesūtnēm.",
-        "VALIDATION_ERROR": "Pievienojiet savai jaunajai Iesūtnei vismaz vienu aģentu",
+        "VALIDATION_ERROR": "Pievienojiet savai jaunajai iesūtnei vismaz vienu aģentu",
         "PICK_AGENTS": "Izvēlieties aģentus priekš iesūtnes"
       },
       "DETAILS": {
@@ -353,13 +447,23 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Microsoft. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, Jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
         "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
-        "HELP": "Lai pievienotu savu Microsoft kontu kā kanālu, Jums ir jāautentificē savs Microsoft konts, noklikšķinot uz \"Pierakstīties ar Microsoft\" ",
+        "SIGN_IN": "Pierakstīties ar Microsoft",
         "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "GOOGLE": {
+        "TITLE": "Google e-pasts",
+        "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Google. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
+        "SIGN_IN": "Pierakstīties ar Google",
+        "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Google, radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Notiek Jūsu autentificēšana, izmantojot Facebook...",
+      "ERROR_FB_LOADING": "Ielādējot Facebook SDK, radās kļūda. Lūdzu, atspējojiet visus reklāmu bloķētājus un mēģiniet vēlreiz no citas pārlūkprogrammas.",
       "ERROR_FB_AUTH": "Radās kļūda. Lūdzu, atsvaidziniet lapu...",
+      "ERROR_FB_UNAUTHORIZED": "Jums nav tiesību veikt šo darbību. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Lūdzu, pārliecinieties, ka Jums ir pilna piekļuve Facebook lapai. Vairāk par Facebook lomām varat lasīt <a href=\" https://www.facebook.com/help/187316341316631\">šeit</a>.",
       "CREATING_CHANNEL": "Notiek Iesūtnes izveide...",
       "TITLE": "Nokonfigurēt Iesūtnes Informāciju",
       "DESC": ""
@@ -390,6 +494,25 @@
       "ENABLE_CSAT": {
         "ENABLED": "Iespējots",
         "DISABLED": "Atspējots"
+      },
+      "SENDER_NAME_SECTION": {
+        "TITLE": "Sūtītāja vārds",
+        "SUB_TEXT": "Izvēlieties vārdu, kas tiks rādīts jūsu klientam, saņemot e-pasta ziņojumus no jūsu aģentiem.",
+        "FOR_EG": "Piemēram:",
+        "FRIENDLY": {
+          "TITLE": "Draudzīgs",
+          "FROM": "no",
+          "SUBTITLE": "Sūtītāja vārdā pievienojiet tā aģenta vārdu, kurš nosūtīja atbildi, lai atbilde būtu draudzīga."
+        },
+        "PROFESSIONAL": {
+          "TITLE": "Profesionāls",
+          "SUBTITLE": "Izmantot tikai konfigurēto uzņēmuma nosaukumu kā sūtītāja vārdu e-pasta galvenē."
+        },
+        "BUSINESS_NAME": {
+          "BUTTON_TEXT": "+ Konfigurēt uzņēmuma nosaukumu",
+          "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu",
+          "SAVE_BUTTON_TEXT": "Saglabāt"
+        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Iespējots",
@@ -432,7 +555,8 @@
       "PRE_CHAT_FORM": "Pirms-Tērzēšanas Veidlapa",
       "BUSINESS_HOURS": "Darba Laiks",
       "WIDGET_BUILDER": "Logrīku Veidotājs",
-      "BOT_CONFIGURATION": "Robota Konfigurācija"
+      "BOT_CONFIGURATION": "Robota Konfigurācija",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Iestatījumi",
     "FEATURES": {
@@ -453,8 +577,8 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Iespējot e-pasta iegūšanas lodziņu",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Iespējot vai atspējot e-pasta iegūšanas lodziņu jaunai sarunai",
       "AUTO_ASSIGNMENT": "Iespējot automātisko piešķiršanu",
-      "ENABLE_CSAT": "Iespējot CSAT",
-      "ENABLE_CSAT_SUB_TEXT": "Iespējot/Atspējot CSAT (klientu apmierinātības) aptauju pēc sarunas atrisināšanas",
+      "SENDER_NAME_SECTION": "Iespējot Aģenta Vārdu E-pastā",
+      "SENDER_NAME_SECTION_TEXT": "Iespējot/Atspējot aģenta vārda rādīšanu e-pastā. Ja tas ir atspējots, tiks rādīts uzņēmuma nosaukums",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
       "LOCK_TO_SINGLE_CONVERSATION": "Pieturēties pie vienas sarunas",
@@ -474,13 +598,32 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
       "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet atjaunināto atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet jauno API atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
       "WHATSAPP_SECTION_TITLE": "API atslēga",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Pārbaudes Token",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Savienot",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verifikācijas Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis marķieris tiek izmantots, lai pārbaudītu webhook endpoint autentiskumu.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
     },
     "HELP_CENTER": {
@@ -527,6 +670,32 @@
         "LABEL": "Apmeklētājiem pirms tērzēšanas ir jānorāda savs vārds un e-pasta adrese"
       }
     },
+    "CSAT": {
+      "TITLE": "Iespējot CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Ziņojums",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "satur",
+          "DOES_NOT_CONTAINS": "nesatur"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+      }
+    },
     "BUSINESS_HOURS": {
       "TITLE": "Iestatīt savu pieejamību",
       "SUBTITLE": "Iestatīt savu pieejamību tiešraides tērzēšanas logrīkā",
@@ -535,7 +704,7 @@
       "UPDATE": "Atjaunināt darba laika iestatījumus",
       "TOGGLE_AVAILABILITY": "Iespējot biznesa pieejamību šai iesūtnei",
       "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
-      "TOGGLE_HELP": "Iespējojot biznesa pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts pieejamais laiks, pat ja visi aģenti būs bezsaistē. Ārpus pieejamā laika, apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
+      "TOGGLE_HELP": "Iespējojot uzņēmuma pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts darba laiks, pat ja visi aģenti būs bezsaistē. Ārpus darba laika apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
       "DAY": {
         "ENABLE": "Iespējot pieejamību šai dienai",
         "UNAVAILABLE": "Nav pieejams",
@@ -699,7 +868,22 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Citi Pakalpojuma Sniedzēji"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Tīmekļa vietne",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-pasts",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Kanāls",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

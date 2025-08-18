@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Não há conversas ativas neste grupo."
     },
+    "FAILED_TO_SEND": "Falha ao enviar",
     "TAB_HEADING": "Conversas",
     "MENTION_HEADING": "Menções",
     "UNATTENDED_HEADING": "Não Atendidas",
@@ -14,8 +15,8 @@
     },
     "FILTER_ALL": "Todos",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Minha",
-      "unassigned": "Não atribuída",
+      "me": "Minhas",
+      "unassigned": "Não atribuídas",
       "all": "Todos"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -23,33 +24,58 @@
         "TEXT": "Abertas"
       },
       "resolved": {
-        "TEXT": "Resolvida"
+        "TEXT": "Resolvidas"
       },
       "pending": {
-        "TEXT": "Pendente"
+        "TEXT": "Pendentes"
       },
       "snoozed": {
-        "TEXT": "Adiado"
+        "TEXT": "Adiadas"
       },
       "all": {
-        "TEXT": "Todos"
+        "TEXT": "Todas"
       }
     },
     "VIEW_FILTER": "Visualizar",
-    "SORT_TOOLTIP_LABEL": "Classificar conversas",
+    "SORT_TOOLTIP_LABEL": "Ordenar conversas",
     "CHAT_SORT": {
-      "STATUS": "Situação",
+      "STATUS": "Status",
       "ORDER_BY": "Ordenar por"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Última atividade"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "Criado",
+        "OLDEST": "Criado em:"
       },
-      "sort_on_created_at": {
-        "TEXT": "Criado em"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "Última atividade:",
+        "ACTIVE": "Última atividade"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Última atividade: Mais antigas primeiro"
       },
-      "sort_on_priority": {
-        "TEXT": "Prioridade"
+      "last_activity_at_desc": {
+        "TEXT": "Última atividade: Recentes primeiro"
+      },
+      "created_at_desc": {
+        "TEXT": "Criado em: Recentes primeiro"
+      },
+      "created_at_asc": {
+        "TEXT": "Criado em: Antigos primeiro"
+      },
+      "priority_desc": {
+        "TEXT": "Prioridade: Altas primeiro"
+      },
+      "priority_asc": {
+        "TEXT": "Prioridade: Baixas primeiro"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Resposta pendente: Longas primeiro"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Resposta pendente: Curtas primeiro"
       }
     },
     "ATTACHMENTS": {
@@ -68,12 +94,18 @@
       "location": {
         "CONTENT": "Localização"
       },
+      "ig_reel": {
+        "CONTENT": "Reels do Instagram"
+      },
       "fallback": {
         "CONTENT": "compartilhou uma URL"
+      },
+      "contact": {
+        "CONTENT": "Contato compartilhado"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Classificar conversas",
+      "TITLE": "Ordenar conversas",
       "DROPDOWN_TITLE": "Ordenar por",
       "ITEMS": {
         "LATEST": {
@@ -101,6 +133,7 @@
     "NO_CONTENT": "Nenhum conteúdo disponível",
     "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
     "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
-    "MESSAGE_READ": "Lida"
+    "MESSAGE_READ": "Lida",
+    "SENDING": "Enviando"
   }
 }

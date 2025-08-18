@@ -1,14 +1,5 @@
-<template>
-  <i v-if="showEmoji" :class="className">{{ iconContent }}</i>
-  <fluent-icon
-    v-else-if="showIcon"
-    :size="iconSize"
-    :icon="icon"
-    :class="className"
-  />
-</template>
-
 <script>
+// 🚨 This component is deprecated. Please use fluent-icon instead.
 import { hasEmojiSupport } from 'shared/helpers/emoji';
 import { mapGetters } from 'vuex';
 
@@ -43,6 +34,17 @@ export default {
   },
 };
 </script>
+
+<template>
+  <i v-if="showEmoji" :class="className">{{ iconContent }}</i>
+  <fluent-icon
+    v-else-if="showIcon"
+    :size="iconSize"
+    :icon="icon"
+    class="flex-shrink-0"
+    :class="className"
+  />
+</template>
 
 <style lang="scss" scoped>
 .icon--emoji {

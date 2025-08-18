@@ -1,43 +1,17 @@
-<template>
-  <div class="dropdown-search-wrap">
-    <h4 class="text-block-title">
-      {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
-    </h4>
-    <div class="search-wrap">
-      <input
-        ref="searchbar"
-        v-model="search"
-        type="text"
-        class="search-input"
-        autofocus="true"
-        :placeholder="$t('CONTACT_PANEL.LABELS.LABEL_SELECT.PLACEHOLDER')"
-      />
-    </div>
-    <div class="list-wrap">
-      <div class="list">
-        <woot-dropdown-menu>
-          <label-dropdown-item
-            v-for="label in filteredActiveLabels"
-            :key="label.title"
-            :title="label.title"
-            :color="label.color"
-            :selected="selectedLabels.includes(label.title)"
-            @click="onAddRemove(label)"
-          />
-        </woot-dropdown-menu>
-        <div v-if="noResult" class="no-result">
-          {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
-import LabelDropdownItem from './LabelDropdownItem';
+import LabelDropdownItem from './LabelDropdownItem.vue';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
+import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
+import { picoSearch } from '@scmmishra/pico-search';
+import { sanitizeLabel } from 'shared/helpers/sanitizeData';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     LabelDropdownItem,
+    AddLabelModal,
+    Hotkey,
+    NextButton,
   },
 
   props: {
@@ -49,23 +23,50 @@ export default {
       type: Array,
       default: () => [],
     },
+    allowCreation: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['update', 'add', 'remove'],
 
   data() {
     return {
       search: '',
+      createModalVisible: false,
     };
   },
 
   computed: {
+    createLabelPlaceholder() {
+      const label = this.$t('CONTACT_PANEL.LABELS.LABEL_SELECT.CREATE_LABEL');
+      return this.search ? `${label}:` : label;
+    },
+
     filteredActiveLabels() {
-      return this.accountLabels.filter(label => {
-        return label.title.toLowerCase().includes(this.search.toLowerCase());
+      if (!this.search) return this.accountLabels;
+
+      return picoSearch(this.accountLabels, this.search, ['title'], {
+        threshold: 0.9,
       });
     },
 
     noResult() {
-      return this.filteredActiveLabels.length === 0 && this.search !== '';
+      return this.filteredActiveLabels.length === 0;
+    },
+
+    hasExactMatchInResults() {
+      return this.filteredActiveLabels.some(
+        label => label.title === this.search
+      );
+    },
+
+    shouldShowCreate() {
+      return this.allowCreation && this.filteredActiveLabels.length < 3;
+    },
+
+    parsedSearch() {
+      return sanitizeLabel(this.search);
     },
   },
 
@@ -97,56 +98,87 @@ export default {
         this.onAdd(label);
       }
     },
+
+    showCreateModal() {
+      this.createModalVisible = true;
+    },
+
+    hideCreateModal() {
+      this.createModalVisible = false;
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-.dropdown-search-wrap {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-height: 20rem;
+<template>
+  <div class="flex flex-col w-full max-h-[12.5rem]">
+    <div class="flex items-center justify-center mb-1">
+      <h4
+        class="flex-grow m-0 overflow-hidden text-sm text-n-slate-12 whitespace-nowrap text-ellipsis"
+      >
+        {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
+      </h4>
+      <Hotkey
+        custom-class="border border-solid text-n-slate-12 bg-n-slate-2 text-xxs border-n-strong flex-shrink-0"
+      >
+        {{ 'L' }}
+      </Hotkey>
+    </div>
+    <div class="flex-auto flex-grow-0 flex-shrink-0 mb-2 max-h-8">
+      <input
+        ref="searchbar"
+        v-model="search"
+        type="text"
+        class="search-input"
+        autofocus="true"
+        :placeholder="$t('CONTACT_PANEL.LABELS.LABEL_SELECT.PLACEHOLDER')"
+      />
+    </div>
+    <div
+      class="flex items-start justify-start flex-auto flex-grow flex-shrink overflow-auto"
+    >
+      <div class="w-full my-1">
+        <woot-dropdown-menu>
+          <LabelDropdownItem
+            v-for="label in filteredActiveLabels"
+            :key="label.title"
+            :title="label.title"
+            :color="label.color"
+            :selected="selectedLabels.includes(label.title)"
+            @select-label="onAddRemove(label)"
+          />
+        </woot-dropdown-menu>
+        <div
+          v-if="noResult"
+          class="flex justify-center py-4 px-2.5 font-medium text-xs text-n-slate-11"
+        >
+          {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
+        </div>
+        <div
+          v-if="allowCreation && shouldShowCreate"
+          class="flex pt-1 border-t border-solid border-n-weak"
+        >
+          <NextButton
+            icon="i-lucide-plus"
+            slate
+            sm
+            ghost
+            :label="`${createLabelPlaceholder} ${parsedSearch}`"
+            :disabled="hasExactMatchInResults"
+            @click="showCreateModal"
+          />
 
-  .search-wrap {
-    margin-bottom: var(--space-small);
-    flex: 0 0 auto;
-    max-height: var(--space-large);
-
-    .search-input {
-      margin: 0;
-      width: 100%;
-      border: 1px solid transparent;
-      height: var(--space-large);
-      font-size: var(--font-size-small);
-      padding: var(--space-small);
-      background-color: var(--color-background);
-    }
-
-    input:focus {
-      border: 1px solid var(--w-500);
-    }
-  }
-
-  .list-wrap {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex: 1 1 auto;
-    overflow: auto;
-
-    .list {
-      width: 100%;
-    }
-
-    .no-result {
-      display: flex;
-      justify-content: center;
-      color: var(--s-700);
-      padding: var(--space-smaller) var(--space-one);
-      font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-small);
-    }
-  }
-}
-</style>
+          <woot-modal
+            v-model:show="createModalVisible"
+            :on-close="hideCreateModal"
+          >
+            <AddLabelModal
+              :prefill-title="parsedSearch"
+              @close="hideCreateModal"
+            />
+          </woot-modal>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

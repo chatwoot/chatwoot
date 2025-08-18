@@ -11,4 +11,10 @@ describe('#getters', () => {
       isUpdating: false,
     });
   });
+  it('getSelectedConversationIds', () => {
+    const state = {
+      selectedConversationIds: [1, 2, 3],
+    };
+    expect(getters.getSelectedConversationIds(state)).toEqual([1, 2, 3]);
+  });
 });

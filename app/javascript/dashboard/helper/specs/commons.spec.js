@@ -4,19 +4,21 @@ import {
   convertToAttributeSlug,
   convertToCategorySlug,
   convertToPortalSlug,
+  sanitizeVariableSearchKey,
 } from '../commons';
 
 describe('#getTypingUsersText', () => {
   it('returns the correct text is there is only one typing user', () => {
-    expect(getTypingUsersText([{ name: 'Pranav' }])).toEqual(
-      'Pranav is typing'
-    );
+    expect(getTypingUsersText([{ name: 'Pranav' }])).toEqual([
+      'TYPING.ONE',
+      { user: 'Pranav' },
+    ]);
   });
 
   it('returns the correct text is there are two typing users', () => {
     expect(
       getTypingUsersText([{ name: 'Pranav' }, { name: 'Nithin' }])
-    ).toEqual('Pranav and Nithin are typing');
+    ).toEqual(['TYPING.TWO', { user: 'Pranav', secondUser: 'Nithin' }]);
   });
 
   it('returns the correct text is there are more than two users are typing', () => {
@@ -27,7 +29,7 @@ describe('#getTypingUsersText', () => {
         { name: 'Subin' },
         { name: 'Sojan' },
       ])
-    ).toEqual('Pranav and 3 others are typing');
+    ).toEqual(['TYPING.MULTIPLE', { user: 'Pranav', count: 3 }]);
   });
 });
 
@@ -36,16 +38,14 @@ describe('#createPendingMessage', () => {
     message: 'hi',
   };
   it('returns the pending message with expected new keys', () => {
-    expect(createPendingMessage(message)).toHaveProperty(
-      'content',
-      'id',
-      'status',
-      'echo_id',
-      'status',
-      'created_at',
-      'message_type',
-      'conversation_id'
-    );
+    expect(createPendingMessage(message)).toMatchObject({
+      content: expect.anything(),
+      id: expect.anything(),
+      status: expect.anything(),
+      echo_id: expect.anything(),
+      created_at: expect.anything(),
+      message_type: expect.anything(),
+    });
   });
 
   it('returns the pending message with status progress', () => {
@@ -61,23 +61,20 @@ describe('#createPendingMessage', () => {
     });
   });
 
-  it('returns the pending message with attachmnet key if file is passed', () => {
+  it('returns the pending message with attachment key if file is passed', () => {
     const messageWithFile = {
       message: 'hi',
       file: {},
     };
-    expect(createPendingMessage(messageWithFile)).toHaveProperty(
-      'content',
-      'id',
-      'status',
-      'echo_id',
-      'status',
-      'created_at',
-      'message_type',
-      'conversation_id',
-      'attachments',
-      'private'
-    );
+    expect(createPendingMessage(messageWithFile)).toMatchObject({
+      content: expect.anything(),
+      id: expect.anything(),
+      status: expect.anything(),
+      echo_id: expect.anything(),
+      created_at: expect.anything(),
+      message_type: expect.anything(),
+      attachments: [{ id: expect.anything() }],
+    });
   });
 
   it('returns the pending message to have one attachment', () => {
@@ -109,5 +106,39 @@ describe('convertToCategorySlug', () => {
 describe('convertToPortalSlug', () => {
   it('should convert to slug', () => {
     expect(convertToPortalSlug('Room rental')).toBe('room-rental');
+  });
+});
+
+describe('sanitizeVariableSearchKey', () => {
+  it('removes braces', () => {
+    expect(sanitizeVariableSearchKey('{{contact.name}}')).toBe('contact.name');
+  });
+
+  it('removes right braces', () => {
+    expect(sanitizeVariableSearchKey('contact.name}}')).toBe('contact.name');
+  });
+
+  it('removes braces, comma and whitespace', () => {
+    expect(sanitizeVariableSearchKey(' {{contact.name }},')).toBe(
+      'contact.name'
+    );
+  });
+
+  it('trims whitespace', () => {
+    expect(sanitizeVariableSearchKey('  contact.name  ')).toBe('contact.name');
+  });
+
+  it('handles multiple commas', () => {
+    expect(sanitizeVariableSearchKey('{{contact.name}},,')).toBe(
+      'contact.name'
+    );
+  });
+
+  it('returns empty string when only braces/commas/whitespace', () => {
+    expect(sanitizeVariableSearchKey(' {  }, , ')).toBe('');
+  });
+
+  it('returns empty string for undefined input', () => {
+    expect(sanitizeVariableSearchKey()).toBe('');
   });
 });

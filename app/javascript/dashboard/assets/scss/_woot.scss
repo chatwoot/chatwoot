@@ -1,69 +1,69 @@
+// scss-lint:disable SpaceAfterPropertyColon
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import 'shared/assets/fonts/InterDisplay/inter-display';
 @import 'shared/assets/fonts/inter';
-@import 'shared/assets/stylesheets/animations';
-@import 'shared/assets/stylesheets/colors';
-@import 'shared/assets/stylesheets/spacing';
-@import 'shared/assets/stylesheets/font-size';
-@import 'shared/assets/stylesheets/font-weights';
-@import 'shared/assets/stylesheets/shadows';
-@import 'shared/assets/stylesheets/border-radius';
-@import 'shared/assets/stylesheets/z-index';
 
-@import 'variables';
+// Next Colors
+@import 'next-colors';
 
-@import 'mixins';
-@import 'foundation-settings';
-@import 'helper-classes';
-@import 'formulate';
-@import 'date-picker';
+// Base styles for elements
+@import 'base';
 
-@import 'foundation-sites/scss/foundation';
-
-@include foundation-everything($flex: true);
-
-@include foundation-prototype-text-utilities;
-@include foundation-prototype-text-transformation;
-@include foundation-prototype-text-decoration;
-@include foundation-prototype-font-styling;
-@include foundation-prototype-list-style-type;
-@include foundation-prototype-rounded;
-@include foundation-prototype-bordered;
-@include foundation-prototype-shadow;
-@include foundation-prototype-separator;
-@include foundation-prototype-overflow;
-@include foundation-prototype-display;
-@include foundation-prototype-position;
-@include foundation-prototype-border-box;
-@include foundation-prototype-border-none;
-@include foundation-prototype-sizing;
-@include foundation-prototype-spacing;
-
-@import 'typography';
-@import 'layout';
-@import 'animations';
-@import 'foundation-custom';
-@import 'rtl';
-
-@import 'widgets/buttons';
-@import 'widgets/conv-header';
-@import 'widgets/conversation-card';
-@import 'widgets/conversation-view';
-@import 'widgets/forms';
-@import 'widgets/login';
-@import 'widgets/modal';
-@import 'widgets/reply-box';
-@import 'widgets/report';
-@import 'widgets/search-box';
-@import 'widgets/sidemenu';
-@import 'widgets/snackbar';
-@import 'widgets/states';
-@import 'widgets/status-bar';
-@import 'widgets/tabs';
-@import 'widgets/woot-tables';
-
-@import 'views/settings/inbox';
-@import 'views/settings/integrations';
-
+// Plugins
 @import 'plugins/multiselect';
-@import 'plugins/dropdown';
-@import '~shared/assets/stylesheets/ionicons';
-@import 'utility-helpers';
+@import 'plugins/date-picker';
+
+html,
+body {
+  font-family:
+    'Inter',
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Tahoma,
+    Arial,
+    sans-serif !important;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.tooltip {
+  @apply bg-n-solid-2 text-n-slate-12 py-1 px-2 z-40 text-xs rounded-md max-w-96;
+}
+
+#app {
+  @apply h-full w-full;
+}
+
+.custom-dashed-border {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23E2E3E7' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.dark .custom-dashed-border {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23343434' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

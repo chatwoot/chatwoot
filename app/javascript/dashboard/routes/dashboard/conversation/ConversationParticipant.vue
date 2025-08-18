@@ -1,102 +1,31 @@
-<template>
-  <div class="watchers-wrap">
-    <div class="watchers--collapsed">
-      <div class="content-wrap">
-        <div>
-          <p v-if="watchersList.length" class="total-watchers message-text">
-            <spinner v-if="watchersUiFlas.isFetching" size="tiny" />
-            {{ totalWatchersText }}
-          </p>
-          <p v-else class="text-muted message-text">
-            {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
-          </p>
-        </div>
-        <woot-button
-          v-tooltip.left="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
-          :title="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
-          icon="settings"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          @click="onOpenDropdown"
-        />
-      </div>
-    </div>
-    <div class="actions">
-      <thumbnail-group
-        :more-thumbnails-text="moreThumbnailsText"
-        :show-more-thumbnails-count="showMoreThumbs"
-        :users-list="thumbnailList"
-      />
-      <p v-if="isUserWatching" class="text-muted message-text">
-        {{ $t('CONVERSATION_PARTICIPANTS.YOU_ARE_WATCHING') }}
-      </p>
-      <woot-button
-        v-else
-        icon="arrow-right"
-        variant="link"
-        size="small"
-        @click="onSelfAssign"
-      >
-        {{ $t('CONVERSATION_PARTICIPANTS.WATCH_CONVERSATION') }}
-      </woot-button>
-    </div>
-    <div
-      v-on-clickaway="
-        () => {
-          onCloseDropdown();
-        }
-      "
-      :class="{ 'dropdown-pane--open': showDropDown }"
-      class="dropdown-pane"
-    >
-      <div class="dropdown__header">
-        <h4 class="text-block-title text-truncate">
-          {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
-        </h4>
-        <woot-button
-          icon="dismiss"
-          size="tiny"
-          color-scheme="secondary"
-          variant="clear"
-          @click="onCloseDropdown"
-        />
-      </div>
-      <multiselect-dropdown-items
-        :options="agentsList"
-        :selected-items="selectedWatchers"
-        :has-thumbnail="true"
-        @click="onClickItem"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
-import Spinner from 'shared/components/Spinner';
-import alertMixin from 'shared/mixins/alertMixin';
+import Spinner from 'shared/components/Spinner.vue';
+import { useAlert } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
-import agentMixin from 'dashboard/mixins/agentMixin';
-import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup';
-import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems';
+import { useAgentsList } from 'dashboard/composables/useAgentsList';
+
+import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup.vue';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     Spinner,
     ThumbnailGroup,
     MultiselectDropdownItems,
+    NextButton,
   },
-  mixins: [alertMixin, agentMixin, clickaway],
   props: {
     conversationId: {
       type: [Number, String],
       required: true,
     },
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
+  },
+  setup() {
+    const { agentsList } = useAgentsList(false);
+    return {
+      agentsList,
+    };
   },
   data() {
     return {
@@ -193,7 +122,7 @@ export default {
           error?.message ||
           this.$t('CONVERSATION_PARTICIPANTS.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(alertMessage);
+        useAlert(alertMessage);
       }
       this.fetchParticipants();
     },
@@ -224,47 +153,77 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.watchers-wrap {
-  position: relative;
-}
 
-.content-wrap {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: var(--space-smaller);
-}
-
-.watchers--collapsed {
-  display: flex;
-  justify-content: space-between;
-}
-
-.dropdown-pane {
-  box-sizing: border-box;
-  top: var(--space-large);
-  width: 100%;
-}
-.dropdown__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-smaller);
-
-  .text-block-title {
-    margin: 0;
-  }
-}
-
-.actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.message-text {
-  margin: 0;
-  font-size: var(--font-size-small);
-}
-</style>
+<template>
+  <div class="relative bg-n-background">
+    <div class="flex justify-between">
+      <div class="flex justify-between w-full mb-1">
+        <div>
+          <p v-if="watchersList.length" class="m-0 text-sm total-watchers">
+            <Spinner v-if="watchersUiFlas.isFetching" size="tiny" />
+            {{ totalWatchersText }}
+          </p>
+          <p v-else class="m-0 text-sm text-n-slate-10">
+            {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
+          </p>
+        </div>
+        <NextButton
+          v-tooltip.left="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
+          slate
+          ghost
+          sm
+          icon="i-lucide-settings"
+          class="relative -top-1"
+          :title="$t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS')"
+          @click="onOpenDropdown"
+        />
+      </div>
+    </div>
+    <div class="flex items-center justify-between">
+      <ThumbnailGroup
+        :more-thumbnails-text="moreThumbnailsText"
+        :show-more-thumbnails-count="showMoreThumbs"
+        :users-list="thumbnailList"
+      />
+      <p v-if="isUserWatching" class="m-0 text-sm text-n-slate-10">
+        {{ $t('CONVERSATION_PARTICIPANTS.YOU_ARE_WATCHING') }}
+      </p>
+      <NextButton
+        v-else
+        link
+        xs
+        icon="i-lucide-arrow-right"
+        class="!gap-1"
+        :label="$t('CONVERSATION_PARTICIPANTS.WATCH_CONVERSATION')"
+        @click="onSelfAssign"
+      />
+    </div>
+    <div
+      v-on-clickaway="
+        () => {
+          onCloseDropdown();
+        }
+      "
+      :class="{
+        'block visible': showDropDown,
+        'hidden invisible': !showDropDown,
+      }"
+      class="border rounded-lg shadow-lg bg-n-alpha-3 absolute backdrop-blur-[100px] border-n-strong dark:border-n-strong p-2 z-[9999] box-border top-8 w-full"
+    >
+      <div class="flex items-center justify-between mb-1">
+        <h4
+          class="m-0 overflow-hidden text-sm whitespace-nowrap text-ellipsis text-n-slate-12"
+        >
+          {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
+        </h4>
+        <NextButton ghost slate xs icon="i-lucide-x" @click="onCloseDropdown" />
+      </div>
+      <MultiselectDropdownItems
+        :options="agentsList"
+        :selected-items="selectedWatchers"
+        has-thumbnail
+        @select="onClickItem"
+      />
+    </div>
+  </div>
+</template>

@@ -5,6 +5,7 @@ json.locale category.locale
 json.description category.description
 json.position category.position
 json.account_id category.account_id
+json.icon category.icon
 
 json.related_categories do
   if category.related_categories.any?

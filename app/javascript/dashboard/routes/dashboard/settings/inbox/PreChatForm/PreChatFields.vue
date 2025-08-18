@@ -1,56 +1,16 @@
-<template>
-  <draggable v-model="preChatFieldOptions" tag="tbody" @end="onDragEnd">
-    <tr v-for="(item, index) in preChatFieldOptions" :key="index">
-      <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
-      <td class="pre-chat-field">
-        <woot-switch
-          :value="item['enabled']"
-          @input="handlePreChatFieldOptions($event, 'enabled', item)"
-        />
-      </td>
-      <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
-        {{ item.name }}
-      </td>
-      <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
-        {{ item.type }}
-      </td>
-      <td class="pre-chat-field">
-        <input
-          v-model="item['required']"
-          type="checkbox"
-          :value="`${item.name}-required`"
-          :disabled="!item['enabled']"
-          @click="handlePreChatFieldOptions($event, 'required', item)"
-        />
-      </td>
-      <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
-        <input
-          v-model.trim="item.label"
-          type="text"
-          :disabled="isFieldEditable(item)"
-        />
-      </td>
-      <td class="pre-chat-field" :class="{ 'disabled-text': !item['enabled'] }">
-        <input
-          v-model.trim="item.placeholder"
-          type="text"
-          :disabled="isFieldEditable(item)"
-        />
-      </td>
-    </tr>
-  </draggable>
-</template>
-
 <script>
-import draggable from 'vuedraggable';
+import Draggable from 'vuedraggable';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
+
 export default {
-  components: { draggable },
+  components: { Draggable, ToggleSwitch },
   props: {
     preChatFields: {
       type: Array,
       default: () => [],
     },
   },
+  emits: ['update', 'dragEnd'],
   data() {
     return {
       preChatFieldOptions: this.preChatFields,
@@ -69,34 +29,95 @@ export default {
       this.$emit('update', event, type, item);
     },
     onDragEnd() {
-      this.$emit('drag-end', this.preChatFieldOptions);
+      this.$emit('dragEnd', this.preChatFieldOptions);
     },
   },
 };
 </script>
+
+<template>
+  <Draggable
+    v-model="preChatFieldOptions"
+    tag="tbody"
+    item-key="name"
+    @end="onDragEnd"
+  >
+    <template #item="{ element: item }">
+      <tr class="border-b border-n-weak">
+        <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
+        <td class="pre-chat-field">
+          <ToggleSwitch
+            :model-value="item['enabled']"
+            @change="handlePreChatFieldOptions($event, 'enabled', item)"
+          />
+        </td>
+        <td
+          class="pre-chat-field"
+          :class="{ 'disabled-text': !item['enabled'] }"
+        >
+          {{ item.name }}
+        </td>
+        <td
+          class="pre-chat-field"
+          :class="{ 'disabled-text': !item['enabled'] }"
+        >
+          {{ item.type }}
+        </td>
+        <td class="pre-chat-field">
+          <input
+            v-model="item['required']"
+            type="checkbox"
+            :value="`${item.name}-required`"
+            :disabled="!item['enabled']"
+            @click="handlePreChatFieldOptions($event, 'required', item)"
+          />
+        </td>
+        <td
+          class="pre-chat-field"
+          :class="{ 'disabled-text': !item['enabled'] }"
+        >
+          <input
+            v-model="item.label"
+            type="text"
+            :disabled="isFieldEditable(item)"
+          />
+        </td>
+        <td
+          class="pre-chat-field"
+          :class="{ 'disabled-text': !item['enabled'] }"
+        >
+          <input
+            v-model="item.placeholder"
+            type="text"
+            :disabled="isFieldEditable(item)"
+          />
+        </td>
+      </tr>
+    </template>
+  </Draggable>
+</template>
+
 <style scoped lang="scss">
 .pre-chat-field {
-  padding: var(--space-normal) var(--space-small);
+  @apply py-4 px-2 text-n-slate-12;
 
   svg {
-    display: flex;
-    align-items: center;
+    @apply flex items-center;
   }
 }
 .disabled-text {
-  color: var(--s-500);
+  @apply text-n-slate-11;
 }
 
 table {
   thead th {
-    text-transform: none;
+    @apply normal-case;
   }
   input {
-    font-size: var(--font-size-small);
-    margin-bottom: 0;
+    @apply text-sm mb-0;
   }
 }
 checkbox {
-  margin: 0;
+  @apply m-0;
 }
 </style>

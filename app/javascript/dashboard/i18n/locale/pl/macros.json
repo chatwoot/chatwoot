@@ -1,78 +1,111 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "Makra",
+    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
+    "LEARN_MORE": "Learn more about macros",
+    "HEADER_BTN_TXT": "Dodaj nowe makro",
+    "HEADER_BTN_TXT_SAVE": "Zapisz makro",
+    "LOADING": "Pobieranie makr",
+    "ERROR": "Wystąpił błąd. Spróbuj ponownie",
+    "ORDER_INFO": "Makra będą uruchamiane w kolejności, w jakiej dodajesz czynności. Możesz zmieniać ich kolejność, przeciągając je za uchwyt obok każdego węzła.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "Nazwa makra",
+          "PLACEHOLDER": "Wprowadź nazwę makra",
+          "ERROR": "Wymagana jest nazwa makra"
         },
         "ACTIONS": {
           "LABEL": "Akcje"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "Makro pomyślnie dodane",
+        "ERROR_MESSAGE": "Nie można utworzyć makra. Spróbuj ponownie później"
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nazwa",
-        "Created by",
-        "Last updated by",
-        "Visibility"
-      ],
-      "404": "No macros found"
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "CREATED BY": "Utworzone przez",
+        "LAST_UPDATED_BY": "Ostatnio zaktualizowane przez",
+        "VISIBILITY": "Widoczność"
+      },
+      "404": "Nie znaleziono makr"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "Usuń makro",
       "CONFIRM": {
         "MESSAGE": "Czy na pewno chcesz usunąć ",
         "YES": "Tak, usuń",
         "NO": "Nie"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "Makro pomyślnie usunięte",
+        "ERROR_MESSAGE": "Wystąpił błąd podczas usuwania makra. Spróbuj ponownie później"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "Edytuj makro",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "Makro pomyślnie zaktualizowane",
+        "ERROR_MESSAGE": "Nie można zaktualizować makra. Spróbuj ponownie później"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "Rozpocznij przepływ",
+      "END_FLOW": "Zakończ przepływ",
+      "LOADING": "Pobieranie makra",
+      "ADD_BTN_TOOLTIP": "Dodaj nową czynność",
+      "DELETE_BTN_TOOLTIP": "Usuń czynność",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "Widoczność makra",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "Publiczne",
+          "DESCRIPTION": "To makro jest publicznie dostępne dla wszystkich agentów na tym koncie."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "Prywatne",
+          "DESCRIPTION": "To makro będzie prywatne i nie będzie dostępne dla innych."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "Wykonaj",
+      "PREVIEW": "Podgląd makra",
+      "EXECUTED_SUCCESSFULLY": "Makro pomyślnie wykonane"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Wartość jest wymagana",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_AGENT": "Assign an Agent",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Wycisz kontakt",
+      "SNOOZE_CONVERSATION": "Zatrzymaj rozmowę",
+      "RESOLVE_CONVERSATION": "Zamknij rozmowę",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Zmień priorytet",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Brak",
+      "LOW": "Niski",
+      "MEDIUM": "Średni",
+      "HIGH": "Wysoki",
+      "URGENT": "Pilne"
     }
   }
 }

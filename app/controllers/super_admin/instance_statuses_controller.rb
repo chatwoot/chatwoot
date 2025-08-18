@@ -6,6 +6,7 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     postgres_status
     redis_metrics
     chatwoot_edition
+    instance_meta
   end
 
   def chatwoot_edition
@@ -18,13 +19,16 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
                                    end
   end
 
+  def instance_meta
+    @metrics['Database Migrations'] = ActiveRecord::Base.connection.migration_context.needs_migration? ? 'pending' : 'completed'
+  end
+
   def chatwoot_version
     @metrics['Chatwoot version'] = Chatwoot.config[:version]
   end
 
   def sha
-    sha = `git rev-parse HEAD`
-    @metrics['Git SHA'] = sha.presence || 'n/a'
+    @metrics['Git SHA'] = GIT_HASH
   end
 
   def postgres_status
