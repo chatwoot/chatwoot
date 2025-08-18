@@ -1,7 +1,6 @@
 class Api::V1::Accounts::AgentCapacityPoliciesController < Api::V1::Accounts::EnterpriseAccountsController
-  before_action :check_feature_flag
   before_action :fetch_policy, only: [:show, :update, :destroy]
-  before_action :check_authorization
+  before_action :check_admin_authorization?
 
   def index
     @agent_capacity_policies = Current.account.agent_capacity_policies
@@ -24,6 +23,7 @@ class Api::V1::Accounts::AgentCapacityPoliciesController < Api::V1::Accounts::En
 
   private
 
+
   def permitted_params
     params.require(:agent_capacity_policy).permit(
       :name,
@@ -34,13 +34,5 @@ class Api::V1::Accounts::AgentCapacityPoliciesController < Api::V1::Accounts::En
 
   def fetch_policy
     @agent_capacity_policy = Current.account.agent_capacity_policies.find(params[:id])
-  end
-
-  def check_authorization
-    authorize(Enterprise::AgentCapacityPolicy)
-  end
-
-  def check_feature_flag
-    render_not_found unless Current.account.feature_enabled?('assignment_v2')
   end
 end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Enterprise::InboxCapacityLimit < ApplicationRecord
   self.table_name = 'inbox_capacity_limits'
 

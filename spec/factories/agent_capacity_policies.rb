@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 FactoryBot.define do
   factory :agent_capacity_policy, class: 'Enterprise::AgentCapacityPolicy' do
     account

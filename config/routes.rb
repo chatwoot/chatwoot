@@ -99,15 +99,13 @@ Rails.application.routes.draw do
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :agent_capacity_policies, only: [:index, :create, :show, :update, :destroy] do
             scope module: :agent_capacity_policies do
-              resource :users, only: [] do
-                post ':user_id/assign', action: :assign
-                delete ':user_id/unassign', action: :unassign
-              end
-              resources :inbox_limits, only: [] do
+              resources :users, only: [] do
                 member do
-                  put :update
+                  post :assign
+                  delete :unassign
                 end
               end
+              resources :inbox_limits, only: [:update]
             end
           end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]

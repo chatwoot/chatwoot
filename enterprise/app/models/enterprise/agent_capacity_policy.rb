@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Enterprise::AgentCapacityPolicy < ApplicationRecord
   self.table_name = 'agent_capacity_policies'
 
