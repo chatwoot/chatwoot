@@ -201,6 +201,12 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :sync_templates, on: :member
           end
+          resources :whapi_channels, only: [:create] do
+            member do
+              get :qr_code
+              post :retry_webhook
+            end
+          end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
               delete :destroy
@@ -535,6 +541,7 @@ Rails.application.routes.draw do
   post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
   get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
+  post 'webhooks/whapi', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 

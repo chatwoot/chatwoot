@@ -309,7 +309,10 @@
           "PLACEHOLDER": "Enter your WHAPI API token",
           "HELP_TEXT": "You can find your API token in your WHAPI dashboard",
           "ERROR": "Please enter a valid value."
-        }
+        },
+        "QR_HELP_TEXT": "Scan this QR code with your WhatsApp mobile app to connect your channel",
+        "SUCCESS_TEXT": "Your WhatsApp channel has been successfully connected!",
+        "CONTINUE_BUTTON": "Continue to Add Agents"
       },
       "VOICE": {
         "TITLE": "Voice Channel",

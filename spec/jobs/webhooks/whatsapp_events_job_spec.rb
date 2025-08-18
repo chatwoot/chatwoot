@@ -109,6 +109,105 @@ RSpec.describe Webhooks::WhatsappEventsJob do
     end
   end
 
+  context 'when whapi provider' do
+    let(:whapi_channel) do 
+      create(:channel_whatsapp, 
+             provider: 'whapi', 
+             phone_number: 'pending:TEST_CHANNEL_ID',
+             provider_config: {
+               'whapi_channel_id' => 'TEST_CHANNEL_ID',
+               'whapi_channel_token' => 'test_token',
+               'connection_status' => 'pending'
+             },
+             sync_templates: false, 
+             validate_provider_config: false)
+    end
+    
+    let(:whapi_message_params) do
+      {
+        channel_id: 'TEST_CHANNEL_ID',
+        messages: [{
+          id: 'msg_123',
+          from: '1234567890',
+          type: 'text',
+          text: { body: 'Hello World' }
+        }]
+      }
+    end
+
+    let(:whapi_connected_params) do
+      {
+        channel_id: 'TEST_CHANNEL_ID',
+        events: [{
+          type: 'connected',
+          phone: '1234567890'
+        }]
+      }
+    end
+
+    it 'finds channel by whapi_channel_id when phone_number is absent' do
+      allow(Whatsapp::IncomingMessageWhapiService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhapiService).to receive(:new).with(inbox: whapi_channel.inbox, params: whapi_message_params)
+      job.perform_now(whapi_message_params)
+    end
+
+    it 'handles connection events and updates channel status' do
+      expect(ActionCable.server).to receive(:broadcast).with(
+        "account_#{whapi_channel.account_id}",
+        hash_including(
+          event: 'whapi_channel_status_updated',
+          data: hash_including(
+            inbox_id: whapi_channel.inbox.id,
+            connection_status: 'connected'
+          )
+        )
+      )
+
+      job.perform_now(whapi_connected_params)
+      
+      whapi_channel.reload
+      expect(whapi_channel.phone_number).to eq('+1234567890')
+      expect(whapi_channel.whapi_connection_status).to eq('connected')
+      expect(whapi_channel.provider_config['connected_at']).to be_present
+    end
+
+    it 'handles disconnection events' do
+      whapi_channel.update!(provider_config: whapi_channel.provider_config.merge('connection_status' => 'connected'))
+      
+      disconnect_params = {
+        channel_id: 'TEST_CHANNEL_ID',
+        events: [{
+          type: 'disconnected'
+        }]
+      }
+
+      expect(ActionCable.server).to receive(:broadcast).with(
+        "account_#{whapi_channel.account_id}",
+        hash_including(
+          event: 'whapi_channel_status_updated',
+          data: hash_including(
+            connection_status: 'disconnected'
+          )
+        )
+      )
+
+      job.perform_now(disconnect_params)
+      
+      whapi_channel.reload
+      expect(whapi_channel.whapi_connection_status).to eq('disconnected')
+      expect(whapi_channel.provider_config['disconnected_at']).to be_present
+    end
+
+    it 'does not process when whapi_channel_id is not found' do
+      params_with_unknown_id = whapi_message_params.merge(channel_id: 'UNKNOWN_ID')
+      
+      allow(Whatsapp::IncomingMessageWhapiService).to receive(:new)
+      expect(Whatsapp::IncomingMessageWhapiService).not_to receive(:new)
+      
+      job.perform_now(params_with_unknown_id)
+    end
+  end
+
   context 'when whatsapp business params' do
     it 'enqueue Whatsapp::IncomingMessageWhatsappCloudService based on the number in payload' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,

@@ -34,6 +34,7 @@ class Channel::Whatsapp < ApplicationRecord
 
   after_create :sync_templates
   before_destroy :teardown_webhooks
+  after_destroy_commit :enqueue_whapi_partner_cleanup
 
   def name
     'Whatsapp'
@@ -69,6 +70,23 @@ class Channel::Whatsapp < ApplicationRecord
     prompt_reauthorization!
   end
 
+  # Helper accessors for Whapi partner channels
+  def whapi_channel_id
+    provider_config&.[]('whapi_channel_id')
+  end
+
+  def whapi_channel_token
+    provider_config&.[]('whapi_channel_token')
+  end
+
+  def whapi_connection_status
+    provider_config&.[]('connection_status') || 'pending'
+  end
+
+  def whapi_partner_channel?
+    provider == 'whapi' && whapi_channel_id.present?
+  end
+
   private
 
   def ensure_webhook_verify_token
@@ -79,6 +97,7 @@ class Channel::Whatsapp < ApplicationRecord
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
   end
 
+<<<<<<< HEAD
   def perform_webhook_setup
     business_account_id = provider_config['business_account_id']
     api_key = provider_config['api_key']
@@ -88,5 +107,14 @@ class Channel::Whatsapp < ApplicationRecord
 
   def teardown_webhooks
     Whatsapp::WebhookTeardownService.new(self).perform
+=======
+  def enqueue_whapi_partner_cleanup
+    return unless whapi_partner_channel?
+
+    # Best-effort cleanup of upstream Whapi partner channel
+    Whatsapp::Partner::WhapiChannelCleanupJob.perform_later(whapi_channel_id)
+  rescue StandardError => e
+    Rails.logger.warn("Failed to enqueue WhapiChannelCleanupJob for channel ##{id}: #{e.message}")
+>>>>>>> a5ab7ea2f9 (Whapi Config QR code)
   end
 end

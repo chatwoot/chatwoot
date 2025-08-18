@@ -16,6 +16,13 @@ const router = useRouter();
 const { t } = useI18n();
 const store = useStore();
 
+const props = defineProps({
+  disabledAutoRoute: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
   TWILIO: 'twilio',
@@ -58,6 +65,12 @@ const availableProviders = computed(() => [
     title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO'),
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO_DESC'),
     icon: 'i-woot-twilio',
+  },
+  {
+    key: PROVIDER_TYPES.WHAPI,
+    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHAPI'),
+    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHAPI_DESC'),
+    icon: 'i-woot-whatsapp',
   },
 ]);
 
@@ -132,6 +145,7 @@ const shouldShowCloudWhatsapp = provider => {
       />
       <Whapi
         v-else-if="selectedProvider === PROVIDER_TYPES.WHAPI"
+        :disabled-auto-route="disabledAutoRoute"
       />
       <CloudWhatsapp v-else />
     </div>

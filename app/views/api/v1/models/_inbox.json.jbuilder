@@ -124,7 +124,16 @@ json.has_members resource.members.count.positive?
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
-  json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  if Current.account_user&.administrator?
+    if resource.channel.try(:provider) == 'whapi'
+      provider_cfg = resource.channel.try(:provider_config) || {}
+      # Remove sensitive token fields for whapi provider
+      sanitized_cfg = provider_cfg.except('api_key', 'whapi_channel_token')
+      json.provider_config sanitized_cfg
+    else
+      json.provider_config resource.channel.try(:provider_config)
+    end
+  end
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
 
