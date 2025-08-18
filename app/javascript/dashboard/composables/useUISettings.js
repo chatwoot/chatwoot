@@ -112,7 +112,8 @@ const isEditorHotKeyEnabled = (key, uiSettings) => {
     enter_to_send_enabled: enterToSendEnabled,
   } = uiSettings.value || {};
   if (!editorMessageKey) {
-    return key === (enterToSendEnabled ? 'enter' : 'cmd_enter');
+    // Default changed: now uses 'enter' by default instead of 'cmd_enter'
+    return key === (enterToSendEnabled === false ? 'cmd_enter' : 'enter');
   }
   return editorMessageKey === key;
 };
