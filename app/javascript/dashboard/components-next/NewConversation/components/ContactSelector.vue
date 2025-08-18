@@ -57,66 +57,10 @@ const { t } = useI18n();
 
 const inputType = ref(INPUT_TYPES.EMAIL);
 
-const generateDropdownLabel = (contact) => {
-  const { 
-    name, 
-    phoneNumber = '', 
-    email = '', 
-    additionalAttributes = {},
-  } = contact;
-  
-  const companyName = additionalAttributes.company_name || additionalAttributes.companyName || '';
-  const instagram = additionalAttributes.socialProfiles?.instagram || '';
-  
-  let extraInfo = '';
-  
-  // Hierarquia dropdown: instagram > telefone > email
-  if (instagram) {
-    extraInfo = `@${instagram}`;
-  } else if (phoneNumber) {
-    extraInfo = phoneNumber;
-  } else if (email) {
-    extraInfo = `(${email})`;
-  }
-  
-  // Sempre mostrar empresa se houver (além da info principal)
-  if (companyName && extraInfo) {
-    return `${name} • ${extraInfo} • ${companyName}`;
-  } else if (companyName) {
-    return `${name} • ${companyName}`;
-  } else if (extraInfo) {
-    return `${name} • ${extraInfo}`;
-  }
-  
-  return name || '';
-};
-
-const generateSelectedLabel = (contact) => {
-  const { 
-    name, 
-    phoneNumber = '', 
-    email = '', 
-    additionalAttributes = {},
-  } = contact;
-  
-  const instagram = additionalAttributes.socialProfiles?.instagram || '';
-  
-  // Hierarquia selecionado: instagram > telefone > email
-  if (instagram) {
-    return `${name} (@${instagram})`;
-  } else if (phoneNumber) {
-    return `${name} (${phoneNumber})`;
-  } else if (email) {
-    return `${name} (${email})`;
-  }
-  
-  return name || '';
-};
-
 const contactsList = computed(() => {
   return props.contacts?.map(({ name, id, thumbnail, email, ...rest }) => ({
     id,
-    label: generateDropdownLabel({ name, email, ...rest }),
+    label: email ? `${name} (${email})` : name,
     value: id,
     thumbnail: { name, src: thumbnail },
     ...rest,
@@ -127,8 +71,14 @@ const contactsList = computed(() => {
 });
 
 const selectedContactLabel = computed(() => {
-  if (!props.selectedContact) return '';
-  return generateSelectedLabel(props.selectedContact);
+  const { name, email = '', phoneNumber = '' } = props.selectedContact || {};
+  if (email) {
+    return `${name} (${email})`;
+  }
+  if (phoneNumber) {
+    return `${name} (${phoneNumber})`;
+  }
+  return name || '';
 });
 
 const errorClass = computed(() => {
