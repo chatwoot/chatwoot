@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :agent_capacity_policy, class: 'Enterprise::AgentCapacityPolicy' do
+  factory :agent_capacity_policy do
     account
     sequence(:name) { |n| "Agent Capacity Policy #{n}" }
     description { 'Test agent capacity policy' }

@@ -10,7 +10,6 @@ class Api::V1::Accounts::AgentCapacityPolicies::InboxLimitsController < Api::V1:
 
   private
 
-
   def fetch_policy
     @agent_capacity_policy = Current.account.agent_capacity_policies.find(params[:agent_capacity_policy_id])
   end

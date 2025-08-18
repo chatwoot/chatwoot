@@ -3,6 +3,6 @@ module Enterprise::Concerns::AccountUser
 
   included do
     belongs_to :custom_role, optional: true
-    belongs_to :agent_capacity_policy, class_name: 'Enterprise::AgentCapacityPolicy', optional: true
+    belongs_to :agent_capacity_policy, optional: true
   end
 end

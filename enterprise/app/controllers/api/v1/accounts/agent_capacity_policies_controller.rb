@@ -23,7 +23,6 @@ class Api::V1::Accounts::AgentCapacityPoliciesController < Api::V1::Accounts::En
 
   private
 
-
   def permitted_params
     params.require(:agent_capacity_policy).permit(
       :name,

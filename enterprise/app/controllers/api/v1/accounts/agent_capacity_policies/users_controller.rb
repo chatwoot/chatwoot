@@ -16,7 +16,6 @@ class Api::V1::Accounts::AgentCapacityPolicies::UsersController < Api::V1::Accou
 
   private
 
-
   def fetch_policy
     @agent_capacity_policy = Current.account.agent_capacity_policies.find(params[:agent_capacity_policy_id])
   end
