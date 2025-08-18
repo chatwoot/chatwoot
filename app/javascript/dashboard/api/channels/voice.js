@@ -169,21 +169,6 @@ class VoiceAPI extends ApiClient {
     return connection;
   }
 
-  setMute(muted) {
-    try {
-      if (
-        this.activeConnection &&
-        typeof this.activeConnection.mute === 'function'
-      ) {
-        this.activeConnection.mute(!!muted);
-        return true;
-      }
-    } catch (error) {
-      // Mute failed
-    }
-    return false;
-  }
-
   getDeviceStatus() {
     if (!this.device) return 'not_initialized';
     const s = this.device.state;

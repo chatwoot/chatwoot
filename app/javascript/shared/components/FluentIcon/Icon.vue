@@ -34,7 +34,6 @@ export default {
       if (path.constructor === Array) {
         return path;
       }
-
       return [path];
     },
   },

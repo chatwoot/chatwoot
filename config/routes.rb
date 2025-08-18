@@ -525,9 +525,6 @@ Rails.application.routes.draw do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
 
-    # Recording webhook
-    post :recording_callback, to: 'recording#recording_callback'
-
     # Voice webhooks (Enterprise-only)
     if ChatwootApp.enterprise?
       # Use resource scope to avoid plural/singular confusion
