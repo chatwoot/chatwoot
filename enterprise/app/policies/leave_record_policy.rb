@@ -1,4 +1,4 @@
-class LeavePolicy < ApplicationPolicy
+class LeaveRecordPolicy < ApplicationPolicy
   def index?
     @account_user.administrator? || @account_user.agent?
   end

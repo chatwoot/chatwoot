@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :leave do
+  factory :leave_record do
     account
     user
     start_date { 1.week.from_now.to_date }
@@ -38,6 +38,7 @@ FactoryBot.define do
     trait :past_dates do
       start_date { 2.weeks.ago.to_date }
       end_date { 1.week.ago.to_date }
+      status { :approved }  # Past dates should only be used with approved status
     end
   end
 end

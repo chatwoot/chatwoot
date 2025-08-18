@@ -96,7 +96,7 @@ Rails.application.routes.draw do
             post :execute, on: :member
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
-          resources :leaves, only: [:index, :create, :show, :update, :destroy] do
+          resources :leave_records, only: [:index, :create, :show, :update, :destroy] do
             member do
               patch :approve
               patch :reject

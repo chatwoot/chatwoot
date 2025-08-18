@@ -22,10 +22,12 @@
 #  index_leaves_on_approved_by_id         (approved_by_id)
 #  index_leaves_on_user_id                (user_id)
 #
-class Leave < ApplicationRecord
+class LeaveRecord < ApplicationRecord
+  self.table_name = 'leaves'
+
   belongs_to :account
   belongs_to :user
-  belongs_to :approver, class_name: 'User', foreign_key: 'approved_by_id', optional: true, inverse_of: :approved_leaves
+  belongs_to :approver, class_name: 'User', foreign_key: 'approved_by_id', optional: true, inverse_of: :approved_leave_records
 
   enum leave_type: {
     annual: 0,
@@ -77,7 +79,7 @@ class Leave < ApplicationRecord
   end
 
   def overlaps_with?(other_leave)
-    return false unless other_leave.is_a?(Leave)
+    return false unless other_leave.is_a?(LeaveRecord)
 
     start_date <= other_leave.end_date && end_date >= other_leave.start_date
   end
