@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "ไม่สามารถส่งได้ ลองอีกครั้ง"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "เรากำลังออนไลน์",
     "OFFLINE": "เราไม่อยู่"

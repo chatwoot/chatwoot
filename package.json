@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "4.4.0",
+  "version": "4.5.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -33,8 +33,8 @@
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
-    "@chatwoot/prosemirror-schema": "1.1.6-next",
-    "@chatwoot/utils": "^0.0.47",
+    "@chatwoot/prosemirror-schema": "1.2.1",
+    "@chatwoot/utils": "^0.0.49",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
@@ -93,7 +93,7 @@
     "vue-chartjs": "5.3.1",
     "vue-datepicker-next": "^1.0.3",
     "vue-dompurify-html": "^5.1.0",
-    "vue-i18n": "9.14.3",
+    "vue-i18n": "9.14.5",
     "vue-letter": "^0.2.1",
     "vue-multiselect": "3.1.0",
     "vue-router": "~4.4.5",

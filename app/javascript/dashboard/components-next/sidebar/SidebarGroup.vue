@@ -218,8 +218,8 @@ onMounted(async () => {
   left: 0;
 }
 
-.app-rtl--wrapper .sidebar-group-children > .child-item:last-child::after,
-.app-rtl--wrapper
+#app[dir='rtl'] .sidebar-group-children > .child-item:last-child::after,
+#app[dir='rtl']
   .sidebar-group-children
   > *:last-child
   > *:last-child
