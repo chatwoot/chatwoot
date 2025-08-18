@@ -33,6 +33,7 @@ class Channel::Whatsapp < ApplicationRecord
   validate :validate_provider_config
 
   after_create :sync_templates
+  after_destroy_commit :enqueue_whapi_partner_cleanup
 
   def name
     'Whatsapp'
@@ -61,6 +62,23 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  # Helper accessors for Whapi partner channels
+  def whapi_channel_id
+    provider_config&.[]('whapi_channel_id')
+  end
+
+  def whapi_channel_token
+    provider_config&.[]('whapi_channel_token')
+  end
+
+  def whapi_connection_status
+    provider_config&.[]('connection_status') || 'pending'
+  end
+
+  def whapi_partner_channel?
+    provider == 'whapi' && whapi_channel_id.present?
+  end
+
   private
 
   def ensure_webhook_verify_token
@@ -69,5 +87,14 @@ class Channel::Whatsapp < ApplicationRecord
 
   def validate_provider_config
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
+  end
+
+  def enqueue_whapi_partner_cleanup
+    return unless whapi_partner_channel?
+
+    # Best-effort cleanup of upstream Whapi partner channel
+    Whatsapp::Partner::WhapiChannelCleanupJob.perform_later(whapi_channel_id)
+  rescue StandardError => e
+    Rails.logger.warn("Failed to enqueue WhapiChannelCleanupJob for channel ##{id}: #{e.message}")
   end
 end

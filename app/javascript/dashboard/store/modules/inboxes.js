@@ -5,6 +5,7 @@ import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
+import WhapiChannel from '../../api/channel/whapiChannel';
 import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import camelcaseKeys from 'camelcase-keys';
@@ -269,6 +270,25 @@ export const actions = {
       throw new Error(error);
     }
   },
+  // Create a Whapi partner channel via backend which provisions the upstream channel
+  createWhapiChannel: async ({ commit }, { name }) => {
+    try {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
+      const response = await WhapiChannel.create({ name });
+      commit(types.default.ADD_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      sendAnalyticsEvent('whatsapp');
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      throwErrorMessage(error);
+    }
+  },
+  // Fetch a fresh QR code image for Whapi login
+  getWhapiQrCode: async (_ctx, inboxId) => {
+    const { data } = await WhapiChannel.getQrCode(inboxId);
+    return data;
+  },
 };
 
 export const mutations = {
@@ -280,6 +300,10 @@ export const mutations = {
   [types.default.ADD_INBOXES]: MutationHelpers.create,
   [types.default.EDIT_INBOXES]: MutationHelpers.update,
   [types.default.DELETE_INBOXES]: MutationHelpers.destroy,
+  // Update only attributes for an inbox (used by websocket status updates)
+  UPDATE_INBOX_ATTRIBUTES($state, data) {
+    MutationHelpers.updateAttributes($state, data);
+  },
 };
 
 export default {

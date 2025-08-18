@@ -37,6 +37,7 @@ export const FEATURE_FLAGS = {
   REPORT_V4: 'report_v4',
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
+  CHANNEL_WHATSAPP_WHAPI_PARTNER: 'channel_whatsapp_whapi_partner',
 };
 
 export const PREMIUM_FEATURES = [
