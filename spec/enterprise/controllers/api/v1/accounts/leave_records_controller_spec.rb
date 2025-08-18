@@ -182,7 +182,8 @@ RSpec.describe 'LeaveRecords API', type: :request do
             params: update_params,
             headers: agent.create_new_auth_token
 
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['error']).to eq('Cannot update non-pending leave record')
       end
     end
   end
@@ -193,6 +194,8 @@ RSpec.describe 'LeaveRecords API', type: :request do
 
     context 'when authenticated as administrator' do
       it 'deletes any cancellable leave record in the account' do
+        other_leave_record # Force creation before the test
+
         expect do
           delete "/api/v1/accounts/#{account.id}/leave_records/#{other_leave_record.id}",
                  headers: administrator.create_new_auth_token
@@ -204,6 +207,8 @@ RSpec.describe 'LeaveRecords API', type: :request do
 
     context 'when authenticated as agent' do
       it 'deletes own cancellable leave record' do
+        leave_record # Force creation before the test
+
         expect do
           delete "/api/v1/accounts/#{account.id}/leave_records/#{leave_record.id}",
                  headers: agent.create_new_auth_token
@@ -221,14 +226,15 @@ RSpec.describe 'LeaveRecords API', type: :request do
 
       it 'denies deleting non-cancellable leave record' do
         non_cancellable_leave_record = create(:leave_record, account: account, user: agent,
-                                              status: :approved,
-                                              start_date: Date.current,
-                                              end_date: Date.current + 2.days)
+                                                             status: :approved,
+                                                             start_date: Date.current,
+                                                             end_date: Date.current + 2.days)
 
         delete "/api/v1/accounts/#{account.id}/leave_records/#{non_cancellable_leave_record.id}",
                headers: agent.create_new_auth_token
 
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['error']).to eq('Cannot delete this leave record')
       end
     end
   end
@@ -253,7 +259,7 @@ RSpec.describe 'LeaveRecords API', type: :request do
         patch "/api/v1/accounts/#{account.id}/leave_records/#{leave_record.id}/approve",
               headers: agent.create_new_auth_token
 
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
@@ -278,7 +284,7 @@ RSpec.describe 'LeaveRecords API', type: :request do
         patch "/api/v1/accounts/#{account.id}/leave_records/#{leave_record.id}/reject",
               headers: agent.create_new_auth_token
 
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
@@ -293,7 +299,7 @@ RSpec.describe 'LeaveRecords API', type: :request do
       expect(response).to have_http_status(:success)
       body = JSON.parse(response.body)
 
-      expect(body.keys).to include('id', 'start_date', 'end_date', 'leave_type', 'status', 
+      expect(body.keys).to include('id', 'start_date', 'end_date', 'leave_type', 'status',
                                    'reason', 'duration_in_days', 'created_at', 'updated_at', 'user')
       expect(body['user'].keys).to include('id', 'name', 'email')
     end

@@ -4,7 +4,7 @@ class LeaveRecordPolicy < ApplicationPolicy
   end
 
   def show?
-    @account_user.administrator? || owned_by_user?
+    @account_user.administrator? || @account_user.agent?
   end
 
   def create?
@@ -12,15 +12,11 @@ class LeaveRecordPolicy < ApplicationPolicy
   end
 
   def update?
-    return false unless @record.pending?
-
-    @account_user.administrator? || owned_by_user?
+    @account_user.administrator? || @account_user.agent?
   end
 
   def destroy?
-    return false unless @record.can_be_cancelled?
-
-    @account_user.administrator? || owned_by_user?
+    @account_user.administrator? || @account_user.agent?
   end
 
   def approve?
@@ -49,11 +45,5 @@ class LeaveRecordPolicy < ApplicationPolicy
         scope.where(user: @user).includes(:user, :approver)
       end
     end
-  end
-
-  private
-
-  def owned_by_user?
-    @record&.user_id == @account_user.user_id
   end
 end
