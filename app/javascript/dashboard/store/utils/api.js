@@ -10,6 +10,7 @@ import {
   CHATWOOT_RESET,
   CHATWOOT_SET_USER,
 } from '../../constants/appEvents';
+import { DataManager } from '../../helper/CacheHelper/DataManager';
 
 Cookies.defaults = { sameSite: 'Lax' };
 
@@ -53,6 +54,7 @@ export const deleteIndexedDBOnLogout = async () => {
     dbs = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
   }
 
+  const dataManager = new DataManager(0);
   dbs.forEach(dbName => {
     const deleteRequest = window.indexedDB.deleteDatabase(dbName);
 
@@ -65,6 +67,7 @@ export const deleteIndexedDBOnLogout = async () => {
       // eslint-disable-next-line no-console
       console.log(`Database ${dbName} deleted successfully.`);
     };
+    dataManager.deleteDb(dbName);
   });
 
   localStorage.removeItem('cw-idb-names');

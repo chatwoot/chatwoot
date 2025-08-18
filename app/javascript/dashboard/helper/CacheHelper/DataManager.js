@@ -1,4 +1,4 @@
-import { openDB } from 'idb';
+import { openDB, deleteDB } from 'idb';
 import { DATA_VERSION } from './version';
 
 export class DataManager {
@@ -28,6 +28,10 @@ export class DataManager {
     }
 
     return this.db;
+  }
+
+  async deleteDb(dbName = `cw-store-${this.accountId}`) {
+    await deleteDB(dbName);
   }
 
   validateModel(name) {
