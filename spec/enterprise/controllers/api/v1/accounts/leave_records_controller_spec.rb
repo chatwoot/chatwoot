@@ -7,8 +7,10 @@ RSpec.describe 'LeaveRecords API', type: :request do
   let(:other_user) { create(:user, account: account, role: :agent) }
 
   describe 'GET #index' do
-    let!(:agent_leave_record) { create(:leave_record, account: account, user: agent) }
-    let!(:other_user_leave_record) { create(:leave_record, account: account, user: other_user) }
+    before do
+      create(:leave_record, account: account, user: agent)
+      create(:leave_record, account: account, user: other_user)
+    end
 
     context 'when authenticated as administrator' do
       it 'returns all leave records in the account' do

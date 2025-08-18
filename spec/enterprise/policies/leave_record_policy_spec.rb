@@ -90,8 +90,8 @@ RSpec.describe LeaveRecordPolicy, type: :policy do
 
         it 'allows destroy of approved future leave record' do
           approved_future_leave_record = create(:leave_record, account: account, user: agent, status: :approved,
-                                                 start_date: 1.week.from_now.to_date,
-                                                 end_date: 2.weeks.from_now.to_date)
+                                                               start_date: 1.week.from_now.to_date,
+                                                               end_date: 2.weeks.from_now.to_date)
           policy = described_class.new(admin_context, approved_future_leave_record)
           expect(policy.destroy?).to be true
         end
@@ -112,8 +112,8 @@ RSpec.describe LeaveRecordPolicy, type: :policy do
 
         it 'allows destroy of own approved future leave record' do
           approved_future_leave_record = create(:leave_record, account: account, user: agent, status: :approved,
-                                                 start_date: 1.week.from_now.to_date,
-                                                 end_date: 2.weeks.from_now.to_date)
+                                                               start_date: 1.week.from_now.to_date,
+                                                               end_date: 2.weeks.from_now.to_date)
           policy = described_class.new(agent_context, approved_future_leave_record)
           expect(policy.destroy?).to be true
         end
@@ -132,14 +132,14 @@ RSpec.describe LeaveRecordPolicy, type: :policy do
       context 'when user is administrator' do
         it 'denies destroy of current approved leave record' do
           approved_current_leave_record = create(:leave_record, account: account, user: agent, status: :approved,
-                                                  start_date: Date.current, end_date: Date.current + 2.days)
+                                                                start_date: Date.current, end_date: Date.current + 2.days)
           policy = described_class.new(admin_context, approved_current_leave_record)
           expect(policy.destroy?).to be false
         end
 
         it 'denies destroy of past approved leave record' do
           approved_past_leave_record = create(:leave_record, account: account, user: agent, status: :approved,
-                                               start_date: 1.week.ago.to_date, end_date: 3.days.ago.to_date)
+                                                             start_date: 1.week.ago.to_date, end_date: 3.days.ago.to_date)
           policy = described_class.new(admin_context, approved_past_leave_record)
           expect(policy.destroy?).to be false
         end
@@ -154,14 +154,14 @@ RSpec.describe LeaveRecordPolicy, type: :policy do
       context 'when user owns the leave record' do
         it 'denies destroy of current approved leave record' do
           approved_current_leave_record = create(:leave_record, account: account, user: agent, status: :approved,
-                                                  start_date: Date.current, end_date: Date.current + 2.days)
+                                                                start_date: Date.current, end_date: Date.current + 2.days)
           policy = described_class.new(agent_context, approved_current_leave_record)
           expect(policy.destroy?).to be false
         end
 
         it 'denies destroy of past approved leave record' do
           approved_past_leave_record = create(:leave_record, account: account, user: agent, status: :approved,
-                                               start_date: 1.week.ago.to_date, end_date: 3.days.ago.to_date)
+                                                             start_date: 1.week.ago.to_date, end_date: 3.days.ago.to_date)
           policy = described_class.new(agent_context, approved_past_leave_record)
           expect(policy.destroy?).to be false
         end

@@ -38,22 +38,22 @@ RSpec.describe LeaveRecord, type: :model do
     context 'when leave record is approved' do
       it 'returns true for future leaves' do
         leave_record = create(:leave_record, status: :approved,
-                              start_date: 1.week.from_now.to_date,
-                              end_date: 2.weeks.from_now.to_date)
+                                             start_date: 1.week.from_now.to_date,
+                                             end_date: 2.weeks.from_now.to_date)
         expect(leave_record.can_be_cancelled?).to be true
       end
 
       it 'returns false for current leaves' do
         leave_record = create(:leave_record, status: :approved,
-                              start_date: Date.current,
-                              end_date: Date.current + 1.day)
+                                             start_date: Date.current,
+                                             end_date: Date.current + 1.day)
         expect(leave_record.can_be_cancelled?).to be false
       end
 
       it 'returns false for past leaves' do
         leave_record = create(:leave_record, status: :approved,
-                              start_date: 1.week.ago.to_date,
-                              end_date: 3.days.ago.to_date)
+                                             start_date: 1.week.ago.to_date,
+                                             end_date: 3.days.ago.to_date)
         expect(leave_record.can_be_cancelled?).to be false
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe LeaveRecord, type: :model do
   describe '#overlaps_with?' do
     let(:base_leave_record) do
       create(:leave_record, start_date: Date.current + 10.days,
-                     end_date: Date.current + 15.days)
+                            end_date: Date.current + 15.days)
     end
 
     it 'returns false for non-LeaveRecord objects' do
@@ -85,66 +85,66 @@ RSpec.describe LeaveRecord, type: :model do
 
     it 'detects overlapping leave records - same dates' do
       overlapping_leave_record = build(:leave_record, start_date: Date.current + 10.days,
-                                        end_date: Date.current + 15.days)
+                                                      end_date: Date.current + 15.days)
       expect(base_leave_record.overlaps_with?(overlapping_leave_record)).to be true
     end
 
     it 'detects overlapping leave records - partial overlap start' do
       overlapping_leave_record = build(:leave_record, start_date: Date.current + 8.days,
-                                        end_date: Date.current + 12.days)
+                                                      end_date: Date.current + 12.days)
       expect(base_leave_record.overlaps_with?(overlapping_leave_record)).to be true
     end
 
     it 'detects overlapping leave records - partial overlap end' do
       overlapping_leave_record = build(:leave_record, start_date: Date.current + 13.days,
-                                        end_date: Date.current + 18.days)
+                                                      end_date: Date.current + 18.days)
       expect(base_leave_record.overlaps_with?(overlapping_leave_record)).to be true
     end
 
     it 'detects overlapping leave records - contained within' do
       overlapping_leave_record = build(:leave_record, start_date: Date.current + 12.days,
-                                        end_date: Date.current + 13.days)
+                                                      end_date: Date.current + 13.days)
       expect(base_leave_record.overlaps_with?(overlapping_leave_record)).to be true
     end
 
     it 'detects overlapping leave records - contains other' do
       overlapping_leave_record = build(:leave_record, start_date: Date.current + 8.days,
-                                        end_date: Date.current + 18.days)
+                                                      end_date: Date.current + 18.days)
       expect(base_leave_record.overlaps_with?(overlapping_leave_record)).to be true
     end
 
     it 'returns false for non-overlapping leave records - before' do
       non_overlapping_leave_record = build(:leave_record, start_date: Date.current + 5.days,
-                                            end_date: Date.current + 9.days)
+                                                          end_date: Date.current + 9.days)
       expect(base_leave_record.overlaps_with?(non_overlapping_leave_record)).to be false
     end
 
     it 'returns false for non-overlapping leave records - after' do
       non_overlapping_leave_record = build(:leave_record, start_date: Date.current + 16.days,
-                                            end_date: Date.current + 20.days)
+                                                          end_date: Date.current + 20.days)
       expect(base_leave_record.overlaps_with?(non_overlapping_leave_record)).to be false
     end
 
     it 'returns false for adjacent leave records - ending where other starts' do
       adjacent_leave_record = build(:leave_record, start_date: Date.current + 16.days,
-                                     end_date: Date.current + 20.days)
+                                                   end_date: Date.current + 20.days)
       expect(base_leave_record.overlaps_with?(adjacent_leave_record)).to be false
     end
 
     it 'returns false for adjacent leave records - starting where other ends' do
       adjacent_leave_record = build(:leave_record, start_date: Date.current + 5.days,
-                                     end_date: Date.current + 9.days)
+                                                   end_date: Date.current + 9.days)
       expect(base_leave_record.overlaps_with?(adjacent_leave_record)).to be false
     end
   end
 
   describe '#approve!' do
     let(:leave_record) { create(:leave_record, account: account, status: :pending) }
-    
+
     before do
       # Ensure approver has administrator role in the account
       account_user = approver.account_users.find_by(account: account)
-      account_user.update!(role: :administrator) if account_user
+      account_user&.update!(role: :administrator)
     end
 
     it 'updates status to approved' do
@@ -176,11 +176,11 @@ RSpec.describe LeaveRecord, type: :model do
 
   describe '#reject!' do
     let(:leave_record) { create(:leave_record, account: account, status: :pending) }
-    
+
     before do
       # Ensure approver has administrator role in the account
       account_user = approver.account_users.find_by(account: account)
-      account_user.update!(role: :administrator) if account_user
+      account_user&.update!(role: :administrator)
     end
 
     it 'updates status to rejected' do
