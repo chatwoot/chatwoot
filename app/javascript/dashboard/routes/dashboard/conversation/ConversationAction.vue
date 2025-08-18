@@ -208,6 +208,16 @@ export default {
 
 <template>
   <div class="bg-n-background">
+    <!-- Etiquetas - PRIMEIRA POSIÇÃO -->
+    <div>
+      <ContactDetailsItem
+        compact
+        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
+      />
+      <ConversationLabels :conversation-id="conversationId" />
+    </div>
+    
+    <!-- Atribuir Agente -->
     <div class="multiselect-wrap--small">
       <ContactDetailsItem
         compact
@@ -239,6 +249,8 @@ export default {
         @select="onClickAssignAgent"
       />
     </div>
+    
+    <!-- Atribuir Equipe -->
     <div class="multiselect-wrap--small">
       <ContactDetailsItem
         compact
@@ -258,6 +270,8 @@ export default {
         @select="onClickAssignTeam"
       />
     </div>
+    
+    <!-- Prioridade -->
     <div class="multiselect-wrap--small">
       <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
       <MultiselectDropdown
@@ -276,10 +290,5 @@ export default {
         @select="onClickAssignPriority"
       />
     </div>
-    <ContactDetailsItem
-      compact
-      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
-    />
-    <ConversationLabels :conversation-id="conversationId" />
   </div>
 </template>

@@ -256,12 +256,12 @@ const menuItems = computed(() => {
           ),
           activeOn: ['contacts_dashboard_index', 'contacts_edit'],
         },
-        {
-          name: 'Active',
-          label: t('SIDEBAR.ACTIVE'),
-          to: accountScopedRoute('contacts_dashboard_active'),
-          activeOn: ['contacts_dashboard_active'],
-        },
+        // {
+        //   name: 'Active',
+        //   label: t('SIDEBAR.ACTIVE'),
+        //   to: accountScopedRoute('contacts_dashboard_active'),
+        //   activeOn: ['contacts_dashboard_active'],
+        // },
         {
           name: 'Segments',
           icon: 'i-lucide-group',
