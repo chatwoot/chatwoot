@@ -45,7 +45,6 @@ const emit = defineEmits([
   'updateTargetInbox',
   'clearSelectedContact',
   'createConversation',
-  'initiateCall',
 ]);
 
 const showContactsDropdown = ref(false);
@@ -69,7 +68,6 @@ const inboxTypes = computed(() => ({
   isWhatsapp: props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP,
   isWebWidget: props.targetInbox?.channelType === INBOX_TYPES.WEB,
   isApi: props.targetInbox?.channelType === INBOX_TYPES.API,
-  isVoice: props.targetInbox?.channelType === INBOX_TYPES.VOICE,
   isEmailOrWebWidget:
     props.targetInbox?.channelType === INBOX_TYPES.EMAIL ||
     props.targetInbox?.channelType === INBOX_TYPES.WEB,
@@ -89,11 +87,7 @@ const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
 const validationRules = computed(() => ({
   selectedContact: { required },
   targetInbox: { required },
-  message: {
-    required: requiredIf(
-      !inboxTypes.value.isWhatsapp && !inboxTypes.value.isVoice
-    ),
-  },
+  message: { required: requiredIf(!inboxTypes.value.isWhatsapp) },
   subject: { required: requiredIf(inboxTypes.value.isEmail) },
 }));
 
@@ -242,20 +236,12 @@ const handleSendMessage = async () => {
   if (!isValid) return;
 
   try {
-    // For voice inboxes, initiate a call instead of creating a conversation
-    if (inboxTypes.value.isVoice) {
-      await emit('initiateCall', {
-        contactId: props.selectedContact.id,
-        inboxId: props.targetInbox.id,
-      });
-    } else {
-      const success = await emit('createConversation', {
-        payload: newMessagePayload(),
-        isFromWhatsApp: false,
-      });
-      if (success) {
-        clearForm();
-      }
+    const success = await emit('createConversation', {
+      payload: newMessagePayload(),
+      isFromWhatsApp: false,
+    });
+    if (success) {
+      clearForm();
     }
   } catch (error) {
     // Form will not be cleared if conversation creation fails
@@ -325,7 +311,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     />
 
     <MessageEditor
-      v-if="!inboxTypes.isWhatsapp && !inboxTypes.isVoice && !showNoInboxAlert"
+      v-if="!inboxTypes.isWhatsapp && !showNoInboxAlert"
       v-model="state.message"
       :message-signature="messageSignature"
       :send-with-signature="sendWithSignature"
@@ -335,7 +321,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     />
 
     <AttachmentPreviews
-      v-if="state.attachedFiles.length > 0 && !inboxTypes.isVoice"
+      v-if="state.attachedFiles.length > 0"
       :attachments="state.attachedFiles"
       @update:attachments="state.attachedFiles = $event"
     />
@@ -343,7 +329,6 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     <ActionButtons
       :attached-files="state.attachedFiles"
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
-      :is-voice-inbox="inboxTypes.isVoice"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"
       :message-templates="whatsappMessageTemplates"

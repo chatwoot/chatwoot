@@ -13,7 +13,8 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
       service = Voice::OutgoingCallService.new(
         account: Current.account,
         contact: @contact,
-        user: Current.user
+        user: Current.user,
+        inbox_id: params[:inbox_id]
       )
       
       # Process the call - this handles all the steps

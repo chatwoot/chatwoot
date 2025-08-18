@@ -10,12 +10,15 @@ class VoiceAPI extends ApiClient {
   }
 
   // ------------------- Server APIs -------------------
-  initiateCall(contactId) {
+  initiateCall(contactId, inboxId) {
     if (!contactId)
       throw new Error('Contact ID is required to initiate a call');
+    const payload = {};
+    if (inboxId) payload.inbox_id = inboxId;
     // The endpoint is defined in the contacts namespace, not voice namespace
     return axios.post(
-      `${this.baseUrl().replace('/voice', '')}/contacts/${contactId}/call`
+      `${this.baseUrl().replace('/voice', '')}/contacts/${contactId}/call`,
+      payload
     );
   }
 
@@ -114,7 +117,7 @@ class VoiceAPI extends ApiClient {
         this.activeConnection.disconnect();
         this.activeConnection = null;
       }
-      
+
       // Disconnect all connections on the device
       if (this.device) {
         if (this.device.state === 'busy') {

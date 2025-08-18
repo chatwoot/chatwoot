@@ -12,6 +12,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ContactCallButton from './ContactCallButton.vue';
 
 import {
   isAConversationRoute,
@@ -27,6 +28,7 @@ export default {
     EditContact,
     Avatar,
     ComposeConversation,
+    ContactCallButton,
     SocialIcons,
     ContactMergeModal,
   },
@@ -266,6 +268,10 @@ export default {
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
+        <ContactCallButton
+          :contact-id="String(contact.id)"
+          :contact-phone="contact.phone_number"
+        />
         <ComposeConversation
           :contact-id="String(contact.id)"
           is-modal
