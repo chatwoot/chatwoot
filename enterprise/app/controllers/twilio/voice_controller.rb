@@ -43,13 +43,16 @@ class Twilio::VoiceController < ApplicationController
 
     conference_sid = ensure_conference_sid(conversation, params[:conference_name])
 
-    conversation.update!(
-      additional_attributes: conversation.additional_attributes.merge(
-        'conference_sid'       => conference_sid,
-        'call_direction'       => outbound? ? 'outbound' : 'inbound',
-        'requires_agent_join'  => true
-      )
+    # Update conversation metadata without flipping direction on agent/client legs
+    # or overriding a previously set direction
+    updated_attrs = conversation.additional_attributes.merge(
+      'conference_sid'      => conference_sid,
+      'requires_agent_join' => true
     )
+    unless agent_leg
+      updated_attrs['call_direction'] ||= outbound? ? 'outbound' : 'inbound'
+    end
+    conversation.update!(additional_attributes: updated_attrs)
 
     # Ensure a call message exists for incoming PSTN leg (do not create for agent leg)
     ensure_call_message(conversation, conference_sid) unless agent_leg

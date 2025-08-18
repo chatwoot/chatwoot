@@ -62,21 +62,25 @@ module Voice
       end
     end
 
-    def handle_agent_join
-      conversation.additional_attributes['agent_joined_at'] = Time.now.to_i
+  def handle_agent_join
+    conversation.additional_attributes['agent_joined_at'] = Time.now.to_i
 
-      return unless ringing_call?
+    # Do not move to in_progress if call already ended
+    return if conversation.additional_attributes['call_ended_at'].present?
+    return unless ringing_call?
 
-      call_status_manager.process_status_update('in_progress')
-    end
+    call_status_manager.process_status_update('in_progress')
+  end
 
-    def handle_caller_join
-      conversation.additional_attributes['caller_joined_at'] = Time.now.to_i
+  def handle_caller_join
+    conversation.additional_attributes['caller_joined_at'] = Time.now.to_i
 
-      return unless outbound_call? && ringing_call?
+    # Do not move to in_progress if call already ended
+    return if conversation.additional_attributes['call_ended_at'].present?
+    return unless outbound_call? && ringing_call?
 
-      call_status_manager.process_status_update('in_progress')
-    end
+    call_status_manager.process_status_update('in_progress')
+  end
 
     def agent_participant?
       participant_label&.start_with?('agent')

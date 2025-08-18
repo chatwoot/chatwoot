@@ -10,12 +10,31 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     call_sid = params[:call_sid] || convo_attr('call_sid')
     return render_not_found('active call') unless call_sid
 
-    twilio_client.calls(call_sid).update(status: 'completed') if in_progress?(call_sid)
+    manager = Voice::CallStatus::Manager.new(conversation: @conversation,
+                                             call_sid:    call_sid,
+                                             provider:    :twilio)
+    # If the call never connected (still ringing) treat as no_answer for better UX on outbound calls
+    desired = if @conversation.additional_attributes&.dig('call_status') == 'ringing'
+                'no_answer'
+              else
+                'completed'
+              end
+    manager.process_status_update(desired, nil, false, "Call ended by #{current_user.name}")
 
-    Voice::CallStatus::Manager.new(conversation: @conversation,
-                                   call_sid:    call_sid,
-                                   provider:    :twilio)
-                              .process_status_update('completed', nil, false, "Call ended by #{current_user.name}")
+    # Attempt to end the Twilio call leg; ignore failures so our UI state finalizes
+    begin
+      twilio_client.calls(call_sid).update(status: 'completed') if in_progress?(call_sid)
+    rescue StandardError
+      # ignore
+    end
+
+    # Force-broadcast a conversation update so the UI reflects terminal status
+    begin
+      @conversation.reload
+      @conversation.dispatch_conversation_updated_event
+    rescue StandardError
+      # ignore broadcast failures
+    end
 
     render_success('Call successfully ended')
   rescue StandardError => e
@@ -128,17 +147,25 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   end
 
   def update_join_metadata!(call_sid)
-    @conversation.update!(additional_attributes: convo_attrs.merge(
+    attrs = convo_attrs.merge(
       'agent_joined' => true,
       'joined_at'    => Time.current.to_i,
-      'joined_by'    => user_meta,
-      'call_status'  => 'in_progress'
-    ))
+      'joined_by'    => user_meta
+    )
 
-    Voice::CallStatus::Manager.new(conversation: @conversation,
-                                   call_sid:    call_sid,
-                                   provider:    :twilio)
-                              .process_status_update('in_progress', nil, false, "#{current_user.name} joined the call")
+    # Do not flip status back from a terminal state
+    terminal = %w[ended missed no_answer]
+    unless terminal.include?(convo_attr('call_status')) || convo_attr('call_ended_at').present?
+      attrs['call_status'] = 'in_progress'
+      @conversation.update!(additional_attributes: attrs)
+
+      Voice::CallStatus::Manager.new(conversation: @conversation,
+                                     call_sid:    call_sid,
+                                     provider:    :twilio)
+                                .process_status_update('in_progress', nil, false, "#{current_user.name} joined the call")
+    else
+      @conversation.update!(additional_attributes: attrs)
+    end
   end
 
 

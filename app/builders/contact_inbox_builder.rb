@@ -13,21 +13,19 @@ class ContactInboxBuilder
 
   def generate_source_id
     case @inbox.channel_type
-    when 'Channel::TwilioSms'
-      twilio_source_id
-    when 'Channel::Whatsapp'
-      wa_source_id
-    when 'Channel::Email'
-      email_source_id
-    when 'Channel::Sms'
-      phone_source_id
-    when 'Channel::Voice'
-      phone_source_id # Voice uses phone number as source ID
-    when 'Channel::Api', 'Channel::WebWidget'
-      SecureRandom.uuid
-    else
-      raise "Unsupported operation for this channel: #{@inbox.channel_type}"
-    end
+      when 'Channel::TwilioSms'
+        twilio_source_id
+      when 'Channel::Whatsapp'
+        wa_source_id
+      when 'Channel::Email'
+        email_source_id
+      when 'Channel::Sms'
+        phone_source_id
+      when 'Channel::Api', 'Channel::WebWidget'
+        SecureRandom.uuid
+      else
+        raise "Unsupported operation for this channel: #{@inbox.channel_type}"
+      end
   end
 
   def email_source_id
@@ -37,12 +35,7 @@ class ContactInboxBuilder
   end
 
   def phone_source_id
-    unless @contact.phone_number.present?
-      # For voice channels, we'll create a fallback source ID if phone number is missing
-      return SecureRandom.uuid if @inbox.channel_type == 'Channel::Voice'
-
-      raise ActionController::ParameterMissing, 'contact phone number'
-    end
+    raise ActionController::ParameterMissing, 'contact phone number' unless @contact.phone_number.present?
 
     @contact.phone_number
   end
@@ -107,6 +100,9 @@ class ContactInboxBuilder
   end
 
   def allowed_channels?
-    @inbox.email? || @inbox.sms? || @inbox.twilio? || @inbox.whatsapp? || @inbox.channel_type == 'Channel::Voice'
+    @inbox.email? || @inbox.sms? || @inbox.twilio? || @inbox.whatsapp?
   end
 end
+
+# Enterprise can extend behavior
+ContactInboxBuilder.prepend_mod_with('ContactInboxBuilder')

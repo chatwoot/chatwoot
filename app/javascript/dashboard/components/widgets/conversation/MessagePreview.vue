@@ -32,11 +32,11 @@ export default {
   },
   computed: {
     shouldShowCallStatus() {
-      // Always show call status for voice channels if present
-      return (
-        this.isVoiceChannel &&
-        !!this.conversation?.additional_attributes?.call_status
-      );
+      // Show call status for voice channels if present on conversation or message
+      if (!this.isVoiceChannel) return false;
+      const convHas = !!this.conversation?.additional_attributes?.call_status;
+      const msgHas = !!this.message?.content_attributes?.data?.status;
+      return convHas || msgHas;
     },
     messageByAgent() {
       const { message_type: messageType } = this.message;
@@ -65,21 +65,29 @@ export default {
     isIncomingCall() {
       if (!this.isVoiceChannel) return false;
 
-      // First check conversation attributes
-      const direction =
-        this.conversation?.additional_attributes?.call_direction;
-      if (direction) {
-        return direction === 'inbound';
-      }
+      // Prefer conversation-level call direction
+      const convDir = this.conversation?.additional_attributes?.call_direction;
+      if (convDir) return convDir === 'inbound';
+
+      // Fallback to last message direction if present
+      const msgDir = this.message?.content_attributes?.data?.call_direction;
+      if (msgDir) return msgDir === 'inbound';
+
       return false;
     },
     // Get normalized call status
     callStatus() {
       if (!this.isVoiceChannel) return null;
 
-      // Backend now sends unified statuses directly
-      const status = this.conversation?.additional_attributes?.call_status;
-      return normalizeStatus(status) || 'ended';
+      // Prefer conversation-level status
+      const convStatus = this.conversation?.additional_attributes?.call_status;
+      if (convStatus) return normalizeStatus(convStatus);
+
+      // Fallback to last message status if available
+      const msgStatus = this.message?.content_attributes?.data?.status;
+      if (msgStatus) return normalizeStatus(msgStatus);
+
+      return null;
     },
     // Voice call icon based on status
     voiceCallIcon() {
@@ -227,20 +235,20 @@ export default {
           class="-mt-0.5 align-middle inline-block mr-1"
           :class="{
             'text-red-600 dark:text-red-400':
-              callStatus === 'missed' || callStatus === 'no-answer',
+              callStatus === 'missed' || callStatus === 'no_answer',
             'text-green-600 dark:text-green-400':
-              callStatus === 'active' || callStatus === 'ringing',
+              callStatus === 'in_progress' || callStatus === 'ringing',
             'text-n-slate-11': callStatus === 'ended',
           }"
         >
           <!-- Missed call icon -->
           <i
-            v-if="callStatus === 'missed' || callStatus === 'no-answer'"
+            v-if="callStatus === 'missed' || callStatus === 'no_answer'"
             class="i-ph-phone-x text-base"
           />
           <!-- Active call icon -->
           <i
-            v-else-if="callStatus === 'active'"
+            v-else-if="callStatus === 'in_progress'"
             class="i-ph-phone-call text-base"
           />
           <!-- Incoming call icon -->

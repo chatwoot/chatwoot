@@ -254,8 +254,7 @@ class Conversation < ApplicationRecord
   def allowed_keys?
     (
       previous_changes.keys.intersect?(list_of_keys) ||
-      (previous_changes['additional_attributes'].present? && 
-        (previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language call_status call_duration])))
+      (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end
 

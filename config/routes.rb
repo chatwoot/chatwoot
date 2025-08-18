@@ -163,7 +163,9 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
-              post :call, to: 'calls#create'
+              if ChatwootApp.enterprise?
+                post :call, to: 'calls#create'
+              end
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -189,13 +191,15 @@ Rails.application.routes.draw do
             post :sync_templates, on: :member
           end
 
-          # Voice call management
-          resource :voice, only: [], controller: 'voice' do
-            collection do
-              post :end_call
-              post :join_call
-              post :reject_call
-              post :token
+          # Voice call management (Enterprise-only)
+          if ChatwootApp.enterprise?
+            resource :voice, only: [], controller: 'voice' do
+              collection do
+                post :end_call
+                post :join_call
+                post :reject_call
+                post :token
+              end
             end
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
@@ -524,13 +528,16 @@ Rails.application.routes.draw do
     # Recording webhook
     post :recording_callback, to: 'recording#recording_callback'
 
-    # Use resource scope to avoid plural/singular confusion
-    resource :voice, only: [], controller: 'voice' do
-      collection do
-        # Phone-number-scoped endpoints (digits only, no '+')
-        get 'call/:phone', action: :call_twiml
-        post 'call/:phone', action: :call_twiml
-        post 'status/:phone', action: :status
+    # Voice webhooks (Enterprise-only)
+    if ChatwootApp.enterprise?
+      # Use resource scope to avoid plural/singular confusion
+      resource :voice, only: [], controller: 'voice' do
+        collection do
+          # Phone-number-scoped endpoints (digits only, no '+')
+          get 'call/:phone', action: :call_twiml
+          post 'call/:phone', action: :call_twiml
+          post 'status/:phone', action: :status
+        end
       end
     end
   end
