@@ -19,7 +19,6 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
-// NEW: Read user UI settings (profile-level locale)
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
@@ -40,7 +39,6 @@ export default {
     const { accountId } = useAccount();
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
-    // expose uiSettings so Options API can compute effective locale
     const { uiSettings } = useUISettings();
 
     return {
@@ -93,7 +91,7 @@ export default {
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
-    // CHANGED: don't force selectedLocale; use the effective locale
+    // If user locale is set, use it; otherwise use account locale
     this.setLocale(
       this.uiSettings?.locale || window.chatwootConfig.selectedLocale
     );
@@ -122,7 +120,7 @@ export default {
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
-      // CHANGED: respect user preference if present; fallback to account
+      // If user locale is set, use it; otherwise use account locale
       this.setLocale(this.uiSettings?.locale || locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
