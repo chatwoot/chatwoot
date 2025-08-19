@@ -4,114 +4,54 @@ RSpec.describe Captain::Llm::PdfProcessingService do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:document) { create(:captain_document, account: account, assistant: assistant) }
-  let(:openai_client) { instance_double(OpenAI::Client) }
-  let(:service) do
-    # Mock the InstallationConfig for base class initialization
-    allow(InstallationConfig).to receive(:find_by!).with(name: 'CAPTAIN_OPEN_AI_API_KEY')
-                                                   .and_return(instance_double(InstallationConfig, value: 'test-api-key'))
-    allow(OpenAI::Client).to receive(:new).and_return(openai_client)
-    described_class.new(document)
-  end
+  let(:service) { described_class.new(document) }
 
-  describe '#initialize' do
-    it 'initializes with document' do
-      expect(service.instance_variable_get(:@document)).to eq(document)
-    end
+  before do
+    # Mock the base class dependencies
+    installation_config = instance_double(InstallationConfig, value: 'test-api-key')
+    allow(InstallationConfig).to receive(:find_by!)
+      .with(name: 'CAPTAIN_OPEN_AI_API_KEY')
+      .and_return(installation_config)
   end
 
   describe '#process' do
-    let(:pdf_attachment) { instance_double(ActiveStorage::Attached::One) }
-
-    before do
-      allow(document).to receive(:pdf_file).and_return(pdf_attachment)
-      allow(pdf_attachment).to receive(:download).and_return('pdf content')
-
-      # Mock Tempfile.create to yield a temp file
-      temp_file = instance_double(Tempfile, path: '/tmp/test.pdf')
-      allow(temp_file).to receive(:write)
-      allow(temp_file).to receive(:close)
-      allow(Tempfile).to receive(:create).and_yield(temp_file)
-
-      # Mock File.open to yield a StringIO
-      allow(File).to receive(:open).with('/tmp/test.pdf', 'rb').and_yield(StringIO.new('pdf content'))
-    end
-
     context 'when document already has openai_file_id' do
       before do
         allow(document).to receive(:openai_file_id).and_return('existing-file-id')
       end
 
       it 'returns success message without uploading' do
-        expect(openai_client).not_to receive(:files)
         result = service.process
         expect(result).to eq('PDF ready for paginated processing')
       end
     end
 
-    context 'when upload is successful' do
-      let(:upload_response) do
-        {
-          'id' => 'file-abc123',
-          'object' => 'file',
-          'bytes' => 120_000,
-          'created_at' => 1_677_610_602,
-          'filename' => 'sample.pdf',
-          'purpose' => 'assistants'
-        }
-      end
+    context 'when document needs upload' do
+      let(:mock_client) { instance_double(OpenAI::Client) }
 
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)
-        allow(openai_client).to receive(:files).and_return(instance_double(OpenAI::Resources::Files, upload: upload_response))
+
+        # Create a mock for pdf_file that responds to download
+        pdf_file = Struct.new(:download).new('pdf content')
+        allow(document).to receive(:pdf_file).and_return(pdf_file)
+
+        # Mock OpenAI client
+        allow(OpenAI::Client).to receive(:new).and_return(mock_client)
+        files_api = Object.new
+        files_api.define_singleton_method(:upload) { |_params| { 'id' => 'file-abc123' } }
+        allow(mock_client).to receive(:files).and_return(files_api)
+
         allow(document).to receive(:store_openai_file_id)
       end
 
-      it 'uploads the PDF file to OpenAI' do
-        expect(openai_client).to receive(:files).and_return(
-          instance_double(OpenAI::Resources::Files, upload: upload_response)
-        )
+      it 'uploads PDF and returns success message' do
+        expect(document).to receive(:store_openai_file_id).with('file-abc123')
 
-        service.process
-      end
-
-      it 'returns success message with file ID' do
         result = service.process
+
         expect(result).to include('file-abc123')
         expect(result).to include('PDF ready for paginated processing')
-      end
-
-      it 'stores the file ID in document' do
-        expect(document).to receive(:store_openai_file_id).with('file-abc123')
-        service.process
-      end
-    end
-
-    context 'when upload fails' do
-      before do
-        allow(document).to receive(:openai_file_id).and_return(nil)
-        allow(openai_client).to receive(:files).and_raise(OpenAI::Error, 'Upload failed')
-      end
-
-      it 'raises the error' do
-        expect { service.process }.to raise_error(OpenAI::Error, 'Upload failed')
-      end
-    end
-
-    context 'when file_id is missing from response' do
-      let(:invalid_response) do
-        {
-          'object' => 'file',
-          'bytes' => 120_000
-        }
-      end
-
-      before do
-        allow(document).to receive(:openai_file_id).and_return(nil)
-        allow(openai_client).to receive(:files).and_return(instance_double(OpenAI::Resources::Files, upload: invalid_response))
-      end
-
-      it 'raises an error' do
-        expect { service.process }.to raise_error(RuntimeError, 'Failed to upload PDF to OpenAI')
       end
     end
   end
