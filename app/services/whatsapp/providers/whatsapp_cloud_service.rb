@@ -181,4 +181,20 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     process_response(response, message)
   end
+
+  # name: String (snake_case), language: String (e.g., 'en' or 'en_US'), category: String (e.g., 'MARKETING', 'UTILITY', 'AUTHENTICATION')
+  def create_message_template(name:, language:, category:, components: [])
+    response = HTTParty.post(
+      "#{api_base_path}/v18.0/#{whatsapp_channel.provider_config['business_account_id']}/message_templates",
+      headers: api_headers,
+      body: {
+        name: name,
+        language: language,
+        category: category,
+        components: components
+      }.to_json
+    )
+
+    response.parsed_response
+  end
 end
