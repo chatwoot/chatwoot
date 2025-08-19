@@ -20,16 +20,23 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   end
 
   def generate_response(input)
-    @messages << { role: 'user', content: input } if input.present?
-    response = request_chat_completion
+    CaptainTracer.in_span('copilot_generate_response') do |span|
+      span.set_attribute('assistant_id', @assistant.id)
+      span.set_attribute('account_id', @account.id)
+      span.set_attribute('user_id', @user.id) if @user.present?
+      span.set_attribute('copilot_thread_id', @copilot_thread.id) if @copilot_thread.present?
 
-    Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
-    Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Incrementing response usage for account #{@account.id}"
-    )
-    @account.increment_response_usage
+      @messages << { role: 'user', content: input } if input.present?
+      response = request_chat_completion
 
-    response
+      Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
+      Rails.logger.info(
+        "#{self.class.name} Assistant: #{@assistant.id}, Incrementing response usage for account #{@account.id}"
+      )
+      @account.increment_response_usage
+
+      response
+    end
   end
 
   private

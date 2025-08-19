@@ -1,18 +1,35 @@
 module Captain::ChatHelper
   def request_chat_completion
-    log_chat_completion_request
+    CaptainTracer.in_span('llm_chat_completion') do |span|
+      # span.set_attribute('model', @model)
+      # span.set_attribute('messages', @messages)
+      # span.set_attribute('tools', @tool_registry&.registered_tools || [])
+      span.set_attribute('input', @messages.last[:content])
+      span.set_attribute('temperature', @assistant&.config&.[]('temperature').to_f || 1)
 
-    response = @client.chat(
-      parameters: {
-        model: @model,
-        messages: @messages,
-        tools: @tool_registry&.registered_tools || [],
-        response_format: { type: 'json_object' },
-        temperature: @assistant&.config&.[]('temperature').to_f || 1
-      }
-    )
+      log_chat_completion_request
 
-    handle_response(response)
+      response = @client.chat(
+        parameters: {
+          model: @model,
+          messages: @messages,
+          tools: @tool_registry&.registered_tools || [],
+          response_format: { type: 'json_object' },
+          temperature: @assistant&.config&.[]('temperature').to_f || 1
+        }
+      )
+
+      span.set_attribute('model', response['model'])
+      span.set_attribute('llm.usage.cached_tokens', response.dig('usage', 'prompt_tokens_details', 'cached_tokens'))
+      # span.set_attribute('llm.usage.input_tokens', response.dig('usage', 'input_tokens'))
+      span.set_attribute('llm.usage.output_tokens', response.dig('usage', 'output_tokens'))
+      span.set_attribute('llm.usage.total_tokens', response.dig('usage', 'total_tokens'))
+      span.set_attribute('llm.usage.completion_tokens', response.dig('usage', 'completion_tokens'))
+      span.set_attribute('llm.completions.0.role', response['role'])
+      span.set_attribute('llm.completions.0.content', response['content']&.first&.[]('text') || 'empty-response')
+
+      handle_response(response)
+    end
   rescue StandardError => e
     Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
     raise e
@@ -41,14 +58,22 @@ module Captain::ChatHelper
   end
 
   def process_tool_call(tool_call)
-    arguments = JSON.parse(tool_call['function']['arguments'])
-    function_name = tool_call['function']['name']
-    tool_call_id = tool_call['id']
+    CaptainTracer.in_span('llm_tool_call') do |span|
+      arguments = JSON.parse(tool_call['function']['arguments'])
+      function_name = tool_call['function']['name']
+      tool_call_id = tool_call['id']
+      span.set_attribute('function_name', function_name)
+      if arguments.present?
+        arguments.each do |key, value|
+          span.set_attribute("arguments.#{key}", value)
+        end
+      end
 
-    if @tool_registry.respond_to?(function_name)
-      execute_tool(function_name, arguments, tool_call_id)
-    else
-      process_invalid_tool_call(function_name, tool_call_id)
+      if @tool_registry.respond_to?(function_name)
+        execute_tool(function_name, arguments, tool_call_id)
+      else
+        process_invalid_tool_call(function_name, tool_call_id)
+      end
     end
   end
 
