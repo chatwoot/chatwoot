@@ -1,0 +1,26 @@
+{
+  "LIBRARY": {
+    "HEADER": {
+      "TITLE": "Library",
+      "SEARCH_TITLE": "Search Results",
+      "ADD_RESOURCE": "Add Resource",
+      "SEARCH_PLACEHOLDER": "Search resources..."
+    },
+    "EMPTY_STATE": {
+      "TITLE": "Welcome to Library",
+      "DESCRIPTION": "This is where you can organize and manage your knowledge resources. Add your first resource to get started."
+    },
+    "EMPTY_SEARCH": {
+      "TITLE": "No resources found",
+      "DESCRIPTION": "We couldn't find any resources matching your search criteria. Try adjusting your search terms."
+    },
+    "CARD": {
+      "CREATED_ON": "Created on",
+      "VIEW": "View",
+      "EDIT": "Edit"
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {from} to {to} of {count} resources"
+    }
+  }
+}

@@ -400,6 +400,13 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'Library',
+      label: t('SIDEBAR.LIBRARY'),
+      icon: 'i-lucide-library-big',
+      to: accountScopedRoute('library_index'),
+      activeOn: ['library_index'],
+    },
+    {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
       icon: 'i-lucide-bolt',

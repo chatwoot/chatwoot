@@ -343,6 +343,7 @@
       "LOCALES": "Locales",
       "SETTINGS": "Settings"
     },
+    "LIBRARY": "Library",
     "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
