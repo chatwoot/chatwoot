@@ -29,7 +29,6 @@ const voiceInboxes = computed(() =>
 const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
 const hasPhone = computed(() => !!(props.phone || '').trim());
 
-// Match develop: hide when no phone or no voice inbox
 const shouldRender = computed(() => hasVoiceInboxes.value && hasPhone.value);
 
 const dialogRef = ref(null);
