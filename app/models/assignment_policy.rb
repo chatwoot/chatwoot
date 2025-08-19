@@ -31,15 +31,7 @@ class AssignmentPolicy < ApplicationRecord
 
   enum conversation_priority: { earliest_created: 0, longest_waiting: 1 }
 
-  # Default assignment order for community edition
-  def assignment_order
-    'round_robin'
-  end
-
-  def assignment_order=(_value)
-    # Community edition only supports round_robin
-    write_attribute(:assignment_order, 0)
-  end
+  enum assignment_order: { round_robin: 0 }
 end
 
-AssignmentPolicy.prepend_mod_with('AssignmentPolicy')
+AssignmentPolicy.prepend_mod_with('Concerns::AssignmentPolicy')
