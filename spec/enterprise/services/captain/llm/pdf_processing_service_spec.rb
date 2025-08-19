@@ -20,18 +20,18 @@ RSpec.describe Captain::Llm::PdfProcessingService do
   end
 
   describe '#process' do
-    let(:pdf_attachment) { double('pdf_attachment') } # rubocop:disable RSpec/VerifiedDoubles
+    let(:pdf_attachment) { instance_double(ActiveStorage::Attached::One) }
 
     before do
       allow(document).to receive(:pdf_file).and_return(pdf_attachment)
       allow(pdf_attachment).to receive(:download).and_return('pdf content')
-      
+
       # Mock Tempfile.create to yield a temp file
-      temp_file = double('temp_file', path: '/tmp/test.pdf')
+      temp_file = instance_double(Tempfile, path: '/tmp/test.pdf')
       allow(temp_file).to receive(:write)
       allow(temp_file).to receive(:close)
       allow(Tempfile).to receive(:create).and_yield(temp_file)
-      
+
       # Mock File.open to yield a StringIO
       allow(File).to receive(:open).with('/tmp/test.pdf', 'rb').and_yield(StringIO.new('pdf content'))
     end
@@ -62,13 +62,13 @@ RSpec.describe Captain::Llm::PdfProcessingService do
 
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)
-        allow(openai_client).to receive(:files).and_return(double(upload: upload_response))
+        allow(openai_client).to receive(:files).and_return(instance_double(OpenAI::Resources::Files, upload: upload_response))
         allow(document).to receive(:store_openai_file_id)
       end
 
       it 'uploads the PDF file to OpenAI' do
         expect(openai_client).to receive(:files).and_return(
-          double(upload: upload_response)
+          instance_double(OpenAI::Resources::Files, upload: upload_response)
         )
 
         service.process
@@ -107,7 +107,7 @@ RSpec.describe Captain::Llm::PdfProcessingService do
 
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)
-        allow(openai_client).to receive(:files).and_return(double(upload: invalid_response))
+        allow(openai_client).to receive(:files).and_return(instance_double(OpenAI::Resources::Files, upload: invalid_response))
       end
 
       it 'raises an error' do
