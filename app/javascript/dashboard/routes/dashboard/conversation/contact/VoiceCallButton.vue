@@ -16,7 +16,8 @@ const voiceInboxes = computed(
   () => store.getters['inboxes/getVoiceInboxes'] || []
 );
 const hasVoice = computed(() => (voiceInboxes.value || []).length > 0);
-const disabled = computed(() => !hasVoice.value || !props.contactPhone);
+const hasPhone = computed(() => !!(props.contactPhone || '').trim());
+const disabled = computed(() => !hasVoice.value || !hasPhone.value);
 
 const showModal = ref(false);
 
@@ -32,19 +33,20 @@ const call = async inboxId => {
 </script>
 
 <template>
-  <div class="relative">
+  <!-- Hide completely if no phone or no voice inbox -->
+  <div v-if="hasVoice && hasPhone" class="relative">
     <!-- Single inbox: simple call button -->
     <template v-if="hasVoice && voiceInboxes.length === 1">
       <Button
         v-if="text"
-        :label="$t('CONVERSATION.VOICE_CALL.CALL_CONTACT')"
+        :label="$t('CONTACT_PANEL.MAKE_CALL')"
         size="sm"
         :disabled="disabled"
         @click="call(voiceInboxes[0].id)"
       />
       <NextButton
         v-else
-        v-tooltip.top-end="$t('CONVERSATION.VOICE_CALL.CALL_CONTACT')"
+        v-tooltip.top-end="$t('CONTACT_PANEL.MAKE_CALL')"
         icon="i-ph-phone"
         slate
         faded
@@ -58,14 +60,14 @@ const call = async inboxId => {
     <template v-else>
       <Button
         v-if="text"
-        :label="$t('CONVERSATION.VOICE_CALL.CALL_CONTACT')"
+        :label="$t('CONTACT_PANEL.MAKE_CALL')"
         size="sm"
         :disabled="disabled"
         @click="showModal = true"
       />
       <NextButton
         v-else
-        v-tooltip.top-end="$t('CONVERSATION.VOICE_CALL.CALL_CONTACT')"
+        v-tooltip.top-end="$t('CONTACT_PANEL.MAKE_CALL')"
         icon="i-ph-phone"
         slate
         faded

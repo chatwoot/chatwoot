@@ -7,7 +7,7 @@ import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
-import ContactCallButton from 'dashboard/routes/dashboard/conversation/contact/ContactCallButton.vue';
+import VoiceCallButton from 'dashboard/routes/dashboard/conversation/contact/VoiceCallButton.vue';
 
 const props = defineProps({
   selectedContact: {
@@ -100,7 +100,7 @@ const closeMobileSidebar = () => {
                 :disabled="isUpdating"
                 @click="toggleBlock"
               />
-              <ContactCallButton
+              <VoiceCallButton
                 :contact-id="contactId"
                 :contact-phone="selectedContact?.phoneNumber"
                 text

@@ -574,7 +574,6 @@
     "FORM": {
       "GO_TO_CONVERSATION": "View",
       "SUCCESS_MESSAGE": "The message was sent successfully!",
-      "CALL_INITIATED": "Voice call initiated successfully!",
       "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
@@ -611,8 +610,7 @@
       },
       "ACTION_BUTTONS": {
         "DISCARD": "Discard",
-        "SEND": "Send ({keyCode})",
-        "MAKE_CALL": "Make a Call"
+        "SEND": "Send ({keyCode})"
       }
     }
   }
