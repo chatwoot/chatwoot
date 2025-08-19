@@ -12,7 +12,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import VoiceCallButton from './VoiceCallButton.vue';
+import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 
 import {
   isAConversationRoute,
@@ -269,8 +269,13 @@ export default {
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
         <VoiceCallButton
+          :phone="contact.phone_number"
           :contact-id="String(contact.id)"
-          :contact-phone="contact.phone_number"
+          icon="i-ri-phone-fill"
+          size="sm"
+          :tooltip-label="$t('CONTACT_PANEL.CALL')"
+          slate
+          faded
         />
         <ComposeConversation
           :contact-id="String(contact.id)"
