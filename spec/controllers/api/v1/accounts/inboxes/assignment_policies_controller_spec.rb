@@ -5,7 +5,7 @@ RSpec.describe 'Inbox Assignment Policies API', type: :request do
   let(:inbox) { create(:inbox, account: account) }
   let(:assignment_policy) { create(:assignment_policy, account: account) }
 
-  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/assignment_policy' do
+  describe 'GET /api/v1/accounts/{account_id}/inboxes/{inbox_id}/assignment_policy' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignment_policy"
@@ -57,7 +57,7 @@ RSpec.describe 'Inbox Assignment Policies API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/accounts/{account.id}/inboxes/{inbox.id}/assignment_policy' do
+  describe 'POST /api/v1/accounts/{account_id}/inboxes/{inbox_id}/assignment_policy' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignment_policy",
@@ -80,8 +80,7 @@ RSpec.describe 'Inbox Assignment Policies API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
-        expect(json_response['inbox_id']).to eq(inbox.id)
-        expect(json_response['assignment_policy_id']).to eq(assignment_policy.id)
+        expect(json_response['id']).to eq(assignment_policy.id)
       end
 
       it 'replaces existing assignment policy for inbox' do
@@ -132,7 +131,7 @@ RSpec.describe 'Inbox Assignment Policies API', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/accounts/{account.id}/inboxes/{inbox.id}/assignment_policy' do
+  describe 'DELETE /api/v1/accounts/{account_id}/inboxes/{inbox_id}/assignment_policy' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignment_policy"
@@ -161,14 +160,14 @@ RSpec.describe 'Inbox Assignment Policies API', type: :request do
       end
 
       context 'when inbox has no assignment policy' do
-        it 'returns success without making changes' do
+        it 'returns error' do
           expect do
             delete "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignment_policy",
                    headers: admin.create_new_auth_token,
                    as: :json
           end.not_to change(InboxAssignmentPolicy, :count)
 
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(:not_found)
         end
       end
 
