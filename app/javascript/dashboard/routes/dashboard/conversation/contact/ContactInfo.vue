@@ -28,9 +28,9 @@ export default {
     EditContact,
     Avatar,
     ComposeConversation,
-    ContactCallButton,
     SocialIcons,
     ContactMergeModal,
+    ContactCallButton,
   },
   mixins: [inboxMixin],
   props: {
