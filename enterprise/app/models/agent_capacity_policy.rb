@@ -18,7 +18,7 @@ class AgentCapacityPolicy < ApplicationRecord
   MAX_NAME_LENGTH = 255
 
   belongs_to :account, class_name: '::Account'
-  has_many :inbox_capacity_limits, class_name: 'Enterprise::InboxCapacityLimit', dependent: :destroy
+  has_many :inbox_capacity_limits, dependent: :destroy
   has_many :inboxes, through: :inbox_capacity_limits, class_name: '::Inbox'
   has_many :account_users, class_name: '::AccountUser', dependent: :nullify
 

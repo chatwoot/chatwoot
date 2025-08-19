@@ -15,9 +15,7 @@
 #  index_inbox_capacity_limits_on_agent_capacity_policy_id  (agent_capacity_policy_id)
 #  index_inbox_capacity_limits_on_inbox_id                  (inbox_id)
 #
-class Enterprise::InboxCapacityLimit < ApplicationRecord
-  self.table_name = 'inbox_capacity_limits'
-
+class InboxCapacityLimit < ApplicationRecord
   belongs_to :agent_capacity_policy
   belongs_to :inbox, class_name: '::Inbox'
 
