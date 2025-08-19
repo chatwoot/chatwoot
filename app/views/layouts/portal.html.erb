@@ -18,7 +18,7 @@ By default, it renders:
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1">
-    <meta name= "turbolinks-cache-control" content= "no-cache">
+    <meta name= "turbo-cache-control" content= "no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <%= vite_client_tag %>
@@ -36,7 +36,7 @@ By default, it renders:
     <% else %>
       <title><%= @portal.page_title%></title>
     <% end %>
-    
+
     <% if @portal.logo.present? %>
       <link rel="icon" href="<%= url_for(@portal.logo) %>">
     <% end %>
