@@ -1,6 +1,6 @@
 class Api::V1::Accounts::AgentCapacityPoliciesController < Api::V1::Accounts::EnterpriseAccountsController
+  before_action :check_authorization
   before_action :fetch_policy, only: [:show, :update, :destroy]
-  before_action :check_admin_authorization?
 
   def index
     @agent_capacity_policies = Current.account.agent_capacity_policies

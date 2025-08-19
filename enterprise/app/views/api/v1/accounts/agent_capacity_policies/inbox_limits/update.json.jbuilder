@@ -1,6 +1,6 @@
 json.id @inbox_limit.id
-json.inbox_id @inbox.id
-json.inbox_name @inbox.name
+json.inbox_id @inbox_limit.inbox_id
+json.inbox_name @inbox_limit.inbox.name
 json.agent_capacity_policy_id @agent_capacity_policy.id
 json.conversation_limit @inbox_limit.conversation_limit
 json.created_at @inbox_limit.created_at.to_i
