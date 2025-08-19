@@ -1,7 +1,2 @@
-json.id @agent_capacity_policy.id
-json.name @agent_capacity_policy.name
-json.description @agent_capacity_policy.description
-json.exclusion_rules @agent_capacity_policy.exclusion_rules
-json.created_at @agent_capacity_policy.created_at.to_i
-json.updated_at @agent_capacity_policy.updated_at.to_i
-json.account_id @agent_capacity_policy.account_id
+json.partial! 'api/v1/models/agent_capacity_policy', formats: [:json],
+                                                     agent_capacity_policy: @agent_capacity_policy
