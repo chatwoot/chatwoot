@@ -175,7 +175,7 @@
       "MAIL_SUBJECT": "Asunto de Email",
       "COUNTRY_NAME": "País",
       "REFERER_LINK": "Enlace de referencia",
-      "ASSIGNEE_NAME": "Cesionario",
+      "ASSIGNEE_NAME": "Asignado a",
       "TEAM_NAME": "Equipo",
       "PRIORITY": "Prioridad"
     }
