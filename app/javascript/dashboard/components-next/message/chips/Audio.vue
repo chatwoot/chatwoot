@@ -68,10 +68,8 @@ const seek = event => {
 const playOrPause = () => {
   if (isPlaying.value) {
     audioPlayer.value.pause();
-    isPlaying.value = false;
   } else {
     audioPlayer.value.play();
-    isPlaying.value = true;
   }
 };
 
@@ -94,6 +92,14 @@ const downloadAudio = async () => {
   const { fileType, dataUrl, extension } = attachment;
   downloadFile({ url: dataUrl, type: fileType, extension });
 };
+
+const onPlay = () => {
+  isPlaying.value = true;
+};
+
+const onPause = () => {
+  isPlaying.value = false;
+};
 </script>
 
 <template>
@@ -103,6 +109,8 @@ const downloadAudio = async () => {
     class="hidden"
     @loadedmetadata="onLoadedMetadata"
     @timeupdate="onTimeUpdate"
+    @play="onPlay"
+    @pause="onPause"
     @ended="onEnd"
   >
     <source :src="timeStampURL" />

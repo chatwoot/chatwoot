@@ -27,6 +27,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
+import { initializeSingleAudioPlayback } from 'shared/helpers/SingleAudioPlaybackHelper';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
@@ -105,6 +106,7 @@ window.axios = createAxios(axios);
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
+initializeSingleAudioPlayback();
 
 window.onload = () => {
   app.mount('#app');
