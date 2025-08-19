@@ -82,7 +82,7 @@ module Liquidable
   end
 
   def process_liquid_array(array)
-    array.map { |item| item.is_a?(Hash) ? process_liquid_in_hash(item) : item }
+    array.map { |item| process_liquid_value(item) }
   end
 
   def process_liquid_string(string)
