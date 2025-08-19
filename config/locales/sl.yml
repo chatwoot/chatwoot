@@ -39,6 +39,8 @@ sl:
       email_already_exists: 'Ste že ustvarili račun z e-poštnim naslovom %{email}'
       invalid_params: 'Neveljavno, preverite vnešene podatke in poskusite znova'
       failed: Registracija neuspešna
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Nepravilen podatkovni tip
