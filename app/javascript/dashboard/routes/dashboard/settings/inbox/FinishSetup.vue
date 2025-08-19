@@ -1,4 +1,6 @@
 <script>
+import { ref, onMounted } from 'vue';
+import QRCode from 'qrcode';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
@@ -8,6 +10,27 @@ export default {
     EmptyState,
     NextButton,
     DuplicateInboxBanner,
+  },
+  setup() {
+    const whatsappQRCode = ref('');
+
+    const generateWhatsAppQR = async () => {
+      try {
+        const whatsappUrl = 'https://wa.me/+9567280820';
+        const qrDataUrl = await QRCode.toDataURL(whatsappUrl);
+        whatsappQRCode.value = qrDataUrl;
+      } catch (error) {
+        // console.error('Error generating QR code:', error);
+      }
+    };
+
+    onMounted(() => {
+      generateWhatsAppQR();
+    });
+
+    return {
+      whatsappQRCode,
+    };
   },
   computed: {
     currentInbox() {
@@ -45,6 +68,12 @@ export default {
       return (
         this.currentInbox.channel_type === 'Channel::Whatsapp' &&
         this.currentInbox.provider === 'whatsapp_cloud'
+      );
+    },
+    isWhatsAppEmbeddedSignup() {
+      return (
+        this.isWhatsAppCloudInbox &&
+        this.currentInbox.provider_config?.source === 'embedded_signup'
       );
     },
     // If the inbox is a whatsapp cloud inbox and the source is not embedded signup, then show the webhook details
@@ -87,6 +116,11 @@ export default {
         return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
       }
 
+      if (this.isWhatsAppEmbeddedSignup) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
+        )}`;
+      }
       return this.$t('INBOX_MGMT.FINISH.MESSAGE');
     },
   },
@@ -95,7 +129,7 @@ export default {
 
 <template>
   <div
-    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
+    class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
   >
     <DuplicateInboxBanner
       v-if="hasDuplicateInstagramInbox"
@@ -160,7 +194,19 @@ export default {
         >
           <woot-code lang="html" :script="currentInbox.forward_to_email" />
         </div>
-        <div class="flex justify-center gap-2 mt-4">
+        <div
+          v-if="isWhatsAppEmbeddedSignup && whatsappQRCode"
+          class="flex flex-col items-center mt-8"
+        >
+          <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
+            <img
+              :src="whatsappQRCode"
+              alt="WhatsApp QR Code"
+              class="w-48 h-48"
+            />
+          </div>
+        </div>
+        <div class="flex gap-2 justify-center mt-4">
           <router-link
             :to="{
               name: 'settings_inbox_show',
