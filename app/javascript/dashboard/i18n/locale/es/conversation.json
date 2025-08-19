@@ -144,7 +144,7 @@
       "AGENTS_LOADING": "Cargando agentes...",
       "ASSIGN_TEAM": "Asignar equipo",
       "DELETE": "Eliminar conversación",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "OPEN_IN_NEW_TAB": "Abrir en nueva pestaña",
       "COPY_LINK": "Copy conversation link",
       "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
