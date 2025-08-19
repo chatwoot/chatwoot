@@ -39,6 +39,8 @@ tr:
       email_already_exists: '%{email} ile zaten bir hesaba kaydoldunuz'
       invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'
       failed: Kayıt başarısız oldu
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Hatalı veri türü
