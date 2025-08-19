@@ -1,4 +1,5 @@
 <script>
+import { mapActions } from 'vuex';
 import { useRouter } from 'vue-router';
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
@@ -23,6 +24,8 @@ export default {
     emitter.off(ON_CONVERSATION_CREATED, this.handleConversationCreated);
   },
   methods: {
+    ...mapActions('conversation', ['clearConversations']),
+    ...mapActions('conversationAttributes', ['clearConversationAttributes']),
     handleConversationCreated() {
       // Redirect to messages page after conversation is created
       this.router.replace({ name: 'messages' });
@@ -52,6 +55,8 @@ export default {
           },
         });
       } else {
+        this.clearConversations();
+        this.clearConversationAttributes();
         this.$store.dispatch('conversation/createConversation', {
           fullName: fullName,
           emailAddress: emailAddress,
