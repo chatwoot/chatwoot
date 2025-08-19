@@ -57,7 +57,7 @@ class Whatsapp::OneoffCampaignService
       return
     end
 
-    send_whatsapp_template_message(to: contact.phone_number)
+    send_whatsapp_template_message(contact: contact, to: contact.phone_number)
   end
 
   def process_audience(audience_labels)
@@ -69,26 +69,45 @@ class Whatsapp::OneoffCampaignService
     Rails.logger.info "Campaign #{campaign.id} processing completed"
   end
 
-  def send_whatsapp_template_message(to:)
-    processor = Whatsapp::TemplateProcessorService.new(
-      channel: channel,
-      template_params: campaign.template_params
-    )
-
-    name, namespace, lang_code, processed_parameters = processor.call
+  def send_whatsapp_template_message(contact:, to:)
+    processed_template_params = process_liquid_templates(contact)
+    name, namespace, lang_code, processed_parameters = process_template(processed_template_params)
 
     return if name.blank?
 
+    send_template_to_whatsapp(to, name, namespace, lang_code, processed_parameters)
+  rescue StandardError => e
+    log_template_send_error(to, e)
+  end
+
+  def process_liquid_templates(contact)
+    liquid_processor = Whatsapp::CampaignLiquidProcessorService.new(
+      campaign: campaign,
+      contact: contact
+    )
+    liquid_processor.call(campaign.template_params)
+  end
+
+  def process_template(template_params)
+    processor = Whatsapp::TemplateProcessorService.new(
+      channel: channel,
+      template_params: template_params
+    )
+    processor.call
+  end
+
+  def send_template_to_whatsapp(to, name, namespace, lang_code, parameters)
     channel.send_template(to, {
                             name: name,
                             namespace: namespace,
                             lang_code: lang_code,
-                            parameters: processed_parameters
+                            parameters: parameters
                           }, nil)
+  end
 
-  rescue StandardError => e
-    Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{e.message}"
-    Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
+  def log_template_send_error(to, error)
+    Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{error.message}"
+    Rails.logger.error "Backtrace: #{error.backtrace.first(5).join('\n')}"
     # continue processing remaining contacts
     nil
   end

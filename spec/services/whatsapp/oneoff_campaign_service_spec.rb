@@ -114,6 +114,17 @@ describe Whatsapp::OneoffCampaignService do
         described_class.new(campaign: campaign).perform
       end
 
+      it 'uses liquid processor service to process liquid templates' do
+        contact = create(:contact, :with_phone_number, account: account)
+        contact.update_labels([label1.title])
+
+        expect(Whatsapp::CampaignLiquidProcessorService).to receive(:new)
+          .with(campaign: campaign, contact: contact)
+          .and_call_original
+
+        described_class.new(campaign: campaign).perform
+      end
+
       it 'sends template message with correct parameters' do
         contact = create(:contact, :with_phone_number, account: account)
         contact.update_labels([label1.title])
@@ -174,6 +185,42 @@ describe Whatsapp::OneoffCampaignService do
 
         described_class.new(campaign: campaign).perform
         expect(campaign.reload.completed?).to be true
+      end
+    end
+
+    context 'when template_params contains liquid variables' do
+      let(:template_params) do
+        {
+          'name' => 'personalized_template',
+          'namespace' => 'test_namespace',
+          'category' => 'MARKETING',
+          'language' => 'en',
+          'processed_params' => {
+            'body' => {
+              'customer_name' => '{{contact.name}}',
+              'customer_email' => '{{contact.email}}'
+            }
+          }
+        }
+      end
+
+      it 'processes liquid variables before sending template message' do
+        contact = create(:contact, :with_phone_number, account: account, name: 'Jane Smith', email: 'jane@example.com')
+        contact.update_labels([label1.title])
+
+        # Expect the template processor to receive processed liquid variables
+        expect(Whatsapp::TemplateProcessorService).to receive(:new)
+          .with(channel: whatsapp_channel, template_params: hash_including(
+            'processed_params' => hash_including(
+              'body' => hash_including(
+                'customer_name' => 'Jane Smith',
+                'customer_email' => 'jane@example.com'
+              )
+            )
+          ))
+          .and_call_original
+
+        described_class.new(campaign: campaign).perform
       end
     end
   end
