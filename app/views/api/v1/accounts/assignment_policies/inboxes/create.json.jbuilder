@@ -1,0 +1,5 @@
+json.id @inbox_assignment_policy.id
+json.inbox_id @inbox_assignment_policy.inbox_id
+json.assignment_policy_id @inbox_assignment_policy.assignment_policy_id
+json.created_at @inbox_assignment_policy.created_at.to_i
+json.updated_at @inbox_assignment_policy.updated_at.to_i

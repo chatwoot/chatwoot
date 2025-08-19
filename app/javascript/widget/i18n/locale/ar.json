@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "تعذر الإرسال! حاول مرة أخرى"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "متواجدون لخدمتك",
     "OFFLINE": "نحن بعيدون في الوقت الحالي"

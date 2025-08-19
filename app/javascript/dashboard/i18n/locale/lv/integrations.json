@@ -472,7 +472,8 @@
         "FEATURES": {
           "TITLE": "Īpašības",
           "ALLOW_CONVERSATION_FAQS": "Ģenerēt bieži uzdotos jautājumus no atrisinātajām sarunām",
-          "ALLOW_MEMORIES": "Pārtvert galvenās nianses kā atmiņas no klientu mijiedarbībām."
+          "ALLOW_MEMORIES": "Pārtvert galvenās nianses kā atmiņas no klientu mijiedarbībām.",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
