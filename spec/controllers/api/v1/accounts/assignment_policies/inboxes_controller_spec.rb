@@ -4,7 +4,7 @@ RSpec.describe 'Assignment Policy Inboxes API', type: :request do
   let(:account) { create(:account) }
   let(:assignment_policy) { create(:assignment_policy, account: account) }
 
-  describe 'GET /api/v1/accounts/{account.id}/assignment_policies/{assignment_policy.id}/inboxes' do
+  describe 'GET /api/v1/accounts/{account_id}/assignment_policies/{assignment_policy_id}/inboxes' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/assignment_policies/#{assignment_policy.id}/inboxes"
