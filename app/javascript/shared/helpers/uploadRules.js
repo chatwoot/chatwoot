@@ -64,8 +64,8 @@ export const ALLOWED_FILE_TYPES_FOR_WHATSAPP_CLOUD =
   'audio/aac, audio/amr, audio/mp3, audio/m4a, audio/ogg,' +
   'image/jpeg, image/png,' +
   'text/plain,' +
-  'application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation,' +
-  'video/3gp, video/mp4,';
+  'video/3gp, video/mp4,' +
+  'application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation,';
 
 // Declarative config
 const RULES = {

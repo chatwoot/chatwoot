@@ -37,7 +37,7 @@ export const useFileUpload = ({ inbox, attachFile }) => {
   const handleDirectFileUpload = file => {
     if (!file) return;
 
-    const mime = file.file?.type || file.type; // supports both wrappers
+    const mime = file.file?.type || file.type;
     const maxSizeMB = maxSizeFor(mime);
 
     if (!checkFileSizeLimit(file, maxSizeMB)) {
