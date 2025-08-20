@@ -2,7 +2,19 @@ require 'rails_helper'
 
 RSpec.describe 'WhapiChannelsController', type: :request do
   let(:account) { create(:account) }
-  let(:admin) { create(:user, account: account, role: :administrator) }
+  let(:admin) { create(:user, account: account, role: 'administrator') }
+
+  before do
+    # Enable the Whapi feature flag for tests
+    account.enable_features!('channel_whatsapp_whapi_partner')
+
+    # Stub required WHAPI env vars so service builds valid URLs/headers
+    allow(ENV).to receive(:[]).and_call_original
+    allow(ENV).to receive(:[]).with('WHAPI_PARTNER_TOKEN').and_return('test_partner_token')
+    allow(ENV).to receive(:[]).with('WHAPI_PARTNER_BASE_URL').and_return('https://manager.whapi.cloud')
+    allow(ENV).to receive(:[]).with('WHAPI_API_BASE_URL').and_return('https://gate.whapi.cloud')
+    allow(ENV).to receive(:[]).with('WHAPI_PARTNER_DEFAULT_PROJECT_ID').and_return('proj_1')
+  end
 
   describe 'POST /api/v1/accounts/:account_id/whapi_channels' do
     it 'validates name param' do
@@ -54,7 +66,11 @@ RSpec.describe 'WhapiChannelsController', type: :request do
              sync_templates: false,
              validate_provider_config: false)
     end
-    let(:inbox) { create(:inbox, account: account, channel: channel) }
+    let(:inbox) do
+      inbox = create(:inbox, account: account, channel: channel)
+      create(:inbox_member, user: admin, inbox: inbox)
+      inbox
+    end
 
     it 'returns base64 QR image when successful' do
       stub_request(:get, /\/users\/login$/).to_return(
@@ -75,6 +91,7 @@ RSpec.describe 'WhapiChannelsController', type: :request do
 
     it 'returns 422 when not a whapi inbox' do
       other_inbox = create(:inbox, account: account)
+      create(:inbox_member, user: admin, inbox: other_inbox)
       get "/api/v1/accounts/#{account.id}/whapi_channels/#{other_inbox.id}/qr_code",
           headers: admin.create_new_auth_token,
           as: :json
@@ -92,7 +109,11 @@ RSpec.describe 'WhapiChannelsController', type: :request do
              sync_templates: false,
              validate_provider_config: false)
     end
-    let(:inbox) { create(:inbox, account: account, channel: channel) }
+    let(:inbox) do
+      inbox = create(:inbox, account: account, channel: channel)
+      create(:inbox_member, user: admin, inbox: inbox)
+      inbox
+    end
 
     it 'retries webhook setup successfully' do
       stub_request(:patch, /\/settings$/).to_return(
@@ -113,6 +134,7 @@ RSpec.describe 'WhapiChannelsController', type: :request do
 
     it 'returns 422 when not a whapi inbox' do
       other_inbox = create(:inbox, account: account)
+      create(:inbox_member, user: admin, inbox: other_inbox)
       post "/api/v1/accounts/#{account.id}/whapi_channels/#{other_inbox.id}/retry_webhook",
            headers: admin.create_new_auth_token,
            as: :json

@@ -3,9 +3,14 @@ require 'rails_helper'
 RSpec.describe 'Webhooks::WhatsappController (Whapi partner)', type: :request do
   let(:payload) { { channel_id: 'chan_1', events: [{ type: 'connected', phone: '1234567890' }] } }
 
+  # Ensure partner token fallback does not force signature validation in tests
+  before do
+    allow(ENV).to receive(:[]).and_call_original
+    allow(ENV).to receive(:[]).with('WHAPI_PARTNER_TOKEN').and_return(nil)
+  end
+
   context 'when secret is configured' do
     before do
-      allow(ENV).to receive(:[]).and_call_original
       allow(ENV).to receive(:[]).with('WHAPI_PARTNER_WEBHOOK_SECRET').and_return('secret')
     end
 

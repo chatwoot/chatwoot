@@ -6,7 +6,7 @@ class Whatsapp::WebhookUrlService
   
   Configuration:
   - Uses FRONTEND_URL environment variable (same as Inbox model)
-  - Supports LOCAL_URL_TUNNEL for local development override
+  - Supports WEBHOOK_URL_TUNNEL for local development override
   - Follows existing hardcoded path patterns used throughout the app
   """
 
@@ -49,13 +49,13 @@ class Whatsapp::WebhookUrlService
   def determine_base_url
     """
     Get base URL using existing application configuration
-    Priority: LOCAL_URL_TUNNEL (local dev override) -> FRONTEND_URL (standard)
+    Priority: WEBHOOK_URL_TUNNEL (local dev override) -> FRONTEND_URL (standard)
     
     Same pattern as used throughout the app (see app/models/inbox.rb)
     """
     
     # For local development, allow tunnel override (ngrok, etc.)
-    local_tunnel = ENV['LOCAL_URL_TUNNEL']
+    local_tunnel = ENV['WEBHOOK_URL_TUNNEL']
     if local_tunnel.present?
       return ensure_protocol(local_tunnel)
     end
