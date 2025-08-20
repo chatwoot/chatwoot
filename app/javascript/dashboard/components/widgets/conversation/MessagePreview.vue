@@ -2,7 +2,6 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { ATTACHMENT_ICONS } from 'shared/constants/messages';
-import { normalizeStatus } from 'dashboard/helper/voice';
 
 export default {
   name: 'MessagePreview',
@@ -75,17 +74,17 @@ export default {
 
       return false;
     },
-    // Get normalized call status
+    // Get call status (Twilio-native)
     callStatus() {
       if (!this.isVoiceChannel) return null;
 
       // Prefer conversation-level status
       const convStatus = this.conversation?.additional_attributes?.call_status;
-      if (convStatus) return normalizeStatus(convStatus);
+      if (convStatus) return convStatus;
 
       // Fallback to last message status if available
       const msgStatus = this.message?.content_attributes?.data?.status;
-      if (msgStatus) return normalizeStatus(msgStatus);
+      if (msgStatus) return msgStatus;
 
       return null;
     },
@@ -96,15 +95,15 @@ export default {
       const status = this.callStatus;
       const isIncoming = this.isIncomingCall;
 
-      if (status === 'missed' || status === 'no_answer') {
+      if (status === 'no-answer' || status === 'busy' || status === 'failed') {
         return 'phone-missed-call';
       }
 
-      if (status === 'in_progress') {
+      if (status === 'in-progress') {
         return 'phone-in-talk';
       }
 
-      if (status === 'ended') {
+      if (status === 'completed' || status === 'canceled') {
         return isIncoming ? 'phone-incoming' : 'phone-outgoing';
       }
 
@@ -123,7 +122,7 @@ export default {
         const isIncoming = this.isIncomingCall;
 
         // Return appropriate status text based on call status and direction
-        if (status === 'in_progress') {
+        if (status === 'in-progress') {
           // return last message content if message is not activity and not voice call
           if (!this.isMessageAnActivity && !this.isVoiceCall) {
             return this.getPlainText(this.message.content);
@@ -136,11 +135,11 @@ export default {
             return this.$t('CONVERSATION.VOICE_CALL.INCOMING_CALL');
           }
 
-          if (status === 'missed') {
+          if (status === 'no-answer') {
             return this.$t('CONVERSATION.VOICE_CALL.MISSED_CALL');
           }
 
-          if (status === 'ended') {
+          if (status === 'completed' || status === 'canceled') {
             return this.$t('CONVERSATION.VOICE_CALL.CALL_ENDED');
           }
         } else {
@@ -148,11 +147,11 @@ export default {
             return this.$t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
           }
 
-          if (status === 'no_answer') {
+          if (status === 'no-answer' || status === 'busy' || status === 'failed') {
             return this.$t('CONVERSATION.VOICE_CALL.NO_ANSWER');
           }
 
-          if (status === 'ended') {
+          if (status === 'completed' || status === 'canceled') {
             return this.$t('CONVERSATION.VOICE_CALL.CALL_ENDED');
           }
         }
@@ -193,26 +192,26 @@ export default {
         class="-mt-0.5 align-middle inline-block mr-1"
         :class="{
           'text-red-600 dark:text-red-400':
-            callStatus === 'missed' || callStatus === 'no_answer',
+            callStatus === 'no-answer' || callStatus === 'busy' || callStatus === 'failed',
           'text-green-600 dark:text-green-400':
-            callStatus === 'in_progress' || callStatus === 'ringing',
-          'text-n-slate-11': callStatus === 'ended',
+            callStatus === 'in-progress' || callStatus === 'ringing',
+          'text-n-slate-11': callStatus === 'completed' || callStatus === 'canceled',
         }"
       >
         <!-- Missed call icon -->
         <i
-          v-if="callStatus === 'missed' || callStatus === 'no_answer'"
+          v-if="callStatus === 'no-answer' || callStatus === 'busy' || callStatus === 'failed'"
           class="i-ph-phone-x text-base"
         />
         <!-- Active call icon -->
         <i
-          v-else-if="callStatus === 'in_progress'"
+          v-else-if="callStatus === 'in-progress'"
           class="i-ph-phone-call text-base"
         />
         <!-- Incoming call icon -->
         <i
           v-else-if="
-            (callStatus === 'ended' && isIncomingCall) || isIncomingCall
+            ((callStatus === 'completed' || callStatus === 'canceled') && isIncomingCall) || isIncomingCall
           "
           class="i-ph-phone-incoming text-base"
         />
@@ -235,20 +234,20 @@ export default {
           class="-mt-0.5 align-middle inline-block mr-1"
           :class="{
             'text-red-600 dark:text-red-400':
-              callStatus === 'missed' || callStatus === 'no_answer',
+              callStatus === 'no-answer' || callStatus === 'busy' || callStatus === 'failed',
             'text-green-600 dark:text-green-400':
-              callStatus === 'in_progress' || callStatus === 'ringing',
-            'text-n-slate-11': callStatus === 'ended',
+              callStatus === 'in-progress' || callStatus === 'ringing',
+            'text-n-slate-11': callStatus === 'completed' || callStatus === 'canceled',
           }"
         >
           <!-- Missed call icon -->
           <i
-            v-if="callStatus === 'missed' || callStatus === 'no_answer'"
+            v-if="callStatus === 'no-answer' || callStatus === 'busy' || callStatus === 'failed'"
             class="i-ph-phone-x text-base"
           />
           <!-- Active call icon -->
           <i
-            v-else-if="callStatus === 'in_progress'"
+            v-else-if="callStatus === 'in-progress'"
             class="i-ph-phone-call text-base"
           />
           <!-- Incoming call icon -->

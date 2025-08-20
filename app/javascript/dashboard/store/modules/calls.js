@@ -1,4 +1,5 @@
 import VoiceAPI from 'dashboard/api/channels/voice';
+import { TERMINAL_STATUSES } from 'dashboard/helper/voice';
 
 const state = {
   activeCall: null,
@@ -19,14 +20,7 @@ const actions = {
   ) {
     const isActiveCall = callSid === currentState.activeCall?.callSid;
     const isIncomingCall = callSid === currentState.incomingCall?.callSid;
-    const terminalStatuses = [
-      'ended',
-      'missed',
-      'completed',
-      'failed',
-      'busy',
-      'no_answer',
-    ];
+    const terminalStatuses = [...TERMINAL_STATUSES];
 
     if (terminalStatuses.includes(status)) {
       if (isActiveCall) {
@@ -40,10 +34,7 @@ const actions = {
   setActiveCall({ commit, dispatch, state: currentState }, callData) {
     if (!callData?.callSid) return;
 
-    if (
-      callData.status &&
-      ['ended', 'missed', 'completed'].includes(callData.status)
-    ) {
+    if (callData.status && TERMINAL_STATUSES.includes(callData.status)) {
       if (callData.callSid === currentState.activeCall?.callSid) {
         dispatch('clearActiveCall');
       }

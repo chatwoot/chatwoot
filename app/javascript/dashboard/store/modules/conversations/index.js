@@ -1,5 +1,4 @@
 import types from '../../mutation-types';
-import { normalizeStatus } from 'dashboard/helper/voice';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import { findPendingMessageIndex } from './helpers';
@@ -292,7 +291,7 @@ export const mutations = {
       const messages = chat.messages || [];
       const lastCallIndex = [...messages].reverse().findIndex(m => {
         const ct = m.content_type || m.contentType;
-        return ct === 'voice_call' || ct === 12; // enum fallback
+        return ct === 'voice_call';
       });
       if (lastCallIndex !== -1) {
         const idx = messages.length - 1 - lastCallIndex;
@@ -302,7 +301,8 @@ export const mutations = {
           : 'contentAttributes';
         const container = msg[key] || {};
         container.data = container.data || {};
-        container.data.status = normalizeStatus(callStatus);
+        // Use Twilio-native status directly
+        container.data.status = callStatus;
         msg[key] = container;
       }
     }

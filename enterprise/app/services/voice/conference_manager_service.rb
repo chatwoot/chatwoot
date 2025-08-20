@@ -27,24 +27,24 @@ module Voice
       )
     end
 
-    def handle_conference_start
+  def handle_conference_start
       current_status = conversation.additional_attributes['call_status']
-      return if %w[in_progress ended].include?(current_status)
+      return if %w[in-progress completed].include?(current_status)
 
       call_status_manager.process_status_update('ringing')
-    end
+  end
 
-    def handle_conference_end
+  def handle_conference_end
       current_status = conversation.additional_attributes['call_status']
 
-      if current_status == 'in_progress'
-        call_status_manager.process_status_update('ended')
+      if current_status == 'in-progress'
+        call_status_manager.process_status_update('completed')
       elsif current_status == 'ringing'
-        call_status_manager.process_status_update('no_answer')
+        call_status_manager.process_status_update('no-answer')
       else
-        call_status_manager.process_status_update('ended')
+        call_status_manager.process_status_update('completed')
       end
-    end
+  end
 
     def handle_participant_join
       if agent_participant?
@@ -56,9 +56,9 @@ module Voice
 
     def handle_participant_leave
       if caller_participant? && call_in_progress?
-        call_status_manager.process_status_update('ended')
+        call_status_manager.process_status_update('completed')
       elsif caller_participant? && ringing_call? && !agent_joined?
-        call_status_manager.process_status_update('no_answer')
+        call_status_manager.process_status_update('no-answer')
       end
     end
 
@@ -69,7 +69,7 @@ module Voice
     return if conversation.additional_attributes['call_ended_at'].present?
     return unless ringing_call?
 
-    call_status_manager.process_status_update('in_progress')
+    call_status_manager.process_status_update('in-progress')
   end
 
   def handle_caller_join
@@ -79,7 +79,7 @@ module Voice
     return if conversation.additional_attributes['call_ended_at'].present?
     return unless outbound_call? && ringing_call?
 
-    call_status_manager.process_status_update('in_progress')
+    call_status_manager.process_status_update('in-progress')
   end
 
     def agent_participant?
@@ -99,7 +99,7 @@ module Voice
     end
 
     def call_in_progress?
-      conversation.additional_attributes['call_status'] == 'in_progress'
+      conversation.additional_attributes['call_status'] == 'in-progress'
     end
 
     def agent_joined?

@@ -3,13 +3,6 @@ module Voice
     pattr_initialize [:conversation!, :direction!, :call_sid!, :conference_sid!, :from_number!, :to_number!, :user]
 
     def perform
-      status_manager = Voice::CallStatus::Manager.new(
-        conversation: conversation,
-        call_sid: call_sid,
-        provider: :twilio
-      )
-
-      ui_status = status_manager.normalized_ui_status('ringing')
 
       message_params = {
         content: 'Voice Call',
@@ -18,7 +11,7 @@ module Voice
         content_attributes: {
           data: {
             call_sid: call_sid,
-            status: ui_status,
+            status: 'ringing',
             conversation_id: conversation.display_id,
             call_direction: direction,
             conference_sid: conference_sid,
@@ -40,4 +33,3 @@ module Voice
     end
   end
 end
-

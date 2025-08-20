@@ -84,34 +84,13 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('addConversation', data);
 
     // Check if this is a voice channel conversation (incoming call)
-    if (
-      data.meta?.inbox?.channel_type === 'Channel::Voice' ||
-      data.channel === 'Channel::Voice'
-    ) {
-      // Loosen condition: show widget as soon as we know call_sid
+    if (this.isVoiceChannel(data)) {
       if (data.additional_attributes?.call_sid) {
         const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
           data.inbox_id
         );
-        const normalizedPayload = {
-          callSid: data.additional_attributes.call_sid,
-          conversationId: data.display_id || data.id,
-          inboxId: data.inbox_id,
-          inboxName: data.meta?.inbox?.name || inboxFromStore?.name,
-          inboxAvatarUrl:
-            data.meta?.inbox?.avatar_url || inboxFromStore?.avatar_url,
-          inboxPhoneNumber:
-            data.meta?.inbox?.phone_number || inboxFromStore?.phone_number,
-          contactName: data.meta?.sender?.name || 'Unknown Caller',
-          contactId: data.meta?.sender?.id,
-          accountId: data.account_id,
-          isOutbound: data.additional_attributes?.call_direction === 'outbound',
-          callDirection: data.additional_attributes?.call_direction,
-          phoneNumber: data.meta?.sender?.phone_number,
-          avatarUrl: data.meta?.sender?.avatar_url,
-        };
-
-        this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
+        const payload = this.buildIncomingCallPayload(data, inboxFromStore);
+        this.app.$store.dispatch('calls/setIncomingCall', payload);
       }
     }
 
@@ -171,11 +150,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       }
 
       // Backfill: if status indicates a live call and we missed creation
-      if (
-        ['ringing', 'in_progress'].includes(
-          data.additional_attributes.call_status
-        )
-      ) {
+      if (['ringing', 'in-progress'].includes(data.additional_attributes.call_status)) {
         const hasIncoming = this.app.$store.getters['calls/hasIncomingCall'];
         const hasActive = this.app.$store.getters['calls/hasActiveCall'];
         const currentIncoming =
@@ -186,31 +161,43 @@ class ActionCableConnector extends BaseActionCableConnector {
           (!currentIncoming ||
             currentIncoming.callSid !== data.additional_attributes.call_sid)
         ) {
-          const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
-            data.inbox_id
-          );
-          const normalizedPayload = {
-            callSid: data.additional_attributes.call_sid,
-            conversationId: data.display_id || data.id,
-            inboxId: data.inbox_id,
-            inboxName: inboxFromStore?.name,
-            inboxAvatarUrl: inboxFromStore?.avatar_url,
-            inboxPhoneNumber: inboxFromStore?.phone_number,
-            contactName: data.meta?.sender?.name || 'Unknown Caller',
-            contactId: data.meta?.sender?.id,
-            accountId: data.account_id,
-            isOutbound:
-              data.additional_attributes?.call_direction === 'outbound',
-            callDirection: data.additional_attributes?.call_direction,
-            phoneNumber: data.meta?.sender?.phone_number,
-            avatarUrl: data.meta?.sender?.avatar_url,
-          };
-          this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
+          const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(data.inbox_id);
+          const payload = this.buildIncomingCallPayload(data, inboxFromStore);
+          this.app.$store.dispatch('calls/setIncomingCall', payload);
         }
       }
     }
 
     this.fetchConversationStats();
+  };
+
+  // ----------------- Helpers (DRY) -----------------
+  // Identify voice channel events across payload variants
+  isVoiceChannel = data => {
+    return (
+      data?.meta?.inbox?.channel_type === 'Channel::Voice' ||
+      data?.channel === 'Channel::Voice'
+    );
+  };
+
+  // Normalize an incoming call payload for Vuex calls module
+  buildIncomingCallPayload = (data, inboxFromStore) => {
+    return {
+      callSid: data.additional_attributes?.call_sid,
+      conversationId: data.display_id || data.id,
+      inboxId: data.inbox_id,
+      inboxName: data.meta?.inbox?.name || inboxFromStore?.name,
+      inboxAvatarUrl: data.meta?.inbox?.avatar_url || inboxFromStore?.avatar_url,
+      inboxPhoneNumber:
+        data.meta?.inbox?.phone_number || inboxFromStore?.phone_number,
+      contactName: data.meta?.sender?.name || 'Unknown Caller',
+      contactId: data.meta?.sender?.id,
+      accountId: data.account_id,
+      isOutbound: data.additional_attributes?.call_direction === 'outbound',
+      callDirection: data.additional_attributes?.call_direction,
+      phoneNumber: data.meta?.sender?.phone_number,
+      avatarUrl: data.meta?.sender?.avatar_url,
+    };
   };
 
   onTypingOn = ({ conversation, user }) => {

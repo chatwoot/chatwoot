@@ -71,22 +71,19 @@ const joinCall = async () => {
   try {
     isJoining.value = true;
     // Initialize Twilio device
-    await VoiceAPI.initializeDevice(callData.inboxId);
-    
-    // Join the call
-    await VoiceAPI.joinCall({
+    await VoiceAPI.initializeDevice(callData.inboxId, { store });
+
+    // Join the call on server and use returned conference_sid
+    const joinRes = await VoiceAPI.joinCall({
       conversation_id: callData.conversationId,
       call_sid: callData.callSid,
       account_id: store.getters.getCurrentAccountId,
     });
-    
-    // Join client call
-    const conferenceParams = {
-      To: `conf_account_${store.getters.getCurrentAccountId}_conv_${callData.conversationId}`,
-      account_id: store.getters.getCurrentAccountId,
-    };
-    
-    VoiceAPI.joinClientCall(conferenceParams);
+
+    const conferenceSid = joinRes?.conference_sid || `conf_account_${store.getters.getCurrentAccountId}_conv_${callData.conversationId}`;
+
+    // Join client call using server-provided conference sid when available
+    VoiceAPI.joinClientCall({ To: conferenceSid, account_id: store.getters.getCurrentAccountId });
     
     // Move from incoming to active call for outbound calls
     if (incomingCall.value?.isOutbound) {

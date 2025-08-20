@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { normalizeStatus, isInbound } from 'dashboard/helper/voice';
+import { isInbound } from 'dashboard/helper/voice';
 
 const props = defineProps({
   message: { type: Object, default: () => ({}) },
@@ -12,36 +12,25 @@ const { t } = useI18n();
 const callData = computed(() => props.message?.contentAttributes?.data || {});
 
 
-const isIncoming = computed(() => {
-  const direction = callData.value?.call_direction;
-  return isInbound(direction, props.message?.messageType);
-});
+const isIncoming = computed(() => isInbound(callData.value?.call_direction));
 
+// Determine status using Twilio-native values when available
 const status = computed(() => {
-  const cStatus =
-    props.message?.conversation?.additional_attributes?.call_status;
-  if (cStatus) return normalizeStatus(cStatus);
+  const cStatus = props.message?.conversation?.additional_attributes?.call_status;
+  if (cStatus) return cStatus;
 
   const dStatus = callData.value?.status;
-  if (dStatus) return normalizeStatus(dStatus);
+  if (dStatus) return dStatus;
 
-  if (callData.value?.ended_at) return 'ended';
-  if (callData.value?.missed) return isIncoming.value ? 'missed' : 'no_answer';
-
-  if (
-    callData.value?.started_at ||
-    props.message?.conversation?.additional_attributes?.call_started_at
-  ) {
-    return 'in_progress';
-  }
+  // Default to ringing when status is not yet set
   return 'ringing';
 });
 
 const iconName = computed(() => {
-  if (['missed', 'no_answer'].includes(status.value))
+  if (['no-answer'].includes(status.value))
     return 'i-ph-phone-x-fill';
-  if (status.value === 'in_progress') return 'i-ph-phone-call-fill';
-  if (status.value === 'ended')
+  if (status.value === 'in-progress') return 'i-ph-phone-call-fill';
+  if (['completed', 'canceled'].includes(status.value))
     return isIncoming.value
       ? 'i-ph-phone-incoming-fill'
       : 'i-ph-phone-outgoing-fill';
@@ -51,29 +40,29 @@ const iconName = computed(() => {
 });
 
 const iconBgClass = computed(() => {
-  if (status.value === 'in_progress') return 'bg-green-500';
-  if (['missed', 'no_answer'].includes(status.value)) return 'bg-red-500';
-  if (status.value === 'ended') return 'bg-purple-500';
+  if (status.value === 'in-progress') return 'bg-green-500';
+  if (['no-answer'].includes(status.value)) return 'bg-red-500';
+  if (['completed', 'canceled'].includes(status.value)) return 'bg-purple-500';
   // Ringing default with subtle pulse
   return 'bg-green-500 animate-pulse';
 });
 
 const labelText = computed(() => {
-  if (status.value === 'in_progress')
+  if (status.value === 'in-progress')
     return t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS');
   if (isIncoming.value) {
     if (status.value === 'ringing')
       return t('CONVERSATION.VOICE_CALL.INCOMING_CALL');
-    if (status.value === 'missed')
+    if (status.value === 'no-answer')
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL');
-    if (status.value === 'ended')
+    if (['completed', 'canceled'].includes(status.value))
       return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
   } else {
     if (status.value === 'ringing')
       return t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
-    if (status.value === 'no_answer')
+    if (status.value === 'no-answer' || status.value === 'busy' || status.value === 'failed')
       return t('CONVERSATION.VOICE_CALL.NO_ANSWER');
-    if (status.value === 'ended')
+    if (['completed', 'canceled'].includes(status.value))
       return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
   }
   return isIncoming.value
@@ -88,20 +77,18 @@ const subtext = computed(() => {
   if (isIncoming.value) {
     if (status.value === 'ringing')
       return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
-    if (status.value === 'in_progress')
+    if (status.value === 'in-progress')
       return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
-    if (status.value === 'missed' && (agentJoined || callStarted))
-      return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
-    if (status.value === 'missed')
+    if (status.value === 'no-answer')
       return t('CONVERSATION.VOICE_CALL.YOU_DIDNT_ANSWER');
-    if (status.value === 'ended')
+    if (['completed', 'canceled'].includes(status.value))
       return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
   } else {
     if (status.value === 'ringing')
       return t('CONVERSATION.VOICE_CALL.YOU_CALLED');
-    if (status.value === 'in_progress')
+    if (status.value === 'in-progress')
       return t('CONVERSATION.VOICE_CALL.THEY_ANSWERED');
-    if (['no_answer', 'ended'].includes(status.value))
+    if (['no-answer', 'completed', 'canceled', 'busy', 'failed'].includes(status.value))
       return t('CONVERSATION.VOICE_CALL.YOU_CALLED');
   }
   return isIncoming.value

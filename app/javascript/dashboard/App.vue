@@ -95,8 +95,6 @@ export default {
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
 
-    // Make app instance available globally if needed by other legacy helpers
-    window.app = this;
 
     // Prepare dashboard ringtone; requires a user gesture once to unlock AudioContext
     window.playAudioAlert = () => {};

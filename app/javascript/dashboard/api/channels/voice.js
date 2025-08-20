@@ -7,6 +7,7 @@ class VoiceAPI extends ApiClient {
     this.device = null;
     this.activeConnection = null;
     this.initialized = false;
+    this.store = null;
   }
 
   // ------------------- Server APIs -------------------
@@ -19,7 +20,7 @@ class VoiceAPI extends ApiClient {
     return axios.post(
       `${this.baseUrl().replace('/voice', '')}/contacts/${contactId}/call`,
       payload
-    );
+    ).then(r => r.data);
   }
 
   endCall(callSid, conversationId) {
@@ -30,7 +31,7 @@ class VoiceAPI extends ApiClient {
       call_sid: callSid,
       conversation_id: conversationId,
       id: conversationId,
-    });
+    }).then(r => r.data);
   }
 
   joinCall(params) {
@@ -41,7 +42,7 @@ class VoiceAPI extends ApiClient {
       throw new Error('Conversation ID is required to join a call');
     if (!callSid) throw new Error('Call SID is required to join a call');
     if (params.account_id) payload.account_id = params.account_id;
-    return axios.post(`${this.url}/join_call`, payload);
+    return axios.post(`${this.url}/join_call`, payload).then(r => r.data);
   }
 
   rejectCall(callSid, conversationId) {
@@ -51,23 +52,24 @@ class VoiceAPI extends ApiClient {
     return axios.post(`${this.url}/reject_call`, {
       call_sid: callSid,
       conversation_id: conversationId,
-    });
+    }).then(r => r.data);
   }
 
   getToken(inboxId) {
     if (!inboxId) return Promise.reject(new Error('Inbox ID is required'));
-    return axios.post(`${this.url}/token`, { inbox_id: inboxId });
+    return axios.post(`${this.url}/token`, { inbox_id: inboxId }).then(r => r.data);
   }
 
   // ------------------- Client (Twilio) APIs -------------------
-  async initializeDevice(inboxId) {
+  async initializeDevice(inboxId, { store } = {}) {
     if (this.initialized && this.device && this.device.state !== 'error')
       return this.device;
     if (!inboxId) throw new Error('Inbox ID is required to initialize');
+    if (store) this.store = store;
 
     const { Device } = await import('@twilio/voice-sdk');
     const response = await this.getToken(inboxId);
-    const { token, voice_enabled, account_id } = response.data || {};
+    const { token, voice_enabled, account_id } = response || {};
     if (!voice_enabled) throw new Error('Voice not enabled for this inbox');
     if (!token) throw new Error('Invalid token');
 
@@ -88,8 +90,8 @@ class VoiceAPI extends ApiClient {
       conn.on('disconnect', () => {
         this.activeConnection = null;
         // Dispatch event to update UI when call disconnects
-        if (window.app && window.app.$store) {
-          window.app.$store.dispatch('calls/clearActiveCall');
+        if (this.store) {
+          this.store.dispatch('calls/clearActiveCall');
         }
       });
     });
@@ -99,7 +101,7 @@ class VoiceAPI extends ApiClient {
     this.device.on('tokenWillExpire', async () => {
       try {
         const r = await this.getToken(inboxId);
-        if (r.data?.token) this.device.updateToken(r.data.token);
+        if (r?.token) this.device.updateToken(r.token);
       } catch (error) {
         // Token refresh failed
       }
@@ -120,28 +122,16 @@ class VoiceAPI extends ApiClient {
 
       // Disconnect all connections on the device
       if (this.device) {
-        if (this.device.state === 'busy') {
-          this.device.disconnectAll();
-        }
-        // Also try to disconnect any ongoing connections
-        const connections = this.device.calls || [];
-        connections.forEach(call => {
-          try {
-            call.disconnect();
-          } catch (e) {
-            // Ignore individual call disconnect errors
-          }
-        });
+        this.device.disconnectAll();
       }
     } catch (error) {
       this.activeConnection = null;
-      // Force device disconnect as fallback
       try {
         if (this.device) {
           this.device.disconnectAll();
         }
       } catch (fallbackError) {
-        // Final fallback failed
+        // ignore
       }
     }
   }
