@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP 주소",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "새 메시지",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
       "TITLE": "이전 대화"
