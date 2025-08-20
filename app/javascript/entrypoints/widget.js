@@ -10,7 +10,7 @@ import router from '../widget/router';
 import { directive as onClickaway } from 'vue3-click-away';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import { plugin, defaultConfig } from '@formkit/vue';
-import { initializeSingleAudioPlayback } from 'shared/helpers/SingleAudioPlaybackHelper';
+import { initSingleAudioManager } from 'shared/helpers/SingleAudioPlaybackHelper';
 
 import {
   startsWithPlus,
@@ -40,7 +40,7 @@ app.use(
   })
 );
 
-initializeSingleAudioPlayback();
+initSingleAudioManager();
 
 // Event Bus
 // We can use the useEmitter directly
