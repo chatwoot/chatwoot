@@ -1,20 +1,17 @@
 <script setup>
-// import { computed } from 'vue';
-
 import LibraryHeader from './LibraryHeader.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 
-// const props = defineProps({
-//   searchValue: { type: String, default: '' },
-//   headerTitle: { type: String, default: '' },
-//   showPaginationFooter: { type: Boolean, default: true },
-//   currentPage: { type: Number, default: 1 },
-//   totalItems: { type: Number, default: 0 },
-//   itemsPerPage: { type: Number, default: 10 },
-//   isLoading: { type: Boolean, default: false },
-// });
+defineProps({
+  searchValue: { type: String, default: '' },
+  headerTitle: { type: String, default: '' },
+  showPaginationFooter: { type: Boolean, default: true },
+  currentPage: { type: Number, default: 1 },
+  totalItems: { type: Number, default: 0 },
+  itemsPerPage: { type: Number, default: 10 },
+});
 
-const emit = defineEmits(['update:currentPage', 'search']);
+const emit = defineEmits(['update:currentPage', 'search', 'addResource']);
 
 const updateCurrentPage = page => {
   emit('update:currentPage', page);
@@ -30,6 +27,7 @@ const updateCurrentPage = page => {
         :search-value="searchValue"
         :header-title="headerTitle"
         @search="emit('search', $event)"
+        @add-resource="emit('addResource')"
       />
 
       <main class="flex-1 overflow-y-auto">

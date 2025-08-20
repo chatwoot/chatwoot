@@ -402,7 +402,7 @@ const menuItems = computed(() => {
     {
       name: 'Library',
       label: t('SIDEBAR.LIBRARY'),
-      icon: 'i-lucide-library-big',
+      icon: 'i-lucide-archive',
       to: accountScopedRoute('library_index'),
       activeOn: ['library_index'],
     },

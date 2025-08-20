@@ -17,10 +17,30 @@
     "CARD": {
       "CREATED_ON": "Created on",
       "VIEW": "View",
-      "EDIT": "Edit"
+      "EDIT": "Edit",
+      "DELETE": "Delete"
     },
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {from} to {to} of {count} resources"
+    },
+    "FORM": {
+      "ADD_TITLE": "Add New Resource",
+      "EDIT_TITLE": "Edit Resource",
+      "TITLE_LABEL": "Title",
+      "TITLE_PLACEHOLDER": "Enter resource title...",
+      "DESCRIPTION_LABEL": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Enter a brief description...",
+      "CONTENT_LABEL": "Content",
+      "CONTENT_PLACEHOLDER": "Enter the resource content...",
+      "SAVE": "Save Resource",
+      "UPDATE": "Update Resource",
+      "CANCEL": "Cancel"
+    },
+    "DELETE": {
+      "CONFIRM_TITLE": "Delete Resource",
+      "CONFIRM_MESSAGE": "Are you sure you want to delete this resource? This action cannot be undone.",
+      "CONFIRM_DELETE": "Delete",
+      "CANCEL": "Cancel"
     }
   }
 }

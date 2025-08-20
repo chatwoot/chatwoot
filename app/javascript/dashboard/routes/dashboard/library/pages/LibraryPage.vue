@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import { useLibraryResources } from '../composables/useLibraryResources';
 import LibraryListLayout from '../components/LibraryListLayout.vue';
@@ -8,6 +10,8 @@ import LibraryResourcesList from '../components/LibraryResourcesList.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const { t } = useI18n();
+const router = useRouter();
+useAccount();
 
 const {
   resources,
@@ -15,8 +19,10 @@ const {
   currentPage,
   totalItems,
   isLoading,
+  uiFlags,
   searchResources,
   updateCurrentPage,
+  deleteResource,
 } = useLibraryResources();
 
 const headerTitle = computed(() => {
@@ -36,9 +42,19 @@ const showEmptySearch = computed(() => {
   return !hasResources.value && searchQuery.value && !isLoading.value;
 });
 
+const handleAddResource = () => {
+  router.push({ name: 'library_resource_new' });
+};
+
 const handleViewResource = () => {};
 
-const handleEditResource = () => {};
+const handleEditResource = id => {
+  router.push({ name: 'library_resource_edit', params: { id } });
+};
+
+const handleDeleteResource = async id => {
+  await deleteResource(id);
+};
 </script>
 
 <template>
@@ -54,6 +70,7 @@ const handleEditResource = () => {};
       :is-loading="isLoading"
       @update:current-page="updateCurrentPage"
       @search="searchResources"
+      @add-resource="handleAddResource"
     >
       <div
         v-if="isLoading"
@@ -69,7 +86,7 @@ const handleEditResource = () => {};
           class="flex flex-col items-center justify-center py-20 text-center"
         >
           <div class="mb-6">
-            <span class="i-lucide-library-big text-6xl text-n-slate-8" />
+            <span class="i-lucide-archive text-6xl text-n-slate-8" />
           </div>
           <h2 class="text-xl font-semibold text-n-base mb-2">
             {{ t('LIBRARY.EMPTY_STATE.TITLE') }}
@@ -99,8 +116,10 @@ const handleEditResource = () => {};
         <LibraryResourcesList
           v-else
           :resources="resources"
+          :ui-flags="uiFlags"
           @view-resource="handleViewResource"
           @edit-resource="handleEditResource"
+          @delete-resource="handleDeleteResource"
         />
       </template>
     </LibraryListLayout>

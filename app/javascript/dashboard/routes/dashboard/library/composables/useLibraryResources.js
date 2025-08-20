@@ -1,77 +1,35 @@
-import { ref, computed } from 'vue';
-
-const mockResources = [
-  {
-    id: 1,
-    title: 'Customer Service Guidelines',
-    description:
-      'Comprehensive guide on how to handle customer interactions and common scenarios.',
-    category: 'Guidelines',
-    createdAt: '2024-01-15',
-    tags: ['customer-service', 'guidelines'],
-  },
-  {
-    id: 2,
-    title: 'Product Knowledge Base',
-    description:
-      'Detailed information about all our products, features, and pricing.',
-    category: 'Documentation',
-    createdAt: '2024-01-20',
-    tags: ['product', 'features', 'pricing'],
-  },
-  {
-    id: 3,
-    title: 'Troubleshooting Common Issues',
-    description:
-      'Step-by-step solutions for the most frequently reported customer problems.',
-    category: 'Troubleshooting',
-    createdAt: '2024-01-25',
-    tags: ['troubleshooting', 'support', 'issues'],
-  },
-  {
-    id: 4,
-    title: 'Sales Process Documentation',
-    description:
-      'Complete workflow for handling sales inquiries and closing deals.',
-    category: 'Sales',
-    createdAt: '2024-01-30',
-    tags: ['sales', 'process', 'workflow'],
-  },
-  {
-    id: 5,
-    title: 'Team Communication Standards',
-    description: 'Best practices for internal communication and collaboration.',
-    category: 'Internal',
-    createdAt: '2024-02-05',
-    tags: ['communication', 'team', 'standards'],
-  },
-  {
-    id: 6,
-    title: 'Escalation Procedures',
-    description: 'When and how to escalate issues to managers or specialists.',
-    category: 'Procedures',
-    createdAt: '2024-02-10',
-    tags: ['escalation', 'procedures', 'management'],
-  },
-];
+import { ref, computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
 export function useLibraryResources() {
-  const resources = ref([...mockResources]);
+  const store = useStore();
   const searchQuery = ref('');
   const currentPage = ref(1);
   const itemsPerPage = ref(10);
-  const isLoading = ref(false);
 
+  // Load resources on mount
+  onMounted(() => {
+    store.dispatch('libraryResources/get');
+  });
+
+  // Getters from store
+  const allResources = computed(
+    () => store.getters['libraryResources/getLibraryResources']
+  );
+
+  const uiFlags = computed(() => store.getters['libraryResources/getUIFlags']);
+
+  const isLoading = computed(() => uiFlags.value.isFetching);
+
+  // Filter and paginate resources
   const filteredResources = computed(() => {
-    if (!searchQuery.value) return resources.value;
+    if (!searchQuery.value) return allResources.value;
 
     const query = searchQuery.value.toLowerCase();
-    return resources.value.filter(
+    return allResources.value.filter(
       resource =>
         resource.title.toLowerCase().includes(query) ||
-        resource.description.toLowerCase().includes(query) ||
-        resource.category.toLowerCase().includes(query) ||
-        resource.tags.some(tag => tag.toLowerCase().includes(query))
+        resource.description.toLowerCase().includes(query)
     );
   });
 
@@ -86,6 +44,7 @@ export function useLibraryResources() {
     Math.ceil(totalItems.value / itemsPerPage.value)
   );
 
+  // Actions
   const searchResources = query => {
     searchQuery.value = query;
     currentPage.value = 1;
@@ -96,18 +55,63 @@ export function useLibraryResources() {
   };
 
   const getResourceById = id => {
-    return resources.value.find(resource => resource.id === id);
+    return store.getters['libraryResources/getLibraryResource'](id);
+  };
+
+  const addResource = async resourceData => {
+    try {
+      await store.dispatch('libraryResources/create', resourceData);
+      // Reset search and go to first page to show new resource
+      searchQuery.value = '';
+      currentPage.value = 1;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const updateResource = async (id, resourceData) => {
+    try {
+      return await store.dispatch('libraryResources/update', {
+        id,
+        resourceData,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const deleteResource = async id => {
+    try {
+      await store.dispatch('libraryResources/delete', id);
+      return true;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
+  const fetchResource = async id => {
+    try {
+      return await store.dispatch('libraryResources/show', { id });
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
   return {
     resources: paginatedResources,
+    allResources,
     searchQuery,
     currentPage,
     totalItems,
     totalPages,
     isLoading,
+    uiFlags,
     searchResources,
     updateCurrentPage,
     getResourceById,
+    addResource,
+    updateResource,
+    deleteResource,
+    fetchResource,
   };
 }

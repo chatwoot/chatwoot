@@ -3,9 +3,10 @@ import LibraryResourceCard from './LibraryResourceCard.vue';
 
 defineProps({
   resources: { type: Array, required: true },
+  uiFlags: { type: Object, default: () => ({}) },
 });
 
-const emit = defineEmits(['viewResource', 'editResource']);
+const emit = defineEmits(['viewResource', 'editResource', 'deleteResource']);
 
 const handleViewResource = id => {
   emit('viewResource', id);
@@ -13,6 +14,10 @@ const handleViewResource = id => {
 
 const handleEditResource = id => {
   emit('editResource', id);
+};
+
+const handleDeleteResource = id => {
+  emit('deleteResource', id);
 };
 </script>
 
@@ -24,11 +29,11 @@ const handleEditResource = id => {
       :key="resource.id"
       :title="resource.title"
       :description="resource.description"
-      :category="resource.category"
-      :created-at="resource.createdAt"
-      :tags="resource.tags"
+      :created-at="resource.created_at"
+      :is-deleting="uiFlags.isDeleting"
       @view="handleViewResource"
       @edit="handleEditResource"
+      @delete="handleDeleteResource"
     />
   </div>
 </template>

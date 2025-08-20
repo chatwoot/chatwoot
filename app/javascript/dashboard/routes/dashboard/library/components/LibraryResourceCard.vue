@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -9,33 +9,33 @@ const props = defineProps({
   id: { type: Number, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  category: { type: String, required: true },
   createdAt: { type: String, required: true },
-  tags: { type: Array, default: () => [] },
+  isDeleting: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['view', 'edit']);
+const emit = defineEmits(['edit', 'delete']);
 
 const { t } = useI18n();
+const showDeleteConfirm = ref(false);
 
 const formattedDate = computed(() => {
   return new Date(props.createdAt).toLocaleDateString();
 });
 
-const categoryIcon = computed(() => {
-  const iconMap = {
-    Guidelines: 'i-lucide-book-open',
-    Documentation: 'i-lucide-file-text',
-    Troubleshooting: 'i-lucide-wrench',
-    Sales: 'i-lucide-trending-up',
-    Internal: 'i-lucide-users',
-    Procedures: 'i-lucide-list-checks',
-  };
-  return iconMap[props.category] || 'i-lucide-file';
-});
-
-const handleView = () => emit('view', props.id);
 const handleEdit = () => emit('edit', props.id);
+
+const handleDeleteClick = () => {
+  showDeleteConfirm.value = true;
+};
+
+const handleDeleteConfirm = () => {
+  showDeleteConfirm.value = false;
+  emit('delete', props.id);
+};
+
+const handleDeleteCancel = () => {
+  showDeleteConfirm.value = false;
+};
 </script>
 
 <template>
@@ -43,21 +43,11 @@ const handleEdit = () => emit('edit', props.id);
     <div class="flex flex-col gap-4 w-full">
       <!-- Header -->
       <div class="flex items-center gap-3">
-        <div
-          class="flex items-center justify-center w-10 h-10 rounded-lg bg-n-solid-3"
-        >
-          <span :class="categoryIcon" class="text-lg text-n-slate-11" />
-        </div>
         <div class="flex-1 min-w-0">
           <h3 class="text-lg font-semibold text-n-base truncate">
             {{ title }}
           </h3>
           <div class="flex items-center gap-2 mt-1">
-            <span
-              class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-n-alpha-2 text-n-slate-12"
-            >
-              {{ category }}
-            </span>
             <span class="text-sm text-n-slate-11">
               {{ t('LIBRARY.CARD.CREATED_ON') }} {{ formattedDate }}
             </span>
@@ -70,29 +60,10 @@ const handleEdit = () => emit('edit', props.id);
         <p class="text-n-slate-12 leading-relaxed">
           {{ description }}
         </p>
-
-        <!-- Tags -->
-        <div v-if="tags.length > 0" class="flex flex-wrap gap-2">
-          <span
-            v-for="tag in tags"
-            :key="tag"
-            class="inline-flex items-center px-2 py-1 text-xs rounded-md bg-n-alpha-1 text-n-slate-11"
-          >
-            {{ tag }}
-          </span>
-        </div>
       </div>
 
       <!-- Actions -->
-      <div class="flex justify-end gap-2 pt-4 border-t border-n-weak w-full">
-        <Button
-          variant="outline"
-          size="sm"
-          icon="i-lucide-eye"
-          @click="handleView"
-        >
-          {{ t('LIBRARY.CARD.VIEW') }}
-        </Button>
+      <div class="flex justify-end gap-3 pt-4 border-t border-n-weak w-full">
         <Button
           variant="outline"
           size="sm"
@@ -101,6 +72,47 @@ const handleEdit = () => emit('edit', props.id);
         >
           {{ t('LIBRARY.CARD.EDIT') }}
         </Button>
+        <Button
+          variant="danger-outline"
+          size="sm"
+          icon="i-lucide-trash-2"
+          :disabled="isDeleting"
+          @click="handleDeleteClick"
+        >
+          {{ t('LIBRARY.CARD.DELETE') }}
+        </Button>
+      </div>
+
+      <!-- Delete Confirmation Modal -->
+      <div
+        v-if="showDeleteConfirm"
+        class="fixed inset-0 bg-modal-backdrop-light dark:bg-modal-backdrop-dark flex items-center justify-center z-50"
+        @click="handleDeleteCancel"
+      >
+        <div
+          class="bg-n-background dark:bg-n-solid-2 rounded-lg p-6 max-w-md w-full mx-4 shadow-lg border border-n-weak"
+          @click.stop
+        >
+          <h3 class="text-lg font-semibold text-n-base mb-4">
+            {{ t('LIBRARY.DELETE.CONFIRM_TITLE') }}
+          </h3>
+          <p class="text-n-slate-11 mb-6">
+            {{ t('LIBRARY.DELETE.CONFIRM_MESSAGE') }}
+          </p>
+          <div class="flex justify-end gap-3">
+            <Button variant="outline" size="sm" @click="handleDeleteCancel">
+              {{ t('LIBRARY.DELETE.CANCEL') }}
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              :loading="isDeleting"
+              @click="handleDeleteConfirm"
+            >
+              {{ t('LIBRARY.DELETE.CONFIRM_DELETE') }}
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   </CardLayout>

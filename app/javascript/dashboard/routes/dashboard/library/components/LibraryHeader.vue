@@ -11,7 +11,7 @@ const props = defineProps({
   headerTitle: { type: String, default: '' },
 });
 
-const emit = defineEmits(['search']);
+const emit = defineEmits(['search', 'addResource']);
 
 const { t } = useI18n();
 
@@ -28,6 +28,10 @@ watch(searchInputValue, newValue => {
 const clearSearch = () => {
   searchInputValue.value = '';
 };
+
+const handleAddResource = () => {
+  emit('addResource');
+};
 </script>
 
 <template>
@@ -37,7 +41,12 @@ const clearSearch = () => {
         {{ headerTitle }}
       </h1>
 
-      <Button color="blue" icon="i-lucide-plus" size="sm">
+      <Button
+        color="blue"
+        icon="i-lucide-plus"
+        size="sm"
+        @click="handleAddResource"
+      >
         {{ t('LIBRARY.HEADER.ADD_RESOURCE') }}
       </Button>
     </div>
