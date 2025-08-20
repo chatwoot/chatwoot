@@ -72,8 +72,6 @@ const labelText = computed(() => {
 
 const subtext = computed(() => {
   const attrs = props.message?.conversation?.additional_attributes || {};
-  const agentJoined = attrs?.agent_joined === true;
-  const callStarted = !!attrs?.call_started_at;
   if (isIncoming.value) {
     if (status.value === 'ringing')
       return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');

@@ -84,12 +84,15 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('addConversation', data);
 
     // Check if this is a voice channel conversation (incoming call)
-    if (this.isVoiceChannel(data)) {
+    if (this.constructor.isVoiceChannel(data)) {
       if (data.additional_attributes?.call_sid) {
         const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
           data.inbox_id
         );
-        const payload = this.buildIncomingCallPayload(data, inboxFromStore);
+        const payload = this.constructor.buildIncomingCallPayload(
+          data,
+          inboxFromStore
+        );
         this.app.$store.dispatch('calls/setIncomingCall', payload);
       }
     }
@@ -161,8 +164,13 @@ class ActionCableConnector extends BaseActionCableConnector {
           (!currentIncoming ||
             currentIncoming.callSid !== data.additional_attributes.call_sid)
         ) {
-          const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(data.inbox_id);
-          const payload = this.buildIncomingCallPayload(data, inboxFromStore);
+          const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
+            data.inbox_id
+          );
+          const payload = this.constructor.buildIncomingCallPayload(
+            data,
+            inboxFromStore
+          );
           this.app.$store.dispatch('calls/setIncomingCall', payload);
         }
       }
@@ -173,15 +181,15 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // ----------------- Helpers (DRY) -----------------
   // Identify voice channel events across payload variants
-  isVoiceChannel = data => {
+  static isVoiceChannel(data) {
     return (
       data?.meta?.inbox?.channel_type === 'Channel::Voice' ||
       data?.channel === 'Channel::Voice'
     );
-  };
+  }
 
   // Normalize an incoming call payload for Vuex calls module
-  buildIncomingCallPayload = (data, inboxFromStore) => {
+  static buildIncomingCallPayload(data, inboxFromStore) {
     return {
       callSid: data.additional_attributes?.call_sid,
       conversationId: data.display_id || data.id,
@@ -198,7 +206,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       phoneNumber: data.meta?.sender?.phone_number,
       avatarUrl: data.meta?.sender?.avatar_url,
     };
-  };
+  }
 
   onTypingOn = ({ conversation, user }) => {
     const conversationId = conversation.id;
