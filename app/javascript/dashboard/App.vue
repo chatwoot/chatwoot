@@ -90,7 +90,7 @@ export default {
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
 
-    document.title = 'Comchat';
+    document.title = 'ComChat';
   },
   unmounted() {
     if (this.reconnectService) {

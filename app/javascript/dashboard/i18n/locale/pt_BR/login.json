@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Entrar no Comchat",
+    "TITLE": "Entrar no ComChat",
     "EMAIL": {
       "LABEL": "e-mail",
       "PLACEHOLDER": "nome{'@'}empresa.com.br",
