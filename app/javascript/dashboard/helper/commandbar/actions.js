@@ -32,7 +32,30 @@ export const OPEN_CONVERSATION_ACTIONS = [
 ];
 
 export const createSnoozeHandlers = (busEventName, parentId, section) => {
-  return Object.values(SNOOZE_OPTIONS).map(option => ({
+  // Only include UNTIL_LAST_CUSTOM_TIME in handlers if there's a saved custom time
+  const LAST_CUSTOM_SNOOZE_KEY = 'chatwoot_last_custom_snooze_time';
+  const hasLastCustomSnoozeTime = () => {
+    try {
+      const stored = localStorage.getItem(LAST_CUSTOM_SNOOZE_KEY);
+      if (!stored) return false;
+      const data = JSON.parse(stored);
+      const now = Date.now();
+      const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+      return now - data.savedAt <= sevenDaysInMs;
+    } catch {
+      return false;
+    }
+  };
+
+  const availableOptions = Object.values(SNOOZE_OPTIONS);
+  const snoozeOptions = availableOptions.filter(option => {
+    if (option === SNOOZE_OPTIONS.UNTIL_LAST_CUSTOM_TIME) {
+      return hasLastCustomSnoozeTime();
+    }
+    return true;
+  });
+
+  return snoozeOptions.map(option => ({
     id: option,
     title: `COMMAND_BAR.COMMANDS.${option.toUpperCase()}`,
     parent: parentId,

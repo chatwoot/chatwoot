@@ -1,6 +1,8 @@
 <script>
 import DatePicker from 'vue-datepicker-next';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { getUnixTime } from 'date-fns';
+import { saveLastCustomSnoozeTime } from 'dashboard/helper/customSnoozeStorage';
 
 export default {
   components: {
@@ -25,7 +27,12 @@ export default {
       this.$emit('close');
     },
     chooseTime() {
-      this.$emit('chooseTime', this.snoozeTime);
+      if (this.snoozeTime) {
+        const unixTimestamp = getUnixTime(this.snoozeTime);
+        // Save the custom time to localStorage for future use
+        saveLastCustomSnoozeTime(unixTimestamp);
+        this.$emit('chooseTime', this.snoozeTime);
+      }
     },
     disabledDate(date) {
       // Disable all the previous dates

@@ -2,6 +2,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import wootConstants from 'dashboard/constants/globals';
+import { hasLastCustomSnoozeTime } from 'dashboard/helper/customSnoozeStorage';
 
 import {
   CMD_BULK_ACTION_SNOOZE_CONVERSATION,
@@ -27,7 +28,16 @@ const SNOOZE_CONVERSATION_BULK_ACTIONS = [
     title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
     section: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
     icon: ICON_SNOOZE_CONVERSATION,
-    children: Object.values(SNOOZE_OPTIONS),
+    children: () => {
+      const availableOptions = Object.values(SNOOZE_OPTIONS);
+      // Only include UNTIL_LAST_CUSTOM_TIME if there's a saved custom time
+      return availableOptions.filter(option => {
+        if (option === SNOOZE_OPTIONS.UNTIL_LAST_CUSTOM_TIME) {
+          return hasLastCustomSnoozeTime();
+        }
+        return true;
+      });
+    },
   },
   ...createSnoozeHandlers(
     CMD_BULK_ACTION_SNOOZE_CONVERSATION,
