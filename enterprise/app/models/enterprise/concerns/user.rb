@@ -7,7 +7,6 @@ module Enterprise::Concerns::User
     has_many :captain_responses, class_name: 'Captain::AssistantResponse', dependent: :nullify, as: :documentable
     has_many :copilot_threads, dependent: :destroy_async
     has_many :leave_records, dependent: :destroy_async
-    has_many :approved_leave_records, class_name: 'LeaveRecord', foreign_key: 'approved_by_id', dependent: :nullify, inverse_of: :approver
   end
 
   def ensure_installation_pricing_plan_quantity

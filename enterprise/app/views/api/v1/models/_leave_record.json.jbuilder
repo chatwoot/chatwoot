@@ -15,12 +15,12 @@ json.user do
   json.email leave_record.user.email
 end
 
-if leave_record.approver.present?
-  json.approver do
-    json.id leave_record.approver.id
-    json.name leave_record.approver.name
-    json.email leave_record.approver.email
+if leave_record.approved_by.present?
+  json.approved_by do
+    json.id leave_record.approved_by.id
+    json.name leave_record.approved_by.name
+    json.email leave_record.approved_by.email
   end
 else
-  json.approver nil
+  json.approved_by nil
 end

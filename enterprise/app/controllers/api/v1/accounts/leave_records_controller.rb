@@ -1,6 +1,6 @@
 class Api::V1::Accounts::LeaveRecordsController < Api::V1::Accounts::EnterpriseAccountsController
-  before_action :fetch_leave_record, only: [:show, :update, :destroy, :approve, :reject]
   before_action :check_authorization
+  before_action :fetch_leave_record, only: [:show, :update, :destroy, :approve, :reject]
   before_action :ensure_pending_status, only: [:update]
   before_action :ensure_can_be_cancelled, only: [:destroy]
 

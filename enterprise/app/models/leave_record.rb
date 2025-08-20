@@ -25,7 +25,7 @@
 class LeaveRecord < ApplicationRecord
   belongs_to :account
   belongs_to :user
-  belongs_to :approver, class_name: 'User', foreign_key: 'approved_by_id', optional: true, inverse_of: :approved_leave_records
+  belongs_to :approved_by, class_name: 'User', optional: true
 
   enum leave_type: {
     annual: 0,
@@ -50,7 +50,7 @@ class LeaveRecord < ApplicationRecord
   validates :leave_type, :status, presence: true
   validate :end_date_after_start_date
   validate :future_dates_for_pending_leaves
-  validate :approver_is_admin
+  validate :approved_by_is_admin
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_user, ->(user_id) { where(user_id: user_id) }
@@ -58,12 +58,12 @@ class LeaveRecord < ApplicationRecord
   scope :by_leave_type, ->(leave_type) { where(leave_type: leave_type) }
   scope :in_date_range, ->(start_date, end_date) { where('start_date <= ? AND end_date >= ?', end_date, start_date) }
 
-  def approve!(approver)
-    update!(status: :approved, approved_by_id: approver.id, approved_at: Time.current)
+  def approve!(approved_by_user)
+    update!(status: :approved, approved_by_id: approved_by_user.id, approved_at: Time.current)
   end
 
-  def reject!(approver)
-    update!(status: :rejected, approved_by_id: approver.id, approved_at: Time.current)
+  def reject!(approved_by_user)
+    update!(status: :rejected, approved_by_id: approved_by_user.id, approved_at: Time.current)
   end
 
   def duration_in_days
@@ -96,10 +96,10 @@ class LeaveRecord < ApplicationRecord
     errors.add(:start_date, 'must be in the future') if start_date && start_date <= Date.current
   end
 
-  def approver_is_admin
-    return unless approved_by_id && approver
+  def approved_by_is_admin
+    return unless approved_by_id && approved_by
 
-    account_user = account.account_users.find_by(user: approver)
+    account_user = account.account_users.find_by(user: approved_by)
     errors.add(:approved_by, 'must be an administrator') unless account_user&.administrator?
   end
 end

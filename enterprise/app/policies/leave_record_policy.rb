@@ -40,9 +40,9 @@ class LeaveRecordPolicy < ApplicationPolicy
 
     def resolve
       if @account_user.administrator?
-        scope.includes(:user, :approver)
+        scope.includes(:user, :approved_by)
       else
-        scope.where(user: @user).includes(:user, :approver)
+        scope.where(user: @user).includes(:user, :approved_by)
       end
     end
   end
