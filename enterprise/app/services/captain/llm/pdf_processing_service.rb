@@ -36,7 +36,7 @@ class Captain::Llm::PdfProcessingService < Llm::BaseOpenAiService
     openai_response = upload_pdf_to_openai
     file_id = openai_response['id']
 
-    raise 'Failed to upload PDF to OpenAI' if file_id.blank?
+    raise I18n.t('captain.documents.pdf_upload_failed') if file_id.blank?
 
     document.store_openai_file_id(file_id)
     Rails.logger.info "PDF uploaded successfully with file_id: #{file_id}"

@@ -19,9 +19,9 @@ class Captain::Documents::CrawlJob < ApplicationJob
     pdf_processor = Captain::Llm::PdfProcessingService.new(document)
     pdf_processor.process
     document.update!(status: :available)
-    Rails.logger.info "Successfully processed PDF document #{document.id}"
+    Rails.logger.info I18n.t('captain.documents.pdf_processing_success', document_id: document.id)
   rescue StandardError => e
-    Rails.logger.error "Failed to process PDF document #{document.id}: #{e.message}"
+    Rails.logger.error I18n.t('captain.documents.pdf_processing_failed', document_id: document.id, error: e.message)
     raise # Re-raise to let job framework handle retry logic
   end
 

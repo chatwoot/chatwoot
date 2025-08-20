@@ -8,16 +8,21 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   def index
     base_query = account_documents.includes(:assistant)
-    base_query = base_query.where(assistant_id: params[:assistant_id]) if params[:assistant_id].present?
+    base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
 
     @documents_count = base_query.count
-    @documents = base_query.page(params[:page] || 1).per(RESULTS_PER_PAGE)
+    @documents = base_query.page(permitted_params[:page] || 1).per(RESULTS_PER_PAGE)
   end
 
   def show; end
 
   def create
-    @document = account_documents.create!(document_params)
+    @document = account_documents.build(document_params)
+    @document.save!
+  rescue Captain::Document::LimitExceededError => e
+    render_could_not_create_error(e.message)
+  rescue ActiveRecord::RecordInvalid => e
+    render_could_not_create_error(e.record.errors.full_messages.join(', '))
   end
 
   def destroy
@@ -32,7 +37,11 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def set_document
-    @document = account_documents.find(params[:id])
+    @document = account_documents.find(permitted_params[:id])
+  end
+
+  def permitted_params
+    params.permit(:assistant_id, :page, :id, :account_id)
   end
 
   def document_params

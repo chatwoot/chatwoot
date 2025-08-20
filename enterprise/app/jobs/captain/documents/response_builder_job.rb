@@ -41,7 +41,7 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
 
   def store_paginated_metadata(document, service)
     document.update!(
-      metadata: document.metadata.merge(
+      metadata: (document.metadata || {}).merge(
         'faq_generation' => {
           'method' => 'paginated',
           'pages_processed' => service.total_pages_processed,

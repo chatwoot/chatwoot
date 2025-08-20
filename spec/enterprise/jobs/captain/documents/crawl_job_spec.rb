@@ -47,6 +47,7 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
 
       it 'does not perform web crawling' do
         job = described_class.new
+        allow(job).to receive(:perform_pdf_processing)
         expect(job).not_to receive(:perform_simple_crawl)
         expect(job).not_to receive(:perform_firecrawl_crawl)
         job.perform(pdf_document)
@@ -77,19 +78,22 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
 
         described_class.perform_now(pdf_document)
 
-        expect(Rails.logger).to have_received(:info).with("Successfully processed PDF document #{pdf_document.id}")
+        expect(Rails.logger).to have_received(:info).with(I18n.t('captain.documents.pdf_processing_success', document_id: pdf_document.id))
       end
 
       context 'when PDF processing fails' do
-        it 'logs error and still marks document as available' do
+        it 'logs error and re-raises' do
           pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
           allow(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
           allow(pdf_processing_service).to receive(:process).and_raise(StandardError, 'Processing failed')
 
-          expect(Rails.logger).to receive(:error).with("Failed to process PDF document #{pdf_document.id}: Processing failed")
+          allow(Rails.logger).to receive(:error)
 
           expect { described_class.perform_now(pdf_document) }
-            .to change { pdf_document.reload.status }.to('available')
+            .to raise_error(StandardError, 'Processing failed')
+
+          expect(Rails.logger).to have_received(:error).with(I18n.t('captain.documents.pdf_processing_failed', document_id: pdf_document.id,
+                                                                                                               error: 'Processing failed'))
         end
       end
     end
@@ -136,15 +140,18 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
     end
 
     context 'when processing fails' do
-      it 'logs error and still marks document as available' do
+      it 'logs error and re-raises' do
         pdf_processing_service = instance_double(Captain::Llm::PdfProcessingService)
         allow(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_processing_service)
         allow(pdf_processing_service).to receive(:process).and_raise(StandardError, 'Test error')
 
-        expect(Rails.logger).to receive(:error).with("Failed to process PDF document #{pdf_document.id}: Test error")
+        allow(Rails.logger).to receive(:error)
 
         expect { job_instance.send(:perform_pdf_processing, pdf_document) }
-          .to change { pdf_document.reload.status }.to('available')
+          .to raise_error(StandardError, 'Test error')
+
+        expect(Rails.logger).to have_received(:error).with(I18n.t('captain.documents.pdf_processing_failed', document_id: pdf_document.id,
+                                                                                                             error: 'Test error'))
       end
     end
   end

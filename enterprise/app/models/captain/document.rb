@@ -66,11 +66,11 @@ class Captain::Document < ApplicationRecord
   end
 
   def openai_file_id
-    metadata['openai_file_id']
+    metadata&.dig('openai_file_id')
   end
 
   def store_openai_file_id(file_id)
-    update!(metadata: metadata.merge('openai_file_id' => file_id))
+    update!(metadata: (metadata || {}).merge('openai_file_id' => file_id))
   end
 
   def display_url
@@ -113,13 +113,13 @@ class Captain::Document < ApplicationRecord
 
   def ensure_within_plan_limit
     limits = account.usage_limits[:captain][:documents]
-    raise LimitExceededError, 'Document limit exceeded' unless limits[:current_available].positive?
+    raise LimitExceededError, I18n.t('captain.documents.limit_exceeded') unless limits[:current_available].positive?
   end
 
   def validate_pdf_format
     return unless pdf_file.attached?
 
-    errors.add(:pdf_file, 'must be a PDF file') unless pdf_file.blob.content_type == 'application/pdf'
+    errors.add(:pdf_file, I18n.t('captain.documents.pdf_format_error')) unless pdf_file.blob.content_type == 'application/pdf'
   end
 
   def validate_file_attachment
@@ -127,7 +127,7 @@ class Captain::Document < ApplicationRecord
 
     return unless pdf_file.blob.byte_size > 10.megabytes
 
-    errors.add(:pdf_file, 'must be less than 10MB')
+    errors.add(:pdf_file, I18n.t('captain.documents.pdf_size_error'))
   end
 
   def set_external_link_for_pdf

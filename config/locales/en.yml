@@ -292,6 +292,13 @@ en:
       completed_tool_call: 'Completed %{function_name} tool call'
       invalid_tool_call: 'Invalid tool call'
       tool_not_available: 'Tool not available'
+    documents:
+      limit_exceeded: 'Document limit exceeded'
+      pdf_format_error: 'must be a PDF file'
+      pdf_size_error: 'must be less than 10MB'
+      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
+      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
+      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
