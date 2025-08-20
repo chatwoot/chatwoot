@@ -10,8 +10,9 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     base_query = account_documents.includes(:assistant)
     base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
 
+    @current_page = (permitted_params[:page] || 1).to_i
     @documents_count = base_query.count
-    @documents = base_query.page(permitted_params[:page] || 1).per(RESULTS_PER_PAGE)
+    @documents = base_query.page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end
