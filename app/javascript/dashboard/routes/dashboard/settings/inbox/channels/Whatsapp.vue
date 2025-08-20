@@ -13,6 +13,7 @@ export default {
     // CloudWhatsapp,
     Whapi,
   },
+  emits: ['step-changed'],
   props: {
     disabledAutoRoute: {
       type: Boolean,
@@ -24,6 +25,12 @@ export default {
       provider: 'whapi',
       whapiStep: 'name',
     };
+  },
+  methods: {
+    handleStepChanged(step) {
+      this.whapiStep = step;
+      this.$emit('step-changed', step);
+    },
   },
 };
 </script>
@@ -55,7 +62,7 @@ export default {
     <Whapi
       v-if="provider === 'whapi'"
       :disabled-auto-route="disabledAutoRoute"
-      @step-changed="whapiStep = $event"
+      @step-changed="handleStepChanged"
     />
     <!-- <Twilio v-else-if="provider === 'twilio'" type="whatsapp" />
     <ThreeSixtyDialogWhatsapp v-else-if="provider === '360dialog'" /> -->
