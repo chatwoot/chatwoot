@@ -4,10 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  content       :text
-#  content_type  :string
 #  external_link :string           not null
-#  file_size     :bigint
-#  metadata      :jsonb
 #  name          :string
 #  status        :integer          default("in_progress"), not null
 #  created_at    :datetime         not null
@@ -20,8 +17,6 @@
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
-#  index_captain_documents_on_content_type                    (content_type)
-#  index_captain_documents_on_metadata                        (metadata) USING gin
 #  index_captain_documents_on_status                          (status)
 #
 class Captain::Document < ApplicationRecord
