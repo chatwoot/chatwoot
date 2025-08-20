@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: leaves
+# Table name: leave_records
 #
 #  id             :bigint           not null, primary key
 #  approved_at    :datetime
@@ -17,14 +17,12 @@
 #
 # Indexes
 #
-#  index_leaves_on_account_id             (account_id)
-#  index_leaves_on_account_id_and_status  (account_id,status)
-#  index_leaves_on_approved_by_id         (approved_by_id)
-#  index_leaves_on_user_id                (user_id)
+#  index_leave_records_on_account_id             (account_id)
+#  index_leave_records_on_account_id_and_status  (account_id,status)
+#  index_leave_records_on_approved_by_id         (approved_by_id)
+#  index_leave_records_on_user_id                (user_id)
 #
 class LeaveRecord < ApplicationRecord
-  self.table_name = 'leaves'
-
   belongs_to :account
   belongs_to :user
   belongs_to :approver, class_name: 'User', foreign_key: 'approved_by_id', optional: true, inverse_of: :approved_leave_records
