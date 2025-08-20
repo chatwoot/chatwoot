@@ -26,7 +26,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Scenarios', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:data].length).to eq(3)
+        expect(json_response[:payload].length).to eq(3)
       end
     end
 
@@ -38,7 +38,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Scenarios', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:data].length).to eq(5)
+        expect(json_response[:payload].length).to eq(5)
       end
 
       it 'returns only enabled scenarios' do
@@ -49,8 +49,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Scenarios', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(json_response[:data].length).to eq(1)
-        expect(json_response[:data].first[:enabled]).to be(true)
+        expect(json_response[:payload].length).to eq(1)
+        expect(json_response[:payload].first[:enabled]).to be(true)
       end
     end
   end

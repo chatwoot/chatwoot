@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "我們在線上",
     "OFFLINE": "我們目前不在線上"
