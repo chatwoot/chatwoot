@@ -60,6 +60,29 @@
         "NO": "No, Keep "
       }
     },
+    "CSBOT": {
+      "TICKET": {
+        "HEADER": "CS Bot Configurations",
+        "HEADER_DESC": "This page contains configurations for the ticket system, priorities, and categories for your CS Bot.",
+        "SYSTEM_TITLE": "Enable Ticket System",
+        "SYSTEM_DESC": "If disabled, all conversations will be redirected to agents.",
+        "CREATE_WHEN": "When should tickets be created?",
+        "CREATE_ALWAYS": "Always create a ticket",
+        "CREATE_ON_FAIL": "Only when bot cannot answer",
+        "PRIORITY_TITLE": "Ticket Priorities",
+        "PRIORITY_DESC": "Set priority levels and optionally define conditions (e.g., keywords).",
+        "PRIORITY_PLACEHOLDER": "Priority name (e.g., Low, High)",
+        "CATEGORY_TITLE": "Ticket Categories",
+        "CATEGORY_DESC": "Set categories and optionally define conditions.",
+        "CATEGORY_PLACEHOLDER": "Category name (e.g., Technical, Complaint)",
+        "CONDITION_PLACEHOLDER": "Optional conditions or keywords...",
+        "ADD_PRIORITY": "Add Priority",
+        "ADD_CATEGORY": "Add Category"
+      }
+      },
+      "COMMON": {
+        "REMOVE": "Remove"
+      },
     "EDIT": {
       "TITLE": "Edit agent",
       "FORM": {

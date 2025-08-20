@@ -60,6 +60,29 @@
         "NO": "Tidak, Simpan "
       }
     },
+    "CSBOT": {
+      "TICKET": {
+        "HEADER": "Pengaturan Bot CS",
+        "HEADER_DESC": "Halaman ini berisi pengaturan sistem tiket, prioritas, dan kategori untuk Bot CS Anda.",
+        "SYSTEM_TITLE": "Aktifkan Sistem Tiket",
+        "SYSTEM_DESC": "Jika nonaktif, semua percakapan akan langsung dialihkan ke agen.",
+        "CREATE_WHEN": "Kapan tiket dibuat?",
+        "CREATE_ALWAYS": "Selalu buat tiket",
+        "CREATE_ON_FAIL": "Hanya jika bot tidak bisa menjawab",
+        "PRIORITY_TITLE": "Prioritas Tiket",
+        "PRIORITY_DESC": "Atur level prioritas dan (opsional) tuliskan kondisi seperti kata kunci.",
+        "PRIORITY_PLACEHOLDER": "Nama prioritas (mis. Rendah, Tinggi)",
+        "CATEGORY_TITLE": "Kategori Tiket",
+        "CATEGORY_DESC": "Atur kategori dan (opsional) tuliskan kondisi.",
+        "CATEGORY_PLACEHOLDER": "Nama kategori (mis. Teknis, Komplain)",
+        "CONDITION_PLACEHOLDER": "Kondisi atau kata kunci opsional...",
+        "ADD_PRIORITY": "Tambah Prioritas",
+        "ADD_CATEGORY": "Tambah Kategori"
+      }
+    },
+    "COMMON": {
+      "REMOVE": "Hapus"
+    },
     "EDIT": {
       "TITLE": "Edit Agen",
       "FORM": {
@@ -140,7 +163,7 @@
       "AI_AGENT_SYSTEM_PROMPT": "Perintah Bot AI",
       "WELCOME_MESSAGE": "Pesan Selamat Datang",
       "ROUTING_CONDITION": "Kondisi Pengalihan",
-      "ROUTING_CONDITION_PLACEHOLDER": "Tentukan kapan Bot AI harus meneruskan chat ke agen manusia. Setelah itu, status chat akan berubah menjadi Open dan tampil di tab Chat Ditugaskan.",
+      "ROUTING_CONDITION_PLACEHOLDER": "Tentukan kapan Bot AI harus meneruskan chat ke agen. Setelah itu, status chat akan berubah menjadi Open dan tampil di tab Chat Ditugaskan.",
       "CUSTOM_FLOW_LINK": "Link Flowise",
       "CUSTOM_FLOW_LINK_PLACEHOLDER": "Masukkan link endpoint Flowise Anda..."
     },

@@ -4,15 +4,14 @@
 
 <template>
   <div class="w-full">
-    <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
-      <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-25 mb-2">
+    <div class="pb-4">
+      <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-1">
         Integrasi Data Manajemen
       </h2>
-    </div>
-    <div class="py-6">
-      <p class="text-lg text-slate-600 dark:text-slate-400">
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">
         Halaman ini akan menampilkan semua integrasi yang tersedia untuk Data Manajemen.
       </p>
+      <div class="border-b border-gray-200 dark:border-gray-700"></div>
     </div>
   </div>
 </template>
