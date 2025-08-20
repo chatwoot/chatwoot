@@ -136,6 +136,7 @@
       "HAS_WEBSITE_NO": "Tidak",
       "WEBSITE_URL_LABEL": "URL Website Anda",
       "WEBSITE_URL_PLACEHOLDER": "https://jangkau.ai/id",
+      "SUBMIT": "Simpan",
       "AI_AGENT_SYSTEM_PROMPT": "Perintah Bot AI",
       "WELCOME_MESSAGE": "Pesan Selamat Datang",
       "ROUTING_CONDITION": "Kondisi Pengalihan",

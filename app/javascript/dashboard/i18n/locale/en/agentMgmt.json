@@ -136,6 +136,7 @@
       "HAS_WEBSITE_NO": "No",
       "WEBSITE_URL_LABEL": "Your Website URL",
       "WEBSITE_URL_PLACEHOLDER": "https://jangkau.ai/en",
+      "SUBMIT": "Save",
       "AI_AGENT_SYSTEM_PROMPT": "System Prompt Bot AI",
       "WELCOME_MESSAGE": "Welcome Message",
       "ROUTING_CONDITION": "Routing Condition",

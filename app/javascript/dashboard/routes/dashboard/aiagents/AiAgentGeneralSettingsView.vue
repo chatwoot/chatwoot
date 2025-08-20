@@ -217,25 +217,25 @@ function resetChat() {
         </div>
         <!-- Website ownership radio button -->
         <div>
-          <label class="block mb-1">Apakah Anda sudah memiliki website?</label>
+          <label class="block mb-1">{{ t('AGENT_MGMT.FORM_CREATE.HAS_WEBSITE_QUESTION') }}</label>
           <div class="flex gap-4 mb-2">
             <label class="flex items-center gap-2">
               <input type="radio" value="yes" v-model="state.has_website" name="has_website" />
-              Ya
+              {{ t('AGENT_MGMT.FORM_CREATE.HAS_WEBSITE_YES') }}
             </label>
             <label class="flex items-center gap-2">
               <input type="radio" value="no" v-model="state.has_website" name="has_website" />
-              Tidak
+              {{ t('AGENT_MGMT.FORM_CREATE.HAS_WEBSITE_NO') }}
             </label>
           </div>
           <div v-if="state.has_website === 'yes'">
-            <label for="website_url" class="block mb-1">URL Website Anda</label>
-            <Input id="website_url" v-model="state.website_url" placeholder="Masukkan URL website Anda" />
+            <label for="website_url" class="block mb-1">{{ t('AGENT_MGMT.FORM_CREATE.WEBSITE_URL_LABEL') }}</label>
+            <Input id="website_url" v-model="state.website_url" :placeholder="t('AGENT_MGMT.FORM_CREATE.WEBSITE_URL_PLACEHOLDER')" />
           </div>
         </div>
         <button class="button self-start" type="submit" :disabled="loadingSave">
           <span v-if="loadingSave" class="mt-4 mb-4 spinner" />
-          <span v-else>Simpan</span>
+          <span v-else>{{ t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}</span>
         </button>
       </div>
     </form>
