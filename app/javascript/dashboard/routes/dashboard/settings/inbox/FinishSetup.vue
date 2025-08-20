@@ -1,5 +1,5 @@
 <script>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import QRCode from 'qrcode';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -13,10 +13,12 @@ export default {
   },
   setup() {
     const whatsappQRCode = ref('');
+    const messengerQRCode = ref('');
+    const telegramQRCode = ref('');
 
-    const generateWhatsAppQR = async () => {
+    const generateWhatsAppQR = async phoneNumber => {
       try {
-        const whatsappUrl = 'https://wa.me/+9567280820';
+        const whatsappUrl = `https://wa.me/${phoneNumber}`;
         const qrDataUrl = await QRCode.toDataURL(whatsappUrl);
         whatsappQRCode.value = qrDataUrl;
       } catch (error) {
@@ -24,12 +26,33 @@ export default {
       }
     };
 
-    onMounted(() => {
-      generateWhatsAppQR();
-    });
+    const generateMessengerQR = async pageId => {
+      try {
+        const messengerUrl = `https://m.me/${pageId}`;
+        const qrDataUrl = await QRCode.toDataURL(messengerUrl);
+        messengerQRCode.value = qrDataUrl;
+      } catch (error) {
+        // console.error('Error generating QR code:', error);
+      }
+    };
+
+    const generateTelegramQR = async botName => {
+      try {
+        const telegramUrl = `https://t.me/${botName}`;
+        const qrDataUrl = await QRCode.toDataURL(telegramUrl);
+        telegramQRCode.value = qrDataUrl;
+      } catch (error) {
+        // console.error('Error generating QR code:', error);
+      }
+    };
 
     return {
       whatsappQRCode,
+      messengerQRCode,
+      telegramQRCode,
+      generateWhatsAppQR,
+      generateMessengerQR,
+      generateTelegramQR,
     };
   },
   computed: {
@@ -75,6 +98,12 @@ export default {
         this.isWhatsAppCloudInbox &&
         this.currentInbox.provider_config?.source === 'embedded_signup'
       );
+    },
+    isAFacebookInbox() {
+      return this.currentInbox.channel_type === 'Channel::FacebookPage';
+    },
+    isATelegramInbox() {
+      return this.currentInbox.channel_type === 'Channel::Telegram';
     },
     // If the inbox is a whatsapp cloud inbox and the source is not embedded signup, then show the webhook details
     shouldShowWhatsAppWebhookDetails() {
@@ -122,6 +151,30 @@ export default {
         )}`;
       }
       return this.$t('INBOX_MGMT.FINISH.MESSAGE');
+    },
+  },
+  watch: {
+    currentInbox: {
+      handler(inbox) {
+        if (!inbox) return;
+
+        // WhatsApp QR Code
+        if (inbox.phone_number && this.isWhatsAppEmbeddedSignup) {
+          this.generateWhatsAppQR(inbox.phone_number);
+        }
+
+        // Facebook Messenger QR Code
+        if (inbox.page_id && this.isAFacebookInbox) {
+          this.generateMessengerQR(inbox.page_id);
+        }
+
+        // Telegram QR Code - need to access channel data
+        if (this.isATelegramInbox && inbox.channel?.bot_name) {
+          this.generateTelegramQR(inbox.channel.bot_name);
+        }
+      },
+      immediate: true,
+      deep: true,
     },
   },
 };
@@ -198,6 +251,9 @@ export default {
           v-if="isWhatsAppEmbeddedSignup && whatsappQRCode"
           class="flex flex-col items-center mt-8"
         >
+          <p class="mb-4 font-medium text-n-slate-11">
+            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_MESSAGE') }}
+          </p>
           <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
             <img
               :src="whatsappQRCode"
@@ -205,6 +261,45 @@ export default {
               class="w-48 h-48"
             />
           </div>
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION') }}
+          </p>
+        </div>
+        <div
+          v-if="isAFacebookInbox && messengerQRCode"
+          class="flex flex-col items-center mt-8"
+        >
+          <p class="mb-4 font-medium text-n-slate-11">
+            {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_MESSAGE') }}
+          </p>
+          <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
+            <img
+              :src="messengerQRCode"
+              alt="Messenger QR Code"
+              class="w-48 h-48"
+            />
+          </div>
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_INSTRUCTION') }}
+          </p>
+        </div>
+        <div
+          v-if="isATelegramInbox && telegramQRCode"
+          class="flex flex-col items-center mt-8"
+        >
+          <p class="mb-4 font-medium text-n-slate-11">
+            {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_MESSAGE') }}
+          </p>
+          <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
+            <img
+              :src="telegramQRCode"
+              alt="Telegram QR Code"
+              class="w-48 h-48"
+            />
+          </div>
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_INSTRUCTION') }}
+          </p>
         </div>
         <div class="flex gap-2 justify-center mt-4">
           <router-link
