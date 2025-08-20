@@ -7,7 +7,7 @@ RSpec.describe LeaveRecordPolicy, type: :policy do
   let(:leave_record) { create(:leave_record, account: account, user: agent) }
 
   describe 'permissions' do
-    context 'for administrators' do
+    context 'when user is administrator' do
       let(:policy) { described_class.new(pundit_context(admin), leave_record) }
 
       it 'permits all actions' do
@@ -21,7 +21,7 @@ RSpec.describe LeaveRecordPolicy, type: :policy do
       end
     end
 
-    context 'for agents' do
+    context 'when user is agent' do
       let(:policy) { described_class.new(pundit_context(agent), leave_record) }
 
       it 'permits basic actions' do

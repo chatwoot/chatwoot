@@ -7,8 +7,10 @@ RSpec.describe 'LeaveRecords API', type: :request do
   let(:other_agent) { create(:user, account: account, role: :agent) }
 
   describe 'GET /api/v1/accounts/:account_id/leave_records' do
-    let!(:agent_leave) { create(:leave_record, account: account, user: agent) }
-    let!(:other_leave) { create(:leave_record, account: account, user: other_agent) }
+    before do
+      create(:leave_record, account: account, user: agent)
+      create(:leave_record, account: account, user: other_agent)
+    end
 
     it 'allows admins to see all leave records' do
       get "/api/v1/accounts/#{account.id}/leave_records",
