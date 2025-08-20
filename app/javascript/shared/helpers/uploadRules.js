@@ -1,21 +1,71 @@
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import {
-  MAXIMUM_FILE_UPLOAD_SIZE,
-  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
-  MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_WHATSAPP_CHANNEL,
-  MAXIMUM_INSTAGRAM_AUDIO_UPLOAD_SIZE,
-  MAXIMUM_INSTAGRAM_VIDEO_UPLOAD_SIZE,
-  MAXIMUM_INSTAGRAM_IMAGE_UPLOAD_SIZE,
-  MAXIMUM_WHATSAPP_DOCUMENT_UPLOAD_SIZE,
-  MAXIMUM_WHATSAPP_AUDIO_UPLOAD_SIZE,
-  MAXIMUM_WHATSAPP_VIDEO_UPLOAD_SIZE,
-  MAXIMUM_WHATSAPP_IMAGE_UPLOAD_SIZE,
-  ALLOWED_FILE_TYPES,
-  ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
-  ALLOWED_FILE_TYPES_FOR_LINE,
-  ALLOWED_FILE_TYPES_FOR_INSTAGRAM,
-  ALLOWED_FILE_TYPES_FOR_WHATSAPP_CLOUD,
-} from 'shared/constants/messages';
+// Constants
+export const INBOX_TYPES = {
+  WEB: 'Channel::WebWidget',
+  FB: 'Channel::FacebookPage',
+  TWITTER: 'Channel::TwitterProfile',
+  TWILIO: 'Channel::TwilioSms',
+  WHATSAPP: 'Channel::Whatsapp',
+  API: 'Channel::Api',
+  EMAIL: 'Channel::Email',
+  TELEGRAM: 'Channel::Telegram',
+  LINE: 'Channel::Line',
+  SMS: 'Channel::Sms',
+  INSTAGRAM: 'Channel::Instagram',
+  VOICE: 'Channel::Voice',
+};
+
+// Size in mega bytes
+export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
+
+// Twilio
+export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
+export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_WHATSAPP_CHANNEL = 5;
+
+// Instagram
+export const MAXIMUM_INSTAGRAM_AUDIO_UPLOAD_SIZE = 25;
+export const MAXIMUM_INSTAGRAM_VIDEO_UPLOAD_SIZE = 25;
+export const MAXIMUM_INSTAGRAM_IMAGE_UPLOAD_SIZE = 16;
+
+// WhatsApp cloud API
+export const MAXIMUM_WHATSAPP_DOCUMENT_UPLOAD_SIZE = 100;
+export const MAXIMUM_WHATSAPP_AUDIO_UPLOAD_SIZE = 16;
+export const MAXIMUM_WHATSAPP_VIDEO_UPLOAD_SIZE = 16;
+export const MAXIMUM_WHATSAPP_IMAGE_UPLOAD_SIZE = 5;
+
+export const ALLOWED_FILE_TYPES =
+  'image/*,' +
+  'audio/*,' +
+  'video/*,' +
+  '.3gpp,' +
+  'text/csv, text/plain, application/json, application/pdf, text/rtf,' +
+  'application/xml, text/xml,' +
+  'application/zip, application/x-7z-compressed application/vnd.rar application/x-tar,' +
+  'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document,';
+
+export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
+  'image/png, image/jpeg,' +
+  'audio/mpeg, audio/opus, audio/ogg, audio/amr,' +
+  'video/mp4,' +
+  'application/pdf,';
+
+// https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
+export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
+
+// https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
+export const ALLOWED_FILE_TYPES_FOR_INSTAGRAM =
+  'audio/aac, audio/m4a, audio/wav, audio/mp4,' +
+  'image/png, image/jpeg, image/gif,' +
+  'video/mp4, video/ogg, video/avi, video/mov, video/webm';
+
+// https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#supported-media-types
+export const ALLOWED_FILE_TYPES_FOR_WHATSAPP_CLOUD =
+  'audio/aac, audio/amr, audio/mp3, audio/m4a, audio/ogg,' +
+  'image/jpeg, image/png,' +
+  'text/plain,' +
+  'application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation,' +
+  'video/3gp, video/mp4,';
 
 // Declarative config
 const RULES = {
@@ -89,8 +139,3 @@ export const getMaxUploadSizeByChannel = ({
   const cat = categoryFromMime(mime);
   return node.maxByCategory?.[cat] ?? node.max ?? RULES.default.max;
 };
-
-export const getUploadRulesByChannel = params => ({
-  accept: getAllowedFileTypesByChannel(params),
-  maxSizeMB: getMaxUploadSizeByChannel(params),
-});
