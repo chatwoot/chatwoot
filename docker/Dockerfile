@@ -4,8 +4,10 @@ FROM ruby:3.4.4-alpine3.21 AS pre-builder
 
 ARG NODE_VERSION="23.7.0"
 ARG PNPM_VERSION="10.2.0"
+ARG REDIS URL
 ENV NODE_VERSION=${NODE_VERSION}
 ENV PNPM_VERSION=${PNPM_VERSION}
+ENV REDIS_URL=${REDIS_URL:-redis://localhost:6379}
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -82,7 +84,11 @@ RUN mkdir -p /app/log
 
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
+  DATABASE_URL=postgresql://postgres:postgres@localhost/dummy \
+  REDIS_URL=${REDIS_URL:-redis://localhost:6379} \
+  SECRET_KEY_BASE=precompile_placeholder \
+  RAILS_LOG_TO_STDOUT=enabled \
+  bundle exec rake assets:precompile \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
