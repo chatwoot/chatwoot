@@ -21,63 +21,63 @@ const integrations = ref([
   {
     id: 'google-sheets',
     name: 'Google Sheets',
-    description: 'Instantly populate your spreadsheets with form data',
-    icon: '/assets/images/dashboard/configuration/ic_g_sheet.svg',
+    description: 'Isi spreadsheet Anda dengan data formulir secara instan',
+    icon: '/assets/images/Sheets_icon.png',
     color: 'bg-green-50 dark:bg-green-900/20',
     iconColor: 'text-green-600 dark:text-green-400',
     borderColor: 'border-green-200 dark:border-green-700',
     available: true
   },
-  {
-    id: 'excel',
-    name: 'Microsoft Excel',
-    description: 'Sync data with Excel spreadsheets',
-    icon: '/assets/images/dashboard/configuration/ic_ms_excel.svg',
-    color: 'bg-blue-50 dark:bg-blue-900/20',
-    iconColor: 'text-blue-600 dark:text-blue-400',
-    borderColor: 'border-blue-200 dark:border-blue-700',
-    available: false
-  },
-  {
-    id: 'airtable',
-    name: 'Airtable',
-    description: 'Connect with Airtable databases',
-    icon: '/assets/images/dashboard/configuration/ic_air_table.svg',
-    color: 'bg-orange-50 dark:bg-orange-900/20',
-    iconColor: 'text-orange-600 dark:text-orange-400',
-    borderColor: 'border-orange-200 dark:border-orange-700',
-    available: false
-  },
-  {
-    id: 'notion',
-    name: 'Notion',
-    description: 'Sync data with Notion databases',
-    icon: '/assets/images/dashboard/configuration/ic_notion.svg',
-    color: 'bg-gray-50 dark:bg-gray-900/20',
-    iconColor: 'text-gray-600 dark:text-gray-400',
-    borderColor: 'border-gray-200 dark:border-gray-700',
-    available: false
-  },
-  {
-    id: 'zapier',
-    name: 'Zapier',
-    description: 'Connect with 5000+ apps via Zapier',
-    icon: '/assets/images/dashboard/configuration/ic_zapier.svg',
-    color: 'bg-purple-50 dark:bg-purple-900/20',
-    iconColor: 'text-purple-600 dark:text-purple-400',
-    borderColor: 'border-purple-200 dark:border-purple-700',
-    available: false
-  },
-  {
-    id: 'slack',
-    name: 'Slack',
-    description: 'Send notifications to Slack channels',
-    icon: '/assets/images/dashboard/configuration/ic_slack.svg',
-    color: 'bg-pink-50 dark:bg-pink-900/20',
-    iconColor: 'text-pink-600 dark:text-pink-400',
-    borderColor: 'border-pink-200 dark:border-pink-700',
-    available: false
-  }
+  // {
+  //   id: 'excel',
+  //   name: 'Microsoft Excel',
+  //   description: 'Sync data with Excel spreadsheets',
+  //   icon: '/assets/images/dashboard/configuration/ic_ms_excel.svg',
+  //   color: 'bg-blue-50 dark:bg-blue-900/20',
+  //   iconColor: 'text-blue-600 dark:text-blue-400',
+  //   borderColor: 'border-blue-200 dark:border-blue-700',
+  //   available: false
+  // },
+  // {
+  //   id: 'airtable',
+  //   name: 'Airtable',
+  //   description: 'Connect with Airtable databases',
+  //   icon: '/assets/images/dashboard/configuration/ic_air_table.svg',
+  //   color: 'bg-orange-50 dark:bg-orange-900/20',
+  //   iconColor: 'text-orange-600 dark:text-orange-400',
+  //   borderColor: 'border-orange-200 dark:border-orange-700',
+  //   available: false
+  // },
+  // {
+  //   id: 'notion',
+  //   name: 'Notion',
+  //   description: 'Sync data with Notion databases',
+  //   icon: '/assets/images/dashboard/configuration/ic_notion.svg',
+  //   color: 'bg-gray-50 dark:bg-gray-900/20',
+  //   iconColor: 'text-gray-600 dark:text-gray-400',
+  //   borderColor: 'border-gray-200 dark:border-gray-700',
+  //   available: false
+  // },
+  // {
+  //   id: 'zapier',
+  //   name: 'Zapier',
+  //   description: 'Connect with 5000+ apps via Zapier',
+  //   icon: '/assets/images/dashboard/configuration/ic_zapier.svg',
+  //   color: 'bg-purple-50 dark:bg-purple-900/20',
+  //   iconColor: 'text-purple-600 dark:text-purple-400',
+  //   borderColor: 'border-purple-200 dark:border-purple-700',
+  //   available: false
+  // },
+  // {
+  //   id: 'slack',
+  //   name: 'Slack',
+  //   description: 'Send notifications to Slack channels',
+  //   icon: '/assets/images/dashboard/configuration/ic_slack.svg',
+  //   color: 'bg-pink-50 dark:bg-pink-900/20',
+  //   iconColor: 'text-pink-600 dark:text-pink-400',
+  //   borderColor: 'border-pink-200 dark:border-pink-700',
+  //   available: false
+  // }
 ]);
 
 const showNotification = (message, type = 'success') => {
@@ -229,7 +229,7 @@ watch(currentView, (newValue) => {
     <div v-if="currentView === 'integrations'" class="space-y-6">
       <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
         <h2 class="text-3xl font-bold text-slate-900 dark:text-slate-25 mb-2">
-          Data Management Integrations
+          Integrasi Data Manajemen
         </h2>
         <div class="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

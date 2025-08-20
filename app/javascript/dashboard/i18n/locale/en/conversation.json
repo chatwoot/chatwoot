@@ -366,5 +366,8 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "AI_AGENTS": {
+    "CREATE_NEW": "Create AI Bot"
   }
 }
