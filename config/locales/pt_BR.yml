@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 pt_BR:
   hello: 'Olá, mundo'
+  inbox:
+    reauthorization:
+      success: 'Canal reautenticado com sucesso'
+      not_required: 'Reautenticação não é necessária para esta caixa de entrada'
+      invalid_channel: 'Tipo de canal inválido para reautenticar'
   messages:
     reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
@@ -53,6 +58,13 @@ pt_BR:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
+    whatsapp:
+      token_exchange_failed: 'Falha ao trocar o código por um token de acesso. Por favor, tente novamente.'
+      invalid_token_permissions: 'O token de acesso não tem as permissões necessárias para o WhatsApp.'
+      phone_info_fetch_failed: 'Falha ao obter a informação do número de telefone. Por favor, tente novamente.'
+      reauthorization:
+        generic: 'Falha ao reautenticar o WhatsApp. Por favor, tente novamente.'
+        not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
     inboxes:
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
@@ -245,8 +257,8 @@ pt_BR:
       description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: 'Integre banco de dados, documentos e páginas diretamente com o Capitão.'
+      description: 'Conecte o seu espaço de trabalho Notion para permitir que o Capitão acesse e gere respostas inteligentes usando o conteúdo de seus bancos de dados, documentos e páginas para fornecer suporte ao cliente mais contextual.'
     shopify:
       name: 'Shopify'
       short_description: 'Acessar detalhes do pedido e dados de clientes da sua loja Shopify.'
@@ -344,3 +356,12 @@ pt_BR:
 
       Transcrição:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'E-mail é obrigatório'
+      invalid_email_format: 'Formato inválido de e-mail'
+      custom_domain_not_configured: 'Domínio personalizado não está configurado'
+      instructions_sent_successfully: 'Instruções enviadas com sucesso'
+      subject: 'Termine de configurar %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Domínio personalizado não está configurado'

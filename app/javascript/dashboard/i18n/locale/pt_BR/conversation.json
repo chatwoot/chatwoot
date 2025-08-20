@@ -144,6 +144,9 @@
       "AGENTS_LOADING": "Carregando agentes...",
       "ASSIGN_TEAM": "Atribuir time",
       "DELETE": "Excluir conversa",
+      "OPEN_IN_NEW_TAB": "Abrir em nova aba",
+      "COPY_LINK": "Copiar link da conversa",
+      "COPY_LINK_SUCCESS": "Link da conversa copiado",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID da conversa {conversationId} atribuído para \"{agentName}\"",

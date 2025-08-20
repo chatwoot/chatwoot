@@ -1,38 +1,33 @@
-<script>
-import Thumbnail from '../../../components/widgets/Thumbnail.vue';
+<script setup>
+import Avatar from 'next/avatar/Avatar.vue';
 
-export default {
-  components: {
-    Thumbnail,
+defineProps({
+  name: {
+    type: String,
+    default: '',
   },
-  props: {
-    name: {
-      type: String,
-      default: '',
-    },
-    thumbnail: {
-      type: String,
-      default: '',
-    },
-    email: {
-      type: String,
-      default: '',
-    },
-    phoneNumber: {
-      type: String,
-      default: '',
-    },
-    identifier: {
-      type: [String, Number],
-      required: true,
-    },
+  thumbnail: {
+    type: String,
+    default: '',
   },
-};
+  email: {
+    type: String,
+    default: '',
+  },
+  phoneNumber: {
+    type: String,
+    default: '',
+  },
+  identifier: {
+    type: [String, Number],
+    required: true,
+  },
+});
 </script>
 
 <template>
   <div class="option-item--user">
-    <Thumbnail :src="thumbnail" size="28px" :username="name" />
+    <Avatar :src="thumbnail" :size="28" :name="name" rounded-full />
     <div class="option__user-data">
       <h5 class="option__title">
         {{ name }}

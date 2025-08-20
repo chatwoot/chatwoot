@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "การสนทนาที่ถูกสร้าง",
       "CONVERSATION_UPDATED": "อัปเดตการสนทนาแล้ว",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {

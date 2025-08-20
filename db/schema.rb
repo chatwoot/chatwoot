@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_22_152516) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -39,8 +39,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_152516) do
     t.integer "availability", default: 0, null: false
     t.boolean "auto_offline", default: true, null: false
     t.bigint "custom_role_id"
+    t.bigint "agent_capacity_policy_id"
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
+    t.index ["agent_capacity_policy_id"], name: "index_account_users_on_agent_capacity_policy_id"
     t.index ["custom_role_id"], name: "index_account_users_on_custom_role_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
   end
@@ -120,6 +122,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_152516) do
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
+  create_table "agent_capacity_policies", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", limit: 255, null: false
+    t.text "description"
+    t.jsonb "exclusion_rules", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_agent_capacity_policies_on_account_id"
+  end
+
   create_table "applied_slas", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "sla_policy_id", null: false
@@ -167,6 +179,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_152516) do
     t.index ["slug"], name: "index_articles_on_slug", unique: true
     t.index ["status"], name: "index_articles_on_status"
     t.index ["views"], name: "index_articles_on_views"
+  end
+
+  create_table "assignment_policies", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", limit: 255, null: false
+    t.text "description"
+    t.integer "assignment_order", default: 0, null: false
+    t.integer "conversation_priority", default: 0, null: false
+    t.integer "fair_distribution_limit", default: 100, null: false
+    t.integer "fair_distribution_window", default: 3600, null: false
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_assignment_policies_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_assignment_policies_on_account_id"
+    t.index ["enabled"], name: "index_assignment_policies_on_enabled"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -728,6 +756,26 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_152516) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "inbox_assignment_policies", force: :cascade do |t|
+    t.bigint "inbox_id", null: false
+    t.bigint "assignment_policy_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_policy_id"], name: "index_inbox_assignment_policies_on_assignment_policy_id"
+    t.index ["inbox_id"], name: "index_inbox_assignment_policies_on_inbox_id", unique: true
+  end
+
+  create_table "inbox_capacity_limits", force: :cascade do |t|
+    t.bigint "agent_capacity_policy_id", null: false
+    t.bigint "inbox_id", null: false
+    t.integer "conversation_limit", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_capacity_policy_id", "inbox_id"], name: "idx_on_agent_capacity_policy_id_inbox_id_71c7ec4caf", unique: true
+    t.index ["agent_capacity_policy_id"], name: "index_inbox_capacity_limits_on_agent_capacity_policy_id"
+    t.index ["inbox_id"], name: "index_inbox_capacity_limits_on_inbox_id"
+  end
+
   create_table "inbox_members", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "inbox_id", null: false
@@ -798,6 +846,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_152516) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_labels_on_account_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
+  end
+
+  create_table "leaves", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.integer "leave_type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.text "reason"
+    t.bigint "approved_by_id"
+    t.datetime "approved_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "status"], name: "index_leaves_on_account_id_and_status"
+    t.index ["account_id"], name: "index_leaves_on_account_id"
+    t.index ["approved_by_id"], name: "index_leaves_on_approved_by_id"
+    t.index ["user_id"], name: "index_leaves_on_user_id"
   end
 
   create_table "macros", force: :cascade do |t|
@@ -909,6 +975,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_22_152516) do
     t.index ["last_activity_at"], name: "index_notifications_on_last_activity_at"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
+    t.index ["user_id", "account_id", "snoozed_until", "read_at"], name: "idx_notifications_performance"
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
