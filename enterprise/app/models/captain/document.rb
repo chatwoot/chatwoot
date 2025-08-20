@@ -54,7 +54,9 @@ class Captain::Document < ApplicationRecord
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
 
   def pdf_document?
-    (external_link&.ends_with?('.pdf')) || (pdf_file.attached? && pdf_file.blob.content_type == 'application/pdf')
+    return true if pdf_file.attached? && pdf_file.blob.content_type == 'application/pdf'
+
+    external_link&.ends_with?('.pdf')
   end
 
   def content_type

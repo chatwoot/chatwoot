@@ -16,7 +16,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
   end
 
   def generate
-    raise 'Document must have openai_file_id for paginated processing' if @document&.openai_file_id.blank?
+    raise CustomExceptions::PdfFaqGenerationError, I18n.t('captain.documents.missing_openai_file_id') if @document&.openai_file_id.blank?
 
     generate_paginated_faqs
   end
@@ -45,13 +45,11 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     response = @client.chat(parameters: standard_chat_parameters)
     parse_response(response)
   rescue OpenAI::Error => e
-    Rails.logger.error "OpenAI API Error: #{e.message}"
+    Rails.logger.error I18n.t('captain.documents.openai_api_error', error: e.message)
     []
   end
 
   def generate_paginated_faqs
-    Rails.logger.info "Starting paginated FAQ generation (#{@pages_per_chunk} pages per chunk)"
-
     all_faqs = []
     current_page = 1
 
@@ -59,15 +57,11 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
       end_page = calculate_end_page(current_page)
       chunk_result = process_chunk_and_update_state(current_page, end_page, all_faqs)
 
-      unless should_continue_processing?(chunk_result)
-        Rails.logger.info "Stopping processing. Reason: #{determine_stop_reason(chunk_result)}"
-        break
-      end
+      break unless should_continue_processing?(chunk_result)
 
       current_page = end_page + 1
     end
 
-    Rails.logger.info "Paginated generation complete. Total FAQs: #{all_faqs.size}, Pages processed: #{@total_pages_processed}"
     deduplicate_faqs(all_faqs)
   end
 
@@ -77,8 +71,6 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
   end
 
   def process_chunk_and_update_state(current_page, end_page, all_faqs)
-    Rails.logger.info "Processing pages #{current_page}-#{end_page} (iteration #{@iterations_completed + 1})"
-
     chunk_result = process_page_chunk(current_page, end_page)
     chunk_faqs = chunk_result[:faqs]
 
@@ -86,7 +78,6 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     @total_pages_processed = end_page
     @iterations_completed += 1
 
-    Rails.logger.info "Chunk generated #{chunk_faqs.size} FAQs. Total so far: #{all_faqs.size}"
     chunk_result
   end
 
@@ -96,7 +87,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     result = parse_chunk_response(response)
     { faqs: result['faqs'] || [], has_content: result['has_content'] != false }
   rescue OpenAI::Error => e
-    Rails.logger.error "Error processing pages #{start_page}-#{end_page}: #{e.message}"
+    Rails.logger.error I18n.t('captain.documents.page_processing_error', start: start_page, end: end_page, error: e.message)
     { faqs: [], has_content: false }
   end
 

@@ -6,9 +6,9 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
 
     faqs = generate_faqs(document, options)
     create_responses_from_faqs(faqs, document)
-
-    Rails.logger.info "FAQ generation complete. Total FAQs created: #{faqs.size}"
   end
+
+  private
 
   def generate_faqs(document, options)
     if should_use_pagination?(document)
@@ -19,7 +19,6 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   end
 
   def generate_paginated_faqs(document, options)
-    Rails.logger.info "Using paginated FAQ generation for document #{document.id}"
     service = build_paginated_service(document, options)
     faqs = service.generate
     store_paginated_metadata(document, service)
@@ -27,7 +26,6 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   end
 
   def generate_standard_faqs(document)
-    Rails.logger.info "Using standard FAQ generation for document #{document.id}"
     Captain::Llm::FaqGeneratorService.new(document.content).generate
   end
 
@@ -56,8 +54,6 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
     faqs.each { |faq| create_response(faq, document) }
   end
 
-  private
-
   def should_use_pagination?(document)
     # Auto-detect when to use pagination
     # For now, use pagination for PDFs with OpenAI file ID
@@ -76,6 +72,6 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
       documentable: document
     )
   rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "Error in creating response document: #{e.message}"
+    Rails.logger.error I18n.t('captain.documents.response_creation_error', error: e.message)
   end
 end
