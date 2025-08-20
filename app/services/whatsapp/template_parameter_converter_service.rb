@@ -86,6 +86,9 @@ class Whatsapp::TemplateParameterConverterService
       # Hash format: {"1": "John", "name": "Jane"} → {body: {"1": "John", "name": "Jane"}}
       body_params = convert_hash_to_body_params(legacy_params)
       enhanced['body'] = body_params unless body_params.empty?
+    when NilClass
+      # Templates without parameters (nil processed_params)
+      # Return empty enhanced structure
     else
       raise ArgumentError, "Unknown legacy format: #{legacy_params.class}"
     end

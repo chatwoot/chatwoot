@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Conversation créée",
       "CONVERSATION_UPDATED": "Conversation mise à jour",
       "MESSAGE_CREATED": "Message créé",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation ouverte"
     },
     "ACTIONS": {

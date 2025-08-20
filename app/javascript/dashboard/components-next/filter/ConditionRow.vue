@@ -192,6 +192,7 @@ defineExpose({ validate });
         solid
         slate
         icon="i-lucide-trash"
+        class="flex-shrink-0"
         @click.stop="emit('remove')"
       />
     </div>

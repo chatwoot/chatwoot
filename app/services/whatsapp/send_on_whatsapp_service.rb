@@ -33,7 +33,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
                                          namespace: namespace,
                                          lang_code: lang_code,
                                          parameters: processed_parameters
-                                       })
+                                       }, message)
     message.update!(source_id: message_id) if message_id.present?
   end
 

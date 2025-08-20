@@ -732,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "主页链接",
           "PLACEHOLDER": "门户主页链接",
-          "ERROR": "无效的URL。主页链接必须以 'http://' 或 'https://' 开头。"
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",

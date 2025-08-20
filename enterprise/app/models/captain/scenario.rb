@@ -22,6 +22,7 @@
 #
 class Captain::Scenario < ApplicationRecord
   include Concerns::CaptainToolsHelpers
+  include Concerns::Agentable
 
   self.table_name = 'captain_scenarios'
 
@@ -37,9 +38,42 @@ class Captain::Scenario < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
+  delegate :temperature, :feature_faq, :feature_memory, :product_name, to: :assistant
+
   before_save :resolve_tool_references
 
+  def prompt_context
+    {
+      title: title,
+      instructions: resolved_instructions,
+      tools: resolved_tools
+    }
+  end
+
   private
+
+  def agent_name
+    "#{title} Agent".titleize
+  end
+
+  def agent_tools
+    resolved_tools.map { |tool| self.class.resolve_tool_class(tool[:id]) }.map { |tool| tool.new(assistant) }
+  end
+
+  def resolved_instructions
+    instruction.gsub(TOOL_REFERENCE_REGEX) do |match|
+      "#{match} tool "
+    end
+  end
+
+  def resolved_tools
+    return [] if tools.blank?
+
+    available_tools = self.class.available_agent_tools
+    tools.filter_map do |tool_id|
+      available_tools.find { |tool| tool[:id] == tool_id }
+    end
+  end
 
   # Validates that all tool references in the instruction are valid.
   # Parses the instruction for tool references and checks if they exist

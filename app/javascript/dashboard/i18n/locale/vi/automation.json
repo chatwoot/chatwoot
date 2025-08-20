@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Cuộc trò chuyện đã được tạo",
       "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {

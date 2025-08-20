@@ -133,7 +133,8 @@ describe Whatsapp::OneoffCampaignService do
                 )
               )
             )
-          )
+          ),
+          nil
         )
 
         described_class.new(campaign: campaign).perform
@@ -164,8 +165,8 @@ describe Whatsapp::OneoffCampaignService do
 
         allow(whatsapp_channel).to receive(:send_template).and_return(nil)
 
-        expect(whatsapp_channel).to receive(:send_template).with(contact_error.phone_number, anything).and_raise(StandardError, error_message)
-        expect(whatsapp_channel).to receive(:send_template).with(contact_success.phone_number, anything).once
+        expect(whatsapp_channel).to receive(:send_template).with(contact_error.phone_number, anything, nil).and_raise(StandardError, error_message)
+        expect(whatsapp_channel).to receive(:send_template).with(contact_success.phone_number, anything, nil).once
 
         expect(Rails.logger).to receive(:error)
           .with("Failed to send WhatsApp template message to #{contact_error.phone_number}: #{error_message}")

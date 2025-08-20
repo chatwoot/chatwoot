@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Verzenden mislukt, probeer het opnieuw"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We zijn online",
     "OFFLINE": "We zijn momenteel afwezig"

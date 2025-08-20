@@ -315,7 +315,9 @@ const handleAvatarDelete = () => {
           class="[&>div>button:not(.focused)]:!outline-n-weak"
         />
       </div>
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
           class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
         >

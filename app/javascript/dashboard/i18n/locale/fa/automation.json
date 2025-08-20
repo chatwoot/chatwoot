@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "گفتگو ایجاد شد",
       "CONVERSATION_UPDATED": "گفتگو به روز شد",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {

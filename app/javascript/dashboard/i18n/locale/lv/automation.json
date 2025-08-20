@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Saruna izveidota",
       "CONVERSATION_UPDATED": "Saruna Atjaunināta",
       "MESSAGE_CREATED": "Ziņojums Izveidots",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Saruna Atvērta"
     },
     "ACTIONS": {

@@ -84,7 +84,7 @@ class Whatsapp::OneoffCampaignService
                             namespace: namespace,
                             lang_code: lang_code,
                             parameters: processed_parameters
-                          })
+                          }, nil)
 
   rescue StandardError => e
     Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{e.message}"

@@ -1,24 +1,25 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import WhatsappTemplateParser from './WhatsappTemplateParser.vue';
+import WhatsappTemplate from './WhatsappTemplate.vue';
 
 const props = defineProps({
-  messageTemplates: {
-    type: Array,
-    default: () => [],
+  inboxId: {
+    type: Number,
+    required: true,
   },
 });
 
 const emit = defineEmits(['sendMessage']);
 
 const { t } = useI18n();
-
-// TODO: Remove this when we support all formats
-const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
+const getFilteredWhatsAppTemplates = useMapGetter(
+  'inboxes/getFilteredWhatsAppTemplates'
+);
 
 const searchQuery = ref('');
 const selectedTemplate = ref(null);
@@ -26,19 +27,7 @@ const selectedTemplate = ref(null);
 const showTemplatesMenu = ref(false);
 
 const whatsAppTemplateMessages = computed(() => {
-  // Add null check and ensure it's an array
-  const templates = Array.isArray(props.messageTemplates)
-    ? props.messageTemplates
-    : [];
-
-  // TODO: Remove the last filter when we support all formats
-  return templates
-    .filter(template => template?.status?.toLowerCase() === 'approved')
-    .filter(template => {
-      return template?.components?.every(component => {
-        return !formatsToRemove.includes(component.format);
-      });
-    });
+  return getFilteredWhatsAppTemplates.value(props.inboxId);
 });
 
 const filteredTemplates = computed(() => {
@@ -106,7 +95,7 @@ const handleSendMessage = template => {
       <div
         v-for="template in filteredTemplates"
         :key="template.id"
-        class="flex flex-col w-full gap-2 p-2 rounded-lg cursor-pointer dark:hover:bg-n-alpha-3 hover:bg-n-alpha-1"
+        class="flex flex-col gap-2 p-2 w-full rounded-lg cursor-pointer dark:hover:bg-n-alpha-3 hover:bg-n-alpha-1"
         @click="handleTemplateClick(template)"
       >
         <span class="text-sm text-n-slate-12">{{ template.name }}</span>
@@ -115,12 +104,12 @@ const handleSendMessage = template => {
         </p>
       </div>
       <template v-if="filteredTemplates.length === 0">
-        <p class="w-full pt-2 text-sm text-n-slate-11">
+        <p class="pt-2 w-full text-sm text-n-slate-11">
           {{ t('COMPOSE_NEW_CONVERSATION.FORM.WHATSAPP_OPTIONS.EMPTY_STATE') }}
         </p>
       </template>
     </div>
-    <WhatsappTemplateParser
+    <WhatsappTemplate
       v-if="selectedTemplate"
       :template="selectedTemplate"
       @send-message="handleSendMessage"

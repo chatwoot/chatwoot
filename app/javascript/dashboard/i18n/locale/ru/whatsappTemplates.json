@@ -1,29 +1,46 @@
 {
-    "WHATSAPP_TEMPLATES": {
-        "MODAL": {
-            "TITLE": "Шаблоны Whatsapp",
-            "SUBTITLE": "Выберите шаблон whatsapp, который вы хотите отправить",
-            "TEMPLATE_SELECTED_SUBTITLE": "Обработка {templateName}"
-        },
-        "PICKER": {
-            "SEARCH_PLACEHOLDER": "Найти шаблоны",
-            "NO_TEMPLATES_FOUND": "Не найдено шаблонов для",
-            "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-            "REFRESH_BUTTON": "Refresh templates",
-            "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-            "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
-            "LABELS": {
-                "LANGUAGE": "Язык",
-                "TEMPLATE_BODY": "Тело шаблона",
-                "CATEGORY": "Категория"
-            }
-        },
-        "PARSER": {
-            "VARIABLES_LABEL": "Переменные",
-            "VARIABLE_PLACEHOLDER": "Введите значение {variable}",
-            "GO_BACK_LABEL": "Вернуться",
-            "SEND_MESSAGE_LABEL": "Отправить сообщение",
-            "FORM_ERROR_MESSAGE": "Пожалуйста, заполните все переменные перед отправкой"
-        }
+  "WHATSAPP_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Шаблоны Whatsapp",
+      "SUBTITLE": "Выберите шаблон whatsapp, который вы хотите отправить",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Найти шаблоны",
+      "NO_TEMPLATES_FOUND": "Не найдено шаблонов для",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Категория",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Язык",
+        "TEMPLATE_BODY": "Тело шаблона",
+        "CATEGORY": "Категория"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Переменные",
+      "LANGUAGE": "Язык",
+      "CATEGORY": "Категория",
+      "VARIABLE_PLACEHOLDER": "Введите значение {variable}",
+      "GO_BACK_LABEL": "Вернуться",
+      "SEND_MESSAGE_LABEL": "Отправить сообщение",
+      "FORM_ERROR_MESSAGE": "Пожалуйста, заполните все переменные перед отправкой",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "OTP_CODE": "Enter 4-8 digit OTP",
+      "EXPIRY_MINUTES": "Enter expiry minutes",
+      "BUTTON_PARAMETERS": "Button Parameters",
+      "BUTTON_LABEL": "Button {index}",
+      "COUPON_CODE": "Enter coupon code (max 15 chars)",
+      "MEDIA_URL_LABEL": "Enter {type} URL",
+      "BUTTON_PARAMETER": "Enter button parameter"
     }
+  }
 }

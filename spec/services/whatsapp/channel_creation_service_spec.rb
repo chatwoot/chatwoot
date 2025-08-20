@@ -16,6 +16,11 @@ describe Whatsapp::ChannelCreationService do
 
   describe '#perform' do
     before do
+      # Stub the webhook teardown service to prevent HTTP calls during cleanup
+      teardown_service = instance_double(Whatsapp::WebhookTeardownService)
+      allow(Whatsapp::WebhookTeardownService).to receive(:new).and_return(teardown_service)
+      allow(teardown_service).to receive(:perform)
+
       # Clean up any existing channels to avoid phone number conflicts
       Channel::Whatsapp.destroy_all
 

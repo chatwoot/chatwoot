@@ -62,7 +62,12 @@ class Attachment < ApplicationRecord
   def thumb_url
     return '' unless file.attached? && image?
 
-    url_for(file.representation(resize_to_fill: [250, nil]))
+    begin
+      url_for(file.representation(resize_to_fill: [250, nil]))
+    rescue ActiveStorage::UnrepresentableError => e
+      Rails.logger.warn "Unrepresentable image attachment: #{id} (#{file.filename}) - #{e.message}"
+      ''
+    end
   end
 
   def with_attached_file?

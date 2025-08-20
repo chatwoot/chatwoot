@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "השיחה נוצרה",
       "CONVERSATION_UPDATED": "השיחה עודכנה",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "השיחה נפתחה"
     },
     "ACTIONS": {

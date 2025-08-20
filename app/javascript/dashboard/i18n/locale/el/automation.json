@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Δημιουργήθηκε Συνομιλία",
       "CONVERSATION_UPDATED": "Η Συνομιλία Ενημερώθηκε",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {

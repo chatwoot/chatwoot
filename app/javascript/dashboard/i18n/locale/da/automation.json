@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Samtale Oprettet",
       "CONVERSATION_UPDATED": "Samtale Opdateret",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {

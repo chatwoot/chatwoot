@@ -138,11 +138,11 @@
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
+      "HEADER_TITLE": "Campanhas do WhatsApp",
       "NEW_CAMPAIGN": "Criar campanha",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "Nenhuma campanha do WhatsApp está disponível",
+        "SUBTITLE": "Inicie uma campanha do WhatsApp para atingir seus clientes diretamente. Envie ofertas ou faça anúncios facilmente. Clique em \"Criar campanha\" para começar."
       },
       "CARD": {
         "STATUS": {
@@ -155,7 +155,7 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
+        "TITLE": "Criar campanha do WhatsApp",
         "CANCEL_BUTTON_TEXT": "Cancelar",
         "CREATE_BUTTON_TEXT": "Criar",
         "FORM": {
@@ -170,15 +170,15 @@
             "ERROR": "Caixa de entrada obrigatória"
           },
           "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
+            "LABEL": "Modelo do WhatsApp",
+            "PLACEHOLDER": "Selecione um modelo",
+            "INFO": "Selecione um modelo para usar para esta campanha.",
+            "ERROR": "Modelo é obrigatório",
             "PREVIEW_TITLE": "Processar {templateName}",
             "LANGUAGE": "Idioma",
             "CATEGORY": "Categoria",
             "VARIABLES_LABEL": "Variáveis",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "VARIABLE_PLACEHOLDER": "Digite um valor para {variable}"
           },
           "AUDIENCE": {
             "LABEL": "Público",
@@ -195,7 +195,7 @@
             "CANCEL": "Cancelar"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "SUCCESS_MESSAGE": "Campanha do WhatsApp criada com sucesso",
             "ERROR_MESSAGE": "Houve um erro. Por favor, tente novamente."
           }
         }

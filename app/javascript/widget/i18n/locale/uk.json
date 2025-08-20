@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Не вдалося надіслати, спробуйте ще раз"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Ми онлайн",
     "OFFLINE": "Нас наразі немає"

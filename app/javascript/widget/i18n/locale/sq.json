@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Nuk mund të dërgohej, provo sërish"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Ne jemi online",
     "OFFLINE": "Nuk jemi online për momentin"

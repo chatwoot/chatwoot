@@ -33,15 +33,14 @@ class Whatsapp::ChannelCreationService
 
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
-      channel = create_channel
+      channel = build_channel
       create_inbox(channel)
-      channel.reload
       channel
     end
   end
 
-  def create_channel
-    Channel::Whatsapp.create!(
+  def build_channel
+    Channel::Whatsapp.build(
       account: @account,
       phone_number: @phone_info[:phone_number],
       provider: 'whatsapp_cloud',

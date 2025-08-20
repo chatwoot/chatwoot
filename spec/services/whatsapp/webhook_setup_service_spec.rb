@@ -5,7 +5,7 @@ describe Whatsapp::WebhookSetupService do
     create(:channel_whatsapp,
            phone_number: '+1234567890',
            provider_config: {
-             'phone_number_id' => 'test_phone_id',
+             'phone_number_id' => '123456789',
              'webhook_verify_token' => 'test_verify_token'
            },
            provider: 'whatsapp_cloud',
@@ -18,9 +18,14 @@ describe Whatsapp::WebhookSetupService do
   let(:api_client) { instance_double(Whatsapp::FacebookApiClient) }
 
   before do
+    # Stub webhook teardown to prevent HTTP calls during cleanup
+    stub_request(:delete, /graph.facebook.com/).to_return(status: 200, body: '{}', headers: {})
+
     # Clean up any existing channels to avoid phone number conflicts
     Channel::Whatsapp.destroy_all
     allow(Whatsapp::FacebookApiClient).to receive(:new).and_return(api_client)
+    # Default stub for phone_number_verified? with any argument
+    allow(api_client).to receive(:phone_number_verified?).and_return(false)
   end
 
   describe '#perform' do
@@ -144,6 +149,88 @@ describe Whatsapp::WebhookSetupService do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 123_456)
           expect(SecureRandom).not_to receive(:random_number)
+          service.perform
+        end
+      end
+    end
+
+    context 'when webhook setup fails and should trigger reauthorization' do
+      before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
+        allow(api_client).to receive(:subscribe_waba_webhook).and_raise('Invalid access token')
+      end
+
+      it 'raises error with webhook setup failure message' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect { service.perform }.to raise_error(/Webhook setup failed: Invalid access token/)
+        end
+      end
+
+      it 'logs the webhook setup failure' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(Rails.logger).to receive(:error).with('[WHATSAPP] Webhook setup failed: Invalid access token')
+          expect { service.perform }.to raise_error(/Webhook setup failed/)
+        end
+      end
+    end
+
+    context 'when used during reauthorization flow' do
+      let(:existing_channel) do
+        create(:channel_whatsapp,
+               phone_number: '+1234567890',
+               provider_config: {
+                 'phone_number_id' => '123456789',
+                 'webhook_verify_token' => 'existing_verify_token',
+                 'business_id' => 'existing_business_id',
+                 'waba_id' => 'existing_waba_id'
+               },
+               provider: 'whatsapp_cloud',
+               sync_templates: false,
+               validate_provider_config: false)
+      end
+      let(:new_access_token) { 'new_access_token' }
+      let(:service_reauth) { described_class.new(existing_channel, waba_id, new_access_token) }
+
+      before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
+        allow(api_client).to receive(:subscribe_waba_webhook)
+          .with(waba_id, anything, 'existing_verify_token').and_return({ 'success' => true })
+      end
+
+      it 'successfully reauthorizes with new access token' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).not_to receive(:register_phone_number)
+          expect(api_client).to receive(:subscribe_waba_webhook)
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'existing_verify_token')
+          service_reauth.perform
+        end
+      end
+
+      it 'uses the existing webhook verify token during reauthorization' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).to receive(:subscribe_waba_webhook)
+            .with(waba_id, anything, 'existing_verify_token')
+          service_reauth.perform
+        end
+      end
+    end
+
+    context 'when webhook setup is successful in creation flow' do
+      before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
+        allow(api_client).to receive(:subscribe_waba_webhook)
+          .with(waba_id, anything, 'test_verify_token').and_return({ 'success' => true })
+      end
+
+      it 'completes successfully without errors' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect { service.perform }.not_to raise_error
+        end
+      end
+
+      it 'does not log any errors' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(Rails.logger).not_to receive(:error)
           service.perform
         end
       end
