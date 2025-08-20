@@ -23,6 +23,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['step-changed']);
+
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
   TWILIO: 'twilio',
@@ -105,6 +107,10 @@ const shouldShowCloudWhatsapp = provider => {
   // 2. Either no app ID is configured OR embedded signup feature is disabled
   return provider === PROVIDER_TYPES.WHATSAPP;
 };
+
+const handleStepChanged = step => {
+  emit('step-changed', step);
+};
 </script>
 
 <template>
@@ -146,6 +152,7 @@ const shouldShowCloudWhatsapp = provider => {
       <Whapi
         v-else-if="selectedProvider === PROVIDER_TYPES.WHAPI"
         :disabled-auto-route="disabledAutoRoute"
+        @step-changed="handleStepChanged"
       />
       <CloudWhatsapp v-else />
     </div>
