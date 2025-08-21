@@ -7,7 +7,7 @@ RSpec.describe Channel::Voice do
   let(:channel) { create(:channel_voice) }
 
   before do
-    allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(double(perform: twiml_app_sid))
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: twiml_app_sid))
   end
 
   it 'has a valid factory' do
