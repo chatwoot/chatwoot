@@ -22,6 +22,7 @@ import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
 import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
+import templates from './templates/templates.routes';
 
 export default {
   routes: [
@@ -59,5 +60,6 @@ export default {
     ...teams.routes,
     ...customRoles.routes,
     ...profile.routes,
+    ...templates.routes,
   ],
 };
