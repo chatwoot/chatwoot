@@ -1,5 +1,6 @@
 # --------- Stage 1: Node Base Layer ---------
 FROM node:23-alpine as node
+FROM ruby:3.4.4-alpine3.21 AS pre-builder
 
 # --------- Stage 2: Ruby Build Stage ---------
 FROM ruby:3.4.4-alpine3.21 AS pre-builder
