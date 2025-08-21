@@ -44,7 +44,7 @@ describe '/widget', type: :request do
 
     describe 'domain validation' do
       context 'when website_url is blank' do
-        before { web_widget.update!(website_url: '') }
+        before { web_widget.update_column(:website_url, '') }
 
         it 'allows access without origin validation' do
           get widget_url(website_token: web_widget.website_token)
