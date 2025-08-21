@@ -478,12 +478,10 @@
       "BUTTON_TEXT": "Take me there",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
-      "WHATSAPP_QR_MESSAGE": "Scan the QR code to Send a WhatsApp Message",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_MESSAGE": "Scan the QR code to Send a Messenger Message",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_MESSAGE": "Scan the QR code to Send a Telegram Message", 
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox",
+      "INSTAGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Instagram inbox"
     },
     "REAUTH": "Reauthorize",
     "VIEW": "View",

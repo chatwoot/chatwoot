@@ -64,6 +64,9 @@ export default {
     isATwilioInbox() {
       return this.currentInbox.channel_type === 'Channel::TwilioSms';
     },
+    isATwilioWhatsAppInbox() {
+      return this.isATwilioInbox && this.currentInbox.medium === 'whatsapp';
+    },
     // Check if a facebook inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.currentInbox.instagram_id;
@@ -104,6 +107,9 @@ export default {
     },
     isATelegramInbox() {
       return this.currentInbox.channel_type === 'Channel::Telegram';
+    },
+    isAInstagramInbox() {
+      return this.currentInbox.channel_type === 'Channel::Instagram';
     },
     // If the inbox is a whatsapp cloud inbox and the source is not embedded signup, then show the webhook details
     shouldShowWhatsAppWebhookDetails() {
@@ -158,19 +164,20 @@ export default {
       handler(inbox) {
         if (!inbox) return;
 
-        // WhatsApp QR Code
-        if (inbox.phone_number && this.isWhatsAppEmbeddedSignup) {
+        if (inbox.phone_number && this.isWhatsAppCloudInbox) {
           this.generateWhatsAppQR(inbox.phone_number);
         }
 
-        // Facebook Messenger QR Code
         if (inbox.page_id && this.isAFacebookInbox) {
           this.generateMessengerQR(inbox.page_id);
         }
 
-        // Telegram QR Code - need to access channel data
-        if (this.isATelegramInbox && inbox.channel?.bot_name) {
-          this.generateTelegramQR(inbox.channel.bot_name);
+        if (this.isATelegramInbox && inbox.bot_name) {
+          this.generateTelegramQR(inbox.bot_name);
+        }
+
+        if (this.isATwilioWhatsAppInbox && inbox.phone_number) {
+          this.generateWhatsAppQR(inbox.phone_number);
         }
       },
       immediate: true,
@@ -248,11 +255,13 @@ export default {
           <woot-code lang="html" :script="currentInbox.forward_to_email" />
         </div>
         <div
-          v-if="isWhatsAppEmbeddedSignup && whatsappQRCode"
+          v-if="
+            (isWhatsAppCloudInbox || isATwilioWhatsAppInbox) && whatsappQRCode
+          "
           class="flex flex-col items-center mt-8"
         >
-          <p class="mb-4 font-medium text-n-slate-11">
-            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_MESSAGE') }}
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION') }}
           </p>
           <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
             <img
@@ -261,16 +270,13 @@ export default {
               class="w-48 h-48"
             />
           </div>
-          <p class="mt-2 text-sm text-n-slate-9">
-            {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION') }}
-          </p>
         </div>
         <div
           v-if="isAFacebookInbox && messengerQRCode"
           class="flex flex-col items-center mt-8"
         >
-          <p class="mb-4 font-medium text-n-slate-11">
-            {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_MESSAGE') }}
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_INSTRUCTION') }}
           </p>
           <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
             <img
@@ -279,16 +285,13 @@ export default {
               class="w-48 h-48"
             />
           </div>
-          <p class="mt-2 text-sm text-n-slate-9">
-            {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_INSTRUCTION') }}
-          </p>
         </div>
         <div
           v-if="isATelegramInbox && telegramQRCode"
           class="flex flex-col items-center mt-8"
         >
-          <p class="mb-4 font-medium text-n-slate-11">
-            {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_MESSAGE') }}
+          <p class="mt-2 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_INSTRUCTION') }}
           </p>
           <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
             <img
@@ -297,9 +300,6 @@ export default {
               class="w-48 h-48"
             />
           </div>
-          <p class="mt-2 text-sm text-n-slate-9">
-            {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_INSTRUCTION') }}
-          </p>
         </div>
         <div class="flex gap-2 justify-center mt-4">
           <router-link
