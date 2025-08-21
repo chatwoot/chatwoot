@@ -162,7 +162,8 @@ onMounted(() => {
           v-model="selectedLanguage"
           class="w-full pl-3 pr-8 py-2 text-sm border border-n-weak rounded-lg bg-n-solid-2 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 appearance-none"
         >
-          <!-- eslint-disable-next-line vue/no-bare-strings-in-template -->
+          <!-- TODO: fix me -->
+          <!--eslint-disable-next-line vue/no-bare-strings-in-template -->
           <option value="English (en-US)">English (en-US)</option>
         </select>
       </div>
