@@ -30,7 +30,7 @@ class Api::V1::Accounts::LibraryResourcesController < Api::V1::Accounts::BaseCon
   end
 
   def resource_params
-    params.require(:library_resource).permit(:title, :description, :content)
+    params.require(:library_resource).permit(:title, :description, :content, custom_attributes: {})
   end
 
   def set_current_page

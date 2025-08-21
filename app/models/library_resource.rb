@@ -2,18 +2,20 @@
 #
 # Table name: library_resources
 #
-#  id          :bigint           not null, primary key
-#  content     :text
-#  description :text             not null
-#  title       :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :integer          not null
+#  id                :bigint           not null, primary key
+#  content           :text
+#  custom_attributes :jsonb
+#  description       :text             not null
+#  title             :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :integer          not null
 #
 # Indexes
 #
-#  index_library_resources_on_account_id  (account_id)
-#  index_library_resources_on_title       (title)
+#  index_library_resources_on_account_id         (account_id)
+#  index_library_resources_on_custom_attributes  (custom_attributes) USING gin
+#  index_library_resources_on_title              (title)
 #
 class LibraryResource < ApplicationRecord
   belongs_to :account
@@ -21,6 +23,7 @@ class LibraryResource < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
   validates :account, presence: true
+  validates :custom_attributes, jsonb_attributes_length: true
 
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
@@ -34,6 +37,7 @@ class LibraryResource < ApplicationRecord
       title: title,
       description: description,
       content: content,
+      custom_attributes: custom_attributes,
       created_at: created_at,
       updated_at: updated_at
     }
@@ -47,6 +51,7 @@ class LibraryResource < ApplicationRecord
       title: title,
       description: description,
       content: content,
+      custom_attributes: custom_attributes,
       created_at: created_at,
       updated_at: updated_at,
       account_id: account_id,

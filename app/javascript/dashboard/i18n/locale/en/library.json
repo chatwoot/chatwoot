@@ -32,6 +32,13 @@
       "DESCRIPTION_PLACEHOLDER": "Enter a brief description...",
       "CONTENT_LABEL": "Content",
       "CONTENT_PLACEHOLDER": "Enter the resource content...",
+      "CUSTOM_ATTRIBUTES_LABEL": "Custom Attributes",
+      "CUSTOM_ATTRIBUTES_ADD": "Add Attribute",
+      "CUSTOM_ATTRIBUTES_EMPTY": "No custom attributes added yet.",
+      "CUSTOM_ATTRIBUTES_KEY_PLACEHOLDER": "Key (e.g., price)",
+      "CUSTOM_ATTRIBUTES_LABEL_PLACEHOLDER": "Label (e.g., Price)",
+      "CUSTOM_ATTRIBUTES_VALUE_PLACEHOLDER": "Value (e.g., $10.00)",
+      "CUSTOM_ATTRIBUTES_REMOVE": "Remove",
       "SAVE": "Save Resource",
       "UPDATE": "Update Resource",
       "CANCEL": "Cancel"
