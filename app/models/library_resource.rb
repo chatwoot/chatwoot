@@ -6,6 +6,7 @@
 #  content           :text
 #  custom_attributes :jsonb
 #  description       :text             not null
+#  resource_type     :string           default("text"), not null
 #  title             :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
@@ -15,15 +16,19 @@
 #
 #  index_library_resources_on_account_id         (account_id)
 #  index_library_resources_on_custom_attributes  (custom_attributes) USING gin
+#  index_library_resources_on_resource_type      (resource_type)
 #  index_library_resources_on_title              (title)
 #
 class LibraryResource < ApplicationRecord
   belongs_to :account
 
+  RESOURCE_TYPES = %w[text image video audio pdf web_page].freeze
+
   validates :title, presence: true
   validates :description, presence: true
   validates :account, presence: true
   validates :custom_attributes, jsonb_attributes_length: true
+  validates :resource_type, inclusion: { in: RESOURCE_TYPES }
 
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
@@ -37,6 +42,7 @@ class LibraryResource < ApplicationRecord
       title: title,
       description: description,
       content: content,
+      resource_type: resource_type,
       custom_attributes: custom_attributes,
       created_at: created_at,
       updated_at: updated_at
@@ -51,6 +57,7 @@ class LibraryResource < ApplicationRecord
       title: title,
       description: description,
       content: content,
+      resource_type: resource_type,
       custom_attributes: custom_attributes,
       created_at: created_at,
       updated_at: updated_at,

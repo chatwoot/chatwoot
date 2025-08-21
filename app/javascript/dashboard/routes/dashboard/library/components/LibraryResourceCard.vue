@@ -4,12 +4,14 @@ import { useI18n } from 'vue-i18n';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   id: { type: Number, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
   createdAt: { type: String, required: true },
+  resourceType: { type: String, default: 'text' },
   isDeleting: { type: Boolean, default: false },
 });
 
@@ -20,6 +22,18 @@ const showDeleteConfirm = ref(false);
 
 const formattedDate = computed(() => {
   return new Date(props.createdAt).toLocaleDateString();
+});
+
+const resourceTypeIcon = computed(() => {
+  const iconMap = {
+    text: 'i-lucide-file-text',
+    image: 'i-lucide-image',
+    video: 'i-lucide-video',
+    audio: 'i-lucide-headphones',
+    pdf: 'i-lucide-file-text',
+    web_page: 'i-lucide-link',
+  };
+  return iconMap[props.resourceType] || 'i-lucide-file-text';
 });
 
 const handleEdit = () => emit('edit', props.id);
@@ -43,6 +57,9 @@ const handleDeleteCancel = () => {
     <div class="flex flex-col gap-4 w-full">
       <!-- Header -->
       <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 p-2 bg-n-slate-3 rounded-md">
+          <Icon :icon="resourceTypeIcon" class="w-4 h-4 text-n-slate-11" />
+        </div>
         <div class="flex-1 min-w-0">
           <h3 class="text-lg font-semibold text-n-base truncate">
             {{ title }}
@@ -73,7 +90,8 @@ const handleDeleteCancel = () => {
           {{ t('LIBRARY.CARD.EDIT') }}
         </Button>
         <Button
-          variant="danger-outline"
+          variant="outline"
+          color="ruby"
           size="sm"
           icon="i-lucide-trash-2"
           :disabled="isDeleting"
@@ -104,7 +122,8 @@ const handleDeleteCancel = () => {
               {{ t('LIBRARY.DELETE.CANCEL') }}
             </Button>
             <Button
-              variant="danger"
+              variant="outline"
+              color="ruby"
               size="sm"
               :loading="isDeleting"
               @click="handleDeleteConfirm"

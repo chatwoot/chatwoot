@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Textarea from 'dashboard/components-next/textarea/Textarea.vue';
+import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
 
 const props = defineProps({
   resource: { type: Object, default: () => ({}) },
@@ -19,7 +20,26 @@ const form = ref({
   title: '',
   description: '',
   content: '',
+  resource_type: 'text',
   custom_attributes: {},
+});
+
+// Resource type options
+const resourceTypeOptions = computed(() => [
+  { value: 'text', label: t('LIBRARY.FORM.RESOURCE_TYPE_TEXT') },
+  { value: 'image', label: t('LIBRARY.FORM.RESOURCE_TYPE_IMAGE') },
+  { value: 'video', label: t('LIBRARY.FORM.RESOURCE_TYPE_VIDEO') },
+  { value: 'audio', label: t('LIBRARY.FORM.RESOURCE_TYPE_AUDIO') },
+  { value: 'pdf', label: t('LIBRARY.FORM.RESOURCE_TYPE_PDF') },
+  { value: 'web_page', label: t('LIBRARY.FORM.RESOURCE_TYPE_WEB_PAGE') },
+]);
+
+// Get selected resource type label
+const selectedResourceTypeLabel = computed(() => {
+  const selected = resourceTypeOptions.value.find(
+    option => option.value === form.value.resource_type
+  );
+  return selected ? selected.label : t('LIBRARY.FORM.RESOURCE_TYPE_TEXT');
 });
 
 // Watch for changes in resource prop and update form
@@ -31,6 +51,7 @@ watch(
         title: newResource.title || '',
         description: newResource.description || '',
         content: newResource.content || '',
+        resource_type: newResource.resource_type || 'text',
         custom_attributes: newResource.custom_attributes || {},
       };
     }
@@ -39,10 +60,26 @@ watch(
 );
 
 const isValid = computed(() => {
+  const hasRequiredFields =
+    form.value.title.trim() && form.value.description.trim();
+
+  // For text and web_page types, content is required
+  if (
+    form.value.resource_type === 'text' ||
+    form.value.resource_type === 'web_page'
+  ) {
+    return hasRequiredFields && form.value.content.trim();
+  }
+
+  // For other types (files), content is not required for now
+  return hasRequiredFields;
+});
+
+// Computed property to check if content field should be shown
+const shouldShowContentField = computed(() => {
   return (
-    form.value.title.trim() &&
-    form.value.description.trim() &&
-    form.value.content.trim()
+    form.value.resource_type === 'text' ||
+    form.value.resource_type === 'web_page'
   );
 });
 
@@ -113,6 +150,17 @@ const handleCancel = () => {
     <form class="flex flex-col gap-4" @submit.prevent="handleSave">
       <div>
         <label class="block text-sm font-medium text-n-slate-12 mb-2">
+          {{ t('LIBRARY.FORM.RESOURCE_TYPE_LABEL') }}
+        </label>
+        <SelectMenu
+          v-model="form.resource_type"
+          :label="selectedResourceTypeLabel"
+          :options="resourceTypeOptions"
+        />
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-n-slate-12 mb-2">
           {{ t('LIBRARY.FORM.TITLE_LABEL') }}
         </label>
         <Input
@@ -134,16 +182,30 @@ const handleCancel = () => {
         />
       </div>
 
-      <div>
+      <div v-if="shouldShowContentField">
         <label class="block text-sm font-medium text-n-slate-12 mb-2">
-          {{ t('LIBRARY.FORM.CONTENT_LABEL') }}
+          {{
+            form.resource_type === 'web_page'
+              ? t('LIBRARY.FORM.URL_LABEL')
+              : t('LIBRARY.FORM.CONTENT_LABEL')
+          }}
         </label>
         <Textarea
           v-model="form.content"
-          :placeholder="t('LIBRARY.FORM.CONTENT_PLACEHOLDER')"
-          rows="10"
+          :placeholder="
+            form.resource_type === 'web_page'
+              ? t('LIBRARY.FORM.URL_PLACEHOLDER')
+              : t('LIBRARY.FORM.CONTENT_PLACEHOLDER')
+          "
+          :rows="form.resource_type === 'web_page' ? 3 : 10"
           required
         />
+      </div>
+
+      <div v-else class="p-4 bg-n-slate-2 rounded-md border border-n-weak">
+        <p class="text-sm text-n-slate-11">
+          {{ t('LIBRARY.FORM.FILE_UPLOAD_PLACEHOLDER') }}
+        </p>
       </div>
 
       <!-- Custom Attributes Section -->

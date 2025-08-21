@@ -30,6 +30,7 @@ const handleDeleteResource = id => {
       :title="resource.title"
       :description="resource.description"
       :created-at="resource.created_at"
+      :resource-type="resource.resource_type"
       :is-deleting="uiFlags.isDeleting"
       @view="handleViewResource"
       @edit="handleEditResource"

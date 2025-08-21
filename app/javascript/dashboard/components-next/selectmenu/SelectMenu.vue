@@ -51,6 +51,7 @@ const handleSelect = value => {
       trailing-icon
       color="slate"
       variant="faded"
+      type="button"
       class="!w-fit max-w-40"
       :class="{ 'dark:!bg-n-alpha-2 !bg-n-slate-9/20': isOpen }"
       :label="labelValue"
@@ -76,6 +77,7 @@ const handleSelect = value => {
         variant="ghost"
         color="slate"
         trailing-icon
+        type="button"
         class="!justify-end !px-2.5 !h-7"
         :class="{ '!bg-n-alpha-2': option.value === modelValue }"
         @click="handleSelect(option.value)"
