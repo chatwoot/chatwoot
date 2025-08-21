@@ -78,10 +78,10 @@
         "NOTE": "This token can be used if you are building an API based integration",
         "COPY": "Copy",
         "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "CONFIRM_RESET": "A jeni i sigurt?",
+        "CONFIRM_HINT": "Klikoni përsëri për të konfirmuar",
+        "RESET_SUCCESS": "Tokeni i aksesit u rigjenerua me sukses",
+        "RESET_ERROR": "Nuk mund të rigjenerohet tokeni i aksesit. Ju lutemi provoni përsëri"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -191,7 +191,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
         "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "IMPERSONATING_ERROR": "Nuk mund të ndryshoni disponueshmërinë ndërsa po veproni si një përdorues"
       },
       "EMAIL": {
         "LABEL": "Your email address",
@@ -226,7 +226,7 @@
     "APPEARANCE": "Change appearance",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
+    "CHANGELOG": "Lista e ndryshimeve",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
