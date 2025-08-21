@@ -113,9 +113,7 @@ end
 json.provider resource.channel.try(:provider)
 
 ## Telegram Attributes
-if resource.telegram?
-  json.bot_name resource.channel.try(:bot_name)
-end
+json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 
 ### WhatsApp Channel
 if resource.whatsapp?
