@@ -127,9 +127,24 @@ export const IFrameHelper = {
     window.onmessage = e => {
       if (
         typeof e.data !== 'string' ||
-        e.data.indexOf('chatwoot-widget:') !== 0 ||
-        e.origin !== window.location.origin
+        e.data.indexOf('chatwoot-widget:') !== 0
       ) {
+        return;
+      }
+
+      // Validate origin - allow messages from either:
+      // 1. The widget origin (widget -> parent communication)
+      // 2. The current page origin (same-origin messages)
+      const widgetOrigin = window.$chatwoot?.baseUrl
+        ? new URL(window.$chatwoot.baseUrl).origin
+        : null;
+      const parentOrigin = window.location.origin;
+
+      const isValidOrigin =
+        e.origin === parentOrigin ||
+        (widgetOrigin && e.origin === widgetOrigin);
+
+      if (!isValidOrigin) {
         return;
       }
 
