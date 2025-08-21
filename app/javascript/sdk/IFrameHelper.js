@@ -60,15 +60,16 @@ const sanitizeURL = url => {
     const parsedURL = new URL(url);
 
     // filter out dangerous protocols like `javascript`, `data`, `vbscript`
-    if (!['https', 'http'].includes(parsedURL.protocol)) {
+    if (!['https:', 'http:'].includes(parsedURL.protocol)) {
       throw new Error('Invalid Protocol');
     }
+
+    return url; // Return the original valid URL
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error('Invalid URL', e);
+    return 'about:blank'; // Only return blank for invalid URLs
   }
-
-  return 'about:blank'; // blank page URL
 };
 
 export const IFrameHelper = {
