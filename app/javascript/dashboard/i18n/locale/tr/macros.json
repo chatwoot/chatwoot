@@ -83,6 +83,29 @@
       "ACTION_PARAMETERS_REQUIRED": "Eylem parametreleri gereklidir",
       "ATLEAST_ONE_CONDITION_REQUIRED": "En az bir koşul gereklidir",
       "ATLEAST_ONE_ACTION_REQUIRED": "En az bir eylem gereklidir"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Bir Ekibe Ata",
+      "ASSIGN_AGENT": "Bir Temsilci Ata",
+      "ADD_LABEL": "Etiket Ekle",
+      "REMOVE_LABEL": "Etiketi Kaldır",
+      "REMOVE_ASSIGNED_TEAM": "Atanan Ekibi Kaldır",
+      "SEND_EMAIL_TRANSCRIPT": "E-posta Dökümü Gönder",
+      "MUTE_CONVERSATION": "Konuşmayı Sessize Al",
+      "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
+      "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
+      "SEND_ATTACHMENT": "Ek Gönder",
+      "SEND_MESSAGE": "Mesaj Gönder",
+      "CHANGE_PRIORITY": "Önceliği Değiştir",
+      "ADD_PRIVATE_NOTE": "Özel Bir Not Ekle",
+      "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Hiç",
+      "LOW": "Düşük",
+      "MEDIUM": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
     }
   }
 }

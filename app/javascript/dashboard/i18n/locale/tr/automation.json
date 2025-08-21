@@ -126,6 +126,58 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Hiç"
+    "NONE_OPTION": "Hiç",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Görüşme Oluşturuldu",
+      "CONVERSATION_UPDATED": "Görüşme Güncellendi",
+      "MESSAGE_CREATED": "Mesaj Oluşturuldu",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Sohbet Açıldı"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Temsilciye Ata",
+      "ASSIGN_TEAM": "Bir Ekibe Ata",
+      "ADD_LABEL": "Etiket Ekle",
+      "REMOVE_LABEL": "Etiketi Kaldır",
+      "SEND_EMAIL_TO_TEAM": "Ekibe E-posta Gönder",
+      "SEND_EMAIL_TRANSCRIPT": "E-posta Dökümü Gönder",
+      "MUTE_CONVERSATION": "Konuşmayı Sessize Al",
+      "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
+      "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
+      "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder",
+      "SEND_ATTACHMENT": "Ek Gönder",
+      "SEND_MESSAGE": "Mesaj Gönder",
+      "ADD_PRIVATE_NOTE": "Özel Bir Not Ekle",
+      "CHANGE_PRIORITY": "Önceliği Değiştir",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Görüşmeyi aç"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Hiç",
+      "LOW": "Düşük",
+      "MEDIUM": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Mesaj Türü",
+      "MESSAGE_CONTAINS": "Mesaj İçerir",
+      "EMAIL": "E-Posta",
+      "INBOX": "Gelen Kutusu",
+      "CONVERSATION_LANGUAGE": "Sohbet Dili",
+      "PHONE_NUMBER": "Telefon Numarası",
+      "STATUS": "Durum",
+      "BROWSER_LANGUAGE": "Tarayıcı Dili",
+      "MAIL_SUBJECT": "E-posta Konusu",
+      "COUNTRY_NAME": "Ülke",
+      "REFERER_LINK": "Yönlendiren Bağlantı",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Ekip",
+      "PRIORITY": "Öncelik"
+    }
   }
 }

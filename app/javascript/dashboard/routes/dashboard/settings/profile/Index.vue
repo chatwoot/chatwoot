@@ -3,10 +3,10 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useBranding } from 'shared/composables/useBranding';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
@@ -37,16 +37,17 @@ export default {
     AudioNotifications,
     AccessToken,
   },
-  mixins: [globalConfigMixin],
   setup() {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
     const { currentFontSize, updateFontSize } = useFontSize();
+    const { replaceInstallationName } = useBranding();
 
     return {
       currentFontSize,
       updateFontSize,
       isEditorHotKeyEnabled,
       updateUISettings,
+      replaceInstallationName,
     };
   },
   data() {
@@ -181,6 +182,14 @@ export default {
       await copyTextToClipboard(value);
       useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
+    async resetAccessToken() {
+      const success = await this.$store.dispatch('resetAccessToken');
+      if (success) {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS'));
+      } else {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR'));
+      }
+    },
   },
 };
 </script>
@@ -188,7 +197,7 @@ export default {
 <template>
   <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
     <div class="flex flex-col gap-6">
-      <h2 class="text-2xl font-medium text-ash-900">
+      <h2 class="text-2xl font-medium text-n-slate-12">
         {{ $t('PROFILE_SETTINGS.TITLE') }}
       </h2>
       <UserProfilePicture
@@ -207,7 +216,11 @@ export default {
     </div>
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
-      :description="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')"
+      :description="
+        replaceInstallationName(
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')
+        )
+      "
     >
       <FontSize
         :value="currentFontSize"
@@ -237,7 +250,12 @@ export default {
         <button
           v-for="hotKey in hotKeys"
           :key="hotKey.key"
-          class="px-0 reset-base w-full sm:flex-1"
+          class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
+          :class="
+            isEditorHotKeyEnabled(hotKey.key)
+              ? 'outline-n-brand/30'
+              : 'outline-n-weak'
+          "
         >
           <HotKeyCard
             :key="hotKey.title"
@@ -275,13 +293,14 @@ export default {
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
       :description="
-        useInstallationName(
-          $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
-          globalConfig.installationName
-        )
+        replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
       "
     >
-      <AccessToken :value="currentUser.access_token" @on-copy="onCopyToken" />
+      <AccessToken
+        :value="currentUser.access_token"
+        @on-copy="onCopyToken"
+        @on-reset="resetAccessToken"
+      />
     </FormSection>
   </div>
 </template>

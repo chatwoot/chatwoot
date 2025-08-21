@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Tókst ekki að senda skilaboðin, reyndu aftur"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Við erum tengd",
     "OFFLINE": "Það er enginn við í augnablikinu"

@@ -1,5 +1,6 @@
 # --------- Stage 1: Node Base Layer ---------
 FROM node:23-alpine as node
+FROM ruby:3.4.4-alpine3.21 AS pre-builder
 
 # --------- Stage 2: Ruby Build Stage ---------
 FROM ruby:3.3.3-alpine3.19 as pre-builder
@@ -103,14 +104,14 @@ fi
 # Store git SHA for tracking (using file instead of git command)
 RUN if [ -f /app/.git_sha ]; then echo "Git SHA already exists"; else echo "0000000" > /app/.git_sha; fi
 
-# Cleanup build tools (keep git for runtime)
-RUN apk del build-base openssl-dev linux-headers make g++ python3 \
-&& rm -rf /gems/ruby/3.3.0/cache/*.gem \
-&& find /gems/ruby/3.3.0/gems/ \( -name ".c" -o -name ".o" \) -delete \
-&& rm -rf .gitignore /tmp/ /var/tmp/
+# Remove unnecessary files
+RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
+  && find /gems/ruby/3.4.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
+  && rm -rf .git \
+  && rm .gitignore
 
-# --------- Stage 3: Final App Image ---------
-FROM ruby:3.3.3-alpine3.19 as final
+# final build stage
+FROM ruby:3.4.4-alpine3.21
 
 ARG RAILS_ENV="production"
 ARG RAILS_SERVE_STATIC_FILES="true"

@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import { MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
-import FormButton from 'v3/components/Form/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   messageSignature: {
@@ -38,13 +38,11 @@ const updateSignature = () => {
       :enable-suggestions="false"
       show-image-resize-toolbar
     />
-    <FormButton
-      type="submit"
-      color-scheme="primary"
-      variant="solid"
-      size="large"
-    >
-      {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
-    </FormButton>
+    <div>
+      <NextButton
+        type="submit"
+        :label="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT')"
+      />
+    </div>
   </form>
 </template>

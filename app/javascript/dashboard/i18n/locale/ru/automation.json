@@ -126,6 +126,58 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "Требуется хотя бы одно условие",
       "ATLEAST_ONE_ACTION_REQUIRED": "Требуется хотя бы одно действие"
     },
-    "NONE_OPTION": "Ничего"
+    "NONE_OPTION": "Ничего",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Диалог создан",
+      "CONVERSATION_UPDATED": "Диалог обновлён",
+      "MESSAGE_CREATED": "Сообщение создано",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Назначить агента",
+      "ASSIGN_TEAM": "Назначить команду",
+      "ADD_LABEL": "Добавить метку",
+      "REMOVE_LABEL": "Удалить метку",
+      "SEND_EMAIL_TO_TEAM": "Отправить Email команде",
+      "SEND_EMAIL_TRANSCRIPT": "Отправить историю переписки на email",
+      "MUTE_CONVERSATION": "Заглушить диалог",
+      "SNOOZE_CONVERSATION": "Включить звук диалога",
+      "RESOLVE_CONVERSATION": "Решить диалог",
+      "SEND_WEBHOOK_EVENT": "Отправить событие Webhook",
+      "SEND_ATTACHMENT": "Отправить вложение",
+      "SEND_MESSAGE": "Отправить сообщение",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Изменить приоритет",
+      "ADD_SLA": "Добавить SLA",
+      "OPEN_CONVERSATION": "Открыть беседу"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ничего",
+      "LOW": "Низкая",
+      "MEDIUM": "Средняя",
+      "HIGH": "Высокая",
+      "URGENT": "Срочность"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Тип сообщения",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "Email",
+      "INBOX": "Электронная почта",
+      "CONVERSATION_LANGUAGE": "Язык сообщения",
+      "PHONE_NUMBER": "Номер телефона",
+      "STATUS": "Статус",
+      "BROWSER_LANGUAGE": "Язык браузера",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Страна",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Назначено",
+      "TEAM_NAME": "Команда",
+      "PRIORITY": "Приоритет"
+    }
   }
 }

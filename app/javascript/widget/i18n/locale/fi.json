@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Ei voitu lähettää, yritä uudestaan"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Olemme online-tilassa",
     "OFFLINE": "Olemme tällä hetkellä poissa"

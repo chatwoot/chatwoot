@@ -5,12 +5,15 @@ import router from '../../../../index';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
     PageHeader,
     GreetingsEditor,
     NextButton,
+    Editor,
   },
   data() {
     return {
@@ -23,6 +26,7 @@ export default {
       greetingMessage: '',
       dealerName: '',
       dealerTagline: '',
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {

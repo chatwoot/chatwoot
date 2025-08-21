@@ -5,7 +5,7 @@ import Avatar from './Avatar.vue';
 <template>
   <Story title="Components/Avatar" :layout="{ type: 'grid', width: '400' }">
     <Variant title="Default">
-      <div class="flex p-4 space-x-4 bg-white dark:bg-slate-900">
+      <div class="flex p-4 space-x-4 bg-n-background">
         <Avatar
           name=""
           src="https://api.dicebear.com/9.x/thumbs/svg?seed=Amaya"
@@ -16,7 +16,7 @@ import Avatar from './Avatar.vue';
     </Variant>
 
     <Variant title="Different Shapes">
-      <div class="gap-4 p-4 bg-white dark:bg-slate-900">
+      <div class="gap-4 p-4 bg-n-background">
         <Avatar
           src="https://api.dicebear.com/9.x/thumbs/svg?seed=Amaya"
           name=""
@@ -34,7 +34,7 @@ import Avatar from './Avatar.vue';
     </Variant>
 
     <Variant title="Different Sizes">
-      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+      <div class="flex flex-wrap gap-4 p-4 bg-n-background">
         <Avatar
           src="https://api.dicebear.com/9.x/avataaars/svg?seed=Felix"
           :size="48"
@@ -57,7 +57,7 @@ import Avatar from './Avatar.vue';
     </Variant>
 
     <Variant title="With Status">
-      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+      <div class="flex flex-wrap gap-4 p-4 bg-n-background">
         <Avatar
           src="https://api.dicebear.com/9.x/thumbs/svg?seed=Felix"
           status="online"
@@ -77,7 +77,7 @@ import Avatar from './Avatar.vue';
     </Variant>
 
     <Variant title="With Custom Icon">
-      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+      <div class="flex flex-wrap gap-4 p-4 bg-n-background">
         <Avatar name="Custom Icon" icon-name="i-lucide-user" :size="48" />
         <Avatar
           name="Custom Industry"
@@ -88,7 +88,7 @@ import Avatar from './Avatar.vue';
     </Variant>
 
     <Variant title="Upload States">
-      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+      <div class="flex flex-wrap gap-4 p-4 bg-n-background">
         <!-- Empty state with upload -->
         <Avatar name="Upload New" allow-upload :size="48" />
 
@@ -103,7 +103,7 @@ import Avatar from './Avatar.vue';
     </Variant>
 
     <Variant title="Name Initials">
-      <div class="flex flex-wrap gap-4 p-4 bg-white dark:bg-slate-900">
+      <div class="flex flex-wrap gap-4 p-4 bg-n-background">
         <Avatar name="Catherine" :size="48" />
         <Avatar name="John Doe" :size="48" />
         <Avatar name="Rose Doe John" :size="48" />

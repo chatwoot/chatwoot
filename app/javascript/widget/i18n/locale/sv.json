@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Kunde inte skicka, försök igen"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi är online",
     "OFFLINE": "Vi är borta för tillfället"

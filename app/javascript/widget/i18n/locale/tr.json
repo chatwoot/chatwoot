@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Gönderilemedi, tekrar deneyin"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Çevrimiçi",
     "OFFLINE": "Şu an operatörlerimiz müsait değil"

@@ -104,7 +104,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def business_name
-    @inbox.business_name || @inbox.name
+    @inbox.business_name || @inbox.sanitized_name
   end
 
   def from_email
@@ -160,6 +160,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def conversation_reply_email_id
+    # Find the last incoming message's message_id to reply to
     content_attributes = @conversation.messages.incoming.last&.content_attributes
 
     if content_attributes && content_attributes['email'] && content_attributes['email']['message_id']
@@ -167,6 +168,10 @@ class ConversationReplyMailer < ApplicationMailer
     end
 
     nil
+  end
+
+  def references_header
+    build_references_header(@conversation, in_reply_to_email)
   end
 
   def cc_bcc_emails

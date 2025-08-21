@@ -21,6 +21,10 @@ class AgentBotsAPI extends ApiClient {
   deleteAgentBotAvatar(botId) {
     return axios.delete(`${this.url}/${botId}/avatar`);
   }
+
+  resetAccessToken(botId) {
+    return axios.post(`${this.url}/${botId}/reset_access_token`);
+  }
 }
 
 export default new AgentBotsAPI();

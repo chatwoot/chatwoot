@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "无法发送，请重试"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "在线",
     "OFFLINE": "当前已离线"
