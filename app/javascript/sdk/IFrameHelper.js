@@ -74,12 +74,9 @@ const sanitizeURL = url => {
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
-    baseUrl = sanitizeURL(baseUrl);
     return `${baseUrl}/widget?website_token=${websiteToken}`;
   },
   createFrame: ({ baseUrl, websiteToken }) => {
-    baseUrl = sanitizeURL(baseUrl);
-
     if (IFrameHelper.getAppFrame()) {
       return;
     }
@@ -127,12 +124,10 @@ export const IFrameHelper = {
     window.onmessage = e => {
       if (
         typeof e.data !== 'string' ||
-        e.data.indexOf('chatwoot-widget:') !== 0 ||
-        e.origin !== window.location.origin
+        e.data.indexOf('chatwoot-widget:') !== 0
       ) {
         return;
       }
-
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
       if (typeof IFrameHelper.events[message.event] === 'function') {
         IFrameHelper.events[message.event](message);
@@ -167,9 +162,7 @@ export const IFrameHelper = {
   },
 
   setupAudioListeners: () => {
-    let { baseUrl = '' } = window.$chatwoot;
-    baseUrl = sanitizeURL(baseUrl);
-
+    const { baseUrl = '' } = window.$chatwoot;
     getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
@@ -263,7 +256,6 @@ export const IFrameHelper = {
     },
 
     popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
-      baseUrl = sanitizeURL(baseUrl);
       const cwCookie = Cookies.get('cw_conversation');
       window.$chatwoot.toggle('close');
       popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
