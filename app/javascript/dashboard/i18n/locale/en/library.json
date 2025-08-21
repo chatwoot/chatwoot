@@ -48,7 +48,12 @@
       "RESOURCE_TYPE_WEB_PAGE": "Web Page",
       "URL_LABEL": "URL",
       "URL_PLACEHOLDER": "Enter the web page URL...",
-      "FILE_UPLOAD_PLACEHOLDER": "File upload functionality will be available soon for this resource type.",
+      "FILE_UPLOAD_PLACEHOLDER": "Click to select a file or drag and drop here",
+      "FILE_LABEL": "File",
+      "SELECT_FILE": "Select File",
+      "FILE_UPLOADED": "File uploaded successfully",
+      "FILE_ATTACHED": "File attached",
+      "UPLOADING_FILE": "Uploading file...",
       "SAVE": "Save Resource",
       "UPDATE": "Update Resource",
       "CANCEL": "Cancel"

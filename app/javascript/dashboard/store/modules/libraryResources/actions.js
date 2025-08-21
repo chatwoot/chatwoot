@@ -68,4 +68,16 @@ export const actions = {
       commit(types.SET_LIBRARY_RESOURCE_UI_FLAG, { isDeleting: false });
     }
   },
+
+  upload: async function uploadLibraryResourceFile({ commit }, file) {
+    commit(types.SET_LIBRARY_RESOURCE_UI_FLAG, { isUploading: true });
+    try {
+      const response = await LibraryResourcesAPI.upload(file);
+      return response.data;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_LIBRARY_RESOURCE_UI_FLAG, { isUploading: false });
+    }
+  },
 };

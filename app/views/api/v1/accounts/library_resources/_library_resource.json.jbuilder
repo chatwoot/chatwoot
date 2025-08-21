@@ -4,4 +4,5 @@ json.description library_resource.description
 json.content library_resource.content
 json.resource_type library_resource.resource_type
 json.custom_attributes library_resource.custom_attributes
+json.file_url library_resource.file_url
 json.created_at library_resource.created_at.iso8601

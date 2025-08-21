@@ -299,7 +299,11 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :library_resources
+          resources :library_resources do
+            collection do
+              post 'upload', to: 'library_resources/upload#create'
+            end
+          end
           resources :upload, only: [:create]
         end
       end

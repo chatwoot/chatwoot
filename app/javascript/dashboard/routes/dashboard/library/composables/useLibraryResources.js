@@ -97,6 +97,14 @@ export function useLibraryResources() {
     }
   };
 
+  const uploadFile = async file => {
+    try {
+      return await store.dispatch('libraryResources/upload', file);
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   return {
     resources: paginatedResources,
     allResources,
@@ -113,5 +121,6 @@ export function useLibraryResources() {
     updateResource,
     deleteResource,
     fetchResource,
+    uploadFile,
   };
 }

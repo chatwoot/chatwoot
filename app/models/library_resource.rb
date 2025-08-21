@@ -21,6 +21,7 @@
 #
 class LibraryResource < ApplicationRecord
   belongs_to :account
+  has_one_attached :file
 
   RESOURCE_TYPES = %w[text image video audio pdf web_page].freeze
 
@@ -29,11 +30,16 @@ class LibraryResource < ApplicationRecord
   validates :account, presence: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :resource_type, inclusion: { in: RESOURCE_TYPES }
+  validate :validate_file_presence
 
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
   before_destroy :capture_destroy_data
   after_destroy_commit :dispatch_destroy_event
+
+  def file_url
+    file.attached? ? Rails.application.routes.url_helpers.url_for(file) : content
+  end
 
   def webhook_data
     {
@@ -44,6 +50,7 @@ class LibraryResource < ApplicationRecord
       content: content,
       resource_type: resource_type,
       custom_attributes: custom_attributes,
+      file_url: file_url,
       created_at: created_at,
       updated_at: updated_at
     }
@@ -78,5 +85,13 @@ class LibraryResource < ApplicationRecord
 
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(LIBRARY_RESOURCE_DELETED, Time.zone.now, library_resource: @destroy_data)
+  end
+
+  def validate_file_presence
+    file_required_types = %w[image video audio pdf]
+    return unless file_required_types.include?(resource_type)
+    return if file.attached? || content.present?
+
+    errors.add(:file, 'must be attached for this resource type')
   end
 end

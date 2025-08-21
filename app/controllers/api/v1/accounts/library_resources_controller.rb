@@ -9,12 +9,18 @@ class Api::V1::Accounts::LibraryResourcesController < Api::V1::Accounts::BaseCon
   def show; end
 
   def create
-    @library_resource = Current.account.library_resources.create!(resource_params)
+    @library_resource = Current.account.library_resources.build(resource_params)
+    attach_file_if_present
+    @library_resource.save!
     render json: { error: @library_resource.errors.messages }, status: :unprocessable_entity and return unless @library_resource.valid?
   end
 
   def update
-    @library_resource.update!(resource_params) if params[:library_resource].present?
+    if params[:library_resource].present?
+      @library_resource.assign_attributes(resource_params)
+      attach_file_if_present
+      @library_resource.save!
+    end
     render json: { error: @library_resource.errors.messages }, status: :unprocessable_entity and return unless @library_resource.valid?
   end
 
@@ -30,7 +36,15 @@ class Api::V1::Accounts::LibraryResourcesController < Api::V1::Accounts::BaseCon
   end
 
   def resource_params
-    params.require(:library_resource).permit(:title, :description, :content, :resource_type, custom_attributes: {})
+    params.require(:library_resource).permit(:title, :description, :content, :resource_type, :file_blob_id, custom_attributes: {})
+  end
+
+  def attach_file_if_present
+    blob_id = params[:library_resource][:file_blob_id] || params[:file_blob_id]
+    return unless blob_id.present?
+
+    blob = ActiveStorage::Blob.find(blob_id)
+    @library_resource.file.attach(blob)
   end
 
   def set_current_page
