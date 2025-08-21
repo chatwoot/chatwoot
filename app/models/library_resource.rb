@@ -61,8 +61,7 @@ class LibraryResource < ApplicationRecord
   def dispatch_update_event
     return if previous_changes.blank?
 
-    Rails.configuration.dispatcher.dispatch(LIBRARY_RESOURCE_UPDATED, Time.zone.now,
-                                            library_resource: self, changed_attributes: previous_changes)
+    Rails.configuration.dispatcher.dispatch(LIBRARY_RESOURCE_UPDATED, Time.zone.now, library_resource: self, changed_attributes: previous_changes)
   end
 
   def dispatch_destroy_event
