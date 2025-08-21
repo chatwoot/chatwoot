@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Tidak dapat mengirim, coba lagi"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Kami sedang online",
     "OFFLINE": "Kami sedang tidak tersedia saat ini"
