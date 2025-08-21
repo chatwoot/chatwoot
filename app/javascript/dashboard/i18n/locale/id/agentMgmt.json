@@ -62,7 +62,7 @@
     },
     "CSBOT": {
       "TICKET": {
-        "HEADER": "Pengaturan Bot CS",
+        "HEADER": "Konfigurasi Bot CS",
         "HEADER_DESC": "Halaman ini berisi pengaturan sistem tiket, prioritas, dan kategori untuk Bot CS Anda.",
         "SYSTEM_TITLE": "Aktifkan Sistem Tiket",
         "SYSTEM_DESC": "Jika nonaktif, semua percakapan akan langsung dialihkan ke agen.",
@@ -171,6 +171,33 @@
     "QNA_PLACEHOLDER": {
       "QUESTION": "Berapa harga produknya?",
       "ANSWER": "Harga produknya Rp75.000"
+    },
+    "BOOKING_BOT": {
+      "HEADER": "Konfigurasi Bot Booking",
+      "HEADER_DESC": "Halaman ini berisi konfigurasi Sheets dan parameter untuk Bot Booking Anda.",
+      "TEMPLATE_OPTIONS": {
+        "KLINIK": "Klinik",
+        "LAPANGAN": "Lapangan"
+      },
+      "AUTH_LABEL": "Autentikasi",
+      "AUTH_DESC": "Autentikasi dengan Google untuk membuat spreadsheet otomatis yang berisi data dari AI Agent Anda. Setelah autentikasi berhasil, sistem akan langsung membuat spreadsheet baru di akun Google Anda.",
+      "AUTH_BTN": "Mulai Autentikasi dengan Google",
+      "CONNECTED_HEADER": "Berhasil Terhubung!",
+      "CONNECTED_DESC": "Akun Google Anda telah terhubung.",
+      "CREATE_SHEETS_BTN": "Buat Sheets Input & Output",
+      "CREATE_SHEETS_LOADING": "Membuat Sheets...",
+      "INPUT_SHEET_LABEL": "Input Sheet",
+      "INPUT_SHEET_DESC": "Sheet untuk data jadwal yang tersedia",
+      "OUTPUT_SHEET_LABEL": "Output Sheet",
+      "OUTPUT_SHEET_DESC": "Sheet untuk menyimpan hasil booking",
+      "OPEN_SHEET_BTN": "Buka Sheet",
+      "TEMPLATE_LABEL": "Pilih jenis template industri untuk penjadwalan:",
+      "RESOURCE_LABEL": "Resource",
+      "RESOURCE_PLACEHOLDER": "Contoh: Dokter, Lapangan, Ruangan, dll",
+      "LOCATION_LABEL": "Lokasi",
+      "LOCATION_PLACEHOLDER": "Contoh: Klinik A, Lapangan 1, Ruang 203, dll",
+      "MIN_DURATION_LABEL": "Durasi minimum setiap sesi (Menit)",
+      "SAVE_BTN": "Simpan"
     }
   }
 }

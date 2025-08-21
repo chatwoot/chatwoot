@@ -171,6 +171,33 @@
     "QNA_PLACEHOLDER": {
       "QUESTION": "How much is the product?",
       "ANSWER": "The product costs Rp75,000"
+    },
+    "BOOKING_BOT": {
+      "HEADER": "Booking Bot Configuration",
+      "HEADER_DESC": "This page contains configuration settings for your Booking Bot.",
+      "TEMPLATE_OPTIONS": {
+        "KLINIK": "Clinic",
+        "LAPANGAN": "Field"
+      },
+      "AUTH_LABEL": "Authentication",
+      "AUTH_DESC": "Authenticate with Google to automatically create spreadsheets containing data from your AI Agent. After successful authentication, the system will immediately create a new spreadsheet in your Google account.",
+      "AUTH_BTN": "Start Authentication with Google",
+      "CONNECTED_HEADER": "Connected Successfully!",
+      "CONNECTED_DESC": "Your Google account is connected.",
+      "CREATE_SHEETS_BTN": "Create Input & Output Sheets",
+      "CREATE_SHEETS_LOADING": "Creating Sheets...",
+      "INPUT_SHEET_LABEL": "Input Sheet",
+      "INPUT_SHEET_DESC": "Sheet for available schedule data",
+      "OUTPUT_SHEET_LABEL": "Output Sheet",
+      "OUTPUT_SHEET_DESC": "Sheet to store booking results",
+      "OPEN_SHEET_BTN": "Open Sheet",
+      "TEMPLATE_LABEL": "Select industry template for scheduling:",
+      "RESOURCE_LABEL": "Resource",
+      "RESOURCE_PLACEHOLDER": "Example: Doctor, Field, Room, etc.",
+      "LOCATION_LABEL": "Location",
+      "LOCATION_PLACEHOLDER": "Example: Clinic A, Field 1, Room 203, etc.",
+      "MIN_DURATION_LABEL": "Minimum duration per session (Minutes)",
+      "SAVE_BTN": "Save"
     }
   }
 }
