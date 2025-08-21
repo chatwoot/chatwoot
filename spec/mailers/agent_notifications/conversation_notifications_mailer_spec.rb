@@ -18,7 +18,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer do
 
     it 'renders the subject' do
       expect(mail.subject).to eq("#{agent.available_name}, A new conversation [ID - #{conversation
-        .display_id}] has been created in #{conversation.inbox&.name}.")
+        .display_id}] has been created in #{conversation.inbox&.sanitized_name}.")
     end
 
     it 'renders the receiver email' do

@@ -25,6 +25,7 @@ const props = defineProps({
   hasNoInbox: { type: Boolean, default: false },
   isDropdownActive: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
+  inboxId: { type: Number, default: null },
 });
 
 const emit = defineEmits([
@@ -150,9 +151,10 @@ useKeyboardEvents(keyboardEvents);
   <div
     class="flex items-center justify-between w-full h-[3.25rem] gap-2 px-4 py-3"
   >
-    <div class="flex items-center gap-2">
+    <div class="flex gap-2 items-center">
       <WhatsAppOptions
         v-if="isWhatsappInbox"
+        :inbox-id="inboxId"
         :message-templates="messageTemplates"
         @send-message="emit('sendWhatsappMessage', $event)"
       />
@@ -170,7 +172,7 @@ useKeyboardEvents(keyboardEvents);
         />
         <EmojiInput
           v-if="isEmojiPickerOpen"
-          class="left-0 top-full mt-1.5"
+          class="ltr:left-0 rtl:right-0 top-full mt-1.5"
           :on-click="onClickInsertEmoji"
         />
       </div>
@@ -206,7 +208,7 @@ useKeyboardEvents(keyboardEvents);
       />
     </div>
 
-    <div class="flex items-center gap-2">
+    <div class="flex gap-2 items-center">
       <Button
         :label="t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.DISCARD')"
         variant="faded"

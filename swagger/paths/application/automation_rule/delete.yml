@@ -8,7 +8,8 @@ security:
 parameters:
   - in: path
     name: id
-    type: integer
+    schema:
+      type: integer
     required: true
     description: The ID of the automation rule to be deleted
 responses:
@@ -16,5 +17,13 @@ responses:
     description: Success
   '403':
     description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
   '404':
     description: automation rule not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

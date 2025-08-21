@@ -49,8 +49,8 @@ const isUnread = computed(() => !props.inboxItem?.readAt);
 const inbox = computed(() => props.stateInbox);
 
 const inboxIcon = computed(() => {
-  const { phoneNumber, channelType } = inbox.value;
-  return getInboxIconByType(channelType, phoneNumber);
+  const { channelType, medium } = inbox.value;
+  return getInboxIconByType(channelType, medium);
 });
 
 const hasSlaThreshold = computed(() => {
@@ -63,11 +63,12 @@ const lastActivityAt = computed(() => {
 });
 
 const menuItems = computed(() => [
-  { key: 'delete', label: t('INBOX.MENU_ITEM.DELETE') },
   {
     key: isUnread.value ? 'mark_as_read' : 'mark_as_unread',
+    icon: isUnread.value ? 'mail' : 'mail-unread',
     label: t(`INBOX.MENU_ITEM.MARK_AS_${isUnread.value ? 'READ' : 'UNREAD'}`),
   },
+  { key: 'delete', icon: 'delete', label: t('INBOX.MENU_ITEM.DELETE') },
 ]);
 
 const messageClasses = computed(() => ({
@@ -153,7 +154,7 @@ onBeforeMount(contextMenuActions.close);
 <template>
   <div
     role="button"
-    class="flex flex-col w-full gap-2 p-3 transition-all duration-300 ease-in-out cursor-pointer"
+    class="flex flex-col w-full gap-1 p-3 transition-all duration-300 ease-in-out cursor-pointer"
     @contextmenu="contextMenuActions.open($event)"
     @click="emit('click')"
   >
@@ -232,7 +233,7 @@ onBeforeMount(contextMenuActions.close);
             class="flex-shrink-0 text-n-slate-11 size-2.5"
           />
         </div>
-        <span class="text-sm text-n-slate-10">
+        <span class="text-xs text-n-slate-10">
           {{ lastActivityAt }}
         </span>
       </div>

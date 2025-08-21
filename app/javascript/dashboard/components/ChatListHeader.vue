@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { useMapGetter } from 'dashboard/composables/store.js';
+import { formatNumber } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useI18n } from 'vue-i18n';
@@ -11,26 +11,13 @@ import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchL
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
-  pageTitle: {
-    type: String,
-    required: true,
-  },
-  hasAppliedFilters: {
-    type: Boolean,
-    required: true,
-  },
-  hasActiveFolders: {
-    type: Boolean,
-    required: true,
-  },
-  activeStatus: {
-    type: [String, Array],
-    required: true,
-  },
-  isOnExpandedLayout: {
-    type: Boolean,
-    required: true,
-  },
+  pageTitle: { type: String, required: true },
+  hasAppliedFilters: { type: Boolean, required: true },
+  hasActiveFolders: { type: Boolean, required: true },
+  activeStatus: { type: String, required: true },
+  isOnExpandedLayout: { type: Boolean, required: true },
+  conversationStats: { type: Object, required: true },
+  isListLoading: { type: Boolean, required: true },
 });
 
 const emit = defineEmits([
@@ -44,11 +31,6 @@ const emit = defineEmits([
 const { uiSettings, updateUISettings } = useUISettings();
 const { t } = useI18n();
 
-const currentAccountId = useMapGetter('getCurrentAccountId');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-
 const onBasicFilterChange = (value, type) => {
   emit('basicFilterChange', value, type);
 };
@@ -57,12 +39,8 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
   return props.hasAppliedFilters || props.hasActiveFolders;
 });
 
-const showV4View = computed(() => {
-  return isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.CHATWOOT_V4
-  );
-});
+const allCount = computed(() => props.conversationStats?.allCount || 0);
+const formattedAllCount = computed(() => formatNumber(allCount.value));
 
 const toggleConversationLayout = () => {
   const { LAYOUT_TYPES } = wootConstants;
@@ -91,20 +69,27 @@ const statusText = computed(() => {
 
 <template>
   <div
-    class="flex items-center justify-between gap-2 px-4"
+    class="flex items-center justify-between gap-2 px-3 h-12"
     :class="{
-      'pb-3 border-b border-n-strong': hasAppliedFiltersOrActiveFolders,
-      'pt-3 pb-2': showV4View,
-      'mb-2 pb-0': !showV4View,
+      'border-b border-n-strong': hasAppliedFiltersOrActiveFolders,
     }"
   >
     <div class="flex items-center justify-center min-w-0">
       <h1
-        class="text-lg font-medium truncate text-n-slate-12"
+        class="text-base font-medium truncate text-n-slate-12"
         :title="pageTitle"
       >
         {{ pageTitle }}
       </h1>
+      <span
+        v-if="
+          allCount > 0 && hasAppliedFiltersOrActiveFolders && !isListLoading
+        "
+        class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
+        :title="allCount"
+      >
+        {{ formattedAllCount }}
+      </span>
       <span
         v-if="!hasAppliedFiltersOrActiveFolders"
         class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
@@ -125,7 +110,7 @@ const statusText = computed(() => {
           />
           <div
             id="saveFilterTeleportTarget"
-            class="absolute z-40 mt-2"
+            class="absolute z-50 mt-2"
             :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
           />
         </div>
@@ -151,7 +136,7 @@ const statusText = computed(() => {
           />
           <div
             id="conversationFilterTeleportTarget"
-            class="absolute z-40 mt-2"
+            class="absolute z-50 mt-2"
             :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
           />
         </div>
@@ -177,7 +162,7 @@ const statusText = computed(() => {
         />
         <div
           id="conversationFilterTeleportTarget"
-          class="absolute z-40 mt-2"
+          class="absolute z-50 mt-2"
           :class="{ 'ltr:right-0 rtl:left-0': isOnExpandedLayout }"
         />
       </div>
@@ -187,7 +172,6 @@ const statusText = computed(() => {
         @change-filter="onBasicFilterChange"
       />
       <SwitchLayout
-        v-if="showV4View"
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle="toggleConversationLayout"
       />

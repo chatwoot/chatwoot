@@ -24,9 +24,14 @@ class Twilio::CallbackController < ApplicationController
       :Body,
       :ToCountry,
       :FromState,
-      :MediaUrl0,
-      :MediaContentType0,
-      :MessagingServiceSid
+      *Array.new(10) { |i| :"MediaUrl#{i}" },
+      *Array.new(10) { |i| :"MediaContentType#{i}" },
+      :MessagingServiceSid,
+      :NumMedia,
+      :Latitude,
+      :Longitude,
+      :MessageType,
+      :ProfileName
     )
   end
 end

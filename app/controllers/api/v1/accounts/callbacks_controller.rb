@@ -30,7 +30,14 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   end
 
   def facebook_pages
-    @page_details = mark_already_existing_facebook_pages(fb_object.get_connections('me', 'accounts'))
+    pages = []
+    fb_pages = fb_object.get_connections('me', 'accounts')
+    pages.concat(fb_pages)
+    while fb_pages.respond_to?(:next_page) && (next_page = fb_pages.next_page)
+      fb_pages = next_page
+      pages.concat(fb_pages)
+    end
+    @page_details = mark_already_existing_facebook_pages(pages)
   end
 
   def set_instagram_id(page_access_token, facebook_channel)

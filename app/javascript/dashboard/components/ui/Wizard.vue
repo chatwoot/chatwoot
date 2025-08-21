@@ -1,9 +1,5 @@
 <script>
-/* eslint no-console: 0 */
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
 export default {
-  mixins: [globalConfigMixin],
   props: {
     items: {
       type: Array,
@@ -44,21 +40,18 @@ export default {
     >
       <div class="flex items-center">
         <h3
-          class="text-slate-800 dark:text-slate-100 text-base font-medium pl-6 overflow-hidden whitespace-nowrap mb-1.5 text-ellipsis leading-tight"
+          class="text-n-slate-12 text-base font-medium pl-6 overflow-hidden whitespace-nowrap mt-0.5 text-ellipsis leading-tight"
         >
           {{ item.title }}
         </h3>
-        <span
-          v-if="isOver(item)"
-          class="ml-1 text-green-500 dark:text-green-500"
-        >
+        <span v-if="isOver(item)" class="mx-1 mt-0.5 text-n-teal-9">
           <fluent-icon icon="checkmark" />
         </span>
       </div>
       <span class="step">
         {{ items.indexOf(item) + 1 }}
       </span>
-      <p class="pl-6 m-0 text-sm text-slate-600 dark:text-slate-300">
+      <p class="pl-6 m-0 mt-1.5 text-sm text-n-slate-11">
         {{ item.body }}
       </p>
     </div>
@@ -68,7 +61,7 @@ export default {
 <style lang="scss" scoped>
 .wizard-box {
   .item {
-    @apply cursor-pointer after:bg-slate-75 before:bg-slate-75 dark:after:bg-slate-600 dark:before:bg-slate-600 py-4 ltr:pr-4 rtl:pl-4 ltr:pl-6 rtl:pr-6 relative before:h-4 before:top-0 last:before:h-0 first:before:h-0 last:after:h-0 before:content-[''] before:absolute before:w-0.5 after:content-[''] after:h-full after:absolute after:top-5 after:w-0.5 rtl:after:left-6 rtl:before:left-6;
+    @apply cursor-pointer after:bg-n-slate-6 before:bg-n-slate-6 py-4 ltr:pr-4 rtl:pl-4 ltr:pl-6 rtl:pr-6 relative before:h-4 before:top-0 last:before:h-0 first:before:h-0 last:after:h-0 before:content-[''] before:absolute before:w-0.5 after:content-[''] after:h-full after:absolute after:top-5 after:w-0.5 rtl:after:left-6 rtl:before:left-6;
 
     &.active {
       h3 {
@@ -97,7 +90,7 @@ export default {
     }
 
     .step {
-      @apply bg-slate-75 dark:bg-slate-600 rounded-2xl font-medium w-4 left-4 leading-4 z-10 absolute text-center text-white dark:text-white text-xxs top-5;
+      @apply bg-n-slate-7 rounded-2xl font-medium w-4 left-4 leading-4 z-10 absolute text-center text-white dark:text-white text-xxs top-5;
     }
   }
 }

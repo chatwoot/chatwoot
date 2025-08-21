@@ -2,12 +2,22 @@
   <title><%= @article.title %> | <%= @portal.name %></title>
   <% if @article.meta["title"].present? %>
     <meta name="title" content="<%= @article.meta["title"] %>">
+    <meta property="og:title" content="<%= @article.meta["title"] %>">
+    <meta name="twitter:title" content="<%= @article.meta["title"] %>">
   <% end %>
   <% if @article.meta["description"].present? %>
     <meta name="description" content="<%= @article.meta["description"] %>">
+    <meta property="og:description" content="<%= @article.meta["description"] %>">
+    <meta name="twitter:description" content="<%= @article.meta["description"] %>">
   <% end %>
   <% if @article.meta["tags"].present? %>
     <meta name="tags" content="<%= @article.meta["tags"].join(',') %>">
+  <% end %>
+  <% if @og_image_url.present? %>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="og:image" content="<%= @og_image_url.html_safe %>">
+    <meta property="og:image" content="<%= @og_image_url.html_safe %>">
+    <meta name="twitter:image" content="<%= @og_image_url.html_safe %>">
   <% end %>
 <% end %>
 

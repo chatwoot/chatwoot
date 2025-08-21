@@ -127,9 +127,11 @@ export default {
         </div>
         <div class="mt-4">
           <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
-          <table class="table w-full table-striped woot-table">
+          <table class="table w-full table-striped mt-4">
             <thead class="thead-dark">
-              <tr>
+              <tr
+                class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
+              >
                 <th scope="col" />
                 <th scope="col" />
                 <th scope="col">

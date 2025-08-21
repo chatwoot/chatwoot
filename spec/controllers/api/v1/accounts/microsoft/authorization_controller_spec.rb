@@ -19,7 +19,6 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
       it 'returns unathorized for agent' do
         post "/api/v1/accounts/#{account.id}/microsoft/authorization",
              headers: agent.create_new_auth_token,
-             params: { email: administrator.email },
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -28,20 +27,27 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
       it 'creates a new authorization and returns the redirect url' do
         post "/api/v1/accounts/#{account.id}/microsoft/authorization",
              headers: administrator.create_new_auth_token,
-             params: { email: administrator.email },
              as: :json
 
         expect(response).to have_http_status(:success)
-        microsoft_service = Class.new { extend MicrosoftConcern }
-        response_url = microsoft_service.microsoft_client.auth_code.authorize_url(
-          {
-            redirect_uri: "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback",
-            scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid profile',
-            prompt: 'consent'
-          }
-        )
-        expect(response.parsed_body['url']).to eq response_url
-        expect(Redis::Alfred.get("microsoft::#{administrator.email}")).to eq(account.id.to_s)
+
+        # Validate URL components
+        url = response.parsed_body['url']
+        uri = URI.parse(url)
+        params = CGI.parse(uri.query)
+
+        expect(url).to start_with('https://login.microsoftonline.com/common/oauth2/v2.0/authorize')
+        expected_scope = [
+          'offline_access https://outlook.office.com/IMAP.AccessAsUser.All ' \
+          'https://outlook.office.com/SMTP.Send openid profile email'
+        ]
+        expect(params['scope']).to eq(expected_scope)
+        expect(params['redirect_uri']).to eq(["#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback"])
+
+        # Validate state parameter exists and can be decoded back to the account
+        expect(params['state']).to be_present
+        decoded_account = GlobalID::Locator.locate_signed(params['state'].first, for: 'default')
+        expect(decoded_account).to eq(account)
       end
     end
   end

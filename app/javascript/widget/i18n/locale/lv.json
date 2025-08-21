@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Nevarēja nosūtīt. Lūdzu, mēģiniet vēlreiz"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Mēs esam tiešsaistē",
     "OFFLINE": "Šobrīd mēs neesam uz vietas"

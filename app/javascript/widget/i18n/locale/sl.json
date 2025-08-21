@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Ni bilo mogoče poslati, poskusite znova"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Smo na voljo",
     "OFFLINE": "Trenutno nismo na voljo"

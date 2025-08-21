@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Không thể gửi, xin thử lại"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Chúng tôi đang trực tuyến",
     "OFFLINE": "Hiện tại chúng tôi đang bận chút"

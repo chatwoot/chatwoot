@@ -11,7 +11,7 @@
         locale: '<%= @web_widget.account.locale %>',
         websiteName: '<%= @web_widget.inbox.name %>',
         websiteToken: '<%= @web_widget.website_token %>',
-        welcomeTagline: '<%= @web_widget.welcome_tagline %>',
+        welcomeTagline: <%= @web_widget.welcome_tagline.to_json.html_safe %>,
         welcomeTitle: '<%= @web_widget.welcome_title %>',
         dealerName: '<%= @web_widget.dealer_name %>',
         dealerTagline: '<%= @web_widget.dealer_tagline %>',

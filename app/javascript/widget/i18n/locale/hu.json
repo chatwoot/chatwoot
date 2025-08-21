@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Nem sikerült az elküldés, kérjük próbáld később"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Online vagyunk",
     "OFFLINE": "Jelenleg nem vagyunk elérhetőek"

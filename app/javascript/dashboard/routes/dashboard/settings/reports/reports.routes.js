@@ -7,10 +7,12 @@ import Index from './Index.vue';
 import AgentReportsIndex from './AgentReportsIndex.vue';
 import InboxReportsIndex from './InboxReportsIndex.vue';
 import TeamReportsIndex from './TeamReportsIndex.vue';
+import LabelReportsIndex from './LabelReportsIndex.vue';
 
 import AgentReportsShow from './AgentReportsShow.vue';
 import InboxReportsShow from './InboxReportsShow.vue';
 import TeamReportsShow from './TeamReportsShow.vue';
+import LabelReportsShow from './LabelReportsShow.vue';
 
 import AgentReports from './AgentReports.vue';
 import InboxReports from './InboxReports.vue';
@@ -103,6 +105,22 @@ const revisedReportRoutes = [
       permissions: ['administrator', 'report_manage'],
     },
     component: TeamReportsShow,
+  },
+  {
+    path: 'labels_overview',
+    name: 'label_reports_index',
+    meta: {
+      permissions: ['administrator', 'report_manage'],
+    },
+    component: LabelReportsIndex,
+  },
+  {
+    path: 'labels/:id',
+    name: 'label_reports_show',
+    meta: {
+      permissions: ['administrator', 'report_manage'],
+    },
+    component: LabelReportsShow,
   },
 ];
 

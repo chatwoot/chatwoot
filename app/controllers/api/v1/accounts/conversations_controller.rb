@@ -124,6 +124,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
+  def destroy
+    authorize @conversation, :destroy?
+    ::DeleteObjectJob.perform_later(@conversation, Current.user, request.ip)
+    head :ok
+  end
+
   private
 
   def permitted_update_params

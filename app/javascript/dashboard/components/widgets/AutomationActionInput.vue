@@ -133,7 +133,11 @@ export default {
               :options="dropdownValues"
               :allow-empty="false"
               :option-height="104"
-            />
+            >
+              <template #noOptions>
+                {{ $t('FORMS.MULTISELECT.NO_OPTIONS') }}
+              </template>
+            </multiselect>
           </div>
           <div
             v-else-if="inputType === 'multi_select'"
@@ -152,7 +156,11 @@ export default {
               :options="dropdownValues"
               :allow-empty="false"
               :option-height="104"
-            />
+            >
+              <template #noOptions>
+                {{ $t('FORMS.MULTISELECT.NO_OPTIONS') }}
+              </template>
+            </multiselect>
           </div>
           <input
             v-else-if="inputType === 'email'"
@@ -266,11 +274,11 @@ export default {
   @apply flex items-center justify-center relative my-2.5 mx-0;
 
   .operator__line {
-    @apply absolute w-full border-b border-solid border-slate-75 dark:border-slate-600;
+    @apply absolute w-full border-b border-solid border-n-weak;
   }
 
   .operator__select {
-    margin-bottom: var(--space-zero) !important;
+    margin-bottom: 0 !important;
     @apply relative w-auto;
   }
 }

@@ -18,8 +18,8 @@
 #  index_email_templates_on_name_and_account_id  (name,account_id) UNIQUE
 #
 class EmailTemplate < ApplicationRecord
-  enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
-  enum template_type: { layout: 0, content: 1 }
+  enum :locale, LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h, prefix: true
+  enum :template_type, { layout: 0, content: 1 }
   belongs_to :account, optional: true
 
   before_create :delete_existing_slug_inbox_template
