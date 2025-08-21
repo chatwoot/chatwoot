@@ -1,46 +1,25 @@
 <script>
-import { ref } from 'vue';
 import QRCode from 'qrcode';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
+import inboxMixin from 'shared/mixins/inboxMixin';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+
 export default {
   components: {
     EmptyState,
     NextButton,
     DuplicateInboxBanner,
   },
-  setup() {
-    const qrCodes = ref({
-      whatsapp: '',
-      messenger: '',
-      telegram: '',
-    });
-
-    const platformUrls = {
-      whatsapp: identifier => `https://wa.me/${identifier}`,
-      messenger: identifier => `https://m.me/${identifier}`,
-      telegram: identifier => `https://t.me/${identifier}`,
-    };
-
-    const generateQRCode = async (platform, identifier) => {
-      if (!identifier || !identifier.trim()) {
-        return;
-      }
-
-      try {
-        const url = platformUrls[platform](identifier);
-        const qrDataUrl = await QRCode.toDataURL(url);
-        qrCodes.value[platform] = qrDataUrl;
-      } catch (error) {
-        qrCodes.value[platform] = '';
-      }
-    };
-
+  mixins: [inboxMixin],
+  data() {
     return {
-      qrCodes,
-      generateQRCode,
+      qrCodes: {
+        whatsapp: '',
+        messenger: '',
+        telegram: '',
+      },
     };
   },
   computed: {
@@ -49,10 +28,9 @@ export default {
         this.$route.params.inbox_id
       );
     },
-    isATwilioInbox() {
-      return this.currentInbox.channel_type === 'Channel::TwilioSms';
+    inbox() {
+      return this.currentInbox;
     },
-
     // Check if a facebook inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.currentInbox.instagram_id;
@@ -66,46 +44,21 @@ export default {
         facebookInbox
       );
     },
-
-    isAEmailInbox() {
-      return this.currentInbox.channel_type === 'Channel::Email';
-    },
-    isALineInbox() {
-      return this.currentInbox.channel_type === 'Channel::Line';
-    },
-    isASmsInbox() {
-      return this.currentInbox.channel_type === 'Channel::Sms';
-    },
-    isWhatsAppCloudInbox() {
-      return (
-        this.currentInbox.channel_type === 'Channel::Whatsapp' &&
-        this.currentInbox.provider === 'whatsapp_cloud'
-      );
-    },
-    isATwilioWhatsAppInbox() {
-      return this.isATwilioInbox && this.currentInbox.medium === 'whatsapp';
-    },
-    isWhatsAppInbox() {
-      return this.isWhatsAppCloudInbox || this.isATwilioWhatsAppInbox;
-    },
-    isAFacebookInbox() {
-      return this.currentInbox.channel_type === 'Channel::FacebookPage';
-    },
-    isATelegramInbox() {
-      return this.currentInbox.channel_type === 'Channel::Telegram';
-    },
-    isAInstagramInbox() {
-      return this.currentInbox.channel_type === 'Channel::Instagram';
-    },
     // If the inbox is a whatsapp cloud inbox and the source is not embedded signup, then show the webhook details
     shouldShowWhatsAppWebhookDetails() {
       return (
-        this.isWhatsAppCloudInbox &&
+        this.isAWhatsAppCloudChannel &&
         this.currentInbox.provider_config?.source !== 'embedded_signup'
       );
     },
+    isWhatsAppEmbeddedSignup() {
+      return (
+        this.isAWhatsAppCloudChannel &&
+        this.currentInbox.provider_config?.source === 'embedded_signup'
+      );
+    },
     message() {
-      if (this.isATwilioInbox) {
+      if (this.isATwilioChannel) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
         )}`;
@@ -117,19 +70,22 @@ export default {
         )}`;
       }
 
-      if (this.isALineInbox) {
+      if (this.isALineChannel) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
         )}`;
       }
 
-      if (this.isWhatsAppCloudInbox && this.shouldShowWhatsAppWebhookDetails) {
+      if (
+        this.isAWhatsAppCloudChannel &&
+        this.shouldShowWhatsAppWebhookDetails
+      ) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
         )}`;
       }
 
-      if (this.isAEmailInbox && !this.currentInbox.provider) {
+      if (this.isAnEmailChannel && !this.currentInbox.provider) {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 
@@ -137,31 +93,59 @@ export default {
         return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
       }
 
+      if (this.isWhatsAppEmbeddedSignup) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
+        )}`;
+      }
+
       return this.$t('INBOX_MGMT.FINISH.MESSAGE');
     },
   },
-  watch: {
-    currentInbox: {
-      handler(inbox) {
-        if (!inbox) return;
+  mounted() {
+    this.generateQRCodes();
+  },
+  methods: {
+    async generateQRCode(platform, identifier) {
+      if (!identifier || !identifier.trim()) {
+        // eslint-disable-next-line no-console
+        console.warn(`Invalid identifier for ${platform} QR code`);
+        return;
+      }
 
-        // WhatsApp (both Cloud and Twilio)
-        if (inbox.phone_number && this.isWhatsAppInbox) {
-          this.generateQRCode('whatsapp', inbox.phone_number);
-        }
+      try {
+        const platformUrls = {
+          whatsapp: id => `https://wa.me/${id}`,
+          messenger: id => `https://m.me/${id}`,
+          telegram: id => `https://t.me/${id}`,
+        };
 
-        // Facebook Messenger
-        if (inbox.page_id && this.isAFacebookInbox) {
-          this.generateQRCode('messenger', inbox.page_id);
-        }
+        const url = platformUrls[platform](identifier);
+        const qrDataUrl = await QRCode.toDataURL(url);
+        this.qrCodes[platform] = qrDataUrl;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(`Error generating ${platform} QR code:`, error);
+        this.qrCodes[platform] = '';
+      }
+    },
+    async generateQRCodes() {
+      if (!this.currentInbox) return;
 
-        // Telegram
-        if (this.isATelegramInbox && inbox.bot_name) {
-          this.generateQRCode('telegram', inbox.bot_name);
-        }
-      },
-      immediate: true,
-      deep: true,
+      // WhatsApp (both Cloud and Twilio)
+      if (this.currentInbox.phone_number && this.isAWhatsAppChannel) {
+        await this.generateQRCode('whatsapp', this.currentInbox.phone_number);
+      }
+
+      // Facebook Messenger
+      if (this.currentInbox.page_id && this.isAFacebookInbox) {
+        await this.generateQRCode('messenger', this.currentInbox.page_id);
+      }
+
+      // Telegram
+      if (this.isATelegramChannel && this.currentInbox.bot_name) {
+        await this.generateQRCode('telegram', this.currentInbox.bot_name);
+      }
     },
   },
 };
@@ -189,7 +173,7 @@ export default {
         </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">
           <woot-code
-            v-if="isATwilioInbox"
+            v-if="isATwilioChannel"
             lang="html"
             :script="currentInbox.callback_webhook_url"
           />
@@ -216,7 +200,7 @@ export default {
         </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">
           <woot-code
-            v-if="isALineInbox"
+            v-if="isALineChannel"
             lang="html"
             :script="currentInbox.callback_webhook_url"
           />
@@ -229,13 +213,13 @@ export default {
           />
         </div>
         <div
-          v-if="isAEmailInbox && !currentInbox.provider"
+          v-if="isAnEmailChannel && !currentInbox.provider"
           class="w-[50%] max-w-[50%] ml-[25%]"
         >
           <woot-code lang="html" :script="currentInbox.forward_to_email" />
         </div>
         <div
-          v-if="isWhatsAppInbox && qrCodes.whatsapp"
+          v-if="isAWhatsAppChannel && qrCodes.whatsapp"
           class="flex flex-col items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
@@ -265,7 +249,7 @@ export default {
           </div>
         </div>
         <div
-          v-if="isATelegramInbox && qrCodes.telegram"
+          v-if="isATelegramChannel && qrCodes.telegram"
           class="flex flex-col items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
