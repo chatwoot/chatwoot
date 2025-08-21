@@ -12,47 +12,35 @@ export default {
     DuplicateInboxBanner,
   },
   setup() {
-    const whatsappQRCode = ref('');
-    const messengerQRCode = ref('');
-    const telegramQRCode = ref('');
+    const qrCodes = ref({
+      whatsapp: '',
+      messenger: '',
+      telegram: '',
+    });
 
-    const generateWhatsAppQR = async phoneNumber => {
-      try {
-        const whatsappUrl = `https://wa.me/${phoneNumber}`;
-        const qrDataUrl = await QRCode.toDataURL(whatsappUrl);
-        whatsappQRCode.value = qrDataUrl;
-      } catch (error) {
-        // console.error('Error generating QR code:', error);
-      }
+    const platformUrls = {
+      whatsapp: identifier => `https://wa.me/${identifier}`,
+      messenger: identifier => `https://m.me/${identifier}`,
+      telegram: identifier => `https://t.me/${identifier}`,
     };
 
-    const generateMessengerQR = async pageId => {
-      try {
-        const messengerUrl = `https://m.me/${pageId}`;
-        const qrDataUrl = await QRCode.toDataURL(messengerUrl);
-        messengerQRCode.value = qrDataUrl;
-      } catch (error) {
-        // console.error('Error generating QR code:', error);
+    const generateQRCode = async (platform, identifier) => {
+      if (!identifier || !identifier.trim()) {
+        return;
       }
-    };
 
-    const generateTelegramQR = async botName => {
       try {
-        const telegramUrl = `https://t.me/${botName}`;
-        const qrDataUrl = await QRCode.toDataURL(telegramUrl);
-        telegramQRCode.value = qrDataUrl;
+        const url = platformUrls[platform](identifier);
+        const qrDataUrl = await QRCode.toDataURL(url);
+        qrCodes.value[platform] = qrDataUrl;
       } catch (error) {
-        // console.error('Error generating QR code:', error);
+        qrCodes.value[platform] = '';
       }
     };
 
     return {
-      whatsappQRCode,
-      messengerQRCode,
-      telegramQRCode,
-      generateWhatsAppQR,
-      generateMessengerQR,
-      generateTelegramQR,
+      qrCodes,
+      generateQRCode,
     };
   },
   computed: {
@@ -64,9 +52,7 @@ export default {
     isATwilioInbox() {
       return this.currentInbox.channel_type === 'Channel::TwilioSms';
     },
-    isATwilioWhatsAppInbox() {
-      return this.isATwilioInbox && this.currentInbox.medium === 'whatsapp';
-    },
+
     // Check if a facebook inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.currentInbox.instagram_id;
@@ -95,6 +81,12 @@ export default {
         this.currentInbox.channel_type === 'Channel::Whatsapp' &&
         this.currentInbox.provider === 'whatsapp_cloud'
       );
+    },
+    isATwilioWhatsAppInbox() {
+      return this.isATwilioInbox && this.currentInbox.medium === 'whatsapp';
+    },
+    isWhatsAppInbox() {
+      return this.isWhatsAppCloudInbox || this.isATwilioWhatsAppInbox;
     },
     isWhatsAppEmbeddedSignup() {
       return (
@@ -164,20 +156,19 @@ export default {
       handler(inbox) {
         if (!inbox) return;
 
-        if (inbox.phone_number && this.isWhatsAppCloudInbox) {
-          this.generateWhatsAppQR(inbox.phone_number);
+        // WhatsApp (both Cloud and Twilio)
+        if (inbox.phone_number && this.isWhatsAppInbox) {
+          this.generateQRCode('whatsapp', inbox.phone_number);
         }
 
+        // Facebook Messenger
         if (inbox.page_id && this.isAFacebookInbox) {
-          this.generateMessengerQR(inbox.page_id);
+          this.generateQRCode('messenger', inbox.page_id);
         }
 
+        // Telegram
         if (this.isATelegramInbox && inbox.bot_name) {
-          this.generateTelegramQR(inbox.bot_name);
-        }
-
-        if (this.isATwilioWhatsAppInbox && inbox.phone_number) {
-          this.generateWhatsAppQR(inbox.phone_number);
+          this.generateQRCode('telegram', inbox.bot_name);
         }
       },
       immediate: true,
@@ -255,9 +246,7 @@ export default {
           <woot-code lang="html" :script="currentInbox.forward_to_email" />
         </div>
         <div
-          v-if="
-            (isWhatsAppCloudInbox || isATwilioWhatsAppInbox) && whatsappQRCode
-          "
+          v-if="isWhatsAppInbox && qrCodes.whatsapp"
           class="flex flex-col items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
@@ -265,14 +254,14 @@ export default {
           </p>
           <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
             <img
-              :src="whatsappQRCode"
+              :src="qrCodes.whatsapp"
               alt="WhatsApp QR Code"
               class="w-48 h-48"
             />
           </div>
         </div>
         <div
-          v-if="isAFacebookInbox && messengerQRCode"
+          v-if="isAFacebookInbox && qrCodes.messenger"
           class="flex flex-col items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
@@ -280,14 +269,14 @@ export default {
           </p>
           <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
             <img
-              :src="messengerQRCode"
+              :src="qrCodes.messenger"
               alt="Messenger QR Code"
               class="w-48 h-48"
             />
           </div>
         </div>
         <div
-          v-if="isATelegramInbox && telegramQRCode"
+          v-if="isATelegramInbox && qrCodes.telegram"
           class="flex flex-col items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
@@ -295,7 +284,7 @@ export default {
           </p>
           <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
             <img
-              :src="telegramQRCode"
+              :src="qrCodes.telegram"
               alt="Telegram QR Code"
               class="w-48 h-48"
             />
