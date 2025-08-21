@@ -120,8 +120,8 @@ describe V2::ReportBuilder do
           builder = described_class.new(account, params)
           metrics = builder.timeseries
 
-          # 4 conversations are resolved
-          expect(metrics[Time.zone.today]).to be 4
+          # 5 resolution events occurred (even though 1 was later reopened)
+          expect(metrics[Time.zone.today]).to be 5
           expect(metrics[Time.zone.today - 2.days]).to be 0
         end
       end
@@ -153,10 +153,10 @@ describe V2::ReportBuilder do
           metrics = builder.timeseries
           summary = builder.bot_summary
 
-          # 4 conversations are resolved
-          expect(metrics[Time.zone.today]).to be 4
+          # 5 bot resolution events occurred (even though 1 was later reopened)
+          expect(metrics[Time.zone.today]).to be 5
           expect(metrics[Time.zone.today - 2.days]).to be 0
-          expect(summary[:bot_resolutions_count]).to be 4
+          expect(summary[:bot_resolutions_count]).to be 5
         end
       end
 
@@ -339,8 +339,8 @@ describe V2::ReportBuilder do
           builder = described_class.new(account, params)
           metrics = builder.timeseries
 
-          # this should count only 4 since the last conversation was reopened
-          expect(metrics[Time.zone.today]).to be 4
+          # this should count all 5 resolution events (even though 1 was later reopened)
+          expect(metrics[Time.zone.today]).to be 5
           expect(metrics[Time.zone.today - 2.days]).to be 0
         end
       end
