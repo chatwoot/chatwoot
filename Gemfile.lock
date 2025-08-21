@@ -194,10 +194,14 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    date (3.4.1)
-    ddtrace (0.48.0)
-      ffi (~> 1.0)
+    datadog (2.19.0)
+      datadog-ruby_core_source (~> 3.4, >= 3.4.1)
+      libdatadog (~> 18.1.0.1.0)
+      libddwaf (~> 1.24.1.0.3)
+      logger
       msgpack
+    datadog-ruby_core_source (3.4.1)
+    date (3.4.1)
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
@@ -248,8 +252,10 @@ GEM
       railties (>= 5.0.0)
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.9.0)
-      faraday-net_http (>= 2.0, < 3.2)
+    faraday (2.13.1)
+      faraday-net_http (>= 2.0, < 3.5)
+      json
+      logger
     faraday-follow_redirects (0.3.0)
       faraday (>= 1, < 3)
     faraday-mashify (0.1.1)
@@ -257,8 +263,8 @@ GEM
       hashie
     faraday-multipart (1.0.4)
       multipart-post (~> 2)
-    faraday-net_http (3.1.0)
-      net-http
+    faraday-net_http (3.4.0)
+      net-http (>= 0.5.0)
     faraday-net_http_persistent (2.1.0)
       faraday (~> 2.5)
       net-http-persistent (~> 4.0)
@@ -417,7 +423,7 @@ GEM
     judoscale-sidekiq (1.8.2)
       judoscale-ruby (= 1.8.2)
       sidekiq (>= 5.0)
-    jwt (2.8.1)
+    jwt (2.10.1)
       base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
@@ -444,6 +450,16 @@ GEM
       logger (~> 1.6)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
+    libdatadog (18.1.0.1.0)
+    libdatadog (18.1.0.1.0-x86_64-linux)
+    libddwaf (1.24.1.0.3)
+      ffi (~> 1.0)
+    libddwaf (1.24.1.0.3-arm64-darwin)
+      ffi (~> 1.0)
+    libddwaf (1.24.1.0.3-x86_64-darwin)
+      ffi (~> 1.0)
+    libddwaf (1.24.1.0.3-x86_64-linux)
+      ffi (~> 1.0)
     line-bot-api (1.28.0)
     lint_roller (1.1.0)
     liquid (5.4.0)
@@ -489,7 +505,7 @@ GEM
     mutex_m (0.3.0)
     neighbor (0.2.3)
       activerecord (>= 5.2)
-    net-http (0.4.1)
+    net-http (0.6.0)
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
@@ -835,7 +851,7 @@ GEM
       i18n
     timeout (0.4.3)
     trailblazer-option (0.1.2)
-    twilio-ruby (5.77.0)
+    twilio-ruby (7.6.0)
       faraday (>= 0.9, < 3.0)
       jwt (>= 1.5, < 3.0)
       nokogiri (>= 1.6, < 2.0)
@@ -928,7 +944,7 @@ DEPENDENCIES
   commonmarker
   csv-safe
   database_cleaner
-  ddtrace
+  datadog (~> 2.0)
   debug (~> 1.8)
   devise (>= 4.9.4)
   devise-secure_password!
@@ -1027,7 +1043,7 @@ DEPENDENCIES
   telephone_number
   test-prof
   time_diff
-  twilio-ruby (~> 5.66)
+  twilio-ruby
   twitty (~> 0.1.5)
   tzinfo-data
   uglifier
