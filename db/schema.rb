@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_21_105055) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -864,6 +864,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.index ["account_id"], name: "index_leaves_on_account_id"
     t.index ["approved_by_id"], name: "index_leaves_on_approved_by_id"
     t.index ["user_id"], name: "index_leaves_on_user_id"
+  end
+
+  create_table "library_resources", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "title", null: false
+    t.text "description", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_library_resources_on_account_id"
+    t.index ["title"], name: "index_library_resources_on_title"
   end
 
   create_table "macros", force: :cascade do |t|

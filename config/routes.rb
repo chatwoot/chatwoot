@@ -299,6 +299,7 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :library_resources
           resources :upload, only: [:create]
         end
       end
