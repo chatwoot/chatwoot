@@ -88,12 +88,6 @@ export default {
     isWhatsAppInbox() {
       return this.isWhatsAppCloudInbox || this.isATwilioWhatsAppInbox;
     },
-    isWhatsAppEmbeddedSignup() {
-      return (
-        this.isWhatsAppCloudInbox &&
-        this.currentInbox.provider_config?.source === 'embedded_signup'
-      );
-    },
     isAFacebookInbox() {
       return this.currentInbox.channel_type === 'Channel::FacebookPage';
     },
@@ -143,11 +137,6 @@ export default {
         return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
       }
 
-      if (this.isWhatsAppEmbeddedSignup) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
-        )}`;
-      }
       return this.$t('INBOX_MGMT.FINISH.MESSAGE');
     },
   },
