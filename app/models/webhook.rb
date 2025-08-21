@@ -27,7 +27,8 @@ class Webhook < ApplicationRecord
 
   ALLOWED_WEBHOOK_EVENTS = %w[conversation_status_changed conversation_updated conversation_created contact_created contact_updated
                               message_created message_updated webwidget_triggered inbox_created inbox_updated
-                              conversation_typing_on conversation_typing_off].freeze
+                              conversation_typing_on conversation_typing_off library_resource_created library_resource_updated
+                              library_resource_deleted].freeze
 
   private
 

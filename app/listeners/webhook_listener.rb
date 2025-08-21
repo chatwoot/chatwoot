@@ -91,6 +91,28 @@ class WebhookListener < BaseListener
     handle_typing_status(__method__.to_s, event)
   end
 
+  def library_resource_created(event)
+    library_resource, account = extract_library_resource_and_account(event)
+    payload = library_resource.webhook_data.merge(event: __method__.to_s)
+    deliver_account_webhooks(payload, account)
+  end
+
+  def library_resource_updated(event)
+    library_resource, account = extract_library_resource_and_account(event)
+    changed_attributes = extract_changed_attributes(event)
+    return if changed_attributes.blank?
+
+    payload = library_resource.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
+    deliver_account_webhooks(payload, account)
+  end
+
+  def library_resource_deleted(event)
+    library_resource_data = event.data[:library_resource]
+    account = Account.find(library_resource_data[:account_id])
+    payload = library_resource_data.merge(event: __method__.to_s)
+    deliver_account_webhooks(payload, account)
+  end
+
   private
 
   def handle_typing_status(event_name, event)
@@ -125,5 +147,11 @@ class WebhookListener < BaseListener
   def deliver_webhook_payloads(payload, inbox)
     deliver_account_webhooks(payload, inbox.account)
     deliver_api_inbox_webhooks(payload, inbox)
+  end
+
+  def extract_library_resource_and_account(event)
+    library_resource = event.data[:library_resource]
+    account = library_resource.account
+    [library_resource, account]
   end
 end

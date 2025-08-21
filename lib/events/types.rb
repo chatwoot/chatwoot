@@ -57,4 +57,9 @@ module Events::Types
 
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
+
+  # library resource events
+  LIBRARY_RESOURCE_CREATED = 'library_resource.created'
+  LIBRARY_RESOURCE_UPDATED = 'library_resource.updated'
+  LIBRARY_RESOURCE_DELETED = 'library_resource.deleted'
 end

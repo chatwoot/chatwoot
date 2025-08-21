@@ -18,6 +18,9 @@ const SUPPORTED_WEBHOOK_EVENTS = [
   'contact_updated',
   'conversation_typing_on',
   'conversation_typing_off',
+  'library_resource_created',
+  'library_resource_updated',
+  'library_resource_deleted',
 ];
 
 export default {
