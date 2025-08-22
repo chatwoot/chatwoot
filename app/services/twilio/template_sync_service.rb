@@ -42,7 +42,6 @@ class Twilio::TemplateSyncService
   def mark_templates_updated
     channel.update!(content_templates_last_updated: Time.current)
   end
-
   def client
     @client ||= channel.send(:client)
   end
