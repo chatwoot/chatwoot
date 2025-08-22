@@ -32,6 +32,9 @@ export const MAXIMUM_WHATSAPP_AUDIO_UPLOAD_SIZE = 16;
 export const MAXIMUM_WHATSAPP_VIDEO_UPLOAD_SIZE = 16;
 export const MAXIMUM_WHATSAPP_IMAGE_UPLOAD_SIZE = 5;
 
+// Line
+export const MAXIMUM_LINE_IMAGE_UPLOAD_SIZE = 10;
+
 export const ALLOWED_FILE_TYPES =
   'image/*,' +
   'audio/*,' +
@@ -39,7 +42,7 @@ export const ALLOWED_FILE_TYPES =
   '.3gpp,' +
   'text/csv, text/plain, application/json, application/pdf, text/rtf,' +
   'application/xml, text/xml,' +
-  'application/zip, application/x-7z-compressed application/vnd.rar application/x-tar,' +
+  'application/zip, application/x-7z-compressed, application/vnd.rar, application/x-tar,' +
   'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
   'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document,';
@@ -51,7 +54,7 @@ export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
   'application/pdf,';
 
 // https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
-export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
+export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg, video/mp4';
 
 // https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
 export const ALLOWED_FILE_TYPES_FOR_INSTAGRAM =
@@ -88,6 +91,10 @@ const RULES = {
   [INBOX_TYPES.LINE]: {
     '*': {
       accept: ALLOWED_FILE_TYPES_FOR_LINE,
+      maxByCategory: {
+        image: MAXIMUM_LINE_IMAGE_UPLOAD_SIZE,
+        video: MAXIMUM_FILE_UPLOAD_SIZE,
+      },
     },
   },
 
