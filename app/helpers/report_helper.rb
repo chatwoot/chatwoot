@@ -53,13 +53,13 @@ module ReportHelper
   end
 
   def resolutions
-    scope.reporting_events.select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
-                                                          created_at: range).distinct
+    scope.reporting_events.where(account_id: account.id, name: :conversation_resolved,
+                                 created_at: range)
   end
 
   def bot_resolutions
-    scope.reporting_events.select(:conversation_id).where(account_id: account.id, name: :conversation_bot_resolved,
-                                                          created_at: range).distinct
+    scope.reporting_events.where(account_id: account.id, name: :conversation_bot_resolved,
+                                 created_at: range)
   end
 
   def bot_handoffs
