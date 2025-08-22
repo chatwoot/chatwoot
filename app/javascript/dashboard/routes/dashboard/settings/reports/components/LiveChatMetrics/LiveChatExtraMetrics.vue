@@ -5,6 +5,7 @@ import ReportFilterSelector from './../FilterSelector.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import LiveChatCsatMetrics from './LiveChatCsatMetrics.vue';
 import CircularProgressMetrics from './CircularProgressMetrics.vue';
+import IntentMatchCircle from './IntentMatchCircle.vue';
 
 const NONE_TEAM = Object.freeze({ team_id: 0, name: 'All teams' });
 
@@ -39,6 +40,7 @@ export default {
     Spinner,
     LiveChatCsatMetrics,
     CircularProgressMetrics,
+    IntentMatchCircle,
   },
 
   data() {
@@ -153,6 +155,89 @@ export default {
       }
       return 'bg-[#3B82F6] w-full';
     },
+    getIntentBreakdown(intentMatchData) {
+      if (!intentMatchData || typeof intentMatchData !== 'object') {
+        return [];
+      }
+
+      // Define known intent mappings
+      const INTENT_MAPPINGS = {
+        product_search: 'Product Search',
+        track_order: 'Order Tracking',
+        product_query: 'Product Query',
+        general_message: 'General Message',
+        discount_query: 'Discount Query',
+        agent_assignment: 'Agent Assignment',
+        unrelated_query: 'Unrelated Query',
+      };
+
+      // Define colors for known intents
+      const INTENT_COLORS = [
+        '#4F46E5',
+        '#3B82F6',
+        '#06B6D4',
+        '#8B5CF6',
+        '#06D6A0',
+        '#A855F7',
+        '#EC4899',
+        '#F59E0B',
+        '#10B981',
+        '#EF4444',
+      ];
+
+      // Calculate total count
+      const totalCount = Object.values(intentMatchData).reduce(
+        (sum, count) => sum + count,
+        0
+      );
+
+      if (totalCount === 0) return [];
+
+      // Group known intents and others
+      const knownIntents = [];
+      let othersCount = 0;
+
+      Object.entries(intentMatchData).forEach(([key, count]) => {
+        if (INTENT_MAPPINGS[key]) {
+          knownIntents.push({
+            key,
+            label: INTENT_MAPPINGS[key],
+            count,
+            percentage: ((count / totalCount) * 100).toFixed(1),
+          });
+        } else {
+          othersCount += count;
+        }
+      });
+
+      // Sort known intents by count (descending)
+      knownIntents.sort((a, b) => b.count - a.count);
+
+      // Build result array starting with Intent Match category if there are unknown intents
+      const result = [];
+
+      // Add Intent Match category first if there are unknown intents
+      if (othersCount > 0) {
+        result.push({
+          label: 'Intent Match',
+          percentage: parseFloat(((othersCount / totalCount) * 100).toFixed(1)),
+          color: INTENT_COLORS[0],
+        });
+      }
+
+      // Add known intents starting from color index 1
+      const startColorIndex = othersCount > 0 ? 1 : 0;
+      knownIntents.forEach((intent, index) => {
+        result.push({
+          label: intent.label,
+          percentage: parseFloat(intent.percentage),
+          color:
+            INTENT_COLORS[(startColorIndex + index) % INTENT_COLORS.length],
+        });
+      });
+
+      return result;
+    },
   },
 };
 </script>
@@ -178,7 +263,7 @@ export default {
           class="grid grid-cols-1 gap-6 lg:grid-cols-3"
         >
           <div
-            class="flex flex-col w-full justify-between border border-[#eaecf0] dark:border-[#4C5155] rounded-lg lg:col-span-1"
+            class="flex flex-col w-full border border-[#eaecf0] dark:border-[#4C5155] rounded-lg lg:col-span-1"
           >
             <div class="flex flex-col space-y-1.5 p-6">
               <div class="tracking-tight font-semibold text-base">
@@ -211,7 +296,7 @@ export default {
           <div
             v-for="(metric, name) in otherConversationMetrics"
             :key="name"
-            class="flex flex-col w-full justify-between border border-[#eaecf0] dark:border-[#4C5155] rounded-lg lg:col-span-1"
+            class="flex flex-col w-full border border-[#eaecf0] dark:border-[#4C5155] rounded-lg lg:col-span-1"
           >
             <div class="flex flex-col space-y-1.5 p-6">
               <div class="flex items-center gap-2">
@@ -222,20 +307,24 @@ export default {
               <div class="text-sm text-muted">
                 {{
                   name === 'Intent Match Percentage'
-                    ? `${metric}% of conversations matched an intent.`
+                    ? `${metric.aiIntentMatchPercentage}% of conversations matched an intent.`
                     : `${metric}% of conversations resulted in a fallback.`
                 }}
               </div>
             </div>
             <div class="p-6 pt-0 flex flex-col items-center gap-4">
+              <intent-match-circle
+                v-if="name === 'Intent Match Percentage'"
+                :data="getIntentBreakdown(metric.intentMatching)"
+              />
               <circular-progress-metrics
+                v-else
                 :value="metric"
                 :label="
                   name === 'Intent Match Percentage'
                     ? 'Intent Match'
                     : 'Fall back'
                 "
-                :size="150"
                 :color="
                   name === 'Intent Match Percentage' ? '#3b82f6' : '#ef4444'
                 "
