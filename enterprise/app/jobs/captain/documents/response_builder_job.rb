@@ -4,7 +4,7 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   def perform(document)
     reset_previous_responses(document)
 
-    faqs = Captain::Llm::FaqGeneratorService.new(document.content).generate
+    faqs = Captain::Llm::FaqGeneratorService.new(document.content, document.account.locale_english_name).generate
     faqs.each do |faq|
       create_response(faq, document)
     end
