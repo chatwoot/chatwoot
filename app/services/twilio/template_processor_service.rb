@@ -14,7 +14,7 @@ class Twilio::TemplateProcessorService
   private
 
   def find_template
-    channel.content_templates['templates']&.find do |template|
+    channel.content_templates&.dig('templates')&.find do |template|
       template['friendly_name'] == template_params['name'] &&
         template['language'] == (template_params['language'] || 'en') &&
         template['status'] == 'approved'

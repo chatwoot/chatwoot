@@ -56,6 +56,18 @@ class Channel::TwilioSms < ApplicationRecord
     client.messages.create(**params)
   end
 
+  def sync_templates
+    return unless whatsapp?
+
+    Twilio::TemplateSyncService.new(channel: self).call
+  end
+
+  def approved_templates
+    return [] unless content_templates&.dig('templates')
+
+    content_templates['templates'].select { |template| template['status'] == 'approved' }
+  end
+
   private
 
   def client
