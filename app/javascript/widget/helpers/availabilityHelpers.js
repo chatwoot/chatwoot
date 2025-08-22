@@ -150,6 +150,53 @@ const findNextSlot = (currentDay, currentMinutes, openDays) =>
     })
     .find(Boolean) || null;
 
+/**
+ * Convert slot details from inbox timezone to user timezone
+ * @private
+ * @param {Date} time - Current time
+ * @param {string} inboxTz - Inbox timezone
+ * @param {Object} slotDetails - Original slot details
+ * @returns {Object} Slot details with user timezone adjustments
+ */
+const convertSlotToUserTimezone = (time, inboxTz, slotDetails) => {
+  if (!slotDetails) return null;
+
+  const userTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  // If timezones match, no conversion needed
+  if (inboxTz === userTz) return slotDetails;
+
+  // Calculate when the slot opens (absolute time)
+  const now = time instanceof Date ? time : new Date(time);
+  const openingTime = new Date(
+    now.getTime() + slotDetails.minutesUntilOpen * 60000
+  );
+
+  // Convert to user timezone
+  const openingInUserTz = getDateInTimezone(openingTime, userTz);
+  const nowInUserTz = getDateInTimezone(now, userTz);
+
+  // Calculate days difference in user timezone
+  const openingDate = new Date(openingInUserTz);
+  openingDate.setHours(0, 0, 0, 0);
+  const todayDate = new Date(nowInUserTz);
+  todayDate.setHours(0, 0, 0, 0);
+  const daysUntilOpen = Math.round((openingDate - todayDate) / 86400000);
+
+  // Return with user timezone adjustments
+  return {
+    ...slotDetails,
+    config: {
+      ...slotDetails.config,
+      openHour: openingInUserTz.getHours(),
+      openMinutes: openingInUserTz.getMinutes(),
+      dayOfWeek: openingInUserTz.getDay(),
+    },
+    daysUntilOpen,
+    dayOfWeek: openingInUserTz.getDay(),
+  };
+};
+
 // ---------------------------------------------------------------------------
 // Exported functions
 // ---------------------------------------------------------------------------
@@ -213,6 +260,7 @@ export const isInWorkingHours = (time, utcOffset, workingHours = []) => {
 
 /**
  * Find next available slot with detailed information
+ * Returns times adjusted to user's timezone for display
  * @param {Date|string} time
  * @param {string} utcOffset
  * @param {Array} workingHours
@@ -238,10 +286,13 @@ export const findNextAvailableSlotDetails = (
     currentMinutes,
     openDays
   );
-  if (todaySlot) return todaySlot;
 
-  // Find next slot
-  return findNextSlot(currentDay, currentMinutes, openDays);
+  // Find the slot (today or next)
+  const slotDetails =
+    todaySlot || findNextSlot(currentDay, currentMinutes, openDays);
+
+  // Convert to user timezone for display
+  return convertSlotToUserTimezone(time, utcOffset, slotDetails);
 };
 
 /**
