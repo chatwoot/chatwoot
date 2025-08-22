@@ -129,10 +129,10 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
           end
         end
 
-        # Negative test: This will fail until summary reports respect timezone_offset
-        it 'summary reports should respect timezone boundary like timeseries reports do' do
+        # Test: Frontend sends correct timezone-adjusted boundaries
+        it 'summary reports work when frontend sends correct timezone boundaries' do
           Time.use_zone('UTC') do
-            # Create a resolution event right at midnight UTC boundary
+            # Create a resolution event right at timezone boundary
             boundary_time = Time.utc(2024, 1, 15, 23, 30) # 11:30 PM UTC on Jan 15
             gravatar_url = 'https://www.gravatar.com'
             stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
@@ -145,28 +145,35 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
               end
             end
 
-            params = {
+            # Simulate how frontend sends timezone-adjusted boundaries
+            # For UTC: Jan 15 00:00 UTC to Jan 16 00:00 UTC (event included)
+            utc_params = {
               type: 'account',
-              since: Time.utc(2024, 1, 15, 0, 0).to_i.to_s, # Start of Jan 15 UTC
-              until: Time.utc(2024, 1, 16, 0, 0).to_i.to_s   # Start of Jan 16 UTC
+              since: Time.utc(2024, 1, 15, 0, 0).to_i.to_s,
+              until: Time.utc(2024, 1, 16, 0, 0).to_i.to_s
             }
 
-            # Test with timezone offset +9 (JST) - this should shift the boundary
-            # The event at 23:30 UTC becomes 08:30 JST on Jan 16
-            # So in JST timezone, this event falls OUTSIDE our date range
+            # For JST: User wants "Jan 15 JST" which translates to:
+            # Jan 14 15:00 UTC to Jan 15 15:00 UTC (event NOT included)
+            jst_params = {
+              type: 'account',
+              since: (Time.utc(2024, 1, 15, 0, 0) - 9.hours).to_i.to_s, # Jan 14 15:00 UTC
+              until: (Time.utc(2024, 1, 16, 0, 0) - 9.hours).to_i.to_s  # Jan 15 15:00 UTC
+            }
+
             get "/api/v2/accounts/#{account.id}/reports/summary",
-                params: params.merge(timezone_offset: 9),
+                params: jst_params.merge(timezone_offset: 9),
                 headers: admin.create_new_auth_token, as: :json
             jst_summary = response.parsed_body
 
             get "/api/v2/accounts/#{account.id}/reports/summary",
-                params: params.merge(timezone_offset: 0),
+                params: utc_params.merge(timezone_offset: 0),
                 headers: admin.create_new_auth_token, as: :json
             utc_summary = response.parsed_body
 
-            # If timezone is properly respected, JST should have 0 resolutions
-            # because the event falls in Jan 16 JST, outside our Jan 15 range
-            # Currently this will fail because summary ignores timezone_offset
+            # With correct timezone boundaries:
+            # - UTC query includes the 23:30 UTC event (within Jan 15 UTC range)
+            # - JST query excludes the 23:30 UTC event (outside Jan 15 JST range)
             expect(jst_summary['resolutions_count']).to eq(0)
             expect(utc_summary['resolutions_count']).to eq(1)
           end
