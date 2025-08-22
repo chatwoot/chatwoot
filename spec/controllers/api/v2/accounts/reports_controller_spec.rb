@@ -125,6 +125,76 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
           end
         end
       end
+
+      it 'timezone_offset does not affect summary report totals' do
+        Time.use_zone('UTC') do
+          base_time = Time.utc(2024, 1, 15, 12, 0) # Noon UTC on Jan 15
+
+          # Test summary with UTC (0 hours offset)
+          get "/api/v2/accounts/#{account.id}/reports/summary",
+              params: {
+                type: 'account',
+                since: (base_time - 1.day).to_i.to_s,
+                until: (base_time + 1.day).to_i.to_s,
+                timezone_offset: 0
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          utc_summary = response.parsed_body
+
+          # Test summary with PST (-8 hours offset)
+          get "/api/v2/accounts/#{account.id}/reports/summary",
+              params: {
+                type: 'account',
+                since: (base_time - 1.day).to_i.to_s,
+                until: (base_time + 1.day).to_i.to_s,
+                timezone_offset: -8
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          pst_summary = response.parsed_body
+
+          # Test summary with JST (+9 hours offset)
+          get "/api/v2/accounts/#{account.id}/reports/summary",
+              params: {
+                type: 'account',
+                since: (base_time - 1.day).to_i.to_s,
+                until: (base_time + 1.day).to_i.to_s,
+                timezone_offset: 9
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          jst_summary = response.parsed_body
+
+          # Summary totals should be identical across all timezones
+          # Unlike timeseries, summary doesn't redistribute data between buckets
+          expect(utc_summary['conversations_count']).to eq(pst_summary['conversations_count'])
+          expect(utc_summary['conversations_count']).to eq(jst_summary['conversations_count'])
+          expect(utc_summary['conversations_count']).to eq(6) # We created 6 conversations
+
+          # All other metrics should also be consistent
+          expect(utc_summary['incoming_messages_count']).to eq(pst_summary['incoming_messages_count'])
+          expect(utc_summary['incoming_messages_count']).to eq(jst_summary['incoming_messages_count'])
+
+          expect(utc_summary['outgoing_messages_count']).to eq(pst_summary['outgoing_messages_count'])
+          expect(utc_summary['outgoing_messages_count']).to eq(jst_summary['outgoing_messages_count'])
+
+          expect(utc_summary['resolutions_count']).to eq(pst_summary['resolutions_count'])
+          expect(utc_summary['resolutions_count']).to eq(jst_summary['resolutions_count'])
+
+          # Previous period comparison should also be consistent
+          if utc_summary['previous']
+            expect(utc_summary['previous']['conversations_count']).to eq(pst_summary['previous']['conversations_count'])
+            expect(utc_summary['previous']['conversations_count']).to eq(jst_summary['previous']['conversations_count'])
+          end
+        end
+      end
     end
 
     context 'when unauthenticated' do
