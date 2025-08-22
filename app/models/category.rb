@@ -25,7 +25,8 @@
 #  index_categories_on_slug_and_locale_and_portal_id  (slug,locale,portal_id) UNIQUE
 #
 class Category < ApplicationRecord
-  paginates_per 1000
+  PER_PAGE = 1000
+  paginates_per PER_PAGE
 
   belongs_to :account
   belongs_to :portal
