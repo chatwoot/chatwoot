@@ -125,18 +125,48 @@ const RULES = {
 // mime → "image" | "video" | "audio" | "document"
 const DOC_HEADS = new Set(['application', 'text']);
 
+/**
+ * Determines the file category from its MIME type.
+ *
+ * @param {string} mime - The MIME type of the file (e.g., "image/png", "application/pdf").
+ * @returns {"image" | "video" | "audio" | "document"} The detected category.
+ */
 const categoryFromMime = mime => {
   const head = mime?.split('/')?.[0];
   return DOC_HEADS.has(head) ? 'document' : head;
 };
 
+/**
+ * Retrieves the rule node for a given channel type and medium.
+ *
+ * @param {string} channelType - The type of channel (e.g., INBOX_TYPES.WHATSAPP, INBOX_TYPES.INSTAGRAM).
+ * @param {string} [medium] - The specific medium under the channel (e.g., "sms", "whatsapp").
+ * @returns {Object} The rule node containing accepted file types and max file size rules.
+ */
 const getNode = (channelType, medium) =>
   RULES[channelType]?.[medium] ?? RULES[channelType]?.['*'] ?? RULES.default;
 
+/**
+ * Gets the allowed file types for a given channel and medium.
+ *
+ * @param {Object} params
+ * @param {string} params.channelType - The type of channel (from INBOX_TYPES).
+ * @param {string} [params.medium] - The medium type (e.g., "sms", "whatsapp").
+ * @returns {string} A comma-separated list of allowed MIME types.
+ */
 export const getAllowedFileTypesByChannel = ({ channelType, medium } = {}) => {
   return getNode(channelType, medium).accept ?? RULES.default.accept;
 };
 
+/**
+ * Gets the maximum upload size for a given channel, medium, and MIME type.
+ *
+ * @param {Object} params
+ * @param {string} params.channelType - The type of channel (from INBOX_TYPES).
+ * @param {string} [params.medium] - The medium type (e.g., "sms", "whatsapp").
+ * @param {string} [params.mime] - The MIME type of the file (used for category-specific rules).
+ * @returns {number} Maximum allowed upload size in MB.
+ */
 export const getMaxUploadSizeByChannel = ({
   channelType,
   medium,
