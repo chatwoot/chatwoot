@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_27_195529) do
+ActiveRecord::Schema[7.0].define(version: 2025_08_18_092317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -766,8 +766,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_27_195529) do
     t.string "business_name"
     t.boolean "add_label_to_resolve_conversation", default: false, null: false
     t.jsonb "csat_config", default: {}, null: false
+    t.integer "csat_expiry_hours"
+    t.boolean "csat_allow_resend_after_expiry", default: false, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
+    t.index ["csat_expiry_hours"], name: "index_inboxes_on_csat_expiry_hours"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
   end
 

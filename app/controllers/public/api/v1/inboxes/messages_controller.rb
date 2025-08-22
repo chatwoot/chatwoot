@@ -68,6 +68,10 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
   end
 
   def check_csat_locked
-    (Time.zone.now.to_date - @message.created_at.to_date).to_i > 14 and @message.content_type == 'input_csat'
+    return false unless @message.content_type == 'input_csat'
+
+    # Use inbox-specific expiry if configured, otherwise default to 336 hours (14 days)
+    expiry_hours = @conversation.inbox.csat_expiry_hours || 336
+    (Time.zone.now - @message.created_at) > expiry_hours.hours
   end
 end

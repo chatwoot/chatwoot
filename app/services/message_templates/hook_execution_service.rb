@@ -6,6 +6,10 @@ class MessageTemplates::HookExecutionService
     return if conversation.campaign.present?
     return if conversation.last_incoming_message.blank?
 
+    Rails.logger.info("MessageAllInfo, #{message.inspect}")
+    # Prevent CSAT messages from triggering more CSAT logic to avoid loops
+    return if message.content_type == 'input_csat'
+
     trigger_templates
   end
 
@@ -88,13 +92,25 @@ class MessageTemplates::HookExecutionService
     Rails.logger.info("csat_enabled_conversation?, #{csat_enabled_conversation?}")
     return unless csat_enabled_conversation?
 
-    # only send CSAT once in a conversation
+    # Get all CSAT messages in conversation
     csat_messages = conversation.messages.where(content_type: :input_csat)
     filtered_messages = csat_messages.where("additional_attributes->>'ignore_automation_rules' IS NULL")
 
-    return if filtered_messages.present?
+    # If no previous CSAT, allow sending (original behavior)
+    return true if filtered_messages.empty?
 
-    true
+    # If inbox doesn't allow resend after expiry, block sending (original behavior)
+    return false unless inbox.csat_allow_resend_after_expiry?
+
+    # Check if the latest CSAT message is expired (new expiry feature)
+    latest_csat = filtered_messages.order(created_at: :desc).first
+    if csat_expired?(latest_csat)
+      # Mark the previous CSAT message as ignored before sending new one
+      mark_previous_csat_as_ignored(latest_csat)
+      return true
+    end
+
+    false
   end
 
   def should_use_custom_csat?
@@ -102,6 +118,23 @@ class MessageTemplates::HookExecutionService
     return false unless inbox.channel.additional_attributes['enable_csat_on_whatsapp'] == true
 
     true
+  end
+
+  def csat_expired?(csat_message)
+    return false unless csat_message && inbox.csat_expiry_enabled?
+
+    expiry_time = inbox.csat_expires_after
+    Time.zone.now - csat_message.created_at > expiry_time
+  end
+
+  def mark_previous_csat_as_ignored(csat_message)
+    return unless csat_message
+
+    # Update the previous CSAT message to ignore it in future automation rules
+    updated_attributes = csat_message.additional_attributes || {}
+    updated_attributes['ignore_automation_rules'] = true
+    csat_message.update!(additional_attributes: updated_attributes)
+    Rails.logger.info("Marked previous CSAT message #{csat_message.id} as ignored")
   end
 end
 MessageTemplates::HookExecutionService.prepend_mod_with('MessageTemplates::HookExecutionService')

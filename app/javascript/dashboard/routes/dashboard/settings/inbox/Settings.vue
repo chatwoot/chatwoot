@@ -225,6 +225,42 @@
               </label>
             </div>
           </div>
+
+          <div v-if="csatSurveyEnabled" class="pb-4">
+            <div class="flex items-center gap-2 pb-2">
+              <input
+                id="csatAllowResendAfterExpiry"
+                v-model="csatAllowResendAfterExpiry"
+                type="checkbox"
+              />
+              <label for="csatAllowResendAfterExpiry">
+                {{
+                  $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_ALLOW_RESEND_AFTER_EXPIRY')
+                }}
+              </label>
+            </div>
+
+            <div v-if="csatAllowResendAfterExpiry" class="mt-2">
+              <label
+                class="block text-sm font-medium text-slate-700 dark:text-slate-300 pb-1"
+              >
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_EXPIRY_HOURS') }}
+              </label>
+              <input
+                v-model.number="csatExpiryHours"
+                type="number"
+                min="1"
+                max="8760"
+                :placeholder="
+                  $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_EXPIRY_HOURS_PLACEHOLDER')
+                "
+                class="w-24 px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+              />
+              <p class="pt-1 text-xs text-slate-600 dark:text-slate-400">
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_EXPIRY_HOURS_HELP') }}
+              </p>
+            </div>
+          </div>
         </label>
 
         <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
@@ -503,6 +539,8 @@ export default {
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
+      csatAllowResendAfterExpiry: false,
+      csatExpiryHours: null,
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
@@ -712,6 +750,9 @@ export default {
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
+        this.csatAllowResendAfterExpiry =
+          this.inbox.csat_allow_resend_after_expiry || false;
+        this.csatExpiryHours = this.inbox.csat_expiry_hours;
         this.enableCSATOnWhatsapp =
           this.inbox?.additional_attributes?.enable_csat_on_whatsapp || false;
         this.senderNameType = this.inbox.sender_name_type;
@@ -740,6 +781,8 @@ export default {
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
+          csat_allow_resend_after_expiry: this.csatAllowResendAfterExpiry,
+          csat_expiry_hours: this.csatExpiryHours,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           add_label_to_resolve_conversation: this.addLabelToResolveConversation,
           greeting_enabled: this.greetingEnabled,
@@ -757,8 +800,8 @@ export default {
             website_url: this.channelWebsiteUrl,
             webhook_url:
               this.channelType === 'Channel::WebWidget'
-                ? (this.webhookUrl ??
-                  'https://chatwoot-connector-767152501284.us-east4.run.app/chatwoot/webhook/webWidget')
+                ? this.webhookUrl ??
+                  'https://chatwoot-connector-767152501284.us-east4.run.app/chatwoot/webhook/webWidget'
                 : this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',

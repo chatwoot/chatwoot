@@ -10,6 +10,9 @@
 #  auto_assignment_config            :jsonb
 #  business_name                     :string
 #  channel_type                      :string
+#  csat_allow_resend_after_expiry    :boolean          default(FALSE), not null
+#  csat_config                       :jsonb            not null
+#  csat_expiry_hours                 :integer
 #  csat_survey_enabled               :boolean          default(FALSE)
 #  email_address                     :string
 #  enable_auto_assignment            :boolean          default(TRUE)
@@ -32,6 +35,7 @@
 #
 #  index_inboxes_on_account_id                   (account_id)
 #  index_inboxes_on_channel_id_and_channel_type  (channel_id,channel_type)
+#  index_inboxes_on_csat_expiry_hours            (csat_expiry_hours)
 #  index_inboxes_on_portal_id                    (portal_id)
 #
 # Foreign Keys
@@ -53,7 +57,10 @@ class Inbox < ApplicationRecord
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
   validates :out_of_office_message, length: { maximum: Limits::OUT_OF_OFFICE_MESSAGE_MAX_LENGTH }
   validates :greeting_message, length: { maximum: Limits::GREETING_MESSAGE_MAX_LENGTH }
+  validates :csat_expiry_hours, numericality: { greater_than: 0, less_than_or_equal_to: 8760,
+                                                message: 'must be between 1 and 8760 hours (1 year)' }, allow_nil: true # rubocop:disable Rails/I18nLocaleTexts
   validate :ensure_valid_max_assignment_limit
+  validate :csat_settings_consistency
 
   belongs_to :account
   belongs_to :portal, optional: true
@@ -161,6 +168,14 @@ class Inbox < ApplicationRecord
     members.ids
   end
 
+  def csat_expiry_enabled?
+    csat_expiry_hours.present? && csat_allow_resend_after_expiry?
+  end
+
+  def csat_expires_after
+    csat_expiry_hours&.hours || 336.hours # Default to 14 days (336 hours)
+  end
+
   private
 
   def dispatch_create_event
@@ -185,6 +200,16 @@ class Inbox < ApplicationRecord
 
   def check_channel_type?
     ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
+  end
+
+  def csat_settings_consistency
+    if csat_allow_resend_after_expiry? && !csat_survey_enabled?
+      errors.add(:csat_allow_resend_after_expiry, 'cannot be enabled when CSAT survey is disabled')
+    end
+
+    return unless csat_allow_resend_after_expiry? && csat_expiry_hours.nil?
+
+    errors.add(:csat_expiry_hours, 'must be specified when resend after expiry is enabled')
   end
 end
 

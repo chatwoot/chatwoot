@@ -8,6 +8,37 @@ RSpec.describe Inbox do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:name) }
+
+    describe 'CSAT expiry validations' do
+      it 'validates csat_expiry_hours is within valid range' do
+        inbox = build(:inbox, csat_expiry_hours: 8761)
+        expect(inbox).not_to be_valid
+        expect(inbox.errors[:csat_expiry_hours]).to include('must be between 1 and 8760 hours (1 year)')
+      end
+
+      it 'validates csat_expiry_hours is greater than 0' do
+        inbox = build(:inbox, csat_expiry_hours: 0)
+        expect(inbox).not_to be_valid
+        expect(inbox.errors[:csat_expiry_hours]).to include('must be between 1 and 8760 hours (1 year)')
+      end
+
+      it 'allows nil csat_expiry_hours' do
+        inbox = build(:inbox, csat_expiry_hours: nil)
+        expect(inbox).to be_valid
+      end
+
+      it 'requires csat_expiry_hours when resend after expiry is enabled' do
+        inbox = build(:inbox, csat_allow_resend_after_expiry: true, csat_expiry_hours: nil)
+        expect(inbox).not_to be_valid
+        expect(inbox.errors[:csat_expiry_hours]).to include('must be specified when resend after expiry is enabled')
+      end
+
+      it 'prevents enabling resend when CSAT survey is disabled' do
+        inbox = build(:inbox, csat_survey_enabled: false, csat_allow_resend_after_expiry: true)
+        expect(inbox).not_to be_valid
+        expect(inbox.errors[:csat_allow_resend_after_expiry]).to include('cannot be enabled when CSAT survey is disabled')
+      end
+    end
   end
 
   describe 'associations' do
@@ -259,6 +290,37 @@ RSpec.describe Inbox do
     it 'updates the cache key after touch' do
       expect(inbox.account).to receive(:update_cache_key).with('inbox')
       inbox.touch # rubocop:disable Rails/SkipsModelValidations
+    end
+  end
+
+  describe 'CSAT expiry helper methods' do
+    describe '#csat_expiry_enabled?' do
+      it 'returns true when both conditions are met' do
+        inbox = build(:inbox, csat_expiry_hours: 24, csat_allow_resend_after_expiry: true)
+        expect(inbox.csat_expiry_enabled?).to be true
+      end
+
+      it 'returns false when expiry hours is nil' do
+        inbox = build(:inbox, csat_expiry_hours: nil, csat_allow_resend_after_expiry: true)
+        expect(inbox.csat_expiry_enabled?).to be false
+      end
+
+      it 'returns false when resend is disabled' do
+        inbox = build(:inbox, csat_expiry_hours: 24, csat_allow_resend_after_expiry: false)
+        expect(inbox.csat_expiry_enabled?).to be false
+      end
+    end
+
+    describe '#csat_expires_after' do
+      it 'returns configured hours when set' do
+        inbox = build(:inbox, csat_expiry_hours: 48)
+        expect(inbox.csat_expires_after).to eq(48.hours)
+      end
+
+      it 'returns default 336 hours (14 days) when not set' do
+        inbox = build(:inbox, csat_expiry_hours: nil)
+        expect(inbox.csat_expires_after).to eq(336.hours)
+      end
     end
   end
 end

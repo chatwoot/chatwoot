@@ -1,4 +1,4 @@
-class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController # rubocop:disable Metrics/ClassLength
   include WorkingHoursHelper
   include Api::V1::InboxesHelper
   before_action :fetch_inbox, except: [:index, :create]
@@ -179,7 +179,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
-     :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name, :add_label_to_resolve_conversation]
+     :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name, :add_label_to_resolve_conversation,
+     :csat_expiry_hours, :csat_allow_resend_after_expiry]
   end
 
   def permitted_params(channel_attributes = [])
