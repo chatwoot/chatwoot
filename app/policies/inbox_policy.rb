@@ -61,4 +61,8 @@ class InboxPolicy < ApplicationPolicy
   def sync_templates?
     @account_user.administrator?
   end
+
+  def templates?
+    @account_user.administrator?
+  end
 end

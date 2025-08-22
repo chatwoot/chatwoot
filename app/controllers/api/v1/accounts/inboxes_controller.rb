@@ -70,12 +70,23 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def sync_templates
-    unless @inbox.channel.is_a?(Channel::Whatsapp)
-      return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' }
-    end
+    return render_template_not_supported_error unless whatsapp_channel?
 
-    Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
+    trigger_template_sync
     render status: :ok, json: { message: 'Template sync initiated successfully' }
+  rescue StandardError => e
+    render status: :internal_server_error, json: { error: e.message }
+  end
+
+  def templates
+    return render_template_not_supported_error unless whatsapp_channel?
+
+    templates_data, last_updated = fetch_template_data
+
+    render json: {
+      templates: templates_data,
+      last_updated: last_updated
+    }
   rescue StandardError => e
     render status: :internal_server_error, json: { error: e.message }
   end
@@ -183,6 +194,30 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       channel_type.constantize::EDITABLE_ATTRS.presence
     else
       []
+    end
+  end
+
+  def whatsapp_channel?
+    @inbox.channel.is_a?(Channel::Whatsapp) || (@inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.whatsapp?)
+  end
+
+  def render_template_not_supported_error
+    render status: :unprocessable_entity, json: { error: 'Templates are only available for WhatsApp channels' }
+  end
+
+  def trigger_template_sync
+    if @inbox.channel.is_a?(Channel::Whatsapp)
+      Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
+    elsif @inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.whatsapp?
+      Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)
+    end
+  end
+
+  def fetch_template_data
+    if @inbox.channel.is_a?(Channel::Whatsapp)
+      [@inbox.channel.message_templates || {}, nil]
+    elsif @inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.whatsapp?
+      [@inbox.channel.approved_templates, @inbox.channel.content_templates_last_updated]
     end
   end
 end
