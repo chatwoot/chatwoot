@@ -70,7 +70,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def sync_templates
-    return render_feature_not_enabled_error unless Current.account.feature_twilio_content_templates?
     return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' } unless whatsapp_channel?
 
     trigger_template_sync
@@ -186,21 +185,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def whatsapp_channel?
-    @inbox.channel.is_a?(Channel::Whatsapp) || (@inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.whatsapp?)
-  end
-
-  def render_template_not_supported_error
-    render status: :unprocessable_entity, json: { error: 'Templates are only available for WhatsApp channels' }
-  end
-
-  def render_feature_not_enabled_error
-    render status: :forbidden, json: { error: 'Twilio content templates feature is not enabled for this account' }
+    @inbox.whatsapp? || (@inbox.twilio? && @inbox.channel.whatsapp?)
   end
 
   def trigger_template_sync
-    if @inbox.channel.is_a?(Channel::Whatsapp)
+    if @inbox.whatsapp?
       Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
-    elsif @inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.whatsapp?
+    elsif @inbox.twilio? && @inbox.channel.whatsapp?
       Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)
     end
   end
