@@ -36,7 +36,10 @@ class Api::V1::Accounts::LibraryResourcesController < Api::V1::Accounts::BaseCon
   end
 
   def resource_params
-    params.require(:library_resource).permit(:title, :description, :content, :resource_type, :file_blob_id, custom_attributes: {})
+    permitted_params = [:title, :description, :content, :file_blob_id, { custom_attributes: {} }]
+    # Allow resource_type only for create action, not for update
+    permitted_params << :resource_type if action_name == 'create'
+    params.require(:library_resource).permit(permitted_params)
   end
 
   def attach_file_if_present

@@ -247,10 +247,17 @@ const removeFile = () => {
           {{ t('LIBRARY.FORM.RESOURCE_TYPE_LABEL') }}
         </label>
         <SelectMenu
+          v-if="!resource?.id"
           v-model="form.resource_type"
           :label="selectedResourceTypeLabel"
           :options="resourceTypeOptions"
         />
+        <div
+          v-else
+          class="px-3 py-2 bg-n-slate-3 border border-n-weak rounded-md text-sm text-n-slate-11"
+        >
+          {{ selectedResourceTypeLabel }}
+        </div>
       </div>
 
       <div>

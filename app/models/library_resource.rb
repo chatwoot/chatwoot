@@ -31,6 +31,7 @@ class LibraryResource < ApplicationRecord
   validates :custom_attributes, jsonb_attributes_length: true
   validates :resource_type, inclusion: { in: RESOURCE_TYPES }
   validate :validate_file_presence
+  validate :resource_type_immutable, on: :update
 
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
@@ -93,5 +94,11 @@ class LibraryResource < ApplicationRecord
     return if file.attached? || content.present?
 
     errors.add(:file, 'must be attached for this resource type')
+  end
+
+  def resource_type_immutable
+    return unless resource_type_changed?
+
+    errors.add(:resource_type, 'cannot be changed after creation')
   end
 end
