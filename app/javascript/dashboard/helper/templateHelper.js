@@ -51,6 +51,9 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
     if (!allVariables.header) allVariables.header = {};
     allVariables.header.media_url = '';
     allVariables.header.media_type = headerComponent.format.toLowerCase();
+    if (headerComponent.format === 'DOCUMENT') {
+      allVariables.header.media_name = '';
+    }
   }
 
   // Process button variables

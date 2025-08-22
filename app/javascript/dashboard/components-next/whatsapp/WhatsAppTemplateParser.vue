@@ -117,6 +117,11 @@ const updateMediaUrl = value => {
   processedParams.value.header.media_url = value;
 };
 
+const updateMediaName = value => {
+  processedParams.value.header ??= {};
+  processedParams.value.header.media_name = value;
+};
+
 const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
@@ -163,6 +168,7 @@ defineExpose({
   renderedTemplate,
   v$,
   updateMediaUrl,
+  updateMediaName,
   sendMessage,
   resetTemplate,
   goBack,
@@ -214,6 +220,21 @@ defineExpose({
               })
             "
             @update:model-value="updateMediaUrl"
+          />
+        </div>
+        <div
+          v-if="headerComponent?.format === 'DOCUMENT'"
+          class="flex items-center mb-2.5"
+        >
+          <Input
+            :model-value="processedParams.header?.media_name || ''"
+            type="text"
+            class="flex-1"
+            :placeholder="
+              t('WHATSAPP_TEMPLATES.PARSER.MEDIA_NAME_PLACEHOLDER') ||
+              'Enter custom filename (optional)'
+            "
+            @update:model-value="updateMediaName"
           />
         </div>
       </div>

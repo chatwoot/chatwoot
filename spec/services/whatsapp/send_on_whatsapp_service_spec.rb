@@ -201,6 +201,31 @@ describe Whatsapp::SendOnWhatsappService do
         expect(message.reload.source_id).to eq('123456789')
       end
 
+      it 'handles template with document header parameters and custom media_name' do
+        processed_params = {
+          'body' => { '1' => 'Order456' },
+          'header' => {
+            'media_url' => 'https://baserow.example.com/media/user_files/lBWKm8sZ24l7JLkz5V253Yt0RWG4ypfu_e5a8419c8e6f9a3e58d868bd065f4a4d7cea6a30b4716c380a9b0e1628596d9f.pdf',
+            'media_type' => 'document',
+            'media_name' => 'customer_charge.pdf'
+          }
+        }
+        custom_name_template_params = build_sample_template_params(processed_params)
+        message = create_message_with_template('', custom_name_template_params)
+
+        components = [
+          { type: 'header',
+            parameters: [{ type: 'document',
+                           document: { link: 'https://baserow.example.com/media/user_files/lBWKm8sZ24l7JLkz5V253Yt0RWG4ypfu_e5a8419c8e6f9a3e58d868bd065f4a4d7cea6a30b4716c380a9b0e1628596d9f.pdf',
+                                       filename: 'customer_charge.pdf' } }] },
+          { type: 'body', parameters: [{ type: 'text', text: 'Order456' }] }
+        ]
+        stub_sample_template_request(components)
+
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
+
       it 'handles empty processed_params gracefully' do
         empty_template_params = {
           name: 'sample_shipping_confirmation',

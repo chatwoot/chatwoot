@@ -40,6 +40,7 @@
       "BUTTON_LABEL": "Button {index}",
       "COUPON_CODE": "Enter coupon code (max 15 chars)",
       "MEDIA_URL_LABEL": "Enter {type} URL",
+      "MEDIA_NAME_PLACEHOLDER": "Enter custom filename (optional)",
       "BUTTON_PARAMETER": "Enter button parameter"
     }
   }
