@@ -70,7 +70,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def sync_templates
-    return render_template_not_supported_error unless whatsapp_channel?
+    return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' } unless whatsapp_channel?
 
     trigger_template_sync
     render status: :ok, json: { message: 'Template sync initiated successfully' }
