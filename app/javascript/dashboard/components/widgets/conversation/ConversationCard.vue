@@ -383,23 +383,23 @@ const onToggleAi = async () => {
         </span>
       </p>
       <div
-        class="absolute flex flex-col justify-end ltr:right-4 rtl:left-4 top-4"
+        class="absolute flex flex-col justify-end ltr:right-4 rtl:left-4 top-0"
       >
         <span class="ml-auto font-normal leading-4 text-xxs">
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
           />
-          <div
-            :class="hasAiImplemented ? 'opacity-100' : 'opacity-40'"
-            class="w-full flex justify-end items-end gap-2"
-            @click="!hasAiImplemented && notAiImplementedNotification()"
-          >
-            <AIEnableBanner
-              :ai-enable="isAiEnabled && hasAiImplemented"
-              @toggle-ai="onToggleAi"
-            />
-          </div>
+        </span>
+        <span
+          :class="hasAiImplemented ? 'opacity-100' : 'opacity-40'"
+          class="w-full flex justify-center items-end gap-2"
+          @click="!hasAiImplemented && notAiImplementedNotification()"
+        >
+          <AIEnableBanner
+            :ai-enable="isAiEnabled && hasAiImplemented"
+            @toggle-ai="onToggleAi"
+          />
         </span>
         <span
           class="unread hidden absolute -right-3 -bottom-4 shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
