@@ -931,6 +931,11 @@ RSpec.describe 'Inboxes API', type: :request do
     end
 
     context 'when it is an authenticated administrator' do
+      before do
+        account.enable_features!('twilio_content_templates')
+        account.reload
+      end
+
       context 'with WhatsApp inbox' do
         it 'successfully initiates template sync' do
           expect(Channels::Whatsapp::TemplatesSyncJob).to receive(:perform_later).with(whatsapp_channel)

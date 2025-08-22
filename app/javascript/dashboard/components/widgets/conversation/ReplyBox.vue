@@ -30,6 +30,7 @@ import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -130,6 +131,7 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
+      currentAccount: 'getCurrentAccount',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -191,7 +193,12 @@ export default {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
     },
     showContentTemplates() {
-      return this.isATwilioWhatsAppChannel && !this.isPrivate;
+      const isFeatureEnabled = this.$store.getters[
+        'accounts/isFeatureEnabledonAccount'
+      ](this.currentAccount.id, FEATURE_FLAGS.TWILIO_CONTENT_TEMPLATES);
+      return (
+        this.isATwilioWhatsAppChannel && !this.isPrivate && isFeatureEnabled
+      );
     },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
