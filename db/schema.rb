@@ -477,7 +477,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
     t.jsonb "content_templates", default: {}
     t.datetime "content_templates_last_updated"
     t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
-    t.index ["content_templates"], name: "index_channel_twilio_sms_on_content_templates", using: :gin
     t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
   end
