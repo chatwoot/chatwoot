@@ -27,10 +27,8 @@ import {
   replaceVariablesInMessage,
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
-import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -63,7 +61,6 @@ export default {
     ReplyToMessage,
     ReplyTopPanel,
     ResizableTextArea,
-    ContentTemplates,
     WhatsappTemplates,
     WootMessageEditor,
   },
@@ -112,7 +109,6 @@ export default {
       toEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
-      showContentTemplatesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
       showMentions: false,
@@ -131,7 +127,6 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
-      currentAccount: 'getCurrentAccount',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -191,14 +186,6 @@ export default {
     },
     showWhatsappTemplates() {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
-    },
-    showContentTemplates() {
-      const isFeatureEnabled = this.$store.getters[
-        'accounts/isFeatureEnabledonAccount'
-      ](this.currentAccount.id, FEATURE_FLAGS.TWILIO_CONTENT_TEMPLATES);
-      return (
-        this.isATwilioWhatsAppChannel && !this.isPrivate && isFeatureEnabled
-      );
     },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
@@ -672,12 +659,6 @@ export default {
     hideWhatsappTemplatesModal() {
       this.showWhatsAppTemplatesModal = false;
     },
-    openContentTemplateModal() {
-      this.showContentTemplatesModal = true;
-    },
-    hideContentTemplatesModal() {
-      this.showContentTemplatesModal = false;
-    },
     onClickSelfAssign() {
       const {
         account_id,
@@ -792,13 +773,6 @@ export default {
         ...messagePayload,
       });
       this.hideWhatsappTemplatesModal();
-    },
-    async onSendContentTemplateReply(messagePayload) {
-      this.sendMessage({
-        conversationId: this.currentChat.id,
-        ...messagePayload,
-      });
-      this.hideContentTemplatesModal();
     },
     replaceText(message) {
       if (this.sendWithSignature && !this.private) {
@@ -1239,7 +1213,6 @@ export default {
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :enable-whats-app-templates="showWhatsappTemplates"
-      :enable-content-templates="showContentTemplates"
       :inbox="inbox"
       :is-on-private-note="isOnPrivateNote"
       :is-recording-audio="isRecordingAudio"
@@ -1262,7 +1235,6 @@ export default {
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
       @select-whatsapp-template="openWhatsappTemplateModal"
-      @select-content-template="openContentTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
@@ -1273,14 +1245,6 @@ export default {
       @close="hideWhatsappTemplatesModal"
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
-    />
-
-    <ContentTemplates
-      :inbox-id="inbox.id"
-      :show="showContentTemplatesModal"
-      @close="hideContentTemplatesModal"
-      @on-send="onSendContentTemplateReply"
-      @cancel="hideContentTemplatesModal"
     />
 
     <woot-confirm-modal

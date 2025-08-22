@@ -329,17 +329,6 @@ export const actions = {
       throw new Error(error);
     }
   },
-  syncTwilioTemplates: async ({ commit }, inboxId) => {
-    try {
-      const response = await InboxesAPI.syncTemplates(inboxId);
-      // Update the inbox with synced templates
-      if (response.data) {
-        commit(types.default.EDIT_INBOXES, response.data);
-      }
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
 };
 
 export const mutations = {

@@ -98,10 +98,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    enableContentTemplates: {
-      type: Boolean,
-      default: false,
-    },
     conversationId: {
       type: Number,
       required: true,
@@ -128,7 +124,6 @@ export default {
     'toggleInsertArticle',
     'toggleEditor',
     'selectWhatsappTemplate',
-    'selectContentTemplate',
   ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -345,15 +340,6 @@ export default {
         faded
         sm
         @click="$emit('selectWhatsappTemplate')"
-      />
-      <NextButton
-        v-if="enableContentTemplates"
-        v-tooltip.top-end="'Content Templates'"
-        icon="i-ph-whatsapp-logo"
-        slate
-        faded
-        sm
-        @click="$emit('selectContentTemplate')"
       />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
