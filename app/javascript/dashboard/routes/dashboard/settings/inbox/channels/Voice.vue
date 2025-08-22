@@ -67,7 +67,7 @@ function getProviderConfig() {
     api_key_sid: state.apiKeySid,
     api_key_secret: state.apiKeySecret,
   };
-  if (state.twimlAppSid) config.outgoing_application_sid = state.twimlAppSid;
+  if (state.twimlAppSid) config.twiml_app_sid = state.twimlAppSid;
   return config;
 }
 

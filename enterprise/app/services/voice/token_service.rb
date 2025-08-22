@@ -13,7 +13,7 @@ module Voice
         inbox_id:       inbox.id,
         phone_number:   inbox.channel.phone_number,
         twiml_endpoint: twiml_url,
-        has_twiml_app:  config['outgoing_application_sid'].present?
+        has_twiml_app:  config['twiml_app_sid'].present?
       }
     end
 
@@ -40,7 +40,7 @@ module Voice
     def voice_grant
       Twilio::JWT::AccessToken::VoiceGrant.new.tap do |grant|
         grant.incoming_allow = true
-        grant.outgoing_application_sid    = config['outgoing_application_sid']
+        grant.outgoing_application_sid    = config['twiml_app_sid']
         grant.outgoing_application_params = outgoing_params
       end
     end
@@ -63,4 +63,3 @@ module Voice
     end
   end
 end
-
