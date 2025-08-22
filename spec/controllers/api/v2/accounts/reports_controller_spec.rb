@@ -128,6 +128,49 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
             expect(utc_summary['previous']['conversations_count']).to eq(pst_summary['previous']['conversations_count']) if utc_summary['previous']
           end
         end
+
+        # Negative test: This will fail until summary reports respect timezone_offset
+        it 'summary reports should respect timezone boundary like timeseries reports do' do
+          Time.use_zone('UTC') do
+            # Create a resolution event right at midnight UTC boundary
+            boundary_time = Time.utc(2024, 1, 15, 23, 30) # 11:30 PM UTC on Jan 15
+            gravatar_url = 'https://www.gravatar.com'
+            stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+
+            travel_to boundary_time do
+              perform_enqueued_jobs do
+                conversation = create(:conversation, account: account, inbox: inbox, assignee: agent)
+                conversation.resolved!
+                # This creates a reporting_event at 23:30 UTC on Jan 15
+              end
+            end
+
+            params = {
+              type: 'account',
+              since: Time.utc(2024, 1, 15, 0, 0).to_i.to_s, # Start of Jan 15 UTC
+              until: Time.utc(2024, 1, 16, 0, 0).to_i.to_s   # Start of Jan 16 UTC
+            }
+
+            # Test with timezone offset +9 (JST) - this should shift the boundary
+            # The event at 23:30 UTC becomes 08:30 JST on Jan 16
+            # So in JST timezone, this event falls OUTSIDE our date range
+            get "/api/v2/accounts/#{account.id}/reports/summary",
+                params: params.merge(timezone_offset: 9),
+                headers: admin.create_new_auth_token, as: :json
+            jst_summary = response.parsed_body
+
+            get "/api/v2/accounts/#{account.id}/reports/summary",
+                params: params.merge(timezone_offset: 0),
+                headers: admin.create_new_auth_token, as: :json
+            utc_summary = response.parsed_body
+
+            # If timezone is properly respected, JST should have 0 resolutions
+            # because the event falls in Jan 16 JST, outside our Jan 15 range
+            # Currently this will fail because summary ignores timezone_offset
+            expect(jst_summary['resolutions_count']).to eq(0)
+            expect(utc_summary['resolutions_count']).to eq(1)
+          end
+        end
       end
     end
 
