@@ -31,6 +31,7 @@ export default {
         const unixTimestamp = getUnixTime(this.snoozeTime);
         // Save the custom time to localStorage for future use
         saveLastCustomSnoozeTime(unixTimestamp);
+        // The saveLastCustomSnoozeTime function will emit the event automatically
         this.$emit('chooseTime', this.snoozeTime);
       }
     },

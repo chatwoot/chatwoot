@@ -1,6 +1,6 @@
 <script setup>
 import '@chatwoot/ninja-keys';
-import { ref, computed, watchEffect, onMounted } from 'vue';
+import { ref, computed, watchEffect, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -11,6 +11,7 @@ import { useBulkActionsHotKeys } from 'dashboard/composables/commands/useBulkAct
 import { useConversationHotKeys } from 'dashboard/composables/commands/useConversationHotKeys';
 import wootConstants from 'dashboard/constants/globals';
 import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { emitter } from 'shared/helpers/mitt';
 
 const store = useStore();
 const { t } = useI18n();
@@ -26,7 +27,8 @@ const { goToAppearanceHotKeys } = useAppearanceHotKeys();
 const { inboxHotKeys } = useInboxHotKeys();
 const { goToCommandHotKeys } = useGoToCommandHotKeys();
 const { bulkActionsHotKeys } = useBulkActionsHotKeys();
-const { conversationHotKeys } = useConversationHotKeys();
+const { conversationHotKeys, forceSnoozeActionsUpdate } =
+  useConversationHotKeys();
 
 const placeholder = computed(() => t('COMMAND_BAR.SEARCH_PLACEHOLDER'));
 
@@ -78,7 +80,37 @@ watchEffect(() => {
   }
 });
 
-onMounted(setCommandBarData);
+onMounted(() => {
+  setCommandBarData();
+
+  // Make emitter globally available for storage helpers
+  window.emitter = emitter;
+
+  // Listen for custom snooze time changes to update actions
+  emitter.on('CUSTOM_SNOOZE_TIME_CHANGED', () => {
+    if (forceSnoozeActionsUpdate) {
+      forceSnoozeActionsUpdate();
+    }
+  });
+
+  // Backward compatibility
+  emitter.on('CUSTOM_SNOOZE_TIME_SAVED', () => {
+    if (forceSnoozeActionsUpdate) {
+      forceSnoozeActionsUpdate();
+    }
+  });
+});
+
+onUnmounted(() => {
+  // Clean up event listeners
+  emitter.off('CUSTOM_SNOOZE_TIME_CHANGED');
+  emitter.off('CUSTOM_SNOOZE_TIME_SAVED');
+
+  // Clean up global reference
+  if (window.emitter === emitter) {
+    delete window.emitter;
+  }
+});
 </script>
 
 <!-- eslint-disable vue/attribute-hyphenation -->
