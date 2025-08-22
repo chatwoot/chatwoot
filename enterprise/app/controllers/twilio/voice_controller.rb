@@ -91,10 +91,9 @@ class Twilio::VoiceController < ApplicationController
   end
 
   def set_inbox
-    # Resolve inbox strictly from the route-scoped phone param (digits only, no '+')
+    # Route param is digits-only, resolve channel by E.164 with '+'
     digits = params[:phone].to_s.gsub(/\D/, '')
-    phone  = digits.present? ? "+#{digits}" : nil
-    @inbox = find_inbox(phone)
+    @inbox = find_inbox(digits)
   end
 
   def outbound?
@@ -140,15 +139,9 @@ class Twilio::VoiceController < ApplicationController
     render_twiml { |r| r.hangup }
   end
 
-  def find_inbox(phone_number)
-    return nil if phone_number.blank?
-
-    normalized = phone_number.to_s
-    variants = [normalized, normalized.delete_prefix('+')]
-
-    Inbox.joins('INNER JOIN channel_voice ON channel_voice.account_id = inboxes.account_id AND inboxes.channel_id = channel_voice.id')
-         .where('channel_voice.phone_number IN (?)', variants)
-         .first
+  def find_inbox(digits)
+    return nil if digits.blank?
+    Channel::Voice.find_by(phone_number: "+#{digits}")&.inbox
   end
 
   def find_conversation_by_conference_to(account, to)
