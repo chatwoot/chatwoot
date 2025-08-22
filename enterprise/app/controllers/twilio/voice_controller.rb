@@ -48,7 +48,9 @@ class Twilio::VoiceController < ApplicationController
 
     conference_sid = ensure_conference_sid(conversation, params[:conference_name])
 
-    updated_attrs = conversation.additional_attributes.merge(
+    # Ensure additional_attributes is always a Hash before merging
+    base_attrs = conversation.additional_attributes.is_a?(Hash) ? conversation.additional_attributes : {}
+    updated_attrs = base_attrs.merge(
       'conference_sid'      => conference_sid,
       'requires_agent_join' => true
     )
@@ -111,7 +113,8 @@ class Twilio::VoiceController < ApplicationController
   end
 
   def ensure_conference_sid(conversation, supplied)
-    sid = supplied.presence || conversation.additional_attributes['conference_sid']
+    attrs = conversation.additional_attributes.is_a?(Hash) ? conversation.additional_attributes : {}
+    sid = supplied.presence || attrs['conference_sid']
     return sid if sid&.match?(/^conf_account_\d+_conv_\d+$/)
 
     "conf_account_#{@inbox.account_id}_conv_#{conversation.display_id}"
