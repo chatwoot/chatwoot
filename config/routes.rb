@@ -186,7 +186,6 @@ Rails.application.routes.draw do
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
             post :sync_templates, on: :member
-            get :templates, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do

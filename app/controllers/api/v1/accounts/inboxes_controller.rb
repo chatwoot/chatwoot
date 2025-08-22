@@ -78,19 +78,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     render status: :internal_server_error, json: { error: e.message }
   end
 
-  def templates
-    return render_template_not_supported_error unless whatsapp_channel?
-
-    templates_data, last_updated = fetch_template_data
-
-    render json: {
-      templates: templates_data,
-      last_updated: last_updated
-    }
-  rescue StandardError => e
-    render status: :internal_server_error, json: { error: e.message }
-  end
-
   private
 
   def fetch_inbox
@@ -210,14 +197,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
     elsif @inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.whatsapp?
       Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)
-    end
-  end
-
-  def fetch_template_data
-    if @inbox.channel.is_a?(Channel::Whatsapp)
-      [@inbox.channel.message_templates || {}, nil]
-    elsif @inbox.channel.is_a?(Channel::TwilioSms) && @inbox.channel.whatsapp?
-      [@inbox.channel.approved_templates, @inbox.channel.content_templates_last_updated]
     end
   end
 end
