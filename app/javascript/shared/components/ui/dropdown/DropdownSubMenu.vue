@@ -18,20 +18,10 @@ export default {
 </script>
 
 <template>
-  <li class="sub-menu-container">
-    <ul class="sub-menu-li-container">
+  <li class="!mt-0.5">
+    <ul class="!m-0">
       <WootDropdownHeader v-if="title" :title="title" />
       <slot />
     </ul>
   </li>
 </template>
-
-<style lang="scss" scoped>
-.sub-menu-container {
-  margin-top: var(--space-micro);
-}
-
-.sub-menu-li-container {
-  margin: 0;
-}
-</style>

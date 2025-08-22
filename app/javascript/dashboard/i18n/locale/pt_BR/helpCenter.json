@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "Portal excluído com sucesso",
             "DELETE_ERROR": "Erro enquanto excluía o portal"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "Instruções do CNAME enviadas com sucesso",
+            "ERROR_MESSAGE": "Erro ao enviar as instruções CNAME"
+          }
         }
       },
       "EDIT": {
@@ -726,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Link da Página Inicial",
           "PLACEHOLDER": "Link da página inicial do portal",
-          "ERROR": "URL inválida. O link da página inicial deve começar com 'http://' ou 'https://'."
+          "ERROR": "Digite uma URL válida. O link da página inicial deve começar com 'http://' ou 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -747,9 +753,15 @@
           "HEADER": "Domínio personalizado",
           "LABEL": "Domínio personalizado:",
           "DESCRIPTION": "Você pode hospedar seu portal em um domínio personalizado. Por exemplo, se seu site for meudominio.com e você quer o seu portal disponível em docs.meudominio.com, basta digitar isso neste campo.",
+          "STATUS_DESCRIPTION": "Seu portal personalizado começará a funcionar assim que for verificado.",
           "PLACEHOLDER": "Domínio personalizado do portal",
-          "EDIT_BUTTON": "Editar domínio personalizado",
+          "EDIT_BUTTON": "Alterar",
           "ADD_BUTTON": "Adicionar domínio personalizado",
+          "STATUS": {
+            "LIVE": "Em tempo real",
+            "PENDING": "Aguardando verificação",
+            "ERROR": "Verificação falhou"
+          },
           "DIALOG": {
             "ADD_HEADER": "Adicionar domínio personalizado",
             "EDIT_HEADER": "Editar domínio personalizado",
@@ -757,13 +769,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "Atualizar domínio",
             "LABEL": "Domínio personalizado",
             "PLACEHOLDER": "Domínio personalizado do portal",
-            "ERROR": "Domínio personalizado é obrigatório"
+            "ERROR": "Domínio personalizado é obrigatório",
+            "FORMAT_ERROR": "Por favor, insira um domínio de URL válido, ex.: docs.seudominio.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "Configuração de DNS",
             "DESCRIPTION": "Faça o login na conta que você tem com seu provedor DNS e adicione um registro CNAME para subdomínio apontando para chatwoot.help",
-            "HELP_TEXT": "Assim que isso for feito, você poderá entrar em contato com o nosso suporte para solicitar o certificado SSL gerado automaticamente.",
-            "CONFIRM_BUTTON_LABEL": "Entendi!"
+            "COPY": "CNAME copiado com sucesso",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Enviar instruções",
+              "DESCRIPTION": "Se você preferir ter alguém da sua equipe de desenvolvimento para lidar com essa etapa, você pode digitar o endereço de e-mail abaixo e nós enviaremos as instruções necessárias.",
+              "PLACEHOLDER": "Insira o e-mail dele",
+              "ERROR": "Insira um endereço de e-mail válido",
+              "SEND_BUTTON": "Enviar"
+            }
           }
         },
         "DELETE_PORTAL": {

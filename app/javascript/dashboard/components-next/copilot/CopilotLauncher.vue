@@ -49,7 +49,10 @@ const toggleSidebar = () => {
 </script>
 
 <template>
-  <div v-if="showCopilotLauncher" class="fixed bottom-4 right-4 z-50">
+  <div
+    v-if="showCopilotLauncher"
+    class="fixed bottom-4 ltr:right-4 rtl:left-4 z-50"
+  >
     <div class="rounded-full bg-n-alpha-2 p-1">
       <Button
         icon="i-woot-captain"

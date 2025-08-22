@@ -73,7 +73,8 @@ class Integrations::App
       "redirect_uri=#{self.class.linear_integration_url}",
       "state=#{encode_state}",
       'scope=read,write',
-      'prompt=consent'
+      'prompt=consent',
+      'actor=app'
     ].join('&')
   end
 

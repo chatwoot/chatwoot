@@ -2,13 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "בוטים",
     "LOADING_EDITOR": "Loading editor...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "DESCRIPTION": "בוטים של סוכנים הם כמו החברים הכי נפלאים בצוות שלכם. הם יכולים להתמודד עם הדברים הקטנים, כך שאתם יכולים להתמקד בדברים החשובים. נסו אותם. אתם יכולים לנהל את הבוטים שלכם מדף זה או ליצור חדשים באמצעות כפתור 'הוסף בוט'.",
     "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT": "בוט מערכת",
     "GLOBAL_BOT_BADGE": "System",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "בוט אווטר נמחק בהצלחה",
+      "ERROR_DELETE": "תקלה במחיקת בוט אווטר, יש לנסות שוב"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "בחר סוכן בוט",
@@ -22,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Select bot"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "הוסף בוט",
       "CANCEL_BUTTON_TEXT": "ביטול",
       "API": {
         "SUCCESS_MESSAGE": "הבוט התווסף בהצלחה.",

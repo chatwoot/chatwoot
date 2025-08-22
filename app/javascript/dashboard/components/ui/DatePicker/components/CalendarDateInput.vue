@@ -55,7 +55,7 @@ const validateDate = () => {
 
 <template>
   <div class="h-[82px] flex flex-col items-start px-5 gap-1.5 pt-4 w-full">
-    <span class="text-sm font-medium text-slate-800 dark:text-slate-50">
+    <span class="text-sm font-medium text-n-slate-12">
       {{
         calendarType === START_CALENDAR
           ? $t('DATE_PICKER.DATE_RANGE_INPUT.START')

@@ -96,10 +96,7 @@ const openFilter = () => {
           <slot name="default" />
         </div>
       </main>
-      <footer
-        v-if="showPaginationFooter"
-        class="sticky bottom-0 z-10 px-4 pb-4"
-      >
+      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0 px-4 pb-4">
         <PaginationFooter
           current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"

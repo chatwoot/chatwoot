@@ -60,7 +60,9 @@ export default {
         :chat="conversation"
         :hide-inbox-name="false"
         hide-thumbnail
-        class="compact"
+        enable-context-menu
+        compact
+        :allowed-context-menu-options="['open-new-tab', 'copy-link']"
       />
     </div>
   </div>
@@ -71,14 +73,6 @@ export default {
 
 <style lang="scss" scoped>
 .no-label-message {
-  @apply text-slate-500 dark:text-slate-400 mb-4;
-}
-
-::v-deep .conversation {
-  @apply pr-0;
-
-  .conversation--details {
-    @apply pl-2;
-  }
+  @apply text-n-slate-11 mb-4;
 }
 </style>
