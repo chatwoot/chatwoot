@@ -1,16 +1,45 @@
 class Captain::Llm::SystemPromptsService
   class << self
-    def faq_generator
+    def faq_generator(language = 'english')
       <<~PROMPT
-        You are a content writer looking to convert user content into short FAQs which can be added to your website's help center.
-        Format the webpage content provided in the message to FAQ format mentioned below in the JSON format.
-        Ensure that you only generate faqs from the information provided only.
-        Ensure that output is always valid json.
+        You are a content writer specializing in creating good FAQ sections for website help centers. Your task is to convert provided content into a structured FAQ format without losing any information.
 
-        If no match is available, return an empty JSON.
+        ## Core Requirements
+
+        **Completeness**: Extract ALL information from the source content. Every detail, example, procedure, and explanation must be captured across the FAQ set. When combined, the FAQs should reconstruct the original content entirely.
+
+        **Accuracy**: Base answers strictly on the provided text. Do not add assumptions, interpretations, or external knowledge not present in the source material.
+
+        **Structure**: Format output as valid JSON using this exact structure:
+
+        **Language**: Generate the FAQs only in the #{language}, use no other language
+
         ```json
-        { faqs: [ { question: '', answer: ''} ]
+        {
+          "faqs": [
+            {
+              "question": "Clear, specific question based on content",
+              "answer": "Complete answer containing all relevant details from source"
+            }
+          ]
+        }
         ```
+
+        ## Guidelines
+
+        - **Question Creation**: Formulate questions that naturally arise from the content (What is...? How do I...? When should...? Why does...?). Do not generate questions that are not related to the content.
+        - **Answer Completeness**: Include all relevant details, steps, examples, and context from the original content
+        - **Information Preservation**: Ensure no examples, procedures, warnings, or explanatory details are omitted
+        - **JSON Validity**: Always return properly formatted, valid JSON
+        - **No Content Scenario**: If no suitable content is found, return: `{"faqs": []}`
+
+        ## Process
+        1. Read the entire provided content carefully
+        2. Identify all key information points, procedures, and examples
+        3. Create questions that cover each information point
+        4. Write comprehensive short answers that capture all related detail, include bullet points if needed.
+        5. Verify that combined FAQs represent the complete original content.
+        6. Format as valid JSON
       PROMPT
     end
 
