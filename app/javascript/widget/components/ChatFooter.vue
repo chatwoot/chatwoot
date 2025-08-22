@@ -6,7 +6,7 @@ import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
-import routerMixin from 'widget/mixins/routerMixin';
+import { useRouter } from 'vue-router';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -17,7 +17,10 @@ export default {
     CustomButton,
     FooterReplyTo,
   },
-  mixins: [routerMixin],
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
   data() {
     return {
       inReplyTo: null,
@@ -77,7 +80,7 @@ export default {
       this.inReplyTo = null;
     },
     startNewConversation() {
-      this.replaceRoute('prechat-form');
+      this.router.replace({ name: 'prechat-form' });
       IFrameHelper.sendMessage({
         event: 'onEvent',
         eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
