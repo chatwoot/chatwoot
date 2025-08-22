@@ -25,9 +25,7 @@
 #  index_categories_on_slug_and_locale_and_portal_id  (slug,locale,portal_id) UNIQUE
 #
 class Category < ApplicationRecord
-  PER_PAGE = 1000
-  paginates_per PER_PAGE
-
+  paginates_per Limits::CATEGORIES_PER_PAGE
   belongs_to :account
   belongs_to :portal
   has_many :folders, dependent: :destroy_async
