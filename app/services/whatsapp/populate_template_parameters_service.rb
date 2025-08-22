@@ -96,7 +96,8 @@ class Whatsapp::PopulateTemplateParametersService
     when 'video'
       build_video_parameter(sanitized_url)
     when 'document'
-      build_document_parameter(sanitized_url)
+      filename = extract_filename_from_url(sanitized_url)
+      build_document_parameter(sanitized_url, filename)
     else
       raise ArgumentError, "Unsupported media type: #{media_type}"
     end
@@ -110,8 +111,10 @@ class Whatsapp::PopulateTemplateParametersService
     { type: 'video', video: { link: url } }
   end
 
-  def build_document_parameter(url)
-    { type: 'document', document: { link: url } }
+  def build_document_parameter(url, filename = nil)
+    document_param = { link: url }
+    document_param[:filename] = filename if filename.present?
+    { type: 'document', document: document_param }
   end
 
   def rich_formatting?(text)
@@ -144,5 +147,20 @@ class Whatsapp::PopulateTemplateParametersService
 
   rescue URI::InvalidURIError => e
     raise ArgumentError, "Invalid URL format: #{e.message}. Please enter a valid URL like https://example.com/document.pdf"
+  end
+
+  def extract_filename_from_url(url)
+    return nil if url.blank?
+
+    begin
+      uri = URI.parse(url)
+      path = uri.path
+      filename = File.basename(path)
+
+      # Return filename only if it has an extension, otherwise return nil
+      filename.include?('.') ? filename : nil
+    rescue URI::InvalidURIError
+      nil
+    end
   end
 end

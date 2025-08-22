@@ -182,6 +182,25 @@ describe Whatsapp::SendOnWhatsappService do
         expect(message.reload.source_id).to eq('123456789')
       end
 
+      it 'handles template with document header parameters and extracts filename' do
+        processed_params = {
+          'body' => { '1' => 'Order123' },
+          'header' => { 'media_url' => 'https://example.com/documents/receipt.pdf', 'media_type' => 'document' }
+        }
+        document_template_params = build_sample_template_params(processed_params)
+        message = create_message_with_template('', document_template_params)
+
+        components = [
+          { type: 'header',
+            parameters: [{ type: 'document', document: { link: 'https://example.com/documents/receipt.pdf', filename: 'receipt.pdf' } }] },
+          { type: 'body', parameters: [{ type: 'text', text: 'Order123' }] }
+        ]
+        stub_sample_template_request(components)
+
+        described_class.new(message: message).perform
+        expect(message.reload.source_id).to eq('123456789')
+      end
+
       it 'handles empty processed_params gracefully' do
         empty_template_params = {
           name: 'sample_shipping_confirmation',
