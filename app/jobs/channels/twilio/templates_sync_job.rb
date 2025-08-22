@@ -2,6 +2,6 @@ class Channels::Twilio::TemplatesSyncJob < ApplicationJob
   queue_as :low
 
   def perform(twilio_channel)
-    twilio_channel.sync_templates
+    Twilio::TemplateSyncService.new(channel: twilio_channel).call
   end
 end

@@ -5,7 +5,7 @@ class Twilio::TemplateSyncService
     fetch_templates_from_twilio
     update_channel_templates
     mark_templates_updated
-  rescue Twilio::REST::TwilioError, Twilio::REST::RestError => e
+  rescue Twilio::REST::TwilioError => e
     Rails.logger.error("Twilio template sync failed: #{e.message}")
     false
   end

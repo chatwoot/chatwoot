@@ -11,20 +11,23 @@ RSpec.describe Channels::Twilio::TemplatesSyncJob do
   end
 
   describe '#perform' do
-    context 'with successful sync_templates' do
-      it 'calls sync_templates on the channel' do
-        expect(twilio_channel).to receive(:sync_templates).and_return(true)
+    let(:template_sync_service) { instance_double(Twilio::TemplateSyncService) }
+
+    context 'with successful template sync' do
+      it 'creates and calls the template sync service' do
+        expect(Twilio::TemplateSyncService).to receive(:new).with(channel: twilio_channel).and_return(template_sync_service)
+        expect(template_sync_service).to receive(:call).and_return(true)
 
         described_class.perform_now(twilio_channel)
       end
     end
 
-    context 'with sync_templates exception' do
+    context 'with template sync exception' do
       let(:error_message) { 'Twilio API error' }
 
       before do
-        allow(twilio_channel).to receive(:sync_templates).and_raise(StandardError, error_message)
-        allow(Rails.logger).to receive(:error)
+        allow(Twilio::TemplateSyncService).to receive(:new).with(channel: twilio_channel).and_return(template_sync_service)
+        allow(template_sync_service).to receive(:call).and_raise(StandardError, error_message)
       end
 
       it 'does not suppress the exception' do

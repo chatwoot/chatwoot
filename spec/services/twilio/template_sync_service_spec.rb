@@ -219,8 +219,7 @@ RSpec.describe Twilio::TemplateSyncService do
 
     context 'with API error' do
       before do
-        twilio_error = Twilio::REST::TwilioError.new('API Error')
-        allow(contents_list).to receive(:list).and_raise(twilio_error)
+        allow(contents_list).to receive(:list).and_raise(Twilio::REST::TwilioError.new('API Error'))
         allow(Rails.logger).to receive(:error)
       end
 
