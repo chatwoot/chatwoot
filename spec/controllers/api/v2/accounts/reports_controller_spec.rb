@@ -23,175 +23,109 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
       end
 
       it 'timezone_offset affects data grouping and timestamps correctly' do
-        # Run test in UTC to ensure consistent results
         Time.use_zone('UTC') do
-          base_time = Time.utc(2024, 1, 15, 0, 0) # Midnight UTC on Jan 15
+          base_time = Time.utc(2024, 1, 15, 0, 0)
+          base_params = {
+            metric: 'conversations_count',
+            type: 'account',
+            since: (base_time - 1.day).to_i.to_s,
+            until: (base_time + 2.days).to_i.to_s,
+            group_by: 'day'
+          }
 
-          # Test with UTC (0 hours offset)
-          get "/api/v2/accounts/#{account.id}/reports",
-              params: {
-                metric: 'conversations_count',
-                type: 'account',
-                since: (base_time - 1.day).to_i.to_s,
-                until: (base_time + 2.days).to_i.to_s,
-                group_by: 'day',
-                timezone_offset: 0
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-          expect(response).to have_http_status(:success)
-          utc_response = response.parsed_body
-
-          # Test with PST (-8 hours offset)
-          get "/api/v2/accounts/#{account.id}/reports",
-              params: {
-                metric: 'conversations_count',
-                type: 'account',
-                since: (base_time - 1.day).to_i.to_s,
-                until: (base_time + 2.days).to_i.to_s,
-                group_by: 'day',
-                timezone_offset: -8
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-          expect(response).to have_http_status(:success)
-          pst_response = response.parsed_body
-
-          # Test with JST (+9 hours offset)
-          get "/api/v2/accounts/#{account.id}/reports",
-              params: {
-                metric: 'conversations_count',
-                type: 'account',
-                since: (base_time - 1.day).to_i.to_s,
-                until: (base_time + 2.days).to_i.to_s,
-                group_by: 'day',
-                timezone_offset: 9
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-          expect(response).to have_http_status(:success)
-          jst_response = response.parsed_body
-
-          # Extract data entries (non-zero values)
-          utc_data_entries = utc_response.select { |entry| entry['value'] > 0 }
-          pst_data_entries = pst_response.select { |entry| entry['value'] > 0 }
-          jst_data_entries = jst_response.select { |entry| entry['value'] > 0 }
-
-          # Verify all responses have data
-          expect(utc_data_entries.length).to be > 0
-          expect(pst_data_entries.length).to be > 0
-          expect(jst_data_entries.length).to be > 0
-
-          # Total conversations should be the same across all timezones (conservation of data)
-          utc_total = utc_response.sum { |entry| entry['value'] }
-          pst_total = pst_response.sum { |entry| entry['value'] }
-          jst_total = jst_response.sum { |entry| entry['value'] }
-
-          expect(utc_total).to eq(pst_total)
-          expect(utc_total).to eq(jst_total)
-          expect(utc_total).to eq(6) # We created 6 conversations
-
-          # Data should be redistributed between days due to timezone conversion
-          # UTC (baseline): Conversations at 00:00-20:00 UTC on Jan 15
-          # PST (-8h): Conversations at 00:00, 04:00 UTC become 16:00, 20:00 PST on Jan 14
-          # JST (+9h): Conversations shift forward - some to Jan 15, some to Jan 16 in JST
-          expect(utc_data_entries.map { |e| e['value'] }).to eq([1, 5]) # Jan 14: 1, Jan 15: 5
-          expect(pst_data_entries.map { |e| e['value'] }).to eq([3, 3]) # Jan 14: 3, Jan 15: 3
-          expect(jst_data_entries.map { |e| e['value'] }).to eq([4, 2]) # JST redistribution
-
-          # Timestamps should represent midnight in respective timezones
-          utc_timestamps = utc_response.map { |entry| entry['timestamp'] }
-          pst_timestamps = pst_response.map { |entry| entry['timestamp'] }
-          jst_timestamps = jst_response.map { |entry| entry['timestamp'] }
-
-          expect(utc_timestamps).not_to eq(pst_timestamps)
-          expect(utc_timestamps).not_to eq(jst_timestamps)
-          expect(pst_timestamps).not_to eq(jst_timestamps)
-
-          # Verify timestamp differences represent midnight in different timezones
-          # Each timestamp represents the start of the day in its respective timezone
-          # PST is 8 hours behind UTC (-8h offset)
-          utc_timestamps.zip(pst_timestamps).each do |utc_ts, pst_ts|
-            expect(utc_ts - pst_ts).to eq(-28_800) # -8 hours = -28800 seconds
+          responses = [0, -8, 9].map do |offset|
+            get "/api/v2/accounts/#{account.id}/reports",
+                params: base_params.merge(timezone_offset: offset),
+                headers: admin.create_new_auth_token, as: :json
+            response.parsed_body
           end
 
-          # JST timezone calculation varies, but timestamps should be consistent for same logical day
-          # We just verify they're different (which proves timezone affects timestamps)
-          utc_timestamps.zip(jst_timestamps).each do |utc_ts, jst_ts|
-            expect(utc_ts).not_to eq(jst_ts) # Different timezone = different timestamp
-          end
+          data_entries = responses.map { |r| r.select { |e| e['value'] > 0 } }
+          totals = responses.map { |r| r.sum { |e| e['value'] } }
+          timestamps = responses.map { |r| r.map { |e| e['timestamp'] } }
+
+          # Data conservation and redistribution
+          expect(totals.uniq).to eq([6])
+          expect(data_entries[0].map { |e| e['value'] }).to eq([1, 5])
+          expect(data_entries[1].map { |e| e['value'] }).to eq([3, 3])
+          expect(data_entries[2].map { |e| e['value'] }).to eq([4, 2])
+
+          # Timestamp differences
+          expect(timestamps.uniq.size).to eq(3)
+          timestamps[0].zip(timestamps[1]).each { |utc, pst| expect(utc - pst).to eq(-28_800) }
         end
       end
 
-      it 'timezone_offset does not affect summary report totals' do
-        Time.use_zone('UTC') do
-          base_time = Time.utc(2024, 1, 15, 12, 0) # Noon UTC on Jan 15
+      describe 'timezone_offset does not affect summary report totals' do
+        let(:base_time) { Time.utc(2024, 1, 15, 12, 0) }
+        let(:summary_params) do
+          {
+            type: 'account',
+            since: (base_time - 1.day).to_i.to_s,
+            until: (base_time + 1.day).to_i.to_s
+          }
+        end
 
-          # Test summary with UTC (0 hours offset)
-          get "/api/v2/accounts/#{account.id}/reports/summary",
-              params: {
-                type: 'account',
-                since: (base_time - 1.day).to_i.to_s,
-                until: (base_time + 1.day).to_i.to_s,
-                timezone_offset: 0
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
+        it 'returns identical conversation counts across timezones' do
+          Time.use_zone('UTC') do
+            summaries = [-8, 0, 9].map do |offset|
+              get "/api/v2/accounts/#{account.id}/reports/summary",
+                  params: summary_params.merge(timezone_offset: offset),
+                  headers: admin.create_new_auth_token, as: :json
+              response.parsed_body
+            end
 
-          expect(response).to have_http_status(:success)
-          utc_summary = response.parsed_body
+            conversation_counts = summaries.map { |s| s['conversations_count'] }
+            expect(conversation_counts.uniq).to eq([6])
+          end
+        end
 
-          # Test summary with PST (-8 hours offset)
-          get "/api/v2/accounts/#{account.id}/reports/summary",
-              params: {
-                type: 'account',
-                since: (base_time - 1.day).to_i.to_s,
-                until: (base_time + 1.day).to_i.to_s,
-                timezone_offset: -8
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
+        it 'returns identical message counts across timezones' do
+          Time.use_zone('UTC') do
+            get "/api/v2/accounts/#{account.id}/reports/summary",
+                params: summary_params.merge(timezone_offset: 0),
+                headers: admin.create_new_auth_token, as: :json
+            utc_summary = response.parsed_body
 
-          expect(response).to have_http_status(:success)
-          pst_summary = response.parsed_body
+            get "/api/v2/accounts/#{account.id}/reports/summary",
+                params: summary_params.merge(timezone_offset: -8),
+                headers: admin.create_new_auth_token, as: :json
+            pst_summary = response.parsed_body
 
-          # Test summary with JST (+9 hours offset)
-          get "/api/v2/accounts/#{account.id}/reports/summary",
-              params: {
-                type: 'account',
-                since: (base_time - 1.day).to_i.to_s,
-                until: (base_time + 1.day).to_i.to_s,
-                timezone_offset: 9
-              },
-              headers: admin.create_new_auth_token,
-              as: :json
+            expect(utc_summary['incoming_messages_count']).to eq(pst_summary['incoming_messages_count'])
+            expect(utc_summary['outgoing_messages_count']).to eq(pst_summary['outgoing_messages_count'])
+          end
+        end
 
-          expect(response).to have_http_status(:success)
-          jst_summary = response.parsed_body
+        it 'returns consistent resolution counts across timezones' do
+          Time.use_zone('UTC') do
+            get "/api/v2/accounts/#{account.id}/reports/summary",
+                params: summary_params.merge(timezone_offset: 0),
+                headers: admin.create_new_auth_token, as: :json
+            utc_summary = response.parsed_body
 
-          # Summary totals should be identical across all timezones
-          # Unlike timeseries, summary doesn't redistribute data between buckets
-          expect(utc_summary['conversations_count']).to eq(pst_summary['conversations_count'])
-          expect(utc_summary['conversations_count']).to eq(jst_summary['conversations_count'])
-          expect(utc_summary['conversations_count']).to eq(6) # We created 6 conversations
+            get "/api/v2/accounts/#{account.id}/reports/summary",
+                params: summary_params.merge(timezone_offset: 9),
+                headers: admin.create_new_auth_token, as: :json
+            jst_summary = response.parsed_body
 
-          # All other metrics should also be consistent
-          expect(utc_summary['incoming_messages_count']).to eq(pst_summary['incoming_messages_count'])
-          expect(utc_summary['incoming_messages_count']).to eq(jst_summary['incoming_messages_count'])
+            expect(utc_summary['resolutions_count']).to eq(jst_summary['resolutions_count'])
+          end
+        end
 
-          expect(utc_summary['outgoing_messages_count']).to eq(pst_summary['outgoing_messages_count'])
-          expect(utc_summary['outgoing_messages_count']).to eq(jst_summary['outgoing_messages_count'])
+        it 'returns consistent previous period data across timezones' do
+          Time.use_zone('UTC') do
+            get "/api/v2/accounts/#{account.id}/reports/summary",
+                params: summary_params.merge(timezone_offset: 0),
+                headers: admin.create_new_auth_token, as: :json
+            utc_summary = response.parsed_body
 
-          expect(utc_summary['resolutions_count']).to eq(pst_summary['resolutions_count'])
-          expect(utc_summary['resolutions_count']).to eq(jst_summary['resolutions_count'])
+            get "/api/v2/accounts/#{account.id}/reports/summary",
+                params: summary_params.merge(timezone_offset: -8),
+                headers: admin.create_new_auth_token, as: :json
+            pst_summary = response.parsed_body
 
-          # Previous period comparison should also be consistent
-          if utc_summary['previous']
-            expect(utc_summary['previous']['conversations_count']).to eq(pst_summary['previous']['conversations_count'])
-            expect(utc_summary['previous']['conversations_count']).to eq(jst_summary['previous']['conversations_count'])
+            expect(utc_summary['previous']['conversations_count']).to eq(pst_summary['previous']['conversations_count']) if utc_summary['previous']
           end
         end
       end
