@@ -62,6 +62,8 @@
     },
     "CSBOT": {
       "TICKET": {
+        "ERROR": "Field is required",
+        "DUPE_ERROR": "Field must be unique",
         "HEADER": "CS Bot Configurations",
         "HEADER_DESC": "This page contains configurations for the ticket system, priorities, and categories for your CS Bot.",
         "SYSTEM_TITLE": "Enable Ticket System",

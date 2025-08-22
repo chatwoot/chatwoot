@@ -62,6 +62,8 @@
     },
     "CSBOT": {
       "TICKET": {
+        "ERROR": "Field ini wajib diisi",
+        "DUPE_ERROR": "Nama harus unik",
         "HEADER": "Konfigurasi Bot CS",
         "HEADER_DESC": "Halaman ini berisi pengaturan sistem tiket, prioritas, dan kategori untuk Bot CS Anda.",
         "SYSTEM_TITLE": "Aktifkan Sistem Tiket",
@@ -117,6 +119,40 @@
         "ADMIN_SUCCESS_MESSAGE": "Sebuah email dengan instruksi pengaturan ulang kata sandi telah dikirim ke agen",
         "SUCCESS_MESSAGE": "Pengaturan ulang kata sandi agen berhasil",
         "ERROR_MESSAGE": "Tidak dapat terhubung ke server Jangkau, Silakan coba lagi nanti"
+      }
+    },
+    "SALESBOT": {
+      "HEADER": "Konfigurasi Bot Sales",
+      "HEADER_DESC": "Atur katalog produk dan pengaturan pengiriman untuk Bot Sales Anda.",
+      "CATALOG": {
+        "HEADER": "Katalog Produk",
+        "SHEETS_TITLE": "Google Sheets Katalog Produk",
+        "SHEETS_PLACEHOLDER": "Link Google Sheets katalog produk",
+        "DESC_TITLE": "Penjelasan Kolom (Opsional)",
+        "DESC_PLACEHOLDER": "Contoh: Nama, Harga, Stok, dll"
+      },
+      "SHIPPING": {
+        "HEADER": "Pengaturan Pengiriman",
+        "METHOD_TITLE": "Pilih Metode Pengiriman",
+        "STORE_COURIER": "Kurir Toko",
+        "STORE_ADDRESS": "Alamat Toko",
+        "STORE_ADDRESS_PLACEHOLDER": "Alamat Toko",
+        "SERVICE_AREA": "Area Layanan (Radius/Wilayah)",
+        "SERVICE_AREA_PLACEHOLDER": "Contoh: 5km, Jakarta Selatan",
+        "SHIPPING_COST": "Biaya Pengiriman",
+        "SHIPPING_COST_PLACEHOLDER": "Contoh: Flat 10.000, Gratis, Per km",
+        "REGULAR_COURIER": "Kurir Biasa",
+        "ORIGIN_ADDRESS": "Alamat Asal Pengiriman",
+        "ORIGIN_ADDRESS_PLACEHOLDER": "Provinsi, Kota, Kecamatan, Kode Pos",
+        "SELECT_COURIER": "Pilih Kurir",
+        "PICKUP_STORE": "Ambil ke Toko",
+        "BRANCH_ADDRESS": "Alamat Toko/Cabang",
+        "BRANCH_ADDRESS_PLACEHOLDER": "Alamat Toko/Cabang",
+        "OPERATION_HOURS": "Jam Operasional",
+        "OPERATION_HOURS_PLACEHOLDER": "Contoh: 09:00 - 17:00",
+        "PICKUP_TIME": "Estimasi Waktu Pengambilan",
+        "PICKUP_TIME_PLACEHOLDER": "Contoh: 1 jam setelah pembayaran",
+        "SELECT_COURIER_PLACEHOLDER": "Pilih Kurir"
       }
     },
     "SEARCH": {
