@@ -2,20 +2,23 @@
 #
 # Table name: channel_twilio_sms
 #
-#  id                    :bigint           not null, primary key
-#  account_sid           :string           not null
-#  api_key_sid           :string
-#  auth_token            :string           not null
-#  medium                :integer          default("sms")
-#  messaging_service_sid :string
-#  phone_number          :string
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  account_id            :integer          not null
+#  id                             :bigint           not null, primary key
+#  account_sid                    :string           not null
+#  api_key_sid                    :string
+#  auth_token                     :string           not null
+#  content_templates              :jsonb
+#  content_templates_last_updated :datetime
+#  medium                         :integer          default("sms")
+#  messaging_service_sid          :string
+#  phone_number                   :string
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#  account_id                     :integer          not null
 #
 # Indexes
 #
 #  index_channel_twilio_sms_on_account_sid_and_phone_number  (account_sid,phone_number) UNIQUE
+#  index_channel_twilio_sms_on_content_templates             (content_templates) USING gin
 #  index_channel_twilio_sms_on_messaging_service_sid         (messaging_service_sid) UNIQUE
 #  index_channel_twilio_sms_on_phone_number                  (phone_number) UNIQUE
 #
@@ -51,6 +54,18 @@ class Channel::TwilioSms < ApplicationRecord
     params[:media_url] = media_url if media_url.present?
     params[:status_callback] = twilio_delivery_status_index_url
     client.messages.create(**params)
+  end
+
+  def sync_templates
+    return unless whatsapp?
+
+    Twilio::TemplateSyncService.new(channel: self).call
+  end
+
+  def approved_templates
+    return [] unless content_templates&.dig('templates')
+
+    content_templates['templates'].select { |template| template['status'] == 'approved' }
   end
 
   private
