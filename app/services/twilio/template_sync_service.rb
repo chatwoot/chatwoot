@@ -17,27 +17,29 @@ class Twilio::TemplateSyncService
   end
 
   def update_channel_templates
-    formatted_templates = @templates.map do |template|
-      {
-        content_sid: template.sid,
-        friendly_name: template.friendly_name,
-        language: template.language,
-        status: derive_status(template),
-        template_type: derive_template_type(template),
-        media_type: derive_media_type(template),
-        variables: template.variables || {},
-        category: derive_category(template),
-        body: extract_body_content(template),
-        types: template.types,
-        created_at: template.date_created,
-        updated_at: template.date_updated
-      }
-    end
+    formatted_templates = @templates.map { |template| format_template(template) }
 
     channel.update!(
       content_templates: { templates: formatted_templates },
       content_templates_last_updated: Time.current
     )
+  end
+
+  def format_template(template)
+    {
+      content_sid: template.sid,
+      friendly_name: template.friendly_name,
+      language: template.language,
+      status: derive_status(template),
+      template_type: derive_template_type(template),
+      media_type: derive_media_type(template),
+      variables: template.variables || {},
+      category: derive_category(template),
+      body: extract_body_content(template),
+      types: template.types,
+      created_at: template.date_created,
+      updated_at: template.date_updated
+    }
   end
 
   def mark_templates_updated
