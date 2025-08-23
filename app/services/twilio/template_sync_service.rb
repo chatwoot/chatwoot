@@ -28,6 +28,7 @@ class Twilio::TemplateSyncService
         variables: template.variables || {},
         category: derive_category(template),
         body: extract_body_content(template),
+        types: template.types,
         created_at: template.date_created,
         updated_at: template.date_updated
       }

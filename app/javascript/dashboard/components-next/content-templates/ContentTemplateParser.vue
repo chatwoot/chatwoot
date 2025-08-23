@@ -44,12 +44,46 @@ const hasVariables = computed(() => {
   return templateBody.value?.match(/{{([^}]+)}}/g) !== null;
 });
 
+const mediaVariableKey = computed(() => {
+  if (!hasMediaTemplate.value) return null;
+
+  // Extract media URL from template types structure to find the variable key
+  const template = props.template;
+  if (
+    template.types &&
+    template.types['twilio/media'] &&
+    template.types['twilio/media'].media
+  ) {
+    const mediaUrl = template.types['twilio/media'].media[0];
+    if (mediaUrl) {
+      // Find which variable key is used in the media URL (e.g., {{1}}, {{2}}, {{3}}, etc.)
+      const match = mediaUrl.match(/{{(\d+)}}/);
+      return match ? match[1] : null;
+    }
+  }
+
+  return null;
+});
+
 const hasMediaVariable = computed(() => {
-  return (
-    hasMediaTemplate.value &&
-    props.template.variables &&
-    props.template.variables['3']
-  );
+  return hasMediaTemplate.value && mediaVariableKey.value !== null;
+});
+
+const templateMediaUrl = computed(() => {
+  if (!hasMediaTemplate.value) return '';
+
+  // Extract media URL from template types structure
+  const template = props.template;
+  if (
+    template.types &&
+    template.types['twilio/media'] &&
+    template.types['twilio/media'].media
+  ) {
+    const mediaArray = template.types['twilio/media'].media;
+    return mediaArray[0] || '';
+  }
+
+  return '';
 });
 
 const variablePattern = computed(() => {
@@ -80,7 +114,11 @@ const isFormInvalid = computed(() => {
     if (hasEmptyVariable) return true;
   }
 
-  if (hasMediaVariable.value && !processedParams.value['3']) {
+  if (
+    hasMediaVariable.value &&
+    mediaVariableKey.value &&
+    !processedParams.value[mediaVariableKey.value]
+  ) {
     return true;
   }
 
@@ -107,8 +145,23 @@ const initializeTemplateParameters = () => {
     });
   }
 
-  if (hasMediaVariable.value) {
-    processedParams.value['3'] = '';
+  if (hasMediaVariable.value && mediaVariableKey.value) {
+    processedParams.value[mediaVariableKey.value] = '';
+  }
+};
+
+const extractFilenameFromUrl = url => {
+  if (!url || typeof url !== 'string') return url;
+
+  try {
+    const urlObj = new URL(url);
+    const pathname = urlObj.pathname;
+    const filename = pathname.split('/').pop();
+    return filename || url;
+  } catch (error) {
+    // If URL parsing fails, try to extract filename using regex
+    const match = url.match(/\/([^/?#]+)(?:[?#]|$)/);
+    return match ? match[1] : url;
   }
 };
 
@@ -118,12 +171,26 @@ const sendMessage = () => {
 
   const { friendly_name, language } = props.template;
 
+  // Process parameters and extract filename from media URL if needed
+  const processedParameters = { ...processedParams.value };
+
+  // For media templates, extract filename from full URL
+  if (
+    hasMediaVariable.value &&
+    mediaVariableKey.value &&
+    processedParameters[mediaVariableKey.value]
+  ) {
+    processedParameters[mediaVariableKey.value] = extractFilenameFromUrl(
+      processedParameters[mediaVariableKey.value]
+    );
+  }
+
   const payload = {
     message: renderedTemplate.value,
     templateParams: {
       name: friendly_name,
       language,
-      parameters: Object.values(processedParams.value),
+      parameters: Object.values(processedParameters),
     },
   };
   emit('sendMessage', payload);
@@ -193,10 +260,13 @@ defineExpose({
         </p>
         <div class="flex items-center mb-2.5">
           <Input
-            v-model="processedParams['3']"
+            v-model="processedParams[mediaVariableKey]"
             type="url"
             class="flex-1"
-            :placeholder="t('CONTENT_TEMPLATES.PARSER.MEDIA_URL_LABEL')"
+            :placeholder="
+              templateMediaUrl ||
+              t('CONTENT_TEMPLATES.PARSER.MEDIA_URL_PLACEHOLDER')
+            "
           />
         </div>
       </div>
