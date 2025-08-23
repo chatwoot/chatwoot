@@ -8,15 +8,19 @@ import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
+import { useMapGetter } from 'dashboard/composables/store';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
+import TwilioOptions from './TwilioOptions.vue';
 
 const props = defineProps({
   attachedFiles: { type: Array, default: () => [] },
   isWhatsappInbox: { type: Boolean, default: false },
   isEmailOrWebWidgetInbox: { type: Boolean, default: false },
   isTwilioSmsInbox: { type: Boolean, default: false },
+  isTwilioWhatsAppInbox: { type: Boolean, default: false },
   messageTemplates: { type: Array, default: () => [] },
   channelType: { type: String, default: '' },
   isLoading: { type: Boolean, default: false },
@@ -32,6 +36,7 @@ const emit = defineEmits([
   'discard',
   'sendMessage',
   'sendWhatsappMessage',
+  'sendTwilioMessage',
   'insertEmoji',
   'addSignature',
   'removeSignature',
@@ -39,6 +44,11 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
 const uploadAttachment = ref(null);
 const isEmojiPickerOpen = ref(false);
@@ -61,6 +71,18 @@ const {
 
 const sendWithSignature = computed(() => {
   return fetchSignatureFlagFromUISettings(props.channelType);
+});
+
+const showTwilioContentTemplates = computed(() => {
+  if (!props.isTwilioWhatsAppInbox || !props.inboxId) return false;
+
+  // Check if feature flag is enabled
+  const isFeatureEnabled = isFeatureEnabledonAccount.value(
+    currentAccountId.value,
+    FEATURE_FLAGS.TWILIO_CONTENT_TEMPLATES
+  );
+
+  return isFeatureEnabled;
 });
 
 const setSignature = () => {
@@ -126,6 +148,7 @@ const keyboardEvents = {
       if (
         isEditorHotKeyEnabled('enter') &&
         !props.isWhatsappInbox &&
+        !showTwilioContentTemplates.value &&
         !props.isDropdownActive
       ) {
         emit('sendMessage');
@@ -137,6 +160,7 @@ const keyboardEvents = {
       if (
         isEditorHotKeyEnabled('cmd_enter') &&
         !props.isWhatsappInbox &&
+        !showTwilioContentTemplates.value &&
         !props.isDropdownActive
       ) {
         emit('sendMessage');
@@ -158,8 +182,13 @@ useKeyboardEvents(keyboardEvents);
         :message-templates="messageTemplates"
         @send-message="emit('sendWhatsappMessage', $event)"
       />
+      <TwilioOptions
+        v-if="showTwilioContentTemplates"
+        :inbox-id="inboxId"
+        @send-message="emit('sendTwilioMessage', $event)"
+      />
       <div
-        v-if="!isWhatsappInbox && !hasNoInbox"
+        v-if="!isWhatsappInbox && !showTwilioContentTemplates && !hasNoInbox"
         v-on-click-outside="() => (isEmojiPickerOpen = false)"
         class="relative"
       >
@@ -172,7 +201,7 @@ useKeyboardEvents(keyboardEvents);
         />
         <EmojiInput
           v-if="isEmojiPickerOpen"
-          class="ltr:left-0 rtl:right-0 top-full mt-1.5"
+          class="top-full mt-1.5 ltr:left-0 rtl:right-0"
           :on-click="onClickInsertEmoji"
         />
       </div>
@@ -199,7 +228,9 @@ useKeyboardEvents(keyboardEvents);
         />
       </FileUpload>
       <Button
-        v-if="hasSelectedInbox && !isWhatsappInbox"
+        v-if="
+          hasSelectedInbox && !isWhatsappInbox && !showTwilioContentTemplates
+        "
         icon="i-lucide-signature"
         color="slate"
         size="sm"
@@ -218,7 +249,7 @@ useKeyboardEvents(keyboardEvents);
         @click="emit('discard')"
       />
       <Button
-        v-if="!isWhatsappInbox"
+        v-if="!isWhatsappInbox && !showTwilioContentTemplates"
         :label="sendButtonLabel"
         size="sm"
         class="!text-xs font-medium"

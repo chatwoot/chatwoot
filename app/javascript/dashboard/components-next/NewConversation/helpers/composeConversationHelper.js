@@ -53,6 +53,7 @@ const transformInbox = ({
   email,
   phoneNumber,
   channelType,
+  medium,
   ...rest,
 });
 

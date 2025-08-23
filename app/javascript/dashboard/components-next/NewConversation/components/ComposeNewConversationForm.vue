@@ -74,6 +74,9 @@ const inboxTypes = computed(() => ({
   isTwilioSMS:
     props.targetInbox?.channelType === INBOX_TYPES.TWILIO &&
     props.targetInbox?.medium === 'sms',
+  isTwilioWhatsapp:
+    props.targetInbox?.channelType === INBOX_TYPES.TWILIO &&
+    props.targetInbox?.medium === 'whatsapp',
 }));
 
 const whatsappMessageTemplates = computed(() =>
@@ -261,6 +264,21 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     isFromWhatsApp: true,
   });
 };
+
+const handleSendTwilioMessage = async ({ message, templateParams }) => {
+  // For Twilio, we can reuse the WhatsApp payload structure since it's similar
+  const twilioMessagePayload = prepareWhatsAppMessagePayload({
+    targetInbox: props.targetInbox,
+    selectedContact: props.selectedContact,
+    message,
+    templateParams,
+    currentUser: props.currentUser,
+  });
+  await emit('createConversation', {
+    payload: twilioMessagePayload,
+    isFromWhatsApp: false, // Set to false for Twilio
+  });
+};
 </script>
 
 <template>
@@ -311,7 +329,11 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     />
 
     <MessageEditor
-      v-if="!inboxTypes.isWhatsapp && !showNoInboxAlert"
+      v-if="
+        !inboxTypes.isWhatsapp &&
+        !showNoInboxAlert &&
+        !inboxTypes.isTwilioWhatsapp
+      "
       v-model="state.message"
       :message-signature="messageSignature"
       :send-with-signature="sendWithSignature"
@@ -331,6 +353,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"
+      :is-twilio-whats-app-inbox="inboxTypes.isTwilioWhatsapp"
       :message-templates="whatsappMessageTemplates"
       :channel-type="inboxChannelType"
       :is-loading="isCreating"
@@ -347,6 +370,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       @discard="$emit('discard')"
       @send-message="handleSendMessage"
       @send-whatsapp-message="handleSendWhatsappMessage"
+      @send-twilio-message="handleSendTwilioMessage"
     />
   </div>
 </template>
