@@ -17,10 +17,10 @@
     "IP_ADDRESS": "Dirección IP",
     "CREATED_AT_LABEL": "Creado",
     "NEW_MESSAGE": "Nuevo mensaje",
-    "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL": "Llamar",
+    "CALL_UNDER_DEVELOPMENT": "Llamar está bajo desarrollo",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "Seleccionar un buzón de entrada"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
