@@ -22,7 +22,6 @@ const state = reactive({
   authToken: '',
   apiKeySid: '',
   apiKeySecret: '',
-  twimlAppSid: '',
 });
 
 const uiFlags = useMapGetter('inboxes/getUIFlags');
@@ -33,7 +32,6 @@ const validationRules = {
   authToken: { required },
   apiKeySid: { required },
   apiKeySecret: { required },
-  twimlAppSid: { required },
 };
 
 const v$ = useVuelidate(validationRules, state);
@@ -55,9 +53,6 @@ const formErrors = computed(() => ({
   apiKeySecret: v$.value.apiKeySecret?.$error
     ? t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.REQUIRED')
     : '',
-  twimlAppSid: v$.value.twimlAppSid?.$error
-    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.REQUIRED')
-    : '',
 }));
 
 function getProviderConfig() {
@@ -67,7 +62,6 @@ function getProviderConfig() {
     api_key_sid: state.apiKeySid,
     api_key_secret: state.apiKeySecret,
   };
-  if (state.twimlAppSid) config.outgoing_application_sid = state.twimlAppSid;
   return config;
 }
 
@@ -158,17 +152,6 @@ async function createChannel() {
         :message="formErrors.apiKeySecret"
         :message-type="formErrors.apiKeySecret ? 'error' : 'info'"
         @blur="v$.apiKeySecret?.$touch"
-      />
-
-      <Input
-        v-model="state.twimlAppSid"
-        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.LABEL')"
-        :placeholder="
-          t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.PLACEHOLDER')
-        "
-        :message="formErrors.twimlAppSid"
-        :message-type="formErrors.twimlAppSid ? 'error' : 'info'"
-        @blur="v$.twimlAppSid?.$touch"
       />
 
       <div>
