@@ -63,9 +63,12 @@ json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
-if resource.twilio? && Current.account_user&.administrator?
-  json.auth_token resource.channel.try(:auth_token)
-  json.account_sid resource.channel.try(:account_sid)
+if resource.twilio?
+  json.content_templates resource.channel.try(:content_templates)
+  if Current.account_user&.administrator?
+    json.auth_token resource.channel.try(:auth_token)
+    json.account_sid resource.channel.try(:account_sid)
+  end
 end
 
 if resource.email?
