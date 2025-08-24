@@ -71,15 +71,26 @@
         "CREATE_WHEN": "Kapan tiket dibuat?",
         "CREATE_ALWAYS": "Selalu buat tiket",
         "CREATE_ON_FAIL": "Hanya jika bot tidak bisa menjawab",
-        "PRIORITY_TITLE": "Prioritas Tiket",
+        "PRIORITY_TITLE": "Prioritas",
         "PRIORITY_DESC": "Atur level prioritas dan (opsional) tuliskan kondisi seperti kata kunci.",
         "PRIORITY_PLACEHOLDER": "Nama prioritas (mis. Rendah, Tinggi)",
-        "CATEGORY_TITLE": "Kategori Tiket",
+        "CATEGORY_TITLE": "Kategori",
         "CATEGORY_DESC": "Atur kategori dan (opsional) tuliskan kondisi.",
         "CATEGORY_PLACEHOLDER": "Nama kategori (mis. Teknis, Komplain)",
         "CONDITION_PLACEHOLDER": "Kondisi atau kata kunci opsional...",
         "ADD_PRIORITY": "Tambah Prioritas",
-        "ADD_CATEGORY": "Tambah Kategori"
+        "ADD_CATEGORY": "Tambah Kategori",
+        "GENERAL_SETTINGS": "Umum",
+        "ACTIVE": "Aktif",
+        "INACTIVE": "Tidak Aktif",
+        "CREATE_WHEN_DESC": "Pilih kapan sistem akan membuat tiket otomatis",
+        "CATEGORY_CONDITION": "Kondisi Kategori",
+        "PRIORITY_CONDITION": "Kondisi Prioritas",
+        "SAVE_SUCCESS": "Berhasil simpan",
+        "SAVE_ERROR": "Gagal simpan",
+        "SAVE_BUTTON": "Simpan",
+        "VALIDATION_ERROR": "Silakan perbaiki kesalahan validasi",
+        "SYSTEM_SETTINGS": "Pengaturan Sistem"
       }
     },
     "COMMON": {
@@ -207,6 +218,12 @@
     "QNA_PLACEHOLDER": {
       "QUESTION": "Berapa harga produknya?",
       "ANSWER": "Harga produknya Rp75.000"
+    },
+    "QNA": {
+      "ADD_QNA": "Tambah QnA",
+      "SAVE_SUCCESS": "Berhasil simpan data",
+      "SAVE_ERROR": "Gagal simpan data",
+      "FETCH_ERROR": "Gagal mendapatkan data"
     },
     "BOOKING_BOT": {
       "HEADER": "Konfigurasi Bot Booking",

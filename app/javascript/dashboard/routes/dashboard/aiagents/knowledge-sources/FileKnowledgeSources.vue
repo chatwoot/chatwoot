@@ -439,24 +439,41 @@ const handleDrop = (event) => {
         </div>
       </woot-modal>
     </div>
-    <div class="w-[200px]">
-      <div class="sticky top-0 flex flex-col gap-2 px-2">
-        <div class="flex flex-col gap-0">
-          <span>Files</span>
-          <span class="text-xl font-bold">{{ files.length }}</span>
+    <div class="w-[240px] flex flex-col gap-3">
+      <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+            <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-slate-700 dark:text-slate-300">Files</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400">{{ files.length }} items</p>
+          </div>
         </div>
-        <div class="flex flex-col gap-0">
-          <span>Karakter yg terdeteksi</span>
-          <span class="text-xl font-bold">{{ detectedCharacters }}</span>
+        
+        <div class="space-y-3 mb-4">
+          <div class="flex justify-between text-sm">
+            <span class="text-slate-600 dark:text-slate-400">Characters</span>
+            <span class="font-semibold text-slate-700 dark:text-slate-300">{{ detectedCharacters.toLocaleString() }}</span>
+          </div>
         </div>
+        
         <Button
-          class="w-full mt-2"
+          class="w-full"
           :is-loading="isSaving"
           :disabled="isSaving || !newFiles.length"
           @click="() => save()"
         >
-          Simpan
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Simpan
+          </span>
         </Button>
+        
       </div>
     </div>
   </div>

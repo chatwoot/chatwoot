@@ -224,7 +224,7 @@ async function createSheets() {
             <option v-for="tpl in templates" :key="tpl.value" :value="tpl.value">{{ tpl.label }}</option>
           </select>
         </div>
-        <div class="flex gap-4">
+        <!-- <div class="flex gap-4">
           <div class="flex-1">
             <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.BOOKING_BOT.RESOURCE_LABEL') }}</label>
             <input
@@ -241,7 +241,7 @@ async function createSheets() {
               :placeholder="$t('AGENT_MGMT.BOOKING_BOT.LOCATION_PLACEHOLDER')"
             />
           </div>
-        </div>
+        </div> -->
         <div class="w-1/4">
           <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.BOOKING_BOT.MIN_DURATION_LABEL') }}</label>
           <input
