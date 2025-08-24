@@ -200,6 +200,33 @@
       "LOCATION_PLACEHOLDER": "Example: Clinic A, Field 1, Room 203, etc.",
       "MIN_DURATION_LABEL": "Minimum duration per session (Minutes)",
       "SAVE_BTN": "Save"
+    },
+    "WEBSITE_SETTINGS": {
+      "ADD_WEBSITE_LINK": "Add Website Link",
+      "DESCRIPTION": "Add website links to be used as knowledge sources for this bot. The bot will use the content from these websites to answer user queries.",
+      "ADD_OTHER_LINK": "Add Other Link",
+      "BATCH_LINKS": "Batch Links",
+      "SINGLE_LINK": "Single Link",
+      "ADD_LINK_PLACEHOLDER": "Add Link",
+      "ADD_BUTTON": "Add",
+      "BATCH_DESCRIPTION": "Will search and collect content from the site, excluding files",
+      "SINGLE_DESCRIPTION": "One link to directly explore its contents",
+      "TRAINED_LINKS": "Trained Links",
+      "SELECT_ALL": "Select all",
+      "DELETE_BUTTON": "Delete",
+      "SEARCH_LINKS_PLACEHOLDER": "Search links",
+      "CHARACTERS": "characters",
+      "LINKS": "links",
+      "EDIT_BUTTON": "Edit",
+      "DELETE_MODAL_TITLE": "Are you sure you want to delete this data?",
+      "DELETE_MODAL_MESSAGE": "You will not be able to recover this data",
+      "EDIT_CONTENT_MODAL_TITLE": "Edit Link Content",
+      "SAVE_BUTTON": "Save",
+      "FETCH_ERROR": "Failed to fetch data",
+      "DELETE_SUCCESS": "Successfully deleted data",
+      "DELETE_ERROR": "Failed to delete data",
+      "SAVE_SUCCESS": "Successfully saved content",
+      "SAVE_ERROR": "Failed to save content"
     }
   }
 }

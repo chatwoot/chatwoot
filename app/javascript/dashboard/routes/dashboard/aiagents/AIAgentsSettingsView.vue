@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router';
 import AiAgentGeneralSettingsView from './AiAgentGeneralSettingsView.vue';
 import AiAgentKnowledgeSources from './AiAgentKnowledgeSources.vue';
+import AiAgentWebsiteSettingsView from './AiAgentWebsiteSettingsView.vue';
 import ConfigurationView from './ConfigurationView.vue';
 import CSBotView from './botconfigs/CSBotView.vue';
 import RestaurantBotView from './botconfigs/RestaurantBotView.vue';
@@ -22,11 +23,11 @@ const tabs = [
   //   index: 1,
   //   name: 'Sumber Pengetahuan',
   // },
-  // {
-  //   key: '2',
-  //   index: 2,
-  //   name: 'Konfigurasi',
-  // },
+  {
+    key: '2',
+    index: 2,
+    name: 'Website',
+  },
   {
     key: '3',
     index: 3,
@@ -108,11 +109,15 @@ onMounted(() => {
 
     <!-- <div v-show="activeIndex === 1">
       <AiAgentKnowledgeSources :data="data" />
-    </div>
+    </div> -->
 
-    <div v-show="activeIndex === 2" class="w-full">
+    <!-- <div v-show="activeIndex === 2" class="w-full">
       <ConfigurationView :data="data" />
     </div> -->
+
+    <div v-show="activeIndex === 2" class="w-full">
+      <AiAgentWebsiteSettingsView :data="data" />
+    </div>
 
     <div v-show="activeIndex === 3">
       <CSBotView :data="data" />

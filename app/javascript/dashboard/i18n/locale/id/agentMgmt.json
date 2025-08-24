@@ -234,6 +234,33 @@
       "LOCATION_PLACEHOLDER": "Contoh: Klinik A, Lapangan 1, Ruang 203, dll",
       "MIN_DURATION_LABEL": "Durasi minimum setiap sesi (Menit)",
       "SAVE_BTN": "Simpan"
+    },
+    "WEBSITE_SETTINGS": {
+      "ADD_WEBSITE_LINK": "Tambahkan Link Website",
+      "DESCRIPTION": "Tambahkan tautan website untuk digunakan sebagai sumber pengetahuan bot ini. Bot akan menggunakan konten dari website-website ini untuk menjawab pertanyaan pengguna.",
+      "ADD_OTHER_LINK": "Tambah Link Lain",
+      "BATCH_LINKS": "Tautan batch",
+      "SINGLE_LINK": "Tautan Tunggal",
+      "ADD_LINK_PLACEHOLDER": "Tambah Link",
+      "ADD_BUTTON": "Tambah",
+      "BATCH_DESCRIPTION": "Akan mencari dan mengumpulkan konten dari situs, tanpa mencakup file",
+      "SINGLE_DESCRIPTION": "Satu tautan untuk langsung menjelajahi isinya",
+      "TRAINED_LINKS": "Tautan yang Sudah Dilatih",
+      "SELECT_ALL": "Pilih semua",
+      "DELETE_BUTTON": "Hapus",
+      "SEARCH_LINKS_PLACEHOLDER": "Cari links",
+      "CHARACTERS": "karakter",
+      "LINKS": "links",
+      "EDIT_BUTTON": "Edit",
+      "DELETE_MODAL_TITLE": "Apakah kamu akan menghapus data ini?",
+      "DELETE_MODAL_MESSAGE": "Kamu tidak akan mengembalikan data ini",
+      "EDIT_CONTENT_MODAL_TITLE": "Ubah Konten Link",
+      "SAVE_BUTTON": "Simpan",
+      "FETCH_ERROR": "Gagal mendapatkan data",
+      "DELETE_SUCCESS": "Berhasil hapus data",
+      "DELETE_ERROR": "Gagal hapus data",
+      "SAVE_SUCCESS": "Berhasil simpan konten",
+      "SAVE_ERROR": "Gagal simpan konten"
     }
   }
 }
