@@ -195,3 +195,6 @@
   display_name: Assignment V2
   enabled: false
   chatwoot_internal: true
+- name: twilio_content_templates
+  display_name: Twilio Content Templates
+  enabled: false
