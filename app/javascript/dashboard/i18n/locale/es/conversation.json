@@ -145,8 +145,8 @@
       "ASSIGN_TEAM": "Asignar equipo",
       "DELETE": "Eliminar conversación",
       "OPEN_IN_NEW_TAB": "Abrir en nueva pestaña",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "COPY_LINK": "Copiar enlace de conversación",
+      "COPY_LINK_SUCCESS": "Enlace de conversación copiado en portapapeles",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID de conversación {conversationId} asignado a \"{agentName}\"",
