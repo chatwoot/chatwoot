@@ -1,154 +1,164 @@
-<script>
+<script setup>
+import { computed, onMounted, reactive, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import QRCode from 'qrcode';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
-import inboxMixin from 'shared/mixins/inboxMixin';
+import { useInbox } from 'dashboard/composables/useInbox';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
-export default {
-  components: {
-    EmptyState,
-    NextButton,
-    DuplicateInboxBanner,
-  },
-  mixins: [inboxMixin],
-  data() {
-    return {
-      qrCodes: {
-        whatsapp: '',
-        messenger: '',
-        telegram: '',
-      },
+const { t } = useI18n();
+const route = useRoute();
+const store = useStore();
+
+const qrCodes = reactive({
+  whatsapp: '',
+  messenger: '',
+  telegram: '',
+});
+
+const currentInbox = computed(() =>
+  store.getters['inboxes/getInbox'](route.params.inbox_id)
+);
+
+// Use useInbox composable with the inbox ID
+const {
+  isAWhatsAppCloudChannel,
+  isATwilioChannel,
+  isASmsInbox,
+  isALineChannel,
+  isAnEmailChannel,
+  isAWhatsAppChannel,
+  isAFacebookInbox,
+  isATelegramChannel,
+} = useInbox(route.params.inbox_id);
+
+const hasDuplicateInstagramInbox = computed(() => {
+  const instagramId = currentInbox.value.instagram_id;
+  const facebookInbox =
+    store.getters['inboxes/getFacebookInboxByInstagramId'](instagramId);
+
+  return (
+    currentInbox.value.channel_type === INBOX_TYPES.INSTAGRAM && facebookInbox
+  );
+});
+
+const shouldShowWhatsAppWebhookDetails = computed(() => {
+  return (
+    isAWhatsAppCloudChannel.value &&
+    currentInbox.value.provider_config?.source !== 'embedded_signup'
+  );
+});
+
+const isWhatsAppEmbeddedSignup = computed(() => {
+  return (
+    isAWhatsAppCloudChannel.value &&
+    currentInbox.value.provider_config?.source === 'embedded_signup'
+  );
+});
+
+const message = computed(() => {
+  if (isATwilioChannel.value) {
+    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
+      'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
+    )}`;
+  }
+
+  if (isASmsInbox.value) {
+    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
+      'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
+    )}`;
+  }
+
+  if (isALineChannel.value) {
+    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
+      'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
+    )}`;
+  }
+
+  if (isAWhatsAppCloudChannel.value && shouldShowWhatsAppWebhookDetails.value) {
+    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
+      'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
+    )}`;
+  }
+
+  if (isAnEmailChannel.value && !currentInbox.value.provider) {
+    return t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
+  }
+
+  if (currentInbox.value.web_widget_script) {
+    return t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
+  }
+
+  if (isWhatsAppEmbeddedSignup.value) {
+    return `${t('INBOX_MGMT.FINISH.MESSAGE')}. ${t(
+      'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
+    )}`;
+  }
+
+  return t('INBOX_MGMT.FINISH.MESSAGE');
+});
+
+async function generateQRCode(platform, identifier) {
+  if (!identifier || !identifier.trim()) {
+    // eslint-disable-next-line no-console
+    console.warn(`Invalid identifier for ${platform} QR code`);
+    return;
+  }
+
+  try {
+    const platformUrls = {
+      whatsapp: id => `https://wa.me/${id}`,
+      messenger: id => `https://m.me/${id}`,
+      telegram: id => `https://t.me/${id}`,
     };
+
+    const url = platformUrls[platform](identifier);
+    const qrDataUrl = await QRCode.toDataURL(url);
+    qrCodes[platform] = qrDataUrl;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(`Error generating ${platform} QR code:`, error);
+    qrCodes[platform] = '';
+  }
+}
+
+async function generateQRCodes() {
+  if (!currentInbox.value) return;
+
+  // WhatsApp (both Cloud and Twilio)
+  if (currentInbox.value.phone_number && isAWhatsAppChannel.value) {
+    await generateQRCode('whatsapp', currentInbox.value.phone_number);
+  }
+
+  // Facebook Messenger
+  if (currentInbox.value.page_id && isAFacebookInbox.value) {
+    await generateQRCode('messenger', currentInbox.value.page_id);
+  }
+
+  // Telegram
+  if (isATelegramChannel.value && currentInbox.value.bot_name) {
+    await generateQRCode('telegram', currentInbox.value.bot_name);
+  }
+}
+
+// Watch for currentInbox changes and regenerate QR codes when available
+watch(
+  currentInbox,
+  newInbox => {
+    if (newInbox) {
+      generateQRCodes();
+    }
   },
-  computed: {
-    currentInbox() {
-      return this.$store.getters['inboxes/getInbox'](
-        this.$route.params.inbox_id
-      );
-    },
-    inbox() {
-      return this.currentInbox;
-    },
-    // Check if a facebook inbox exists with the same instagram_id
-    hasDuplicateInstagramInbox() {
-      const instagramId = this.currentInbox.instagram_id;
-      const facebookInbox =
-        this.$store.getters['inboxes/getFacebookInboxByInstagramId'](
-          instagramId
-        );
+  { immediate: true }
+);
 
-      return (
-        this.currentInbox.channel_type === INBOX_TYPES.INSTAGRAM &&
-        facebookInbox
-      );
-    },
-    // If the inbox is a whatsapp cloud inbox and the source is not embedded signup, then show the webhook details
-    shouldShowWhatsAppWebhookDetails() {
-      return (
-        this.isAWhatsAppCloudChannel &&
-        this.currentInbox.provider_config?.source !== 'embedded_signup'
-      );
-    },
-    isWhatsAppEmbeddedSignup() {
-      return (
-        this.isAWhatsAppCloudChannel &&
-        this.currentInbox.provider_config?.source === 'embedded_signup'
-      );
-    },
-    message() {
-      if (this.isATwilioChannel) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isASmsInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isALineChannel) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (
-        this.isAWhatsAppCloudChannel &&
-        this.shouldShowWhatsAppWebhookDetails
-      ) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isAnEmailChannel && !this.currentInbox.provider) {
-        return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
-      }
-
-      if (this.currentInbox.web_widget_script) {
-        return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
-      }
-
-      if (this.isWhatsAppEmbeddedSignup) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION'
-        )}`;
-      }
-
-      return this.$t('INBOX_MGMT.FINISH.MESSAGE');
-    },
-  },
-  mounted() {
-    this.generateQRCodes();
-  },
-  methods: {
-    async generateQRCode(platform, identifier) {
-      if (!identifier || !identifier.trim()) {
-        // eslint-disable-next-line no-console
-        console.warn(`Invalid identifier for ${platform} QR code`);
-        return;
-      }
-
-      try {
-        const platformUrls = {
-          whatsapp: id => `https://wa.me/${id}`,
-          messenger: id => `https://m.me/${id}`,
-          telegram: id => `https://t.me/${id}`,
-        };
-
-        const url = platformUrls[platform](identifier);
-        const qrDataUrl = await QRCode.toDataURL(url);
-        this.qrCodes[platform] = qrDataUrl;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(`Error generating ${platform} QR code:`, error);
-        this.qrCodes[platform] = '';
-      }
-    },
-    async generateQRCodes() {
-      if (!this.currentInbox) return;
-
-      // WhatsApp (both Cloud and Twilio)
-      if (this.currentInbox.phone_number && this.isAWhatsAppChannel) {
-        await this.generateQRCode('whatsapp', this.currentInbox.phone_number);
-      }
-
-      // Facebook Messenger
-      if (this.currentInbox.page_id && this.isAFacebookInbox) {
-        await this.generateQRCode('messenger', this.currentInbox.page_id);
-      }
-
-      // Telegram
-      if (this.isATelegramChannel && this.currentInbox.bot_name) {
-        await this.generateQRCode('telegram', this.currentInbox.bot_name);
-      }
-    },
-  },
-};
+onMounted(() => {
+  generateQRCodes();
+});
 </script>
 
 <template>
