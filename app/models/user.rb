@@ -7,6 +7,7 @@
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
 #  confirmed_at           :datetime
+#  consumed_timestep      :integer
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  custom_attributes      :jsonb
@@ -17,6 +18,9 @@
 #  last_sign_in_ip        :string
 #  message_signature      :text
 #  name                   :string           not null
+#  otp_backup_codes       :text
+#  otp_required_for_login :boolean          default(FALSE)
+#  otp_secret             :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -33,10 +37,12 @@
 #
 # Indexes
 #
-#  index_users_on_email                 (email)
-#  index_users_on_pubsub_token          (pubsub_token) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
+#  index_users_on_email                   (email)
+#  index_users_on_otp_required_for_login  (otp_required_for_login)
+#  index_users_on_otp_secret              (otp_secret) UNIQUE
+#  index_users_on_pubsub_token            (pubsub_token) UNIQUE
+#  index_users_on_reset_password_token    (reset_password_token) UNIQUE
+#  index_users_on_uid_and_provider        (uid,provider) UNIQUE
 #
 
 class User < ApplicationRecord
@@ -58,6 +64,7 @@ class User < ApplicationRecord
          :validatable,
          :confirmable,
          :password_has_required_content,
+         :two_factor_authenticatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
   # TODO: remove in a future version once online status is moved to account users
@@ -69,6 +76,8 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, presence: true
+
+  serialize :otp_backup_codes, type: Array
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
@@ -154,6 +163,84 @@ class User < ApplicationRecord
 
   def self.from_email(email)
     find_by(email: email&.downcase)
+  end
+
+  # 2FA/MFA Methods
+  def enable_two_factor!
+    self.otp_secret = User.generate_otp_secret
+    self.otp_required_for_login = false # Will be true after verification
+    save!
+  end
+
+  def disable_two_factor!
+    self.otp_secret = nil
+    self.otp_required_for_login = false
+    self.otp_backup_codes = nil
+    save!
+  end
+
+  def two_factor_provisioning_uri
+    return nil if otp_secret.blank?
+
+    issuer = 'Chatwoot'
+    label = email
+    otp_provisioning_uri(label, issuer: issuer)
+  end
+
+  def two_factor_qr_code_svg
+    return nil unless two_factor_provisioning_uri
+
+    qrcode = RQRCode::QRCode.new(two_factor_provisioning_uri)
+    qrcode.as_svg(
+      offset: 0,
+      color: '000',
+      shape_rendering: 'crispEdges',
+      module_size: 4,
+      standalone: true
+    )
+  end
+
+  def generate_otp_backup_codes!
+    codes = Array.new(10) { format('%06d', SecureRandom.random_number(1_000_000)) }
+    self.otp_backup_codes = codes
+    save!
+    codes
+  end
+
+  def generate_backup_codes!
+    generate_otp_backup_codes!
+  end
+
+  def invalidate_otp_backup_code!(code)
+    return false if otp_backup_codes.blank?
+
+    codes = otp_backup_codes || []
+    index = codes.index(code)
+    return false unless index
+
+    codes[index] = 'XXXXXX' # Mark as used
+    self.otp_backup_codes = codes
+    save!
+    true
+  end
+
+  def validate_otp_backup_code(code)
+    return false if otp_backup_codes.blank?
+
+    codes = otp_backup_codes || []
+    codes.include?(code) && code != 'XXXXXX'
+  end
+
+  def validate_backup_code!(code)
+    validate_otp_backup_code(code) && invalidate_otp_backup_code!(code)
+  end
+
+  def backup_codes_generated?
+    otp_backup_codes.present?
+  end
+
+  def mfa_enabled?
+    otp_required_for_login?
   end
 
   private

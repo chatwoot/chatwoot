@@ -103,4 +103,14 @@ Rails.application.configure do
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+
+  # Active Record Encryption configuration for production
+  # IMPORTANT: These MUST be set via environment variables in production
+  # Generate secure keys using: rails db:encryption:init
+  # Store them securely in your deployment environment (e.g., Kubernetes secrets, AWS Secrets Manager, etc.)
+  if ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'].present?
+    config.active_record.encryption.primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY')
+    config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY')
+    config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT')
+  end
 end

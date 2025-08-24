@@ -327,6 +327,15 @@ Rails.application.routes.draw do
           post :resend_confirmation
           post :reset_access_token
         end
+
+        # MFA routes
+        scope module: 'profile' do
+          resource :mfa, controller: 'mfa', only: [:show, :destroy] do
+            post :enable
+            post :verify
+            post :backup_codes
+          end
+        end
       end
 
       resource :notification_subscriptions, only: [:create, :destroy]
