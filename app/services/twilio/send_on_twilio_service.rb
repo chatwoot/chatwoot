@@ -75,6 +75,6 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
   end
 
   def outgoing_message?
-    message.outgoing? || template_params.present?||  message.template?
+    message.outgoing? ||  message.template?
   end
 end
