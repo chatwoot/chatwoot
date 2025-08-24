@@ -51,4 +51,10 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
+
+  # Active Record Encryption configuration for testing
+  # Use fixed test keys for consistent test behavior
+  config.active_record.encryption.primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY', 'test_sAK7479yQQvk0574SPM9RZFi9xx3dlBY')
+  config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', 'test_t8mg48yhHqOaAH7R2HA4SDDsXWcyWBYL')
+  config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', 'test_bsfGUb0GEmghCU5HZlBjILZwoMjypLpS')
 end

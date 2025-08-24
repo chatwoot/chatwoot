@@ -110,4 +110,132 @@ RSpec.describe User do
       expect(new_user.email).to eq('test123@test.com')
     end
   end
+
+  describe '2FA/MFA functionality' do
+    let(:user) { create(:user, password: 'Test@123456') }
+
+    describe '#enable_two_factor!' do
+      it 'generates OTP secret for 2FA setup' do
+        expect(user.otp_secret).to be_nil
+        expect(user.otp_required_for_login).to be_falsey
+
+        user.enable_two_factor!
+
+        expect(user.otp_secret).not_to be_nil
+        # otp_required_for_login is false until verification is complete
+        expect(user.otp_required_for_login).to be_falsey
+      end
+    end
+
+    describe '#disable_two_factor!' do
+      before do
+        user.enable_two_factor!
+        user.update!(otp_required_for_login: true) # Simulate verified 2FA
+        user.generate_otp_backup_codes!
+      end
+
+      it 'disables 2FA and clears OTP secret' do
+        user.disable_two_factor!
+
+        expect(user.otp_secret).to be_nil
+        expect(user.otp_required_for_login).to be_falsey
+        expect(user.otp_backup_codes).to be_blank # Can be nil or empty array
+      end
+    end
+
+    describe '#generate_otp_backup_codes!' do
+      before do
+        user.enable_two_factor!
+      end
+
+      it 'generates 10 backup codes' do
+        codes = user.generate_otp_backup_codes!
+
+        expect(codes).to be_an(Array)
+        expect(codes.length).to eq(10)
+        expect(codes.first).to match(/\A\d{6}\z/) # 6-digit codes
+        expect(user.otp_backup_codes).not_to be_nil
+      end
+    end
+
+    describe '#invalidate_otp_backup_code!' do
+      let(:backup_codes) { user.generate_otp_backup_codes! }
+
+      before do
+        user.enable_two_factor!
+        backup_codes # Generate codes
+      end
+
+      it 'invalidates a used backup code' do
+        code = backup_codes.first
+
+        user.invalidate_otp_backup_code!(code)
+        user.reload
+
+        # The code should be marked as used (replaced with X's)
+        decrypted_codes = user.otp_backup_codes
+        expect(decrypted_codes).to include('XXXXXX')
+      end
+
+      it 'returns false for invalid backup code' do
+        result = user.invalidate_otp_backup_code!('invalid')
+        expect(result).to be_falsey
+      end
+    end
+
+    describe '#two_factor_provisioning_uri' do
+      before do
+        user.enable_two_factor!
+      end
+
+      it 'generates a valid provisioning URI for QR code' do
+        uri = user.two_factor_provisioning_uri
+
+        expect(uri).to include('otpauth://totp/')
+        expect(uri).to include(CGI.escape(user.email))
+        expect(uri).to include('Chatwoot')
+      end
+    end
+
+    describe '#two_factor_qr_code_svg' do
+      before do
+        user.enable_two_factor!
+      end
+
+      it 'generates QR code SVG' do
+        svg = user.two_factor_qr_code_svg
+
+        expect(svg).to include('<svg')
+        expect(svg).to include('</svg>')
+      end
+    end
+
+    describe '#validate_otp_backup_code' do
+      let(:backup_codes) { user.generate_otp_backup_codes! }
+
+      before do
+        user.enable_two_factor!
+        backup_codes
+      end
+
+      it 'validates correct backup code' do
+        code = backup_codes.first
+        result = user.validate_otp_backup_code(code)
+        expect(result).to be_truthy
+      end
+
+      it 'rejects invalid backup code' do
+        result = user.validate_otp_backup_code('invalid')
+        expect(result).to be_falsey
+      end
+
+      it 'rejects already used backup code' do
+        code = backup_codes.first
+        user.invalidate_otp_backup_code!(code)
+
+        result = user.validate_otp_backup_code(code)
+        expect(result).to be_falsey
+      end
+    end
+  end
 end
