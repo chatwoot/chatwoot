@@ -1,4 +1,4 @@
-// Constants
+// ---------- Channels ----------
 export const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
   FB: 'Channel::FacebookPage',
@@ -14,122 +14,118 @@ export const INBOX_TYPES = {
   VOICE: 'Channel::Voice',
 };
 
-// Size in mega bytes
-export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
-
-// Twilio
-export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
-export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_WHATSAPP_CHANNEL = 5;
-
-// Instagram
-export const MAXIMUM_INSTAGRAM_AUDIO_UPLOAD_SIZE = 25;
-export const MAXIMUM_INSTAGRAM_VIDEO_UPLOAD_SIZE = 25;
-export const MAXIMUM_INSTAGRAM_IMAGE_UPLOAD_SIZE = 16;
-
-// WhatsApp cloud API
-export const MAXIMUM_WHATSAPP_DOCUMENT_UPLOAD_SIZE = 100;
-export const MAXIMUM_WHATSAPP_AUDIO_UPLOAD_SIZE = 16;
-export const MAXIMUM_WHATSAPP_VIDEO_UPLOAD_SIZE = 16;
-export const MAXIMUM_WHATSAPP_IMAGE_UPLOAD_SIZE = 5;
-
-// Line
-export const MAXIMUM_LINE_IMAGE_UPLOAD_SIZE = 10;
-
-export const ALLOWED_FILE_TYPES =
-  'image/*,' +
-  'audio/*,' +
-  'video/*,' +
-  '.3gpp,' +
-  'text/csv, text/plain, application/json, application/pdf, text/rtf,' +
-  'application/xml, text/xml,' +
-  'application/zip, application/x-7z-compressed, application/vnd.rar, application/x-tar,' +
-  'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
-  'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document,';
-
-export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
-  'image/png, image/jpeg,' +
-  'audio/mpeg, audio/opus, audio/ogg, audio/amr,' +
-  'video/mp4,' +
-  'application/pdf,';
-
-// https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
-export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg, video/mp4';
-
-// https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
-export const ALLOWED_FILE_TYPES_FOR_INSTAGRAM =
-  'audio/aac, audio/m4a, audio/wav, audio/mp4,' +
-  'image/png, image/jpeg, image/gif,' +
-  'video/mp4, video/ogg, video/avi, video/mov, video/webm';
-
-// https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#supported-media-types
-export const ALLOWED_FILE_TYPES_FOR_WHATSAPP_CLOUD =
-  'audio/aac, audio/amr, audio/mp3, audio/m4a, audio/ogg,' +
-  'image/jpeg, image/png,' +
-  'text/plain,' +
-  'video/3gp, video/mp4,' +
-  'application/pdf, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation,';
-
-// Declarative config
-const RULES = {
+// ---------- Central config ----------
+/**
+ * Upload rules configuration.
+ *
+ * Each node can define:
+ * - mimeGroups: { prefix: [exts] }
+ *   Example: { image: ["png","jpeg"] } → ["image/png","image/jpeg"]
+ *   Special: ["*"] → allow all (e.g. "image/*").
+ * - extensions: Raw file extensions (e.g. [".3gpp"]).
+ * - max: Default maximum size in MB for this channel.
+ * - maxByCategory: Override per category (image, video, audio, document).
+ *
+ * Resolution order:
+ *  1. channel + medium (e.g. TWILIO.whatsapp)
+ *  2. channel + "*" fallback
+ *  3. global default
+ */
+const CHANNEL_CONFIGS = {
   default: {
-    accept: ALLOWED_FILE_TYPES,
-    max: MAXIMUM_FILE_UPLOAD_SIZE,
+    mimeGroups: {
+      image: ['*'],
+      audio: ['*'],
+      video: ['*'],
+      text: ['csv', 'plain', 'rtf', 'xml'],
+      application: [
+        'json',
+        'pdf',
+        'xml',
+        'zip',
+        'x-7z-compressed',
+        'vnd.rar',
+        'x-tar',
+        'msword',
+        'vnd.ms-excel',
+        'vnd.ms-powerpoint',
+        'vnd.oasis.opendocument.text',
+        'vnd.openxmlformats-officedocument.presentationml.presentation',
+        'vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'vnd.openxmlformats-officedocument.wordprocessingml.document',
+      ],
+    },
+    extensions: ['.3gpp'],
+    max: 40,
   },
 
-  [INBOX_TYPES.TWILIO]: {
-    sms: {
-      accept: ALLOWED_FILE_TYPES,
-      max: MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
-    },
-    whatsapp: {
-      accept: ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
-      max: MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_WHATSAPP_CHANNEL,
-    },
-  },
-
-  [INBOX_TYPES.LINE]: {
+  [INBOX_TYPES.WHATSAPP]: {
     '*': {
-      accept: ALLOWED_FILE_TYPES_FOR_LINE,
-      maxByCategory: {
-        image: MAXIMUM_LINE_IMAGE_UPLOAD_SIZE,
-        video: MAXIMUM_FILE_UPLOAD_SIZE,
+      mimeGroups: {
+        audio: ['aac', 'amr', 'mp3', 'm4a', 'ogg'],
+        image: ['jpeg', 'png'],
+        video: ['3gp', 'mp4'],
+        text: ['plain'],
+        application: [
+          'pdf',
+          'vnd.ms-excel',
+          'vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'msword',
+          'vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'vnd.ms-powerpoint',
+          'vnd.openxmlformats-officedocument.presentationml.presentation',
+        ],
       },
+      maxByCategory: { image: 5, video: 16, audio: 16, document: 100 },
     },
   },
 
   [INBOX_TYPES.INSTAGRAM]: {
     '*': {
-      accept: ALLOWED_FILE_TYPES_FOR_INSTAGRAM,
-      maxByCategory: {
-        image: MAXIMUM_INSTAGRAM_IMAGE_UPLOAD_SIZE,
-        video: MAXIMUM_INSTAGRAM_VIDEO_UPLOAD_SIZE,
-        audio: MAXIMUM_INSTAGRAM_AUDIO_UPLOAD_SIZE,
+      mimeGroups: {
+        audio: ['aac', 'm4a', 'wav', 'mp4'],
+        image: ['png', 'jpeg', 'gif'],
+        video: ['mp4', 'ogg', 'avi', 'mov', 'webm'],
       },
+      maxByCategory: { image: 16, video: 25, audio: 25 },
     },
   },
 
-  [INBOX_TYPES.WHATSAPP]: {
+  [INBOX_TYPES.LINE]: {
     '*': {
-      accept: ALLOWED_FILE_TYPES_FOR_WHATSAPP_CLOUD,
-      maxByCategory: {
-        image: MAXIMUM_WHATSAPP_IMAGE_UPLOAD_SIZE,
-        video: MAXIMUM_WHATSAPP_VIDEO_UPLOAD_SIZE,
-        audio: MAXIMUM_WHATSAPP_AUDIO_UPLOAD_SIZE,
-        document: MAXIMUM_WHATSAPP_DOCUMENT_UPLOAD_SIZE,
+      mimeGroups: {
+        image: ['png', 'jpeg'],
+        video: ['mp4'],
       },
+      maxByCategory: { image: 10 },
+    },
+  },
+
+  [INBOX_TYPES.TWILIO]: {
+    sms: { max: 5 },
+    whatsapp: {
+      mimeGroups: {
+        image: ['png', 'jpeg'],
+        audio: ['mpeg', 'opus', 'ogg', 'amr'],
+        video: ['mp4'],
+        application: ['pdf'],
+      },
+      max: 5,
     },
   },
 };
 
-// mime → "image" | "video" | "audio" | "document"
+// ---------- Helpers ----------
+/**
+ * MIME type categories that should be considered "document"
+ */
 const DOC_HEADS = new Set(['application', 'text']);
 
 /**
- * Determines the file category from its MIME type.
+ * Gets a high-level category name from a MIME type.
  *
- * @param {string} mime - The MIME type of the file (e.g., "image/png", "application/pdf").
- * @returns {"image" | "video" | "audio" | "document"} The detected category.
+ * @param {string} mime - MIME type string (e.g. "image/png").
+ * @returns {"image"|"video"|"audio"|"document"|undefined} Category name.
  */
 const categoryFromMime = mime => {
   const head = mime?.split('/')?.[0];
@@ -137,35 +133,79 @@ const categoryFromMime = mime => {
 };
 
 /**
- * Retrieves the rule node for a given channel type and medium.
+ * Finds the matching rule node for a channel and optional medium.
  *
- * @param {string} channelType - The type of channel (e.g., INBOX_TYPES.WHATSAPP, INBOX_TYPES.INSTAGRAM).
- * @param {string} [medium] - The specific medium under the channel (e.g., "sms", "whatsapp").
- * @returns {Object} The rule node containing accepted file types and max file size rules.
+ * @param {string} channelType - One of INBOX_TYPES.
+ * @param {string} [medium] - Optional sub-medium (e.g. "sms","whatsapp").
+ * @returns {Object} Config node with rules.
  */
 const getNode = (channelType, medium) =>
-  RULES[channelType]?.[medium] ?? RULES[channelType]?.['*'] ?? RULES.default;
+  CHANNEL_CONFIGS[channelType]?.[medium] ??
+  CHANNEL_CONFIGS[channelType]?.['*'] ??
+  CHANNEL_CONFIGS.default;
 
 /**
- * Gets the allowed file types for a given channel and medium.
+ * Expands MIME groups and extensions into a list of strings.
+ *
+ * Examples:
+ *  { image: ["*"] }         → ["image/*"]
+ *  { image: ["png"] }       → ["image/png"]
+ *  { application: ["pdf"] } → ["application/pdf"]
+ *  extensions: [".3gpp"]    → [".3gpp"]
+ *
+ * @param {Object} mimeGroups - Grouped MIME suffixes by prefix.
+ * @param {string[]} extensions - Extra raw extensions.
+ * @returns {string[]} Expanded list of MIME/extension strings.
+ */
+const expandMimeGroups = (mimeGroups = {}, extensions = []) => {
+  const mimes = Object.entries(mimeGroups).flatMap(([prefix, exts]) =>
+    exts.map(ext => (ext === '*' ? `${prefix}/*` : `${prefix}/${ext}`))
+  );
+  return [...mimes, ...extensions];
+};
+
+// ---------- Public API ----------
+/**
+ * Builds the full "accept" string for <input type="file">,
+ * based on channel + medium rules.
  *
  * @param {Object} params
- * @param {string} params.channelType - The type of channel (from INBOX_TYPES).
- * @param {string} [params.medium] - The medium type (e.g., "sms", "whatsapp").
- * @returns {string} A comma-separated list of allowed MIME types.
+ * @param {string} [params.channelType] - Channel type (from INBOX_TYPES).
+ * @param {string} [params.medium] - Medium under the channel.
+ * @returns {string} Comma-separated list of allowed MIME types/extensions.
+ *
+ * @example
+ * getAllowedFileTypesByChannel({ channelType: INBOX_TYPES.WHATSAPP });
+ * → "audio/aac, audio/amr, image/jpeg, image/png, video/3gp, ..."
  */
 export const getAllowedFileTypesByChannel = ({ channelType, medium } = {}) => {
-  return getNode(channelType, medium).accept ?? RULES.default.accept;
+  const node = getNode(channelType, medium);
+  const mimes = expandMimeGroups(node.mimeGroups, node.extensions);
+  return mimes.length
+    ? mimes.join(', ')
+    : expandMimeGroups(
+        CHANNEL_CONFIGS.default.mimeGroups,
+        CHANNEL_CONFIGS.default.extensions
+      ).join(', ');
 };
 
 /**
- * Gets the maximum upload size for a given channel, medium, and MIME type.
+ * Gets the maximum allowed file size (in MB) for a channel, medium, and MIME type.
+ *
+ * Priority:
+ * - Category-specific size (image/video/audio/document).
+ * - Channel/medium-level max.
+ * - Global default max.
  *
  * @param {Object} params
- * @param {string} params.channelType - The type of channel (from INBOX_TYPES).
- * @param {string} [params.medium] - The medium type (e.g., "sms", "whatsapp").
- * @param {string} [params.mime] - The MIME type of the file (used for category-specific rules).
- * @returns {number} Maximum allowed upload size in MB.
+ * @param {string} [params.channelType] - Channel type (from INBOX_TYPES).
+ * @param {string} [params.medium] - Medium under the channel.
+ * @param {string} [params.mime] - MIME type string (for category lookup).
+ * @returns {number} Maximum file size in MB.
+ *
+ * @example
+ * getMaxUploadSizeByChannel({ channelType: INBOX_TYPES.WHATSAPP, mime: "image/png" });
+ * → 5
  */
 export const getMaxUploadSizeByChannel = ({
   channelType,
@@ -174,5 +214,5 @@ export const getMaxUploadSizeByChannel = ({
 } = {}) => {
   const node = getNode(channelType, medium);
   const cat = categoryFromMime(mime);
-  return node.maxByCategory?.[cat] ?? node.max ?? RULES.default.max;
+  return node.maxByCategory?.[cat] ?? node.max ?? CHANNEL_CONFIGS.default.max;
 };
