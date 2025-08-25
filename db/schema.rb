@@ -37,6 +37,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
     t.string "sp_entity_id"
     t.boolean "enforced_sso", default: false, null: false
     t.json "attribute_mappings", default: {}
+    t.json "role_mappings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
