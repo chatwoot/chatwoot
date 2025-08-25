@@ -6,7 +6,7 @@ module OutOfOffisable
   OFFISABLE_ATTRS = %w[day_of_week closed_all_day open_hour open_minutes close_hour close_minutes open_all_day].freeze
 
   included do
-    has_many :working_hours, dependent: :destroy_async
+    has_many :working_hours, as: :workable, dependent: :destroy_async
     after_create :create_default_working_hours
   end
 
@@ -31,7 +31,7 @@ module OutOfOffisable
   #      "close_hour"=>17,
   #      "close_minutes"=>0,
   #      "open_all_day=>false" },...]
-  def update_working_hours(params)
+  def update_working_hours(params) # This is the method to save the working hours
     ActiveRecord::Base.transaction do
       params.each do |working_hour|
         working_hours.find_by(day_of_week: working_hour['day_of_week']).update(working_hour.slice(*OFFISABLE_ATTRS))

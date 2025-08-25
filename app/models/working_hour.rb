@@ -10,21 +10,28 @@
 #  open_all_day   :boolean          default(FALSE)
 #  open_hour      :integer
 #  open_minutes   :integer
+#  workable_type  :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  account_id     :bigint
 #  inbox_id       :bigint
+#  workable_id    :bigint
 #
 # Indexes
 #
-#  index_working_hours_on_account_id  (account_id)
-#  index_working_hours_on_inbox_id    (inbox_id)
+#  index_working_hours_on_account_id                     (account_id)
+#  index_working_hours_on_inbox_id                       (inbox_id)
+#  index_working_hours_on_workable_type_and_workable_id  (workable_type,workable_id)
 #
 class WorkingHour < ApplicationRecord
-  belongs_to :inbox
+  # belongs_to :inbox # delete this line after backfill is done.
+  belongs_to :workable, polymorphic: true
 
   before_validation :ensure_open_all_day_hours
   before_save :assign_account
+
+  validates :workable_type, presence: true, inclusion: { in: %w[Inbox Agent] }
+  validates :workable_id,   presence: true
 
   validates :open_hour,     presence: true, unless: :closed_all_day?
   validates :open_minutes,  presence: true, unless: :closed_all_day?
@@ -42,21 +49,22 @@ class WorkingHour < ApplicationRecord
   def self.today
     # While getting the day of the week, consider the timezone as well. `first` would
     # return the first working hour from the list of working hours available per week.
-    inbox = first.inbox
+    # inbox = first.inbox
+    inbox = first.workable
     find_by(day_of_week: Time.zone.now.in_time_zone(inbox.timezone).to_date.wday)
   end
 
   def open_at?(time)
     return false if closed_all_day?
 
-    open_time = Time.zone.now.in_time_zone(inbox.timezone).change({ hour: open_hour, min: open_minutes })
-    close_time = Time.zone.now.in_time_zone(inbox.timezone).change({ hour: close_hour, min: close_minutes })
+    open_time = Time.zone.now.in_time_zone(workable.timezone).change({ hour: open_hour, min: open_minutes })
+    close_time = Time.zone.now.in_time_zone(workable.timezone).change({ hour: close_hour, min: close_minutes })
 
     time.between?(open_time, close_time)
   end
 
   def open_now?
-    inbox_time = Time.zone.now.in_time_zone(inbox.timezone)
+    inbox_time = Time.zone.now.in_time_zone(workable.timezone)
     open_at?(inbox_time)
   end
 
@@ -67,7 +75,8 @@ class WorkingHour < ApplicationRecord
   private
 
   def assign_account
-    self.account_id = inbox.account_id
+    # Agregar un or en caso de que sea un agent
+    self.account_id = workable.account_id
   end
 
   def close_after_open
