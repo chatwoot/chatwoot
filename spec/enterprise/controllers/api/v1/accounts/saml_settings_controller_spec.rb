@@ -1,0 +1,245 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
+  let(:account) { create(:account) }
+  let(:agent) { create(:user, account: account, role: :agent) }
+  let(:administrator) { create(:user, account: account, role: :administrator) }
+
+  before do
+    account.enable_features('saml')
+    account.save!
+  end
+
+  def json_response
+    JSON.parse(response.body, symbolize_names: true)
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/saml_settings' do
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/saml_settings"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as administrator' do
+      context 'when SAML settings exist' do
+        let!(:saml_settings) do
+          create(:account_saml_settings,
+                 account: account,
+                 enabled: true,
+                 sso_url: 'https://idp.example.com/saml/sso',
+                 certificate_fingerprint: 'AA:BB:CC:DD',
+                 attribute_mappings: { email: 'emailAddress' },
+                 role_mappings: { 'Admins' => { 'role' => 1 } })
+        end
+
+        it 'returns the SAML settings' do
+          get "/api/v1/accounts/#{account.id}/saml_settings",
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(json_response[:enabled]).to eq(true)
+          expect(json_response[:sso_url]).to eq('https://idp.example.com/saml/sso')
+          expect(json_response[:role_mappings]).to eq({ Admins: { role: 1 } })
+        end
+      end
+
+      context 'when SAML settings do not exist' do
+        it 'returns default SAML settings' do
+          get "/api/v1/accounts/#{account.id}/saml_settings",
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(json_response[:enabled]).to eq(false)
+          expect(json_response[:attribute_mappings]).to eq({})
+          expect(json_response[:role_mappings]).to eq({})
+        end
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/saml_settings",
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when SAML feature is not enabled' do
+      before do
+        account.disable_features('saml')
+        account.save!
+      end
+
+      it 'returns forbidden with feature not enabled message' do
+        get "/api/v1/accounts/#{account.id}/saml_settings",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:forbidden)
+        expect(json_response[:error]).to eq('SAML feature not enabled for this account')
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/saml_settings' do
+    let(:valid_params) do
+      {
+        saml_settings: {
+          enabled: true,
+          sso_url: 'https://idp.example.com/saml/sso',
+          certificate_fingerprint: 'AA:BB:CC:DD:EE:FF',
+          sp_entity_id: 'chatwoot-production',
+          enforced_sso: false,
+          attribute_mappings: { email: 'emailAddress', name: 'displayName' },
+          role_mappings: { 'Admins' => { 'role' => 1 }, 'Users' => { 'role' => 0 } }
+        }
+      }
+    end
+
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/saml_settings", params: valid_params
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as administrator' do
+      context 'with valid parameters' do
+        it 'creates SAML settings' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/saml_settings",
+                 params: valid_params,
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+          end.to change(AccountSamlSettings, :count).by(1)
+
+          expect(response).to have_http_status(:success)
+
+          saml_settings = AccountSamlSettings.find_by(account: account)
+          expect(saml_settings.enabled).to eq(true)
+          expect(saml_settings.sso_url).to eq('https://idp.example.com/saml/sso')
+          expect(saml_settings.role_mappings).to eq({ 'Admins' => { 'role' => 1 }, 'Users' => { 'role' => 0 } })
+        end
+      end
+
+      context 'with invalid parameters' do
+        let(:invalid_params) do
+          valid_params.tap do |params|
+            params[:saml_settings][:sso_url] = nil
+          end
+        end
+
+        it 'returns unprocessable entity' do
+          post "/api/v1/accounts/#{account.id}/saml_settings",
+               params: invalid_params,
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(AccountSamlSettings.count).to eq(0)
+        end
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/saml_settings",
+             params: valid_params,
+             headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(AccountSamlSettings.count).to eq(0)
+      end
+    end
+  end
+
+  describe 'PUT /api/v1/accounts/{account.id}/saml_settings' do
+    let!(:saml_settings) do
+      create(:account_saml_settings,
+             account: account,
+             enabled: false,
+             sso_url: 'https://old.example.com/saml')
+    end
+
+    let(:update_params) do
+      {
+        saml_settings: {
+          enabled: true,
+          sso_url: 'https://new.example.com/saml/sso',
+          role_mappings: { 'NewGroup' => { 'custom_role_id' => 5 } }
+        }
+      }
+    end
+
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        put "/api/v1/accounts/#{account.id}/saml_settings", params: update_params
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as administrator' do
+      it 'updates SAML settings' do
+        put "/api/v1/accounts/#{account.id}/saml_settings",
+            params: update_params,
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        saml_settings.reload
+        expect(saml_settings.enabled).to eq(true)
+        expect(saml_settings.sso_url).to eq('https://new.example.com/saml/sso')
+        expect(saml_settings.role_mappings).to eq({ 'NewGroup' => { 'custom_role_id' => 5 } })
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        put "/api/v1/accounts/#{account.id}/saml_settings",
+            params: update_params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/saml_settings' do
+    let!(:saml_settings) { create(:account_saml_settings, account: account) }
+
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/saml_settings"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as administrator' do
+      it 'destroys SAML settings' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/saml_settings",
+                 headers: administrator.create_new_auth_token
+        end.to change(AccountSamlSettings, :count).by(-1)
+
+        expect(response).to have_http_status(:no_content)
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/saml_settings",
+               headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(AccountSamlSettings.count).to eq(1)
+      end
+    end
+  end
+end
