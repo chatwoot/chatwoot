@@ -46,7 +46,7 @@ class AccountSamlSettings < ApplicationRecord
   end
 
   def generate_certificate_fingerprint
-    return unless certificate.present?
+    return if certificate.blank?
 
     begin
       cert = OpenSSL::X509::Certificate.new(certificate)
