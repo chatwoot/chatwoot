@@ -27,4 +27,4 @@ class MessagePolicy < ApplicationPolicy
       end
     end
   end
-end 
+end

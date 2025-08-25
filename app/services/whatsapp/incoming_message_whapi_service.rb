@@ -265,7 +265,7 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
   def extract_content(message)
     message_type = message[:type].to_s
     return nil unless message.is_a?(Hash)
-    
+
     case message_type
     when 'text'
       message.dig(:text, :body)

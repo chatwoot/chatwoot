@@ -49,21 +49,11 @@ class Whatsapp::WhapiConnectionStatusService
     end
 
     # Update channel with connected phone number and status
-    provider_config = channel.provider_config.merge(
-      'connection_status' => 'connected',
-      'connected_at' => Time.current.iso8601
-    )
-    
-    if webhook_updated && new_webhook_url.present?
-      provider_config['webhook_url'] = new_webhook_url
-      provider_config['webhook_updated_with_phone'] = true
-      provider_config['webhook_updated_at'] = Time.current.iso8601
-    end
-    
-    channel.update!(
-      phone_number: formatted_phone,
-      provider_config: provider_config
-    )
+    config_object = channel.provider_config_object
+    config_object.update_connection_status('connected')
+    config_object.update_phone_number(formatted_phone)
+
+    config_object.update_webhook_url(new_webhook_url) if webhook_updated && new_webhook_url.present?
 
     # Broadcast status update for UI
     broadcast_connection_status('connected')
@@ -98,7 +88,7 @@ class Whatsapp::WhapiConnectionStatusService
   end
 
   def update_webhook_with_phone_number(formatted_phone)
-    channel_token = channel.provider_config&.[]('whapi_channel_token') || channel.provider_config&.[]('api_key')
+    channel_token = channel.provider_config_object.whapi_channel_token
     return [false, nil] unless channel_token.present?
 
     service = Whatsapp::Partner::WhapiPartnerService.new
@@ -106,7 +96,7 @@ class Whatsapp::WhapiConnectionStatusService
       channel_token: channel_token,
       phone_number: formatted_phone
     )
-    
+
     Rails.logger.info "[Whapi][#{correlation_id}] Webhook updated with phone number: #{formatted_phone}, new URL: #{new_webhook_url}"
     [true, new_webhook_url]
   end

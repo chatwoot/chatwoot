@@ -44,7 +44,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService
 
   def carousel_message_params
     elements = build_carousel_elements
-    
+
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
@@ -57,10 +57,10 @@ class Instagram::BaseSendService < Base::SendOnChannelService
         }
       }
     }
-    
+
     # Log the payload for debugging
-    Rails.logger.debug("Instagram Carousel Payload: #{params.to_json}")
-    
+    Rails.logger.debug { "Instagram Carousel Payload: #{params.to_json}" }
+
     merge_human_agent_tag(params)
   end
 
@@ -102,6 +102,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService
       case action['type']
       when 'link'
         next unless action['uri'].present?
+
         {
           type: 'web_url',
           title: action['text'].to_s.truncate(20),
@@ -109,6 +110,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService
         }
       when 'postback'
         next unless action['payload'].present?
+
         {
           type: 'postback',
           title: action['text'].to_s.truncate(20),
@@ -120,13 +122,13 @@ class Instagram::BaseSendService < Base::SendOnChannelService
 
   def attachment_message_params(attachment)
     Rails.logger.info "Instagram: Processing attachment - file_type: #{attachment.file_type}, content_type: #{attachment.file.content_type}, filename: #{attachment.file.filename}"
-    
+
     # Convert audio files to Instagram-compatible format if needed
     attachment_url = if attachment.file_type == 'audio'
-                       Rails.logger.info "Instagram: Audio attachment detected, initiating conversion process"
+                       Rails.logger.info 'Instagram: Audio attachment detected, initiating conversion process'
                        Instagram::AudioConversionService.convert_to_instagram_format(attachment)
                      else
-                       Rails.logger.info "Instagram: Non-audio attachment, using original URL"
+                       Rails.logger.info 'Instagram: Non-audio attachment, using original URL'
                        attachment.download_url
                      end
 

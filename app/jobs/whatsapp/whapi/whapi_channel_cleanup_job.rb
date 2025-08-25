@@ -1,4 +1,4 @@
-class Whatsapp::Partner::WhapiChannelCleanupJob < ApplicationJob
+class Whatsapp::Whapi::WhapiChannelCleanupJob < ApplicationJob
   queue_as :low
   retry_on StandardError, wait: 5.seconds, attempts: 5
 
@@ -20,5 +20,3 @@ class Whatsapp::Partner::WhapiChannelCleanupJob < ApplicationJob
     raise
   end
 end
-
-

@@ -164,7 +164,8 @@ class Rack::Attack
   end
 
   # QR polling from dashboard clients. Per account to keep load bounded.
-  throttle('/api/v1/accounts/:account_id/whapi_channels/:id/qr_code', limit: ENV.fetch('RATE_LIMIT_WHAPI_QR_POLL_PER_MIN', '6').to_i, period: 1.minute) do |req|
+  throttle('/api/v1/accounts/:account_id/whapi_channels/:id/qr_code', limit: ENV.fetch('RATE_LIMIT_WHAPI_QR_POLL_PER_MIN', '6').to_i,
+                                                                      period: 1.minute) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/whapi_channels/(?<inbox_id>\d+)/qr_code}.match(req.path)
     match_data[:account_id] if match_data.present? && req.get?
   end

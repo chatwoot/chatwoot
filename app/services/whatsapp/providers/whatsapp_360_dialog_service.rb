@@ -32,18 +32,12 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def validate_provider_config?
-    response = HTTParty.post(
-      "#{api_base_path}/configs/webhook",
-      headers: { 'D360-API-KEY': whatsapp_channel.provider_config['api_key'], 'Content-Type': 'application/json' },
-      body: {
-        url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{whatsapp_channel.phone_number}"
-      }.to_json
-    )
-    response.success?
+    provider_config_object.validate_config?
   end
 
   def api_headers
-    { 'D360-API-KEY' => whatsapp_channel.provider_config['api_key'], 'Content-Type' => 'application/json' }
+    api_key = provider_config_object.api_key
+    { 'D360-API-KEY' => api_key, 'Content-Type' => 'application/json' }
   end
 
   def media_url(media_id)

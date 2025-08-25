@@ -375,21 +375,3 @@
   type: secret
 # ------- End of OG Image Related Config ------- #
 
-# ------- Whapi Partner API Config ------- #
-- name: WHAPI_PARTNER_TOKEN
-  display_title: 'Whapi Partner API Token'
-  description: 'Bearer token used to authenticate with the Whapi Partner API. Keep this server-side only.'
-  value:
-  locked: true
-  type: secret
-- name: WHAPI_PARTNER_BASE_URL
-  display_title: 'Whapi Partner Base URL'
-  description: 'Base URL for the Whapi Partner API.'
-  value: 'https://manager.whapi.cloud'
-  locked: true
-- name: WHAPI_API_BASE_URL
-  display_title: 'Whapi API Base URL'
-  description: 'Base URL for the Whapi public API used for channel-scoped actions.'
-  value: 'https://gate.whapi.cloud'
-  locked: true
-# ------- End of Whapi Partner API Config ------- #
