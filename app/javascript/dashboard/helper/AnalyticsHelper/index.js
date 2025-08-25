@@ -89,5 +89,5 @@ export class AnalyticsHelper {
   }
 }
 
-// This object is shared across, the init is called in dashboard/entrypoints/dashboard.js
+// This object is shared across, the init is called in app/javascript/entrypoints/dashboard.js
 export default new AnalyticsHelper(window.analyticsConfig);
