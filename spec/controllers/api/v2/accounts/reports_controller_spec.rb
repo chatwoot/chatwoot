@@ -66,6 +66,24 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
           }
         end
 
+        let(:jst_params) do
+          # For JST: User wants "Jan 15 JST" which translates to:
+          # Jan 14 15:00 UTC to Jan 15 15:00 UTC (event NOT included)
+          {
+            type: 'account',
+            since: (Time.utc(2024, 1, 15, 0, 0) - 9.hours).to_i.to_s, # Jan 14 15:00 UTC
+            until: (Time.utc(2024, 1, 16, 0, 0) - 9.hours).to_i.to_s  # Jan 15 15:00 UTC
+          }
+        end
+        let(:utc_params) do
+          # For UTC: Jan 15 00:00 UTC to Jan 16 00:00 UTC (event included)
+          {
+            type: 'account',
+            since: Time.utc(2024, 1, 15, 0, 0).to_i.to_s,
+            until: Time.utc(2024, 1, 16, 0, 0).to_i.to_s
+          }
+        end
+
         it 'returns identical conversation counts across timezones' do
           Time.use_zone('UTC') do
             summaries = [-8, 0, 9].map do |offset|
@@ -129,7 +147,6 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
           end
         end
 
-        # Test: Frontend sends correct timezone-adjusted boundaries
         it 'summary reports work when frontend sends correct timezone boundaries' do
           Time.use_zone('UTC') do
             # Create a resolution event right at timezone boundary
@@ -141,25 +158,8 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
               perform_enqueued_jobs do
                 conversation = create(:conversation, account: account, inbox: inbox, assignee: agent)
                 conversation.resolved!
-                # This creates a reporting_event at 23:30 UTC on Jan 15
               end
             end
-
-            # Simulate how frontend sends timezone-adjusted boundaries
-            # For UTC: Jan 15 00:00 UTC to Jan 16 00:00 UTC (event included)
-            utc_params = {
-              type: 'account',
-              since: Time.utc(2024, 1, 15, 0, 0).to_i.to_s,
-              until: Time.utc(2024, 1, 16, 0, 0).to_i.to_s
-            }
-
-            # For JST: User wants "Jan 15 JST" which translates to:
-            # Jan 14 15:00 UTC to Jan 15 15:00 UTC (event NOT included)
-            jst_params = {
-              type: 'account',
-              since: (Time.utc(2024, 1, 15, 0, 0) - 9.hours).to_i.to_s, # Jan 14 15:00 UTC
-              until: (Time.utc(2024, 1, 16, 0, 0) - 9.hours).to_i.to_s  # Jan 15 15:00 UTC
-            }
 
             get "/api/v2/accounts/#{account.id}/reports/summary",
                 params: jst_params.merge(timezone_offset: 9),
@@ -171,9 +171,6 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
                 headers: admin.create_new_auth_token, as: :json
             utc_summary = response.parsed_body
 
-            # With correct timezone boundaries:
-            # - UTC query includes the 23:30 UTC event (within Jan 15 UTC range)
-            # - JST query excludes the 23:30 UTC event (outside Jan 15 JST range)
             expect(jst_summary['resolutions_count']).to eq(0)
             expect(utc_summary['resolutions_count']).to eq(1)
           end
