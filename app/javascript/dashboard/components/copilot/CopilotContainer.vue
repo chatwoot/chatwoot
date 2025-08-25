@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -100,20 +101,24 @@ const handleReset = () => {
 };
 
 const sendMessage = async message => {
-  if (selectedCopilotThreadId.value) {
-    await store.dispatch('copilotMessages/create', {
-      assistant_id: activeAssistant.value.id,
-      conversation_id: currentChat.value?.id,
-      threadId: selectedCopilotThreadId.value,
-      message,
-    });
-  } else {
-    const response = await store.dispatch('copilotThreads/create', {
-      assistant_id: activeAssistant.value.id,
-      conversation_id: currentChat.value?.id,
-      message,
-    });
-    selectedCopilotThreadId.value = response.id;
+  try {
+    if (selectedCopilotThreadId.value) {
+      await store.dispatch('copilotMessages/create', {
+        assistant_id: activeAssistant.value.id,
+        conversation_id: currentChat.value?.id,
+        threadId: selectedCopilotThreadId.value,
+        message,
+      });
+    } else {
+      const response = await store.dispatch('copilotThreads/create', {
+        assistant_id: activeAssistant.value.id,
+        conversation_id: currentChat.value?.id,
+        message,
+      });
+      selectedCopilotThreadId.value = response.id;
+    }
+  } catch (error) {
+    useAlert(error.message);
   }
 };
 
