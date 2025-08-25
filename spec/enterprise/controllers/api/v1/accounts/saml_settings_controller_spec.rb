@@ -26,14 +26,17 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
 
     context 'when authenticated as administrator' do
       context 'when SAML settings exist' do
-        let!(:saml_settings) do
+        let(:saml_settings) do
           create(:account_saml_settings,
                  account: account,
                  enabled: true,
                  sso_url: 'https://idp.example.com/saml/sso',
-                 certificate_fingerprint: 'AA:BB:CC:DD',
                  attribute_mappings: { email: 'emailAddress' },
                  role_mappings: { 'Admins' => { 'role' => 1 } })
+        end
+
+        before do
+          saml_settings # Ensure the record exists
         end
 
         it 'returns the SAML settings' do
@@ -42,7 +45,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
               as: :json
 
           expect(response).to have_http_status(:success)
-          expect(json_response[:enabled]).to eq(true)
+          expect(json_response[:enabled]).to be(true)
           expect(json_response[:sso_url]).to eq('https://idp.example.com/saml/sso')
           expect(json_response[:role_mappings]).to eq({ Admins: { role: 1 } })
         end
@@ -55,7 +58,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
               as: :json
 
           expect(response).to have_http_status(:success)
-          expect(json_response[:enabled]).to eq(false)
+          expect(json_response[:enabled]).to be(false)
           expect(json_response[:attribute_mappings]).to eq({})
           expect(json_response[:role_mappings]).to eq({})
         end
@@ -96,7 +99,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
       cert.subject = OpenSSL::X509::Name.parse('/C=US/ST=Test/L=Test/O=Test/CN=test.example.com')
       cert.issuer = cert.subject
       cert.public_key = key.public_key
-      cert.not_before = Time.now
+      cert.not_before = Time.zone.now
       cert.not_after = cert.not_before + (365 * 24 * 60 * 60)
       cert.sign(key, OpenSSL::Digest.new('SHA256'))
 
@@ -133,7 +136,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
           expect(response).to have_http_status(:success)
 
           saml_settings = AccountSamlSettings.find_by(account: account)
-          expect(saml_settings.enabled).to eq(true)
+          expect(saml_settings.enabled).to be(true)
           expect(saml_settings.sso_url).to eq('https://idp.example.com/saml/sso')
           expect(saml_settings.role_mappings).to eq({ 'Admins' => { 'role' => 1 }, 'Users' => { 'role' => 0 } })
         end
@@ -171,21 +174,36 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
   end
 
   describe 'PUT /api/v1/accounts/{account.id}/saml_settings' do
-    let!(:saml_settings) do
+    let(:saml_settings) do
       create(:account_saml_settings,
              account: account,
              enabled: false,
              sso_url: 'https://old.example.com/saml')
     end
-
     let(:update_params) do
+      key = OpenSSL::PKey::RSA.new(2048)
+      cert = OpenSSL::X509::Certificate.new
+      cert.version = 2
+      cert.serial = 3
+      cert.subject = OpenSSL::X509::Name.parse('/C=US/ST=Test/L=Test/O=Test/CN=update.example.com')
+      cert.issuer = cert.subject
+      cert.public_key = key.public_key
+      cert.not_before = Time.zone.now
+      cert.not_after = cert.not_before + (365 * 24 * 60 * 60)
+      cert.sign(key, OpenSSL::Digest.new('SHA256'))
+
       {
         saml_settings: {
           enabled: true,
           sso_url: 'https://new.example.com/saml/sso',
+          certificate: cert.to_pem,
           role_mappings: { 'NewGroup' => { 'custom_role_id' => 5 } }
         }
       }
+    end
+
+    before do
+      saml_settings # Ensure the record exists
     end
 
     context 'when unauthenticated' do
@@ -205,7 +223,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
         expect(response).to have_http_status(:success)
 
         saml_settings.reload
-        expect(saml_settings.enabled).to eq(true)
+        expect(saml_settings.enabled).to be(true)
         expect(saml_settings.sso_url).to eq('https://new.example.com/saml/sso')
         expect(saml_settings.role_mappings).to eq({ 'NewGroup' => { 'custom_role_id' => 5 } })
       end
@@ -223,7 +241,11 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/saml_settings' do
-    let!(:saml_settings) { create(:account_saml_settings, account: account) }
+    let(:saml_settings) { create(:account_saml_settings, account: account) }
+
+    before do
+      saml_settings # Ensure the record exists
+    end
 
     context 'when unauthenticated' do
       it 'returns unauthorized' do
