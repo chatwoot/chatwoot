@@ -69,9 +69,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
     reporting_event_filter[:created_at] = range if range.present?
 
     ReportingEvent
-      .joins('INNER JOIN conversations ON reporting_events.conversation_id = conversations.id')
-      .joins('INNER JOIN taggings ON taggings.taggable_id = conversations.id')
-      .joins('INNER JOIN tags ON taggings.tag_id = tags.id')
+      .joins(conversation: { taggings: :tag })
       .where(
         reporting_event_filter.merge(
           taggings: { taggable_type: 'Conversation', context: 'labels' }
@@ -97,9 +95,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
   def fetch_metrics(conversation_filter, event_name, use_business_hours)
     ReportingEvent
-      .joins('INNER JOIN conversations ON reporting_events.conversation_id = conversations.id')
-      .joins('INNER JOIN taggings ON taggings.taggable_id = conversations.id')
-      .joins('INNER JOIN tags ON taggings.tag_id = tags.id')
+      .joins(conversation: { taggings: :tag })
       .where(
         conversations: conversation_filter,
         name: event_name,
