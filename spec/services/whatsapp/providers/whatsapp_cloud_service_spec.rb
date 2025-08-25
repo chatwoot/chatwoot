@@ -314,4 +314,43 @@ describe Whatsapp::Providers::WhatsappCloudService do
       end
     end
   end
+
+  describe 'provider config object integration' do
+    let(:whatsapp_channel_with_config_object) do
+      create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+
+    let(:service_with_config_object) { described_class.new(whatsapp_channel: whatsapp_channel_with_config_object) }
+
+    before do
+      stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+    end
+
+    it 'works with config objects for API headers' do
+      headers = service_with_config_object.api_headers
+      expect(headers['Authorization']).to eq('Bearer test_key')
+    end
+
+    it 'works with config objects for validation' do
+      stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+      expect(service_with_config_object.validate_provider_config?).to be(true)
+    end
+
+    it 'works with config objects for phone_id_path' do
+      path = service_with_config_object.send(:phone_id_path)
+      expect(path).to eq('https://graph.facebook.com/v13.0/123456789')
+    end
+
+    it 'works with config objects for business_account_path' do
+      path = service_with_config_object.send(:business_account_path)
+      expect(path).to eq('https://graph.facebook.com/v14.0/123456789')
+    end
+
+    it 'delegates validation through config object' do
+      config_object = whatsapp_channel_with_config_object.provider_config_object
+      allow(config_object).to receive(:validate_config?).and_return(false)
+      
+      expect(service_with_config_object.validate_provider_config?).to be(false)
+    end
+  end
 end

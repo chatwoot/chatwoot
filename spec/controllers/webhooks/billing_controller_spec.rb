@@ -25,7 +25,6 @@ RSpec.describe 'Webhooks::BillingController', type: :request do
   end
 
   describe 'POST /webhooks/billing/process_event' do
-
     context 'with valid signature and successful processing' do
       let(:service_result) do
         {

@@ -2,22 +2,23 @@ require 'rails_helper'
 
 RSpec.describe Whatsapp::WebhookUrlService do
   # Stub HTTP requests made during WhatsApp channel creation/validation for different providers
+  subject(:service) { described_class.new }
+
   before do
     # 360Dialog provider requests
     stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
       .to_return(status: 200, body: '', headers: {})
     stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates')
       .to_return(status: 200, body: '{"waba_templates": []}', headers: { 'Content-Type' => 'application/json' })
-    
+
     # WHAPI provider requests
     stub_request(:get, 'https://gate.whapi.cloud/health')
       .to_return(status: 200, body: '{"status": "ok"}', headers: { 'Content-Type' => 'application/json' })
-    
+
     # WhatsApp Cloud provider requests (Facebook Graph API)
-    stub_request(:get, /graph\.facebook\.com.*\/message_templates/)
+    stub_request(:get, %r{graph\.facebook\.com.*/message_templates})
       .to_return(status: 200, body: '{"data": []}', headers: { 'Content-Type' => 'application/json' })
   end
-  subject(:service) { described_class.new }
 
   let(:phone_number) { '+1234567890' }
   let(:frontend_url) { 'https://test.app.chatscommerce.com' }
@@ -27,7 +28,7 @@ RSpec.describe Whatsapp::WebhookUrlService do
     # Allow all other ENV access to work normally
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:[]).and_call_original
-    
+
     # Stub only our specific variables
     allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return(frontend_url)
     allow(ENV).to receive(:[]).with('WEBHOOK_URL_TUNNEL').and_return(local_tunnel)
@@ -64,15 +65,14 @@ RSpec.describe Whatsapp::WebhookUrlService do
         it 'works correctly with WHAPI provider channels' do
           # Create a WHAPI channel specifically
           account = create(:account)
-          channel = create(:channel_whatsapp, 
-            account: account, 
-            phone_number: phone_number,
-            provider: 'whapi',
-            provider_config: { 
-              'api_key' => 'test_whapi_token',
-              'whapi_channel_id' => 'test_channel_id'
-            }
-          )
+          channel = create(:channel_whatsapp,
+                           account: account,
+                           phone_number: phone_number,
+                           provider: 'whapi',
+                           provider_config: {
+                             'api_key' => 'test_whapi_token',
+                             'whapi_channel_id' => 'test_channel_id'
+                           })
           inbox = create(:inbox, channel: channel, account: account)
 
           service_url = service.generate_webhook_url(phone_number: phone_number)
@@ -180,7 +180,7 @@ RSpec.describe Whatsapp::WebhookUrlService do
   end
 
   describe 'webhook path consistency' do
-    # This test ensures that if webhook paths change in the app, 
+    # This test ensures that if webhook paths change in the app,
     # this service needs to be updated too
     context 'when comparing with routes.rb patterns' do
       it 'generates paths that match existing route patterns' do
@@ -222,15 +222,14 @@ RSpec.describe Whatsapp::WebhookUrlService do
       it 'generates URLs with same structure for WHAPI channels' do
         # Create WHAPI channel specifically to test provider independence
         account = create(:account)
-        channel = create(:channel_whatsapp, 
-          account: account, 
-          phone_number: phone_number,
-          provider: 'whapi',
-          provider_config: { 
-            'api_key' => 'test_whapi_token',
-            'whapi_channel_id' => 'test_channel_id'
-          }
-        )
+        channel = create(:channel_whatsapp,
+                         account: account,
+                         phone_number: phone_number,
+                         provider: 'whapi',
+                         provider_config: {
+                           'api_key' => 'test_whapi_token',
+                           'whapi_channel_id' => 'test_channel_id'
+                         })
         inbox = create(:inbox, channel: channel, account: account)
 
         # Generate URLs
@@ -265,7 +264,7 @@ RSpec.describe Whatsapp::WebhookUrlService do
     it 'maintains expected URL patterns' do
       # If these tests fail, it means webhook URL patterns have changed
       # and may break existing integrations
-      
+
       url_with_phone = service.generate_webhook_url(phone_number: phone_number)
       expect(url_with_phone).to eq("#{frontend_url}#{expected_patterns[:with_phone]}")
 
@@ -284,7 +283,7 @@ RSpec.describe Whatsapp::WebhookUrlService do
 
   describe 'environment configuration scenarios' do
     # Test different environment setups that teams might use
-    
+
     context 'development environment with custom domain' do
       let(:dev_url) { 'https://dev.app.chatscommerce.com' }
 
@@ -335,11 +334,10 @@ RSpec.describe Whatsapp::WebhookUrlService do
     context 'with 360Dialog provider (default)' do
       it 'generates correct URLs for default provider channels' do
         account = create(:account)
-        channel = create(:channel_whatsapp, 
-          account: account, 
-          phone_number: phone_number,
-          provider: 'default'
-        )
+        channel = create(:channel_whatsapp,
+                         account: account,
+                         phone_number: phone_number,
+                         provider: 'default')
         inbox = create(:inbox, channel: channel, account: account)
 
         service_url = service.generate_webhook_url(phone_number: phone_number)
@@ -351,16 +349,15 @@ RSpec.describe Whatsapp::WebhookUrlService do
     context 'with WHAPI provider' do
       it 'generates correct URLs for WHAPI provider channels' do
         account = create(:account)
-        channel = create(:channel_whatsapp, 
-          account: account, 
-          phone_number: phone_number,
-          provider: 'whapi',
-          provider_config: { 
-            'api_key' => 'test_whapi_token',
-            'whapi_channel_id' => 'test_channel_id',
-            'connection_status' => 'connected'
-          }
-        )
+        channel = create(:channel_whatsapp,
+                         account: account,
+                         phone_number: phone_number,
+                         provider: 'whapi',
+                         provider_config: {
+                           'api_key' => 'test_whapi_token',
+                           'whapi_channel_id' => 'test_channel_id',
+                           'connection_status' => 'connected'
+                         })
         inbox = create(:inbox, channel: channel, account: account)
 
         service_url = service.generate_webhook_url(phone_number: phone_number)
@@ -372,15 +369,14 @@ RSpec.describe Whatsapp::WebhookUrlService do
     context 'with WhatsApp Cloud provider' do
       it 'generates correct URLs for WhatsApp Cloud provider channels' do
         account = create(:account)
-        channel = create(:channel_whatsapp, 
-          account: account, 
-          phone_number: phone_number,
-          provider: 'whatsapp_cloud',
-          provider_config: { 
-            'api_key' => 'test_cloud_token',
-            'phone_number_id' => 'test_phone_id'
-          }
-        )
+        channel = create(:channel_whatsapp,
+                         account: account,
+                         phone_number: phone_number,
+                         provider: 'whatsapp_cloud',
+                         provider_config: {
+                           'api_key' => 'test_cloud_token',
+                           'phone_number_id' => 'test_phone_id'
+                         })
         inbox = create(:inbox, channel: channel, account: account)
 
         service_url = service.generate_webhook_url(phone_number: phone_number)

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Whatsapp::SendReadReceiptsJob, type: :job do
   before do
     # Stub WhatsApp Whapi provider validation HTTP request
-    stub_request(:get, "https://gate.whapi.cloud/health")
+    stub_request(:get, 'https://gate.whapi.cloud/health')
       .with(
         headers: {
           'Accept' => '*/*',
@@ -13,10 +13,10 @@ RSpec.describe Whatsapp::SendReadReceiptsJob, type: :job do
           'User-Agent' => 'Ruby'
         }
       )
-      .to_return(status: 200, body: "", headers: {})
+      .to_return(status: 200, body: '', headers: {})
 
     # Stub WhatsApp Cloud provider validation HTTP request
-    stub_request(:get, "https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key")
+    stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
       .with(
         headers: {
           'Accept' => '*/*',
@@ -26,6 +26,7 @@ RSpec.describe Whatsapp::SendReadReceiptsJob, type: :job do
       )
       .to_return(status: 200, body: '{"data": []}', headers: { 'Content-Type' => 'application/json' })
   end
+
   let(:account) { create(:account) }
   let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whapi', account: account) }
   let(:inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
