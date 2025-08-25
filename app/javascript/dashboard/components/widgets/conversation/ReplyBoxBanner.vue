@@ -32,14 +32,10 @@ const assignedAgent = computed({
   set(agent) {
     const agentId = agent ? agent.id : 0;
     store.dispatch('setCurrentChatAssignee', agent);
-    store
-      .dispatch('assignAgent', {
-        conversationId: currentChat.value?.id,
-        agentId,
-      })
-      .then(() => {
-        useAlert(t('CONVERSATION.CHANGE_AGENT'));
-      });
+    store.dispatch('assignAgent', {
+      conversationId: currentChat.value?.id,
+      agentId,
+    });
   },
 });
 
@@ -69,22 +65,36 @@ const botHandoffActionLabel = computed(() => {
     : t('CONVERSATION.BOT_HANDOFF_ACTION');
 });
 
-const onClickSelfAssign = () => {
+const selfAssignConversation = () => {
   const { avatar_url, ...rest } = currentUser.value;
   assignedAgent.value = { ...rest, thumbnail: avatar_url };
 };
 
+const onClickSelfAssign = async () => {
+  try {
+    await selfAssignConversation();
+    useAlert(t('CONVERSATION.CHANGE_AGENT'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.CHANGE_AGENT_FAILED'));
+  }
+};
+
 const onClickBotHandoff = async () => {
-  await store.dispatch('toggleStatus', {
-    conversationId: currentChat.value?.id,
-    status: wootConstants.STATUS_TYPE.OPEN,
-  });
-  // Only assign to self if not already assigned to current user
-  if (
-    !assignedAgent.value ||
-    assignedAgent.value?.id !== currentUser.value?.id
-  ) {
-    await onClickSelfAssign();
+  try {
+    await store.dispatch('toggleStatus', {
+      conversationId: currentChat.value?.id,
+      status: wootConstants.STATUS_TYPE.OPEN,
+    });
+    // Only assign to self if not already assigned to current user
+    if (
+      !assignedAgent.value ||
+      assignedAgent.value?.id !== currentUser.value?.id
+    ) {
+      await selfAssignConversation();
+    }
+    useAlert(t('CONVERSATION.BOT_HANDOFF_SUCCESS'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.BOT_HANDOFF_ERROR'));
   }
 };
 </script>
