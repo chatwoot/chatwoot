@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: saml_role_mappings
+#
+#  id                       :bigint           not null, primary key
+#  role                     :integer          default("agent"), not null
+#  saml_group_name          :string           not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  account_saml_settings_id :bigint           not null
+#  custom_role_id           :bigint
+#
+# Indexes
+#
+#  index_saml_role_mappings_on_account_saml_settings_id  (account_saml_settings_id)
+#  index_saml_role_mappings_on_custom_role_id            (custom_role_id)
+#
 class SamlRoleMapping < ApplicationRecord
   belongs_to :account_saml_settings
   belongs_to :custom_role, optional: true
