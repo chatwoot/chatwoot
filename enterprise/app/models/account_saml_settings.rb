@@ -8,6 +8,7 @@
 #  certificate_fingerprint :string
 #  enabled                 :boolean          default(FALSE), not null
 #  enforced_sso            :boolean          default(FALSE), not null
+#  role_mappings           :json
 #  sso_url                 :string
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
