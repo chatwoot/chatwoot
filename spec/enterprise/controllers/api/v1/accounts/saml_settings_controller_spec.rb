@@ -89,11 +89,22 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/saml_settings' do
     let(:valid_params) do
+      key = OpenSSL::PKey::RSA.new(2048)
+      cert = OpenSSL::X509::Certificate.new
+      cert.version = 2
+      cert.serial = 1
+      cert.subject = OpenSSL::X509::Name.parse('/C=US/ST=Test/L=Test/O=Test/CN=test.example.com')
+      cert.issuer = cert.subject
+      cert.public_key = key.public_key
+      cert.not_before = Time.now
+      cert.not_after = cert.not_before + (365 * 24 * 60 * 60)
+      cert.sign(key, OpenSSL::Digest.new('SHA256'))
+
       {
         saml_settings: {
           enabled: true,
           sso_url: 'https://idp.example.com/saml/sso',
-          certificate_fingerprint: 'AA:BB:CC:DD:EE:FF',
+          certificate: cert.to_pem,
           sp_entity_id: 'chatwoot-production',
           enforced_sso: false,
           attribute_mappings: { email: 'emailAddress', name: 'displayName' },
