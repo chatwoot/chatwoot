@@ -21,7 +21,7 @@ export const INBOX_TYPES = {
  * WHATSAPP CLOUD: https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#supported-media-types
  * TWILIO WHATSAPP: https://www.twilio.com/docs/whatsapp/guidance-whatsapp-media-messages
  * TWILIO SMS: https://www.twilio.com/docs/messaging/guides/accepted-mime-types
-
+ */
 
 // ---------- Central config ----------
 /**
@@ -97,6 +97,32 @@ const CHANNEL_CONFIGS = {
         video: ['mp4', 'ogg', 'avi', 'mov', 'webm'],
       },
       maxByCategory: { image: 16, video: 25, audio: 25 },
+    },
+  },
+
+  [INBOX_TYPES.FB]: {
+    '*': {
+      mimeGroups: {
+        audio: ['aac', 'm4a', 'wav', 'mp4'],
+        image: ['png', 'jpeg', 'gif'],
+        video: ['mp4', 'ogg', 'avi', 'mov', 'webm'],
+        text: ['plain'],
+        application: [
+          'pdf',
+          'vnd.ms-excel',
+          'vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'msword',
+          'vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'vnd.ms-powerpoint',
+          'vnd.openxmlformats-officedocument.presentationml.presentation',
+        ],
+      },
+      maxByCategory: {
+        image: 8,
+        audio: 25,
+        video: 25,
+        document: 25,
+      },
     },
   },
 
@@ -189,13 +215,10 @@ const expandMimeGroups = (mimeGroups = {}, extensions = []) => {
  */
 export const getAllowedFileTypesByChannel = ({ channelType, medium } = {}) => {
   const node = getNode(channelType, medium);
-  const mimes = expandMimeGroups(node.mimeGroups, node.extensions);
-  return mimes.length
-    ? mimes.join(', ')
-    : expandMimeGroups(
-        CHANNEL_CONFIGS.default.mimeGroups,
-        CHANNEL_CONFIGS.default.extensions
-      ).join(', ');
+  const { mimeGroups, extensions } =
+    !node.mimeGroups && !node.extensions ? CHANNEL_CONFIGS.default : node;
+
+  return expandMimeGroups(mimeGroups, extensions).join(', ');
 };
 
 /**
