@@ -407,6 +407,7 @@
   type: secret
 # ------- End of OG Image Related Config ------- #
 
+<<<<<<< HEAD
 ## ------ Configs added for Google OAuth ------ ##
 - name: GOOGLE_OAUTH_CLIENT_ID
   display_title: 'Google OAuth Client ID'

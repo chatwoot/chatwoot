@@ -34,7 +34,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
+    api_key = provider_config_object.api_key
+    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{api_key}")
     whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
   end
 
@@ -54,12 +55,12 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def validate_provider_config?
-    response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    response.success?
+    provider_config_object.validate_config?
   end
 
   def api_headers
-    { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
+    api_key = provider_config_object.api_key
+    { 'Authorization' => "Bearer #{api_key}", 'Content-Type' => 'application/json' }
   end
 
   def media_url(media_id)
@@ -72,11 +73,13 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
-    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    phone_number_id = provider_config_object.phone_number_id
+    "#{api_base_path}/v13.0/#{phone_number_id}"
   end
 
   def business_account_path
-    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    business_account_id = provider_config_object.business_account_id
+    "#{api_base_path}/v14.0/#{business_account_id}"
   end
 
   def send_text_message(phone_number, message)

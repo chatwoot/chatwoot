@@ -22,20 +22,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   end
 
   def validate_provider_config?
-    # For Whapi partner channels in pending status, we don't require health check
-    # since the WhatsApp connection is established after QR code scanning
-    if whatsapp_channel.whapi_partner_channel? && whatsapp_channel.whapi_connection_status == 'pending'
-      # Validate that we have the required token from partner API
-      return whatsapp_channel.provider_config['api_key'].present? || 
-             whatsapp_channel.provider_config['whapi_channel_token'].present?
-    end
-
-    # For regular Whapi channels or connected partner channels, perform health check
-    response = HTTParty.get("#{api_base_path}/health", headers: api_headers)
-    response.success?
-  rescue Net::ReadTimeout, Net::OpenTimeout, SocketError => e
-    Rails.logger.error "WHAPI health check failed: #{e.message}"
-    false
+    provider_config_object.validate_config?
   end
 
   def error_message(response)
@@ -54,7 +41,8 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   end
 
   def api_headers
-    { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
+    api_key = provider_config_object.api_key
+    { 'Authorization' => "Bearer #{api_key}", 'Content-Type' => 'application/json' }
   end
 
   def media_url(_media_id)
@@ -223,7 +211,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       endpoint,
       query: query_params,
       headers: {
-        'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}",
+        'Authorization' => "Bearer #{provider_config_object.api_key}",
         'Content-Type' => content_type
       },
       body: file_content

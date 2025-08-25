@@ -137,16 +137,16 @@ class Message < ApplicationRecord
   after_create_commit :debug_sending_notification_triggered
 
   def debug_callback
-    Rails.logger.info "=== CALLBACK DEBUG ==="
+    Rails.logger.info '=== CALLBACK DEBUG ==='
     Rails.logger.info "Message created: #{id}, content: #{content}"
     Rails.logger.info "Private: #{private?}, Outgoing: #{outgoing?}"
   end
 
   def debug_sending_notification_triggered
-    Rails.logger.info "=== CALLBACK TRIGGERED ==="
+    Rails.logger.info '=== CALLBACK TRIGGERED ==='
     Rails.logger.info "trigger_notification_forwarding callback called for message #{id}"
   end
-  
+
   after_update_commit :dispatch_update_event
 
   def channel_token
@@ -470,24 +470,21 @@ class Message < ApplicationRecord
     ai_feedback&.dig('agent_id')
   end
 
-
   # Notification forward helper methods
   def trigger_notification_forwarding
     return unless private? && outgoing? && notification_format?
-    
+
     begin
       service = ::ForwardNotificationService.new(self)
       service.send_notification
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "Error in trigger_notification_forwarding: #{e.message}"
     end
   end
-  
+
   def notification_format?
     content.match?(/^\[[^\]]+\]\s+.+/)
   end
-
 end
-
 
 Message.prepend_mod_with('Message')

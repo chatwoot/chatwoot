@@ -71,4 +71,4 @@ class Api::V1::Accounts::AiMessageFeedbacksController < Api::V1::Accounts::BaseC
   def permitted_params
     params.permit(:message_id, ai_feedback: [:rating, :feedback_text])
   end
-end 
+end

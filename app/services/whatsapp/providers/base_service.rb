@@ -4,12 +4,17 @@
 # - Implement `send_message` method in your child class.
 # - Implement `send_template_message` method in your child class.
 # - Implement `sync_templates` method in your child class.
-# - Implement `validate_provider_config` method in your child class.
+# - Implement `validate_provider_config?` method in your child class.
 # - Use Childclass.new(whatsapp_channel: channel).perform.
 ######################################
 
 class Whatsapp::Providers::BaseService
   pattr_initialize [:whatsapp_channel!]
+
+  # Support for configuration objects
+  def provider_config_object
+    @provider_config_object ||= whatsapp_channel.provider_config_object
+  end
 
   def send_message(_phone_number, _message)
     raise 'Overwrite this method in child class'
@@ -19,11 +24,11 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
-  def sync_template
+  def sync_templates
     raise 'Overwrite this method in child class'
   end
 
-  def validate_provider_config
+  def validate_provider_config?
     raise 'Overwrite this method in child class'
   end
 

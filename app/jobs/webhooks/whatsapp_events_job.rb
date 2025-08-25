@@ -10,14 +10,13 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
-    case channel.provider
-    when 'whatsapp_cloud'
-      Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params.merge('correlation_id' => correlation_id)).perform
-    when 'whapi'
-      Whatsapp::IncomingMessageWhapiService.new(inbox: channel.inbox, params: params.merge('correlation_id' => correlation_id)).perform
-    else
-      Whatsapp::IncomingMessageService.new(inbox: channel.inbox, params: params.merge('correlation_id' => correlation_id)).perform
-    end
+    service = Whatsapp::IncomingMessageServiceFactory.create(
+      channel: channel,
+      params: params,
+      correlation_id: correlation_id
+    )
+
+    service.perform
   end
 
   private
@@ -48,10 +47,7 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
     # For Whapi partner posts to /webhooks/whapi, match by channel_id in payload
     whapi_channel_id = params[:channel_id] || params['channel_id'] || (params.is_a?(Hash) ? params.dig('channel', 'id') : nil)
-    if whapi_channel_id.present?
-      return Channel::Whatsapp.where(provider: 'whapi')
-                              .detect { |ch| ch.provider_config&.[]('whapi_channel_id') == whapi_channel_id }
-    end
+    return find_channel_by_whapi_channel_id(whapi_channel_id) if whapi_channel_id.present?
 
     # For Whapi partner channels, try to find by whapi_channel_id if no phone_number
     find_channel_by_whapi_id(params)
@@ -62,9 +58,9 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     change = entry[:changes]&.first if entry.is_a?(Hash)
     value = change[:value] if change.is_a?(Hash)
     metadata = value[:metadata] if value.is_a?(Hash)
-    
+
     return nil unless metadata.is_a?(Hash)
-    
+
     phone_number = "+#{metadata[:display_phone_number]}"
     phone_number_id = metadata[:phone_number_id]
     channel = Channel::Whatsapp.find_by(phone_number: phone_number)
@@ -76,7 +72,15 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     whapi_channel_id = params[:channel_id] || params['channel_id']
     return unless whapi_channel_id
 
-    Channel::Whatsapp.where(provider: 'whapi')
-                     .find { |ch| ch.provider_config['whapi_channel_id'] == whapi_channel_id }
+    find_channel_by_whapi_channel_id(whapi_channel_id)
+  end
+
+  def find_channel_by_whapi_channel_id(whapi_channel_id)
+    return unless whapi_channel_id
+
+    # Use config object pattern to find channel by whapi_channel_id
+    Channel::Whatsapp.where(provider: 'whapi').find do |channel|
+      channel.provider_config_object.whapi_channel_id == whapi_channel_id
+    end
   end
 end

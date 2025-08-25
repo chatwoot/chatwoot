@@ -126,6 +126,8 @@ if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   if Current.account_user&.administrator?
     if resource.channel.try(:provider) == 'whapi'
+      # Use provider config object for consistent data access
+      resource.channel.provider_config_object
       provider_cfg = resource.channel.try(:provider_config) || {}
       # Remove sensitive token fields for whapi provider
       sanitized_cfg = provider_cfg.except('api_key', 'whapi_channel_token')
