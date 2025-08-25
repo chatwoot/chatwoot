@@ -65,7 +65,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   def fetch_resolved_counts
     # Count resolution events, not conversations currently in resolved status
     # Filter by reporting_event.created_at, not conversation.created_at
-    reporting_event_filter = { name: 'conversation_resolved' }
+    reporting_event_filter = { name: 'conversation_resolved', account_id: account.id }
     reporting_event_filter[:created_at] = range if range.present?
 
     ReportingEvent
@@ -74,7 +74,6 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
       .joins('INNER JOIN tags ON taggings.tag_id = tags.id')
       .where(
         reporting_event_filter.merge(
-          conversations: { account_id: account.id },
           taggings: { taggable_type: 'Conversation', context: 'labels' }
         )
       )
