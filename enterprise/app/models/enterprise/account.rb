@@ -1,4 +1,10 @@
 module Enterprise::Account
+  extend ActiveSupport::Concern
+
+  included do
+    has_one :saml_settings, class_name: 'AccountSamlSettings', dependent: :destroy
+  end
+
   # TODO: Remove this when we upgrade administrate gem to the latest version
   # this is a temporary method since current administrate doesn't support virtual attributes
   def manually_managed_features; end
@@ -14,5 +20,9 @@ module Enterprise::Account
 
   def unmark_for_deletion
     custom_attributes.delete('marked_for_deletion_at') && custom_attributes.delete('marked_for_deletion_reason') && save
+  end
+
+  def saml_enabled?
+    saml_settings&.saml_enabled? || false
   end
 end
