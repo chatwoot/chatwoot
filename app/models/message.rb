@@ -112,7 +112,7 @@ class Message < ApplicationRecord
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :comment_id, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
                                          :translations, :in_reply_to_external_id, :is_unsupported,
-                                         :reply_to_comment_id, :should_prompt_resolution, :is_dm_conversation_created, :user_phone_number, :previous_selected_replies, :user_order_id, :selected_reply, :product_id, :product_id_for_more_info, :product_page, :pre_chat_form_response, :assign_to_agent, :conversation_resolved], coder: JSON
+                                         :reply_to_comment_id, :should_prompt_resolution, :is_dm_conversation_created, :user_phone_number, :previous_selected_replies, :user_order_id, :selected_reply, :product_id, :product_id_for_more_info, :product_page, :pre_chat_form_response, :assign_to_agent, :conversation_resolved, :skip_conversation_reopen], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -374,8 +374,11 @@ class Message < ApplicationRecord
   end
 
   def reopen_conversation
+    Rails.logger.info("skip_conversation_reopen accessor: #{skip_conversation_reopen.inspect}")
+    Rails.logger.info("content_attributes: #{content_attributes.inspect}")
     return if conversation.muted?
     return unless incoming?
+    return if skip_conversation_reopen
 
     conversation.open! if conversation.snoozed?
 
