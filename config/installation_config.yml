@@ -215,7 +215,7 @@
 - name: ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The June.so analytics token for Chatwoot cloud'
+  description: 'The PostHog analytics token for Chatwoot cloud'
   type: secret
 - name: CLEARBIT_API_KEY
   value:
