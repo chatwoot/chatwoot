@@ -32,6 +32,26 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'download_url_converted' do
+    it 'returns valid download url for jpeg converted image' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      expect(attachment.download_url_converted).not_to be_nil
+    end
+
+    it 'returns a jpeg formatted image by default' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      expect(attachment.download_url_converted).to include('.jpg')
+    end
+
+    it 'returns a png formatted image when specified' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      expect(attachment.download_url_converted(format: :png)).to include('.png')
+    end
+  end
+
   describe 'with_attached_file?' do
     it 'returns true if its an attachment with file' do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)

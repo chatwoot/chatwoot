@@ -59,6 +59,15 @@ class Attachment < ApplicationRecord
     file.attached? ? file.blob.url : ''
   end
 
+  def download_url_converted(format: :jpeg)
+    if file.attached? && image?
+      Rails.logger.info("[Attachment:#{id}] Converting image from #{file.content_type} to image/png")
+      convert_image_and_generate_download_url(file, format)
+    else
+      file_url
+    end
+  end
+
   def thumb_url
     return '' unless file.attached? && image?
 
@@ -75,6 +84,17 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def convert_image_and_generate_download_url(attachment, format)
+    return '' unless file.attached? && image?
+
+    begin
+      url_for(file.representation(format: format))
+    rescue ActiveStorage::UnrepresentableError => e
+      Rails.logger.warn "Unrepresentable image attachment: #{id} (#{file.filename}) - #{e.message}"
+      ''
+    end
+  end
 
   def metadata_for_file_type
     case file_type.to_sym
