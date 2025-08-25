@@ -16,9 +16,10 @@ namespace :chatwoot do
       days = days_input.empty? ? 7 : days_input.to_i
 
       # Build a common base relation with identical joins for OR compatibility
-      base = account.conversations
-                     .where('conversations.created_at > ?', days.days.ago)
-                     .left_outer_joins(:contact, :inbox)
+      base = account
+             .conversations
+             .where('conversations.created_at > ?', days.days.ago)
+             .left_outer_joins(:contact, :inbox)
 
       # Find conversations whose associated contact or inbox record is missing
       conversations = base.where(contacts: { id: nil }).or(base.where(inboxes: { id: nil }))
