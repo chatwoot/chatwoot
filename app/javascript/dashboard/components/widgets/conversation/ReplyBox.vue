@@ -32,6 +32,7 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { CMD_REOPEN_CONVERSATION } from 'dashboard/helper/commandbar/events';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
@@ -183,6 +184,18 @@ export default {
       }
 
       return false;
+    },
+    showBotHandoffBanner() {
+      return (
+        this.message !== '' &&
+        !this.isOnPrivateNote &&
+        this.currentChat.status === wootConstants.STATUS_TYPE.PENDING
+      );
+    },
+    botHandoffActionLabel() {
+      return this.assignedAgent?.id === this.currentUser.id
+        ? this.$t('CONVERSATION.BOT_HANDOFF_REOPEN_ACTION')
+        : this.$t('CONVERSATION.BOT_HANDOFF_ACTION');
     },
     showWhatsappTemplates() {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
@@ -682,6 +695,12 @@ export default {
       };
       this.assignedAgent = selfAssign;
     },
+    async onClickBotHandoff() {
+      await emitter.emit(CMD_REOPEN_CONVERSATION);
+      // Only assign to self if not already assigned to current user
+      if (this.assignedAgent?.id !== this.currentUser.id)
+        await this.onClickSelfAssign();
+    },
     confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
@@ -1096,14 +1115,24 @@ export default {
 
 <template>
   <Banner
-    v-if="showSelfAssignBanner"
+    v-if="showSelfAssignBanner && !showBotHandoffBanner"
     action-button-variant="ghost"
     color-scheme="secondary"
-    class="mx-2 mb-2 rounded-lg banner--self-assign"
+    class="mx-2 mb-2 rounded-lg !py-2"
     :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
     has-action-button
     :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
     @primary-action="onClickSelfAssign"
+  />
+  <Banner
+    v-if="showBotHandoffBanner"
+    action-button-variant="ghost"
+    color-scheme="secondary"
+    class="mx-2 mb-2 rounded-lg !py-2"
+    :banner-message="$t('CONVERSATION.BOT_HANDOFF_MESSAGE')"
+    has-action-button
+    :action-button-label="botHandoffActionLabel"
+    @primary-action="onClickBotHandoff"
   />
   <div ref="replyEditor" class="reply-box" :class="replyBoxClass">
     <ReplyTopPanel
@@ -1258,10 +1287,6 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   @apply mb-0;
-}
-
-.banner--self-assign {
-  @apply py-2;
 }
 
 .attachment-preview-box {
