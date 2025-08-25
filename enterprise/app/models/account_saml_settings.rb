@@ -20,7 +20,6 @@
 #
 class AccountSamlSettings < ApplicationRecord
   belongs_to :account
-  has_many :saml_role_mappings, dependent: :destroy
 
   validates :account_id, presence: true
   validates :sso_url, presence: true, if: :enabled?

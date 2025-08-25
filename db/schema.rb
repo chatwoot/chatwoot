@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_25_070824) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1068,17 +1068,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_25_070824) do
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
-  end
-
-  create_table "saml_role_mappings", force: :cascade do |t|
-    t.bigint "account_saml_settings_id", null: false
-    t.string "saml_group_name", null: false
-    t.integer "role", default: 0, null: false
-    t.bigint "custom_role_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_saml_settings_id"], name: "index_saml_role_mappings_on_account_saml_settings_id"
-    t.index ["custom_role_id"], name: "index_saml_role_mappings_on_custom_role_id"
   end
 
   create_table "sla_events", force: :cascade do |t|
