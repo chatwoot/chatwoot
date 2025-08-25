@@ -12,7 +12,8 @@ class Webhooks::WhatsappController < ActionController::API
       return
     end
 
-    ActiveSupport::Notifications.instrument('whapi.webhook', action: 'received', correlation_id: correlation_id, has_phone_number: params[:phone_number].present?)
+    ActiveSupport::Notifications.instrument('whapi.webhook', action: 'received', correlation_id: correlation_id,
+                                                             has_phone_number: params[:phone_number].present?)
     payload = params.to_unsafe_hash.merge('correlation_id' => correlation_id)
     Webhooks::WhatsappEventsJob.perform_later(payload)
     render json: { status: 'accepted', correlation_id: correlation_id }
@@ -22,7 +23,7 @@ class Webhooks::WhatsappController < ActionController::API
 
   def valid_token?(token)
     channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
-    whatsapp_webhook_verify_token = channel.provider_config['webhook_verify_token'] if channel.present?
+    whatsapp_webhook_verify_token = channel.provider_config_object.webhook_verify_token if channel.present?
     token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
   end
 
@@ -59,14 +60,19 @@ class Webhooks::WhatsappController < ActionController::API
     provided = signature_header.to_s.strip
     valid = secure_compare(provided, computed_hex) || secure_compare(provided, computed_b64)
 
-    unless valid
-      Rails.logger.warn('[WhapiWebhook] Invalid signature')
-      render json: { message: 'invalid signature' }, status: :unauthorized and return
-    end
+    return if valid
+
+    Rails.logger.warn('[WhapiWebhook] Invalid signature')
+    render json: { message: 'invalid signature' }, status: :unauthorized and return
   end
 
   def secure_compare(a, b)
     return false if a.blank? || b.blank?
-    ActiveSupport::SecurityUtils.secure_compare(a, b) rescue false
+
+    begin
+      ActiveSupport::SecurityUtils.secure_compare(a, b)
+    rescue StandardError
+      false
+    end
   end
 end

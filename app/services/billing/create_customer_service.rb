@@ -106,11 +106,7 @@ module Billing
         'plan_name' => @plan_name,
         'subscription_status' => subscription&.status,
         'current_period_end' => current_period_end&.to_i,
-        'subscription_ends_on' => if current_period_end
-                                    Time.at(current_period_end).strftime('%Y-%m-%d')
-                                  else
-                                    nil
-                                  end
+        'subscription_ends_on' => (Time.at(current_period_end).strftime('%Y-%m-%d') if current_period_end)
       }
 
       # Validate subscription attributes before merging
