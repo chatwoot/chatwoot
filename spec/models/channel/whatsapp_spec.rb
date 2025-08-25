@@ -178,4 +178,82 @@ RSpec.describe Channel::Whatsapp do
       end
     end
   end
+
+  describe 'provider configuration pattern' do
+    let(:channel) { create(:channel_whatsapp, provider: 'whapi', account: create(:account), validate_provider_config: false, sync_templates: false) }
+
+    describe '#provider_config_object' do
+      it 'returns a provider configuration object' do
+        expect(channel.provider_config_object).to be_a(Whatsapp::ProviderConfig::Whapi)
+      end
+
+      it 'memoizes the provider configuration object' do
+        config1 = channel.provider_config_object
+        config2 = channel.provider_config_object
+        expect(config1).to be(config2)
+      end
+
+      it 'invalidates cache when provider_config changes' do
+        original_config = channel.provider_config_object
+        channel.update!(provider_config: { 'api_key' => 'new_key' })
+        new_config = channel.provider_config_object
+        expect(new_config).not_to be(original_config)
+      end
+    end
+
+    describe '#provider_service' do
+      it 'uses the factory method' do
+        service = channel.provider_service
+        expect(service).to be_a(Whatsapp::Providers::WhapiService)
+      end
+
+      it 'memoizes the provider service' do
+        service1 = channel.provider_service
+        service2 = channel.provider_service
+        expect(service1).to be(service2)
+      end
+
+      it 'invalidates cache when provider changes' do
+        original_service = channel.provider_service
+        channel.update!(provider: 'whatsapp_cloud')
+        new_service = channel.provider_service
+        expect(new_service).not_to be(original_service)
+      end
+    end
+
+    describe 'provider-specific methods through config objects' do
+      let(:whapi_channel) do
+        create(:channel_whatsapp,
+               provider: 'whapi',
+               provider_config: { 'whapi_channel_id' => 'test_id', 'whapi_channel_token' => 'test_token', 'connection_status' => 'active' },
+               account: create(:account),
+               validate_provider_config: false,
+               sync_templates: false)
+      end
+
+      it 'accesses whapi-specific methods through config object' do
+        config = whapi_channel.provider_config_object
+        expect(config.whapi_channel_id).to eq('test_id')
+        expect(config.whapi_channel_token).to eq('test_token')
+        expect(config.whapi_connection_status).to eq('active')
+        expect(config.whapi_partner_channel?).to be true
+      end
+    end
+
+    describe 'cleanup through config object' do
+      let(:whapi_channel) do
+        create(:channel_whatsapp,
+               provider: 'whapi',
+               provider_config: { 'whapi_channel_id' => 'test_id' },
+               account: create(:account),
+               validate_provider_config: false,
+               sync_templates: false)
+      end
+
+      it 'calls cleanup through provider config object' do
+        expect(Whatsapp::Whapi::WhapiChannelCleanupJob).to receive(:perform_later).with('test_id').once
+        whapi_channel.destroy
+      end
+    end
+  end
 end

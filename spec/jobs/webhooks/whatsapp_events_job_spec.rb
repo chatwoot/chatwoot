@@ -36,8 +36,12 @@ RSpec.describe Webhooks::WhatsappEventsJob do
 
   context 'when whatsapp_cloud provider' do
     it 'enqueue Whatsapp::IncomingMessageWhatsappCloudService' do
-      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
-      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create).and_return(process_service)
+      expect(Whatsapp::IncomingMessageServiceFactory).to receive(:create).with(
+        channel: channel,
+        params: hash_including(params),
+        correlation_id: anything
+      )
       job.perform_now(params)
     end
 
@@ -47,38 +51,32 @@ RSpec.describe Webhooks::WhatsappEventsJob do
         phone_number: channel.phone_number,
         entry: [{ changes: [{}] }]
       }
-      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
-      allow(Whatsapp::IncomingMessageService).to receive(:new)
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create)
 
-      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
-      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageServiceFactory).not_to receive(:create)
       job.perform_now(params)
     end
 
     it 'will not enqueue Whatsapp::IncomingMessageWhatsappCloudService if channel reauthorization required' do
       channel.prompt_reauthorization!
-      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
-      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create).and_return(process_service)
+      expect(Whatsapp::IncomingMessageServiceFactory).not_to receive(:create)
       job.perform_now(params)
     end
 
     it 'will not enqueue if channel is not present' do
-      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
-      allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create).and_return(process_service)
 
-      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
-      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageServiceFactory).not_to receive(:create)
       job.perform_now(phone_number: 'random_phone_number')
     end
 
     it 'will not enqueue Whatsapp::IncomingMessageWhatsappCloudService if account is suspended' do
       account = channel.account
       account.update!(status: :suspended)
-      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
-      allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create).and_return(process_service)
 
-      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new)
-      expect(Whatsapp::IncomingMessageService).not_to receive(:new)
+      expect(Whatsapp::IncomingMessageServiceFactory).not_to receive(:create)
       job.perform_now(params)
     end
 
@@ -103,38 +101,29 @@ RSpec.describe Webhooks::WhatsappEventsJob do
     it 'enqueue Whatsapp::IncomingMessageService' do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
       channel.update(provider: 'default')
-      allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
-      expect(Whatsapp::IncomingMessageService).to receive(:new)
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create).and_return(process_service)
+      expect(Whatsapp::IncomingMessageServiceFactory).to receive(:create).with(
+        channel: channel,
+        params: hash_including(params),
+        correlation_id: anything
+      )
       job.perform_now(params)
     end
   end
 
   context 'when whapi provider' do
-    let!(:whapi_channel) do 
-      create(:channel_whatsapp, 
-             provider: 'whapi', 
+    let!(:whapi_channel) do
+      create(:channel_whatsapp,
+             provider: 'whapi',
              phone_number: 'pending:TEST_CHANNEL_ID',
              provider_config: {
                'whapi_channel_id' => 'TEST_CHANNEL_ID',
                'whapi_channel_token' => 'test_token',
                'connection_status' => 'pending'
              },
-             sync_templates: false, 
+             sync_templates: false,
              validate_provider_config: false)
     end
-
-    before do
-      # Stub the webhook update service to prevent external calls
-      allow_any_instance_of(Whatsapp::Partner::WhapiPartnerService).to receive(:update_webhook_with_phone_number)
-        .and_return('https://test-webhook-url.com')
-      
-      # Stub ActionCable to prevent broadcast errors
-      allow(ActionCable.server).to receive(:broadcast)
-      
-      # Stub ActiveSupport::Notifications to prevent instrumentation errors
-      allow(ActiveSupport::Notifications).to receive(:instrument)
-    end
-    
     let(:whapi_message_params) do
       {
         channel_id: 'TEST_CHANNEL_ID',
@@ -146,7 +135,6 @@ RSpec.describe Webhooks::WhatsappEventsJob do
         }]
       }
     end
-
     let(:whapi_connected_params) do
       {
         channel_id: 'TEST_CHANNEL_ID',
@@ -157,17 +145,35 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       }
     end
 
+    before do
+      # Stub the webhook update service to prevent external calls
+      allow_any_instance_of(Whatsapp::Partner::WhapiPartnerService).to receive(:update_webhook_with_phone_number)
+        .and_return('https://test-webhook-url.com')
 
+      # Stub ActionCable to prevent broadcast errors
+      allow(ActionCable.server).to receive(:broadcast)
 
-
+      # Stub ActiveSupport::Notifications to prevent instrumentation errors
+      allow(ActiveSupport::Notifications).to receive(:instrument)
+    end
 
     it 'does not process when whapi_channel_id is not found' do
       params_with_unknown_id = whapi_message_params.merge(channel_id: 'UNKNOWN_ID')
-      
-      allow(Whatsapp::IncomingMessageWhapiService).to receive(:new)
-      expect(Whatsapp::IncomingMessageWhapiService).not_to receive(:new)
-      
+
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create)
+      expect(Whatsapp::IncomingMessageServiceFactory).not_to receive(:create)
+
       job.perform_now(params_with_unknown_id)
+    end
+
+    it 'processes whapi messages using factory pattern' do
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create).and_return(process_service)
+      expect(Whatsapp::IncomingMessageServiceFactory).to receive(:create).with(
+        channel: whapi_channel,
+        params: hash_including(whapi_message_params),
+        correlation_id: anything
+      )
+      job.perform_now(whapi_message_params)
     end
   end
 
@@ -193,10 +199,11 @@ RSpec.describe Webhooks::WhatsappEventsJob do
           }
         ]
       }
-      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
-      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(
-        inbox: other_channel.inbox, 
-        params: hash_including(wb_params)
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create).and_return(process_service)
+      expect(Whatsapp::IncomingMessageServiceFactory).to receive(:create).with(
+        channel: other_channel,
+        params: hash_including(wb_params),
+        correlation_id: anything
       )
       job.perform_now(wb_params)
     end
@@ -303,8 +310,8 @@ RSpec.describe Webhooks::WhatsappEventsJob do
           }
         ]
       }
-      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
-      expect(Whatsapp::IncomingMessageWhatsappCloudService).not_to receive(:new).with(inbox: other_channel.inbox, params: wb_params)
+      allow(Whatsapp::IncomingMessageServiceFactory).to receive(:create).and_return(process_service)
+      expect(Whatsapp::IncomingMessageServiceFactory).not_to receive(:create)
       job.perform_now(wb_params)
     end
   end

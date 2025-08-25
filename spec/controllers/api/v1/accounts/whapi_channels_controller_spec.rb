@@ -24,23 +24,24 @@ RSpec.describe 'WhapiChannelsController', type: :request do
            as: :json
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response.parsed_body['message']).to match(/name is required|invalid name/)
+      expect(response.parsed_body['message']).to eq('name is required')
+      expect(response.parsed_body['correlation_id']).to be_present
     end
 
     it 'creates inbox and channel and sets provider_config' do
       # Partner endpoints
-      stub_request(:get, /\/projects$/).to_return(
+      stub_request(:get, %r{/projects$}).to_return(
         status: 200,
         headers: { 'Content-Type' => 'application/json' },
         body: { projects: [{ id: 'proj_1' }] }.to_json
       )
-      stub_request(:put, /\/channels$/).to_return(
+      stub_request(:put, %r{/channels$}).to_return(
         status: 200,
         headers: { 'Content-Type' => 'application/json' },
         body: { id: 'chan_1', token: 'tok_1' }.to_json
       )
       # Channel-level webhook
-      stub_request(:patch, /\/settings$/).to_return(status: 200, body: { ok: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+      stub_request(:patch, %r{/settings$}).to_return(status: 200, body: { ok: true }.to_json, headers: { 'Content-Type' => 'application/json' })
 
       post "/api/v1/accounts/#{account.id}/whapi_channels",
            headers: admin.create_new_auth_token,
@@ -53,6 +54,38 @@ RSpec.describe 'WhapiChannelsController', type: :request do
       expect(data['channel_type']).to eq('Channel::Whatsapp')
       expect(data['provider']).to eq('whapi')
       expect(data['provider_config']).to include('whapi_channel_id' => 'chan_1', 'connection_status' => 'pending')
+      expect(data['provider_config']).to include('whapi_channel_token' => 'tok_1')
+      expect(data['provider_config']['onboarding']).to be_present
+    end
+
+    it 'validates name format and length' do
+      # Test invalid characters
+      post "/api/v1/accounts/#{account.id}/whapi_channels",
+           headers: admin.create_new_auth_token,
+           params: { name: 'Invalid@Name!' },
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('invalid name')
+      expect(response.parsed_body['correlation_id']).to be_present
+
+      # Test too short name
+      post "/api/v1/accounts/#{account.id}/whapi_channels",
+           headers: admin.create_new_auth_token,
+           params: { name: 'A' },
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('invalid name')
+
+      # Test too long name
+      post "/api/v1/accounts/#{account.id}/whapi_channels",
+           headers: admin.create_new_auth_token,
+           params: { name: 'A' * 81 },
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('invalid name')
     end
   end
 
@@ -73,7 +106,7 @@ RSpec.describe 'WhapiChannelsController', type: :request do
     end
 
     it 'returns base64 QR image when successful' do
-      stub_request(:get, /\/users\/login$/).to_return(
+      stub_request(:get, %r{/users/login$}).to_return(
         status: 200,
         headers: { 'Content-Type' => 'application/json' },
         body: { qr: 'B64QR', expires_in: 20 }.to_json
@@ -96,6 +129,31 @@ RSpec.describe 'WhapiChannelsController', type: :request do
           headers: admin.create_new_auth_token,
           as: :json
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Not a WHAPI WhatsApp inbox')
+      expect(response.parsed_body['correlation_id']).to be_present
+    end
+
+    it 'handles already authenticated channel' do
+      # Mock QR generation to raise already authenticated error
+      allow_any_instance_of(Whatsapp::Partner::WhapiPartnerService).to receive(:generate_qr_code)
+        .and_raise(StandardError.new('already authenticated'))
+
+      # Mock sync phone number service
+      allow_any_instance_of(Whatsapp::Partner::WhapiPartnerService).to receive(:sync_channel_phone_number)
+        .and_return({ success: true, phone_number: '+1234567890', status: 'connected' })
+
+      # Mock webhook update service
+      allow_any_instance_of(Whatsapp::Partner::WhapiPartnerService).to receive(:update_webhook_with_phone_number)
+        .and_return('https://webhook-url.com')
+
+      get "/api/v1/accounts/#{account.id}/whapi_channels/#{inbox.id}/qr_code",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['authenticated']).to be true
+      expect(response.parsed_body['message']).to eq('WhatsApp account successfully connected!')
+      expect(response.parsed_body['correlation_id']).to be_present
     end
   end
 
@@ -116,7 +174,7 @@ RSpec.describe 'WhapiChannelsController', type: :request do
     end
 
     it 'retries webhook setup successfully' do
-      stub_request(:patch, /\/settings$/).to_return(
+      stub_request(:patch, %r{/settings$}).to_return(
         status: 200,
         headers: { 'Content-Type' => 'application/json' },
         body: { ok: true }.to_json
@@ -139,6 +197,22 @@ RSpec.describe 'WhapiChannelsController', type: :request do
            headers: admin.create_new_auth_token,
            as: :json
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Not a WHAPI WhatsApp inbox')
+      expect(response.parsed_body['correlation_id']).to be_present
+    end
+
+    it 'handles webhook retry failure' do
+      # Mock retry webhook to fail
+      allow_any_instance_of(Whatsapp::Partner::WhapiPartnerService).to receive(:retry_webhook_setup)
+        .and_raise(StandardError.new('Webhook configuration failed'))
+
+      post "/api/v1/accounts/#{account.id}/whapi_channels/#{inbox.id}/retry_webhook",
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to include('Webhook configuration failed')
+      expect(response.parsed_body['correlation_id']).to be_present
     end
   end
 end

@@ -976,7 +976,7 @@ RSpec.describe Message do
 
     before do
       # Mock the global namespace version that the callback uses
-      allow(::ForwardNotificationService).to receive(:new).and_return(forward_service_double)
+      allow(ForwardNotificationService).to receive(:new).and_return(forward_service_double)
       allow(forward_service_double).to receive(:send_notification)
     end
 
@@ -1031,7 +1031,7 @@ RSpec.describe Message do
         it 'creates and calls ForwardNotificationService' do
           notification_message # trigger the callback
 
-          expect(::ForwardNotificationService).to have_received(:new).with(notification_message)
+          expect(ForwardNotificationService).to have_received(:new).with(notification_message)
           expect(forward_service_double).to have_received(:send_notification)
         end
       end
@@ -1050,7 +1050,7 @@ RSpec.describe Message do
         it 'does not trigger forwarding service' do
           public_message # trigger the callback
 
-          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(ForwardNotificationService).not_to have_received(:new)
           expect(forward_service_double).not_to have_received(:send_notification)
         end
       end
@@ -1068,7 +1068,7 @@ RSpec.describe Message do
         it 'does not trigger forwarding service' do
           incoming_message # trigger the callback
 
-          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(ForwardNotificationService).not_to have_received(:new)
           expect(forward_service_double).not_to have_received(:send_notification)
         end
       end
@@ -1087,7 +1087,7 @@ RSpec.describe Message do
         it 'does not trigger forwarding service' do
           regular_message # trigger the callback
 
-          expect(::ForwardNotificationService).not_to have_received(:new)
+          expect(ForwardNotificationService).not_to have_received(:new)
           expect(forward_service_double).not_to have_received(:send_notification)
         end
       end
