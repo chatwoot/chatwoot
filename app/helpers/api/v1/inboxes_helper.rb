@@ -22,7 +22,8 @@ module Api::V1::InboxesHelper
                                 port: channel_data[:imap_port],
                                 user_name: channel_data[:imap_login],
                                 password: channel_data[:imap_password],
-                                enable_ssl: channel_data[:imap_enable_ssl] }
+                                enable_ssl: channel_data[:imap_enable_ssl],
+                                authentication: channel_data[:imap_authentication] || 'PLAIN' }
     end
 
     check_imap_connection(channel_data)

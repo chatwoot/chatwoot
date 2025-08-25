@@ -742,7 +742,8 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Enable SSL",
+      "AUTH_MECHANISM": "Authentication"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

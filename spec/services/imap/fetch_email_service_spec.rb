@@ -12,12 +12,62 @@ RSpec.describe Imap::FetchEmailService do
     before do
       allow(Rails).to receive(:logger).and_return(logger)
       allow(Net::IMAP).to receive(:new).with(
-        imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: true
+        imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
       ).and_return(imap)
       allow(imap).to receive(:authenticate).with(
         'PLAIN', imap_email_channel.imap_login, imap_email_channel.imap_password
       )
       allow(imap).to receive(:select).with('INBOX')
+    end
+
+    context 'when using CRAM-MD5 authentication' do
+      let(:cram_md5_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'CRAM-MD5') }
+
+      before do
+        allow(Net::IMAP).to receive(:new).with(
+          cram_md5_channel.imap_address, port: cram_md5_channel.imap_port, ssl: cram_md5_channel.imap_enable_ssl
+        ).and_return(imap)
+        allow(imap).to receive(:authenticate).with(
+          'CRAM-MD5', cram_md5_channel.imap_login, cram_md5_channel.imap_password
+        )
+        allow(imap).to receive(:select).with('INBOX')
+      end
+
+      it 'uses CRAM-MD5 authentication' do
+        allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([])
+        allow(imap).to receive(:logout)
+
+        described_class.new(channel: cram_md5_channel).perform
+
+        expect(imap).to have_received(:authenticate).with(
+          'CRAM-MD5', cram_md5_channel.imap_login, cram_md5_channel.imap_password
+        )
+      end
+    end
+
+    context 'when using LOGIN authentication' do
+      let(:login_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'LOGIN') }
+
+      before do
+        allow(Net::IMAP).to receive(:new).with(
+          login_channel.imap_address, port: login_channel.imap_port, ssl: login_channel.imap_enable_ssl
+        ).and_return(imap)
+        allow(imap).to receive(:login).with(
+          login_channel.imap_login, login_channel.imap_password
+        )
+        allow(imap).to receive(:select).with('INBOX')
+      end
+
+      it 'uses LOGIN authentication' do
+        allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([])
+        allow(imap).to receive(:logout)
+
+        described_class.new(channel: login_channel).perform
+
+        expect(imap).to have_received(:login).with(
+          login_channel.imap_login, login_channel.imap_password
+        )
+      end
     end
 
     context 'when new emails are available in the mailbox' do
