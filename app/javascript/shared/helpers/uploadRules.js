@@ -14,6 +14,15 @@ export const INBOX_TYPES = {
   VOICE: 'Channel::Voice',
 };
 
+// ---------- Docs ----------
+/**
+ * LINE: https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
+ * INSTAGRAM: https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
+ * WHATSAPP CLOUD: https://developers.facebook.com/docs/whatsapp/cloud-api/reference/media#supported-media-types
+ * TWILIO WHATSAPP: https://www.twilio.com/docs/whatsapp/guidance-whatsapp-media-messages
+ * TWILIO SMS: https://www.twilio.com/docs/messaging/guides/accepted-mime-types
+
+
 // ---------- Central config ----------
 /**
  * Upload rules configuration.
