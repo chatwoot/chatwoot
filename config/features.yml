@@ -198,3 +198,7 @@
 - name: twilio_content_templates
   display_name: Twilio Content Templates
   enabled: false
+- name: saml
+  display_name: SAML
+  enabled: false
+  premium: true
