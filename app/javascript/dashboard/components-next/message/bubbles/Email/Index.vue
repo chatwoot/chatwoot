@@ -41,9 +41,7 @@ const originalEmailText = computed(() => {
 });
 
 const originalEmailHtml = computed(
-  () =>
-    contentAttributes?.value?.email?.htmlContent?.full ??
-    originalEmailText.value
+  () => contentAttributes?.value?.email?.htmlContent?.full || ''
 );
 
 const messageContent = computed(() => {
