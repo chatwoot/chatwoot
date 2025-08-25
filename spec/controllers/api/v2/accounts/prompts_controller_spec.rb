@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V2::Accounts::PromptsController', type: :request do
   let(:account) { create(:account) }
+  # Create test prompts using the factory
+  let!(:account_prompt_1) { create(:account_prompt, :greeting, account: account) }
+  let!(:account_prompt_2) { create(:account_prompt, :closing, account: account) }
+  let!(:account_prompt_3) { create(:account_prompt, account: account, prompt_key: 'follow_up', text: 'Any other questions?') }
+  # Create prompts for another account to test authorization
+  let!(:other_account_prompt) { create(:account_prompt, account: another_account, prompt_key: 'other_greeting', text: 'Other account greeting') }
   let(:another_account) { create(:account) }
   let(:administrator) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
@@ -12,14 +18,6 @@ RSpec.describe 'Api::V2::Accounts::PromptsController', type: :request do
     account.enable_features('prompts')
     another_account.enable_features('prompts')
   end
-
-  # Create test prompts using the factory
-  let!(:account_prompt_1) { create(:account_prompt, :greeting, account: account) }
-  let!(:account_prompt_2) { create(:account_prompt, :closing, account: account) }
-  let!(:account_prompt_3) { create(:account_prompt, account: account, prompt_key: 'follow_up', text: 'Any other questions?') }
-
-  # Create prompts for another account to test authorization
-  let!(:other_account_prompt) { create(:account_prompt, account: another_account, prompt_key: 'other_greeting', text: 'Other account greeting') }
 
   describe 'GET /api/v2/accounts/:account_id/prompts' do
     context 'when it is an unauthenticated user' do

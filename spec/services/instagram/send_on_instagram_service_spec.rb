@@ -136,7 +136,7 @@ describe Instagram::SendOnInstagramService do
           expect(Instagram::AudioConversionService).to have_received(:convert_to_instagram_format).with(attachment)
         end
 
-                it 'if message with non-audio attachment uses original download URL' do
+        it 'if message with non-audio attachment uses original download URL' do
           message = build(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
           attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
           attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
@@ -146,7 +146,7 @@ describe Instagram::SendOnInstagramService do
           allow(Instagram::AudioConversionService).to receive(:convert_to_instagram_format).and_call_original
 
           response = described_class.new(message: message).perform
-          
+
           expect(response['message_id']).to eq('random_message_id')
           expect(Instagram::AudioConversionService).not_to have_received(:convert_to_instagram_format)
         end
