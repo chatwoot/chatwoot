@@ -72,7 +72,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import FileKnowledgeSources from '../knowledge-sources/FileKnowledgeSources.vue'
 import QnaKnowledgeSources from '../knowledge-sources/QnaKnowledgeSources.vue'
@@ -100,7 +100,7 @@ const config = reactive({
   ticketCreateWhen: 'always'
 })
 
-const tabs = [
+const tabs = computed(() => [
   {
     key: '0',
     index: 0,
@@ -137,7 +137,7 @@ const tabs = [
   //   name: 'Catalog',
   //   icon: 'shopping-cart',
   // },
-]
+])
 
 const activeIndex = ref(0)
 
