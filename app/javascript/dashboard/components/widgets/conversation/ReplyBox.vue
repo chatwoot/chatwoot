@@ -15,7 +15,7 @@ import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
-import Banner from 'dashboard/components/ui/Banner.vue';
+import ReplyBoxBanner from './ReplyBoxBanner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
@@ -32,7 +32,6 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
-import { CMD_REOPEN_CONVERSATION } from 'dashboard/helper/commandbar/events';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
   appendSignature,
@@ -53,8 +52,8 @@ export default {
     ArticleSearchPopover,
     AttachmentPreview,
     AudioRecorder,
-    Banner,
     CannedResponse,
+    ReplyBoxBanner,
     EmojiInput,
     MessageSignatureMissingAlert,
     ReplyBottomPanel,
@@ -155,47 +154,6 @@ export default {
       }
 
       return false;
-    },
-    assignedAgent: {
-      get() {
-        return this.currentChat.meta.assignee;
-      },
-      set(agent) {
-        const agentId = agent ? agent.id : 0;
-        this.$store.dispatch('setCurrentChatAssignee', agent);
-        this.$store
-          .dispatch('assignAgent', {
-            conversationId: this.currentChat.id,
-            agentId,
-          })
-          .then(() => {
-            useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
-          });
-      },
-    },
-    showSelfAssignBanner() {
-      if (this.message !== '' && !this.isOnPrivateNote) {
-        if (!this.assignedAgent) {
-          return true;
-        }
-        if (this.assignedAgent.id !== this.currentUser.id) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    showBotHandoffBanner() {
-      return (
-        this.message !== '' &&
-        !this.isOnPrivateNote &&
-        this.currentChat.status === wootConstants.STATUS_TYPE.PENDING
-      );
-    },
-    botHandoffActionLabel() {
-      return this.assignedAgent?.id === this.currentUser.id
-        ? this.$t('CONVERSATION.BOT_HANDOFF_REOPEN_ACTION')
-        : this.$t('CONVERSATION.BOT_HANDOFF_ACTION');
     },
     showWhatsappTemplates() {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
@@ -672,35 +630,6 @@ export default {
     hideWhatsappTemplatesModal() {
       this.showWhatsAppTemplatesModal = false;
     },
-    onClickSelfAssign() {
-      const {
-        account_id,
-        availability_status,
-        available_name,
-        email,
-        id,
-        name,
-        role,
-        avatar_url,
-      } = this.currentUser;
-      const selfAssign = {
-        account_id,
-        availability_status,
-        available_name,
-        email,
-        id,
-        name,
-        role,
-        thumbnail: avatar_url,
-      };
-      this.assignedAgent = selfAssign;
-    },
-    async onClickBotHandoff() {
-      await emitter.emit(CMD_REOPEN_CONVERSATION);
-      // Only assign to self if not already assigned to current user
-      if (this.assignedAgent?.id !== this.currentUser.id)
-        await this.onClickSelfAssign();
-    },
     confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
@@ -1114,26 +1043,7 @@ export default {
 </script>
 
 <template>
-  <Banner
-    v-if="showSelfAssignBanner && !showBotHandoffBanner"
-    action-button-variant="ghost"
-    color-scheme="secondary"
-    class="mx-2 mb-2 rounded-lg !py-2"
-    :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
-    has-action-button
-    :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-    @primary-action="onClickSelfAssign"
-  />
-  <Banner
-    v-if="showBotHandoffBanner"
-    action-button-variant="ghost"
-    color-scheme="secondary"
-    class="mx-2 mb-2 rounded-lg !py-2"
-    :banner-message="$t('CONVERSATION.BOT_HANDOFF_MESSAGE')"
-    has-action-button
-    :action-button-label="botHandoffActionLabel"
-    @primary-action="onClickBotHandoff"
-  />
+  <ReplyBoxBanner :message="message" :is-on-private-note="isOnPrivateNote" />
   <div ref="replyEditor" class="reply-box" :class="replyBoxClass">
     <ReplyTopPanel
       :mode="replyType"
