@@ -12,7 +12,7 @@ FactoryBot.define do
       cert.subject = OpenSSL::X509::Name.parse('/C=US/ST=Test/L=Test/O=Test/CN=test.example.com')
       cert.issuer = cert.subject
       cert.public_key = key.public_key
-      cert.not_before = Time.now
+      cert.not_before = Time.zone.now
       cert.not_after = cert.not_before + (365 * 24 * 60 * 60)
       cert.sign(key, OpenSSL::Digest.new('SHA256'))
       cert.to_pem

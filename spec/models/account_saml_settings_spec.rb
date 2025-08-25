@@ -59,7 +59,7 @@ RSpec.describe AccountSamlSettings, type: :model do
         cert.subject = OpenSSL::X509::Name.parse('/C=US/ST=Test/L=Test/O=Test/CN=different.example.com')
         cert.issuer = cert.subject
         cert.public_key = key.public_key
-        cert.not_before = Time.now
+        cert.not_before = Time.zone.now
         cert.not_after = cert.not_before + (365 * 24 * 60 * 60)
         cert.sign(key, OpenSSL::Digest.new('SHA256'))
         new_cert = cert.to_pem
@@ -152,8 +152,8 @@ RSpec.describe AccountSamlSettings, type: :model do
         enabled_setting = create(:account_saml_settings, :enabled, account: account)
         disabled_setting = create(:account_saml_settings, enabled: false)
 
-        expect(AccountSamlSettings.enabled).to include(enabled_setting)
-        expect(AccountSamlSettings.enabled).not_to include(disabled_setting)
+        expect(described_class.enabled).to include(enabled_setting)
+        expect(described_class.enabled).not_to include(disabled_setting)
       end
     end
   end
