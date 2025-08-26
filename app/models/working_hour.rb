@@ -30,7 +30,7 @@ class WorkingHour < ApplicationRecord
   before_validation :ensure_open_all_day_hours
   before_save :assign_account
 
-  validates :workable_type, presence: true, inclusion: { in: %w[Inbox Agent] }
+  validates :workable_type, presence: true, inclusion: { in: %w[Inbox User] }
   validates :workable_id,   presence: true
 
   validates :open_hour,     presence: true, unless: :closed_all_day?
@@ -75,8 +75,7 @@ class WorkingHour < ApplicationRecord
   private
 
   def assign_account
-    # Agregar un or en caso de que sea un agent
-    self.account_id = workable.account_id
+    self.account_id = Current.account.id
   end
 
   def close_after_open

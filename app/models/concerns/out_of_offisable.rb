@@ -31,7 +31,7 @@ module OutOfOffisable
   #      "close_hour"=>17,
   #      "close_minutes"=>0,
   #      "open_all_day=>false" },...]
-  def update_working_hours(params) # This is the method to save the working hours
+  def update_working_hours(params)
     ActiveRecord::Base.transaction do
       params.each do |working_hour|
         working_hours.find_by(day_of_week: working_hour['day_of_week']).update(working_hour.slice(*OFFISABLE_ATTRS))
