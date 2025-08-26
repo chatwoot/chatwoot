@@ -102,7 +102,7 @@ onMounted(() => {
 <template>
   <div class="w-full p-8 overflow-auto">
     <div
-      class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3 lg:grid-cols-4"
+      class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3"
     >
       <ChannelItem
         v-for="channel in channelList"
