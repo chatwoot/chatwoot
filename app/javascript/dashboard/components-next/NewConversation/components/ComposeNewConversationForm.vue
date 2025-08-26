@@ -266,7 +266,6 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
 };
 
 const handleSendTwilioMessage = async ({ message, templateParams }) => {
-  // For Twilio, we can reuse the WhatsApp payload structure since it's similar
   const twilioMessagePayload = prepareWhatsAppMessagePayload({
     targetInbox: props.targetInbox,
     selectedContact: props.selectedContact,
@@ -276,9 +275,17 @@ const handleSendTwilioMessage = async ({ message, templateParams }) => {
   });
   await emit('createConversation', {
     payload: twilioMessagePayload,
-    isFromWhatsApp: false, // Set to false for Twilio
+    isFromWhatsApp: true,
   });
 };
+
+const shouldShowMessageEditor = computed(() => {
+  return (
+    !inboxTypes.value.isWhatsapp &&
+    !showNoInboxAlert.value &&
+    !inboxTypes.value.isTwilioWhatsapp
+  );
+});
 </script>
 
 <template>
@@ -329,11 +336,7 @@ const handleSendTwilioMessage = async ({ message, templateParams }) => {
     />
 
     <MessageEditor
-      v-if="
-        !inboxTypes.isWhatsapp &&
-        !showNoInboxAlert &&
-        !inboxTypes.isTwilioWhatsapp
-      "
+      v-if="shouldShowMessageEditor"
       v-model="state.message"
       :message-signature="messageSignature"
       :send-with-signature="sendWithSignature"

@@ -70,6 +70,16 @@ const showTwilioContentTemplates = computed(() => {
   return props.isTwilioWhatsAppInbox && props.inboxId;
 });
 
+const shouldShowEmojiButton = computed(() => {
+  return (
+    !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox && !props.hasNoInbox
+  );
+});
+
+const isRegularMessageMode = computed(() => {
+  return !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox;
+});
+
 const setSignature = () => {
   if (signatureToApply.value) {
     if (sendWithSignature.value) {
@@ -132,8 +142,7 @@ const keyboardEvents = {
     action: () => {
       if (
         isEditorHotKeyEnabled('enter') &&
-        !props.isWhatsappInbox &&
-        !showTwilioContentTemplates.value &&
+        isRegularMessageMode.value &&
         !props.isDropdownActive
       ) {
         emit('sendMessage');
@@ -144,8 +153,7 @@ const keyboardEvents = {
     action: () => {
       if (
         isEditorHotKeyEnabled('cmd_enter') &&
-        !props.isWhatsappInbox &&
-        !showTwilioContentTemplates.value &&
+        isRegularMessageMode.value &&
         !props.isDropdownActive
       ) {
         emit('sendMessage');
@@ -173,7 +181,7 @@ useKeyboardEvents(keyboardEvents);
         @send-message="emit('sendTwilioMessage', $event)"
       />
       <div
-        v-if="!isWhatsappInbox && !showTwilioContentTemplates && !hasNoInbox"
+        v-if="shouldShowEmojiButton"
         v-on-click-outside="() => (isEmojiPickerOpen = false)"
         class="relative"
       >
@@ -213,9 +221,7 @@ useKeyboardEvents(keyboardEvents);
         />
       </FileUpload>
       <Button
-        v-if="
-          hasSelectedInbox && !isWhatsappInbox && !showTwilioContentTemplates
-        "
+        v-if="hasSelectedInbox && isRegularMessageMode"
         icon="i-lucide-signature"
         color="slate"
         size="sm"
@@ -234,7 +240,7 @@ useKeyboardEvents(keyboardEvents);
         @click="emit('discard')"
       />
       <Button
-        v-if="!isWhatsappInbox && !showTwilioContentTemplates"
+        v-if="isRegularMessageMode"
         :label="sendButtonLabel"
         size="sm"
         class="!text-xs font-medium"

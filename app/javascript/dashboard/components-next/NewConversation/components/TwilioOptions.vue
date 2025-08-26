@@ -38,16 +38,6 @@ const filteredTemplates = computed(() => {
   );
 });
 
-const getTemplateType = template => {
-  if (template.template_type === 'media') {
-    return 'Media';
-  }
-  if (template.template_type === 'quick_reply') {
-    return 'Quick Reply';
-  }
-  return 'Text';
-};
-
 const handleTriggerClick = () => {
   searchQuery.value = '';
   showTemplatesMenu.value = !showTemplatesMenu.value;
@@ -87,7 +77,7 @@ const handleSendMessage = template => {
       <div class="relative w-full">
         <Icon
           icon="i-lucide-search"
-          class="absolute size-3.5 top-2 ltr:left-3 rtl:right-3"
+          class="absolute top-2 size-3.5 ltr:left-3 rtl:right-3"
         />
         <input
           v-model="searchQuery"
@@ -95,7 +85,7 @@ const handleSendMessage = template => {
           :placeholder="
             t('COMPOSE_NEW_CONVERSATION.FORM.TWILIO_OPTIONS.SEARCH_PLACEHOLDER')
           "
-          class="w-full h-8 py-2 ltr:pl-10 rtl:pr-10 ltr:pr-2 rtl:pl-2 text-sm reset-base outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          class="py-2 w-full h-8 text-sm rounded-lg border-none outline-none ltr:pl-10 rtl:pr-10 ltr:pr-2 rtl:pl-2 reset-base bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
         />
       </div>
       <div
@@ -108,18 +98,6 @@ const handleSendMessage = template => {
           <span class="text-sm text-n-slate-12">{{
             template.friendly_name
           }}</span>
-          <div class="flex gap-1">
-            <span
-              class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
-            >
-              {{ getTemplateType(template) }}
-            </span>
-            <span
-              class="inline-block px-2 py-1 text-xs leading-none rounded-lg cursor-default bg-n-slate-3 text-n-slate-12"
-            >
-              {{ template.language }}
-            </span>
-          </div>
         </div>
         <p class="mb-0 text-xs leading-5 text-n-slate-11 line-clamp-2">
           {{ template.body || 'No content' }}

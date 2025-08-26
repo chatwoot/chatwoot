@@ -25,7 +25,7 @@ export const generateLabelForContactableInboxesList = ({
     channelType === INBOX_TYPES.TWILIO ||
     channelType === INBOX_TYPES.WHATSAPP
   ) {
-    return `${name} (${phoneNumber})`;
+    return phoneNumber ? `${name} (${phoneNumber})` : name;
   }
   return name;
 };
