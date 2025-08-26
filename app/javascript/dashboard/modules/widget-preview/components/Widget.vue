@@ -78,6 +78,12 @@ export default {
       replaceInstallationName,
     };
   },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+    };
+  },
   data() {
     return {
       widgetScreens: [

@@ -277,7 +277,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.jsonb "audience", default: []
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
-    t.jsonb "template_params", default: {}, null: false
+    t.jsonb "template_params"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"
@@ -799,6 +799,26 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.index ["inbox_id"], name: "index_inbox_capacity_limits_on_inbox_id"
   end
 
+  create_table "inbox_assignment_policies", force: :cascade do |t|
+    t.bigint "inbox_id", null: false
+    t.bigint "assignment_policy_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_policy_id"], name: "index_inbox_assignment_policies_on_assignment_policy_id"
+    t.index ["inbox_id"], name: "index_inbox_assignment_policies_on_inbox_id", unique: true
+  end
+
+  create_table "inbox_capacity_limits", force: :cascade do |t|
+    t.bigint "agent_capacity_policy_id", null: false
+    t.bigint "inbox_id", null: false
+    t.integer "conversation_limit", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_capacity_policy_id", "inbox_id"], name: "idx_on_agent_capacity_policy_id_inbox_id_71c7ec4caf", unique: true
+    t.index ["agent_capacity_policy_id"], name: "index_inbox_capacity_limits_on_agent_capacity_policy_id"
+    t.index ["inbox_id"], name: "index_inbox_capacity_limits_on_inbox_id"
+  end
+
   create_table "inbox_members", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "inbox_id", null: false
@@ -1015,8 +1035,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
 
   create_table "platform_apps", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "portals", force: :cascade do |t|
@@ -1028,8 +1048,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.string "homepage_link"
     t.string "page_title"
     t.text "header_text"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "config", default: {"allowed_locales" => ["en"]}
     t.boolean "archived", default: false
     t.bigint "channel_web_widget_id"
