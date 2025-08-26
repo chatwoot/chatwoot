@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible" class="agent-message-wrap">
+  <div class="agent-message-wrap">
     <div class="agent-message">
       <!-- <div class="avatar-wrap" /> -->
       <div class="message-wrap mt-2">
@@ -22,33 +22,6 @@ import darkModeMixing from 'widget/mixins/darkModeMixin.js';
 export default {
   name: 'AgentTypingBubble',
   mixins: [darkModeMixing],
-  data() {
-    return {
-      isVisible: true,
-      timeout: null,
-    };
-  },
-  mounted() {
-    this.startHideTimer();
-  },
-  beforeDestroy() {
-    // Clean up the timeout when component is destroyed
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-  },
-  methods: {
-    startHideTimer() {
-      // Clear any existing timeout
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-      }
-      // Set a new timeout to hide the bubble after 15 seconds
-      this.timeout = setTimeout(() => {
-        this.isVisible = false;
-      }, 20000);
-    },
-  },
 };
 </script>
 
