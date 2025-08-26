@@ -26,18 +26,24 @@ class Platform::Api::V1::AccountsController < PlatformController
   end
 
   def account_params
-    permitted_params.except(:features)
+    permitted_params.except(:features, :custom_features)
   end
 
   def update_resource_features
-    return if permitted_params[:features].blank?
+    return if permitted_params[:features].blank? && permitted_params[:custom_features].blank?
 
-    permitted_params[:features].each do |key, value|
-      value.present? ? @resource.enable_features(key) : @resource.disable_features(key)
+    if permitted_params[:features].present?
+      permitted_params[:features].each do |key, value|
+        value.present? ? @resource.enable_features(key) : @resource.disable_features(key)
+      end
+    end
+
+    if permitted_params[:custom_features].present?
+      @resource.custom_features = permitted_params[:custom_features]
     end
   end
 
   def permitted_params
-    params.permit(:name, :locale, :domain, :support_email, :status, features: {}, limits: {}, custom_attributes: {})
+    params.permit(:name, :locale, :domain, :support_email, :status, features: {}, limits: {}, custom_attributes: {}, custom_features: [])
   end
 end

@@ -37,7 +37,23 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     permitted_params = super
     permitted_params[:limits] = permitted_params[:limits].to_h.compact
     permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym) if params[:enabled_features].present?
+
+    # Ensure empty custom_features array when no checkboxes selected
+    permitted_params[:custom_features] ||= [] if permitted_params.key?(:custom_features)
+
     permitted_params
+  end
+
+  def permitted_attributes(action)
+    attrs = super + [limits: {}]
+
+    # Add manually_managed_features to permitted attributes for all enterprise deployments
+    attrs << { manually_managed_features: [] }
+
+    # Add custom_features to permitted attributes for all enterprise deployments
+    attrs << { custom_features: [] }
+
+    attrs
   end
 
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions

@@ -126,10 +126,16 @@ export function usePolicy() {
     return false;
   };
 
+  const isCustomFeatureEnabled = featureName => {
+    const account = useMapGetter('accounts/getAccount').value(accountId.value);
+    return account?.custom_features?.includes(featureName) || false;
+  };
+
   return {
     checkPermissions,
     shouldShowPaywall,
     isFeatureFlagEnabled,
     shouldShow,
+    isCustomFeatureEnabled,
   };
 }

@@ -161,6 +161,50 @@ class Account < ApplicationRecord
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
+  def custom_feature_enabled?(feature_name)
+    return false unless defined?(CustomFeaturesManagerService)
+
+    CustomFeaturesManagerService.instance.custom_feature_enabled?(self, feature_name)
+  end
+
+  def custom_features
+    return [] unless defined?(CustomFeaturesManagerService)
+
+    CustomFeaturesManagerService.instance.get_custom_features(self)
+  end
+
+  def custom_features=(features)
+    return unless defined?(CustomFeaturesManagerService)
+
+    CustomFeaturesManagerService.instance.set_custom_features(self, features)
+  end
+
+  def feature_enabled?(name)
+    if respond_to?("feature_#{name}?")
+      return send("feature_#{name}?")
+    end
+    custom_feature_enabled?(name)
+  end
+
+  def enable_features(*names)
+    names.each do |name|
+      if respond_to?("feature_#{name}=")
+        send("feature_#{name}=", true)
+      else
+        current_features = custom_features
+        unless current_features.include?(name)
+          current_features << name
+          self.custom_features = current_features
+        end
+      end
+    end
+  end
+
+  def enable_features!(*names)
+    enable_features(*names)
+    save
+  end
+
   private
 
   def notify_creation
