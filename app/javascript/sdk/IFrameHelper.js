@@ -102,8 +102,7 @@ export const IFrameHelper = {
     window.onmessage = e => {
       if (
         typeof e.data !== 'string' ||
-        e.data.indexOf('chatwoot-widget:') !== 0 ||
-        e.origin !== window.location.origin
+        e.data.indexOf('chatwoot-widget:') !== 0
       ) {
         return;
       }
@@ -142,8 +141,7 @@ export const IFrameHelper = {
   },
 
   setupAudioListeners: () => {
-    let { baseUrl = '' } = window.$chatwoot;
-
+    const { baseUrl = '' } = window.$chatwoot;
     getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
