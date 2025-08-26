@@ -6,6 +6,7 @@
 #  email                     :string           not null
 #  forward_to_email          :string           not null
 #  imap_address              :string           default("")
+#  imap_authentication       :string           default("plain")
 #  imap_enable_ssl           :boolean          default(TRUE)
 #  imap_enabled              :boolean          default(FALSE)
 #  imap_login                :string           default("")
