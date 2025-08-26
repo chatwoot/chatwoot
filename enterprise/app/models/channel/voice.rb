@@ -30,6 +30,7 @@ class Channel::Voice < ApplicationRecord
 
   # Provider-specific configs stored in JSON
   validate :validate_provider_config
+  before_validation :provision_twilio_on_create, on: :create, if: :twilio?
 
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
 
@@ -41,7 +42,22 @@ class Channel::Voice < ApplicationRecord
     false
   end
 
+  # Public URLs used to configure Twilio webhooks
+  def voice_call_webhook_url
+    base = ENV.fetch('FRONTEND_URL', '').to_s.sub(%r{/*$}, '')
+    "#{base}/twilio/voice/call/#{phone_number}"
+  end
+
+  def voice_status_webhook_url
+    base = ENV.fetch('FRONTEND_URL', '').to_s.sub(%r{/*$}, '')
+    "#{base}/twilio/voice/status/#{phone_number}"
+  end
+
   private
+
+  def twilio?
+    provider == 'twilio'
+  end
 
   def validate_provider_config
     return if provider_config.blank?
@@ -54,10 +70,30 @@ class Channel::Voice < ApplicationRecord
 
   def validate_twilio_config
     config = provider_config.with_indifferent_access
-    required_keys = %w[account_sid auth_token api_key_sid api_key_secret]
-
+    # Require credentials and provisioned TwiML App SID
+    required_keys = %w[account_sid auth_token api_key_sid api_key_secret twiml_app_sid]
     required_keys.each do |key|
       errors.add(:provider_config, "#{key} is required for Twilio provider") if config[key].blank?
     end
+  end
+
+  def provision_twilio_on_create
+    service = ::Twilio::VoiceWebhookSetupService.new(channel: self)
+    app_sid = service.perform
+    return if app_sid.blank?
+
+    cfg = provider_config.with_indifferent_access
+    cfg[:twiml_app_sid] = app_sid
+    self.provider_config = cfg
+  rescue StandardError => e
+    error_details = {
+      error_class: e.class.to_s,
+      message: e.message,
+      phone_number: phone_number,
+      account_id: account_id,
+      backtrace: e.backtrace&.first(5)
+    }
+    Rails.logger.error("TWILIO_VOICE_SETUP_ON_CREATE_ERROR: #{error_details}")
+    errors.add(:base, "Twilio setup failed: #{e.message}")
   end
 end

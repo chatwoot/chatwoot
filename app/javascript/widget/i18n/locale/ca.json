@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "No s'ha pogut enviar, torna-ho a provar"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Estem en línia",
     "OFFLINE": "Estem fora en aquest moment"
