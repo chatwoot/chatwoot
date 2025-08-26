@@ -80,6 +80,22 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     }
   end
 
+  def check_cloud_env
+    render json: { error: 'Not found' }, status: :not_found unless ChatwootApp.chatwoot_cloud?
+  end
+
+  def default_limits
+    {
+      'conversation' => {},
+      'non_web_inboxes' => {},
+      'agents' => {
+        'allowed' => @account.usage_limits[:agents],
+        'consumed' => agents(@account)
+      },
+      'captain' => @account.usage_limits[:captain]
+    }
+  end
+
   def fetch_account
     @account = current_user.accounts.find(params[:id])
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)

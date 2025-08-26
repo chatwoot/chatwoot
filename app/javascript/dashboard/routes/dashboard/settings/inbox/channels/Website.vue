@@ -142,22 +142,20 @@ export default {
           />
         </label>
       </div>
-      <div class="w-full">
-        <label>
-          {{
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
-          }}
-          <input
-            v-model="channelWelcomeTagline"
-            type="text"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
-              )
-            "
-          />
-        </label>
-      </div>
+      <Editor
+        v-model="channelWelcomeTagline"
+        :label="
+          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
+        "
+        :placeholder="
+          $t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+          )
+        "
+        :max-length="255"
+        :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+        class="mb-4"
+      />
       <div class="w-full">
         <label>
           {{ $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.LABEL') }}
