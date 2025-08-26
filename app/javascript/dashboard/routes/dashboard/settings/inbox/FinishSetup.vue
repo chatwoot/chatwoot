@@ -230,46 +230,47 @@ onMounted(() => {
         </div>
         <div
           v-if="isAWhatsAppChannel && qrCodes.whatsapp"
-          class="flex flex-col items-center mt-8"
+          class="flex flex-col items-center mt-8 gap-3"
         >
           <p class="mt-2 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION') }}
           </p>
-          <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
+          <div class="outline-1 outline-n-strong outline rounded-lg shadow">
             <img
               :src="qrCodes.whatsapp"
               alt="WhatsApp QR Code"
-              class="w-48 h-48"
+              class="size-48 dark:invert rounded-lg"
             />
           </div>
         </div>
         <div
           v-if="isAFacebookInbox && qrCodes.messenger"
-          class="flex flex-col items-center mt-8"
+          class="flex flex-col items-center mt-8 gap-3"
         >
           <p class="mt-2 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_INSTRUCTION') }}
           </p>
-          <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
+          <div class="outline-1 outline-n-strong outline rounded-lg shadow">
             <img
               :src="qrCodes.messenger"
               alt="Messenger QR Code"
-              class="w-48 h-48"
+              class="size-48 dark:invert rounded-lg"
             />
           </div>
         </div>
         <div
           v-if="isATelegramChannel && qrCodes.telegram"
-          class="flex flex-col items-center mt-8"
+          class="flex flex-col items-center mt-8 gap-4"
         >
           <p class="mt-2 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_INSTRUCTION') }}
           </p>
-          <div class="p-4 bg-white rounded-lg border shadow-lg border-n-weak">
+
+          <div class="outline-1 outline-n-strong outline rounded-lg shadow">
             <img
               :src="qrCodes.telegram"
               alt="Telegram QR Code"
-              class="w-48 h-48"
+              class="size-48 dark:invert rounded-lg"
             />
           </div>
         </div>
