@@ -23,13 +23,13 @@ const searchQuery = ref('');
 const selectedTemplate = ref(null);
 const showTemplatesMenu = ref(false);
 
-const twilioTemplates = computed(() => {
+const contentTemplates = computed(() => {
   const inboxData = inbox.value(props.inboxId);
   return inboxData?.content_templates?.templates || [];
 });
 
 const filteredTemplates = computed(() => {
-  return twilioTemplates.value.filter(
+  return contentTemplates.value.filter(
     template =>
       template.friendly_name
         .toLowerCase()
@@ -91,6 +91,7 @@ const handleSendMessage = template => {
       <div
         v-for="template in filteredTemplates"
         :key="template.content_sid"
+        tabindex="0"
         class="flex flex-col gap-2 p-2 w-full rounded-lg cursor-pointer dark:hover:bg-n-alpha-3 hover:bg-n-alpha-1"
         @click="handleTemplateClick(template)"
       >
@@ -100,7 +101,7 @@ const handleSendMessage = template => {
           }}</span>
         </div>
         <p class="mb-0 text-xs leading-5 text-n-slate-11 line-clamp-2">
-          {{ template.body || 'No content' }}
+          {{ template.body || t('CONTENT_TEMPLATES.PICKER.NO_CONTENT') }}
         </p>
       </div>
       <template v-if="filteredTemplates.length === 0">
