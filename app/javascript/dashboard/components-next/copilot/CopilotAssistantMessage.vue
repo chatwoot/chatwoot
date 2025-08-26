@@ -24,6 +24,7 @@ const props = defineProps({
     required: true,
   },
 });
+const hasEmptyMessageContent = computed(() => !props.message?.content);
 
 const showUseButton = computed(() => {
   return (
@@ -43,8 +44,6 @@ const insertIntoRichEditor = computed(() => {
     props.conversationInboxType
   );
 });
-
-const hasEmptyMessageContent = computed(() => !props.message?.content);
 
 const useCopilotResponse = () => {
   if (insertIntoRichEditor.value) {

@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { formatNumber } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useI18n } from 'vue-i18n';
 
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';

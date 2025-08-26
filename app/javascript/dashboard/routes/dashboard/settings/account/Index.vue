@@ -102,34 +102,6 @@ export default {
     currentAccount() {
       return this.getAccount(this.accountId) || {};
     },
-    confirmPlaceHolderText() {
-      return `${this.$t(
-        'GENERAL_SETTINGS.ACCOUNT_DELETE_SECTION.CONFIRM.PLACE_HOLDER',
-        {
-          accountName: this.name,
-        }
-      )}`;
-    },
-    isMarkedForDeletion() {
-      const { custom_attributes = {} } = this.currentAccount;
-      return !!custom_attributes.marked_for_deletion_at;
-    },
-    markedForDeletionDate() {
-      const { custom_attributes = {} } = this.currentAccount;
-      if (!custom_attributes.marked_for_deletion_at) return null;
-      return new Date(custom_attributes.marked_for_deletion_at);
-    },
-    markedForDeletionReason() {
-      const { custom_attributes = {} } = this.currentAccount;
-      return custom_attributes.marked_for_deletion_reason || 'manual_deletion';
-    },
-    formattedDeletionDate() {
-      if (!this.markedForDeletionDate) return '';
-      return this.markedForDeletionDate.toLocaleString();
-    },
-    currentAccount() {
-      return this.getAccount(this.accountId) || {};
-    },
   },
   mounted() {
     this.initializeAccount();
