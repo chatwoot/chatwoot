@@ -94,9 +94,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
-  >
+  <div class="w-full h-full col-span-6 p-6 overflow-auto">
     <DuplicateInboxBanner
       v-if="hasDuplicateInstagramInbox"
       :content="$t('INBOX_MGMT.ADD.INSTAGRAM.NEW_INBOX_SUGGESTION')"

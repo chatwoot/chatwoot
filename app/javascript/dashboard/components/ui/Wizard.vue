@@ -1,97 +1,75 @@
-<script>
-export default {
-  props: {
-    items: {
-      type: Array,
-      default: () => [],
-    },
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const props = defineProps({
+  items: {
+    type: Array,
+    default: () => [],
   },
-  computed: {
-    classObject() {
-      return 'w-full';
-    },
-    activeIndex() {
-      return this.items.findIndex(i => i.route === this.$route.name);
-    },
-  },
-  methods: {
-    isActive(item) {
-      return this.items.indexOf(item) === this.activeIndex;
-    },
-    isOver(item) {
-      return this.items.indexOf(item) < this.activeIndex;
-    },
-  },
+});
+
+const route = useRoute();
+
+const activeIndex = computed(() => {
+  return props.items.findIndex(i => i.route === route.name);
+});
+
+const isActive = item => {
+  return props.items.indexOf(item) === activeIndex.value;
+};
+
+const isOver = item => {
+  return props.items.indexOf(item) < activeIndex.value;
 };
 </script>
 
 <template>
-  <transition-group
-    name="wizard-items"
-    tag="div"
-    class="wizard-box"
-    :class="classObject"
-  >
+  <transition-group name="wizard-items w-full" tag="div">
     <div
-      v-for="item in items"
+      v-for="(item, index) in items"
       :key="item.route"
-      class="item"
-      :class="{ active: isActive(item), over: isOver(item) }"
+      class="cursor-pointer flex items-start gap-6 relative after:content-[''] after:absolute after:w-0.5 after:h-full after:top-5 ltr:after:left-4 rtl:after:right-4 before:content-[''] before:absolute before:w-0.5 before:h-4 before:top-0 before:left-4 rtl:before:right-4 last:after:hidden last:before:hidden"
+      :class="
+        isOver(item)
+          ? 'after:bg-n-blue-9 before:bg-n-blue-9'
+          : 'after:bg-n-weak before:bg-n-weak'
+      "
     >
-      <div class="flex items-center">
-        <h3
-          class="text-n-slate-12 text-base font-medium pl-6 overflow-hidden whitespace-nowrap mt-0.5 text-ellipsis leading-tight"
+      <div
+        class="rounded-2xl flex-shrink-0 size-8 flex items-center justify-center left-2 outline outline-2 leading-4 z-10 top-5 bg-n-background"
+        :class="
+          isActive(item) || isOver(item) ? 'outline-n-blue-9' : 'outline-n-weak'
+        "
+      >
+        <span
+          class="text-xs font-bold"
+          :class="
+            isActive(item) || isOver(item)
+              ? 'text-n-blue-11'
+              : 'text-n-slate-11'
+          "
         >
-          {{ item.title }}
-        </h3>
-        <span v-if="isOver(item)" class="mx-1 mt-0.5 text-n-teal-9">
-          <fluent-icon icon="checkmark" />
+          {{ index + 1 }}
         </span>
       </div>
-      <span class="step">
-        {{ items.indexOf(item) + 1 }}
-      </span>
-      <p class="pl-6 m-0 mt-1.5 text-sm text-n-slate-11">
-        {{ item.body }}
-      </p>
+      <div class="flex flex-col items-start gap-1.5 pb-10 pt-1">
+        <div class="flex items-center">
+          <h3
+            class="text-sm font-medium overflow-hidden whitespace-nowrap mt-0.5 text-ellipsis leading-tight"
+            :class="
+              isActive(item) || isOver(item)
+                ? 'text-n-blue-11'
+                : 'text-n-slate-12'
+            "
+          >
+            {{ item.title }}
+          </h3>
+        </div>
+        <p class="m-0 mt-1.5 text-sm text-n-slate-11">
+          {{ item.body }}
+        </p>
+      </div>
     </div>
   </transition-group>
 </template>
-
-<style lang="scss" scoped>
-.wizard-box {
-  .item {
-    @apply cursor-pointer after:bg-n-slate-6 before:bg-n-slate-6 py-4 ltr:pr-4 rtl:pl-4 ltr:pl-6 rtl:pr-6 relative before:h-4 before:top-0 last:before:h-0 first:before:h-0 last:after:h-0 before:content-[''] before:absolute before:w-0.5 after:content-[''] after:h-full after:absolute after:top-5 after:w-0.5 rtl:after:left-6 rtl:before:left-6;
-
-    &.active {
-      h3 {
-        @apply text-n-blue-text dark:text-n-blue-text;
-      }
-
-      .step {
-        @apply bg-n-brand dark:bg-n-brand;
-      }
-    }
-
-    &.over {
-      &::after {
-        @apply bg-n-brand dark:bg-n-brand;
-      }
-
-      .step {
-        @apply bg-n-brand dark:bg-n-brand;
-      }
-
-      & + .item {
-        &::before {
-          @apply bg-n-brand dark:bg-n-brand;
-        }
-      }
-    }
-
-    .step {
-      @apply bg-n-slate-7 rounded-2xl font-medium w-4 left-4 leading-4 z-10 absolute text-center text-white dark:text-white text-xxs top-5;
-    }
-  }
-}
-</style>

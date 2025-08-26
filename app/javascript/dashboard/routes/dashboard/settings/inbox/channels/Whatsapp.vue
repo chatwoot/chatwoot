@@ -92,9 +92,7 @@ const shouldShowCloudWhatsapp = provider => {
 </script>
 
 <template>
-  <div
-    class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
-  >
+  <div class="overflow-auto col-span-6 p-6 w-full h-full">
     <div v-if="showProviderSelection">
       <div class="mb-10 text-left">
         <h1 class="mb-2 text-lg font-medium text-slate-12">
@@ -109,7 +107,7 @@ const shouldShowCloudWhatsapp = provider => {
         <div
           v-for="provider in availableProviders"
           :key="provider.value"
-          class="gap-6 px-5 py-6 w-96 rounded-2xl border transition-all duration-200 cursor-pointer border-n-weak hover:bg-n-slate-3"
+          class="gap-6 px-5 py-6 w-96 rounded-2xl border transition-all duration-200 cursor-pointer bg-n-solid-1 border-n-weak hover:bg-n-slate-3"
           @click="selectProvider(provider.value)"
         >
           <div class="flex justify-start mb-5">
