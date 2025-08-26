@@ -30,11 +30,11 @@ export default {
       login: '',
       password: '',
       isSSLEnabled: true,
-      authMechanism: 'PLAIN',
+      authMechanism: 'plain',
       authMechanisms: [
-        { key: 'PLAIN', value: 'PLAIN' },
-        { key: 'LOGIN', value: 'LOGIN' },
-        { key: 'CRAM-MD5', value: 'CRAM-MD5' },
+        { key: 1, value: 'plain' },
+        { key: 2, value: 'login' },
+        { key: 3, value: 'cram-md5' },
       ],
     };
   },
@@ -72,7 +72,7 @@ export default {
       this.login = imap_login;
       this.password = imap_password;
       this.isSSLEnabled = imap_enable_ssl;
-      this.authMechanism = imap_authentication || 'PLAIN';
+      this.authMechanism = imap_authentication || 'plain';
     },
     async updateInbox() {
       try {
@@ -161,6 +161,13 @@ export default {
             type="password"
             @blur="v$.password.$touch"
           />
+          <SingleSelectDropdown
+            class="max-w-[75%] w-full"
+            :label="$t('INBOX_MGMT.IMAP.AUTH_MECHANISM')"
+            :selected="authMechanism"
+            :options="authMechanisms"
+            :action="handleAuthMechanismChange"
+          />
           <label for="toggle-enable-ssl">
             <input
               v-model="isSSLEnabled"
@@ -170,13 +177,6 @@ export default {
             />
             {{ $t('INBOX_MGMT.IMAP.ENABLE_SSL') }}
           </label>
-          <SingleSelectDropdown
-            class="max-w-[75%] w-full"
-            :label="$t('INBOX_MGMT.IMAP.AUTH_MECHANISM')"
-            :selected="authMechanism"
-            :options="authMechanisms"
-            :action="handleAuthMechanismChange"
-          />
         </div>
         <NextButton
           type="submit"

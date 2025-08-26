@@ -34,7 +34,7 @@ FactoryBot.define do
       imap_login { 'email@example.com' }
       imap_password { 'random-password' }
       imap_enable_ssl { true }
-      imap_authentication { 'PLAIN' }
+      imap_authentication { 'plain' }
     end
   end
 end

@@ -108,14 +108,15 @@ class Imap::BaseFetchEmailService
   def build_imap_client
     imap = Net::IMAP.new(channel.imap_address, port: channel.imap_port, ssl: channel.imap_enable_ssl)
     
-    case authentication_type
-    when 'CRAM-MD5'
+    mech = authentication_type.to_s.downcase
+    case mech
+    when 'cram-md5'
       imap.authenticate('CRAM-MD5', channel.imap_login, imap_password)
-    when 'LOGIN'
+    when 'login'
       imap.login(channel.imap_login, imap_password)
     else
-      # Default to PLAIN authentication
-      imap.authenticate('PLAIN', channel.imap_login, imap_password)
+      # Default to plain authentication
+      imap.authenticate('plain', channel.imap_login, imap_password)
     end
     
     imap.select('INBOX')

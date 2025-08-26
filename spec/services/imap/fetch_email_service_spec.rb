@@ -15,13 +15,13 @@ RSpec.describe Imap::FetchEmailService do
         imap_email_channel.imap_address, port: imap_email_channel.imap_port, ssl: imap_email_channel.imap_enable_ssl
       ).and_return(imap)
       allow(imap).to receive(:authenticate).with(
-        'PLAIN', imap_email_channel.imap_login, imap_email_channel.imap_password
+        'plain', imap_email_channel.imap_login, imap_email_channel.imap_password
       )
       allow(imap).to receive(:select).with('INBOX')
     end
 
     context 'when using CRAM-MD5 authentication' do
-      let(:cram_md5_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'CRAM-MD5') }
+      let(:cram_md5_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'cram-md5') }
 
       before do
         allow(Net::IMAP).to receive(:new).with(
@@ -46,7 +46,7 @@ RSpec.describe Imap::FetchEmailService do
     end
 
     context 'when using LOGIN authentication' do
-      let(:login_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'LOGIN') }
+      let(:login_channel) { create(:channel_email, :imap_email, account: account, imap_authentication: 'login') }
 
       before do
         allow(Net::IMAP).to receive(:new).with(
