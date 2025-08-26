@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useBranding } from 'shared/composables/useBranding';
 
@@ -8,6 +9,7 @@ import PageHeader from '../SettingsSubPageHeader.vue';
 import Icon from 'next/icon/Icon.vue';
 
 const { t } = useI18n();
+const route = useRoute();
 const { replaceInstallationName } = useBranding();
 
 const globalConfig = useMapGetter('globalConfig/get');
@@ -47,6 +49,24 @@ const createFlowSteps = computed(() => {
   });
 });
 
+const isFirstStep = computed(() => {
+  return route.name === 'settings_inbox_new';
+});
+
+const isFinishStep = computed(() => {
+  return route.name === 'settings_inbox_finish';
+});
+
+const pageTitle = computed(() => {
+  if (isFirstStep.value) {
+    return t('INBOX_MGMT.ADD.AUTH.TITLE');
+  }
+  if (isFinishStep.value) {
+    return t('INBOX_MGMT.ADD.AUTH.TITLE_FINISH');
+  }
+  return t('INBOX_MGMT.ADD.AUTH.TITLE_NEXT');
+});
+
 const items = computed(() => {
   return createFlowSteps.value.map(item => ({
     ...item,
@@ -57,10 +77,7 @@ const items = computed(() => {
 
 <template>
   <div class="mx-2 flex flex-col gap-6 mb-8">
-    <PageHeader
-      class="block lg:hidden !mb-0"
-      :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
-    />
+    <PageHeader class="block lg:hidden !mb-0" :header-title="pageTitle" />
     <div class="hidden lg:grid grid-cols-1 lg:grid-cols-8 items-center gap-2">
       <div class="col-span-2 w-full" />
       <div class="flex items-center gap-2 col-span-6 ltr:ml-8 rtl:mr-8">

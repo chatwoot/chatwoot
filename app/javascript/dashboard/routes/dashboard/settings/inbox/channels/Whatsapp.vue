@@ -135,20 +135,18 @@ const shouldShowCloudWhatsapp = provider => {
     </div>
 
     <div v-else-if="showConfiguration">
-      <div class="px-6 py-5 rounded-2xl border bg-n-solid-2 border-n-weak">
-        <WhatsappEmbeddedSignup
-          v-if="shouldShowEmbeddedSignup(selectedProvider)"
-        />
-        <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
-        <Twilio
-          v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
-          type="whatsapp"
-        />
-        <ThreeSixtyDialogWhatsapp
-          v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
-        />
-        <CloudWhatsapp v-else />
-      </div>
+      <WhatsappEmbeddedSignup
+        v-if="shouldShowEmbeddedSignup(selectedProvider)"
+      />
+      <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
+      <Twilio
+        v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
+        type="whatsapp"
+      />
+      <ThreeSixtyDialogWhatsapp
+        v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
+      />
+      <CloudWhatsapp v-else />
     </div>
   </div>
 </template>
