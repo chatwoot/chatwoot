@@ -46,7 +46,7 @@ const getTemplateType = template => {
 const refreshTemplates = async () => {
   isRefreshing.value = true;
   try {
-    await store.dispatch('inboxes/syncTwilioTemplates', props.inboxId);
+    await store.dispatch('inboxes/syncTemplates', props.inboxId);
     useAlert(t('CONTENT_TEMPLATES.PICKER.REFRESH_SUCCESS'));
   } catch (error) {
     useAlert(t('CONTENT_TEMPLATES.PICKER.REFRESH_ERROR'));
