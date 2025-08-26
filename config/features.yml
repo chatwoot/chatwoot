@@ -191,3 +191,7 @@
   display_name: CRM V2
   enabled: false
   chatwoot_internal: true
+- name: assignment_v2
+  display_name: Assignment V2
+  enabled: false
+  chatwoot_internal: true

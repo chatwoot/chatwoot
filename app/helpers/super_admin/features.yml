@@ -1,12 +1,14 @@
 # TODO: Move this values to features.yml itself
 # No need to replicate the same values in two places
-# captain:
-#   name: 'Captain'
-#   description: 'Enable AI-powered conversations with your customers.'
-#   enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
-#   icon: 'icon-captain'
-#   config_key: 'captain'
-#   enterprise: true
+
+# ------- Premium Features ------- #
+captain:
+  name: 'Captain'
+  description: 'Enable AI-powered conversations with your customers.'
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  icon: 'icon-captain'
+  config_key: 'captain'
+  enterprise: true
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
@@ -106,12 +108,6 @@ linear:
   enabled: true
   icon: 'icon-linear'
   config_key: 'linear'
-instagram:
-  name: 'Instagram'
-  description: 'Configuration for setting up Instagram'
-  enabled: true
-  icon: 'icon-instagram'
-  config_key: 'instagram'
 notion:
   name: 'Notion'
   description: 'Configuration for setting up Notion Integration'
