@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Échec de l'envoi, veuillez réessayer"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Nous sommes en ligne",
     "OFFLINE": "Nous sommes absents pour le moment"

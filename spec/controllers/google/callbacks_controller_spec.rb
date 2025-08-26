@@ -4,11 +4,7 @@ RSpec.describe 'Google::CallbacksController', type: :request do
   let(:account) { create(:account) }
   let(:code) { SecureRandom.hex(10) }
   let(:email) { Faker::Internet.email }
-  let(:cache_key) { "google::#{email.downcase}" }
-
-  before do
-    Redis::Alfred.set(cache_key, account.id)
-  end
+  let(:state) { account.to_sgid(expires_in: 15.minutes).to_s }
 
   describe 'GET /google/callback' do
     let(:response_body_success) do
@@ -27,7 +23,7 @@ RSpec.describe 'Google::CallbacksController', type: :request do
                       'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback" })
         .to_return(status: 200, body: response_body_success.to_json, headers: { 'Content-Type' => 'application/json' })
 
-      get google_callback_url, params: { code: code }
+      get google_callback_url, params: { code: code, state: state }
 
       expect(response).to redirect_to app_email_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
       expect(account.inboxes.count).to be 1
@@ -36,7 +32,6 @@ RSpec.describe 'Google::CallbacksController', type: :request do
       expect(inbox.channel.reload.provider_config.keys).to include('access_token', 'refresh_token', 'expires_on')
       expect(inbox.channel.reload.provider_config['access_token']).to eq response_body_success[:access_token]
       expect(inbox.channel.imap_address).to eq 'imap.gmail.com'
-      expect(Redis::Alfred.get(cache_key)).to be_nil
     end
 
     it 'updates inbox channel config if inbox exists with imap_login and authentication is successful' do
@@ -49,14 +44,13 @@ RSpec.describe 'Google::CallbacksController', type: :request do
                       'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback" })
         .to_return(status: 200, body: response_body_success.to_json, headers: { 'Content-Type' => 'application/json' })
 
-      get google_callback_url, params: { code: code }
+      get google_callback_url, params: { code: code, state: state }
 
       expect(response).to redirect_to app_email_inbox_settings_url(account_id: account.id, inbox_id: inbox.id)
       expect(account.inboxes.count).to be 1
       expect(inbox.channel.reload.provider_config.keys).to include('access_token', 'refresh_token', 'expires_on')
       expect(inbox.channel.reload.provider_config['access_token']).to eq response_body_success[:access_token]
       expect(inbox.channel.imap_address).to eq 'imap.gmail.com'
-      expect(Redis::Alfred.get(cache_key)).to be_nil
     end
 
     it 'creates inboxes with fallback_name when account name is not present in id_token' do
@@ -65,7 +59,7 @@ RSpec.describe 'Google::CallbacksController', type: :request do
                       'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback" })
         .to_return(status: 200, body: response_body_success_without_name.to_json, headers: { 'Content-Type' => 'application/json' })
 
-      get google_callback_url, params: { code: code }
+      get google_callback_url, params: { code: code, state: state }
 
       expect(response).to redirect_to app_email_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
       expect(account.inboxes.count).to be 1
@@ -79,10 +73,9 @@ RSpec.describe 'Google::CallbacksController', type: :request do
                       'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback" })
         .to_return(status: 401)
 
-      get google_callback_url, params: { code: code }
+      get google_callback_url, params: { code: code, state: state }
 
       expect(response).to redirect_to '/'
-      expect(Redis::Alfred.get(cache_key).to_i).to eq account.id
     end
   end
 end

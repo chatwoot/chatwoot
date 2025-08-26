@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Αδυναμία αποστολής! Προσπαθήστε ξανά"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Είμαστε online",
     "OFFLINE": "Προς το παρόν, είμαστε εκτός"

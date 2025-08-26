@@ -1,5 +1,5 @@
 <script>
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -8,12 +8,17 @@ const {
 } = window.globalConfig || {};
 
 export default {
-  mixins: [globalConfigMixin],
   props: {
     disableBranding: {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+    };
   },
   data() {
     return {
@@ -61,7 +66,7 @@ export default {
         :src="globalConfig.logoThumbnail"
       />
       <span>
-        {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
+        {{ replaceInstallationName($t('POWERED_BY')) }}
       </span>
     </a>
   </div>

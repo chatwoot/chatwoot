@@ -43,5 +43,14 @@
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "詳細を見る",
     "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "Coming Soon!"
   }
 }

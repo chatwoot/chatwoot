@@ -76,9 +76,12 @@ const handleAction = ({ action, value }) => {
 <template>
   <CardLayout>
     <div class="flex justify-between w-full gap-1">
-      <span class="text-base text-n-slate-12 line-clamp-1">
+      <router-link
+        :to="{ name: 'captain_assistants_edit', params: { assistantId: id } }"
+        class="text-base text-n-slate-12 line-clamp-1 hover:underline transition-colors"
+      >
         {{ name }}
-      </span>
+      </router-link>
       <div class="flex items-center gap-2">
         <div
           v-on-clickaway="() => toggleDropdown(false)"

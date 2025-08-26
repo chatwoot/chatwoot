@@ -36,8 +36,10 @@ const handleCreate = () => {
 };
 
 const handleEdit = () => {
-  dialogType.value = 'edit';
-  nextTick(() => createAssistantDialog.value.dialogRef.open());
+  router.push({
+    name: 'captain_assistants_edit',
+    params: { assistantId: selectedAssistant.value.id },
+  });
 };
 
 const handleViewConnectedInboxes = () => {

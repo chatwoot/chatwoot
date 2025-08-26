@@ -124,16 +124,15 @@ describe Whatsapp::Providers::WhatsappCloudService do
       end
 
       it 'calls message endpoints with list payload when number of items is greater than 3' do
+        items = %w[Burito Pasta Sushi Salad].map { |i| { title: i, value: i } }
         message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
-                                   content_type: 'input_select',
-                                   content_attributes: {
-                                     items: [
-                                       { title: 'Burito', value: 'Burito' },
-                                       { title: 'Pasta', value: 'Pasta' },
-                                       { title: 'Sushi', value: 'Sushi' },
-                                       { title: 'Salad', value: 'Salad' }
-                                     ]
-                                   })
+                                   content_type: 'input_select', content_attributes: { items: items })
+
+        expected_action = {
+          button: I18n.t('conversations.messages.whatsapp.list_button_label'),
+          sections: [{ rows: %w[Burito Pasta Sushi Salad].map { |i| { id: i, title: i } } }]
+        }.to_json
+
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
@@ -143,9 +142,9 @@ describe Whatsapp::Providers::WhatsappCloudService do
                 body: {
                   text: 'test'
                 },
-                action: '{"button":"Choose an item","sections":[{"rows":[{"id":"Burito","title":"Burito"},' \
-                        '{"id":"Pasta","title":"Pasta"},{"id":"Sushi","title":"Sushi"},{"id":"Salad","title":"Salad"}]}]}'
-              }, type: 'interactive'
+                action: expected_action
+              },
+              type: 'interactive'
             }.to_json
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
@@ -166,19 +165,17 @@ describe Whatsapp::Providers::WhatsappCloudService do
     let(:template_body) do
       {
         messaging_product: 'whatsapp',
+        recipient_type: 'individual', # Added recipient_type field
         to: '+123456789',
+        type: 'template',
         template: {
           name: template_info[:name],
           language: {
             policy: 'deterministic',
             code: template_info[:lang_code]
           },
-          components: [
-            { type: 'body',
-              parameters: template_info[:parameters] }
-          ]
-        },
-        type: 'template'
+          components: template_info[:parameters] # Changed to use parameters directly (enhanced format)
+        }
       }
     end
 
@@ -190,7 +187,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
 
-        expect(service.send_template('+123456789', template_info)).to eq('message_id')
+        expect(service.send_template('+123456789', template_info, message)).to eq('message_id')
       end
     end
   end
@@ -290,7 +287,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     context 'when there is a message' do
       it 'logs error and updates message status' do
         service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).to eq('failed')
         expect(message.reload.external_error).to eq(error_message)
@@ -308,7 +305,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
       it 'logs error but does not update message' do
         service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).not_to eq('failed')
         expect(message.reload.external_error).to be_nil

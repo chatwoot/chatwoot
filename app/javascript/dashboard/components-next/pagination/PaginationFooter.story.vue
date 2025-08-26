@@ -23,7 +23,7 @@ const singlePageState = createPaginationState(1, 10, 16);
     :layout="{ type: 'grid', width: '957' }"
   >
     <Variant title="Default">
-      <div class="p-4 bg-white dark:bg-slate-900">
+      <div class="p-4 bg-n-background">
         <PaginationFooter
           :current-page="defaultState.currentPage.value"
           :total-items="defaultState.totalItems"
@@ -34,7 +34,7 @@ const singlePageState = createPaginationState(1, 10, 16);
     </Variant>
 
     <Variant title="Middle Page">
-      <div class="p-4 bg-white dark:bg-slate-900">
+      <div class="p-4 bg-n-background">
         <PaginationFooter
           :current-page="middlePageState.currentPage.value"
           :total-items="middlePageState.totalItems"
@@ -45,7 +45,7 @@ const singlePageState = createPaginationState(1, 10, 16);
     </Variant>
 
     <Variant title="Last Page">
-      <div class="p-4 bg-white dark:bg-slate-900">
+      <div class="p-4 bg-n-background">
         <PaginationFooter
           :current-page="lastPageState.currentPage.value"
           :total-items="lastPageState.totalItems"
@@ -56,7 +56,7 @@ const singlePageState = createPaginationState(1, 10, 16);
     </Variant>
 
     <Variant title="Custom Items Per Page">
-      <div class="p-4 bg-white dark:bg-slate-900">
+      <div class="p-4 bg-n-background">
         <PaginationFooter
           :current-page="customItemsState.currentPage.value"
           :total-items="customItemsState.totalItems"
@@ -67,7 +67,7 @@ const singlePageState = createPaginationState(1, 10, 16);
     </Variant>
 
     <Variant title="Single Page">
-      <div class="p-4 bg-white dark:bg-slate-900">
+      <div class="p-4 bg-n-background">
         <PaginationFooter
           :current-page="singlePageState.currentPage.value"
           :total-items="singlePageState.totalItems"
