@@ -103,7 +103,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full p-6 col-span-6">
+  <div class="h-full w-full p-8 col-span-6">
     <form
       class="flex flex-wrap mx-0 overflow-x-auto"
       @submit.prevent="addAgents"
