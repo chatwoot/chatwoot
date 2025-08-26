@@ -6,7 +6,7 @@ import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { getAllowedFileTypesByChannel } from 'shared/helpers/uploadRules';
+import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';

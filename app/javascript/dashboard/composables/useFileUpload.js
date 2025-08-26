@@ -3,7 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { DirectUpload } from 'activestorage';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import { getMaxUploadSizeByChannel } from 'shared/helpers/uploadRules'; // <- from your new helper
+import { getMaxUploadSizeByChannel } from '@chatwoot/utils';
 
 /**
  * Composable for handling file uploads in conversations
