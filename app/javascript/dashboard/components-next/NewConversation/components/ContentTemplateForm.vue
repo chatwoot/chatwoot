@@ -36,22 +36,14 @@ const handleBack = () => {
         <template #actions="{ sendMessage, goBack, disabled }">
           <div class="flex gap-3 justify-between items-end w-full h-14">
             <Button
-              :label="
-                t(
-                  'COMPOSE_NEW_CONVERSATION.FORM.TWILIO_OPTIONS.TEMPLATE_PARSER.BACK'
-                )
-              "
+              :label="t('CONTENT_TEMPLATES.FORM.BACK_BUTTON')"
               color="slate"
               variant="faded"
               class="w-full font-medium"
               @click="goBack"
             />
             <Button
-              :label="
-                t(
-                  'COMPOSE_NEW_CONVERSATION.FORM.TWILIO_OPTIONS.TEMPLATE_PARSER.SEND_MESSAGE'
-                )
-              "
+              :label="t('CONTENT_TEMPLATES.FORM.SEND_MESSAGE_BUTTON')"
               class="w-full font-medium"
               :disabled="disabled"
               @click="sendMessage"

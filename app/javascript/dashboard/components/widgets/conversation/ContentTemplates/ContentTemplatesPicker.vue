@@ -121,7 +121,7 @@ const refreshTemplates = async () => {
                 {{ t('CONTENT_TEMPLATES.PICKER.BODY') }}
               </p>
               <p class="text-sm label-body">
-                {{ template.body || 'No content' }}
+                {{ template.body || t('CONTENT_TEMPLATES.PICKER.NO_CONTENT') }}
               </p>
             </div>
 

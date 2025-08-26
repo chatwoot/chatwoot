@@ -1,59 +1,58 @@
-<script>
+<script setup>
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import TemplatesPicker from './ContentTemplatesPicker.vue';
 import TemplateParser from '../../../../components-next/content-templates/ContentTemplateParser.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: {
-    TemplatesPicker,
-    TemplateParser,
+const props = defineProps({
+  show: {
+    type: Boolean,
+    default: false,
   },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
+  inboxId: {
+    type: Number,
+    default: undefined,
   },
-  emits: ['onSend', 'cancel', 'update:show'],
-  data() {
-    return {
-      selectedContentTemplate: null,
-    };
+});
+
+const emit = defineEmits(['onSend', 'cancel', 'update:show']);
+
+const { t } = useI18n();
+
+const selectedContentTemplate = ref(null);
+
+const localShow = computed({
+  get() {
+    return props.show;
   },
-  computed: {
-    localShow: {
-      get() {
-        return this.show;
-      },
-      set(value) {
-        this.$emit('update:show', value);
-      },
-    },
-    modalHeaderContent() {
-      return this.selectedContentTemplate
-        ? this.$t('CONTENT_TEMPLATES.MODAL.TEMPLATE_SELECTED_SUBTITLE', {
-            templateName: this.selectedContentTemplate.friendly_name,
-          })
-        : this.$t('CONTENT_TEMPLATES.MODAL.SUBTITLE');
-    },
+  set(value) {
+    emit('update:show', value);
   },
-  methods: {
-    pickTemplate(template) {
-      this.selectedContentTemplate = template;
-    },
-    onResetTemplate() {
-      this.selectedContentTemplate = null;
-    },
-    onSendMessage(message) {
-      this.$emit('onSend', message);
-    },
-    onClose() {
-      this.$emit('cancel');
-    },
-  },
+});
+
+const modalHeaderContent = computed(() => {
+  return selectedContentTemplate.value
+    ? t('CONTENT_TEMPLATES.MODAL.TEMPLATE_SELECTED_SUBTITLE', {
+        templateName: selectedContentTemplate.value.friendly_name,
+      })
+    : t('CONTENT_TEMPLATES.MODAL.SUBTITLE');
+});
+
+const pickTemplate = template => {
+  selectedContentTemplate.value = template;
+};
+
+const onResetTemplate = () => {
+  selectedContentTemplate.value = null;
+};
+
+const onSendMessage = message => {
+  emit('onSend', message);
+};
+
+const onClose = () => {
+  emit('cancel');
 };
 </script>
 
@@ -63,7 +62,7 @@ export default {
       :header-title="$t('CONTENT_TEMPLATES.MODAL.TITLE')"
       :header-content="modalHeaderContent"
     />
-    <div class="row modal-content">
+    <div class="px-8 py-6 row">
       <TemplatesPicker
         v-if="!selectedContentTemplate"
         :inbox-id="inboxId"
@@ -77,28 +76,22 @@ export default {
       >
         <template #actions="{ sendMessage, resetTemplate, disabled }">
           <div class="flex gap-2 mt-6">
-            <button
-              class="flex-1 px-4 py-2 text-sm font-medium rounded-lg border text-n-slate-12 bg-n-alpha-black2 border-n-weak hover:bg-n-alpha-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            <Button
+              :label="t('CONTENT_TEMPLATES.PARSER.GO_BACK_LABEL')"
+              color="slate"
+              variant="faded"
+              class="flex-1"
               @click="resetTemplate"
-            >
-              {{ $t('CONTENT_TEMPLATES.PARSER.GO_BACK_LABEL') }}
-            </button>
-            <button
+            />
+            <Button
+              :label="t('CONTENT_TEMPLATES.PARSER.SEND_MESSAGE_LABEL')"
+              class="flex-1"
               :disabled="disabled"
-              class="flex-1 px-4 py-2 text-sm font-medium text-white rounded-lg bg-n-brand hover:bg-n-brand-darker disabled:opacity-50 disabled:cursor-not-allowed"
               @click="sendMessage"
-            >
-              {{ $t('CONTENT_TEMPLATES.PARSER.SEND_MESSAGE_LABEL') }}
-            </button>
+            />
           </div>
         </template>
       </TemplateParser>
     </div>
   </woot-modal>
 </template>
-
-<style scoped>
-.modal-content {
-  padding: 1.5625rem 2rem;
-}
-</style>
