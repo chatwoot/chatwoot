@@ -5,7 +5,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import TwilioTemplate from './TwilioTemplate.vue';
+import ContentTemplateForm from './ContentTemplateForm.vue';
 
 const props = defineProps({
   inboxId: {
@@ -109,7 +109,7 @@ const handleSendMessage = template => {
         </p>
       </template>
     </div>
-    <TwilioTemplate
+    <ContentTemplateForm
       v-if="selectedTemplate"
       :template="selectedTemplate"
       @send-message="handleSendMessage"

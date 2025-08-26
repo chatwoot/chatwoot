@@ -20,7 +20,7 @@ export default {
   emits: ['onSend', 'cancel', 'update:show'],
   data() {
     return {
-      selectedTwilioTemplate: null,
+      selectedContentTemplate: null,
     };
   },
   computed: {
@@ -33,19 +33,19 @@ export default {
       },
     },
     modalHeaderContent() {
-      return this.selectedTwilioTemplate
+      return this.selectedContentTemplate
         ? this.$t('CONTENT_TEMPLATES.MODAL.TEMPLATE_SELECTED_SUBTITLE', {
-            templateName: this.selectedTwilioTemplate.friendly_name,
+            templateName: this.selectedContentTemplate.friendly_name,
           })
         : this.$t('CONTENT_TEMPLATES.MODAL.SUBTITLE');
     },
   },
   methods: {
     pickTemplate(template) {
-      this.selectedTwilioTemplate = template;
+      this.selectedContentTemplate = template;
     },
     onResetTemplate() {
-      this.selectedTwilioTemplate = null;
+      this.selectedContentTemplate = null;
     },
     onSendMessage(message) {
       this.$emit('onSend', message);
@@ -65,13 +65,13 @@ export default {
     />
     <div class="row modal-content">
       <TemplatesPicker
-        v-if="!selectedTwilioTemplate"
+        v-if="!selectedContentTemplate"
         :inbox-id="inboxId"
         @on-select="pickTemplate"
       />
       <TemplateParser
         v-else
-        :template="selectedTwilioTemplate"
+        :template="selectedContentTemplate"
         @reset-template="onResetTemplate"
         @send-message="onSendMessage"
       >

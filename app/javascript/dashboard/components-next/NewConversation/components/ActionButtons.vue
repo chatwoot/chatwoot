@@ -11,7 +11,7 @@ import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
-import TwilioOptions from './TwilioOptions.vue';
+import ContentTemplateSelector from './ContentTemplateSelector.vue';
 
 const props = defineProps({
   attachedFiles: { type: Array, default: () => [] },
@@ -175,7 +175,7 @@ useKeyboardEvents(keyboardEvents);
         :message-templates="messageTemplates"
         @send-message="emit('sendWhatsappMessage', $event)"
       />
-      <TwilioOptions
+      <ContentTemplateSelector
         v-if="showTwilioContentTemplates"
         :inbox-id="inboxId"
         @send-message="emit('sendTwilioMessage', $event)"
