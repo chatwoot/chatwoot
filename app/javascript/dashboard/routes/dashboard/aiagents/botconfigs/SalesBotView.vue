@@ -217,6 +217,56 @@
                       v-model="kurirToko.alamat" 
                     />
                   </div>
+
+                  <!-- Google Maps Integration -->
+                  <div>
+                    <label class="block font-medium mb-2">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MAP_LOCATION') }}</label>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MAP_INSTRUCTION') }}</p>
+                    
+                    <!-- Map Container -->
+                    <div class="relative bg-gray-100 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
+                      <div 
+                        ref="mapRef"
+                        class="w-full h-64"
+                        style="min-height: 256px;"
+                      ></div>
+                      
+                      <!-- Loading Overlay -->
+                      <div v-if="!kurirToko.mapLoaded" class="absolute inset-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        <div class="text-center">
+                          <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
+                          </svg>
+                          <p class="text-sm text-gray-600 dark:text-gray-400">Loading map...</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Coordinates Display -->
+                    <div class="grid grid-cols-2 gap-4 mt-3">
+                      <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.LATITUDE') }}</label>
+                        <input 
+                          type="number" 
+                          step="0.000001"
+                          v-model="kurirToko.latitude"
+                          class="w-full text-xs px-2 py-1 border border-gray-300 rounded bg-gray-50 text-gray-700 cursor-not-allowed"
+                          readonly
+                        />
+                      </div>
+                      <div>
+                        <label class="block text-xs font-medium text-gray-500 mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.LONGITUDE') }}</label>
+                        <input 
+                          type="number" 
+                          step="0.000001"
+                          v-model="kurirToko.longitude"
+                          class="w-full text-xs px-2 py-1 border border-gray-300 rounded bg-gray-50 text-gray-700 cursor-not-allowed"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                  </div>
                   
                   <!-- Service Area -->
                   <div>
@@ -642,6 +692,34 @@ import shippingIcon from '../../../../../../../public/assets/images/ic_shipping.
 
 const { t } = useI18n()
 
+// Initialize Google Maps and load provinces on mount
+onMounted(async () => {
+  console.log('Component mounted');
+  // loadProvinsi();
+  
+  // Pre-load Google Maps API but don't initialize map yet
+  try {
+    await loadGoogleMaps();
+    console.log('Google Maps API pre-loaded successfully');
+  } catch (error) {
+    console.error('Failed to pre-load Google Maps API:', error);
+    // Try alternative loading method
+    console.log('Attempting alternative Google Maps loading...');
+    setTimeout(async () => {
+      try {
+        // Check if Google is now available
+        if (window.google && window.google.maps && window.google.maps.Map) {
+          console.log('Google Maps available after retry');
+        } else {
+          console.log('Google Maps still not available, will retry on map initialization');
+        }
+      } catch (retryError) {
+        console.error('Retry loading also failed:', retryError);
+      }
+    }, 2000);
+  }
+});
+
 // Always show sheetConfig for layout preview
 // onMounted(() => {
 //   catalogStep.value = 'connected';
@@ -789,7 +867,10 @@ const kurirToko = reactive({
   flatRate: '',
   biayaPerJarak: '',
   gratisOngkir: false,
-  minimalBelanja: ''
+  minimalBelanja: '',
+  latitude: -6.2088, // Default to Jakarta
+  longitude: 106.8456,
+  mapLoaded: false
 });
 const kurirBiasa = reactive({ 
   provinsi: '', 
@@ -1071,6 +1152,313 @@ const ambilToko = reactive({
   estimasi: '' 
 });
 
+// Google Maps Integration
+const mapRef = ref(null);
+const mapInstance = ref(null);
+const markerInstance = ref(null);
+const geocoderInstance = ref(null);
+const mapLoadingTimeout = ref(null);
+
+// Google Maps API Integration
+// NOTE: Replace with your actual Google Maps API key
+const GOOGLE_MAPS_API_KEY = 'AIzaSyBJmAu8H4PpmswivCAvVS3s88iHQd3yy5s';
+
+// Validate API key
+const validateApiKey = () => {
+  if (!GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
+    console.error('Google Maps API key is missing or not configured');
+    return false;
+  }
+  return true;
+};
+
+// Load Google Maps API
+const loadGoogleMaps = () => {
+  return new Promise((resolve, reject) => {
+    // Validate API key first
+    if (!validateApiKey()) {
+      reject(new Error('Google Maps API key is not configured'));
+      return;
+    }
+    else {
+      console.log('Google Maps API key is set');
+    }
+
+    // Check if Google Maps is already loaded
+    if (window.google && window.google.maps && window.google.maps.Map) {
+      console.log('Google Maps already loaded');
+      resolve(window.google); // Return the full google object
+      return;
+    }
+
+    // Check if script is already loading
+    const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
+    if (existingScript) {
+      console.log('Google Maps script already exists, waiting for load...');
+      const checkGoogleMaps = () => {
+        if (window.google && window.google.maps && window.google.maps.Map) {
+          resolve(window.google); // Return the full google object
+        } else {
+          setTimeout(checkGoogleMaps, 100);
+        }
+      };
+      checkGoogleMaps();
+      return;
+    }
+
+    console.log('Loading Google Maps API with key:', GOOGLE_MAPS_API_KEY.substring(0, 10) + '...');
+    
+    // Create a unique callback name to avoid conflicts
+    const callbackName = `initGoogleMaps_${Date.now()}`;
+    
+    window[callbackName] = () => {
+      console.log('Google Maps API callback triggered');
+      if (window.google && window.google.maps && window.google.maps.Map) {
+        console.log('Google Maps API loaded successfully');
+        resolve(window.google); // Return the full google object
+      } else {
+        console.error('Google Maps API callback triggered but objects not available');
+        console.error('window.google:', window.google);
+        console.error('window.google.maps:', window.google?.maps);
+        console.error('window.google.maps.Map:', window.google?.maps?.Map);
+        reject(new Error('Google Maps API loaded but objects not available'));
+      }
+      delete window[callbackName];
+    };
+
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=geometry,places&callback=${callbackName}`;
+    script.async = true;
+    script.defer = true;
+    script.onerror = (error) => {
+      console.error('Failed to load Google Maps script:', error);
+      console.error('API Key used:', GOOGLE_MAPS_API_KEY.substring(0, 10) + '...');
+      delete window[callbackName];
+      reject(new Error('Failed to load Google Maps script - please check your API key'));
+    };
+    
+    console.log('Appending script to head:', script.src);
+    document.head.appendChild(script);
+  });
+};
+
+// Initialize Google Maps
+const initializeMap = async () => {
+  console.log('initializeMap called');
+  console.log('mapRef.value:', mapRef.value);
+  console.log('kurirToko.mapLoaded:', kurirToko.mapLoaded);
+  
+  if (!mapRef.value) {
+    console.error('Map reference not found');
+    return;
+  }
+  
+  if (kurirToko.mapLoaded) {
+    console.log('Map already loaded');
+    return;
+  }
+
+  try {
+    console.log('Loading Google Maps...');
+    const google = await loadGoogleMaps();
+    
+    console.log('Google Maps loaded, google object:', google);
+    console.log('google.maps:', google.maps);
+    console.log('google.maps.Map:', google.maps?.Map);
+    
+    // Additional debugging
+    console.log('typeof google:', typeof google);
+    console.log('google keys:', google ? Object.keys(google) : 'no google object');
+    
+    if (!google || !google.maps) {
+      console.error('Google object or google.maps is missing');
+      console.error('Available google properties:', google ? Object.keys(google) : 'none');
+      throw new Error('Google Maps API not properly loaded - missing maps object');
+    }
+    
+    if (!google.maps.Map) {
+      console.error('google.maps.Map is missing');
+      console.error('Available google.maps properties:', Object.keys(google.maps));
+      throw new Error('Google Maps API not properly loaded - missing Map constructor');
+    }
+
+    console.log('Creating map instance...');
+    
+    // Initialize map
+    mapInstance.value = new google.maps.Map(mapRef.value, {
+      zoom: 15,
+      center: { lat: kurirToko.latitude, lng: kurirToko.longitude },
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: false,
+    });
+
+    console.log('Map instance created:', mapInstance.value);
+
+    // Initialize marker
+    markerInstance.value = new google.maps.Marker({
+      position: { lat: kurirToko.latitude, lng: kurirToko.longitude },
+      map: mapInstance.value,
+      draggable: true,
+      title: 'Store Location'
+    });
+
+    console.log('Marker created:', markerInstance.value);
+
+    // Initialize geocoder
+    geocoderInstance.value = new google.maps.Geocoder();
+
+    console.log('Geocoder created:', geocoderInstance.value);
+
+    // Add marker drag listener
+    markerInstance.value.addListener('dragend', (event) => {
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+      kurirToko.latitude = lat;
+      kurirToko.longitude = lng;
+      
+      // Reverse geocode to update address
+      reverseGeocode(lat, lng);
+    });
+
+    kurirToko.mapLoaded = true;
+    console.log('Google Maps initialized successfully');
+  } catch (error) {
+    console.error('Error initializing Google Maps:', error);
+    console.error('Error details:', {
+      message: error.message,
+      stack: error.stack,
+      window_google: window.google,
+      google_maps: window.google?.maps,
+      google_maps_Map: window.google?.maps?.Map,
+      google_maps_keys: window.google?.maps ? Object.keys(window.google.maps) : 'no maps object'
+    });
+    showNotification('Failed to load map. Please check your API key and internet connection.', 'error');
+  }
+};
+
+// Geocode address to coordinates
+const geocodeAddress = async (address) => {
+  if (!geocoderInstance.value || !address.trim()) return;
+
+  try {
+    const response = await new Promise((resolve, reject) => {
+      geocoderInstance.value.geocode({ address }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          resolve(results[0]);
+        } else {
+          reject(new Error(`Geocoding failed: ${status}`));
+        }
+      });
+    });
+
+    const location = response.geometry.location;
+    const lat = location.lat();
+    const lng = location.lng();
+
+    // Update coordinates
+    kurirToko.latitude = lat;
+    kurirToko.longitude = lng;
+
+    // Update map center and marker position
+    if (mapInstance.value && markerInstance.value) {
+      const newPosition = { lat, lng };
+      mapInstance.value.setCenter(newPosition);
+      markerInstance.value.setPosition(newPosition);
+    }
+
+  } catch (error) {
+    console.error('Geocoding error:', error);
+    showNotification('Could not find the address on the map', 'error');
+  }
+};
+
+// Reverse geocode coordinates to address
+const reverseGeocode = async (lat, lng) => {
+  if (!geocoderInstance.value) return;
+
+  try {
+    const response = await new Promise((resolve, reject) => {
+      geocoderInstance.value.geocode(
+        { location: { lat, lng } },
+        (results, status) => {
+          if (status === 'OK' && results[0]) {
+            resolve(results[0]);
+          } else {
+            reject(new Error(`Reverse geocoding failed: ${status}`));
+          }
+        }
+      );
+    });
+
+    // Update address field with the formatted address
+    kurirToko.alamat = response.formatted_address;
+  } catch (error) {
+    console.error('Reverse geocoding error:', error);
+  }
+};
+
+// Watch for address changes to trigger geocoding
+let geocodingTimeout = null;
+watch(() => kurirToko.alamat, (newAddress) => {
+  if (!newAddress || !kurirToko.mapLoaded) return;
+  
+  // Debounce geocoding requests
+  clearTimeout(geocodingTimeout);
+  geocodingTimeout = setTimeout(() => {
+    geocodeAddress(newAddress);
+  }, 1000);
+});
+
+// Initialize map when component is mounted and Kurir Toko is enabled
+watch(() => shippingMethods.kurirToko, (enabled) => {
+  console.log('Kurir Toko toggle changed:', enabled);
+  if (enabled && !kurirToko.mapLoaded) {
+    // Wait for DOM update and then initialize map
+    setTimeout(async () => {
+      console.log('Attempting to initialize map after DOM update');
+      
+      // Try direct access to Google Maps first
+      if (window.google && window.google.maps && window.google.maps.Map) {
+        console.log('Google Maps already available, initializing directly...');
+        await initializeMap();
+      } else {
+        console.log('Google Maps not available, loading first...');
+        try {
+          await loadGoogleMaps();
+          await initializeMap();
+        } catch (error) {
+          console.error('Failed to load Google Maps on toggle:', error);
+          showNotification('Failed to load map. Please refresh the page and try again.', 'error');
+        }
+      }
+    }, 200);
+  }
+});
+
+// Also watch for mapRef availability
+watch(mapRef, (newMapRef) => {
+  console.log('mapRef changed:', newMapRef);
+  if (newMapRef && shippingMethods.kurirToko && !kurirToko.mapLoaded) {
+    setTimeout(async () => {
+      console.log('Attempting to initialize map after mapRef available');
+      
+      // Ensure Google Maps is loaded
+      if (window.google && window.google.maps && window.google.maps.Map) {
+        await initializeMap();
+      } else {
+        console.log('Google Maps not ready, loading...');
+        try {
+          await loadGoogleMaps();
+          await initializeMap();
+        } catch (error) {
+          console.error('Failed to load Google Maps via mapRef watcher:', error);
+        }
+      }
+    }, 100);
+  }
+});
+
 function submitConfig() {
   console.log('Katalog:', catalogSheet.value, catalogDesc.value);
   console.log('Shipping:', JSON.parse(JSON.stringify({ shippingMethods, kurirToko, kurirBiasa, ambilToko })));
@@ -1084,7 +1472,11 @@ function submitConfig() {
       flatRate: kurirToko.flatRate,
       biayaPerJarak: kurirToko.biayaPerJarak,
       gratisOngkir: kurirToko.gratisOngkir,
-      minimalBelanja: kurirToko.gratisOngkir ? kurirToko.minimalBelanja : null
+      minimalBelanja: kurirToko.gratisOngkir ? kurirToko.minimalBelanja : null,
+      coordinates: {
+        latitude: kurirToko.latitude,
+        longitude: kurirToko.longitude
+      }
     } : null,
     kurirBiasa: shippingMethods.kurirBiasa ? {
       alamat: {
