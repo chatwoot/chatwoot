@@ -17,6 +17,10 @@ module ChatwootApp
     @enterprise ||= root.join('enterprise').exist?
   end
 
+  def self.chatwoot_cloud?
+    enterprise? && GlobalConfig.get_value('DEPLOYMENT_ENV') == 'cloud'
+  end
+
   def self.custom?
     @custom ||= root.join('custom').exist?
   end

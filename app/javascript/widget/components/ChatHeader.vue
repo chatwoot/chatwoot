@@ -105,10 +105,9 @@ export default {
             class="ltr:mr-1 rtl:ml-1"
           ></span>
           <div
-            :class="`h-2 w-2 rounded-full ${
-              isOnline ? 'bg-green-500' : 'hidden'
-            }`"
-          ></div>
+            :class="`h-2 w-2 rounded-full
+              ${isOnline ? 'bg-n-teal-10' : 'hidden'}`"
+          />
         </div>
 
         <div v-if="dealerTagline" class="text-xs leading-3 text-n-slate-11">

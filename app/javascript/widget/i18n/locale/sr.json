@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Slanje neuspešno, pokušajte ponovo"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Dostupni smo",
     "OFFLINE": "Trenutno nismo dostupni"

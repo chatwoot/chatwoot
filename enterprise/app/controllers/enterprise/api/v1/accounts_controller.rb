@@ -55,18 +55,27 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     end
   end
 
-  private
+  def default_limits
+    {
+      'conversation' => {},
+      'non_web_inboxes' => {},
+      'agents' => {},
+      'captain' => @account.usage_limits[:captain]
+    }
+  end
 
   def check_cloud_env
-    installation_config = InstallationConfig.find_by(name: 'DEPLOYMENT_ENV')
-    render json: { error: 'Not found' }, status: :not_found unless installation_config&.value == 'cloud'
+    render json: { error: 'Not found' }, status: :not_found unless ChatwootApp.chatwoot_cloud?
   end
 
   def default_limits
     {
       'conversation' => {},
       'non_web_inboxes' => {},
-      'agents' => {},
+      'agents' => {
+        'allowed' => @account.usage_limits[:agents],
+        'consumed' => agents(@account)
+      },
       'captain' => @account.usage_limits[:captain]
     }
   end

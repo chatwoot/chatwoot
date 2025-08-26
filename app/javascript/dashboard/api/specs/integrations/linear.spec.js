@@ -91,6 +91,19 @@ describe('#linearAPI', () => {
         issueData
       );
     });
+
+    it('creates a valid request with conversation_id', () => {
+      const issueData = {
+        title: 'New Issue',
+        description: 'Issue description',
+        conversation_id: 123,
+      };
+      LinearAPIClient.createIssue(issueData);
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/integrations/linear/create_issue',
+        issueData
+      );
+    });
   });
 
   describe('link_issue', () => {
@@ -117,6 +130,18 @@ describe('#linearAPI', () => {
         {
           issue_id: 2,
           conversation_id: 1,
+        }
+      );
+    });
+
+    it('creates a valid request with title', () => {
+      LinearAPIClient.link_issue(1, 'ENG-123', 'Sample Issue');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/integrations/linear/link_issue',
+        {
+          issue_id: 'ENG-123',
+          conversation_id: 1,
+          title: 'Sample Issue',
         }
       );
     });
@@ -164,12 +189,26 @@ describe('#linearAPI', () => {
       window.axios = originalAxios;
     });
 
-    it('creates a valid request', () => {
-      LinearAPIClient.unlinkIssue(1);
+    it('creates a valid request with link_id only', () => {
+      LinearAPIClient.unlinkIssue('link123');
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/integrations/linear/unlink_issue',
         {
-          link_id: 1,
+          link_id: 'link123',
+          issue_id: undefined,
+          conversation_id: undefined,
+        }
+      );
+    });
+
+    it('creates a valid request with all parameters', () => {
+      LinearAPIClient.unlinkIssue('link123', 'ENG-456', 789);
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/integrations/linear/unlink_issue',
+        {
+          link_id: 'link123',
+          issue_id: 'ENG-456',
+          conversation_id: 789,
         }
       );
     });

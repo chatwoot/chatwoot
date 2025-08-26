@@ -121,8 +121,12 @@ export const useInbox = () => {
     );
   });
 
-  const isAInstagramChannel = computed(() => {
+  const isAnInstagramChannel = computed(() => {
     return channelType.value === INBOX_TYPES.INSTAGRAM;
+  });
+
+  const isAVoiceChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.VOICE;
   });
 
   return {
@@ -141,6 +145,7 @@ export const useInbox = () => {
     isAWhatsAppCloudChannel,
     is360DialogWhatsAppChannel,
     isAnEmailChannel,
-    isAInstagramChannel,
+    isAnInstagramChannel,
+    isAVoiceChannel,
   };
 };

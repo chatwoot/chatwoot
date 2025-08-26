@@ -8,6 +8,10 @@ import {
   getActionOptions,
   getConditionOptions,
 } from 'dashboard/helper/automationHelper';
+import {
+  MESSAGE_CONDITION_VALUES,
+  PRIORITY_CONDITION_VALUES,
+} from 'dashboard/constants/automation';
 
 /**
  * This is a shared composables that holds utilites used to build dropdown and file options
@@ -60,6 +64,20 @@ export default function useAutomationValues() {
     ];
   });
 
+  const messageTypeOptions = computed(() =>
+    MESSAGE_CONDITION_VALUES.map(item => ({
+      id: item.id,
+      name: t(`AUTOMATION.MESSAGE_TYPES.${item.i18nKey}`),
+    }))
+  );
+
+  const priorityOptions = computed(() =>
+    PRIORITY_CONDITION_VALUES.map(item => ({
+      id: item.id,
+      name: t(`AUTOMATION.PRIORITY_TYPES.${item.i18nKey}`),
+    }))
+  );
+
   /**
    * Adds a translated "None" option to the beginning of a list
    * @param {Array} list - The list to add "None" to
@@ -87,6 +105,8 @@ export default function useAutomationValues() {
       customAttributes: getters['attributes/getAttributes'].value,
       inboxes: inboxes.value,
       statusFilterOptions: statusFilterOptions.value,
+      priorityOptions: priorityOptions.value,
+      messageTypeOptions: messageTypeOptions.value,
       teams: teams.value,
       languages,
       countries,
@@ -108,6 +128,7 @@ export default function useAutomationValues() {
       languages,
       type,
       addNoneToListFn: addNoneToList,
+      priorityOptions: priorityOptions.value,
     });
   };
 
@@ -115,6 +136,8 @@ export default function useAutomationValues() {
     booleanFilterOptions,
     statusFilterItems,
     statusFilterOptions,
+    priorityOptions,
+    messageTypeOptions,
     getConditionDropdownValues,
     getActionDropdownValues,
     agents,

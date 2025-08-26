@@ -5,6 +5,18 @@
     "LOADING": "שולף מאפיינים מותאמים אישית",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "שיחה",
+      "CONTACT": "איש קשר"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "טקסט",
+      "NUMBER": "מספר",
+      "LINK": "קישור",
+      "DATE": "Date",
+      "LIST": "רשימה",
+      "CHECKBOX": "תיבת סימון"
+    },
     "ADD": {
       "TITLE": "הוסף מאפיין מותאם אישית",
       "SUBMIT": "צור",

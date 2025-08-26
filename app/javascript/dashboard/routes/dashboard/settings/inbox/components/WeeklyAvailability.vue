@@ -136,7 +136,7 @@ export default {
           />
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
         </label>
-        <p class="mb-4 text-slate-700 dark:text-slate-300">
+        <p class="mb-4 text-n-slate-11">
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
         </p>
         <div v-if="isBusinessHoursEnabled" class="mb-6">

@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Nu s-a putut trimite! Încearcă din nou"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Suntem online",
     "OFFLINE": "Suntem plecați în acest moment"

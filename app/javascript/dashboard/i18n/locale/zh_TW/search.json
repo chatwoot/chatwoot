@@ -4,12 +4,14 @@
       "ALL": "所有的",
       "CONTACTS": "聯絡人",
       "CONVERSATIONS": "對話",
-      "MESSAGES": "訊息"
+      "MESSAGES": "訊息",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "聯絡人",
       "CONVERSATIONS": "對話",
-      "MESSAGES": "訊息"
+      "MESSAGES": "訊息",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

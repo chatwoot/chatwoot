@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Leit",
       "EMPTY_STATE": "Engar niðurstöður fundust"
-    }
+    },
+    "CLOSE": "Close"
   }
 }

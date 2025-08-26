@@ -100,3 +100,10 @@ export const getRegexp = regexPatternValue => {
     regexPatternValue.slice(lastSlash + 1)
   );
 };
+
+/**
+ * Checks if a string is a valid slug (letters, numbers, hyphens only, no spaces or other symbols).
+ * @param {string} value - The slug to validate.
+ * @returns {boolean} True if the slug is valid, false otherwise.
+ */
+export const isValidSlug = value => /^[a-zA-Z0-9-]+$/.test(value);

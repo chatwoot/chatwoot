@@ -262,4 +262,55 @@ RSpec.describe 'Agent Bot API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/agent_bots/:id/reset_access_token' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}/reset_access_token"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'regenerates the access token when administrator' do
+        old_token = agent_bot.access_token.token
+
+        post "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}/reset_access_token",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        agent_bot.reload
+        expect(agent_bot.access_token.token).not_to eq(old_token)
+        json_response = response.parsed_body
+        expect(json_response['access_token']).to eq(agent_bot.access_token.token)
+      end
+
+      it 'would not reset the access token when agent' do
+        old_token = agent_bot.access_token.token
+
+        post "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}/reset_access_token",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        agent_bot.reload
+        expect(agent_bot.access_token.token).to eq(old_token)
+      end
+
+      it 'would not reset access token for a global agent bot' do
+        global_bot = create(:agent_bot)
+        old_token = global_bot.access_token.token
+
+        post "/api/v1/accounts/#{account.id}/agent_bots/#{global_bot.id}/reset_access_token",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+        global_bot.reload
+        expect(global_bot.access_token.token).to eq(old_token)
+      end
+    end
+  end
 end

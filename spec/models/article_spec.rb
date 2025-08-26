@@ -167,4 +167,26 @@ RSpec.describe Article do
       end
     end
   end
+
+  describe '#to_llm_text' do
+    it 'returns formatted article text' do
+      category = create(:category, name: 'Test Category', slug: 'test_category', portal_id: portal_1.id)
+      article = create(:article, title: 'Test Article', category_id: category.id, content: 'This is the content', portal_id: portal_1.id,
+                                 author_id: user.id)
+      expected_output = <<~TEXT
+        Title: #{article.title}
+        ID: #{article.id}
+        Status: #{article.status}
+        Category: #{category.name}
+        Author: #{user.name}
+        Views: #{article.views}
+        Created At: #{article.created_at}
+        Updated At: #{article.updated_at}
+        Content:
+        #{article.content}
+      TEXT
+
+      expect(article.to_llm_text).to eq(expected_output)
+    end
+  end
 end

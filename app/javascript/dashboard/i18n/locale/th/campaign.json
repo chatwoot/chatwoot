@@ -137,6 +137,70 @@
         }
       }
     },
+    "WHATSAPP": {
+      "HEADER_TITLE": "WhatsApp campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No WhatsApp campaigns are available",
+        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "เสร็จสิ้น",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+      "CREATE": {
+        "TITLE": "Create WhatsApp campaign",
+        "CANCEL_BUTTON_TEXT": "ยกเลิก",
+        "CREATE_BUTTON_TEXT": "สร้าง",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "หัวข้อ",
+            "PLACEHOLDER": "กรุณาใส่หัวข้อแคมเปญ",
+            "ERROR": "โปรดระบุหัวข้อด้วย"
+          },
+          "INBOX": {
+            "LABEL": "เลือกกล่องข้อความ",
+            "PLACEHOLDER": "เลือกกล่องข้อความ",
+            "ERROR": "โปรดเลือกกล่องข้อความ"
+          },
+          "TEMPLATE": {
+            "LABEL": "WhatsApp Template",
+            "PLACEHOLDER": "Select a template",
+            "INFO": "Select a template to use for this campaign.",
+            "ERROR": "Template is required",
+            "PREVIEW_TITLE": "Process {templateName}",
+            "LANGUAGE": "Language",
+            "CATEGORY": "Category",
+            "VARIABLES_LABEL": "Variables",
+            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+          },
+          "AUDIENCE": {
+            "LABEL": "ผู้รับ",
+            "PLACEHOLDER": "เลือกป้ายกำกับลูกค้า",
+            "ERROR": "โปรดระบุผู้รับ"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "วันเริ่มแคมเปญ",
+            "PLACEHOLDER": "โปรดระบุเวลา",
+            "ERROR": "โปรดระบุวันเริ่มแคมเปญ"
+          },
+          "BUTTONS": {
+            "CREATE": "สร้าง",
+            "CANCEL": "ยกเลิก"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง."
+          }
+        }
+      }
+    },
     "CONFIRM_DELETE": {
       "TITLE": "คุณต้องการที่จะลบไหม?",
       "DESCRIPTION": "The delete action is permanent and cannot be reversed.",

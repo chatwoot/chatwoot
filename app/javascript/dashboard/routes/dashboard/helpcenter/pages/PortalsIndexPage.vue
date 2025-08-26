@@ -69,7 +69,7 @@ onMounted(() => performRouting());
 
 <template>
   <div
-    class="flex items-center justify-center w-full bg-n-background text-slate-600 dark:text-slate-200"
+    class="flex items-center justify-center w-full bg-n-background text-n-slate-11"
   >
     <Spinner />
   </div>

@@ -4,14 +4,10 @@ module Enterprise::Account::PlanUsageAndLimits
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
 
-  def limits
-    super.with_indifferent_access
-  end
-
   def usage_limits
     {
       agents: agent_limits.to_i,
-      inboxes: get_limits('inboxes').to_i,
+      inboxes: get_limits(:inboxes).to_i,
       captain: {
         documents: get_captain_limits(:documents),
         responses: get_captain_limits(:responses)
@@ -101,13 +97,13 @@ module Enterprise::Account::PlanUsageAndLimits
 
   def agent_limits
     subscribed_quantity = custom_attributes['subscribed_quantity']
-    subscribed_quantity || get_limits('agents')
+    subscribed_quantity || get_limits(:agents)
   end
 
   def get_limits(limit_name)
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
-
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
+
     return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
@@ -117,18 +113,13 @@ module Enterprise::Account::PlanUsageAndLimits
     errors.add(:limits, ': Invalid data') unless self[:limits].is_a? Hash
     self[:limits] = {} if self[:limits].blank?
 
-    if self[:limits]['Agent Limit'].present? || self[:limits]['Inbox Limit'].present?
-      self[:limits] = {
-        'agents' => self[:limits]['Agent Limit'].to_i,
-        'inboxes' => self[:limits]['Inbox Limit'].to_i
-      }
-    end
-
     limit_schema = {
       'type' => 'object',
       'properties' => {
+        'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
-        'inboxes' => { 'type': 'number' }
+        'captain_responses' => { 'type': 'number' },
+        'captain_documents' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

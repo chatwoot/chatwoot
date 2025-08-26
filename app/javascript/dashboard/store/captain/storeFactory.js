@@ -1,5 +1,11 @@
-import { throwErrorMessage } from 'dashboard/store/utils/api';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
+import {
+  createRecord,
+  deleteRecord,
+  getRecords,
+  showRecord,
+  updateRecord,
+} from './storeFactoryHelper';
 
 export const generateMutationTypes = name => {
   const capitalizedName = name.toUpperCase();
@@ -10,6 +16,7 @@ export const generateMutationTypes = name => {
     EDIT: `EDIT_${capitalizedName}`,
     DELETE: `DELETE_${capitalizedName}`,
     SET_META: `SET_${capitalizedName}_META`,
+    UPSERT: `UPSERT_${capitalizedName}`,
   };
 };
 
@@ -33,7 +40,6 @@ export const createGetters = () => ({
   getMeta: state => state.meta,
 });
 
-// store/mutations.js
 export const createMutations = mutationTypes => ({
   [mutationTypes.SET_UI_FLAG](state, data) {
     state.uiFlags = {
@@ -51,78 +57,19 @@ export const createMutations = mutationTypes => ({
   [mutationTypes.ADD]: MutationHelpers.create,
   [mutationTypes.EDIT]: MutationHelpers.update,
   [mutationTypes.DELETE]: MutationHelpers.destroy,
+  [mutationTypes.UPSERT]: MutationHelpers.setSingleRecord,
 });
 
-// store/actions/crud.js
 export const createCrudActions = (API, mutationTypes) => ({
-  async get({ commit }, params = {}) {
-    commit(mutationTypes.SET_UI_FLAG, { fetchingList: true });
-    try {
-      const response = await API.get(params);
-      commit(mutationTypes.SET, response.data.payload);
-      commit(mutationTypes.SET_META, response.data.meta);
-      return response.data.payload;
-    } catch (error) {
-      return throwErrorMessage(error);
-    } finally {
-      commit(mutationTypes.SET_UI_FLAG, { fetchingList: false });
-    }
-  },
-
-  async show({ commit }, id) {
-    commit(mutationTypes.SET_UI_FLAG, { fetchingItem: true });
-    try {
-      const response = await API.show(id);
-      commit(mutationTypes.ADD, response.data);
-      return response.data;
-    } catch (error) {
-      return throwErrorMessage(error);
-    } finally {
-      commit(mutationTypes.SET_UI_FLAG, { fetchingItem: false });
-    }
-  },
-
-  async create({ commit }, dataObj) {
-    commit(mutationTypes.SET_UI_FLAG, { creatingItem: true });
-    try {
-      const response = await API.create(dataObj);
-      commit(mutationTypes.ADD, response.data);
-      return response.data;
-    } catch (error) {
-      return throwErrorMessage(error);
-    } finally {
-      commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
-    }
-  },
-
-  async update({ commit }, { id, ...updateObj }) {
-    commit(mutationTypes.SET_UI_FLAG, { updatingItem: true });
-    try {
-      const response = await API.update(id, updateObj);
-      commit(mutationTypes.EDIT, response.data);
-      return response.data;
-    } catch (error) {
-      return throwErrorMessage(error);
-    } finally {
-      commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
-    }
-  },
-
-  async delete({ commit }, id) {
-    commit(mutationTypes.SET_UI_FLAG, { deletingItem: true });
-    try {
-      await API.delete(id);
-      commit(mutationTypes.DELETE, id);
-      return id;
-    } catch (error) {
-      return throwErrorMessage(error);
-    } finally {
-      commit(mutationTypes.SET_UI_FLAG, { deletingItem: false });
-    }
-  },
+  get: getRecords(mutationTypes, API),
+  show: showRecord(mutationTypes, API),
+  create: createRecord(mutationTypes, API),
+  update: updateRecord(mutationTypes, API),
+  delete: deleteRecord(mutationTypes, API),
 });
+
 export const createStore = options => {
-  const { name, API, actions } = options;
+  const { name, API, actions, getters } = options;
   const mutationTypes = generateMutationTypes(name);
 
   const customActions = actions ? actions(mutationTypes) : {};
@@ -130,7 +77,10 @@ export const createStore = options => {
   return {
     namespaced: true,
     state: createInitialState(),
-    getters: createGetters(),
+    getters: {
+      ...createGetters(),
+      ...(getters || {}),
+    },
     mutations: createMutations(mutationTypes),
     actions: {
       ...createCrudActions(API, mutationTypes),

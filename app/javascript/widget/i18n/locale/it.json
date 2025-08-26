@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Impossibile inviare, riprova"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Siamo online",
     "OFFLINE": "Siamo offline in questo momento"

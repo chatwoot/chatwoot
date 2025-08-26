@@ -83,6 +83,29 @@
       "ACTION_PARAMETERS_REQUIRED": "Parâmetros de ação obrigatórios",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é obrigatória",
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Atribuir equipa",
+      "ASSIGN_AGENT": "Atribuir um agente",
+      "ADD_LABEL": "Adicionar um rótulo",
+      "REMOVE_LABEL": "Remover um rótulo",
+      "REMOVE_ASSIGNED_TEAM": "Remover equipa atribuída",
+      "SEND_EMAIL_TRANSCRIPT": "Enviar uma transcrição por e-mail",
+      "MUTE_CONVERSATION": "Silenciar Conversa",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
+      "RESOLVE_CONVERSATION": "Resolver conversa",
+      "SEND_ATTACHMENT": "Enviar anexo",
+      "SEND_MESSAGE": "Enviar uma Mensagem",
+      "CHANGE_PRIORITY": "Alterar prioridade",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Privada",
+      "SEND_WEBHOOK_EVENT": "Enviar evento webhook"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nenhuma",
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Elevada",
+      "URGENT": "Urgente"
     }
   }
 }

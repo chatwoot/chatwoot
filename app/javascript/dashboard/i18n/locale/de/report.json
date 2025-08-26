@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Label-Übersicht",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Diagrammdaten laden...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "DOWNLOAD_LABEL_REPORTS": "Label-Berichte herunterladen",
@@ -559,6 +560,7 @@
     "INBOX": "Posteingang",
     "AGENT": "Agent",
     "TEAM": "Team",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
