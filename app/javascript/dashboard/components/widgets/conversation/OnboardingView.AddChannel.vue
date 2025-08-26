@@ -51,7 +51,7 @@ const showChannelList = computed(() => {
   return !channelSelected.value && !channelAlreadyCreated.value;
 });
 
-const handleStepChanged = (step) => {
+const handleStepChanged = step => {
   channelStep.value = step;
 };
 

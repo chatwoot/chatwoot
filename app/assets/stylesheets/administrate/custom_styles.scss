@@ -21,3 +21,26 @@
 .feature-container {
   max-width: 100rem;
 }
+
+// Custom Features Management Field Styling
+.custom-features-selector {
+  margin-top: $small-spacing;
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: $small-spacing;
+    font-weight: normal;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      margin-right: $small-spacing / 2;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      color: $action-color;
+    }
+  }
+}

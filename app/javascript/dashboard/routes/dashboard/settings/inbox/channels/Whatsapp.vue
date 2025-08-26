@@ -13,13 +13,13 @@ export default {
     // CloudWhatsapp,
     Whapi,
   },
-  emits: ['step-changed'],
   props: {
     disabledAutoRoute: {
       type: Boolean,
       default: false,
     },
   },
+  emits: ['step-changed'],
   data() {
     return {
       provider: 'whapi',
