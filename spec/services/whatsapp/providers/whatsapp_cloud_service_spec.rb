@@ -347,7 +347,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     it 'delegates validation through config object' do
       config_object = whatsapp_channel_with_config_object.provider_config_object
       allow(config_object).to receive(:validate_config?).and_return(false)
-      
+
       expect(service_with_config_object.validate_provider_config?).to be(false)
     end
   end

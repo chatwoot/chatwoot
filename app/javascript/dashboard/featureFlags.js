@@ -52,3 +52,25 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.HELP_CENTER,
   FEATURE_FLAGS.CAPTAIN_V2,
 ];
+
+// Custom feature flags - loaded at runtime from config/custom_features.yml
+// These are automatically embedded in the HTML from the YAML configuration
+export const CUSTOM_FEATURE_FLAGS = window.CUSTOM_FEATURES_CONFIG?.constants || {};
+
+export const CUSTOM_FEATURES_METADATA = window.CUSTOM_FEATURES_CONFIG?.metadata || [];
+
+// Helper function to check if a custom feature is enabled for current account
+export const isCustomFeatureEnabled = (featureName, account) => {
+  return account?.custom_features?.includes(featureName) || false;
+};
+
+// Helper function to get custom feature metadata
+export const getCustomFeatureInfo = (featureName) => {
+  return CUSTOM_FEATURES_METADATA.find(f => f.name === featureName) || null;
+};
+
+// Helper function to get custom feature display name
+export const getCustomFeatureDisplayName = (featureName) => {
+  const info = getCustomFeatureInfo(featureName);
+  return info?.display_name || featureName;
+};

@@ -20,6 +20,8 @@ if resource.custom_attributes.present?
 end
 json.domain @account.domain
 json.features @account.enabled_features
+json.custom_features @account.custom_features
+json.custom_features_metadata CustomFeaturesManagerService.instance.features_with_metadata
 json.id @account.id
 json.locale @account.locale
 json.name @account.name
