@@ -34,22 +34,6 @@ const showUseButton = computed(() => {
   );
 });
 
-const showUseButton = computed(() => {
-  return (
-    !hasEmptyMessageContent.value &&
-    props.message.reply_suggestion &&
-    props.isLastMessage
-  );
-});
-
-const showUseButton = computed(() => {
-  return (
-    !hasEmptyMessageContent.value &&
-    props.message.reply_suggestion &&
-    props.isLastMessage
-  );
-});
-
 const messageContent = computed(() => {
   const formatter = new MessageFormatter(props.message.content);
   return formatter.formattedMessage;
