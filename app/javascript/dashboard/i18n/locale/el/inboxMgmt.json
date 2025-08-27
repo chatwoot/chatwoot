@@ -478,7 +478,10 @@
       "MESSAGE": "Μπορείτε να συνομιλείτε με τους πελάτες σας από το νέο κανάλι. Καλή υποστήριξη",
       "BUTTON_TEXT": "Μετάβαση",
       "MORE_SETTINGS": "Περισσότερες ρυθμίσεις",
-      "WEBSITE_SUCCESS": "Επιτυχής δημιουργία του καναλιού ιστοσελίδας. Αντιγράψτε τον κώδικα που παρουσιάζεται παρακάτω, και τοποθετήστε τον στην ιστοσελίδα σας. Την επόμενη φορά που κάποιος πελάτης χρησιμοποιήσει το 'live chat', η συνομιλία θα εμφανιστεί στο κιβώτιο εισερχομένων σας."
+      "WEBSITE_SUCCESS": "Επιτυχής δημιουργία του καναλιού ιστοσελίδας. Αντιγράψτε τον κώδικα που παρουσιάζεται παρακάτω, και τοποθετήστε τον στην ιστοσελίδα σας. Την επόμενη φορά που κάποιος πελάτης χρησιμοποιήσει το 'live chat', η συνομιλία θα εμφανιστεί στο κιβώτιο εισερχομένων σας.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Εκ νέου εξουσιοδότηση",
     "VIEW": "Προβολή",
