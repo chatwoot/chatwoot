@@ -478,7 +478,10 @@
       "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport",
       "BUTTON_TEXT": "Porta'm allà",
       "MORE_SETTINGS": "Més configuracions",
-      "WEBSITE_SUCCESS": "Heu finalitzat amb èxit la creació d'un canal web. Copieu el codi que es mostra a continuació i enganxeu-lo al lloc web. La propera vegada que un client utilitzi el xat en directe, la conversa apareixerà automàticament a la safata d'entrada."
+      "WEBSITE_SUCCESS": "Heu finalitzat amb èxit la creació d'un canal web. Copieu el codi que es mostra a continuació i enganxeu-lo al lloc web. La propera vegada que un client utilitzi el xat en directe, la conversa apareixerà automàticament a la safata d'entrada.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Reautoritza",
     "VIEW": "Veure",
