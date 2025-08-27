@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "AGENTS": "Has superado el límite de agentes. Tu plan solo permite {allowedAgents} agentes.",
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },
     "TITLE": "Configuración de la cuenta",
@@ -30,7 +30,7 @@
       "SCHEDULED_DELETION": {
         "TITLE": "Account Scheduled for Deletion",
         "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "Esta cuenta se eliminará el {deletionDate} debido a inactividad. Puedes cancelar la eliminación antes de esta fecha.",
         "CLEAR_BUTTON": "Cancel Scheduled Deletion"
       }
     },
@@ -134,7 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Pulse Enter para seleccionar",
       "ENTER_TO_REMOVE": "Presione Enter para eliminar",
-      "NO_OPTIONS": "List is empty",
+      "NO_OPTIONS": "La lista está vacía",
       "SELECT_ONE": "Seleccione uno",
       "SELECT": "Seleccionar"
     }

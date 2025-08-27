@@ -39,6 +39,8 @@ vi:
       email_already_exists: 'Bạn đã đăng ký một tài khoản với %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Đăng ký thât bại
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Kiểu dữ liệu không hợp lệ
