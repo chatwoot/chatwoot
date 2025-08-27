@@ -478,7 +478,10 @@
       "MESSAGE": "Du kan nu engagere dig med dine kunder gennem din nye kanal. Glædelig supportering",
       "BUTTON_TEXT": "Tag mig med dertil",
       "MORE_SETTINGS": "Flere indstillinger",
-      "WEBSITE_SUCCESS": "Du er færdig med at oprette en hjemmeside kanal. Kopier koden vist nedenfor og indsæt den på din hjemmeside. Næste gang en kunde bruger live chat, vil samtalen automatisk vises i din indbakke."
+      "WEBSITE_SUCCESS": "Du er færdig med at oprette en hjemmeside kanal. Kopier koden vist nedenfor og indsæt den på din hjemmeside. Næste gang en kunde bruger live chat, vil samtalen automatisk vises i din indbakke.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Genautorisér",
     "VIEW": "Vis",
