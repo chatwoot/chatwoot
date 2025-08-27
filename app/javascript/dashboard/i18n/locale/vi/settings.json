@@ -226,6 +226,7 @@
     "APPEARANCE": "Change appearance",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
@@ -319,6 +320,7 @@
     "CSAT": "CSAT",
     "LIVE_CHAT": "Live Chat",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Chiến dịch",
     "ONGOING": "Đang diễn ra",
     "ONE_OFF": "Một lần",

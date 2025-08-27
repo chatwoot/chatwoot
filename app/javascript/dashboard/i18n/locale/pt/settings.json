@@ -78,10 +78,10 @@
         "NOTE": "Este token pode ser usado se você estiver construindo uma integração baseada em API",
         "COPY": "Copiar",
         "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "CONFIRM_RESET": "Tem a certeza?",
+        "CONFIRM_HINT": "Clique novamente para confirmar",
+        "RESET_SUCCESS": "O token de acesso voltou a ser gerado",
+        "RESET_ERROR": "Não foi possível voltar a gerar o token de acesso, por favor tente novamente"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -191,7 +191,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
         "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "IMPERSONATING_ERROR": "Não é possível alterar a disponibilidade enquanto está em modo de representação de um utilizador"
       },
       "EMAIL": {
         "LABEL": "Seu endereço de e-mail",
@@ -226,6 +226,7 @@
     "APPEARANCE": "Change appearance",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
@@ -319,6 +320,7 @@
     "CSAT": "CSAT",
     "LIVE_CHAT": "Live Chat",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em curso",
     "ONE_OFF": "Pontual",

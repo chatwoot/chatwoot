@@ -226,6 +226,7 @@
     "APPEARANCE": "更改外观",
     "SUPER_ADMIN_CONSOLE": "超级管理员控制台",
     "DOCS": "阅读文档",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "注销"
   },
   "APP_GLOBAL": {
@@ -319,6 +320,7 @@
     "CSAT": "客户满意度",
     "LIVE_CHAT": "在线聊天",
     "SMS": "短信",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "活动",
     "ONGOING": "进行中",
     "ONE_OFF": "一次性",

@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 ja:
   hello: 'こんにちは世界'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: やりましたね! パスワードのリセットリクエストが成功しました。手順についてはメールを確認してください。
     reset_password_failure: メールアドレスが見つかりませんでした。
@@ -34,6 +39,8 @@ ja:
       email_already_exists: 'あなたは既に %{email} でアカウントにサインアップしています'
       invalid_params: '無効な値が入力されました。確認のうえ再度お試しください。'
       failed: サインアップに失敗しました
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: 無効なデータ型。
@@ -53,6 +60,13 @@ ja:
       invalid_message_type: '無効なメッセージタイプです。アクションは許可されていません'
     slack:
       invalid_channel_id: '無効なSlackチャンネルです。もう一度お試しください。'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: ネットワーク接続、IMAPアドレスを確認の上、再度お試しください。
@@ -182,6 +196,8 @@ ja:
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} が会話をミュートしました'
       unmuted: '%{user_name} が会話のミュートを解除しました'
       auto_resolution_message: '会話がしばらく非アクティブのため、解決済みとして処理します。引き続きサポートが必要な場合は、新しい会話を開始してください。'
@@ -241,6 +257,10 @@ ja:
       name: 'Linear'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: '会話ウィンドウから直接Linearに問題を作成します。あるいは、既存のLinearの問題をリンクして、より効率的な問題追跡プロセスを実現します。'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
@@ -250,6 +270,7 @@ ja:
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
+    copilot_message_required: メッセージは必須です
     copilot_error: 'この受信トレイにアシスタントを接続してCopilotを使用してください'
     copilot_limit: 'Copilot残高がありません。課金セクションからクレジットを追加購入することができます。'
     copilot:
@@ -333,3 +354,12 @@ ja:
 
       Transcript:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'Email is required'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

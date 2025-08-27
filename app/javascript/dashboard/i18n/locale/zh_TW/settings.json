@@ -226,6 +226,7 @@
     "APPEARANCE": "切換風格",
     "SUPER_ADMIN_CONSOLE": "系統管理員後台",
     "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "退出登入"
   },
   "APP_GLOBAL": {
@@ -319,6 +320,7 @@
     "CSAT": "顧客滿意度得分(CSAT)",
     "LIVE_CHAT": "Live Chat",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "行銷活動",
     "ONGOING": "Ongoing",
     "ONE_OFF": "開啟 關閉",

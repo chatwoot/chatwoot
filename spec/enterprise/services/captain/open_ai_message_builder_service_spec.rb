@@ -207,6 +207,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
         attachment.update(external_url: nil)
         allow(attachment).to receive(:file).and_return(instance_double(ActiveStorage::Attached::One, attached?: true))
         allow(attachment).to receive(:file_url).and_return('https://local.com/file.jpg')
+        allow(attachment).to receive(:download_url).and_return('')
       end
 
       it 'returns file_url' do

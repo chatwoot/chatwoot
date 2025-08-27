@@ -1,11 +1,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { useAccount } from 'dashboard/composables/useAccount';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import instagramClient from 'dashboard/api/channel/instagramClient';
 
 export default {
-  mixins: [globalConfigMixin],
   setup() {
     const { accountId } = useAccount();
     return {
@@ -65,7 +63,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-background h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <div class="flex flex-col items-center justify-start h-full text-center">
       <div v-if="hasError" class="max-w-lg mx-auto text-center">

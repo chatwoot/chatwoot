@@ -226,6 +226,7 @@
     "APPEARANCE": "Mainīt izskatu",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin konsole",
     "DOCS": "Lasīt dokumentāciju",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "Izrakstīties"
   },
   "APP_GLOBAL": {
@@ -319,6 +320,7 @@
     "CSAT": "CSAT",
     "LIVE_CHAT": "Tiešraides tērzēšana",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Kampaņas",
     "ONGOING": "Notiekošs",
     "ONE_OFF": "Vienreizējs",

@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 ru:
   hello: 'Привет мир'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
     reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
@@ -34,6 +39,8 @@ ru:
       email_already_exists: 'Вы уже зарегистрировались для учётной записи с %{email}'
       invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
       failed: Ошибка регистрации
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Недопустимый тип данных
@@ -53,6 +60,13 @@ ru:
       invalid_message_type: 'Недопустимый тип сообщения. Действие запрещено'
     slack:
       invalid_channel_id: 'Неправильный канал slack - попробуйте еще раз'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -182,6 +196,8 @@ ru:
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Сообщение автозавершения не отправлено из-за ограничений исходящих сообщений'
       muted: '%{user_name} заглушил(а) этот разговор'
       unmuted: '%{user_name} включил(а) уведомления для разговора'
       auto_resolution_message: 'Разговор закрывается, поскольку он был неактивен в течение длительного времени. Пожалуйста, начните новый разговор, если потребуется дополнительная помощь.'
@@ -241,6 +257,10 @@ ru:
       name: 'Linear'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Создавайте или прикрепляйте уже существующие задачи в Linear непосредственно из окна диалога для более упорядоченного и эффективного процесса отслеживания проблем.'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
@@ -250,6 +270,7 @@ ru:
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
+    copilot_message_required: Необходимо ввести сообщение
     copilot_error: 'Пожалуйста, подключите ассистента к этому источнику входящих для использования Copilot'
     copilot_limit: 'У вас закончились кредиты для Copilot. Вы можете купить дополнительные кредиты в разделе биллинга.'
     copilot:
@@ -345,3 +366,12 @@ ru:
 
       Transcript:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'Необходимо указать Email'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'
