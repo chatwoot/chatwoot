@@ -472,7 +472,8 @@
         "FEATURES": {
           "TITLE": "特性",
           "ALLOW_CONVERSATION_FAQS": "从已解决的对话中生成常见问题",
-          "ALLOW_MEMORIES": "从客户互动中捕获关键细节作为记忆"
+          "ALLOW_MEMORIES": "从客户互动中捕获关键细节作为记忆",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
