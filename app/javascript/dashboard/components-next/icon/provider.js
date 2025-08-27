@@ -17,8 +17,8 @@ export function useChannelIcon(inbox) {
   };
 
   const providerIconMap = {
-    microsoft: 'i-ri-microsoft-fill',
-    google: 'i-ri-google-fill',
+    microsoft: 'i-woot-outlook',
+    google: 'i-woot-gmail',
   };
 
   const channelIcon = computed(() => {

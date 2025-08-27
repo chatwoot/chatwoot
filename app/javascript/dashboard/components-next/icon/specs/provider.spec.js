@@ -109,7 +109,7 @@ describe('useChannelIcon', () => {
         provider: 'microsoft',
       };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-microsoft-fill');
+      expect(icon).toBe('i-woot-outlook');
     });
 
     it('returns Google icon for Google email provider', () => {
@@ -118,7 +118,7 @@ describe('useChannelIcon', () => {
         provider: 'google',
       };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-google-fill');
+      expect(icon).toBe('i-woot-gmail');
     });
   });
 
