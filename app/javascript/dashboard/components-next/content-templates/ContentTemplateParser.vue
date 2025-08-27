@@ -3,6 +3,8 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { requiredIf } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
+import { extractFilenameFromUrl } from 'dashboard/helper/URLHelper';
+import { TWILIO_CONTENT_TEMPLATE_TYPES } from 'shared/constants/messages';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 
@@ -19,6 +21,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['sendMessage', 'resetTemplate', 'back']);
+
+const VARIABLE_PATTERN = /{{([^}]+)}}/g;
 
 const { t } = useI18n();
 
@@ -37,11 +41,11 @@ const templateBody = computed(() => {
 });
 
 const hasMediaTemplate = computed(() => {
-  return props.template.template_type === 'media';
+  return props.template.template_type === TWILIO_CONTENT_TEMPLATE_TYPES.MEDIA;
 });
 
 const hasVariables = computed(() => {
-  return templateBody.value?.match(/{{([^}]+)}}/g) !== null;
+  return templateBody.value?.match(VARIABLE_PATTERN) !== null;
 });
 
 const mediaVariableKey = computed(() => {
@@ -72,23 +76,12 @@ const hasMediaVariable = computed(() => {
 const templateMediaUrl = computed(() => {
   if (!hasMediaTemplate.value) return '';
 
-  // Extract media URL from template types structure
-  const template = props.template;
-  if (
-    template.types &&
-    template.types['twilio/media'] &&
-    template.types['twilio/media'].media
-  ) {
-    const mediaArray = template.types['twilio/media'].media;
-    return mediaArray[0] || '';
-  }
-
-  return '';
+  return props.template?.types?.['twilio/media']?.media?.[0] || '';
 });
 
 const variablePattern = computed(() => {
   if (!hasVariables.value) return [];
-  const matches = templateBody.value.match(/{{([^}]+)}}/g) || [];
+  const matches = templateBody.value.match(VARIABLE_PATTERN) || [];
   return matches.map(match => match.replace(/[{}]/g, ''));
 });
 
@@ -96,7 +89,7 @@ const renderedTemplate = computed(() => {
   let rendered = templateBody.value;
   if (processedParams.value && Object.keys(processedParams.value).length > 0) {
     // Replace variables in the format {{1}}, {{2}}, etc.
-    rendered = rendered.replace(/{{([^}]+)}}/g, (match, variable) => {
+    rendered = rendered.replace(VARIABLE_PATTERN, (match, variable) => {
       const cleanVariable = variable.trim();
       return processedParams.value[cleanVariable] || match;
     });
@@ -147,21 +140,6 @@ const initializeTemplateParameters = () => {
 
   if (hasMediaVariable.value && mediaVariableKey.value) {
     processedParams.value[mediaVariableKey.value] = '';
-  }
-};
-
-const extractFilenameFromUrl = url => {
-  if (!url || typeof url !== 'string') return url;
-
-  try {
-    const urlObj = new URL(url);
-    const pathname = urlObj.pathname;
-    const filename = pathname.split('/').pop();
-    return filename || url;
-  } catch (error) {
-    // If URL parsing fails, try to extract filename using regex
-    const match = url.match(/\/([^/?#]+)(?:[?#]|$)/);
-    return match ? match[1] : url;
   }
 };
 

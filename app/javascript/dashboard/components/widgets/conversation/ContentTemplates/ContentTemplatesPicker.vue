@@ -4,6 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useI18n } from 'vue-i18n';
+import { TWILIO_CONTENT_TEMPLATE_TYPES } from 'shared/constants/messages';
 
 const props = defineProps({
   inboxId: {
@@ -34,10 +35,10 @@ const filteredTemplateMessages = computed(() =>
 );
 
 const getTemplateType = template => {
-  if (template.template_type === 'media') {
+  if (template.template_type === TWILIO_CONTENT_TEMPLATE_TYPES.MEDIA) {
     return 'Media';
   }
-  if (template.template_type === 'quick_reply') {
+  if (template.template_type === TWILIO_CONTENT_TEMPLATE_TYPES.QUICK_REPLY) {
     return 'Quick Reply';
   }
   return 'Text';

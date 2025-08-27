@@ -5,6 +5,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import ContentTemplateForm from './ContentTemplateForm.vue';
 
 const props = defineProps({
@@ -74,19 +75,22 @@ const handleSendMessage = template => {
       v-if="showTemplatesMenu"
       class="absolute top-full mt-1.5 max-h-96 overflow-y-auto ltr:left-0 rtl:right-0 flex flex-col gap-2 p-4 items-center w-[21.875rem] h-auto bg-n-solid-2 border border-n-strong shadow-sm rounded-lg"
     >
-      <div class="relative w-full">
-        <Icon
-          icon="i-lucide-search"
-          class="absolute top-2 size-3.5 ltr:left-3 rtl:right-3"
-        />
-        <input
+      <div class="w-full">
+        <Input
           v-model="searchQuery"
           type="search"
           :placeholder="
             t('COMPOSE_NEW_CONVERSATION.FORM.TWILIO_OPTIONS.SEARCH_PLACEHOLDER')
           "
-          class="py-2 w-full h-8 text-sm rounded-lg border-none outline-none ltr:pl-10 rtl:pr-10 ltr:pr-2 rtl:pl-2 reset-base bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
-        />
+          custom-input-class="ltr:pl-10 rtl:pr-10"
+        >
+          <template #prefix>
+            <Icon
+              icon="i-lucide-search"
+              class="absolute top-2 size-3.5 ltr:left-3 rtl:right-3"
+            />
+          </template>
+        </Input>
       </div>
       <div
         v-for="template in filteredTemplates"
