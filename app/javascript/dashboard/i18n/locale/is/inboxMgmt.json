@@ -478,7 +478,10 @@
       "MESSAGE": "Þú getur nú átt samskipti við viðskiptavini þína í gegnum nýju rásina þína. Gangi þér vel við þjónustuna",
       "BUTTON_TEXT": "Taktu mig þangað",
       "MORE_SETTINGS": "Fleiri stillingar",
-      "WEBSITE_SUCCESS": "Þú hefur lokið við að búa til vefsíðurás. Afritaðu kóðann sem sýndur er hér að neðan og límdu hann á vefsíðuna þína. Næst þegar viðskiptavinur notar spjallið birtist samtalið sjálfkrafa í innhólfinu þínu."
+      "WEBSITE_SUCCESS": "Þú hefur lokið við að búa til vefsíðurás. Afritaðu kóðann sem sýndur er hér að neðan og límdu hann á vefsíðuna þína. Næst þegar viðskiptavinur notar spjallið birtist samtalið sjálfkrafa í innhólfinu þínu.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Endurauðkenna",
     "VIEW": "Skoða",
