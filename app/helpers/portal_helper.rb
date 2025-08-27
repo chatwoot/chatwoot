@@ -74,6 +74,17 @@ module PortalHelper
     end
   end
 
+  def generate_portal_brand_url(brand_url, referer)
+    url = URI(brand_url)
+    query_params = Rack::Utils.parse_query(url.query)
+    query_params['utm_medium'] = 'helpcenter'
+    query_params['utm_campaign'] = 'branding'
+    query_params.delete('utm_referrer')
+    query_params['utm_source'] = URI(referer).host if referer.present?
+    url.query = query_params.to_query
+    url.to_s
+  end
+
   def render_category_content(content)
     ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
   end
