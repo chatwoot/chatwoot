@@ -73,7 +73,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       @conversation.bot_handoff!
     elsif params[:status].present?
       set_conversation_status
-      # clear_assignee_if_resolved
+      clear_assignee_if_resolved
       restore_assignee_if_open
       @status = @conversation.save!
     else
@@ -90,12 +90,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def clear_assignee_if_resolved
     return unless @conversation.status == 'resolved'
 
-    @conversation.messages.create!(
-      content: 'Terima kasih telah menghubungi Kami. Jika ada pertanyaan lain di kemudian hari, kami siap membantu',
-      account_id: @conversation.account_id,
-      inbox_id: @conversation.inbox_id,
-      message_type: 1
-    )
+    # @conversation.messages.create!(
+    #   content: 'Terima kasih telah menghubungi Kami. Jika ada pertanyaan lain di kemudian hari, kami siap membantu',
+    #   account_id: @conversation.account_id,
+    #   inbox_id: @conversation.inbox_id,
+    #   message_type: 1
+    # )
     @conversation.assignee_id = nil
   end
 
