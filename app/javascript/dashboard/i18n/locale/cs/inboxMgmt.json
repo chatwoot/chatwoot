@@ -478,7 +478,10 @@
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Vezmi mě tam",
       "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "Úspěšně jste dokončili vytvoření webového kanálu. Zkopírujte kód zobrazený níže a vložte jej na vaše webové stránky. Když zákazník příště použije živý chat, konverzace se automaticky objeví ve vaší doručené poště."
+      "WEBSITE_SUCCESS": "Úspěšně jste dokončili vytvoření webového kanálu. Zkopírujte kód zobrazený níže a vložte jej na vaše webové stránky. Když zákazník příště použije živý chat, konverzace se automaticky objeví ve vaší doručené poště.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Znovu autorizovat",
     "VIEW": "Zobrazit",
