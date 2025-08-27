@@ -8,6 +8,11 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
+  # OmniAuth SAML routes
+  match '/auth/saml/:account_id', to: 'omniauth#request', via: [:get, :post], as: :saml_auth
+  match '/auth/saml/:account_id/callback', to: 'omniauth#callback', via: [:get, :post], as: :saml_callback
+  match '/auth/failure', to: 'omniauth#failure', via: [:get, :post], as: :saml_failure
+
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
     root to: 'api#index'
@@ -70,6 +75,11 @@ Rails.application.routes.draw do
             resources :documents, only: [:index, :show, :create, :destroy]
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
+
+          namespace :saml do
+            get 'sso', to: 'callbacks#sso'
+            post 'callback', to: 'callbacks#create'
+          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member

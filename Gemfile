@@ -77,6 +77,9 @@ gem 'devise_token_auth', '>= 1.2.3'
 # authorization
 gem 'jwt'
 gem 'pundit'
+# SAML authentication
+gem 'omniauth-saml', '~> 2.1'
+gem 'omniauth-multi-provider'
 # super admin
 gem 'administrate', '>= 0.20.1'
 gem 'administrate-field-active_storage', '>= 1.0.3'
