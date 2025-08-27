@@ -50,23 +50,10 @@ const hasVariables = computed(() => {
 
 const mediaVariableKey = computed(() => {
   if (!hasMediaTemplate.value) return null;
-
-  // Extract media URL from template types structure to find the variable key
-  const template = props.template;
-  if (
-    template.types &&
-    template.types['twilio/media'] &&
-    template.types['twilio/media'].media
-  ) {
-    const mediaUrl = template.types['twilio/media'].media[0];
-    if (mediaUrl) {
-      // Find which variable key is used in the media URL (e.g., {{1}}, {{2}}, {{3}}, etc.)
-      const match = mediaUrl.match(/{{(\d+)}}/);
-      return match ? match[1] : null;
-    }
-  }
-
-  return null;
+  const mediaUrl =
+    props.template?.types?.[TWILIO_CONTENT_TEMPLATE_TYPES.MEDIA]?.media?.[0];
+  if (!mediaUrl) return null;
+  return mediaUrl.match(/{{(\d+)}}/)?.[1] ?? null;
 });
 
 const hasMediaVariable = computed(() => {
