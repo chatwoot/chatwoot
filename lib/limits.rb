@@ -4,6 +4,7 @@ module Limits
   URL_LENGTH_LIMIT = 2048 # https://stackoverflow.com/questions/417142
   OUT_OF_OFFICE_MESSAGE_MAX_LENGTH = 10_000
   GREETING_MESSAGE_MAX_LENGTH = 10_000
+  CATEGORIES_PER_PAGE = 1000
 
   def self.conversation_message_per_minute_limit
     ENV.fetch('CONVERSATION_MESSAGE_PER_MINUTE_LIMIT', '200').to_i
