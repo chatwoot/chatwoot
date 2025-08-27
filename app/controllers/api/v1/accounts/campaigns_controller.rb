@@ -21,6 +21,17 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+def execute
+  campaign = Current.account.campaigns.find(params[:id])
+  # TODO: authorize! if using Pundit/guards
+
+  # Optional: enqueue a background job (stub ok for now)
+  ExecuteCampaignJob.perform_later(campaign.id, current_user&.id)
+
+  render json: { message: 'started', campaign_id: campaign.id }, status: :accepted
+end
+
+
   private
 
   def campaign
