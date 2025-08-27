@@ -23,28 +23,29 @@
     <div class="space-y-6 pb-6">
       <!-- Sidebar Navigation (always show) -->
       <div class="flex flex-row justify-stretch gap-2">
-        <!-- Custom Tabs with PNG Icons -->
+        <!-- Custom Tabs with SVG Icons -->
         <div class="flex flex-col gap-1 min-w-[200px] mr-4">
           <div
             v-for="tab in tabs"
             :key="tab.key"
-            class="flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg transition-all duration-200 hover:bg-gray-50"
+            class="flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50"
             :class="{
-              'bg-woot-50 border-l-4 border-woot-500 text-woot-600': tab.index === activeTabIndex,
-              'text-gray-600 hover:text-gray-900': tab.index !== activeTabIndex,
+              'bg-woot-50 border-l-4 border-woot-500 text-woot-600 dark:bg-woot-900/50 dark:border-woot-400 dark:text-woot-400': tab.index === activeTabIndex,
+              'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200': tab.index !== activeTabIndex,
             }"
             @click="activeTabIndex = tab.index"
           >
-            <img
-              :src="tab.icon"
-              :alt="tab.name"
-              class="w-6 h-6 object-contain"
-              :class="{
-                'opacity-100': tab.index === activeTabIndex,
-                'opacity-60': tab.index !== activeTabIndex,
-              }"
+            <span
+              :class="[
+                tab.icon,
+                'w-5 h-5 transition-all duration-200',
+                {
+                  'text-woot-600 dark:text-woot-400': tab.index === activeTabIndex,
+                  'text-gray-500 dark:text-gray-400': tab.index !== activeTabIndex,
+                }
+              ]"
             />
-            <span class="">{{ tab.name }}</span>
+            <span class="text-sm">{{ tab.name }}</span>
           </div>
         </div>
 
@@ -89,16 +90,16 @@
                 <div class="flex items-start justify-between">
                   <div class="flex-1">
                     <div class="flex items-center mb-3">
-                      <div class="flex items-center justify-center mr-3 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center" style="width:50px;height:40px;border-radius:0.5rem;">
+                      <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
                         <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
                         </svg>
                       </div>
                       <div>
-                        <h3 class="text-lg font-semibold text-slate-900 dark:text-slate-25 mb-1">
+                        <h3 class="font-medium text-slate-900 dark:text-slate-25">
                           {{ $t('AGENT_MGMT.SALESBOT.CATALOG.INPUT_SHEET_TITLE') }}
                         </h3>
-                        <p class="text-sm text-blue-700 dark:text-blue-300 mb-2">
+                        <p class="text-sm text-slate-600 dark:text-slate-400">
                           {{ $t('AGENT_MGMT.SALESBOT.CATALOG.INPUT_SHEET_DESC') }}
                         </p>
                       </div>
@@ -108,7 +109,7 @@
                     <a 
                       :href="catalogSheets.input" 
                       target="_blank" 
-                      class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                      class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
                     >
                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -128,11 +129,12 @@
                   </div>
                   
                   <div class="flex gap-3">
-                    <input
+                    <Input
+                      id="linkurl"
                       type="text"
                       v-model="productColumns"
-                      :placeholder="$t('AGENT_MGMT.SALESBOT.CATALOG.PRODUCT_COLUMNS_PLACEHOLDER')"
-                      class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand flex-1 reset-base text-sm h-10 px-3 py-2.5 mb-0 border rounded-lg bg-white dark:bg-gray-800 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 transition-all duration-500 ease-in-out"
+                      class="flex-1"
+                      :placeholder="$t('AGENT_MGMT.WEBSITE_SETTINGS.ADD_LINK_PLACEHOLDER')"
                     />
                     <button
                       @click="syncProductColumns"
@@ -153,7 +155,7 @@
               </div>
 
               <!-- Output Sheet Section - Order Tracking -->
-              <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
+              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center">
                     <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
@@ -169,7 +171,7 @@
                   <a 
                     :href="catalogSheets.output" 
                     target="_blank" 
-                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
                   >
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -218,55 +220,7 @@
                     />
                   </div>
 
-                  <!-- Google Maps Integration -->
-                  <div>
-                    <label class="block font-medium mb-2">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MAP_LOCATION') }}</label>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.MAP_INSTRUCTION') }}</p>
-                    
-                    <!-- Map Container -->
-                    <div class="relative bg-gray-100 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600">
-                      <div 
-                        ref="mapRef"
-                        class="w-full h-64"
-                        style="min-height: 256px;"
-                      ></div>
-                      
-                      <!-- Loading Overlay -->
-                      <div v-if="!kurirToko.mapLoaded" class="absolute inset-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-                        <div class="text-center">
-                          <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
-                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
-                          </svg>
-                          <p class="text-sm text-gray-600 dark:text-gray-400">Loading map...</p>
-                        </div>
-                      </div>
-                    </div>
 
-                    <!-- Coordinates Display -->
-                    <div class="grid grid-cols-2 gap-4 mt-3">
-                      <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.LATITUDE') }}</label>
-                        <input 
-                          type="number" 
-                          step="0.000001"
-                          v-model="kurirToko.latitude"
-                          class="w-full text-xs px-2 py-1 border border-gray-300 rounded bg-gray-50 text-gray-700 cursor-not-allowed"
-                          readonly
-                        />
-                      </div>
-                      <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.LONGITUDE') }}</label>
-                        <input 
-                          type="number" 
-                          step="0.000001"
-                          v-model="kurirToko.longitude"
-                          class="w-full text-xs px-2 py-1 border border-gray-300 rounded bg-gray-50 text-gray-700 cursor-not-allowed"
-                          readonly
-                        />
-                      </div>
-                    </div>
-                  </div>
                   
                   <!-- Service Area -->
                   <div>
@@ -289,7 +243,7 @@
                         <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_REGION') }}</label>
                         <select 
                           v-model="kurirToko.wilayah"
-                          class="mb-0 w-full p-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
                           <option value="">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_REGION_PLACEHOLDER') }}</option>
                           <option v-for="kecamatan in kecamatanOptions" :key="kecamatan.id" :value="kecamatan.name">
@@ -397,7 +351,7 @@
                           v-model="kurirBiasa.provinsi"
                           @change="onProvinsiChange"
                           :disabled="loadingProvinsi"
-                          class="w-full mb-0 p-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                          class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
                           <option value="">{{ loadingProvinsi ? 'Loading...' : 'Pilih Provinsi' }}</option>
                           <option v-for="provinsi in provinsiOptions" :key="provinsi.id" :value="provinsi.id">
@@ -415,7 +369,7 @@
                           v-model="kurirBiasa.kota"
                           @change="onKotaChange"
                           :disabled="!kurirBiasa.provinsi || loadingKota"
-                          class="mb-0 w-full p-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                          class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
                           <option value="">
                             {{ !kurirBiasa.provinsi ? 'Pilih provinsi terlebih dahulu' : 
@@ -436,7 +390,7 @@
                           v-model="kurirBiasa.kecamatan"
                           @change="onKecamatanChange"
                           :disabled="!kurirBiasa.kota || loadingKecamatan"
-                          class="mb-0 w-full p-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                          class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
                           <option value="">
                             {{ !kurirBiasa.kota ? 'Pilih kota terlebih dahulu' : 
@@ -680,57 +634,22 @@
 </template>
 
 <script setup>
+import Input from 'dashboard/components-next/input/Input.vue';
+
 import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n'
 
 // Google Sheets Auth Flow for Catalog
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
 
-// Import icons
-import catalogIcon from '../../../../../../../public/assets/images/ic_product.png'
-import shippingIcon from '../../../../../../../public/assets/images/ic_shipping.png'
-
 const { t } = useI18n()
 
-// Initialize Google Maps and load provinces on mount
+// Initialize and load provinces on mount
 onMounted(async () => {
-  console.log('Component mounted');
-  // loadProvinsi();
-  
-  // Pre-load Google Maps API but don't initialize map yet
-  try {
-    await loadGoogleMaps();
-    console.log('Google Maps API pre-loaded successfully');
-  } catch (error) {
-    console.error('Failed to pre-load Google Maps API:', error);
-    // Try alternative loading method
-    console.log('Attempting alternative Google Maps loading...');
-    setTimeout(async () => {
-      try {
-        // Check if Google is now available
-        if (window.google && window.google.maps && window.google.maps.Map) {
-          console.log('Google Maps available after retry');
-        } else {
-          console.log('Google Maps still not available, will retry on map initialization');
-        }
-      } catch (retryError) {
-        console.error('Retry loading also failed:', retryError);
-      }
-    }, 2000);
-  }
+  loadProvinsi();
 });
 
-// Always show sheetConfig for layout preview
-// onMounted(() => {
-//   catalogStep.value = 'connected';
-//   catalogSheets.input = 'https://docs.google.com/spreadsheets/d/input-sheet-id';
-//   catalogSheets.output = 'https://docs.google.com/spreadsheets/d/output-sheet-id';
-  
-//   // Load provinces on component mount
-//   loadProvinsi();
-// });
-
-const catalogStep = ref('auth'); // 'auth', 'connected', 'sheetConfig'
+const catalogStep = ref('connected'); // 'auth', 'connected', 'sheetConfig'
 const catalogLoading = ref(false);
 const catalogAccount = ref(null); // { email: '...', name: '...' }
 const catalogSheets = reactive({ input: '', output: '' });
@@ -841,13 +760,13 @@ const tabs = computed(() => [
     key: '0',
     index: 0,
     name: t('AGENT_MGMT.SALESBOT.CATALOG.HEADER'),
-    icon: catalogIcon,
+    icon: 'i-lucide-package',
   },
   {
     key: '1',
     index: 1,
     name: t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER'),
-    icon: shippingIcon,
+    icon: 'i-lucide-truck',
   },
 ])
 const activeTabIndex = ref(0);
@@ -867,10 +786,7 @@ const kurirToko = reactive({
   flatRate: '',
   biayaPerJarak: '',
   gratisOngkir: false,
-  minimalBelanja: '',
-  latitude: -6.2088, // Default to Jakarta
-  longitude: 106.8456,
-  mapLoaded: false
+  minimalBelanja: ''
 });
 const kurirBiasa = reactive({ 
   provinsi: '', 
@@ -1152,312 +1068,7 @@ const ambilToko = reactive({
   estimasi: '' 
 });
 
-// Google Maps Integration
-const mapRef = ref(null);
-const mapInstance = ref(null);
-const markerInstance = ref(null);
-const geocoderInstance = ref(null);
-const mapLoadingTimeout = ref(null);
 
-// Google Maps API Integration
-// NOTE: Replace with your actual Google Maps API key
-const GOOGLE_MAPS_API_KEY = 'AIzaSyBJmAu8H4PpmswivCAvVS3s88iHQd3yy5s';
-
-// Validate API key
-const validateApiKey = () => {
-  if (!GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
-    console.error('Google Maps API key is missing or not configured');
-    return false;
-  }
-  return true;
-};
-
-// Load Google Maps API
-const loadGoogleMaps = () => {
-  return new Promise((resolve, reject) => {
-    // Validate API key first
-    if (!validateApiKey()) {
-      reject(new Error('Google Maps API key is not configured'));
-      return;
-    }
-    else {
-      console.log('Google Maps API key is set');
-    }
-
-    // Check if Google Maps is already loaded
-    if (window.google && window.google.maps && window.google.maps.Map) {
-      console.log('Google Maps already loaded');
-      resolve(window.google); // Return the full google object
-      return;
-    }
-
-    // Check if script is already loading
-    const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
-    if (existingScript) {
-      console.log('Google Maps script already exists, waiting for load...');
-      const checkGoogleMaps = () => {
-        if (window.google && window.google.maps && window.google.maps.Map) {
-          resolve(window.google); // Return the full google object
-        } else {
-          setTimeout(checkGoogleMaps, 100);
-        }
-      };
-      checkGoogleMaps();
-      return;
-    }
-
-    console.log('Loading Google Maps API with key:', GOOGLE_MAPS_API_KEY.substring(0, 10) + '...');
-    
-    // Create a unique callback name to avoid conflicts
-    const callbackName = `initGoogleMaps_${Date.now()}`;
-    
-    window[callbackName] = () => {
-      console.log('Google Maps API callback triggered');
-      if (window.google && window.google.maps && window.google.maps.Map) {
-        console.log('Google Maps API loaded successfully');
-        resolve(window.google); // Return the full google object
-      } else {
-        console.error('Google Maps API callback triggered but objects not available');
-        console.error('window.google:', window.google);
-        console.error('window.google.maps:', window.google?.maps);
-        console.error('window.google.maps.Map:', window.google?.maps?.Map);
-        reject(new Error('Google Maps API loaded but objects not available'));
-      }
-      delete window[callbackName];
-    };
-
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=geometry,places&callback=${callbackName}`;
-    script.async = true;
-    script.defer = true;
-    script.onerror = (error) => {
-      console.error('Failed to load Google Maps script:', error);
-      console.error('API Key used:', GOOGLE_MAPS_API_KEY.substring(0, 10) + '...');
-      delete window[callbackName];
-      reject(new Error('Failed to load Google Maps script - please check your API key'));
-    };
-    
-    console.log('Appending script to head:', script.src);
-    document.head.appendChild(script);
-  });
-};
-
-// Initialize Google Maps
-const initializeMap = async () => {
-  console.log('initializeMap called');
-  console.log('mapRef.value:', mapRef.value);
-  console.log('kurirToko.mapLoaded:', kurirToko.mapLoaded);
-  
-  if (!mapRef.value) {
-    console.error('Map reference not found');
-    return;
-  }
-  
-  if (kurirToko.mapLoaded) {
-    console.log('Map already loaded');
-    return;
-  }
-
-  try {
-    console.log('Loading Google Maps...');
-    const google = await loadGoogleMaps();
-    
-    console.log('Google Maps loaded, google object:', google);
-    console.log('google.maps:', google.maps);
-    console.log('google.maps.Map:', google.maps?.Map);
-    
-    // Additional debugging
-    console.log('typeof google:', typeof google);
-    console.log('google keys:', google ? Object.keys(google) : 'no google object');
-    
-    if (!google || !google.maps) {
-      console.error('Google object or google.maps is missing');
-      console.error('Available google properties:', google ? Object.keys(google) : 'none');
-      throw new Error('Google Maps API not properly loaded - missing maps object');
-    }
-    
-    if (!google.maps.Map) {
-      console.error('google.maps.Map is missing');
-      console.error('Available google.maps properties:', Object.keys(google.maps));
-      throw new Error('Google Maps API not properly loaded - missing Map constructor');
-    }
-
-    console.log('Creating map instance...');
-    
-    // Initialize map
-    mapInstance.value = new google.maps.Map(mapRef.value, {
-      zoom: 15,
-      center: { lat: kurirToko.latitude, lng: kurirToko.longitude },
-      mapTypeControl: true,
-      streetViewControl: false,
-      fullscreenControl: false,
-    });
-
-    console.log('Map instance created:', mapInstance.value);
-
-    // Initialize marker
-    markerInstance.value = new google.maps.Marker({
-      position: { lat: kurirToko.latitude, lng: kurirToko.longitude },
-      map: mapInstance.value,
-      draggable: true,
-      title: 'Store Location'
-    });
-
-    console.log('Marker created:', markerInstance.value);
-
-    // Initialize geocoder
-    geocoderInstance.value = new google.maps.Geocoder();
-
-    console.log('Geocoder created:', geocoderInstance.value);
-
-    // Add marker drag listener
-    markerInstance.value.addListener('dragend', (event) => {
-      const lat = event.latLng.lat();
-      const lng = event.latLng.lng();
-      kurirToko.latitude = lat;
-      kurirToko.longitude = lng;
-      
-      // Reverse geocode to update address
-      reverseGeocode(lat, lng);
-    });
-
-    kurirToko.mapLoaded = true;
-    console.log('Google Maps initialized successfully');
-  } catch (error) {
-    console.error('Error initializing Google Maps:', error);
-    console.error('Error details:', {
-      message: error.message,
-      stack: error.stack,
-      window_google: window.google,
-      google_maps: window.google?.maps,
-      google_maps_Map: window.google?.maps?.Map,
-      google_maps_keys: window.google?.maps ? Object.keys(window.google.maps) : 'no maps object'
-    });
-    showNotification('Failed to load map. Please check your API key and internet connection.', 'error');
-  }
-};
-
-// Geocode address to coordinates
-const geocodeAddress = async (address) => {
-  if (!geocoderInstance.value || !address.trim()) return;
-
-  try {
-    const response = await new Promise((resolve, reject) => {
-      geocoderInstance.value.geocode({ address }, (results, status) => {
-        if (status === 'OK' && results[0]) {
-          resolve(results[0]);
-        } else {
-          reject(new Error(`Geocoding failed: ${status}`));
-        }
-      });
-    });
-
-    const location = response.geometry.location;
-    const lat = location.lat();
-    const lng = location.lng();
-
-    // Update coordinates
-    kurirToko.latitude = lat;
-    kurirToko.longitude = lng;
-
-    // Update map center and marker position
-    if (mapInstance.value && markerInstance.value) {
-      const newPosition = { lat, lng };
-      mapInstance.value.setCenter(newPosition);
-      markerInstance.value.setPosition(newPosition);
-    }
-
-  } catch (error) {
-    console.error('Geocoding error:', error);
-    showNotification('Could not find the address on the map', 'error');
-  }
-};
-
-// Reverse geocode coordinates to address
-const reverseGeocode = async (lat, lng) => {
-  if (!geocoderInstance.value) return;
-
-  try {
-    const response = await new Promise((resolve, reject) => {
-      geocoderInstance.value.geocode(
-        { location: { lat, lng } },
-        (results, status) => {
-          if (status === 'OK' && results[0]) {
-            resolve(results[0]);
-          } else {
-            reject(new Error(`Reverse geocoding failed: ${status}`));
-          }
-        }
-      );
-    });
-
-    // Update address field with the formatted address
-    kurirToko.alamat = response.formatted_address;
-  } catch (error) {
-    console.error('Reverse geocoding error:', error);
-  }
-};
-
-// Watch for address changes to trigger geocoding
-let geocodingTimeout = null;
-watch(() => kurirToko.alamat, (newAddress) => {
-  if (!newAddress || !kurirToko.mapLoaded) return;
-  
-  // Debounce geocoding requests
-  clearTimeout(geocodingTimeout);
-  geocodingTimeout = setTimeout(() => {
-    geocodeAddress(newAddress);
-  }, 1000);
-});
-
-// Initialize map when component is mounted and Kurir Toko is enabled
-watch(() => shippingMethods.kurirToko, (enabled) => {
-  console.log('Kurir Toko toggle changed:', enabled);
-  if (enabled && !kurirToko.mapLoaded) {
-    // Wait for DOM update and then initialize map
-    setTimeout(async () => {
-      console.log('Attempting to initialize map after DOM update');
-      
-      // Try direct access to Google Maps first
-      if (window.google && window.google.maps && window.google.maps.Map) {
-        console.log('Google Maps already available, initializing directly...');
-        await initializeMap();
-      } else {
-        console.log('Google Maps not available, loading first...');
-        try {
-          await loadGoogleMaps();
-          await initializeMap();
-        } catch (error) {
-          console.error('Failed to load Google Maps on toggle:', error);
-          showNotification('Failed to load map. Please refresh the page and try again.', 'error');
-        }
-      }
-    }, 200);
-  }
-});
-
-// Also watch for mapRef availability
-watch(mapRef, (newMapRef) => {
-  console.log('mapRef changed:', newMapRef);
-  if (newMapRef && shippingMethods.kurirToko && !kurirToko.mapLoaded) {
-    setTimeout(async () => {
-      console.log('Attempting to initialize map after mapRef available');
-      
-      // Ensure Google Maps is loaded
-      if (window.google && window.google.maps && window.google.maps.Map) {
-        await initializeMap();
-      } else {
-        console.log('Google Maps not ready, loading...');
-        try {
-          await loadGoogleMaps();
-          await initializeMap();
-        } catch (error) {
-          console.error('Failed to load Google Maps via mapRef watcher:', error);
-        }
-      }
-    }, 100);
-  }
-});
 
 function submitConfig() {
   console.log('Katalog:', catalogSheet.value, catalogDesc.value);
@@ -1472,11 +1083,7 @@ function submitConfig() {
       flatRate: kurirToko.flatRate,
       biayaPerJarak: kurirToko.biayaPerJarak,
       gratisOngkir: kurirToko.gratisOngkir,
-      minimalBelanja: kurirToko.gratisOngkir ? kurirToko.minimalBelanja : null,
-      coordinates: {
-        latitude: kurirToko.latitude,
-        longitude: kurirToko.longitude
-      }
+      minimalBelanja: kurirToko.gratisOngkir ? kurirToko.minimalBelanja : null
     } : null,
     kurirBiasa: shippingMethods.kurirBiasa ? {
       alamat: {

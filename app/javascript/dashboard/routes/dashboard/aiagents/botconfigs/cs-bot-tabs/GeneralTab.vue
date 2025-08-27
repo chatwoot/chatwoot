@@ -1,5 +1,18 @@
 <template>
-  <div class="flex flex-row gap-4">
+  <div class="w-full">
+    <!-- Notification -->
+    <div v-if="notification"
+      :class="['fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transition-all duration-300',
+        notification.type === 'success' ? 'bg-green-500 text-white' :
+        notification.type === 'error' ? 'bg-red-500 text-white' :
+        notification.type === 'info' ? 'bg-blue-500 text-white' :
+        'bg-gray-500 text-white']">
+      <div class="flex items-center space-x-2">
+        <span>{{ notification.message }}</span>
+      </div>
+    </div>
+    
+    <div class="flex flex-row gap-4">
     <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
       <div class="space-y-4">
         <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-4">
@@ -27,11 +40,112 @@
           <p class="text-sm text-gray-500 mb-3">{{ $t('AGENT_MGMT.CSBOT.TICKET.CREATE_WHEN_DESC') }}</p>
           <select 
             v-model="config.ticketCreateWhen" 
-            class="w-full max-w-md px-3 py-2.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 hover:border-slate-300 dark:hover:border-slate-600 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 transition-all duration-200"
+            class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
           >
             <option value="always">{{ $t('AGENT_MGMT.CSBOT.TICKET.CREATE_ALWAYS') }}</option>
             <option value="bot_fail">{{ $t('AGENT_MGMT.CSBOT.TICKET.CREATE_ON_FAIL') }}</option>
           </select>
+        </div>
+
+        <!-- Google Sheets Integration -->
+        <div v-if="config.ticketSystemActive" class="mb-6">
+          <h4 class="text-md font-medium text-slate-900 dark:text-slate-25 mb-3">Ticket Output Integration</h4>
+          <p class="text-sm text-gray-500 mb-4">Connect to Google Sheets to automatically save tickets data</p>
+          
+          <!-- Google Sheets Auth Flow -->
+          <div v-if="ticketStep === 'auth'" class="mb-6">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                  </div>
+                <div>
+                  <h5 class="text-sm font-medium text-blue-900 dark:text-blue-100">Google Sheets Connection</h5>
+                  <p class="text-xs text-blue-700 dark:text-blue-300">Authorize access to create ticket output sheets</p>
+                </div>
+              </div>
+              
+              <button
+                @click="connectGoogle"
+                class="inline-flex items-center space-x-3 bg-green-600 hover:bg-green-700 dark:bg-green-400 dark:hover:bg-green-500 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                :disabled="ticketLoading"
+              >
+                <svg v-if="ticketLoading" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                  <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
+                </svg>
+                <svg v-else class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                <span>{{ ticketLoading ? 'Connecting...' : 'Connect Google Account' }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Connected State -->
+          <div v-else-if="ticketStep === 'connected'" class="mb-6">
+            <div class="dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h5 class="text-sm font-medium text-green-900 dark:text-green-100">Google Account Connected</h5>
+                    <p class="text-xs text-green-700 dark:text-green-300">{{ ticketAccount?.email || 'Connected successfully' }}</p>
+                  </div>
+                </div>
+                <button
+                  class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                  @click="createTicketSheet"
+                  :disabled="loading"
+                >
+                  <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
+                  <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sheet Configuration -->
+          <div v-else-if="ticketStep === 'sheetConfig'" class="mb-6">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h5 class="text-sm font-medium text-slate-900 dark:text-slate-100">Ticket Output Sheet</h5>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">Tickets will be automatically saved here</p>
+                  </div>
+                </div>
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded-lg">
+                      <a 
+                        :href="ticketSheets.output" 
+                        target="_blank" 
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                      >
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                        {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
+                      </a>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -66,15 +180,17 @@
         </Button>
 
       </div>
+      </div>
     </div>
   </div>
-</template>
-
-<script setup>
-import { ref } from 'vue'
+</template><script setup>
+import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useAlert } from 'dashboard/composables'
 import Button from 'dashboard/components-next/button/Button.vue'
+
+// Google Sheets Auth Flow for Tickets
+import googleSheetsExportAPI from '../../../../../api/googleSheetsExport'
 
 const { t } = useI18n()
 
@@ -87,15 +203,103 @@ const props = defineProps({
 
 const isSaving = ref(false)
 
+// Google Sheets Integration State
+const ticketStep = ref('auth') // 'auth', 'connected', 'sheetConfig'
+const ticketLoading = ref(false)
+const ticketAccount = ref(null) // { email: '...', name: '...' }
+const ticketSheets = reactive({ output: '' })
+const notification = ref(null)
+
+// Check auth status on mount
+onMounted(async () => {
+  await checkAuthStatus()
+})
+
+function showNotification(message, type = 'success') {
+  notification.value = { message, type }
+  setTimeout(() => {
+    notification.value = null
+  }, 3000)
+}
+
+async function connectGoogle() {
+  try {
+    ticketLoading.value = true
+    const response = await googleSheetsExportAPI.getAuthorizationUrl()
+    if (response.data.authorization_url) {
+      showNotification('Redirecting to Google for authentication...', 'info')
+      window.location.href = response.data.authorization_url
+    } else {
+      showNotification('Failed to get authorization URL. Please check backend logs.', 'error')
+    }
+  } catch (error) {
+    showNotification('Authentication failed. Please try again.', 'error')
+    console.error('Google auth error:', error)
+  } finally {
+    ticketLoading.value = false
+  }
+}
+
+async function checkAuthStatus() {
+  try {
+    ticketLoading.value = true
+    const response = await googleSheetsExportAPI.getStatus()
+    if (response.data.authorized) {
+      ticketStep.value = 'connected'
+      ticketAccount.value = {
+        email: response.data.email,
+        name: 'Connected Account'
+      }
+      if (response.data.spreadsheet_url_output) {
+        ticketSheets.output = response.data.spreadsheet_url_output
+        ticketStep.value = 'sheetConfig'
+      } else {
+        ticketSheets.output = ''
+      }
+    } else {
+      ticketStep.value = 'auth'
+    }
+  } catch (error) {
+    console.error('Failed to check authorization status:', error)
+    ticketStep.value = 'auth'
+  } finally {
+    ticketLoading.value = false
+  }
+}
+
+async function createTicketSheet() {
+  ticketLoading.value = true
+  try {
+    // TODO: Call backend to create ticket output sheet
+    // For now, simulate sheet creation
+    await new Promise(resolve => setTimeout(resolve, 1200))
+    
+    ticketSheets.output = 'https://docs.google.com/spreadsheets/d/ticket-output-sheet-id'
+    ticketStep.value = 'sheetConfig'
+    showNotification('Ticket output sheet created successfully!', 'success')
+  } catch (error) {
+    console.error('Failed to create ticket sheet:', error)
+    showNotification('Failed to create ticket sheet. Please try again.', 'error')
+  } finally {
+    ticketLoading.value = false
+  }
+}
+
 async function save() {
   try {
     isSaving.value = true
     
-    // TODO: API call to save general settings
+    // TODO: API call to save general settings including Google Sheets config
+    const configData = {
+      ...props.config,
+      ticketSheetUrl: ticketSheets.output
+    }
+    
     await new Promise(resolve => setTimeout(resolve, 1000))
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'))
   } catch (e) {
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'))
+    console.error('Save error:', e)
   } finally {
     isSaving.value = false
   }

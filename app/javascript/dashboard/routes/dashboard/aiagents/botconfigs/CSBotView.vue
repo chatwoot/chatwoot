@@ -13,28 +13,29 @@
     <div class="space-y-6">
       <!-- Sidebar Navigation (always show) -->
       <div class="flex flex-row justify-stretch gap-2">
-        <!-- Custom Tabs with PNG Icons -->
+        <!-- Custom Tabs with SVG Icons -->
         <div class="flex flex-col gap-1 min-w-[200px] mr-4">
           <div
             v-for="tab in tabs"
             :key="tab.key"
-            class="flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg transition-all duration-200 hover:bg-gray-50"
+            class="flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800/50"
             :class="{
-              'bg-woot-50 border-l-4 border-woot-500 text-woot-600': tab.index === activeIndex,
-              'text-gray-600 hover:text-gray-900': tab.index !== activeIndex,
+              'bg-woot-50 border-l-4 border-woot-500 text-woot-600 dark:bg-woot-900/50 dark:border-woot-400 dark:text-woot-400': tab.index === activeIndex,
+              'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200': tab.index !== activeIndex,
             }"
             @click="activeIndex = tab.index"
           >
-            <img
-              :src="tab.icon"
-              :alt="tab.name"
-              class="w-6 h-6 object-contain"
-              :class="{
-                'opacity-100': tab.index === activeIndex,
-                'opacity-60': tab.index !== activeIndex,
-              }"
+            <span
+              :class="[
+                tab.icon,
+                'w-5 h-5 transition-all duration-200',
+                {
+                  'text-woot-600 dark:text-woot-400': tab.index === activeIndex,
+                  'text-gray-500 dark:text-gray-400': tab.index !== activeIndex,
+                }
+              ]"
             />
-            <span class="">{{ tab.name }}</span>
+            <span class="text-sm">{{ tab.name }}</span>
           </div>
         </div>
 
@@ -80,11 +81,6 @@ import CategoryTab from './cs-bot-tabs/CategoryTab.vue'
 import PrioritiesTab from './cs-bot-tabs/PrioritiesTab.vue'
 import ProductCatalogTab from './cs-bot-tabs/ProductCatalogTab.vue'
 import GeneralTab from './cs-bot-tabs/GeneralTab.vue'
-import settingsIcon from '../../../../../../../public/assets/images/ic_settings.png'
-import folderIcon from '../../../../../../../public/assets/images/ic_folder.png'
-import qnaIcon from '../../../../../../../public/assets/images/ic_question.png'
-import tagIcon from '../../../../../../../public/assets/images/ic_tag.png'
-import starIcon from '../../../../../../../public/assets/images/ic_star.png'
 
 const { t } = useI18n()
 
@@ -105,37 +101,37 @@ const tabs = computed(() => [
     key: '0',
     index: 0,
     name: t('AGENT_MGMT.CSBOT.TICKET.GENERAL_SETTINGS'),
-    icon: settingsIcon,
+    icon: 'i-lucide-settings',
   },
   {
     key: '1',
     index: 1,
     name: 'File',
-    icon: folderIcon,
+    icon: 'i-lucide-folder',
   },
   {
     key: '2',
     index: 2,
     name: 'QnA',
-    icon: qnaIcon,
+    icon: 'i-lucide-help-circle',
   },
   {
     key: '3',
     index: 3,
     name: t('AGENT_MGMT.CSBOT.TICKET.CATEGORY_TITLE'),
-    icon: tagIcon,
+    icon: 'i-lucide-tag',
   },
   {
     key: '4',
     index: 4,
     name: t('AGENT_MGMT.CSBOT.TICKET.PRIORITY_TITLE'),
-    icon: starIcon,
+    icon: 'i-lucide-star',
   },
   // {
   //   key: '5',
   //   index: 5,
   //   name: 'Catalog',
-  //   icon: 'shopping-cart',
+  //   icon: 'i-lucide-shopping-cart',
   // },
 ])
 
