@@ -119,23 +119,8 @@
                   </div>
                 </div>
 
-                <!-- Product Column Sync Section -->
                 <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
-                  <div class="mb-4">
-                    <h4 class="text-md font-medium text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.SALESBOT.CATALOG.PRODUCT_COLUMNS_TITLE') }}</h4>
-                    <p class="text-sm text-blue-700 dark:text-blue-300">
-                      {{ $t('AGENT_MGMT.SALESBOT.CATALOG.PRODUCT_COLUMNS_DESC') }}
-                    </p>
-                  </div>
-                  
-                  <div class="flex gap-3">
-                    <Input
-                      id="linkurl"
-                      type="text"
-                      v-model="productColumns"
-                      class="flex-1"
-                      :placeholder="$t('AGENT_MGMT.WEBSITE_SETTINGS.ADD_LINK_PLACEHOLDER')"
-                    />
+                  <div class="flex justify-start">
                     <button
                       @click="syncProductColumns"
                       :disabled="syncingColumns"

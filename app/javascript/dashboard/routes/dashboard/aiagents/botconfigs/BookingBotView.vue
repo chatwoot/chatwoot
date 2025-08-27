@@ -3,6 +3,8 @@ import { ref, reactive, onMounted, computed } from 'vue';
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
 import FileKnowledgeSources from '../knowledge-sources/FileKnowledgeSources.vue';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 
@@ -36,6 +38,9 @@ const loading = ref(false);
 const account = ref(null); // { email: '...', name: '...' }
 const sheets = reactive({ input: '', output: '' });
 const notification = ref(null);
+
+// Save state
+const isSaving = ref(false);
 
 const templates = [
   { label: t('AGENT_MGMT.BOOKING_BOT.TEMPLATE_OPTIONS.KLINIK'), value: 'klinik' },
@@ -136,6 +141,29 @@ async function syncScheduleColumns() {
   }
 }
 
+async function save() {
+  try {
+    isSaving.value = true;
+    
+    // TODO: API call to save booking bot configuration
+    const configData = {
+      selectedTemplate: selectedTemplate.value,
+      minDuration: minDuration.value,
+      resourceColumns: resourceColumn.value,
+      locationColumns: locationColumn.value,
+      sheets: { ...sheets }
+    };
+    
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_SUCCESS'));
+  } catch (e) {
+    useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_ERROR'));
+    console.error('Save error:', e);
+  } finally {
+    isSaving.value = false;
+  }
+}
+
 // TEMPORARY
 onMounted(() => {
   // Skip Google connect, go straight to sheetConfig for now
@@ -196,7 +224,7 @@ async function createSheets() {
             <span
               :class="[
                 tab.icon,
-                'w-6 h-6 transition-all duration-200',
+                'w-5 h-5 transition-all duration-200',
                 {
                   'text-woot-600 dark:text-woot-400': tab.index === activeIndex,
                   'text-gray-500 dark:text-gray-400': tab.index !== activeIndex,
@@ -208,169 +236,193 @@ async function createSheets() {
         </div>
 
         <!-- General Tab Content -->
-        <div v-show="activeIndex === 0" class="w-full min-w-0">
-          <!-- Step 1: Google Auth -->
-          <div v-if="step === 'auth'" class="w-full mx-auto">
-            <div>
-              <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_LABEL') }}</label>
-              <p class="text-gray-600 dark:text-gray-400 mb-4">
-                {{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_DESC') }}
-              </p>
-              <button
-                @click="connectGoogle"
-                class="inline-flex items-center space-x-3 bg-green-600 hover:bg-green-700 dark:bg-green-400 dark:hover:bg-green-500 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-              >
-                <span>{{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_BTN') }}</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Step 2: Konfirmasi Koneksi -->
-          <div v-else-if="step === 'connected'" class="py-8">
-            <div class="text-center mb-8">
-              <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
-                </svg>
+        <div v-show="activeIndex === 0" class="w-full">
+          <div class="flex flex-row gap-4">
+            <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
+              <!-- Step 1: Google Auth -->
+              <div v-if="step === 'auth'" class="w-full mx-auto">
+                <div>
+                  <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_LABEL') }}</label>
+                  <p class="text-gray-600 dark:text-gray-400 mb-4">
+                    {{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_DESC') }}
+                  </p>
+                  <button
+                    @click="connectGoogle"
+                    class="inline-flex items-center space-x-3 bg-green-600 hover:bg-green-700 dark:bg-green-400 dark:hover:bg-green-500 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    <span>{{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_BTN') }}</span>
+                  </button>
+                </div>
               </div>
-              <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_HEADER') }}</h3>
-              <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_DESC') }}</p>
-              <p class="mt-2 text-sm text-gray-500">{{ account?.email }}</p>
-              <button
-                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                @click="createSheets"
-                :disabled="loading"
-              >
-                <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
-                <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
-              </button>
-            </div>
-          </div>
 
-          <!-- Step 3: Konfigurasi Sheets -->
-          <div v-else-if="step === 'sheetConfig'">
-            <div class="space-y-6">
-              <!-- Input Sheet Section - Schedule Data -->
-              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <div class="flex items-start justify-between">
-                  <div class="flex-1">
-                    <div class="flex items-center mb-3">
-                      <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                        <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                        </svg>
+              <!-- Step 2: Connected Confirmation -->
+              <div v-else-if="step === 'connected'" class="py-8">
+                <div class="text-center mb-8">
+                  <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                  <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_HEADER') }}</h3>
+                  <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_DESC') }}</p>
+                  <p class="mt-2 text-sm text-gray-500">{{ account?.email }}</p>
+                  <button
+                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                    @click="createSheets"
+                    :disabled="loading"
+                  >
+                    <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
+                    <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 3: Sheet Configuration -->
+              <div v-else-if="step === 'sheetConfig'">
+                <div class="space-y-6">
+                  <!-- Input Sheet Section - Schedule Data -->
+                  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
+                    <div class="flex items-start justify-between">
+                      <div class="flex-1">
+                        <div class="flex items-center mb-3">
+                          <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                            </svg>
+                          </div>
+                          <div>
+                            <h3 class="font-medium text-slate-900 dark:text-slate-25">
+                              {{ $t('AGENT_MGMT.BOOKING_BOT.INPUT_SHEET_LABEL') }}
+                            </h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                              {{ $t('AGENT_MGMT.BOOKING_BOT.INPUT_SHEET_DESC') }}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <h3 class="font-medium text-slate-900 dark:text-slate-25">
-                          {{ $t('AGENT_MGMT.BOOKING_BOT.INPUT_SHEET_LABEL') }}
-                        </h3>
-                        <p class="text-sm text-slate-600 dark:text-slate-400">
-                          {{ $t('AGENT_MGMT.BOOKING_BOT.INPUT_SHEET_DESC') }}
+                      <div class="flex flex-col gap-2">
+                        <a 
+                          :href="sheets.input" 
+                          target="_blank" 
+                          class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                        >
+                          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                          </svg>
+                          {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- Schedule Column Sync Section -->
+                    <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
+                      <div class="mb-4">
+                        <h4 class="text-md font-medium text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.BOOKING_BOT.SCHEDULE_CONFIGURATION') }}</h4>
+                        <p class="text-sm text-blue-700 dark:text-blue-300">
+                          {{ $t('AGENT_MGMT.BOOKING_BOT.SCHEDULE_CONFIGURATION_DESC') }}
                         </p>
                       </div>
-                    </div>
-                  </div>
-                  <div class="flex flex-col gap-2">
-                    <a 
-                      :href="sheets.input" 
-                      target="_blank" 
-                      class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
-                    >
-                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                      </svg>
-                      {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
-                    </a>
-                  </div>
-                </div>
+                      
+                      <!-- Minimum Duration Field -->
+                        <div class="mb-6 flex flex-col md:flex-row md:items-start md:gap-6">
+                          <div class="flex-1">
+                            <label class="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-25">{{ $t('AGENT_MGMT.BOOKING_BOT.MIN_DURATION_LABEL') }}</label>
+                            <input 
+                              type="number" 
+                              min="0"
+                              placeholder="30"
+                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              v-model="minDuration" 
+                            />
+                          </div>
+                          <div class="flex-1">
+                            <label class="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-25">{{ $t('AGENT_MGMT.BOOKING_BOT.INDUSTRY_TEMPLATE') }}</label>
+                            <select 
+                              v-model="selectedTemplate" 
+                              class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                            >
+                              <option v-for="tpl in templates" :key="tpl.value" :value="tpl.value">{{ tpl.label }}</option>
+                            </select>
+                          </div>
+                        </div>
 
-                <!-- Schedule Column Sync Section -->
-                <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
-                  <div class="mb-4">
-                    <h4 class="text-md font-medium text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.BOOKING_BOT.SCHEDULE_CONFIGURATION') }}</h4>
-                    <p class="text-sm text-blue-700 dark:text-blue-300">
-                      {{ $t('AGENT_MGMT.BOOKING_BOT.SCHEDULE_CONFIGURATION_DESC') }}
-                    </p>
-                  </div>
-                  
-                  <!-- Minimum Duration Field -->
-                    <div class="mb-6 flex flex-col md:flex-row md:items-end md:gap-6">
-                      <div class="flex-1">
-                        <label class="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-25">{{ $t('AGENT_MGMT.BOOKING_BOT.MIN_DURATION_LABEL') }}</label>
-                        <input 
-                          type="number" 
-                          min="0"
-                          placeholder="30"
-                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                          v-model="minDuration" 
-                        />
-                      </div>
-                      <div class="flex-1">
-                        <label class="block text-sm font-medium mb-1 text-slate-900 dark:text-slate-25">{{ $t('AGENT_MGMT.BOOKING_BOT.INDUSTRY_TEMPLATE') }}</label>
-                        <select 
-                          v-model="selectedTemplate" 
-                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      <!-- Sync Button for Resource and Location Lists -->
+                      <div class="flex justify-start">
+                        <button
+                          @click="syncScheduleColumns"
+                          :disabled="syncingColumns"
+                          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 h-10"
                         >
-                          <option v-for="tpl in templates" :key="tpl.value" :value="tpl.value">{{ tpl.label }}</option>
-                        </select>
+                          <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
+                          </svg>
+                          <svg v-else class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                          </svg>
+                          {{ syncingColumns ? 'Syncing...' : $t('AGENT_MGMT.BOOKING_BOT.SYNC_BUTTON') }}
+                        </button>
                       </div>
                     </div>
+                  </div>
 
-                  <!-- Sync Button for Resource and Location Lists -->
-                  <div class="flex justify-start">
-                    <button
-                      @click="syncScheduleColumns"
-                      :disabled="syncingColumns"
-                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 h-10"
-                    >
-                      <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
-                        <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
-                      </svg>
-                      <svg v-else class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                      </svg>
-                      {{ syncingColumns ? 'Syncing...' : $t('AGENT_MGMT.BOOKING_BOT.SYNC_BUTTON') }}
-                    </button>
+                  <!-- Output Sheet Section - Booking Results -->
+                  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                          <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <h4 class="font-medium text-slate-900 dark:text-slate-25">{{ $t('AGENT_MGMT.BOOKING_BOT.OUTPUT_SHEET_LABEL') }}</h4>
+                          <p class="text-sm text-slate-600 dark:text-slate-400">{{ $t('AGENT_MGMT.BOOKING_BOT.OUTPUT_SHEET_DESC') }}</p>
+                        </div>
+                      </div>
+                      <a 
+                        :href="sheets.output" 
+                        target="_blank" 
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                      >
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                        {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-
-              <!-- Output Sheet Section - Booking Results -->
-              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center">
-                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                      <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 class="font-medium text-slate-900 dark:text-slate-25">{{ $t('AGENT_MGMT.BOOKING_BOT.OUTPUT_SHEET_LABEL') }}</h4>
-                      <p class="text-sm text-slate-600 dark:text-slate-400">{{ $t('AGENT_MGMT.BOOKING_BOT.OUTPUT_SHEET_DESC') }}</p>
-                    </div>
-                  </div>
-                  <a 
-                    :href="sheets.output" 
-                    target="_blank" 
-                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
-                  >
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </div>
+            
+            <div v-if="step === 'sheetConfig'" class="w-[240px] flex flex-col gap-3">
+              <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
-                    {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
-                  </a>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.BOOKING_BOT.GENERAL_TAB') }}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Configure booking settings</p>
+                  </div>
                 </div>
-              </div>
-
-              <!-- Save Button -->
-              <div class="pt-6 pb-4">
-                <button
-                  class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
-                  @click="() => { /* TODO: handle save */ }"
+                
+                <Button
+                  class="w-full"
+                  :is-loading="isSaving"
+                  :disabled="isSaving"
+                  @click="() => save()"
                 >
-                  {{ $t('AGENT_MGMT.BOOKING_BOT.SAVE_BTN') }}
-                </button>
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {{ $t('AGENT_MGMT.BOOKING_BOT.SAVE_BTN') }}
+                  </span>
+                </Button>
               </div>
             </div>
           </div>

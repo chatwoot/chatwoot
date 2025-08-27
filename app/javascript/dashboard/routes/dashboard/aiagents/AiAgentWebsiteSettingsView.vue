@@ -191,7 +191,7 @@ async function saveContent() {
     </div>
 
     <div class="pb-4">
-        <span class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-1">{{ $t('AGENT_MGMT.CSBOT.TICKET.HEADER') }}</span>
+        <span class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-1">{{ $t('AGENT_MGMT.WEBSITE_SETTINGS.ADD_WEBSITE_LINK') }}</span>
         <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">{{ $t('AGENT_MGMT.WEBSITE_SETTINGS.DESCRIPTION') }}</p>
         <div class="border-b border-gray-200 dark:border-gray-700"></div>
       <div class="py-2">
