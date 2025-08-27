@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP cím",
     "CREATED_AT_LABEL": "Létrehozva",
     "NEW_MESSAGE": "Új üzenet",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
       "TITLE": "Korábbi beszélgetések"

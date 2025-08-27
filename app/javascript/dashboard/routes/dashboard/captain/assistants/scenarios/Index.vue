@@ -6,6 +6,7 @@ import { picoSearch } from '@scmmishra/pico-search';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
@@ -20,6 +21,7 @@ const { t } = useI18n();
 const route = useRoute();
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
+const { formatMessage } = useMessageFormatter();
 const assistantId = route.params.assistantId;
 
 const uiFlags = useMapGetter('captainScenarios/getUIFlags');
@@ -42,35 +44,25 @@ const breadcrumbItems = computed(() => {
   ];
 });
 
-const TOOL_LINK_REGEX = /\[([^\]]+)]\(tool:\/\/.+?\)/g;
+const LINK_INSTRUCTION_CLASS =
+  '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
 
 const renderInstruction = instruction => () =>
   h('span', {
-    class: 'text-sm text-n-slate-12 py-4',
-    innerHTML: instruction.replace(
-      TOOL_LINK_REGEX,
-      (_, title) =>
-        `<span class="text-n-iris-11 font-medium">@${title.replace(/^@/, '')}</span>`
-    ),
+    class: `text-sm text-n-slate-12 py-4 prose prose-sm min-w-0 break-words ${LINK_INSTRUCTION_CLASS}`,
+    innerHTML: instruction,
   });
 
 // Suggested example scenarios for quick add
 const scenariosExample = [
   {
     id: 1,
-    title: 'Refund Order',
-    description: 'User encountered a technical issue or error message.',
+    title: 'Prospective Buyer',
+    description:
+      'Handle customers who are showing interest in purchasing a license',
     instruction:
-      'Ask for steps to reproduce + browser/app version. Use [Known Issues](tool://known_issues) to check if it’s a known bug. File with [Create Bug Report](tool://bug_report_create) if new.',
-    tools: ['create_bug_report', 'known_issues'],
-  },
-  {
-    id: 2,
-    title: 'Product Recommendation',
-    description: 'User is unsure which product or service to choose.',
-    instruction:
-      'Ask 2–3 clarifying questions. Use [Product Match](tool://product_match[user_needs]) and suggest 2–3 options with pros/cons. Link to compare page if available.',
-    tools: ['product_match[user_needs]'],
+      'If someone is interested in purchasing a license, ask them for following:\n\n1. How many licenses are they willing to purchase?\n2. Are they migrating from another platform?\n. Once these details are collected, do the following steps\n1. add a private note to with the information you collected using [Add Private Note](tool://add_private_note)\n2. Add label "sales" to the contact using [Add Label to Conversation](tool://add_label_to_conversation)\n3. Reply saying "one of us will reach out soon" and provide an estimated timeline for the response and [Handoff to Human](tool://handoff)',
+    tools: ['add_private_note', 'add_label_to_conversation', 'handoff'],
   },
 ];
 
@@ -248,7 +240,9 @@ onMounted(() => {
               <span class="text-sm text-n-slate-11 mt-2">
                 {{ item.description }}
               </span>
-              <component :is="renderInstruction(item.instruction)" />
+              <component
+                :is="renderInstruction(formatMessage(item.instruction, false))"
+              />
               <span class="text-sm text-n-slate-11 font-medium mb-1">
                 {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.SUGGESTED.TOOLS_USED') }}
                 {{ item.tools?.map(tool => `@${tool}`).join(', ') }}

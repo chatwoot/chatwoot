@@ -188,14 +188,18 @@ const toggle = () => {
 
 watch(
   activeContact,
-  () => {
-    if (activeContact.value && props.contactId) {
-      const contactInboxes = activeContact.value?.contactInboxes || [];
+  (currentContact, previousContact) => {
+    if (currentContact && props.contactId) {
+      // Reset on contact change
+      if (currentContact?.id !== previousContact?.id) clearSelectedContact();
+
       // First process the contactable inboxes to get the right structure
-      const processedInboxes = processContactableInboxes(contactInboxes);
+      const processedInboxes = processContactableInboxes(
+        currentContact.contactInboxes || []
+      );
       // Then Merge processedInboxes with the inboxes list
       selectedContact.value = {
-        ...activeContact.value,
+        ...currentContact,
         contactInboxes: mergeInboxDetails(processedInboxes, inboxesList.value),
       };
     }

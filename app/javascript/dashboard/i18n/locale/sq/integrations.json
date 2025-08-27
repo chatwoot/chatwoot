@@ -466,13 +466,14 @@
           "PLACEHOLDER": "Enter resolution message"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
+          "LABEL": "Udhëzime",
           "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
           "TITLE": "Features",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions."
+          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
@@ -491,7 +492,7 @@
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": "Përshtatni se çfarë thotë asistenti kur përfundon një bisedë ose kur e transferon te një agjent."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -526,15 +527,15 @@
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "Kufizime",
+        "DESCRIPTION": "I mban gjërat në vijë—vetëm llojet e pyetjeve që dëshironi që asistenti juaj t’u përgjigjet, asgjë e ndaluar apo jashtë teme.",
         "BREADCRUMB": {
-          "TITLE": "Guardrails"
+          "TITLE": "Kufizime"
         },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECT_ALL": "Zgjidh të gjitha ({count})",
+          "UNSELECT_ALL": "Hiq përzgjedhjen nga të gjitha ({count})",
           "BULK_DELETE_BUTTON": "Delete"
         },
         "ADD": {
@@ -549,7 +550,7 @@
             "TITLE": "Add a guardrail",
             "CREATE": "Create",
             "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another guardrail...",
+            "PLACEHOLDER": "Shkruani një kufizim tjetër...",
             "TEST_ALL": "Test all"
           }
         },
@@ -575,30 +576,30 @@
       },
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "DESCRIPTION": "Stili dhe struktura e përgjigjeve të asistentit tuaj—të qarta dhe miqësore? Të shkurtra dhe koncize? Të detajuara dhe formale?",
         "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
+          "TITLE": "Udhëzime për përgjigjet"
         },
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count, plural, one {{count} element i përzgjedhur} other {{count} elemente të përzgjedhura}}",
+          "SELECT_ALL": "Zgjidh të gjitha ({count})",
+          "UNSELECT_ALL": "Hiq përzgjedhjen nga të gjitha ({count})",
           "BULK_DELETE_BUTTON": "Delete"
         },
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
+            "ADD": "Shto të gjitha",
+            "ADD_SINGLE": "Shto këtë",
+            "SAVE": "Shto dhe ruaj (↵)",
             "PLACEHOLDER": "Type in another response guideline..."
           },
           "NEW": {
             "TITLE": "Add a response guideline",
             "CREATE": "Create",
             "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "Shkruani një udhëzim tjetër për përgjigjet...",
+            "TEST_ALL": "Testo të gjitha"
           }
         },
         "LIST": {
@@ -622,22 +623,22 @@
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "Skenarë",
+        "DESCRIPTION": "Jepini asistentit pak kontekst—si p.sh. “çfarë të bëjë kur një përdorues ngec” ose “si të veprojë gjatë një kërkese për rimbursim”.",
         "BREADCRUMB": {
-          "TITLE": "Scenarios"
+          "TITLE": "Skenarë"
         },
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count, plural, one {{count} element i përzgjedhur} other {{count} elemente të përzgjedhura}}",
+          "SELECT_ALL": "Zgjidh të gjitha ({count})",
+          "UNSELECT_ALL": "Hiq përzgjedhjen nga të gjitha ({count})",
           "BULK_DELETE_BUTTON": "Delete"
         },
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
+            "ADD": "Shto të gjitha",
+            "ADD_SINGLE": "Shto këtë",
             "TOOLS_USED": "Tools used :"
           },
           "NEW": {

@@ -39,6 +39,8 @@ pl:
       email_already_exists: 'Już zarejestrowałeś się na konto %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Rejestracja nie powiodła się
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Nieprawidłowy typ danych

@@ -39,6 +39,8 @@ el:
       email_already_exists: 'Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Η εγγραφή απέτυχε
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Μη έγκυρος τύπος δεδομένων

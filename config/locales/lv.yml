@@ -39,6 +39,8 @@ lv:
       email_already_exists: 'Jūs jau esat reģistrējis kontu ar %{email}'
       invalid_params: 'Kļūda. Lūdzu, pārbaudiet pierakstīšanās parametrus un mēģiniet vēlreiz'
       failed: Reģistrēšanās neizdevās
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Nederīgs datu tips
