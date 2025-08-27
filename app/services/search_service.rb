@@ -41,7 +41,7 @@ class SearchService
   end
 
   def filter_messages
-    @messages = if current_account.feature_enabled?('search_with_gin')
+    @messages = if use_gin_search
                   filter_messages_with_gin
                 elsif should_run_advanced_search?
                   advanced_search
@@ -101,6 +101,10 @@ class SearchService
 
   def user_has_access_to_all_inboxes?
     accessable_inbox_ids.sort == current_account.inboxes.pluck(:id).sort
+  end
+
+  def use_gin_search
+    current_account.feature_enabled?('search_with_gin')
   end
 
   def filter_contacts
