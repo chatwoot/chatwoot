@@ -478,7 +478,10 @@
       "MESSAGE": "Możesz teraz kontaktować się z klientami za pośrednictwem nowego kanału. Szczęśliwy wspierający",
       "BUTTON_TEXT": "Zabierz mnie tam",
       "MORE_SETTINGS": "Więcej ustawień",
-      "WEBSITE_SUCCESS": "Pomyślnie zakończyłeś tworzenie kanału internetowego. Skopiuj poniższy kod i wklej go na swojej stronie. Następnym razem, gdy klient korzysta z czatu na żywo, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej."
+      "WEBSITE_SUCCESS": "Pomyślnie zakończyłeś tworzenie kanału internetowego. Skopiuj poniższy kod i wklej go na swojej stronie. Następnym razem, gdy klient korzysta z czatu na żywo, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Ponowna autoryzacja",
     "VIEW": "Widok",
