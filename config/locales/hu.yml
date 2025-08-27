@@ -39,6 +39,8 @@ hu:
       email_already_exists: 'Ezzel az e-mailcímmel már van fiók: %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Feliratkozás sikertelen
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Hibás adattípus

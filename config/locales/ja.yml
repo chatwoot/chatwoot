@@ -39,6 +39,8 @@ ja:
       email_already_exists: 'あなたは既に %{email} でアカウントにサインアップしています'
       invalid_params: '無効な値が入力されました。確認のうえ再度お試しください。'
       failed: サインアップに失敗しました
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: 無効なデータ型。

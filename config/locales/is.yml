@@ -39,6 +39,8 @@ is:
       email_already_exists: 'Þú hefur þegar skráð þig fyrir reikning með %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Invalid data type
