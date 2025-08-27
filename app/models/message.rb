@@ -239,6 +239,14 @@ class Message < ApplicationRecord
                                                                             previous_changes: previous_changes)
   end
 
+  def should_index?
+    return false unless ChatwootApp.advanced_search_allowed?
+    return false unless account.feature_enabled?('advanced_search')
+    return false unless incoming? || outgoing?
+
+    true
+  end
+
   private
 
   def prevent_message_flooding
