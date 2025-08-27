@@ -71,10 +71,10 @@
         "CREATE_WHEN": "When should tickets be created?",
         "CREATE_ALWAYS": "Always create a ticket",
         "CREATE_ON_FAIL": "Only when bot cannot answer",
-        "PRIORITY_TITLE": "Priorities",
+        "PRIORITY_TITLE": "Ticket Priorities",
         "PRIORITY_DESC": "Set priority levels and optionally define conditions (e.g., keywords).",
         "PRIORITY_PLACEHOLDER": "Priority name (e.g., Low",
-        "CATEGORY_TITLE": "Categories",
+        "CATEGORY_TITLE": "Ticket Categories",
         "CATEGORY_DESC": "Set categories and optionally define conditions.",
         "CATEGORY_PLACEHOLDER": "Category name (e.g., Technical)",
         "CONDITION_PLACEHOLDER": "Optional conditions or keywords...",
@@ -90,7 +90,8 @@
         "SAVE_ERROR": "Failed to save",
         "SAVE_BUTTON": "Save",
         "VALIDATION_ERROR": "Please fix validation errors",
-        "SYSTEM_SETTINGS": "System Settings"
+        "SYSTEM_SETTINGS": "System Settings",
+        "CHARACTERS": "Characters"
       }
       },
       "COMMON": {
@@ -192,6 +193,8 @@
       "FETCH_ERROR": "Failed to fetch data"
     },
     "BOOKING_BOT": {
+      "FILE_TAB": "File",
+      "GENERAL_TAB": "General",
       "HEADER": "Booking Bot Configuration",
       "HEADER_DESC": "This page contains configuration settings for your Booking Bot.",
       "TEMPLATE_OPTIONS": {

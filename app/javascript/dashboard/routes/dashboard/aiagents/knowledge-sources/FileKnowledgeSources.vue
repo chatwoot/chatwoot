@@ -4,7 +4,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import aiAgents from '../../../../api/aiAgents';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import * as XLSX from 'xlsx';
+// import * as XLSX from 'xlsx'; // Commented out Excel support
 const props = defineProps({
   data: {
     type: Object,
@@ -60,18 +60,19 @@ async function deleteData() {
     showDeleteModal.value = false;
     deleteLoadingIds.value[dataId] = true;
     
-    // Check if it's an Excel file by file name or type
-    const isExcelFile = fileData.file_name?.endsWith('.xlsx') || 
-                       fileData.file_name?.endsWith('.xls') ||
-                       fileData.file_type === 'excel_import';
+    // Comment out Excel-specific logic
+    // const isExcelFile = fileData.file_name?.endsWith('.xlsx') || 
+    //                    fileData.file_name?.endsWith('.xls') ||
+    //                    fileData.file_type === 'excel_import';
     
-    if (isExcelFile) {
-      // Use Excel-specific delete API
-      await aiAgents.deleteExcelKnowledgeFile(props.data.id, dataId);
-    } else {
-      // Use regular file delete API
-      await aiAgents.deleteKnowledgeFile(props.data.id, dataId);
-    }
+    // if (isExcelFile) {
+    //   await aiAgents.deleteExcelKnowledgeFile(props.data.id, dataId);
+    // } else {
+    //   await aiAgents.deleteKnowledgeFile(props.data.id, dataId);
+    // }
+    
+    // Use regular file delete API for all files
+    await aiAgents.deleteKnowledgeFile(props.data.id, dataId);
     
     files.value = files.value.filter(v => v.id !== dataId);
     fetchKnowledge();
@@ -84,12 +85,13 @@ async function deleteData() {
 }
 
 const newFiles = ref([]);
-const showExcelPreviewModal = ref(false);
-const excelPreviewData = ref([]);
-const excelHeaders = ref([]);
-const pendingExcelFile = ref(null);
-const parsedExcelData = ref(null); // Store parsed data to avoid double parsing
-const excelDescription = ref(''); // Store description text for Excel file
+// Commented out Excel preview functionality
+// const showExcelPreviewModal = ref(false);
+// const excelPreviewData = ref([]);
+// const excelHeaders = ref([]);
+// const pendingExcelFile = ref(null);
+// const parsedExcelData = ref(null);
+// const excelDescription = ref('');
 function inputFile() {
   return document.getElementById('inputfile');
 }
@@ -105,8 +107,8 @@ function onInputChanged(files) {
 }
 
 function addFile(file) {
-  if (!file.name.endsWith('.pdf') && !file.name.endsWith('.xlsx') && !file.name.endsWith('.xls')) {
-    useAlert('Only PDF and Excel files are allowed')
+  if (!file.name.endsWith('.pdf') && !file.name.endsWith('.docx')) {
+    useAlert('Only PDF and DOCX files are allowed')
     return
   }
   if (file.size > 5242880) {
@@ -114,81 +116,69 @@ function addFile(file) {
     return
   }
   
-  // If it's an Excel file, show preview modal
-  if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
-    previewExcelFile(file);
-  } else {
-    // For PDF files, add directly
-    newFiles.value.push(file);
-  }
+  // Add file directly (removed Excel preview logic)
+  newFiles.value.push(file);
 }
 
-async function previewExcelFile(file) {
-  try {
-    const arrayBuffer = await file.arrayBuffer();
-    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-    
-    // Get the first worksheet
-    const firstSheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[firstSheetName];
-    
-    // Convert to JSON
-    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-    
-    if (jsonData.length > 0) {
-      const headers = jsonData[0] || [];
-      const rows = jsonData.slice(1);
-      
-      // Store full parsed data for later use
-      parsedExcelData.value = {
-        headers,
-        rows,
-        file_name: file.name,
-        file_type: file.type || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        file_size: file.size
-      };
-      
-      // Set preview data (first 10 rows)
-      excelHeaders.value = headers;
-      excelPreviewData.value = rows.slice(0, 10);
-      pendingExcelFile.value = file;
-      showExcelPreviewModal.value = true;
-    } else {
-      useAlert('Excel file appears to be empty');
-    }
-  } catch (error) {
-    useAlert('Error reading Excel file: ' + error.message);
-  }
-}
+// Commented out Excel preview functions
+// async function previewExcelFile(file) {
+//   try {
+//     const arrayBuffer = await file.arrayBuffer();
+//     const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+//     
+//     const firstSheetName = workbook.SheetNames[0];
+//     const worksheet = workbook.Sheets[firstSheetName];
+//     
+//     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+//     
+//     if (jsonData.length > 0) {
+//       const headers = jsonData[0] || [];
+//       const rows = jsonData.slice(1);
+//       
+//       parsedExcelData.value = {
+//         headers,
+//         rows,
+//         file_name: file.name,
+//         file_type: file.type || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+//         file_size: file.size
+//       };
+//       
+//       excelHeaders.value = headers;
+//       excelPreviewData.value = rows.slice(0, 10);
+//       pendingExcelFile.value = file;
+//       showExcelPreviewModal.value = true;
+//     } else {
+//       useAlert('Excel file appears to be empty');
+//     }
+//   } catch (error) {
+//     useAlert('Error reading Excel file: ' + error.message);
+//   }
+// }
 
-function closeExcelPreview() {
-  showExcelPreviewModal.value = false;
-  excelPreviewData.value = [];
-  excelHeaders.value = [];
-  pendingExcelFile.value = null;
-  parsedExcelData.value = null; // Clear parsed data
-  excelDescription.value = ''; // Clear description
-}
+// function closeExcelPreview() {
+//   showExcelPreviewModal.value = false;
+//   excelPreviewData.value = [];
+//   excelHeaders.value = [];
+//   pendingExcelFile.value = null;
+//   parsedExcelData.value = null;
+//   excelDescription.value = '';
+// }
 
-function confirmExcelUpload() {
-  if (pendingExcelFile.value && parsedExcelData.value) {
-    // Add both the file and parsed data to newFiles, preserving original file properties
-    const fileWithParsedData = {
-      // Preserve all original file properties first
-      name: pendingExcelFile.value.name,
-      size: pendingExcelFile.value.size,
-      type: pendingExcelFile.value.type,
-      lastModified: pendingExcelFile.value.lastModified,
-      // Add any other file properties
-      ...pendingExcelFile.value,
-      // Then add our parsed data
-      parsedData: parsedExcelData.value,
-      description: excelDescription.value // Include description
-    };
-    newFiles.value.push(fileWithParsedData);
-    closeExcelPreview();
-  }
-}
+// function confirmExcelUpload() {
+//   if (pendingExcelFile.value && parsedExcelData.value) {
+//     const fileWithParsedData = {
+//       name: pendingExcelFile.value.name,
+//       size: pendingExcelFile.value.size,
+//       type: pendingExcelFile.value.type,
+//       lastModified: pendingExcelFile.value.lastModified,
+//       ...pendingExcelFile.value,
+//       parsedData: parsedExcelData.value,
+//       description: excelDescription.value
+//     };
+//     newFiles.value.push(fileWithParsedData);
+//     closeExcelPreview();
+//   }
+// }
 
 const isSaving = ref(false);
 async function save() {
@@ -199,17 +189,11 @@ async function save() {
   try {
     isSaving.value = true;
 
-    // Process each file separately based on type
+    // Process each file - all files use the same upload method now
     for (const file of newFiles.value) {
-      if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls')) {
-        // Handle Excel files
-        await handleExcelFileUpload(file);
-      } else {
-        // Handle PDF files (existing logic)
-        const formData = new FormData();
-        formData.append('file', file);
-        await aiAgents.addKnowledgeFile(props.data.id, formData);
-      }
+      const formData = new FormData();
+      formData.append('file', file);
+      await aiAgents.addKnowledgeFile(props.data.id, formData);
     }
 
     newFiles.value = [];
@@ -222,39 +206,37 @@ async function save() {
   }
 }
 
-async function handleExcelFileUpload(file) {
-  try {
-    // Use already parsed data instead of parsing again
-    if (file.parsedData) {
-      const { headers, rows, file_name, file_type, file_size } = file.parsedData;
-      
-      // Convert to array of objects
-      const dataArray = rows.map(row => {
-        const obj = {};
-        headers.forEach((header, index) => {
-          obj[header] = row[index] || '';
-        });
-        return obj;
-      });
-      
-      // Call Excel-specific API with description
-      const payload = {
-        file_name,
-        file_type,
-        file_size,
-        data: dataArray,
-        description: file.description || '' // Include description
-      };
-      
-      await aiAgents.addExcelKnowledgeFile(props.data.id, payload);
-    } else {
-      throw new Error('No parsed data found for Excel file');
-    }
-  } catch (error) {
-    console.error('Error processing Excel file:', error);
-    throw error;
-  }
-}
+// Commented out Excel-specific upload handler
+// async function handleExcelFileUpload(file) {
+//   try {
+//     if (file.parsedData) {
+//       const { headers, rows, file_name, file_type, file_size } = file.parsedData;
+//       
+//       const dataArray = rows.map(row => {
+//         const obj = {};
+//         headers.forEach((header, index) => {
+//           obj[header] = row[index] || '';
+//         });
+//         return obj;
+//       });
+//       
+//       const payload = {
+//         file_name,
+//         file_type,
+//         file_size,
+//         data: dataArray,
+//         description: file.description || ''
+//       };
+//       
+//       await aiAgents.addExcelKnowledgeFile(props.data.id, payload);
+//     } else {
+//       throw new Error('No parsed data found for Excel file');
+//     }
+//   } catch (error) {
+//     console.error('Error processing Excel file:', error);
+//     throw error;
+//   }
+// }
 
 const handleDragOver = () => {
 }
@@ -287,7 +269,7 @@ const handleDrop = (event) => {
           id="inputfile"
           type="file"
           class="hidden"
-          accept=".pdf, .xlsx, .xls"
+          accept=".pdf, .docx"
           @change="v => onInputChanged(v)"
         />
         <span class="text-center">
@@ -363,6 +345,7 @@ const handleDrop = (event) => {
         "
       />
 
+      <!-- Commented out Excel preview modal
       <woot-modal
         class="max-h-screen flex flex-col"
         :show="showExcelPreviewModal"
@@ -374,7 +357,6 @@ const handleDrop = (event) => {
           :header-content="`Menampilkan 10 baris pertama. Total baris dalam file mungkin lebih banyak.`"
         />
         
-        <!-- Scrollable container for table + description -->
         <div class="flex flex-col max-h-96 p-6 overflow-auto mb-4 flex-1">
           
           <table class="min-w-full border-collapse border border-gray-300">
@@ -410,7 +392,6 @@ const handleDrop = (event) => {
             No data found in Excel file
           </div>
 
-          <!-- Description Text Box -->
           <div class="mt-6">
             <label for="excel-description" class="block text-sm font-medium text-gray-700 mb-2">
               Deskripsi File (Opsional)
@@ -425,7 +406,6 @@ const handleDrop = (event) => {
           </div>
         </div>
         
-        <!-- Modal Footer -->
         <div class="p-6 flex justify-end space-x-3 border-t border-gray-200">
           <woot-button data-testid="excel-confirm" @click.prevent="confirmExcelUpload">
             Tambahkan ke Antrian
@@ -438,6 +418,7 @@ const handleDrop = (event) => {
           </woot-button>
         </div>
       </woot-modal>
+      -->
     </div>
     <div class="w-[240px] flex flex-col gap-3">
       <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
@@ -455,7 +436,7 @@ const handleDrop = (event) => {
         
         <div class="space-y-3 mb-4">
           <div class="flex justify-between text-sm">
-            <span class="text-slate-600 dark:text-slate-400">Characters</span>
+            <span class="text-slate-600 dark:text-slate-400">{{ $t('AGENT_MGMT.CSBOT.TICKET.CHARACTERS') }}</span>
             <span class="font-semibold text-slate-700 dark:text-slate-300">{{ detectedCharacters.toLocaleString() }}</span>
           </div>
         </div>

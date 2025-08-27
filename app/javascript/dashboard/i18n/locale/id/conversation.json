@@ -224,7 +224,7 @@
     },
     "PLACEHOLDER_UPLOAD": {
       "PART_1": "Klik atau tarik dan lepas file di sini (Maksimal ukuran 5MB)",
-      "PART_2": "Mendukung file .pdf, .xlsx, .xls"
+      "PART_2": "Mendukung file .pdf, .docx"
     },
     "UPLOAD_MAX_REACHED": "File terlalu besar. Maksimal ukuran file adalah 5MB."
   },
