@@ -39,16 +39,18 @@ const assignedAgent = computed({
   },
 });
 
+const isUserTyping = computed(
+  () => props.message !== '' && !props.isOnPrivateNote
+);
+const isUnassigned = computed(() => !assignedAgent.value);
+const isAssignedToOtherAgent = computed(
+  () => assignedAgent.value?.id !== currentUser.value?.id
+);
+
 const showSelfAssignBanner = computed(() => {
-  if (props.message !== '' && !props.isOnPrivateNote) {
-    if (!assignedAgent.value) {
-      return true;
-    }
-    if (assignedAgent.value?.id !== currentUser.value?.id) {
-      return true;
-    }
-  }
-  return false;
+  return (
+    isUserTyping.value && (isUnassigned.value || isAssignedToOtherAgent.value)
+  );
 });
 
 const showBotHandoffBanner = computed(() => {
@@ -70,6 +72,10 @@ const selfAssignConversation = async () => {
   assignedAgent.value = { ...rest, thumbnail: avatar_url };
 };
 
+const needsAssignmentToCurrentUser = computed(() => {
+  return isUnassigned.value || isAssignedToOtherAgent.value;
+});
+
 const onClickSelfAssign = async () => {
   try {
     await selfAssignConversation();
@@ -79,19 +85,21 @@ const onClickSelfAssign = async () => {
   }
 };
 
+const reopenConversation = async () => {
+  await store.dispatch('toggleStatus', {
+    conversationId: currentChat.value?.id,
+    status: wootConstants.STATUS_TYPE.OPEN,
+  });
+};
+
 const onClickBotHandoff = async () => {
   try {
-    await store.dispatch('toggleStatus', {
-      conversationId: currentChat.value?.id,
-      status: wootConstants.STATUS_TYPE.OPEN,
-    });
-    // Only assign to self if not already assigned to current user
-    if (
-      !assignedAgent.value ||
-      assignedAgent.value?.id !== currentUser.value?.id
-    ) {
+    await reopenConversation();
+
+    if (needsAssignmentToCurrentUser.value) {
       await selfAssignConversation();
     }
+
     useAlert(t('CONVERSATION.BOT_HANDOFF_SUCCESS'));
   } catch (error) {
     useAlert(t('CONVERSATION.BOT_HANDOFF_ERROR'));
