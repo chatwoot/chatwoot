@@ -478,7 +478,10 @@
       "MESSAGE": "Agora, pode conectar-se com os seus clientes através do seu novo canal.",
       "BUTTON_TEXT": "Ir para a caixa de entrada",
       "MORE_SETTINGS": "Mais configurações",
-      "WEBSITE_SUCCESS": "Acabou de criar um canal de site com sucesso. Copie o código mostrado abaixo e cole-o no seu site. Da próxima vez que um cliente usar o chat em tempo real, a conversa aparecerá automaticamente na sua caixa de entrada."
+      "WEBSITE_SUCCESS": "Acabou de criar um canal de site com sucesso. Copie o código mostrado abaixo e cole-o no seu site. Da próxima vez que um cliente usar o chat em tempo real, a conversa aparecerá automaticamente na sua caixa de entrada.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Reautorizar",
     "VIEW": "Ver",
