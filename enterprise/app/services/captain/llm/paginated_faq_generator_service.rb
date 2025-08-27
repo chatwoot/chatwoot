@@ -12,7 +12,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     @max_pages = options[:max_pages] # Optional limit from UI
     @total_pages_processed = 0
     @iterations_completed = 0
-    @model = 'gpt-4.1-mini'
+    @model = OpenAiConstants::PDF_PROCESSING_MODEL
   end
 
   def generate

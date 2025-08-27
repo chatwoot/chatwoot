@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class Captain::Llm::SystemPromptsService
   class << self
     def faq_generator(language = 'english')
@@ -287,3 +288,4 @@ class Captain::Llm::SystemPromptsService
     # rubocop:enable Metrics/MethodLength
   end
 end
+# rubocop:enable Metrics/ClassLength
