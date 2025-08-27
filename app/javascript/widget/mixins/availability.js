@@ -36,40 +36,41 @@ export default {
       return this.channelConfig.outOfOfficeMessage;
     },
     isInBetweenTheWorkingHours() {
-      const {
-        openHour,
-        openMinute,
-        closeHour,
-        closeMinute,
-        closedAllDay,
-        openAllDay,
-      } = this.currentDayAvailability;
+      return true;
+      // const {
+      //   openHour,
+      //   openMinute,
+      //   closeHour,
+      //   closeMinute,
+      //   closedAllDay,
+      //   openAllDay,
+      // } = this.currentDayAvailability;
 
-      if (openAllDay) {
-        return true;
-      }
+      // if (openAllDay) {
+      //   return true;
+      // }
 
-      if (closedAllDay) {
-        return false;
-      }
+      // if (closedAllDay) {
+      //   return false;
+      // }
 
-      const { utcOffset } = this.channelConfig;
-      const today = this.getDateWithOffset(utcOffset);
-      const currentHours = today.getHours();
-      const currentMinutes = today.getMinutes();
-      const isAfterStartTime = isTimeAfter(
-        currentHours,
-        currentMinutes,
-        openHour,
-        openMinute
-      );
-      const isBeforeEndTime = isTimeAfter(
-        closeHour,
-        closeMinute,
-        currentHours,
-        currentMinutes
-      );
-      return isAfterStartTime && isBeforeEndTime;
+      // const { utcOffset } = this.channelConfig;
+      // const today = this.getDateWithOffset(utcOffset);
+      // const currentHours = today.getHours();
+      // const currentMinutes = today.getMinutes();
+      // const isAfterStartTime = isTimeAfter(
+      //   currentHours,
+      //   currentMinutes,
+      //   openHour,
+      //   openMinute
+      // );
+      // const isBeforeEndTime = isTimeAfter(
+      //   closeHour,
+      //   closeMinute,
+      //   currentHours,
+      //   currentMinutes
+      // );
+      // return isAfterStartTime && isBeforeEndTime;
     },
     currentDayAvailability() {
       const { utcOffset } = this.channelConfig;
