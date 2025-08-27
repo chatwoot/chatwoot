@@ -13,7 +13,7 @@ RSpec.describe Captain::Documents::ResponseBuilderJob, type: :job do
 
   before do
     allow(Captain::Llm::FaqGeneratorService).to receive(:new)
-      .with(document.content)
+      .with(document.content, document.account.locale_english_name)
       .and_return(faq_generator)
     allow(faq_generator).to receive(:generate).and_return(faqs)
   end
@@ -41,6 +41,27 @@ RSpec.describe Captain::Documents::ResponseBuilderJob, type: :job do
         expect(first_response.answer).to eq('A programming language')
         expect(first_response.assistant).to eq(assistant)
         expect(first_response.documentable).to eq(document)
+      end
+    end
+
+    context 'with different locales' do
+      let(:spanish_account) { create(:account, locale: 'pt') }
+      let(:spanish_assistant) { create(:captain_assistant, account: spanish_account) }
+      let(:spanish_document) { create(:captain_document, assistant: spanish_assistant, account: spanish_account) }
+      let(:spanish_faq_generator) { instance_double(Captain::Llm::FaqGeneratorService) }
+
+      before do
+        allow(Captain::Llm::FaqGeneratorService).to receive(:new)
+          .with(spanish_document.content, 'portuguese')
+          .and_return(spanish_faq_generator)
+        allow(spanish_faq_generator).to receive(:generate).and_return(faqs)
+      end
+
+      it 'passes the correct locale to FAQ generator' do
+        described_class.new.perform(spanish_document)
+
+        expect(Captain::Llm::FaqGeneratorService).to have_received(:new)
+          .with(spanish_document.content, 'portuguese')
       end
     end
   end
