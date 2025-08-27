@@ -169,8 +169,6 @@ const handleSubmit = async () => {
       :message-type="formErrors.url ? 'error' : 'info'"
     />
 
-    <!-- PDF file picker should have a solid-1 background-color and border-weak boundary. Space between header and subtext should be less (maybe 6px). -->
-
     <div v-if="state.documentType === 'pdf'" class="flex flex-col gap-2">
       <label class="text-sm font-medium text-n-slate-12">
         {{ t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.LABEL') }}
