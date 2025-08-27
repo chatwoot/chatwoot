@@ -478,7 +478,10 @@
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "என்னை அங்கே அழைத்துச் செல்லுங்கள்",
       "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "வலைத்தள சேனலை உருவாக்குவதை வெற்றிகரமாக முடித்துவிட்டீர்கள். கீழே காட்டப்பட்டுள்ள உங்கள் இணையதளத்தில் ஒட்டவும். அடுத்த முறை வாடிக்கையாளர் நேரடி சாட்டை பயன்படுத்தும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும்."
+      "WEBSITE_SUCCESS": "வலைத்தள சேனலை உருவாக்குவதை வெற்றிகரமாக முடித்துவிட்டீர்கள். கீழே காட்டப்பட்டுள்ள உங்கள் இணையதளத்தில் ஒட்டவும். அடுத்த முறை வாடிக்கையாளர் நேரடி சாட்டை பயன்படுத்தும்போது, உரையாடல் தானாகவே உங்கள் இன்பாக்ஸில் தோன்றும்.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "மறு அங்கீகாரம்",
     "VIEW": "காண்க",
