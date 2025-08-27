@@ -49,6 +49,11 @@ const assistantList = computed(() =>
   }))
 );
 
+const documentTypeOptions = [
+  { value: 'url', label: t('CAPTAIN.DOCUMENTS.FORM.TYPE.URL') },
+  { value: 'pdf', label: t('CAPTAIN.DOCUMENTS.FORM.TYPE.PDF') },
+];
+
 const v$ = useVuelidate(validationRules, state);
 
 const isLoading = computed(() => formState.uiFlags.value.creatingItem);
@@ -126,38 +131,19 @@ const handleSubmit = async () => {
 
 <template>
   <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-    <div class="flex flex-col gap-2">
-      <label class="text-sm font-medium text-n-slate-12">
+    <div class="flex flex-col gap-1">
+      <label
+        for="documentType"
+        class="mb-0.5 text-sm font-medium text-n-slate-12"
+      >
         {{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.LABEL') }}
       </label>
-      <div class="grid grid-cols-2 gap-3 p-1 rounded-lg bg-n-slate-3">
-        <button
-          type="button"
-          class="flex relative gap-2 justify-center items-center px-4 py-2.5 text-sm font-medium rounded-md transition-all duration-200"
-          :class="
-            state.documentType === 'url'
-              ? 'bg-n-white text-n-slate-12 shadow-sm'
-              : 'text-n-slate-11 hover:text-n-slate-12'
-          "
-          @click="state.documentType = 'url'"
-        >
-          <i class="text-base i-ph-link-simple" />
-          <span>{{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.URL') }}</span>
-        </button>
-        <button
-          type="button"
-          class="flex relative gap-2 justify-center items-center px-4 py-2.5 text-sm font-medium rounded-md transition-all duration-200"
-          :class="
-            state.documentType === 'pdf'
-              ? 'bg-n-white text-n-slate-12 shadow-sm'
-              : 'text-n-slate-11 hover:text-n-slate-12'
-          "
-          @click="state.documentType = 'pdf'"
-        >
-          <i class="text-base i-ph-file-pdf" />
-          <span>{{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.PDF') }}</span>
-        </button>
-      </div>
+      <ComboBox
+        id="documentType"
+        v-model="state.documentType"
+        :options="documentTypeOptions"
+        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+      />
     </div>
 
     <Input
