@@ -478,7 +478,10 @@
       "MESSAGE": "新しいチャンネルを通じて顧客と交流できます。サポートを楽しんでください",
       "BUTTON_TEXT": "受信トレイに移動",
       "MORE_SETTINGS": "その他の設定",
-      "WEBSITE_SUCCESS": "ウェブサイトチャンネルの作成が正常に完了しました。以下のコードをコピーしてウェブサイトに貼り付けてください。次回、お客様がライブチャットを使用すると、会話は自動的に受信トレイに表示されます。"
+      "WEBSITE_SUCCESS": "ウェブサイトチャンネルの作成が正常に完了しました。以下のコードをコピーしてウェブサイトに貼り付けてください。次回、お客様がライブチャットを使用すると、会話は自動的に受信トレイに表示されます。",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "再認証",
     "VIEW": "表示",
