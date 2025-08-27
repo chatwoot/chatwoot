@@ -226,6 +226,7 @@
     "APPEARANCE": "Изменить внешний вид",
     "SUPER_ADMIN_CONSOLE": "Консоль супер администратора",
     "DOCS": "Открыть документацию",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "Выйти из системы"
   },
   "APP_GLOBAL": {
@@ -319,6 +320,7 @@
     "CSAT": "CSAT",
     "LIVE_CHAT": "Онлайн чат",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Кампании",
     "ONGOING": "Повторяющиеся",
     "ONE_OFF": "Единоразовые",

@@ -226,6 +226,7 @@
     "APPEARANCE": "Cambiar apariencia",
     "SUPER_ADMIN_CONSOLE": "Consola SuperAdmin",
     "DOCS": "Leer la documentación",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "Cerrar sesión"
   },
   "APP_GLOBAL": {
@@ -319,6 +320,7 @@
     "CSAT": "Encuestas de Satisfacción",
     "LIVE_CHAT": "Live Chat",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Campañas",
     "ONGOING": "En Curso",
     "ONE_OFF": "One Off",

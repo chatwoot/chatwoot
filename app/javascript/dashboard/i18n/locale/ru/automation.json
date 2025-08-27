@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Диалог создан",
       "CONVERSATION_UPDATED": "Диалог обновлён",
       "MESSAGE_CREATED": "Сообщение создано",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
@@ -146,6 +147,7 @@
       "SEND_WEBHOOK_EVENT": "Отправить событие Webhook",
       "SEND_ATTACHMENT": "Отправить вложение",
       "SEND_MESSAGE": "Отправить сообщение",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Изменить приоритет",
       "ADD_SLA": "Добавить SLA",
       "OPEN_CONVERSATION": "Открыть беседу"

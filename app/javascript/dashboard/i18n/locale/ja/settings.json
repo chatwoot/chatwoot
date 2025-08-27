@@ -226,6 +226,7 @@
     "APPEARANCE": "外観を変更",
     "SUPER_ADMIN_CONSOLE": "SuperAdminコンソール",
     "DOCS": "ドキュメントを読む",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "ログアウト"
   },
   "APP_GLOBAL": {
@@ -319,6 +320,7 @@
     "CSAT": "顧客満足度",
     "LIVE_CHAT": "ライブチャット",
     "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "キャンペーン",
     "ONGOING": "進行中",
     "ONE_OFF": "単発",
