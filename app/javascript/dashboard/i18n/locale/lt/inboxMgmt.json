@@ -478,7 +478,10 @@
       "MESSAGE": "Dabar galite bendrauti su klientais naudodami naująjį kanalą. Gero naudojimo",
       "BUTTON_TEXT": "Nuvesk mane ten",
       "MORE_SETTINGS": "Daugiau nustatymų",
-      "WEBSITE_SUCCESS": "Sėkmingai baigėte kurti svetainės kanalą. Nukopijuokite toliau pateiktą kodą ir įdėkite jį į savo svetainę. Kai kitą kartą klientas naudosis tiesioginiu pokalbiu, pokalbis bus automatiškai rodomas jūsų gautų pranešimų aplanke."
+      "WEBSITE_SUCCESS": "Sėkmingai baigėte kurti svetainės kanalą. Nukopijuokite toliau pateiktą kodą ir įdėkite jį į savo svetainę. Kai kitą kartą klientas naudosis tiesioginiu pokalbiu, pokalbis bus automatiškai rodomas jūsų gautų pranešimų aplanke.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Pakartotinai autorizuoti",
     "VIEW": "Paržiūra",
