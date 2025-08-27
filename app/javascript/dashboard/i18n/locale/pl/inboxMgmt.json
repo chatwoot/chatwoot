@@ -330,12 +330,13 @@
             "LABEL": "API Key Secret",
             "PLACEHOLDER": "Enter your Twilio API Key Secret",
             "REQUIRED": "API Key Secret is required"
-          },
-          "TWIML_APP_SID": {
-            "LABEL": "TwiML App SID",
-            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
-            "REQUIRED": "TwiML App SID is required"
           }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
         },
         "SUBMIT_BUTTON": "Create Voice Channel",
         "API": {

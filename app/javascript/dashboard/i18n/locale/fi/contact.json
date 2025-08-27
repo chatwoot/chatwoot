@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP-osoite",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Uusi viesti",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tähän yhteystietoon ei liity aikaisempia keskusteluja.",
       "TITLE": "Edelliset keskustelut"

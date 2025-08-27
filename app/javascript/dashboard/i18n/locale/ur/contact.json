@@ -17,6 +17,11 @@
     "IP_ADDRESS": "آئی پی ایڈریس",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "نیا پیغام",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "اس کانٹیکٹ سے وابستہ کوئی پچھلی بات چیت موجود نہیں ہے۔.",
       "TITLE": "پچھلی بات چیت"
