@@ -1,8 +1,5 @@
 class OmniauthController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  skip_before_action :authenticate_user!
   skip_before_action :set_current_user
-  skip_before_action :check_authorization
 
   def request
     # This will be handled by OmniAuth middleware
@@ -13,22 +10,29 @@ class OmniauthController < ApplicationController
     auth = request.env['omniauth.auth']
     account_id = params[:account_id]
 
+    # Check if SAML is enabled for this account
+    saml_settings = AccountSamlSettings.find_by(account_id: account_id, enabled: true)
+    return render json: { error: 'SAML not enabled for this account' }, status: :unauthorized unless saml_settings
+
     if auth.present?
-      render json: {
-        message: 'SAML authentication successful',
-        account_id: account_id,
-        provider: auth.provider,
-        uid: auth.uid,
-        info: {
-          email: auth.info.email,
-          name: auth.info.name,
-          first_name: auth.info.first_name,
-          last_name: auth.info.last_name
-        },
-        extra: {
-          raw_info: auth.extra.raw_info
+      # Find existing user by email
+      email = auth['info']['email']
+      user = User.find_by(email: email)
+
+      if user
+        render json: {
+          message: 'Login successful',
+          user: {
+            id: user.id,
+            email: user.email,
+            name: user.name
+          }
         }
-      }
+      else
+        render json: {
+          error: 'User not found'
+        }, status: :not_found
+      end
     else
       render json: {
         error: 'SAML authentication failed',
