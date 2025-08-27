@@ -354,6 +354,8 @@ zh_CN:
 
       副本：
       %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
     send_instructions:
       email_required: 'Email 是必填项'
