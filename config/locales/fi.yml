@@ -39,6 +39,8 @@ fi:
       email_already_exists: 'Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Rekisteröityminen epäonnistui
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Invalid data type
