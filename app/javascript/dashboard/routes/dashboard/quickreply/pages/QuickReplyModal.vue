@@ -34,9 +34,9 @@ const emit = defineEmits(['close', 'submit']);
       ></textarea>
 
       <div class="modal-actions">
-        <button @click="$emit('close')" class="btn-cancel">Cancel</button>
-        <button class="btn-create" @click="$emit('submit', reply)">
-          {{ reply.id ? 'Update' : 'Create' }}
+        <button @click="$emit('close')" class="button clear">Batalkan</button>
+        <button class="button nice gap-2" @click="$emit('submit', reply)">
+          {{ reply.id ? 'Ubah Balasan Cepat' : 'Tambah Balasan Cepat' }}
         </button>
       </div>
     </div>
