@@ -358,6 +358,8 @@ pt_BR:
 
       Transcrição:
       %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
     send_instructions:
       email_required: 'E-mail é obrigatório'
