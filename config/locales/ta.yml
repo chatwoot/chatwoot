@@ -39,6 +39,8 @@ ta:
       email_already_exists: 'நீங்கள் ஏற்கனவே %{email} கொண்டு கணக்கிற்கு பதிவு செய்துள்ளீர்கள்'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Invalid data type

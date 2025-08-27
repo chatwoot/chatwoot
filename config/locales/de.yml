@@ -39,6 +39,8 @@ de:
       email_already_exists: 'Sie haben sich bereits für ein Konto bei %{email} angemeldet.'
       invalid_params: 'Ungültig, bitte überprüfen Sie die Anmeldeparameter und versuchen Sie es erneut'
       failed: Anmeldung gescheitert
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Ungültiger Datentyp
