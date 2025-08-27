@@ -17,7 +17,7 @@ class OmniauthController < ApplicationController
     if auth.present?
       # Find existing user by email
       email = auth['info']['email']
-      user = User.find_by(email: email)
+      user = User.from_email(email)
 
       if user
         # Create authentication token (DeviseTokenAuth way)
