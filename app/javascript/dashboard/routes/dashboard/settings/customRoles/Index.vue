@@ -5,6 +5,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import CustomRoleModal from './component/CustomRoleModal.vue';
 import CustomRoleTableBody from './component/CustomRoleTableBody.vue';
 import CustomRolePaywall from './component/CustomRolePaywall.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -134,29 +135,24 @@ const confirmDeletion = () => {
         feature-name="canned_responses"
       >
         <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('CUSTOM_ROLE.HEADER_BTN_TXT')"
             :disabled="isBehindAPaywall"
             @click="openAddModal"
-          >
-            {{ $t('CUSTOM_ROLE.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
 
     <template #body>
       <CustomRolePaywall v-if="isBehindAPaywall" />
-      <table
-        v-else
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-n-slate-11"
           >
             <span class="mb-0">
               {{ thHeader }}

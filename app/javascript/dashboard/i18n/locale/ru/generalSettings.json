@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
     "TITLE": "Настройки аккаунта",
     "SUBMIT": "Изменить настройки",
     "BACK": "Назад",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "Не удалось обновить настройки, попробуйте снова!",
       "SUCCESS": "Настройки аккаунта обновлены"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Удалить",
+        "DISMISS": "Отменить",
+        "PLACE_HOLDER": "Пожалуйста, введите {accountName} для подтверждения"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
     },
     "FORM": {
       "ERROR": "Пожалуйста исправьте ошибки",
@@ -17,6 +43,34 @@
       "ACCOUNT_ID": {
         "TITLE": "ID аккаунта",
         "NOTE": "Этот ID требуется для построения интеграции, основанной на API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Автоматически завершать диалоги",
+        "NOTE": "Эта опция позволит вам завершать диалоги после определенного периода бездействия.",
+        "DURATION": {
+          "LABEL": "Время бездействия",
+          "HELP": "Время бездействия, после которого диалог будет завершен",
+          "PLACEHOLDER": "30",
+          "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Сообщение об автозавершении диалога",
+          "PLACEHOLDER": "Диалог помечен завершенным автоматически из-за бездействия в течение 15 дней",
+          "HELP": "Сообщение будет отправлено после автозавершения диалога"
+        },
+        "PREFERENCES": "Настройки",
+        "LABEL": {
+          "LABEL": "Добавить метку после автозавершения",
+          "PLACEHOLDER": "Выбрать метку"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Пропустить диалоги ожидающие ответа агента"
+        },
+        "UPDATE_BUTTON": "Сохранить"
       },
       "NAME": {
         "LABEL": "Имя аккаунта",
@@ -38,10 +92,31 @@
         "PLACEHOLDER": "Email службы поддержки вашей компании",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Количество дней после того, как тикет будет автоматически решен, если нет активности",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Введите корректную длительность для автозавершения диалога (минимум 1 день, максимум 999)"
+        "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
+        "API": {
+          "SUCCESS": "Настройки автозавершения сохранены",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Обновить",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Диалог помечен завершенным автоматически из-за бездействия в течение 15 дней",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Для вашего аккаунта включено продолжение диалогов по электронной почте.",
@@ -51,6 +126,7 @@
     "UPDATE_CHATWOOT": "Доступно обновление {latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
     "LEARN_MORE": "Узнайте больше",
     "PAYMENT_PENDING": "Ваш платеж в ожидании. Пожалуйста, обновите платежную информацию, чтобы продолжить использовать Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Превышен лимит использования вашего тарифного плана, пожалуйста, обновите тарифный план, чтобы продолжить использовать Chatwoot",
     "OPEN_BILLING": "Открыть платеж"
   },
@@ -58,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Нажмите Enter для выбора",
       "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Выберите один",
       "SELECT": "Выбрать"
     }
@@ -114,8 +191,8 @@
       "CHANGE_PRIORITY": "Изменить приоритет",
       "CHANGE_TEAM": "Изменить команду",
       "SNOOZE_CONVERSATION": "Включить звук диалога",
-      "ADD_LABEL": "Добавить метку в разговор",
-      "REMOVE_LABEL": "Удалить метку из разговора",
+      "ADD_LABEL": "Добавить метку в диалог",
+      "REMOVE_LABEL": "Удалить метку из диалога",
       "SETTINGS": "Настройки",
       "AI_ASSIST": "Помощь ИИ",
       "APPEARANCE": "Образец",
@@ -128,25 +205,25 @@
       "GO_TO_CONVERSATION_REPORTS": "Перейти к отчетам по диалогам",
       "GO_TO_AGENT_REPORTS": "Перейти к отчетам по сотрудникам",
       "GO_TO_LABEL_REPORTS": "Перейти к отчетам по меткам",
-      "GO_TO_INBOX_REPORTS": "Перейти к отчётам по \"Входящим\"",
+      "GO_TO_INBOX_REPORTS": "Перейти к отчётам по «Входящим»",
       "GO_TO_TEAM_REPORTS": "Перейти к отчетам по командам",
       "GO_TO_SETTINGS_AGENTS": "Перейти к настройкам сотрудников",
       "GO_TO_SETTINGS_TEAMS": "Перейти к настройкам команд",
-      "GO_TO_SETTINGS_INBOXES": "Перейти к настройкам источников",
+      "GO_TO_SETTINGS_INBOXES": "Перейти к настройкам «Входящих»",
       "GO_TO_SETTINGS_LABELS": "Перейти к настройкам меток",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Перейти к настройкам шаблонных ответов",
       "GO_TO_SETTINGS_APPLICATIONS": "Перейти в настройки приложения",
       "GO_TO_SETTINGS_ACCOUNT": "Перейти в настройки учетной записи",
       "GO_TO_SETTINGS_PROFILE": "Перейти в настройки профиля",
       "GO_TO_NOTIFICATIONS": "Перейти к уведомлениям",
-      "ADD_LABELS_TO_CONVERSATION": "Добавить метку в разговор",
+      "ADD_LABELS_TO_CONVERSATION": "Добавить метку в диалог",
       "ASSIGN_AN_AGENT": "Назначить сотрудника",
       "AI_ASSIST": "Помощь ИИ",
       "ASSIGN_PRIORITY": "Назначить приоритет",
       "ASSIGN_A_TEAM": "Назначить команду",
       "MUTE_CONVERSATION": "Заглушить диалог",
       "UNMUTE_CONVERSATION": "Включить диалог",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Удалить метку из разговора",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Удалить метку из диалога",
       "REOPEN_CONVERSATION": "Переоткрыть разговор",
       "RESOLVE_CONVERSATION": "Решить разговор",
       "SEND_TRANSCRIPT": "Отправить историю переписки на email",

@@ -4,19 +4,21 @@ import {
   convertToAttributeSlug,
   convertToCategorySlug,
   convertToPortalSlug,
+  sanitizeVariableSearchKey,
 } from '../commons';
 
 describe('#getTypingUsersText', () => {
   it('returns the correct text is there is only one typing user', () => {
-    expect(getTypingUsersText([{ name: 'Pranav' }])).toEqual(
-      'Pranav is typing'
-    );
+    expect(getTypingUsersText([{ name: 'Pranav' }])).toEqual([
+      'TYPING.ONE',
+      { user: 'Pranav' },
+    ]);
   });
 
   it('returns the correct text is there are two typing users', () => {
     expect(
       getTypingUsersText([{ name: 'Pranav' }, { name: 'Nithin' }])
-    ).toEqual('Pranav and Nithin are typing');
+    ).toEqual(['TYPING.TWO', { user: 'Pranav', secondUser: 'Nithin' }]);
   });
 
   it('returns the correct text is there are more than two users are typing', () => {
@@ -27,7 +29,7 @@ describe('#getTypingUsersText', () => {
         { name: 'Subin' },
         { name: 'Sojan' },
       ])
-    ).toEqual('Pranav and 3 others are typing');
+    ).toEqual(['TYPING.MULTIPLE', { user: 'Pranav', count: 3 }]);
   });
 });
 
@@ -104,5 +106,39 @@ describe('convertToCategorySlug', () => {
 describe('convertToPortalSlug', () => {
   it('should convert to slug', () => {
     expect(convertToPortalSlug('Room rental')).toBe('room-rental');
+  });
+});
+
+describe('sanitizeVariableSearchKey', () => {
+  it('removes braces', () => {
+    expect(sanitizeVariableSearchKey('{{contact.name}}')).toBe('contact.name');
+  });
+
+  it('removes right braces', () => {
+    expect(sanitizeVariableSearchKey('contact.name}}')).toBe('contact.name');
+  });
+
+  it('removes braces, comma and whitespace', () => {
+    expect(sanitizeVariableSearchKey(' {{contact.name }},')).toBe(
+      'contact.name'
+    );
+  });
+
+  it('trims whitespace', () => {
+    expect(sanitizeVariableSearchKey('  contact.name  ')).toBe('contact.name');
+  });
+
+  it('handles multiple commas', () => {
+    expect(sanitizeVariableSearchKey('{{contact.name}},,')).toBe(
+      'contact.name'
+    );
+  });
+
+  it('returns empty string when only braces/commas/whitespace', () => {
+    expect(sanitizeVariableSearchKey(' {  }, , ')).toBe('');
+  });
+
+  it('returns empty string for undefined input', () => {
+    expect(sanitizeVariableSearchKey()).toBe('');
   });
 });

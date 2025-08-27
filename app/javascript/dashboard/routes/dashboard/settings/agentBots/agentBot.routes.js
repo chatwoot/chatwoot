@@ -1,8 +1,7 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import Bot from './Index.vue';
-import CsmlEditBot from './csml/Edit.vue';
-import CsmlNewBot from './csml/New.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
-import SettingsContent from '../Wrapper.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
 
 export default {
   routes: [
@@ -11,34 +10,14 @@ export default {
       meta: {
         permissions: ['administrator'],
       },
-      component: SettingsContent,
-      props: {
-        headerTitle: 'AGENT_BOTS.HEADER',
-        icon: 'bot',
-        showNewButton: false,
-      },
+      component: SettingsWrapper,
       children: [
         {
           path: '',
           name: 'agent_bots',
           component: Bot,
           meta: {
-            permissions: ['administrator'],
-          },
-        },
-        {
-          path: 'csml/new',
-          name: 'agent_bots_csml_new',
-          component: CsmlNewBot,
-          meta: {
-            permissions: ['administrator'],
-          },
-        },
-        {
-          path: 'csml/:botId',
-          name: 'agent_bots_csml_edit',
-          component: CsmlEditBot,
-          meta: {
+            featureFlag: FEATURE_FLAGS.AGENT_BOTS,
             permissions: ['administrator'],
           },
         },

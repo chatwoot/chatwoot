@@ -1,44 +1,40 @@
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-export default {
-  components: {
-    Thumbnail,
+<script setup>
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+
+defineProps({
+  option: {
+    type: Object,
+    default: () => {},
   },
-  props: {
-    option: {
-      type: Object,
-      default: () => {},
-    },
-    variant: {
-      type: String,
-      default: 'default',
-    },
+  variant: {
+    type: String,
+    default: 'default',
   },
-};
+});
 </script>
 
 <template>
-  <div class="menu text-slate-800 dark:text-slate-100" role="button">
+  <div class="menu text-n-slate-12 min-h-7 min-w-0" role="button">
     <fluent-icon
       v-if="variant === 'icon' && option.icon"
       :icon="option.icon"
       size="14"
-      class="menu-icon"
+      class="flex-shrink-0"
     />
     <span
       v-if="variant === 'label' && option.color"
-      class="label-pill"
+      class="label-pill flex-shrink-0"
       :style="{ backgroundColor: option.color }"
     />
-    <Thumbnail
+    <Avatar
       v-if="variant === 'agent'"
-      :username="option.label"
+      :name="option.label"
       :src="option.thumbnail"
-      :status="option.status"
-      size="20px"
-      class="agent-thumbnail"
+      :status="option.status === 'online' ? option.status : null"
+      :size="20"
+      class="flex-shrink-0"
     />
-    <p class="menu-label overflow-hidden whitespace-nowrap text-ellipsis">
+    <p class="menu-label truncate min-w-0 flex-1">
       {{ option.label }}
     </p>
   </div>
@@ -46,15 +42,15 @@ export default {
 
 <style scoped lang="scss">
 .menu {
-  width: calc(var(--space-mega) * 2);
-  @apply flex items-center flex-nowrap p-1 rounded-sm overflow-hidden cursor-pointer;
+  width: calc(6.25rem * 2);
+  @apply flex items-center flex-nowrap p-1 rounded-md overflow-hidden cursor-pointer;
 
   .menu-label {
     @apply my-0 mx-2 text-xs flex-shrink-0;
   }
 
   &:hover {
-    @apply bg-woot-500 dark:bg-woot-500 text-white dark:text-slate-50;
+    @apply bg-n-brand text-white;
   }
 }
 
@@ -63,6 +59,6 @@ export default {
 }
 
 .label-pill {
-  @apply w-4 h-4 rounded-full border border-slate-50 border-solid dark:border-slate-900 flex-shrink-0;
+  @apply w-4 h-4 rounded-full border border-n-strong border-solid flex-shrink-0;
 }
 </style>

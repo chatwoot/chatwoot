@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Default",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Personal message signature",
         "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
@@ -58,18 +76,37 @@
       "ACCESS_TOKEN": {
         "TITLE": "Přístupový token",
         "NOTE": "Tento token může být použit při vytváření integrace založené na API",
-        "COPY": "Kopírovat"
+        "COPY": "Kopírovat",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Nic",
           "MINE": "Assigned",
-          "ALL": "Vše"
+          "ALL": "Vše",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Nic",
           "ASSIGNED": "Assigned Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
@@ -81,7 +118,9 @@
           "TITLE": "Alert conditions:",
           "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
           "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Read more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-mailová oznámení",
@@ -145,13 +184,14 @@
       },
       "AVAILABILITY": {
         "LABEL": "Dostupnost",
-        "STATUSES_LIST": [
-          "Online",
-          "Zaneprázdněn",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Zaneprázdněn",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Vaše e-mailová adresa",
@@ -177,14 +217,17 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Změnit",
-    "CHANGE_ACCOUNTS": "Přepnout účet",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Vyberte účet z následujícího seznamu",
-    "PROFILE_SETTINGS": "Nastavení profilu",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "Odhlásit se"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dní zbývá zkušební verze.",
@@ -218,6 +261,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Odeslat"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Ověřování...",
@@ -227,11 +274,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konverzace",
-    "INBOX": "Inbox",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Zmínky",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -239,7 +287,11 @@
     "REPORTS": "Zprávy",
     "SETTINGS": "Nastavení",
     "CONTACTS": "Kontakty",
+    "ACTIVE": "Active",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Domů",
     "AGENTS": "Agenti",
     "AGENT_BOTS": "Bots",
@@ -266,6 +318,9 @@
     "NEW_INBOX": "New inbox",
     "REPORTS_CONVERSATION": "Konverzace",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Kampaně",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
@@ -276,6 +331,7 @@
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_YOUR_AVAILABILITY": "Nastavte svou dostupnost",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,30 +339,41 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
-      "CATEGORY": "Category",
-      "SETTINGS": "Nastavení",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Locales",
+      "SETTINGS": "Nastavení"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses"
+      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
@@ -329,7 +396,8 @@
         "LABEL": "Název společnosti",
         "PLACEHOLDER": "Wayne podniky"
       },
-      "SUBMIT": "Odeslat"
+      "SUBMIT": "Odeslat",
+      "CANCEL": "Zrušit"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -349,11 +417,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "3.14.1",
+  "version": "4.5.2",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -17,7 +17,8 @@
     "size": "size-limit",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
-    "story:preview": "histoire preview"
+    "story:preview": "histoire preview",
+    "sync:i18n": "bin/sync_i18n_file_change"
   },
   "size-limit": [
     {
@@ -32,13 +33,13 @@
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
-    "@chatwoot/prosemirror-schema": "1.1.1-next",
-    "@chatwoot/utils": "^0.0.25",
+    "@chatwoot/prosemirror-schema": "1.2.1",
+    "@chatwoot/utils": "^0.0.50",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
     "@highlightjs/vue-plugin": "^2.1.0",
-    "@june-so/analytics-next": "^2.0.0",
+    "@iconify-json/material-symbols": "^1.2.10",
     "@lk77/vue3-color": "^3.0.6",
     "@radix-ui/colors": "^3.0.0",
     "@rails/actioncable": "6.1.3",
@@ -52,10 +53,10 @@
     "@vue/compiler-sfc": "^3.5.8",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
-    "@vueuse/components": "^11.1.0",
-    "@vueuse/core": "^11.1.0",
+    "@vueuse/components": "^12.0.0",
+    "@vueuse/core": "^12.0.0",
     "activestorage": "^5.2.6",
-    "axios": "^1.7.7",
+    "axios": "^1.8.2",
     "camelcase-keys": "^9.1.3",
     "chart.js": "~4.4.4",
     "color2k": "^2.0.2",
@@ -64,18 +65,24 @@
     "countries-and-timezones": "^3.6.0",
     "date-fns": "2.21.1",
     "date-fns-tz": "^1.3.3",
-    "dompurify": "3.1.6",
+    "dompurify": "3.2.4",
+    "flag-icons": "^7.2.3",
     "floating-vue": "^5.2.2",
     "highlight.js": "^11.10.0",
     "idb": "^8.0.0",
     "js-cookie": "^3.0.5",
+    "json-logic-js": "^2.0.5",
+    "lettersanitizer": "^1.0.6",
     "libphonenumber-js": "^1.11.9",
     "markdown-it": "^13.0.2",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
+    "qrcode": "^1.5.4",
+    "posthog-js": "^1.260.2",
     "semver": "7.6.3",
+    "snakecase-keys": "^8.0.1",
     "timezone-phone-codes": "^0.0.2",
     "tinykeys": "^3.0.0",
     "turbolinks": "^5.2.0",
@@ -83,12 +90,12 @@
     "video.js": "7.18.1",
     "videojs-record": "4.5.0",
     "videojs-wavesurfer": "3.8.0",
-    "vue": "^3.5.8",
+    "vue": "^3.5.12",
     "vue-chartjs": "5.3.1",
     "vue-datepicker-next": "^1.0.3",
     "vue-dompurify-html": "^5.1.0",
-    "vue-i18n": "9.14.0",
-    "vue-letter": "^0.2.0",
+    "vue-i18n": "9.14.5",
+    "vue-letter": "^0.2.1",
     "vue-multiselect": "3.1.0",
     "vue-router": "~4.4.5",
     "vue-upload-component": "^3.1.17",
@@ -101,12 +108,15 @@
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
-    "@iconify-json/ri": "^1.2.1",
     "@histoire/plugin-vue": "0.17.15",
-    "@iconify-json/logos": "^1.2.0",
-    "@iconify-json/lucide": "^1.2.10",
+    "@iconify-json/logos": "^1.2.3",
+    "@iconify-json/lucide": "^1.2.11",
+    "@iconify-json/ph": "^1.2.1",
+    "@iconify-json/ri": "^1.2.3",
+    "@iconify-json/teenyicons": "^1.2.1",
+    "@intlify/eslint-plugin-vue-i18n": "^3.2.0",
     "@size-limit/file": "^8.2.4",
-    "@vitest/coverage-v8": "2.0.1",
+    "@vitest/coverage-v8": "3.0.5",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
@@ -129,13 +139,13 @@
     "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
-    "vite": "^5.4.8",
+    "vite": "^5.4.19",
     "vite-plugin-ruby": "^5.0.0",
-    "vitest": "2.0.1"
+    "vitest": "3.0.5"
   },
   "engines": {
-    "node": "20.x",
-    "pnpm": "9.x"
+    "node": "23.x",
+    "pnpm": "10.x"
   },
   "husky": {
     "hooks": {
@@ -145,8 +155,8 @@
   "pnpm": {
     "overrides": {
       "vite-node": "2.0.1",
-      "vite": "5.4.8",
-      "vitest": "2.0.1"
+      "vite": "5.4.19",
+      "vitest": "3.0.5"
     }
   },
   "lint-staged": {
@@ -157,5 +167,6 @@
     "*.scss": [
       "scss-lint"
     ]
-  }
+  },
+  "packageManager": "pnpm@10.2.0+sha512.0d27364e0139c6aadeed65ada153135e0ca96c8da42123bd50047f961339dc7a758fc2e944b428f52be570d1bd3372455c1c65fa2e7aa0bfbf931190f9552001"
 }

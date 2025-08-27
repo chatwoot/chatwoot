@@ -47,6 +47,10 @@ class ReportingEventListener < BaseListener
     message = extract_message_and_account(event)[0]
     conversation = message.conversation
     waiting_since = event.data[:waiting_since]
+
+    return if waiting_since.blank?
+
+    # When waiting_since is nil, set reply_time to 0
     reply_time = message.created_at.to_i - waiting_since.to_i
 
     reporting_event = ReportingEvent.new(
@@ -86,7 +90,46 @@ class ReportingEventListener < BaseListener
     reporting_event.save!
   end
 
+  def conversation_opened(event)
+    conversation = extract_conversation_and_account(event)[0]
+
+    # Find the most recent resolved event for this conversation
+    last_resolved_event = ReportingEvent.where(
+      conversation_id: conversation.id,
+      name: 'conversation_resolved'
+    ).order(event_end_time: :desc).first
+
+    # For first-time openings, value is 0
+    # For reopenings, calculate time since resolution
+    if last_resolved_event
+      time_since_resolved = conversation.updated_at.to_i - last_resolved_event.event_end_time.to_i
+      business_hours_value = business_hours(conversation.inbox, last_resolved_event.event_end_time, conversation.updated_at)
+      start_time = last_resolved_event.event_end_time
+    else
+      time_since_resolved = 0
+      business_hours_value = 0
+      start_time = conversation.created_at
+    end
+
+    create_conversation_opened_event(conversation, time_since_resolved, business_hours_value, start_time)
+  end
+
   private
+
+  def create_conversation_opened_event(conversation, time_since_resolved, business_hours_value, start_time)
+    reporting_event = ReportingEvent.new(
+      name: 'conversation_opened',
+      value: time_since_resolved,
+      value_in_business_hours: business_hours_value,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: start_time,
+      event_end_time: conversation.updated_at
+    )
+    reporting_event.save!
+  end
 
   def create_bot_resolved_event(conversation, reporting_event)
     return unless conversation.inbox.active_bot?

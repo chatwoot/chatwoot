@@ -5,7 +5,7 @@ import { required, minLength } from '@vuelidate/validators';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
 
@@ -200,25 +200,31 @@ const resetPassword = async () => {
         </label>
       </div>
 
-      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <div class="w-[50%]">
-          <WootSubmitButton
-            :disabled="v$.$invalid || uiFlags.isUpdating"
-            :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
-            :loading="uiFlags.isUpdating"
-          />
-          <button class="button clear" @click.prevent="emit('close')">
-            {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
-          </button>
-        </div>
-        <div class="w-[50%] text-right">
-          <woot-button
-            icon="lock-closed"
-            variant="clear"
+      <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">
+        <div class="w-[50%] ltr:text-left rtl:text-right">
+          <Button
+            ghost
+            type="button"
+            icon="i-lucide-lock-keyhole"
+            class="!px-2"
+            :label="$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON')"
             @click.prevent="resetPassword"
-          >
-            {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
-          </woot-button>
+          />
+        </div>
+        <div class="w-[50%] flex justify-end items-center gap-2">
+          <Button
+            faded
+            slate
+            type="reset"
+            :label="$t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT')"
+            @click.prevent="emit('close')"
+          />
+          <Button
+            type="submit"
+            :label="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
+            :disabled="v$.$invalid || uiFlags.isUpdating"
+            :is-loading="uiFlags.isUpdating"
+          />
         </div>
       </div>
     </form>

@@ -3,14 +3,14 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import FormInput from '../../../components/Form/Input.vue';
-import SubmitButton from '../../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
 
 export default {
   components: {
     FormInput,
-    SubmitButton,
+    NextButton,
   },
   props: {
     resetPasswordToken: { type: String, default: '' },
@@ -87,14 +87,14 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-center w-full min-h-screen py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
     <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submitForm"
     >
       <h1
-        class="mb-1 text-2xl font-medium tracking-tight text-left text-slate-900 dark:text-white"
+        class="mb-1 text-2xl font-medium tracking-tight text-left text-n-slate-12"
       >
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>
@@ -120,14 +120,18 @@ export default {
           :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
           @blur="v$.credentials.confirmPassword.$touch"
         />
-        <SubmitButton
+        <NextButton
+          lg
+          type="submit"
+          data-testid="submit_button"
+          class="w-full"
+          :label="$t('SET_NEW_PASSWORD.SUBMIT')"
           :disabled="
             v$.credentials.password.$invalid ||
             v$.credentials.confirmPassword.$invalid ||
             newPasswordAPI.showLoading
           "
-          :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
-          :loading="newPasswordAPI.showLoading"
+          :is-loading="newPasswordAPI.showLoading"
         />
       </div>
     </form>

@@ -11,7 +11,12 @@ class Rack::Attack
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   # https://github.com/rack/rack-attack/issues/102
-  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma)
+  # Rails 7.1 automatically adds its own ConnectionPool around RedisCacheStore.
+  # Because `$velma` is *already* a ConnectionPool, double-wrapping causes
+  # Redis calls like `get` to hit the outer wrapper and explode.
+  # `pool: false` tells Rails to skip its internal pool and use ours directly.
+  # TODO: We can use build in connection pool in future upgrade
+  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma, pool: false)
 
   class Request < ::Rack::Request
     # You many need to specify a method to fetch the correct remote IP address
@@ -21,8 +26,9 @@ class Rack::Attack
     end
 
     def allowed_ip?
-      allowed_ips = ['127.0.0.1', '::1']
-      allowed_ips.include?(remote_ip)
+      default_allowed_ips = ['127.0.0.1', '::1']
+      env_allowed_ips = ENV.fetch('RACK_ATTACK_ALLOWED_IPS', '').split(',').map(&:strip)
+      (default_allowed_ips + env_allowed_ips).include?(remote_ip)
     end
 
     # Rails would allow requests to paths with extentions, so lets compare against the path with extention stripped
@@ -31,6 +37,15 @@ class Rack::Attack
       path[/^[^.]+/]
     end
   end
+
+  ### Safelist IPs from Environment Variable ###
+  #
+  # This block ensures requests from any IP present in RACK_ATTACK_ALLOWED_IPS
+  # will bypass Rack::Attack’s throttling rules.
+  #
+  # Example: RACK_ATTACK_ALLOWED_IPS="127.0.0.1,::1,192.168.0.10"
+
+  Rack::Attack.safelist('trusted IPs', &:allowed_ip?)
 
   ### Throttle Spammy Clients ###
 
@@ -154,12 +169,53 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  # Throttle by individual user (based on uid)
+  throttle('/api/v2/accounts/:account_id/reports/user', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_USER_LEVEL', '100').to_i, period: 1.minute) do |req|
+    match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
+    # Extract user identification (uid for web, api_access_token for API requests)
+    user_uid = req.get_header('HTTP_UID')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+
+    # Use uid if present, otherwise fallback to api_access_token for tracking
+    user_identifier = user_uid.presence || api_access_token.presence
+
+    "#{user_identifier}:#{match_data[:account_id]}" if match_data.present? && user_identifier.present?
+  end
+
+  ## Prevent abuse of reports api at account level
+  throttle('/api/v2/accounts/:account_id/reports', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_ACCOUNT_LEVEL', '1000').to_i, period: 1.minute) do |req|
+    match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
+    match_data[:account_id] if match_data.present?
+  end
+
   ## ----------------------------------------------- ##
 end
 
 # Log blocked events
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
-  Rails.logger.warn "[Rack::Attack][Blocked] remote_ip: \"#{payload[:request].remote_ip}\", path: \"#{payload[:request].path}\""
+  req = payload[:request]
+
+  user_uid = req.get_header('HTTP_UID')
+  api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+
+  # Mask the token if present
+  masked_api_token = api_access_token.present? ? "#{api_access_token[0..4]}...[REDACTED]" : nil
+
+  # Use uid if present, otherwise fallback to masked api_access_token for tracking
+  user_identifier = user_uid.presence || masked_api_token.presence || 'unknown_user'
+
+  # Extract account ID if present
+  account_match = %r{/accounts/(?<account_id>\d+)}.match(req.path)
+  account_id = account_match ? account_match[:account_id] : 'unknown_account'
+
+  Rails.logger.warn(
+    "[Rack::Attack][Blocked] remote_ip: \"#{req.remote_ip}\", " \
+    "path: \"#{req.path}\", " \
+    "user_identifier: \"#{user_identifier}\", " \
+    "account_id: \"#{account_id}\", " \
+    "method: \"#{req.request_method}\", " \
+    "user_agent: \"#{req.user_agent}\""
+  )
 end
 
 Rack::Attack.enabled = Rails.env.production? ? ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK', true)) : false

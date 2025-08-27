@@ -38,10 +38,6 @@ class InboxPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def response_sources?
-    @account_user.administrator?
-  end
-
   def create?
     @account_user.administrator?
   end
@@ -59,6 +55,10 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def avatar?
+    @account_user.administrator?
+  end
+
+  def sync_templates?
     @account_user.administrator?
   end
 end

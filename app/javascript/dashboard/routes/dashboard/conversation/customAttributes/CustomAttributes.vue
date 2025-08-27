@@ -1,5 +1,6 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import Draggable from 'vuedraggable';
 import { useToggle } from '@vueuse/core';
 import { useRoute } from 'vue-router';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
@@ -8,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   attributeType: {
@@ -23,10 +25,11 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  startAt: {
-    type: String,
-    default: 'even',
-    validator: value => value === 'even' || value === 'odd',
+  // Combine static elements with custom attributes components
+  // To allow for custom ordering
+  staticElements: {
+    type: Array,
+    default: () => [],
   },
 });
 
@@ -35,6 +38,8 @@ const getters = useStoreGetters();
 const route = useRoute();
 const { t } = useI18n();
 const { uiSettings, updateUISettings } = useUISettings();
+
+const dragging = ref(false);
 
 const [showAllAttributes, toggleShowAllAttributes] = useToggle(false);
 
@@ -68,47 +73,130 @@ const toggleButtonText = computed(() =>
     : t('CUSTOM_ATTRIBUTES.SHOW_LESS')
 );
 
-const filteredAttributes = computed(() =>
+const filteredCustomAttributes = computed(() =>
   attributes.value.map(attribute => {
     // Check if the attribute key exists in customAttributes
     const hasValue = Object.hasOwnProperty.call(
       customAttributes.value,
       attribute.attribute_key
     );
-    const isCheckbox = attribute.attribute_display_type === 'checkbox';
-    const defaultValue = isCheckbox ? false : '';
 
     return {
       ...attribute,
-      // Set value from customAttributes if it exists, otherwise use default value
-      value: hasValue
-        ? customAttributes.value[attribute.attribute_key]
-        : defaultValue,
+      type: 'custom_attribute',
+      key: attribute.attribute_key,
+      // Set value from customAttributes if it exists, otherwise use ''
+      value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
     };
   })
 );
 
-const displayedAttributes = computed(() => {
-  // Show only the first 5 attributes or all depending on showAllAttributes
-  if (showAllAttributes.value || filteredAttributes.value.length <= 5) {
-    return filteredAttributes.value;
-  }
-  return filteredAttributes.value.slice(0, 5);
-});
-
-const showMoreUISettingsKey = computed(
-  () => `show_all_attributes_${props.attributeFrom}`
+// Order key name for UI settings
+const orderKey = computed(
+  () => `conversation_elements_order_${props.attributeFrom}`
 );
 
+const combinedElements = computed(() => {
+  // Get saved order from UI settings
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  const allElements = [
+    ...props.staticElements,
+    ...filteredCustomAttributes.value,
+  ];
+
+  // If no saved order exists, return in default order
+  if (!savedOrder.length) return allElements;
+
+  return allElements.sort((a, b) => {
+    // Find positions of elements in saved order
+    const aPosition = savedOrder.indexOf(a.key);
+    const bPosition = savedOrder.indexOf(b.key);
+
+    // Handle cases where elements are not in saved order:
+    // - New elements (not in saved order) go to the end
+    // - If both elements are new, maintain their relative order
+    if (aPosition === -1 && bPosition === -1) return 0;
+    if (aPosition === -1) return 1;
+    if (bPosition === -1) return -1;
+
+    return aPosition - bPosition;
+  });
+});
+
+const displayedElements = computed(() => {
+  if (showAllAttributes.value || combinedElements.value.length <= 5) {
+    return combinedElements.value;
+  }
+
+  // Show first 5 elements in the order they appear
+  return combinedElements.value.slice(0, 5);
+});
+
+// Reorder elements with static elements position preserved
+// There is case where all the static elements will not be available (API, Email channels, etc).
+// In that case, we need to preserve the order of the static elements and
+// insert them in the correct position.
+const reorderElementsWithStaticPreservation = (
+  savedOrder = [],
+  currentOrder = []
+) => {
+  const finalOrder = [...currentOrder];
+  const visibleKeys = new Set(currentOrder);
+
+  // Process hidden static elements from saved order
+  savedOrder
+    // Find static elements that aren't currently visible
+    .filter(key => key.startsWith('static-') && !visibleKeys.has(key))
+    .forEach(staticKey => {
+      // Find next visible element after this static element in saved order
+      const nextVisible = savedOrder
+        .slice(savedOrder.indexOf(staticKey))
+        .find(key => visibleKeys.has(key));
+
+      // If next visible element found, insert before it; otherwise add to end
+      if (nextVisible) {
+        finalOrder.splice(finalOrder.indexOf(nextVisible), 0, staticKey);
+      } else {
+        finalOrder.push(staticKey);
+      }
+    });
+
+  return finalOrder;
+};
+
+const onDragEnd = () => {
+  dragging.value = false;
+  // Get the saved and current saved order
+  const savedOrder = uiSettings.value[orderKey.value] ?? [];
+  const currentOrder = combinedElements.value.map(({ key }) => key);
+
+  const finalOrder = reorderElementsWithStaticPreservation(
+    savedOrder,
+    currentOrder
+  );
+
+  updateUISettings({
+    [orderKey.value]: finalOrder,
+  });
+};
+
 const initializeSettings = () => {
+  const currentOrder = uiSettings.value[orderKey.value];
+  if (!currentOrder) {
+    const initialOrder = combinedElements.value.map(element => element.key);
+    updateUISettings({
+      [orderKey.value]: initialOrder,
+    });
+  }
+
   showAllAttributes.value =
-    uiSettings.value[showMoreUISettingsKey.value] || false;
+    uiSettings.value[`show_all_attributes_${props.attributeFrom}`] || false;
 };
 
 const onClickToggle = () => {
   toggleShowAllAttributes();
   updateUISettings({
-    [showMoreUISettingsKey.value]: showAllAttributes.value,
+    [`show_all_attributes_${props.attributeFrom}`]: showAllAttributes.value,
   });
 };
 
@@ -123,7 +211,7 @@ const onUpdate = async (key, value) => {
     } else {
       store.dispatch('contacts/update', {
         id: props.contactId,
-        custom_attributes: updatedAttributes,
+        customAttributes: updatedAttributes,
       });
     }
     useAlert(t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
@@ -166,58 +254,83 @@ onMounted(() => {
 });
 
 const evenClass = [
-  '[&>*:nth-child(odd)]:!bg-white [&>*:nth-child(even)]:!bg-slate-25',
-  'dark:[&>*:nth-child(odd)]:!bg-slate-900 dark:[&>*:nth-child(even)]:!bg-slate-800/50',
+  '[&>*:nth-child(odd)]:!bg-n-background [&>*:nth-child(even)]:!bg-n-slate-2',
+  'dark:[&>*:nth-child(odd)]:!bg-n-background dark:[&>*:nth-child(even)]:!bg-n-solid-1',
 ];
-const oddClass = [
-  '[&>*:nth-child(odd)]:!bg-slate-25 [&>*:nth-child(even)]:!bg-white',
-  'dark:[&>*:nth-child(odd)]:!bg-slate-800/50 dark:[&>*:nth-child(even)]:!bg-slate-900',
-];
-
-const wrapperClass = computed(() => {
-  return props.startAt === 'even' ? evenClass : oddClass;
-});
 </script>
 
-<!-- TODO: After migration to Vue 3, remove the top level div -->
 <template>
-  <div :class="wrapperClass">
-    <CustomAttribute
-      v-for="attribute in displayedAttributes"
-      :key="attribute.id"
-      :attribute-key="attribute.attribute_key"
-      :attribute-type="attribute.attribute_display_type"
-      :values="attribute.attribute_values"
-      :label="attribute.attribute_display_name"
-      :description="attribute.attribute_description"
-      :value="attribute.value"
-      show-actions
-      :attribute-regex="attribute.regex_pattern"
-      :regex-cue="attribute.regex_cue"
-      :contact-id="contactId"
-      class="border-b border-solid border-slate-50 dark:border-slate-700/50"
-      @update="onUpdate"
-      @delete="onDelete"
-      @copy="onCopy"
-    />
+  <div class="conversation--details">
+    <Draggable
+      :list="displayedElements"
+      :disabled="!showAllAttributes"
+      animation="200"
+      ghost-class="ghost"
+      handle=".drag-handle"
+      item-key="key"
+      class="last:rounded-b-lg"
+      :class="evenClass"
+      @start="dragging = true"
+      @end="onDragEnd"
+    >
+      <template #item="{ element }">
+        <div
+          class="drag-handle relative border-b border-n-weak/50 dark:border-n-weak/90"
+          :class="{
+            'cursor-grab': showAllAttributes,
+            'last:border-transparent dark:last:border-transparent':
+              combinedElements.length <= 5,
+          }"
+        >
+          <template v-if="element.type === 'static_attribute'">
+            <slot name="staticItem" :element="element" />
+          </template>
+
+          <template v-else>
+            <CustomAttribute
+              :key="element.id"
+              :attribute-key="element.attribute_key"
+              :attribute-type="element.attribute_display_type"
+              :values="element.attribute_values"
+              :label="element.attribute_display_name"
+              :description="element.attribute_description"
+              :value="element.value"
+              show-actions
+              :attribute-regex="element.regex_pattern"
+              :regex-cue="element.regex_cue"
+              :contact-id="contactId"
+              @update="onUpdate"
+              @delete="onDelete"
+              @copy="onCopy"
+            />
+          </template>
+        </div>
+      </template>
+    </Draggable>
+
     <p
-      v-if="!displayedAttributes.length && emptyStateMessage"
+      v-if="!displayedElements.length && emptyStateMessage"
       class="p-3 text-center"
     >
       {{ emptyStateMessage }}
     </p>
-    <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
-    <div v-if="filteredAttributes.length > 5" class="flex px-2 py-2">
-      <woot-button
-        size="small"
-        :icon="showAllAttributes ? 'chevron-up' : 'chevron-down'"
-        variant="clear"
-        color-scheme="primary"
-        class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
+    <!-- Show more and show less buttons show it if the combinedElements length is greater than 5 -->
+    <div v-if="combinedElements.length > 5" class="flex items-center px-2 py-2">
+      <NextButton
+        ghost
+        xs
+        :icon="
+          showAllAttributes ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
+        "
+        :label="toggleButtonText"
         @click="onClickToggle"
-      >
-        {{ toggleButtonText }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.ghost {
+  @apply opacity-50 bg-n-slate-3 dark:bg-n-slate-9;
+}
+</style>

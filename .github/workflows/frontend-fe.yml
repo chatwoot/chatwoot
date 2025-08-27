@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v4
@@ -23,12 +23,10 @@ jobs:
           bundler-cache: true
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9.3.0
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 23
           cache: 'pnpm'
 
       - name: Install pnpm dependencies

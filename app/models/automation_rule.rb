@@ -27,6 +27,7 @@ class AutomationRule < ApplicationRecord
   validate :json_conditions_format
   validate :json_actions_format
   validate :query_operator_presence
+  validate :query_operator_value
   validates :account_id, presence: true
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
@@ -40,7 +41,8 @@ class AutomationRule < ApplicationRecord
 
   def actions_attributes
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation
-       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript].freeze
+       send_attachment change_status resolve_conversation open_conversation snooze_conversation change_priority send_email_transcript
+       add_private_note].freeze
   end
 
   def file_base_data
@@ -82,6 +84,24 @@ class AutomationRule < ApplicationRecord
 
     operators = conditions.select { |obj, _| obj['query_operator'].nil? }
     errors.add(:conditions, 'Automation conditions should have query operator.') if operators.length > 1
+  end
+
+  # This validation ensures logical operators are being used correctly in automation conditions.
+  # And we don't push any unsanitized query operators to the database.
+  def query_operator_value
+    conditions.each do |obj|
+      validate_single_condition(obj)
+    end
+  end
+
+  def validate_single_condition(condition)
+    query_operator = condition['query_operator']
+
+    return if query_operator.nil?
+    return if query_operator.empty?
+
+    operator = query_operator.upcase
+    errors.add(:conditions, 'Query operator must be either "AND" or "OR"') unless %w[AND OR].include?(operator)
   end
 end
 

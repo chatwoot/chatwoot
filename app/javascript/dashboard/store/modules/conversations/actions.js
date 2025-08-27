@@ -100,7 +100,7 @@ const actions = {
   },
 
   fetchAllAttachments: async ({ commit }, conversationId) => {
-    let attachments = null;
+    let attachments = [];
 
     try {
       const { data } = await ConversationApi.getAllAttachments(conversationId);
@@ -327,6 +327,16 @@ const actions = {
     }
   },
 
+  deleteConversation: async ({ commit, dispatch }, conversationId) => {
+    try {
+      await ConversationApi.delete(conversationId);
+      commit(types.DELETE_CONVERSATION, conversationId);
+      dispatch('conversationStats/get', {}, { root: true });
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {
@@ -487,6 +497,15 @@ const actions = {
 
   setContextMenuChatId({ commit }, chatId) {
     commit(types.SET_CONTEXT_MENU_CHAT_ID, chatId);
+  },
+
+  getInboxCaptainAssistantById: async ({ commit }, conversationId) => {
+    try {
+      const response = await ConversationApi.getInboxAssistant(conversationId);
+      commit(types.SET_INBOX_CAPTAIN_ASSISTANT, response.data);
+    } catch (error) {
+      // Handle error
+    }
   },
 
   ...messageReadActions,

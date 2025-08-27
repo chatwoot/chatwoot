@@ -6,11 +6,9 @@ import { routes as notificationRoutes } from './notifications/routes';
 import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
-
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-
+import campaignsRoutes from './campaigns/campaigns.routes';
+import { routes as captainRoutes } from './captain/captain.routes';
 import AppContainer from './Dashboard.vue';
-import Captain from './Captain.vue';
 import Suspended from './suspended/Index.vue';
 
 export default {
@@ -19,15 +17,7 @@ export default {
       path: frontendURL('accounts/:accountId'),
       component: AppContainer,
       children: [
-        {
-          path: frontendURL('accounts/:accountId/captain'),
-          name: 'captain',
-          component: Captain,
-          meta: {
-            permissions: ['administrator', 'agent'],
-            featureFlag: FEATURE_FLAGS.CAPTAIN,
-          },
-        },
+        ...captainRoutes,
         ...inboxRoutes,
         ...conversation.routes,
         ...settings.routes,
@@ -35,6 +25,7 @@ export default {
         ...searchRoutes,
         ...notificationRoutes,
         ...helpcenterRoutes.routes,
+        ...campaignsRoutes.routes,
       ],
     },
     {

@@ -22,7 +22,14 @@ class Twilio::OneoffSmsCampaignService
     campaign.account.contacts.tagged_with(audience_labels, any: true).each do |contact|
       next if contact.phone_number.blank?
 
-      channel.send_message(to: contact.phone_number, body: campaign.message)
+      content = Liquid::CampaignTemplateService.new(campaign: campaign, contact: contact).call(campaign.message)
+
+      begin
+        channel.send_message(to: contact.phone_number, body: content)
+      rescue Twilio::REST::TwilioError, Twilio::REST::RestError => e
+        Rails.logger.error("[Twilio Campaign #{campaign.id}] Failed to send to #{contact.phone_number}: #{e.message}")
+        next
+      end
     end
   end
 end

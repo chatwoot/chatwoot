@@ -12,6 +12,8 @@
     "NO_INBOX_2": " aby rozpocząć",
     "NO_INBOX_AGENT": "Uh Oh! Wygląda na to, że nie jesteś częścią żadnej skrzynki odbiorczej. Skontaktuj się z administratorem",
     "SEARCH_MESSAGES": "Szukaj wiadomości w konwersacjach",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -30,23 +32,33 @@
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",
     "CANNOT_REPLY": "Nie możesz odpowiedzieć z powodu",
     "24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ta konwersacja nie jest Ci przypisana. Czy chcesz przypisać tę konwersację do siebie?",
     "ASSIGN_TO_ME": "Przypisz do mnie",
     "TWILIO_WHATSAPP_CAN_REPLY": "Możesz odpowiedzieć na tę rozmowę tylko za pomocą szablonu wiadomości, ponieważ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Osoba, której odpowiadasz to:",
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
     "UNKNOWN_FILE_TYPE": "Nieznany plik",
-    "SAVE_CONTACT": "Zapisz",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} rozpoczął spotkanie"
+    },
     "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
     "REPLIED_TO_STORY": "Odpowiedziałeś na swoją historię",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Wiadomość usunięta pomyślnie",
     "FAIL_DELETE_MESSSAGE": "Nie można usunąć wiadomości! Spróbuj ponownie",
     "NO_RESPONSE": "Brak odpowiedzi",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Ocena",
     "FEEDBACK_TITLE": "Opinia",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
@@ -58,6 +70,7 @@
       "RESOLVE_ACTION": "Rozwiąż",
       "REOPEN_ACTION": "Otwórz ponownie",
       "OPEN_ACTION": "Otwórz",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Więcej",
       "CLOSE": "Zamknij",
       "DETAILS": "szczegóły",
@@ -83,6 +96,10 @@
         "NEXT_WEEK": "Następny tydzień"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenci",
+      "TEAMS": "Zespoły"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Uśpij do",
       "APPLY": "Uśpij",
@@ -105,10 +122,16 @@
         "FAILED": "Nie można zmienić priorytetu. Spróbuj ponownie."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Usuń"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Oznacz jako oczekujące",
       "RESOLVED": "Oznacz jako rozwiązane",
       "MARK_AS_UNREAD": "Oznacz jako nieprzeczytane",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Otwórz ponownie",
       "SNOOZE": {
         "TITLE": "Uśpij",
@@ -120,13 +143,17 @@
       "ASSIGN_LABEL": "Przypisz etykietę",
       "AGENTS_LOADING": "Ładowanie agentów...",
       "ASSIGN_TEAM": "Przypisz zespół",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Konwersacja o identyfikatorze {conversationId} przypisana do \"{agentName}\"",
           "FAILED": "Nie można przypisać agenta. Spróbuj ponownie."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Przypisano etykietę #{labelName} do konwersacji o identyfikatorze {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Nie można przypisać etykiety. Spróbuj ponownie."
         },
         "TEAM_ASSIGNMENT": {
@@ -194,7 +221,9 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etykieta przypisana pomyślnie",
     "ASSIGN_LABEL_FAILED": "Nie udało się przypisać etykiety",
     "CHANGE_TEAM": "Zmieniono przypisany zespół konwersacji",
-    "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "FILE_SIZE_LIMIT": "Plik przekracza limit rozmiaru załącznika %{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Nie można wysłać tej wiadomości, spróbuj ponownie później",
     "SENT_BY": "Wysłane przez:",
     "BOT": "Bot",
@@ -219,6 +248,10 @@
         "DELETE": "Usuń",
         "CANCEL": "Anuluj"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Kontakt",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -278,9 +311,31 @@
       "CONVERSATION_ACTIONS": "Akcje konwersacji",
       "CONVERSATION_LABELS": "Etykiety konwersacji",
       "CONVERSATION_INFO": "Informacje o konwersacji",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Atrybuty kontaktu",
       "PREVIOUS_CONVERSATION": "Poprzednie konwersacje",
-      "MACROS": "Makra"
+      "MACROS": "Makra",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Oczekujące",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +365,8 @@
     "TO": "Do",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Temat"
+    "SUBJECT": "Temat",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Uczestniczący",
@@ -335,5 +391,16 @@
     "ORIGINAL_CONTENT": "Oryginalna treść",
     "TRANSLATED_CONTENT": "Przetłumaczona treść",
     "NO_TRANSLATIONS_AVAILABLE": "Brak dostępnych tłumaczeń dla tej treści"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

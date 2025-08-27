@@ -21,7 +21,13 @@ const { getMacroDropdownValues } = useMacros();
 
 const macro = ref(null);
 const mode = ref('CREATE');
-const macroActionTypes = MACRO_ACTION_TYPES;
+
+const macroActionTypes = computed(() => {
+  return MACRO_ACTION_TYPES.map(type => ({
+    ...type,
+    label: t(`MACROS.ACTIONS.${type.label}`),
+  }));
+});
 
 provide('macroActionTypes', macroActionTypes);
 
@@ -38,7 +44,7 @@ const formatMacro = macroData => {
   const formattedActions = macroData.actions.map(action => {
     let actionParams = [];
     if (action.action_params.length) {
-      const inputType = macroActionTypes.find(
+      const inputType = macroActionTypes.value.find(
         item => item.key === action.action_name
       ).inputType;
       if (inputType === 'multi_select' || inputType === 'search_select') {

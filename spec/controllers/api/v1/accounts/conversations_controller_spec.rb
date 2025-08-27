@@ -843,9 +843,30 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'updates last seen' do
+      it 'updates custom attributes' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
              headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).not_to be_nil
+        expect(conversation.reload.custom_attributes.count).to eq 3
+      end
+    end
+
+    context 'when it is a bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:custom_attributes) { { bot_id: 1001, flow_name: 'support_flow', step: 'greeting' } }
+      let(:valid_params) { { custom_attributes: custom_attributes } }
+
+      before do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox)
+      end
+
+      it 'updates custom attributes' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: { api_access_token: agent_bot.access_token.token },
              params: valid_params,
              as: :json
 
@@ -902,6 +923,65 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].length).to eq(1)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/conversations/:id' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:administrator) { create(:user, account: account, role: :administrator) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        response_body = response.parsed_body
+        expect(response_body['error']).to eq('You are not authorized to do this action')
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      before do
+        create(:inbox_member, user: administrator, inbox: conversation.inbox)
+      end
+
+      it 'successfully deletes the conversation' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to have_enqueued_job(DeleteObjectJob).with(conversation, administrator, anything)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'can delete conversations from inboxes without direct access' do
+        other_inbox = create(:inbox, account: account)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox)
+
+        expect do
+          delete "/api/v1/accounts/#{account.id}/conversations/#{other_conversation.display_id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to have_enqueued_job(DeleteObjectJob).with(other_conversation, administrator, anything)
+
+        expect(response).to have_http_status(:ok)
       end
     end
   end

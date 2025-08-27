@@ -105,6 +105,9 @@
         "AGENT": "Velja þjónustufulltrúa",
         "TEAM": "Velja teymi"
       },
+      "LIST": {
+        "NONE": "Enginn"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Engir þjónustufulltrúar fundust",

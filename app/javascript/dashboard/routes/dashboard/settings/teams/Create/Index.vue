@@ -23,10 +23,8 @@ export default {
 </script>
 
 <template>
-  <div
-    class="overflow-auto p-4 max-w-full my-auto flex flex-row flex-nowrap h-full bg-slate-25 dark:bg-slate-800"
-  >
-    <woot-wizard class="hidden md:block w-1/4" :items="items" />
+  <div class="grid grid-cols-1 md:grid-cols-8 overflow-auto h-full px-5 flex-1">
+    <woot-wizard class="hidden md:block col-span-2" :items="items" />
     <router-view />
   </div>
 </template>

@@ -118,6 +118,46 @@ describe('getActionOptions', () => {
       expectedOptions
     );
   });
+
+  it('adds None option when addNoneToListFn is provided', () => {
+    const mockAddNoneToListFn = list => [
+      { id: 'nil', name: 'None' },
+      ...(list || []),
+    ];
+
+    const agents = [
+      { id: 1, name: 'Agent 1' },
+      { id: 2, name: 'Agent 2' },
+    ];
+
+    const expectedOptions = [
+      { id: 'nil', name: 'None' },
+      { id: 1, name: 'Agent 1' },
+      { id: 2, name: 'Agent 2' },
+    ];
+
+    expect(
+      helpers.getActionOptions({
+        agents,
+        type: 'assign_agent',
+        addNoneToListFn: mockAddNoneToListFn,
+      })
+    ).toEqual(expectedOptions);
+  });
+
+  it('does not add None option when addNoneToListFn is not provided', () => {
+    const agents = [
+      { id: 1, name: 'Agent 1' },
+      { id: 2, name: 'Agent 2' },
+    ];
+
+    expect(
+      helpers.getActionOptions({
+        agents,
+        type: 'assign_agent',
+      })
+    ).toEqual(agents);
+  });
 });
 
 describe('getConditionOptions', () => {

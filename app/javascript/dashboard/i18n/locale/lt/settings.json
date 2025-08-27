@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Pagal nutylėjimą",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Asmeninis pranešimo parašas",
         "NOTE": "Sukurkite unikalų pranešimo parašą, kuris bus rodomas kiekvieno pranešimo pabaigoje, siunčiamo iš bet kurio gautųjų laiškų aplanko. Taip pat galite įdėti paveikslėlį, kuris rodomas tiesioginio pokalbio, el. pašto ir API.",
@@ -58,18 +76,37 @@
       "ACCESS_TOKEN": {
         "TITLE": "Prieeigos raktas",
         "NOTE": "Šis prieigos raktas gali būti naudojamas, jei kuriate API pagrįstą integraciją",
-        "COPY": "Kopijuoti"
+        "COPY": "Kopijuoti",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Garsiniai Perspėjimai",
-        "NOTE": "Prietaisų skydelyje įgalinkite garso perspėjimus apie naujus pranešimus ir pokalbius.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
         "ALERT_TYPES": {
           "NONE": "Nėra",
           "MINE": "Assigned",
-          "ALL": "Visi"
+          "ALL": "Visi",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Nėra",
           "ASSIGNED": "Priskirti Pokalbiai",
           "ALL_CONVERSATIONS": "Visi Pokalbiai"
@@ -81,7 +118,9 @@
           "TITLE": "Įspėjimo sąlygos:",
           "CONDITION_ONE": "Garsinius įspėjimus siųskite tik tuo atveju, jei naršyklės langas neaktyvus",
           "CONDITION_TWO": "Siųskite įspėjimus kas 30 sekundžių, kol bus perskaityti visi priskirti pokalbiai"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Skaityti daugiau"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "El. pašto Perspėjimai",
@@ -145,13 +184,14 @@
       },
       "AVAILABILITY": {
         "LABEL": "Prieinamumas",
-        "STATUSES_LIST": [
-          "Prisijungęs",
-          "Užimta",
-          "Atsijungęs"
-        ],
+        "STATUS": {
+          "ONLINE": "Prisijungęs",
+          "BUSY": "Užimta",
+          "OFFLINE": "Atsijungęs"
+        },
         "SET_AVAILABILITY_SUCCESS": "Pasiekiamumas nustatytas sėkmingai",
-        "SET_AVAILABILITY_ERROR": "Nepavyko nustatyti pasiekiamumo, bandykite dar kartą"
+        "SET_AVAILABILITY_ERROR": "Nepavyko nustatyti pasiekiamumo, bandykite dar kartą",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Jūsų el. pašto adresas",
@@ -177,14 +217,17 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Keisti",
-    "CHANGE_ACCOUNTS": "Perjungti Paskyrą",
-    "CONTACT_SUPPORT": "Susisiekite su pagalbos tarnyba",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pasirinkite paskyrą iš toliau pateikto sąrašo",
-    "PROFILE_SETTINGS": "Profilio Nustatymai",
-    "KEYBOARD_SHORTCUTS": "Spartieji klavišai",
-    "APPEARANCE": "Keisti išvaizdą",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "Atsijungti"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "CHANGELOG": "Changelog",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "liko bandymo dienų.",
@@ -218,6 +261,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Pateikti"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Tikrinama...",
@@ -227,11 +274,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Šiuo metu peržiūri:",
     "SWITCH": "Perjungti",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Pokalbiai",
-    "INBOX": "Gautų laiškų aplankas",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Visi Pokalbiai",
     "MENTIONED_CONVERSATIONS": "Paminėjimai",
     "PARTICIPATING_CONVERSATIONS": "Dalyvaujantys",
@@ -239,7 +287,11 @@
     "REPORTS": "Ataskaitos",
     "SETTINGS": "Nustatymai",
     "CONTACTS": "Kontaktai",
+    "ACTIVE": "Aktyvus",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Pagrindinis",
     "AGENTS": "Agentai",
     "AGENT_BOTS": "Botai",
@@ -266,6 +318,9 @@
     "NEW_INBOX": "Naujas gautų laiškų aplankas",
     "REPORTS_CONVERSATION": "Pokalbiai",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Akcijos",
     "ONGOING": "Vykstantis",
     "ONE_OFF": "Vienas iš",
@@ -276,6 +331,7 @@
     "REPORTS_INBOX": "Gautų laiškų aplankas",
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Nustatykite save kaip",
+    "SET_YOUR_AVAILABILITY": "Nustatykite savo pasiekiamumą",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
@@ -283,30 +339,41 @@
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Palaikymo centras",
-      "ALL_ARTICLES": "Visi Straipsniai",
-      "MY_ARTICLES": "Mano Straipsniai",
-      "DRAFT": "Ruošinys",
-      "ARCHIVED": "Suarchyvuota",
-      "CATEGORY": "Kategorija",
-      "SETTINGS": "Nustatymai",
-      "CATEGORY_EMPTY_MESSAGE": "Kategorijų nerasta"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorijos",
+      "LOCALES": "Lokalizacija",
+      "SETTINGS": "Nustatymai"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automatiškai pažymėkite \"neprisijungęs\"",
-      "INFO_TEXT": "Leiskite sistemai automatiškai pažymėti jus \"neprisijungus\", kai nenaudojate programos ar informacinio skydelio."
+      "INFO_TEXT": "Leiskite sistemai automatiškai pažymėti jus \"neprisijungus\", kai nenaudojate programos ar informacinio skydelio.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Skaityti dokumentus"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Atsiskaitymas",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Prenumeratos Dabartinis Planas",
-      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis"
+      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Tvarkykite savo prenumeratą",
       "DESCRIPTION": "Peržiūrėkite ankstesnes sąskaitas faktūras, redaguokite atsiskaitymo informaciją arba atšaukite prenumeratą.",
       "BUTTON_TXT": "Eiti į mokėjimų portalą"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Reikia pagalbos?",
@@ -329,7 +396,8 @@
         "LABEL": "Įmonės pavadinimas",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Pateikti"
+      "SUBMIT": "Pateikti",
+      "CANCEL": "Atšaukti"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -349,11 +417,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Perjungti į Privatų užrašą",
       "SWITCH_TO_REPLY": "Perjungti į Atsakyti",
       "TOGGLE_SNOOZE_DROPDOWN": "Perjungti snooze išskleidžiamąjį meniu"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

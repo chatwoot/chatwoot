@@ -17,7 +17,7 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def avatar
     @user.avatar.attachment.destroy! if @user.avatar.attached?
-    head :ok
+    @user.reload
   end
 
   def auto_offline
@@ -36,6 +36,11 @@ class Api::V1::ProfilesController < Api::BaseController
   def resend_confirmation
     @user.send_confirmation_instructions unless @user.confirmed?
     head :ok
+  end
+
+  def reset_access_token
+    @user.access_token.regenerate_token
+    @user.reload
   end
 
   private

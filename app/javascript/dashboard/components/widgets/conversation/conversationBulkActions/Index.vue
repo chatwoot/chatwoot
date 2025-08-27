@@ -9,6 +9,7 @@ import {
   CMD_BULK_ACTION_RESOLVE_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import AgentSelector from './AgentSelector.vue';
 import UpdateActions from './UpdateActions.vue';
 import LabelActions from './LabelActions.vue';
@@ -21,6 +22,7 @@ export default {
     LabelActions,
     TeamActions,
     CustomSnoozeModal,
+    NextButton,
   },
   props: {
     conversations: {
@@ -171,36 +173,36 @@ export default {
         </span>
       </label>
       <div class="flex items-center gap-1 bulk-action__actions">
-        <woot-button
+        <NextButton
           v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="tag"
+          icon="i-lucide-tags"
+          slate
+          xs
+          faded
           @click="toggleLabelActions"
         />
-        <woot-button
+        <NextButton
           v-tooltip="$t('BULK_ACTION.UPDATE.CHANGE_STATUS')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="repeat"
+          icon="i-lucide-repeat"
+          slate
+          xs
+          faded
           @click="toggleUpdateActions"
         />
-        <woot-button
+        <NextButton
           v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="person-assign"
+          icon="i-lucide-user-round-plus"
+          slate
+          xs
+          faded
           @click="toggleAgentList"
         />
-        <woot-button
+        <NextButton
           v-tooltip="$t('BULK_ACTION.ASSIGN_TEAM_TOOLTIP')"
-          size="tiny"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="people-team-add"
+          icon="i-lucide-users-round"
+          slate
+          xs
+          faded
           @click="toggleTeamsList"
         />
       </div>
@@ -260,17 +262,8 @@ export default {
 </template>
 
 <style scoped lang="scss">
-// For RTL direction view
-.app-rtl--wrapper {
-  .bulk-action__actions {
-    ::v-deep .button--only-icon:last-child {
-      margin-right: var(--space-smaller);
-    }
-  }
-}
-
 .bulk-action__container {
-  @apply p-4 relative border-b border-solid border-slate-100 dark:border-slate-600/70;
+  @apply p-3 relative border-b border-solid border-n-strong dark:border-n-weak;
 }
 
 .bulk-action__panel {
@@ -286,7 +279,7 @@ export default {
 }
 
 .bulk-action__alert {
-  @apply bg-yellow-50 text-yellow-700 rounded text-xs mt-2 py-1 px-2 border border-solid border-yellow-300 dark:border-yellow-300/10 dark:bg-yellow-200/20 dark:text-yellow-400;
+  @apply bg-n-amber-3 text-n-amber-12 rounded text-xs mt-2 py-1 px-2 border border-solid border-n-amber-5;
 }
 
 .popover-animation-enter-active,

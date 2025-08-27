@@ -3,11 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:admin) { create(:user, account: account, role: :administrator) }
   let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en', slug: 'category_slug') }
   let!(:article) { create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id) }
-
-  before { create(:portal_member, user: agent, portal: portal) }
 
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles' do
     context 'when it is an unauthenticated user' do
@@ -33,7 +32,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         }
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
              params: article_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
@@ -56,7 +55,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         }
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
              params: article_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
@@ -84,7 +83,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         }
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
              params: article_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
@@ -110,7 +109,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         }
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
              params: article_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
@@ -144,7 +143,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
 
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
             params: article_params,
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql(article_params[:article][:title])
@@ -165,7 +164,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
     context 'when it is an authenticated user' do
       it 'deletes category' do
         delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
-               headers: agent.create_new_auth_token
+               headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         deleted_article = Article.find_by(id: article.id)
         expect(deleted_article).to be_nil
@@ -187,7 +186,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
-            headers: agent.create_new_auth_token,
+            headers: admin.create_new_auth_token,
             params: {}
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
@@ -199,7 +198,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
-            headers: agent.create_new_auth_token,
+            headers: admin.create_new_auth_token,
             params: {}
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
@@ -213,7 +212,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
-            headers: agent.create_new_auth_token,
+            headers: admin.create_new_auth_token,
             params: { category_slug: category.slug }
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
@@ -230,14 +229,14 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
-            headers: agent.create_new_auth_token,
+            headers: admin.create_new_auth_token,
             params: { query: 'funny' }
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload'].count).to be 1
         expect(json_response['meta']['all_articles_count']).to be 2
         expect(json_response['meta']['articles_count']).to be 1
-        expect(json_response['meta']['mine_articles_count']).to be 1
+        expect(json_response['meta']['mine_articles_count']).to be 0
       end
     end
 
@@ -247,7 +246,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(article2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article2.id}",
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
 
@@ -263,7 +262,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
                                            associated_article_id: root_article.id)
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{root_article.id}",
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
 

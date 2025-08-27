@@ -7,6 +7,8 @@ import { computed, onMounted, ref, defineOptions } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
+import Button from 'dashboard/components-next/button/Button.vue';
+
 defineOptions({
   name: 'CannedResponseSettings',
 });
@@ -124,13 +126,11 @@ const tableHeaders = computed(() => {
       feature-name="canned_responses"
     >
       <template #actions>
-        <woot-button
-          class="button nice rounded-md"
-          icon="add-circle"
+        <Button
+          icon="i-lucide-circle-plus"
+          :label="$t('CANNED_MGMT.HEADER_BTN_TXT')"
           @click="openAddPopup"
-        >
-          {{ $t('CANNED_MGMT.HEADER_BTN_TXT') }}
-        </woot-button>
+        />
       </template>
     </BaseSettingsHeader>
 
@@ -141,19 +141,16 @@ const tableHeaders = computed(() => {
       />
       <p
         v-else-if="!records.length"
-        class="flex flex-col items-center justify-center h-full text-base text-slate-600 dark:text-slate-300 py-8"
+        class="flex flex-col items-center justify-center h-full text-base text-n-slate-11 py-8"
       >
         {{ $t('CANNED_MGMT.LIST.404') }}
       </p>
-      <table
-        v-else
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300 last:text-right"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right"
           >
             <span v-if="thHeader !== tableHeaders[0]">
               {{ thHeader }}
@@ -173,38 +170,35 @@ const tableHeaders = computed(() => {
             </button>
           </th>
         </thead>
-        <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-        >
+        <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr
             v-for="(cannedItem, index) in records"
             :key="cannedItem.short_code"
           >
             <td
-              class="py-4 pr-4 truncate max-w-xs font-medium"
+              class="py-4 ltr:pr-4 rtl:pl-4 truncate max-w-xs font-medium"
               :title="cannedItem.short_code"
             >
               {{ cannedItem.short_code }}
             </td>
-            <td class="py-4 pr-4 md:break-all whitespace-normal">
+            <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
               {{ cannedItem.content }}
             </td>
             <td class="py-4 flex justify-end gap-1">
-              <woot-button
+              <Button
                 v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
-                variant="smooth"
-                size="tiny"
-                color-scheme="secondary"
-                icon="edit"
+                icon="i-lucide-pen"
+                slate
+                xs
+                faded
                 @click="openEditPopup(cannedItem)"
               />
-              <woot-button
+              <Button
                 v-tooltip.top="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
-                variant="smooth"
-                color-scheme="alert"
-                size="tiny"
-                icon="dismiss-circle"
-                class-names="grey-btn"
+                icon="i-lucide-trash-2"
+                xs
+                ruby
+                faded
                 :is-loading="loading[cannedItem.id]"
                 @click="openDeletePopup(cannedItem, index)"
               />

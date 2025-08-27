@@ -33,7 +33,7 @@ const onClick = () => {
 <template>
   <EmptyStateLayout :title="title" :subtitle="subtitle">
     <template #empty-state-item>
-      <div class="grid grid-cols-1 gap-4 overflow-hidden">
+      <div class="grid grid-cols-1 gap-4 p-px overflow-hidden">
         <ArticleCard
           v-for="(article, index) in articleContent.slice(0, 5)"
           :id="article.id"

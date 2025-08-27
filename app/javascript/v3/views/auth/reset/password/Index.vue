@@ -1,18 +1,17 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from '@vuelidate/validators';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
-import SubmitButton from '../../../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
-  components: { FormInput, SubmitButton },
-  mixins: [globalConfigMixin],
+  components: { FormInput, NextButton },
   setup() {
-    return { v$: useVuelidate() };
+    const { replaceInstallationName } = useBranding();
+    return { v$: useVuelidate(), replaceInstallationName };
   },
   data() {
     return {
@@ -23,9 +22,6 @@ export default {
       },
       error: '',
     };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   validations() {
     return {
@@ -68,26 +64,21 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-center w-full min-h-screen py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
     <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submit"
     >
       <h1
-        class="mb-1 text-2xl font-medium tracking-tight text-left text-slate-900 dark:text-white"
+        class="mb-1 text-2xl font-medium tracking-tight text-left text-n-slate-12"
       >
         {{ $t('RESET_PASSWORD.TITLE') }}
       </h1>
       <p
-        class="mb-4 text-sm font-normal leading-6 tracking-normal text-slate-600 dark:text-woot-50"
+        class="mb-4 text-sm font-normal leading-6 tracking-normal text-n-slate-11"
       >
-        {{
-          useInstallationName(
-            $t('RESET_PASSWORD.DESCRIPTION'),
-            globalConfig.installationName
-          )
-        }}
+        {{ replaceInstallationName($t('RESET_PASSWORD.DESCRIPTION')) }}
       </p>
       <div class="space-y-5">
         <FormInput
@@ -98,15 +89,19 @@ export default {
           :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
           @input="v$.credentials.email.$touch"
         />
-        <SubmitButton
+        <NextButton
+          lg
+          type="submit"
+          data-testid="submit_button"
+          class="w-full"
+          :label="$t('RESET_PASSWORD.SUBMIT')"
           :disabled="v$.credentials.email.$invalid || resetPassword.showLoading"
-          :button-text="$t('RESET_PASSWORD.SUBMIT')"
-          :loading="resetPassword.showLoading"
+          :is-loading="resetPassword.showLoading"
         />
       </div>
-      <p class="mt-4 -mb-1 text-sm text-slate-600 dark:text-woot-50">
+      <p class="mt-4 -mb-1 text-sm text-n-slate-11">
         {{ $t('RESET_PASSWORD.GO_BACK_TO_LOGIN') }}
-        <router-link to="/auth/login" class="text-link">
+        <router-link to="/auth/login" class="text-link text-n-brand">
           {{ $t('COMMON.CLICK_HERE') }}.
         </router-link>
       </p>

@@ -33,26 +33,26 @@ describe PortalHelper do
   describe '#generate_portal_bg' do
     context 'when theme is dark' do
       it 'returns the correct background with dark grid image and color mix with black' do
-        expected_bg = 'url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #ff0000 20%, black)'
+        expected_bg = 'color-mix(in srgb, #ff0000 20%, black)'
         expect(helper.generate_portal_bg('#ff0000', 'dark')).to eq(expected_bg)
       end
     end
 
     context 'when theme is not dark' do
       it 'returns the correct background with light grid image and color mix with white' do
-        expected_bg = 'url(/assets/images/hc/hexagon-light.svg) color-mix(in srgb, #ff0000 20%, white)'
+        expected_bg = 'color-mix(in srgb, #ff0000 20%, white)'
         expect(helper.generate_portal_bg('#ff0000', 'light')).to eq(expected_bg)
       end
     end
 
     context 'when provided with various colors' do
       it 'adjusts the background appropriately for dark theme' do
-        expected_bg = 'url(/assets/images/hc/hexagon-dark.svg) color-mix(in srgb, #00ff00 20%, black)'
+        expected_bg = 'color-mix(in srgb, #00ff00 20%, black)'
         expect(helper.generate_portal_bg('#00ff00', 'dark')).to eq(expected_bg)
       end
 
       it 'adjusts the background appropriately for light theme' do
-        expected_bg = 'url(/assets/images/hc/hexagon-light.svg) color-mix(in srgb, #0000ff 20%, white)'
+        expected_bg = 'color-mix(in srgb, #0000ff 20%, white)'
         expect(helper.generate_portal_bg('#0000ff', 'light')).to eq(expected_bg)
       end
     end
@@ -250,12 +250,45 @@ describe PortalHelper do
   describe '#thumbnail_bg_color' do
     it 'returns the correct color based on username length' do
       expect(helper.thumbnail_bg_color('')).to be_in(['#6D95BA', '#A4C3C3', '#E19191'])
-      expect(helper.thumbnail_bg_color('Joe')).to eq('#6D95BA') # Length 3, so index is 0
-      expect(helper.thumbnail_bg_color('John')).to eq('#A4C3C3') # Length 4, so index is 1
-      expect(helper.thumbnail_bg_color('Jane james')).to eq('#A4C3C3') # Length 10, so index is 1
-      expect(helper.thumbnail_bg_color('Jane_123')).to eq('#E19191') # Length 8, so index is 2
-      expect(helper.thumbnail_bg_color('AlexanderTheGreat')).to eq('#E19191') # Length 17, so index is 2
-      expect(helper.thumbnail_bg_color('Reginald John Sans')).to eq('#6D95BA') # Length 18, so index is 0
+      expect(helper.thumbnail_bg_color('Joe')).to eq('#6D95BA')
+      expect(helper.thumbnail_bg_color('John')).to eq('#A4C3C3')
+      expect(helper.thumbnail_bg_color('Jane james')).to eq('#A4C3C3')
+      expect(helper.thumbnail_bg_color('Jane_123')).to eq('#E19191')
+      expect(helper.thumbnail_bg_color('AlexanderTheGreat')).to eq('#E19191')
+      expect(helper.thumbnail_bg_color('Reginald John Sans')).to eq('#6D95BA')
+    end
+  end
+
+  describe '#set_og_image_url' do
+    let(:portal_name) { 'Chatwoot Portal' }
+    let(:title) { 'Welcome to Chatwoot' }
+
+    context 'when CDN URL is present' do
+      before do
+        InstallationConfig.create!(name: 'OG_IMAGE_CDN_URL', value: 'https://cdn.example.com')
+        InstallationConfig.create!(name: 'OG_IMAGE_CLIENT_REF', value: 'client-123')
+      end
+
+      it 'returns the composed OG image URL with correct params' do
+        result = helper.set_og_image_url(portal_name, title)
+        uri = URI.parse(result)
+        expect(uri.path).to eq('/og')
+        params = Rack::Utils.parse_query(uri.query)
+        expect(params['clientRef']).to eq('client-123')
+        expect(params['title']).to eq(title)
+        expect(params['portalName']).to eq(portal_name)
+      end
+    end
+
+    context 'when CDN URL is blank' do
+      before do
+        InstallationConfig.create!(name: 'OG_IMAGE_CDN_URL', value: '')
+        InstallationConfig.create!(name: 'OG_IMAGE_CLIENT_REF', value: 'client-123')
+      end
+
+      it 'returns nil' do
+        expect(helper.set_og_image_url(portal_name, title)).to be_nil
+      end
     end
   end
 end

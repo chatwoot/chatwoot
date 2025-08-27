@@ -4,6 +4,8 @@ import EditAttribute from './EditAttribute.vue';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   attributeModel: {
     type: String,
@@ -93,14 +95,12 @@ const tableHeaders = computed(() => {
         <th
           v-for="tableHeader in tableHeaders"
           :key="tableHeader"
-          class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+          class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11"
         >
           {{ tableHeader }}
         </th>
       </thead>
-      <tbody
-        class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
-      >
+      <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
         <tr v-for="attribute in attributes" :key="attribute.attribute_key">
           <td
             class="py-4 ltr:pr-4 rtl:pl-4 overflow-hidden whitespace-nowrap text-ellipsis"
@@ -113,7 +113,11 @@ const tableHeaders = computed(() => {
           <td
             class="py-4 ltr:pr-4 rtl:pl-4 overflow-hidden whitespace-nowrap text-ellipsis"
           >
-            {{ attribute.attribute_display_type }}
+            {{
+              $t(
+                `ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${attribute.attribute_display_type?.toUpperCase()}`
+              )
+            }}
           </td>
           <td
             class="py-4 ltr:pr-4 rtl:pl-4 attribute-key overflow-hidden whitespace-nowrap text-ellipsis"
@@ -122,22 +126,20 @@ const tableHeaders = computed(() => {
           </td>
           <td class="py-4 min-w-xs">
             <div class="flex gap-1 justify-end">
-              <woot-button
+              <Button
                 v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
-                variant="smooth"
-                size="tiny"
-                color-scheme="secondary"
-                class-names="grey-btn"
-                icon="edit"
+                icon="i-lucide-pen"
+                slate
+                xs
+                faded
                 @click="openEditPopup(attribute)"
               />
-              <woot-button
+              <Button
                 v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')"
-                variant="smooth"
-                color-scheme="alert"
-                size="tiny"
-                icon="dismiss-circle"
-                class-names="grey-btn"
+                icon="i-lucide-trash-2"
+                xs
+                ruby
+                faded
                 @click="openDelete(attribute)"
               />
             </div>

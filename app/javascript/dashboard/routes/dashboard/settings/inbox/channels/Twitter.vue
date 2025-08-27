@@ -1,8 +1,12 @@
 <script>
 import { useAlert } from 'dashboard/composables';
 import twitterClient from '../../../../../api/channel/twitterClient';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   data() {
     return { isRequestingAuthorization: false };
   },
@@ -27,15 +31,15 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
   >
     <div class="login-init h-full text-center">
       <form @submit.prevent="requestAuthorization">
-        <woot-submit-button
-          icon="brand-twitter"
-          button-text="Sign in with Twitter"
+        <NextButton
           type="submit"
-          :loading="isRequestingAuthorization"
+          icon="i-ri-twitter-x-fill"
+          label="Sign in with Twitter"
+          :is-loading="isRequestingAuthorization"
         />
       </form>
       <p>{{ $t('INBOX_MGMT.ADD.TWITTER.HELP') }}</p>

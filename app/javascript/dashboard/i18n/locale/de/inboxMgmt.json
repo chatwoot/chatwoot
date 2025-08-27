@@ -2,34 +2,30 @@
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "LEARN_MORE": "Mehr über Posteingänge erfahren",
     "RECONNECTION_REQUIRED": "Ihr Posteingang ist nicht verbunden. Sie erhalten keine neuen Nachrichten, bis Sie ihn erneut autorisieren.",
     "CLICK_TO_RECONNECT": "Klicken Sie hier, um die Verbindung wiederherzustellen.",
     "LIST": {
       "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Wählen Sie Kanal",
-        "route": "settings_inbox_new",
-        "body": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Wählen Sie Kanal",
+        "BODY": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
       },
-      {
-        "title": "Posteingang erstellen",
-        "route": "settings_inboxes_page_channel",
-        "body": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang."
+      "INBOX": {
+        "TITLE": "Posteingang erstellen",
+        "BODY": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang."
       },
-      {
-        "title": "Agenten hinzufügen",
-        "route": "settings_inboxes_add_agents",
-        "body": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
+      "AGENT": {
+        "TITLE": "Agenten hinzufügen",
+        "BODY": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Sie sind bereit zu gehen!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Geschafft!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Posteingang-Name",
@@ -47,7 +43,17 @@
         "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
         "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang aus",
-        "PICK_A_VALUE": "Wählen Sie einen Wert aus"
+        "PICK_A_VALUE": "Wählen Sie einen Wert aus",
+        "CREATE_INBOX": "Posteingang erstellen"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Mit Instagram fortfahren",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Verbinde dein Instagram-Profil",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
@@ -216,9 +222,16 @@
         "DESC": "Unterstützen Sie Ihre Kunden via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API-Provider",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Wähle deinen API-Provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Posteingang-Name",
@@ -258,8 +271,76 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook-Verifizierungstoken"
         },
         "SUBMIT_BUTTON": "WhatsApp-Kanal erstellen",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick Setup with Meta",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+        },
         "API": {
           "ERROR_MESSAGE": "Wir konnten den WhatsApp-Kanal nicht speichern"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "Telefonnummer",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "Account SID",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Auth-Token",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API-Schlüssel SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API-Schlüssel-Geheimnis",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -371,9 +452,9 @@
         "ERROR_MESSAGE": "Beim Verbinden mit Microsoft ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "TITLE": "Google E-Mail",
+        "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Google, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
+        "SIGN_IN": "Mit Google anmelden",
         "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
         "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
@@ -475,7 +556,8 @@
       "PRE_CHAT_FORM": "Pre-Chat-Formular",
       "BUSINESS_HOURS": "Öffnungszeiten",
       "WIDGET_BUILDER": "Widget-Generator",
-      "BOT_CONFIGURATION": "Bot-Konfiguration"
+      "BOT_CONFIGURATION": "Bot-Konfiguration",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Einstellungen",
     "FEATURES": {
@@ -496,13 +578,11 @@
       "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox für neue Konversation aktivieren oder deaktivieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
-      "ENABLE_CSAT": "CSAT aktivieren",
       "SENDER_NAME_SECTION": "Aktivieren Sie den Agentennamen in der E-Mail",
-      "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
       "SENDER_NAME_SECTION_TEXT": "Aktivieren/Deaktivieren Sie die Anzeige des Agentennamens in der E-Mail. Wenn deaktiviert, wird der Firmenname angezeigt",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Merere Konversationen zulassen",
+      "LOCK_TO_SINGLE_CONVERSATION": "Mehrere Konversationen zulassen",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Mehrere gleichzeitige Unterhaltungen für denselben Kontakt in diesem Posteingang aktivieren oder deaktivieren",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
@@ -524,8 +604,27 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "API-Schlüssel aktualisieren",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Neuen API-Schlüssel hier eingeben",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Aktualisieren",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Verbinden",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook-Verifizierungstoken",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Mit diesem Token wird die Authentizität des Webhook Endpunktes überprüft.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Pre Chat Einstellungen aktualisieren"
     },
     "HELP_CENTER": {
@@ -570,6 +669,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Besucher sollten ihren Namen und ihre E-Mail-Adresse angeben, bevor sie den Chat starten"
+      }
+    },
+    "CSAT": {
+      "TITLE": "CSAT aktivieren",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Nachricht",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "enthält",
+          "DOES_NOT_CONTAINS": "beinhaltet nicht"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -755,9 +880,11 @@
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
       "EMAIL": "E-Mail",
-      "TELEGRAM": "Telegram",
+      "TELEGRAM": "Telegramm",
       "LINE": "Line",
-      "API": "API-Kanal"
+      "API": "API-Kanal",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }
