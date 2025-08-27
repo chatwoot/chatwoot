@@ -2,16 +2,12 @@ class Messages::ReindexService
   pattr_initialize [:account!]
 
   def perform
-    return unless searchkick_enabled?
+    return unless ChatwootApp.advanced_search_allowed?
 
     reindex_messages
   end
 
   private
-
-  def searchkick_enabled?
-    ENV['OPENSEARCH_URL'].present?
-  end
 
   def reindex_messages
     account.messages.reindex(mode: :async)

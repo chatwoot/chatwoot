@@ -39,7 +39,7 @@
 #
 
 class Message < ApplicationRecord
-  searchkick callbacks: :async if ENV['OPENSEARCH_URL'].present?
+  searchkick callbacks: :async if ChatwootApp.advanced_search_allowed?
 
   include MessageFilterHelpers
   include Liquidable
