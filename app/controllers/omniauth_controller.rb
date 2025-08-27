@@ -20,17 +20,23 @@ class OmniauthController < ApplicationController
       user = User.find_by(email: email)
 
       if user
-        render json: {
-          message: 'Login successful',
-          user: {
-            id: user.id,
-            email: user.email,
-            name: user.name
-          }
-        }
+        # Create authentication token (DeviseTokenAuth way)
+        @resource = user
+        @token = @resource.create_token
+        @resource.save!
+
+        # Sign in the user
+        sign_in(:user, @resource, store: false, bypass: false)
+
+        # Update sign in tracking
+        @resource.update_tracked_fields!(request)
+
+        # Render success response using Chatwoot's auth template
+        render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
       else
         render json: {
-          error: 'User not found'
+          error: 'User not found',
+          message: "No user exists with email: #{email}"
         }, status: :not_found
       end
     else
