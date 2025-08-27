@@ -1,4 +1,4 @@
-import { AnalyticsBrowser } from '@june-so/analytics-next';
+import posthog from 'posthog-js';
 
 /**
  * AnalyticsHelper class to initialize and track user analytics
@@ -26,10 +26,12 @@ export class AnalyticsHelper {
       return;
     }
 
-    let [analytics] = await AnalyticsBrowser.load({
-      writeKey: this.analyticsToken,
+    posthog.init(this.analyticsToken, {
+      api_host: 'https://app.posthog.com',
+      capture_pageview: false,
+      persistence: 'localStorage+cookie',
     });
-    this.analytics = analytics;
+    this.analytics = posthog;
   }
 
   /**
@@ -43,8 +45,7 @@ export class AnalyticsHelper {
     }
 
     this.user = user;
-    this.analytics.identify(this.user.email, {
-      userId: this.user.id,
+    this.analytics.identify(this.user.id.toString(), {
       email: this.user.email,
       name: this.user.name,
       avatar: this.user.avatar_url,
@@ -55,7 +56,7 @@ export class AnalyticsHelper {
       account => account.id === accountId
     );
     if (currentAccount) {
-      this.analytics.group(currentAccount.id, this.user.id, {
+      this.analytics.group('company', currentAccount.id.toString(), {
         name: currentAccount.name,
       });
     }
@@ -71,12 +72,7 @@ export class AnalyticsHelper {
     if (!this.analytics) {
       return;
     }
-
-    this.analytics.track({
-      userId: this.user.id,
-      event: eventName,
-      properties,
-    });
+    this.analytics.capture(eventName, properties);
   }
 
   /**
@@ -89,9 +85,9 @@ export class AnalyticsHelper {
       return;
     }
 
-    this.analytics.page(params);
+    this.analytics.capture('$pageview', params);
   }
 }
 
-// This object is shared across, the init is called in app/javascript/packs/application.js
+// This object is shared across, the init is called in app/javascript/entrypoints/dashboard.js
 export default new AnalyticsHelper(window.analyticsConfig);
