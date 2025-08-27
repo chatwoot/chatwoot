@@ -63,6 +63,20 @@ const menuItems = computed(() => {
 
 const createdAt = computed(() => dynamicTime(props.createdAt));
 
+const isPdfDocument = computed(() => props.externalLink?.startsWith('PDF:'));
+const displayLink = computed(() => {
+  if (isPdfDocument.value) {
+    // Remove 'PDF: ' prefix and timestamp suffix for display
+    const fullName = props.externalLink.substring(5);
+    // Remove timestamp suffix (_YYYYMMDDHHMMSS) if present
+    return fullName.replace(/_\d{14}$/, '');
+  }
+  return props.externalLink;
+});
+const linkIcon = computed(() =>
+  isPdfDocument.value ? 'i-ph-file-pdf' : 'i-ph-link-simple'
+);
+
 const handleAction = ({ action, value }) => {
   toggleDropdown(false);
   emit('action', { action, value, id: props.id });
@@ -106,8 +120,8 @@ const handleAction = ({ action, value }) => {
       <span
         class="text-n-slate-11 text-sm truncate flex justify-start flex-1 items-center gap-1"
       >
-        <i class="i-ph-link-simple shrink-0" />
-        <span class="truncate">{{ externalLink }}</span>
+        <i :class="linkIcon" class="shrink-0" />
+        <span class="truncate">{{ displayLink }}</span>
       </span>
       <div class="shrink-0 text-sm text-n-slate-11 line-clamp-1">
         {{ createdAt }}

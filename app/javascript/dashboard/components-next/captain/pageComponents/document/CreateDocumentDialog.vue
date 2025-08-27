@@ -23,7 +23,9 @@ const handleSubmit = async newDocument => {
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =
-      error?.response?.message || t(`${i18nKey}.ERROR_MESSAGE`);
+      error?.response?.data?.message ||
+      error?.response?.message ||
+      t(`${i18nKey}.ERROR_MESSAGE`);
     useAlert(errorMessage);
   }
 };
