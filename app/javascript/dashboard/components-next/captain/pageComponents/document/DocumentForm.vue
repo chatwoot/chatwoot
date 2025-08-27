@@ -130,10 +130,10 @@ const handleSubmit = async () => {
       <label class="text-sm font-medium text-n-slate-12">
         {{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.LABEL') }}
       </label>
-      <div class="grid grid-cols-2 gap-3 p-1 bg-n-slate-3 rounded-lg">
+      <div class="grid grid-cols-2 gap-3 p-1 rounded-lg bg-n-slate-3">
         <button
           type="button"
-          class="relative flex items-center justify-center gap-2 px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-200"
+          class="flex relative gap-2 justify-center items-center px-4 py-2.5 text-sm font-medium rounded-md transition-all duration-200"
           :class="
             state.documentType === 'url'
               ? 'bg-n-white text-n-slate-12 shadow-sm'
@@ -141,12 +141,12 @@ const handleSubmit = async () => {
           "
           @click="state.documentType = 'url'"
         >
-          <i class="i-ph-link-simple text-base" />
+          <i class="text-base i-ph-link-simple" />
           <span>{{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.URL') }}</span>
         </button>
         <button
           type="button"
-          class="relative flex items-center justify-center gap-2 px-4 py-2.5 rounded-md font-medium text-sm transition-all duration-200"
+          class="flex relative gap-2 justify-center items-center px-4 py-2.5 text-sm font-medium rounded-md transition-all duration-200"
           :class="
             state.documentType === 'pdf'
               ? 'bg-n-white text-n-slate-12 shadow-sm'
@@ -154,7 +154,7 @@ const handleSubmit = async () => {
           "
           @click="state.documentType = 'pdf'"
         >
-          <i class="i-ph-file-pdf text-base" />
+          <i class="text-base i-ph-file-pdf" />
           <span>{{ t('CAPTAIN.DOCUMENTS.FORM.TYPE.PDF') }}</span>
         </button>
       </div>
@@ -169,6 +169,8 @@ const handleSubmit = async () => {
       :message-type="formErrors.url ? 'error' : 'info'"
     />
 
+    <!-- PDF file picker should have a solid-1 background-color and border-weak boundary. Space between header and subtext should be less (maybe 6px). -->
+
     <div v-if="state.documentType === 'pdf'" class="flex flex-col gap-2">
       <label class="text-sm font-medium text-n-slate-12">
         {{ t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.LABEL') }}
@@ -181,35 +183,40 @@ const handleSubmit = async () => {
           class="hidden"
           @change="handleFileChange"
         />
-        <button
+        <Button
           type="button"
-          class="flex items-center gap-3 px-4 py-3 border border-n-slate-6 rounded-lg cursor-pointer hover:border-n-slate-8 transition-colors w-full text-left"
-          :class="state.pdfFile ? 'bg-n-slate-2' : 'bg-n-white'"
+          slate
+          class="!w-full !h-auto !justify-between !py-4"
           @click="openFileDialog"
         >
-          <div
-            class="flex items-center justify-center w-10 h-10 bg-n-slate-3 rounded-lg"
-          >
-            <i class="i-ph-file-pdf text-xl text-n-slate-11" />
-          </div>
-          <div class="flex-1">
-            <p class="text-sm font-medium text-n-slate-12">
-              {{
-                state.pdfFile
-                  ? state.pdfFile.name
-                  : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.CHOOSE_FILE')
-              }}
-            </p>
-            <p class="text-xs text-n-slate-11">
-              {{
-                state.pdfFile
-                  ? `${(state.pdfFile.size / 1024 / 1024).toFixed(2)} MB`
-                  : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.HELP_TEXT')
-              }}
-            </p>
-          </div>
-          <i class="i-lucide-upload text-n-slate-11" />
-        </button>
+          <template #default>
+            <div class="flex gap-2 items-center">
+              <div
+                class="flex justify-center items-center w-10 h-10 rounded-lg bg-n-slate-3"
+              >
+                <i class="text-xl i-ph-file-pdf text-n-slate-11" />
+              </div>
+              <div class="flex flex-col flex-1 gap-1 items-start">
+                <p class="m-0 text-sm font-medium text-n-slate-12">
+                  {{
+                    state.pdfFile
+                      ? state.pdfFile.name
+                      : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.CHOOSE_FILE')
+                  }}
+                </p>
+                <p class="m-0 text-xs text-n-slate-11">
+                  {{
+                    state.pdfFile
+                      ? `${(state.pdfFile.size / 1024 / 1024).toFixed(2)} MB`
+                      : t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.HELP_TEXT')
+                  }}
+                </p>
+              </div>
+            </div>
+
+            <i class="i-lucide-upload text-n-slate-11" />
+          </template>
+        </Button>
       </div>
       <p v-if="formErrors.pdfFile" class="text-sm text-n-red-11">
         {{ formErrors.pdfFile }}
@@ -237,7 +244,7 @@ const handleSubmit = async () => {
       />
     </div>
 
-    <div class="flex items-center justify-between w-full gap-3">
+    <div class="flex gap-3 justify-between items-center w-full">
       <Button
         type="button"
         variant="faded"
