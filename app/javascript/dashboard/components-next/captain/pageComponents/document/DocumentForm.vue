@@ -31,10 +31,7 @@ const state = reactive({ ...initialState });
 const fileInputRef = ref(null);
 
 const validationRules = {
-  url: {
-    required: requiredIf(() => state.documentType === 'url'),
-    url: requiredIf(() => state.documentType === 'url'),
-    minLength: minLength(1),
+    minLength: requiredIf(() => state.documentType === 'url')(minLength(1)),
   },
   assistantId: { required },
   pdfFile: {
