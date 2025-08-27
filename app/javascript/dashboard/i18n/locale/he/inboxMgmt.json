@@ -478,7 +478,10 @@
       "MESSAGE": "כעת תוכל ליצור קשר עם הלקוחות שלך דרך הערוץ החדש שלך. תמיכה שמחה",
       "BUTTON_TEXT": "קח אותי לשם",
       "MORE_SETTINGS": "הגדרות נוספות",
-      "WEBSITE_SUCCESS": "סיימת בהצלחה ליצור ערוץ אתר אינטרנט. העתק את הקוד המוצג למטה והדבק אותו באתר שלך. בפעם הבאה שלקוח ישתמש בצ'אט החי, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך."
+      "WEBSITE_SUCCESS": "סיימת בהצלחה ליצור ערוץ אתר אינטרנט. העתק את הקוד המוצג למטה והדבק אותו באתר שלך. בפעם הבאה שלקוח ישתמש בצ'אט החי, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "הרשאה מחדש",
     "VIEW": "צפה",
