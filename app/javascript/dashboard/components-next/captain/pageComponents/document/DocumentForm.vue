@@ -14,6 +14,8 @@ const emit = defineEmits(['submit', 'cancel']);
 
 const { t } = useI18n();
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
 const formState = {
   uiFlags: useMapGetter('captainDocuments/getUIFlags'),
   assistants: useMapGetter('captainAssistants/getRecords'),
@@ -31,7 +33,10 @@ const state = reactive({ ...initialState });
 const fileInputRef = ref(null);
 
 const validationRules = {
-    minLength: requiredIf(() => state.documentType === 'url')(minLength(1)),
+  url: {
+    required: requiredIf(() => state.documentType === 'url'),
+    url: requiredIf(() => state.documentType === 'url'),
+    minLength: minLength(1),
   },
   assistantId: { required },
   pdfFile: {
@@ -69,22 +74,27 @@ const formErrors = computed(() => ({
 
 const handleCancel = () => emit('cancel');
 
+const validateFile = file => {
+  if (file.type !== 'application/pdf') {
+    useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.INVALID_TYPE'));
+    return false;
+  }
+  if (file.size > MAX_FILE_SIZE) {
+    useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.TOO_LARGE'));
+    return false;
+  }
+  return true;
+};
+
 const handleFileChange = event => {
   const file = event.target.files[0];
   if (file) {
-    if (file.type !== 'application/pdf') {
-      useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.INVALID_TYPE'));
-      event.target.value = '';
-      return;
-    }
-    if (file.size > 10 * 1024 * 1024) {
-      // 10MB
-      useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.TOO_LARGE'));
+    if (!validateFile(file)) {
       event.target.value = '';
       return;
     }
     state.pdfFile = file;
-    state.name = file.name.replace('.pdf', '');
+    state.name = file.name.replace(/\.pdf$/i, '');
   }
 };
 
@@ -108,7 +118,7 @@ const prepareDocumentDetails = () => {
     formData.append('document[pdf_file]', state.pdfFile);
     formData.append(
       'document[name]',
-      state.name || state.pdfFile.name.replace('.pdf', '')
+      state.name || state.pdfFile.name.replace(/\.pdf$/i, '')
     );
     // No need to send external_link for PDF - it's auto-generated in the backend
   }
