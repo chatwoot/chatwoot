@@ -86,12 +86,12 @@ class Attachment < ApplicationRecord
   private
 
   def convert_image_and_generate_download_url(attachment, format)
-    return '' unless file.attached? && image?
+    return '' unless attachment.attached? && image?
 
     begin
-      url_for(file.representation(format: format))
+      url_for(attachment.representation(format: format))
     rescue ActiveStorage::UnrepresentableError => e
-      Rails.logger.warn "Unrepresentable image attachment: #{id} (#{file.filename}) - #{e.message}"
+      Rails.logger.warn "Unrepresentable image attachment: #{id} (#{attachment.filename}) - #{e.message}"
       ''
     end
   end
