@@ -478,7 +478,10 @@
       "MESSAGE": "Tagad Jūs varat izmantot savu jauno Kanālu lai sazinātos ar saviem klientiem. Priecīgu atbalstīšanu",
       "BUTTON_TEXT": "Iet uz",
       "MORE_SETTINGS": "Papildu iestatījumi",
-      "WEBSITE_SUCCESS": "Jūs esat veiksmīgi pabeidzis tīmekļa vietnes kanāla izveidi. Nokopējiet tālāk redzamo kodu un ievietojiet to savā tīmekļa vietnē. Nākamreiz, kad klients izmantos tiešsaistes tērzēšanu, saruna automātiski tiks parādīta Jūsu iesūtnē."
+      "WEBSITE_SUCCESS": "Jūs esat veiksmīgi pabeidzis tīmekļa vietnes kanāla izveidi. Nokopējiet tālāk redzamo kodu un ievietojiet to savā tīmekļa vietnē. Nākamreiz, kad klients izmantos tiešsaistes tērzēšanu, saruna automātiski tiks parādīta Jūsu iesūtnē.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Atkārtoti autorizēties",
     "VIEW": "Apskatīt",
