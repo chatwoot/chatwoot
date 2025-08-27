@@ -46,3 +46,10 @@ delete_accounts_job:
   cron: '0 1 * * *'
   class: 'Internal::DeleteAccountsJob'
   queue: scheduled_jobs
+
+# executed weekly on Sunday at 0200 UTC
+# to cleanup orphaned Cloudflare custom hostnames
+cloudflare_cleanup_job:
+  cron: '0 2 * * 0'
+  class: 'CloudflareCleanupJob'
+  queue: housekeeping
