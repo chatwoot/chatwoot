@@ -478,7 +478,10 @@
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "എന്നെ അവിടേക്ക് കൊണ്ടുപോകുക",
       "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "നിങ്ങൾ ഒരു വെബ്‌സൈറ്റ് ചാനൽ സൃഷ്ടിക്കുന്നത് വിജയകരമായി പൂർത്തിയാക്കി. ചുവടെ കാണിച്ചിരിക്കുന്ന കോഡ് പകർത്തി നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ ചേർക്കുക. അടുത്ത തവണ ഒരു ഉപഭോക്താവ് തത്സമയ ചാറ്റ് ഉപയോഗിക്കുമ്പോൾ, സംഭാഷണം ഓട്ടോമാറ്റിക് ആയി  നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ദൃശ്യമാകും."
+      "WEBSITE_SUCCESS": "നിങ്ങൾ ഒരു വെബ്‌സൈറ്റ് ചാനൽ സൃഷ്ടിക്കുന്നത് വിജയകരമായി പൂർത്തിയാക്കി. ചുവടെ കാണിച്ചിരിക്കുന്ന കോഡ് പകർത്തി നിങ്ങളുടെ വെബ്‌സൈറ്റിൽ ചേർക്കുക. അടുത്ത തവണ ഒരു ഉപഭോക്താവ് തത്സമയ ചാറ്റ് ഉപയോഗിക്കുമ്പോൾ, സംഭാഷണം ഓട്ടോമാറ്റിക് ആയി  നിങ്ങളുടെ ഇൻ‌ബോക്സിൽ ദൃശ്യമാകും.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "വീണ്ടും അംഗീകാരം നൽകുക",
     "VIEW": "കാണുക",
