@@ -39,6 +39,8 @@ ca:
       email_already_exists: 'Ja us heu registrat amb el compte %{email}'
       invalid_params: 'No és vàlid, comprova els paràmetres de registre i torna-ho a provar'
       failed: El registre ha fallat
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Tipus de dades no vàlid
