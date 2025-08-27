@@ -7,7 +7,6 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
 import WeeklyAvailability from './WeeklyAvailability.vue';
-
 const emit = defineEmits(['close']);
 
 const store = useStore();
@@ -74,7 +73,7 @@ const addAgent = async () => {
     const payload = {
       name: agentName.value,
       email: agentEmail.value,
-      working_hours: dtos,
+      ...dtos,
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
