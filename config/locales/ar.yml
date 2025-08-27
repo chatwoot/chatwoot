@@ -39,6 +39,8 @@ ar:
       email_already_exists: 'لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}'
       invalid_params: 'غير صالح، الرجاء التحقق من خانات التسجيل وحاول مرة أخرى'
       failed: فشلت عملية التسجيل
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: نوع البيانات غير صالح

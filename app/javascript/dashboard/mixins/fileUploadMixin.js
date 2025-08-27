@@ -3,6 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { getMaxUploadSizeByChannel } from '@chatwoot/utils';
 import { DirectUpload } from 'activestorage';
+import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 
 export default {
   computed: {
@@ -13,6 +14,11 @@ export default {
 
   methods: {
     maxSizeFor(mime) {
+      // Use default file size limit for private notes
+      if (this.isOnPrivateNote) {
+        return MAXIMUM_FILE_UPLOAD_SIZE;
+      }
+
       return getMaxUploadSizeByChannel({
         channelType: this.inbox?.channel_type,
         medium: this.inbox?.medium, // e.g. 'sms' | 'whatsapp'
