@@ -478,7 +478,10 @@
       "MESSAGE": "Anda sekarang dapat menangani pelanggan Anda melalui Channel baru Anda. Selamat mendukung",
       "BUTTON_TEXT": "Pergi ke Kotak Masuk",
       "MORE_SETTINGS": "Pengaturan lebih lengkap",
-      "WEBSITE_SUCCESS": "Anda telah berhasil menyelesaikan pembuatan channel website. Salin kode yang ditunjukkan di bawah ini dan tempelkan di website Anda. Saat pelanggan menggunakan live chat, percakapan tersebut secara otomatis akan muncul di kotak masuk Anda."
+      "WEBSITE_SUCCESS": "Anda telah berhasil menyelesaikan pembuatan channel website. Salin kode yang ditunjukkan di bawah ini dan tempelkan di website Anda. Saat pelanggan menggunakan live chat, percakapan tersebut secara otomatis akan muncul di kotak masuk Anda.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Otorisasi ulang",
     "VIEW": "Lihat",
