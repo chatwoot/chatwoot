@@ -44,6 +44,7 @@ class Api::V1::Accounts::Saml::CallbacksController < Api::V1::Accounts::BaseCont
   end
 
   def acs_url
-    api_v1_account_saml_callback_url(@current_account)
+    # Use the new SAML callback URL
+    "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/saml/#{@current_account.id}/callback"
   end
 end

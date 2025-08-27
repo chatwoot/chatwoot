@@ -29,36 +29,35 @@ RSpec.describe 'SAML Authentication API', type: :request do
         existing_user
       end
 
-      it 'successfully logs in the user' do
+      it 'redirects to frontend login with SSO token' do
         post "/auth/saml/#{account.id}/callback",
              env: { 'omniauth.auth' => auth_hash },
              as: :json
 
-        expect(response).to have_http_status(:ok)
-        json_response = JSON.parse(response.body)
-        expect(json_response['data']).to be_present
-        expect(json_response['data']['email']).to eq('john.doe@example.com')
-        expect(json_response['data']['id']).to eq(existing_user.id)
+        expect(response).to have_http_status(:found) # 302 redirect
+        expect(response.location).to include('/app/login')
+        expect(response.location).to include('email=john.doe%40example.com')
+        expect(response.location).to include('sso_auth_token=')
       end
 
-      it 'creates authentication tokens for the user' do
+      it 'generates SSO auth token for the user' do
+        expect(existing_user).to receive(:generate_sso_auth_token).and_call_original
+
+        post "/auth/saml/#{account.id}/callback",
+             env: { 'omniauth.auth' => auth_hash },
+             as: :json
+
+        # Verify token was created in Redis
+        expect(response).to have_http_status(:found)
+      end
+
+      it 'does not update sign in tracking directly' do
+        # Sign in tracking should happen when user completes login via frontend
         expect do
           post "/auth/saml/#{account.id}/callback",
                env: { 'omniauth.auth' => auth_hash },
                as: :json
-        end.to change { existing_user.reload.tokens.count }.by(1)
-      end
-
-      it 'updates user sign in tracking' do
-        existing_user
-
-        expect do
-          post "/auth/saml/#{account.id}/callback",
-               env: { 'omniauth.auth' => auth_hash },
-               as: :json
-        end.to change { existing_user.reload.sign_in_count }.by(1)
-
-        expect(existing_user.reload.current_sign_in_at).to be_present
+        end.not_to change { existing_user.reload.sign_in_count }
       end
     end
 

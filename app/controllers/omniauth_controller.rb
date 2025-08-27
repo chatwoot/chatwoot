@@ -1,56 +1,43 @@
-class OmniauthController < ApplicationController
-  skip_before_action :set_current_user
-
+class OmniauthController < DeviseOverrides::OmniauthCallbacksController
+  # We inherit from Devise's OmniAuth controller to get proper request handling
+  
   def request
     # This will be handled by OmniAuth middleware
     # The request will be redirected to the IdP
   end
 
   def callback
-    auth = request.env['omniauth.auth']
+    # OmniAuth populates auth_hash from request.env['omniauth.auth']
+    return handle_auth_failure unless auth_hash.present?
+    
     account_id = params[:account_id]
-
+    
     # Check if SAML is enabled for this account
     saml_settings = AccountSamlSettings.find_by(account_id: account_id, enabled: true)
-    return render json: { error: 'SAML not enabled for this account' }, status: :unauthorized unless saml_settings
+    unless saml_settings
+      return redirect_to login_page_url(error: 'saml-not-enabled')
+    end
 
-    if auth.present?
-      # Find existing user by email
-      email = auth['info']['email']
-      user = User.from_email(email)
+    # Find existing user by email
+    email = auth_hash['info']['email']
+    @resource = User.find_by(email: email)
 
-      if user
-        # Create authentication token (DeviseTokenAuth way)
-        @resource = user
-        @token = @resource.create_token
-        @resource.save!
-
-        # Sign in the user
-        sign_in(:user, @resource, store: false, bypass: false)
-
-        # Update sign in tracking
-        @resource.update_tracked_fields!(request)
-
-        # Render success response using Chatwoot's auth template
-        render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
-      else
-        render json: {
-          error: 'User not found',
-          message: "No user exists with email: #{email}"
-        }, status: :not_found
-      end
+    if @resource
+      # Use the parent class method for SSO token flow
+      sign_in_user
     else
-      render json: {
-        error: 'SAML authentication failed',
-        message: request.env['omniauth.error'] || 'Unknown error'
-      }, status: :unauthorized
+      redirect_to login_page_url(error: 'no-account-found')
     end
   end
 
   def failure
-    render json: {
-      error: 'SAML authentication failed',
-      message: params[:message] || request.env['omniauth.error'] || 'Unknown error'
-    }, status: :unauthorized
+    redirect_to login_page_url(error: params[:message] || 'saml-auth-failed')
+  end
+
+  private
+
+  def handle_auth_failure
+    error_message = request.env['omniauth.error'] || 'Unknown error'
+    redirect_to login_page_url(error: 'saml-auth-failed')
   end
 end
