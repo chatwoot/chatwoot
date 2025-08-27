@@ -12,9 +12,9 @@ import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
 const emit = defineEmits(['submit', 'cancel']);
 
-const { t } = useI18n();
-
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+const { t } = useI18n();
 
 const formState = {
   uiFlags: useMapGetter('captainDocuments/getUIFlags'),
@@ -74,27 +74,22 @@ const formErrors = computed(() => ({
 
 const handleCancel = () => emit('cancel');
 
-const validateFile = file => {
-  if (file.type !== 'application/pdf') {
-    useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.INVALID_TYPE'));
-    return false;
-  }
-  if (file.size > MAX_FILE_SIZE) {
-    useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.TOO_LARGE'));
-    return false;
-  }
-  return true;
-};
-
 const handleFileChange = event => {
   const file = event.target.files[0];
   if (file) {
-    if (!validateFile(file)) {
+    if (file.type !== 'application/pdf') {
+      useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.INVALID_TYPE'));
+      event.target.value = '';
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      // 10MB
+      useAlert(t('CAPTAIN.DOCUMENTS.FORM.PDF_FILE.TOO_LARGE'));
       event.target.value = '';
       return;
     }
     state.pdfFile = file;
-    state.name = file.name.replace(/\.pdf$/i, '');
+    state.name = file.name.replace('.pdf', '');
   }
 };
 
@@ -118,7 +113,7 @@ const prepareDocumentDetails = () => {
     formData.append('document[pdf_file]', state.pdfFile);
     formData.append(
       'document[name]',
-      state.name || state.pdfFile.name.replace(/\.pdf$/i, '')
+      state.name || state.pdfFile.name.replace('.pdf', '')
     );
     // No need to send external_link for PDF - it's auto-generated in the backend
   }
