@@ -478,7 +478,10 @@
       "MESSAGE": "Možete se povezati sa vašim potrošačima kroz vaš novi kanal. Srećna podrška",
       "BUTTON_TEXT": "Odvedi me tamo",
       "MORE_SETTINGS": "Više podešavanja",
-      "WEBSITE_SUCCESS": "Uspešno ste završili pravljenje kanala veb sajta. Iskopirajte kod prikazan ispod i nalepite ga u vaš vab sajt. Sledeći put kada potrošač koristi ćaskanje uživo, razgovor će se automatski pojaviti u prijemnom sandučetu."
+      "WEBSITE_SUCCESS": "Uspešno ste završili pravljenje kanala veb sajta. Iskopirajte kod prikazan ispod i nalepite ga u vaš vab sajt. Sledeći put kada potrošač koristi ćaskanje uživo, razgovor će se automatski pojaviti u prijemnom sandučetu.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Ponovna autorizacija",
     "VIEW": "Pregled",
