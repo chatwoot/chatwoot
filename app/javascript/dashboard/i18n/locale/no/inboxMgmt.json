@@ -478,7 +478,10 @@
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Ta meg dit",
       "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "Du har nå fullført opprettingen av nettstedskanalen. Kopier koden nedenfor og lim den inn på nettstedet. Neste gang en kunde bruker live-chatten vil samtalen vises automatisk i innboksen din."
+      "WEBSITE_SUCCESS": "Du har nå fullført opprettingen av nettstedskanalen. Kopier koden nedenfor og lim den inn på nettstedet. Neste gang en kunde bruker live-chatten vil samtalen vises automatisk i innboksen din.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Reautoriser",
     "VIEW": "Vis",
