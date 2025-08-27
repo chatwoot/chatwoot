@@ -65,8 +65,8 @@ const botHandoffActionLabel = computed(() => {
     : t('CONVERSATION.BOT_HANDOFF_ACTION');
 });
 
-const selfAssignConversation = () => {
-  const { avatar_url, ...rest } = currentUser.value;
+const selfAssignConversation = async () => {
+  const { avatar_url, ...rest } = currentUser.value || {};
   assignedAgent.value = { ...rest, thumbnail: avatar_url };
 };
 
