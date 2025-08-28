@@ -24,9 +24,9 @@ class SamlUserBuilder
   end
 
   def convert_existing_user_to_saml(user)
-    return if user.saml_user?
+    return if user.provider == 'saml'
 
-    user.convert_to_saml!
+    user.update!(provider: 'saml')
   end
 
   def create_user
