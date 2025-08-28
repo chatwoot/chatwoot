@@ -7,7 +7,7 @@ const emit = defineEmits(['toggle-ai']);
 
 <template>
   <button
-    class="relative h-8 w-8 rounded-full mt-1 inline-flex items-center justify-center hover:scale-[1.3] transition-all duration-300"
+    class="relative h-8 w-8 rounded-full inline-flex items-center justify-center hover:scale-[1.3] transition-all duration-300"
     :class="aiEnable ? 'bg-n-brand' : 'bg-n-inactive'"
     @click="emit('toggle-ai')"
   >
