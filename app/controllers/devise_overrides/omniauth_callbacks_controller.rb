@@ -41,10 +41,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     return redirect_to login_page_url(error: 'saml-not-available'), allow_other_host: true unless ChatwootApp.enterprise?
 
     account_id = extract_saml_account_id
-    account = Account.find_by(id: account_id) if account_id
-
-    return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true if account && !account.feature_enabled?('saml')
-    return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true if account_id && !saml_enabled_for_account?(account_id)
+    return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true unless saml_enabled_for_account?(account_id)
 
     @resource = SamlUserBuilder.new(auth_hash, account_id: account_id).perform
 
@@ -66,6 +63,10 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def saml_enabled_for_account?(account_id)
     return false unless ChatwootApp.enterprise?
+    return false if account_id.blank?
+
+    account = Account.find_by(id: account_id)
+    return false unless account.feature_enabled?('saml')
 
     AccountSamlSettings.find_by(account_id: account_id, enabled: true).present?
   end
