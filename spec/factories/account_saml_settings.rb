@@ -16,8 +16,6 @@ FactoryBot.define do
       cert.to_pem
     end
     sp_entity_id { 'chatwoot-test' }
-    enforced_sso { false }
-    attribute_mappings { {} }
     role_mappings { {} }
 
     trait :with_role_mappings do
@@ -26,16 +24,6 @@ FactoryBot.define do
           'Administrators' => { 'role' => 1 },
           'Agents' => { 'role' => 0 },
           'Custom-Team' => { 'custom_role_id' => 5 }
-        }
-      end
-    end
-
-    trait :with_attribute_mappings do
-      attribute_mappings do
-        {
-          'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-          'name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
-          'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'
         }
       end
     end

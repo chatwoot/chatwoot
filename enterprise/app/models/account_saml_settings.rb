@@ -2,16 +2,14 @@
 #
 # Table name: account_saml_settings
 #
-#  id                 :bigint           not null, primary key
-#  attribute_mappings :json
-#  certificate        :text
-#  enforced_sso       :boolean          default(FALSE), not null
-#  role_mappings      :json
-#  sso_url            :string
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  account_id         :bigint           not null
-#  sp_entity_id       :string
+#  id            :bigint           not null, primary key
+#  certificate   :text
+#  role_mappings :json
+#  sso_url       :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  account_id    :bigint           not null
+#  sp_entity_id  :string
 #
 # Indexes
 #
@@ -31,6 +29,14 @@ class AccountSamlSettings < ApplicationRecord
 
   def sp_entity_id_or_default
     sp_entity_id.presence || "#{installation_name}-#{account_id}".downcase
+  end
+
+  def attribute_mappings
+    {
+      'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
+      'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
+      'last_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'
+    }
   end
 
   private
