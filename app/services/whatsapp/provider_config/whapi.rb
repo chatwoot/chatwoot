@@ -118,6 +118,11 @@ module Whatsapp
         Rails.logger.warn("Failed to enqueue WhapiChannelCleanupJob for channel ##{channel.id}: #{e.message}")
       end
 
+      def webhook_verify_token
+        # Whapi doesn't use webhook verify tokens
+        nil
+      end
+
       private
 
       def validate_whapi_health_check
@@ -134,11 +139,6 @@ module Whatsapp
 
       def api_headers
         { 'Authorization' => "Bearer #{api_key}", 'Content-Type' => 'application/json' }
-      end
-
-      def webhook_verify_token
-        # Whapi doesn't use webhook verify tokens
-        nil
       end
     end
   end

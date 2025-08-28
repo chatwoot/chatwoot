@@ -28,7 +28,28 @@ RSpec.describe Whatsapp::SendReadReceiptsJob, type: :job do
   end
 
   let(:account) { create(:account) }
-  let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whapi', account: account) }
+  
+  # Add HTTP stubs for all provider API calls to prevent external requests during tests
+  before do
+    # Stub WhatsApp Cloud API calls for validation
+    stub_request(:get, %r{https://graph\.facebook\.com/v\d+\.\d+/.*/message_templates})
+      .to_return(status: 200, body: '{"data": []}', headers: { 'Content-Type' => 'application/json' })
+    
+    # Stub WHAPI health check
+    stub_request(:get, 'https://gate.whapi.cloud/health')
+      .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
+    
+    # Stub WHAPI message read receipt calls
+    stub_request(:post, %r{https://gate\.whapi\.cloud/messages/.*/read})
+      .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
+  end
+  
+  let(:whatsapp_channel) do
+    ch = build(:channel_whatsapp, provider: 'whapi', account: account, validate_provider_config: false, sync_templates: false)
+    allow(ch).to receive(:sync_templates)
+    ch.save!(validate: false)
+    ch
+  end
   let(:inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
   let(:contact) { create(:contact, account: account) }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
@@ -67,9 +88,18 @@ RSpec.describe Whatsapp::SendReadReceiptsJob, type: :job do
       end
     end
 
-    context 'when WhatsApp channel is not Whapi provider' do
-      let(:cloud_whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', account: account) }
-      let(:cloud_inbox) { create(:inbox, channel: cloud_whatsapp_channel, account: account) }
+          context 'when WhatsApp channel is not Whapi provider' do
+        let(:cloud_whatsapp_channel) do
+          ch = build(:channel_whatsapp, provider: 'whatsapp_cloud', account: account, validate_provider_config: false, sync_templates: false)
+          allow(ch).to receive(:sync_templates)
+          ch.save!(validate: false)
+          ch
+        end
+      let(:cloud_inbox) do
+        inbox = Inbox.new(name: 'Cloud Test Inbox', account: account, channel: cloud_whatsapp_channel)
+        inbox.save!(validate: false)
+        inbox
+      end
       let(:cloud_conversation) { create(:conversation, contact: contact, inbox: cloud_inbox, contact_inbox: contact_inbox) }
 
       it 'does not send any read receipts' do
