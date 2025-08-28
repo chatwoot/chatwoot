@@ -57,7 +57,7 @@
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       
-      <%= embed_custom_features_config %>
+      <%= raw custom_features_config_js %>
       window.browserConfig = {
         browser_name: '<%= browser.name %>',
       }

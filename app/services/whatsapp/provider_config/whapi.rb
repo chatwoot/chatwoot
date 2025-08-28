@@ -19,29 +19,6 @@ module Whatsapp
         channel.provider_config&.[]('api_key')
       end
 
-      private
-
-      def validate_whapi_health_check
-        response = HTTParty.get("#{api_base_path}/health", headers: api_headers)
-        response.success?
-      rescue Net::ReadTimeout, Net::OpenTimeout, SocketError => e
-        Rails.logger.error "WHAPI health check failed: #{e.message}"
-        false
-      end
-
-      def api_base_path
-        'https://gate.whapi.cloud'
-      end
-
-      def api_headers
-        { 'Authorization' => "Bearer #{api_key}", 'Content-Type' => 'application/json' }
-      end
-
-      def webhook_verify_token
-        # Whapi doesn't use webhook verify tokens
-        nil
-      end
-
       def whapi_channel_id
         channel.provider_config&.[]('whapi_channel_id')
       end
@@ -139,6 +116,29 @@ module Whatsapp
         Whatsapp::Whapi::WhapiChannelCleanupJob.perform_later(whapi_channel_id)
       rescue StandardError => e
         Rails.logger.warn("Failed to enqueue WhapiChannelCleanupJob for channel ##{channel.id}: #{e.message}")
+      end
+
+      private
+
+      def validate_whapi_health_check
+        response = HTTParty.get("#{api_base_path}/health", headers: api_headers)
+        response.success?
+      rescue Net::ReadTimeout, Net::OpenTimeout, SocketError => e
+        Rails.logger.error "WHAPI health check failed: #{e.message}"
+        false
+      end
+
+      def api_base_path
+        'https://gate.whapi.cloud'
+      end
+
+      def api_headers
+        { 'Authorization' => "Bearer #{api_key}", 'Content-Type' => 'application/json' }
+      end
+
+      def webhook_verify_token
+        # Whapi doesn't use webhook verify tokens
+        nil
       end
     end
   end

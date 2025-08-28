@@ -21,8 +21,8 @@
   category: ai
 
 - name: channel_whatsapp_whapi_partner
-  display_name: "WhatsApp: Whapi Partner Onboarding"
-  description: Partner onboarding flow for WhatsApp integration via Whapi
+  display_name: "WhatsApp: Whapi Partner"
+  description: WhatsApp integration via Whapi Partner
   enabled: true
   tier: starter
   category: channel
