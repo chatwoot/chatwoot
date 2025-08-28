@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP adresa",
     "CREATED_AT_LABEL": "Kreirano",
     "NEW_MESSAGE": "Nova poruka",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nema ranijih razgovora povezanih sa ovim kontaktom.",
       "TITLE": "Prethodni razgovor"

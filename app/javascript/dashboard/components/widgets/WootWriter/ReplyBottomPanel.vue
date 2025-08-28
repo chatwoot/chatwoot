@@ -6,15 +6,12 @@ import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import {
-  ALLOWED_FILE_TYPES,
-  ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
-  ALLOWED_FILE_TYPES_FOR_LINE,
-  ALLOWED_FILE_TYPES_FOR_INSTAGRAM,
-} from 'shared/constants/messages';
+import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -155,6 +152,11 @@ export default {
       uploadRef,
     };
   },
+  data() {
+    return {
+      ALLOWED_FILE_TYPES,
+    };
+  },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -196,17 +198,21 @@ export default {
       return this.conversationType === 'instagram_direct_message';
     },
     allowedFileTypes() {
-      if (this.isATwilioWhatsAppChannel) {
-        return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
-      }
-      if (this.isALineChannel) {
-        return ALLOWED_FILE_TYPES_FOR_LINE;
-      }
-      if (this.isAnInstagramChannel || this.isInstagramDM) {
-        return ALLOWED_FILE_TYPES_FOR_INSTAGRAM;
+      // Use default file types for private notes
+      if (this.isOnPrivateNote) {
+        return this.ALLOWED_FILE_TYPES;
       }
 
-      return ALLOWED_FILE_TYPES;
+      let channelType = this.channelType || this.inbox?.channel_type;
+
+      if (this.isAnInstagramChannel || this.isInstagramDM) {
+        channelType = INBOX_TYPES.INSTAGRAM;
+      }
+
+      return getAllowedFileTypesByChannel({
+        channelType,
+        medium: this.inbox?.medium,
+      });
     },
     enableDragAndDrop() {
       return !this.newConversationModalActive;
