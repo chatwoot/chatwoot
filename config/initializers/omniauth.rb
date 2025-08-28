@@ -1,3 +1,5 @@
+# Required for SAML SSO - ensures consistent callback URLs and SP entity ID across environments
+# SAML authentication is sensitive to URL mismatches, so OmniAuth needs the correct host
 OmniAuth.config.full_host = ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
 
 Rails.application.config.middleware.use OmniAuth::Builder do
