@@ -22,23 +22,4 @@ class Enterprise::AutoAssignment::CapacityService
     # Agent has capacity if current count is below the limit
     current_count < inbox_limit.conversation_limit
   end
-
-  def agent_capacity_status(user, inbox)
-    account_user = user.account_users.find_by(account: inbox.account)
-    return { has_capacity: true, current: 0, limit: nil } unless account_user&.agent_capacity_policy
-
-    policy = account_user.agent_capacity_policy
-    inbox_limit = policy.inbox_capacity_limits.find_by(inbox: inbox)
-    return { has_capacity: true, current: 0, limit: nil } unless inbox_limit
-
-    current_count = user.assigned_conversations
-                        .where(inbox: inbox, status: :open)
-                        .count
-
-    {
-      has_capacity: current_count < inbox_limit.conversation_limit,
-      current: current_count,
-      limit: inbox_limit.conversation_limit
-    }
-  end
 end

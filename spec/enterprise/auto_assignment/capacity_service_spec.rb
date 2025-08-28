@@ -64,6 +64,7 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
   describe 'capacity filtering' do
     it 'excludes agents at capacity' do
       # Get available agents respecting capacity
+      capacity_service = described_class.new
       online_agents = inbox.available_agents
       filtered_agents = online_agents.select do |inbox_member|
         capacity_service.agent_has_capacity?(inbox_member.user, inbox)
@@ -109,34 +110,6 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
       conversation2 = create(:conversation, inbox: inbox, assignee: nil, status: :open)
       expect(service.perform_for_conversation(conversation2)).to be true
       expect(conversation2.reload.assignee).to eq(agent_without_capacity)
-    end
-  end
-
-  describe 'capacity status' do
-    it 'provides accurate capacity status for agent at capacity' do
-      capacity_service = described_class.new
-      status = capacity_service.agent_capacity_status(agent_at_capacity, inbox)
-
-      expect(status[:has_capacity]).to be false
-      expect(status[:current]).to eq(3)
-      expect(status[:limit]).to eq(3)
-    end
-
-    it 'provides accurate capacity status for agent with capacity' do
-      capacity_service = described_class.new
-      status = capacity_service.agent_capacity_status(agent_with_capacity, inbox)
-
-      expect(status[:has_capacity]).to be true
-      expect(status[:current]).to eq(0)
-      expect(status[:limit]).to eq(3)
-    end
-
-    it 'provides accurate capacity status for agent without limit' do
-      capacity_service = described_class.new
-      status = capacity_service.agent_capacity_status(agent_without_capacity, inbox)
-
-      expect(status[:has_capacity]).to be true
-      expect(status[:limit]).to be_nil
     end
   end
 end
