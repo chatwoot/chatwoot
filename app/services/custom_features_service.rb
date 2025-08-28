@@ -163,7 +163,9 @@ class CustomFeaturesService
     # Check if file has changed since last load
     if file_changed?
       @logger.info('Configuration file changed, reloading...')
-      clear_cache!
+      # Clear cache directly without acquiring mutex (we're already synchronized)
+      @features_cache = nil
+      @features_by_name_cache = nil
     end
     
     config_path = Rails.root.join('config/custom_features.yml')

@@ -17,7 +17,7 @@ class Whatsapp::WebhookUrlService
 
   def determine_base_url
     # For local development, allow tunnel override (ngrok, etc.)
-    local_tunnel = ENV.fetch('WEBHOOK_URL_TUNNEL', nil)
+    local_tunnel = ENV.fetch('LOCAL_URL_TUNNEL', nil)
     return ensure_protocol(local_tunnel) if local_tunnel.present?
 
     # Use FRONTEND_URL (same pattern as existing webhook generation)
