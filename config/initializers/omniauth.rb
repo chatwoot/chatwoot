@@ -22,7 +22,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                env['omniauth.params']['account_id'] = account_id
 
                # Find SAML settings for this account
-               settings = AccountSamlSettings.find_by(account_id: account_id, enabled: true)
+               settings = AccountSamlSettings.find_by(account_id: account_id)
 
                if settings
                  # Configure the strategy options dynamically

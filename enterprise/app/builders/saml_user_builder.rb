@@ -73,7 +73,7 @@ class SamlUserBuilder
   def apply_role_mappings(account_user, account)
     return if saml_groups.blank?
 
-    saml_settings = AccountSamlSettings.find_by(account_id: account.id, enabled: true)
+    saml_settings = AccountSamlSettings.find_by(account_id: account.id)
     return if saml_settings&.role_mappings.blank?
 
     saml_settings.role_mappings.each do |group_name, mapping|
