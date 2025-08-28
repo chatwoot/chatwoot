@@ -39,7 +39,9 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     # for the case where facebook cloud api support multiple numbers for a single app
     # https://github.com/chatwoot/chatwoot/issues/4712#issuecomment-1173838350
     # we will give priority to the phone_number in the payload
-    return get_channel_from_wb_payload(params) if params[:object] == 'whatsapp_business_account'
+    if params[:object] == 'whatsapp_business_account'
+      return get_channel_from_wb_payload(params)
+    end
 
     # Try to find by phone number first for traditional endpoints
     channel = find_channel_by_url_param(params)
@@ -47,7 +49,9 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
     # For Whapi partner posts to /webhooks/whapi, match by channel_id in payload
     whapi_channel_id = params[:channel_id] || params['channel_id'] || (params.is_a?(Hash) ? params.dig('channel', 'id') : nil)
-    return find_channel_by_whapi_channel_id(whapi_channel_id) if whapi_channel_id.present?
+    if whapi_channel_id.present?
+      return find_channel_by_whapi_channel_id(whapi_channel_id)
+    end
 
     # For Whapi partner channels, try to find by whapi_channel_id if no phone_number
     find_channel_by_whapi_id(params)

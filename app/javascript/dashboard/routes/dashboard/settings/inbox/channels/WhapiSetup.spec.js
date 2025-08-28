@@ -51,8 +51,14 @@ describe('Whapi.vue', () => {
   it('creates channel then moves to qr step and fetches QR', async () => {
     const wrapper = mount(Whapi, {
       global: {
-        mocks: { $store: store, $t: k => k },
+        mocks: { 
+          $store: store, 
+          $t: k => k 
+        },
         stubs: ['NextButton'],
+      },
+      computed: {
+        uiFlags: () => ({ isCreating: false }),
       },
     });
 
@@ -82,6 +88,9 @@ describe('Whapi.vue', () => {
           $t: k => k,
         },
         stubs: ['NextButton'],
+      },
+      computed: {
+        uiFlags: () => ({ isCreating: false }),
       },
     });
 

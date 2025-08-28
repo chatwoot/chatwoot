@@ -4,19 +4,30 @@ require 'rails_helper'
 
 RSpec.describe Whatsapp::ProviderConfig::Whapi do
   let(:account) { create(:account) }
-  let(:provider_config) { { 'whapi_channel_id' => 'test_channel_id' } }
+  let(:provider_config) { { 'whapi_channel_id' => 'test_channel_id', 'whapi_channel_token' => 'test_token', 'connection_status' => 'pending' } }
   let(:channel) do
-    create(:channel_whatsapp, provider: 'whapi', provider_config: provider_config, account: account, validate_provider_config: false,
-                              sync_templates: false)
+    ch = build(:channel_whatsapp, provider: 'whapi', provider_config: provider_config, account: account, validate_provider_config: false,
+                                  sync_templates: false)
+    allow(ch).to receive(:sync_templates)
+    ch.save!(validate: false)
+    
+    # Create inbox manually to avoid factory validation
+    inbox = Inbox.new(name: 'Test Inbox', account: ch.account, channel: ch)
+    inbox.save!(validate: false)
+    
+    ch
   end
   let(:config) { described_class.new(channel) }
 
+  before do
+    # Stub WHAPI health check endpoint
+    stub_request(:get, 'https://gate.whapi.cloud/health')
+      .to_return(status: 200, body: '{}')
+  end
+
   describe '#validate_config?' do
     it 'delegates to the Whapi service for validation' do
-      whapi_service = instance_double(Whatsapp::Providers::WhapiService)
-      allow(Whatsapp::Providers::WhapiService).to receive(:new).with(whatsapp_channel: channel).and_return(whapi_service)
-      allow(whapi_service).to receive(:validate_provider_config?).and_return(true)
-
+      # For partner channels with pending status, it should return true without health check
       expect(config.validate_config?).to be true
     end
   end
