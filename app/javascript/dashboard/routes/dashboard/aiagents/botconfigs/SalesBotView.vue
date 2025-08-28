@@ -171,9 +171,11 @@
 
         <!-- Shipping Tab -->
         <div v-show="activeTabIndex === 1" class="w-full min-w-0">
-          <div class="space-y-6">
-            <div>
-              <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.METHOD_TITLE') }}</label>
+          <div class="flex flex-row gap-4">
+            <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
+              <div class="space-y-4">
+                <div>
+                  <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.METHOD_TITLE') }}</label>
               
               <!-- Kurir Toko -->
               <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
@@ -600,16 +602,266 @@
                   </div>
                 </div>
               </div>
+                </div>
+              </div>
             </div>
             
-            <!-- Submit Button - Only show in Shipping tab -->
-            <div class="pt-6 pb-4">
-              <button
-                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                @click="submitConfig"
-              >
-                {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
-              </button>
+            <div class="w-[240px] flex flex-col gap-3">
+              <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2b9966" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER') }}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER_DESC') }}</p>
+                  </div>
+                </div>
+                
+                <Button
+                  class="w-full"
+                  :is-loading="isSaving"
+                  :disabled="isSaving"
+                  @click="() => submitShippingConfig()"
+                >
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
+                  </span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Methods Tab -->
+        <div v-show="activeTabIndex === 2" class="w-full min-w-0">
+          <div class="flex flex-row gap-4">
+            <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
+              <div class="space-y-4">
+                <div>
+                  <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER') }}</label>
+
+                  <!-- COD -->
+                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                    <div class="flex items-center justify-between p-4">
+                      <div>
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_TITLE') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_DESC') }}</p>
+                      </div>
+                      <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" v-model="paymentMethods.cod" class="sr-only peer">
+                        <div
+                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Non COD -->
+                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                    <div class="flex items-center justify-between p-4">
+                      <div>
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.NON_COD_TITLE') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.NON_COD_DESC') }}</p>
+                      </div>
+                      <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" v-model="paymentMethods.nonCod" class="sr-only peer">
+                        <div
+                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                        </div>
+                      </label>
+                    </div>
+                    
+                    <div 
+                      v-if="paymentMethods.nonCod" 
+                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-6 transition-all duration-200 ease-in-out"
+                    >
+                      <!-- Bank Transfer -->
+                      <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div class="flex items-center justify-between p-4">
+                          <div>
+                            <h4 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h4>
+                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
+                          </div>
+                          <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" v-model="nonCodMethods.bankTransfer" class="sr-only peer">
+                            <div
+                              class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                            </div>
+                          </label>
+                        </div>
+                        
+                        <div 
+                          v-if="nonCodMethods.bankTransfer" 
+                          class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4"
+                        >
+                          <div class="space-y-4">
+                            <div
+                              v-for="(account, index) in bankAccounts"
+                              :key="account.id"
+                              class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4"
+                            >
+                              <div class="flex items-center justify-between mb-4">
+                                <h5 class="font-medium text-slate-700 dark:text-slate-300">
+                                  {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_ACCOUNT_TITLE')}} #{{ index + 1 }}
+                                </h5>
+                                <Button
+                                  variant="ghost"
+                                  color="ruby"
+                                  icon="i-lucide-trash"
+                                  size="sm"
+                                  @click="() => deleteBankAccount(index)"
+                                  class="opacity-70 hover:opacity-100"
+                                />
+                              </div>
+                              
+                              <div class="grid grid-cols-1 gap-4">
+                                <div>
+                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_NAME_LABEL') }} <span class="text-red-500">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    v-model="account.bankName"
+                                    placeholder="e.g., Bank BCA, Bank Mandiri"
+                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                  />
+                                </div>
+                                <div>
+                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_NUMBER_LABEL') }} <span class="text-red-500">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    v-model="account.accountNumber"
+                                    placeholder="e.g., 1234567890"
+                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                  />
+                                </div>
+                                <div>
+                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_HOLDER_LABEL') }} <span class="text-red-500">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    v-model="account.accountHolder"
+                                    placeholder="e.g., John Doe"
+                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <Button 
+                            class="w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-green-400 hover:text-green-600 transition-all duration-200 rounded-xl bg-transparent hover:bg-green-50 dark:hover:bg-green-900/10" 
+                            variant="ghost"
+                            @click="addBankAccount"
+                          >
+                            <span class="flex items-center gap-2">
+                              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                              </svg>
+                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ADD_BANK_ACCOUNT') }}
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+
+                      <!-- Payment Gateway -->
+                      <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div class="flex items-center justify-between p-4">
+                          <div>
+                            <h4 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h4>
+                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
+                          </div>
+                          <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" v-model="nonCodMethods.paymentGateway" class="sr-only peer">
+                            <div
+                              class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                            </div>
+                          </label>
+                        </div>
+                        
+                        <div 
+                          v-if="nonCodMethods.paymentGateway" 
+                          class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4"
+                        >
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
+                            </label>
+                            <select 
+                              v-model="paymentGateway.provider"
+                              class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                            >
+                              <option value="">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.SELECT_PROVIDER') }}</option>
+                              <option v-for="provider in paymentGatewayProviders" :key="provider.id" :value="provider.id">
+                                {{ provider.label }}
+                              </option>
+                            </select>
+                          </div>
+                          
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              API Key <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="password"
+                              v-model="paymentGateway.apiKey"
+                              placeholder="Enter your API key"
+                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                            />
+                          </div>
+                          
+                          <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_LABEL') }} <span class="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              v-model="paymentGateway.merchantCode"
+                              placeholder="Enter your merchant code"
+                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="w-[240px] flex flex-col gap-3">
+              <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card-icon lucide-credit-card w-5 h-5 text-green-600 dark:text-green-400"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER') }}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER_DESC') }}</p>
+                  </div>
+                </div>
+                
+                <Button
+                  class="w-full"
+                  :is-loading="isSaving"
+                  :disabled="isSaving"
+                  @click="() => submitPaymentConfig()"
+                >
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
+                  </span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -620,6 +872,7 @@
 
 <script setup>
 import Input from 'dashboard/components-next/input/Input.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n'
@@ -710,7 +963,7 @@ async function createSheets() {
 async function syncProductColumns() {
   try {
     syncingColumns.value = true;
-    showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_INFO'), 'info');
+    showNotification(t('AGENT_MGMT.SALESBOT.PAYMENTSALESBOT.CATALOG.SYNC_INFO'), 'info');
     
     // TODO: Replace with your actual API endpoint
     // const response = await fetch('/api/sheets/sync-columns', {
@@ -752,6 +1005,12 @@ const tabs = computed(() => [
     index: 1,
     name: t('AGENT_MGMT.SALESBOT.SHIPPING.HEADER'),
     icon: 'i-lucide-truck',
+  },
+  {
+    key: '2',
+    index: 2,
+    name: t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER'),
+    icon: 'i-lucide-credit-card',
   },
 ])
 const activeTabIndex = ref(0);
@@ -1053,43 +1312,127 @@ const ambilToko = reactive({
   estimasi: '' 
 });
 
+// Payment Methods
+const paymentMethods = reactive({
+  cod: false,
+  nonCod: false
+});
+
+const nonCodMethods = reactive({
+  bankTransfer: false,
+  paymentGateway: false
+});
+
+// Bank Transfer Accounts
+const bankAccounts = ref([]);
+const isSaving = ref(false);
+
+function addBankAccount() {
+  bankAccounts.value.push({
+    id: Date.now(), // temporary ID
+    bankName: '',
+    accountNumber: '',
+    accountHolder: ''
+  });
+}
+
+function deleteBankAccount(index) {
+  bankAccounts.value.splice(index, 1);
+}
+
+// Payment Gateway
+const paymentGateway = reactive({
+  provider: 'duitku',
+  apiKey: '',
+  merchantCode: ''
+});
+
+const paymentGatewayProviders = [
+  { label: 'Duitku', id: 'duitku' }
+];
 
 
-function submitConfig() {
-  console.log('Katalog:', catalogSheet.value, catalogDesc.value);
-  console.log('Shipping:', JSON.parse(JSON.stringify({ shippingMethods, kurirToko, kurirBiasa, ambilToko })));
-  
-  // You can process the data here
-  const shippingData = {
-    kurirToko: shippingMethods.kurirToko ? {
-      alamat: kurirToko.alamat,
-      radius: kurirToko.radius,
-      wilayah: kurirToko.wilayah,
-      flatRate: kurirToko.flatRate,
-      biayaPerJarak: kurirToko.biayaPerJarak,
-      gratisOngkir: kurirToko.gratisOngkir,
-      minimalBelanja: kurirToko.gratisOngkir ? kurirToko.minimalBelanja : null
-    } : null,
-    kurirBiasa: shippingMethods.kurirBiasa ? {
-      alamat: {
-        provinsi: kurirBiasa.provinsi,
-        kota: kurirBiasa.kota,
-        kecamatan: kurirBiasa.kecamatan,
-        kelurahan: kurirBiasa.kelurahan,
-        jalan: kurirBiasa.jalan,
-        kodePos: kurirBiasa.kodePos
-      },
-      kurir: kurirBiasa.kurir
-    } : null,
-    ambilToko: shippingMethods.ambilToko ? {
-      alamat: ambilToko.alamat,
-      jamOperasional: `${ambilToko.jamBuka} - ${ambilToko.jamTutup}`,
-      estimasi: ambilToko.estimasi
-    } : null
-  };
-  
-  console.log('Processed Shipping Data:', shippingData);
-  // TODO: API call integration
+
+function submitShippingConfig() {
+  try {
+    isSaving.value = true;
+    console.log('Shipping:', JSON.parse(JSON.stringify({ shippingMethods, kurirToko, kurirBiasa, ambilToko })));
+    
+    const shippingData = {
+      kurirToko: shippingMethods.kurirToko ? {
+        alamat: kurirToko.alamat,
+        radius: kurirToko.radius,
+        wilayah: kurirToko.wilayah,
+        flatRate: kurirToko.flatRate,
+        biayaPerJarak: kurirToko.biayaPerJarak,
+        gratisOngkir: kurirToko.gratisOngkir,
+        minimalBelanja: kurirToko.gratisOngkir ? kurirToko.minimalBelanja : null
+      } : null,
+      kurirBiasa: shippingMethods.kurirBiasa ? {
+        alamat: {
+          provinsi: kurirBiasa.provinsi,
+          kota: kurirBiasa.kota,
+          kecamatan: kurirBiasa.kecamatan,
+          kelurahan: kurirBiasa.kelurahan,
+          jalan: kurirBiasa.jalan,
+          kodePos: kurirBiasa.kodePos
+        },
+        kurir: kurirBiasa.kurir
+      } : null,
+      ambilToko: shippingMethods.ambilToko ? {
+        alamat: ambilToko.alamat,
+        jamOperasional: `${ambilToko.jamBuka} - ${ambilToko.jamTutup}`,
+        estimasi: ambilToko.estimasi
+      } : null
+    };
+    
+    // TODO: API call integration
+    
+    setTimeout(() => {
+      showNotification('Shipping configuration saved successfully', 'success');
+      isSaving.value = false;
+    }, 1000);
+  } catch (error) {
+    console.error('Save error:', error);
+    showNotification('Failed to save shipping configuration', 'error');
+    isSaving.value = false;
+  }
+}
+
+function submitPaymentConfig() {
+  try {
+    isSaving.value = true;
+    
+    console.log('Payment Methods:', JSON.parse(JSON.stringify({ paymentMethods, nonCodMethods, bankAccounts: bankAccounts.value, paymentGateway })));
+    
+    const paymentData = {
+      cod: paymentMethods.cod,
+      nonCod: paymentMethods.nonCod ? {
+        bankTransfer: nonCodMethods.bankTransfer ? {
+          accounts: bankAccounts.value.filter(account => 
+            account.bankName && account.accountNumber && account.accountHolder
+          )
+        } : null,
+        paymentGateway: nonCodMethods.paymentGateway ? {
+          provider: paymentGateway.provider,
+          apiKey: paymentGateway.apiKey,
+          merchantCode: paymentGateway.merchantCode
+        } : null
+      } : null
+    };
+    
+    console.log('Processed Payment Data:', paymentData);
+    // TODO: API call integration
+    
+    setTimeout(() => {
+      showNotification('Payment configuration saved successfully', 'success');
+      isSaving.value = false;
+    }, 1000);
+  } catch (error) {
+    console.error('Save error:', error);
+    showNotification('Failed to save payment configuration', 'error');
+    isSaving.value = false;
+  }
 }
 </script>
 

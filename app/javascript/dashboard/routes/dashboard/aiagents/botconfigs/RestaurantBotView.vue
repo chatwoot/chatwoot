@@ -302,9 +302,6 @@ onMounted(() => {
           <div class="flex flex-row gap-4">
             <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
               <div class="space-y-4">
-                <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-4">
-                  {{ $t('AGENT_MGMT.RESTAURANT_BOT.ORDERS_COSTS_SETTINGS') }}
-                </h3>
                 
                 <!-- Digital Menu Book Link -->
                 <div class="mb-6">

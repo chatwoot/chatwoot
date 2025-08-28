@@ -15,9 +15,7 @@
     <div class="flex flex-row gap-4">
     <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
       <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-4">
-          {{ $t('AGENT_MGMT.CSBOT.TICKET.GENERAL_SETTINGS') }}
-        </h3>
+
         
         <!-- Sistem Tiket Toggle -->
         <div class="mb-6">
