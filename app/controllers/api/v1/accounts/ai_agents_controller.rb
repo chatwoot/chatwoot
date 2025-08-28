@@ -2,7 +2,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   include ResponseFormatChatHelper
 
   before_action :ai_agent, only: [:chat]
-  before_action :check_max_ai_agents, only: [:create]
+  # before_action :check_max_ai_agents, only: [:create]
 
   def index
     ai_agents = account.ai_agents.select(:id, :account_id, :name, :description).order(id: :desc)
