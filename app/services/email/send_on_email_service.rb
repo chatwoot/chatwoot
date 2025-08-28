@@ -1,13 +1,13 @@
-class EmailReplyWorker
-  include Sidekiq::Worker
-  sidekiq_options queue: :mailers, retry: 3
+class Email::SendOnEmailService < Base::SendOnChannelService
+  private
 
-  def perform(message_id)
-    message = Message.find(message_id)
+  def channel_class
+    Channel::Email
+  end
 
+  def perform_reply
     return unless message.email_notifiable_message?
 
-    # send the email
     ConversationReplyMailer.with(account: message.account).email_reply(message).deliver_now
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: message.account).capture_exception
