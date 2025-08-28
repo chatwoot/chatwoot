@@ -1,34 +1,16 @@
+<p>Hello,</p>
+
+<p>Your account <strong>{{ meta.account_name }}</strong> has been marked for deletion. The account will be permanently deleted on <strong>{{ meta.deletion_date }}</strong>.</p>
+
 {% if meta.reason == 'manual_deletion' %}
-Hello there,
-
-You've requested to delete your Chatwoot account **{{ meta.account_name }}**. This account is now scheduled for deletion on **{{ meta.deletion_date }}**.
-
-**What happens next?**
-
-* The account will remain accessible until the scheduled deletion date.
-* After that, all data including conversations, contacts, integrations, and settings, will be permanently removed.
-
-If you change your mind before the deletion date, you can cancel this request by clicking **[here]({{ action_url }})**.
-
-— Chatwoot Team
+<p>This action was requested by one of the administrators of your account.</p>
 {% else %}
-Hello there,
+<p>Reason for deletion: {{ meta.reason }}</p>
+{% endif %}
 
-We've noticed that your Chatwoot account **"{{ meta.account_name }}"** has been inactive for some time. Because of this, it's scheduled for deletion in **30 days**.
+<p>If this was done in error, you can cancel the deletion process by visiting your account settings.</p>
 
-**How do I keep my account?**
+<p><a href="{{ action_url }}">Cancel Account Deletion</a></p>
 
-Just log in to your Chatwoot account before **{{ meta.deletion_date }}**. From your account settings, you can cancel the deletion and continue using your account.
-
-**What happens if I don't cancel?**
-
-If there's no activity by **{{ meta.deletion_date }}**, your account and all associated data — including conversations, contacts, reports, and settings — will be permanently deleted.
-
-**Why are we doing this?**
-
-To keep things secure and efficient, we regularly remove inactive accounts so our systems remain optimized for active teams.
-
-If you have any questions, feel free to reach us at **hello@chatwoot.com**.
-
-— The Chatwoot Team
-{% endif %} 
+<p>Thank you,<br>
+Team Chatwoot</p> 

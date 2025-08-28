@@ -11,15 +11,25 @@ RSpec.describe AdministratorNotifications::AccountNotificationMailer do
     end
 
     context 'when deletion is manual' do
+      it 'calls the user-initiated method' do
+        expect(mailer).to receive(:account_deletion_user_initiated).with(account, 'manual_deletion')
+        mailer.account_deletion(account, 'manual_deletion')
+      end
+
       it 'sets the correct subject for user-initiated deletion' do
-        mail = mailer.account_deletion(account, 'manual_deletion')
+        mail = mailer.account_deletion_user_initiated(account, 'manual_deletion')
         expect(mail.subject).to eq('Your Chatwoot account deletion has been scheduled')
       end
     end
 
     context 'when deletion is system-initiated' do
+      it 'calls the system-initiated method' do
+        expect(mailer).to receive(:account_deletion_system_initiated).with(account, 'Account Inactive')
+        mailer.account_deletion(account, 'Account Inactive')
+      end
+
       it 'sets the correct subject for system-initiated deletion' do
-        mail = mailer.account_deletion(account, 'Account Inactive')
+        mail = mailer.account_deletion_system_initiated(account, 'Account Inactive')
         expect(mail.subject).to eq('Your Chatwoot account is scheduled for deletion due to inactivity')
       end
     end
