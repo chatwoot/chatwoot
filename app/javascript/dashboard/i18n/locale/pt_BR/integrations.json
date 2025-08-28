@@ -334,8 +334,8 @@
     },
     "NOTION": {
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "TITLE": "Você tem certeza que deseja excluir a integração com Notion?",
+        "MESSAGE": "Excluir essa integração removerá o acesso ao seu espaço de trabalho Notion e encerrará todas as funcionalidades relacionadas.",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
       }
@@ -472,7 +472,8 @@
         "FEATURES": {
           "TITLE": "Funcionalidades",
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
-          "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente."
+          "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente.",
+          "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas"
         }
       },
       "EDIT": {
@@ -486,28 +487,28 @@
           "ASSISTANT": "Assistente"
         },
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Configurações básicas",
+          "DESCRIPTION": "Personalize o que o assistente diz quando termina uma conversa ou transfere para um humano."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Configurações do sistema",
+          "DESCRIPTION": "Personalize o que o assistente diz quando termina uma conversa ou transfere para um humano."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "As Coisas Divertidas",
+          "DESCRIPTION": "Adicione mais controle ao assistente. (algo mais visual como uma história: Consulta → cenários → saída) Força o usuário para realmente utilizá-los.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "Proteções",
+              "DESCRIPTION": "Mantém as coisas no caminho — apenas os tipos de perguntas que você quer que seu assistente responda, nada fora de limites ou fora do tópico."
             },
             "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
+              "TITLE": "Cenários",
+              "DESCRIPTION": "Dê algum contexto ao seu assistente — como \"o que fazer quando um usuário estiver com problemas\", ou \"como agir durante uma solicitação de reembolso\"."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "Diretrizes de resposta",
+              "DESCRIPTION": "O jeito e a estrutura das respostas do seu assistente — tranquilo e amigável? Curto e ágil? Detalhado e formal?"
             }
           }
         }
@@ -526,96 +527,165 @@
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "Proteções",
+        "DESCRIPTION": "Mantém as coisas no caminho — apenas os tipos de perguntas que você quer que seu assistente responda, nada fora de limites ou fora do tópico.",
         "BREADCRUMB": {
-          "TITLE": "Guardrails"
+          "TITLE": "Proteções"
         },
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
           "SELECT_ALL": "Selecionar todos ({count})",
           "UNSELECT_ALL": "Desmarcar todos ({count})",
           "BULK_DELETE_BUTTON": "Excluir"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "Exemplos de proteções",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "SAVE": "Adicionar e salvar (↵)",
+            "PLACEHOLDER": "Escreva outra proteção"
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
+            "TITLE": "Adicionar proteção",
             "CREATE": "Criar",
             "CANCEL": "Cancelar",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "Escreva outra proteção",
+            "TEST_ALL": "Testar tudo"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Pesquisar..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "Nenhuma proteção encontrada. Crie uma ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhuma proteção encontrada para essa pesquisa.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "Proteções adicionadas com sucesso",
+            "ERROR": "Ocorreu um erro ao adicionar as proteções. Por favor, tente novamente."
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "Proteções atualizados com sucesso",
+            "ERROR": "Ocorreu um erro ao atualizar as proteções. Por favor, tente novamente."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "Proteções removidas com sucesso",
+            "ERROR": "Ocorreu um erro ao excluir as proteções, por favor, tente novamente."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "Diretrizes de Resposta",
+        "DESCRIPTION": "O jeito e a estrutura das respostas do seu assistente — tranquilo e amigável? Curto e ágil? Detalhado e formal?",
         "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
+          "TITLE": "Diretrizes de Resposta"
         },
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
           "SELECT_ALL": "Selecionar todos ({count})",
           "UNSELECT_ALL": "Desmarcar todos ({count})",
           "BULK_DELETE_BUTTON": "Excluir"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "Exemplos de diretrizes de resposta",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "SAVE": "Adicionar e salvar (↵)",
+            "PLACEHOLDER": "Escreva uma outra diretriz de resposta..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
+            "TITLE": "Adicione uma diretriz de resposta",
             "CREATE": "Criar",
             "CANCEL": "Cancelar",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "Escreva uma outra diretriz de resposta...",
+            "TEST_ALL": "Testar tudo"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Pesquisar..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "Nenhuma diretriz de resposta encontrada. Crie uma ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhuma diretriz de resposta encotrada para essa pesquisa.",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "Diretrizes de resposta adicionadas com sucesso",
+            "ERROR": "Houve um erro ao adicionar diretrizes de resposta, por favor, tente novamente."
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "Diretrizes de Resposta atualizadas com sucesso",
+            "ERROR": "Houve um erro ao atualizar as diretrizes de resposta, por favor, tente novamente."
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "Diretrizes de resposta removidas com sucesso",
+            "ERROR": "Houve um erro ao excluir as diretrizes de resposta, por favor, tente novamente."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Cenários",
+        "DESCRIPTION": "Dê algum contexto ao seu assistente — como \"o que fazer quando um usuário estiver com problemas\", ou \"como agir durante uma solicitação de reembolso\".",
+        "BREADCRUMB": {
+          "TITLE": "Cenários"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
+          "SELECT_ALL": "Selecionar todos ({count})",
+          "UNSELECT_ALL": "Desmarcar todos ({count})",
+          "BULK_DELETE_BUTTON": "Excluir"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Exemplos de cenários",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "TOOLS_USED": "Ferramentas usadas :"
+          },
+          "NEW": {
+            "CREATE": "Adicionar um cenário",
+            "TITLE": "Criar um cenário",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "Título",
+                "PLACEHOLDER": "Digite um nome para o cenário",
+                "ERROR": "O nome do cenário é obrigatório"
+              },
+              "DESCRIPTION": {
+                "LABEL": "Descrição",
+                "PLACEHOLDER": "Descreva como e onde este cenário será utilizado",
+                "ERROR": "Descrição do cenário é obrigatória"
+              },
+              "INSTRUCTION": {
+                "LABEL": "Como lidar",
+                "PLACEHOLDER": "Descreva como e onde este cenário será utilizado",
+                "ERROR": "Conteúdo do cenário é obrigatório"
+              },
+              "CREATE": "Criar",
+              "CANCEL": "Cancelar"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "Cancelar",
+          "UPDATE": "Atualizar alterações"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Pesquisar..."
+        },
+        "EMPTY_MESSAGE": "Nenhum cenário encontrado. Crie ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhum cenário encontrado para esta pesquisa.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Cenários adicionados com sucesso",
+            "ERROR": "Ocorreu um erro ao adicionar cenários, por favor tente novamente."
+          },
+          "UPDATE": {
+            "SUCCESS": "Cenários atualizados com sucesso",
+            "ERROR": "Ocorreu um erro ao atualizar cenários, por favor tente novamente."
+          },
+          "DELETE": {
+            "SUCCESS": "Cenários excluídos com sucesso",
+            "ERROR": "Ocorreu um erro ao excluir os cenários, por favor tente novamente."
           }
         }
       }

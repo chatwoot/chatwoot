@@ -5937,7 +5937,7 @@
         ],
         "operationId": "create-a-new-message-in-a-conversation",
         "summary": "Create New Message",
-        "description": "Create a new message in the conversation",
+        "description": "Create a new message in the conversation.\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
         "security": [
           {
             "userApiKey": []
@@ -10148,28 +10148,96 @@
           },
           "template_params": {
             "type": "object",
-            "description": "The template params for the message in case of whatsapp Channel",
+            "description": "WhatsApp template parameters for sending structured messages",
+            "required": [
+              "name",
+              "category",
+              "language",
+              "processed_params"
+            ],
             "properties": {
               "name": {
                 "type": "string",
-                "description": "Name of the template",
-                "example": "sample_issue_resolution"
+                "description": "Name of the WhatsApp template (must be approved in WhatsApp Business Manager)",
+                "example": "purchase_receipt"
               },
               "category": {
                 "type": "string",
+                "enum": [
+                  "UTILITY",
+                  "MARKETING",
+                  "SHIPPING_UPDATE",
+                  "TICKET_UPDATE",
+                  "ISSUE_RESOLUTION"
+                ],
                 "description": "Category of the template",
                 "example": "UTILITY"
               },
               "language": {
                 "type": "string",
-                "description": "Language of the template",
+                "description": "Language code of the template (BCP 47 format)",
                 "example": "en_US"
               },
               "processed_params": {
                 "type": "object",
-                "description": "The processed param values for template variables in template",
-                "example": {
-                  "1": "Chatwoot"
+                "description": "Processed template parameters organized by component type",
+                "properties": {
+                  "body": {
+                    "type": "object",
+                    "description": "Body component parameters with variable placeholders",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "example": {
+                      "1": "Visa",
+                      "2": "Nike",
+                      "3": "Bill"
+                    }
+                  },
+                  "header": {
+                    "type": "object",
+                    "description": "Header component parameters for media templates",
+                    "properties": {
+                      "media_url": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "Publicly accessible URL for IMAGE, VIDEO, or DOCUMENT headers",
+                        "example": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+                      },
+                      "media_type": {
+                        "type": "string",
+                        "enum": [
+                          "image",
+                          "video",
+                          "document"
+                        ],
+                        "description": "Type of media for the header",
+                        "example": "document"
+                      }
+                    }
+                  },
+                  "buttons": {
+                    "type": "array",
+                    "description": "Button component parameters for interactive templates",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "url",
+                            "copy_code"
+                          ],
+                          "description": "Type of button parameter"
+                        },
+                        "parameter": {
+                          "type": "string",
+                          "description": "Dynamic parameter value for the button",
+                          "example": "SSFSDFSD"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -10542,6 +10610,7 @@
             "enum": [
               "conversation_created",
               "conversation_updated",
+              "conversation_resolved",
               "message_created"
             ],
             "example": "message_created",

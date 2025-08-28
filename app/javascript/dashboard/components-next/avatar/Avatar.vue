@@ -183,7 +183,10 @@ watch(
 </script>
 
 <template>
-  <span class="relative inline-flex group/avatar z-0" :style="containerStyles">
+  <span
+    class="relative inline-flex group/avatar z-0 flex-shrink-0"
+    :style="containerStyles"
+  >
     <!-- Status Badge -->
     <slot name="badge" :size="size">
       <div
@@ -204,7 +207,7 @@ watch(
     <!-- Delete Avatar Button -->
     <div
       v-if="src && allowUpload"
-      class="absolute z-20 flex items-center justify-center invisible w-6 h-6 transition-all duration-300 ease-in-out opacity-0 cursor-pointer outline outline-1 outline-n-container -top-2 -right-2 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
+      class="absolute z-20 flex items-center justify-center invisible w-6 h-6 transition-all duration-300 ease-in-out opacity-0 cursor-pointer outline outline-1 outline-n-container -top-2 ltr:-right-2 rtl:-left-2 rounded-xl bg-n-solid-3 group-hover/avatar:visible group-hover/avatar:opacity-100"
       @click="handleDismiss"
     >
       <Icon icon="i-lucide-x" class="text-n-slate-11 size-4" />
@@ -248,7 +251,7 @@ watch(
         <!-- Fallback Icon if no name or image -->
         <Icon
           v-else
-          v-tooltip.top-start="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
+          :title="t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
           icon="i-lucide-user"
           :style="iconStyles"
         />

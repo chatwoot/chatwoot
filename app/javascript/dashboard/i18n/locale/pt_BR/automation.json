@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Conversa Criada",
       "CONVERSATION_UPDATED": "Conversa Atualizada",
       "MESSAGE_CREATED": "Mensagem Criada",
+      "CONVERSATION_RESOLVED": "Conversa resolvida",
       "CONVERSATION_OPENED": "Conversa Aberta"
     },
     "ACTIONS": {
@@ -152,8 +153,8 @@
       "OPEN_CONVERSATION": "Abrir conversa"
     },
     "MESSAGE_TYPES": {
-      "INCOMING": "Incoming Message",
-      "OUTGOING": "Outgoing Message"
+      "INCOMING": "Mensagem Recebida",
+      "OUTGOING": "Mensagem de Saída"
     },
     "PRIORITY_TYPES": {
       "NONE": "Nenhuma",

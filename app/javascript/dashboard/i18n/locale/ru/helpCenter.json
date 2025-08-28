@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "Портал успешно удален",
             "DELETE_ERROR": "Ошибка при удалении портала"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -726,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Ссылка на домашнюю страницу",
           "PLACEHOLDER": "Ссылка на главную страницу портала",
-          "ERROR": "Неправильный URL-адрес. Ссылка на главную страницу должна начинаться с 'http://' или 'https://'."
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "Метка",
@@ -747,9 +753,15 @@
           "HEADER": "Свой домен",
           "LABEL": "Свой домен:",
           "DESCRIPTION": "Вы можете разместить ваш портал на собственном домене. Например, если ваш сайт — yourdomain.com, и вы хотите, чтобы ваш портал был доступен по адресу docs.yourdomain.com, просто введите это в это поле.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
           "PLACEHOLDER": "Пользовательский домен портала",
-          "EDIT_BUTTON": "Редактировать пользовательский домен",
+          "EDIT_BUTTON": "Редактировать",
           "ADD_BUTTON": "Добавить пользовательский домен",
+          "STATUS": {
+            "LIVE": "Онлайн",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
           "DIALOG": {
             "ADD_HEADER": "Добавить пользовательский домен",
             "EDIT_HEADER": "Редактировать пользовательский домен",
@@ -757,13 +769,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "Обновить домен",
             "LABEL": "Свой домен",
             "PLACEHOLDER": "Пользовательский домен портала",
-            "ERROR": "Требуется пользовательский домен"
+            "ERROR": "Требуется пользовательский домен",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "Настройка DNS",
             "DESCRIPTION": "Войдите в учетную запись с вашим DNS провайдером и добавьте запись CNAME для поддомена, указывающего на chatwoot.help",
-            "HELP_TEXT": "Как только это будет сделано, вы можете связаться с нашей службой поддержки для запроса SSL-сертификата.",
-            "CONFIRM_BUTTON_LABEL": "Понял!"
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Отправить"
+            }
           }
         },
         "DELETE_PORTAL": {

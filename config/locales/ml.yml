@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 ml:
   hello: 'ലോകത്തിനു നമസ്ക്കാരം 🙏'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: Woot! പാസ്‌വേഡ് പുനസജ്ജീകരണത്തിനുള്ള അഭ്യർത്ഥന വിജയകരമാണ്. നിർദ്ദേശങ്ങൾക്കായി നിങ്ങളുടെ മെയിൽ പരിശോധിക്കുക.
     reset_password_failure: ക്ഷമിക്കണം! നിർദ്ദിഷ്ട ഇമെയിൽ ഉള്ള ഒരു ഉപയോക്താവിനെയും ഞങ്ങൾക്ക് കണ്ടെത്താൻ കഴിഞ്ഞില്ല.
@@ -53,6 +58,13 @@ ml:
       invalid_message_type: 'Invalid message type. Action not permitted'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
@@ -344,3 +356,12 @@ ml:
 
       Transcript:
       %{format_messages}
+  portals:
+    send_instructions:
+      email_required: 'ഇമെയിൽ ആവശ്യമാണ്'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'
