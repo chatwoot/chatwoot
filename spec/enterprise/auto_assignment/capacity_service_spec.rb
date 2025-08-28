@@ -63,8 +63,12 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
 
   describe 'capacity filtering' do
     it 'excludes agents at capacity' do
-      available = inbox.available_agents(check_capacity: true)
-      available_users = available.map(&:user)
+      # Get available agents respecting capacity
+      online_agents = inbox.available_agents
+      filtered_agents = online_agents.select do |inbox_member|
+        capacity_service.agent_has_capacity?(inbox_member.user, inbox)
+      end
+      available_users = filtered_agents.map(&:user)
 
       expect(available_users).to include(agent_with_capacity)
       expect(available_users).to include(agent_without_capacity) # No capacity policy = unlimited
