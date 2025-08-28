@@ -39,6 +39,8 @@ sr-Latn:
       email_already_exists: 'Već ste registrovali nalog sa %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registracija nije uspela
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Neispravan tip podatka

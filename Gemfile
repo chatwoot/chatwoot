@@ -62,6 +62,10 @@ gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
 
+gem 'searchkick'
+gem 'opensearch-ruby'
+gem 'faraday_middleware-aws-sigv4'
+
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
