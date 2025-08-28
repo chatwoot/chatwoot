@@ -33,7 +33,7 @@ RSpec.describe DeviseOverrides::OmniauthCallbacksController, type: :controller d
       )
     end
 
-    context 'successful SAML authentication' do
+    context 'with successful SAML authentication' do
       before do
         # Set up session with auth data as DeviseTokenAuth would
         session['dta.omniauth.auth'] = auth_hash.to_hash
@@ -102,7 +102,7 @@ RSpec.describe DeviseOverrides::OmniauthCallbacksController, type: :controller d
       end
     end
 
-    context 'SAML not enabled for account' do
+    context 'when SAML is not enabled for account' do
       before do
         session['dta.omniauth.auth'] = auth_hash.to_hash
         session[:saml_account_id] = account.id
@@ -157,7 +157,7 @@ RSpec.describe DeviseOverrides::OmniauthCallbacksController, type: :controller d
       }
     end
 
-    context 'for SAML provider' do
+    context 'with SAML provider' do
       it 'stores auth data in session' do
         get :redirect_callbacks, params: { provider: 'saml' }
 
@@ -173,7 +173,7 @@ RSpec.describe DeviseOverrides::OmniauthCallbacksController, type: :controller d
       end
     end
 
-    context 'for non-SAML provider' do
+    context 'with non-SAML provider' do
       it 'redirects with 307 status' do
         get :redirect_callbacks, params: { provider: 'google_oauth2' }
 
@@ -197,7 +197,7 @@ RSpec.describe DeviseOverrides::OmniauthCallbacksController, type: :controller d
       allow(controller).to receive(:auth_hash).and_return(auth_hash)
     end
 
-    context 'for SAML provider' do
+    context 'with SAML provider' do
       it 'uses from_email to find user' do
         existing_user = create(:user, email: email.upcase) # Test case insensitivity
 
@@ -207,7 +207,7 @@ RSpec.describe DeviseOverrides::OmniauthCallbacksController, type: :controller d
       end
     end
 
-    context 'for non-SAML provider' do
+    context 'with non-SAML provider' do
       let(:auth_hash) do
         {
           'provider' => 'google_oauth2',
