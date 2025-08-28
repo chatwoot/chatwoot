@@ -93,4 +93,58 @@ RSpec.describe 'Session', type: :request do
       expect(response).to redirect_to(%r{/app/login\?error=access-denied$})
     end
   end
+
+  describe 'SAML user authentication' do
+    let!(:account) { create(:account) }
+
+    context 'with SAML user' do
+      let!(:saml_user) { create(:user, email: 'saml@example.com', provider: 'saml', password: 'Password123!', account: account) }
+      let(:saml_settings) { create(:account_saml_settings, account: account, enabled: true) }
+
+      before do
+        saml_settings
+      end
+
+      it 'blocks password login' do
+        post new_user_session_url,
+             params: { email: saml_user.email, password: 'Password123!' },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.headers['access-token']).to be_blank
+      end
+
+      it 'returns proper error message' do
+        post new_user_session_url,
+             params: { email: saml_user.email, password: 'Password123!' },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(response.body).to include('Invalid login credentials')
+      end
+
+      context 'with SSO token' do
+        it 'allows login via SSO token' do
+          sso_token = saml_user.generate_sso_auth_token
+
+          post new_user_session_url,
+               params: { email: saml_user.email, sso_auth_token: sso_token },
+               as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(response.headers['access-token']).to be_present
+        end
+      end
+    end
+
+    context 'with blank email' do
+      it 'allows the request to proceed normally' do
+        post new_user_session_url,
+             params: { email: '', password: 'somepassword' },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end
