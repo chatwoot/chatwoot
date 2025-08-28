@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import ArticleBlock from 'widget/components/pageComponents/Home/Article/ArticleBlock.vue';
 import ArticleCardSkeletonLoader from 'widget/components/pageComponents/Home/Article/SkeletonLoader.vue';
 import { useI18n } from 'vue-i18n';
@@ -26,7 +26,7 @@ const locale = computed(() => {
 });
 
 const fetchArticles = () => {
-  if (portal.value && !popularArticles.value.length) {
+  if (portal.value && locale.value) {
     store.dispatch('article/fetch', {
       slug: portal.value.slug,
       locale: locale.value,
@@ -60,6 +60,14 @@ const hasArticles = computed(
     !!popularArticles.value.length &&
     !!locale.value
 );
+
+// Watch for locale changes and refetch articles
+watch(locale, (newLocale, oldLocale) => {
+  if (newLocale && newLocale !== oldLocale) {
+    fetchArticles();
+  }
+});
+
 onMounted(() => fetchArticles());
 </script>
 
