@@ -280,7 +280,7 @@ const handleDrop = (event) => {
       </div>
 
       <div>
-        <span> File yg sudah ditambahkan: </span>
+        <span> {{ $t("CONVERSATION.PLACEHOLDER_UPLOAD.PART_3") }} </span>
         <div class="py-2">
           <div
             v-for="(item, index) in files"
@@ -288,7 +288,7 @@ const handleDrop = (event) => {
             class="flex flex-row gap-2 items-center"
           >
             <span>- {{ item.file_name }}</span>
-            <span class="font-bold">{{ item.total_chars }} karakter</span>
+            <span class="font-bold">{{ item.total_chars }} {{ $t("CONVERSATION.CHAR") }}</span>
             <Button
               variant="ghost"
               color="ruby"
@@ -302,7 +302,7 @@ const handleDrop = (event) => {
       </div>
 
       <div>
-        <span> File yang akan ditambahkan: </span>
+        <span> {{ $t("CONVERSATION.PLACEHOLDER_UPLOAD.PART_4") }} </span>
         <div class="py-2">
           <div
             v-for="(item, index) in newFiles"
@@ -451,7 +451,7 @@ const handleDrop = (event) => {
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
             </svg>
-            Simpan
+            {{ $t('AGENT_MGMT.CSBOT.TICKET.SAVE_BUTTON') }}
           </span>
         </Button>
         

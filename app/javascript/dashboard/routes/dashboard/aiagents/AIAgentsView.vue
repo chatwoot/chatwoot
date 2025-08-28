@@ -332,6 +332,7 @@ function setDefaultTemplate() {
             <input
               v-model="state.agentName"
               type="text"
+              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
               :placeholder="$t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME')"
               style="margin-bottom: 0px"
             />
@@ -426,7 +427,7 @@ function setDefaultTemplate() {
           <div v-else-if="selectedAgentType === 'multi'" class="relative" ref="dropdownRef">
             <div
               @click="isDropdownOpen = !isDropdownOpen"
-              class="mb-[1rem] text-sm dark:text-black p-2 border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand rounded-lg cursor-pointer flex items-center justify-between hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[40px] text-sm"
+              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-auto !px-3 !py-2.5 !mb-4 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out cursor-pointer flex items-center justify-between min-h-[40px]"
               :class="{ 
                 'border-red-500': v$.selectedTemplates.$error,
                 'border-gray-300': !v$.selectedTemplates.$error 

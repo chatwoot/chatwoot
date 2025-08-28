@@ -236,7 +236,10 @@
     },
     "PLACEHOLDER_UPLOAD": {
       "PART_1": "Click or drag and drop the file here (Up to 5MB)",
-      "PART_2": "Support .pdf, .docx file"
+      "PART_2": "Support .pdf, .docx file",
+      "PART_3": "Files that have been added:",
+      "PART_4": "Files to be added:",
+      "CHAR": "Characters"
     },
     "UPLOAD_MAX_REACHED": "File too large. Maximum size allowed is 5MB."
   },
