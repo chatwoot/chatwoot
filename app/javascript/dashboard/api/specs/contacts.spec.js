@@ -12,6 +12,7 @@ describe('#ContactsAPI', () => {
     expect(contactAPI).toHaveProperty('getConversations');
     expect(contactAPI).toHaveProperty('filter');
     expect(contactAPI).toHaveProperty('destroyAvatar');
+    expect(contactAPI).toHaveProperty('toggleAi');
   });
 
   describe('API calls', () => {
@@ -116,6 +117,26 @@ describe('#ContactsAPI', () => {
       contactAPI.destroyAvatar(1);
       expect(axiosMock.delete).toHaveBeenCalledWith(
         '/api/v1/contacts/1/avatar'
+      );
+    });
+
+    it('#toggleAi', () => {
+      contactAPI.toggleAi(1, true);
+      expect(axiosMock.patch).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/toggle_ai',
+        {
+          ai_enabled: true,
+        }
+      );
+    });
+
+    it('#toggleAi with false', () => {
+      contactAPI.toggleAi(1, false);
+      expect(axiosMock.patch).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/toggle_ai',
+        {
+          ai_enabled: false,
+        }
       );
     });
   });

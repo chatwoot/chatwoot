@@ -13,6 +13,8 @@ import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import AIEnableBanner from 'dashboard/components/ui/AIEnableBanner.vue';
+import { useAlert } from 'dashboard/composables';
 
 export default {
   components: {
@@ -25,6 +27,7 @@ export default {
     PriorityMark,
     SLACardLabel,
     ContextMenu,
+    AIEnableBanner,
   },
   mixins: [inboxMixin],
   props: {
@@ -115,6 +118,18 @@ export default {
       return this.currentChat.id === this.chat.id;
     },
 
+    isAiEnabled() {
+      // Only contact-level flag drives AI state now
+      return !!this.currentContact?.custom_attributes?.ai_enabled;
+    },
+
+    hasAiImplemented() {
+      const inboxId = this.chat.inbox_id;
+      const activeAgentBot =
+        this.$store.getters['agentBots/getActiveAgentBot'](inboxId);
+      return !!activeAgentBot?.id;
+    },
+
     unreadCount() {
       return this.chat.unread_count;
     },
@@ -151,6 +166,12 @@ export default {
     hasSlaPolicyId() {
       return this.chat?.sla_policy_id;
     },
+  },
+  mounted() {
+    // Load all agent bots first, then fetch the specific inbox relationship
+    this.$store.dispatch('agentBots/get').then(() => {
+      this.$store.dispatch('agentBots/fetchAgentBotInbox', this.chat.inbox_id);
+    });
   },
   methods: {
     onCardClick(e) {
@@ -234,6 +255,9 @@ export default {
       this.$emit('markAsRead', this.chat.id);
       this.closeContextMenu();
     },
+    notAiImplementedNotification() {
+      useAlert(this.$t('AI_NOT_IMPLEMENTED_NOTIFICATION'));
+    },
     async assignPriority(priority) {
       this.$emit('assignPriority', priority, this.chat.id);
       this.closeContextMenu();
@@ -241,6 +265,16 @@ export default {
     async deleteConversation() {
       this.$emit('deleteConversation', this.chat.id);
       this.closeContextMenu();
+    },
+    async onToggleAi() {
+      const contactId = this.chatMetadata?.sender?.id;
+      if (!contactId) return;
+      const next = !this.isAiEnabled;
+
+      await this.$store.dispatch('contacts/toggleAi', {
+        id: contactId,
+        aiEnabled: next,
+      });
     },
   },
 };
@@ -328,7 +362,9 @@ export default {
           {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
-      <div class="absolute flex flex-col mt-4 ltr:right-4 rtl:left-4 top-4">
+      <div
+        class="absolute flex flex-col justify-end ltr:right-4 rtl:left-4 top-0"
+      >
         <span class="ml-auto font-normal leading-4 text-xxs">
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
@@ -336,7 +372,17 @@ export default {
           />
         </span>
         <span
-          class="unread shadow-lg rounded-full hidden text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
+          :class="hasAiImplemented ? 'opacity-100' : 'opacity-40'"
+          class="w-full flex justify-center items-end gap-2"
+          @click="!hasAiImplemented && notAiImplementedNotification()"
+        >
+          <AIEnableBanner
+            :ai-enable="isAiEnabled && hasAiImplemented"
+            @toggle-ai="onToggleAi"
+          />
+        </span>
+        <span
+          class="unread hidden absolute -right-3 -bottom-4 shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>

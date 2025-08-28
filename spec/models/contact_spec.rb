@@ -33,12 +33,14 @@ RSpec.describe Contact do
 
     it 'sets custom_attributes to {} when nil' do
       contact = create(:contact, custom_attributes: nil)
-      expect(contact.custom_attributes).to eq({})
+      expected_ai_enabled = ENV.fetch('CW_DEFAULT_AI_BOT_ENABLED', 'false') == 'true'
+      expect(contact.custom_attributes).to eq({ 'ai_enabled' => expected_ai_enabled })
     end
 
     it 'sets custom_attributes to {} when empty string' do
       contact = create(:contact, custom_attributes: '')
-      expect(contact.custom_attributes).to eq({})
+      expected_ai_enabled = ENV.fetch('CW_DEFAULT_AI_BOT_ENABLED', 'false') == 'true'
+      expect(contact.custom_attributes).to eq({ 'ai_enabled' => expected_ai_enabled })
     end
 
     it 'sets additional_attributes to {} when nil' do
@@ -49,6 +51,28 @@ RSpec.describe Contact do
     it 'sets additional_attributes to {} when empty string' do
       contact = create(:contact, additional_attributes: '')
       expect(contact.additional_attributes).to eq({})
+    end
+
+    it 'defaults ai_enabled based on environment variable when missing on creation' do
+      contact = create(:contact, custom_attributes: {})
+      expected_ai_enabled = ENV.fetch('CW_DEFAULT_AI_BOT_ENABLED', 'false') == 'true'
+      expect(contact.custom_attributes['ai_enabled']).to eq(expected_ai_enabled)
+    end
+
+    context 'with CW_DEFAULT_AI_BOT_ENABLED environment variable' do
+      it 'defaults ai_enabled to true when env var is set to true' do
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('CW_DEFAULT_AI_BOT_ENABLED', 'false').and_return('true')
+        contact = create(:contact, custom_attributes: {})
+        expect(contact.custom_attributes['ai_enabled']).to be true
+      end
+
+      it 'defaults ai_enabled to false when env var is set to false' do
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('CW_DEFAULT_AI_BOT_ENABLED', 'false').and_return('false')
+        contact = create(:contact, custom_attributes: {})
+        expect(contact.custom_attributes['ai_enabled']).to be false
+      end
     end
   end
 

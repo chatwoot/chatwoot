@@ -100,4 +100,4 @@ yarn-debug.log*
 .pnpm-store
 
 # Docs
-/docs
+/docs/ignored/*

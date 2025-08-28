@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   base: &base
     image: chatwoot/chatwoot:latest
