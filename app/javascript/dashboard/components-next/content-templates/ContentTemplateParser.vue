@@ -154,7 +154,7 @@ const sendMessage = () => {
     templateParams: {
       name: friendly_name,
       language,
-      parameters: Object.values(processedParameters),
+      processed_params: processedParameters,
     },
   };
   emit('sendMessage', payload);
