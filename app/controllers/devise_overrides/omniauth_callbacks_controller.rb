@@ -1,66 +1,46 @@
 class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   include EmailHelper
-  
-  # Handle the redirect from OmniAuth for SAML
-  def redirect_callbacks
-    Rails.logger.debug "[redirect_callbacks] Provider: #{params[:provider]}"
-    Rails.logger.debug "[redirect_callbacks] Params: #{params.inspect}"
-    
-    # For SAML, we need to preserve the account_id through the redirect
-    if params[:provider] == 'saml' && params[:account_id]
-      session[:saml_account_id] = params[:account_id]
-    end
-    
-    # Redirect to the auth callback path, preserving the method and body
-    redirect_to "/auth/#{params[:provider]}/callback", status: 307
-  end
 
-  # SAML-specific callback to handle the provider
   def saml
-    Rails.logger.debug "[SAML Callback] Called saml method"
-    Rails.logger.debug "[SAML Callback] Auth hash: #{request.env['omniauth.auth'].inspect}"
-    Rails.logger.debug "[SAML Callback] Params: #{params.inspect}"
-    
-    # Set auth hash for parent class if needed
-    self.auth_hash = request.env['omniauth.auth']
-    
-    # Call the generic success handler
+    # Call parent's omniauth_success which handles the auth
     omniauth_success
   end
-  
-  def omniauth_success
-    Rails.logger.debug "[OmniAuth Callback] Starting omniauth_success"
-    Rails.logger.debug "[OmniAuth Callback] request.env keys: #{request.env.keys.select { |k| k.to_s.include?('omniauth') }}"
-    
-    auth_hash = request.env['omniauth.auth'] || auth_hash  # auth_hash is from parent class
-    Rails.logger.debug "[OmniAuth Callback] Auth hash from env: #{request.env['omniauth.auth'].inspect}"
-    Rails.logger.debug "[OmniAuth Callback] Auth hash from method: #{auth_hash.inspect if defined?(auth_hash)}"
-    
-    if auth_hash
-      Rails.logger.debug "[OmniAuth Callback] Provider: #{auth_hash['provider']}"
-      Rails.logger.debug "[OmniAuth Callback] Info: #{auth_hash['info'].inspect}"
-      Rails.logger.debug "[OmniAuth Callback] UID: #{auth_hash['uid']}"
-      Rails.logger.debug "[OmniAuth Callback] Extra: #{auth_hash['extra'].inspect if auth_hash['extra']}"
+
+  def redirect_callbacks
+    # derive target redirect route from 'resource_class' param, which was set
+    # before authentication.
+    devise_mapping = get_devise_mapping
+    redirect_route = get_redirect_route(devise_mapping)
+
+    # preserve omniauth info for success route. ignore 'extra' in twitter
+    # auth response to avoid CookieOverflow.
+    session['dta.omniauth.auth'] = request.env['omniauth.auth'].except('extra')
+    session['dta.omniauth.params'] = request.env['omniauth.params']
+
+    # For SAML, use 303 See Other to convert POST to GET and preserve session
+    if params[:provider] == 'saml'
+      redirect_to redirect_route, { status: 303 }.merge(redirect_options)
     else
-      Rails.logger.debug "[OmniAuth Callback] No auth hash found!"
+      redirect_to redirect_route, { status: 307 }.merge(redirect_options)
     end
-    
-    Rails.logger.debug "[OmniAuth Callback] Session SAML account: #{session[:saml_account_id]}"
-    Rails.logger.debug "[OmniAuth Callback] Params: #{params.inspect}"
-    Rails.logger.debug "[OmniAuth Callback] OmniAuth params: #{request.env['omniauth.params']}"
-    
+  end
+
+  def omniauth_success
     # For SAML, check if account has SAML enabled
     if auth_hash && auth_hash['provider'] == 'saml'
       account_id = params[:account_id] || session[:saml_account_id] || request.env['omniauth.params']&.dig('account_id')
       if account_id
         saml_settings = AccountSamlSettings.find_by(account_id: account_id, enabled: true)
-        unless saml_settings
-          Rails.logger.error "[OmniAuth Callback] SAML not enabled for account #{account_id}"
-          return redirect_to login_page_url(error: 'saml-not-enabled')
-        end
+        return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true unless saml_settings
       end
+
+      # Use SamlUserBuilder for SAML authentication
+      @resource = SamlUserBuilder.new(auth_hash, account_id: account_id).perform
+      return sign_in_user if @resource.persisted?
+
+      return redirect_to login_page_url(error: 'saml-authentication-failed'), allow_other_host: true
     end
-    
+
     get_resource_from_auth_hash
 
     @resource.present? ? sign_in_user : sign_up_user
@@ -75,17 +55,17 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # we can just send them to the login page again with the SSO params
     # that will log them in
     encoded_email = ERB::Util.url_encode(@resource.email)
-    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
+    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token), allow_other_host: true
   end
 
   def sign_up_user
-    return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
-    return redirect_to login_page_url(error: 'business-account-only') unless validate_signup_email_is_business_domain?
+    return redirect_to login_page_url(error: 'no-account-found'), allow_other_host: true unless account_signup_allowed?
+    return redirect_to login_page_url(error: 'business-account-only'), allow_other_host: true unless validate_signup_email_is_business_domain?
 
     create_account_for_user
     token = @resource.send(:set_reset_password_token)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
+    redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}", allow_other_host: true
   end
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil)
@@ -106,29 +86,23 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
-    Rails.logger.debug "[get_resource_from_auth_hash] auth_hash: #{auth_hash.inspect}"
-    Rails.logger.debug "[get_resource_from_auth_hash] auth_hash class: #{auth_hash.class}"
-    
-    # Check if auth_hash is available from parent class method
-    if auth_hash.nil? && defined?(super)
-      Rails.logger.debug "[get_resource_from_auth_hash] Calling parent auth_hash method"
-      auth_hash
-    end
-    
-    if auth_hash
-      Rails.logger.debug "[get_resource_from_auth_hash] Looking for user with email: #{auth_hash['info']['email']}"
-      # find the user with their email instead of UID and token
-      @resource = resource_class.where(
-        email: auth_hash['info']['email']
-      ).first
-      Rails.logger.debug "[get_resource_from_auth_hash] Found resource: #{@resource.inspect}"
-    else
-      Rails.logger.error "[get_resource_from_auth_hash] No auth_hash available!"
-    end
+    return unless auth_hash
+
+    # For SAML, check by both email and provider
+    @resource = if auth_hash['provider'] == 'saml'
+                  resource_class.from_email(auth_hash['info']['email'])
+                else
+                  # find the user with their email instead of UID and token
+                  resource_class.where(
+                    email: auth_hash['info']['email']
+                  ).first
+                end
   end
 
   def validate_signup_email_is_business_domain?
     # return true if the user is a business account, false if it is a blocked domain account
+    return false unless auth_hash&.dig('info', 'email')
+
     Account::SignUpEmailValidationService.new(auth_hash['info']['email']).perform
   rescue CustomExceptions::Account::InvalidEmail
     false
