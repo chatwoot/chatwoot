@@ -1,6 +1,4 @@
-require 'rails_helper'
-
-describe AutoAssignment::InboxRoundRobinService do
+RSpec.describe AutoAssignment::InboxRoundRobinService do
   subject(:inbox_round_robin_service) { described_class.new(inbox: inbox) }
 
   let!(:account) { create(:account) }
