@@ -6,7 +6,7 @@
       </h3>
     </div>
     <div class="-mt-4">
-      <% portal.articles.published.where(category_id: nil, locale: @locale).order(position: :asc).take(5).each do |article| %>
+      <% portal.articles.published.where(category_id: nil).order(position: :asc).take(5).each do |article| %>
       <a
         class="leading-7 text-slate-700 dark:text-slate-100"
         href="<%= generate_article_link(portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled) %>"
@@ -21,7 +21,7 @@
       <% end %>
     </div>
     <div class="flex justify-between flex-row items-center <%= !@is_plain_layout_enabled && 'px-2' %>">
-      <span class="text-sm font-medium text-slate-600 dark:text-slate-400"><%= render 'public/api/v1/portals/article_count', article_count: portal.articles.published.where(category_id: nil, locale: @locale).size %></span>
+      <span class="text-sm font-medium text-slate-600 dark:text-slate-400"><%= render 'public/api/v1/portals/article_count', article_count: portal.articles.published.where(category_id: nil).size %></span>
     </div>
   </div>
 </section>
