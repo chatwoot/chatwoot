@@ -36,12 +36,12 @@ const filteredTemplateMessages = computed(() =>
 
 const getTemplateType = template => {
   if (template.template_type === TWILIO_CONTENT_TEMPLATE_TYPES.MEDIA) {
-    return 'Media';
+    return t('CONTENT_TEMPLATES.PICKER.TYPES.MEDIA');
   }
   if (template.template_type === TWILIO_CONTENT_TEMPLATE_TYPES.QUICK_REPLY) {
-    return 'Quick Reply';
+    return t('CONTENT_TEMPLATES.PICKER.TYPES.QUICK_REPLY');
   }
-  return 'Text';
+  return t('CONTENT_TEMPLATES.PICKER.TYPES.TEXT');
 };
 
 const refreshTemplates = async () => {
