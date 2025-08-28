@@ -70,11 +70,6 @@ Rails.application.routes.draw do
             resources :documents, only: [:index, :show, :create, :destroy]
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
-
-          namespace :saml do
-            get 'sso', to: 'callbacks#sso'
-            post 'callback', to: 'callbacks#create'
-          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
