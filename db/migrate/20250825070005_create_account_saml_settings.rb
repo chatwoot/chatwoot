@@ -2,13 +2,9 @@ class CreateAccountSamlSettings < ActiveRecord::Migration[7.1]
   def change
     create_table :account_saml_settings do |t|
       t.references :account, null: false
-      t.boolean :enabled, default: false, null: false
       t.string :sso_url
-      t.string :certificate_fingerprint
       t.text :certificate
       t.string :sp_entity_id
-      t.boolean :enforced_sso, default: false, null: false
-      t.json :attribute_mappings, default: {}
       t.json :role_mappings, default: {}
 
       t.timestamps
