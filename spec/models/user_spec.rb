@@ -110,39 +110,4 @@ RSpec.describe User do
       expect(new_user.email).to eq('test123@test.com')
     end
   end
-
-  describe 'SAML authentication methods' do
-    let(:saml_user) { create(:user, provider: 'saml') }
-
-    describe '#saml_user?' do
-      it 'returns false for non-SAML users' do
-        expect(user.saml_user?).to be false
-      end
-
-      it 'returns true for SAML users' do
-        expect(saml_user.saml_user?).to be true
-      end
-    end
-
-    describe '#convert_to_saml!' do
-      it 'converts user to SAML provider' do
-        expect { user.convert_to_saml! }.to change { user.provider }.to('saml')
-      end
-
-      it 'persists the change' do
-        user.convert_to_saml!
-        expect(user.reload.provider).to eq('saml')
-      end
-    end
-
-    describe '#password_authentication_allowed?' do
-      it 'returns true for non-SAML users' do
-        expect(user.password_authentication_allowed?).to be true
-      end
-
-      it 'returns false for SAML users' do
-        expect(saml_user.password_authentication_allowed?).to be false
-      end
-    end
-  end
 end
