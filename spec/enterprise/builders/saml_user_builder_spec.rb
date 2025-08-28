@@ -112,7 +112,7 @@ RSpec.describe SamlUserBuilder do
     end
 
     context 'with role mappings' do
-      let!(:saml_settings) do
+      let(:saml_settings) do
         create(:account_saml_settings,
                account: account,
                role_mappings: {
@@ -120,6 +120,8 @@ RSpec.describe SamlUserBuilder do
                  'Agents' => { 'role' => 'agent' }
                })
       end
+
+      before { saml_settings }
 
       it 'applies administrator role based on SAML groups' do
         user = builder.perform
@@ -129,13 +131,15 @@ RSpec.describe SamlUserBuilder do
 
       context 'with custom role mapping' do
         let!(:custom_role) { create(:custom_role, account: account) }
-        let!(:saml_settings) do
+        let(:saml_settings) do
           create(:account_saml_settings,
                  account: account,
                  role_mappings: {
                    'Administrators' => { 'custom_role_id' => custom_role.id }
                  })
         end
+
+        before { saml_settings }
 
         it 'applies custom role based on SAML groups' do
           user = builder.perform
@@ -187,23 +191,22 @@ RSpec.describe SamlUserBuilder do
       end
 
       it 'reads groups from memberOf attribute' do
-        allow_any_instance_of(described_class).to receive(:saml_groups).and_return(['CN=Administrators,OU=Groups,DC=example,DC=com'])
-        user = builder.perform
+        builder_instance = described_class.new(auth_hash, account_id: account.id)
+        allow(builder_instance).to receive(:saml_groups).and_return(['CN=Administrators,OU=Groups,DC=example,DC=com'])
+        user = builder_instance.perform
         expect(user).to be_persisted
       end
     end
 
-    context 'error handling' do
-      before do
-        allow_any_instance_of(User).to receive(:save).and_return(false)
-      end
-
-      it 'returns unsaved user object' do
+    context 'when there are errors' do
+      it 'returns unsaved user object when user creation fails' do
+        allow(User).to receive(:create).and_return(User.new(email: email))
         user = builder.perform
         expect(user.persisted?).to be false
       end
 
       it 'does not create account association for failed user' do
+        allow(User).to receive(:create).and_return(User.new(email: email))
         expect { builder.perform }.not_to change(AccountUser, :count)
       end
     end
