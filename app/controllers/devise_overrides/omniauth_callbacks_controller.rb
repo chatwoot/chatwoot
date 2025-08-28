@@ -109,11 +109,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
-    return unless auth_hash
-
     email = auth_hash.dig('info', 'email')
-    return unless email
-
     @resource = resource_class.from_email(email)
   end
 
