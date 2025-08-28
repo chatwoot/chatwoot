@@ -3,6 +3,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def omniauth_success
     get_resource_from_auth_hash
+
     @resource.present? ? sign_in_user : sign_up_user
   end
 
