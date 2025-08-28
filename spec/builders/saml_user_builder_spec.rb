@@ -90,6 +90,20 @@ RSpec.describe SamlUserBuilder do
         expect(user.accounts).to include(account)
       end
 
+      it 'converts existing user to SAML' do
+        expect(existing_user.provider).not_to eq('saml')
+
+        builder.perform
+
+        expect(existing_user.reload.provider).to eq('saml')
+      end
+
+      it 'does not change provider if user is already SAML' do
+        existing_user.update!(provider: 'saml')
+
+        expect { builder.perform }.not_to(change { existing_user.reload.provider })
+      end
+
       it 'does not duplicate account association' do
         existing_user.account_users.create!(account: account, role: 'agent')
 
