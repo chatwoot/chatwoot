@@ -33,7 +33,7 @@ RSpec.describe SamlUserBuilder do
 
         expect(user.email).to eq(email)
         expect(user.name).to eq('SAML User')
-        expect(user.display_name).to eq('SAML User')
+        expect(user.display_name).to eq('SAML')
         expect(user.provider).to eq('saml')
         expect(user.uid).to eq(email) # User model sets uid to email in before_validation callback
         expect(user.confirmed_at).to be_present
@@ -125,7 +125,6 @@ RSpec.describe SamlUserBuilder do
       let!(:saml_settings) do
         create(:account_saml_settings,
                account: account,
-               enabled: true,
                role_mappings: {
                  'Administrators' => { 'role' => 'administrator' },
                  'Agents' => { 'role' => 'agent' }
@@ -143,7 +142,6 @@ RSpec.describe SamlUserBuilder do
         let!(:saml_settings) do
           create(:account_saml_settings,
                  account: account,
-                 enabled: true,
                  role_mappings: {
                    'Administrators' => { 'custom_role_id' => custom_role.id }
                  })

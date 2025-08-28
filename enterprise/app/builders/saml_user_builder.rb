@@ -2,6 +2,7 @@ class SamlUserBuilder
   def initialize(auth_hash, account_id: nil)
     @auth_hash = auth_hash
     @account_id = account_id
+    @saml_settings = AccountSamlSettings.find_by(account_id: account_id) if account_id
   end
 
   def perform
@@ -13,7 +14,7 @@ class SamlUserBuilder
   private
 
   def find_or_create_user
-    user = User.from_email(email)
+    user = User.from_email(auth_attribute('email'))
 
     if user
       convert_existing_user_to_saml(user)
@@ -30,27 +31,18 @@ class SamlUserBuilder
   end
 
   def create_user
-    user = User.new(user_params)
+    full_name = [auth_attribute('first_name'), auth_attribute('last_name')].compact.join(' ')
+    fallback_name = auth_attribute('name') || auth_attribute('email').split('@').first
 
-    update_display_name(user) if user.save
-
-    user
-  end
-
-  def user_params
-    {
-      email: email,
-      name: name,
+    User.create(
+      email: auth_attribute('email'),
+      name: (full_name.presence || fallback_name),
+      display_name: auth_attribute('first_name'),
       provider: 'saml',
       uid: uid,
       password: SecureRandom.hex(32),
       confirmed_at: Time.current
-    }
-  end
-
-  def update_display_name(user)
-    display_name = [first_name, last_name].compact.join(' ')
-    user.update(display_name: display_name) if display_name.present?
+    )
   end
 
   def add_user_to_account
@@ -71,38 +63,28 @@ class SamlUserBuilder
   end
 
   def apply_role_mappings(account_user, account)
-    return if saml_groups.blank?
+    matching_mapping = find_matching_role_mapping(account)
+    return unless matching_mapping
 
-    saml_settings = AccountSamlSettings.find_by(account_id: account.id)
-    return if saml_settings&.role_mappings.blank?
-
-    saml_settings.role_mappings.each do |group_name, mapping|
-      next unless saml_groups.include?(group_name)
-
-      if mapping['role'].present?
-        account_user.update(role: mapping['role'])
-        break # Apply first matching role
-      elsif mapping['custom_role_id'].present?
-        account_user.update(custom_role_id: mapping['custom_role_id'])
-        break # Apply first matching role
-      end
+    if matching_mapping['role']
+      account_user.update(role: matching_mapping['role'])
+    elsif matching_mapping['custom_role_id']
+      account_user.update(custom_role_id: matching_mapping['custom_role_id'])
     end
   end
 
-  def email
-    @auth_hash.dig('info', 'email')
+  def find_matching_role_mapping(_account)
+    return if @saml_settings&.role_mappings.blank?
+
+    saml_groups.each do |group|
+      mapping = @saml_settings.role_mappings[group]
+      return mapping if mapping.present?
+    end
+    nil
   end
 
-  def name
-    @auth_hash.dig('info', 'name') || email.split('@').first
-  end
-
-  def first_name
-    @auth_hash.dig('info', 'first_name')
-  end
-
-  def last_name
-    @auth_hash.dig('info', 'last_name')
+  def auth_attribute(key, fallback = nil)
+    @auth_hash.dig('info', key) || fallback
   end
 
   def uid
