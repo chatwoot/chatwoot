@@ -115,8 +115,6 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def validate_signup_email_is_business_domain?
     # return true if the user is a business account, false if it is a blocked domain account
-    return false unless auth_hash&.dig('info', 'email')
-
     Account::SignUpEmailValidationService.new(auth_hash['info']['email']).perform
   rescue CustomExceptions::Account::InvalidEmail
     false
