@@ -39,6 +39,8 @@ en:
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
     reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
   errors:
