@@ -38,17 +38,17 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def handle_saml_auth
     # Check if enterprise edition and SAML feature are available
-    return redirect_to login_page_url(error: 'saml-not-available'), allow_other_host: true unless ChatwootApp.enterprise?
+    return redirect_to login_page_url(error: 'saml-not-available') unless ChatwootApp.enterprise?
 
     account_id = extract_saml_account_id
-    return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true unless saml_enabled_for_account?(account_id)
+    return redirect_to login_page_url(error: 'saml-not-enabled') unless saml_enabled_for_account?(account_id)
 
     @resource = SamlUserBuilder.new(auth_hash, account_id: account_id).perform
 
     if @resource.persisted?
       sign_in_user
     else
-      redirect_to login_page_url(error: 'saml-authentication-failed'), allow_other_host: true
+      redirect_to login_page_url(error: 'saml-authentication-failed')
     end
   end
 
@@ -78,17 +78,17 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # we can just send them to the login page again with the SSO params
     # that will log them in
     encoded_email = ERB::Util.url_encode(@resource.email)
-    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token), allow_other_host: true
+    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
   end
 
   def sign_up_user
-    return redirect_to login_page_url(error: 'no-account-found'), allow_other_host: true unless account_signup_allowed?
-    return redirect_to login_page_url(error: 'business-account-only'), allow_other_host: true unless validate_signup_email_is_business_domain?
+    return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
+    return redirect_to login_page_url(error: 'business-account-only') unless validate_signup_email_is_business_domain?
 
     create_account_for_user
     token = @resource.send(:set_reset_password_token)
     frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}", allow_other_host: true
+    redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
   end
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil)
