@@ -1,13 +1,13 @@
 class SamlUserBuilder
-  def initialize(auth_hash, account_id: nil)
+  def initialize(auth_hash, account_id)
     @auth_hash = auth_hash
     @account_id = account_id
-    @saml_settings = AccountSamlSettings.find_by(account_id: account_id) if account_id
+    @saml_settings = AccountSamlSettings.find_by(account_id: account_id)
   end
 
   def perform
     @user = find_or_create_user
-    add_user_to_account if @user.persisted? && @account_id
+    add_user_to_account if @user.persisted?
     @user
   end
 

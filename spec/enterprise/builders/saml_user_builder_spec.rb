@@ -20,7 +20,7 @@ RSpec.describe SamlUserBuilder do
     }
   end
   let(:account) { create(:account) }
-  let(:builder) { described_class.new(auth_hash, account_id: account.id) }
+  let(:builder) { described_class.new(auth_hash, account.id) }
 
   describe '#perform' do
     context 'when user does not exist' do
@@ -108,16 +108,6 @@ RSpec.describe SamlUserBuilder do
         existing_user.account_users.create!(account: account, role: 'agent')
 
         expect { builder.perform }.not_to change(AccountUser, :count)
-      end
-    end
-
-    context 'without account_id' do
-      let(:builder) { described_class.new(auth_hash) }
-
-      it 'creates user without account association' do
-        user = builder.perform
-        expect(user.persisted?).to be true
-        expect(user.accounts).to be_empty
       end
     end
 

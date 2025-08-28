@@ -41,7 +41,7 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     account_id = extract_saml_account_id
     return redirect_to login_page_url(error: 'saml-not-enabled') unless saml_enabled_for_account?(account_id)
 
-    @resource = SamlUserBuilder.new(auth_hash, account_id: account_id).perform
+    @resource = SamlUserBuilder.new(auth_hash, account_id).perform
 
     if @resource.persisted?
       sign_in_user
