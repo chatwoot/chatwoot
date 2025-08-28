@@ -1,4 +1,4 @@
-<% featured_articles = articles.where(category_id: categories).search_by_status(:published).order_by_views.limit(6) %>
+<% featured_articles = articles.where(category_id: categories, locale: @locale).search_by_status(:published).order_by_views.limit(6) %>
 <% if featured_articles.count >= 6 %>
 <section class="flex flex-col w-full h-full lg:container">
    <div class="flex flex-col gap-5 px-3 py-5 border border-solid rounded-lg border-slate-100 dark:border-slate-800">
