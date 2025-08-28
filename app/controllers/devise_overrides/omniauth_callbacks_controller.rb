@@ -26,27 +26,39 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def omniauth_success
-    # For SAML, check if account has SAML enabled
-    if auth_hash && auth_hash['provider'] == 'saml'
-      account_id = params[:account_id] || session[:saml_account_id] || request.env['omniauth.params']&.dig('account_id')
-      if account_id
-        saml_settings = AccountSamlSettings.find_by(account_id: account_id, enabled: true)
-        return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true unless saml_settings
-      end
-
-      # Use SamlUserBuilder for SAML authentication
-      @resource = SamlUserBuilder.new(auth_hash, account_id: account_id).perform
-      return sign_in_user if @resource.persisted?
-
-      return redirect_to login_page_url(error: 'saml-authentication-failed'), allow_other_host: true
-    end
+    return process_saml_authentication if saml_provider?
 
     get_resource_from_auth_hash
-
     @resource.present? ? sign_in_user : sign_up_user
   end
 
   private
+
+  def saml_provider?
+    auth_hash && auth_hash['provider'] == 'saml'
+  end
+
+  def process_saml_authentication
+    account_id = extract_saml_account_id
+
+    return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true if account_id && !saml_enabled_for_account?(account_id)
+
+    @resource = SamlUserBuilder.new(auth_hash, account_id: account_id).perform
+
+    if @resource.persisted?
+      sign_in_user
+    else
+      redirect_to login_page_url(error: 'saml-authentication-failed'), allow_other_host: true
+    end
+  end
+
+  def extract_saml_account_id
+    params[:account_id] || session[:saml_account_id] || request.env['omniauth.params']&.dig('account_id')
+  end
+
+  def saml_enabled_for_account?(account_id)
+    AccountSamlSettings.find_by(account_id: account_id, enabled: true).present?
+  end
 
   def sign_in_user
     @resource.skip_confirmation! if confirmable_enabled?
