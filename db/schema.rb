@@ -31,7 +31,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
   create_table "account_saml_settings", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.string "sso_url"
-    t.string "certificate_fingerprint"
     t.text "certificate"
     t.string "sp_entity_id"
     t.boolean "enforced_sso", default: false, null: false

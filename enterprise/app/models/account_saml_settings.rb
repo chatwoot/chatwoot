@@ -2,17 +2,16 @@
 #
 # Table name: account_saml_settings
 #
-#  id                      :bigint           not null, primary key
-#  attribute_mappings      :json
-#  certificate             :text
-#  certificate_fingerprint :string
-#  enforced_sso            :boolean          default(FALSE), not null
-#  role_mappings           :json
-#  sso_url                 :string
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
-#  account_id              :bigint           not null
-#  sp_entity_id            :string
+#  id                 :bigint           not null, primary key
+#  attribute_mappings :json
+#  certificate        :text
+#  enforced_sso       :boolean          default(FALSE), not null
+#  role_mappings      :json
+#  sso_url            :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :bigint           not null
+#  sp_entity_id       :string
 #
 # Indexes
 #
@@ -26,10 +25,8 @@ class AccountSamlSettings < ApplicationRecord
   validates :certificate, presence: true
   validates :sp_entity_id, presence: true
 
-  before_save :generate_certificate_fingerprint, if: :certificate_changed?
-
   def saml_enabled?
-    sso_url.present? && certificate_fingerprint.present?
+    sso_url.present? && certificate.present?
   end
 
   def sp_entity_id_or_default
@@ -40,18 +37,5 @@ class AccountSamlSettings < ApplicationRecord
 
   def installation_name
     GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
-  end
-
-  def generate_certificate_fingerprint
-    return if certificate.blank?
-
-    begin
-      cert = OpenSSL::X509::Certificate.new(certificate)
-      self.certificate_fingerprint = OpenSSL::Digest::SHA256.new(cert.to_der).hexdigest.upcase.scan(/.{2}/).join(':')
-    rescue OpenSSL::X509::CertificateError => e
-      Rails.logger.error "Failed to parse SAML certificate: #{e.message}"
-      errors.add(:certificate, 'is not a valid X.509 certificate')
-      throw(:abort)
-    end
   end
 end

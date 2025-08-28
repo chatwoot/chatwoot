@@ -2,7 +2,6 @@ FactoryBot.define do
   factory :account_saml_settings do
     account
     sso_url { 'https://idp.example.com/saml/sso' }
-    certificate_fingerprint { nil }
     certificate do
       key = OpenSSL::PKey::RSA.new(2048)
       cert = OpenSSL::X509::Certificate.new

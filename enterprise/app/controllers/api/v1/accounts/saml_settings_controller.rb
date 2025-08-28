@@ -29,7 +29,6 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   def saml_settings_params
     params.require(:saml_settings).permit(
       :sso_url,
-      :certificate_fingerprint,
       :certificate,
       :sp_entity_id,
       :enforced_sso,
