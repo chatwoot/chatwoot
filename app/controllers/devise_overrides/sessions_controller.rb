@@ -3,7 +3,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   # Unpermitted parameter: session
   wrap_parameters format: []
   before_action :process_sso_auth_token, only: [:create]
-  before_action :check_saml_user, only: [:create]
 
   def new
     redirect_to login_page_url(error: 'access-denied')
@@ -46,24 +45,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
     user = User.from_email(params[:email])
     @resource = user if user&.valid_sso_auth_token?(params[:sso_auth_token])
-  end
-
-  def check_saml_user
-    # Skip if using SSO token (SAML users can use SSO tokens)
-    return if params[:sso_auth_token].present?
-    return if params[:email].blank?
-
-    user = User.from_email(params[:email])
-    return unless user&.saml_user?
-
-    render_saml_user_error
-  end
-
-  def render_saml_user_error
-    render json: {
-      success: false,
-      errors: [I18n.t('messages.login_saml_user')]
-    }, status: :unauthorized
   end
 end
 

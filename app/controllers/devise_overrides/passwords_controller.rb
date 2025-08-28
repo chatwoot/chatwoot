@@ -3,7 +3,6 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
 
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
-  before_action :check_saml_user, only: [:create]
 
   def create
     @user = User.from_email(params[:email])
@@ -44,13 +43,6 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
       message: message
     }, status: status
   end
-
-  def check_saml_user
-    return if params[:email].blank?
-
-    user = User.from_email(params[:email])
-    return unless user&.saml_user?
-
-    build_response(I18n.t('messages.reset_password_saml_user'), 403)
-  end
 end
+
+DeviseOverrides::PasswordsController.prepend_mod_with('DeviseOverrides::PasswordsController')

@@ -1,75 +1,12 @@
 class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   include EmailHelper
 
-  def saml
-    # Call parent's omniauth_success which handles the auth
-    omniauth_success
-  end
-
-  def redirect_callbacks
-    # derive target redirect route from 'resource_class' param, which was set
-    # before authentication.
-    devise_mapping = get_devise_mapping
-    redirect_route = get_redirect_route(devise_mapping)
-
-    # preserve omniauth info for success route. ignore 'extra' in twitter
-    # auth response to avoid CookieOverflow.
-    session['dta.omniauth.auth'] = request.env['omniauth.auth'].except('extra')
-    session['dta.omniauth.params'] = request.env['omniauth.params']
-
-    # For SAML, use 303 See Other to convert POST to GET and preserve session
-    if params[:provider] == 'saml'
-      redirect_to redirect_route, { status: 303 }.merge(redirect_options)
-    else
-      redirect_to redirect_route, { status: 307 }.merge(redirect_options)
-    end
-  end
-
   def omniauth_success
-    case auth_hash&.dig('provider')
-    when 'saml'
-      handle_saml_auth
-    else
-      handle_standard_auth
-    end
-  end
-
-  private
-
-  def handle_saml_auth
-    # Check if enterprise edition and SAML feature are available
-    return redirect_to login_page_url(error: 'saml-not-available') unless ChatwootApp.enterprise?
-
-    account_id = extract_saml_account_id
-    return redirect_to login_page_url(error: 'saml-not-enabled') unless saml_enabled_for_account?(account_id)
-
-    @resource = SamlUserBuilder.new(auth_hash, account_id: account_id).perform
-
-    if @resource.persisted?
-      sign_in_user
-    else
-      redirect_to login_page_url(error: 'saml-authentication-failed')
-    end
-  end
-
-  def handle_standard_auth
     get_resource_from_auth_hash
     @resource.present? ? sign_in_user : sign_up_user
   end
 
-  def extract_saml_account_id
-    params[:account_id] || session[:saml_account_id] || request.env['omniauth.params']&.dig('account_id')
-  end
-
-  def saml_enabled_for_account?(account_id)
-    return false unless ChatwootApp.enterprise?
-    return false if account_id.blank?
-
-    account = Account.find_by(id: account_id)
-    return false unless account.feature_enabled?('saml')
-
-    AccountSamlSettings.find_by(account_id: account_id, enabled: true).present?
-  end
+  private
 
   def sign_in_user
     @resource.skip_confirmation! if confirmable_enabled?
@@ -135,3 +72,5 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     'user'
   end
 end
+
+DeviseOverrides::OmniauthCallbacksController.prepend_mod_with('DeviseOverrides::OmniauthCallbacksController')
