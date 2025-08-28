@@ -1,32 +1,16 @@
 class AdministratorNotifications::AccountNotificationMailer < AdministratorNotifications::BaseMailer
   def account_deletion(account, reason = 'manual_deletion')
     if reason == 'manual_deletion'
-      account_deletion_user_initiated(account, reason)
+      subject = 'Your Chatwoot account deletion has been scheduled'
     else
-      account_deletion_system_initiated(account, reason)
+      subject = 'Your Chatwoot account is scheduled for deletion due to inactivity'
     end
-  end
-
-  def account_deletion_user_initiated(account, reason)
-    subject = 'Your Chatwoot account deletion has been scheduled'
+    
     action_url = settings_url('general')
     meta = {
       'account_name' => account.name,
       'deletion_date' => format_deletion_date(account.custom_attributes['marked_for_deletion_at']),
       'reason' => reason
-    }
-
-    send_notification(subject, action_url: action_url, meta: meta)
-  end
-
-  def account_deletion_system_initiated(account, reason)
-    subject = 'Your Chatwoot account is scheduled for deletion due to inactivity'
-    action_url = settings_url('general')
-    meta = {
-      'account_name' => account.name,
-      'deletion_date' => format_deletion_date(account.custom_attributes['marked_for_deletion_at']),
-      'reason' => reason,
-      'support_email' => InactiveAccountPurge::SUPPORT_EMAIL
     }
 
     send_notification(subject, action_url: action_url, meta: meta)
