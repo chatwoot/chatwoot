@@ -152,6 +152,19 @@ class User < ApplicationRecord
     mutations_from_database.changed?('email')
   end
 
+  # SAML authentication methods
+  def saml_user?
+    provider == 'saml'
+  end
+
+  def convert_to_saml!
+    update!(provider: 'saml')
+  end
+
+  def password_authentication_allowed?
+    !saml_user?
+  end
+
   def self.from_email(email)
     find_by(email: email&.downcase)
   end
