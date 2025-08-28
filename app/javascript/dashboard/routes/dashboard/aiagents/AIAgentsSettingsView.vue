@@ -2,7 +2,12 @@
 import { useRoute } from 'vue-router';
 import AiAgentGeneralSettingsView from './AiAgentGeneralSettingsView.vue';
 import AiAgentKnowledgeSources from './AiAgentKnowledgeSources.vue';
+import AiAgentWebsiteSettingsView from './AiAgentWebsiteSettingsView.vue';
 import ConfigurationView from './ConfigurationView.vue';
+import CSBotView from './botconfigs/CSBotView.vue';
+import RestaurantBotView from './botconfigs/RestaurantBotView.vue';
+import BookingBotView from './botconfigs/BookingBotView.vue';
+import SalesBotView from './botconfigs/SalesBotView.vue';
 import { onMounted, ref } from 'vue';
 import aiAgents from '../../../api/aiAgents';
 
@@ -13,15 +18,35 @@ const tabs = [
     index: 0,
     name: 'Umum',
   },
-  {
-    key: '1',
-    index: 1,
-    name: 'Sumber Pengetahuan',
-  },
+  // {
+  //   key: '1',
+  //   index: 1,
+  //   name: 'Sumber Pengetahuan',
+  // },
   {
     key: '2',
     index: 2,
-    name: 'Konfigurasi',
+    name: 'Website',
+  },
+  {
+    key: '3',
+    index: 3,
+    name: 'CS Bot',
+  },
+  {
+    key: '4',
+    index: 4,
+    name: 'Restaurant Bot',
+  },
+  {
+    key: '5',
+    index: 5,
+    name: 'Booking Bot',
+  },
+  {
+    key: '6',
+    index: 6,
+    name: 'Sales Bot',
   },
 ];
 
@@ -82,12 +107,32 @@ onMounted(() => {
       <AiAgentGeneralSettingsView :data="data" />
     </div>
 
-    <div v-show="activeIndex === 1">
+    <!-- <div v-show="activeIndex === 1">
       <AiAgentKnowledgeSources :data="data" />
-    </div>
+    </div> -->
+
+    <!-- <div v-show="activeIndex === 2" class="w-full">
+      <ConfigurationView :data="data" />
+    </div> -->
 
     <div v-show="activeIndex === 2" class="w-full">
-      <ConfigurationView :data="data" />
+      <AiAgentWebsiteSettingsView :data="data" />
+    </div>
+
+    <div v-show="activeIndex === 3">
+      <CSBotView :data="data" />
+    </div>
+
+    <div v-show="activeIndex === 4">
+      <RestaurantBotView :data="data" />
+    </div>
+
+    <div v-show="activeIndex === 5">
+      <BookingBotView :data="data" />
+    </div>
+
+    <div v-show="activeIndex === 6">
+      <SalesBotView :data="data" />
     </div>
   </div>
 </template>

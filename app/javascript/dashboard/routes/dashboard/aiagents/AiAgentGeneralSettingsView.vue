@@ -48,16 +48,20 @@ watch(
 const state = reactive({
   name: '',
   description: '',
-  system_prompts: '',
+  business_info: '',
   welcoming_message: '',
   routing_condition: '',
+  has_website: '', // 'yes' or 'no'
+  website_url: '',
 });
 const rules = {
   name: { required },
   description: {},
-  system_prompts: { required },
+  business_info: { required },
   welcoming_message: {},
   routing_conditions: {},
+  has_website: {},
+  website_url: {},
 };
 
 const v$ = useVuelidate(rules, state);
@@ -69,7 +73,7 @@ watch(
       Object.assign(state, {
         name: v.name,
         description: v.description || '',
-        system_prompts: v.system_prompts || '',
+        business_info: v.business_info || '',
         welcoming_message: v.welcoming_message || '',
         routing_conditions: v.routing_conditions || '',
       });
@@ -171,29 +175,19 @@ function resetChat() {
             <label for="name">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME') }}</label>
             <Input id="name" v-model="state.name" :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME')" />
           </div>
-          <div>
+          <!-- <div>
             <label for="description">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_DESC') }}</label>
             <Input
               id="description"
               v-model="state.description"
               :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_DESC')"
             />
-          </div>
+          </div> -->
         </div>
         <div>
-          <label for="system_prompts">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_SYSTEM_PROMPT') }}</label>
+          <label for="welcome_message">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE') }}</label>
           <TextArea
-            id="system_prompts"
-            v-model="state.system_prompts"
-            custom-text-area-wrapper-class=""
-            custom-text-area-class="!outline-none"
-            auto-height
-          />
-        </div>
-        <div>
-          <label for="welcome_message">{{ t('AGENT_MGMT.FORM_CREATE.WELCOME_MESSAGE') }}</label>
-          <TextArea
-            id="welcome_message"
+            :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER')"            id="welcome_message"
             v-model="state.welcoming_message"
             custom-text-area-wrapper-class=""
             custom-text-area-class="!outline-none"
@@ -211,9 +205,20 @@ function resetChat() {
             auto-height
           />
         </div>
+        <div>
+          <label for="business_info">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO') }}</label>
+          <TextArea
+            id="business_info"
+            v-model="state.business_info"
+            custom-text-area-wrapper-class=""
+            custom-text-area-class="!outline-none"
+            auto-height
+            :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO_PLACEHOLDER')"
+          />
+        </div>
         <button class="button self-start" type="submit" :disabled="loadingSave">
           <span v-if="loadingSave" class="mt-4 mb-4 spinner" />
-          <span v-else>Simpan</span>
+          <span v-else>{{ t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}</span>
         </button>
       </div>
     </form>
