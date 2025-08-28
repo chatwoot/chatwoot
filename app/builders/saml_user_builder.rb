@@ -14,9 +14,19 @@ class SamlUserBuilder
 
   def find_or_create_user
     user = User.from_email(email)
-    return user if user
+
+    if user
+      convert_existing_user_to_saml(user)
+      return user
+    end
 
     create_user
+  end
+
+  def convert_existing_user_to_saml(user)
+    return if user.saml_user?
+
+    user.convert_to_saml!
   end
 
   def create_user
