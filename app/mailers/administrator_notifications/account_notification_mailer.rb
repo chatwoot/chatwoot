@@ -1,14 +1,46 @@
 class AdministratorNotifications::AccountNotificationMailer < AdministratorNotifications::BaseMailer
   def account_deletion(account, reason = 'manual_deletion')
-    subject = 'Your account has been marked for deletion'
+    if reason == 'manual_deletion'
+      account_deletion_user_initiated(account, reason)
+    else
+      account_deletion_system_initiated(account, reason)
+    end
+  end
+
+  def account_deletion_user_initiated(account, reason)
+    subject = 'Your Chatwoot account deletion has been scheduled'
     action_url = settings_url('general')
     meta = {
       'account_name' => account.name,
-      'deletion_date' => account.custom_attributes['marked_for_deletion_at'],
+      'deletion_date' => format_deletion_date(account.custom_attributes['marked_for_deletion_at']),
       'reason' => reason
     }
 
     send_notification(subject, action_url: action_url, meta: meta)
+  end
+
+  def account_deletion_system_initiated(account, reason)
+    subject = 'Your Chatwoot account is scheduled for deletion due to inactivity'
+    action_url = settings_url('general')
+    meta = {
+      'account_name' => account.name,
+      'deletion_date' => format_deletion_date(account.custom_attributes['marked_for_deletion_at']),
+      'reason' => reason,
+      'support_email' => InactiveAccountPurge::SUPPORT_EMAIL
+    }
+
+    send_notification(subject, action_url: action_url, meta: meta)
+  end
+
+  private
+
+  def format_deletion_date(deletion_date_str)
+    return 'Unknown' if deletion_date_str.blank?
+
+    deletion_date = DateTime.parse(deletion_date_str)
+    deletion_date.strftime('%B %d, %Y')
+  rescue StandardError
+    'Unknown'
   end
 
   def contact_import_complete(resource)

@@ -1,3 +1,8 @@
+{% comment %}
+This template is kept for backward compatibility.
+New deletion emails use specific templates based on the deletion reason.
+{% endcomment %}
+
 <p>Hello,</p>
 
 <p>Your account <strong>{{ meta.account_name }}</strong> has been marked for deletion. The account will be permanently deleted on <strong>{{ meta.deletion_date }}</strong>.</p>
