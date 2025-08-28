@@ -15,7 +15,7 @@ class AutoAssignment::AssignmentService
 
     assigned_count = 0
 
-    unassigned_conversations(limit).find_each do |conversation|
+    unassigned_conversations(limit).each do |conversation|
       assigned_count += 1 if perform_for_conversation(conversation)
     end
 
