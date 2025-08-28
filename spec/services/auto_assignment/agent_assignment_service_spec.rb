@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe AutoAssignment::AgentAssignmentService do
   let!(:account) { create(:account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
