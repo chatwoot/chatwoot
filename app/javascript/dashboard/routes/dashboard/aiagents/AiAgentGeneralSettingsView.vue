@@ -187,7 +187,7 @@ function resetChat() {
         <div>
           <label for="welcome_message">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE') }}</label>
           <TextArea
-            id="welcome_message"
+            :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER')"            id="welcome_message"
             v-model="state.welcoming_message"
             custom-text-area-wrapper-class=""
             custom-text-area-class="!outline-none"
@@ -213,6 +213,7 @@ function resetChat() {
             custom-text-area-wrapper-class=""
             custom-text-area-class="!outline-none"
             auto-height
+            :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO_PLACEHOLDER')"
           />
         </div>
         <button class="button self-start" type="submit" :disabled="loadingSave">

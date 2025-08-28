@@ -478,7 +478,7 @@
                     <div class="relative" ref="kurirDropdownRef">
                       <div
                         @click="isKurirDropdownOpen = !isKurirDropdownOpen"
-                        class="w-full mb-[1rem] p-2 border rounded-lg bg-white cursor-pointer flex items-center justify-between hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[40px]"
+                        class="mb-[1rem] text-sm dark:text-black p-2 border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand rounded-lg cursor-pointer flex items-center justify-between hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[40px] text-sm"
                         :class="{ 'border-gray-300': true }"
                       >
                         <div class="flex-1 text-left">
@@ -518,25 +518,28 @@
                       </div>
                       <div
                         v-show="isKurirDropdownOpen"
-                        class="absolute z-10 w-full bottom-full mb-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto"
+                        class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
                       >
                         <div
                           v-for="kurir in kurirOptions"
                           :key="kurir.id"
                           @click="toggleKurir(kurir.id)"
-                          class="flex items-center px-3 py-2 cursor-pointer hover:bg-gray-50"
-                          :class="{ 'bg-blue-50': isKurirSelected(kurir.id) }"
+                          class="flex items-center px-3 py-2 text-sm cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-900 dark:text-gray-100 transition-colors duration-150"
+                          :class="{ 
+                            'bg-blue-50 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100': isKurirSelected(kurir.id),
+                            'hover:bg-gray-50 dark:hover:bg-slate-700': !isKurirSelected(kurir.id)
+                          }"
                         >
                           <input
                             type="checkbox"
                             :checked="isKurirSelected(kurir.id)"
-                            class="mr-3 text-blue-600 rounded focus:ring-blue-500"
+                            class="mr-3 text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 dark:focus:ring-blue-400"
                             @click.stop
                           >
-                          <span class="flex-1">{{ kurir.label }}</span>
+                          <span class="flex-1 text-sm">{{ kurir.label }}</span>
                           <svg
                             v-if="isKurirSelected(kurir.id)"
-                            class="w-4 h-4 text-blue-600"
+                            class="w-4 h-4 text-blue-600 dark:text-blue-400"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -860,7 +863,7 @@
                             <input
                               type="password"
                               v-model="paymentGateway.apiKey"
-                              placeholder="Enter your API key"
+                              :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.API_KEY_PLACEHOLDER')"
                               class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
                             />
                           </div>
@@ -872,7 +875,7 @@
                             <input
                               type="text"
                               v-model="paymentGateway.merchantCode"
-                              placeholder="Enter your merchant code"
+                              :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_PLACEHOLDER')"
                               class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
                             />
                           </div>

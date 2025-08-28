@@ -166,8 +166,9 @@
       "FAILED_ADD": "Failed to add Bot AI",
       "AI_AGENT_DESC": "Bot AI Description",
       "AI_AGENT_BUSINESS_INFO": "Your Business Information",
+      "AI_AGENT_BUSINESS_INFO_PLACEHOLDER": "Shop is open Monday to Friday, from 9 AM to 5 PM",
       "AI_AGENT_PERSONA_LANG_STYLE": "Bot AI Persona and Language Style",
-      "AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER": "Enter the persona and language style of the AI Bot",
+      "AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER": "You are a friendly and helpful virtual assistant. Use casual and easy-to-understand language.",
       "HAS_WEBSITE_QUESTION": "Do you have a website?",
       "HAS_WEBSITE_YES": "Yes",
       "HAS_WEBSITE_NO": "No",
@@ -178,8 +179,8 @@
       "WELCOME_MESSAGE": "Welcome Message",
       "ROUTING_CONDITION": "Routing Condition",
       "ROUTING_CONDITION_PLACEHOLDER": "Determine when the AI Bot should hand over the chat to a human agent. After that, the chat status will change to Open and appear in the Chat Assigned tab.",
-      "CUSTOM_FLOW_LINK": "Flowise Link",
-      "CUSTOM_FLOW_LINK_PLACEHOLDER": "Enter your Flowise link"
+      "CUSTOM_FLOW_LINK": "Bot Link",
+      "CUSTOM_FLOW_LINK_PLACEHOLDER": "Enter your Bot link"
     },
     "TEXT_KNOWLEDGE_PLACEHOLDER": "Enter important information about your business, products, services, or policies here.<br><br>Example: Our store is open Monday to Saturday, from 8 AM to 5 PM. For returns, customers must include a proof of purchase within 7 days.",
     "QNA_PLACEHOLDER": {
@@ -308,7 +309,8 @@
         "API_KEY_LABEL": "API Key",
         "API_KEY_PLACEHOLDER": "Enter your API key",
         "MERCHANT_CODE_LABEL": "Merchant Code",
-        "MERCHANT_CODE_PLACEHOLDER": "Enter your merchant code"
+        "MERCHANT_CODE_PLACEHOLDER": "Enter your merchant code",
+        "SELECT_PROVIDER": "Select Payment Gateway Provider"
       },
       "SHIPPING": {
         "HEADER": "Shipping", 

@@ -179,7 +179,8 @@
         "API_KEY_LABEL": "API Key",
         "API_KEY_PLACEHOLDER": "Masukkan API key Anda",
         "MERCHANT_CODE_LABEL": "Merchant Code",
-        "MERCHANT_CODE_PLACEHOLDER": "Masukkan merchant code Anda"
+        "MERCHANT_CODE_PLACEHOLDER": "Masukkan merchant code Anda",
+        "SELECT_PROVIDER": "Pilih Penyedia Payment Gateway"
       },
       "SHIPPING": {
         "HEADER": "Pengiriman",
@@ -255,8 +256,9 @@
       "FAILED_ADD": "Gagal menambahkan Bot AI",
       "AI_AGENT_DESC": "Deskripsi Bot AI",
       "AI_AGENT_BUSINESS_INFO": "Informasi Bisnis Anda",
+      "AI_AGENT_BUSINESS_INFO_PLACEHOLDER": "Toko buka setiap hari Senin sampai Jumat, buka mulai jam 09.00 hingga 17.00",
       "AI_AGENT_PERSONA_LANG_STYLE": "Persona dan Gaya Bahasa",
-      "AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER": "Masukkan persona dan gaya bahasa Bot AI",
+      "AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER": "Kamu adalah bot yang ramah dan membantu. Gunakan bahasa yang santai dan mudah dimengerti.",
       "HAS_WEBSITE_QUESTION": "Apakah Anda sudah memiliki website?",
       "HAS_WEBSITE_YES": "Ya",
       "HAS_WEBSITE_NO": "Tidak",
@@ -267,8 +269,8 @@
       "WELCOME_MESSAGE": "Pesan Selamat Datang",
       "ROUTING_CONDITION": "Kondisi Pengalihan",
       "ROUTING_CONDITION_PLACEHOLDER": "Tentukan kapan Bot AI harus meneruskan chat ke agen. Setelah itu, status chat akan berubah menjadi Open dan tampil di tab Chat Ditugaskan.",
-      "CUSTOM_FLOW_LINK": "Link Flowise",
-      "CUSTOM_FLOW_LINK_PLACEHOLDER": "Masukkan link endpoint Flowise Anda..."
+      "CUSTOM_FLOW_LINK": "Link Bot",
+      "CUSTOM_FLOW_LINK_PLACEHOLDER": "Masukkan link endpoint Bot Anda..."
     },
     "TEXT_KNOWLEDGE_PLACEHOLDER": "Tulis informasi penting tentang bisnis, produk, layanan, atau kebijakan Anda di sini.<br><br>Contoh: Toko kami buka setiap hari Senin-Sabtu, pukul 08.00-17.00 WIB. Untuk pengembalian barang, pelanggan wajib menyertakan bukti transaksi dalam 7 hari.",
     "QNA_PLACEHOLDER": {

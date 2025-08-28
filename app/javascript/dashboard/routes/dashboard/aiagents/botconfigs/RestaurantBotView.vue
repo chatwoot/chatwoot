@@ -96,6 +96,7 @@ async function save() {
       menuBookLink: menuBookLink.value,
       orderSettings: { ...orderSettings }
     };
+    console.log(configData)
     
     await new Promise(resolve => setTimeout(resolve, 1000));
     useAlert(t('AGENT_MGMT.RESTAURANT_BOT.SAVE_SUCCESS'));
