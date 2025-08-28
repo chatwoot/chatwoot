@@ -383,7 +383,7 @@ const onToggleAi = async () => {
         </span>
       </p>
       <div
-        class="absolute flex flex-col justify-end ltr:right-4 rtl:left-4 top-0"
+        class="absolute mt-2 top-0 flex flex-col justify-end items-center ltr:right-4 rtl:left-4"
       >
         <span class="ml-auto font-normal leading-4 text-xxs">
           <TimeAgo
@@ -393,7 +393,7 @@ const onToggleAi = async () => {
         </span>
         <span
           :class="hasAiImplemented ? 'opacity-100' : 'opacity-40'"
-          class="w-full flex justify-center items-end gap-2"
+          class="w-full mt-2 flex justify-end items-end gap-2"
           @click="!hasAiImplemented && notAiImplementedNotification()"
         >
           <AIEnableBanner
