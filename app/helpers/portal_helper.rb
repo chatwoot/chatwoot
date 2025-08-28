@@ -75,11 +75,12 @@ module PortalHelper
   end
 
   def generate_portal_brand_url(brand_url, referer)
-    url = URI.parse(brand_url)
+    url = URI.parse(brand_url.to_s)
     query_params = Rack::Utils.parse_query(url.query)
     query_params['utm_medium'] = 'helpcenter'
     query_params['utm_campaign'] = 'branding'
-    query_params['utm_source'] = URI.parse(referer).host if referer.present?
+    query_params['utm_source'] = URI.parse(referer).host if referer.present? && referer.match?(URI::DEFAULT_PARSER.make_regexp)
+
     url.query = query_params.to_query
     url.to_s
   end
