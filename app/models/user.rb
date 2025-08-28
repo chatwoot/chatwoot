@@ -152,20 +152,6 @@ class User < ApplicationRecord
     mutations_from_database.changed?('email')
   end
 
-  # SAML methods - fallback implementations for Community Edition
-  # These will be overridden in Enterprise Edition via include_mod_with
-  def saml_user?
-    false
-  end
-
-  def convert_to_saml!
-    # No-op in Community Edition
-  end
-
-  def password_authentication_allowed?
-    true
-  end
-
   def self.from_email(email)
     find_by(email: email&.downcase)
   end

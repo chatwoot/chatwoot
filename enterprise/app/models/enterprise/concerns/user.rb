@@ -13,17 +13,4 @@ module Enterprise::Concerns::User
 
     errors.add(:base, 'User limit reached. Please purchase more licenses from super admin') if User.count >= ChatwootHub.pricing_plan_quantity
   end
-
-  # SAML authentication methods (Enterprise only)
-  def saml_user?
-    provider == 'saml'
-  end
-
-  def convert_to_saml!
-    update!(provider: 'saml')
-  end
-
-  def password_authentication_allowed?
-    !saml_user?
-  end
 end

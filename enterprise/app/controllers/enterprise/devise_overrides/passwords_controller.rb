@@ -12,7 +12,7 @@ module Enterprise::DeviseOverrides::PasswordsController
     return if params[:email].blank?
 
     user = User.from_email(params[:email])
-    return unless user&.saml_user?
+    return unless user&.provider == 'saml'
 
     raise CustomExceptions::Base.new(I18n.t('messages.reset_password_saml_user'), :forbidden)
   end
