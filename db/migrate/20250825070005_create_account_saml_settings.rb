@@ -2,7 +2,6 @@ class CreateAccountSamlSettings < ActiveRecord::Migration[7.1]
   def change
     create_table :account_saml_settings do |t|
       t.references :account, null: false
-      t.boolean :enabled, default: false, null: false
       t.string :sso_url
       t.string :certificate_fingerprint
       t.text :certificate

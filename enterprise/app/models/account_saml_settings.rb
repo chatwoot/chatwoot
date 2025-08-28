@@ -6,7 +6,6 @@
 #  attribute_mappings      :json
 #  certificate             :text
 #  certificate_fingerprint :string
-#  enabled                 :boolean          default(FALSE), not null
 #  enforced_sso            :boolean          default(FALSE), not null
 #  role_mappings           :json
 #  sso_url                 :string
@@ -23,16 +22,14 @@ class AccountSamlSettings < ApplicationRecord
   belongs_to :account
 
   validates :account_id, presence: true
-  validates :sso_url, presence: true, if: :enabled?
-  validates :certificate, presence: true, if: :enabled?
-  validates :sp_entity_id, presence: true, if: :enabled?
+  validates :sso_url, presence: true
+  validates :certificate, presence: true
+  validates :sp_entity_id, presence: true
 
   before_save :generate_certificate_fingerprint, if: :certificate_changed?
 
-  scope :enabled, -> { where(enabled: true) }
-
   def saml_enabled?
-    enabled && sso_url.present? && certificate_fingerprint.present?
+    sso_url.present? && certificate_fingerprint.present?
   end
 
   def sp_entity_id_or_default

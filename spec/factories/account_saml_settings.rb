@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :account_saml_settings do
     account
-    enabled { false }
     sso_url { 'https://idp.example.com/saml/sso' }
     certificate_fingerprint { nil }
     certificate do
@@ -21,10 +20,6 @@ FactoryBot.define do
     enforced_sso { false }
     attribute_mappings { {} }
     role_mappings { {} }
-
-    trait :enabled do
-      enabled { true }
-    end
 
     trait :with_role_mappings do
       role_mappings do
