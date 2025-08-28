@@ -26,19 +26,17 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def omniauth_success
-    return process_saml_authentication if saml_provider?
-
-    get_resource_from_auth_hash
-    @resource.present? ? sign_in_user : sign_up_user
+    case auth_hash&.dig('provider')
+    when 'saml'
+      handle_saml_auth
+    else
+      handle_standard_auth
+    end
   end
 
   private
 
-  def saml_provider?
-    auth_hash && auth_hash['provider'] == 'saml'
-  end
-
-  def process_saml_authentication
+  def handle_saml_auth
     account_id = extract_saml_account_id
 
     return redirect_to login_page_url(error: 'saml-not-enabled'), allow_other_host: true if account_id && !saml_enabled_for_account?(account_id)
@@ -50,6 +48,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     else
       redirect_to login_page_url(error: 'saml-authentication-failed'), allow_other_host: true
     end
+  end
+
+  def handle_standard_auth
+    get_resource_from_auth_hash
+    @resource.present? ? sign_in_user : sign_up_user
   end
 
   def extract_saml_account_id
@@ -100,15 +103,10 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
     return unless auth_hash
 
-    # For SAML, check by both email and provider
-    @resource = if auth_hash['provider'] == 'saml'
-                  resource_class.from_email(auth_hash['info']['email'])
-                else
-                  # find the user with their email instead of UID and token
-                  resource_class.where(
-                    email: auth_hash['info']['email']
-                  ).first
-                end
+    email = auth_hash.dig('info', 'email')
+    return unless email
+
+    @resource = resource_class.from_email(email)
   end
 
   def validate_signup_email_is_business_domain?
