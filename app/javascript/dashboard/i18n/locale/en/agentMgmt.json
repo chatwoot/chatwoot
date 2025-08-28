@@ -183,6 +183,8 @@
       "CUSTOM_FLOW_LINK_PLACEHOLDER": "Enter your Bot link"
     },
     "TEXT_KNOWLEDGE_PLACEHOLDER": "Enter important information about your business, products, services, or policies here.<br><br>Example: Our store is open Monday to Saturday, from 8 AM to 5 PM. For returns, customers must include a proof of purchase within 7 days.",
+    "QUESTION_LABEL": "Question",
+    "ANSWER_LABEL": "Answer",
     "QNA_PLACEHOLDER": {
       "QUESTION": "How much is the product?",
       "ANSWER": "The product costs Rp75,000"
@@ -350,7 +352,21 @@
         "OPERATION_HOURS_PLACEHOLDER": "09:00 - 17:00",
         "PICKUP_TIME": "Estimated Pickup Time",
         "PICKUP_TIME_PLACEHOLDER": "1 hour after payment",
-        "SELECT_COURIER_PLACEHOLDER": "Select Courier"
+        "SELECT_COURIER_PLACEHOLDER": "Select Courier",
+        "PROVINCE_LABEL": "Province",
+        "PROVINCE_LABEL_PLACEHOLDER": "Select Province",
+        "CITY_LABEL": "City/District",
+        "CITY_LABEL_PLACEHOLDER": "Select City/District",
+        "CITY_SELECT_FIRST": "Select province first",
+        "SUBDISTRICT_LABEL": "Subdistrict",
+        "SUBDISTRICT_LABEL_PLACEHOLDER": "Select Subdistrict",
+        "SUBDISTRICT_SELECT_FIRST": "Select city/district first",
+        "WARD_LABEL": "Ward",
+        "WARD_LABEL_PLACEHOLDER": "Enter Ward",
+        "STREET_LABEL": "Street",
+        "STREET_LABEL_PLACEHOLDER": "Enter Street",
+        "ZIP_CODE_LABEL": "Zip Code",
+        "ZIP_CODE_LABEL_PLACEHOLDER": "Enter Zip Code"
       }
     },
     "WEBSITE_SETTINGS": {

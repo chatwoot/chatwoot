@@ -179,7 +179,7 @@ const maxCharAnswer = 700
             <div class="pt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                  Pertanyaan <span class="text-red-500">*</span>
+                  {{ $t('AGENT_MGMT.QUESTION_LABEL') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
                   <TextArea 
@@ -194,7 +194,7 @@ const maxCharAnswer = 700
               
               <div class="space-y-2">
                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                  Jawaban <span class="text-red-500">*</span>
+                  {{ $t('AGENT_MGMT.ANSWER_LABEL') }} <span class="text-red-500">*</span>
                 </label>
                 <div class="relative">
                   <TextArea 

@@ -220,7 +220,22 @@
         "OPERATION_HOURS_PLACEHOLDER": "09:00 - 17:00",
         "PICKUP_TIME": "Estimasi Waktu Pengambilan",
         "PICKUP_TIME_PLACEHOLDER": "1 jam setelah pembayaran",
-        "SELECT_COURIER_PLACEHOLDER": "Pilih Kurir"
+        "SELECT_COURIER_PLACEHOLDER": "Pilih Kurir",
+        "PROVINCE_LABEL": "Provinsi",
+        "PROVINCE_LABEL_PLACEHOLDER": "Pilih Provinsi",
+        "CITY_LABEL": "Kota/Kecamatan",
+        "CITY_LABEL_PLACEHOLDER": "Pilih Kota/Kecamatan",
+        "CITY_SELECT_FIRST": "Pilih provinsi terlebih dahulu",
+        "SUBDISTRICT_LABEL": "Kelurahan",
+        "SUBDISTRICT_LABEL_PLACEHOLDER": "Pilih Kelurahan",
+        "SUBDISTRICT_SELECT_FIRST": "Pilih kota/kecamatan terlebih dahulu",
+        "WARD_LABEL": "Kelurahan",
+        "WARD_LABEL_PLACEHOLDER": "Masukkan Kelurahan",
+        "STREET_LABEL": "Jalan",
+        "STREET_LABEL_PLACEHOLDER": "Masukkan Jalan",
+        "ZIP_CODE_LABEL": "Kode Pos",
+        "ZIP_CODE_LABEL_PLACEHOLDER": "Masukkan Kode Pos"
+
       }
     },
     "SEARCH": {
@@ -273,6 +288,8 @@
       "CUSTOM_FLOW_LINK_PLACEHOLDER": "Masukkan link endpoint Bot Anda..."
     },
     "TEXT_KNOWLEDGE_PLACEHOLDER": "Tulis informasi penting tentang bisnis, produk, layanan, atau kebijakan Anda di sini.<br><br>Contoh: Toko kami buka setiap hari Senin-Sabtu, pukul 08.00-17.00 WIB. Untuk pengembalian barang, pelanggan wajib menyertakan bukti transaksi dalam 7 hari.",
+    "QUESTION_LABEL": "Pertanyaan",
+    "ANSWER_LABEL": "Jawaban",
     "QNA_PLACEHOLDER": {
       "QUESTION": "Berapa harga produknya?",
       "ANSWER": "Harga produknya Rp75.000"

@@ -380,7 +380,7 @@
                     
                     <!-- Provinsi -->
                     <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">Provinsi</label>
+                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL') }}</label>
                       <div class="relative">
                         <select 
                           v-model="kurirBiasa.provinsi"
@@ -388,7 +388,7 @@
                           :disabled="loadingProvinsi"
                           class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
-                          <option value="">{{ loadingProvinsi ? 'Loading...' : 'Pilih Provinsi' }}</option>
+                          <option value="">{{ loadingProvinsi ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL_PLACEHOLDER') }}</option>
                           <option v-for="provinsi in provinsiOptions" :key="provinsi.id" :value="provinsi.id">
                             {{ provinsi.name }}
                           </option>
@@ -398,7 +398,7 @@
 
                     <!-- Kota/Kabupaten -->
                     <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">Kota/Kabupaten</label>
+                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
                       <div class="relative">
                         <select 
                           v-model="kurirBiasa.kota"
@@ -407,8 +407,8 @@
                           class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
                           <option value="">
-                            {{ !kurirBiasa.provinsi ? 'Pilih provinsi terlebih dahulu' : 
-                               loadingKota ? 'Loading...' : 'Pilih Kota/Kabupaten' }}
+                            {{ !kurirBiasa.provinsi ? $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_SELECT_FIRST') : 
+                               loadingKota ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL_PLACEHOLDER') }}
                           </option>
                           <option v-for="kota in kotaOptions" :key="kota.id" :value="kota.id">
                             {{ kota.name }}
@@ -419,7 +419,7 @@
 
                     <!-- Kecamatan -->
                     <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">Kecamatan</label>
+                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL') }}</label>
                       <div class="relative">
                         <select 
                           v-model="kurirBiasa.kecamatan"
@@ -428,8 +428,8 @@
                           class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
                           <option value="">
-                            {{ !kurirBiasa.kota ? 'Pilih kota terlebih dahulu' : 
-                               loadingKecamatan ? 'Loading...' : 'Pilih Kecamatan' }}
+                            {{ !kurirBiasa.kota ? $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_SELECT_FIRST') : 
+                               loadingKecamatan ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL_PLACEHOLDER') }}
                           </option>
                           <option v-for="kecamatan in kecamatanOptions" :key="kecamatan.id" :value="kecamatan.id">
                             {{ kecamatan.name }}
@@ -440,33 +440,33 @@
 
                     <!-- Kelurahan -->
                     <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">Kelurahan</label>
+                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL') }}</label>
                       <input 
                         type="text" 
                         v-model="kurirBiasa.kelurahan"
-                        placeholder="Masukkan kelurahan"
+                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL_PLACEHOLDER')"
                         class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
                       />
                     </div>
 
                     <!-- Jalan/Gang -->
                     <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">Jalan/Gang</label>
+                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STREET_LABEL') }}</label>
                       <input 
                         type="text" 
                         v-model="kurirBiasa.jalan"
-                        placeholder="Masukkan jalan/gang"
+                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.STREET_LABEL_PLACEHOLDER')" 
                         class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
                       />
                     </div>
 
                     <!-- Kode Pos -->
                     <div class="mb-3">
-                      <label class="block text-sm font-medium mb-1">Kode Pos</label>
+                      <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ZIP_CODE_LABEL') }}</label>
                       <input 
                         type="text" 
                         v-model="kurirBiasa.kodePos"
-                        placeholder="Masukkan kode pos"
+                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.ZIP_CODE_LABEL_PLACEHOLDER')"
                         maxlength="5"
                         pattern="[0-9]{5}"
                         class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
@@ -478,8 +478,7 @@
                     <div class="relative" ref="kurirDropdownRef">
                       <div
                         @click="isKurirDropdownOpen = !isKurirDropdownOpen"
-                        class="mb-[1rem] text-sm dark:text-black p-2 border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand rounded-lg cursor-pointer flex items-center justify-between hover:border-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[40px] text-sm"
-                        :class="{ 'border-gray-300': true }"
+                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-auto !px-3 !py-2.5 !mb-4 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out cursor-pointer flex items-center justify-between min-h-[40px]"
                       >
                         <div class="flex-1 text-left">
                           <span v-if="kurirBiasa.kurir.length === 0" class="text-gray-500">
