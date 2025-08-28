@@ -348,7 +348,8 @@
       "SERVICE_CHARGE_LABEL": "Aktifkan Service Charge",
       "SERVICE_CHARGE_DESC": "Tambahkan biaya layanan pada setiap pesanan",
       "SERVICE_CHARGE_PERCENT_LABEL": "Persentase Service Charge (%)",
-      "SAVE_BTN": "Simpan"
+      "SAVE_BTN": "Simpan",
+      "SAVE_SUCCESS": "Berhasil simpan"
     },
     "WEBSITE_SETTINGS": {
       "ADD_WEBSITE_LINK": "Tambahkan Link Website",

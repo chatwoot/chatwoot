@@ -259,7 +259,8 @@
       "SERVICE_CHARGE_LABEL": "Enable Service Charge",
       "SERVICE_CHARGE_DESC": "Add service charge to every order",
       "SERVICE_CHARGE_PERCENT_LABEL": "Service Charge Percentage (%)",
-      "SAVE_BTN": "Save"
+      "SAVE_BTN": "Save",
+      "SAVE_SUCCESS": "Successfully saved"
     },
     "SALESBOT": {
       "HEADER": "Sales Bot Configuration",
