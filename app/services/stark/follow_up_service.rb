@@ -87,6 +87,7 @@ module Stark
         dealership_id: @conversation.account&.dealership_id,
         account_id: @conversation.account_id,
         customer_id: @conversation.contact&.id,
+        platform: @conversation.inbox.platform_name,
         recent_messages: format_recent_messages
       }
     end
@@ -145,7 +146,8 @@ module Stark
           message_type: message.message_type,
           content: message.content,
           created_at: message.created_at,
-          is_follow_up_message: message.content_attributes['follow_up'] || false
+          is_follow_up_message: message.content_attributes['follow_up'] || false,
+          metadata: message.metadata,
         }
       end
     end

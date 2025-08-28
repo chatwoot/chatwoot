@@ -9,6 +9,7 @@
 #  content_type              :integer          default("text"), not null
 #  external_source_ids       :jsonb
 #  message_type              :integer          not null
+#  metadata                  :jsonb
 #  private                   :boolean          default(FALSE), not null
 #  processed_message_content :text
 #  sender_type               :string
@@ -34,6 +35,7 @@
 #  index_messages_on_conversation_id                    (conversation_id)
 #  index_messages_on_created_at                         (created_at)
 #  index_messages_on_inbox_id                           (inbox_id)
+#  index_messages_on_metadata                           (metadata) USING gin
 #  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
 #  index_messages_on_source_id                          (source_id)
 #
@@ -76,6 +78,7 @@ class Message < ApplicationRecord
   validates :content_type, presence: true
   validates :content, length: { maximum: 150_000 }
   validates :processed_message_content, length: { maximum: 150_000 }
+  validate :metadata_must_be_array_of_objects
 
   # when you have a temperory id in your frontend and want it echoed back via action cable
   attr_accessor :echo_id
@@ -148,6 +151,7 @@ class Message < ApplicationRecord
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
+    data[:metadata] = metadata if metadata.present?
     merge_sender_attributes(data)
   end
 
@@ -180,7 +184,8 @@ class Message < ApplicationRecord
       message_type: message_type,
       private: private,
       sender: sender.try(:webhook_data),
-      source_id: source_id
+      source_id: source_id,
+      metadata: metadata
     }
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data
@@ -234,6 +239,14 @@ class Message < ApplicationRecord
 
   private
 
+  def metadata_must_be_array_of_objects
+    return if metadata.blank?
+
+    unless metadata.is_a?(Array) && metadata.all? { |m| m.is_a?(Hash) }
+      errors.add(:metadata, 'must be an array of JSON objects')
+    end
+  end
+  
   def prevent_message_flooding
     # Added this to cover the validation specs in messages
     # We can revisit and see if we can remove this later
