@@ -50,8 +50,7 @@ const hasVariables = computed(() => {
 
 const mediaVariableKey = computed(() => {
   if (!hasMediaTemplate.value) return null;
-  const mediaUrl =
-    props.template?.types?.[TWILIO_CONTENT_TEMPLATE_TYPES.MEDIA]?.media?.[0];
+  const mediaUrl = props.template?.types?.['twilio/media']?.media?.[0];
   if (!mediaUrl) return null;
   return mediaUrl.match(/{{(\d+)}}/)?.[1] ?? null;
 });
