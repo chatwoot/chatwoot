@@ -97,6 +97,12 @@ Rails.application.routes.draw do
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
+          resources :agent_capacity_policies, only: [:index, :create, :show, :update, :destroy] do
+            scope module: :agent_capacity_policies do
+              resources :users, only: [:index, :create, :destroy]
+              resources :inbox_limits, only: [:create, :update, :destroy]
+            end
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
@@ -217,6 +223,15 @@ Rails.application.routes.draw do
             end
           end
 
+          # Assignment V2 Routes
+          resources :assignment_policies do
+            resources :inboxes, only: [:index, :create, :destroy], module: :assignment_policies
+          end
+
+          resources :inboxes, only: [] do
+            resource :assignment_policy, only: [:show, :create, :destroy], module: :inboxes
+          end
+
           namespace :twitter do
             resource :authorization, only: [:create]
           end
@@ -290,6 +305,8 @@ Rails.application.routes.draw do
             member do
               patch :archive
               delete :logo
+              post :send_instructions
+              get :ssl_status
             end
             resources :categories
             resources :articles do
@@ -423,7 +440,7 @@ Rails.application.routes.draw do
         resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
           delete :avatar, on: :member
         end
-        resources :accounts, only: [:create, :show, :update, :destroy] do
+        resources :accounts, only: [:index, :create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
               delete :destroy

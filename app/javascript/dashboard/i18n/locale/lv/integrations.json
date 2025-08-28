@@ -472,7 +472,8 @@
         "FEATURES": {
           "TITLE": "Īpašības",
           "ALLOW_CONVERSATION_FAQS": "Ģenerēt bieži uzdotos jautājumus no atrisinātajām sarunām",
-          "ALLOW_MEMORIES": "Pārtvert galvenās nianses kā atmiņas no klientu mijiedarbībām."
+          "ALLOW_MEMORIES": "Pārtvert galvenās nianses kā atmiņas no klientu mijiedarbībām.",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
@@ -557,6 +558,7 @@
           "SEARCH_PLACEHOLDER": "Meklēt..."
         },
         "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
         "API": {
           "ADD": {
             "SUCCESS": "Guardrails added successfully",
@@ -604,6 +606,7 @@
           "SEARCH_PLACEHOLDER": "Meklēt..."
         },
         "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
         "API": {
           "ADD": {
             "SUCCESS": "Response Guidelines added successfully",
@@ -616,6 +619,73 @@
           "DELETE": {
             "SUCCESS": "Response Guidelines deleted successfully",
             "ERROR": "There was an error deleting response guidelines, please try again."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Scenarios",
+        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "BREADCRUMB": {
+          "TITLE": "Scenarios"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "Dzēst"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example scenarios",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "TOOLS_USED": "Tools used :"
+          },
+          "NEW": {
+            "CREATE": "Add a scenario",
+            "TITLE": "Create a scenario",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "Nosaukums",
+                "PLACEHOLDER": "Enter a name for the scenario",
+                "ERROR": "Scenario name is required"
+              },
+              "DESCRIPTION": {
+                "LABEL": "Apraksts",
+                "PLACEHOLDER": "Describe how and where this scenario will be used",
+                "ERROR": "Scenario description is required"
+              },
+              "INSTRUCTION": {
+                "LABEL": "How to handle",
+                "PLACEHOLDER": "Describe how and where this scenario will be handled",
+                "ERROR": "Scenario content is required"
+              },
+              "CREATE": "Izveidot",
+              "CANCEL": "Atcelt"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "Atcelt",
+          "UPDATE": "Update changes"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Meklēt..."
+        },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Scenarios added successfully",
+            "ERROR": "There was an error adding scenarios, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Scenarios updated successfully",
+            "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Scenarios deleted successfully",
+            "ERROR": "There was an error deleting scenarios, please try again."
           }
         }
       }

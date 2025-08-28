@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "门户删除成功",
             "DELETE_ERROR": "删除门户时出错"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -726,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "主页链接",
           "PLACEHOLDER": "门户主页链接",
-          "ERROR": "无效的URL。主页链接必须以 'http://' 或 'https://' 开头。"
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -747,9 +753,15 @@
           "HEADER": "自定义域名",
           "LABEL": "自定义域名：",
           "DESCRIPTION": "您可以在自定义域名上托管您的门户。例如，如果您的网站是 yourdomain.com，并且您希望您的门户在 docs.yourdomain.com 上可用，只需在此字段中输入即可。",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
           "PLACEHOLDER": "门户自定义域名",
-          "EDIT_BUTTON": "编辑自定义域名",
+          "EDIT_BUTTON": "编辑",
           "ADD_BUTTON": "添加自定义域名",
+          "STATUS": {
+            "LIVE": "实时",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
           "DIALOG": {
             "ADD_HEADER": "添加自定义域名",
             "EDIT_HEADER": "编辑自定义域名",
@@ -757,13 +769,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "更新域名",
             "LABEL": "自定义域名",
             "PLACEHOLDER": "门户自定义域名",
-            "ERROR": "自定义域名是必填项"
+            "ERROR": "自定义域名是必填项",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS配置",
             "DESCRIPTION": "登录您的 DNS 提供商账户，并添加一个指向 chatwoot.help 的子域名的 CNAME 记录",
-            "HELP_TEXT": "完成后，您可以联系我们的支持团队以请求自动生成的SSL证书。",
-            "CONFIRM_BUTTON_LABEL": "明白了！"
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "发送"
+            }
           }
         },
         "DELETE_PORTAL": {

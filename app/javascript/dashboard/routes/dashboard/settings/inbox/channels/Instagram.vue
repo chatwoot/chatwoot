@@ -1,11 +1,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { useAccount } from 'dashboard/composables/useAccount';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import instagramClient from 'dashboard/api/channel/instagramClient';
 
 export default {
-  mixins: [globalConfigMixin],
   setup() {
     const { accountId } = useAccount();
     return {

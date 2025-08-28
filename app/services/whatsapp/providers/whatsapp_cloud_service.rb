@@ -11,19 +11,24 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
   end
 
-  def send_template(phone_number, template_info)
+  def send_template(phone_number, template_info, message)
+    template_body = template_body_parameters(template_info)
+
+    request_body = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual', # Only individual messages supported (not group messages)
+      to: phone_number,
+      type: 'template',
+      template: template_body
+    }
+
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        to: phone_number,
-        template: template_body_parameters(template_info),
-        type: 'template'
-      }.to_json
+      body: request_body.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def sync_templates
@@ -87,7 +92,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def send_attachment_message(phone_number, message)
@@ -110,7 +115,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def error_message(response)
@@ -119,17 +124,36 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def template_body_parameters(template_info)
-    {
+    template_body = {
       name: template_info[:name],
       language: {
         policy: 'deterministic',
         code: template_info[:lang_code]
-      },
-      components: [{
-        type: 'body',
-        parameters: template_info[:parameters]
-      }]
+      }
     }
+
+    # Enhanced template parameters structure
+    # Note: Legacy format support (simple parameter arrays) has been removed
+    # in favor of the enhanced component-based structure that supports
+    # headers, buttons, and authentication templates.
+    #
+    # Expected payload format from frontend:
+    # {
+    #   processed_params: {
+    #     body: { '1': 'John', '2': '123 Main St' },
+    #     header: { media_url: 'https://...', media_type: 'image' },
+    #     buttons: [{ type: 'url', parameter: 'otp123456' }]
+    #   }
+    # }
+    # This gets transformed into WhatsApp API component format:
+    # [
+    #   { type: 'body', parameters: [...] },
+    #   { type: 'header', parameters: [...] },
+    #   { type: 'button', sub_type: 'url', parameters: [...] }
+    # ]
+    template_body[:components] = template_info[:parameters] || []
+
+    template_body
   end
 
   def whatsapp_reply_context(message)
@@ -155,6 +179,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(response, message)
   end
 end

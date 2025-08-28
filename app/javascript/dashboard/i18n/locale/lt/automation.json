@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Pokalbis sukurtas",
       "CONVERSATION_UPDATED": "Pokalbis atnaujintas",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
