@@ -152,17 +152,18 @@ class User < ApplicationRecord
     mutations_from_database.changed?('email')
   end
 
-  # SAML authentication methods
+  # SAML methods - fallback implementations for Community Edition
+  # These will be overridden in Enterprise Edition via include_mod_with
   def saml_user?
-    provider == 'saml'
+    false
   end
 
   def convert_to_saml!
-    update!(provider: 'saml')
+    # No-op in Community Edition
   end
 
   def password_authentication_allowed?
-    !saml_user?
+    true
   end
 
   def self.from_email(email)
