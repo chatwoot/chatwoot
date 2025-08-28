@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import Icon from 'next/icon/Icon.vue';
 
@@ -16,6 +17,10 @@ const props = defineProps({
 const emit = defineEmits(['toggle']);
 
 const showBadge = useMapGetter(props.getterKeys.badge);
+const dynamicCount = useMapGetter(props.getterKeys.count);
+const count = computed(() =>
+  dynamicCount.value > 99 ? '99+' : dynamicCount.value
+);
 </script>
 
 <template>
@@ -42,6 +47,13 @@ const showBadge = useMapGetter(props.getterKeys.badge);
     </div>
     <span class="text-sm font-medium leading-5 flex-grow">
       {{ label }}
+    </span>
+    <span
+      v-if="dynamicCount && !expandable"
+      class="px-2 py-px rounded-lg capitalize text-xxs text-n-slate-12 shrink-0"
+      :class="{ 'bg-n-alpha-2': !isActive && !hasActiveChild }"
+    >
+      {{ count }}
     </span>
     <span
       v-if="expandable"

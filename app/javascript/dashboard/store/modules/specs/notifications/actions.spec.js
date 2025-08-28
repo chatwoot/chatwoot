@@ -95,7 +95,12 @@ describe('#actions', () => {
       axios.post.mockResolvedValue({});
       await actions.read(
         { commit },
-        { id: 1, unreadCount: 2, primaryActorId: 1 }
+        {
+          id: 1,
+          unreadCount: 2,
+          primaryActorId: 1,
+          primaryActorType: 'Conversation',
+        }
       );
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
@@ -109,7 +114,12 @@ describe('#actions', () => {
       await expect(actions.read({ commit })).rejects.toThrow(Error);
       await actions.read(
         { commit },
-        { id: 1, unreadCount: 2, primaryActorId: 1 }
+        {
+          id: 1,
+          unreadCount: 2,
+          primaryActorId: 1,
+          primaryActorType: 'Conversation',
+        }
       );
       expect(commit.mock.calls).toEqual([
         [types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true }],
