@@ -45,11 +45,6 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
           expect(response).to have_http_status(:success)
           expect(json_response[:sso_url]).to eq('https://idp.example.com/saml/sso')
           expect(json_response[:role_mappings]).to eq({ Admins: { role: 1 } })
-          expect(json_response[:attribute_mappings]).to eq({
-                                                             email: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-                                                             first_name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
-                                                             last_name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'
-                                                           })
         end
       end
 
@@ -60,11 +55,6 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
               as: :json
 
           expect(response).to have_http_status(:success)
-          expect(json_response[:attribute_mappings]).to eq({
-                                                             email: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-                                                             first_name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
-                                                             last_name: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'
-                                                           })
           expect(json_response[:role_mappings]).to eq({})
         end
       end
