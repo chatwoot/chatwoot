@@ -31,7 +31,7 @@ RSpec.describe Whatsapp::WebhookUrlService do
 
     # Stub only our specific variables
     allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return(frontend_url)
-    allow(ENV).to receive(:[]).with('WEBHOOK_URL_TUNNEL').and_return(local_tunnel)
+    allow(ENV).to receive(:[]).with('LOCAL_URL_TUNNEL').and_return(local_tunnel)
   end
 
   describe '#generate_webhook_url' do
@@ -100,14 +100,14 @@ RSpec.describe Whatsapp::WebhookUrlService do
       end
     end
 
-    context 'when using WEBHOOK_URL_TUNNEL override' do
+    context 'when using LOCAL_URL_TUNNEL override' do
       let(:tunnel_url) { 'https://abc123.ngrok-free.app' }
 
       before do
         stub_env_variables(frontend_url: frontend_url, local_tunnel: tunnel_url)
       end
 
-      it 'prioritizes WEBHOOK_URL_TUNNEL over FRONTEND_URL' do
+      it 'prioritizes LOCAL_URL_TUNNEL over FRONTEND_URL' do
         result = service.generate_webhook_url(phone_number: phone_number)
         expect(result).to eq("#{tunnel_url}/webhooks/whatsapp/#{phone_number}")
         expect(result).not_to include(frontend_url)
