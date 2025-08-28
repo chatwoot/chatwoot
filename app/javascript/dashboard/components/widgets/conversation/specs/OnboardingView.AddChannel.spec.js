@@ -124,7 +124,7 @@ describe('OnboardingView.AddChannel.vue', () => {
     expect(wrapper.find('.mock-whatsapp').exists()).toBe(true);
   });
 
-  it('should AddAgents when inbox already exists', () => {
+  it('should AddAgents when inbox already exists', async () => {
     mockStores = [
       {
         id: 123,
@@ -139,11 +139,16 @@ describe('OnboardingView.AddChannel.vue', () => {
       global: {
         mocks: {
           $store: {
-            'inboxes/getInboxes': mockStores,
+            getters: {
+              'inboxes/getInboxes': mockStores,
+            },
           },
         },
       },
     });
+
+    // Set the channel step to 'success' to make channelFullySetup true
+    await wrapper.vm.handleStepChanged('success');
 
     expect(wrapper.find('.mock-add-agents').exists()).toBe(true);
   });

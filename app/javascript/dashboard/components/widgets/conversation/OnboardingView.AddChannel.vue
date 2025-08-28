@@ -70,12 +70,12 @@ const handleAgentsAdded = () => {
       />
       <div v-else>
         <component
+          v-if="!channelFullySetup && channelSelected && channelSelectedFactory[channelSelected]"
           :is="channelSelectedFactory[channelSelected].component"
-          v-if="!channelFullySetup"
           v-bind="channelSelectedFactory[channelSelected].props"
           @step-changed="handleStepChanged"
         />
-        <div v-else>
+        <div v-else-if="channelFullySetup">
           <h2 class="text-lg font-semibold">
             {{
               $t('ONBOARDING.ADD_CHANNEL.ADDING_AGENTS', {

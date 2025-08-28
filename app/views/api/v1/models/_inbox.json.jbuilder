@@ -123,8 +123,8 @@ if resource.whatsapp?
       # Use provider config object for consistent data access
       resource.channel.provider_config_object
       provider_cfg = resource.channel.try(:provider_config) || {}
-      # Remove sensitive token fields for whapi provider
-      sanitized_cfg = provider_cfg.except('api_key', 'whapi_channel_token')
+      # Remove only api_key for whapi provider, keep whapi_channel_token for administrators
+      sanitized_cfg = provider_cfg.except('api_key')
       json.provider_config sanitized_cfg
     else
       json.provider_config resource.channel.try(:provider_config)

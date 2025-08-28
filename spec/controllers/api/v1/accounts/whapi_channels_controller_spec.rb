@@ -146,6 +146,10 @@ RSpec.describe 'WhapiChannelsController', type: :request do
       allow_any_instance_of(Whatsapp::Partner::WhapiPartnerService).to receive(:update_webhook_with_phone_number)
         .and_return('https://webhook-url.com')
 
+      # Mock WHAPI health check for provider config validation
+      stub_request(:get, 'https://gate.whapi.cloud/health')
+        .to_return(status: 200, body: { status: 'ok' }.to_json, headers: { 'Content-Type' => 'application/json' })
+
       get "/api/v1/accounts/#{account.id}/whapi_channels/#{inbox.id}/qr_code",
           headers: admin.create_new_auth_token,
           as: :json
