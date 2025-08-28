@@ -31,14 +31,6 @@ class AccountSamlSettings < ApplicationRecord
     sp_entity_id.presence || "#{installation_name}-#{account_id}".downcase
   end
 
-  def attribute_mappings
-    {
-      'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-      'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
-      'last_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'
-    }
-  end
-
   private
 
   def installation_name
