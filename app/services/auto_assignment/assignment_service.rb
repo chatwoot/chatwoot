@@ -32,11 +32,11 @@ class AutoAssignment::AssignmentService
   def unassigned_conversations(limit)
     scope = inbox.conversations.unassigned.open
 
-    if assignment_config['conversation_priority'] == 'longest_waiting'
-      scope = scope.order(last_activity_at: :asc, created_at: :asc)
-    else
-      scope.order(created_at: :asc)
-    end
+    scope = if assignment_config['conversation_priority'] == 'longest_waiting'
+              scope.order(last_activity_at: :asc, created_at: :asc)
+            else
+              scope.order(created_at: :asc)
+            end
 
     scope.limit(limit)
   end

@@ -19,21 +19,23 @@ RSpec.describe AutoAssignment::AssignmentService do
     conversation
   end
 
-  describe '#perform_for_conversation' do
-    let(:conversation) { create_test_conversation }
-
+  describe 'assignment behavior' do
     before do
       allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ agent.id.to_s => 'online' })
     end
 
     context 'when auto assignment is enabled' do
       it 'assigns conversation to available agent' do
-        expect(service.perform_for_conversation(conversation)).to be true
+        conversation = create_test_conversation
+
+        assigned_count = service.perform_bulk_assignment(limit: 1)
+
+        expect(assigned_count).to eq(1)
         expect(conversation.reload.assignee).to eq(agent)
       end
 
       it 'dispatches assignee changed event' do
-        # The conversation update triggers its own event through callbacks
+        conversation = create_test_conversation
         allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
 
         expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
@@ -42,28 +44,38 @@ RSpec.describe AutoAssignment::AssignmentService do
           hash_including(conversation: conversation, user: agent)
         )
 
-        service.perform_for_conversation(conversation)
+        service.perform_bulk_assignment(limit: 1)
       end
 
-      it 'returns false when no agents available' do
+      it 'returns 0 when no agents available' do
+        create_test_conversation
         allow(OnlineStatusTracker).to receive(:get_available_users).and_return({})
-        expect(service.perform_for_conversation(conversation)).to be false
+
+        assigned_count = service.perform_bulk_assignment(limit: 1)
+
+        expect(assigned_count).to eq(0)
       end
     end
 
     context 'when conversation already assigned' do
-      let(:conversation) { create_test_conversation(assignee: agent) }
-
       it 'does not reassign' do
-        expect(service.perform_for_conversation(conversation)).to be false
+        conversation = create_test_conversation(assignee: agent)
+
+        assigned_count = service.perform_bulk_assignment(limit: 1)
+
+        expect(assigned_count).to eq(0)
+        expect(conversation.reload.assignee).to eq(agent)
       end
     end
 
     context 'when conversation is not open' do
-      let(:conversation) { create_test_conversation(status: 'resolved') }
-
       it 'does not assign' do
-        expect(service.perform_for_conversation(conversation)).to be false
+        conversation = create_test_conversation(status: 'resolved')
+
+        assigned_count = service.perform_bulk_assignment(limit: 1)
+
+        expect(assigned_count).to eq(0)
+        expect(conversation.reload.assignee).to be_nil
       end
     end
   end
@@ -124,7 +136,9 @@ RSpec.describe AutoAssignment::AssignmentService do
 
       conversation = create_test_conversation
 
-      expect(service.perform_for_conversation(conversation)).to be true
+      assigned_count = service.perform_bulk_assignment(limit: 1)
+
+      expect(assigned_count).to eq(1)
       expect(conversation.reload.assignee).to eq(agent2)
     end
 
@@ -136,7 +150,7 @@ RSpec.describe AutoAssignment::AssignmentService do
 
       expect(rate_limiter).to receive(:track_assignment).with(conversation)
 
-      service.perform_for_conversation(conversation)
+      service.perform_bulk_assignment(limit: 1)
     end
   end
 

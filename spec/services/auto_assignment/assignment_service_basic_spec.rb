@@ -26,19 +26,19 @@ RSpec.describe AutoAssignment::AssignmentService do
       it 'assigns an available agent to conversation' do
         conversation = create_test_conversation
 
-        result = service.perform_for_conversation(conversation)
+        assigned_count = service.perform_bulk_assignment(limit: 1)
 
-        expect(result).to be true
+        expect(assigned_count).to eq(1)
         expect(conversation.reload.assignee).to eq(agent)
       end
 
-      it 'returns false when no agents are online' do
+      it 'returns 0 when no agents are online' do
         allow(OnlineStatusTracker).to receive(:get_available_users).and_return({})
         conversation = create_test_conversation
 
-        result = service.perform_for_conversation(conversation)
+        assigned_count = service.perform_bulk_assignment(limit: 1)
 
-        expect(result).to be false
+        expect(assigned_count).to eq(0)
         expect(conversation.reload.assignee).to be_nil
       end
     end
@@ -49,9 +49,9 @@ RSpec.describe AutoAssignment::AssignmentService do
       it 'does not assign any agent' do
         conversation = create_test_conversation
 
-        result = service.perform_for_conversation(conversation)
+        assigned_count = service.perform_bulk_assignment(limit: 1)
 
-        expect(result).to be false
+        expect(assigned_count).to eq(0)
         expect(conversation.reload.assignee).to be_nil
       end
     end
@@ -63,18 +63,19 @@ RSpec.describe AutoAssignment::AssignmentService do
     it 'only assigns to open conversations' do
       resolved_conversation = create_test_conversation(status: 'resolved')
 
-      result = service.perform_for_conversation(resolved_conversation)
+      assigned_count = service.perform_bulk_assignment(limit: 1)
 
-      expect(result).to be false
+      expect(assigned_count).to eq(0)
+      expect(resolved_conversation.reload.assignee).to be_nil
     end
 
     it 'does not reassign already assigned conversations' do
       other_agent = create(:user, account: account, role: :agent)
       assigned_conversation = create_test_conversation(assignee: other_agent)
 
-      result = service.perform_for_conversation(assigned_conversation)
+      assigned_count = service.perform_bulk_assignment(limit: 1)
 
-      expect(result).to be false
+      expect(assigned_count).to eq(0)
       expect(assigned_conversation.reload.assignee).to eq(other_agent)
     end
   end

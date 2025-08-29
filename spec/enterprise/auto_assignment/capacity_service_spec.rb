@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
   let(:account) { create(:account) }
-  let(:inbox) { create(:inbox, account: account) }
+  let(:inbox) { create(:inbox, account: account, enable_auto_assignment: true) }
 
   # Assignment policy with rate limiting
   let(:assignment_policy) do
@@ -87,9 +87,11 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
 
   describe 'assignment with capacity' do
     let(:service) { AutoAssignment::AssignmentService.new(inbox: inbox) }
-    let(:conversation) { create(:conversation, inbox: inbox, assignee: nil, status: :open) }
 
     it 'assigns to agents with available capacity' do
+      # Create conversation before assignment
+      conversation = create(:conversation, inbox: inbox, assignee: nil, status: :open)
+
       # Mock the selector to prefer agent_at_capacity (but should skip due to capacity)
       selector = instance_double(AutoAssignment::RoundRobinSelector)
       allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(selector)
@@ -97,7 +99,8 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
         agents.map(&:user).find { |u| [agent_with_capacity, agent_without_capacity].include?(u) }
       end
 
-      expect(service.perform_for_conversation(conversation)).to be true
+      assigned_count = service.perform_bulk_assignment(limit: 1)
+      expect(assigned_count).to eq(1)
       expect(conversation.reload.assignee).to be_in([agent_with_capacity, agent_without_capacity])
       expect(conversation.reload.assignee).not_to eq(agent_at_capacity)
     end
@@ -108,7 +111,8 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
 
       # agent_without_capacity has no limit, so should still be available
       conversation2 = create(:conversation, inbox: inbox, assignee: nil, status: :open)
-      expect(service.perform_for_conversation(conversation2)).to be true
+      assigned_count = service.perform_bulk_assignment(limit: 1)
+      expect(assigned_count).to eq(1)
       expect(conversation2.reload.assignee).to eq(agent_without_capacity)
     end
   end

@@ -66,7 +66,12 @@ module Enterprise::AutoAssignment::AssignmentService
     scope = apply_exclusion_rules(scope)
 
     # Apply conversation priority from config
-    scope = apply_conversation_priority(scope)
+    scope = if assignment_config['conversation_priority'] == 'longest_waiting'
+              scope.order(last_activity_at: :asc, created_at: :asc)
+            else
+              scope.order(created_at: :asc)
+            end
+
     scope.limit(limit)
   end
 

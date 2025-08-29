@@ -52,10 +52,9 @@ RSpec.describe AutoAssignment::AssignmentService do
       # Each agent can handle 2 conversations
       conversations = Array.new(4) { create_test_conversation }
 
-      # First 4 conversations should be assigned (2 per agent)
-      conversations.each do |conv|
-        expect(service.perform_for_conversation(conv)).to be true
-      end
+      # Assign first 4 conversations (2 per agent)
+      assigned_count = service.perform_bulk_assignment(limit: 4)
+      expect(assigned_count).to eq(4)
 
       # Verify distribution
       assigned_to_agent1 = conversations.count { |c| c.reload.assignee == agent1 }
@@ -64,15 +63,16 @@ RSpec.describe AutoAssignment::AssignmentService do
       expect(assigned_to_agent1).to eq(2)
       expect(assigned_to_agent2).to eq(2)
 
-      # Fifth conversation should fail (both agents at limit)
+      # Fifth conversation should not be assigned (both agents at limit)
       fifth_conversation = create_test_conversation
-      expect(service.perform_for_conversation(fifth_conversation)).to be false
+      additional_assigned = service.perform_bulk_assignment(limit: 1)
+      expect(additional_assigned).to eq(0)
       expect(fifth_conversation.reload.assignee).to be_nil
     end
 
     it 'tracks assignments using individual Redis keys' do
       conversation = create_test_conversation
-      service.perform_for_conversation(conversation)
+      service.perform_bulk_assignment(limit: 1)
 
       # Check that assignment key exists
       pattern = "assignment:#{inbox.id}:agent:#{conversation.reload.assignee.id}:*"
@@ -81,13 +81,18 @@ RSpec.describe AutoAssignment::AssignmentService do
     end
 
     it 'allows new assignments after window expires' do
-      # Assign 2 conversations to agent1
-      2.times do
-        conversation = create_test_conversation
-        allow(service).to receive(:round_robin_selector).and_return(
-          instance_double(AutoAssignment::RoundRobinSelector, select_agent: agent1)
-        )
-        service.perform_for_conversation(conversation)
+      # Create 2 conversations and force assignment to agent1
+      conversations = Array.new(2) { create_test_conversation }
+      allow(service).to receive(:round_robin_selector).and_return(
+        instance_double(AutoAssignment::RoundRobinSelector, select_agent: agent1)
+      )
+
+      # Assign both to agent1
+      assigned_count = service.perform_bulk_assignment(limit: 2)
+      expect(assigned_count).to eq(2)
+
+      conversations.each do |c|
+        expect(c.reload.assignee).to eq(agent1)
       end
 
       # Agent1 is now at limit
@@ -105,7 +110,9 @@ RSpec.describe AutoAssignment::AssignmentService do
       allow(service).to receive(:round_robin_selector).and_return(
         instance_double(AutoAssignment::RoundRobinSelector, select_agent: agent1)
       )
-      expect(service.perform_for_conversation(new_conversation)).to be true
+      assigned_count = service.perform_bulk_assignment(limit: 1)
+      expect(assigned_count).to eq(1)
+      expect(new_conversation.reload.assignee).to eq(agent1)
     end
   end
 
@@ -116,9 +123,12 @@ RSpec.describe AutoAssignment::AssignmentService do
 
     it 'assigns without limits' do
       # Create more conversations than would be allowed with limits
-      5.times do
-        conversation = create_test_conversation
-        expect(service.perform_for_conversation(conversation)).to be true
+      conversations = Array.new(5) { create_test_conversation }
+
+      assigned_count = service.perform_bulk_assignment(limit: 5)
+      expect(assigned_count).to eq(5)
+
+      conversations.each do |conversation|
         expect(conversation.reload.assignee).not_to be_nil
       end
     end
