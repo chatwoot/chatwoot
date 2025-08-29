@@ -14,9 +14,6 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
-#  devise_scope :user do
-#    post '/users/confirmation', to: 'devise_overrides/confirmations#create', as: :user_confirmation
-#  end
 
   # Mount Sidekiq dashboard in development/production (optional)
   require 'sidekiq/web'
