@@ -126,6 +126,25 @@ export default {
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </SettingsSection>
   </div>
+  <div v-else-if="isAVoiceChannel" class="mx-8">
+    <SettingsSection
+      :title="$t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_VOICE_URL_TITLE')"
+      :sub-title="
+        $t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_VOICE_URL_SUBTITLE')
+      "
+    >
+      <woot-code :script="inbox.voice_call_webhook_url" lang="html" />
+    </SettingsSection>
+    <SettingsSection
+      :title="$t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_STATUS_URL_TITLE')"
+      :sub-title="
+        $t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_STATUS_URL_SUBTITLE')
+      "
+    >
+      <woot-code :script="inbox.voice_status_webhook_url" lang="html" />
+    </SettingsSection>
+  </div>
+
   <div v-else-if="isALineChannel" class="mx-8">
     <SettingsSection
       :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"

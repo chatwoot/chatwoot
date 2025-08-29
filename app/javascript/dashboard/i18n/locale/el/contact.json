@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Διεύθυνση IP",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Νέο Μήνυμα",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή.",
       "TITLE": "Προηγούμενες συνομιλίες"
