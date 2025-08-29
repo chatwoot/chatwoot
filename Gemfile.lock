@@ -862,6 +862,7 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
+    simplecov_json_formatter (0.1.4)
     slack-ruby-client (2.5.2)
       faraday (>= 2.0)
       faraday-mashify
@@ -1086,6 +1087,7 @@ DEPENDENCIES
   sidekiq-cron (>= 1.12.0)
   sidekiq_alive
   simplecov (= 0.17.1)
+  simplecov_json_formatter
   slack-ruby-client (~> 2.5.2)
   spring
   spring-watcher-listen
