@@ -41,8 +41,7 @@ class Inboxes::BulkAutoAssignmentJob < ApplicationJob
 
   def should_skip_auto_assignment?(account)
     return false unless ChatwootApp.chatwoot_cloud?
-    return true if default_plan?(account)
 
-    false
+    default_plan?(account)
   end
 end
