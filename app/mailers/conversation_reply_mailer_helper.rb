@@ -1,4 +1,4 @@
-module ConversationReplyMailerHelper
+tmodule ConversationReplyMailerHelper
   def prepare_mail(cc_bcc_enabled)
     @options = {
       to: to_emails,
