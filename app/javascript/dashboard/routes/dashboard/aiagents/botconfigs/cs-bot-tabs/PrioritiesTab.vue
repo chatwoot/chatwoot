@@ -1,3 +1,153 @@
+<script setup>
+import { reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useAlert } from 'dashboard/composables'
+import Button from 'dashboard/components-next/button/Button.vue'
+import aiAgents from '../../../../../api/aiAgents'
+
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+})
+
+const { t } = useI18n()
+
+const priorities = reactive([
+  { name: 'Low', condition: '' },
+  { name: 'Medium', condition: '' },
+  { name: 'High', condition: '' },
+  { name: 'Urgent', condition: '' }
+])
+
+const expandedPriorities = ref({}) // Track expanded state for each priority
+
+const validation = reactive({
+  priorities: {}
+})
+
+const isSaving = ref(false)
+// ✅ Load priorities from backend when data arrives
+watch(
+  () => props.data,
+  (newData) => {
+    if (!newData?.display_flow_data) return
+
+    const flowData = newData.display_flow_data
+    const agentIndex = flowData.enabled_agents.indexOf('customer_service')
+    
+    if (agentIndex === -1) return // Skip if agent not in flow
+
+    const categoryConfig = flowData.agents_config?.[agentIndex]?.configurations?.category
+    if (Array.isArray(categoryConfig)) {
+      // Replace local priorities with backend values
+      priorities.splice(0, priorities.length, ...categoryConfig.map(c => ({
+        name: c.key || '',
+        condition: c.conditions || ''
+      })))
+    }
+
+    // Auto-expand all loaded priorities
+    priorities.forEach((_, i) => {
+      expandedPriorities.value[i] = true
+    })
+  },
+  { immediate: true, deep: true }
+)
+
+
+function validatePriorityName(index) {
+  const name = priorities[index]?.name?.trim()
+  if (!name) {
+    validation.priorities[index] = t('AGENT_MGMT.CSBOT.TICKET.ERROR')
+    return false
+  }
+  
+  const duplicateIndex = priorities.findIndex((p, i) => 
+    i !== index && p.name?.trim().toLowerCase() === name.toLowerCase()
+  )
+  if (duplicateIndex !== -1) {
+    validation.priorities[index] = t('AGENT_MGMT.CSBOT.TICKET.DUPE_ERROR')
+    return false
+  }
+  
+  delete validation.priorities[index]
+  return true
+}
+
+function addPriority() {
+  const newIndex = priorities.length;
+  priorities.push({ name: '', condition: '' })
+  // Auto-expand the newly added priority
+  expandedPriorities.value[newIndex] = true;
+}
+
+function togglePriorityExpand(index) {
+  expandedPriorities.value[index] = !expandedPriorities.value[index];
+}
+
+function removePriority(index) {
+  priorities.splice(index, 1)
+  delete validation.priorities[index]
+  const newValidation = {}
+  Object.keys(validation.priorities).forEach(key => {
+    const keyIndex = parseInt(key)
+    if (keyIndex > index) {
+      newValidation[keyIndex - 1] = validation.priorities[keyIndex]
+    } else if (keyIndex < index) {
+      newValidation[keyIndex] = validation.priorities[keyIndex]
+    }
+  })
+  validation.priorities = newValidation
+}
+
+async function save() {
+  try {
+    isSaving.value = true
+    
+    // Validate all priorities
+    let isValid = true
+    priorities.forEach((_, index) => {
+      if (!validatePriorityName(index)) {
+        isValid = false
+      }
+    })
+    
+    if (!isValid) {
+      useAlert(t('AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR'))
+      return
+    }
+
+    // TODO: API call to save priorities
+    
+    let flowData = props.data.display_flow_data;
+    let priorityItems = [];
+    priorities.forEach((item, _) => {
+      priorityItems.push({
+        key: item.name,
+        conditions: item.condition,
+      });
+    });
+    const agent_index = flowData.enabled_agents.indexOf('customer_service');
+    flowData.agents_config[agent_index].configurations.priority = priorityItems;
+    useAlert(t(JSON.stringify(flowData)));
+    console.log(JSON.stringify(flowData));
+
+    const payload = {
+      flow_data: flowData,
+    };
+    // ✅ Properly await the API call
+    await aiAgents.updateAgent(props.data.id, payload);
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'))
+  } catch (e) {
+    console.log(e)
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'))
+  } finally {
+    isSaving.value = false
+  }
+}
+</script>
 <template>
   <div class="flex flex-row gap-4">
     <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-4">
@@ -137,106 +287,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { reactive, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useAlert } from 'dashboard/composables'
-import Button from 'dashboard/components-next/button/Button.vue'
-
-const { t } = useI18n()
-
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true,
-  },
-})
-
-const priorities = reactive([
-  { name: 'Low', condition: '' },
-  { name: 'Medium', condition: '' },
-  { name: 'High', condition: '' },
-  { name: 'Urgent', condition: '' }
-])
-
-const expandedPriorities = ref({}) // Track expanded state for each priority
-
-const validation = reactive({
-  priorities: {}
-})
-
-const isSaving = ref(false)
-
-function validatePriorityName(index) {
-  const name = priorities[index]?.name?.trim()
-  if (!name) {
-    validation.priorities[index] = t('AGENT_MGMT.CSBOT.TICKET.ERROR')
-    return false
-  }
-  
-  const duplicateIndex = priorities.findIndex((p, i) => 
-    i !== index && p.name?.trim().toLowerCase() === name.toLowerCase()
-  )
-  if (duplicateIndex !== -1) {
-    validation.priorities[index] = t('AGENT_MGMT.CSBOT.TICKET.DUPE_ERROR')
-    return false
-  }
-  
-  delete validation.priorities[index]
-  return true
-}
-
-function addPriority() {
-  const newIndex = priorities.length;
-  priorities.push({ name: '', condition: '' })
-  // Auto-expand the newly added priority
-  expandedPriorities.value[newIndex] = true;
-}
-
-function togglePriorityExpand(index) {
-  expandedPriorities.value[index] = !expandedPriorities.value[index];
-}
-
-function removePriority(index) {
-  priorities.splice(index, 1)
-  delete validation.priorities[index]
-  const newValidation = {}
-  Object.keys(validation.priorities).forEach(key => {
-    const keyIndex = parseInt(key)
-    if (keyIndex > index) {
-      newValidation[keyIndex - 1] = validation.priorities[keyIndex]
-    } else if (keyIndex < index) {
-      newValidation[keyIndex] = validation.priorities[keyIndex]
-    }
-  })
-  validation.priorities = newValidation
-}
-
-async function save() {
-  try {
-    isSaving.value = true
-    
-    // Validate all priorities
-    let isValid = true
-    priorities.forEach((_, index) => {
-      if (!validatePriorityName(index)) {
-        isValid = false
-      }
-    })
-    
-    if (!isValid) {
-      useAlert(t('AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR'))
-      return
-    }
-
-    // TODO: API call to save priorities
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'))
-  } catch (e) {
-    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'))
-  } finally {
-    isSaving.value = false
-  }
-}
-</script>

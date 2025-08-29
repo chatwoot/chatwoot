@@ -1,3 +1,151 @@
+<script setup>
+import { reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useAlert } from 'dashboard/composables'
+import Button from 'dashboard/components-next/button/Button.vue'
+import aiAgents from '../../../../../api/aiAgents'
+
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+})
+
+const { t } = useI18n()
+
+const categories = reactive([
+  { name: 'Komplain', condition: '' },
+  { name: 'Teknis', condition: '' },
+  { name: 'Lainnya', condition: '' }
+])
+const expandedCategories = ref({}) // Track expanded state for each category
+
+// ✅ Load categories from backend when data arrives
+watch(
+  () => props.data,
+  (newData) => {
+    if (!newData?.display_flow_data) return
+
+    const flowData = newData.display_flow_data
+    const agentIndex = flowData.enabled_agents.indexOf('customer_service')
+    
+    if (agentIndex === -1) return // Skip if agent not in flow
+
+    const categoryConfig = flowData.agents_config?.[agentIndex]?.configurations?.category
+    if (Array.isArray(categoryConfig)) {
+      // Replace local categories with backend values
+      categories.splice(0, categories.length, ...categoryConfig.map(c => ({
+        name: c.key || '',
+        condition: c.conditions || ''
+      })))
+    }
+
+    // Auto-expand all loaded categories
+    categories.forEach((_, i) => {
+      expandedCategories.value[i] = true
+    })
+  },
+  { immediate: true, deep: true }
+)
+
+const validation = reactive({
+  categories: {}
+})
+
+const isSaving = ref(false)
+
+function validateCategoryName(index) {
+  const name = categories[index]?.name?.trim()
+  if (!name) {
+    validation.categories[index] = t('AGENT_MGMT.CSBOT.TICKET.ERROR')
+    return false
+  }
+  
+  const duplicateIndex = categories.findIndex((c, i) => 
+    i !== index && c.name?.trim().toLowerCase() === name.toLowerCase()
+  )
+  if (duplicateIndex !== -1) {
+    validation.categories[index] = t('AGENT_MGMT.CSBOT.TICKET.DUPE_ERROR')
+    return false
+  }
+  
+  delete validation.categories[index]
+  return true
+}
+
+function addCategory() {
+  const newIndex = categories.length;
+  categories.push({ name: '', condition: '' })
+  // Auto-expand the newly added category
+  expandedCategories.value[newIndex] = true;
+}
+
+function toggleCategoryExpand(index) {
+  expandedCategories.value[index] = !expandedCategories.value[index];
+}
+
+function removeCategory(index) {
+  categories.splice(index, 1)
+  delete validation.categories[index]
+  const newValidation = {}
+  Object.keys(validation.categories).forEach(key => {
+    const keyIndex = parseInt(key)
+    if (keyIndex > index) {
+      newValidation[keyIndex - 1] = validation.categories[keyIndex]
+    } else if (keyIndex < index) {
+      newValidation[keyIndex] = validation.categories[keyIndex]
+    }
+  })
+  validation.categories = newValidation
+}
+
+async function save() {
+  try {
+    isSaving.value = true
+    
+    // Validate all categories
+    let isValid = true
+    categories.forEach((_, index) => {
+      if (!validateCategoryName(index)) {
+        isValid = false
+      }
+    })
+    
+    if (!isValid) {
+      useAlert(t('AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR'))
+      return
+    }
+    useAlert(t(JSON.stringify(categories)))
+    // TODO: API call to save categories
+    let flowData = props.data.display_flow_data;
+    let categoryItems = [];
+    categories.forEach((item, _) => {
+      categoryItems.push({
+        key: item.name,
+        conditions: item.condition,
+      });
+    });
+    const agent_index = flowData.enabled_agents.indexOf('customer_service');
+    flowData.agents_config[agent_index].configurations.category = categoryItems;
+    useAlert(t(JSON.stringify(flowData)));
+    console.log(JSON.stringify(flowData));
+
+    const payload = {
+      flow_data: flowData,
+    };
+    // ✅ Properly await the API call
+    await aiAgents.updateAgent(props.data.id, payload);
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'))
+  } catch (e) {
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'))
+  } finally {
+    isSaving.value = false
+  }
+}
+</script>
+
+
 <template>
   <div class="flex flex-row gap-4">
     <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-4">
@@ -137,105 +285,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { reactive, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useAlert } from 'dashboard/composables'
-import Button from 'dashboard/components-next/button/Button.vue'
-
-const { t } = useI18n()
-
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true,
-  },
-})
-
-const categories = reactive([
-  { name: 'Komplain', condition: '' },
-  { name: 'Teknis', condition: '' },
-  { name: 'Lainnya', condition: '' }
-])
-
-const expandedCategories = ref({}) // Track expanded state for each category
-
-const validation = reactive({
-  categories: {}
-})
-
-const isSaving = ref(false)
-
-function validateCategoryName(index) {
-  const name = categories[index]?.name?.trim()
-  if (!name) {
-    validation.categories[index] = t('AGENT_MGMT.CSBOT.TICKET.ERROR')
-    return false
-  }
-  
-  const duplicateIndex = categories.findIndex((c, i) => 
-    i !== index && c.name?.trim().toLowerCase() === name.toLowerCase()
-  )
-  if (duplicateIndex !== -1) {
-    validation.categories[index] = t('AGENT_MGMT.CSBOT.TICKET.DUPE_ERROR')
-    return false
-  }
-  
-  delete validation.categories[index]
-  return true
-}
-
-function addCategory() {
-  const newIndex = categories.length;
-  categories.push({ name: '', condition: '' })
-  // Auto-expand the newly added category
-  expandedCategories.value[newIndex] = true;
-}
-
-function toggleCategoryExpand(index) {
-  expandedCategories.value[index] = !expandedCategories.value[index];
-}
-
-function removeCategory(index) {
-  categories.splice(index, 1)
-  delete validation.categories[index]
-  const newValidation = {}
-  Object.keys(validation.categories).forEach(key => {
-    const keyIndex = parseInt(key)
-    if (keyIndex > index) {
-      newValidation[keyIndex - 1] = validation.categories[keyIndex]
-    } else if (keyIndex < index) {
-      newValidation[keyIndex] = validation.categories[keyIndex]
-    }
-  })
-  validation.categories = newValidation
-}
-
-async function save() {
-  try {
-    isSaving.value = true
-    
-    // Validate all categories
-    let isValid = true
-    categories.forEach((_, index) => {
-      if (!validateCategoryName(index)) {
-        isValid = false
-      }
-    })
-    
-    if (!isValid) {
-      useAlert(t('AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR'))
-      return
-    }
-
-    // TODO: API call to save categories
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'))
-  } catch (e) {
-    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'))
-  } finally {
-    isSaving.value = false
-  }
-}
-</script>

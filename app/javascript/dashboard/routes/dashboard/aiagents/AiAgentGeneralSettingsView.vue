@@ -34,6 +34,25 @@ const messages = ref([]);
 const sessionId = ref(crypto.randomUUID());
 const loadingChat = ref(false);
 const chatContainer = ref(null);
+const knowledgeSources = ref([]);
+
+// Fetch knowledge sources on mount or when agent data changes
+watch(
+  () => props.data,
+  async v => {
+    chatflowId.value = v?.chat_flow_id;
+    if (v?.id) {
+      try {
+        const res = await aiAgents.getKnowledgeSources(v.id);
+        knowledgeSources.value = res.data?.knowledge_source_texts || [];
+      } catch (err) {
+        console.error('Failed to fetch knowledge sources:', err);
+        knowledgeSources.value = [];
+      }
+    }
+  },
+  { immediate: true }
+);
 
 watch(
   () => props.data,
@@ -66,6 +85,30 @@ const rules = {
 
 const v$ = useVuelidate(rules, state);
 
+// Inside the watch on props.data, after fetching knowledgeSources
+watch(
+  () => props.data,
+  async v => {
+    chatflowId.value = v?.chat_flow_id;
+    if (v?.id) {
+      try {
+        const res = await aiAgents.getKnowledgeSources(v.id);
+        knowledgeSources.value = res.data?.knowledge_source_texts || [];
+
+        // 🔁 Find tab:1 and populate business_info
+        const knowledgeTab1 = knowledgeSources.value.find(k => k.tab === 1);
+        if (knowledgeTab1) {
+          state.business_info = knowledgeTab1.text;
+        }
+      } catch (err) {
+        console.error('Failed to fetch knowledge sources:', err);
+        knowledgeSources.value = [];
+      }
+    }
+  },
+  { immediate: true }
+);
+
 watch(
   () => props.data,
   v => {
@@ -85,29 +128,92 @@ watch(
 );
 
 const loadingSave = ref(false);
-async function submit() {
-  if (loadingSave.value) {
-    return;
-  }
 
-  if (!(await v$.value.$validate())) {
-    return;
-  }
+async function submit() {
+  if (loadingSave.value) return;
+
+  const isValid = await v$.value.$validate();
+  if (!isValid) return;
 
   try {
     loadingSave.value = true;
-    const request = {
-      ...state,
+
+    const agentId = props.data.id;
+    const request = { ...state };
+    console.log("state:")
+    console.log(state)
+
+    // 🔎 Find existing knowledge source for tab: 1
+    const existingKnowledge = knowledgeSources.value.find(k => k.tab === 1);
+
+    let knowledgeId = existingKnowledge?.id;
+
+    // 🟡 If no knowledge source for tab:1 exists → create one
+    if (!knowledgeId) {
+      const createRes = await aiAgents.addKnowledgeText(agentId, {
+        id: null,
+        tab: 1,
+        text: state.business_info || '<br>',
+      });
+      knowledgeId = createRes.data?.id;
+
+      // 🛠 Also update local list so future edits work
+      if (knowledgeId) {
+        knowledgeSources.value.push({
+          id: knowledgeId,
+          tab: 1,
+          text: state.business_info || '<br>',
+        });
+      }
+    }
+
+    // ✅ Now safely update with real `id`
+    await aiAgents.updateKnowledgeText(agentId, {
+      id: knowledgeId,
+      tab: 1,
+      text: state.business_info,
+    });
+
+    // ✅ Update agent info
+    // ✅ STEP 1: Deep clone flowData to avoid mutating props
+    const flowData = JSON.parse(JSON.stringify(props.data.display_flow_data));
+
+    // ✅ STEP 2: Update bot_prompt for every agent that is customer_service
+    flowData.agents_config.forEach(agent_config => {
+      if (agent_config.bot_prompt) {
+        agent_config.bot_prompt.persona = state.welcoming_message || agent_config.bot_prompt.persona;
+        agent_config.bot_prompt.handover_conditions = state.routing_conditions || '';
+        // Optionally reset to default if empty:
+        // if (!state.routing_conditions) agent_config.bot_prompt.handover_conditions = '...default...'
+      }
+    });
+    console.log(flowData);
+    console.log(props.config);
+    const payload = {
+      flow_data: flowData,
     };
-    await aiAgents.updateAgent(props.data.id, request);
-    const detailAgent = await aiAgents
-      .detailAgent(props.data.id)
-      .then(v => v?.data);
+    // ✅ Properly await the API call
+    await aiAgents.updateAgent(props.data.id, payload);
+
+    // 🔄 Refresh agent data to get latest chat_flow_id
+    const detailAgent = await aiAgents.detailAgent(agentId).then(v => v?.data);
     chatflowId.value = undefined;
     nextTick(() => {
       chatflowId.value = detailAgent?.chat_flow_id;
     });
+
     useAlert('Berhasil disimpan');
+  } catch (error) {
+    console.error('Error updating agent:', error);
+    if (error.response) {
+      console.error('Response data:', error.response.data);
+      console.error('Status code:', error.response.status);
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+    } else {
+      console.error('Error:', error.message);
+    }
+    useAlert('Gagal menyimpan data. Cek konsol untuk detail.', 'alert-danger');
   } finally {
     loadingSave.value = false;
   }

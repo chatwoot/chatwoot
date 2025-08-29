@@ -1060,7 +1060,6 @@ export default {
       try {
         await this.apiPost('/api/billing/topup-mau', {});
         // Handle success - perhaps show a modal or navigate to checkout
-        alert('Redirecting to MAU top-up page...');
       } catch (error) {
         console.error('Error topping up MAU:', error);
       }

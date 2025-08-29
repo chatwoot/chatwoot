@@ -1,3 +1,181 @@
+<script setup>
+import { ref, reactive, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useAlert } from 'dashboard/composables'
+import Button from 'dashboard/components-next/button/Button.vue'
+
+// Google Sheets Auth Flow for Tickets
+import googleSheetsExportAPI from '../../../../../api/googleSheetsExport'
+// ✅ Add this line to fix the "aiAgents is not defined" error
+import aiAgents from '../../../../../api/aiAgents'
+import { watch } from 'vue';
+
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+  config: {
+    type: Object,
+    required: true,
+  },
+});
+
+const { t } = useI18n();
+// Watch for props.data and extract ticket system settings
+watch(
+  () => props.data,
+  (newData) => {
+    if (!newData?.display_flow_data) return;
+
+    const flowData = newData.display_flow_data;
+    const agentIndex = flowData.enabled_agents.indexOf('customer_service');
+
+    // If customer_service agent isn't in the flow, skip
+    if (agentIndex === -1) {
+      props.config.ticketSystemActive = false;
+      props.config.ticketCreateWhen = 'always';
+      return;
+    }
+
+    const ticketSystem = flowData.agents_config?.[agentIndex]?.configurations?.ticket_system;
+
+    // Map backend value to UI
+    if (ticketSystem === 'always') {
+      props.config.ticketSystemActive = true;
+      props.config.ticketCreateWhen = 'always';
+    } else if (ticketSystem === 'conditional') {
+      props.config.ticketSystemActive = true;
+      props.config.ticketCreateWhen = 'bot_fail';
+    } else {
+      props.config.ticketSystemActive = false;
+      // Optionally keep last value or reset
+      props.config.ticketCreateWhen = 'always';
+    }
+  },
+  { immediate: true }  // ← Runs as soon as component mounts
+);
+
+const isSaving = ref(false);
+
+// Google Sheets Integration State
+const ticketStep = ref('auth'); // 'auth', 'connected', 'sheetConfig'
+const ticketLoading = ref(false);
+const ticketAccount = ref(null); // { email: '...', name: '...' }
+const ticketSheets = reactive({ output: '' });
+const notification = ref(null);
+
+// Check auth status on mount
+onMounted(async () => {
+  await checkAuthStatus();
+});
+
+function showNotification(message, type = 'success') {
+  notification.value = { message, type }
+  setTimeout(() => {
+    notification.value = null
+  }, 3000)
+}
+
+async function connectGoogle() {
+  try {
+    ticketLoading.value = true
+    const response = await googleSheetsExportAPI.getAuthorizationUrl()
+    if (response.data.authorization_url) {
+      showNotification('Redirecting to Google for authentication...', 'info')
+      window.location.href = response.data.authorization_url
+    } else {
+      showNotification('Failed to get authorization URL. Please check backend logs.', 'error')
+    }
+  } catch (error) {
+    showNotification('Authentication failed. Please try again.', 'error')
+    console.error('Google auth error:', error)
+  } finally {
+    ticketLoading.value = false
+  }
+}
+
+async function checkAuthStatus() {
+  try {
+    ticketLoading.value = true
+    const response = await googleSheetsExportAPI.getStatus()
+    if (response.data.authorized) {
+      ticketStep.value = 'connected'
+      ticketAccount.value = {
+        email: response.data.email,
+        name: 'Connected Account'
+      }
+      if (response.data.spreadsheet_url_output) {
+        ticketSheets.output = response.data.spreadsheet_url_output
+        ticketStep.value = 'sheetConfig'
+      } else {
+        ticketSheets.output = ''
+      }
+    } else {
+      ticketStep.value = 'auth'
+    }
+  } catch (error) {
+    console.error('Failed to check authorization status:', error)
+    ticketStep.value = 'auth'
+  } finally {
+    ticketLoading.value = false
+  }
+}
+
+async function createTicketSheet() {
+  ticketLoading.value = true
+  try {
+    // TODO: Call backend to create ticket output sheet
+    // For now, simulate sheet creation
+    await new Promise(resolve => setTimeout(resolve, 1200))
+    
+    ticketSheets.output = 'https://docs.google.com/spreadsheets/d/ticket-output-sheet-id'
+    ticketStep.value = 'sheetConfig'
+    showNotification('Ticket output sheet created successfully!', 'success')
+  } catch (error) {
+    console.error('Failed to create ticket sheet:', error)
+    showNotification('Failed to create ticket sheet. Please try again.', 'error')
+  } finally {
+    ticketLoading.value = false
+  }
+}
+
+async function save() {
+  if (isSaving.value) return; // Prevent multiple calls
+  let ticketSystem = 'off';
+  if (props.config.ticketSystemActive) {
+    if (props.config.ticketCreateWhen === 'always') {
+      ticketSystem = 'always';
+    } else if (props.config.ticketCreateWhen === 'bot_fail') {
+      ticketSystem = 'conditional';
+    }
+  }
+  try {
+    isSaving.value = true;
+    // Hardcoded payload, exactly as you had it
+    let flowData = props.data.display_flow_data;
+    console.log(flowData)
+    const agent_index = flowData.enabled_agents.indexOf('customer_service');
+    flowData.agents_config[agent_index].configurations.ticket_system =
+      ticketSystem;
+    console.log(flowData);
+    console.log(props.config);
+    const payload = {
+      flow_data: flowData,
+    };
+    // ✅ Properly await the API call
+    await aiAgents.updateAgent(props.data.id, payload);
+
+    // ✅ Show success alert after success
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
+  } catch (e) {
+    console.error('Save error:', e);
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'));
+  } finally {
+    isSaving.value = false;
+  }
+}
+</script>
 <template>
   <div class="w-full">
     <!-- Notification -->
@@ -181,125 +359,4 @@
       </div>
     </div>
   </div>
-</template><script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useAlert } from 'dashboard/composables'
-import Button from 'dashboard/components-next/button/Button.vue'
-
-// Google Sheets Auth Flow for Tickets
-import googleSheetsExportAPI from '../../../../../api/googleSheetsExport'
-
-const { t } = useI18n()
-
-const props = defineProps({
-  config: {
-    type: Object,
-    required: true,
-  },
-})
-
-const isSaving = ref(false)
-
-// Google Sheets Integration State
-const ticketStep = ref('auth') // 'auth', 'connected', 'sheetConfig'
-const ticketLoading = ref(false)
-const ticketAccount = ref(null) // { email: '...', name: '...' }
-const ticketSheets = reactive({ output: '' })
-const notification = ref(null)
-
-// Check auth status on mount
-onMounted(async () => {
-  await checkAuthStatus()
-})
-
-function showNotification(message, type = 'success') {
-  notification.value = { message, type }
-  setTimeout(() => {
-    notification.value = null
-  }, 3000)
-}
-
-async function connectGoogle() {
-  try {
-    ticketLoading.value = true
-    const response = await googleSheetsExportAPI.getAuthorizationUrl()
-    if (response.data.authorization_url) {
-      showNotification('Redirecting to Google for authentication...', 'info')
-      window.location.href = response.data.authorization_url
-    } else {
-      showNotification('Failed to get authorization URL. Please check backend logs.', 'error')
-    }
-  } catch (error) {
-    showNotification('Authentication failed. Please try again.', 'error')
-    console.error('Google auth error:', error)
-  } finally {
-    ticketLoading.value = false
-  }
-}
-
-async function checkAuthStatus() {
-  try {
-    ticketLoading.value = true
-    const response = await googleSheetsExportAPI.getStatus()
-    if (response.data.authorized) {
-      ticketStep.value = 'connected'
-      ticketAccount.value = {
-        email: response.data.email,
-        name: 'Connected Account'
-      }
-      if (response.data.spreadsheet_url_output) {
-        ticketSheets.output = response.data.spreadsheet_url_output
-        ticketStep.value = 'sheetConfig'
-      } else {
-        ticketSheets.output = ''
-      }
-    } else {
-      ticketStep.value = 'auth'
-    }
-  } catch (error) {
-    console.error('Failed to check authorization status:', error)
-    ticketStep.value = 'auth'
-  } finally {
-    ticketLoading.value = false
-  }
-}
-
-async function createTicketSheet() {
-  ticketLoading.value = true
-  try {
-    // TODO: Call backend to create ticket output sheet
-    // For now, simulate sheet creation
-    await new Promise(resolve => setTimeout(resolve, 1200))
-    
-    ticketSheets.output = 'https://docs.google.com/spreadsheets/d/ticket-output-sheet-id'
-    ticketStep.value = 'sheetConfig'
-    showNotification('Ticket output sheet created successfully!', 'success')
-  } catch (error) {
-    console.error('Failed to create ticket sheet:', error)
-    showNotification('Failed to create ticket sheet. Please try again.', 'error')
-  } finally {
-    ticketLoading.value = false
-  }
-}
-
-async function save() {
-  try {
-    isSaving.value = true
-    
-    // TODO: API call to save general settings including Google Sheets config
-    const configData = {
-      ...props.config,
-      ticketSheetUrl: ticketSheets.output
-    }
-    
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'))
-  } catch (e) {
-    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'))
-    console.error('Save error:', e)
-  } finally {
-    isSaving.value = false
-  }
-}
-</script>
+</template>
