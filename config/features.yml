@@ -198,6 +198,7 @@
 - name: twilio_content_templates
   display_name: Twilio Content Templates
   enabled: false
+  deprecated: true
 - name: advanced_search
   display_name: Advanced Search
   enabled: false
