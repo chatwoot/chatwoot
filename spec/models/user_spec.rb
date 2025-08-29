@@ -124,18 +124,14 @@ RSpec.describe User do
       create(:account_user, user: user, account: account3, active_at: nil) # New account with NULL active_at
     end
 
-    it 'returns the account_user with the most recent active_at when all have timestamps' do
-      expect(user.active_account_user.account_id).to eq(account2.id)
-    end
-
-    it 'prioritizes accounts with active_at over NULL values (NULLS LAST behavior)' do
-      # Even though account3 was created last, it should not be returned due to NULL active_at
+    it 'returns the account_user with the most recent active_at, prioritizing timestamps over NULL values' do
+      # Should return account2 (most recent timestamp) even though account3 was created last with NULL active_at
       expect(user.active_account_user.account_id).to eq(account2.id)
     end
 
     it 'returns NULL active_at account only when no other accounts have active_at' do
       # Remove active_at from all accounts
-      user.account_users.update_all(active_at: nil)
+      user.account_users.each { |au| au.update!(active_at: nil) }
 
       # Should return one of the accounts (behavior is undefined but consistent)
       expect(user.active_account_user).to be_present
