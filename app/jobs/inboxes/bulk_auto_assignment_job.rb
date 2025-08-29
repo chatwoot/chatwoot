@@ -3,8 +3,11 @@ class Inboxes::BulkAutoAssignmentJob < ApplicationJob
   include BillingHelper
 
   def perform
-    Account.find_each do |account|
-      next if should_skip_auto_assignment?(account)
+    Account.feature_assignment_v2.find_each do |account|
+      if should_skip_auto_assignment?(account)
+        Rails.logger.info("Skipping auto assignment for account #{account.id}")
+        next
+      end
 
       account.inboxes.where(enable_auto_assignment: true).find_each do |inbox|
         process_assignment(inbox)
@@ -32,6 +35,7 @@ class Inboxes::BulkAutoAssignmentJob < ApplicationJob
         conversation: conversation,
         allowed_agent_ids: allowed_agent_ids
       ).perform
+      Rails.logger.info("Assigned conversation #{conversation.id} to agent #{allowed_agent_ids.first}")
     end
   end
 
