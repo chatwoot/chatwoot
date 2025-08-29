@@ -20,7 +20,7 @@ class Captain::Llm::BaseJangkauService
   def generate_response
     Rails.logger.info '[generate_response] Generating response for Jangkau AI Agent'
 
-    Rails.logger.info "[generate_response] Requesting #{request_body.to_json}"
+    Rails.logger.info "[generate_response] Requesting to base_uri: #{base_uri} with payload:#{request_body.to_json}"
     response = self.class.post(
       '/chat/override/',
       body: request_body.to_json,

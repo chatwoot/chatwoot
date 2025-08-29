@@ -33,7 +33,7 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder
   end
 
   def update
-    update_chat_flow
+    # update_chat_flow
 
     ActiveRecord::Base.transaction do
       ai_agent.update!(ai_agent_params.merge(display_flow_data: ai_agent_params[:flow_data]))

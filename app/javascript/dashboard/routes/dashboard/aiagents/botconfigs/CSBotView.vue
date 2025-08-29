@@ -40,7 +40,7 @@
         </div>
 
         <div v-show="activeIndex === 0" class="w-full min-w-0">
-          <GeneralTab :config="config" />
+          <GeneralTab :config="config" :data="data"/>
         </div>
         <div v-show="activeIndex === 1" class="w-full min-w-0">
           <FileKnowledgeSources :data="data" />
