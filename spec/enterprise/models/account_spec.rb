@@ -246,7 +246,7 @@ RSpec.describe Account, type: :model do
       it 'sends a system-initiated deletion email when reason is not manual_deletion' do
         mailer = double
         expect(AdministratorNotifications::AccountNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
-        expect(mailer).to receive(:account_deletion_system_initiated).with(account, 'inactivity').and_return(mailer)
+        expect(mailer).to receive(:account_deletion_for_inactivity).with(account, 'inactivity').and_return(mailer)
         expect(mailer).to receive(:deliver_later)
 
         account.mark_for_deletion('inactivity')

@@ -14,9 +14,11 @@ module Enterprise::Account
     # Send notification to admin users if the account was successfully marked for deletion
     if result
       mailer = AdministratorNotifications::AccountNotificationMailer.with(account: self)
-      reason == 'manual_deletion' ?
-        mailer.account_deletion_user_initiated(self, reason).deliver_later :
-        mailer.account_deletion_system_initiated(self, reason).deliver_later
+      if reason == 'manual_deletion'
+        mailer.account_deletion_user_initiated(self, reason).deliver_later
+      else
+        mailer.account_deletion_for_inactivity(self, reason).deliver_later
+      end
     end
 
     result
