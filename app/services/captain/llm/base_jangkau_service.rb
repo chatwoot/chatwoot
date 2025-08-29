@@ -20,9 +20,16 @@ class Captain::Llm::BaseJangkauService
   def generate_response
     Rails.logger.info '[generate_response] Generating response for Jangkau AI Agent'
 
-    Rails.logger.info "[generate_response] Requesting to base_uri: #{base_uri} with payload:#{request_body.to_json}"
+    # 👇 Build the full URL
+    base_url = self.class.base_uri.strip # e.g., "https://agent.jangkau.ai/v2"
+    endpoint = '/chat/override/'         # the path you're POSTing to
+    full_url = "#{base_url}#{endpoint}"  # 👈 Full URL
+
+    Rails.logger.info "[generate_response] Request will be sent to: #{full_url}"
+    Rails.logger.info "[generate_response] Request payload: #{request_body.to_json}"
+
     response = self.class.post(
-      '/chat/override/',
+      endpoint,
       body: request_body.to_json,
       headers: headers
     )
