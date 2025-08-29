@@ -14,7 +14,7 @@ module AutoAssignmentHandler
     return unless conversation_status_changed_to_open?
     return unless should_run_auto_assignment?
 
-    if inbox.auto_assignment_enabled?
+    if inbox.auto_assignment_v2_enabled?
       # Use new assignment system
       AutoAssignment::AssignmentJob.perform_later(inbox_id: inbox.id)
     else

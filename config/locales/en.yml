@@ -394,11 +394,6 @@ en:
       %{format_messages}
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
-  jobs:
-    auto_assignment:
-      assignment_job:
-        bulk_assignment_success: 'Assigned %{assigned_count} conversations for inbox %{inbox_id}'
-        bulk_assignment_failed: 'Bulk assignment failed for inbox %{inbox_id}: %{error_message}'
   portals:
     send_instructions:
       email_required: 'Email is required'

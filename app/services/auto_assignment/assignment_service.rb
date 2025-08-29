@@ -1,15 +1,6 @@
 class AutoAssignment::AssignmentService
   pattr_initialize [:inbox!]
 
-  def perform_for_conversation(conversation)
-    return false unless assignable?(conversation)
-
-    agent = find_available_agent
-    return false unless agent
-
-    assign_conversation(conversation, agent)
-  end
-
   def perform_bulk_assignment(limit: 100)
     return 0 unless inbox.enable_auto_assignment?
 
@@ -24,27 +15,30 @@ class AutoAssignment::AssignmentService
 
   private
 
+  def perform_for_conversation(conversation)
+    return false unless assignable?(conversation)
+
+    agent = find_available_agent
+    return false unless agent
+
+    assign_conversation(conversation, agent)
+  end
+
   def assignable?(conversation)
-    inbox.enable_auto_assignment? &&
-      conversation.status == 'open' &&
+    conversation.status == 'open' &&
       conversation.assignee_id.nil?
   end
 
   def unassigned_conversations(limit)
     scope = inbox.conversations.unassigned.open
 
-    # Apply conversation priority from config
-    scope = apply_conversation_priority(scope)
-    scope.limit(limit)
-  end
-
-  def apply_conversation_priority(scope)
-    case assignment_config['conversation_priority']
-    when 'longest_waiting'
-      scope.order(last_activity_at: :asc, created_at: :asc)
+    if assignment_config['conversation_priority'] == 'longest_waiting'
+      scope = scope.order(last_activity_at: :asc, created_at: :asc)
     else
       scope.order(created_at: :asc)
     end
+
+    scope.limit(limit)
   end
 
   def find_available_agent
@@ -69,9 +63,6 @@ class AutoAssignment::AssignmentService
 
     dispatch_assignment_event(conversation, agent)
     true
-  rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "AutoAssignment failed for conversation #{conversation.id}: #{e.message}"
-    false
   end
 
   def dispatch_assignment_event(conversation, agent)

@@ -191,7 +191,7 @@ class Inbox < ApplicationRecord
     members.ids
   end
 
-  def auto_assignment_enabled?
+  def auto_assignment_v2_enabled?
     account.feature_enabled?('assignment_v2') && assignment_policy.present? && assignment_policy.enabled?
   end
 
