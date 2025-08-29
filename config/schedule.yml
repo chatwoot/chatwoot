@@ -47,9 +47,9 @@ delete_accounts_job:
   class: 'Internal::DeleteAccountsJob'
   queue: scheduled_jobs
 
-# executed every 30 minutes
+# executed every 15 minutes
 # to assign unassigned conversations for all inboxes
 bulk_auto_assignment_job:
-  cron: '*/30 * * * *'
+  cron: '*/15 * * * *'
   class: 'Inboxes::BulkAutoAssignmentJob'
   queue: scheduled_jobs
