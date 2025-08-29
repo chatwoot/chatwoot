@@ -554,7 +554,7 @@
                       >
                         <div class="flex-1 text-left">
                           <span v-if="kurirBiasa.kurir.length === 0" class="text-gray-500">
-                            {{ $t('AGENT_MGMT.FORM_CREATE.SELECT_TEMPLATES') }}
+                            {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SELECT_COURIER_PLACEHOLDER') }}
                           </span>
                           <div v-else class="flex flex-wrap gap-1">
                             <span
@@ -782,15 +782,15 @@
                     </div>
                   </div>
 
-                  <!-- Non COD -->
+                  <!-- Bank Transfer -->
                   <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
                     <div class="flex items-center justify-between p-4">
                       <div>
-                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.NON_COD_TITLE') }}</h3>
-                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.NON_COD_DESC') }}</p>
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
                       </div>
                       <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox" v-model="paymentMethods.nonCod" class="sr-only peer">
+                        <input type="checkbox" v-model="paymentMethods.bankTransfer" class="sr-only peer">
                         <div
                           class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
                         </div>
@@ -798,159 +798,138 @@
                     </div>
                     
                     <div 
-                      v-if="paymentMethods.nonCod" 
-                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-6 transition-all duration-200 ease-in-out"
+                      v-if="paymentMethods.bankTransfer" 
+                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
                     >
-                      <!-- Bank Transfer -->
-                      <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <div class="flex items-center justify-between p-4">
-                          <div>
-                            <h4 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h4>
-                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
-                          </div>
-                          <label class="inline-flex items-center cursor-pointer">
-                            <input type="checkbox" v-model="nonCodMethods.bankTransfer" class="sr-only peer">
-                            <div
-                              class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                            </div>
-                          </label>
-                        </div>
-                        
-                        <div 
-                          v-if="nonCodMethods.bankTransfer" 
-                          class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4"
+                      <div class="space-y-4">
+                        <div
+                          v-for="(account, index) in bankAccounts"
+                          :key="account.id"
+                          class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4"
                         >
-                          <div class="space-y-4">
-                            <div
-                              v-for="(account, index) in bankAccounts"
-                              :key="account.id"
-                              class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4"
-                            >
-                              <div class="flex items-center justify-between mb-4">
-                                <h5 class="font-medium text-slate-700 dark:text-slate-300">
-                                  {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_ACCOUNT_TITLE')}} #{{ index + 1 }}
-                                </h5>
-                                <Button
-                                  variant="ghost"
-                                  color="ruby"
-                                  icon="i-lucide-trash"
-                                  size="sm"
-                                  @click="() => deleteBankAccount(index)"
-                                  class="opacity-70 hover:opacity-100"
-                                />
-                              </div>
-                              
-                              <div class="grid grid-cols-1 gap-4">
-                                <div>
-                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_NAME_LABEL') }} <span class="text-red-500">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    v-model="account.bankName"
-                                    placeholder="e.g., Bank BCA, Bank Mandiri"
-                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                                  />
-                                </div>
-                                <div>
-                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_NUMBER_LABEL') }} <span class="text-red-500">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    v-model="account.accountNumber"
-                                    placeholder="e.g., 1234567890"
-                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                                  />
-                                </div>
-                                <div>
-                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_HOLDER_LABEL') }} <span class="text-red-500">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    v-model="account.accountHolder"
-                                    placeholder="e.g., John Doe"
-                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                                  />
-                                </div>
-                              </div>
+                          <div class="flex items-center justify-between mb-4">
+                            <h5 class="font-medium text-slate-700 dark:text-slate-300">
+                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_ACCOUNT_TITLE')}} #{{ index + 1 }}
+                            </h5>
+                            <Button
+                              variant="ghost"
+                              color="ruby"
+                              icon="i-lucide-trash"
+                              size="sm"
+                              @click="() => deleteBankAccount(index)"
+                              class="opacity-70 hover:opacity-100"
+                            />
+                          </div>
+                          
+                          <div class="grid grid-cols-1 gap-4">
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_NAME_LABEL') }} <span class="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                v-model="account.bankName"
+                                placeholder="e.g., Bank BCA, Bank Mandiri"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                              />
+                            </div>
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_NUMBER_LABEL') }} <span class="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                v-model="account.accountNumber"
+                                placeholder="e.g., 1234567890"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                              />
+                            </div>
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_HOLDER_LABEL') }} <span class="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                v-model="account.accountHolder"
+                                placeholder="e.g., John Doe"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                              />
                             </div>
                           </div>
-
-                          <Button 
-                            class="w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-green-400 hover:text-green-600 transition-all duration-200 rounded-xl bg-transparent hover:bg-green-50 dark:hover:bg-green-900/10" 
-                            variant="ghost"
-                            @click="addBankAccount"
-                          >
-                            <span class="flex items-center gap-2">
-                              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                              </svg>
-                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ADD_BANK_ACCOUNT') }}
-                            </span>
-                          </Button>
                         </div>
                       </div>
 
-                      <!-- Payment Gateway -->
-                      <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <div class="flex items-center justify-between p-4">
-                          <div>
-                            <h4 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h4>
-                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
-                          </div>
-                          <label class="inline-flex items-center cursor-pointer">
-                            <input type="checkbox" v-model="nonCodMethods.paymentGateway" class="sr-only peer">
-                            <div
-                              class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                            </div>
-                          </label>
+                      <Button 
+                        class="w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-green-400 hover:text-green-600 transition-all duration-200 rounded-xl bg-transparent hover:bg-green-50 dark:hover:bg-green-900/10" 
+                        variant="ghost"
+                        @click="addBankAccount"
+                      >
+                        <span class="flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                          </svg>
+                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ADD_BANK_ACCOUNT') }}
+                        </span>
+                      </Button>
+                    </div>
+                  </div>
+
+                  <!-- Payment Gateway -->
+                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                    <div class="flex items-center justify-between p-4">
+                      <div>
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
+                      </div>
+                      <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" v-model="paymentMethods.paymentGateway" class="sr-only peer">
+                        <div
+                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
                         </div>
-                        
-                        <div 
-                          v-if="nonCodMethods.paymentGateway" 
-                          class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4"
+                      </label>
+                    </div>
+                    
+                    <div 
+                      v-if="paymentMethods.paymentGateway" 
+                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
+                    >
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
+                        </label>
+                        <select 
+                          v-model="paymentGateway.provider"
+                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
-                            </label>
-                            <select 
-                              v-model="paymentGateway.provider"
-                              class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-                            >
-                              <option value="">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.SELECT_PROVIDER') }}</option>
-                              <option v-for="provider in paymentGatewayProviders" :key="provider.id" :value="provider.id">
-                                {{ provider.label }}
-                              </option>
-                            </select>
-                          </div>
-                          
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              API Key <span class="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="password"
-                              v-model="paymentGateway.apiKey"
-                              :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.API_KEY_PLACEHOLDER')"
-                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                            />
-                          </div>
-                          
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_LABEL') }} <span class="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              v-model="paymentGateway.merchantCode"
-                              :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_PLACEHOLDER')"
-                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                            />
-                          </div>
-                        </div>
+                          <option value="">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.SELECT_PROVIDER') }}</option>
+                          <option v-for="provider in paymentGatewayProviders" :key="provider.id" :value="provider.id">
+                            {{ provider.label }}
+                          </option>
+                        </select>
+                      </div>
+                      
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          API Key <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="password"
+                          v-model="paymentGateway.apiKey"
+                          :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.API_KEY_PLACEHOLDER')"
+                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_LABEL') }} <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          v-model="paymentGateway.merchantCode"
+                          :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_PLACEHOLDER')"
+                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                        />
                       </div>
                     </div>
                   </div>
@@ -1929,10 +1908,6 @@ watch(mapRef, (newMapRef) => {
 // Payment Methods
 const paymentMethods = reactive({
   cod: false,
-  nonCod: false
-});
-
-const nonCodMethods = reactive({
   bankTransfer: false,
   paymentGateway: false
 });
@@ -2021,21 +1996,19 @@ function submitPaymentConfig() {
   try {
     isSaving.value = true;
     
-    console.log('Payment Methods:', JSON.parse(JSON.stringify({ paymentMethods, nonCodMethods, bankAccounts: bankAccounts.value, paymentGateway })));
+    console.log('Payment Methods:', JSON.parse(JSON.stringify({ paymentMethods, bankAccounts: bankAccounts.value, paymentGateway })));
     
     const paymentData = {
       cod: paymentMethods.cod,
-      nonCod: paymentMethods.nonCod ? {
-        bankTransfer: nonCodMethods.bankTransfer ? {
-          accounts: bankAccounts.value.filter(account => 
-            account.bankName && account.accountNumber && account.accountHolder
-          )
-        } : null,
-        paymentGateway: nonCodMethods.paymentGateway ? {
-          provider: paymentGateway.provider,
-          apiKey: paymentGateway.apiKey,
-          merchantCode: paymentGateway.merchantCode
-        } : null
+      bankTransfer: paymentMethods.bankTransfer ? {
+        accounts: bankAccounts.value.filter(account => 
+          account.bankName && account.accountNumber && account.accountHolder
+        )
+      } : null,
+      paymentGateway: paymentMethods.paymentGateway ? {
+        provider: paymentGateway.provider,
+        apiKey: paymentGateway.apiKey,
+        merchantCode: paymentGateway.merchantCode
       } : null
     };
     
