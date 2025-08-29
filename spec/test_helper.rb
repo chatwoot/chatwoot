@@ -1,5 +1,10 @@
 ENV['RAILS_ENV'] ||= 'test'
 require 'simplecov'
+require 'simplecov_json_formatter'
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+                                                                 SimpleCov::Formatter::JSONFormatter,
+                                                                 SimpleCov::Formatter::HTMLFormatter
+                                                               ])
 SimpleCov.start 'rails'
 
 require File.expand_path('../config/environment', __dir__)

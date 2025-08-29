@@ -227,6 +227,7 @@ group :test do
   gem 'webmock'
   # test profiling
   gem 'test-prof'
+  gem 'simplecov_json_formatter', require: false
 end
 
 group :development, :test do

@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@6.1.0
+  qlty-orb: qltysh/qlty-orb@0.0
 
 defaults: &defaults
   working_directory: ~/build
@@ -91,12 +92,7 @@ jobs:
             bundle install
             # pnpm install
 
-      - run:
-          name: Download cc-test-reporter
-          command: |
-            mkdir -p ~/tmp
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
-            chmod +x ~/tmp/cc-test-reporter
+      
 
       # Swagger verification
       - run:
@@ -149,16 +145,12 @@ jobs:
           command: pnpm run eslint
 
       - run:
-          name: Run frontend tests
+          name: Run frontend tests (with coverage)
           command: |
             mkdir -p ~/build/coverage/frontend
-            ~/tmp/cc-test-reporter before-build
             pnpm run test:coverage
 
-      - run:
-          name: Code Climate Test Coverage (Frontend)
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o "~/build/coverage/frontend/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
+      # Remove Code Climate formatting (Frontend)
 
       # Run backend tests
       - run:
@@ -167,7 +159,6 @@ jobs:
             mkdir -p ~/tmp/test-results/rspec
             mkdir -p ~/tmp/test-artifacts
             mkdir -p ~/build/coverage/backend
-            ~/tmp/cc-test-reporter before-build
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             bundle exec rspec --format progress \
                               --format RspecJunitFormatter \
@@ -175,10 +166,11 @@ jobs:
                               -- ${TESTFILES}
           no_output_timeout: 30m
 
-      - run:
-          name: Code Climate Test Coverage (Backend)
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/build/coverage/backend/codeclimate.$CIRCLE_NODE_INDEX.json"
+      # Qlty Coverage Publish: upload both Ruby (SimpleCov JSON) and JS (lcov)
+      - qlty-orb/coverage_publish:
+          files: |
+            coverage/coverage.json
+            coverage/lcov.info
 
       - run:
           name: List coverage directory contents

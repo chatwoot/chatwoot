@@ -1,6 +1,11 @@
 require 'simplecov'
+require 'simplecov_json_formatter'
 require 'webmock/rspec'
 
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+                                                                 SimpleCov::Formatter::JSONFormatter,
+                                                                 SimpleCov::Formatter::HTMLFormatter
+                                                               ])
 SimpleCov.start 'rails'
 WebMock.disable_net_connect!(allow_localhost: true)
 
