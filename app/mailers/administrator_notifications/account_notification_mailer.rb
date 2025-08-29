@@ -1,11 +1,4 @@
 class AdministratorNotifications::AccountNotificationMailer < AdministratorNotifications::BaseMailer
-  def account_deletion(account, reason = 'manual_deletion')
-    if reason == 'manual_deletion'
-      account_deletion_user_initiated(account, reason)
-    else
-      account_deletion_system_initiated(account, reason)
-    end
-  end
 
   def account_deletion_user_initiated(account, reason)
     subject = 'Your Chatwoot account deletion has been scheduled'
@@ -36,8 +29,7 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
   def format_deletion_date(deletion_date_str)
     return 'Unknown' if deletion_date_str.blank?
 
-    deletion_date = DateTime.parse(deletion_date_str)
-    deletion_date.strftime('%B %d, %Y')
+    Time.zone.parse(deletion_date_str).strftime('%B %d, %Y')
   rescue StandardError
     'Unknown'
   end
