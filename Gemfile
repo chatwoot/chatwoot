@@ -227,6 +227,7 @@ group :test do
   gem 'webmock'
   # test profiling
   gem 'test-prof'
+  gem 'simplecov_json_formatter', require: false
 end
 
 group :development, :test do
@@ -251,7 +252,7 @@ group :development, :test do
   gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
-  gem 'simplecov', '0.17.1', require: false
+  gem 'simplecov', '>= 0.21', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
 end
