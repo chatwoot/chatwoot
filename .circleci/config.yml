@@ -161,7 +161,7 @@ jobs:
             mkdir -p ~/tmp/test-artifacts
             mkdir -p ~/build/coverage/backend
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --require spec_helper --format progress \
+            bundle exec rspec --require spec/coverage_helper.rb --require spec_helper --format progress \
                               --format RspecJunitFormatter \
                               --out ~/tmp/test-results/rspec.xml \
                               -- ${TESTFILES}

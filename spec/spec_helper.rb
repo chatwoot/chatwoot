@@ -1,11 +1,3 @@
-if ENV['CI'] == 'true' || ENV['CIRCLECI'] == 'true'
-  require 'simplecov'
-  require 'simplecov_json_formatter'
-  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
-  SimpleCov.start 'rails' do
-    SimpleCov.coverage_dir 'coverage'
-  end
-end
 require 'webmock/rspec'
 
 WebMock.disable_net_connect!(allow_localhost: true)
