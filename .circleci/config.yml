@@ -161,13 +161,18 @@ jobs:
             mkdir -p ~/tmp/test-artifacts
             mkdir -p ~/build/coverage/backend
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --format progress \
+            bundle exec rspec --require spec_helper --format progress \
                               --format RspecJunitFormatter \
                               --out ~/tmp/test-results/rspec.xml \
                               -- ${TESTFILES}
           no_output_timeout: 30m
 
       # Install Qlty CLI and publish coverage conditionally (handles parallel nodes)
+      - run:
+          name: Show coverage directory (pre-publish)
+          command: |
+            ls -la coverage || true
+
       - run:
           name: Install Qlty CLI
           command: |
