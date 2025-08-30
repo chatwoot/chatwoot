@@ -193,3 +193,12 @@ jobs:
           root: ~/build
           paths:
             - coverage
+
+      # Always store coverage as build artifacts (directory may be empty on some nodes)
+      - run:
+          name: Ensure coverage directory exists for artifacts
+          command: |
+            mkdir -p coverage
+      - store_artifacts:
+          path: coverage
+          destination: coverage
