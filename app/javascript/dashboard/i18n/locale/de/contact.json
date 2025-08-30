@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "Nachricht senden"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Vorlage auswählen",
+        "SEARCH_PLACEHOLDER": "Vorlagen suchen",
+        "EMPTY_STATE": "Keine Vorlagen gefunden",
+        "TEMPLATE_PARSER": {
+          "BACK": "Zurück",
+          "SEND_MESSAGE": "Nachricht senden"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "Verwerfen",
         "SEND": "Senden ({keyCode})"
