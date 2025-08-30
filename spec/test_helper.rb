@@ -1,13 +1,11 @@
 ENV['RAILS_ENV'] ||= 'test'
-require 'simplecov'
-require 'simplecov_json_formatter'
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-                                                                 SimpleCov::Formatter::JSONFormatter,
-                                                                 SimpleCov::Formatter::HTMLFormatter
-                                                               ])
-SimpleCov.start 'rails' do
-  SimpleCov.coverage_dir 'coverage'
-  SimpleCov::Formatter::JSONFormatter.output_filename = 'coverage.json'
+if ENV['CI'] == 'true' || ENV['CIRCLECI'] == 'true'
+  require 'simplecov'
+  require 'simplecov_json_formatter'
+  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
+  SimpleCov.start 'rails' do
+    SimpleCov.coverage_dir 'coverage'
+  end
 end
 
 require File.expand_path('../config/environment', __dir__)
