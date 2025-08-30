@@ -167,11 +167,17 @@ jobs:
                               -- ${TESTFILES}
           no_output_timeout: 30m
 
-      # Qlty Coverage Publish: upload both Ruby (SimpleCov JSON) and JS (lcov)
-      - qlty-orb/coverage_publish:
-          files: |
-            coverage/coverage.json
-            coverage/lcov.info
+      # Install Qlty CLI and publish coverage conditionally (handles parallel nodes)
+      - run:
+          name: Install Qlty CLI
+          command: |
+            curl -sSfL https://get.qlty.sh | bash
+      - run:
+          name: Publish coverage to Qlty
+          command: |
+            set -e
+            if [ -f coverage/coverage.json ]; then /home/circleci/.qlty/bin/qlty coverage publish coverage/coverage.json --no-validate; else echo "Ruby coverage not found"; fi
+            if [ -f coverage/lcov.info ]; then /home/circleci/.qlty/bin/qlty coverage publish coverage/lcov.info --no-validate; else echo "JS coverage not found"; fi
 
       - run:
           name: List coverage directory contents
