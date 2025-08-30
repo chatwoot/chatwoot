@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP Adresas",
     "CREATED_AT_LABEL": "Sukurta",
     "NEW_MESSAGE": "Naujas pranešimas",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Su šiuo kontaktu nėra susietų ankstesnių pokalbių.",
       "TITLE": "Ankstesni pokalbiai"

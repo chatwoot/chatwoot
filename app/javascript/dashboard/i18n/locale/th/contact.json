@@ -17,6 +17,11 @@
     "IP_ADDRESS": "ที่อยู่ไอพี",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "ข้อความใหม่",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ไม่มีการสนทนาก่อนหน้านี้ที่เชื่อมโยงกับผู้ติดต่อนี้",
       "TITLE": "การสนทนาก่อนหน้า"

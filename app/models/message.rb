@@ -39,6 +39,8 @@
 #
 
 class Message < ApplicationRecord
+  searchkick callbacks: :async if ChatwootApp.advanced_search_allowed?
+
   include MessageFilterHelpers
   include Liquidable
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
@@ -139,12 +141,21 @@ class Message < ApplicationRecord
     data = attributes.symbolize_keys.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
-      conversation_id: conversation.display_id,
-      conversation: conversation_push_event_data
+      conversation_id: conversation&.display_id,
+      conversation: conversation.present? ? conversation_push_event_data : nil
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     merge_sender_attributes(data)
+  end
+
+  def search_data
+    data = attributes.symbolize_keys
+    data[:conversation] = conversation.present? ? conversation_push_event_data : nil
+    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
+    data[:sender] = sender.push_event_data if sender
+    data[:inbox] = inbox
+    data
   end
 
   def conversation_push_event_data
@@ -195,6 +206,12 @@ class Message < ApplicationRecord
     true
   end
 
+  def auto_reply_email?
+    return false unless incoming_email? || inbox.email?
+
+    content_attributes.dig(:email, :auto_reply) == true
+  end
+
   def valid_first_reply?
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
@@ -220,6 +237,14 @@ class Message < ApplicationRecord
   def send_update_event
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
                                                                             previous_changes: previous_changes)
+  end
+
+  def should_index?
+    return false unless ChatwootApp.advanced_search_allowed?
+    return false unless account.feature_enabled?('advanced_search')
+    return false unless incoming? || outgoing?
+
+    true
   end
 
   private
