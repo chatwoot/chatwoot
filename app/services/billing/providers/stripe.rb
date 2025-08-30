@@ -94,6 +94,8 @@ module Billing
           handle_payment_succeeded(event_object)
         when 'invoice.payment_failed'
           handle_payment_failed(event_object)
+        when 'product.updated'
+          handle_product_updated(event_object)
         else
           Rails.logger.info "Unhandled Stripe webhook event: #{event_type}"
           { success: true, message: "Event #{event_type} acknowledged but not processed" }
@@ -322,6 +324,37 @@ module Billing
         update_payment_status(account, 'failed')
 
         success_response('Payment failed, account status updated')
+      end
+
+      # Handles product.updated webhook events for automatic cache invalidation
+      def handle_product_updated(product)
+        metadata = product['metadata'] || {}
+        plan_name = metadata['plan_name']
+
+        if plan_name.present?
+          environment = metadata['environment'] || Rails.env
+
+          Rails.logger.info "Product updated for plan: #{plan_name}, environment: #{environment}"
+
+          # Invalidate cache for this specific plan and environment
+          self.class.invalidate_plan_cache(plan_name, environment)
+
+          # Also invalidate cache for all environments if no specific environment is set
+          if metadata['environment'].blank?
+            %w[development staging production].each do |env|
+              self.class.invalidate_plan_cache(plan_name, env)
+            end
+          end
+
+          Rails.logger.info "Cache invalidated for plan: #{plan_name}"
+          success_response("Product updated, cache invalidated for plan: #{plan_name}")
+        else
+          Rails.logger.info 'Product updated but no plan_name metadata found, skipping cache invalidation'
+          success_response('Product updated but no plan_name metadata found')
+        end
+      rescue StandardError => e
+        Rails.logger.error "Error handling product update: #{e.message}"
+        failure_response("Error processing product update: #{e.message}")
       end
 
       # Extracts account ID from invoice metadata (line items or subscription details)
@@ -607,6 +640,104 @@ module Billing
           subscription.cancel_at
         end
       end
+
+      # Dynamic price resolution methods (Phase 1)
+      CACHE_EXPIRY = 1.hour
+      MAX_PRODUCTS_LIMIT = 100
+
+      # Get price_id for a plan from Stripe Product metadata
+      def self.get_price_id_for_plan(plan_name, environment = Rails.env)
+        plan_data = get_plan_data_from_stripe(plan_name, environment)
+        plan_data&.dig(:price_id)
+      end
+
+      # Get plan limits from Stripe Product metadata
+      def self.get_plan_limits_from_stripe(plan_name, environment = Rails.env)
+        plan_data = get_plan_data_from_stripe(plan_name, environment)
+        plan_data&.dig(:limits) || {}
+      end
+
+      # Get complete plan data from Stripe Product metadata
+      def self.get_plan_data_from_stripe(plan_name, environment = Rails.env)
+        return nil if plan_name.blank?
+
+        # Cache results to avoid repeated API calls
+        cache_key = "stripe_plan_data_#{plan_name}_#{environment}"
+
+        Rails.cache.fetch(cache_key, expires_in: CACHE_EXPIRY) do
+          find_plan_data_by_name(plan_name, environment)
+        end
+      rescue ::Stripe::StripeError => e
+        Rails.logger.error "Stripe API error resolving plan data: #{e.message}"
+        nil
+      rescue StandardError => e
+        Rails.logger.error "Unexpected error resolving plan data: #{e.message}"
+        nil
+      end
+
+      # Invalidate cached plan data
+      def self.invalidate_plan_cache(plan_name, environment = Rails.env)
+        cache_key = "stripe_plan_data_#{plan_name}_#{environment}"
+        Rails.cache.delete(cache_key)
+      end
+
+      # Invalidate all cached plan data
+      def self.invalidate_all_plan_cache
+        Rails.cache.delete_matched('stripe_plan_data_*')
+      end
+
+      # Find plan data by searching Stripe Products with metadata
+      def self.find_plan_data_by_name(plan_name, environment)
+        Rails.logger.info "Resolving plan data for: #{plan_name}, environment: #{environment}"
+
+        # Search all active products for matching metadata
+        products = ::Stripe::Product.list(
+          active: true,
+          limit: MAX_PRODUCTS_LIMIT
+        )
+
+        target_product = products.data.find do |product|
+          metadata = product.metadata || {}
+          metadata['plan_name'] == plan_name &&
+            (metadata['environment'].nil? || metadata['environment'] == environment)
+        end
+
+        unless target_product
+          Rails.logger.warn "No Stripe product found for plan: #{plan_name}, environment: #{environment}"
+          return nil
+        end
+
+        Rails.logger.info "Found Stripe product: #{target_product.id} for plan: #{plan_name}"
+
+        # Get the active price for this product
+        prices = ::Stripe::Price.list(
+          product: target_product.id,
+          active: true,
+          limit: 10
+        )
+
+        active_price = prices.data.first
+        unless active_price
+          Rails.logger.warn "No active price found for product: #{target_product.id}"
+          return nil
+        end
+
+        # Extract limits from metadata using existing BillingPlans infrastructure
+        metadata = target_product.metadata || {}
+        limits = new.limits_from_billing_provider_metadata(metadata)
+
+        plan_data = {
+          price_id: active_price.id,
+          limits: limits,
+          feature_tiers: metadata['feature_tiers']&.split(',')&.map(&:strip) || [],
+          product_id: target_product.id
+        }
+
+        Rails.logger.info "Resolved plan data: #{plan_data.inspect}"
+        plan_data
+      end
+
+      private_class_method :find_plan_data_by_name
 
       # Helper methods for webhook responses
       def success_response(message)

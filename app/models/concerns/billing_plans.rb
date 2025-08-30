@@ -74,14 +74,43 @@ module BillingPlans
       end.map { |feature| feature['name'] }
     end
 
-    # Get limits for a specific plan
+    # Get limits for a specific plan (with dynamic Stripe resolution)
     def plan_limits(plan_name)
-      available_plans.dig(plan_name, 'limits') || {}
+      # Try dynamic resolution from Stripe first
+      dynamic_limits = Billing::Providers::Stripe.get_plan_limits_from_stripe(plan_name)
+
+      if dynamic_limits.present?
+        Rails.logger.info "Using dynamic limits: #{dynamic_limits} for plan: #{plan_name}"
+        return dynamic_limits
+      end
+
+      # Fallback to YAML configuration
+      yaml_limits = available_plans.dig(plan_name, 'limits') || {}
+      Rails.logger.info "Using YAML fallback limits: #{yaml_limits} for plan: #{plan_name}"
+
+      yaml_limits
     end
 
-    # Get external price ID for a plan (payment provider agnostic)
+    # Get external price ID for a plan (with dynamic Stripe resolution)
     def plan_price_id(plan_name)
-      available_plans.dig(plan_name, 'price_id')
+      # Try dynamic resolution from Stripe first
+      dynamic_price_id = Billing::Providers::Stripe.get_price_id_for_plan(plan_name)
+
+      if dynamic_price_id.present?
+        Rails.logger.info "Using dynamic price_id: #{dynamic_price_id} for plan: #{plan_name}"
+        return dynamic_price_id
+      end
+
+      # Fallback to YAML configuration
+      yaml_price_id = available_plans.dig(plan_name, 'price_id')
+      Rails.logger.info "Using YAML fallback price_id: #{yaml_price_id} for plan: #{plan_name}"
+
+      yaml_price_id
+    end
+
+    # Get complete plan data from Stripe (new method for enhanced functionality)
+    def plan_data_from_stripe(plan_name)
+      Billing::Providers::Stripe.get_plan_data_from_stripe(plan_name)
     end
 
     # Check if a plan exists

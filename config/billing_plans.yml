@@ -31,7 +31,7 @@ plans:
   starter:
     name: "Starter"
     description: "Perfect for growing teams"
-    price_id: "price_1RdbcC4TqKLiHbZ87crta9vQ"
+    price_id: "price_1RqHHDLIubTPR6wgjFoVzrfR"
     feature_tiers:
       - "starter"
     limits: # Fallback limits for community plan (in case the limits are not set in the payment provider)
