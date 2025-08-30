@@ -167,17 +167,11 @@ jobs:
                               -- ${TESTFILES}
           no_output_timeout: 30m
 
-      # Publish coverage to Qlty (if CLI is available); otherwise skip
-      - run:
-          name: Publish coverage to Qlty
-          command: |
-            set -e
-            if command -v /home/circleci/.qlty/bin/qlty >/dev/null 2>&1; then
-              if [ -f coverage/coverage.json ]; then /home/circleci/.qlty/bin/qlty coverage publish coverage/coverage.json --no-validate; else echo "Ruby coverage not found"; fi
-              if [ -f coverage/lcov.info ]; then /home/circleci/.qlty/bin/qlty coverage publish coverage/lcov.info --no-validate; else echo "JS coverage not found"; fi
-            else
-              echo "Qlty CLI not found; skipping coverage publish"
-            fi
+      # Qlty Coverage Orb
+      - qlty-orb/coverage_publish:
+          files: |
+            coverage/coverage.json
+            coverage/lcov.info
 
       - run:
           name: List coverage directory contents
