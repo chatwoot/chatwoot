@@ -78,6 +78,8 @@ module Stark
     end
 
     def build_follow_up_payload
+      puts "format_recent_messages: #{format_recent_messages.map { |message| message[:conversation_id] }}"
+      puts "format_recent_messages: #{format_recent_messages}"
       {
         follow_up: true,
         follow_up_number: @follow_up_number,
@@ -107,9 +109,9 @@ module Stark
       raise StandardError, 'Invalid response format from Stark server'
     end
 
-# Removed unused parse_stark_response method.
+    # Removed unused parse_stark_response method.
 
-# Removed unused `error_response?` method.
+    # Removed unused `error_response?` method.
     def handle_error_response(response)
       error_message = response.dig('body', 'message')
       errors = response.dig('body', 'errors')
@@ -133,11 +135,9 @@ module Stark
       @conversation.messages
                    .not_activity
                    .not_template
-                   .unscoped
-                   .left_outer_joins(:attachments)
-                   .where(attachments: { id: nil })
+                   .where.missing(:attachments)
                    .where.not(content: [nil, ''])
-                   .order(created_at: :desc)
+                   .reorder(created_at: :desc)
                    .limit(10)
                    .map do |message|
         {
