@@ -5,7 +5,10 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
                                                                  SimpleCov::Formatter::JSONFormatter,
                                                                  SimpleCov::Formatter::HTMLFormatter
                                                                ])
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  SimpleCov.coverage_dir 'coverage'
+  SimpleCov::Formatter::JSONFormatter.output_filename = 'coverage.json'
+end
 
 require File.expand_path('../config/environment', __dir__)
 require 'rails/test_help'

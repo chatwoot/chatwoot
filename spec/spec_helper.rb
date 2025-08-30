@@ -6,7 +6,10 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
                                                                  SimpleCov::Formatter::JSONFormatter,
                                                                  SimpleCov::Formatter::HTMLFormatter
                                                                ])
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  SimpleCov.coverage_dir 'coverage'
+  SimpleCov::Formatter::JSONFormatter.output_filename = 'coverage.json'
+end
 WebMock.disable_net_connect!(allow_localhost: true)
 
 RSpec.configure do |config|
