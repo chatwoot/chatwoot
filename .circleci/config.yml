@@ -90,9 +90,6 @@ jobs:
           command: |
             source ~/.rvm/scripts/rvm
             bundle install
-            # pnpm install
-
-      
 
       # Swagger verification
       - run:
@@ -108,7 +105,7 @@ jobs:
             curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
             java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
 
-      # we remove the FRONTED_URL from the .env before running the tests
+      # Configure environment and database
       - run:
           name: Database Setup and Configure Environment Variables
           command: |
@@ -151,8 +148,6 @@ jobs:
             mkdir -p ~/build/coverage/frontend
             pnpm run test:coverage
 
-      # Remove Code Climate formatting (Frontend)
-
       # Run backend tests
       - run:
           name: Run backend tests
@@ -167,7 +162,7 @@ jobs:
                               -- ${TESTFILES}
           no_output_timeout: 30m
 
-      # Qlty Coverage Orb
+      # Qlty coverage publish
       - qlty-orb/coverage_publish:
           files: |
             coverage/coverage.json
@@ -183,11 +178,6 @@ jobs:
           paths:
             - coverage
 
-      # Always store coverage as build artifacts (directory may be empty on some nodes)
-      - run:
-          name: Ensure coverage directory exists for artifacts
-          command: |
-            mkdir -p coverage
       - store_artifacts:
           path: coverage
           destination: coverage
