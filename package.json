@@ -18,7 +18,8 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "sync:i18n": "bin/sync_i18n_file_change"
+    "sync:i18n": "bin/sync_i18n_file_change",
+    "sdk:wsc": "openapi-typescript swagger/wsc/openapi.yaml -o app/javascript/sdk/wsc/index.ts"
   },
   "size-limit": [
     {
@@ -145,7 +146,8 @@
     "vite-plugin-ruby": "^5.0.0",
     "vitest": "3.0.5",
     "sass": "^1.79.5",
-    "vite-plugin-vuetify": "^2.0.5"
+    "vite-plugin-vuetify": "^2.0.5",
+    "openapi-typescript": "^7.5.1"
   },
   "engines": {
     "node": "23.x",

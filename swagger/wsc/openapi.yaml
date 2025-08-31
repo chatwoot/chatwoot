@@ -1,0 +1,100 @@
+openapi: 3.0.3
+info:
+  title: WeaveSmart Chat API (Weave::Core)
+  version: 0.1.0
+  description: >-
+    Extension endpoints for WeaveSmart Chat. All routes are prefixed with `/wsc` and
+    use Chatwoot authentication (Devise Token Auth or API Access Token).
+servers:
+  - url: /wsc
+paths:
+  /healthz:
+    get:
+      summary: Liveness probe
+      operationId: healthz
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  time:
+                    type: string
+                    format: date-time
+  /api/accounts/{account_id}/features:
+    get:
+      summary: Get effective features for an account
+      operationId: getAccountFeatures
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      responses:
+        '200':
+          description: Feature map and plan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account_id:
+                    type: integer
+                  plan:
+                    type: string
+                    enum: [basic, pro, premium, app, custom]
+                  features:
+                    type: object
+                    additionalProperties:
+                      type: boolean
+    patch:
+      summary: Update feature overrides for an account (admin only)
+      operationId: updateAccountFeatures
+      parameters:
+        - $ref: '#/components/parameters/AccountId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                features:
+                  type: object
+                  additionalProperties:
+                    type: boolean
+      responses:
+        '200':
+          description: Updated feature map and plan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account_id:
+                    type: integer
+                  plan:
+                    type: string
+                  features:
+                    type: object
+                    additionalProperties:
+                      type: boolean
+        '403':
+          description: Forbidden
+components:
+  parameters:
+    AccountId:
+      name: account_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  securitySchemes:
+    AccessToken:
+      type: apiKey
+      in: header
+      name: api_access_token
+security:
+  - AccessToken: []
+
