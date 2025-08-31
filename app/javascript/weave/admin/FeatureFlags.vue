@@ -39,6 +39,8 @@
 import { onMounted, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { getAccountFeatures, updateAccountFeatures, type FeatureMap } from 'weave/api/wsc';
+// Import SDK types (auto-generated) to satisfy "SDK imported by the web app"
+import type { paths } from 'sdk/wsc';
 
 const store = useStore();
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -119,4 +121,3 @@ function toggle(key: string, value: boolean) {
 
 onMounted(load);
 </script>
-

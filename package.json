@@ -21,6 +21,7 @@
     "sync:i18n": "bin/sync_i18n_file_change",
     "sdk:wsc": "openapi-typescript swagger/wsc/openapi.yaml -o app/javascript/sdk/wsc/index.ts"
   },
+  "postinstall": "pnpm -s sdk:wsc || true",
   "size-limit": [
     {
       "path": "public/vite/assets/widget-*.js",

@@ -86,6 +86,7 @@ export default defineConfig({
       widget: path.resolve('./app/javascript/widget'),
       assets: path.resolve('./app/javascript/dashboard/assets'),
       weave: path.resolve('./app/javascript/weave'),
+      sdk: path.resolve('./app/javascript/sdk'),
     },
   },
   test: {

@@ -13,6 +13,7 @@ Stack & Standards (WSC)
 - Data stores: PostgreSQL; Redis for cache/queues/WebSocket.
 - CI/CD: GitHub Actions. `develop` → staging; `main` → production. Release tags `vX.Y.Z` with automated changelog.
 - Contracts: OpenAPI for WSC endpoints; TS SDK auto‑generated.
+  - SDK generation runs on `pnpm install` and in CI; see `pnpm sdk:wsc`.
 - Security/Ops: 2FA (owner/admin), CSP + SRI, per‑tenant/channel/module rate limits, structured JSON logs with `tenantId` and `traceId`, health checks, Sentry, Prometheus, daily backups with weekly restore test.
 - Design system: Primary `#8127E8`, accent `#FF6600`; brand fonts; light/dark themes.
 - Performance budgets: Widget ≤ 100KB gz; dashboard route bundle ≤ 200KB gz; API p95 ≤ 300ms (read) / ≤ 600ms (write) on staging data.
@@ -22,7 +23,7 @@ Feature Flags & Plans (scaffold)
 - Feature toggles: per‑account overrides in `weave_core_feature_toggles`; defaults derived from the plan.
 - API: `GET/PATCH /wsc/api/accounts/:account_id/features` (Chatwoot auth; admin required for PATCH).
 - OpenAPI: `swagger/wsc/openapi.yaml`; generate TS SDK via `pnpm sdk:wsc` into `app/javascript/sdk/wsc/`.
-- Migrations: engine migrations auto‑append; run `bundle exec rails db:migrate`.
+ - Migrations: engine migrations auto‑append; run `bundle exec rails db:migrate`.
  - Admin UI (minimal): visit `/app/accounts/:accountId/settings/weave` to view/update feature toggles.
 
 Rate Limiting (per tenant/channel/module)
