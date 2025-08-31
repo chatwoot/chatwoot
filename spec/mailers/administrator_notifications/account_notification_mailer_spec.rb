@@ -5,6 +5,7 @@ RSpec.describe AdministratorNotifications::AccountNotificationMailer do
   let(:mailer) { described_class.with(account: account) }
 
   before do
+    allow_any_instance_of(described_class).to receive(:smtp_config_set_or_development?).and_return(true)
     account.custom_attributes['marked_for_deletion_at'] = 7.days.from_now.iso8601
     account.save!
   end
