@@ -1,0 +1,32 @@
+<h2>WhatsApp Official API Successfully Connected</h2>
+
+<p>Hello <%= @user.name %>,</p>
+
+<p>Brilliant news! Your WhatsApp Business account (<%= @phone_number %>) has been successfully connected to the official WhatsApp Business API for <%= @account.name %>.</p>
+
+<h3>What this means:</h3>
+<ul>
+  <li>✅ <strong>Reliability:</strong> Your WhatsApp integration now uses Facebook's official API</li>
+  <li>✅ <strong>Stability:</strong> No more risk of third-party service disruptions</li>
+  <li>✅ <strong>Compliance:</strong> Full WhatsApp Business Terms of Service compliance</li>
+  <li>✅ <strong>Features:</strong> Access to latest WhatsApp Business features as they're released</li>
+</ul>
+
+<h3>Important Notes:</h3>
+<ul>
+  <li>WhatsApp API usage costs are billed according to <a href="https://developers.facebook.com/docs/whatsapp/pricing">Facebook's pricing</a></li>
+  <li>All message templates must comply with WhatsApp's messaging policies</li>
+  <li>Customer service conversations are free for 24 hours after customer initiation</li>
+</ul>
+
+<p>Your migration from third-party WhatsApp services is now complete. The risk banner has been automatically removed from your dashboard.</p>
+
+<p>If you have any questions about your new official WhatsApp integration, please don't hesitate to contact our support team.</p>
+
+<p>Best regards,<br>
+The WeaveCode Team</p>
+
+<hr>
+<p style="font-size: 12px; colour: #666;">
+This email was sent to <%= @user.email %> regarding your WeaveCode account: <%= @account.name %>
+</p>

@@ -3,6 +3,58 @@
 
 ___
 
+# WeaveSmart Chat (WSC) — Fork Overview
+
+This repository is a productised fork of Chatwoot tailored for UK/EU SMEs. It preserves Chatwoot core while adding an extension layer under the Rails engine `Weave::Core` (mounted at `/wsc`). All new endpoints live under this namespace and are documented via OpenAPI with a TypeScript SDK consumed by the web app.
+
+Stack & Standards (WSC)
+- Backend: Ruby on Rails (Chatwoot base) + engine `Weave::Core`.
+- Frontend: Vue 3 with Vuetify (dashboard/admin) and Anime.js for micro‑animations. Default locale: English (UK).
+- Data stores: PostgreSQL; Redis for cache/queues/WebSocket.
+- CI/CD: GitHub Actions. `develop` → staging; `main` → production. Release tags `vX.Y.Z` with automated changelog.
+- Contracts: OpenAPI for WSC endpoints; TS SDK auto‑generated.
+  - SDK generation runs on `pnpm install` and in CI; see `pnpm sdk:wsc`.
+- Security/Ops: 2FA (owner/admin), CSP + SRI, per‑tenant/channel/module rate limits, structured JSON logs with `tenantId` and `traceId`, health checks, Sentry, Prometheus, daily backups with weekly restore test.
+- Design system: Primary `#8127E8`, accent `#FF6600`; brand fonts; light/dark themes.
+- Performance budgets: Widget ≤ 100KB gz; dashboard route bundle ≤ 200KB gz; API p95 ≤ 300ms (read) / ≤ 600ms (write) on staging data.
+
+Feature Flags & Plans (scaffold)
+- Plans: basic, pro, premium, app, custom. Plans are stored in `weave_core_account_plans` (engine).
+- Feature toggles: per‑account overrides in `weave_core_feature_toggles`; defaults derived from the plan.
+- API: `GET/PATCH /wsc/api/accounts/:account_id/features` (Chatwoot auth; admin required for PATCH).
+- OpenAPI: `swagger/wsc/openapi.yaml`; generate TS SDK via `pnpm sdk:wsc` into `app/javascript/sdk/wsc/`.
+ - Migrations: engine migrations auto‑append; run `bundle exec rails db:migrate`.
+ - Admin UI (minimal): visit `/app/accounts/:accountId/settings/weave` to view/update feature toggles.
+
+Rate Limiting (per tenant/channel/module)
+- Implemented via Rack::Attack in the engine (no core edits):
+  - Per‑account RPM for all account‑scoped APIs.
+  - Messaging writes (conversations/messages) per account.
+  - WhatsApp inbound webhooks per account (scoped via phone → channel → account).
+  - Widget writes per account (scoped via `website_token`).
+- Limits are plan‑based defaults (Basic/Pro/Premium/App/Custom) and can be tuned in code.
+- 429 responses may be returned when thresholds are exceeded.
+
+Structured JSON Logs
+- Enabled via Lograge JSON (`LOGRAGE_ENABLED=true`).
+- Payload includes `tenantId` (when available) and `traceId` (request id) for correlation.
+- Sidekiq logs remain JSON-formatted; future work may add correlation fields to jobs.
+
+2FA (owner/admin)
+- Engine adds user 2FA fields and endpoints:
+  - `GET /wsc/api/profile/two_factor/setup` → returns secret + otpauth URL.
+  - `POST /wsc/api/profile/two_factor/enable` with `{ code }` → enables and returns backup codes.
+  - `POST /wsc/api/profile/two_factor/disable` with `{ code | backup_code }`.
+- Enforcement (admins): set `WSC_2FA_ENFORCE=true` to require 2FA for administrator requests to account‑scoped APIs. Non‑account routes are not enforced.
+
+UK Formatting
+- Default locale `en‑GB` in dashboard and widget. Helpers in `app/javascript/weave/format.ts`:
+  - `formatDateTimeUK(date)` (DD/MM/YYYY, 24h)
+  - `formatDateUK(date)`
+  - `formatCurrencyGBP(amount)` (GBP £)
+
+Contributions must use UK English, DD/MM/YYYY, 24h time, and GBP (£).
+
 # Chatwoot
 
 The modern customer support platform, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.
@@ -138,3 +190,61 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 
 
 *Chatwoot* &copy; 2017-2025, Chatwoot Inc - Released under the MIT License.
+CI/CD & Ops
+- Deploys: GitHub Actions deploy to Railway
+  - Staging on `develop` via `.github/workflows/deploy_staging.yml` (requires secrets: `RAILWAY_TOKEN`, `RAILWAY_SERVICE_ID_STAGING`, `RAILWAY_ENV_ID_STAGING`).
+  - Production on `main` via `.github/workflows/deploy_prod.yml` (requires prod equivalents).
+- Releases: Automated via Release Please (`.github/workflows/release_please.yml`), generating tags `vX.Y.Z` and CHANGELOG.
+- Backups: Daily `pg_dump` (`.github/workflows/db_backup.yml`) and weekly restore test (`.github/workflows/db_restore_test.yml`). Configure `DATABASE_URL` secret.
+- Observability: `/wsc/metrics` exposes Prometheus text format; enable Lograge JSON for structured logs.
+- CSP: Baseline CSP is available via engine (`WSC_CSP_ENABLED=true`), report‑only by default.
+
+## Environments & Policies Implementation
+
+Staging Environment
+- Staging is clearly marked with a prominent amber banner in the UI when `Rails.env.staging?` is true
+- Staging data can be reset via `rake wsc:staging:reset` command (staging environment only)
+- Demo tenants are seeded via `rake wsc:staging:seed` with WeaveCode Demo Ltd, Acme Corp UK, and London SME Solutions
+- Admin credentials: admin1@weavecode.demo, admin2@weavecode.demo, admin3@weavecode.demo (password: DemoPassword123!)
+
+Environment Variables
+- All secrets are managed via Railway environment variables (see .env.example for reference)
+- No hardcoded secrets detected in codebase - all configuration uses ENV fetches
+- Production secrets should be configured in Railway dashboard
+
+UK English & Formatting
+- Default locale set to `en_GB` across all Vue applications (dashboard, widget, admin)
+- UK English compliance enforced: "colour" instead of "color" in helper functions
+- Date/time formatting via `formatDateTimeUK()`, `formatDateUK()` (DD/MM/YYYY, 24h)
+- Currency formatting via `formatCurrencyGBP()` with £ symbol
+- All new UI text, logs, and documentation must use UK English spellings
+
+WhatsApp Integration Policies
+- Non-dismissable risk banner displays for third-party WhatsApp connections (provider != 'whatsapp_cloud')
+- Banner includes link to WeaveCode FAQ about official API migration
+- Automatic email notifications sent when switching between official/unofficial providers
+- Official API confirmation emails sent to account administrators upon migration to whatsapp_cloud provider
+- Email templates use UK English and emphasise reliability benefits of official API
+
+## Definition of Ready / Done Implementation
+
+Definition of Ready (DoR)
+- Feature request template enforces clear scope, testable acceptance criteria, and feature flag identification
+- Environment variables must be documented with defaults in .env.example
+- Database migrations planned using expand/contract pattern for zero-downtime deployments
+- All new features require appropriate per-tenant and per-plan feature flags
+
+Definition of Done (DoD)
+- Comprehensive PR template with code quality, testing, documentation, and release process checklists
+- Performance budgets automatically enforced: widget ≤100KB gz, dashboard ≤200KB gz
+- API response time SLA monitoring: p95 ≤300ms (read), ≤600ms (write)
+- UK English compliance validation in commit messages and code
+- Conventional commit format enforced via Husky pre-commit hooks (`feat:`, `fix:`, `chore:`, etc.)
+- CHANGELOG.md automatically updated via Release Please on main branch merges
+
+Testing Framework
+- Frontend: Vitest with 316 test files, coverage reports available via `pnpm test:coverage`
+- Backend: RSpec with 569 test files, run via `bundle exec rspec`
+- Linting: ESLint for JavaScript/Vue, RuboCop for Ruby
+- Size limits: Automated via size-limit package in CI/CD
+- Git hooks prevent direct pushes to main/develop branches, enforce conventional commits

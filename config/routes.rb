@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # WeaveSmart Chat engine
+  mount Weave::Core::Engine => '/wsc'
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',

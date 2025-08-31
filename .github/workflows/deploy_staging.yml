@@ -1,0 +1,43 @@
+name: Deploy Staging (Railway)
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node for Railway CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli
+
+      - name: Generate SDK types
+        run: |
+          npm install -g pnpm@10.2.0
+          pnpm install
+          pnpm sdk:wsc
+
+      - name: Deploy to Railway (staging)
+        uses: railwayapp/railway-action@v2
+        with:
+          serviceId: ${{ secrets.RAILWAY_SERVICE_ID_STAGING }}
+          environmentId: ${{ secrets.RAILWAY_ENV_ID_STAGING }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Run DB migrations (staging)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID_STAGING }}
+          ENV_ID: ${{ secrets.RAILWAY_ENV_ID_STAGING }}
+        run: |
+          railway run --service $SERVICE_ID --environment $ENV_ID -- bundle exec rails db:migrate

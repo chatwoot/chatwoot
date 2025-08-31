@@ -18,12 +18,18 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "sync:i18n": "bin/sync_i18n_file_change"
+    "sync:i18n": "bin/sync_i18n_file_change",
+    "sdk:wsc": "openapi-typescript swagger/wsc/openapi.yaml -o app/javascript/sdk/wsc/index.ts"
   },
+  "postinstall": "pnpm -s sdk:wsc || true",
   "size-limit": [
     {
       "path": "public/vite/assets/widget-*.js",
-      "limit": "300 KB"
+      "limit": "100 KB"
+    },
+    {
+      "path": "public/vite/assets/dashboard-*.js",
+      "limit": "200 KB"
     },
     {
       "path": "public/packs/js/sdk.js",
@@ -104,7 +110,9 @@
     "vuedraggable": "^4.1.0",
     "vuex": "~4.1.0",
     "vuex-router-sync": "6.0.0-rc.1",
-    "wavesurfer.js": "7.8.6"
+    "wavesurfer.js": "7.8.6",
+    "animejs": "^3.2.2",
+    "vuetify": "^3.7.4"
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
@@ -141,7 +149,10 @@
     "tailwindcss": "^3.4.13",
     "vite": "^5.4.19",
     "vite-plugin-ruby": "^5.0.0",
-    "vitest": "3.0.5"
+    "vitest": "3.0.5",
+    "sass": "^1.79.5",
+    "vite-plugin-vuetify": "^2.0.5",
+    "openapi-typescript": "^7.5.1"
   },
   "engines": {
     "node": "23.x",
@@ -149,7 +160,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "sh bin/validate_push"
+      "pre-push": "sh bin/validate_push",
+      "commit-msg": "sh bin/validate_commit"
     }
   },
   "pnpm": {

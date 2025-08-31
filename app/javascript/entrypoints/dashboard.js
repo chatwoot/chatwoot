@@ -30,12 +30,14 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
+import { registerWeaveRoutes } from 'weave/router/register.js';
 
 import 'floating-vue/dist/style.css';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
-  locale: 'en',
+  locale: 'en_GB',
+  fallbackLocale: 'en',
   messages: i18nMessages,
 });
 
@@ -105,6 +107,9 @@ window.axios = createAxios(axios);
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
+
+// Register WeaveSmart routes (settings → weave)
+registerWeaveRoutes(router);
 
 window.onload = () => {
   app.mount('#app');

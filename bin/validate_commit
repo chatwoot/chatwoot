@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# Validate commit message follows conventional commits format
+# Used by husky pre-commit hook
+
+commit_regex='^(feat|fix|docs|style|refactor|test|chore)(\(.+\))?: .{1,50}'
+error_msg="Commit message must follow conventional commits format:
+  feat: add new feature
+  fix: bug fix
+  docs: documentation changes
+  style: formatting, missing semicolons, etc
+  refactor: code refactoring
+  test: adding tests
+  chore: maintenance tasks
+
+Examples:
+  feat: add user authentication
+  fix: resolve login validation bug
+  docs: update API documentation
+  chore: update dependencies"
+
+# Check if commit message matches conventional format
+if ! grep -qE "$commit_regex" "$1"; then
+    echo "$error_msg" >&2
+    exit 1
+fi
+
+# Additional check for UK English in commit message
+if grep -qE "(color|center|organize|realize)" "$1"; then
+    echo "Error: Commit message contains US English. Use UK English spellings:
+  color → colour
+  center → centre
+  organize → organise
+  realize → realise" >&2
+    exit 1
+fi
+
+exit 0

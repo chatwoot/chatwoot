@@ -22,6 +22,7 @@ import { defineConfig } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
 const isTestMode = process.env.TEST === 'true';
@@ -31,10 +32,11 @@ const vueOptions = {
     compilerOptions: {
       isCustomElement: tag => ['ninja-keys'].includes(tag),
     },
+    transformAssetUrls,
   },
 };
 
-let plugins = [ruby(), vue(vueOptions)];
+let plugins = [ruby(), vue(vueOptions), vuetify({ autoImport: true })];
 
 if (isLibraryMode) {
   plugins = [];
@@ -83,6 +85,8 @@ export default defineConfig({
       survey: path.resolve('./app/javascript/survey'),
       widget: path.resolve('./app/javascript/widget'),
       assets: path.resolve('./app/javascript/dashboard/assets'),
+      weave: path.resolve('./app/javascript/weave'),
+      sdk: path.resolve('./app/javascript/sdk'),
     },
   },
   test: {

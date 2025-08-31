@@ -1,0 +1,28 @@
+name: DB Backup (daily)
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 02:00 UTC daily
+  workflow_dispatch: {}
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Dump database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          set -e
+          if [ -z "$DATABASE_URL" ]; then echo "Missing secret: DATABASE_URL" && exit 1; fi
+          # If the URL embeds a password, export PGPASSWORD for libpq compatibility
+          if echo "$DATABASE_URL" | grep -qE '.*://[^:]+:([^@]+)@'; then
+            export PGPASSWORD=$(echo "$DATABASE_URL" | sed -E 's|.*://[^:]+:([^@]+)@.*|\1|')
+          fi
+          pg_dump --no-owner --no-privileges --format=custom "$DATABASE_URL" -f backup.dump
+      - uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-$(date +"%Y%m%d")
+          path: backup.dump

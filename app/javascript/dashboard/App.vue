@@ -6,6 +6,7 @@ import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
+import EnvironmentBanner from '../../shared/components/EnvironmentBanner.vue';
 import vueActionCable from './helper/actionCable';
 import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
@@ -25,6 +26,7 @@ export default {
 
   components: {
     AddAccountModal,
+    EnvironmentBanner,
     LoadingState,
     NetworkNotification,
     UpdateBanner,
@@ -139,6 +141,7 @@ export default {
     class="flex flex-col w-full h-screen min-h-0"
     :dir="isRTL ? 'rtl' : 'ltr'"
   >
+    <EnvironmentBanner />
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />

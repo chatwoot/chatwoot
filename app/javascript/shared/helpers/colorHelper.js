@@ -1,6 +1,6 @@
 import { toHex, mix, getLuminance, getContrast } from 'color2k';
 
-export const isWidgetColorLighter = color => {
+export const isWidgetColourLighter = color => {
   const colorToCheck = color.replace('#', '');
   const c_r = parseInt(colorToCheck.substr(0, 2), 16);
   const c_g = parseInt(colorToCheck.substr(2, 2), 16);

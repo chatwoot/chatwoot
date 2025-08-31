@@ -1,31 +1,54 @@
-# Pull Request Template
+## Pull Request
 
-## Description
+### Description
+Brief description of changes made.
 
-Please include a summary of the change and issue(s) fixed. Also, mention relevant motivation, context, and any dependencies that this change requires.
-Fixes # (issue)
+### Definition of Done Checklist
 
-## Type of change
+Ensure all items are completed before merging:
 
-Please delete options that are not relevant.
+#### Code Quality
+- [ ] **Code + tests green**: All tests pass locally and in CI
+- [ ] **Linting passes**: `pnpm eslint` and `bundle exec rubocop` pass
+- [ ] **Performance budgets respected**: Size-limit checks pass for widget ≤100KB, dashboard ≤200KB
+- [ ] **No hardcoded secrets**: All sensitive config uses environment variables
 
+#### Testing
+- [ ] **Unit tests added/updated**: For new business logic
+- [ ] **Integration tests added**: For API endpoints (if applicable) 
+- [ ] **Frontend tests added**: For new Vue components (if applicable)
+- [ ] **Manual testing completed**: Feature works as expected in development
+
+#### Documentation
+- [ ] **README updated**: Documentation reflects new changes (UK English)
+- [ ] **API documentation updated**: OpenAPI spec updated for new endpoints
+- [ ] **Environment variables documented**: New vars added to .env.example
+
+#### Release Process
+- [ ] **Conventional commit**: Commit message follows `feat:`, `fix:`, `chore:` format
+- [ ] **UK English compliance**: All UI text, comments, and docs use British spellings
+- [ ] **Feature flags configured**: New features are properly gated (if applicable)
+- [ ] **Database migrations safe**: Follow expand/contract pattern for zero-downtime
+
+### Type of Change
 - [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality not to work as expected)
-- [ ] This change requires a documentation update
+- [ ] New feature (non-breaking change which adds functionality)  
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
 
-## How Has This Been Tested?
+### Testing Instructions
+1. Checkout this branch
+2. Run setup: `bundle install && pnpm install`
+3. Start services: `pnpm dev`
+4. Test the feature: [specific steps]
 
-Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration.
+### Performance Impact
+- [ ] No performance regression detected
+- [ ] Bundle size impact measured and acceptable
+- [ ] API response times within SLA (p95 ≤300ms read, ≤600ms write)
 
+### Screenshots (if applicable)
+Add screenshots or GIFs demonstrating the changes.
 
-## Checklist:
-
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my code
-- [ ] I have commented on my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] Any dependent changes have been merged and published in downstream modules
+### Related Issues
+Closes #[issue-number]
