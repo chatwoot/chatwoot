@@ -39,6 +39,8 @@ uk:
       email_already_exists: 'Ви вже зареєстровані з адресою %{email}'
       invalid_params: 'Неправильно, будь ласка, перевірте параметри реєстрації та повторіть спробу'
       failed: Помилка реєстрації
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Некоректний тип даних

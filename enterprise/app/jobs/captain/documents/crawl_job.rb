@@ -2,7 +2,9 @@ class Captain::Documents::CrawlJob < ApplicationJob
   queue_as :low
 
   def perform(document)
-    if InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value.present?
+    if document.pdf_document?
+      perform_pdf_processing(document)
+    elsif InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value.present?
       perform_firecrawl_crawl(document)
     else
       perform_simple_crawl(document)
@@ -12,6 +14,14 @@ class Captain::Documents::CrawlJob < ApplicationJob
   private
 
   include Captain::FirecrawlHelper
+
+  def perform_pdf_processing(document)
+    Captain::Llm::PdfProcessingService.new(document).process
+    document.update!(status: :available)
+  rescue StandardError => e
+    Rails.logger.error I18n.t('captain.documents.pdf_processing_failed', document_id: document.id, error: e.message)
+    raise # Re-raise to let job framework handle retry logic
+  end
 
   def perform_simple_crawl(document)
     page_links = Captain::Tools::SimplePageCrawlService.new(document.external_link).page_links

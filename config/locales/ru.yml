@@ -39,6 +39,8 @@ ru:
       email_already_exists: 'Вы уже зарегистрировались для учётной записи с %{email}'
       invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
       failed: Ошибка регистрации
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Недопустимый тип данных

@@ -144,32 +144,36 @@ export default {
     >
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </SettingsSection>
+    <SettingsSection
+      v-if="isATwilioWhatsAppChannel"
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
+      :sub-title="
+        $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUBHEADER')
+      "
+    >
+      <div class="flex justify-start items-center mt-2">
+        <NextButton :disabled="isSyncingTemplates" @click="syncTemplates">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_BUTTON') }}
+        </NextButton>
+      </div>
+    </SettingsSection>
   </div>
   <div v-else-if="isAVoiceChannel" class="mx-8">
     <SettingsSection
-      :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
-      :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
+      :title="$t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_VOICE_URL_TITLE')"
+      :sub-title="
+        $t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_VOICE_URL_SUBTITLE')
+      "
     >
-      <div class="space-y-4">
-        <div>
-          <div class="text-sm text-slate-500 mb-1">
-            {{ $t('INBOX_MGMT.ADD.TWILIO_VOICE.CALL_WEBHOOK_LABEL') }}
-          </div>
-          <woot-code :script="voiceCallWebhookUrl" lang="html" />
-        </div>
-        <div>
-          <div class="text-sm text-slate-500 mb-1">
-            {{ $t('INBOX_MGMT.ADD.TWILIO_VOICE.TWIML_APP_VOICE_LABEL') }}
-          </div>
-          <woot-code :script="voiceTwimlUrl" lang="html" />
-        </div>
-        <div>
-          <div class="text-sm text-slate-500 mb-1">
-            {{ $t('INBOX_MGMT.ADD.TWILIO_VOICE.STATUS_CALLBACK_LABEL') }}
-          </div>
-          <woot-code :script="voiceStatusCallbackUrl" lang="html" />
-        </div>
-      </div>
+      <woot-code :script="inbox.voice_call_webhook_url" lang="html" />
+    </SettingsSection>
+    <SettingsSection
+      :title="$t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_STATUS_URL_TITLE')"
+      :sub-title="
+        $t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_STATUS_URL_SUBTITLE')
+      "
+    >
+      <woot-code :script="inbox.voice_status_webhook_url" lang="html" />
     </SettingsSection>
   </div>
   <div v-else-if="isALineChannel" class="mx-8">

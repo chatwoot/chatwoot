@@ -31,6 +31,7 @@ class Channel::Voice < ApplicationRecord
 
   # Provider-specific configs stored in JSON
   validate :validate_provider_config
+  before_validation :provision_twilio_on_create, on: :create, if: :twilio?
 
   EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
 
@@ -41,20 +42,33 @@ class Channel::Voice < ApplicationRecord
   def messaging_window_enabled?
     false
   end
-
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
     case provider
     when 'twilio'
       initiate_twilio_call(to, conference_sid, agent_id)
-    # Add more providers as needed
-    # when 'other_provider'
-    #   initiate_other_provider_call(to)
     else
       raise "Unsupported voice provider: #{provider}"
     end
   end
 
+  # Public URLs used to configure Twilio webhooks
+  def voice_call_webhook_url
+    base = ENV.fetch('FRONTEND_URL', '').to_s.sub(%r{/*$}, '')
+    digits = phone_number.to_s.delete_prefix('+')
+    "#{base}/twilio/voice/call/#{digits}"
+  end
+
+  def voice_status_webhook_url
+    base = ENV.fetch('FRONTEND_URL', '').to_s.sub(%r{/*$}, '')
+    digits = phone_number.to_s.delete_prefix('+')
+    "#{base}/twilio/voice/status/#{digits}"
+  end
+
   private
+
+  def twilio?
+    provider == 'twilio'
+  end
 
   def validate_provider_config
     return if provider_config.blank?
@@ -67,24 +81,19 @@ class Channel::Voice < ApplicationRecord
 
   def validate_twilio_config
     config = provider_config.with_indifferent_access
-    required_keys = %w[account_sid auth_token api_key_sid api_key_secret]
-
+    # Require credentials and provisioned TwiML App SID
+    required_keys = %w[account_sid auth_token api_key_sid api_key_secret twiml_app_sid]
     required_keys.each do |key|
       errors.add(:provider_config, "#{key} is required for Twilio provider") if config[key].blank?
     end
   end
-
   def initiate_twilio_call(to, conference_sid = nil, agent_id = nil)
     config = provider_config_hash
 
-    # Generate a public URL for Twilio to request TwiML (must set FRONTEND_URL)
     host = ENV.fetch('FRONTEND_URL')
-
-    # Use phone-scoped TwiML endpoint for this inbox
     phone_digits = phone_number.delete_prefix('+')
     callback_url = "#{host}/twilio/voice/call/#{phone_digits}"
 
-    # Parameters including status callbacks for call progress tracking
     params = {
       from: phone_number,
       to: to,
@@ -94,21 +103,18 @@ class Channel::Voice < ApplicationRecord
       status_callback_method: 'POST'
     }
 
-    # Log the full parameters for debugging
     Rails.logger.info("📞 OUTBOUND CALL PARAMS: to=#{to}, from=#{phone_number}, conference=#{conference_sid}")
 
-    # Create the call
     call = twilio_client(config).calls.create(**params)
 
-    # Return info needed to properly route and track the call
     {
       provider: 'twilio',
       call_sid: call.sid,
       status: call.status,
-      call_direction: 'outbound',  # CRITICAL: Tag as outbound so webhooks know to prompt agent
-      requires_agent_join: true,   # Flag that agent should join immediately
-      agent_id: agent_id,          # Include agent_id for tracking who initiated the call
-      conference_sid: conference_sid # Include the conference name in the return value for debugging
+      call_direction: 'outbound',
+      requires_agent_join: true,
+      agent_id: agent_id,
+      conference_sid: conference_sid
     }
   end
 
@@ -122,6 +128,26 @@ class Channel::Voice < ApplicationRecord
     else
       JSON.parse(provider_config.to_s)
     end
+  end
+
+  def provision_twilio_on_create
+    service = ::Twilio::VoiceWebhookSetupService.new(channel: self)
+    app_sid = service.perform
+    return if app_sid.blank?
+
+    cfg = provider_config.with_indifferent_access
+    cfg[:twiml_app_sid] = app_sid
+    self.provider_config = cfg
+  rescue StandardError => e
+    error_details = {
+      error_class: e.class.to_s,
+      message: e.message,
+      phone_number: phone_number,
+      account_id: account_id,
+      backtrace: e.backtrace&.first(5)
+    }
+    Rails.logger.error("TWILIO_VOICE_SETUP_ON_CREATE_ERROR: #{error_details}")
+    errors.add(:base, "Twilio setup failed: #{e.message}")
   end
 
   public :provider_config_hash

@@ -39,6 +39,8 @@ cs:
       email_already_exists: 'Již jste se zaregistrovali k účtu s %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registrace se nezdařila
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Invalid data type
