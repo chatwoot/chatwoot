@@ -196,6 +196,9 @@ gem 'weave-core', path: 'engines/weave_core'
 ## --- Observability --- ##
 gem 'prometheus-client'
 
+## --- Security (2FA) --- ##
+gem 'rotp'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 

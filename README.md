@@ -38,6 +38,19 @@ Structured JSON Logs
 - Payload includes `tenantId` (when available) and `traceId` (request id) for correlation.
 - Sidekiq logs remain JSON-formatted; future work may add correlation fields to jobs.
 
+2FA (owner/admin)
+- Engine adds user 2FA fields and endpoints:
+  - `GET /wsc/api/profile/two_factor/setup` → returns secret + otpauth URL.
+  - `POST /wsc/api/profile/two_factor/enable` with `{ code }` → enables and returns backup codes.
+  - `POST /wsc/api/profile/two_factor/disable` with `{ code | backup_code }`.
+- Enforcement (admins): set `WSC_2FA_ENFORCE=true` to require 2FA for administrator requests to account‑scoped APIs. Non‑account routes are not enforced.
+
+UK Formatting
+- Default locale `en‑GB` in dashboard and widget. Helpers in `app/javascript/weave/format.ts`:
+  - `formatDateTimeUK(date)` (DD/MM/YYYY, 24h)
+  - `formatDateUK(date)`
+  - `formatCurrencyGBP(amount)` (GBP £)
+
 Contributions must use UK English, DD/MM/YYYY, 24h time, and GBP (£).
 
 # Chatwoot

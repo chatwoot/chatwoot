@@ -95,6 +95,75 @@ components:
       type: apiKey
       in: header
       name: api_access_token
-security:
-  - AccessToken: []
+  security:
+    - AccessToken: []
 
+  /api/profile/two_factor/setup:
+    get:
+      summary: Start 2FA setup for current user
+      operationId: twoFactorSetup
+      responses:
+        '200':
+          description: Returns secret and otpauth URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  secret:
+                    type: string
+                  otpauth_url:
+                    type: string
+  /api/profile/two_factor/enable:
+    post:
+      summary: Enable 2FA for current user
+      operationId: twoFactorEnable
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code:
+                  type: string
+      responses:
+        '200':
+          description: Enabled with backup codes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
+                  backup_codes:
+                    type: array
+                    items:
+                      type: string
+  /api/profile/two_factor/disable:
+    post:
+      summary: Disable 2FA for current user
+      operationId: twoFactorDisable
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                backup_code:
+                  type: string
+      responses:
+        '200':
+          description: Disabled
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  enabled:
+                    type: boolean
