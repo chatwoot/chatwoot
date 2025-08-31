@@ -27,6 +27,10 @@
       "limit": "100 KB"
     },
     {
+      "path": "public/vite/assets/dashboard-*.js",
+      "limit": "200 KB"
+    },
+    {
       "path": "public/packs/js/sdk.js",
       "limit": "40 KB"
     }
