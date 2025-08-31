@@ -23,6 +23,7 @@ Feature Flags & Plans (scaffold)
 - API: `GET/PATCH /wsc/api/accounts/:account_id/features` (Chatwoot auth; admin required for PATCH).
 - OpenAPI: `swagger/wsc/openapi.yaml`; generate TS SDK via `pnpm sdk:wsc` into `app/javascript/sdk/wsc/`.
 - Migrations: engine migrations auto‑append; run `bundle exec rails db:migrate`.
+ - Admin UI (minimal): visit `/app/accounts/:accountId/settings/weave` to view/update feature toggles.
 
 Rate Limiting (per tenant/channel/module)
 - Implemented via Rack::Attack in the engine (no core edits):

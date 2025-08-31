@@ -30,6 +30,7 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
+import { registerWeaveRoutes } from 'weave/router/register.js';
 
 import 'floating-vue/dist/style.css';
 
@@ -106,6 +107,9 @@ window.axios = createAxios(axios);
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
+
+// Register WeaveSmart routes (settings → weave)
+registerWeaveRoutes(router);
 
 window.onload = () => {
   app.mount('#app');
