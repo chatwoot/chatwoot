@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Adreça IP",
     "CREATED_AT_LABEL": "Creat",
     "NEW_MESSAGE": "Nou missatge",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hi han converses prèvies associades a aquest contacte.",
       "TITLE": "Converses prèvies"

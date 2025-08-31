@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Adresse IP",
     "CREATED_AT_LABEL": "Créé",
     "NEW_MESSAGE": "Nouveau message",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Il n'y a aucune conversation précédente associée à ce contact.",
       "TITLE": "Conversations précédentes"

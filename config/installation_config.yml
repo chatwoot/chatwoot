@@ -175,6 +175,10 @@
   display_title: 'OpenAI API Endpoint (optional)'
   description: 'The OpenAI endpoint configured for use in Captain AI. Default: https://api.openai.com/'
   locked: false
+- name: CAPTAIN_EMBEDDING_MODEL
+  display_title: 'Embedding Model (optional)'
+  description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
+  locked: false
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'
@@ -215,7 +219,7 @@
 - name: ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The June.so analytics token for Chatwoot cloud'
+  description: 'The PostHog analytics token for Chatwoot cloud'
   type: secret
 - name: CLEARBIT_API_KEY
   value:
