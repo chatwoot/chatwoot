@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.describe AdministratorNotifications::AccountNotificationMailer do
   let(:account) { create(:account, name: 'Test Account') }
   let(:mailer) { described_class.with(account: account) }
+  let(:class_instance) { described_class.new }
 
   before do
-    allow_any_instance_of(described_class).to receive(:smtp_config_set_or_development?).and_return(true)
+    allow(described_class).to receive(:new).and_return(class_instance)
+    allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
     account.custom_attributes['marked_for_deletion_at'] = 7.days.from_now.iso8601
     account.save!
   end
