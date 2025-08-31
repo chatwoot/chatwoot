@@ -24,6 +24,15 @@ Feature Flags & Plans (scaffold)
 - OpenAPI: `swagger/wsc/openapi.yaml`; generate TS SDK via `pnpm sdk:wsc` into `app/javascript/sdk/wsc/`.
 - Migrations: engine migrations auto‑append; run `bundle exec rails db:migrate`.
 
+Rate Limiting (per tenant/channel/module)
+- Implemented via Rack::Attack in the engine (no core edits):
+  - Per‑account RPM for all account‑scoped APIs.
+  - Messaging writes (conversations/messages) per account.
+  - WhatsApp inbound webhooks per account (scoped via phone → channel → account).
+  - Widget writes per account (scoped via `website_token`).
+- Limits are plan‑based defaults (Basic/Pro/Premium/App/Custom) and can be tuned in code.
+- 429 responses may be returned when thresholds are exceeded.
+
 Contributions must use UK English, DD/MM/YYYY, 24h time, and GBP (£).
 
 # Chatwoot
