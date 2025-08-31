@@ -307,17 +307,117 @@
         "DESC": "Create reusable message templates for faster customer communication.",
         "CANCEL": "Cancel",
         "CREATE": "Create",
+        "CONTINUE": "Continue",
+        "BACK": "Back",
+        "STEPS": {
+          "BASIC": "Basic Info",
+          "BUILDER": "Template Builder"
+        },
         "FORM": {
           "NAME": {
             "LABEL": "Template name",
             "PLACEHOLDER": "Enter template name",
-            "ERROR": "Template name is required and must be at least 2 characters"
+            "ERROR": "Template name is required and must be at least 2 characters",
+            "HELP": "Use lowercase letters, numbers, and underscores only"
           },
           "LANGUAGE": {
             "LABEL": "Language"
           },
-          "CONTENT_TYPE": {
-            "LABEL": "Content type"
+          "CHANNEL_TYPE": {
+            "LABEL": "Channel"
+          }
+        }
+      },
+      "BUILDER": {
+        "TITLE": "Template Builder",
+        "DESC": "Design your WhatsApp template with headers, body text, footers, and buttons.",
+        "NEW_TITLE": "Create New Template",
+        "EDIT_TITLE": "Edit Template",
+        "CREATE": "Create Template",
+        "UPDATE": "Update Template",
+        "OPTIONAL": "Optional",
+        "REQUIRED": "Required",
+        "HEADER": {
+          "TITLE": "Header",
+          "TYPE": "Header Type",
+          "TEXT_LABEL": "Header Text",
+          "TEXT_PLACEHOLDER": "Enter header text",
+          "TEXT_HELP": "Keep it short and engaging (max 60 characters)",
+          "MEDIA_TYPE": "Media Type",
+          "MEDIA_UPLOAD": "Upload your file",
+          "UPLOAD_BTN": "Upload File",
+          "DISABLED_TEXT": "Add an optional header to make your template more engaging"
+        },
+        "BODY": {
+          "TITLE": "Body",
+          "TEXT_LABEL": "Message Text",
+          "TEXT_PLACEHOLDER": "Enter your message text here...",
+          "TEXT_HELP": "Use *bold* and _italic_ formatting. Add variables with {{1}}, {{2}}, etc.",
+          "VARIABLES_TITLE": "Variable Examples",
+          "VARIABLE_PLACEHOLDER": "Example value",
+          "VARIABLES_HELP": "Provide example values for variables to help with template approval",
+          "INSERT_VARIABLE_HELP": "Click the + button to insert variables like {{1}}, {{2}} for dynamic content"
+        },
+        "FOOTER": {
+          "TITLE": "Footer",
+          "TEXT_LABEL": "Footer Text",
+          "TEXT_PLACEHOLDER": "Enter footer text",
+          "TEXT_HELP": "Additional context or disclaimer (max 60 characters)",
+          "GUIDELINES": "Footer text cannot contain variables or formatting",
+          "DISABLED_TEXT": "Add an optional footer with additional context"
+        },
+        "BUTTONS": {
+          "TITLE": "Call-to-Action Buttons",
+          "TYPE": "Button Type",
+          "BUTTONS_LABEL": "Buttons",
+          "ADD_BUTTON": "Add Button",
+          "BUTTON_TEXT": "Button Text",
+          "TEXT_PLACEHOLDER": "Enter button text",
+          "PHONE_NUMBER": "Phone Number",
+          "PHONE_PLACEHOLDER": "+1234567890",
+          "URL": "Website URL",
+          "URL_PLACEHOLDER": "https://example.com",
+          "DESCRIPTION": "Create buttons that let customers respond to your message or take action. You can add up to ten buttons. If you add more than three buttons, they will appear in a list.",
+          "TYPE_LABEL": "Type",
+          "EXAMPLE_CODE_LABEL": "Example code",
+          "EXAMPLE_CODE_PLACEHOLDER": "SAVE20",
+          "DROPDOWN": {
+            "VISIT_WEBSITE": "Visit website",
+            "CALL_PHONE": "Call phone number",
+            "QUICK_REPLY": "Quick reply",
+            "COPY_CODE": "Copy offer code"
+          },
+          "PLACEHOLDERS": {
+            "PHONE_NUMBER": "Enter the phone number",
+            "BUTTON_TEXT": "Button text",
+            "QUICK_REPLY": "Quick Reply"
+          },
+          "QUICK_REPLY_HELP": "Quick reply buttons let customers respond with preset options (max 3 buttons)",
+          "CALL_TO_ACTION_HELP": "Call-to-action buttons let customers call your business (max 2 buttons)",
+          "URL_HELP": "URL buttons let customers visit your website (max 2 buttons)",
+          "DISABLED_TEXT": "Add optional buttons to encourage customer action"
+        },
+        "VARIABLES": {
+          "TITLE": "Variables",
+          "NUMBER_HELP": "Provide example values for positional variables ({{1}}, {{2}}, etc.)",
+          "NAMED_HELP": "Provide example values for named variables ({{variable_name}})",
+          "EXAMPLE_PLACEHOLDER": "Example {index}",
+          "NAMED_EXAMPLE_PLACEHOLDER": "Example for {name}"
+        },
+        "PREVIEW": {
+          "TITLE": "Preview",
+          "NO_CONTENT": "Start building your template to see a preview",
+          "TEMPLATE_MESSAGE": "Template Message",
+          "HELP": "This is how your template will appear to customers on WhatsApp",
+          "BODY_REQUIRED": "Body text is required",
+          "HEADER_CONTENT": "Header content is complete",
+          "BUTTON_TEXT": "All buttons have text"
+        },
+        "VARIABLE_TYPES": {
+          "TITLE": "Type of variable",
+          "OPTIONS": {
+            "NUMBER": "Number",
+            "NAMED": "Named"
           }
         }
       },
@@ -325,7 +425,8 @@
       "LEARN_MORE_ABOUT_TEMPLATES": "Learn more about templates",
       "API": {
         "FETCH_ERROR": "Failed to load templates. Please try again.",
-        "SUCCESS_MESSAGE": "Template saved successfully",
+        "SUCCESS_MESSAGE": "Template created successfully",
+        "UPDATE_SUCCESS": "Template updated successfully",
         "ERROR_MESSAGE": "Failed to save template. Please try again."
       },
       "DELETE": {

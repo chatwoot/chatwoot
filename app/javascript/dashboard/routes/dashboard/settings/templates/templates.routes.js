@@ -5,6 +5,7 @@ import {
 } from 'dashboard/constants/permissions.js';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import TemplatesHome from './Index.vue';
+import TemplateBuilderPage from './TemplateBuilderPage.vue';
 
 export default {
   routes: [
@@ -25,6 +26,14 @@ export default {
             permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
           component: TemplatesHome,
+        },
+        {
+          path: 'builder',
+          name: 'template_builder',
+          meta: {
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+          },
+          component: TemplateBuilderPage,
         },
       ],
     },

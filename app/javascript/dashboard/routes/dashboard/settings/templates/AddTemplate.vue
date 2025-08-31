@@ -1,51 +1,24 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
-import { useAlert } from 'dashboard/composables';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import { createTemplate } from './helpers/templatesHelper';
+import { validateTemplateName } from './helpers/templateValidation';
 
 const emit = defineEmits(['close']);
 
 const { t } = useI18n();
+const router = useRouter();
 
 const templateName = ref('');
 const selectedLanguage = ref('English (en-US)');
-const selectedContentType = ref('Text');
-const isLoading = ref(false);
+const selectedChannelType = ref('whatsapp');
 
-const contentTypes = [
-  { value: 'Text', label: 'Text', icon: 'i-lucide-type' },
-  { value: 'Media', label: 'Media', icon: 'i-lucide-image' },
-  { value: 'Quick reply', label: 'Quick reply', icon: 'i-lucide-zap' },
-];
-
-const callToActionTypes = [
-  {
-    value: 'Call to action',
-    label: 'Call to action',
-    icon: 'i-lucide-phone-call',
-  },
-  { value: 'List picker', label: 'List picker', icon: 'i-lucide-list' },
-  { value: 'Card', label: 'Card', icon: 'i-lucide-credit-card' },
-];
-
-const whatsappCardTypes = [
-  {
-    value: 'WhatsApp Card',
-    label: 'WhatsApp Card',
-    icon: 'i-lucide-message-circle',
-  },
-  { value: 'Catalog', label: 'Catalog', icon: 'i-lucide-book-open' },
-  {
-    value: 'Authentication',
-    label: 'Authentication',
-    icon: 'i-lucide-shield-check',
-  },
-  { value: 'Carousel', label: 'Carousel', icon: 'i-lucide-gallery-horizontal' },
+const channelTypes = [
+  { value: 'whatsapp', label: 'WhatsApp', icon: 'i-lucide-message-circle' },
 ];
 
 const languageOptions = [
@@ -63,55 +36,53 @@ const v$ = useVuelidate(validationRules, {
   templateName,
 });
 
-const isFormValid = computed(() => {
+const isBasicFormValid = computed(() => {
   return !v$.value.$invalid && templateName.value.trim().length > 0;
+});
+
+const nameValidation = computed(() => {
+  if (!templateName.value) return { isValid: true, errors: [] };
+  return validateTemplateName(templateName.value);
 });
 
 const onClose = () => {
   emit('close');
 };
 
-const handleCreate = async () => {
-  if (!isFormValid.value) return;
-
-  isLoading.value = true;
-  try {
-    const templateData = {
-      name: templateName.value.trim(),
-      language: selectedLanguage.value,
-      content_type: selectedContentType.value,
-      category: 'general',
-      channel_type: 'whatsapp',
-      status: 'pending',
-      content: `New template: ${templateName.value}`,
-    };
-
-    await createTemplate(templateData);
-    useAlert(t('SETTINGS.TEMPLATES.API.SUCCESS_MESSAGE'));
+const goToBuilder = () => {
+  if (isBasicFormValid.value && nameValidation.value.isValid) {
+    // Navigate to builder page with template info as query params
+    router.push({
+      name: 'template_builder',
+      query: {
+        name: templateName.value.trim(),
+        language: selectedLanguage.value,
+        channelType: selectedChannelType.value,
+      },
+    });
     onClose();
-  } catch (error) {
-    useAlert(t('SETTINGS.TEMPLATES.API.ERROR_MESSAGE'));
-  } finally {
-    isLoading.value = false;
   }
 };
 
-const selectContentType = type => {
-  selectedContentType.value = type;
+const selectChannelType = type => {
+  selectedChannelType.value = type;
 };
 </script>
 
 <template>
-  <div class="flex flex-col h-auto overflow-auto max-w-md w-full">
-    <woot-modal-header
-      :header-title="$t('SETTINGS.TEMPLATES.ADD.TITLE')"
-      :header-content="$t('SETTINGS.TEMPLATES.ADD.DESC')"
-    />
+  <div class="flex flex-col h-auto overflow-auto w-full">
+    <!-- Header -->
+    <div class="px-6 py-4 border-b border-n-weak">
+      <h2 class="text-lg font-semibold text-n-slate-12 mb-1">
+        {{ $t('SETTINGS.TEMPLATES.ADD.TITLE') }}
+      </h2>
+      <p class="text-sm text-n-slate-11">
+        {{ $t('SETTINGS.TEMPLATES.ADD.DESC') }}
+      </p>
+    </div>
 
-    <form
-      class="flex flex-col w-full p-6 space-y-6"
-      @submit.prevent="handleCreate"
-    >
+    <!-- Basic Information Form -->
+    <div class="flex flex-col w-full p-6 space-y-4">
       <!-- Template Name -->
       <div class="w-full">
         <label class="block text-sm font-medium text-n-slate-12 mb-2">
@@ -122,11 +93,30 @@ const selectContentType = type => {
           type="text"
           :placeholder="$t('SETTINGS.TEMPLATES.ADD.FORM.NAME.PLACEHOLDER')"
           class="w-full px-3 py-2 border border-n-weak rounded-lg bg-n-solid-1 text-n-slate-12 placeholder-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-5 focus:border-n-blue-5"
-          :class="{ 'border-red-500': v$.templateName.$error }"
+          :class="{
+            'border-red-500': v$.templateName.$error || !nameValidation.isValid,
+          }"
           @blur="v$.templateName.$touch"
         />
-        <span v-if="v$.templateName.$error" class="text-xs text-red-500 mt-1">
+        <span
+          v-if="v$.templateName.$error"
+          class="text-xs text-red-500 mt-1 block"
+        >
           {{ t('SETTINGS.TEMPLATES.ADD.FORM.NAME.ERROR') }}
+        </span>
+        <span
+          v-if="!nameValidation.isValid"
+          class="text-xs text-red-500 mt-1 block"
+        >
+          {{ nameValidation.errors[0] }}
+        </span>
+        <span
+          v-if="
+            !v$.templateName.$error && nameValidation.isValid && templateName
+          "
+          class="text-xs text-n-slate-11 mt-1 block"
+        >
+          {{ t('SETTINGS.TEMPLATES.ADD.FORM.NAME.HELP') }}
         </span>
       </div>
 
@@ -137,7 +127,7 @@ const selectContentType = type => {
         </label>
         <select
           v-model="selectedLanguage"
-          class="w-full px-3 py-2 border border-n-weak rounded-lg bg-n-solid-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 focus:border-n-blue-5"
+          class="w-full px-3 py-2 border border-n-weak rounded-lg bg-n-solid-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 focus:border-n-blue-5 pr-8"
         >
           <option
             v-for="lang in languageOptions"
@@ -149,56 +139,28 @@ const selectContentType = type => {
         </select>
       </div>
 
-      <!-- Content Type -->
+      <!-- Channel Type -->
       <div class="w-full">
         <label class="block text-sm font-medium text-n-slate-12 mb-3">
-          {{ t('SETTINGS.TEMPLATES.ADD.FORM.CONTENT_TYPE.LABEL') }}
+          {{ t('SETTINGS.TEMPLATES.ADD.FORM.CHANNEL_TYPE.LABEL') }}
         </label>
 
-        <!-- Content Type Buttons -->
-        <div class="grid grid-cols-3 gap-2 mb-4">
+        <!-- Channel Type Buttons -->
+        <div class="grid grid-cols-1 gap-2">
           <button
-            v-for="type in contentTypes"
+            v-for="type in channelTypes"
             :key="type.value"
             type="button"
-            class="flex flex-col items-center p-3 border rounded-lg transition-colors"
+            class="flex items-center p-3 border rounded-lg transition-colors"
             :class="
-              selectedContentType === type.value
+              selectedChannelType === type.value
                 ? 'border-n-blue-5 bg-n-blue-1 text-n-blue-text'
-                : 'border-n-weak bg-n-solid-1 text-n-slate-11 hover:bg-n-solid-2'
+                : 'border-n-weak bg-n-solid-1 text-n-slate-12 hover:bg-n-solid-2 hover:border-n-strong'
             "
-            @click="selectContentType(type.value)"
+            @click="selectChannelType(type.value)"
           >
-            <span :class="type.icon" class="size-5 mb-2" />
-            <span class="text-xs font-medium">{{ type.label }}</span>
-          </button>
-        </div>
-
-        <!-- Call to Action Row -->
-        <div class="grid grid-cols-3 gap-2 mb-4">
-          <button
-            v-for="type in callToActionTypes"
-            :key="type.value"
-            type="button"
-            class="flex flex-col items-center p-3 border rounded-lg transition-colors border-n-weak bg-n-solid-1 text-n-slate-11 hover:bg-n-solid-2"
-            @click="selectContentType(type.value)"
-          >
-            <span :class="type.icon" class="size-5 mb-2" />
-            <span class="text-xs font-medium">{{ type.label }}</span>
-          </button>
-        </div>
-
-        <!-- WhatsApp Card Row -->
-        <div class="grid grid-cols-2 gap-2">
-          <button
-            v-for="type in whatsappCardTypes"
-            :key="type.value"
-            type="button"
-            class="flex flex-col items-center p-3 border rounded-lg transition-colors border-n-weak bg-n-solid-1 text-n-slate-11 hover:bg-n-solid-2"
-            @click="selectContentType(type.value)"
-          >
-            <span :class="type.icon" class="size-5 mb-2" />
-            <span class="text-xs font-medium">{{ type.label }}</span>
+            <span :class="type.icon" class="size-5 mr-3" />
+            <span class="text-sm font-medium">{{ type.label }}</span>
           </button>
         </div>
       </div>
@@ -212,12 +174,11 @@ const selectContentType = type => {
           @click="onClose"
         />
         <NextButton
-          type="submit"
-          :label="$t('SETTINGS.TEMPLATES.ADD.CREATE')"
-          :disabled="!isFormValid || isLoading"
-          :is-loading="isLoading"
+          :label="$t('SETTINGS.TEMPLATES.ADD.CONTINUE')"
+          :disabled="!isBasicFormValid || !nameValidation.isValid"
+          @click="goToBuilder"
         />
       </div>
-    </form>
+    </div>
   </div>
 </template>

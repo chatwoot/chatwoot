@@ -3,6 +3,7 @@
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useEventListener } from '@vueuse/core';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import AddTemplate from './AddTemplate.vue';
@@ -16,6 +17,7 @@ const templates = ref([]);
 const showDeleteConfirmationPopup = ref(false);
 const showAddPopup = ref(false);
 const selectedTemplate = ref({});
+const newTemplateButtonRef = ref(null);
 
 // TODO: maybe change this filters to object , will check it after backend
 const selectedContent = ref('Content');
@@ -108,6 +110,15 @@ const getTemplateIcon = category => {
   }
 };
 
+const onKeydown = e => {
+  if (showAddPopup.value && e.code === 'Escape') {
+    hideAddPopup();
+    e.stopPropagation();
+  }
+};
+
+useEventListener(document, 'keydown', onKeydown);
+
 onMounted(() => {
   fetchTemplates();
 });
@@ -125,12 +136,24 @@ onMounted(() => {
           {{ t('SETTINGS.TEMPLATES.LEARN_MORE_ABOUT_TEMPLATES') }}
         </a>
       </div>
-      <Button
-        icon="i-lucide-plus"
-        blue
-        :label="t('SETTINGS.TEMPLATES.ACTIONS.NEW_TEMPLATE')"
-        @click="openAddPopup"
-      />
+      <div class="relative">
+        <Button
+          ref="newTemplateButtonRef"
+          icon="i-lucide-plus"
+          blue
+          :label="t('SETTINGS.TEMPLATES.ACTIONS.NEW_TEMPLATE')"
+          @click="openAddPopup"
+        />
+        <!-- Add Template Popover -->
+        <div v-if="showAddPopup" class="absolute right-0 top-full mt-2 z-50">
+          <div
+            class="bg-n-alpha-3 border border-n-strong rounded-xl shadow-sm backdrop-blur-[100px] w-96 max-h-[80vh] overflow-auto"
+            @click.stop
+          >
+            <AddTemplate @close="hideAddPopup" />
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Filters -->
@@ -263,10 +286,8 @@ onMounted(() => {
       }}
     </div>
 
-    <!-- Add Template Modal -->
-    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
-      <AddTemplate @close="hideAddPopup" />
-    </woot-modal>
+    <!-- Backdrop for mobile/overlay when popover is open -->
+    <div v-if="showAddPopup" class="fixed inset-0 z-40" @click="hideAddPopup" />
 
     <!-- Delete Confirmation Modal -->
     <woot-delete-modal

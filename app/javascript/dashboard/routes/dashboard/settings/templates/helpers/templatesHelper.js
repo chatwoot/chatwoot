@@ -128,13 +128,25 @@ export const getTemplatesDemo = () => {
 
 export const createTemplate = templateData => {
   // Demo function - will be replaced with actual API call
-  return Promise.resolve({
+  const template = {
     id: Date.now(),
     ...templateData,
     status: 'pending',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-  });
+  };
+
+  // If components are provided, use them; otherwise generate from content
+  if (!template.components && template.content) {
+    template.components = [
+      {
+        type: 'BODY',
+        text: template.content,
+      },
+    ];
+  }
+
+  return Promise.resolve(template);
 };
 
 export const updateTemplate = (id, templateData) => {
