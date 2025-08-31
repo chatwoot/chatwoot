@@ -17,6 +17,13 @@ Stack & Standards (WSC)
 - Design system: Primary `#8127E8`, accent `#FF6600`; brand fonts; light/dark themes.
 - Performance budgets: Widget ≤ 100KB gz; dashboard route bundle ≤ 200KB gz; API p95 ≤ 300ms (read) / ≤ 600ms (write) on staging data.
 
+Feature Flags & Plans (scaffold)
+- Plans: basic, pro, premium, app, custom. Plans are stored in `weave_core_account_plans` (engine).
+- Feature toggles: per‑account overrides in `weave_core_feature_toggles`; defaults derived from the plan.
+- API: `GET/PATCH /wsc/api/accounts/:account_id/features` (Chatwoot auth; admin required for PATCH).
+- OpenAPI: `swagger/wsc/openapi.yaml`; generate TS SDK via `pnpm sdk:wsc` into `app/javascript/sdk/wsc/`.
+- Migrations: engine migrations auto‑append; run `bundle exec rails db:migrate`.
+
 Contributions must use UK English, DD/MM/YYYY, 24h time, and GBP (£).
 
 # Chatwoot
