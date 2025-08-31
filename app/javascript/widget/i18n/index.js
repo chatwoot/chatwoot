@@ -6,6 +6,8 @@ import da from './locale/da.json';
 import de from './locale/de.json';
 import el from './locale/el.json';
 import en from './locale/en.json';
+// UK English maps to en by default; override per-key later as needed
+const en_GB = en;
 import es from './locale/es.json';
 import fa from './locale/fa.json';
 import fi from './locale/fi.json';
@@ -48,6 +50,7 @@ export default {
   de,
   el,
   en,
+  en_GB,
   es,
   fa,
   fi,

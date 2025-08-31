@@ -190,6 +190,9 @@ gem 'ruby_llm-schema'
 
 gem 'shopify_api'
 
+## --- WeaveSmart Chat Engines (local) --- ##
+gem 'weave-core', path: 'engines/weave_core'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
