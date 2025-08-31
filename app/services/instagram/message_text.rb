@@ -3,7 +3,11 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
   def ensure_contact(ig_scope_id)
     result = fetch_instagram_user(ig_scope_id)
-    find_or_create_contact(result) if result.present?
+    if result.present?
+      find_or_create_contact(result)
+    else
+      Rails.logger.warn "[Instagram] User profile fetch returned empty - Source:#{ig_scope_id}"
+    end
   end
 
   def fetch_instagram_user(ig_scope_id)
@@ -39,9 +43,11 @@ class Instagram::MessageText < Instagram::BaseMessageText
     error_message = parsed_response.dig('error', 'message')
     error_code = parsed_response.dig('error', 'code')
 
+    Rails.logger.error "[Instagram] API Error - Code:#{error_code}, Message:#{error_message}"
+
     # https://developers.facebook.com/docs/messenger-platform/error-codes
     # Access token has expired or become invalid.
-    channel.authorization_error! if error_code == 190
+    @inbox.channel.authorization_error! if error_code == 190
 
     # TODO: Remove this once we have a better way to handle this error.
     # https://developers.facebook.com/docs/messenger-platform/instagram/features/user-profile/#user-consent

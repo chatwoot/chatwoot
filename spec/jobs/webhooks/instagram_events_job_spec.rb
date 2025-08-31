@@ -59,6 +59,7 @@ describe Webhooks::InstagramEventsJob do
 
         expect(instagram_messenger_inbox.contacts.count).to be 1
         expect(instagram_messenger_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
+        expect(instagram_messenger_inbox.contacts.last.identifier).to eq 'some_user_name'
         expect(instagram_messenger_inbox.conversations.count).to be 1
         expect(instagram_messenger_inbox.messages.count).to be 1
         expect(instagram_messenger_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
@@ -76,6 +77,7 @@ describe Webhooks::InstagramEventsJob do
 
         expect(instagram_messenger_inbox.contacts.count).to be 1
         expect(instagram_messenger_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
+        expect(instagram_messenger_inbox.contacts.last.identifier).to eq 'some_user_name'
         expect(instagram_messenger_inbox.conversations.count).to be 1
         expect(instagram_messenger_inbox.messages.count).to be 1
 
@@ -241,6 +243,7 @@ describe Webhooks::InstagramEventsJob do
         instagram_webhook.perform_now(dm_event[:entry])
         expect(instagram_inbox.contacts.count).to eq 1
         expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
+        expect(instagram_inbox.contacts.last.identifier).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to eq 1
         expect(instagram_inbox.messages.count).to eq 1
         expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
@@ -257,6 +260,28 @@ describe Webhooks::InstagramEventsJob do
         expect(contact.additional_attributes['social_instagram_is_user_follow_business']).to be true
         expect(contact.additional_attributes['social_instagram_is_business_follow_user']).to be true
         expect(contact.additional_attributes['social_instagram_is_verified_user']).to be false
+        expect(contact.identifier).to eq 'some_user_name'
+      end
+
+      it 'sets fallback identifier when username is not available' do
+        # Stub API to return user data without username
+        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-1\?.*})
+          .to_return(
+            status: 200,
+            body: {
+              name: 'Jane',
+              profile_pic: 'https://chatwoot-assets.local/sample.png',
+              id: 'Sender-id-1',
+              follower_count: 100
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        instagram_webhook.perform_now(message_events[:dm][:entry])
+        instagram_inbox.reload
+
+        contact = instagram_inbox.contacts.last
+        expect(contact.identifier).to eq 'ig_user_Sender-id-1'
       end
 
       it 'handle instagram unsend message event' do

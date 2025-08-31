@@ -19,9 +19,14 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
 
     return unsend_message if message_is_deleted?
 
-    ensure_contact(contact_id) if contacts_first_message?(contact_id)
+    # This ensures contact persists even if message processing fails
+    if contacts_first_message?(contact_id)
+      Rails.logger.info "[Instagram] Creating contact outside transaction - Source:#{contact_id}, Account:#{@inbox.account_id}"
+      ensure_contact_handler(contact_id)
+    end
 
-    create_message
+    # Create message separately - failures here won't affect contact
+    create_message_handler
   end
 
   private
@@ -46,6 +51,25 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
   def contacts_first_message?(ig_scope_id)
     @contact_inbox = @inbox.contact_inboxes.where(source_id: ig_scope_id).last
     @contact_inbox.blank? && @inbox.channel.instagram_id.present?
+  end
+
+  def ensure_contact_handler(contact_id)
+    ensure_contact(contact_id)
+  rescue StandardError => e
+    Rails.logger.error "[Instagram] Contact creation failed - Source:#{contact_id}, Error: #{e.class}: #{e.message}"
+    ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+    # Don't re-raise - let message processing continue even if contact creation fails
+  end
+
+  def create_message_handler
+    return unless @contact_inbox
+
+    begin
+      create_message
+    rescue StandardError => e
+      Rails.logger.error "[Instagram] Message creation failed - ContactInbox:#{@contact_inbox.id}, Error: #{e.class}: #{e.message}"
+      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+    end
   end
 
   def unsend_message

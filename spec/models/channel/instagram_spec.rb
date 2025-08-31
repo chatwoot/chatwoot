@@ -16,6 +16,35 @@ RSpec.describe Channel::Instagram do
     expect(channel.name).to eq('Instagram')
   end
 
+  describe '#create_contact_inbox_with_identifier' do
+    let(:inbox) { create(:inbox, channel: channel) }
+
+    it 'creates contact inbox with identifier' do
+      instagram_id = 'ig_12345'
+      name = 'John Doe'
+      identifier = 'john_doe_instagram'
+
+      contact_inbox = channel.create_contact_inbox_with_identifier(instagram_id, name, identifier)
+
+      expect(contact_inbox.contact.name).to eq(name)
+      expect(contact_inbox.contact.identifier).to eq(identifier)
+      expect(contact_inbox.source_id).to eq(instagram_id)
+      expect(contact_inbox.inbox).to eq(inbox)
+    end
+
+    it 'creates contact inbox with fallback identifier when username is blank' do
+      instagram_id = 'ig_12345'
+      name = 'John Doe'
+      identifier = 'ig_user_ig_12345'
+
+      contact_inbox = channel.create_contact_inbox_with_identifier(instagram_id, name, identifier)
+
+      expect(contact_inbox.contact.name).to eq(name)
+      expect(contact_inbox.contact.identifier).to eq(identifier)
+      expect(contact_inbox.source_id).to eq(instagram_id)
+    end
+  end
+
   describe 'concerns' do
     it_behaves_like 'reauthorizable'
 
