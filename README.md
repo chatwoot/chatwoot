@@ -33,6 +33,11 @@ Rate Limiting (per tenant/channel/module)
 - Limits are plan‑based defaults (Basic/Pro/Premium/App/Custom) and can be tuned in code.
 - 429 responses may be returned when thresholds are exceeded.
 
+Structured JSON Logs
+- Enabled via Lograge JSON (`LOGRAGE_ENABLED=true`).
+- Payload includes `tenantId` (when available) and `traceId` (request id) for correlation.
+- Sidekiq logs remain JSON-formatted; future work may add correlation fields to jobs.
+
 Contributions must use UK English, DD/MM/YYYY, 24h time, and GBP (£).
 
 # Chatwoot
