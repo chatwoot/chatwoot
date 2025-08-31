@@ -193,6 +193,9 @@ gem 'shopify_api'
 ## --- WeaveSmart Chat Engines (local) --- ##
 gem 'weave-core', path: 'engines/weave_core'
 
+## --- Observability --- ##
+gem 'prometheus-client'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 

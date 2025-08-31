@@ -1,0 +1,19 @@
+name: Deploy Production (Railway)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Railway (production)
+        uses: railwayapp/railway-action@v2
+        with:
+          serviceId: ${{ secrets.RAILWAY_SERVICE_ID_PROD }}
+          environmentId: ${{ secrets.RAILWAY_ENV_ID_PROD }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+

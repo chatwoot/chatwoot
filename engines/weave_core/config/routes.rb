@@ -1,5 +1,6 @@
 Weave::Core::Engine.routes.draw do
   get "/healthz", to: "health#show"
+  get "/metrics", to: "metrics#show"
 
   namespace :api, defaults: { format: :json } do
     namespace :accounts do

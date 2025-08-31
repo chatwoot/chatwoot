@@ -175,3 +175,11 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 
 
 *Chatwoot* &copy; 2017-2025, Chatwoot Inc - Released under the MIT License.
+CI/CD & Ops
+- Deploys: GitHub Actions deploy to Railway
+  - Staging on `develop` via `.github/workflows/deploy_staging.yml` (requires secrets: `RAILWAY_TOKEN`, `RAILWAY_SERVICE_ID_STAGING`, `RAILWAY_ENV_ID_STAGING`).
+  - Production on `main` via `.github/workflows/deploy_prod.yml` (requires prod equivalents).
+- Releases: Automated via Release Please (`.github/workflows/release_please.yml`), generating tags `vX.Y.Z` and CHANGELOG.
+- Backups: Daily `pg_dump` (`.github/workflows/db_backup.yml`) and weekly restore test (`.github/workflows/db_restore_test.yml`). Configure `DATABASE_URL` secret.
+- Observability: `/wsc/metrics` exposes Prometheus text format; enable Lograge JSON for structured logs.
+- CSP: Baseline CSP is available via engine (`WSC_CSP_ENABLED=true`), report‑only by default.

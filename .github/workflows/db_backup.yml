@@ -1,0 +1,24 @@
+name: DB Backup (daily)
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 02:00 UTC daily
+  workflow_dispatch: {}
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Dump database
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          export PGPASSWORD=$(echo "$DATABASE_URL" | sed -E 's/.*:([^:@]+)@.*/\1/')
+          pg_dump --no-owner --no-privileges --format=custom "$DATABASE_URL" -f backup.dump
+      - uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-$(date +"%Y%m%d")
+          path: backup.dump
+

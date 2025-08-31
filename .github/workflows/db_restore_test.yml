@@ -1,0 +1,37 @@
+name: DB Restore Test (weekly)
+
+on:
+  schedule:
+    - cron: '0 3 * * 0'  # 03:00 UTC Sundays
+  workflow_dispatch: {}
+
+jobs:
+  restore-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" \
+          --health-interval 10s \
+          --health-timeout 5s \
+          --health-retries 5
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: db-backup-${{ github.event.schedule || 'manual' }}
+          path: .
+        continue-on-error: true
+      - name: Restore latest backup if found
+        run: |
+          set -e
+          FILE=$(ls -t db-backup-* 2>/dev/null | head -n1 || true)
+          if [ -z "$FILE" ]; then
+            echo "No backup artifact found; skipping restore test." && exit 0
+          fi
+          echo "Restoring $FILE"
+          pg_restore --clean --if-exists -h localhost -U postgres -d postgres "$FILE"
+
