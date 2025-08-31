@@ -23,16 +23,6 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     send_notification(subject, action_url: action_url, meta: meta)
   end
 
-  private
-
-  def format_deletion_date(deletion_date_str)
-    return 'Unknown' if deletion_date_str.blank?
-
-    Time.zone.parse(deletion_date_str).strftime('%B %d, %Y')
-  rescue StandardError
-    'Unknown'
-  end
-
   def contact_import_complete(resource)
     subject = 'Contact Import Completed'
 
@@ -66,5 +56,15 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     meta = { 'rule_name' => rule.name }
 
     send_notification(subject, action_url: action_url, meta: meta)
+  end
+
+  private
+
+  def format_deletion_date(deletion_date_str)
+    return 'Unknown' if deletion_date_str.blank?
+
+    Time.zone.parse(deletion_date_str).strftime('%B %d, %Y')
+  rescue StandardError
+    'Unknown'
   end
 end
