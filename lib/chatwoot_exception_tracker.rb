@@ -12,8 +12,13 @@ class ChatwootExceptionTracker
   end
 
   def capture_exception
+    # ALWAYS log to CloudWatch for operational visibility
+    account_info = @account ? "[Account:#{@account.id}]" : ''
+    user_info = @user ? "[User:#{@user.id}]" : ''
+    Rails.logger.error "#{account_info}#{user_info} Exception: #{@exception.class}: #{@exception.message}"
+
+    # Also send to Sentry for detailed tracking
     capture_exception_with_sentry if ENV['SENTRY_DSN'].present?
-    Rails.logger.error @exception
   end
 
   private

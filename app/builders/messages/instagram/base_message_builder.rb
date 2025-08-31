@@ -199,13 +199,13 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   def carousel_item_actions(buttons)
     return [] if buttons.blank?
 
-    buttons.map do |button|
+    buttons.filter_map do |button|
       if button[:type] == 'web_url'
         { type: 'link', text: button[:title], uri: button[:url] }
       elsif button[:type] == 'postback'
         { type: 'postback', text: button[:title], payload: button[:payload] }
       end
-    end.compact
+    end
   end
 
   def conversation_params
