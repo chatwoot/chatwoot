@@ -9,7 +9,17 @@ class GlobalConfigService
 
     return if config_value.blank?
 
-    i = InstallationConfig.where(name: config_key).first_or_create(value: config_value, locked: false)
+    i = InstallationConfig.where(name: config_key).first_or_initialize
+    # Update the value if it's blank (nil or empty) and we have a valid config_value
+    if i.value.blank? && config_value.present?
+      i.value = config_value
+      i.locked = false if i.new_record?
+      i.save!
+    elsif i.new_record?
+      i.value = config_value
+      i.locked = false
+      i.save!
+    end
     # To clear a nil value that might have been cached in the previous call
     GlobalConfig.clear_cache
     i.value
