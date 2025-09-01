@@ -59,7 +59,6 @@ const showBotHandoffBanner = computed(
     currentChat.value?.status === wootConstants.STATUS_TYPE.PENDING
 );
 
-
 const botHandoffActionLabel = computed(() => {
   return assignedAgent.value?.id === currentUser.value?.id
     ? t('CONVERSATION.BOT_HANDOFF_REOPEN_ACTION')
