@@ -1,7 +1,4 @@
 version: 2.1
-executors:
-  xlarge-executor:
-    resource_class: xlarge
 orbs:
   aws-cli: circleci/aws-cli@4.1.3
   aws-eks: circleci/aws-eks@2.2.0
@@ -229,7 +226,6 @@ workflows:
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile-staging-rails
-          executor: xlarge-executor
           extra_build_args: |
             --cache-from type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-rails
             --cache-to type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-rails,mode=max
@@ -257,7 +253,6 @@ workflows:
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile-staging-sidekiq
-          executor: xlarge-executor
           extra_build_args: |
             --cache-from type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-sidekiq
             --cache-to type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-sidekiq,mode=max
