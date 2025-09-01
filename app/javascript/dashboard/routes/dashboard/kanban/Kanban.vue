@@ -1,5 +1,10 @@
 <script>
+import ColumnModal from './ColumnModal.vue'
+
 export default {
+  components: {
+    ColumnModal
+  },
   name: 'Kanban',
   
   props: {
@@ -25,7 +30,13 @@ export default {
       sourceColumnIndex: null,
       sourceItemIndex: null,
       showColumnModal: false,
-      newColumnTitle: ''
+      mockLabels: [
+        {text: 'Etapa 1', value: 'etapa_1'}, 
+        {text: 'Etapa 2', value: 'etapa_2'}, 
+        {text: 'Etapa 3', value: 'etapa_3'},
+        {text: 'Urgente', value: 'urgente'},
+        {text: 'Pode Esperar', value: 'esperar'}
+      ]
     }
   },
 
@@ -92,17 +103,14 @@ export default {
       this.showColumnModal = false
     },
 
-    addNewColumn() {
-      if (this.newColumnTitle.trim()) {
-        this.localColumns.push({
-          title: this.newColumnTitle,
-          items: []
-        })
-        this.closeColumnModal()
-        this.newColumnTitle = ''
-        this.$emit('update:columns', structuredClone(this.localColumns))
-      }
-      
+    addNewColumn(columnData) {
+      this.localColumns.push({
+        title: columnData.title,
+        items: [],
+        labels: columnData.labels
+      })
+      this.closeColumnModal()
+      this.$emit('update:columns', structuredClone(this.localColumns))
     }
   }
 }
@@ -143,22 +151,12 @@ export default {
       </div>
     </div>
 
-    <!-- Modal para nova coluna -->
-    <div v-if="showColumnModal" class="modal-overlay">
-      <div class="modal">
-        <h3>Nova Coluna</h3>
-        <input 
-          v-model="newColumnTitle"
-          type="text"
-          placeholder="Nome da coluna"
-          @keyup.enter="addNewColumn"
-        >
-        <div class="modal-actions">
-          <button @click="closeColumnModal" class="cancel-btn">Cancelar</button>
-          <button @click="addNewColumn" class="confirm-btn">Adicionar</button>
-        </div>
-      </div>
-    </div>
+    <ColumnModal 
+      :show="showColumnModal"
+      :mock-labels="mockLabels"
+      @close="closeColumnModal"
+      @add="addNewColumn"
+    />
   </div>
 </template>
 
@@ -267,70 +265,4 @@ export default {
   transform: translateY(-1px);
 }
 
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal {
-  background-color: #464343;
-  padding: 20px;
-  border-radius: 8px;
-  min-width: 300px;
-}
-
-.modal h3 {
-  color: #fff;
-  margin-top: 0;
-  margin-bottom: 15px;
-}
-
-.modal input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.cancel-btn, .confirm-btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.cancel-btn {
-  background-color: transparent;
-  color: #fff;
-}
-
-.confirm-btn {
-  background-color: #fff;
-  color: #464343;
-}
-
-.cancel-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.confirm-btn:hover {
-  background-color: #e0e0e0;
-}
 </style>
