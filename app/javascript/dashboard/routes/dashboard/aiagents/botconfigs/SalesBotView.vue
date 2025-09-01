@@ -381,60 +381,132 @@
                     <!-- Provinsi -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL') }}</label>
-                      <div class="relative">
-                        <select 
-                          v-model="kurirBiasa.provinsi"
-                          @change="onProvinsiChange"
-                          :disabled="loadingProvinsi"
-                          class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      <div class="relative" ref="provinsiDropdownRef">
+                        <div
+                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                          :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': loadingProvinsi }"
+                          @click="toggleProvinsiDropdown"
                         >
-                          <option value="">{{ loadingProvinsi ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL_PLACEHOLDER') }}</option>
-                          <option v-for="provinsi in provinsiOptions" :key="provinsi.id" :value="provinsi.id">
+                          <input
+                            v-model="provinsiSearchQuery"
+                            :placeholder="selectedProvinsiName || (loadingProvinsi ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL_PLACEHOLDER'))"
+                            class="flex-1 bg-transparent outline-none"
+                            :disabled="loadingProvinsi"
+                            @input="onProvinsiSearch"
+                            @click.stop
+                            @focus="isProvinsiDropdownOpen = true"
+                          />
+                          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                          </svg>
+                        </div>
+                        <div
+                          v-show="isProvinsiDropdownOpen"
+                          class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
+                        >
+                          <div v-if="loadingProvinsi" class="px-3 py-2 text-sm text-gray-500">
+                            Loading provinces...
+                          </div>
+                          <div
+                            v-for="provinsi in filteredProvinsiOptions"
+                            :key="provinsi.id"
+                            class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                            @click="selectProvinsi(provinsi)"
+                          >
                             {{ provinsi.name }}
-                          </option>
-                        </select>
+                          </div>
+                          <div v-if="!loadingProvinsi && filteredProvinsiOptions.length === 0" class="px-3 py-2 text-sm text-gray-500">
+                            No provinces found
+                          </div>
+                        </div>
                       </div>
                     </div>
 
                     <!-- Kota/Kabupaten -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
-                      <div class="relative">
-                        <select 
-                          v-model="kurirBiasa.kota"
-                          @change="onKotaChange"
-                          :disabled="!kurirBiasa.provinsi || loadingKota"
-                          class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      <div class="relative" ref="kotaDropdownRef">
+                        <div
+                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                          :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.provinsi || loadingKota }"
+                          @click="toggleKotaDropdown"
                         >
-                          <option value="">
-                            {{ !kurirBiasa.provinsi ? $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_SELECT_FIRST') : 
-                               loadingKota ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL_PLACEHOLDER') }}
-                          </option>
-                          <option v-for="kota in kotaOptions" :key="kota.id" :value="kota.id">
+                          <input
+                            v-model="kotaSearchQuery"
+                            :placeholder="selectedKotaName || (!kurirBiasa.provinsi ? $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_SELECT_FIRST') : loadingKota ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL_PLACEHOLDER'))"
+                            class="flex-1 bg-transparent outline-none"
+                            :disabled="!kurirBiasa.provinsi || loadingKota"
+                            @input="onKotaSearch"
+                            @click.stop
+                            @focus="isKotaDropdownOpen = true"
+                          />
+                          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                          </svg>
+                        </div>
+                        <div
+                          v-show="isKotaDropdownOpen"
+                          class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
+                        >
+                          <div v-if="loadingKota" class="px-3 py-2 text-sm text-gray-500">
+                            Loading cities...
+                          </div>
+                          <div
+                            v-for="kota in filteredKotaOptions"
+                            :key="kota.id"
+                            class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                            @click="selectKota(kota)"
+                          >
                             {{ kota.name }}
-                          </option>
-                        </select>
+                          </div>
+                          <div v-if="!loadingKota && filteredKotaOptions.length === 0 && kurirBiasa.provinsi" class="px-3 py-2 text-sm text-gray-500">
+                            No cities found
+                          </div>
+                        </div>
                       </div>
                     </div>
 
                     <!-- Kecamatan -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL') }}</label>
-                      <div class="relative">
-                        <select 
-                          v-model="kurirBiasa.kecamatan"
-                          @change="onKecamatanChange"
-                          :disabled="!kurirBiasa.kota || loadingKecamatan"
-                          class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                      <div class="relative" ref="kecamatanDropdownRef">
+                        <div
+                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                          :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.kota || loadingKecamatan }"
+                          @click="toggleKecamatanDropdown"
                         >
-                          <option value="">
-                            {{ !kurirBiasa.kota ? $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_SELECT_FIRST') : 
-                               loadingKecamatan ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL_PLACEHOLDER') }}
-                          </option>
-                          <option v-for="kecamatan in kecamatanOptions" :key="kecamatan.id" :value="kecamatan.id">
+                          <input
+                            v-model="kecamatanSearchQuery"
+                            :placeholder="selectedKecamatanName || (!kurirBiasa.kota ? $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_SELECT_FIRST') : loadingKecamatan ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL_PLACEHOLDER'))"
+                            class="flex-1 bg-transparent outline-none"
+                            :disabled="!kurirBiasa.kota || loadingKecamatan"
+                            @input="onKecamatanSearch"
+                            @click.stop
+                            @focus="isKecamatanDropdownOpen = true"
+                          />
+                          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                          </svg>
+                        </div>
+                        <div
+                          v-show="isKecamatanDropdownOpen"
+                          class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
+                        >
+                          <div v-if="loadingKecamatan" class="px-3 py-2 text-sm text-gray-500">
+                            Loading subdistricts...
+                          </div>
+                          <div
+                            v-for="kecamatan in filteredKecamatanOptions"
+                            :key="kecamatan.id"
+                            class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                            @click="selectKecamatan(kecamatan)"
+                          >
                             {{ kecamatan.name }}
-                          </option>
-                        </select>
+                          </div>
+                          <div v-if="!loadingKecamatan && filteredKecamatanOptions.length === 0 && kurirBiasa.kota" class="px-3 py-2 text-sm text-gray-500">
+                            No subdistricts found
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -482,7 +554,7 @@
                       >
                         <div class="flex-1 text-left">
                           <span v-if="kurirBiasa.kurir.length === 0" class="text-gray-500">
-                            {{ $t('AGENT_MGMT.FORM_CREATE.SELECT_TEMPLATES') }}
+                            {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SELECT_COURIER_PLACEHOLDER') }}
                           </span>
                           <div v-else class="flex flex-wrap gap-1">
                             <span
@@ -710,15 +782,15 @@
                     </div>
                   </div>
 
-                  <!-- Non COD -->
+                  <!-- Bank Transfer -->
                   <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
                     <div class="flex items-center justify-between p-4">
                       <div>
-                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.NON_COD_TITLE') }}</h3>
-                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.NON_COD_DESC') }}</p>
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
                       </div>
                       <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox" v-model="paymentMethods.nonCod" class="sr-only peer">
+                        <input type="checkbox" v-model="paymentMethods.bankTransfer" class="sr-only peer">
                         <div
                           class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
                         </div>
@@ -726,159 +798,138 @@
                     </div>
                     
                     <div 
-                      v-if="paymentMethods.nonCod" 
-                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-6 transition-all duration-200 ease-in-out"
+                      v-if="paymentMethods.bankTransfer" 
+                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
                     >
-                      <!-- Bank Transfer -->
-                      <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <div class="flex items-center justify-between p-4">
-                          <div>
-                            <h4 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h4>
-                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
-                          </div>
-                          <label class="inline-flex items-center cursor-pointer">
-                            <input type="checkbox" v-model="nonCodMethods.bankTransfer" class="sr-only peer">
-                            <div
-                              class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                            </div>
-                          </label>
-                        </div>
-                        
-                        <div 
-                          v-if="nonCodMethods.bankTransfer" 
-                          class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4"
+                      <div class="space-y-4">
+                        <div
+                          v-for="(account, index) in bankAccounts"
+                          :key="account.id"
+                          class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4"
                         >
-                          <div class="space-y-4">
-                            <div
-                              v-for="(account, index) in bankAccounts"
-                              :key="account.id"
-                              class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4"
-                            >
-                              <div class="flex items-center justify-between mb-4">
-                                <h5 class="font-medium text-slate-700 dark:text-slate-300">
-                                  {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_ACCOUNT_TITLE')}} #{{ index + 1 }}
-                                </h5>
-                                <Button
-                                  variant="ghost"
-                                  color="ruby"
-                                  icon="i-lucide-trash"
-                                  size="sm"
-                                  @click="() => deleteBankAccount(index)"
-                                  class="opacity-70 hover:opacity-100"
-                                />
-                              </div>
-                              
-                              <div class="grid grid-cols-1 gap-4">
-                                <div>
-                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_NAME_LABEL') }} <span class="text-red-500">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    v-model="account.bankName"
-                                    placeholder="e.g., Bank BCA, Bank Mandiri"
-                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                                  />
-                                </div>
-                                <div>
-                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_NUMBER_LABEL') }} <span class="text-red-500">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    v-model="account.accountNumber"
-                                    placeholder="e.g., 1234567890"
-                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                                  />
-                                </div>
-                                <div>
-                                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_HOLDER_LABEL') }} <span class="text-red-500">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    v-model="account.accountHolder"
-                                    placeholder="e.g., John Doe"
-                                    class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                                  />
-                                </div>
-                              </div>
+                          <div class="flex items-center justify-between mb-4">
+                            <h5 class="font-medium text-slate-700 dark:text-slate-300">
+                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_ACCOUNT_TITLE')}} #{{ index + 1 }}
+                            </h5>
+                            <Button
+                              variant="ghost"
+                              color="ruby"
+                              icon="i-lucide-trash"
+                              size="sm"
+                              @click="() => deleteBankAccount(index)"
+                              class="opacity-70 hover:opacity-100"
+                            />
+                          </div>
+                          
+                          <div class="grid grid-cols-1 gap-4">
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_NAME_LABEL') }} <span class="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                v-model="account.bankName"
+                                placeholder="e.g., Bank BCA, Bank Mandiri"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                              />
+                            </div>
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_NUMBER_LABEL') }} <span class="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                v-model="account.accountNumber"
+                                placeholder="e.g., 1234567890"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                              />
+                            </div>
+                            <div>
+                              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ACCOUNT_HOLDER_LABEL') }} <span class="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                v-model="account.accountHolder"
+                                placeholder="e.g., John Doe"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                              />
                             </div>
                           </div>
-
-                          <Button 
-                            class="w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-green-400 hover:text-green-600 transition-all duration-200 rounded-xl bg-transparent hover:bg-green-50 dark:hover:bg-green-900/10" 
-                            variant="ghost"
-                            @click="addBankAccount"
-                          >
-                            <span class="flex items-center gap-2">
-                              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                              </svg>
-                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ADD_BANK_ACCOUNT') }}
-                            </span>
-                          </Button>
                         </div>
                       </div>
 
-                      <!-- Payment Gateway -->
-                      <div class="border border-gray-200 dark:border-gray-700 rounded-lg">
-                        <div class="flex items-center justify-between p-4">
-                          <div>
-                            <h4 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h4>
-                            <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
-                          </div>
-                          <label class="inline-flex items-center cursor-pointer">
-                            <input type="checkbox" v-model="nonCodMethods.paymentGateway" class="sr-only peer">
-                            <div
-                              class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
-                            </div>
-                          </label>
+                      <Button 
+                        class="w-full py-3 border-2 border-dashed border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 hover:border-green-400 hover:text-green-600 transition-all duration-200 rounded-xl bg-transparent hover:bg-green-50 dark:hover:bg-green-900/10" 
+                        variant="ghost"
+                        @click="addBankAccount"
+                      >
+                        <span class="flex items-center gap-2">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                          </svg>
+                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.ADD_BANK_ACCOUNT') }}
+                        </span>
+                      </Button>
+                    </div>
+                  </div>
+
+                  <!-- Payment Gateway -->
+                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                    <div class="flex items-center justify-between p-4">
+                      <div>
+                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
+                      </div>
+                      <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" v-model="paymentMethods.paymentGateway" class="sr-only peer">
+                        <div
+                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
                         </div>
-                        
-                        <div 
-                          v-if="nonCodMethods.paymentGateway" 
-                          class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4"
+                      </label>
+                    </div>
+                    
+                    <div 
+                      v-if="paymentMethods.paymentGateway" 
+                      class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
+                    >
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
+                        </label>
+                        <select 
+                          v-model="paymentGateway.provider"
+                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
-                            </label>
-                            <select 
-                              v-model="paymentGateway.provider"
-                              class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-                            >
-                              <option value="">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.SELECT_PROVIDER') }}</option>
-                              <option v-for="provider in paymentGatewayProviders" :key="provider.id" :value="provider.id">
-                                {{ provider.label }}
-                              </option>
-                            </select>
-                          </div>
-                          
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              API Key <span class="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="password"
-                              v-model="paymentGateway.apiKey"
-                              :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.API_KEY_PLACEHOLDER')"
-                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                            />
-                          </div>
-                          
-                          <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                              {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_LABEL') }} <span class="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              v-model="paymentGateway.merchantCode"
-                              :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_PLACEHOLDER')"
-                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
-                            />
-                          </div>
-                        </div>
+                          <option value="">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.SELECT_PROVIDER') }}</option>
+                          <option v-for="provider in paymentGatewayProviders" :key="provider.id" :value="provider.id">
+                            {{ provider.label }}
+                          </option>
+                        </select>
+                      </div>
+                      
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          API Key <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="password"
+                          v-model="paymentGateway.apiKey"
+                          :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.API_KEY_PLACEHOLDER')"
+                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_LABEL') }} <span class="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          v-model="paymentGateway.merchantCode"
+                          :placeholder="$t('AGENT_MGMT.SALESBOT.PAYMENT.MERCHANT_CODE_PLACEHOLDER')"
+                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                        />
                       </div>
                     </div>
                   </div>
@@ -1133,6 +1184,61 @@ const loadingKota = ref(false);
 const loadingKecamatan = ref(false);
 const loadingShippingCost = ref(false);
 
+// Search functionality for dropdowns
+const provinsiSearchQuery = ref('');
+const kotaSearchQuery = ref('');
+const kecamatanSearchQuery = ref('');
+const isProvinsiDropdownOpen = ref(false);
+const isKotaDropdownOpen = ref(false);
+const isKecamatanDropdownOpen = ref(false);
+const provinsiDropdownRef = ref(null);
+const kotaDropdownRef = ref(null);
+const kecamatanDropdownRef = ref(null);
+
+// Computed properties for filtered options
+const filteredProvinsiOptions = computed(() => {
+  if (!provinsiSearchQuery.value) {
+    return provinsiOptions.value;
+  }
+  return provinsiOptions.value.filter(provinsi => 
+    provinsi.name.toLowerCase().includes(provinsiSearchQuery.value.toLowerCase())
+  );
+});
+
+const filteredKotaOptions = computed(() => {
+  if (!kotaSearchQuery.value) {
+    return kotaOptions.value;
+  }
+  return kotaOptions.value.filter(kota => 
+    kota.name.toLowerCase().includes(kotaSearchQuery.value.toLowerCase())
+  );
+});
+
+const filteredKecamatanOptions = computed(() => {
+  if (!kecamatanSearchQuery.value) {
+    return kecamatanOptions.value;
+  }
+  return kecamatanOptions.value.filter(kecamatan => 
+    kecamatan.name.toLowerCase().includes(kecamatanSearchQuery.value.toLowerCase())
+  );
+});
+
+// Computed properties for selected names
+const selectedProvinsiName = computed(() => {
+  const selected = provinsiOptions.value.find(p => p.id === kurirBiasa.provinsi);
+  return selected ? selected.name : '';
+});
+
+const selectedKotaName = computed(() => {
+  const selected = kotaOptions.value.find(k => k.id === kurirBiasa.kota);
+  return selected ? selected.name : '';
+});
+
+const selectedKecamatanName = computed(() => {
+  const selected = kecamatanOptions.value.find(k => k.id === kurirBiasa.kecamatan);
+  return selected ? selected.name : '';
+});
+
 // RajaOngkir API Headers
 const getRajaOngkirHeaders = () => ({
   'key': RAJA_ONGKIR_API_KEY,
@@ -1313,6 +1419,119 @@ function onKecamatanChange() {
   // add postal code refinement here if needed
   console.log('Kecamatan changed:', kurirBiasa.kecamatan);
 }
+
+// Search dropdown functions
+function toggleProvinsiDropdown() {
+  if (!loadingProvinsi.value) {
+    isProvinsiDropdownOpen.value = !isProvinsiDropdownOpen.value;
+  }
+}
+
+function toggleKotaDropdown() {
+  if (!loadingKota.value && kurirBiasa.provinsi) {
+    isKotaDropdownOpen.value = !isKotaDropdownOpen.value;
+  }
+}
+
+function toggleKecamatanDropdown() {
+  if (!loadingKecamatan.value && kurirBiasa.kota) {
+    isKecamatanDropdownOpen.value = !isKecamatanDropdownOpen.value;
+  }
+}
+
+function onProvinsiSearch() {
+  isProvinsiDropdownOpen.value = true;
+}
+
+function onKotaSearch() {
+  if (kurirBiasa.provinsi) {
+    isKotaDropdownOpen.value = true;
+  }
+}
+
+function onKecamatanSearch() {
+  if (kurirBiasa.kota) {
+    isKecamatanDropdownOpen.value = true;
+  }
+}
+
+function selectProvinsi(provinsi) {
+  kurirBiasa.provinsi = provinsi.id;
+  provinsiSearchQuery.value = '';
+  isProvinsiDropdownOpen.value = false;
+  onProvinsiChange();
+}
+
+function selectKota(kota) {
+  kurirBiasa.kota = kota.id;
+  kotaSearchQuery.value = '';
+  isKotaDropdownOpen.value = false;
+  onKotaChange();
+}
+
+function selectKecamatan(kecamatan) {
+  kurirBiasa.kecamatan = kecamatan.id;
+  kecamatanSearchQuery.value = '';
+  isKecamatanDropdownOpen.value = false;
+  onKecamatanChange();
+}
+
+// Click outside handlers
+function handleProvinsiClickOutside(event) {
+  if (provinsiDropdownRef.value && !provinsiDropdownRef.value.contains(event.target)) {
+    isProvinsiDropdownOpen.value = false;
+  }
+}
+
+function handleKotaClickOutside(event) {
+  if (kotaDropdownRef.value && !kotaDropdownRef.value.contains(event.target)) {
+    isKotaDropdownOpen.value = false;
+  }
+}
+
+function handleKecamatanClickOutside(event) {
+  if (kecamatanDropdownRef.value && !kecamatanDropdownRef.value.contains(event.target)) {
+    isKecamatanDropdownOpen.value = false;
+  }
+}
+
+// Watch for dropdown open states to add/remove event listeners
+watch(isProvinsiDropdownOpen, (isOpen) => {
+  if (isOpen) {
+    document.addEventListener('click', handleProvinsiClickOutside);
+  } else {
+    document.removeEventListener('click', handleProvinsiClickOutside);
+  }
+});
+
+watch(isKotaDropdownOpen, (isOpen) => {
+  if (isOpen) {
+    document.addEventListener('click', handleKotaClickOutside);
+  } else {
+    document.removeEventListener('click', handleKotaClickOutside);
+  }
+});
+
+watch(isKecamatanDropdownOpen, (isOpen) => {
+  if (isOpen) {
+    document.addEventListener('click', handleKecamatanClickOutside);
+  } else {
+    document.removeEventListener('click', handleKecamatanClickOutside);
+  }
+});
+
+// Reset search queries when selections change
+watch(() => kurirBiasa.provinsi, () => {
+  provinsiSearchQuery.value = '';
+});
+
+watch(() => kurirBiasa.kota, () => {
+  kotaSearchQuery.value = '';
+});
+
+watch(() => kurirBiasa.kecamatan, () => {
+  kecamatanSearchQuery.value = '';
+});
 
 // Calculate shipping costs for selected couriers
 async function calculateShippingCosts() {
@@ -1689,10 +1908,6 @@ watch(mapRef, (newMapRef) => {
 // Payment Methods
 const paymentMethods = reactive({
   cod: false,
-  nonCod: false
-});
-
-const nonCodMethods = reactive({
   bankTransfer: false,
   paymentGateway: false
 });
@@ -1781,21 +1996,19 @@ function submitPaymentConfig() {
   try {
     isSaving.value = true;
     
-    console.log('Payment Methods:', JSON.parse(JSON.stringify({ paymentMethods, nonCodMethods, bankAccounts: bankAccounts.value, paymentGateway })));
+    console.log('Payment Methods:', JSON.parse(JSON.stringify({ paymentMethods, bankAccounts: bankAccounts.value, paymentGateway })));
     
     const paymentData = {
       cod: paymentMethods.cod,
-      nonCod: paymentMethods.nonCod ? {
-        bankTransfer: nonCodMethods.bankTransfer ? {
-          accounts: bankAccounts.value.filter(account => 
-            account.bankName && account.accountNumber && account.accountHolder
-          )
-        } : null,
-        paymentGateway: nonCodMethods.paymentGateway ? {
-          provider: paymentGateway.provider,
-          apiKey: paymentGateway.apiKey,
-          merchantCode: paymentGateway.merchantCode
-        } : null
+      bankTransfer: paymentMethods.bankTransfer ? {
+        accounts: bankAccounts.value.filter(account => 
+          account.bankName && account.accountNumber && account.accountHolder
+        )
+      } : null,
+      paymentGateway: paymentMethods.paymentGateway ? {
+        provider: paymentGateway.provider,
+        apiKey: paymentGateway.apiKey,
+        merchantCode: paymentGateway.merchantCode
       } : null
     };
     
@@ -1825,5 +2038,37 @@ function submitPaymentConfig() {
 
 .border {
   min-height: fit-content;
+}
+
+/* Enhanced dropdown styling */
+.dropdown-container {
+  position: relative;
+}
+
+.dropdown-input {
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdown-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dropdown-menu {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease-in-out;
+  transform-origin: top;
+}
+
+.dropdown-item {
+  transition: background-color 0.15s ease-in-out;
+}
+
+.dropdown-item:hover {
+  transform: translateX(2px);
+}
+
+/* Dark mode adjustments */
+.dark .dropdown-menu {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
 }
 </style>
