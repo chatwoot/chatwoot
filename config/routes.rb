@@ -199,6 +199,7 @@ Rails.application.routes.draw do
               patch :update
             end
           end
+          resources :message_templates, only: [:index, :create, :show, :update, :destroy]
           resources :labels, only: [:index, :show, :create, :update, :destroy]
 
           resources :notifications, only: [:index, :update, :destroy] do

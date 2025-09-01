@@ -38,7 +38,7 @@ class MessageTemplate < ApplicationRecord
   validates :name, presence: true,
                    length: { minimum: 2, maximum: 512 },
                    format: {
-                     with: /^[a-zA-Z0-9_]+$/
+                     with: /\A[a-zA-Z0-9_]+\z/
                    }
   validates :language, inclusion: { in: SUPPORTED_LANGUAGES }
   validates :content, presence: true
