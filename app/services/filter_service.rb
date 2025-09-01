@@ -6,7 +6,7 @@ class FilterService
 
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
   ATTRIBUTE_TYPES = {
-    date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
+    date: 'date', datetime: 'timestamp', time: 'time', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
 
   def initialize(params, user)
