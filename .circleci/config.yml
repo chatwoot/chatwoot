@@ -266,7 +266,6 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                - v4.0.4-test
           region: "${AWS_REGION}"
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
@@ -288,7 +287,6 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                - v4.0.4-test
           region: "${AWS_REGION}"
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
@@ -320,8 +318,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '0.7'
           request_cpu: '0.5'
-          limit_memory: '500M'
-          request_memory: '400M'
+          limit_memory: '1G'
+          request_memory: '800M'
           deployment-name: 'staging-sidekiq'
           requires:
             - staging-build-sidekiq
@@ -347,8 +345,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '0.7'
           request_cpu: '0.5'
-          limit_memory: '500M'
-          request_memory: '400M'
+          limit_memory: '1G'
+          request_memory: '800M'
           deployment-name: 'staging-chatwoot'
           service-account: 'rails-sa'
           requires:
@@ -399,8 +397,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '0.7'
           request_cpu: '0.5'
-          limit_memory: '700M'
-          request_memory: '600M'
+          limit_memory: '1G'
+          request_memory: '800M'
           deployment-name: 'prod-sidekiq'
           requires:
             - deploy-approval-ind-sidekiq
@@ -426,8 +424,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '0.7'
           request_cpu: '0.5'
-          limit_memory: '700M'
-          request_memory: '600M'
+          limit_memory: '1G'
+          request_memory: '800M'
           deployment-name: 'prod-chatwoot'
           service-account: 'chatwoot-rails-sa'
           requires:
