@@ -1,191 +1,468 @@
 version: 2.1
 orbs:
-  node: circleci/node@6.1.0
-
-defaults: &defaults
-  working_directory: ~/build
-  machine:
-    image: ubuntu-2204:2024.05.1
-  resource_class: large
-  environment:
-    RAILS_LOG_TO_STDOUT: false
-    COVERAGE: true
-    LOG_LEVEL: warn
-  parallelism: 4
+  aws-cli: circleci/aws-cli@4.1.3
+  aws-eks: circleci/aws-eks@2.2.0
+  aws-ecr: circleci/aws-ecr@9.0.2
+  kubernetes: circleci/kubernetes@1.3.0
 
 jobs:
-  build:
-    <<: *defaults
+  # Build main image with current codebase
+  build-main-image:
+    circleci_ip_ranges: false
+    docker:
+      - image: 'cimg/python:3.10'
+    resource_class: large
     steps:
       - checkout
-      - node/install:
-          node-version: '23.7'
-      - node/install-pnpm
-      - node/install-packages:
-          pkg-manager: pnpm
-          override-ci-command: pnpm i
-      - run: node --version
-      - run: pnpm --version
-      - run:
-          name: Add PostgreSQL repository and update
-          command: |
-            sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-            sudo apt-get update -y
-
-      - run:
-          name: Install System Dependencies
-          command: |
-            sudo apt-get update
-            DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
-              libpq-dev \
-              redis-server \
-              postgresql-common \
-              postgresql-16 \
-              postgresql-16-pgvector \
-              build-essential \
-              git \
-              curl \
-              libssl-dev \
-              zlib1g-dev \
-              libreadline-dev \
-              libyaml-dev \
-              openjdk-11-jdk \
-              jq \
-              software-properties-common \
-              ca-certificates \
-              imagemagick \
-              libxml2-dev \
-              libxslt1-dev \
-              file \
-              g++ \
-              gcc \
-              autoconf \
-              gnupg2 \
-              patch \
-              ruby-dev \
-              liblzma-dev \
-              libgmp-dev \
-              libncurses5-dev \
-              libffi-dev \
-              libgdbm6 \
-              libgdbm-dev \
-              libvips
-
-      - run:
-          name: Install RVM and Ruby 3.3.3
-          command: |
-            sudo apt-get install -y gpg
-            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-            \curl -sSL https://get.rvm.io | bash -s stable
-            echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
-            source ~/.rvm/scripts/rvm
-            rvm install "3.3.3"
-            rvm use 3.3.3 --default
-            gem install bundler -v 2.5.16
-
-      - run:
-          name: Install Application Dependencies
-          command: |
-            source ~/.rvm/scripts/rvm
-            bundle install
-            # pnpm install
-
-      - run:
-          name: Download cc-test-reporter
-          command: |
-            mkdir -p ~/tmp
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
-            chmod +x ~/tmp/cc-test-reporter
-
-      # Swagger verification
-      - run:
-          name: Verify swagger API specification
-          command: |
-            bundle exec rake swagger:build
-            if [[ `git status swagger/swagger.json --porcelain` ]]
-            then
-              echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
-              exit 1
-            fi
-            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
-            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
-
-      # we remove the FRONTED_URL from the .env before running the tests
-      - run:
-          name: Database Setup and Configure Environment Variables
-          command: |
-            pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
-            sed -i "s/REPLACE_WITH_PASSWORD/${pg_pass}/g" ${PWD}/.circleci/setup_chatwoot.sql
-            chmod 644 ${PWD}/.circleci/setup_chatwoot.sql
-            mv ${PWD}/.circleci/setup_chatwoot.sql /tmp/
-            sudo -i -u postgres psql -f /tmp/setup_chatwoot.sql
-            cp .env.example .env
-            sed -i '/^FRONTEND_URL/d' .env
-            sed -i -e '/REDIS_URL/ s/=.*/=redis:\/\/localhost:6379/' .env
-            sed -i -e '/POSTGRES_HOST/ s/=.*/=localhost/' .env
-            sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
-            sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
-            echo -en "\nINSTALLATION_ENV=circleci" >> ".env"
-
-      # Database setup
-      - run:
-          name: Run DB migrations
-          command: bundle exec rails db:chatwoot_prepare
-
-      # Bundle audit
-      - run:
-          name: Bundle audit
-          command: bundle exec bundle audit update && bundle exec bundle audit check -v
-
-      # Rubocop linting
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
-
-      # ESLint linting
-      - run:
-          name: eslint
-          command: pnpm run eslint
-
-      - run:
-          name: Run frontend tests
-          command: |
-            mkdir -p ~/build/coverage/frontend
-            ~/tmp/cc-test-reporter before-build
-            pnpm run test:coverage
-
-      - run:
-          name: Code Climate Test Coverage (Frontend)
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o "~/build/coverage/frontend/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
-
-      # Run backend tests
-      - run:
-          name: Run backend tests
-          command: |
-            mkdir -p ~/tmp/test-results/rspec
-            mkdir -p ~/tmp/test-artifacts
-            mkdir -p ~/build/coverage/backend
-            ~/tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --format progress \
-                              --format RspecJunitFormatter \
-                              --out ~/tmp/test-results/rspec.xml \
-                              -- ${TESTFILES}
+      - aws-ecr/build_and_push_image:
+          auth:
+            - aws-cli/setup:
+                role_arn: "${AWS_ROLE_ARN}"
+                profile_name: deltaexchange-oidc
+          region: "${AWS_REGION}"
+          account_id: ${AWS_ACCOUNT_ID}
+          create_repo: true
+          dockerfile: Dockerfile
           no_output_timeout: 30m
+          profile_name: deltaexchange-oidc
+          repo: chatwoot-base
+          tag: ${CIRCLE_SHA1}
 
+  deploy-sidekiq:
+    circleci_ip_ranges: false
+    docker:
+      - image: 'cimg/python:3.10'
+    resource_class: << parameters.resource_class >>
+    parameters:
+      resource_class: 
+        description: |
+          deploy to resource class
+        type: string
+      cluster-name:
+        description: |
+          Devnet cluster
+        type: string
+      docker-image-name:
+        description: |
+          api-gateway
+        type: string
+      version-info:
+        description: |
+          Latest
+        type: string
+      min-replicas:
+        description: |
+          number of min replicas to create
+        type: string
+      max-replicas:
+        description: |
+          number of max replicas to create
+        type: string
+      aws-region:
+        description: |
+          AWS region
+        type: string
+        default: 'eu-west-1'
+      env-name:
+        description: |
+          env name for managing cluster host file
+        type: string
+      total_cpu:
+        description: |
+          total cpu alloction
+        type: string
+      request_cpu:
+        description: |
+          reqests cpu alloction
+        type: string
+      limit_memory:
+        description: |
+          limit memory allocation
+        type: string
+      request_memory:
+        description: |
+          reqests memory alloction
+        type: string
+      secret-name:
+        description: |
+          secret name for managing cluster host file
+        type: string
+      deployment-name:
+        description: |
+          deploy name for managing cluster host file
+        type: string
+      app-name:
+        description: |
+          app name for managing cluster host file
+        type: string
+    steps:
+      - checkout
       - run:
-          name: Code Climate Test Coverage (Backend)
+          name: Create deployment manifest
           command: |
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/build/coverage/backend/codeclimate.$CIRCLE_NODE_INDEX.json"
+            BUILD_DATE=$(date '+%Y%m%d%H%M%S')
+            cat kubernetes/deployment-template-sidekiq.yml |\
+                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|g;\
+                s|ENV_NAME|<< parameters.env-name >>|g;\
+                s|BUILD_DATE_VALUE|$BUILD_DATE|g;\
+                s|MIN_REPLICAS|<< parameters.min-replicas >>|g;\
+                s|MAX_REPLICAS|<< parameters.max-replicas >>|g;\
+                s|TOTAL_CPU|<< parameters.total_cpu >>|g;\
+                s|REQUEST_CPU|<< parameters.request_cpu >>|g;\
+                s|REQUEST_MEMORY|<< parameters.request_memory >>|g;\
+                s|LIMIT_MEMORY|<< parameters.limit_memory >>|g;\
+                s|SECRET_NAME|<< parameters.secret-name >>|g; \
+                s|DEPLOYMENT_NAME|<< parameters.deployment-name >>|g;\
+                s|APP_NAME|<< parameters.app-name >>|g;\
+                s|VERSION_INFO_VALUE|<< parameters.version-info >>|g;" > kubernetes/deployment.yml
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+          aws-region: << parameters.aws-region >>
+      - kubernetes/create-or-update-resource:
+          resource-file-path: 'kubernetes/deployment.yml'
+          namespace: chatwoot
+          get-rollout-status: true
+          resource-name: deployment/<< parameters.deployment-name >>
 
+  deploy-rails:
+    circleci_ip_ranges: false
+    docker:
+      - image: 'cimg/python:3.10'
+    resource_class: << parameters.resource_class >>
+    parameters:
+      resource_class: 
+        description: |
+          deploy to resource class
+        type: string
+      cluster-name:
+        description: |
+          Devnet cluster
+        type: string
+      docker-image-name:
+        description: |
+          api-gateway
+        type: string
+      version-info:
+        description: |
+          Latest
+        type: string
+      min-replicas:
+        description: |
+          number of min replicas to create
+        type: string
+      max-replicas:
+        description: |
+          number of max replicas to create
+        type: string
+      aws-region:
+        description: |
+          AWS region
+        type: string
+        default: 'eu-west-1'
+      env-name:
+        description: |
+          env name for managing cluster host file
+        type: string
+      total_cpu:
+        description: |
+          total cpu alloction
+        type: string
+      request_cpu:
+        description: |
+          reqests cpu alloction
+        type: string
+      limit_memory:
+        description: |
+          limit memory allocation
+        type: string
+      request_memory:
+        description: |
+          reqests memory alloction
+        type: string
+      secret-name:
+        description: |
+          secret name for managing cluster host file
+        type: string
+      deployment-name:
+        description: |
+          deploy name for managing cluster host file
+        type: string
+      app-name:
+        description: |
+          app name for managing cluster host file
+        type: string
+      service-account:
+        description: |
+          service account name for managing cluster host file
+        type: string
+    steps:
+      - checkout
       - run:
-          name: List coverage directory contents
+          name: Create deployment manifest
           command: |
-            ls -R ~/build/coverage
+            BUILD_DATE=$(date '+%Y%m%d%H%M%S')
+            cat kubernetes/deployment-template-rails.yml |\
+                sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|g;\
+                s|ENV_NAME|<< parameters.env-name >>|g;\
+                s|BUILD_DATE_VALUE|$BUILD_DATE|g;\
+                s|MIN_REPLICAS|<< parameters.min-replicas >>|g;\
+                s|MAX_REPLICAS|<< parameters.max-replicas >>|g;\
+                s|TOTAL_CPU|<< parameters.total_cpu >>|g;\
+                s|REQUEST_CPU|<< parameters.request_cpu >>|g;\
+                s|REQUEST_MEMORY|<< parameters.request_memory >>|g;\
+                s|LIMIT_MEMORY|<< parameters.limit_memory >>|g;\
+                s|SECRET_NAME|<< parameters.secret-name >>|g; \
+                s|DEPLOYMENT_NAME|<< parameters.deployment-name >>|g;\
+                s|APP_NAME|<< parameters.app-name >>|g;\
+                s|SERVICE_ACCOUNT|<< parameters.service-account >>|g;\
+                s|VERSION_INFO_VALUE|<< parameters.version-info >>|g;" > kubernetes/deployment.yml
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+          aws-region: << parameters.aws-region >>
+      - kubernetes/create-or-update-resource:
+          resource-file-path: 'kubernetes/deployment.yml'
+          namespace: chatwoot
+          get-rollout-status: true
+          resource-name: deployment/<< parameters.deployment-name >>
+   
+workflows:
+  build-and-deploy:
+    jobs:
+      # Build main image with current codebase first
+      - build-main-image:
+          name: build-main-image
+          context: staging
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+                - v4.0.4-test
+      # Build staging environment images from main image
+      - aws-ecr/build_and_push_image:
+          name: staging-build-rails
+          auth:
+            - aws-cli/setup:
+                role_arn: "${AWS_ROLE_ARN}"
+                profile_name: deltaexchange-oidc
+          context: staging
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+                - v4.0.4-test
+          region: "${AWS_REGION}"
+          account_id: ${AWS_ACCOUNT_ID}
+          create_repo: true
+          dockerfile: Dockerfile-staging-rails
+          no_output_timeout: 30m
+          profile_name: deltaexchange-oidc
+          repo: chatwoot
+          tag: rails-${CIRCLE_SHA1}
+          requires:
+            - build-main-image
 
-      - persist_to_workspace:
-          root: ~/build
-          paths:
-            - coverage
+      - aws-ecr/build_and_push_image:
+          name: staging-build-sidekiq
+          auth:
+            - aws-cli/setup:
+                role_arn: "${AWS_ROLE_ARN}"
+                profile_name: deltaexchange-oidc
+          context: staging
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+                - v4.0.4-test
+          region: "${AWS_REGION}"
+          account_id: ${AWS_ACCOUNT_ID}
+          create_repo: true
+          dockerfile: Dockerfile-staging-sidekiq
+          no_output_timeout: 30m
+          profile_name: deltaexchange-oidc
+          repo: chatwoot
+          tag: sidekiq-${CIRCLE_SHA1}
+          requires:
+            - build-main-image
+      
+      # Build production environment images from main image
+      - aws-ecr/build_and_push_image:
+          name: prod-ind-build-rails
+          auth:
+            - aws-cli/setup:
+                role_arn: "${AWS_ROLE_ARN}"
+                profile_name: deltaexchange-oidc
+          context: prod-india
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+          region: "${AWS_REGION}"
+          account_id: ${AWS_IND_ACCOUNT}
+          create_repo: true
+          dockerfile: Dockerfile-prod-ind-rails
+          no_output_timeout: 30m
+          profile_name: deltaexchange-oidc
+          repo: chatwoot
+          tag: rails-${CIRCLE_SHA1}
+          requires:
+            - build-main-image
+
+      - aws-ecr/build_and_push_image:
+          name: prod-ind-build-sidekiq
+          auth:
+            - aws-cli/setup:
+                role_arn: "${AWS_ROLE_ARN}"
+                profile_name: deltaexchange-oidc
+          context: prod-india
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+          region: "${AWS_REGION}"
+          account_id: ${AWS_IND_ACCOUNT}
+          create_repo: true
+          dockerfile: Dockerfile-prod-ind-sidekiq
+          no_output_timeout: 30m
+          profile_name: deltaexchange-oidc
+          repo: chatwoot
+          tag: sidekiq-${CIRCLE_SHA1}
+          requires:
+            - build-main-image
+
+      # Staging deployments (automatic)
+      - deploy-sidekiq:
+          name: devnet-india-sidekiq
+          context: staging-v2
+          resource_class: delta-exchange/deploy-devnet
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+                - v4.0.4-test
+          cluster-name: devnet-delta-exchange
+          min-replicas: '2'
+          max-replicas: '2'
+          env-name: devnet
+          app-name: devnet-sidekiq
+          secret-name: devnet-ind-sidekiq
+          aws-region: $AWS_REGION
+          docker-image-name: '${AWS_TOKYO_ECR_URL}/chatwoot:sidekiq-${CIRCLE_SHA1}'
+          version-info: ${CIRCLE_SHA1}
+          total_cpu: '0.7'
+          request_cpu: '0.5'
+          limit_memory: '500M'
+          request_memory: '400M'
+          deployment-name: 'staging-sidekiq'
+          requires:
+            - staging-build-sidekiq
+
+      - deploy-rails:
+          name: devnet-india-chatwoot-rails
+          context: staging-v2
+          resource_class: delta-exchange/deploy-devnet
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+                - v4.0.4-test
+          cluster-name: devnet-delta-exchange
+          min-replicas: '2'
+          max-replicas: '2'
+          env-name: devnet
+          app-name: devnet-chatwoot
+          secret-name: devnet-ind-chatwoot
+          aws-region: $AWS_REGION
+          docker-image-name: '${AWS_TOKYO_ECR_URL}/chatwoot:rails-${CIRCLE_SHA1}'
+          version-info: ${CIRCLE_SHA1}
+          total_cpu: '0.7'
+          request_cpu: '0.5'
+          limit_memory: '500M'
+          request_memory: '400M'
+          deployment-name: 'staging-chatwoot'
+          service-account: 'rails-sa'
+          requires:
+            - staging-build-rails
+      
+      # Production deployment approvals
+      - deploy-approval-ind-sidekiq:
+          type: approval
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+          requires:
+            - prod-ind-build-sidekiq
+
+      - deploy-approval-ind-rails:
+          type: approval
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+          requires:
+            - prod-ind-build-rails
+
+      # Production deployments (manual approval required)
+      - deploy-sidekiq:
+          name: prod-ind-sidekiq
+          context: prod-india-v2
+          resource_class: delta-exchange/deploy-india
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+          cluster-name: prod-india-exchange
+          min-replicas: '2'
+          max-replicas: '2'
+          env-name: production
+          app-name: prod-sidekiq
+          secret-name: prod-ind-sidekiq
+          aws-region: $AWS_REGION
+          docker-image-name: '${AWS_INDIA_ECR_URL}/chatwoot:sidekiq-${CIRCLE_SHA1}'
+          version-info: ${CIRCLE_SHA1}
+          total_cpu: '0.7'
+          request_cpu: '0.5'
+          limit_memory: '700M'
+          request_memory: '600M'
+          deployment-name: 'prod-sidekiq'
+          requires:
+            - deploy-approval-ind-sidekiq
+
+      - deploy-rails:
+          name: prod-ind-chatwoot-rails
+          context: prod-india-v2
+          resource_class: delta-exchange/deploy-india
+          filters:
+            branches:
+              only:
+                - develop
+                - chatwoot-3.10.0
+          cluster-name: prod-india-exchange
+          min-replicas: '2'
+          max-replicas: '2'
+          env-name: production
+          app-name: prod-chatwoot
+          secret-name: prod-ind-chatwoot
+          aws-region: $AWS_REGION
+          docker-image-name: '${AWS_INDIA_ECR_URL}/chatwoot:rails-${CIRCLE_SHA1}'
+          version-info: ${CIRCLE_SHA1}
+          total_cpu: '0.7'
+          request_cpu: '0.5'
+          limit_memory: '700M'
+          request_memory: '600M'
+          deployment-name: 'prod-chatwoot'
+          service-account: 'chatwoot-rails-sa'
+          requires:
+            - deploy-approval-ind-rails

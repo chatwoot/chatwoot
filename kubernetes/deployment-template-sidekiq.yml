@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: DEPLOYMENT_NAME
+  namespace: chatwoot
+  labels:
+    app: APP_NAME
+    env: ENV_NAME
+    version: VERSION_INFO_VALUE
+    buildDate: BUILD_DATE_VALUE
+spec:
+  replicas: MIN_REPLICAS
+  selector:
+    matchLabels:
+      app: APP_NAME
+      env: ENV_NAME
+  template:
+    metadata:
+      labels:
+        app: APP_NAME
+        env: ENV_NAME
+        version: VERSION_INFO_VALUE
+        buildDate: BUILD_DATE_VALUE
+    spec:
+      containers:
+      - name: sidekiq
+        image: DOCKER_IMAGE_NAME
+        ports:
+        - containerPort: 5151
+        env:
+        - name: RAILS_ENV
+          value: ENV_NAME
+        envFrom:
+        - secretRef:
+            name: SECRET_NAME
+        resources:
+          requests:
+            memory: REQUEST_MEMORY
+            cpu: REQUEST_CPU
+          limits:
+            memory: LIMIT_MEMORY
+            cpu: TOTAL_CPU
+        livenessProbe:
+          exec:
+            command:
+            - pgrep
+            - -f
+            - sidekiq
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - pgrep
+            - -f
+            - sidekiq
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: DEPLOYMENT_NAME-hpa
+  namespace: chatwoot
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: DEPLOYMENT_NAME
+  minReplicas: MIN_REPLICAS
+  maxReplicas: MAX_REPLICAS
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

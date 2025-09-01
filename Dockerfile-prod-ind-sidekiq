@@ -1,0 +1,5 @@
+ARG CIRCLE_SHA1
+FROM chatwoot-base:${CIRCLE_SHA1}
+
+EXPOSE 5151
+CMD ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]

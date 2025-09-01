@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: DEPLOYMENT_NAME
+  namespace: chatwoot
+  labels:
+    app: APP_NAME
+    env: ENV_NAME
+    version: VERSION_INFO_VALUE
+    buildDate: BUILD_DATE_VALUE
+spec:
+  replicas: MIN_REPLICAS
+  selector:
+    matchLabels:
+      app: APP_NAME
+      env: ENV_NAME
+  template:
+    metadata:
+      labels:
+        app: APP_NAME
+        env: ENV_NAME
+        version: VERSION_INFO_VALUE
+        buildDate: BUILD_DATE_VALUE
+    spec:
+      serviceAccountName: SERVICE_ACCOUNT
+      containers:
+      - name: rails
+        image: DOCKER_IMAGE_NAME
+        ports:
+        - containerPort: 3001
+        env:
+        - name: RAILS_ENV
+          value: ENV_NAME
+        - name: PORT
+          value: "3001"
+        envFrom:
+        - secretRef:
+            name: SECRET_NAME
+        resources:
+          requests:
+            memory: REQUEST_MEMORY
+            cpu: REQUEST_CPU
+          limits:
+            memory: LIMIT_MEMORY
+            cpu: TOTAL_CPU
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3001
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: tmp-volume
+          mountPath: /app/tmp
+        - name: log-volume
+          mountPath: /app/log
+      volumes:
+      - name: tmp-volume
+        emptyDir: {}
+      - name: log-volume
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: DEPLOYMENT_NAME-service
+  namespace: chatwoot
+  labels:
+    app: APP_NAME
+    env: ENV_NAME
+spec:
+  selector:
+    app: APP_NAME
+    env: ENV_NAME
+  ports:
+  - name: http
+    port: 3001
+    targetPort: 3001
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: DEPLOYMENT_NAME-hpa
+  namespace: chatwoot
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: DEPLOYMENT_NAME
+  minReplicas: MIN_REPLICAS
+  maxReplicas: MAX_REPLICAS
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
