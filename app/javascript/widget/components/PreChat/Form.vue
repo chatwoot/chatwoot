@@ -283,12 +283,12 @@ export default {
     }"
     @submit="onSubmit"
   >
-    <div
+    <!-- <div
       v-if="shouldShowHeaderMessage"
       v-dompurify-html="formatMessage(headerMessage, false)"
       class="mb-4 text-sm leading-5 pre-chat-header-message"
       :class="getThemeClass('text-black-800', 'dark:text-slate-50')"
-    />
+    /> -->
     <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
     If we just pass the options as is even with null or undefined or false,
     it assumes we are trying to make a multicheckbox. This is the best we have for now -->
@@ -336,7 +336,7 @@ export default {
       }"
     /> -->
 
-    <!-- <CustomButton
+    <CustomButton
       class="mt-2 mb-5 font-medium"
       block
       :bg-color="widgetColor"
@@ -345,7 +345,7 @@ export default {
     >
       <Spinner v-if="isCreatingConversation" class="p-0" />
       {{ $t('START_CONVERSATION') }}
-    </CustomButton> -->
+    </CustomButton>
   </FormKit>
 </template>
 
