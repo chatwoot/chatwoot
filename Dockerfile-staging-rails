@@ -17,6 +17,8 @@ ENV RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES}
 ENV RAILS_ENV=${RAILS_ENV}
 ENV NODE_OPTIONS=${NODE_OPTIONS}
 ENV BUNDLE_PATH="/gems"
+ENV BUNDLE_JOBS="4"
+ENV MAKE="make -j4"
 ENV PNPM_HOME="/root/.local/share/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
@@ -58,11 +60,14 @@ WORKDIR /app
 
 # Copy dependency files and install dependencies in optimal order
 COPY Gemfile Gemfile.lock package.json pnpm-lock.yaml ./
-RUN bundle config set --local force_ruby_platform true \
+RUN --mount=type=cache,target=/gems/cache \
+    --mount=type=cache,target=/tmp/bundle-cache \
+    bundle config set --local force_ruby_platform true \
+  && bundle config set --local cache_path /tmp/bundle-cache \
   && if [ "$RAILS_ENV" = "production" ]; then \
     bundle config set without 'development test'; \
   fi \
-  && bundle install \
+  && bundle install -j${BUNDLE_JOBS} \
   && pnpm install
 
 # Copy source code (this layer changes most frequently)

@@ -1,4 +1,9 @@
 version: 2.1
+executors:
+  xlarge-executor:
+    resource_class: xlarge
+    docker:
+      - image: 'cimg/python:3.10'
 orbs:
   aws-cli: circleci/aws-cli@4.1.3
   aws-eks: circleci/aws-eks@2.2.0
@@ -226,10 +231,12 @@ workflows:
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile-staging-rails
+          executor: xlarge-executor
           extra_build_args: |
             --cache-from type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-rails
             --cache-to type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-rails,mode=max
             --build-arg BUILDKIT_INLINE_CACHE=1
+            --build-arg BUNDLE_JOBS=4
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -252,14 +259,18 @@ workflows:
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile-staging-sidekiq
+          executor: xlarge-executor
           extra_build_args: |
             --cache-from type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-sidekiq
             --cache-to type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-sidekiq,mode=max
             --build-arg BUILDKIT_INLINE_CACHE=1
+            --build-arg BUNDLE_JOBS=4
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
           tag: sidekiq-${CIRCLE_SHA1}
+          requires:
+            - staging-build-rails
       
       # Build production environment images with current codebase
       - aws-ecr/build_and_push_image:
@@ -282,6 +293,7 @@ workflows:
             --cache-from type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-rails
             --cache-to type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-rails,mode=max
             --build-arg BUILDKIT_INLINE_CACHE=1
+            --build-arg BUNDLE_JOBS=4
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -311,6 +323,8 @@ workflows:
           profile_name: deltaexchange-oidc
           repo: chatwoot
           tag: sidekiq-${CIRCLE_SHA1}
+          requires:
+            - prod-ind-build-rails
 
       # Staging deployments (automatic)
       - deploy-sidekiq:
