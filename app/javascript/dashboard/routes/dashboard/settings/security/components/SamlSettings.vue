@@ -62,10 +62,16 @@ const saveSamlSettings = async settings => {
       // Create or update settings
       const existingSettings = await samlSettingsAPI.get().catch(() => null);
 
+      let response;
       if (existingSettings?.data?.id) {
-        await samlSettingsAPI.update(settings);
+        response = await samlSettingsAPI.update(settings);
       } else {
-        await samlSettingsAPI.create(settings);
+        response = await samlSettingsAPI.create(settings);
+      }
+
+      // Update local state with response data including fingerprint
+      if (response?.data) {
+        fingerprint.value = response.data.fingerprint || '';
       }
 
       useAlert(t('SECURITY_SETTINGS.SAML.API.SUCCESS'));
