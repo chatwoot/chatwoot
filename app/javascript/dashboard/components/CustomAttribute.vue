@@ -5,6 +5,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import DateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
+import DateTimePickerV2 from 'dashboard/components/ui/DateTimePickerV2.vue';
 import TimePicker from 'dashboard/components/ui/TimePicker.vue';
 import { isValidURL } from '../helper/URLHelper';
 import { getRegexp } from 'shared/helpers/Validators';
@@ -22,6 +23,7 @@ export default {
     MultiselectDropdown,
     HelperTextPopup,
     DateTimePicker,
+    DateTimePickerV2,
     TimePicker,
     NextButton,
   },
@@ -350,11 +352,10 @@ export default {
     <div v-if="isAttributeTypeDateTime">
       <div v-if="isEditing" v-on-clickaway="onClickAway">
         <div class="flex items-center w-full mb-2">
-          <DateTimePicker
-            :value="editedValue"
+          <DateTimePickerV2
+            v-model="editedValue"
+            type="datetime"
             placeholder="Selecione data e hora"
-            confirm-text="Confirmar"
-            @change="editedValue = $event"
           />
           <div class="ml-2">
             <NextButton
@@ -408,10 +409,10 @@ export default {
     <div v-if="isAttributeTypeTime">
       <div v-if="isEditing" v-on-clickaway="onClickAway">
         <div class="flex items-center w-full mb-2">
-          <TimePicker
-            :value="editedValue"
+          <DateTimePickerV2
+            v-model="editedValue"
+            type="time"
             placeholder="Selecione horário"
-            @change="editedValue = $event"
           />
           <div class="ml-2">
             <NextButton

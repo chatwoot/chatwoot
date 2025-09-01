@@ -92,6 +92,7 @@
     "vue": "^3.5.12",
     "vue-chartjs": "5.3.1",
     "vue-datepicker-next": "^1.0.3",
+    "@vuepic/vue-datepicker": "^8.8.0",
     "vue-dompurify-html": "^5.1.0",
     "vue-i18n": "9.14.5",
     "vue-letter": "^0.2.1",
