@@ -102,6 +102,7 @@ const handleDisable = async () => {
   ssoUrl.value = '';
   certificate.value = '';
   spEntityId.value = '';
+  fingerprint.value = '';
   roleMappings.value = {};
 
   await saveSamlSettings({});
