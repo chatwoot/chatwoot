@@ -413,6 +413,18 @@
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "SSO URL and Certificate are required fields"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to enable SAML SSO",
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },

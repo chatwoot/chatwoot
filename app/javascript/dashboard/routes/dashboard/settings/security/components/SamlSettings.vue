@@ -118,7 +118,6 @@ onMounted(() => {
     :title="t('SECURITY_SETTINGS.SAML.TITLE')"
     :description="t('SECURITY_SETTINGS.SAML.NOTE')"
     :hide-content="!hasFeature || !isEnabled || isLoading"
-    with-border
   >
     <template #headerActions>
       <div class="flex justify-end">

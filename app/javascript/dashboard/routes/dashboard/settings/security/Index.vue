@@ -1,7 +1,23 @@
 <script setup>
+import { computed } from 'vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import SamlSettings from './components/SamlSettings.vue';
+import SamlPaywall from './components/SamlPaywall.vue';
+
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+const { shouldShow, shouldShowPaywall } = usePolicy();
+
+const shouldShowSaml = computed(() =>
+  shouldShow(
+    FEATURE_FLAGS.SAML,
+    ['administrator'],
+    [INSTALLATION_TYPES.CLOUD, INSTALLATION_TYPES.ENTERPRISE]
+  )
+);
+const showPaywall = computed(() => shouldShowPaywall('saml'));
 </script>
 
 <template>
@@ -17,7 +33,8 @@ import SamlSettings from './components/SamlSettings.vue';
       />
     </template>
     <template #body>
-      <SamlSettings />
+      <SamlPaywall v-if="showPaywall" />
+      <SamlSettings v-else-if="shouldShowSaml" />
     </template>
   </SettingsLayout>
 </template>
