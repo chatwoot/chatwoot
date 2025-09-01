@@ -231,6 +231,7 @@
         "SUBDISTRICT_SELECT_FIRST": "Pilih kota/kabupaten terlebih dahulu",
         "WARD_LABEL": "Kelurahan",
         "WARD_LABEL_PLACEHOLDER": "Masukkan Kelurahan",
+        "WARD_SELECT_FIRST": "Pilih kecamatan terlebih dahulu",
         "STREET_LABEL": "Jalan",
         "STREET_LABEL_PLACEHOLDER": "Masukkan Jalan",
         "ZIP_CODE_LABEL": "Kode Pos",

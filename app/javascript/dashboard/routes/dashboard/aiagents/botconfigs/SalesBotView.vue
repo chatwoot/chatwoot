@@ -381,9 +381,9 @@
                     <!-- Provinsi -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL') }}</label>
-                      <div class="relative" ref="provinsiDropdownRef">
+                      <div class="relative dropdown-container" ref="provinsiDropdownRef">
                         <div
-                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                          class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
                           :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': loadingProvinsi }"
                           @click="toggleProvinsiDropdown"
                         >
@@ -402,21 +402,23 @@
                         </div>
                         <div
                           v-show="isProvinsiDropdownOpen"
-                          class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
+                          class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
                         >
-                          <div v-if="loadingProvinsi" class="px-3 py-2 text-sm text-gray-500">
-                            Loading provinces...
-                          </div>
-                          <div
-                            v-for="provinsi in filteredProvinsiOptions"
-                            :key="provinsi.id"
-                            class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
-                            @click="selectProvinsi(provinsi)"
-                          >
-                            {{ provinsi.name }}
-                          </div>
-                          <div v-if="!loadingProvinsi && filteredProvinsiOptions.length === 0" class="px-3 py-2 text-sm text-gray-500">
-                            No provinces found
+                          <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                            <div v-if="loadingProvinsi" class="px-3 py-2 text-sm text-gray-500">
+                              Loading provinces...
+                            </div>
+                            <div
+                              v-for="provinsi in filteredProvinsiOptions"
+                              :key="provinsi.id"
+                              class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                              @click="selectProvinsi(provinsi)"
+                            >
+                              {{ provinsi.name }}
+                            </div>
+                            <div v-if="!loadingProvinsi && filteredProvinsiOptions.length === 0" class="px-3 py-2 text-sm text-gray-500">
+                              No provinces found
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -425,9 +427,9 @@
                     <!-- Kota/Kabupaten -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
-                      <div class="relative" ref="kotaDropdownRef">
+                      <div class="relative dropdown-container" ref="kotaDropdownRef">
                         <div
-                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                          class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
                           :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.provinsi || loadingKota }"
                           @click="toggleKotaDropdown"
                         >
@@ -446,21 +448,23 @@
                         </div>
                         <div
                           v-show="isKotaDropdownOpen"
-                          class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
+                          class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
                         >
-                          <div v-if="loadingKota" class="px-3 py-2 text-sm text-gray-500">
-                            Loading cities...
-                          </div>
-                          <div
-                            v-for="kota in filteredKotaOptions"
-                            :key="kota.id"
-                            class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
-                            @click="selectKota(kota)"
-                          >
-                            {{ kota.name }}
-                          </div>
-                          <div v-if="!loadingKota && filteredKotaOptions.length === 0 && kurirBiasa.provinsi" class="px-3 py-2 text-sm text-gray-500">
-                            No cities found
+                          <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                            <div v-if="loadingKota" class="px-3 py-2 text-sm text-gray-500">
+                              Loading cities...
+                            </div>
+                            <div
+                              v-for="kota in filteredKotaOptions"
+                              :key="kota.id"
+                              class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                              @click="selectKota(kota)"
+                            >
+                              {{ kota.name }}
+                            </div>
+                            <div v-if="!loadingKota && filteredKotaOptions.length === 0 && kurirBiasa.provinsi" class="px-3 py-2 text-sm text-gray-500">
+                              No cities found
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -469,9 +473,9 @@
                     <!-- Kecamatan -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL') }}</label>
-                      <div class="relative" ref="kecamatanDropdownRef">
+                      <div class="relative dropdown-container" ref="kecamatanDropdownRef">
                         <div
-                          class="w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                          class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
                           :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.kota || loadingKecamatan }"
                           @click="toggleKecamatanDropdown"
                         >
@@ -490,21 +494,23 @@
                         </div>
                         <div
                           v-show="isKecamatanDropdownOpen"
-                          class="absolute z-10 w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto"
+                          class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
                         >
-                          <div v-if="loadingKecamatan" class="px-3 py-2 text-sm text-gray-500">
-                            Loading subdistricts...
-                          </div>
-                          <div
-                            v-for="kecamatan in filteredKecamatanOptions"
-                            :key="kecamatan.id"
-                            class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
-                            @click="selectKecamatan(kecamatan)"
-                          >
-                            {{ kecamatan.name }}
-                          </div>
-                          <div v-if="!loadingKecamatan && filteredKecamatanOptions.length === 0 && kurirBiasa.kota" class="px-3 py-2 text-sm text-gray-500">
-                            No subdistricts found
+                          <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                            <div v-if="loadingKecamatan" class="px-3 py-2 text-sm text-gray-500">
+                              Loading subdistricts...
+                            </div>
+                            <div
+                              v-for="kecamatan in filteredKecamatanOptions"
+                              :key="kecamatan.id"
+                              class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                              @click="selectKecamatan(kecamatan)"
+                            >
+                              {{ kecamatan.name }}
+                            </div>
+                            <div v-if="!loadingKecamatan && filteredKecamatanOptions.length === 0 && kurirBiasa.kota" class="px-3 py-2 text-sm text-gray-500">
+                              No subdistricts found
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -513,12 +519,47 @@
                     <!-- Kelurahan -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL') }}</label>
-                      <input 
-                        type="text" 
-                        v-model="kurirBiasa.kelurahan"
-                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL_PLACEHOLDER')"
-                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                      />
+                      <div class="relative dropdown-container" ref="kelurahanDropdownRef">
+                        <div
+                          class="dropdown-input w-full mb-0 p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed cursor-pointer flex items-center justify-between"
+                          :class="{ 'disabled:bg-gray-100 disabled:cursor-not-allowed': !kurirBiasa.kecamatan || loadingKelurahan }"
+                          @click="toggleKelurahanDropdown"
+                        >
+                          <input
+                            v-model="kelurahanSearchQuery"
+                            :placeholder="selectedKelurahanName || (!kurirBiasa.kecamatan ? $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_SELECT_FIRST') : loadingKelurahan ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL_PLACEHOLDER'))"
+                            class="flex-1 bg-transparent outline-none"
+                            :disabled="!kurirBiasa.kecamatan || loadingKelurahan"
+                            @input="onKelurahanSearch"
+                            @click.stop
+                            @focus="isKelurahanDropdownOpen = true"
+                          />
+                          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                          </svg>
+                        </div>
+                        <div
+                          v-show="isKelurahanDropdownOpen"
+                          class="dropdown-menu absolute z-[9999] w-full top-full mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-hidden"
+                        >
+                          <div class="max-h-60 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                            <div v-if="loadingKelurahan" class="px-3 py-2 text-sm text-gray-500">
+                              Loading villages...
+                            </div>
+                            <div
+                              v-for="kelurahan in filteredKelurahanOptions"
+                              :key="kelurahan.id"
+                              class="dropdown-item px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-sm"
+                              @click="selectKelurahan(kelurahan)"
+                            >
+                              {{ kelurahan.name }}
+                            </div>
+                            <div v-if="!loadingKelurahan && filteredKelurahanOptions.length === 0 && kurirBiasa.kecamatan" class="px-3 py-2 text-sm text-gray-500">
+                              No villages found
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
                     <!-- Jalan/Gang -->
@@ -974,6 +1015,7 @@
 <script setup>
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import provinsiJson from '../wilayah/provinsi/provinsi.json';
 
 import { ref, reactive, watch, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n'
@@ -1179,6 +1221,26 @@ const RAJA_ONGKIR_BASE_URL = 'https://api.rajaongkir.com/starter'; // Use 'pro' 
 const provinsiOptions = ref([]);
 const kotaOptions = ref([]);
 const kecamatanOptions = ref([]);
+const kelurahanOptions = ref([]);
+const loadingKelurahan = ref(false);
+// Load kelurahan/desa from JSON based on selected province, kabupaten/kota, and kecamatan
+const 
+loadKelurahan = async (provinceId, kabupatenId, kecamatanId) => {
+  loadingKelurahan.value = true;
+  try {
+    const kelurahanModule = await import(
+      `../wilayah/kelurahan_desa/keldesa-${provinceId}-${kabupatenId}-${kecamatanId}.json`
+    );
+    const kelurahanJson = kelurahanModule.default || kelurahanModule;
+    kelurahanOptions.value = Object.entries(kelurahanJson).map(([id, name]) => ({ id, name }));
+  } catch (error) {
+    console.error('Failed to load kelurahan JSON:', error);
+    showNotification('Failed to load kelurahan data', 'error');
+    kelurahanOptions.value = [];
+  } finally {
+    loadingKelurahan.value = false;
+  }
+};
 const loadingProvinsi = ref(false);
 const loadingKota = ref(false);
 const loadingKecamatan = ref(false);
@@ -1194,6 +1256,9 @@ const isKecamatanDropdownOpen = ref(false);
 const provinsiDropdownRef = ref(null);
 const kotaDropdownRef = ref(null);
 const kecamatanDropdownRef = ref(null);
+const kelurahanSearchQuery = ref('');
+const isKelurahanDropdownOpen = ref(false);
+const kelurahanDropdownRef = ref(null);
 
 // Computed properties for filtered options
 const filteredProvinsiOptions = computed(() => {
@@ -1223,6 +1288,15 @@ const filteredKecamatanOptions = computed(() => {
   );
 });
 
+const filteredKelurahanOptions = computed(() => {
+  if (!kelurahanSearchQuery.value) {
+    return kelurahanOptions.value;
+  }
+  return kelurahanOptions.value.filter(kelurahan => 
+    kelurahan.name.toLowerCase().includes(kelurahanSearchQuery.value.toLowerCase())
+  );
+});
+
 // Computed properties for selected names
 const selectedProvinsiName = computed(() => {
   const selected = provinsiOptions.value.find(p => p.id === kurirBiasa.provinsi);
@@ -1239,6 +1313,12 @@ const selectedKecamatanName = computed(() => {
   return selected ? selected.name : '';
 });
 
+const selectedKelurahanName = computed(() => {
+  const selected = kelurahanOptions.value.find(k => k.id === kurirBiasa.kelurahan);
+  return selected ? selected.name : '';
+});
+
+
 // RajaOngkir API Headers
 const getRajaOngkirHeaders = () => ({
   'key': RAJA_ONGKIR_API_KEY,
@@ -1247,87 +1327,32 @@ const getRajaOngkirHeaders = () => ({
 
 // Load provinces from RajaOngkir
 const loadProvinsi = async () => {
+  loadingProvinsi.value = true;
   try {
-    loadingProvinsi.value = true;
-    const response = await fetch(`${RAJA_ONGKIR_BASE_URL}/province`, {
-      method: 'GET',
-      headers: getRajaOngkirHeaders()
-    });
-    const data = await response.json();
-    
-    if (data.rajaongkir.status.code === 200) {
-      provinsiOptions.value = data.rajaongkir.results.map(item => ({
-        id: item.province_id,
-        name: item.province
-      }));
-    } else {
-      throw new Error(data.rajaongkir.status.description);
-    }
+    // Use provinsi.json as the source
+    provinsiOptions.value = Object.entries(provinsiJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load provinces:', error);
+    console.error('Failed to load provinces from provinsi.json:', error);
     showNotification('Failed to load provinces data', 'error');
-    provinsiOptions.value = [
-      { id: '1', name: 'Bali' },
-      { id: '2', name: 'Bangka Belitung' },
-      { id: '3', name: 'Banten' },
-      { id: '4', name: 'Bengkulu' },
-      { id: '5', name: 'DI Yogyakarta' },
-      { id: '6', name: 'DKI Jakarta' },
-      { id: '7', name: 'Gorontalo' },
-      { id: '8', name: 'Jambi' },
-      { id: '9', name: 'Jawa Barat' },
-      { id: '10', name: 'Jawa Tengah' },
-      { id: '11', name: 'Jawa Timur' },
-      { id: '12', name: 'Kalimantan Barat' },
-      { id: '13', name: 'Kalimantan Selatan' },
-      { id: '14', name: 'Kalimantan Tengah' },
-      { id: '15', name: 'Kalimantan Timur' },
-      { id: '16', name: 'Kalimantan Utara' },
-      { id: '17', name: 'Kepulauan Riau' },
-      { id: '18', name: 'Lampung' },
-      { id: '19', name: 'Maluku' },
-      { id: '20', name: 'Maluku Utara' },
-      { id: '21', name: 'Nanggroe Aceh Darussalam (NAD)' },
-      { id: '22', name: 'Nusa Tenggara Barat' },
-      { id: '23', name: 'Nusa Tenggara Timur' },
-      { id: '24', name: 'Papua' },
-      { id: '25', name: 'Papua Barat' },
-      { id: '26', name: 'Riau' },
-      { id: '27', name: 'Sulawesi Barat' },
-      { id: '28', name: 'Sulawesi Selatan' },
-      { id: '29', name: 'Sulawesi Tengah' },
-      { id: '30', name: 'Sulawesi Tenggara' },
-      { id: '31', name: 'Sulawesi Utara' },
-      { id: '32', name: 'Sumatera Barat' },
-      { id: '33', name: 'Sumatera Selatan' },
-      { id: '34', name: 'Sumatera Utara' }
-    ];
+    provinsiOptions.value = [];
   } finally {
     loadingProvinsi.value = false;
+    
   }
 };
 
 // Load cities/regencies from RajaOngkir based on selected province
 const loadKota = async (provinceId) => {
+  loadingKota.value = true;
   try {
-    loadingKota.value = true;
-    const response = await fetch(`${RAJA_ONGKIR_BASE_URL}/city?province=${provinceId}`, {
-      method: 'GET',
-      headers: getRajaOngkirHeaders()
-    });
-    const data = await response.json();
-    
-    if (data.rajaongkir.status.code === 200) {
-      kotaOptions.value = data.rajaongkir.results.map(item => ({
-        id: item.city_id,
-        name: `${item.type} ${item.city_name}`,
-        postal_code: item.postal_code
-      }));
-    } else {
-      throw new Error(data.rajaongkir.status.description);
-    }
+    // Dynamically import kabupaten/kota JSON based on provinceId
+    const kabupatenModule = await import(
+      `../wilayah/kabupaten_kota/kab-${provinceId}.json`
+    );
+    const kabupatenJson = kabupatenModule.default || kabupatenModule;
+    kotaOptions.value = Object.entries(kabupatenJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load cities:', error);
+    console.error('Failed to load kabupaten/kota JSON:', error);
     showNotification('Failed to load cities data', 'error');
     kotaOptions.value = [];
   } finally {
@@ -1370,17 +1395,17 @@ const calculateShippingCost = async (origin, destination, weight, courier) => {
 };
 
 // Load districts from RajaOngkir based on selected city/regency  
-const loadKecamatan = async (regencyId) => {
+const loadKecamatan = async (provinceId, kabupatenId) => {
+  loadingKecamatan.value = true;
   try {
-    loadingKecamatan.value = true;
-    // dummy kecamatan
-    kecamatanOptions.value = [
-      { id: '1', name: 'Kecamatan 1' },
-      { id: '2', name: 'Kecamatan 2' },
-      { id: '3', name: 'Kecamatan 3' },
-    ];
+    // Dynamically import kecamatan JSON based on provinceId and kabupatenId
+    const kecamatanModule = await import(
+      `../wilayah/kecamatan/kec-${provinceId}-${kabupatenId}.json`
+    );
+    const kecamatanJson = kecamatanModule.default || kecamatanModule;
+    kecamatanOptions.value = Object.entries(kecamatanJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load districts:', error);
+    console.error('Failed to load kecamatan JSON:', error);
     showNotification('Failed to load districts data', 'error');
     kecamatanOptions.value = [];
   } finally {
@@ -1411,12 +1436,17 @@ async function onKotaChange() {
     if (selectedKota && selectedKota.postal_code) {
       kurirBiasa.kodePos = selectedKota.postal_code;
     }
-    await loadKecamatan(kurirBiasa.kota);
+    // Load kecamatan using province and kabupaten/kota id
+    await loadKecamatan(kurirBiasa.provinsi, kurirBiasa.kota);
   }
 }
 
 function onKecamatanChange() {
-  // add postal code refinement here if needed
+  kelurahanOptions.value = [];
+  kurirBiasa.kelurahan = ''; // Reset kelurahan selection
+  if (kurirBiasa.kecamatan) {
+    loadKelurahan(kurirBiasa.provinsi, kurirBiasa.kota, kurirBiasa.kecamatan);
+  }
   console.log('Kecamatan changed:', kurirBiasa.kecamatan);
 }
 
@@ -1439,6 +1469,12 @@ function toggleKecamatanDropdown() {
   }
 }
 
+function toggleKelurahanDropdown() {
+  if (!loadingKelurahan.value && kurirBiasa.kecamatan) {
+    isKelurahanDropdownOpen.value = !isKelurahanDropdownOpen.value;
+  }
+}
+
 function onProvinsiSearch() {
   isProvinsiDropdownOpen.value = true;
 }
@@ -1455,11 +1491,10 @@ function onKecamatanSearch() {
   }
 }
 
-function selectProvinsi(provinsi) {
-  kurirBiasa.provinsi = provinsi.id;
-  provinsiSearchQuery.value = '';
-  isProvinsiDropdownOpen.value = false;
-  onProvinsiChange();
+function onKelurahanSearch() {
+  if (kurirBiasa.kecamatan) {
+    isKelurahanDropdownOpen.value = true;
+  }
 }
 
 function selectKota(kota) {
@@ -1474,6 +1509,12 @@ function selectKecamatan(kecamatan) {
   kecamatanSearchQuery.value = '';
   isKecamatanDropdownOpen.value = false;
   onKecamatanChange();
+}
+
+function selectKelurahan(kelurahan) {
+  kurirBiasa.kelurahan = kelurahan.id;
+  kelurahanSearchQuery.value = '';
+  isKelurahanDropdownOpen.value = false;
 }
 
 // Click outside handlers
@@ -1494,6 +1535,25 @@ function handleKecamatanClickOutside(event) {
     isKecamatanDropdownOpen.value = false;
   }
 }
+
+function handleKelurahanClickOutside(event) {
+  if (kelurahanDropdownRef.value && !kelurahanDropdownRef.value.contains(event.target)) {
+    isKelurahanDropdownOpen.value = false;
+  }
+}
+
+function selectProvinsi(provinsi) {
+  kurirBiasa.provinsi = provinsi.id;
+  provinsiSearchQuery.value = '';
+  isProvinsiDropdownOpen.value = false;
+  // Reset city/kabupaten and kecamatan selections
+  kurirBiasa.kota = '';
+  kurirBiasa.kecamatan = '';
+  kotaOptions.value = [];
+  kecamatanOptions.value = [];
+  // Load cities/kabupaten for selected province
+  loadKota(provinsi.id);
+};
 
 // Watch for dropdown open states to add/remove event listeners
 watch(isProvinsiDropdownOpen, (isOpen) => {
@@ -1520,6 +1580,14 @@ watch(isKecamatanDropdownOpen, (isOpen) => {
   }
 });
 
+watch(isKelurahanDropdownOpen, (isOpen) => {
+  if (isOpen) {
+    document.addEventListener('click', handleKelurahanClickOutside);
+  } else {
+    document.removeEventListener('click', handleKelurahanClickOutside);
+  }
+});
+
 // Reset search queries when selections change
 watch(() => kurirBiasa.provinsi, () => {
   provinsiSearchQuery.value = '';
@@ -1532,6 +1600,11 @@ watch(() => kurirBiasa.kota, () => {
 watch(() => kurirBiasa.kecamatan, () => {
   kecamatanSearchQuery.value = '';
 });
+
+watch(() => kurirBiasa.kelurahan, () => {
+  kelurahanSearchQuery.value = '';
+});
+
 
 // Calculate shipping costs for selected couriers
 async function calculateShippingCosts() {
@@ -2028,25 +2101,15 @@ function submitPaymentConfig() {
 </script>
 
 <style scoped>
-.w-full {
-  contain: layout style;
-}
-
-.space-y-6 > * {
-  transform-origin: top;
-}
-
-.border {
-  min-height: fit-content;
-}
-
-/* Enhanced dropdown styling */
+/* Enhanced dropdown styling with proper scrolling */
 .dropdown-container {
   position: relative;
 }
 
 .dropdown-input {
   transition: all 0.2s ease-in-out;
+  position: relative;
+  z-index: 2;
 }
 
 .dropdown-input:focus {
@@ -2057,18 +2120,93 @@ function submitPaymentConfig() {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   transition: all 0.15s ease-in-out;
   transform-origin: top;
+  border: 1px solid rgba(209, 213, 219, 1);
 }
 
 .dropdown-item {
   transition: background-color 0.15s ease-in-out;
+  border-bottom: 1px solid rgba(243, 244, 246, 1);
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
 }
 
 .dropdown-item:hover {
   transform: translateX(2px);
 }
 
-/* Dark mode adjustments */
+/* Custom scrollbar styling */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-gray-300::-webkit-scrollbar-thumb {
+  background-color: rgb(209 213 219);
+  border-radius: 9999px;
+}
+
+.scrollbar-track-gray-100::-webkit-scrollbar-track {
+  background-color: rgb(243 244 246);
+  border-radius: 9999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: rgb(243 244 246);
+  border-radius: 9999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgb(209 213 219);
+  border-radius: 9999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgb(156 163 175);
+}
+
+/* Dark mode scrollbar */
+.dark .scrollbar-thumb-gray-600::-webkit-scrollbar-thumb {
+  background-color: rgb(75 85 99);
+}
+
+.dark .scrollbar-track-gray-800::-webkit-scrollbar-track {
+  background-color: rgb(31 41 55);
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-track {
+  background: rgb(31 41 55);
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgb(75 85 99);
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgb(107 114 128);
+}
+
+/* Dark mode dropdown adjustments */
 .dark .dropdown-menu {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  border-color: rgb(75 85 99);
+}
+
+.dark .dropdown-item {
+  border-bottom-color: rgb(55 65 81);
+}
+
+/* Ensure dropdown appears above other elements */
+.dropdown-menu {
+  z-index: 9999 !important;
+}
+
+/* Fix for dropdown positioning in containers with overflow */
+.dropdown-container:has(.dropdown-menu[style*="display: block"]) {
+  z-index: 9999;
 }
 </style>
