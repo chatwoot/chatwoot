@@ -322,7 +322,7 @@ export default {
       }"
       :has-error-in-phone-input="hasErrorInPhoneInput"
     />
-    <FormKit
+    <!-- <FormKit
       v-if="!hasActiveCampaign"
       name="message"
       type="textarea"
@@ -334,9 +334,9 @@ export default {
       :validation-messages="{
         required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
       }"
-    />
+    /> -->
 
-    <CustomButton
+    <!-- <CustomButton
       class="mt-2 mb-5 font-medium"
       block
       :bg-color="widgetColor"
@@ -345,7 +345,7 @@ export default {
     >
       <Spinner v-if="isCreatingConversation" class="p-0" />
       {{ $t('START_CONVERSATION') }}
-    </CustomButton>
+    </CustomButton> -->
   </FormKit>
 </template>
 
