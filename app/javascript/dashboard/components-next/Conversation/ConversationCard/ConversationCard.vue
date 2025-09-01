@@ -108,20 +108,37 @@ const onToggleAi = async () => {
     class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
     @click="onCardClick"
   >
-    <Avatar
-      :name="currentContactName"
-      :src="currentContactThumbnail"
-      :size="24"
-      :status="currentContactStatus"
-      rounded-full
-    />
+    <!-- Avatar with counter positioned at bottom-right -->
+    <div class="relative flex-shrink-0">
+      <Avatar
+        :name="currentContactName"
+        :src="currentContactThumbnail"
+        :size="24"
+        :status="currentContactStatus"
+        rounded-full
+      />
+      <!-- Unread counter positioned at bottom-right of avatar -->
+      <div
+        v-if="conversation.unreadCount > 0"
+        class="absolute -bottom-1 -right-1 inline-flex items-center justify-center rounded-full size-5 bg-n-brand border-2 border-white"
+      >
+        <span class="text-xs font-semibold text-white">
+          {{
+            conversation.unreadCount > 9
+              ? $t('COMBOBOX.MORE', { count: 9 })
+              : conversation.unreadCount
+          }}
+        </span>
+      </div>
+    </div>
+
     <div class="flex flex-col w-full gap-1 min-w-0">
-      <div class="flex items-center justify-between h-6 gap-2">
-        <h4 class="text-base font-medium truncate text-n-slate-12">
+      <!-- Header with username and dates aligned at top -->
+      <div class="flex items-start justify-between gap-2 min-h-[24px]">
+        <h4 class="text-base font-medium truncate text-n-slate-12 leading-6">
           {{ currentContactName }}
         </h4>
-        <div class="flex items-center gap-2">
-          <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
+        <div class="flex items-start gap-2 flex-shrink-0">
           <CardPriorityIcon :priority="conversation.priority || null" />
           <div
             v-tooltip.left="inboxName"
@@ -132,21 +149,33 @@ const onToggleAi = async () => {
               class="flex-shrink-0 text-n-slate-11 size-3"
             />
           </div>
-          <span class="text-sm text-n-slate-10">
+          <span class="text-sm text-n-slate-10 leading-6">
             {{ lastActivityAt }}
           </span>
         </div>
       </div>
-      <CardMessagePreview
-        v-show="showMessagePreviewWithoutMeta"
-        :conversation="conversation"
-      />
-      <CardMessagePreviewWithMeta
-        v-show="!showMessagePreviewWithoutMeta"
-        ref="cardMessagePreviewWithMetaRef"
-        :conversation="conversation"
-        :account-labels="accountLabels"
-      />
+
+      <!-- Message preview with AI button centered vertically -->
+      <div class="relative">
+        <!-- AI Enable Button positioned absolutely in center -->
+        <div class="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+          <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
+        </div>
+
+        <!-- Message content with right padding to avoid AI button -->
+        <div class="pr-16">
+          <CardMessagePreview
+            v-show="showMessagePreviewWithoutMeta"
+            :conversation="conversation"
+          />
+          <CardMessagePreviewWithMeta
+            v-show="!showMessagePreviewWithoutMeta"
+            ref="cardMessagePreviewWithMetaRef"
+            :conversation="conversation"
+            :account-labels="accountLabels"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
