@@ -65,6 +65,12 @@ export default {
           : '---';
       }
       if (this.isAttributeTypeTime) {
+        // Handle both string format and object format
+        if (typeof this.value === 'object' && this.value !== null) {
+          const hours = String(this.value.hours || 0).padStart(2, '0');
+          const minutes = String(this.value.minutes || 0).padStart(2, '0');
+          return `${hours}:${minutes}`;
+        }
         return this.value || '---';
       }
       if (this.isAttributeTypeCheckbox) {
@@ -80,6 +86,12 @@ export default {
         return this.value ? new Date(this.value) : null;
       }
       if (this.isAttributeTypeTime) {
+        // Handle both string format and object format for editing
+        if (typeof this.value === 'object' && this.value !== null) {
+          const hours = String(this.value.hours || 0).padStart(2, '0');
+          const minutes = String(this.value.minutes || 0).padStart(2, '0');
+          return `${hours}:${minutes}`;
+        }
         return this.value || '';
       }
       return this.value;
@@ -212,7 +224,14 @@ export default {
       } else if (this.attributeType === 'datetime') {
         updatedValue = this.editedValue; // DateTimePicker already returns proper format
       } else if (this.attributeType === 'time') {
-        updatedValue = this.editedValue; // TimePicker returns HH:MM format
+        // Ensure we always save as string format HH:mm
+        if (typeof this.editedValue === 'object' && this.editedValue !== null) {
+          const hours = String(this.editedValue.hours || 0).padStart(2, '0');
+          const minutes = String(this.editedValue.minutes || 0).padStart(2, '0');
+          updatedValue = `${hours}:${minutes}`;
+        } else {
+          updatedValue = this.editedValue;
+        }
       }
       
       this.v$.$touch();

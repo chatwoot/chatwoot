@@ -29,7 +29,14 @@ export default {
         return props.modelValue;
       },
       set(newValue) {
-        emit('update:modelValue', newValue);
+        // For time mode, convert object to HH:mm string
+        if (props.type === 'time' && newValue && typeof newValue === 'object') {
+          const hours = String(newValue.hours || 0).padStart(2, '0');
+          const minutes = String(newValue.minutes || 0).padStart(2, '0');
+          emit('update:modelValue', `${hours}:${minutes}`);
+        } else {
+          emit('update:modelValue', newValue);
+        }
       },
     });
 
