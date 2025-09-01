@@ -67,8 +67,9 @@ RUN --mount=type=cache,target=/gems/cache \
   && if [ "$RAILS_ENV" = "production" ]; then \
     bundle config set without 'development test'; \
   fi \
-  && bundle install -j${BUNDLE_JOBS} \
-  && pnpm install
+  && bundle install -j${BUNDLE_JOBS} & \
+  pnpm install & \
+  wait
 
 # Copy source code (this layer changes most frequently)
 COPY . /app

@@ -2,8 +2,6 @@ version: 2.1
 executors:
   xlarge-executor:
     resource_class: xlarge
-    docker:
-      - image: 'cimg/python:3.10'
 orbs:
   aws-cli: circleci/aws-cli@4.1.3
   aws-eks: circleci/aws-eks@2.2.0
