@@ -42,11 +42,6 @@ const assignee = computed(() => {
   };
 });
 
-const unreadMessagesCount = computed(() => {
-  const { unreadCount } = props.conversation;
-  return unreadCount;
-});
-
 const hasSlaThreshold = computed(() => {
   return (
     slaCardLabelRef.value?.hasSlaThreshold && props.conversation?.slaPolicyId
@@ -60,19 +55,12 @@ defineExpose({
 
 <template>
   <div class="flex flex-col w-full gap-1">
-    <div class="flex items-center justify-between w-full gap-2 py-1 h-7">
-      <p class="mb-0 text-sm leading-7 text-n-slate-12 line-clamp-1">
+    <div class="flex items-center w-full gap-2 py-1 h-7">
+      <p
+        class="mb-0 text-sm leading-7 text-n-slate-12 line-clamp-1 truncate flex-1"
+      >
         {{ lastNonActivityMessageContent }}
       </p>
-
-      <div
-        v-if="unreadMessagesCount > 0"
-        class="inline-flex items-center justify-center flex-shrink-0 rounded-full size-5 bg-n-brand"
-      >
-        <span class="text-xs font-semibold text-white">
-          {{ unreadMessagesCount }}
-        </span>
-      </div>
     </div>
 
     <div
