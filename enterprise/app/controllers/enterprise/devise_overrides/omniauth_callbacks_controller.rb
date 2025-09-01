@@ -59,6 +59,8 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     return false if account_id.blank?
 
     account = Account.find_by(id: account_id)
+
+    return false if account.nil?
     return false unless account.feature_enabled?('saml')
 
     AccountSamlSettings.find_by(account_id: account_id).present?
