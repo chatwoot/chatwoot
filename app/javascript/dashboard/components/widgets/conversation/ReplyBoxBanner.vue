@@ -53,13 +53,12 @@ const showSelfAssignBanner = computed(() => {
   );
 });
 
-const showBotHandoffBanner = computed(() => {
-  return (
-    props.message !== '' &&
-    !props.isOnPrivateNote &&
+const showBotHandoffBanner = computed(
+  () =>
+    isUserTyping.value &&
     currentChat.value?.status === wootConstants.STATUS_TYPE.PENDING
-  );
-});
+);
+
 
 const botHandoffActionLabel = computed(() => {
   return assignedAgent.value?.id === currentUser.value?.id
