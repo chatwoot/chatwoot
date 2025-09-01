@@ -6,28 +6,6 @@ orbs:
   kubernetes: circleci/kubernetes@1.3.0
 
 jobs:
-  # Build main image with current codebase
-  build-main-image:
-    circleci_ip_ranges: false
-    docker:
-      - image: 'cimg/python:3.10'
-    resource_class: large
-    steps:
-      - checkout
-      - aws-ecr/build_and_push_image:
-          auth:
-            - aws-cli/setup:
-                role_arn: "${AWS_ROLE_ARN}"
-                profile_name: deltaexchange-oidc
-          region: "${AWS_REGION}"
-          account_id: ${AWS_ACCOUNT_ID}
-          create_repo: true
-          dockerfile: Dockerfile
-          no_output_timeout: 30m
-          profile_name: deltaexchange-oidc
-          repo: chatwoot-base
-          tag: ${CIRCLE_SHA1}
-
   deploy-sidekiq:
     circleci_ip_ranges: false
     docker:
@@ -230,17 +208,7 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      # Build main image with current codebase first
-      - build-main-image:
-          name: build-main-image
-          context: staging
-          filters:
-            branches:
-              only:
-                - develop
-                - chatwoot-3.10.0
-                - v4.0.4-test
-      # Build staging environment images from main image
+      # Build staging environment images with current codebase
       - aws-ecr/build_and_push_image:
           name: staging-build-rails
           auth:
@@ -262,8 +230,6 @@ workflows:
           profile_name: deltaexchange-oidc
           repo: chatwoot
           tag: rails-${CIRCLE_SHA1}
-          requires:
-            - build-main-image
 
       - aws-ecr/build_and_push_image:
           name: staging-build-sidekiq
@@ -286,10 +252,8 @@ workflows:
           profile_name: deltaexchange-oidc
           repo: chatwoot
           tag: sidekiq-${CIRCLE_SHA1}
-          requires:
-            - build-main-image
       
-      # Build production environment images from main image
+      # Build production environment images with current codebase
       - aws-ecr/build_and_push_image:
           name: prod-ind-build-rails
           auth:
@@ -302,6 +266,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
+                - v4.0.4-test
           region: "${AWS_REGION}"
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
@@ -310,8 +275,6 @@ workflows:
           profile_name: deltaexchange-oidc
           repo: chatwoot
           tag: rails-${CIRCLE_SHA1}
-          requires:
-            - build-main-image
 
       - aws-ecr/build_and_push_image:
           name: prod-ind-build-sidekiq
@@ -325,6 +288,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
+                - v4.0.4-test
           region: "${AWS_REGION}"
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
@@ -333,8 +297,6 @@ workflows:
           profile_name: deltaexchange-oidc
           repo: chatwoot
           tag: sidekiq-${CIRCLE_SHA1}
-          requires:
-            - build-main-image
 
       # Staging deployments (automatic)
       - deploy-sidekiq:
@@ -400,6 +362,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
+                - v4.0.4-test
           requires:
             - prod-ind-build-sidekiq
 
@@ -410,6 +373,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
+                - v4.0.4-test
           requires:
             - prod-ind-build-rails
 
@@ -423,6 +387,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
+                - v4.0.4-test
           cluster-name: prod-india-exchange
           min-replicas: '2'
           max-replicas: '2'
@@ -449,6 +414,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
+                - v4.0.4-test
           cluster-name: prod-india-exchange
           min-replicas: '2'
           max-replicas: '2'
