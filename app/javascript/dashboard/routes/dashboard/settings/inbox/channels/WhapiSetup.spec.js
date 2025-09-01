@@ -14,7 +14,8 @@ vi.mock('dashboard/composables/store', () => ({
 describe('Whapi.vue', () => {
   let mockStore;
   let actions;
-  let useStore, useMapGetter;
+  let useStore;
+  let useMapGetter;
 
   beforeEach(async () => {
     // Import the mocked functions
@@ -73,7 +74,7 @@ describe('Whapi.vue', () => {
     // Set the input value directly
     const input = wrapper.find('input[type="text"]');
     await input.setValue('My Inbox');
-    
+
     // Submit the form
     await wrapper.find('form').trigger('submit.prevent');
 
@@ -105,7 +106,7 @@ describe('Whapi.vue', () => {
 
     // Force reactivity update
     await wrapper.vm.$nextTick();
-    
+
     // Check that the component would transition to success
     // Since we can't directly access internal state, we check the actions were called
     expect(actions['inboxes/createWhapiChannel']).toHaveBeenCalled();
