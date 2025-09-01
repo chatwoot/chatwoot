@@ -281,8 +281,8 @@
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
-            "LINK_TEXT": "this link.",
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {{LEARN_LINK}}.",
+            "LINK_TEXT": "this link",
             "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
@@ -297,9 +297,8 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already linked to an Embedded Signup, or if you're a tech provider onboarding your own number, please use the",
-          "MANUAL_SETUP_LINK": "manual setup flow",
-          "MANUAL_FALLBACK_INSTEAD": "instead"
+          "MANUAL_FALLBACK": "If your number is already linked to an Embedded Signup, or if you're a tech provider onboarding your own number, please use the {{MANUAL_LINK}} instead.",
+          "MANUAL_LINK_TEXT": "manual setup flow"
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"

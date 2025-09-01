@@ -48,6 +48,19 @@ const benefits = computed(() => [
 
 const showLoader = computed(() => isAuthenticating.value || isProcessing.value);
 
+const learnMoreText = computed(() => {
+  const text = t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.TEXT');
+  const linkText = t(
+    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_TEXT'
+  );
+  const url = t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_URL');
+
+  return text.replace(
+    '{{LEARN_LINK}}',
+    `<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline text-n-brand">${linkText}</a>`
+  );
+});
+
 // Error handling
 const handleSignupError = data => {
   isProcessing.value = false;
@@ -266,22 +279,7 @@ onBeforeUnmount(() => {
       </div>
 
       <div class="flex flex-col gap-2 mb-6">
-        <span class="text-sm text-n-slate-11">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.TEXT') }}
-          {{ ' ' }}
-          <a
-            :href="
-              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_URL')
-            "
-            target="_blank"
-            rel="noopener noreferrer"
-            class="underline text-primary"
-          >
-            {{
-              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_TEXT')
-            }}
-          </a>
-        </span>
+        <span class="text-sm text-n-slate-11" v-html="learnMoreText" />
       </div>
 
       <div class="flex mt-4">

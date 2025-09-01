@@ -6,7 +6,6 @@ import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -63,6 +62,25 @@ const shouldShowCloudWhatsapp = provider => {
     (provider === PROVIDER_TYPES.WHATSAPP && !hasWhatsappAppId.value)
   );
 };
+
+const handleManualLinkClick = event => {
+  event.preventDefault();
+  selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL);
+};
+
+const manualFallbackText = computed(() => {
+  const fallbackText = t(
+    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK'
+  );
+  const linkText = t(
+    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_LINK_TEXT'
+  );
+
+  return fallbackText.replace(
+    '{{MANUAL_LINK}}',
+    `<a href="#" class="underline text-n-brand">${linkText}</a>`
+  );
+});
 </script>
 
 <template>
@@ -122,28 +140,11 @@ const shouldShowCloudWhatsapp = provider => {
 
           <!-- Manual setup fallback option -->
           <div class="pt-6 mt-6 border-t border-n-weak">
-            <p class="mb-4 text-sm text-n-slate-11">
-              {{
-                $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK')
-              }}
-              <Button
-                variant="link"
-                size="sm"
-                color="slate"
-                @click="selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL)"
-              >
-                {{
-                  $t(
-                    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_SETUP_LINK'
-                  )
-                }}
-              </Button>
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK_INSTEAD'
-                )
-              }}
-            </p>
+            <p
+              class="text-sm text-n-slate-11"
+              @click="handleManualLinkClick"
+              v-html="manualFallbackText"
+            />
           </div>
         </div>
 
