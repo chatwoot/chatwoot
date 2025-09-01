@@ -31,6 +31,18 @@ class AccountSamlSettings < ApplicationRecord
     sp_entity_id.presence || "#{installation_name}-#{account_id}".downcase
   end
 
+  def certificate_fingerprint
+    return nil if certificate.blank?
+
+    begin
+      cert = OpenSSL::X509::Certificate.new(certificate)
+      fingerprint = OpenSSL::Digest::SHA1.new(cert.to_der).to_s
+      fingerprint.upcase.gsub(/(.{2})(?=.)/, '\1:')
+    rescue OpenSSL::X509::CertificateError
+      nil
+    end
+  end
+
   private
 
   def installation_name
