@@ -167,7 +167,7 @@ onMounted(() => {
             </AccordionItem>
           </div>
           <div
-            v-else-if="element.name === 'conversation_participants'"
+            v-else-if="element.name === 'conversation_participants' && false"
             class="conversation--actions"
           >
             <AccordionItem
