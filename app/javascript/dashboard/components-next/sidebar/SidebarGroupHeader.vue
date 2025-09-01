@@ -51,7 +51,7 @@ const count = computed(() =>
       </span>
       <span
         v-if="dynamicCount && !expandable"
-        class="rounded-md capitalize text-xs font-medium text-center outline outline-1 outline-n-strong px-1 flex-shrink-0"
+        class="rounded-md capitalize text-xs leading-5 font-medium text-center outline outline-1 outline-n-strong px-1 flex-shrink-0"
         :class="{
           'text-n-blue-text': isActive,
           'text-n-slate-11': !isActive,
