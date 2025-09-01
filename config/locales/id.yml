@@ -39,6 +39,8 @@ id:
       email_already_exists: 'Anda telah mendaftar untuk sebuah akun dengan %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Pendaftaran gagal
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Jenis data tidak valid
