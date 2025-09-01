@@ -6,26 +6,54 @@ export default {
   props: {
     confirmText: {
       type: String,
-      default: '',
+      default: 'Confirmar',
     },
     placeholder: {
       type: String,
-      default: '',
+      default: 'Selecione data e hora',
     },
     value: {
       type: Date,
-      default: [],
+      default: null,
     },
   },
   emits: ['change'],
 
+  data() {
+    return {
+      lang: {
+        days: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+        months: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+        yearFormat: 'YYYY',
+        monthFormat: 'MMMM',
+      },
+    };
+  },
+
+  computed: {
+    internalValue: {
+      get() {
+        return this.value;
+      },
+      set(newValue) {
+        this.$emit('change', newValue);
+      },
+    },
+  },
+
   methods: {
-    handleChange(value) {
+    handleConfirm(value) {
       this.$emit('change', value);
     },
     disableBeforeToday(date) {
       const yesterdayDate = addDays(new Date(), -1);
       return date < yesterdayDate;
+    },
+    disabledTime(date) {
+      // Allow only time after 1 hour from now
+      const now = new Date();
+      now.setHours(now.getHours() + 1);
+      return date < now;
     },
   },
 };
@@ -34,15 +62,19 @@ export default {
 <template>
   <div class="date-picker">
     <DatePicker
+      v-model:value="internalValue"
       type="datetime"
+      inline
       confirm
       :clearable="false"
       :editable="false"
       :confirm-text="confirmText"
       :placeholder="placeholder"
-      :value="value"
       :disabled-date="disableBeforeToday"
-      @change="handleChange"
+      :disabled-time="disabledTime"
+      :lang="lang"
+      input-class="mx-input"
+      @confirm="handleConfirm"
     />
   </div>
 </template>
