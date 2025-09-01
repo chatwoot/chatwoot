@@ -68,4 +68,21 @@ RSpec.describe AccountSamlSettings, type: :model do
       expect(settings.sp_entity_id_or_default).to eq(expected)
     end
   end
+
+  describe 'callbacks' do
+    describe 'after_create_commit' do
+      it 'queues job to set account users to saml provider' do
+        expect(UpdateAccountUsersProviderJob).to receive(:perform_later).with(account.id, 'saml')
+        create(:account_saml_settings, account: account)
+      end
+    end
+
+    describe 'after_destroy_commit' do
+      it 'queues job to reset account users provider' do
+        settings = create(:account_saml_settings, account: account)
+        expect(UpdateAccountUsersProviderJob).to receive(:perform_later).with(account.id, 'email')
+        settings.destroy
+      end
+    end
+  end
 end
