@@ -63,6 +63,8 @@ const componentMap = {
   list: ListAttribute,
   checkbox: CheckboxAttribute,
   date: DateAttribute,
+  datetime: DateAttribute,  // DateAttribute now handles datetime too
+  time: DateAttribute,      // DateAttribute now handles time too
   default: OtherAttribute,
 };
 
