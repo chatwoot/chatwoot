@@ -26,7 +26,7 @@ const count = computed(() =>
 <template>
   <component
     :is="to ? 'router-link' : 'div'"
-    class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8"
+    class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8 min-w-0"
     role="button"
     draggable="false"
     :to="to"
@@ -45,16 +45,21 @@ const count = computed(() =>
         class="size-2 -top-px ltr:-right-px rtl:-left-px bg-n-brand absolute rounded-full border border-n-solid-2"
       />
     </div>
-    <span class="text-sm font-medium leading-5 flex-grow">
-      {{ label }}
-    </span>
-    <span
-      v-if="dynamicCount && !expandable"
-      class="px-2 py-px rounded-lg capitalize text-xxs text-n-slate-12 shrink-0"
-      :class="{ 'bg-n-alpha-2': !isActive && !hasActiveChild }"
-    >
-      {{ count }}
-    </span>
+    <div class="flex items-center gap-1.5 flex-grow min-w-0">
+      <span class="text-sm font-medium leading-5 truncate">
+        {{ label }}
+      </span>
+      <span
+        v-if="dynamicCount && !expandable"
+        class="py-px rounded-md capitalize text-xs font-medium text-center outline outline-1 outline-n-strong px-1 flex-shrink-0"
+        :class="{
+          'text-n-blue-text': isActive,
+          'text-n-slate-11': !isActive,
+        }"
+      >
+        {{ count }}
+      </span>
+    </div>
     <span
       v-if="expandable"
       v-show="isExpanded"
