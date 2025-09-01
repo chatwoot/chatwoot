@@ -180,10 +180,24 @@
               <!-- Kurir Toko -->
               <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
                 <div class="flex items-center justify-between p-4">
-                  <div>
-                    <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STORE_COURIER') }}</h3>
-                    <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_STORE_COURIER') }}</p>
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path class="fill-green-600 dark:fill-white"
+                          d="M3 5.25A2.25 2.25 0 0 1 5.25 3h13.5A2.25 2.25 0 0 1 21 5.25v13.5a.75.75 0 0 1-.75.75h-1v-8.25c0-.11-.012-.219-.036-.325l-.739-3.326a3 3 0 0 0-2.928-2.349H8.453A3 3 0 0 0 5.525 7.6l-.74 3.325a1.5 1.5 0 0 0-.035.325v8.25h-1a.75.75 0 0 1-.75-.75V5.25Z"
+                          fill="currentColor" />
+                        <path class="fill-green-600 dark:fill-white"
+                          d="M8.453 6a2.25 2.25 0 0 0-2.196 1.762l-.74 3.325a.75.75 0 0 0-.017.163v9c0 .966.784 1.75 1.75 1.75h1.5a1.75 1.75 0 0 0 1.75-1.75v-.75h3v.75c0 .966.784 1.75 1.75 1.75h1.5a1.75 1.75 0 0 0 1.75-1.75v-9a.748.748 0 0 0-.018-.163l-.739-3.325A2.25 2.25 0 0 0 15.547 6H8.453Zm-.732 2.087a.75.75 0 0 1 .732-.587h7.094a.75.75 0 0 1 .732.587l.536 2.413h-9.63l.536-2.413ZM7 20.25v-.75h2v.75a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25Zm10-.75v.75a.25.25 0 0 1-.25.25h-1.5a.25.25 0 0 1-.25-.25v-.75h2Zm-6.25-3h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1 0-1.5Zm-.745-2.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM15 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"
+                          fill="currentColor" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STORE_COURIER') }}</h3>
+                      <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_STORE_COURIER') }}</p>
+                    </div>
                   </div>
+
                   <label class="inline-flex items-center cursor-pointer">
                     <input type="checkbox" v-model="shippingMethods.kurirToko" class="sr-only peer">
                     <div
@@ -359,9 +373,14 @@
               <!-- Kurir Biasa -->
               <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
                 <div class="flex items-center justify-between p-4">
-                  <div>
-                    <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.REGULAR_COURIER') }}</h3>
-                    <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_REGULAR_COURIER') }}</p>
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-package-open-icon lucide-package-open"><path d="M12 22v-9"/><path d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"/><path d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"/><path d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"/></svg>
+                    </div>
+                    <div>
+                      <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.REGULAR_COURIER') }}</h3>
+                      <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_REGULAR_COURIER') }}</p>
+                    </div>
                   </div>
                   <label class="inline-flex items-center cursor-pointer">
                     <input type="checkbox" v-model="shippingMethods.kurirBiasa" class="sr-only peer">
@@ -707,9 +726,13 @@
               <!-- Ambil ke Toko -->
               <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
                 <div class="flex items-center justify-between p-4">
-                  <div>
-                    <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_STORE') }}</h3>
-                    <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_PICKUP_STORE') }}</p>
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                      <svg class="fill-green-600 dark:fill-white" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.495 14.501v7.498H7.498v-7.498h2.996Zm6.76-1.5h-3.502a.75.75 0 0 0-.75.75v3.502c0 .414.336.75.75.75h3.502a.75.75 0 0 0 .75-.75v-3.502a.75.75 0 0 0-.75-.75Zm-.751 1.5v2.002h-2.001v-2.002h2ZM8.166 7.002H3.5v1.165c0 1.18.878 2.157 2.016 2.311l.157.016.16.005c1.234 0 2.245-.959 2.327-2.173l.005-.16V7.003Zm6.165 0H9.666v1.165c0 1.18.878 2.157 2.016 2.311l.157.016.16.005c1.234 0 2.245-.959 2.327-2.173l.005-.16V7.003Zm6.167 0h-4.665v1.165c0 1.18.878 2.157 2.017 2.311l.156.016.16.005c1.235 0 2.245-.959 2.327-2.173l.006-.16-.001-1.164ZM9.06 3.5H6.326L4.469 5.502h3.977L9.06 3.5Zm4.307 0H10.63l-.616 2.002h3.97L13.369 3.5Zm4.305 0h-2.734l.614 2.002h3.977L17.673 3.5ZM2.2 5.742l3.25-3.502a.75.75 0 0 1 .446-.233L6 2h12a.75.75 0 0 1 .474.169l.076.07 3.272 3.53.03.038c.102.136.148.29.148.44L22 8.168c0 .994-.379 1.9-1 2.58V21.25a.75.75 0 0 1-.649.743L20.25 22l-8.254-.001v-8.248a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v8.248L3.75 22a.75.75 0 0 1-.743-.648l-.007-.102V10.748a3.818 3.818 0 0 1-.995-2.384l-.005-.197V6.29a.728.728 0 0 1 .096-.408l.05-.076.054-.065Z"/></svg>                    </div>
+                    <div>
+                      <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_STORE') }}</h3>
+                      <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.DESC_PICKUP_STORE') }}</p>
+                    </div>
                   </div>
                   <label class="inline-flex items-center cursor-pointer">
                     <input type="checkbox" v-model="shippingMethods.ambilToko" class="sr-only peer">
@@ -810,9 +833,14 @@
                   <!-- COD -->
                   <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
                     <div class="flex items-center justify-between p-4">
-                      <div>
-                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_TITLE') }}</h3>
-                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_DESC') }}</p>
+                      <div class="flex items-center">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-circle-dollar-sign-icon lucide-circle-dollar-sign"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg> 
+                        </div>
+                        <div>
+                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_TITLE') }}</h3>
+                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.COD_DESC') }}</p>
+                        </div>
                       </div>
                       <label class="inline-flex items-center cursor-pointer">
                         <input type="checkbox" v-model="paymentMethods.cod" class="sr-only peer">
@@ -826,9 +854,14 @@
                   <!-- Bank Transfer -->
                   <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
                     <div class="flex items-center justify-between p-4">
-                      <div>
-                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
-                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
+                      <div class="flex items-center">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-landmark-icon lucide-landmark"><path d="M10 18v-7"/><path d="M11.12 2.198a2 2 0 0 1 1.76.006l7.866 3.847c.476.233.31.949-.22.949H3.474c-.53 0-.695-.716-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/></svg>
+                        </div>
+                        <div>
+                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
+                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
+                        </div>
                       </div>
                       <label class="inline-flex items-center cursor-pointer">
                         <input type="checkbox" v-model="paymentMethods.bankTransfer" class="sr-only peer">
@@ -918,9 +951,14 @@
                   <!-- Payment Gateway -->
                   <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
                     <div class="flex items-center justify-between p-4">
-                      <div>
-                        <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h3>
-                        <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
+                      <div class="flex items-center">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fill-green-600 dark:fill-white lucide lucide-credit-card-icon lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                        </div>
+                        <div>
+                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
+                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
+                        </div>
                       </div>
                       <label class="inline-flex items-center cursor-pointer">
                         <input type="checkbox" v-model="paymentMethods.paymentGateway" class="sr-only peer">
