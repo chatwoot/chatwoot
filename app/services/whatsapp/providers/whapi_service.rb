@@ -1,7 +1,5 @@
 class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
-    @message = message
-
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     else
@@ -37,7 +35,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     return nil if parsed_response.is_a?(Hash) && parsed_response.empty?
 
     # If no specific error, return a clear failure message
-    "WHAPI API request failed with status #{response.code}. Response: #{response.body}"
+    "WHAPI API request failed with status #{response.code}"
   end
 
   def api_headers
@@ -50,127 +48,93 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     nil
   end
 
-  def process_response(response)
-    Rails.logger.info '=== WHAPI RESPONSE PROCESSING START ==='
-    Rails.logger.info "Response status: #{response.code}"
-    Rails.logger.info "Response content-type: #{response.headers['content-type']}"
-    Rails.logger.info "Response body: #{response.body}"
+  def process_response(response, message = nil)
+    # Only log details in development
+    if Rails.env.development?
+      Rails.logger.debug "WHAPI Response: #{response.code} - #{response.headers['content-type']}"
+    end
 
     begin
       parsed_response = response.parsed_response
-      Rails.logger.info "Parsed response class: #{parsed_response.class}"
-      Rails.logger.info "Parsed response content: #{parsed_response.inspect}"
-    rescue StandardError => e
-      Rails.logger.error "Failed to parse response: #{e.message}"
+    rescue JSON::ParserError => e
+      Rails.logger.error "WHAPI JSON parsing failed: #{e.message}"
       parsed_response = nil
+    rescue StandardError => e
+      Rails.logger.error "WHAPI response processing error: #{e.class} - #{e.message}"
+      raise e
     end
 
-    # Check for successful status codes (200-299) and presence of message ID
-    # WHAPI returns the ID in response.message.id, not at the top level
+    # Check for successful status codes and message ID
     if (200..299).cover?(response.code)
-      Rails.logger.info '✓ HTTP status code indicates success'
-
       if parsed_response.is_a?(Hash)
-        Rails.logger.info '✓ Response is a valid hash'
         message_id = parsed_response.dig('message', 'id')
-        Rails.logger.info "Message ID from response: #{message_id}"
-
+        
         if message_id.present?
-          Rails.logger.info "✓ WHAPI Message sent successfully with ID: #{message_id}"
-          Rails.logger.info '=== WHAPI RESPONSE PROCESSING END (SUCCESS) ==='
+          Rails.logger.info "WHAPI Message sent successfully with ID: #{message_id}"
           return message_id
         else
-          Rails.logger.warn '⚠ No message ID found in successful response'
+          Rails.logger.warn "WHAPI No message ID found in successful response"
         end
       else
-        Rails.logger.warn "⚠ Response is not a hash: #{parsed_response.class}"
+        Rails.logger.warn "WHAPI Response is not a hash: #{parsed_response.class}"
       end
     else
-      Rails.logger.error "✗ HTTP status code indicates failure: #{response.code}"
+      Rails.logger.error "WHAPI HTTP status indicates failure: #{response.code}"
     end
 
-    # If we get here, something went wrong
-    Rails.logger.error '=== WHAPI ERROR DETAILS ==='
-    Rails.logger.error "Status: #{response.code}"
-    Rails.logger.error "Raw body: #{response.body}"
-    Rails.logger.error "Parsed response: #{parsed_response.inspect}"
-
-    if parsed_response.is_a?(Hash)
-      error_message = parsed_response.dig('error', 'message') ||
-                      parsed_response['message'] ||
-                      parsed_response['error'] ||
-                      'Unknown error'
-      Rails.logger.error "Extracted error message: #{error_message}"
-    end
-
-    Rails.logger.info '=== WHAPI RESPONSE PROCESSING END (ERROR) ==='
-    handle_error(response)
+    # Handle error case
+    handle_error(response, message)
     nil
   end
 
   def mark_as_read(message)
-    response = HTTParty.put(
-      "#{api_base_path}/messages/#{message.source_id}",
-      headers: api_headers
-    )
-
-    # Log for debugging
-    Rails.logger.info "WHAPI Mark as Read Response: Status=#{response.code}, Body=#{response.body}"
-
-    if response.success?
-      Rails.logger.info "WHAPI Message marked as read successfully: #{message.source_id}"
-    else
-      Rails.logger.error "WHAPI Error marking message as read: Status=#{response.code}, Response=#{response.body}"
+    safe_http_request('whapi_mark_read') do
+      HTTParty.put(
+        "#{api_base_path}/messages/#{message.source_id}",
+        headers: api_headers
+      )
     end
-
-    response
+  rescue StandardError => e
+    Rails.logger.error "WHAPI Error marking message as read: #{e.message}"
   end
 
   def fetch_contact_info(phone_number)
     return nil unless phone_number.present?
 
     begin
-      # Clean phone number - remove any WhatsApp suffixes and ensure it's just digits
       clean_phone = phone_number.to_s.gsub(/[@c\.us|whatpne].*$/, '').gsub(/\D/, '')
+      
+      Rails.logger.debug "WHAPI Fetching contact info" if Rails.env.development?
 
-      Rails.logger.info "Fetching contact info for #{clean_phone}"
-
-      # Use only the profile endpoint which contains all the information we need
-      profile_response = HTTParty.get(
-        "#{api_base_path}/contacts/#{clean_phone}/profile",
-        headers: api_headers,
-        timeout: 10
-      )
+      profile_response = safe_http_request('whapi_fetch_contact') do
+        HTTParty.get(
+          "#{api_base_path}/contacts/#{clean_phone}/profile",
+          headers: api_headers,
+          timeout: 10
+        )
+      end
 
       return nil unless profile_response.success?
 
       profile_data = profile_response.parsed_response
-
-      Rails.logger.info "WHAPI Contact Debug: Profile response: #{profile_data}"
-
-      # Return structured contact information from profile endpoint
+      
       result = {
         avatar_url: profile_data['icon_full'] || profile_data['icon'],
         name: profile_data['pushname'] || profile_data['name'],
         status: profile_data['about'],
-        business_name: profile_data['business_name'],
-        raw_profile_response: profile_data
+        business_name: profile_data['business_name']
       }
 
-      Rails.logger.info "WHAPI Contact Debug: Final result: #{result}"
-
-      # Return nil if we couldn't get any useful information
       if result[:avatar_url].blank? && result[:name].blank?
-        Rails.logger.warn "WHAPI contact fetch: No useful data found for #{phone_number}"
+        Rails.logger.debug "WHAPI No useful contact data found" if Rails.env.development?
         return nil
       end
 
       result
-    rescue Net::ReadTimeout, Net::OpenTimeout, SocketError => e
-      Rails.logger.warn "WHAPI contact fetch timeout for #{phone_number}: #{e.message}"
-      nil
+      
     rescue StandardError => e
-      Rails.logger.error "WHAPI contact fetch error for #{phone_number}: #{e.message}"
+      Rails.logger.error "WHAPI contact fetch error: #{e.message}"
+      WhapiErrorTracker.track_and_degrade('contact_fetch', e, { phone_number: phone_number })
       nil
     end
   end
@@ -178,15 +142,18 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   private
 
   def send_text_message(phone_number, message)
-    response = HTTParty.post(
-      "#{api_base_path}/messages/text",
-      headers: api_headers,
-      body: {
-        to: phone_number,
-        body: message.outgoing_content
-      }.merge(whapi_reply_context(message)).to_json
-    )
-    process_response(response)
+    response = safe_http_request('whapi_send_message') do
+      HTTParty.post(
+        "#{api_base_path}/messages/text",
+        headers: api_headers,
+        body: {
+          to: phone_number,
+          body: message.outgoing_content
+        }.merge(whapi_reply_context(message)).to_json
+      )
+    end
+    
+    process_response(response, message)
   end
 
   def send_attachment_message(phone_number, message)
@@ -194,7 +161,10 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     whapi_type = map_chatwoot_to_whapi_type(attachment)
 
     endpoint = "#{api_base_path}/messages/media/#{whapi_type}"
-    Rails.logger.info "WHAPI sending to dynamic endpoint: #{endpoint}"
+    
+    if Rails.env.development?
+      Rails.logger.debug "WHAPI sending to dynamic endpoint: #{endpoint}"
+    end
 
     # Build query parameters as required by Whapi
     query_params = build_whapi_send_params(phone_number, message, attachment, whapi_type)
@@ -203,20 +173,23 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     file_content = download_attachment_content(attachment)
     content_type = get_whapi_content_type(attachment, whapi_type)
 
-    Rails.logger.info "WHAPI query params: #{query_params}"
-    Rails.logger.info "WHAPI content type: #{content_type}"
-    Rails.logger.info "WHAPI file size: #{file_content.size} bytes"
+    if Rails.env.development?
+      Rails.logger.debug "WHAPI content type: #{content_type}"
+      Rails.logger.debug "WHAPI file size: #{file_content.size} bytes"
+    end
 
-    response = HTTParty.post(
-      endpoint,
-      query: query_params,
-      headers: {
-        'Authorization' => "Bearer #{provider_config_object.api_key}",
-        'Content-Type' => content_type
-      },
-      body: file_content
-    )
-    process_response(response)
+    response = safe_http_request('whapi_send_attachment') do
+      HTTParty.post(
+        endpoint,
+        query: query_params,
+        headers: {
+          'Authorization' => "Bearer #{provider_config_object.api_key}",
+          'Content-Type' => content_type
+        },
+        body: file_content
+      )
+    end
+    process_response(response, message)
   end
 
   def map_chatwoot_to_whapi_type(attachment)
@@ -265,7 +238,9 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
         attachment.file.download
       else
         # Download from external URL
-        HTTParty.get(converted_url).body
+        safe_http_request('whapi_download_media') do
+          HTTParty.get(converted_url).body
+        end
       end
     else
       # For other file types, download directly

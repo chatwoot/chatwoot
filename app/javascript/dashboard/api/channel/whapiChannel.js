@@ -7,7 +7,7 @@ class WhapiChannel extends ApiClient {
   }
 
   create(params) {
-    return axios.post(this.url, params);
+    return super.create(params);
   }
 
   getQrCode(inboxId) {

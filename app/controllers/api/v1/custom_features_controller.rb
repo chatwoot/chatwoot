@@ -2,14 +2,13 @@ class Api::V1::CustomFeaturesController < Api::BaseController
   # GET /api/v1/custom_features
   # Returns custom features configuration for frontend consumption
   def index
-    service = CustomFeaturesService.instance
-    features = service.all_features
+    features = CustomFeaturesService.all_features
 
     render json: {
       constants: generate_js_constants(features),
       metadata: features,
-      feature_names: service.feature_names,
-      display_names: service.display_names_map
+      feature_names: CustomFeaturesService.feature_names,
+      display_names: CustomFeaturesService.display_names_map
     }
   end
 

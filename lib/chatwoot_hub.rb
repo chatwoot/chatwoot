@@ -1,5 +1,7 @@
 # TODO: lets use HTTParty instead of RestClient
 class ChatwootHub
+  include ExternalApiCircuitBreaker
+  
   BASE_URL = ENV.fetch('CHATWOOT_HUB_URL', 'https://hub.2.chatwoot.com')
   PING_URL = "#{BASE_URL}/ping".freeze
   REGISTRATION_URL = "#{BASE_URL}/instances".freeze
@@ -64,7 +66,9 @@ class ChatwootHub
     begin
       info = instance_config
       info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
-      response = RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
+      response = with_circuit_breaker('chatwoot_hub_ping') do
+        RestClient.post(PING_URL, info.to_json, { content_type: :json, accept: :json })
+      end
       parsed_response = JSON.parse(response)
     rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
       Rails.logger.error "Exception: #{e.message}"
@@ -76,7 +80,9 @@ class ChatwootHub
 
   def self.register_instance(company_name, owner_name, owner_email)
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
-    RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+    with_circuit_breaker('chatwoot_hub_register') do
+      RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+    end
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
@@ -85,7 +91,9 @@ class ChatwootHub
 
   def self.send_push(fcm_options)
     info = { fcm_options: fcm_options }
-    RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+    with_circuit_breaker('chatwoot_hub_push') do
+      RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+    end
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
@@ -98,16 +106,20 @@ class ChatwootHub
       chatwoot_account_id: account.id,
       account_name: account.name
     }
-    HTTParty.post(CAPTAIN_ACCOUNTS_URL,
-                  body: info.to_json,
-                  headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    with_circuit_breaker('chatwoot_hub_captain') do
+      HTTParty.post(CAPTAIN_ACCOUNTS_URL,
+                    body: info.to_json,
+                    headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    end
   end
 
   def self.emit_event(event_name, event_data)
     return if ENV['DISABLE_TELEMETRY']
 
     info = { event_name: event_name, event_data: event_data }
-    RestClient.post(EVENTS_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+    with_circuit_breaker('chatwoot_hub_events') do
+      RestClient.post(EVENTS_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+    end
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e

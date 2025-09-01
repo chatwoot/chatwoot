@@ -43,7 +43,5 @@ module Redis::RedisKeys
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
 
-  ## Custom Features Keys
-  # File modification timestamp for cache invalidation
-  CUSTOM_FEATURES_FILE_TIMESTAMP = 'CUSTOM_FEATURES_FILE_TIMESTAMP'.freeze
+
 end

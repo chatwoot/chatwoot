@@ -1,4 +1,6 @@
 class Integrations::OpenaiBaseService
+  include ExternalApiCircuitBreaker
+  
   # gpt-4o-mini supports 128,000 tokens
   # 1 token is approx 4 characters
   # sticking with 120000 to be safe
@@ -88,7 +90,9 @@ class Integrations::OpenaiBaseService
     }
 
     Rails.logger.info("OpenAI API request: #{body}")
-    response = HTTParty.post(API_URL, headers: headers, body: body)
+    response = with_circuit_breaker('openai_api') do
+      HTTParty.post(API_URL, headers: headers, body: body)
+    end
     Rails.logger.info("OpenAI API response: #{response.body}")
 
     return { error: response.parsed_response, error_code: response.code } unless response.success?
