@@ -226,6 +226,10 @@ workflows:
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile-staging-rails
+          extra_build_args: |
+            --cache-from type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-rails
+            --cache-to type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-rails,mode=max
+            --build-arg BUILDKIT_INLINE_CACHE=1
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -243,11 +247,15 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                # - v4.0.4-test
+                - v4.0.4-test
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
           dockerfile: Dockerfile-staging-sidekiq
+          extra_build_args: |
+            --cache-from type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-sidekiq
+            --cache-to type=registry,ref=${AWS_TOKYO_ECR_URL}/chatwoot:cache-sidekiq,mode=max
+            --build-arg BUILDKIT_INLINE_CACHE=1
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -270,6 +278,10 @@ workflows:
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
           dockerfile: Dockerfile-prod-ind-rails
+          extra_build_args: |
+            --cache-from type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-rails
+            --cache-to type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-rails,mode=max
+            --build-arg BUILDKIT_INLINE_CACHE=1
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -291,6 +303,10 @@ workflows:
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
           dockerfile: Dockerfile-prod-ind-sidekiq
+          extra_build_args: |
+            --cache-from type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-sidekiq
+            --cache-to type=registry,ref=${AWS_INDIA_ECR_URL}/chatwoot:cache-sidekiq,mode=max
+            --build-arg BUILDKIT_INLINE_CACHE=1
           no_output_timeout: 30m
           profile_name: deltaexchange-oidc
           repo: chatwoot
@@ -306,7 +322,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                # - v4.0.4-test
+                - v4.0.4-test
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '2'
