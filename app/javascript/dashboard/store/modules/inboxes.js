@@ -348,6 +348,7 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
       throwErrorMessage(error);
+      throw error; // Ensure function always returns or throws
     }
   },
   // Fetch a fresh QR code image for Whapi login

@@ -1,7 +1,5 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
-    @message = message
-
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
@@ -22,11 +20,13 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       template: template_body
     }
 
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: request_body.to_json
-    )
+    response = safe_http_request('whatsapp_cloud_send_template') do
+      HTTParty.post(
+        "#{phone_id_path}/messages",
+        headers: api_headers,
+        body: request_body.to_json
+      )
+    end
 
     process_response(response, message)
   end
@@ -40,7 +40,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def fetch_whatsapp_templates(url)
-    response = HTTParty.get(url)
+    response = safe_http_request('whatsapp_cloud_fetch_templates') do
+      HTTParty.get(url)
+    end
     return [] unless response.success?
 
     next_url = next_url(response)
@@ -83,17 +85,19 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_text_message(phone_number, message)
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        context: whatsapp_reply_context(message),
-        to: phone_number,
-        text: { body: message.outgoing_content },
-        type: 'text'
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_cloud_send_text') do
+      HTTParty.post(
+        "#{phone_id_path}/messages",
+        headers: api_headers,
+        body: {
+          messaging_product: 'whatsapp',
+          context: whatsapp_reply_context(message),
+          to: phone_number,
+          text: { body: message.outgoing_content },
+          type: 'text'
+        }.to_json
+      )
+    end
 
     process_response(response, message)
   end
@@ -106,17 +110,19 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     }
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        :messaging_product => 'whatsapp',
-        :context => whatsapp_reply_context(message),
-        'to' => phone_number,
-        'type' => type,
-        type.to_s => type_content
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_cloud_send_attachment') do
+      HTTParty.post(
+        "#{phone_id_path}/messages",
+        headers: api_headers,
+        body: {
+          :messaging_product => 'whatsapp',
+          :context => whatsapp_reply_context(message),
+          'to' => phone_number,
+          'type' => type,
+          type.to_s => type_content
+        }.to_json
+      )
+    end
 
     process_response(response, message)
   end
@@ -171,16 +177,18 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_interactive_text_message(phone_number, message)
     payload = create_payload_based_on_items(message)
 
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        to: phone_number,
-        interactive: payload,
-        type: 'interactive'
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_cloud_send_interactive') do
+      HTTParty.post(
+        "#{phone_id_path}/messages",
+        headers: api_headers,
+        body: {
+          messaging_product: 'whatsapp',
+          to: phone_number,
+          interactive: payload,
+          type: 'interactive'
+        }.to_json
+      )
+    end
 
     process_response(response, message)
   end

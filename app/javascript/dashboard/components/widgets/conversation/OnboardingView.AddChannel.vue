@@ -70,8 +70,12 @@ const handleAgentsAdded = () => {
       />
       <div v-else>
         <component
-          v-if="!channelFullySetup && channelSelected && channelSelectedFactory[channelSelected]"
           :is="channelSelectedFactory[channelSelected].component"
+          v-if="
+            !channelFullySetup &&
+            channelSelected &&
+            channelSelectedFactory[channelSelected]
+          "
           v-bind="channelSelectedFactory[channelSelected].props"
           @step-changed="handleStepChanged"
         />
