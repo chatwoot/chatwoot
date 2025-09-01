@@ -23,6 +23,9 @@ class AccountSamlSettings < ApplicationRecord
   validates :certificate, presence: true
   validates :sp_entity_id, presence: true
 
+  after_create_commit :update_account_users_provider
+  after_destroy_commit :reset_account_users_provider
+
   def saml_enabled?
     sso_url.present? && certificate.present?
   end
@@ -35,5 +38,13 @@ class AccountSamlSettings < ApplicationRecord
 
   def installation_name
     GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
+  end
+
+  def update_account_users_provider
+    UpdateAccountUsersProviderJob.perform_later(account_id, 'saml')
+  end
+
+  def reset_account_users_provider
+    UpdateAccountUsersProviderJob.perform_later(account_id, 'email')
   end
 end

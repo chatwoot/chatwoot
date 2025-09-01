@@ -43,6 +43,10 @@ module Enterprise::DeviseOverrides::SessionsController
     user = User.from_email(params[:email])
     return unless user&.provider == 'saml'
 
-    raise CustomExceptions::Base.new(I18n.t('messages.login_saml_user'), :unauthorized)
+    # Allow regular login if SAML is not configured/enabled for the account
+    user.accounts.each do |account|
+      saml_settings = account.account_saml_settings
+      raise CustomExceptions::Base.new(I18n.t('messages.login_saml_user'), :unauthorized) if saml_settings&.saml_enabled?
+    end
   end
 end
