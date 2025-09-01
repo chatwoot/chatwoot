@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe Whatsapp::Partner::WhapiPartnerService do
   subject(:service) { described_class.new }
 
+  let(:account) { create(:account) }
+
+  before do
+    allow(Current).to receive(:account).and_return(account)
+  end
+
   describe '#fetch_projects' do
     it 'returns an array of projects when request succeeds' do
       stub_request(:get, %r{/projects$}).to_return(
@@ -114,6 +120,80 @@ RSpec.describe Whatsapp::Partner::WhapiPartnerService do
     it 'raises when request fails' do
       stub_request(:delete, %r{/channels/chan_1$}).to_return(status: 404, body: 'not found')
       expect { service.delete_channel(channel_id: 'chan_1') }.to raise_error(StandardError, /delete_channel failed/)
+    end
+  end
+
+  describe 'rate limiting' do
+    before do
+      # Clear any existing rate limit counters
+      Redis::Alfred.delete("whapi_external_api:fetch_projects:#{account.id}")
+      Redis::Alfred.delete("whapi_external_api:create_channel:#{account.id}")
+      Redis::Alfred.delete("whapi_external_api:delete_channel:#{account.id}")
+      Redis::Alfred.delete("whapi_external_api:generate_qr_code:#{account.id}")
+    end
+
+    it 'enforces rate limits for fetch_projects' do
+      stub_request(:get, %r{/projects$}).to_return(
+        status: 200,
+        headers: { 'Content-Type' => 'application/json' },
+        body: { projects: [] }.to_json
+      )
+
+      # Make requests up to the limit
+      30.times { service.fetch_projects }
+
+      # The 31st request should be rate limited
+      expect { service.fetch_projects }.to raise_error(CustomExceptions::RateLimitExceeded, /Rate limit exceeded for fetch_projects/)
+    end
+
+    it 'enforces rate limits for create_channel' do
+      stub_request(:put, %r{/channels$}).to_return(
+        status: 200,
+        headers: { 'Content-Type' => 'application/json' },
+        body: { id: 'chan_1', token: 'token_1' }.to_json
+      )
+
+      # Make requests up to the limit
+      20.times { service.create_channel(name: 'Test Channel', project_id: 'proj_1') }
+
+      # The 21st request should be rate limited
+      expect { service.create_channel(name: 'Test Channel', project_id: 'proj_1') }.to raise_error(CustomExceptions::RateLimitExceeded, /Rate limit exceeded for create_channel/)
+    end
+
+    it 'enforces rate limits for delete_channel' do
+      stub_request(:delete, %r{/channels/chan_1$}).to_return(status: 200, body: '')
+
+      # Make requests up to the limit
+      10.times { service.delete_channel(channel_id: 'chan_1') }
+
+      # The 11th request should be rate limited
+      expect { service.delete_channel(channel_id: 'chan_1') }.to raise_error(CustomExceptions::RateLimitExceeded, /Rate limit exceeded for delete_channel/)
+    end
+
+    it 'enforces rate limits for generate_qr_code' do
+      stub_request(:get, %r{/users/login$}).to_return(
+        status: 200,
+        headers: { 'Content-Type' => 'application/json' },
+        body: { qr: 'BASE64DATA', expires_in: 30 }.to_json
+      )
+
+      # Make requests up to the limit
+      50.times { service.generate_qr_code(channel_token: 'chan_token') }
+
+      # The 51st request should be rate limited
+      expect { service.generate_qr_code(channel_token: 'chan_token') }.to raise_error(CustomExceptions::RateLimitExceeded, /Rate limit exceeded for generate_qr_code/)
+    end
+
+    it 'does not rate limit when Current.account is nil' do
+      allow(Current).to receive(:account).and_return(nil)
+      stub_request(:get, %r{/projects$}).to_return(
+        status: 200,
+        headers: { 'Content-Type' => 'application/json' },
+        body: { projects: [] }.to_json
+      )
+
+      # Should not raise rate limit exception when no account context
+      expect { service.fetch_projects }.not_to raise_error
     end
   end
 end

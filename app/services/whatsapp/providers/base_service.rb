@@ -9,6 +9,8 @@
 ######################################
 
 class Whatsapp::Providers::BaseService
+  include ExternalApiCircuitBreaker
+  
   pattr_initialize [:whatsapp_channel!]
 
   # Support for configuration objects
@@ -36,27 +38,27 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
-  def process_response(response)
+  def process_response(response, message = nil)
     parsed_response = response.parsed_response
     if response.success? && parsed_response['error'].blank?
       parsed_response['messages'].first['id']
     else
-      handle_error(response)
+      handle_error(response, message)
       nil
     end
   end
 
-  def handle_error(response)
+  def handle_error(response, message = nil)
     Rails.logger.error response.body
-    return if @message.blank?
+    return if message.blank?
 
     # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
     error_message = error_message(response)
     return if error_message.blank?
 
-    @message.external_error = error_message
-    @message.status = :failed
-    @message.save!
+    message.external_error = error_message
+    message.status = :failed
+    message.save!
   end
 
   def create_buttons(items)
@@ -107,5 +109,12 @@ class Whatsapp::Providers::BaseService
     sections = [section1]
     json_hash = { :button => I18n.t('conversations.messages.whatsapp.list_button_label'), 'sections' => sections }
     create_payload('list', message.outgoing_content, JSON.generate(json_hash))
+  end
+
+  # Add a protected method for HTTP calls with circuit breaker protection
+  protected
+
+  def safe_http_request(service_name, &block)
+    with_circuit_breaker(service_name, &block)
   end
 end

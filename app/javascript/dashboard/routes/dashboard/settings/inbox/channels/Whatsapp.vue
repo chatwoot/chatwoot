@@ -19,7 +19,7 @@ export default {
       default: false,
     },
   },
-  emits: ['step-changed'],
+  emits: ['stepChanged'],
   data() {
     return {
       provider: 'whapi',
@@ -29,7 +29,7 @@ export default {
   methods: {
     handleStepChanged(step) {
       this.whapiStep = step;
-      this.$emit('step-changed', step);
+      this.$emit('stepChanged', step);
     },
   },
 };

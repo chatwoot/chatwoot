@@ -1,4 +1,6 @@
 class Webhooks::Trigger
+  include ExternalApiCircuitBreaker
+  
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
 
   def initialize(url, payload, webhook_type)
@@ -21,13 +23,16 @@ class Webhooks::Trigger
   private
 
   def perform_request
-    RestClient::Request.execute(
-      method: :post,
-      url: @url,
-      payload: @payload.to_json,
-      headers: { content_type: :json, accept: :json },
-      timeout: 5
-    )
+    # Use circuit breaker for webhook delivery
+    with_circuit_breaker('webhook_delivery') do
+      RestClient::Request.execute(
+        method: :post,
+        url: @url,
+        payload: @payload.to_json,
+        headers: { content_type: :json, accept: :json },
+        timeout: 5
+      )
+    end
   end
 
   def handle_error(error)

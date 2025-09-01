@@ -1,6 +1,5 @@
 class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
-    @message = message
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
@@ -11,15 +10,17 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def send_template(phone_number, template_info)
-    response = HTTParty.post(
-      "#{api_base_path}/messages",
-      headers: api_headers,
-      body: {
-        to: phone_number,
-        template: template_body_parameters(template_info),
-        type: 'template'
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_360_dialog_send_template') do
+      HTTParty.post(
+        "#{api_base_path}/messages",
+        headers: api_headers,
+        body: {
+          to: phone_number,
+          template: template_body_parameters(template_info),
+          type: 'template'
+        }.to_json
+      )
+    end
 
     process_response(response)
   end
@@ -27,7 +28,9 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    response = HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers)
+    response = safe_http_request('whatsapp_360_dialog_sync_templates') do
+      HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers)
+    end
     whatsapp_channel.update(message_templates: response['waba_templates'], message_templates_last_updated: Time.now.utc) if response.success?
   end
 
@@ -52,17 +55,19 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def send_text_message(phone_number, message)
-    response = HTTParty.post(
-      "#{api_base_path}/messages",
-      headers: api_headers,
-      body: {
-        to: phone_number,
-        text: { body: message.outgoing_content },
-        type: 'text'
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_360_dialog_send_text') do
+      HTTParty.post(
+        "#{api_base_path}/messages",
+        headers: api_headers,
+        body: {
+          to: phone_number,
+          text: { body: message.outgoing_content },
+          type: 'text'
+        }.to_json
+      )
+    end
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def send_attachment_message(phone_number, message)
@@ -74,17 +79,19 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
 
-    response = HTTParty.post(
-      "#{api_base_path}/messages",
-      headers: api_headers,
-      body: {
-        'to' => phone_number,
-        'type' => type,
-        type.to_s => type_content
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_360_dialog_send_attachment') do
+      HTTParty.post(
+        "#{api_base_path}/messages",
+        headers: api_headers,
+        body: {
+          'to' => phone_number,
+          'type' => type,
+          type.to_s => type_content
+        }.to_json
+      )
+    end
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def error_message(response)
@@ -110,16 +117,18 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def send_interactive_text_message(phone_number, message)
     payload = create_payload_based_on_items(message)
 
-    response = HTTParty.post(
-      "#{api_base_path}/messages",
-      headers: api_headers,
-      body: {
-        to: phone_number,
-        interactive: payload,
-        type: 'interactive'
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_360_dialog_send_interactive') do
+      HTTParty.post(
+        "#{api_base_path}/messages",
+        headers: api_headers,
+        body: {
+          to: phone_number,
+          interactive: payload,
+          type: 'interactive'
+        }.to_json
+      )
+    end
 
-    process_response(response)
+    process_response(response, message)
   end
 end
