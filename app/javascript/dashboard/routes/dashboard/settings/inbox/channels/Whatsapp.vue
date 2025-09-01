@@ -2,23 +2,22 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
 import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const store = useStore();
 
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
   TWILIO: 'twilio',
   WHATSAPP_CLOUD: 'whatsapp_cloud',
   WHATSAPP_EMBEDDED: 'whatsapp_embedded',
+  WHATSAPP_MANUAL: 'whatsapp_manual',
   THREE_SIXTY_DIALOG: '360dialog',
 };
 
@@ -26,14 +25,6 @@ const hasWhatsappAppId = computed(() => {
   return (
     window.chatwootConfig?.whatsappAppId &&
     window.chatwootConfig.whatsappAppId !== 'none'
-  );
-});
-
-const isWhatsappEmbeddedSignupEnabled = computed(() => {
-  const accountId = route.params.accountId;
-  return store.getters['accounts/isFeatureEnabledonAccount'](
-    accountId,
-    FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP
   );
 });
 
@@ -66,28 +57,11 @@ const selectProvider = providerValue => {
   });
 };
 
-const shouldShowEmbeddedSignup = provider => {
-  // Check if the feature is enabled for the account
-  if (!isWhatsappEmbeddedSignupEnabled.value) {
-    return false;
-  }
-
-  return (
-    (provider === PROVIDER_TYPES.WHATSAPP && hasWhatsappAppId.value) ||
-    provider === PROVIDER_TYPES.WHATSAPP_EMBEDDED
-  );
-};
-
 const shouldShowCloudWhatsapp = provider => {
-  // If embedded signup feature is enabled and app ID is configured, don't show cloud whatsapp
-  if (isWhatsappEmbeddedSignupEnabled.value && hasWhatsappAppId.value) {
-    return false;
-  }
-
-  // Show cloud whatsapp when:
-  // 1. Provider is whatsapp AND
-  // 2. Either no app ID is configured OR embedded signup feature is disabled
-  return provider === PROVIDER_TYPES.WHATSAPP;
+  return (
+    provider === PROVIDER_TYPES.WHATSAPP_MANUAL ||
+    (provider === PROVIDER_TYPES.WHATSAPP && !hasWhatsappAppId.value)
+  );
 };
 </script>
 
@@ -138,10 +112,45 @@ const shouldShowCloudWhatsapp = provider => {
 
     <div v-else-if="showConfiguration">
       <div class="px-6 py-5 rounded-2xl border bg-n-solid-2 border-n-weak">
-        <WhatsappEmbeddedSignup
-          v-if="shouldShowEmbeddedSignup(selectedProvider)"
-        />
+        <!-- Show embedded signup if app ID is configured -->
+        <div
+          v-if="
+            hasWhatsappAppId && selectedProvider === PROVIDER_TYPES.WHATSAPP
+          "
+        >
+          <WhatsappEmbeddedSignup />
+
+          <!-- Manual setup fallback option -->
+          <div class="pt-6 mt-6 border-t border-n-weak">
+            <p class="mb-4 text-sm text-n-slate-11">
+              {{
+                $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK')
+              }}
+              <Button
+                variant="link"
+                size="sm"
+                color="slate"
+                @click="selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL)"
+              >
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_SETUP_LINK'
+                  )
+                }}
+              </Button>
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK_INSTEAD'
+                )
+              }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Show manual setup -->
         <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
+
+        <!-- Other providers -->
         <Twilio
           v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
           type="whatsapp"
