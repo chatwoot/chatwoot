@@ -23,7 +23,9 @@ export default {
       ],
       draggedItem: null,
       sourceColumnIndex: null,
-      sourceItemIndex: null
+      sourceItemIndex: null,
+      showColumnModal: false,
+      newColumnTitle: ''
     }
   },
 
@@ -79,6 +81,28 @@ export default {
         this.sourceColumnIndex = null
         this.sourceItemIndex = null
       }
+    },
+
+    openColumnModal() {
+      this.showColumnModal = true
+      this.newColumnTitle = ''
+    },
+
+    closeColumnModal() {
+      this.showColumnModal = false
+    },
+
+    addNewColumn() {
+      if (this.newColumnTitle.trim()) {
+        this.localColumns.push({
+          title: this.newColumnTitle,
+          items: []
+        })
+        this.closeColumnModal()
+        this.newColumnTitle = ''
+        this.$emit('update:columns', structuredClone(this.localColumns))
+      }
+      
     }
   }
 }
@@ -87,7 +111,7 @@ export default {
 <template>
   <div class="kanban-root">
     <header class="kanban-header">
-      <button class="kanban-button">Nova coluna</button>
+      <button class="kanban-button" @click="openColumnModal">Nova coluna</button>
       <button class="kanban-button">Importar Kanban</button>
       <button class="kanban-button">Exportar Kanban</button>
     </header>
@@ -115,6 +139,23 @@ export default {
           @dragend="onDragEnd"
         >
           <slot name="card" :item="item" :column="column">{{ item.content }}</slot>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para nova coluna -->
+    <div v-if="showColumnModal" class="modal-overlay">
+      <div class="modal">
+        <h3>Nova Coluna</h3>
+        <input 
+          v-model="newColumnTitle"
+          type="text"
+          placeholder="Nome da coluna"
+          @keyup.enter="addNewColumn"
+        >
+        <div class="modal-actions">
+          <button @click="closeColumnModal" class="cancel-btn">Cancelar</button>
+          <button @click="addNewColumn" class="confirm-btn">Adicionar</button>
         </div>
       </div>
     </div>
@@ -224,5 +265,72 @@ export default {
 .kanban-button:hover {
   background-color: #e0e0e0;
   transform: translateY(-1px);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #464343;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+}
+
+.modal h3 {
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.modal input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cancel-btn, .confirm-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cancel-btn {
+  background-color: transparent;
+  color: #fff;
+}
+
+.confirm-btn {
+  background-color: #fff;
+  color: #464343;
+}
+
+.cancel-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.confirm-btn:hover {
+  background-color: #e0e0e0;
 }
 </style>
