@@ -4,6 +4,8 @@ import { required, url } from '@vuelidate/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
+import DateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
+import TimePicker from 'dashboard/components/ui/TimePicker.vue';
 import { isValidURL } from '../helper/URLHelper';
 import { getRegexp } from 'shared/helpers/Validators';
 import { useVuelidate } from '@vuelidate/core';
@@ -12,11 +14,15 @@ import { emitter } from 'shared/helpers/mitt';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
+const DATETIME_FORMAT = 'yyyy-MM-dd\'T\'HH:mm:ss\'Z\'';
+const TIME_FORMAT = 'HH:mm';
 
 export default {
   components: {
     MultiselectDropdown,
     HelperTextPopup,
+    DateTimePicker,
+    TimePicker,
     NextButton,
   },
   props: {
@@ -51,15 +57,30 @@ export default {
           ? new Date(this.value || new Date()).toLocaleDateString()
           : '---';
       }
+      if (this.isAttributeTypeDateTime) {
+        return this.value
+          ? new Date(this.value).toLocaleDateString() + ' às ' + new Date(this.value).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+          : '---';
+      }
+      if (this.isAttributeTypeTime) {
+        return this.value || '---';
+      }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
       return this.hasValue ? this.value : '---';
     },
     formattedValue() {
-      return this.isAttributeTypeDate
-        ? format(this.value ? new Date(this.value) : new Date(), DATE_FORMAT)
-        : this.value;
+      if (this.isAttributeTypeDate) {
+        return format(this.value ? new Date(this.value) : new Date(), DATE_FORMAT);
+      }
+      if (this.isAttributeTypeDateTime) {
+        return this.value ? new Date(this.value) : null;
+      }
+      if (this.isAttributeTypeTime) {
+        return this.value || '';
+      }
+      return this.value;
     },
     listOptions() {
       return this.values.map((value, index) => ({
@@ -83,6 +104,12 @@ export default {
     isAttributeTypeDate() {
       return this.attributeType === 'date';
     },
+    isAttributeTypeDateTime() {
+      return this.attributeType === 'datetime';
+    },
+    isAttributeTypeTime() {
+      return this.attributeType === 'time';
+    },
     hasValue() {
       return this.value !== null && this.value !== '';
     },
@@ -93,7 +120,7 @@ export default {
       return isValidURL(this.value) ? this.value : '';
     },
     notAttributeTypeCheckboxAndList() {
-      return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList;
+      return !this.isAttributeTypeCheckbox && !this.isAttributeTypeList && !this.isAttributeTypeDateTime && !this.isAttributeTypeTime;
     },
     inputType() {
       return this.isAttributeTypeLink ? 'url' : this.attributeType;
@@ -176,10 +203,16 @@ export default {
       }
     },
     onUpdate() {
-      const updatedValue =
-        this.attributeType === 'date'
-          ? parseISO(this.editedValue)
-          : this.editedValue;
+      let updatedValue = this.editedValue;
+      
+      if (this.attributeType === 'date') {
+        updatedValue = parseISO(this.editedValue);
+      } else if (this.attributeType === 'datetime') {
+        updatedValue = this.editedValue; // DateTimePicker already returns proper format
+      } else if (this.attributeType === 'time') {
+        updatedValue = this.editedValue; // TimePicker returns HH:MM format
+      }
+      
       this.v$.$touch();
       if (this.v$.$invalid) {
         return;
@@ -312,6 +345,122 @@ export default {
         </div>
       </div>
     </div>
+
+    <!-- DateTime Attribute -->
+    <div v-if="isAttributeTypeDateTime">
+      <div v-if="isEditing" v-on-clickaway="onClickAway">
+        <div class="flex items-center w-full mb-2">
+          <DateTimePicker
+            :value="editedValue"
+            placeholder="Selecione data e hora"
+            confirm-text="Confirmar"
+            @change="editedValue = $event"
+          />
+          <div class="ml-2">
+            <NextButton
+              sm
+              icon="i-lucide-check"
+              @click="onUpdate"
+            />
+          </div>
+        </div>
+        <span
+          v-if="shouldShowErrorMessage"
+          class="block w-full -mt-px text-sm font-normal text-n-ruby-11"
+        >
+          {{ errorMessage }}
+        </span>
+      </div>
+      <div
+        v-show="!isEditing"
+        class="flex group"
+        :class="{ 'is-editable': showActions }"
+      >
+        <p class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1">
+          {{ displayValue }}
+        </p>
+        <div class="flex items-center max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
+          <NextButton
+            v-if="showActions && hasValue"
+            v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
+            xs
+            slate
+            ghost
+            icon="i-lucide-clipboard"
+            class="hidden group-hover:flex flex-shrink-0"
+            @click="onCopy"
+          />
+          <NextButton
+            v-if="showActions"
+            v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
+            xs
+            slate
+            ghost
+            icon="i-lucide-pen"
+            class="hidden group-hover:flex flex-shrink-0"
+            @click="onEdit"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Attribute -->
+    <div v-if="isAttributeTypeTime">
+      <div v-if="isEditing" v-on-clickaway="onClickAway">
+        <div class="flex items-center w-full mb-2">
+          <TimePicker
+            :value="editedValue"
+            placeholder="Selecione horário"
+            @change="editedValue = $event"
+          />
+          <div class="ml-2">
+            <NextButton
+              sm
+              icon="i-lucide-check"
+              @click="onUpdate"
+            />
+          </div>
+        </div>
+        <span
+          v-if="shouldShowErrorMessage"
+          class="block w-full -mt-px text-sm font-normal text-n-ruby-11"
+        >
+          {{ errorMessage }}
+        </span>
+      </div>
+      <div
+        v-show="!isEditing"
+        class="flex group"
+        :class="{ 'is-editable': showActions }"
+      >
+        <p class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1">
+          {{ displayValue }}
+        </p>
+        <div class="flex items-center max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
+          <NextButton
+            v-if="showActions && hasValue"
+            v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
+            xs
+            slate
+            ghost
+            icon="i-lucide-clipboard"
+            class="hidden group-hover:flex flex-shrink-0"
+            @click="onCopy"
+          />
+          <NextButton
+            v-if="showActions"
+            v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
+            xs
+            slate
+            ghost
+            icon="i-lucide-pen"
+            class="hidden group-hover:flex flex-shrink-0"
+            @click="onEdit"
+          />
+        </div>
+      </div>
+    </div>
+
     <div v-if="isAttributeTypeList">
       <MultiselectDropdown
         :options="listOptions"
