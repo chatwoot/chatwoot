@@ -3,19 +3,23 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
+import samlSettingsAPI from 'dashboard/api/samlSettings';
+
 import SectionLayout from '../../account/components/SectionLayout.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import TextInput from 'next/input/Input.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import Switch from 'next/switch/Switch.vue';
 import NextButton from 'next/button/Button.vue';
-import samlSettingsAPI from 'dashboard/api/samlSettings';
+import SamlInfoSection from './SamlInfoSection.vue';
+import SamlAttributeMap from './SamlAttributeMap.vue';
 
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
 
 const ssoUrl = ref('');
 const certificate = ref('');
+const fingerprint = ref('');
 const spEntityId = ref('');
 const roleMappings = ref({});
 const isEnabled = ref(false);
@@ -37,6 +41,7 @@ const loadSamlSettings = async () => {
       certificate.value = settings.certificate || '';
       spEntityId.value = settings.sp_entity_id || '';
       roleMappings.value = settings.role_mappings || {};
+      fingerprint.value = settings.fingerprint || '';
       isEnabled.value = ssoUrl.value !== '';
     }
   } catch (error) {
@@ -129,6 +134,9 @@ onMounted(() => {
       </div>
     </template>
 
+    <SamlInfoSection class="mb-5" :fingerprint="fingerprint" />
+    <SamlAttributeMap class="mb-5" />
+
     <form class="grid gap-5" @submit.prevent="handleSubmit">
       <WithLabel
         :label="t('SECURITY_SETTINGS.SAML.SSO_URL.LABEL')"
@@ -145,6 +153,17 @@ onMounted(() => {
       </WithLabel>
 
       <WithLabel
+        :label="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.LABEL')"
+        :help-message="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.HELP')"
+      >
+        <TextInput
+          v-model="spEntityId"
+          class="w-full"
+          :placeholder="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.PLACEHOLDER')"
+        />
+      </WithLabel>
+
+      <WithLabel
         :label="t('SECURITY_SETTINGS.SAML.CERTIFICATE.LABEL')"
         :help-message="t('SECURITY_SETTINGS.SAML.CERTIFICATE.HELP')"
         required
@@ -155,17 +174,6 @@ onMounted(() => {
           rows="8"
           :placeholder="t('SECURITY_SETTINGS.SAML.CERTIFICATE.PLACEHOLDER')"
           required
-        />
-      </WithLabel>
-
-      <WithLabel
-        :label="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.LABEL')"
-        :help-message="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.HELP')"
-      >
-        <TextInput
-          v-model="spEntityId"
-          class="w-full"
-          :placeholder="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.PLACEHOLDER')"
         />
       </WithLabel>
 

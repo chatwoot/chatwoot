@@ -390,16 +390,23 @@
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "ACS_URL": {
+        "LABEL": "ACS URL"
+      },
       "SSO_URL": {
         "LABEL": "SSO URL",
         "HELP": "The URL where SAML authentication requests will be sent",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "X.509 Certificate",
+        "LABEL": "Signing certificate in PEM format",
         "HELP": "The public certificate from your identity provider used to verify SAML responses",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
+      "FINGERPRINT": {
+        "LABEL": "Fingerprint"
+      },
+      "COPY_SUCCESS": "Copied to clipboard",
       "SP_ENTITY_ID": {
         "LABEL": "Service Provider Entity ID",
         "HELP": "Unique identifier for this application as a service provider. Leave blank to use default.",
@@ -426,6 +433,10 @@
         "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
         "UPGRADE_NOW": "Upgrade now",
         "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "SAML Attribute Setup",
+        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
       }
     }
   },
