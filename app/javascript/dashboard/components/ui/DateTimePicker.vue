@@ -64,15 +64,20 @@ export default {
     <DatePicker
       v-model:value="internalValue"
       type="datetime"
-      inline
       confirm
       :clearable="false"
       :editable="false"
+      :show-hour="true"
+      :show-minute="true"
+      :show-second="false"
+      :use12h="false"
+      :hour-step="1"
+      :minute-step="5"
       :confirm-text="confirmText"
       :placeholder="placeholder"
       :disabled-date="disableBeforeToday"
-      :disabled-time="disabledTime"
       :lang="lang"
+      format="YYYY-MM-DD HH:mm"
       input-class="mx-input"
       @confirm="handleConfirm"
     />
