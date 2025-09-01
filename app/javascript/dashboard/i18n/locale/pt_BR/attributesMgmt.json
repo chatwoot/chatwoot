@@ -15,7 +15,9 @@
       "LINK": "Link",
       "DATE": "Data",
       "LIST": "Lista",
-      "CHECKBOX": "Booleano"
+      "CHECKBOX": "Booleano",
+      "DATETIME": "Data e Hora",
+      "TIME": "Horário"
     },
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
