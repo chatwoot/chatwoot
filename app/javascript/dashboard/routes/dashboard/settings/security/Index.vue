@@ -29,7 +29,8 @@ const showPaywall = computed(() => shouldShowPaywall('saml'));
       <BaseSettingsHeader
         :title="$t('SECURITY_SETTINGS.TITLE')"
         :description="$t('SECURITY_SETTINGS.DESCRIPTION')"
-        feature-name="security"
+        :link-text="$t('SECURITY_SETTINGS.LINK_TEXT')"
+        feature-name="saml"
       />
     </template>
     <template #body>

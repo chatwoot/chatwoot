@@ -386,6 +386,7 @@
   "SECURITY_SETTINGS": {
     "TITLE": "Security",
     "DESCRIPTION": "Manage your account security settings.",
+    "LINK_TEXT": "Learn more about SAML SSO",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

@@ -17,8 +17,8 @@ export default {
       },
       component: SettingsWrapper,
       props: {
-        headerTitle: 'BILLING_SETTINGS.TITLE',
-        icon: 'credit-card-person',
+        headerTitle: 'SECURITY_SETTINGS.TITLE',
+        icon: 'i-lucide-shield',
         showNewButton: false,
       },
       children: [
