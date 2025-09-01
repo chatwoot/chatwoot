@@ -57,8 +57,13 @@ class ForwardNotificationService
     whatsapp_channel = @account.whatsapp_channels.find_by(provider: 'whapi')
 
     if whatsapp_channel.nil?
-      Rails.logger.warn "No WhatsApp channels with provider 'whapi' found for account #{@account.id}"
-      return
+      default_api_key = ENV['DEFAULT_WHAPI_CHANNEL_TOKEN']
+      if default_api_key.present?
+        whatsapp_channel = create_whapi_channel(default_api_key)
+      else
+        Rails.logger.warn "No DEFAULT_WHAPI_CHANNEL_TOKEN found"
+        return
+      end
     end
 
     target_chats.each do |chat_id|
@@ -90,6 +95,15 @@ class ForwardNotificationService
 
   rescue StandardError => e
     Rails.logger.error "Failed to send WhatsApp notification to #{target_chat}: #{e.message}"
+  end
+
+  def create_whapi_channel(api_key)
+    whatsapp_channel = OpenStruct.new(
+      provider: 'whapi',
+      provider_config: { 'api_key' => api_key }
+    )
+    
+    Whatsapp::Providers::WhapiService.new(whatsapp_channel: whatsapp_channel)
   end
 
   def find_notification_config
