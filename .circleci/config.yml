@@ -316,10 +316,10 @@ workflows:
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_TOKYO_ECR_URL}/chatwoot:sidekiq-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '0.7'
-          request_cpu: '0.5'
-          limit_memory: '1G'
-          request_memory: '800M'
+          total_cpu: '4'
+          request_cpu: '2'
+          limit_memory: '4G'
+          request_memory: '2G'
           deployment-name: 'staging-sidekiq'
           requires:
             - staging-build-sidekiq
@@ -343,10 +343,10 @@ workflows:
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_TOKYO_ECR_URL}/chatwoot:rails-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '0.7'
-          request_cpu: '0.5'
-          limit_memory: '1G'
-          request_memory: '800M'
+          total_cpu: '4'
+          request_cpu: '2'
+          limit_memory: '4G'
+          request_memory: '2G'
           deployment-name: 'staging-chatwoot'
           service-account: 'rails-sa'
           requires:
@@ -395,10 +395,10 @@ workflows:
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_INDIA_ECR_URL}/chatwoot:sidekiq-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '0.7'
-          request_cpu: '0.5'
-          limit_memory: '1G'
-          request_memory: '800M'
+          total_cpu: '4'
+          request_cpu: '2'
+          limit_memory: '4G'
+          request_memory: '2G'
           deployment-name: 'prod-sidekiq'
           requires:
             - deploy-approval-ind-sidekiq
@@ -422,10 +422,10 @@ workflows:
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_INDIA_ECR_URL}/chatwoot:rails-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '0.7'
-          request_cpu: '0.5'
-          limit_memory: '1G'
-          request_memory: '800M'
+          total_cpu: '4'
+          request_cpu: '2'
+          limit_memory: '4G'
+          request_memory: '2G'
           deployment-name: 'prod-chatwoot'
           service-account: 'chatwoot-rails-sa'
           requires:
