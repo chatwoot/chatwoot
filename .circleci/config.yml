@@ -243,7 +243,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                - v4.0.4-test
+                # - v4.0.4-test
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -306,7 +306,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                - v4.0.4-test
+                # - v4.0.4-test
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '2'
@@ -316,10 +316,10 @@ workflows:
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_TOKYO_ECR_URL}/chatwoot:sidekiq-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '4'
-          request_cpu: '2'
-          limit_memory: '4G'
-          request_memory: '2G'
+          total_cpu: '2'
+          request_cpu: '1'
+          limit_memory: '800M'
+          request_memory: '400M'
           deployment-name: 'staging-sidekiq'
           requires:
             - staging-build-sidekiq
@@ -360,7 +360,6 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                - v4.0.4-test
           requires:
             - prod-ind-build-sidekiq
 
@@ -371,7 +370,6 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                - v4.0.4-test
           requires:
             - prod-ind-build-rails
 
@@ -385,7 +383,6 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                - v4.0.4-test
           cluster-name: prod-india-exchange
           min-replicas: '2'
           max-replicas: '2'
@@ -395,10 +392,10 @@ workflows:
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_INDIA_ECR_URL}/chatwoot:sidekiq-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '4'
-          request_cpu: '2'
-          limit_memory: '4G'
-          request_memory: '2G'
+          total_cpu: '2'
+          request_cpu: '1'
+          limit_memory: '2G'
+          request_memory: '1G'
           deployment-name: 'prod-sidekiq'
           requires:
             - deploy-approval-ind-sidekiq
@@ -412,7 +409,6 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
-                - v4.0.4-test
           cluster-name: prod-india-exchange
           min-replicas: '2'
           max-replicas: '2'
