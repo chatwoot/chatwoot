@@ -51,9 +51,11 @@ export default {
       city: '',
       socialProfileUserNames: {
         facebook: '',
+        instagram: '',
       },
       socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
+        { key: 'instagram', prefixURL: 'https://instagram.com/' },
       ],
     };
   },
