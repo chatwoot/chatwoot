@@ -19,6 +19,7 @@ RUN apk update && apk add --no-cache \
   ruby-full \
   openssl \
   openssl-dev \
+  postgresql-dev \
   postgresql-client \
   git \
   vips \
