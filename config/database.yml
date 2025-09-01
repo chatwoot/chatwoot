@@ -20,6 +20,11 @@ test:
 
 production:
   <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_production') %>"
-  username: "<%= ENV.fetch('POSTGRES_USERNAME', 'chatwoot_prod') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'chatwoot_prod') %>"
+  adapter: postgresql
+  encoding: unicode
+  database: chatwoot_production
+  username: chatwoot_prod
+  password: <%= ENV.fetch("CHATWOOT_PROD_DB_PASSWORD") %>
+  host: 127.0.0.1
+  port: 5432
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>

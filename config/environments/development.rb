@@ -6,6 +6,16 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+config.action_mailer.perform_deliveries = false
+config.action_mailer.default_url_options = { host: '127.0.0.1', port: 3030 }
+
+
+config.log_level = :debug
+config.logger    = ActiveSupport::Logger.new($stdout)
+config.log_tags  = [:request_id]
+config.active_job.verbose_enqueue_logs = true
+config.active_record.verbose_query_logs = true
+
   # Do not eager load code on boot.
   config.eager_load = false
 
@@ -73,11 +83,11 @@ Rails.application.configure do
   end
 
   # customize using the environment variables
-  config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
+ # config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
-  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
+#  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
 
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do

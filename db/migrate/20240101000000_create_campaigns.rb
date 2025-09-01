@@ -17,4 +17,3 @@ class CreateCampaigns < ActiveRecord::Migration[6.1]
     add_index :campaigns, :campaign_type
   end
 end
-

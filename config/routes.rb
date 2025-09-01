@@ -10,10 +10,9 @@ Rails.application.routes.draw do
   # Devise routes for authentication
   devise_for :users, controllers: {
     registrations: 'devise_overrides/registrations',
-    confirmations:  'devise_overrides/confirmations',   # ← add this
+    confirmations: 'devise_overrides/confirmations',   # ← add this
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
-
 
   # Mount Sidekiq dashboard in development/production (optional)
   require 'sidekiq/web'
