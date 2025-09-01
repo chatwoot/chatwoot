@@ -186,19 +186,20 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
     end
   end
 
-  describe 'POST /api/v1/widget/destroy_custom_attributes' do
+  describe 'POST /api/v1/widget/contact/destroy_custom_attributes' do
     let(:params) { { website_token: web_widget.website_token, identifier: 'test', custom_attributes: ['test'] } }
 
     context 'with invalid website token' do
       it 'returns unauthorized' do
-        post '/api/v1/widget/destroy_custom_attributes', params: { website_token: '' }
+        post '/api/v1/widget/contact/destroy_custom_attributes', params: { website_token: '' }
         expect(response).to have_http_status(:not_found)
       end
     end
 
     context 'with correct website token' do
       it 'calls destroy custom attributes' do
-        post '/api/v1/widget/destroy_custom_attributes',
+        contact.update!(custom_attributes: { 'test' => 'test' })
+        post '/api/v1/widget/contact/destroy_custom_attributes',
              params: params,
              headers: { 'X-Auth-Token' => token },
              as: :json

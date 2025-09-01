@@ -35,7 +35,7 @@ describe ContactInboxWithContactBuilder do
 
       expect(contact_inbox.contact.id).not_to eq(contact.id)
       expect(contact_inbox.contact.name).to eq('Contact')
-      expect(contact_inbox.contact.custom_attributes).to eq({ 'test' => 'test' })
+      expect(contact_inbox.contact.custom_attributes).to eq({ 'ai_enabled' => false, 'test' => 'test' })
       expect(contact_inbox.inbox_id).to eq(inbox.id)
     end
 
