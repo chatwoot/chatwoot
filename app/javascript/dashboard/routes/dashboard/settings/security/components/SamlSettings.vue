@@ -105,6 +105,7 @@ const handleDisable = async () => {
   fingerprint.value = '';
   roleMappings.value = {};
 
+  // the empty save will delete the SAML settings item
   await saveSamlSettings({});
 };
 
