@@ -77,7 +77,7 @@ class Line::IncomingMessageService
     response = inbox.channel.client.get_message_content(message['id'])
 
     extension =
-      if response.content_type && response.content_type.include?('/')
+      if response.content_type&.include?('/')
         response.content_type.split('/')[1]
       else
         'bin'
