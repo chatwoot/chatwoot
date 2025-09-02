@@ -34,6 +34,7 @@ export default {
       emit('setReplyMode', mode);
     };
     const handleReplyClick = () => {
+      if (props.isReplyRestricted) return;
       setReplyMode(REPLY_EDITOR_MODES.REPLY);
     };
     const handleNoteClick = () => {
