@@ -250,7 +250,6 @@ const deleteConversation = () => {
         :src="currentContact.thumbnail"
         :size="32"
         :status="currentContact.availability_status"
-        :inbox="inbox"
         :class="!showInboxName ? 'mt-4' : 'mt-8'"
         hide-offline-status
         rounded-full
