@@ -153,7 +153,7 @@ export default {
         return displayRichContentEditor;
       }
 
-      return false;
+      return true;
     },
     assignedAgent: {
       get() {
