@@ -9,6 +9,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :bigint           not null
+#  idp_entity_id :string
 #  sp_entity_id  :string
 #
 # Indexes
