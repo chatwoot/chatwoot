@@ -71,4 +71,47 @@ RSpec.describe AccountSamlSettings, type: :model do
       expect(settings.sp_entity_id).to eq(custom_id)
     end
   end
+
+  describe '#certificate_fingerprint' do
+    let(:valid_cert_pem) do
+      key = OpenSSL::PKey::RSA.new(2048)
+      cert = OpenSSL::X509::Certificate.new
+      cert.version = 2
+      cert.serial = 1
+      cert.subject = OpenSSL::X509::Name.parse('/C=US/ST=Test/L=Test/O=Test/CN=test.example.com')
+      cert.issuer = cert.subject
+      cert.public_key = key.public_key
+      cert.not_before = Time.zone.now
+      cert.not_after = cert.not_before + (365 * 24 * 60 * 60)
+      cert.sign(key, OpenSSL::Digest.new('SHA256'))
+      cert.to_pem
+    end
+
+    it 'returns fingerprint for valid certificate' do
+      settings = build(:account_saml_settings, account: account, certificate: valid_cert_pem)
+      fingerprint = settings.certificate_fingerprint
+
+      expect(fingerprint).to be_present
+      expect(fingerprint).to match(/^[A-F0-9]{2}(:[A-F0-9]{2}){19}$/) # SHA1 fingerprint format
+    end
+
+    it 'returns nil for blank certificate' do
+      settings = build(:account_saml_settings, account: account, certificate: '')
+      expect(settings.certificate_fingerprint).to be_nil
+    end
+
+    it 'returns nil for invalid certificate' do
+      settings = build(:account_saml_settings, account: account, certificate: 'invalid-cert-data')
+      expect(settings.certificate_fingerprint).to be_nil
+    end
+
+    it 'formats fingerprint correctly' do
+      settings = build(:account_saml_settings, account: account, certificate: valid_cert_pem)
+      fingerprint = settings.certificate_fingerprint
+
+      # Should be uppercase with colons separating each byte
+      expect(fingerprint).to match(/^[A-F0-9:]+$/)
+      expect(fingerprint.count(':')).to eq(19) # 20 bytes = 19 colons
+    end
+  end
 end
