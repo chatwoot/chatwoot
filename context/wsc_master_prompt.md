@@ -54,59 +54,59 @@
 
 ---
 
-## 3) Definition of Ready / Done
+## 3) Definition of Ready / Done OK
 - **Ready**: block scope is clear; acceptance criteria testable; feature flags identified; env vars defined; migrations planned for expand/contract.  
 - **Done**: code + tests (where applicable) green; budgets respected; README updated; conventional commit pushed; PR merged (if required); CHANGELOG updated for releases.
 
 ---
 
-## 4) Tiny Work Blocks (each ends with README + commit + push)
+## 4) Tiny Work Blocks (each ends with README + commit + push) - OK
 > **Block template (apply to every block):**  
 > **Objective** — **Tasks (micro‑steps)** — **Acceptance Criteria** — **README (UK English)** — **Versioning (branch, commit, PR)**
 
-### BLOCK 01 — Fork Preparation & Upstream Sync
+### BLOCK 01 — Fork Preparation & Upstream Sync - OK
 **Objective:** Prepare fork, branches, basic CI lint.  
 **Tasks:** Fork Chatwoot; set `main` & `develop`; add `upstream`; add `.editorconfig`, `CODEOWNERS`, `CONTRIBUTING.md`; basic GitHub Actions (lint/build).  
 **Acceptance:** CI green; upstream fetch/merge documented.  
 **README:** branching, remotes, sync guide.  
 **Versioning:** `feature/bootstrap-fork` → `chore: bootstrap fork and CI lint`.
 
-### BLOCK 02 — Docker Multi‑Stage & Railway Staging
+### BLOCK 02 — Docker Multi‑Stage & Railway Staging - OK
 **Objective:** Single container (Nginx + Rails + Node) and staging deploy.  
 **Tasks:** Author `Dockerfile` multi‑stage; `docker-compose.yml` for local (Postgres/Redis); Railway service; `/health` route.  
 **Acceptance:** staging reachable; `/health` = 200.  
 **README:** local run + Railway deploy.  
 **Versioning:** `feature/docker-railway-staging` → `chore: add multi-stage Docker and staging deploy`.
 
-### BLOCK 03 — Engine `Weave::Core` Namespace
+### BLOCK 03 — Engine `Weave::Core` Namespace - OK
 **Objective:** Isolate our custom work from Chatwoot core.  
 **Tasks:** Create Rails engine; mount at `/api/weave/v1`; base controller with Chatwoot auth.  
-**Acceptance:** `GET /api/weave/v1/ping` returns `{ ok: true }`.  
+**Acceptance:** `GET /api/weave/v1/ping` returns `{ ok: true Í}`.  
 **README:** engine purpose and usage.  
 **Versioning:** `feature/weave-core-engine` → `feat: add Weave::Core engine and base route`.
 
 ### BLOCK 04 — OpenAPI + Generated TS SDK
-**Objective:** API‑first contract for our endpoints.  
+**Objective: OK** API‑first contract for our endpoints.  
 **Tasks:** Add rswag; serve `/docs/openapi.json`; pipeline to generate TS SDK into web app.  
 **Acceptance:** web consumes generated SDK successfully.  
 **README:** how to update spec and regenerate SDK.  
 **Versioning:** `feature/openapi-sdk` → `feat: OpenAPI spec and generated TypeScript SDK`.
 
-### BLOCK 05 — Multi‑Tenant by `tenant_id`
+### BLOCK 05 - OK — Multi‑Tenant by `tenant_id`
 **Objective:** Enforce tenant isolation on new tables/services.  
 **Tasks:** Add `tenant_id` to our tables; composite indexes (`tenant_id, created_at`); service layer enforces scoping.  
 **Acceptance:** tests prove no cross‑tenant leaks.  
 **README:** multi‑tenant policy.  
 **Versioning:** `feature/tenant-scope` → `feat: tenant scoping and composite indexes`.
 
-### BLOCK 06 — Feature Flags (Tenant/Plan)
+### BLOCK 06 - OK — Feature Flags (Tenant/Plan)
 **Objective:** Toggle features without redeploy.  
 **Tasks:** Add Flipper/Unleash; model flags by tenant and by plan; helpers in code and guards in UI.  
 **Acceptance:** flags visible and effective; master admin can see toggles.  
 **README:** naming convention and usage.  
 **Versioning:** `feature/feature-flags` → `feat: tenant/plan feature flags`.
 
-### BLOCK 07 — Plans & Billing (Stripe/PayPal) + Trial
+### BLOCK 07 - OK — Plans & Billing (Stripe/PayPal) + Trial
 **Objective:** Basic/Pro/Premium/App/Custom, 7‑day trial, auto‑activation.  
 **Tasks:** Tables `plans`, `subscriptions`; Stripe & PayPal webhooks; entitlements via flags; “My Plan” UI.  
 **Acceptance:** upgrade/downgrade/cancel flow; trial expiry suspends access.  

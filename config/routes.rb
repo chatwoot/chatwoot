@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # WeaveSmart Chat engine
   mount Weave::Core::Engine => '/wsc'
+  # Also mount engine under API namespace for contract compatibility
+  mount Weave::Core::Engine => '/api/weave/v1'
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
@@ -35,6 +37,9 @@ Rails.application.routes.draw do
   end
 
   get '/api', to: 'api#index'
+
+  # Routes for OpenAPI docs (serve combined swagger spec at a stable path)
+  get '/docs/openapi.json', to: 'docs#openapi'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       # ----------------------------------

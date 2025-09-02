@@ -18,13 +18,28 @@ Stack & Standards (WSC)
 - Design system: Primary `#8127E8`, accent `#FF6600`; brand fonts; light/dark themes.
 - Performance budgets: Widget ≤ 100KB gz; dashboard route bundle ≤ 200KB gz; API p95 ≤ 300ms (read) / ≤ 600ms (write) on staging data.
 
-Feature Flags & Plans (scaffold)
-- Plans: basic, pro, premium, app, custom. Plans are stored in `weave_core_account_plans` (engine).
-- Feature toggles: per‑account overrides in `weave_core_feature_toggles`; defaults derived from the plan.
-- API: `GET/PATCH /wsc/api/accounts/:account_id/features` (Chatwoot auth; admin required for PATCH).
-- OpenAPI: `swagger/wsc/openapi.yaml`; generate TS SDK via `pnpm sdk:wsc` into `app/javascript/sdk/wsc/`.
- - Migrations: engine migrations auto‑append; run `bundle exec rails db:migrate`.
- - Admin UI (minimal): visit `/app/accounts/:accountId/settings/weave` to view/update feature toggles.
+Plans, Billing & Subscriptions
+- **Plans**: basic (free), pro, premium, app, custom stored in `weave_core_account_plans`
+- **Subscriptions**: Stripe + PayPal integration with `subscriptions` table for external tracking
+- **7-day Trials**: Auto-activation for non-basic plans; suspension after expiry
+- **Plan Matrix & Entitlements**:
+  - **Basic (Free)**: 2 agents, basic reporting, email support
+  - **Pro ($29/mo)**: 10 agents, advanced reporting, priority support, integrations, SLA
+  - **Premium ($59/mo)**: 25 agents, analytics, API, white-label, audit logs
+  - **App ($99/mo)**: Unlimited agents, mobile app, automation, enterprise integrations
+  - **Custom**: Everything + on-premise, dedicated support, SLA guarantees
+- **Feature toggles**: per‑account overrides in `weave_core_feature_toggles`; defaults derived from plan
+- **Billing UI**: `/app/accounts/:accountId/settings/billing` - plan management, upgrade/downgrade flows
+- **API**: `GET/PATCH /wsc/api/accounts/:account_id/features` (Chatwoot auth; admin required for PATCH)
+- **Webhooks**: Stripe (`/enterprise/webhooks/stripe`) & PayPal (`/enterprise/webhooks/paypal`) endpoints
+- **OpenAPI**: `swagger/wsc/openapi.yaml`; generate TS SDK via `pnpm sdk:wsc` into `app/javascript/sdk/wsc/`
+- **Migrations**: engine migrations auto‑append; run `bundle exec rails db:migrate`
+
+API Endpoints (WSC)
+- Liveness: `GET /api/weave/v1/ping` → `{ ok: true }`
+- Health: `GET /wsc/healthz` → `{ status: "ok", time: ISO8601 }`
+- Metrics: `GET /wsc/metrics` (Prometheus text format)
+- OpenAPI: `GET /docs/openapi.json` → combined spec from `swagger/swagger.json`
 
 Rate Limiting (per tenant/channel/module)
 - Implemented via Rack::Attack in the engine (no core edits):
@@ -39,6 +54,18 @@ Structured JSON Logs
 - Enabled via Lograge JSON (`LOGRAGE_ENABLED=true`).
 - Payload includes `tenantId` (when available) and `traceId` (request id) for correlation.
 - Sidekiq logs remain JSON-formatted; future work may add correlation fields to jobs.
+
+Master Admin Console (WeaveCode)
+- **Separation of Concerns**: Master admins can manage tenants without accessing private data
+- **Admin Roles**: admin, super_admin, support with granular permissions
+- **Tenant Management**: List, suspend, reactivate, force upgrade accounts
+- **Benefits System**: Grant temporary benefits (extended trials, feature unlocks, custom limits)
+- **System Monitoring**: Automated alerts for payment failures, integration issues, usage limits
+- **Privacy Safeguards**: Explicit blocks on conversation/message data access
+- **Audit Logging**: All master admin actions are logged with IP, timestamp, reason
+- **Dashboard**: Vue + Vuetify admin console at `/wsc/master-admin`
+- **API Endpoints**: `/wsc/api/master_admin/tenants` and `/wsc/api/master_admin/alerts`
+- **Authentication**: Separate session-based auth system for WeaveCode staff only
 
 2FA (owner/admin)
 - Engine adds user 2FA fields and endpoints:

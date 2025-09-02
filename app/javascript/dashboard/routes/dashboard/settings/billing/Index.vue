@@ -9,6 +9,7 @@ import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
+import PlanMatrix from './components/PlanMatrix.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
@@ -75,6 +76,41 @@ const onToggleChatWindow = () => {
     window.$chatwoot.toggle();
   }
 };
+
+const onPlanUpgrade = (planKey) => {
+  // Redirect to Stripe/PayPal checkout for the selected plan
+  store.dispatch('accounts/upgradeCheckout', { planKey });
+};
+
+const onPlanDowngrade = (planKey) => {
+  // Handle plan downgrade
+  store.dispatch('accounts/downgradePlan', { planKey });
+};
+
+const onCancelSubscription = () => {
+  // Handle subscription cancellation
+  if (confirm('Are you sure you want to cancel your subscription?')) {
+    store.dispatch('accounts/cancelSubscription');
+  }
+};
+
+const onContactSales = () => {
+  // Open contact sales form or redirect
+  window.open('mailto:sales@chatwoot.com?subject=Enterprise%20Plan%20Inquiry', '_blank');
+};
+
+// Trial and plan info
+const currentPlanKey = computed(() => {
+  return customAttributes.value.plan_key || 'basic';
+});
+
+const isTrialActive = computed(() => {
+  return customAttributes.value.subscription_status === 'trial';
+});
+
+const trialDaysRemaining = computed(() => {
+  return customAttributes.value.trial_days_remaining || 0;
+});
 
 onMounted(fetchAccountDetails);
 </script>
@@ -159,6 +195,24 @@ onMounted(fetchAccountDetails);
             </ButtonV4>
           </template>
         </BillingCard>
+
+        <!-- Plan Matrix Section -->
+        <div class="mt-8">
+          <BillingHeader
+            class="px-1 mb-6"
+            title="Available Plans"
+            description="Choose the plan that best fits your needs"
+          />
+          <PlanMatrix
+            :current-plan="currentPlanKey"
+            :is-trial-active="isTrialActive"
+            :trial-days-remaining="trialDaysRemaining"
+            @upgrade="onPlanUpgrade"
+            @downgrade="onPlanDowngrade"
+            @cancel="onCancelSubscription"
+            @contact-sales="onContactSales"
+          />
+        </div>
 
         <BillingHeader
           class="px-1 mt-5"

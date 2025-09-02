@@ -1,6 +1,10 @@
 Weave::Core::Engine.routes.draw do
+  # Simple health and readiness checks
   get "/healthz", to: "health#show"
   get "/metrics", to: "metrics#show"
+
+  # Acceptance: ping endpoint for external checks
+  get "/ping", to: "ping#index"
 
   namespace :api, defaults: { format: :json } do
     # 2FA management for current user
