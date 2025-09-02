@@ -122,6 +122,11 @@ describe ContactInboxBuilder do
     end
 
     describe 'whatsapp inbox' do
+      before do
+        stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+        stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates')
+      end
+
       let(:whatsapp_inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
 
       it 'does not create contact inbox when contact inbox already exists with the source id provided' do

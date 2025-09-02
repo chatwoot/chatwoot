@@ -351,8 +351,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
     context 'when there is a message' do
       it 'logs error and updates message status' do
-        service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).to eq('failed')
         expect(message.reload.external_error).to eq(error_message)

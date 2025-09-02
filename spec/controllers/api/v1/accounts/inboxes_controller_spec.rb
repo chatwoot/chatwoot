@@ -7,6 +7,23 @@ RSpec.describe 'Inboxes API', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
+  # Add WebMock stubs for all WhatsApp provider API calls
+  before do
+    # 360Dialog provider requests
+    stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+      .to_return(status: 200, body: '', headers: {})
+    stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates')
+      .to_return(status: 200, body: '{"waba_templates": []}', headers: { 'Content-Type' => 'application/json' })
+
+    # WHAPI provider requests
+    stub_request(:get, 'https://gate.whapi.cloud/health')
+      .to_return(status: 200, body: '{"status": "ok"}', headers: { 'Content-Type' => 'application/json' })
+
+    # WhatsApp Cloud provider requests (Facebook Graph API)
+    stub_request(:get, %r{graph\.facebook\.com.*/message_templates})
+      .to_return(status: 200, body: '{"data": []}', headers: { 'Content-Type' => 'application/json' })
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/inboxes' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

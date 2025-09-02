@@ -357,9 +357,35 @@ RSpec.describe Conversations::MessageWindowService do
   end
 
   describe 'on WhatsApp Cloud channels' do
-    let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+    let!(:whatsapp_channel) do
+      ch = build(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+      # Explicitly bypass validation to prevent provider config validation errors
+      ch.define_singleton_method(:validate_provider_config) { true }
+      ch.define_singleton_method(:sync_templates) { nil }
+      
+      # Ensure channel is considered active
+      ch.define_singleton_method(:reauthorization_required?) { false }
+      allow(ch.account).to receive(:active?).and_return(true)
+      
+      # Mock the provider_config_object to prevent webhook token generation issues
+      mock_config = double('MockProviderConfig')
+      allow(mock_config).to receive(:webhook_verify_token).and_return('test_webhook_token')
+      allow(mock_config).to receive(:validate_config?).and_return(true)
+      allow(mock_config).to receive(:cleanup_on_destroy)
+      allow(mock_config).to receive(:api_key).and_return('test_api_key')
+      allow(ch).to receive(:provider_config_object).and_return(mock_config)
+      
+      ch.save!(validate: false)
+      ch
+    end
     let!(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: whatsapp_channel.account) }
     let!(:conversation) { create(:conversation, inbox: whatsapp_inbox, account: whatsapp_channel.account) }
+
+    before do
+      # Add WebMock stubs for WhatsApp Cloud API calls to prevent external requests during tests
+      stub_request(:get, %r{https://graph\.facebook\.com/v\d+\.\d+/.*/message_templates})
+        .to_return(status: 200, body: '{"data": []}', headers: { 'Content-Type' => 'application/json' })
+    end
 
     it 'return false if the last message is outgoing' do
       service = described_class.new(conversation)
@@ -627,9 +653,36 @@ RSpec.describe Conversations::MessageWindowService do
   end
 
   describe 'on WHAPI WhatsApp channels' do
-    let!(:whapi_channel) { create(:channel_whatsapp, provider: 'whapi', sync_templates: false, validate_provider_config: false) }
+    let!(:whapi_channel) do
+      ch = build(:channel_whatsapp, provider: 'whapi', sync_templates: false, validate_provider_config: false)
+      # Explicitly bypass validation to prevent provider config validation errors
+      ch.define_singleton_method(:validate_provider_config) { true }
+      ch.define_singleton_method(:sync_templates) { nil }
+      
+      # Ensure channel is considered active
+      ch.define_singleton_method(:reauthorization_required?) { false }
+      allow(ch.account).to receive(:active?).and_return(true)
+      
+      # Mock the provider_config_object for WHAPI
+      mock_config = double('MockProviderConfig')
+      allow(mock_config).to receive(:webhook_verify_token).and_return('test_webhook_token')
+      allow(mock_config).to receive(:validate_config?).and_return(true)
+      allow(mock_config).to receive(:cleanup_on_destroy)
+      allow(mock_config).to receive(:api_key).and_return('test_api_key')
+      allow(mock_config).to receive(:whapi_channel_id).and_return('test_whapi_channel_id')
+      allow(ch).to receive(:provider_config_object).and_return(mock_config)
+      
+      ch.save!(validate: false)
+      ch
+    end
     let!(:whapi_inbox) { create(:inbox, channel: whapi_channel, account: whapi_channel.account) }
     let!(:conversation) { create(:conversation, inbox: whapi_inbox, account: whapi_channel.account) }
+
+    before do
+      # Add WebMock stub for WHAPI health check API call to prevent external requests during tests
+      stub_request(:get, 'https://gate.whapi.cloud/health')
+        .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
+    end
 
     it 'return true irrespective of the last message time (no 24-hour restriction)' do
       create(

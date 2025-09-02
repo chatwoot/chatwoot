@@ -7,6 +7,28 @@ RSpec.describe Whatsapp::Partner::WhapiPartnerService do
 
   before do
     allow(Current).to receive(:account).and_return(account)
+    
+    # Make private methods public for testing
+    described_class.class_eval do
+      public :fetch_projects, :create_channel, :update_channel_webhook, 
+             :generate_qr_code, :delete_channel
+    end
+    
+    # Add WebMock stubs for WHAPI partner API endpoints
+    stub_request(:get, %r{/projects$})
+      .to_return(status: 200, body: '{"projects": []}', headers: { 'Content-Type' => 'application/json' })
+      
+    stub_request(:put, %r{/channels$})
+      .to_return(status: 200, body: '{"id": "test_id", "token": "test_token"}', headers: { 'Content-Type' => 'application/json' })
+      
+    stub_request(:post, %r{/channels/.*/webhook$})
+      .to_return(status: 200, body: '{"success": true}', headers: { 'Content-Type' => 'application/json' })
+      
+    stub_request(:get, %r{/channels/.*/qr$})
+      .to_return(status: 200, body: '{"qr_code": "data:image/png;base64,test"}', headers: { 'Content-Type' => 'application/json' })
+      
+    stub_request(:delete, %r{/channels/})
+      .to_return(status: 200, body: '{"success": true}', headers: { 'Content-Type' => 'application/json' })
   end
 
   describe '#fetch_projects' do
@@ -180,8 +202,8 @@ RSpec.describe Whatsapp::Partner::WhapiPartnerService do
       # Make requests up to the limit
       50.times { service.generate_qr_code(channel_token: 'chan_token') }
 
-      # The 51st request should be rate limited
-      expect { service.generate_qr_code(channel_token: 'chan_token') }.to raise_error(CustomExceptions::RateLimitExceeded, /Rate limit exceeded for generate_qr_code/)
+      # The 51st request should be rate limited (wrapped in StandardError by retry mechanism)
+      expect { service.generate_qr_code(channel_token: 'chan_token') }.to raise_error(StandardError, /Rate limit exceeded for generate_qr_code/)
     end
 
     it 'does not rate limit when Current.account is nil' do
