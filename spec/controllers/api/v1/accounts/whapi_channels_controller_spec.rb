@@ -14,6 +14,9 @@ RSpec.describe 'WhapiChannelsController', type: :request do
     allow(ENV).to receive(:[]).with('WHAPI_PARTNER_BASE_URL').and_return('https://manager.whapi.cloud')
     allow(ENV).to receive(:[]).with('WHAPI_API_BASE_URL').and_return('https://gate.whapi.cloud')
     allow(ENV).to receive(:[]).with('WHAPI_PARTNER_DEFAULT_PROJECT_ID').and_return('proj_1')
+
+    # Stub WebhookUrlService to avoid FRONTEND_URL dependency in CI
+    allow_any_instance_of(Whatsapp::WebhookUrlService).to receive(:generate_webhook_url).and_return('https://test-webhook.example.com/webhooks/whapi')
   end
 
   describe 'POST /api/v1/accounts/:account_id/whapi_channels' do
