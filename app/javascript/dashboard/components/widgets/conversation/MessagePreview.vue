@@ -1,4 +1,5 @@
 <script>
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { ATTACHMENT_ICONS } from 'shared/constants/messages';
@@ -58,7 +59,7 @@ export default {
     },
     // Check if this is a voice call message
     isVoiceCall() {
-      return this.message?.content_type === 'voice_call';
+      return this.message?.content_type === CONTENT_TYPES.VOICE_CALL;
     },
     // Get call direction for voice calls
     isIncomingCall() {

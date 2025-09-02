@@ -6,6 +6,7 @@ import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
 const state = {
   allConversations: [],
@@ -291,7 +292,7 @@ export const mutations = {
       const messages = chat.messages || [];
       const lastCallIndex = [...messages].reverse().findIndex(m => {
         const ct = m.content_type || m.contentType;
-        return ct === 'voice_call';
+        return ct === CONTENT_TYPES.VOICE_CALL;
       });
       if (lastCallIndex !== -1) {
         const idx = messages.length - 1 - lastCallIndex;

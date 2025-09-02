@@ -5,6 +5,8 @@ export const TERMINAL_STATUSES = [
   'failed',
   'no-answer',
   'canceled',
+  'missed',
+  'ended',
 ];
 
 export const isInbound = direction => direction === 'inbound';

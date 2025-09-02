@@ -282,11 +282,7 @@ const componentToRender = computed(() => {
   }
 
   // Handle voice call bubble
-  if (
-    props.contentType === 'voice_call' ||
-    props.contentAttributes?.type === 'voice_call' ||
-    props.contentAttributes?.data?.callType === 'voice_call'
-  ) {
+  if (props.contentType === CONTENT_TYPES.VOICE_CALL) {
     return VoiceCallBubble;
   }
 

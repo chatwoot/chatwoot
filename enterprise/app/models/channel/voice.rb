@@ -103,7 +103,9 @@ class Channel::Voice < ApplicationRecord
       status_callback_method: 'POST'
     }
 
-    Rails.logger.info("📞 OUTBOUND CALL PARAMS: to=#{to}, from=#{phone_number}, conference=#{conference_sid}")
+    Rails.logger.info(
+      "VOICE_OUTBOUND_CALL_PARAMS to=#{to} from=#{phone_number} conference=#{conference_sid}"
+    )
 
     call = twilio_client(config).calls.create(**params)
 

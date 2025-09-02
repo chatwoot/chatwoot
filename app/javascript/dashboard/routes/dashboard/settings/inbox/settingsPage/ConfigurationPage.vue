@@ -45,25 +45,6 @@ export default {
     whatsappAppId() {
       return window.chatwootConfig?.whatsappAppId;
     },
-    voiceTwimlUrl() {
-      // TwiML App Voice URL - phone-scoped
-      const configured = window.chatwootConfig?.hostURL;
-      const base = (configured && configured.trim()) || window.location.origin;
-      const origin = base.replace(/\/$/, '');
-      const digits = (this.inbox.phone_number || '').replace(/^\+/, '');
-      return `${origin}/twilio/voice/call/${digits}`;
-    },
-    voiceCallWebhookUrl() {
-      // Unified TwiML endpoint
-      return this.voiceTwimlUrl;
-    },
-    voiceStatusCallbackUrl() {
-      const configured = window.chatwootConfig?.hostURL;
-      const base = (configured && configured.trim()) || window.location.origin;
-      const origin = base.replace(/\/$/, '');
-      const digits = (this.inbox.phone_number || '').replace(/^\+/, '');
-      return `${origin}/twilio/voice/status/${digits}`;
-    },
   },
   watch: {
     inbox() {
