@@ -113,7 +113,16 @@ const saveSamlSettings = async settings => {
       useAlert(t('SECURITY_SETTINGS.SAML.API.DISABLED'));
     }
   } catch (error) {
-    useAlert(t('SECURITY_SETTINGS.SAML.API.ERROR'));
+    // Handle backend validation errors
+    if (error.response?.data?.errors) {
+      const errorMessages = error.response.data.errors;
+      const firstError = Array.isArray(errorMessages)
+        ? errorMessages[0]
+        : errorMessages;
+      useAlert(firstError);
+    } else {
+      useAlert(t('SECURITY_SETTINGS.SAML.API.ERROR'));
+    }
     throw error;
   } finally {
     isSubmitting.value = false;

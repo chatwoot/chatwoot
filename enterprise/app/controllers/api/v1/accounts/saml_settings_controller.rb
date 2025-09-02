@@ -7,11 +7,19 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
 
   def create
     @saml_settings = AccountSamlSettings.new(saml_settings_params.merge(account: Current.account))
-    @saml_settings.save!
+    if @saml_settings.save
+      render :show
+    else
+      render json: { errors: @saml_settings.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update
-    @saml_settings.update!(saml_settings_params)
+    if @saml_settings.update(saml_settings_params)
+      render :show
+    else
+      render json: { errors: @saml_settings.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def destroy
