@@ -9,6 +9,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :bigint           not null
+#  idp_entity_id :string
 #  sp_entity_id  :string
 #
 # Indexes
@@ -21,17 +22,36 @@ class AccountSamlSettings < ApplicationRecord
   validates :account_id, presence: true
   validates :sso_url, presence: true
   validates :certificate, presence: true
-  validates :sp_entity_id, presence: true
+  validates :idp_entity_id, presence: true
+
+  before_validation :set_sp_entity_id, if: :sp_entity_id_needs_generation?
 
   def saml_enabled?
     sso_url.present? && certificate.present?
   end
 
-  def sp_entity_id_or_default
-    sp_entity_id.presence || "#{installation_name}-#{account_id}".downcase
+  def certificate_fingerprint
+    return nil if certificate.blank?
+
+    begin
+      cert = OpenSSL::X509::Certificate.new(certificate)
+      OpenSSL::Digest::SHA1.new(cert.to_der).hexdigest
+                           .upcase.gsub(/(.{2})(?=.)/, '\1:')
+    rescue OpenSSL::X509::CertificateError
+      nil
+    end
   end
 
   private
+
+  def set_sp_entity_id
+    base_url = GlobalConfigService.load('FRONTEND_URL', 'http://localhost:3000')
+    self.sp_entity_id = "#{base_url}/saml/sp/#{account_id}"
+  end
+
+  def sp_entity_id_needs_generation?
+    sp_entity_id.blank?
+  end
 
   def installation_name
     GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')

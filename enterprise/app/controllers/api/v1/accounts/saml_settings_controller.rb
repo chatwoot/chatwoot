@@ -30,6 +30,7 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
     params.require(:saml_settings).permit(
       :sso_url,
       :certificate,
+      :idp_entity_id,
       :sp_entity_id,
       role_mappings: {}
     )
