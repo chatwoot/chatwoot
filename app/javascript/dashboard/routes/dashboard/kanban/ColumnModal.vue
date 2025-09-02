@@ -10,13 +10,19 @@ export default {
     mockLabels: {
       type: Array,
       required: true
+    },
+    isEditing: {
+      type: Boolean,
+    },
+    editedColumn: {
+      type: Object,
     }
   },
 
   data() {
     return {
-      newColumnTitle: '',
-      selectedLabels: []
+      newColumnTitle: this.isEditing ? this.editedColumn.title : '',
+      selectedLabels: this.isEditing ? [...this.editedColumn.labels] : []
     }
   },
 
@@ -47,7 +53,7 @@ export default {
 <template>
   <div v-if="show" class="modal-overlay">
     <div class="modal">
-      <h3>Nova Coluna</h3>
+      <h3 v-text="this.isEditing ? 'Editar Coluna' : 'Nova Coluna'"></h3>
       <input 
         v-model="newColumnTitle"
         type="text"
@@ -68,7 +74,7 @@ export default {
       </select>
       <div class="modal-actions">
         <button @click="closeModal" class="cancel-btn">Cancelar</button>
-        <button @click="addColumn" class="confirm-btn">Adicionar</button>
+        <button @click="addColumn" class="confirm-btn" v-text="this.isEditing ? 'Alterar' : 'Adicionar'"></button>
       </div>
     </div>
   </div>

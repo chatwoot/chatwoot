@@ -36,7 +36,9 @@ export default {
         {text: 'Etapa 3', value: 'etapa_3'},
         {text: 'Urgente', value: 'urgente'},
         {text: 'Pode Esperar', value: 'esperar'}
-      ]
+      ],
+      isEditing: false,
+      editedColumn: {}
     }
   },
 
@@ -70,6 +72,13 @@ export default {
       this.localColumns.splice(columnIndex, 1)
       this.$emit('update:columns', structuredClone(this.localColumns))
       this.$emit('columnDeleted', columnIndex)
+    },
+
+    editColumn(columnIndex) {
+      const editedColumn = this.localColumns[columnIndex]
+      this.isEditing =  true
+      this.editedColumn = editedColumn
+      this.showColumnModal =  true
     },
 
     onDrop(_event, targetColumnIndex) {
@@ -136,6 +145,9 @@ export default {
           <button class="delete-column-btn" @click="deleteColumn(columnIndex)">
             Deletar
           </button>
+          <button class="delete-column-btn" @click="editColumn(columnIndex)">
+            Editar
+          </button>
         </div>
         
         <div
@@ -151,7 +163,9 @@ export default {
       </div>
     </div>
 
-    <ColumnModal 
+    <ColumnModal
+      :isEditing="isEditing"
+      :editedColumn="editedColumn"
       :show="showColumnModal"
       :mock-labels="mockLabels"
       @close="closeColumnModal"
