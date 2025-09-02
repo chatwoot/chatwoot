@@ -2,8 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { I18nT } from 'vue-i18n';
+import { useI18n, I18nT } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
