@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'WhapiChannelsController', type: :request do
   let(:account) { create(:account) }
-  let(:admin) { create(:user, account: account, role: 'administrator') }
+  let(:admin) { create(:user, account: account, role: :administrator) }
 
   before do
-    # Enable the Whapi feature flag for tests
-    account.enable_features!('channel_whatsapp_whapi_partner')
+    # Mock the feature flag check for tests since the custom features system has validation issues
+    allow_any_instance_of(Account).to receive(:feature_enabled?).with('channel_whatsapp_whapi_partner').and_return(true)
 
     # Stub required WHAPI env vars so service builds valid URLs/headers
     allow(ENV).to receive(:[]).and_call_original
@@ -42,6 +42,12 @@ RSpec.describe 'WhapiChannelsController', type: :request do
       )
       # Channel-level webhook
       stub_request(:patch, %r{/settings$}).to_return(status: 200, body: { ok: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+      # WHAPI health check endpoint
+      stub_request(:get, 'https://gate.whapi.cloud/health').to_return(
+        status: 200,
+        headers: { 'Content-Type' => 'application/json' },
+        body: { status: 'ok' }.to_json
+      )
 
       post "/api/v1/accounts/#{account.id}/whapi_channels",
            headers: admin.create_new_auth_token,

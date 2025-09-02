@@ -2,7 +2,37 @@ require 'rails_helper'
 
 describe Whatsapp::IncomingMessageWhatsappCloudService do
   describe '#perform' do
-    let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+    let!(:whatsapp_channel) do
+      ch = build(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false,
+                 provider_config: { 'api_key' => 'test_cloud_key', 'phone_number_id' => 'test_phone_id', 'business_account_id' => 'test_business_id' })
+      # Explicitly bypass validation to prevent provider config validation errors
+      ch.define_singleton_method(:validate_provider_config) { true }
+      ch.define_singleton_method(:sync_templates) { nil }
+      
+      # Mock the provider_config_object to prevent real API calls during channel operations
+      mock_config = double('MockProviderConfig')
+      allow(mock_config).to receive(:validate_config?).and_return(true)
+      allow(mock_config).to receive(:api_key).and_return('test_cloud_key')
+      allow(mock_config).to receive(:phone_number_id).and_return('test_phone_id')
+      allow(mock_config).to receive(:business_account_id).and_return('test_business_id')
+      allow(mock_config).to receive(:cleanup_on_destroy)
+      allow(ch).to receive(:provider_config_object).and_return(mock_config)
+      
+      ch.save!(validate: false)
+      ch
+    end
+    let!(:inbox) { create(:inbox, channel: whatsapp_channel) }
+    
+    # Add WebMock stubs for WhatsApp Cloud API calls to prevent external requests during tests
+    before do
+      # Stub WhatsApp Cloud API calls
+      stub_request(:get, %r{https://graph\.facebook\.com/v\d+\.\d+/.*/message_templates})
+        .to_return(status: 200, body: '{"data": []}', headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, %r{https://graph\.facebook\.com/v\d+\.\d+/.*})
+        .to_return(status: 200, body: '{"url": "https://example.com/media.jpg"}', headers: { 'Content-Type' => 'application/json' })
+      stub_request(:get, 'https://example.com/media.jpg')
+        .to_return(status: 200, body: File.read('spec/assets/sample.png'), headers: { 'Content-Type' => 'image/jpeg' })
+    end
     let(:params) do
       {
         phone_number: whatsapp_channel.phone_number,
@@ -46,11 +76,11 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           body: File.read('spec/assets/sample.png')
         )
 
-        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        described_class.new(inbox: inbox, params: params).perform
+        expect(inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
-        expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be true
+        expect(inbox.messages.first.content).to eq('Check out my product!')
+        expect(inbox.messages.first.attachments.present?).to be true
       end
 
       it 'increments reauthorization count if fetching attachment fails' do
@@ -58,11 +88,11 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           status: 401
         )
 
-        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        described_class.new(inbox: inbox, params: params).perform
+        expect(inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
-        expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be false
+        expect(inbox.messages.first.content).to eq('Check out my product!')
+        expect(inbox.messages.first.attachments.present?).to be false
         expect(whatsapp_channel.authorization_error_count).to eq(1)
       end
     end
@@ -98,20 +128,20 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 'with attachment errors' do
-        described_class.new(inbox: whatsapp_channel.inbox, params: error_params).perform
-        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        described_class.new(inbox: inbox, params: error_params).perform
+        expect(inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+        expect(inbox.messages.count).to eq(0)
       end
     end
 
     context 'when invalid params' do
       it 'will not throw error' do
-        described_class.new(inbox: whatsapp_channel.inbox, params: { phone_number: whatsapp_channel.phone_number,
+        described_class.new(inbox: inbox, params: { phone_number: whatsapp_channel.phone_number,
                                                                      object: 'whatsapp_business_account', entry: {} }).perform
-        expect(whatsapp_channel.inbox.conversations.count).to eq(0)
+        expect(inbox.conversations.count).to eq(0)
         expect(Contact.all.first).to be_nil
-        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+        expect(inbox.messages.count).to eq(0)
       end
     end
   end

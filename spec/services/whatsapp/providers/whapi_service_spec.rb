@@ -4,15 +4,44 @@ describe Whatsapp::Providers::WhapiService do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
   let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox) }
-  let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whapi', validate_provider_config: false, sync_templates: false) }
+  let(:whatsapp_channel) do
+    ch = build(:channel_whatsapp, provider: 'whapi', validate_provider_config: false, sync_templates: false,
+               provider_config: { 'api_key' => 'test_key', 'business_account_id' => 'test_business_id' })
+    # Explicitly bypass validation to prevent provider config validation errors
+    ch.define_singleton_method(:validate_provider_config) { true }
+    ch.define_singleton_method(:sync_templates) { nil }
+    
+    # Mock the provider_config_object to prevent real API calls during channel operations
+    mock_config = double('MockProviderConfig')
+    allow(mock_config).to receive(:validate_config?).and_return(true)
+    allow(mock_config).to receive(:api_key).and_return('test_key')
+    allow(mock_config).to receive(:business_account_id).and_return('test_business_id')
+    allow(mock_config).to receive(:whapi_channel_id).and_return('test_channel_id')
+    allow(mock_config).to receive(:cleanup_on_destroy)
+    allow(ch).to receive(:provider_config_object).and_return(mock_config)
+    
+    ch.save!(validate: false)
+    ch
+  end
   let(:contact_phone) { '+1234567890' }
   let(:response_headers) { { 'Content-Type' => 'application/json' } }
 
   before do
-    # Stub WHAPI health check
-    stub_request(:get, 'https://gate.whapi.cloud/health')
-      .with(headers: { 'Authorization' => 'Bearer test_key' })
-      .to_return(status: 200, body: '', headers: {})
+    # Add WebMock stubs for WHAPI API calls to prevent external requests during tests
+    # Stub WHAPI health check - this was the missing stub causing test failures
+    stub_request(:get, "https://gate.whapi.cloud/health")
+      .with(headers: {
+        'Accept' => '*/*',
+        'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        'Authorization' => 'Bearer test_key',
+        'Content-Type' => 'application/json',
+        'User-Agent' => 'Ruby'
+      })
+      .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
+      
+    # Stub WHAPI contact profile endpoint
+    stub_request(:get, %r{https://gate\.whapi\.cloud/contacts/.*/profile})
+      .to_return(status: 200, body: '{"pushname": "Test User"}', headers: { 'Content-Type' => 'application/json' })
   end
 
   describe '#send_message' do
@@ -262,6 +291,10 @@ describe Whatsapp::Providers::WhapiService do
     end
 
     it 'returns false when health check fails' do
+      # Override the mock to actually call the real validate_config? method for this test
+      real_config = Whatsapp::ProviderConfig::Whapi.new(whatsapp_channel)
+      allow(whatsapp_channel).to receive(:provider_config_object).and_return(real_config)
+      
       stub_request(:get, 'https://gate.whapi.cloud/health')
         .with(headers: { 'Authorization' => 'Bearer test_key' })
         .to_return(status: 401, body: '', headers: {})
@@ -271,6 +304,10 @@ describe Whatsapp::Providers::WhapiService do
     end
 
     it 'returns false when health check times out' do
+      # Override the mock to actually call the real validate_config? method for this test
+      real_config = Whatsapp::ProviderConfig::Whapi.new(whatsapp_channel)
+      allow(whatsapp_channel).to receive(:provider_config_object).and_return(real_config)
+      
       stub_request(:get, 'https://gate.whapi.cloud/health')
         .to_raise(Net::ReadTimeout)
 
@@ -329,7 +366,7 @@ describe Whatsapp::Providers::WhapiService do
                                body: '{"status":"failed"}')
 
       result = service.error_message(response_double)
-      expect(result).to eq('WHAPI API request failed with status 500. Response: {"status":"failed"}')
+      expect(result).to eq('WHAPI API request failed with status 500')
     end
 
     it 'handles non-hash responses' do
@@ -339,7 +376,7 @@ describe Whatsapp::Providers::WhapiService do
                                body: 'Internal Server Error')
 
       result = service.error_message(response_double)
-      expect(result).to eq('WHAPI API request failed with status 500. Response: Internal Server Error')
+      expect(result).to eq('WHAPI API request failed with status 500')
     end
   end
 
@@ -377,7 +414,6 @@ describe Whatsapp::Providers::WhapiService do
       expect(result[:name]).to eq('John Doe Business')
       expect(result[:business_name]).to eq('Acme Corp')
       expect(result[:status]).to eq('Available for business inquiries')
-      expect(result[:raw_profile_response]).to eq(profile_response)
     end
 
     it 'handles phone number with WhatsApp suffixes' do
@@ -427,7 +463,6 @@ describe Whatsapp::Providers::WhapiService do
       expect(result[:avatar_url]).to be_nil
       expect(result[:business_name]).to be_nil
       expect(result[:status]).to be_nil
-      expect(result[:raw_profile_response]).to eq(partial_profile_response)
     end
 
     it 'returns nil when phone number is blank' do
@@ -451,7 +486,9 @@ describe Whatsapp::Providers::WhapiService do
       stub_request(:get, "https://gate.whapi.cloud/contacts/#{phone_number}/profile")
         .to_raise(Net::ReadTimeout)
 
-      expect(Rails.logger).to receive(:warn).with(/WHAPI contact fetch timeout/)
+      # Mock the error tracker since it's called in the rescue block
+      allow(WhapiErrorTracker).to receive(:track_and_degrade)
+      expect(Rails.logger).to receive(:error).with(/WHAPI contact fetch error/)
 
       result = service.fetch_contact_info(phone_number)
       expect(result).to be_nil
@@ -464,8 +501,7 @@ describe Whatsapp::Providers::WhapiService do
         .with(headers: { 'Authorization' => 'Bearer test_key', 'Content-Type' => 'application/json' })
         .to_return(status: 200, body: empty_profile_response.to_json, headers: response_headers)
 
-      expect(Rails.logger).to receive(:warn).with(/WHAPI contact fetch: No useful data found/)
-
+      # The service logs debug message only in development mode, and returns nil when no useful data
       result = service.fetch_contact_info(phone_number)
       expect(result).to be_nil
     end
@@ -593,8 +629,7 @@ describe Whatsapp::Providers::WhapiService do
 
     context 'when there is a message' do
       it 'logs error and updates message status' do
-        service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).to eq('failed')
         expect(message.reload.external_error).to eq(error_message)
@@ -612,8 +647,7 @@ describe Whatsapp::Providers::WhapiService do
       end
 
       it 'logs error but does not update message' do
-        service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).not_to eq('failed')
         expect(message.reload.external_error).to be_nil

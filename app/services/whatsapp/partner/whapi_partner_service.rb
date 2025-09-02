@@ -30,8 +30,6 @@ class Whatsapp::Partner::WhapiPartnerService
     @api_base_url = api_base_url
   end
 
-  private
-
   def rate_limit_external_api_call(action)
     return unless Current.account.present?
 

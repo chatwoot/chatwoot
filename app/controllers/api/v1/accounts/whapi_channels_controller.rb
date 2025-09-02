@@ -44,7 +44,7 @@ class Api::V1::Accounts::WhapiChannelsController < Api::V1::Accounts::BaseContro
     rescue CustomExceptions::RateLimitExceeded => e
       Rails.logger.warn "[WhapiPartner][#{correlation_id}] Project fetch rate limited: #{e.message}"
       raise e # Re-raise to be handled by rescue_from
-    rescue Net::TimeoutError, Net::OpenTimeout => e
+    rescue Net::ReadTimeout, Net::OpenTimeout => e
       Rails.logger.warn "[WhapiPartner][#{correlation_id}] Project fetch timeout: #{e.message}"
       [] # Empty array is acceptable for timeout - user can retry
     rescue HTTParty::Error, Net::HTTPError => e
@@ -148,7 +148,7 @@ class Api::V1::Accounts::WhapiChannelsController < Api::V1::Accounts::BaseContro
     rescue CustomExceptions::RateLimitExceeded => e
       Rails.logger.warn "[WhapiPartner][#{correlation_id}] QR code generation rate limited: #{e.message}"
       raise e # Re-raise to be handled by rescue_from
-    rescue Net::TimeoutError, Net::OpenTimeout => e
+    rescue Net::ReadTimeout, Net::OpenTimeout => e
       Rails.logger.error "[WhapiPartner][#{correlation_id}] QR code generation timeout: #{e.message}"
       render json: { message: 'QR code generation timed out. Please try again.', correlation_id: correlation_id },
              status: :service_unavailable and return
@@ -229,7 +229,7 @@ class Api::V1::Accounts::WhapiChannelsController < Api::V1::Accounts::BaseContro
         correlation_id: correlation_id
       }, status: :ok
 
-    rescue Net::TimeoutError, Net::OpenTimeout => e
+    rescue Net::ReadTimeout, Net::OpenTimeout => e
       Rails.logger.error "[WhapiPartner][#{correlation_id}] Webhook retry timeout: #{e.message}"
       channel.provider_config_object.set_webhook_retry_info("Timeout: #{e.message}")
       render json: {
