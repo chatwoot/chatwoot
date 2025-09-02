@@ -31,6 +31,7 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 const fileInputRef = ref(null);
+const hasError = ref(false);
 
 const validationRules = {
   url: {
@@ -127,8 +128,15 @@ const handleSubmit = async () => {
     return;
   }
 
+  hasError.value = false;
   emit('submit', prepareDocumentDetails());
 };
+
+const setErrorState = error => {
+  hasError.value = error;
+};
+
+defineExpose({ setErrorState });
 </script>
 
 <template>
@@ -243,6 +251,8 @@ const handleSubmit = async () => {
         type="submit"
         :label="t('CAPTAIN.FORM.CREATE')"
         class="w-full"
+        :variant="hasError ? 'outline' : 'solid'"
+        :color="hasError ? 'red' : 'blue'"
         :is-loading="isLoading"
         :disabled="isLoading"
       />

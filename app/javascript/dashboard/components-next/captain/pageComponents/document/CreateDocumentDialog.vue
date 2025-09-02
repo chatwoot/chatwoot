@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DocumentForm from './DocumentForm.vue';
@@ -23,10 +24,11 @@ const handleSubmit = async newDocument => {
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =
-      error?.response?.data?.message ||
-      error?.response?.message ||
-      t(`${i18nKey}.ERROR_MESSAGE`);
+      parseAPIErrorResponse(error) || t(`${i18nKey}.ERROR_MESSAGE`);
     useAlert(errorMessage);
+    if (documentForm.value) {
+      documentForm.value.setErrorState(true);
+    }
   }
 };
 
