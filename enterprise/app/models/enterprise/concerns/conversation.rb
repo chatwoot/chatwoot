@@ -3,6 +3,7 @@ module Enterprise::Concerns::Conversation
 
   included do
     belongs_to :sla_policy, optional: true
+    belongs_to :queue, optional: true
     has_one :applied_sla, dependent: :destroy_async
     has_many :sla_events, dependent: :destroy_async
     has_many :captain_responses, class_name: 'Captain::AssistantResponse', dependent: :nullify, as: :documentable

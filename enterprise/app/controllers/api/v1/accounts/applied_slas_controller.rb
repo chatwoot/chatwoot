@@ -58,6 +58,8 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
          .filter_by_sla_policy_id(params[:sla_policy_id])
          .filter_by_label_list(params[:label_list])
          .filter_by_assigned_agent_id(params[:assigned_agent_id])
+         .filter_by_department_id(params[:department_id])
+         .filter_by_queue_id(params[:queue_id])
   end
 
   def missed_applied_slas

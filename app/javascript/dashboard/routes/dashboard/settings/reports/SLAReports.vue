@@ -44,6 +44,8 @@ export default {
     this.$store.dispatch('teams/get');
     this.$store.dispatch('labels/get');
     this.$store.dispatch('sla/get');
+    this.$store.dispatch('departments/get');
+    this.$store.dispatch('queues/get');
     this.fetchSLAMetrics();
     this.fetchSLAReports();
   },

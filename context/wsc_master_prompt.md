@@ -134,14 +134,14 @@
 **README:** legal/disclaimer copy.  
 **Versioning:** `feature/wa-unofficial-warning` → `feat: persistent risk banner for unofficial WhatsApp`.
 
-### BLOCK 11 — Rate Limiting by Tenant/Channel/Module
+### BLOCK 11 - ok — Rate Limiting by Tenant/Channel/Module
 **Objective:** Control costs and stability.  
 **Tasks:** Implement per‑plan rate caps; return 429 with friendly UI messages; admin config page.  
 **Acceptance:** burst tests and cooldown verified.  
 **README:** plan policies and overrides.  
 **Versioning:** `feature/rate-limits` → `feat: plan-based rate limiting`.
 
-### BLOCK 12 — SLA, Departments & Queues
+### BLOCK 12 - OK — SLA, Departments & Queues
 **Objective:** Service targets and routing.  
 **Tasks:** Models `departments`, `queues`, SLA targets; alerts on breach; reporting hooks.  
 **Acceptance:** SLA metrics visible in reports.  

@@ -39,6 +39,12 @@ class AppliedSla < ApplicationRecord
   scope :filter_by_assigned_agent_id, lambda { |assigned_agent_id|
                                         joins(:conversation).where(conversations: { assignee_id: assigned_agent_id }) if assigned_agent_id.present?
                                       }
+  scope :filter_by_department_id, lambda { |department_id|
+                                     joins(conversation: :queue).where(queues: { department_id: department_id }) if department_id.present?
+                                   }
+  scope :filter_by_queue_id, lambda { |queue_id|
+                                joins(:conversation).where(conversations: { queue_id: queue_id }) if queue_id.present?
+                              }
   scope :missed, -> { where(sla_status: %i[missed active_with_misses]) }
 
   after_update_commit :push_conversation_event

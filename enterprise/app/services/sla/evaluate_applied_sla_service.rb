@@ -77,6 +77,9 @@ class Sla::EvaluateAppliedSlaService
                       "for sla_policy #{applied_sla.sla_policy.id}"
 
     applied_sla.update!(sla_status: 'active_with_misses') if applied_sla.sla_status != 'active_with_misses'
+    
+    # Trigger breach alerts
+    trigger_breach_alerts(applied_sla, type)
   end
 
   def handle_hit_sla(applied_sla)
@@ -85,11 +88,17 @@ class Sla::EvaluateAppliedSlaService
       Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
                         "in account #{applied_sla.account_id} " \
                         "for sla_policy #{applied_sla.sla_policy.id}"
+      
+      # Trigger reporting for successful SLA completion
+      trigger_sla_reporting(applied_sla, 'resolution', { status: 'hit' })
     else
       applied_sla.update!(sla_status: 'missed')
       Rails.logger.info "SLA missed for conversation #{applied_sla.conversation.id} " \
                         "in account #{applied_sla.account_id} " \
                         "for sla_policy #{applied_sla.sla_policy.id}"
+      
+      # Trigger reporting for missed SLA
+      trigger_sla_reporting(applied_sla, 'resolution', { status: 'missed' })
     end
   end
 
@@ -103,5 +112,38 @@ class Sla::EvaluateAppliedSlaService
       inbox: applied_sla.conversation.inbox,
       sla_policy: applied_sla.sla_policy
     )
+  end
+
+  def trigger_breach_alerts(applied_sla, type)
+    breach_type = case type
+                  when 'frt'
+                    'first_response_time'
+                  when 'nrt'
+                    'next_response_time'
+                  when 'rt'
+                    'resolution_time'
+                  else
+                    type
+                  end
+
+    Sla::BreachAlertService.new(
+      applied_sla: applied_sla,
+      breach_type: breach_type
+    ).perform
+
+    # Also trigger reporting for the breach
+    trigger_sla_reporting(applied_sla, breach_type, { status: 'breach', breach_type: type })
+  rescue => e
+    Rails.logger.error "Failed to trigger SLA breach alerts: #{e.message}"
+  end
+
+  def trigger_sla_reporting(applied_sla, event_type, event_data)
+    Sla::EventReportingService.new(
+      applied_sla: applied_sla,
+      event_type: event_type,
+      event_data: event_data
+    ).perform
+  rescue => e
+    Rails.logger.error "Failed to trigger SLA event reporting: #{e.message}"
   end
 end

@@ -27,6 +27,8 @@ export default {
         team_id: null,
         sla_policy_id: null,
         label_list: null,
+        department_id: null,
+        queue_id: null,
       },
     };
   },
@@ -37,23 +39,35 @@ export default {
       teams: 'teams/getTeams',
       labels: 'labels/getLabels',
       sla: 'sla/getSLA',
+      departments: 'departments/getDepartments',
+      queues: 'queues/getQueues',
     }),
     filterListMenuItems() {
       const filterTypes = [
         { id: '1', name: this.$t('SLA_REPORTS.DROPDOWN.SLA'), type: 'sla' },
         {
           id: '2',
+          name: this.$t('SLA_REPORTS.DROPDOWN.DEPARTMENTS'),
+          type: 'departments',
+        },
+        {
+          id: '3',
+          name: this.$t('SLA_REPORTS.DROPDOWN.QUEUES'),
+          type: 'queues',
+        },
+        {
+          id: '4',
           name: this.$t('SLA_REPORTS.DROPDOWN.INBOXES'),
           type: 'inboxes',
         },
         {
-          id: '3',
+          id: '5',
           name: this.$t('SLA_REPORTS.DROPDOWN.AGENTS'),
           type: 'agents',
         },
-        { id: '4', name: this.$t('SLA_REPORTS.DROPDOWN.TEAMS'), type: 'teams' },
+        { id: '6', name: this.$t('SLA_REPORTS.DROPDOWN.TEAMS'), type: 'teams' },
         {
-          id: '5',
+          id: '7',
           name: this.$t('SLA_REPORTS.DROPDOWN.LABELS'),
           type: 'labels',
         },
@@ -124,6 +138,8 @@ export default {
         team_id: null,
         sla_policy_id: null,
         label_list: null,
+        department_id: null,
+        queue_id: null,
       };
       this.$emit('filterChange', this.appliedFilters);
       this.resetDropdown();
