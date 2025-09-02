@@ -19,9 +19,11 @@ RSpec.describe UpdateAccountUsersProviderJob, type: :job do
 
     context 'when resetting provider to email' do
       before do
+        # rubocop:disable Rails/SkipsModelValidations
         user1.update_column(:provider, 'saml')
         user2.update_column(:provider, 'saml')
         user3.update_column(:provider, 'saml')
+        # rubocop:enable Rails/SkipsModelValidations
       end
 
       it 'updates all account users to email provider' do
