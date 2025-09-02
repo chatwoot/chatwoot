@@ -38,4 +38,7 @@ export const getters = {
   getHasUnreadNotifications: $state => {
     return $state.meta.unreadCount > 0;
   },
+  getUnreadCount: $state => {
+    return $state.meta.unreadCount;
+  },
 };
