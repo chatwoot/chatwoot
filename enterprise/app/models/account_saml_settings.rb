@@ -35,8 +35,8 @@ class AccountSamlSettings < ApplicationRecord
 
     begin
       cert = OpenSSL::X509::Certificate.new(certificate)
-      OpenSSL::Digest::SHA1.new(cert.to_der).to_sExpand commentResolvedCode has comments.Press enter to view
-        .fingerprint.upcase.gsub(/(.{2})(?=.)/, '\1:')
+      OpenSSL::Digest::SHA1.new(cert.to_der).hexdigest
+                           .upcase.gsub(/(.{2})(?=.)/, '\1:')
     rescue OpenSSL::X509::CertificateError
       nil
     end

@@ -102,7 +102,7 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
         saml_settings: {
           sso_url: 'https://idp.example.com/saml/sso',
           certificate: cert.to_pem,
-          sp_entity_id: 'chatwoot-production',
+          idp_entity_id: 'https://idp.example.com/saml/metadata',
           role_mappings: { 'Admins' => { 'role' => 1 }, 'Users' => { 'role' => 0 } }
         }
       }

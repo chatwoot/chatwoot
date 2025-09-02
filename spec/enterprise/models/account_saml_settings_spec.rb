@@ -23,10 +23,10 @@ RSpec.describe AccountSamlSettings, type: :model do
       expect(settings.errors[:certificate]).to include("can't be blank")
     end
 
-    it 'requires sp_entity_id' do
-      settings = build(:account_saml_settings, account: account, sp_entity_id: nil)
+    it 'requires idp_entity_id' do
+      settings = build(:account_saml_settings, account: account, idp_entity_id: nil)
       expect(settings).not_to be_valid
-      expect(settings.errors[:sp_entity_id]).to include("can't be blank")
+      expect(settings.errors[:idp_entity_id]).to include("can't be blank")
     end
   end
 
@@ -56,16 +56,19 @@ RSpec.describe AccountSamlSettings, type: :model do
     end
   end
 
-  describe '#sp_entity_id_or_default' do
-    it 'returns sp_entity_id when present' do
-      settings = build(:account_saml_settings, account: account, sp_entity_id: 'custom-entity-id')
-      expect(settings.sp_entity_id_or_default).to eq('custom-entity-id')
+  describe 'sp_entity_id auto-generation' do
+    it 'automatically generates sp_entity_id when creating' do
+      settings = build(:account_saml_settings, account: account, sp_entity_id: nil)
+      expect(settings).to be_valid
+      settings.save!
+      expect(settings.sp_entity_id).to eq("http://localhost:3000/saml/sp/#{account.id}")
     end
 
-    it 'returns default entity id when sp_entity_id is blank' do
-      settings = build(:account_saml_settings, account: account, sp_entity_id: '')
-      expected = "chatwoot-#{account.id}"
-      expect(settings.sp_entity_id_or_default).to eq(expected)
+    it 'does not override existing sp_entity_id' do
+      custom_id = 'https://custom.example.com/saml/sp/123'
+      settings = build(:account_saml_settings, account: account, sp_entity_id: custom_id)
+      settings.save!
+      expect(settings.sp_entity_id).to eq(custom_id)
     end
   end
 end
