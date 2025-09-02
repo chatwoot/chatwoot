@@ -17,6 +17,7 @@ import SamlAttributeMap from './SamlAttributeMap.vue';
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
 
+const id = ref(null);
 const ssoUrl = ref('');
 const certificate = ref('');
 const fingerprint = ref('');
@@ -37,6 +38,7 @@ const loadSamlSettings = async () => {
     const settings = response.data;
 
     if (settings.sso_url) {
+      id.value = settings.id;
       ssoUrl.value = settings.sso_url;
       certificate.value = settings.certificate || '';
       spEntityId.value = settings.sp_entity_id || '';
@@ -59,19 +61,18 @@ const saveSamlSettings = async settings => {
     isSubmitting.value = true;
 
     if (isEnabled.value && ssoUrl.value) {
-      // Create or update settings
-      const existingSettings = await samlSettingsAPI.get().catch(() => null);
-
+      // Create or update settings based on existing id
       let response;
-      if (existingSettings?.data?.id) {
+      if (id.value) {
         response = await samlSettingsAPI.update(settings);
       } else {
         response = await samlSettingsAPI.create(settings);
       }
 
-      // Update local state with response data including fingerprint
+      // Update local state with response data including fingerprint and id
       if (response?.data) {
-        fingerprint.value = response.data.fingerprint || '';
+        id.value = response.data.id;
+        fingerprint.value = response.data.certificate_fingerprint || '';
       }
 
       useAlert(t('SECURITY_SETTINGS.SAML.API.SUCCESS'));
@@ -105,6 +106,7 @@ const handleSubmit = async () => {
 };
 
 const handleDisable = async () => {
+  id.value = null;
   ssoUrl.value = '';
   certificate.value = '';
   spEntityId.value = '';
