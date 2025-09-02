@@ -13,7 +13,6 @@ const { t } = useI18n();
 const store = useStore();
 
 const dialogRef = ref(null);
-const documentForm = ref(null);
 
 const i18nKey = 'CAPTAIN.DOCUMENTS.CREATE';
 
@@ -26,9 +25,6 @@ const handleSubmit = async newDocument => {
     const errorMessage =
       parseAPIErrorResponse(error) || t(`${i18nKey}.ERROR_MESSAGE`);
     useAlert(errorMessage);
-    if (documentForm.value) {
-      documentForm.value.setErrorState(true);
-    }
   }
 };
 
@@ -52,11 +48,7 @@ defineExpose({ dialogRef });
     :show-confirm-button="false"
     @close="handleClose"
   >
-    <DocumentForm
-      ref="documentForm"
-      @submit="handleSubmit"
-      @cancel="handleCancel"
-    />
+    <DocumentForm @submit="handleSubmit" @cancel="handleCancel" />
     <template #footer />
   </Dialog>
 </template>

@@ -31,7 +31,6 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 const fileInputRef = ref(null);
-const hasError = ref(false);
 
 const validationRules = {
   url: {
@@ -60,6 +59,8 @@ const documentTypeOptions = [
 const v$ = useVuelidate(validationRules, state);
 
 const isLoading = computed(() => formState.uiFlags.value.creatingItem);
+
+const hasPdfFileError = computed(() => v$.value.pdfFile.$error);
 
 const getErrorMessage = (field, errorKey) => {
   return v$.value[field].$error
@@ -128,15 +129,8 @@ const handleSubmit = async () => {
     return;
   }
 
-  hasError.value = false;
   emit('submit', prepareDocumentDetails());
 };
-
-const setErrorState = error => {
-  hasError.value = error;
-};
-
-defineExpose({ setErrorState });
 </script>
 
 <template>
@@ -179,7 +173,8 @@ defineExpose({ setErrorState });
         />
         <Button
           type="button"
-          slate
+          :color="hasPdfFileError ? 'ruby' : 'slate'"
+          :variant="hasPdfFileError ? 'outline' : 'solid'"
           class="!w-full !h-auto !justify-between !py-4"
           @click="openFileDialog"
         >
@@ -212,7 +207,7 @@ defineExpose({ setErrorState });
           </template>
         </Button>
       </div>
-      <p v-if="formErrors.pdfFile" class="text-sm text-n-red-11">
+      <p v-if="formErrors.pdfFile" class="text-xs text-n-ruby-9">
         {{ formErrors.pdfFile }}
       </p>
     </div>
@@ -233,7 +228,7 @@ defineExpose({ setErrorState });
         :options="assistantList"
         :has-error="!!formErrors.assistantId"
         :placeholder="t('CAPTAIN.DOCUMENTS.FORM.ASSISTANT.PLACEHOLDER')"
-        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+        class="[&>div>button]:bg-n-alpha-black2"
         :message="formErrors.assistantId"
       />
     </div>
@@ -251,8 +246,6 @@ defineExpose({ setErrorState });
         type="submit"
         :label="t('CAPTAIN.FORM.CREATE')"
         class="w-full"
-        :variant="hasError ? 'outline' : 'solid'"
-        :color="hasError ? 'red' : 'blue'"
         :is-loading="isLoading"
         :disabled="isLoading"
       />
