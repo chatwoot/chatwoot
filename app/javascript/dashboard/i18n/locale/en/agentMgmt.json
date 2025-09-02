@@ -363,6 +363,7 @@
         "SUBDISTRICT_SELECT_FIRST": "Select city/district first",
         "WARD_LABEL": "Ward",
         "WARD_LABEL_PLACEHOLDER": "Enter Ward",
+        "WARD_SELECT_FIRST": "Select subdistrict first",
         "STREET_LABEL": "Street",
         "STREET_LABEL_PLACEHOLDER": "Enter Street",
         "ZIP_CODE_LABEL": "Zip Code",
