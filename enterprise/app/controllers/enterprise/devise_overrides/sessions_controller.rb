@@ -43,6 +43,10 @@ module Enterprise::DeviseOverrides::SessionsController
     user = User.from_email(params[:email])
     return unless user&.provider == 'saml'
 
+    check_saml_enabled_accounts(user)
+  end
+
+  def check_saml_enabled_accounts(user)
     # Allow regular login if SAML is not configured/enabled for the account
     user.accounts.each do |account|
       saml_settings = account.account_saml_settings
