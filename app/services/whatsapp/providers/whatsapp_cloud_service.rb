@@ -36,12 +36,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     whatsapp_channel.mark_message_templates_updated
     templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
 
-    return unless templates.present?
+    return if templates.blank?
 
-    # Update JSONB field for backward compatibility (will be deprecated later)
-    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc)
+    # whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc)
 
-    # # Sync to MessageTemplate model
     Whatsapp::TemplateSyncService.new(
       channel: whatsapp_channel,
       templates: templates
