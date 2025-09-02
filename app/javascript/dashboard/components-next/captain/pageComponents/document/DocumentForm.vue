@@ -2,7 +2,7 @@
 import { reactive, computed, ref, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, requiredIf } from '@vuelidate/validators';
+import { required, minLength, requiredIf, url } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 
@@ -35,8 +35,8 @@ const fileInputRef = ref(null);
 const validationRules = {
   url: {
     required: requiredIf(() => state.documentType === 'url'),
-    url: requiredIf(() => state.documentType === 'url'),
-    minLength: minLength(1),
+    url: requiredIf(() => state.documentType === 'url' && url),
+    minLength: requiredIf(() => state.documentType === 'url' && minLength(1)),
   },
   assistantId: { required },
   pdfFile: {
@@ -89,7 +89,7 @@ const handleFileChange = event => {
       return;
     }
     state.pdfFile = file;
-    state.name = file.name.replace('.pdf', '');
+    state.name = file.name.replace(/\.pdf$/i, '');
   }
 };
 
