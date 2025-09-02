@@ -25,7 +25,7 @@ const isOver = item => {
 </script>
 
 <template>
-  <transition-group name="wizard-items w-full" tag="div">
+  <transition-group tag="div">
     <div
       v-for="(item, index) in items"
       :key="item.route"
