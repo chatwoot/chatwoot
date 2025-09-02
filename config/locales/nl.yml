@@ -39,6 +39,8 @@ nl:
       email_already_exists: 'Je hebt je al aangemeld voor een account bij %{email}'
       invalid_params: 'Ongeldig zijn, controleer de aanmeldingsparameters en probeer het opnieuw'
       failed: Aanmelden mislukt
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Ongeldig datatype

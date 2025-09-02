@@ -320,8 +320,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
-    t.string "content_type"
-    t.bigint "file_size"
     t.jsonb "metadata", default: {}
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true

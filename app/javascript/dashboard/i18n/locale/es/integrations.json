@@ -487,12 +487,12 @@
           "ASSISTANT": "Assistant"
         },
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Configuraciones básicas",
+          "DESCRIPTION": ""
         },
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "DESCRIPTION": ""
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
