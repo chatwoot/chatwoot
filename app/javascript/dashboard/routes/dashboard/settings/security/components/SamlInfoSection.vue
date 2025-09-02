@@ -76,7 +76,7 @@ const handleCopy = async text => {
       <div
         v-for="item in visibleInfoItems"
         :key="item.key"
-        class="pl-4 pr-1 py-1 flex justify-between items-center"
+        class="ps-4 pe-1 py-1 flex justify-between items-center"
       >
         <div class="flex items-center gap-2">
           <span class="text-n-slate-11 w-32 flex items-center gap-1">
