@@ -370,6 +370,7 @@ export default {
   },
   watch: {
     currentChat(conversation, oldConversation) {
+      const { can_reply: canReply } = conversation;
       if (oldConversation && oldConversation.id !== conversation.id) {
         // Only update email fields when switching to a completely different conversation (by ID)
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
@@ -379,6 +380,12 @@ export default {
 
       if (this.isOnPrivateNote) {
         return;
+      }
+
+      if (canReply || this.isAWhatsAppChannel) {
+        this.replyType = REPLY_EDITOR_MODES.REPLY;
+      } else {
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
       this.fetchAndSetReplyTo();
