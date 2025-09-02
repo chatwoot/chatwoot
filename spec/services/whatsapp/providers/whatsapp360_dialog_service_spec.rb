@@ -4,9 +4,36 @@ require 'rails_helper'
 describe Whatsapp::Providers::Whatsapp360DialogService do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
-  let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false, validate_provider_config: false) }
+  let!(:whatsapp_channel) do
+    ch = build(:channel_whatsapp, sync_templates: false, validate_provider_config: false,
+               provider_config: { 'api_key' => 'test_key' })
+    # Explicitly bypass validation to prevent provider config validation errors
+    ch.define_singleton_method(:validate_provider_config) { true }
+    ch.define_singleton_method(:sync_templates) { nil }
+    
+    # Mock the provider_config_object to prevent real API calls during channel operations
+    mock_config = double('MockProviderConfig')
+    allow(mock_config).to receive(:validate_config?).and_return(true)
+    allow(mock_config).to receive(:api_key).and_return('test_key')
+    allow(mock_config).to receive(:cleanup_on_destroy)
+    allow(ch).to receive(:provider_config_object).and_return(mock_config)
+    
+    ch.save!(validate: false)
+    ch
+  end
   let(:response_headers) { { 'Content-Type' => 'application/json' } }
   let(:whatsapp_response) { { messages: [{ id: 'message_id' }] } }
+  
+  # Add WebMock stubs for 360Dialog API calls to prevent external requests during tests
+  before do
+    # Stub 360Dialog webhook configuration API call - this was the missing stub causing all test failures
+    stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+      .to_return(status: 200, body: '', headers: {})
+      
+    # Stub 360Dialog templates API call
+    stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates')
+      .to_return(status: 200, body: '{"waba_templates": []}', headers: { 'Content-Type' => 'application/json' })
+  end
 
   describe '#sync_templates' do
     context 'when called' do

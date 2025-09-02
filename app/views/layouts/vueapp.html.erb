@@ -53,6 +53,8 @@
         aiBackendUrl: '<%= ENV.fetch('AI_BACKEND_URL', 'http://localhost:3000') %>',
       }
       window.globalConfig = <%= raw @global_config.to_json %>
+      
+      <%= raw custom_features_config_js %>
       window.browserConfig = {
         browser_name: '<%= browser.name %>',
       }

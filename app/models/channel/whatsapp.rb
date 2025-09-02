@@ -26,27 +26,25 @@ class Channel::Whatsapp < ApplicationRecord
 
   # default at the moment is 360dialog lets change later.
   PROVIDERS = %w[default whatsapp_cloud whapi].freeze
-  before_validation :ensure_webhook_verify_token
 
   validates :provider, inclusion: { in: PROVIDERS }
   validates :phone_number, presence: true, uniqueness: true
   validate :validate_provider_config
 
   after_create :sync_templates
+  after_destroy_commit :perform_provider_cleanup
+  after_update :invalidate_provider_cache, if: -> { saved_change_to_provider_config? || saved_change_to_provider? }
 
   def name
     'Whatsapp'
   end
 
+  def provider_config_object
+    @provider_config_object ||= Whatsapp::ProviderConfigFactory.create(self)
+  end
+
   def provider_service
-    case provider
-    when 'whatsapp_cloud'
-      Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: self)
-    when 'whapi'
-      Whatsapp::Providers::WhapiService.new(whatsapp_channel: self)
-    else
-      Whatsapp::Providers::Whatsapp360DialogService.new(whatsapp_channel: self)
-    end
+    @provider_service ||= Whatsapp::ProviderServiceFactory.create(self)
   end
 
   def mark_message_templates_updated
@@ -63,11 +61,16 @@ class Channel::Whatsapp < ApplicationRecord
 
   private
 
-  def ensure_webhook_verify_token
-    provider_config['webhook_verify_token'] ||= SecureRandom.hex(16) if provider == 'whatsapp_cloud'
+  def validate_provider_config
+    errors.add(:provider_config, 'Invalid Credentials') unless provider_config_object.validate_config?
   end
 
-  def validate_provider_config
-    errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
+  def perform_provider_cleanup
+    provider_config_object.cleanup_on_destroy
+  end
+
+  def invalidate_provider_cache
+    @provider_config_object = nil
+    @provider_service = nil
   end
 end

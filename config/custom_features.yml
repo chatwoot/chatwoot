@@ -1,0 +1,28 @@
+# Custom Features Configuration
+# This file defines custom features that are specific to this installation
+# and not part of the core Chatwoot feature set.
+#
+# Each feature should have:
+# - name: Internal name used in code (snake_case)
+# - display_name: Human-readable name for UI
+# - description: Brief description of the feature
+# - enabled: Default enabled state for new accounts
+# - tier: Feature availability tier (community, starter, professional, enterprise)
+# - category: Feature category for organization (channel, integration, ai, etc.)
+#
+# Unlike config/features.yml, the order here does NOT matter for functionality
+# since custom features use JSONB storage rather than bitmask positions.
+
+- name: prompts
+  display_name: Prompts
+  description: AI-powered conversation prompts and suggestions
+  enabled: true
+  tier: starter
+  category: ai
+
+- name: channel_whatsapp_whapi_partner
+  display_name: "WhatsApp: Whapi Partner"
+  description: WhatsApp integration via Whapi Partner
+  enabled: true
+  tier: starter
+  category: channel

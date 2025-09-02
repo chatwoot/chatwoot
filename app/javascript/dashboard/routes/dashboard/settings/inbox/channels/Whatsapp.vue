@@ -19,10 +19,18 @@ export default {
       default: false,
     },
   },
+  emits: ['stepChanged'],
   data() {
     return {
       provider: 'whapi',
+      whapiStep: 'name',
     };
+  },
+  methods: {
+    handleStepChanged(step) {
+      this.whapiStep = step;
+      this.$emit('stepChanged', step);
+    },
   },
 };
 </script>
@@ -38,7 +46,7 @@ export default {
     <div class="flex-shrink-0 flex-grow-0">
       <label>
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
-        <select v-model="provider">
+        <select v-model="provider" :disabled="whapiStep !== 'name'">
           <!-- <option value="whatsapp_cloud">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD') }}
           </option>
@@ -54,6 +62,7 @@ export default {
     <Whapi
       v-if="provider === 'whapi'"
       :disabled-auto-route="disabledAutoRoute"
+      @step-changed="handleStepChanged"
     />
     <!-- <Twilio v-else-if="provider === 'twilio'" type="whatsapp" />
     <ThreeSixtyDialogWhatsapp v-else-if="provider === '360dialog'" /> -->

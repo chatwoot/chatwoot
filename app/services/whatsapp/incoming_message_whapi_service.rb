@@ -4,6 +4,17 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
   # echoes, and status updates.
 
   def perform
+    # Handle Whapi connection status events first
+    if params['events']&.any?
+      correlation_id = params['correlation_id'] || SecureRandom.uuid
+      Whatsapp::WhapiConnectionStatusService.new(
+        channel: inbox.channel,
+        params: params,
+        correlation_id: correlation_id
+      ).perform
+      return
+    end
+
     # The WHAPI payload can contain either 'messages' or 'statuses'
     if params['messages']&.any?
       process_messages
@@ -125,33 +136,11 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
     @contact_inbox = contact_inbox_builder.perform
     @contact = @contact_inbox.contact
 
-    # Only fetch contact info from WHAPI if we don't already have an avatar
+    # Move contact info fetching to background job (non-blocking)
     return if @contact.avatar.present?
 
-    contact_info = @inbox.channel.provider_service.fetch_contact_info(message[:from])
-
-    return unless contact_info.present?
-
-    # Update contact with WHAPI information
-    update_attributes = {}
-
-    # Update name if WHAPI has a better name
-    update_attributes[:name] = contact_info[:name] if contact_info[:name].present?
-
-    # Add business name if available
-    if contact_info[:business_name].present?
-      update_attributes[:additional_attributes] = (@contact.additional_attributes || {}).merge(
-        business_name: contact_info[:business_name]
-      )
-    end
-
-    # Update contact if we have new information
-    @contact.update!(update_attributes) if update_attributes.any?
-
-    # Schedule avatar update if available
-    return unless contact_info[:avatar_url].present?
-
-    ::Avatar::AvatarFromUrlJob.perform_later(@contact, contact_info[:avatar_url])
+    # Schedule contact info sync in background
+    Whatsapp::Whapi::ContactSyncJob.perform_later(@contact.id, message[:from])
   end
 
   def find_contact_inbox_for_outgoing(message)
@@ -237,7 +226,7 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
     return if contacts.blank?
 
     contacts.each do |contact_payload|
-      contact_name = contact_payload.dig(:name, :formatted_name)
+      contact_name = contact_payload.is_a?(Hash) ? contact_payload.dig(:name, :formatted_name) : nil
       phones = contact_payload[:phones]
       phones = [{ phone: 'Phone number not available' }] if phones.blank?
 
@@ -253,6 +242,8 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
 
   def extract_content(message)
     message_type = message[:type].to_s
+    return nil unless message.is_a?(Hash)
+
     case message_type
     when 'text'
       message.dig(:text, :body)
@@ -277,7 +268,7 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
   end
 
   def process_in_reply_to(message)
-    quoted_message_id = message.dig(:context, :quoted_id)
+    quoted_message_id = message.is_a?(Hash) ? message.dig(:context, :quoted_id) : nil
     return unless quoted_message_id
 
     # The base service expects `id` inside context, but WHAPI gives `quoted_id`

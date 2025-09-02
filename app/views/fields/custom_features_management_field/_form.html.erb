@@ -1,0 +1,55 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+  <% available_features = field.all_custom_features %>
+  <% selected_features = field.selected_features %>
+  
+  <% if available_features.any? %>
+    <div class="space-y-3">
+      <% features_metadata = field.features_with_metadata.index_by { |f| f['name'] } %>
+      <% available_features.each do |feature_name| %>
+        <% feature_meta = features_metadata[feature_name] || {} %>
+        <div class="flex items-start">
+          <%= check_box_tag "account[custom_features][]", 
+                           feature_name, 
+                           selected_features.include?(feature_name),
+                           id: "account_custom_features_#{feature_name}",
+                           class: "mt-1 w-4 h-4 text-blue-600 bg-white border-2 border-slate-300 rounded focus:ring-blue-500 focus:ring-2" %>
+          <div class="ml-3">
+            <label for="account_custom_features_<%= feature_name %>" class="text-sm font-medium text-slate-700 cursor-pointer">
+              <%= feature_meta['display_name'] || feature_name.humanize %>
+            </label>
+            <% if feature_meta['description'].present? %>
+              <p class="mt-1 text-xs text-slate-500"><%= feature_meta['description'] %></p>
+            <% end %>
+            <% if feature_meta['category'].present? || feature_meta['tier'].present? %>
+              <div class="mt-1 flex gap-2">
+                <% if feature_meta['category'].present? %>
+                  <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                    <%= feature_meta['category'].humanize %>
+                  </span>
+                <% end %>
+                <% if feature_meta['tier'].present? %>
+                  <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                    <%= feature_meta['tier'].humanize %>
+                  </span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="flex items-center p-4 text-sm text-slate-500 bg-slate-50 rounded-lg border border-slate-200">
+      <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+      </svg>
+      No custom features are currently available
+    </div>
+  <% end %>
+  
+  <%# Hidden field to ensure parameter is always sent, even when no checkboxes selected %>
+  <%= hidden_field_tag "account[custom_features][]", "", id: nil %>
+</div>

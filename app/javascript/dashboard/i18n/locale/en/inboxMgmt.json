@@ -230,7 +230,9 @@
         "INBOX_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "ERROR": "This field is required",
+          "MIN_LENGTH_ERROR": "Channel name must be at least 1 character long",
+          "VALID": "Channel name looks good!"
         },
         "PHONE_NUMBER": {
           "LABEL": "Phone number",
@@ -275,7 +277,12 @@
           "PLACEHOLDER": "Enter your WHAPI API token",
           "HELP_TEXT": "You can find your API token in your WHAPI dashboard",
           "ERROR": "Please enter a valid value."
-        }
+        },
+        "GENERATING_QR": "Generating QR code...",
+        "LOADING_QR": "Loading QR code...",
+        "QR_HELP_TEXT": "Scan this QR code with your WhatsApp mobile app to connect your channel",
+        "SUCCESS_TEXT": "Your WhatsApp channel has been successfully connected!",
+        "CONTINUE_BUTTON": "Continue to Add Agents"
       },
       "VOICE": {
         "TITLE": "Voice Channel",

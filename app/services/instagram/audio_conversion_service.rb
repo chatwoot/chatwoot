@@ -23,7 +23,7 @@ class Instagram::AudioConversionService
 
   def convert_to_instagram_format(attachment)
     Rails.logger.info "Instagram: AudioConversionService called for attachment##{attachment.id} - content_type: #{attachment.file.content_type}, filename: #{attachment.file.filename}"
-    
+
     unless should_convert_audio?(attachment)
       Rails.logger.info "Instagram: No conversion needed for attachment##{attachment.id}, returning original URL"
       return build_public_url(attachment)
@@ -63,7 +63,7 @@ class Instagram::AudioConversionService
 
     # Convert OGG, Opus, and MP3 to MP4, allow other Instagram-compatible formats
     needs_conversion = %w[audio/ogg audio/opus audio/mpeg audio/mp3].include?(content_type)
-    
+
     Rails.logger.info "Instagram: Audio format #{content_type} #{needs_conversion ? 'needs' : 'does not need'} conversion"
     needs_conversion
   end
@@ -98,7 +98,7 @@ class Instagram::AudioConversionService
     ]
 
     Rails.logger.info "Instagram: Running FFmpeg command: #{command.join(' ')}"
-    
+
     success = system(*command, out: File::NULL, err: File::NULL)
     raise "FFmpeg conversion failed (exit status: #{$?.exitstatus})" unless success && File.size?(output_file.path)
 
@@ -115,7 +115,7 @@ class Instagram::AudioConversionService
   def upload_converted_file(original_attachment, mp4_file)
     # Store reference to original blob before replacement
     original_blob = original_attachment.file.blob if original_attachment.file.attached?
-    
+
     # Create new blob with Instagram-compatible format
     new_blob = ActiveStorage::Blob.create_and_upload!(
       io: mp4_file,
@@ -125,7 +125,7 @@ class Instagram::AudioConversionService
 
     # Update the attachment to use the converted file for Chatwoot interface
     original_attachment.file.attach(new_blob)
-    
+
     # Safely remove the original blob to prevent storage bloat
     if original_blob && original_blob != new_blob
       Rails.logger.info "Instagram: Removing original blob##{original_blob.id} after successful conversion"
@@ -164,4 +164,4 @@ class Instagram::AudioConversionService
       Rails.logger.warn "Instagram: Failed to cleanup temp file: #{e.message}"
     end
   end
-end 
+end

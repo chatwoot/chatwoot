@@ -3,16 +3,47 @@ require 'rails_helper'
 RSpec.describe Whatsapp::IncomingMessageWhapiService do
   let!(:account) { create(:account) }
   let!(:channel) do
-    create(:channel_whatsapp, account: account, provider: 'whapi',
-                              provider_config: { 'api_key' => 'test_api_key', 'business_account_id' => '123456789' },
-                              validate_provider_config: false)
+    ch = build(:channel_whatsapp, account: account, provider: 'whapi',
+                                  provider_config: { 'api_key' => 'test_api_key', 'business_account_id' => '123456789' },
+                                  validate_provider_config: false, sync_templates: false)
+    # Explicitly bypass validation to prevent provider config validation errors
+    ch.define_singleton_method(:validate_provider_config) { true }
+    ch.define_singleton_method(:sync_templates) { nil }
+    
+    # Mock the provider_config_object to prevent real API calls during channel operations
+    mock_config = double('MockProviderConfig')
+    allow(mock_config).to receive(:validate_config?).and_return(true)
+    allow(mock_config).to receive(:api_key).and_return('test_api_key')
+    allow(mock_config).to receive(:business_account_id).and_return('123456789')
+    allow(mock_config).to receive(:whapi_channel_id).and_return('test_channel_id')
+    allow(mock_config).to receive(:cleanup_on_destroy)
+    allow(ch).to receive(:provider_config_object).and_return(mock_config)
+    
+    ch.save!(validate: false)
+    ch
   end
   let!(:inbox) { create(:inbox, channel: channel, account: account) }
 
-  # Default stub for WHAPI contact fetch (returns empty response)
+  # Add WebMock stubs for WHAPI API calls to prevent external requests during tests
   before do
+    # Stub WHAPI health check - this was the missing stub causing all test failures
+    stub_request(:get, "https://gate.whapi.cloud/health")
+      .with(headers: {
+        'Accept' => '*/*',
+        'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+        'Authorization' => 'Bearer test_api_key',
+        'Content-Type' => 'application/json',
+        'User-Agent' => 'Ruby'
+      })
+      .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
+    
+    # Default stub for WHAPI contact fetch (returns empty response)
     stub_request(:get, %r{https://gate\.whapi\.cloud/contacts/\d+})
       .to_return(status: 404, body: '{"error": "Contact not found"}', headers: { 'Content-Type' => 'application/json' })
+      
+    # Stub WHAPI contact profile endpoint
+    stub_request(:get, %r{https://gate\.whapi\.cloud/contacts/.*/profile})
+      .to_return(status: 200, body: '{"pushname": "Test User"}', headers: { 'Content-Type' => 'application/json' })
   end
 
   describe '#perform' do
@@ -240,19 +271,27 @@ RSpec.describe Whatsapp::IncomingMessageWhapiService do
       end
 
       before do
-        allow(HTTParty).to receive(:get)
-          .with('https://gate.whapi.cloud/contacts/1234567890/profile', any_args)
-          .and_return(double(success?: true, parsed_response: whapi_profile_response))
+        # Override the default stub for this specific test context
+        stub_request(:get, 'https://gate.whapi.cloud/contacts/1234567890/profile')
+          .to_return(status: 200, body: whapi_profile_response.to_json, headers: { 'Content-Type' => 'application/json' })
+        
+        # Stub avatar image download
+        stub_request(:get, 'https://example.com/avatar.jpg')
+          .to_return(status: 200, body: File.read('spec/assets/sample.png'), headers: { 'Content-Type' => 'image/jpeg' })
       end
 
       it 'fetches contact information from WHAPI when contact has no avatar' do
-        described_class.new(inbox: inbox, params: message_with_name).perform
+        # Execute background jobs synchronously for testing
+        perform_enqueued_jobs do
+          described_class.new(inbox: inbox, params: message_with_name).perform
+        end
 
         contact = Contact.find_by(phone_number: '+1234567890')
         expect(contact).to be_present
         expect(contact.name).to eq('John Doe Business') # Uses WHAPI name over message name
-        expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(contact, 'https://example.com/avatar.jpg')
         expect(contact.additional_attributes['business_name']).to eq('Acme Corp')
+        # Avatar should be attached since the job ran synchronously
+        expect(contact.avatar.attached?).to be(true)
       end
 
       it 'does not fetch from WHAPI when contact already has avatar' do
@@ -272,9 +311,9 @@ RSpec.describe Whatsapp::IncomingMessageWhapiService do
       end
 
       it 'falls back to message name when WHAPI contact fetch fails' do
-        allow(HTTParty).to receive(:get)
-          .with('https://gate.whapi.cloud/contacts/1234567890/profile', any_args)
-          .and_return(double(success?: false, code: 404, body: 'Not found'))
+        # Override the stub to return 404 for this test
+        stub_request(:get, 'https://gate.whapi.cloud/contacts/1234567890/profile')
+          .to_return(status: 404, body: 'Not found')
 
         described_class.new(inbox: inbox, params: message_with_name).perform
 
@@ -285,9 +324,9 @@ RSpec.describe Whatsapp::IncomingMessageWhapiService do
       end
 
       it 'handles WHAPI response with no useful information' do
-        allow(HTTParty).to receive(:get)
-          .with('https://gate.whapi.cloud/contacts/1234567890/profile', any_args)
-          .and_return(double(success?: true, parsed_response: {}))
+        # Override the stub to return empty response for this test
+        stub_request(:get, 'https://gate.whapi.cloud/contacts/1234567890/profile')
+          .to_return(status: 200, body: '{}', headers: { 'Content-Type' => 'application/json' })
 
         described_class.new(inbox: inbox, params: message_with_name).perform
 
@@ -303,11 +342,14 @@ RSpec.describe Whatsapp::IncomingMessageWhapiService do
           # No avatar or business name
         }
 
-        allow(HTTParty).to receive(:get)
-          .with('https://gate.whapi.cloud/contacts/1234567890/profile', any_args)
-          .and_return(double(success?: true, parsed_response: partial_response))
+        # Override the stub to return partial response for this test
+        stub_request(:get, 'https://gate.whapi.cloud/contacts/1234567890/profile')
+          .to_return(status: 200, body: partial_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
-        described_class.new(inbox: inbox, params: message_with_name).perform
+        # Execute background jobs synchronously for testing
+        perform_enqueued_jobs do
+          described_class.new(inbox: inbox, params: message_with_name).perform
+        end
 
         contact = Contact.find_by(phone_number: '+1234567890')
         expect(contact).to be_present

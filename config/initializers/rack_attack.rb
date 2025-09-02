@@ -157,6 +157,31 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  ## Partner Whapi - throttle webhook and QR polling
+  # Webhook from Whapi to Chatwoot. Per IP to avoid abuse.
+  throttle('/webhooks/whapi', limit: ENV.fetch('RATE_LIMIT_WHAPI_WEBHOOK_PER_MIN', '120').to_i, period: 1.minute) do |req|
+    req.ip if req.path_without_extentions == '/webhooks/whapi' && req.post?
+  end
+
+  # QR polling from dashboard clients. Per account to keep load bounded.
+  throttle('/api/v1/accounts/:account_id/whapi_channels/:id/qr_code', limit: ENV.fetch('RATE_LIMIT_WHAPI_QR_POLL_PER_MIN', '6').to_i,
+                                                                      period: 1.minute) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/whapi_channels/(?<inbox_id>\d+)/qr_code}.match(req.path)
+    match_data[:account_id] if match_data.present? && req.get?
+  end
+
+  # Channel creation - per account to prevent abuse
+  throttle('/api/v1/accounts/:account_id/whapi_channels', limit: ENV.fetch('RATE_LIMIT_WHAPI_CHANNEL_CREATE_PER_HOUR', '10').to_i, period: 1.hour) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/whapi_channels}.match(req.path)
+    match_data[:account_id] if match_data.present? && req.post?
+  end
+
+  # QR code generation - per account to prevent API abuse
+  throttle('/api/v1/accounts/:account_id/whapi_channels/:id/qr_code_generate', limit: ENV.fetch('RATE_LIMIT_WHAPI_QR_GENERATE_PER_HOUR', '20').to_i, period: 1.hour) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/whapi_channels/(?<inbox_id>\d+)/qr_code}.match(req.path)
+    match_data[:account_id] if match_data.present? && req.get?
+  end
+
   ## Prevent Abuse of attachment upload APIs ##
   throttle('/api/v1/accounts/:account_id/upload', limit: 60, period: 1.hour) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/upload}.match(req.path)

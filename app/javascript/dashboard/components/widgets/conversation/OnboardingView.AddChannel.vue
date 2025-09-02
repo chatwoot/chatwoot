@@ -23,6 +23,9 @@ const { t } = useI18n();
 
 const store = useStore();
 
+const channelSelected = ref(null);
+const channelStep = ref('name'); // Track current step: 'name', 'qr', 'success'
+
 const channelSelectedFactory = ref({
   whatsapp: {
     component: markRaw(Whatsapp),
@@ -34,14 +37,23 @@ const channelSelectedFactory = ref({
   },
 });
 
-const channelSelected = ref(null);
 const inboxes = computed(() => store.getters['inboxes/getInboxes']);
 const channelAlreadyCreated = computed(() => {
   return inboxes.value.length > 0;
 });
+
+// Channel is fully setup when it exists AND authentication is complete
+const channelFullySetup = computed(() => {
+  return channelAlreadyCreated.value && channelStep.value === 'success';
+});
+
 const showChannelList = computed(() => {
   return !channelSelected.value && !channelAlreadyCreated.value;
 });
+
+const handleStepChanged = step => {
+  channelStep.value = step;
+};
 
 const handleAgentsAdded = () => {
   useAlert(t('ONBOARDING.ADD_CHANNEL.CHANNEL_AGENTS_UPDATED'));
@@ -59,10 +71,15 @@ const handleAgentsAdded = () => {
       <div v-else>
         <component
           :is="channelSelectedFactory[channelSelected].component"
-          v-if="!channelAlreadyCreated"
+          v-if="
+            !channelFullySetup &&
+            channelSelected &&
+            channelSelectedFactory[channelSelected]
+          "
           v-bind="channelSelectedFactory[channelSelected].props"
+          @step-changed="handleStepChanged"
         />
-        <div v-else>
+        <div v-else-if="channelFullySetup">
           <h2 class="text-lg font-semibold">
             {{
               $t('ONBOARDING.ADD_CHANNEL.ADDING_AGENTS', {

@@ -1,7 +1,5 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
-    @message = message
-
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
@@ -12,16 +10,18 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_template(phone_number, template_info)
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        to: phone_number,
-        template: template_body_parameters(template_info),
-        type: 'template'
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_cloud_send_template') do
+      HTTParty.post(
+        "#{phone_id_path}/messages",
+        headers: api_headers,
+        body: {
+          messaging_product: 'whatsapp',
+          to: phone_number,
+          template: template_body_parameters(template_info),
+          type: 'template'
+        }.to_json
+      )
+    end
 
     process_response(response)
   end
@@ -29,12 +29,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
+    api_key = provider_config_object.api_key
+    templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{api_key}")
     whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
   end
 
   def fetch_whatsapp_templates(url)
-    response = HTTParty.get(url)
+    response = safe_http_request('whatsapp_cloud_fetch_templates') do
+      HTTParty.get(url)
+    end
     return [] unless response.success?
 
     next_url = next_url(response)
@@ -49,12 +52,12 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def validate_provider_config?
-    response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    response.success?
+    provider_config_object.validate_config?
   end
 
   def api_headers
-    { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
+    api_key = provider_config_object.api_key
+    { 'Authorization' => "Bearer #{api_key}", 'Content-Type' => 'application/json' }
   end
 
   def media_url(media_id)
@@ -67,27 +70,31 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
-    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    phone_number_id = provider_config_object.phone_number_id
+    "#{api_base_path}/v13.0/#{phone_number_id}"
   end
 
   def business_account_path
-    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    business_account_id = provider_config_object.business_account_id
+    "#{api_base_path}/v14.0/#{business_account_id}"
   end
 
   def send_text_message(phone_number, message)
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        context: whatsapp_reply_context(message),
-        to: phone_number,
-        text: { body: message.outgoing_content },
-        type: 'text'
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_cloud_send_text') do
+      HTTParty.post(
+        "#{phone_id_path}/messages",
+        headers: api_headers,
+        body: {
+          messaging_product: 'whatsapp',
+          context: whatsapp_reply_context(message),
+          to: phone_number,
+          text: { body: message.outgoing_content },
+          type: 'text'
+        }.to_json
+      )
+    end
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def send_attachment_message(phone_number, message)
@@ -98,19 +105,21 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     }
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        :messaging_product => 'whatsapp',
-        :context => whatsapp_reply_context(message),
-        'to' => phone_number,
-        'type' => type,
-        type.to_s => type_content
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_cloud_send_attachment') do
+      HTTParty.post(
+        "#{phone_id_path}/messages",
+        headers: api_headers,
+        body: {
+          :messaging_product => 'whatsapp',
+          :context => whatsapp_reply_context(message),
+          'to' => phone_number,
+          'type' => type,
+          type.to_s => type_content
+        }.to_json
+      )
+    end
 
-    process_response(response)
+    process_response(response, message)
   end
 
   def error_message(response)
@@ -144,17 +153,19 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_interactive_text_message(phone_number, message)
     payload = create_payload_based_on_items(message)
 
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        to: phone_number,
-        interactive: payload,
-        type: 'interactive'
-      }.to_json
-    )
+    response = safe_http_request('whatsapp_cloud_send_interactive') do
+      HTTParty.post(
+        "#{phone_id_path}/messages",
+        headers: api_headers,
+        body: {
+          messaging_product: 'whatsapp',
+          to: phone_number,
+          interactive: payload,
+          type: 'interactive'
+        }.to_json
+      )
+    end
 
-    process_response(response)
+    process_response(response, message)
   end
 end
