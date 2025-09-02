@@ -236,7 +236,9 @@
         "INBOX_NAME": {
           "LABEL": "Nombre del canal",
           "PLACEHOLDER": "Por favor, introduzca un nombre de canal",
-          "ERROR": "Este campo es obligatorio"
+          "ERROR": "Este campo es obligatorio",
+          "MIN_LENGTH_ERROR": "El nombre del canal debe tener al menos 1 carácter",
+          "VALID": "¡El nombre del canal se ve bien!"
         },
         "PHONE_NUMBER": {
           "LABEL": "Número de teléfono",
@@ -350,6 +352,8 @@
           "HELP_TEXT": "Puede encontrar su token API en su panel de WHAPI",
           "ERROR": "Por favor ingrese un valor válido."
         },
+        "GENERATING_QR": "Generando código QR...",
+        "LOADING_QR": "Cargando código QR...",
         "QR_HELP_TEXT": "Escanee este código QR con su aplicación móvil de WhatsApp para conectar su canal",
         "SUCCESS_TEXT": "¡Su canal de WhatsApp se ha conectado exitosamente!",
         "CONTINUE_BUTTON": "Continuar para Agregar Agentes"

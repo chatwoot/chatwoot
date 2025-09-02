@@ -62,7 +62,7 @@ class CustomFeaturesService
     config_path = Rails.root.join('config/custom_features.yml')
     return [] unless File.exist?(config_path)
     
-    features = YAML.safe_load(File.read(config_path)) || []
+    features = YAML.load_file(config_path) || []
     validate_features!(features)
     features
   rescue StandardError => e
@@ -89,29 +89,29 @@ class CustomFeaturesService
 
       # Check required keys
       required_keys.each do |key|
-        unless feature.key?(key) && feature[key].present?
+        unless feature.key?(key) && !feature[key].nil? && !feature[key].to_s.strip.empty?
           feature_id = feature['name'] || "feature at index #{index}"
           errors << "Feature '#{feature_id}' is missing required key: #{key}"
         end
       end
 
       # Validate name format (should be snake_case, no spaces or special chars except underscore)
-      if feature['name'].present? && feature['name'] !~ /\A[a-z][a-z0-9_]*\z/
+      if !feature['name'].nil? && !feature['name'].to_s.strip.empty? && feature['name'] !~ /\A[a-z][a-z0-9_]*\z/
         errors << "Feature name '#{feature['name']}' must be lowercase letters, numbers, and underscores only"
       end
     end
 
     # Check for duplicate names
-    names = features.filter_map { |f| f['name'] if f.is_a?(Hash) && f['name'].present? }
+    names = features.map { |f| f['name'] if f.is_a?(Hash) && !f['name'].nil? && !f['name'].to_s.strip.empty? }.compact
     duplicates = names.select { |name| names.count(name) > 1 }.uniq
     errors << "Duplicate feature names found: #{duplicates.join(', ')}" if duplicates.any?
 
     if errors.any?
       error_message = "Custom features configuration validation failed:\n" + errors.map { |e| "  - #{e}" }.join("\n")
-      Rails.logger.error('Configuration validation failed', validation_errors: errors)
+      Rails.logger.error("Configuration validation failed: #{errors.inspect}")
       raise error_message
     end
 
-    Rails.logger.debug('Configuration validation passed', feature_count: names.count)
+    Rails.logger.debug("Configuration validation passed, feature_count: #{names.count}")
   end
 end
