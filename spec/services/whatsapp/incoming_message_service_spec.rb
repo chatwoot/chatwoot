@@ -4,6 +4,10 @@ describe Whatsapp::IncomingMessageService do
   describe '#perform' do
     before do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+      
+      # Stub 360Dialog templates API call - this was missing and causing the test failures
+      stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates')
+        .to_return(status: 200, body: '{"waba_templates": []}', headers: { 'Content-Type' => 'application/json' })
     end
 
     let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }

@@ -1,6 +1,23 @@
 require 'rails_helper'
 
 describe ChatwootHub do
+  # Mock circuit breaker and external API calls to prevent test interference
+  before do
+    # Mock circuit breaker to always execute the block (following codebase pattern)
+    # ChatwootHub extends the class with ExternalApiCircuitBreaker methods
+    ChatwootHub.extend(ExternalApiCircuitBreaker)
+    allow(ChatwootHub).to receive(:with_circuit_breaker).and_yield
+    
+    # Add WebMock stubs for external API calls (following WhatsApp fix pattern)
+    stub_request(:post, ChatwootHub::PING_URL)
+      .to_return(status: 200, body: '{"version": "1.1.1"}', headers: { 'Content-Type' => 'application/json' })
+    
+    stub_request(:post, ChatwootHub::REGISTRATION_URL)
+      .to_return(status: 200, body: '{}', headers: {})
+    
+    stub_request(:post, ChatwootHub::EVENTS_URL)
+      .to_return(status: 200, body: '{}', headers: {})
+  end
   it 'generates installation identifier' do
     installation_identifier = described_class.installation_identifier
     expect(installation_identifier).not_to be_nil

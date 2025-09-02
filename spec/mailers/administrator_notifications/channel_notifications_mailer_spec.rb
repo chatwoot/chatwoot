@@ -32,7 +32,24 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
   end
 
   describe 'whatsapp_disconnect' do
-    let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+    let!(:whatsapp_channel) do
+      ch = build(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+      # Explicitly bypass validation to prevent provider config validation errors
+      ch.define_singleton_method(:validate_provider_config) { true }
+      # Prevent sync_templates from being called
+      ch.define_singleton_method(:sync_templates) { nil }
+      
+      # Mock the provider_config_object to prevent webhook token generation issues
+      mock_config = double('MockProviderConfig')
+      allow(mock_config).to receive(:webhook_verify_token).and_return('test_webhook_token')
+      allow(mock_config).to receive(:validate_config?).and_return(true)
+      allow(mock_config).to receive(:cleanup_on_destroy)
+      allow(mock_config).to receive(:api_key).and_return('test_api_key')
+      allow(ch).to receive(:provider_config_object).and_return(mock_config)
+      
+      ch.save!(validate: false)
+      ch
+    end
     let!(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
     let(:mail) { described_class.with(account: account).whatsapp_disconnect(whatsapp_inbox).deliver_now }
 

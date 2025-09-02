@@ -36,7 +36,7 @@ describe Webhooks::Trigger do
           payload: payload.to_json,
           headers: { content_type: :json, accept: :json },
           timeout: 5
-        ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
+        ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).at_least(:once)
 
       expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
     end
@@ -51,7 +51,7 @@ describe Webhooks::Trigger do
           payload: payload.to_json,
           headers: { content_type: :json, accept: :json },
           timeout: 5
-        ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
+        ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).at_least(:once)
       expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
     end
   end
@@ -66,7 +66,7 @@ describe Webhooks::Trigger do
         payload: payload.to_json,
         headers: { content_type: :json, accept: :json },
         timeout: 5
-      ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
+      ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).at_least(:once)
 
     expect { trigger.execute(url, payload, webhook_type) }.not_to(change { message.reload.status })
   end

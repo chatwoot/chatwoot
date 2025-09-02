@@ -6,7 +6,13 @@ class Whatsapp::Whapi::ContactSyncJob < ApplicationJob
     contact = Contact.find_by(id: contact_id)
     return unless contact
 
-    service = Whatsapp::Providers::WhapiService.new(whatsapp_channel: contact.inbox.channel)
+    # Find the WhatsApp channel through contact_inboxes
+    whatsapp_inbox = contact.inboxes.where(channel_type: 'Channel::Whatsapp').first
+    return unless whatsapp_inbox
+    
+    whatsapp_channel = whatsapp_inbox.channel
+
+    service = Whatsapp::Providers::WhapiService.new(whatsapp_channel: whatsapp_channel)
     contact_info = service.fetch_contact_info(phone_number)
     
     if contact_info
