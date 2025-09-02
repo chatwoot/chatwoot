@@ -30,30 +30,32 @@
 #  index_message_templates_on_updated_by_id                 (updated_by_id)
 #
 class MessageTemplate < ApplicationRecord
-  SUPPORTED_LANGUAGES = LANGUAGES_CONFIG.values
-                                        .filter_map { |lang| lang[:iso_639_1_code] if lang[:enabled] }
-                                        .freeze
+  SUPPORTED_LANGUAGES = LANGUAGES_CONFIG.values.pluck(:iso_639_1_code).freeze
 
   validates :account_id, presence: true
+  validates :inbox_id, presence: true
+  validates :category, presence: true
+  validates :channel_type, presence: true
   validates :name, presence: true,
                    length: { minimum: 2, maximum: 512 },
                    format: {
                      with: /\A[a-zA-Z0-9_]+\z/
                    }
-  validates :language, inclusion: { in: SUPPORTED_LANGUAGES }
+  # NOTE: disable this for now as language config may not contain the lanugage created on meta
+  # validates :language, inclusion: { in: SUPPORTED_LANGUAGES }
   validates :content, presence: true
   validate :validate_content
-
-  # TODO: Add name unique constraint- name, language
+  validate :validate_inbox_belongs_to_account
+  validate :validate_unique_template_name
 
   belongs_to :account
-  belongs_to :inbox, optional: true
+  belongs_to :inbox
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true
 
   enum status: {
     draft: 0,
-    pending_approval: 1,
+    pending: 1,
     approved: 2,
     rejected: 3
   }
@@ -70,6 +72,7 @@ class MessageTemplate < ApplicationRecord
   scope :approved, -> { where(status: :approved) }
 
   before_save :set_updated_by
+  before_create :create_on_provider_platform, unless: :platform_template_id?
 
   def whatsapp_template?
     channel_type == 'Channel::Whatsapp'
@@ -100,5 +103,47 @@ class MessageTemplate < ApplicationRecord
     body_count = components.count { |c| c['type'] == 'BODY' }
     errors.add(:content, 'Must have exactly one BODY component') if body_count != 1
     # TODO: add header, footer and button components validation if need
+  end
+
+  def validate_inbox_belongs_to_account
+    return if inbox_id.blank? || account_id.blank?
+    return if inbox&.account_id == account_id
+
+    errors.add(:inbox_id, 'does not belong to this account')
+  end
+
+  def validate_unique_template_name
+    existing_template = account.message_templates
+                               .where(name: name, language: language, inbox_id: inbox_id)
+                               .where.not(id: id)
+                               .exists?
+
+    errors.add(:name, 'already exists for this language and inbox') if existing_template
+  end
+
+  def create_on_provider_platform
+    case channel_type
+    when 'Channel::Whatsapp'
+      create_whatsapp_template
+      # add more providers here
+    end
+  end
+
+  def create_whatsapp_template
+    provider_response = inbox.channel.provider_service.create_message_template(
+      name: name,
+      language: language,
+      category: category.upcase,
+      components: content['components']
+    )
+
+    Rails.logger.info "WhatsApp template creation response: #{provider_response.inspect}"
+
+    self.platform_template_id = provider_response['id']
+    self.status = provider_response['status']&.downcase || 'pending'
+  rescue StandardError => e
+    Rails.logger.error "WhatsApp template creation failed: #{e.message}"
+    errors.add(:base, "Failed to create template on WhatsApp: #{e.message}")
+    throw :abort
   end
 end

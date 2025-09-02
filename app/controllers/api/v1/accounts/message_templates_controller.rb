@@ -1,7 +1,6 @@
 class Api::V1::Accounts::MessageTemplatesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :fetch_message_template, only: [:show, :update, :destroy]
-  before_action :fetch_inbox, only: [:index, :create]
 
   def index
     @message_templates = message_templates_scope
@@ -13,6 +12,8 @@ class Api::V1::Accounts::MessageTemplatesController < Api::V1::Accounts::BaseCon
     @message_template = Current.account.message_templates.new(message_template_params)
     @message_template.created_by = Current.user
     @message_template.save!
+  rescue ActiveRecord::RecordNotSaved
+    render json: { error: @message_template.errors.full_messages.join(', ') }, status: :unprocessable_entity
   end
 
   def update
@@ -30,10 +31,6 @@ class Api::V1::Accounts::MessageTemplatesController < Api::V1::Accounts::BaseCon
 
   def fetch_message_template
     @message_template = Current.account.message_templates.find(params[:id])
-  end
-
-  def fetch_inbox
-    @inbox = Current.account.inboxes.find(params[:inbox_id]) if params[:inbox_id]
   end
 
   def message_template_params

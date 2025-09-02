@@ -35,7 +35,17 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
     templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
+
+    return unless templates.present?
+
+    # Update JSONB field for backward compatibility (will be deprecated later)
+    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc)
+
+    # # Sync to MessageTemplate model
+    Whatsapp::TemplateSyncService.new(
+      channel: whatsapp_channel,
+      templates: templates
+    ).call
   end
 
   def fetch_whatsapp_templates(url)
@@ -194,7 +204,14 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         components: components
       }.to_json
     )
-
-    response.parsed_response
+    parsed_response = response.parsed_response
+    if response.success? && parsed_response['error'].blank?
+      parsed_response
+    else
+      error = parsed_response['error'] || {}
+      error_message = error['error_user_msg'] || error['error_user_title'] || error['message'] || 'Template creation failed on meta'
+      Rails.logger.error "WhatsApp API error: #{response.code} - #{error}"
+      raise StandardError, error_message
+    end
   end
 end
