@@ -1,6 +1,8 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useVuelidate } from '@vuelidate/core';
+import { required, url } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import samlSettingsAPI from 'dashboard/api/samlSettings';
@@ -18,17 +20,45 @@ const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
 
 const id = ref(null);
-const ssoUrl = ref('');
-const certificate = ref('');
 const fingerprint = ref('');
 const spEntityId = ref('');
-const idpEntityId = ref('');
-const roleMappings = ref({});
 const isEnabled = ref(false);
 const isSubmitting = ref(false);
 const isLoading = ref(true);
 
+const formState = reactive({
+  ssoUrl: '',
+  certificate: '',
+  idpEntityId: '',
+});
+
+const validations = {
+  ssoUrl: { required, url },
+  certificate: { required },
+  idpEntityId: { required },
+};
+
+const v$ = useVuelidate(validations, formState);
+
 const hasFeature = computed(() => isCloudFeatureEnabled('saml'));
+
+const ssoUrlError = computed(() =>
+  v$.value.ssoUrl.$error
+    ? t('SECURITY_SETTINGS.SAML.VALIDATION.SSO_URL_ERROR')
+    : ''
+);
+
+const certificateError = computed(() =>
+  v$.value.certificate.$error
+    ? t('SECURITY_SETTINGS.SAML.VALIDATION.CERTIFICATE_ERROR')
+    : ''
+);
+
+const idpEntityIdError = computed(() =>
+  v$.value.idpEntityId.$error
+    ? t('SECURITY_SETTINGS.SAML.VALIDATION.IDP_ENTITY_ID_ERROR')
+    : ''
+);
 
 const loadSamlSettings = async () => {
   if (!hasFeature.value) return;
@@ -40,13 +70,12 @@ const loadSamlSettings = async () => {
 
     if (settings.sso_url) {
       id.value = settings.id;
-      ssoUrl.value = settings.sso_url;
-      certificate.value = settings.certificate || '';
+      formState.ssoUrl = settings.sso_url;
+      formState.certificate = settings.certificate || '';
       spEntityId.value = settings.sp_entity_id || '';
-      idpEntityId.value = settings.idp_entity_id || '';
-      roleMappings.value = settings.role_mappings || {};
+      formState.idpEntityId = settings.idp_entity_id || '';
       fingerprint.value = settings.fingerprint || '';
-      isEnabled.value = ssoUrl.value !== '';
+      isEnabled.value = formState.ssoUrl !== '';
     }
   } catch (error) {
     // If no settings exist (404), that's expected - just keep defaults
@@ -62,7 +91,7 @@ const saveSamlSettings = async settings => {
   try {
     isSubmitting.value = true;
 
-    if (isEnabled.value && ssoUrl.value) {
+    if (isEnabled.value && formState.ssoUrl) {
       // Create or update settings based on existing id
       let response;
       if (id.value) {
@@ -92,16 +121,14 @@ const saveSamlSettings = async settings => {
 };
 
 const handleSubmit = async () => {
-  if (!ssoUrl.value || !certificate.value || !idpEntityId.value) {
-    useAlert(t('SECURITY_SETTINGS.SAML.VALIDATION.REQUIRED_FIELDS'));
-    return;
-  }
+  v$.value.$touch();
+  if (v$.value.$invalid) return;
 
   const settings = {
-    sso_url: ssoUrl.value,
-    certificate: certificate.value,
-    idp_entity_id: idpEntityId.value,
-    role_mappings: roleMappings.value,
+    sso_url: formState.ssoUrl,
+    certificate: formState.certificate,
+    idp_entity_id: formState.idpEntityId,
+    role_mappings: {},
   };
 
   await saveSamlSettings(settings);
@@ -109,12 +136,11 @@ const handleSubmit = async () => {
 
 const handleDisable = async () => {
   id.value = null;
-  ssoUrl.value = '';
-  certificate.value = '';
+  formState.ssoUrl = '';
+  formState.certificate = '';
   spEntityId.value = '';
-  idpEntityId.value = '';
+  formState.idpEntityId = '';
   fingerprint.value = '';
-  roleMappings.value = {};
 
   // the empty save will delete the SAML settings item
   await saveSamlSettings({});
@@ -156,43 +182,49 @@ onMounted(() => {
 
     <form class="grid gap-5" @submit.prevent="handleSubmit">
       <WithLabel
+        name="ssoUrl"
         :label="t('SECURITY_SETTINGS.SAML.SSO_URL.LABEL')"
         :help-message="t('SECURITY_SETTINGS.SAML.SSO_URL.HELP')"
+        :has-error="v$.ssoUrl.$error"
+        :error-message="ssoUrlError"
         required
       >
         <TextInput
-          v-model="ssoUrl"
+          v-model="formState.ssoUrl"
           class="w-full"
           type="url"
           :placeholder="t('SECURITY_SETTINGS.SAML.SSO_URL.PLACEHOLDER')"
-          required
         />
       </WithLabel>
 
       <WithLabel
+        name="idpEntityId"
         :label="t('SECURITY_SETTINGS.SAML.IDP_ENTITY_ID.LABEL')"
         :help-message="t('SECURITY_SETTINGS.SAML.IDP_ENTITY_ID.HELP')"
+        :has-error="v$.idpEntityId.$error"
+        :error-message="idpEntityIdError"
         required
       >
         <TextInput
-          v-model="idpEntityId"
+          v-model="formState.idpEntityId"
           class="w-full"
           :placeholder="t('SECURITY_SETTINGS.SAML.IDP_ENTITY_ID.PLACEHOLDER')"
-          required
         />
       </WithLabel>
 
       <WithLabel
+        name="certificate"
         :label="t('SECURITY_SETTINGS.SAML.CERTIFICATE.LABEL')"
         :help-message="t('SECURITY_SETTINGS.SAML.CERTIFICATE.HELP')"
+        :has-error="v$.certificate.$error"
+        :error-message="certificateError"
         required
       >
         <TextArea
-          v-model="certificate"
+          v-model="formState.certificate"
           class="w-full"
           rows="8"
           :placeholder="t('SECURITY_SETTINGS.SAML.CERTIFICATE.PLACEHOLDER')"
-          required
         />
       </WithLabel>
 

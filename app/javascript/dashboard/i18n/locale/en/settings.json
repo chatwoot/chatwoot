@@ -427,7 +427,10 @@
         "DISABLED": "SAML settings disabled successfully"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields"
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "SSO_URL_ERROR": "Please enter a valid SSO URL",
+        "CERTIFICATE_ERROR": "Certificate is required",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
       },
       "ENTERPRISE_PAYWALL": {
         "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
