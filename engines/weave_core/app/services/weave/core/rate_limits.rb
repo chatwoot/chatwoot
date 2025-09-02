@@ -53,6 +53,15 @@ module Weave
       end
 
       def limit_for_account_id(account_id, category)
+        # Check for active admin overrides first
+        override = Rails.cache.fetch(["wsc:override", account_id, category], expires_in: 1.minute) do
+          Weave::Core::RateLimitOverride.active
+                                       .find_by(account_id: account_id, category: category)
+        end
+        
+        return override.override_limit if override
+
+        # Fall back to plan-based limits
         plan = plan_for_account_id(account_id)
         category_limit_for_plan(plan, category)
       end
@@ -85,6 +94,69 @@ module Weave
         return nil if token.blank?
         widget = ::Channel::WebWidget.find_by(website_token: token)
         widget&.account_id
+      end
+
+      # Admin management helpers
+      def current_limits_for_account(account_id)
+        plan = plan_for_account_id(account_id)
+        base_limits = PLAN_LIMITS.fetch(plan, PLAN_LIMITS['basic'])
+        
+        result = {}
+        base_limits.each do |category, base_limit|
+          override = Weave::Core::RateLimitOverride.active
+                                                  .find_by(account_id: account_id, category: category)
+          
+          result[category] = {
+            base_limit: base_limit,
+            current_limit: override ? override.override_limit : base_limit,
+            override: override,
+            plan: plan
+          }
+        end
+        result
+      end
+
+      def create_override!(account_id, category, override_limit, expires_at, reason, created_by_user_id, notes: nil)
+        Weave::Core::RateLimitOverride.create!(
+          account_id: account_id,
+          category: category,
+          override_limit: override_limit,
+          expires_at: expires_at,
+          reason: reason,
+          created_by_user_id: created_by_user_id,
+          notes: notes
+        ).tap do
+          # Clear cache after creating override
+          Rails.cache.delete(["wsc:override", account_id, category])
+        end
+      end
+
+      def expire_override!(override_id)
+        override = Weave::Core::RateLimitOverride.find(override_id)
+        override.update!(expires_at: Time.current)
+        Rails.cache.delete(["wsc:override", override.account_id, override.category])
+        override
+      end
+
+      # Burst detection and monitoring
+      def current_usage_for_account(account_id, category)
+        throttle_key = case category
+        when :account_rpm then "acct:#{account_id}"
+        when :messaging_write_rpm then "acct:#{account_id}"
+        when :whatsapp_inbound_rpm then "acct:#{account_id}:whatsapp"
+        when :widget_write_rpm then "acct:#{account_id}:widget"
+        when :reports_rpm then "acct:#{account_id}:reports"
+        else "acct:#{account_id}"
+        end
+
+        cache_key = "rack::attack:#{Time.current.to_i / 60}:#{throttle_key}"
+        Rails.cache.read(cache_key) || 0
+      end
+
+      def usage_percentage_for_account(account_id, category)
+        current = current_usage_for_account(account_id, category)
+        limit = limit_for_account_id(account_id, category)
+        (current.to_f / limit * 100).round(2)
       end
     end
   end

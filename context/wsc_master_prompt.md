@@ -127,7 +127,7 @@
 **README:** permissions table and examples.  
 **Versioning:** `feature/rbac` → `feat: tenant-scoped RBAC`.
 
-### BLOCK 10 — Permanent Risk Banner (WhatsApp Unofficial)
+### BLOCK 10 - ok — Permanent Risk Banner (WhatsApp Unofficial)
 **Objective:** Non‑dismissable banner + FAQ link + e‑mail on switch to official.  
 **Tasks:** Detect `integration_type=unofficial`; render sticky banner; send confirmation e‑mail when switching to official.  
 **Acceptance:** cannot hide banner until official API is used.  

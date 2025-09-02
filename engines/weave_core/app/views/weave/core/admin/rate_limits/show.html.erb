@@ -1,0 +1,242 @@
+<% content_for :title, "Rate Limits - #{@account.name}" %>
+
+<div class="flex justify-between items-center mb-6">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Rate Limits</h1>
+    <p class="text-gray-600 mt-1">
+      Account: <span class="font-medium"><%= @account.name %></span> 
+      (Plan: <%= @current_limits.values.first&.dig(:plan)&.titleize || 'Unknown' %>)
+    </p>
+  </div>
+  <%= link_to "← Back to Overview", admin_rate_limits_path, 
+      class: "btn btn-secondary" %>
+</div>
+
+<!-- Current Usage Dashboard -->
+<div class="grid grid-cols-1 gap-6 mb-8 lg:grid-cols-2 xl:grid-cols-3">
+  <% @usage_stats.each do |category, stats| %>
+    <div class="bg-white shadow-sm rounded-lg p-6">
+      <div class="flex justify-between items-start mb-3">
+        <h3 class="text-sm font-medium text-gray-900">
+          <%= category.to_s.humanize %>
+        </h3>
+        <span class="text-xs text-gray-500">
+          <%= stats[:current_usage] %>/<%= stats[:limit] %> req/min
+        </span>
+      </div>
+      
+      <div class="mb-2">
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-600">Usage</span>
+          <span class="font-medium 
+                     <%= stats[:percentage] > 90 ? 'text-red-600' : 
+                         stats[:percentage] > 70 ? 'text-yellow-600' : 'text-green-600' %>">
+            <%= stats[:percentage] %>%
+          </span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+          <div class="h-2 rounded-full 
+                      <%= stats[:percentage] > 90 ? 'bg-red-500' : 
+                          stats[:percentage] > 70 ? 'bg-yellow-500' : 'bg-green-500' %>" 
+               style="width: <%= [stats[:percentage], 100].min %>%"></div>
+        </div>
+      </div>
+
+      <div class="text-xs text-gray-500">
+        Base: <%= @current_limits[category][:base_limit] %> req/min
+        <% if @current_limits[category][:override] %>
+          <span class="text-blue-600 font-medium">(Override Active)</span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- Create Override Form -->
+<div class="bg-white shadow-sm rounded-lg mb-8">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h2 class="text-lg font-medium text-gray-900">Create Rate Limit Override</h2>
+    <p class="text-sm text-gray-500 mt-1">Temporarily adjust rate limits for this account</p>
+  </div>
+  
+  <div class="p-6">
+    <%= form_with url: admin_rate_limit_overrides_path(@account), local: true, class: "space-y-6" do |form| %>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div>
+          <%= form.label :category, "Rate Category", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.select :category, 
+              options_for_select(Weave::Core::RateLimitOverride::RATE_CATEGORIES.map { |c| [c.humanize, c] }),
+              { prompt: "Select category..." },
+              { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
+        </div>
+
+        <div>
+          <%= form.label :override_limit, "New Limit (req/min)", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.number_field :override_limit, 
+              min: 1, max: 10000, 
+              class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+        </div>
+
+        <div>
+          <%= form.label :expires_in, "Duration", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.select :expires_in,
+              options_for_select([
+                ["1 Hour", 1],
+                ["24 Hours", 24],
+                ["1 Week", 168],
+                ["1 Month", 720]
+              ], 24),
+              {},
+              { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
+        </div>
+
+        <div>
+          <%= form.label :reason, "Reason", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.select :reason,
+              options_for_select([
+                ["Emergency situation", "emergency"],
+                ["Planned maintenance", "maintenance"],
+                ["Traffic spike expected", "traffic_spike"],
+                ["Customer request", "customer_request"],
+                ["Testing purposes", "testing"],
+                ["Other", "other"]
+              ]),
+              { prompt: "Select reason..." },
+              { class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" } %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.label :notes, "Additional Notes", class: "block text-sm font-medium text-gray-700" %>
+        <%= form.text_area :notes, rows: 3,
+            class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+      </div>
+
+      <div class="flex justify-end">
+        <%= form.submit "Create Override", 
+            class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Active Overrides -->
+<% if @active_overrides.any? %>
+  <div class="bg-white shadow-sm rounded-lg mb-8">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Active Overrides</h2>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Category
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Override Limit
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Reason
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Expires
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @active_overrides.each do |override| %>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= override.category.humanize %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= override.override_limit %> req/min
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                  <%= override.reason.humanize %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <div>
+                  <%= override.expires_at.strftime("%d/%m/%Y %H:%M") %>
+                </div>
+                <div class="text-xs text-gray-400">
+                  (<%= override.expires_in_hours.round(1) %>h remaining)
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <%= link_to "Expire Now", 
+                    admin_rate_limit_override_expire_path(@account, override), 
+                    method: :patch,
+                    confirm: "Are you sure you want to expire this override immediately?",
+                    class: "text-red-600 hover:text-red-900" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<!-- Recent Overrides History -->
+<% if @recent_overrides.any? %>
+  <div class="bg-white shadow-sm rounded-lg">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Recent Override History</h2>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Category
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Limit
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Duration
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Reason
+            </th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Created
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @recent_overrides.each do |override| %>
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= override.category.humanize %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= override.override_limit %> req/min
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= time_ago_in_words(override.expires_at - override.created_at) %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  <%= override.reason.humanize %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= override.created_at.strftime("%d/%m/%Y") %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,127 @@
+<% content_for :title, "Rate Limit Management" %>
+
+<div class="flex justify-between items-center mb-6">
+  <div>
+    <h1 class="text-2xl font-bold text-gray-900">Rate Limit Management</h1>
+    <p class="text-gray-600 mt-1">Monitor and manage rate limits across all accounts</p>
+  </div>
+  <%= link_to "Analytics", admin_rate_limits_analytics_path, 
+      class: "btn btn-secondary" %>
+</div>
+
+<div class="bg-white shadow-sm rounded-lg overflow-hidden">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <div class="flex justify-between items-center">
+      <h2 class="text-lg font-medium text-gray-900">Accounts Overview</h2>
+      <div class="text-sm text-gray-500">
+        <%= @accounts.total_count %> total accounts
+      </div>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Account
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Plan
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Usage Status
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Active Overrides
+          </th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @accounts.each do |account| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-medium text-gray-900"><%= account.name %></div>
+              <div class="text-sm text-gray-500">ID: <%= account.id %></div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                         <%= account.account_plan.plan_key == 'premium' ? 'bg-purple-100 text-purple-800' :
+                             account.account_plan.plan_key == 'pro' ? 'bg-blue-100 text-blue-800' :
+                             'bg-gray-100 text-gray-800' %>">
+                <%= account.account_plan.plan_key.titleize %>
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex space-x-2">
+                <% @usage_stats[account.id]&.each do |category, percentage| %>
+                  <div class="flex items-center" title="<%= category.to_s.humanize %>: <%= percentage %>%">
+                    <div class="w-8 h-2 bg-gray-200 rounded-full">
+                      <div class="h-2 rounded-full 
+                                  <%= percentage > 90 ? 'bg-red-500' : 
+                                      percentage > 70 ? 'bg-yellow-500' : 'bg-green-500' %>" 
+                           style="width: <%= [percentage, 100].min %>%"></div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <%= account.rate_limit_overrides.active.count %> active
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <%= link_to "Manage", admin_rate_limit_path(account), 
+                  class: "text-indigo-600 hover:text-indigo-900" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="px-6 py-4 border-t border-gray-200">
+    <%= paginate @accounts if respond_to?(:paginate) %>
+  </div>
+</div>
+
+<div class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
+  <!-- Plan Distribution -->
+  <div class="bg-white shadow-sm rounded-lg p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Plan Distribution</h3>
+    <% plan_counts = @accounts.group_by(&:account_plan).transform_values(&:count) %>
+    <% plan_counts.each do |plan_key, count| %>
+      <div class="flex justify-between items-center mb-2">
+        <span class="text-sm text-gray-600"><%= plan_key.titleize %></span>
+        <span class="text-sm font-medium text-gray-900"><%= count %></span>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- High Usage Accounts -->
+  <div class="bg-white shadow-sm rounded-lg p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">High Usage Accounts</h3>
+    <% high_usage = @usage_stats.select { |_, usage| usage.values.any? { |v| v > 80 } }.first(5) %>
+    <% if high_usage.empty? %>
+      <p class="text-sm text-gray-500">No high usage accounts</p>
+    <% else %>
+      <% high_usage.each do |account_id, usage| %>
+        <% account = @accounts.find { |a| a.id == account_id } %>
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm text-gray-600 truncate"><%= account&.name || "Account #{account_id}" %></span>
+          <span class="text-sm font-medium text-red-600"><%= usage.values.max.round %>%</span>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Active Overrides Summary -->
+  <div class="bg-white shadow-sm rounded-lg p-6">
+    <h3 class="text-lg font-medium text-gray-900 mb-4">Active Overrides</h3>
+    <% total_overrides = @accounts.sum { |a| a.rate_limit_overrides.active.count } %>
+    <div class="text-3xl font-bold text-indigo-600"><%= total_overrides %></div>
+    <p class="text-sm text-gray-500">across all accounts</p>
+  </div>
+</div>

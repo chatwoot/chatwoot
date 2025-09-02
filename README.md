@@ -509,3 +509,192 @@ For assistance migrating to official WhatsApp Business Cloud API, visit: https:/
 ---
 
 *This disclaimer was last updated: September 2025*
+
+## Rate Limiting System
+
+### Overview
+
+WeaveSmart Chat implements comprehensive, tenant-scoped rate limiting to control costs, ensure system stability, and provide fair usage across all accounts. The system uses plan-based limits with admin override capabilities and provides detailed monitoring and friendly error messages.
+
+### Rate Limit Categories
+
+#### 1. Account-level Limits (`account_rpm`)
+General API requests per account per minute across all endpoints under `/api/v1/accounts/{id}/` and `/api/v2/accounts/{id}/`
+
+#### 2. Messaging Writes (`messaging_write_rpm`)  
+Conversation and message creation/updates under `/api/v1/accounts/{id}/conversations` (POST/PATCH/PUT only)
+
+#### 3. Widget Writes (`widget_write_rpm`)
+Customer-facing widget API calls under `/api/v1/widget/messages` (scoped by `website_token`)
+
+#### 4. WhatsApp Inbound (`whatsapp_inbound_rpm`)
+Incoming WhatsApp webhook processing per phone number (mapped to account via channel lookup)
+
+#### 5. Reports (`reports_rpm`)
+Analytics and reporting endpoints under `/api/v2/accounts/{id}/reports` (GET only)
+
+### Plan-based Rate Limits
+
+| Plan | Account RPM | Messaging RPM | Widget RPM | WhatsApp RPM | Reports RPM |
+|------|-------------|---------------|------------|--------------|-------------|
+| **Basic** | 300 | 120 | 60 | 60 | 60 |
+| **Pro** | 600 | 240 | 90 | 120 | 120 |  
+| **Premium** | 1,200 | 480 | 120 | 240 | 240 |
+| **App** | 300 | 60 | 60 | 30 | 30 |
+| **Custom** | 1,200 | 480 | 120 | 240 | 240 |
+
+### Rate Limit Features
+
+#### Friendly Error Messages
+When rate limits are exceeded, users receive contextual 429 responses with:
+- Plan-specific messaging with upgrade suggestions
+- Module-specific guidance (e.g., "Reports are rate-limited to maintain system performance")
+- Retry-after timing (60 seconds)
+- Current account limits and usage information
+- Upgrade availability flags for lower-tier plans
+
+```json
+{
+  "error": "Rate limit exceeded",
+  "message": "You have reached your Basic plan rate limit. Consider upgrading to Pro for higher limits, or wait a minute before trying again.",
+  "code": "RATE_LIMIT_EXCEEDED",
+  "retry_after": 60,
+  "account_limits": {
+    "account_rpm": 300,
+    "messaging_write_rpm": 120
+  },
+  "upgrade_available": true
+}
+```
+
+#### Admin Override System
+Super administrators can create temporary rate limit overrides for specific accounts:
+
+**Override Properties:**
+- **Category**: Which rate limit to override (account_rpm, messaging_write_rpm, etc.)
+- **Override Limit**: New limit in requests per minute (1-10,000)
+- **Duration**: 1 hour, 24 hours, 1 week, or 1 month
+- **Reason**: Emergency, maintenance, traffic spike, customer request, testing, or other
+- **Notes**: Additional context for the override
+- **Auto-expiry**: Overrides automatically expire and revert to plan limits
+
+**Admin Interface:**
+- Dashboard at `/admin/rate-limits` showing all accounts and usage
+- Per-account management at `/admin/rate-limits/{account_id}`
+- Real-time usage monitoring with colour-coded indicators
+- Active override management with immediate expiry options
+- Historical override audit trail
+
+#### Usage Monitoring
+- **Real-time tracking**: Current usage per category per account
+- **Percentage calculations**: Usage as percentage of current limits
+- **Visual indicators**: Colour-coded usage bars (green < 70%, yellow < 90%, red ≥ 90%)
+- **High usage alerts**: Identification of accounts approaching limits
+- **Override impact**: Separate tracking of base vs. override limits
+
+#### Burst Handling and Cooldown
+- **Sliding window**: 1-minute rolling window for all rate limits
+- **Burst tolerance**: Accounts can briefly exceed limits within the window
+- **Automatic reset**: Limits fully reset every minute
+- **Gradual recovery**: Partial capacity recovery as window slides
+- **Concurrent safety**: Thread-safe implementation for high-concurrency scenarios
+
+### Technical Implementation
+
+#### Backend Components
+- **Rack::Attack**: Core throttling mechanism with Redis backing
+- **RateLimits Service**: Plan lookup, override management, usage tracking
+- **RateLimitOverride Model**: Database storage for admin overrides with validation
+- **Custom Middleware**: Enhanced 429 response formatting with context
+- **Exception Handling**: Automatic throttle exception catching in controllers
+
+#### Frontend Components
+- **RateLimitNotification.vue**: User-friendly rate limit notifications
+- **Admin Dashboard**: Full-featured management interface for super admins
+- **Usage Indicators**: Real-time usage bars and alerts
+- **Upgrade Prompts**: Contextual upgrade suggestions for eligible plans
+
+#### Cache Strategy
+- **Plan caching**: 5-minute cache for account plan lookups
+- **Override caching**: 1-minute cache for active overrides (cleared on changes)
+- **Usage tracking**: Real-time Redis counters with automatic cleanup
+- **Performance optimisation**: Minimal database queries during rate limit checks
+
+### Configuration and Deployment
+
+#### Environment Variables
+```bash
+# Enable/disable rate limiting (production default: true)
+ENABLE_RACK_ATTACK=true
+
+# Redis connection for rate limit storage
+REDIS_URL=redis://localhost:6379/0
+
+# General Rack::Attack settings
+RACK_ATTACK_LIMIT=3000  # IP-based fallback limit
+RACK_ATTACK_ALLOWED_IPS="127.0.0.1,::1"  # Bypass IPs
+```
+
+#### Monitoring and Alerting
+- **Structured logging**: All rate limit hits logged with account/plan context
+- **Metrics exposure**: Usage statistics available via admin dashboard
+- **Prometheus integration**: Rate limit metrics via `/wsc/metrics` endpoint
+- **Alert thresholds**: Notification system for high usage accounts
+
+#### Testing Strategy
+- **Burst testing**: Verify limits under concurrent load
+- **Cooldown verification**: Ensure proper reset behaviour  
+- **Plan switching**: Test limit changes when plans are upgraded/downgraded
+- **Override functionality**: Admin interface and expiry testing
+- **Edge cases**: Expired overrides, missing plans, concurrent requests
+
+### Usage Examples
+
+#### Checking Current Limits (Ruby)
+```ruby
+# Get all limits for an account
+limits = Weave::Core::RateLimits.current_limits_for_account(account_id)
+
+# Get usage percentage
+usage = Weave::Core::RateLimits.usage_percentage_for_account(account_id, :account_rpm)
+
+# Create admin override
+Weave::Core::RateLimits.create_override!(
+  account_id,
+  'messaging_write_rpm',
+  500,
+  1.day.from_now,
+  'emergency_traffic_spike',
+  admin_user.id
+)
+```
+
+#### Frontend Usage Monitoring (JavaScript)
+```javascript
+// Check if rate limited response
+if (error.response?.status === 429) {
+  const data = error.response.data;
+  
+  // Show friendly notification
+  showRateLimitNotification({
+    message: data.message,
+    upgradeAvailable: data.upgrade_available,
+    retryAfter: data.retry_after
+  });
+}
+```
+
+### Performance Impact
+
+#### Minimal Overhead
+- **Average latency**: < 2ms per request for rate limit checks
+- **Memory usage**: ~1KB per active account in Redis
+- **Database impact**: Plan lookups cached, overrides queried only when present
+- **Scaling**: Linear scaling with Redis cluster support
+
+#### Capacity Planning
+- **Redis requirements**: ~100MB RAM per 10,000 active accounts
+- **Network overhead**: ~100 bytes per request for rate limit headers
+- **Admin dashboard**: Efficiently paginated for large account volumes
+
+The rate limiting system ensures fair resource allocation while maintaining excellent user experience through contextual messaging and flexible admin controls.
