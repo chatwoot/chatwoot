@@ -1,7 +1,10 @@
 # Optimized Sidekiq Dockerfile
+FROM node:23-alpine AS node
 FROM ruby:3.3.3-alpine3.19 AS base
 
+ARG NODE_VERSION="23.7.0"
 ARG BUNDLE_WITHOUT="development:test"
+ENV NODE_VERSION=${NODE_VERSION}
 ENV BUNDLE_WITHOUT=${BUNDLE_WITHOUT}
 ENV BUNDLER_VERSION=2.5.11
 ENV BUNDLE_PATH="/gems"
@@ -29,6 +32,12 @@ RUN apk update && apk add --no-cache \
   linux-headers \
   xz \
   && gem install bundler
+
+# Setup Node.js from node stage
+COPY --from=node /usr/local/bin/node /usr/local/bin/
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+  && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
 
 WORKDIR /app
 

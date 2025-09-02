@@ -1,4 +1,9 @@
 version: 2.1
+executors:
+  xlarge-executor:
+    machine:
+      image: ubuntu-2004:2024.11.1
+    resource_class: xlarge
 orbs:
   aws-cli: circleci/aws-cli@4.1.3
   aws-eks: circleci/aws-eks@2.2.0
@@ -216,6 +221,7 @@ workflows:
                 role_arn: "${AWS_ROLE_ARN}"
                 profile_name: deltaexchange-oidc
           context: staging
+          executor: xlarge-executor
           filters:
             branches:
               only:
@@ -243,6 +249,7 @@ workflows:
                 role_arn: "${AWS_ROLE_ARN}"
                 profile_name: deltaexchange-oidc
           context: staging
+          executor: xlarge-executor
           filters:
             branches:
               only:
@@ -273,6 +280,7 @@ workflows:
                 role_arn: "${AWS_ROLE_ARN}"
                 profile_name: deltaexchange-oidc
           context: prod-india
+          executor: xlarge-executor
           filters:
             branches:
               only:
@@ -299,6 +307,7 @@ workflows:
                 role_arn: "${AWS_ROLE_ARN}"
                 profile_name: deltaexchange-oidc
           context: prod-india
+          executor: xlarge-executor
           filters:
             branches:
               only:

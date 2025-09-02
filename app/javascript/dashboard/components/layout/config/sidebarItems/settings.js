@@ -189,7 +189,7 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
       toStateName: 'custom_roles_list',
       isEnterpriseOnly: true,
-      beta: true,
+      beta: false, // Test change
     },
     {
       icon: 'document-list-clock',
