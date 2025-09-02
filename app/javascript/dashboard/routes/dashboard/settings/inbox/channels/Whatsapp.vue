@@ -109,7 +109,7 @@ const manualFallbackText = computed(() => {
     </div>
 
     <div v-else-if="showConfiguration">
-      <div class="px-6 py-5 rounded-2xl border bg-n-solid-2 border-n-weak">
+      <div class="px-6 py-5 rounded-2xl border border-n-weak">
         <!-- Show embedded signup if app ID is configured -->
         <div
           v-if="
