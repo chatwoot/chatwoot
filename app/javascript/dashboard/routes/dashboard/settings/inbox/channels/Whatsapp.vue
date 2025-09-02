@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { I18nT } from 'vue-i18n';
 import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
@@ -64,24 +65,9 @@ const shouldShowCloudWhatsapp = provider => {
   );
 };
 
-const handleManualLinkClick = event => {
-  event.preventDefault();
+const handleManualLinkClick = () => {
   selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL);
 };
-
-const manualFallbackText = computed(() => {
-  const fallbackText = t(
-    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK'
-  );
-  const linkText = t(
-    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_LINK_TEXT'
-  );
-
-  return fallbackText.replace(
-    '{{MANUAL_LINK}}',
-    `<a href="#" class="underline text-n-brand">${linkText}</a>`
-  );
-});
 </script>
 
 <template>
@@ -120,11 +106,25 @@ const manualFallbackText = computed(() => {
 
           <!-- Manual setup fallback option -->
           <div class="pt-6 mt-6 border-t border-n-weak">
-            <p
+            <I18nT
+              keypath="INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK"
+              tag="p"
               class="text-sm text-n-slate-11"
-              @click="handleManualLinkClick"
-              v-html="manualFallbackText"
-            />
+            >
+              <template #link>
+                <a
+                  href="#"
+                  class="underline text-n-brand"
+                  @click.prevent="handleManualLinkClick"
+                >
+                  {{
+                    $t(
+                      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_LINK_TEXT'
+                    )
+                  }}
+                </a>
+              </template>
+            </I18nT>
           </div>
         </div>
 
