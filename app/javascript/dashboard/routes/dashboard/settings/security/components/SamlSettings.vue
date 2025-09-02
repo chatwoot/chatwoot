@@ -22,6 +22,7 @@ const ssoUrl = ref('');
 const certificate = ref('');
 const fingerprint = ref('');
 const spEntityId = ref('');
+const idpEntityId = ref('');
 const roleMappings = ref({});
 const isEnabled = ref(false);
 const isSubmitting = ref(false);
@@ -42,6 +43,7 @@ const loadSamlSettings = async () => {
       ssoUrl.value = settings.sso_url;
       certificate.value = settings.certificate || '';
       spEntityId.value = settings.sp_entity_id || '';
+      idpEntityId.value = settings.idp_entity_id || '';
       roleMappings.value = settings.role_mappings || {};
       fingerprint.value = settings.fingerprint || '';
       isEnabled.value = ssoUrl.value !== '';
@@ -72,7 +74,7 @@ const saveSamlSettings = async settings => {
       // Update local state with response data including fingerprint and id
       if (response?.data) {
         id.value = response.data.id;
-        fingerprint.value = response.data.certificate_fingerprint || '';
+        fingerprint.value = response.data.fingerprint || '';
       }
 
       useAlert(t('SECURITY_SETTINGS.SAML.API.SUCCESS'));
@@ -90,7 +92,7 @@ const saveSamlSettings = async settings => {
 };
 
 const handleSubmit = async () => {
-  if (!ssoUrl.value || !certificate.value) {
+  if (!ssoUrl.value || !certificate.value || !idpEntityId.value) {
     useAlert(t('SECURITY_SETTINGS.SAML.VALIDATION.REQUIRED_FIELDS'));
     return;
   }
@@ -98,7 +100,7 @@ const handleSubmit = async () => {
   const settings = {
     sso_url: ssoUrl.value,
     certificate: certificate.value,
-    sp_entity_id: spEntityId.value,
+    idp_entity_id: idpEntityId.value,
     role_mappings: roleMappings.value,
   };
 
@@ -110,6 +112,7 @@ const handleDisable = async () => {
   ssoUrl.value = '';
   certificate.value = '';
   spEntityId.value = '';
+  idpEntityId.value = '';
   fingerprint.value = '';
   roleMappings.value = {};
 
@@ -144,7 +147,11 @@ onMounted(() => {
       </div>
     </template>
 
-    <SamlInfoSection class="mb-5" :fingerprint="fingerprint" />
+    <SamlInfoSection
+      class="mb-5"
+      :fingerprint="fingerprint"
+      :sp-entity-id="spEntityId"
+    />
     <SamlAttributeMap class="mb-5" />
 
     <form class="grid gap-5" @submit.prevent="handleSubmit">
@@ -163,13 +170,15 @@ onMounted(() => {
       </WithLabel>
 
       <WithLabel
-        :label="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.LABEL')"
-        :help-message="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.HELP')"
+        :label="t('SECURITY_SETTINGS.SAML.IDP_ENTITY_ID.LABEL')"
+        :help-message="t('SECURITY_SETTINGS.SAML.IDP_ENTITY_ID.HELP')"
+        required
       >
         <TextInput
-          v-model="spEntityId"
+          v-model="idpEntityId"
           class="w-full"
-          :placeholder="t('SECURITY_SETTINGS.SAML.SP_ENTITY_ID.PLACEHOLDER')"
+          :placeholder="t('SECURITY_SETTINGS.SAML.IDP_ENTITY_ID.PLACEHOLDER')"
+          required
         />
       </WithLabel>
 
