@@ -1,0 +1,53 @@
+<h2 style="color: #dc2626;">⚠️ WhatsApp Unofficial Connection Risk Alert</h2>
+
+<p>Hello <%= @user.name %>,</p>
+
+<p><strong style="color: #dc2626;">Important Security Notice:</strong> Your WhatsApp Business account (<%= @phone_number %>) for <%= @account.name %> has been configured to use a third-party, unofficial WhatsApp integration service.</p>
+
+<h3 style="color: #dc2626;">Permanent Risks:</h3>
+<ul>
+  <li>❌ <strong>Service Disruption:</strong> Third-party services can be suspended without notice</li>
+  <li>❌ <strong>Number Suspension:</strong> Your WhatsApp business number may be permanently banned</li>
+  <li>❌ <strong>Terms Violation:</strong> May violate WhatsApp Business Terms of Service</li>
+  <li>❌ <strong>Data Security:</strong> Messages pass through non-Facebook servers</li>
+  <li>❌ <strong>Feature Limitations:</strong> Limited access to newest WhatsApp Business features</li>
+</ul>
+
+<h3>Immediate Action Required:</h3>
+<p>WeaveCode <strong>strongly recommends</strong> migrating to the official WhatsApp Business Cloud API immediately to eliminate these risks and ensure business continuity.</p>
+
+<div style="background-color: #fee2e2; border: 2px solid #fecaca; border-radius: 6px; padding: 16px; margin: 20px 0;">
+  <h4 style="color: #dc2626; margin-top: 0;">Legal Disclaimer:</h4>
+  <p style="margin-bottom: 0; font-size: 14px; color: #7f1d1d;">
+    WeaveCode is not responsible for any service disruptions, data loss, or business impact 
+    resulting from the use of unofficial WhatsApp integrations. Continued use of third-party 
+    WhatsApp services is at your own risk.
+  </p>
+</div>
+
+<p style="text-align: center; margin: 30px 0;">
+  <a href="https://weavecode.co.uk/faq/whatsapp-official-api" 
+     style="background-color: #dc2626; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+    📖 View Migration Guide
+  </a>
+</p>
+
+<h3>Migration Benefits:</h3>
+<ul>
+  <li>✅ Direct connection to Facebook's official API</li>
+  <li>✅ Guaranteed service reliability and uptime</li>
+  <li>✅ Full compliance with WhatsApp Business policies</li>
+  <li>✅ Access to latest features and security updates</li>
+</ul>
+
+<p>A permanent risk warning banner will remain visible in your dashboard until you migrate to the official WhatsApp Business Cloud API.</p>
+
+<p>If you need assistance with migration, our technical support team is ready to help.</p>
+
+<p>Best regards,<br>
+The WeaveCode Team</p>
+
+<hr>
+<p style="font-size: 12px; color: #666;">
+This email was sent to <%= @user.email %> regarding your WeaveCode account: <%= @account.name %>
+</p>

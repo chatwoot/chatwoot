@@ -7,6 +7,7 @@ import UpdateBanner from './components/app/UpdateBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import EnvironmentBanner from '../../shared/components/EnvironmentBanner.vue';
+import WhatsAppUnofficialBanner from '../../shared/components/WhatsAppUnofficialBanner.vue';
 import vueActionCable from './helper/actionCable';
 import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
@@ -27,6 +28,7 @@ export default {
   components: {
     AddAccountModal,
     EnvironmentBanner,
+    WhatsAppUnofficialBanner,
     LoadingState,
     NetworkNotification,
     UpdateBanner,
@@ -62,6 +64,7 @@ export default {
       currentUser: 'getCurrentUser',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
+      allChannels: 'inboxes/getChannels',
     }),
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
@@ -69,6 +72,13 @@ export default {
     },
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
+    },
+    whatsappUnofficialChannels() {
+      if (!this.allChannels) return [];
+      return this.allChannels.filter(channel => 
+        channel.channel_type === 'Channel::Whatsapp' && 
+        channel.provider !== 'whatsapp_cloud'
+      );
     },
   },
 
@@ -146,6 +156,13 @@ export default {
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
       <PaymentPendingBanner v-if="hideOnOnboardingView" />
+      <template v-if="hideOnOnboardingView && whatsappUnofficialChannels.length > 0">
+        <WhatsAppUnofficialBanner 
+          v-for="channel in whatsappUnofficialChannels" 
+          :key="channel.id"
+          :channel="channel"
+        />
+      </template>
     </template>
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">

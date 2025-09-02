@@ -248,3 +248,264 @@ Testing Framework
 - Linting: ESLint for JavaScript/Vue, RuboCop for Ruby
 - Size limits: Automated via size-limit package in CI/CD
 - Git hooks prevent direct pushes to main/develop branches, enforce conventional commits
+
+## RBAC (Role-Based Access Control)
+
+### Overview
+
+WeaveSmart Chat implements a comprehensive tenant-scoped RBAC system that extends Chatwoot's base functionality with granular permissions and role hierarchy. The system supports both system-defined roles and custom roles with fine-grained permission control.
+
+### Role Hierarchy
+
+| Role | Hierarchy Level | Description |
+|------|-----------------|-------------|
+| **Owner** | 150 | Full system access, including feature flag management |
+| **Administrator** | 100 | Nearly full access, except feature flag management |
+| **Finance** | 75 | Billing, reporting, and financial data access |
+| **Agent** | 50 | Customer-facing operations and assigned conversations |
+| **Support** | 25 | Limited support and knowledge base access |
+
+### Permission Categories
+
+#### 1. Conversations (12 permissions)
+- `conversation_view_all` - View all account conversations
+- `conversation_view_assigned` - View assigned conversations only  
+- `conversation_view_participating` - View conversations you're participating in
+- `conversation_manage_all` - Full conversation management
+- `conversation_manage_assigned` - Manage only assigned conversations
+- `conversation_assign` - Assign conversations to team members
+- `conversation_transfer` - Transfer conversations between agents
+- `conversation_resolve` - Mark conversations as resolved
+- `conversation_reopen` - Reopen resolved conversations
+- `conversation_private_notes` - Add private team notes
+- `conversation_export` - Export conversation data
+
+#### 2. Contacts (8 permissions)
+- `contact_view` - View contact information
+- `contact_create` - Create new contacts
+- `contact_update` - Edit contact details
+- `contact_delete` - Delete contacts
+- `contact_merge` - Merge duplicate contacts
+- `contact_export` - Export contact data
+- `contact_import` - Import contact data
+- `contact_custom_attributes` - Manage custom contact fields
+
+#### 3. Team Management (7 permissions)
+- `team_view` - View team member information
+- `team_invite` - Invite new team members
+- `team_manage` - Full team management capabilities
+- `user_profile_update` - Update user profiles
+- `role_assign` - Assign roles to team members
+- `role_create` - Create custom roles
+- `role_manage` - Manage existing roles
+
+#### 4. Reporting & Analytics (6 permissions)
+- `report_view` - Access basic reports
+- `report_advanced` - Access advanced analytics
+- `report_export` - Export report data
+- `report_custom` - Create custom reports
+- `analytics_view` - View analytics dashboard
+- `analytics_export` - Export analytics data
+
+#### 5. Billing (7 permissions)
+- `billing_view` - View billing information
+- `billing_manage` - Manage billing settings
+- `invoice_view` - View invoices
+- `invoice_download` - Download invoices
+- `payment_methods` - Manage payment methods
+- `subscription_manage` - Manage subscription plans
+- `usage_view` - View usage metrics
+
+#### 6. Settings (7 permissions)
+- `settings_account` - Manage account settings
+- `settings_channels` - Configure channels
+- `settings_integrations` - Manage integrations
+- `settings_webhooks` - Configure webhooks
+- `settings_automation` - Manage automation rules
+- `settings_security` - Manage security settings
+- `settings_advanced` - Advanced configuration
+
+#### 7. Knowledge Base (7 permissions)
+- `kb_view` - View knowledge base content
+- `kb_article_create` - Create articles
+- `kb_article_edit` - Edit articles
+- `kb_article_delete` - Delete articles
+- `kb_category_manage` - Manage categories
+- `kb_portal_manage` - Manage portals
+- `kb_publish` - Publish content
+
+#### 8. Channels (6 permissions)
+- `channel_view` - View channel information
+- `channel_create` - Create new channels
+- `channel_configure` - Configure channels
+- `channel_delete` - Delete channels
+- `integration_manage` - Manage integrations
+- `webhook_manage` - Manage webhooks
+
+#### 9. System (4 permissions)
+- `audit_log_view` - View audit logs
+- `system_info_view` - View system information
+- `feature_flags_view` - View feature flags
+- `feature_flags_manage` - Manage feature flags (Owner only)
+
+### Default Role Permissions
+
+#### Owner (150)
+- All 64 permissions including `feature_flags_manage`
+- Cannot be managed by other roles
+- Primary owner cannot be deleted or have role changed
+
+#### Administrator (100)  
+- All permissions except `feature_flags_manage`
+- Can manage all other roles except owners
+- Full system administration capabilities
+
+#### Finance (75)
+- All billing and reporting permissions
+- Account settings management
+- Team view access
+- No conversation or customer-facing permissions
+
+#### Agent (50)
+- Assigned conversation management
+- Contact viewing and updating  
+- Knowledge base contribution
+- Team view access
+- No administrative permissions
+
+#### Support (25)
+- Limited conversation access (assigned only)
+- Contact viewing
+- Knowledge base contribution
+- No management or administrative permissions
+
+### Custom Roles
+
+The system supports custom roles that can:
+- Have any combination of the 64 available permissions
+- Be assigned a custom hierarchy level (1-149)
+- Include custom display name and colour
+- Override individual user permissions (grant/revoke)
+
+### Usage Examples
+
+#### Backend Permission Checking
+```ruby
+# Using RbacService
+RbacService.check_permission(account_user, 'conversation_manage_all')
+
+# Using AccountUser model
+account_user.has_permission?('billing_view')
+account_user.can_manage_user?(target_user)
+
+# Using RbacPolicy  
+policy = RbacPolicy.new(account_user, conversation)
+policy.manage_conversation?
+```
+
+#### Frontend Permission Guards
+```javascript
+// Using useRbac composable
+import { useRbac } from '@/composables/useRbac'
+
+const { hasPermission, canViewBilling, userRole } = useRbac()
+
+// Check specific permission
+if (hasPermission('team_invite')) {
+  // Show invite button
+}
+
+// Check feature-specific permissions
+if (canViewBilling()) {
+  // Show billing menu
+}
+
+// Role-based display
+const roleClass = userRole.value === 'owner' ? 'role-owner' : 'role-standard'
+```
+
+#### Custom Role Creation
+```javascript
+const customRole = {
+  name: 'Customer Success Manager',
+  description: 'Manages customer relationships and success metrics',
+  role_color: '#10B981',
+  role_hierarchy: 60,
+  permissions: [
+    'conversation_view_all',
+    'conversation_manage_assigned', 
+    'contact_view',
+    'contact_update',
+    'report_view',
+    'report_advanced',
+    'team_view'
+  ]
+}
+```
+
+### Security Features
+
+- **Privilege Escalation Prevention**: Users cannot assign roles higher than their own hierarchy
+- **Permission Override System**: Individual users can have permissions granted or revoked
+- **Audit Logging**: All permission changes are logged with timestamps and context
+- **Policy-based Authorization**: Centralized permission checking through RbacPolicy class
+- **Frontend Guards**: UI elements hidden/shown based on user permissions
+
+### File Structure
+
+- **Models**: `app/models/account_user.rb`, `enterprise/app/models/custom_role.rb`
+- **Policies**: `app/policies/rbac_policy.rb`
+- **Services**: `app/services/rbac_service.rb`  
+- **Frontend**: `app/javascript/dashboard/composables/useRbac.js`
+- **UI Components**: `app/javascript/dashboard/routes/dashboard/settings/customRoles/`
+- **Tests**: `spec/models/rbac_system_spec.rb`
+- **Migrations**: `db/migrate/20250902130000_enhance_rbac_system.rb`
+
+The RBAC system ensures secure, scalable permission management across all WeaveSmart Chat features while maintaining compatibility with existing Chatwoot functionality.
+
+## WhatsApp Integration Risk Disclaimer
+
+### ⚠️ Legal Notice: Unofficial WhatsApp Integrations
+
+**IMPORTANT DISCLAIMER**: WeaveSmart Chat provides connectivity to both official and third-party WhatsApp services. The use of unofficial/third-party WhatsApp integrations carries significant risks and limitations:
+
+#### Risks and Limitations
+
+- **Service Disruption**: Third-party WhatsApp providers can be suspended, terminated, or experience outages without notice
+- **Number Suspension**: WhatsApp may permanently suspend your business phone number for using unauthorised third-party services
+- **Terms of Service Violations**: Third-party integrations may violate WhatsApp Business Terms of Service
+- **Data Security**: Messages transmitted through third-party providers pass through non-Facebook servers
+- **Feature Limitations**: Access to new WhatsApp Business features may be delayed or unavailable
+- **Support Limitations**: Official WhatsApp support is not available for third-party integrations
+
+#### Official WhatsApp Business Cloud API
+
+WeaveCode **strongly recommends** using only the official WhatsApp Business Cloud API for:
+- ✅ Direct connection to Facebook's infrastructure
+- ✅ Full compliance with WhatsApp Business policies
+- ✅ Guaranteed service reliability and uptime
+- ✅ Access to latest features and security updates
+- ✅ Official Meta/Facebook support
+
+#### Liability Disclaimer
+
+**WeaveCode Ltd is not responsible for:**
+- Service disruptions or outages from third-party WhatsApp providers
+- WhatsApp number suspensions or bans resulting from unofficial integrations
+- Data loss, message delivery failures, or security breaches
+- Business impact or revenue loss from third-party service issues
+- Compliance violations resulting from use of unofficial integrations
+
+**By using unofficial WhatsApp integrations, you acknowledge and accept these risks entirely at your own responsibility.**
+
+#### Persistent Risk Warning
+
+A non-dismissible risk warning banner will display in your dashboard when unofficial WhatsApp integrations are detected. This warning can only be removed by migrating to the official WhatsApp Business Cloud API.
+
+#### Migration Support
+
+For assistance migrating to official WhatsApp Business Cloud API, visit: https://weavecode.co.uk/faq/whatsapp-official-api
+
+---
+
+*This disclaimer was last updated: September 2025*
