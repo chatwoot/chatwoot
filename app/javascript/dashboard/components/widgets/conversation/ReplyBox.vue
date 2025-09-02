@@ -1184,7 +1184,7 @@ export default {
       :is-on-private-note="isOnPrivateNote"
       :is-recording-audio="isRecordingAudio"
       :is-send-disabled="isReplyButtonDisabled"
-      :mode="replyType"
+      :is-note="isPrivate"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
       :conversation-type="conversationType"
