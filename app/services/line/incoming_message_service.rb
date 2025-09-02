@@ -76,7 +76,13 @@ class Line::IncomingMessageService
 
     response = inbox.channel.client.get_message_content(message['id'])
 
-    file_name = message['fileName'] || "media-#{message['id']}.#{response.content_type.split('/')[1]}"
+    extension =
+      if response.content_type && response.content_type.include?('/')
+        response.content_type.split('/')[1]
+      else
+        'bin'
+      end
+    file_name = message['fileName'] || "media-#{message['id']}.#{extension}"
     temp_file = Tempfile.new(file_name)
     temp_file.binmode
     temp_file << response.body
