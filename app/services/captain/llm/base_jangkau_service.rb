@@ -4,6 +4,11 @@ class Captain::Llm::BaseJangkauService
   include HTTParty
   base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/v2')
 
+  default_options.update(
+    open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 5).to_i,
+    read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 120).to_i
+  )
+
   def initialize(account_id, ai_agent, question, session_id)
     @account_id = account_id
     @ai_agent = ai_agent
@@ -17,7 +22,7 @@ class Captain::Llm::BaseJangkauService
 
   private
 
-  def generate_response
+  def generate_response # rubocop:disable Metrics/AbcSize
     Rails.logger.info '[generate_response] Generating response for Jangkau AI Agent'
 
     # 👇 Build the full URL
