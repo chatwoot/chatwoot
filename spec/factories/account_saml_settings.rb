@@ -15,7 +15,7 @@ FactoryBot.define do
       cert.sign(key, OpenSSL::Digest.new('SHA256'))
       cert.to_pem
     end
-    sp_entity_id { 'chatwoot-test' }
+    idp_entity_id { 'https://idp.example.com/saml/metadata' }
     role_mappings { {} }
 
     trait :with_role_mappings do

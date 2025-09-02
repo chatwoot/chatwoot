@@ -5,6 +5,7 @@ class CreateAccountSamlSettings < ActiveRecord::Migration[7.1]
       t.string :sso_url
       t.text :certificate
       t.string :sp_entity_id
+      t.string :idp_entity_id
       t.json :role_mappings, default: {}
 
       t.timestamps
