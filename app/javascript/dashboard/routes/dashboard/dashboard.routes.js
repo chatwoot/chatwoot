@@ -26,6 +26,14 @@ export default {
         ...notificationRoutes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
+        {
+          path: 'event-registration',
+          name: 'event_registration',
+          component: () => import('./EventRegistration/Index.vue'),
+          meta: {
+            permissions: ['administrator', 'agent'] // Ajustar permissões necessárias
+          }
+        }
       ],
     },
     {

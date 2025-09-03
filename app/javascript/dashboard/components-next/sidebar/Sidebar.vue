@@ -400,6 +400,12 @@ const menuItems = computed(() => {
       ],
     },
     {
+      name: 'event_registration',
+      label: 'Cadastro de Eventos',
+      icon: 'i-lucide-calendar',
+      to: accountScopedRoute('event_registration'),
+    },
+    {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
       icon: 'i-lucide-bolt',
