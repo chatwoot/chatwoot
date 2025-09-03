@@ -6,7 +6,7 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   def show; end
 
   def create
-    @saml_settings = AccountSamlSettings.new(saml_settings_params.merge(account: Current.account))
+    @saml_settings = Current.account.build_saml_settings(saml_settings_params)
     @saml_settings.save!
   end
 
@@ -22,8 +22,8 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   private
 
   def set_saml_settings
-    @saml_settings = AccountSamlSettings.find_by(account: Current.account) ||
-                     AccountSamlSettings.new(account: Current.account)
+    @saml_settings = Current.account.saml_settings ||
+                     Current.account.build_saml_settings
   end
 
   def saml_settings_params
