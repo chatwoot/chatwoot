@@ -71,6 +71,18 @@
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "YOU_CALLED": "You called",
+      "YOU_ANSWERED": "You answered",
+      "YOU_DIDNT_ANSWER": "You didn't answer"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
       "REOPEN_ACTION": "Reopen",

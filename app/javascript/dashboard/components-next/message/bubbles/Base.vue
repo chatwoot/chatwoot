@@ -10,6 +10,10 @@ import { useI18n } from 'vue-i18n';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { MESSAGE_VARIANTS, ORIENTATION } from '../constants';
 
+const props = defineProps({
+  hideMeta: { type: Boolean, default: false },
+});
+
 const { variant, orientation, inReplyTo, shouldGroupWithNext } =
   useMessageContext();
 const { t } = useI18n();
@@ -102,7 +106,11 @@ const replyToPreview = computed(() => {
     </div>
     <slot />
     <MessageMeta
-      v-if="!shouldGroupWithNext && variant !== MESSAGE_VARIANTS.ACTIVITY"
+      v-if="
+        !props.hideMeta &&
+        !shouldGroupWithNext &&
+        variant !== MESSAGE_VARIANTS.ACTIVITY
+      "
       :class="[
         flexOrientationClass,
         variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
