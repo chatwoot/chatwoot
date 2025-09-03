@@ -57,4 +57,3 @@ RSpec.describe Voice::StatusUpdateService do
     end.not_to raise_error
   end
 end
-

@@ -39,7 +39,7 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
 
     it 'does not call the builder and returns hangup when inbox not found' do
       expect(Voice::InboundCallBuilder).not_to receive(:new)
-      post "/twilio/voice/call/19998887777", params: {
+      post '/twilio/voice/call/19998887777', params: {
         'CallSid' => call_sid,
         'From' => from_number,
         'To' => to_number

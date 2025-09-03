@@ -11,15 +11,18 @@ RSpec.describe Voice::InboundCallBuilder do
   let(:to_number) { channel.phone_number }
   let(:call_sid) { 'CA1234567890abcdef' }
 
-  it 'creates a new conversation and a voice_call message and returns TwiML' do
-    builder = described_class.new(
+  def build_and_perform
+    described_class.new(
       account: account,
       inbox: inbox,
       from_number: from_number,
       to_number: to_number,
       call_sid: call_sid
     ).perform
+  end
 
+  it 'creates a new conversation with inbound ringing attributes' do
+    builder = build_and_perform
     conversation = builder.conversation
     expect(conversation).to be_present
     expect(conversation.account_id).to eq(account.id)
@@ -27,15 +30,21 @@ RSpec.describe Voice::InboundCallBuilder do
     expect(conversation.identifier).to eq(call_sid)
     expect(conversation.additional_attributes['call_direction']).to eq('inbound')
     expect(conversation.additional_attributes['call_status']).to eq('ringing')
+  end
 
+  it 'creates a voice_call message with ringing status' do
+    builder = build_and_perform
+    conversation = builder.conversation
     msg = conversation.messages.voice_calls.last
     expect(msg).to be_present
     expect(msg.message_type).to eq('incoming')
     expect(msg.content_type).to eq('voice_call')
     expect(msg.content_attributes.dig('data', 'call_sid')).to eq(call_sid)
     expect(msg.content_attributes.dig('data', 'status')).to eq('ringing')
+  end
 
-    # TwiML should include conference and status callback url
+  it 'returns TwiML with conference and status callback url' do
+    builder = build_and_perform
     with_modified_env FRONTEND_URL: 'https://app.chatwoot.test' do
       xml = builder.twiml_response
       expect(xml).to include('/twilio/voice/call/')
@@ -44,4 +53,3 @@ RSpec.describe Voice::InboundCallBuilder do
     end
   end
 end
-

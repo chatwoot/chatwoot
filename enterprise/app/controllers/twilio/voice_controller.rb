@@ -47,18 +47,16 @@ class Twilio::VoiceController < ApplicationController
   end
 
   def fallback_twiml
-    render_twiml { |r| r.hangup }
+    render_twiml(&:hangup)
   end
 
   def set_inbox
     # Resolve strictly from the digits in the route param and look up exact E.164 match
     digits = params[:phone].to_s.gsub(/\D/, '')
-    return unless digits.present?
+    return if digits.blank?
 
     e164 = "+#{digits}"
     channel = Channel::Voice.find_by(phone_number: e164)
     @inbox = channel&.inbox
   end
-
-
 end

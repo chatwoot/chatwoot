@@ -45,12 +45,12 @@ class Channel::Voice < ApplicationRecord
   # Public URLs used to configure Twilio webhooks
   def voice_call_webhook_url
     digits = phone_number.delete_prefix('+')
-    "#{ENV['FRONTEND_URL']}/twilio/voice/call/#{digits}"
+    "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/voice/call/#{digits}"
   end
 
   def voice_status_webhook_url
     digits = phone_number.delete_prefix('+')
-    "#{ENV['FRONTEND_URL']}/twilio/voice/status/#{digits}"
+    "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/voice/status/#{digits}"
   end
 
   private
