@@ -52,6 +52,11 @@ export default {
     }
     return axios.put(endPoints('profileUpdate').url, formData);
   },
+  workingHoursUpdate({ timezone, workingHours }) {
+    return axios.put(endPoints('workingHoursUpdate').url, {
+      profile: { timezone, working_hours: workingHours },
+    });
+  },
 
   profilePasswordUpdate({ currentPassword, password, passwordConfirmation }) {
     return axios.put(endPoints('profileUpdate').url, {

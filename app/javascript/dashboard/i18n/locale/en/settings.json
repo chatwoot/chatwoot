@@ -85,6 +85,13 @@
         "NOTE": "Manage additional security features for your account.",
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
+      "WORKING_HOURS_SECTION": {
+        "TITLE": "Working hours",
+        "NOTE": "Set your working hours to let your team and customers know when you're available.",
+        "UPDATE_SUCCESS": "Your working hours have been updated successfully",
+        "UPDATE_ERROR": "There is an error while updating the working hours, please try again",
+        "UPDATE_WORKING_HOURS": "Update working hours"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration",

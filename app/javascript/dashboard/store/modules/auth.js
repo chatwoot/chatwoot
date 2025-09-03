@@ -135,6 +135,16 @@ export const actions = {
     }
   },
 
+  updateWorkingHours: async ({ commit }, params) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const response = await authAPI.workingHoursUpdate(params);
+      commit(types.SET_CURRENT_USER, response.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+
   updatePassword: async ({ commit }, params) => {
     // eslint-disable-next-line no-useless-catch
     try {
