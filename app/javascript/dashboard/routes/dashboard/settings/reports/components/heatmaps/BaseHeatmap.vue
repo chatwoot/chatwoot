@@ -22,6 +22,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  colorScheme: {
+    type: String,
+    default: 'blue',
+    validator: value => ['blue', 'green'].includes(value),
+  },
 });
 const { t } = useI18n();
 const processedData = computed(() => {
@@ -79,16 +84,26 @@ function getHeatmapLevelClass(value) {
     return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
   }
 
-  const classes = [
-    'bg-n-blue-3 dark:outline-n-blue-4',
-    'bg-n-blue-5 dark:outline-n-blue-6',
-    'bg-n-blue-7 dark:outline-n-blue-8',
-    'bg-n-blue-8 dark:outline-n-blue-9',
-    'bg-n-blue-10 dark:outline-n-blue-8',
-    'bg-n-blue-11 dark:outline-n-blue-10',
-  ];
+  const colorSchemes = {
+    blue: [
+      'bg-n-blue-3 dark:outline-n-blue-4',
+      'bg-n-blue-5 dark:outline-n-blue-6',
+      'bg-n-blue-7 dark:outline-n-blue-8',
+      'bg-n-blue-8 dark:outline-n-blue-9',
+      'bg-n-blue-10 dark:outline-n-blue-8',
+      'bg-n-blue-11 dark:outline-n-blue-10',
+    ],
+    green: [
+      'bg-n-teal-3 dark:outline-n-teal-4',
+      'bg-n-teal-5 dark:outline-n-teal-6',
+      'bg-n-teal-7 dark:outline-n-teal-8',
+      'bg-n-teal-8 dark:outline-n-teal-9',
+      'bg-n-teal-10 dark:outline-n-teal-8',
+      'bg-n-teal-11 dark:outline-n-teal-10',
+    ],
+  };
 
-  return classes[level - 1];
+  return colorSchemes[props.colorScheme][level - 1];
 }
 </script>
 
@@ -126,7 +141,7 @@ function getHeatmapLevelClass(value) {
           :key="ii"
           class="flex items-center justify-center"
         >
-          {{ ii - 1 }} – {{ ii }}
+          {{ ii - 1 }}
         </div>
       </div>
     </template>
@@ -167,7 +182,7 @@ function getHeatmapLevelClass(value) {
           :key="ii"
           class="flex items-center justify-center"
         >
-          {{ ii - 1 }} – {{ ii }}
+          {{ ii - 1 }}
         </div>
       </div>
     </template>

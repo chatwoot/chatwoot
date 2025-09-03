@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import { useToggle } from '@vueuse/core';
-import MetricCard from './overview/MetricCard.vue';
-import ReportHeatmap from './Heatmap.vue';
+import MetricCard from '../overview/MetricCard.vue';
+import BaseHeatmap from './BaseHeatmap.vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
 import endOfDay from 'date-fns/endOfDay';
@@ -15,14 +15,47 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
 import { downloadCsvFile } from 'dashboard/helper/downloadHelper';
 
+const props = defineProps({
+  metric: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  downloadTitle: {
+    type: String,
+    required: true,
+  },
+  storeGetter: {
+    type: String,
+    required: true,
+  },
+  storeAction: {
+    type: String,
+    required: true,
+  },
+  downloadAction: {
+    type: String,
+    default: '',
+  },
+  uiFlagKey: {
+    type: String,
+    required: true,
+  },
+  colorScheme: {
+    type: String,
+    default: 'blue',
+  },
+});
+
 const store = useStore();
+const { t } = useI18n();
 
 const uiFlags = useMapGetter('getOverviewUIFlags');
-const accountConversationHeatmap = useMapGetter(
-  'getAccountConversationHeatmapData'
-);
+const heatmapData = useMapGetter(props.storeGetter);
 const inboxes = useMapGetter('inboxes/getInboxes');
-const { t } = useI18n();
 
 const menuItems = [
   {
@@ -47,10 +80,12 @@ const inboxMenuItems = computed(() => {
     {
       label: t('INBOX_REPORTS.ALL_INBOXES'),
       value: null,
+      action: 'select_inbox',
     },
     ...inboxes.value.map(inbox => ({
       label: inbox.name,
       value: inbox.id,
+      action: 'select_inbox',
     })),
   ];
 });
@@ -64,32 +99,31 @@ const selectedInboxFilter = computed(() => {
   );
 });
 
+const isLoading = computed(() => uiFlags.value[props.uiFlagKey]);
+
 const downloadHeatmapData = () => {
   const to = endOfDay(new Date());
 
-  // If no inbox is selected, use the existing backend CSV endpoint
-  if (!selectedInbox.value) {
-    store.dispatch('downloadAccountConversationHeatmap', {
+  // If no inbox is selected and download action exists, use backend endpoint
+  if (!selectedInbox.value && props.downloadAction) {
+    store.dispatch(props.downloadAction, {
       daysBefore: selectedDays.value,
       to: getUnixTime(to),
     });
     return;
   }
 
-  // If inbox is selected, generate CSV from store data
-  if (
-    !accountConversationHeatmap.value ||
-    accountConversationHeatmap.value.length === 0
-  ) {
+  // Generate CSV from store data
+  if (!heatmapData.value || heatmapData.value.length === 0) {
     return;
   }
 
   // Create CSV headers
-  const headers = ['Date', 'Hour', 'Conversations Count'];
+  const headers = ['Date', 'Hour', props.title];
   const rows = [headers];
 
   // Convert heatmap data to rows
-  accountConversationHeatmap.value.forEach(item => {
+  heatmapData.value.forEach(item => {
     const date = new Date(item.timestamp * 1000);
     const dateStr = format(date, 'yyyy-MM-dd');
     const hour = date.getHours();
@@ -99,17 +133,24 @@ const downloadHeatmapData = () => {
   // Convert to CSV string
   const csvContent = rows.map(row => row.join(',')).join('\n');
 
-  // Generate filename with inbox name
-  const inboxName = selectedInbox.value.name.replace(/[^a-z0-9]/gi, '_');
-  const fileName = `conversation_heatmap_${inboxName}_${format(new Date(), 'dd-MM-yyyy')}.csv`;
+  // Generate filename
+  const inboxName = selectedInbox.value
+    ? `_${selectedInbox.value.name.replace(/[^a-z0-9]/gi, '_')}`
+    : '';
+  const fileName = `${props.downloadTitle}${inboxName}_${format(
+    new Date(),
+    'dd-MM-yyyy'
+  )}.csv`;
 
   // Download the file
   downloadCsvFile(fileName, csvContent);
 };
+
 const [showDropdown, toggleDropdown] = useToggle();
 const [showInboxDropdown, toggleInboxDropdown] = useToggle();
+
 const fetchHeatmapData = () => {
-  if (uiFlags.value.isFetchingAccountConversationsHeatmap) {
+  if (isLoading.value) {
     return;
   }
 
@@ -117,7 +158,7 @@ const fetchHeatmapData = () => {
   let from = startOfDay(subDays(to, Number(selectedDays.value)));
 
   const params = {
-    metric: 'conversations_count',
+    metric: props.metric,
     from: getUnixTime(from),
     to: getUnixTime(to),
     groupBy: 'hour',
@@ -130,7 +171,7 @@ const fetchHeatmapData = () => {
     params.id = selectedInbox.value.id;
   }
 
-  store.dispatch('fetchAccountConversationHeatmap', params);
+  store.dispatch(props.storeAction, params);
 };
 
 const handleAction = ({ value }) => {
@@ -158,7 +199,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-row flex-wrap max-w-full">
-    <MetricCard :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
+    <MetricCard :header="title">
       <template #control>
         <div
           v-on-clickaway="() => toggleDropdown(false)"
@@ -209,10 +250,11 @@ onMounted(() => {
           @click="downloadHeatmapData"
         />
       </template>
-      <ReportHeatmap
-        :heatmap-data="accountConversationHeatmap"
+      <BaseHeatmap
+        :heatmap-data="heatmapData"
         :number-of-rows="selectedDays + 1"
-        :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
+        :is-loading="isLoading"
+        :color-scheme="colorScheme"
       />
     </MetricCard>
   </div>
