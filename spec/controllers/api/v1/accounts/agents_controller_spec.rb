@@ -39,6 +39,26 @@ RSpec.describe 'Agents API', type: :request do
         data = response.parsed_body
         expect(data.first['custom_attributes']['test']).to eq('test')
       end
+
+      it 'returns timezone of agents' do
+        get "/api/v1/accounts/#{account.id}/agents",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = response.parsed_body
+        expect(data.first['timezone']).to eq('UTC')
+      end
+
+      it 'return working hours of agents' do
+        get "/api/v1/accounts/#{account.id}/agents",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        data = response.parsed_body
+        expect(data.first['working_hours'].size).to eq(7)
+      end
     end
   end
 
@@ -137,6 +157,54 @@ RSpec.describe 'Agents API', type: :request do
         expect(response_data['availability_status']).to eq('busy')
         expect(response_data['auto_offline']).to be(false)
         expect(other_agent.account_users.first.role).to eq('administrator')
+      end
+
+      it 'modifies an agents timezone' do
+        put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+            params: { timezone: 'Asia/Kolkata' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(other_agent.reload.current_account_user.timezone).to eq('Asia/Kolkata')
+      end
+
+      it 'modifies an agents working hours' do
+        working_hours = [
+          { 'day_of_week' => 0, 'closed_all_day' => false, 'open_hour' => 0, 'open_minutes' => 0, 'close_hour' => 8, 'close_minutes' => 0,
+            'open_all_day' => false },
+          { 'day_of_week' => 1, 'closed_all_day' => false, 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0,
+            'open_all_day' => false },
+          { 'day_of_week' => 2, 'closed_all_day' => false, 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0,
+            'open_all_day' => false },
+          { 'day_of_week' => 3, 'closed_all_day' => false, 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0,
+            'open_all_day' => false },
+          { 'day_of_week' => 4, 'closed_all_day' => false, 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0,
+            'open_all_day' => false },
+          { 'day_of_week' => 5, 'closed_all_day' => false, 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0,
+            'open_all_day' => false },
+          { 'day_of_week' => 6, 'closed_all_day' => false, 'open_hour' => 10, 'open_minutes' => 0, 'close_hour' => 16, 'close_minutes' => 0,
+            'open_all_day' => false }
+        ]
+
+        put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+            params: { working_hours: working_hours },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        other_agent.reload
+        other_agent.current_account_user.working_hours.each do |day|
+          expected_day = working_hours.find { |d| d['day_of_week'] == day['day_of_week'] }
+
+          expect(day['closed_all_day']).to eq(expected_day['closed_all_day'])
+          expect(day['open_hour']).to eq(expected_day['open_hour'])
+          expect(day['open_minutes']).to eq(expected_day['open_minutes'])
+          expect(day['close_hour']).to eq(expected_day['close_hour'])
+          expect(day['close_minutes']).to eq(expected_day['close_minutes'])
+          expect(day['open_all_day']).to eq(expected_day['open_all_day'])
+        end
       end
     end
   end
