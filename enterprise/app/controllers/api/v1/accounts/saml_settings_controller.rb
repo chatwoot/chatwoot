@@ -43,6 +43,6 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   def check_saml_feature_enabled
     return if Current.account.feature_enabled?('saml')
 
-    render json: { error: 'SAML feature not enabled for this account' }, status: :forbidden
+    render json: { error: I18n.t('errors.saml.feature_not_enabled') }, status: :forbidden
   end
 end

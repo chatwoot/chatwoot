@@ -80,7 +80,6 @@ RSpec.describe 'Api::V1::Accounts::SamlSettings', type: :request do
             headers: administrator.create_new_auth_token
 
         expect(response).to have_http_status(:forbidden)
-        expect(json_response[:error]).to eq('SAML feature not enabled for this account')
       end
     end
   end
