@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_saml_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "sso_url"
+    t.text "certificate"
+    t.string "sp_entity_id"
+    t.string "idp_entity_id"
+    t.json "role_mappings", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
   end
 
   create_table "account_users", force: :cascade do |t|
