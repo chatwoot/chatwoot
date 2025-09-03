@@ -36,7 +36,7 @@ class Seeders::Reports::ReportDataSeeder
   TOTAL_LABELS = 30
   TOTAL_INBOXES = 3
   MESSAGES_PER_CONVERSATION = 5
-  START_DATE = 14.days.ago # rubocop:disable Rails/RelativeDateConstant
+  START_DATE = 3.months.ago # rubocop:disable Rails/RelativeDateConstant
   END_DATE = Time.current
 
   def initialize(account:)
