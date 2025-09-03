@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP 地址",
     "CREATED_AT_LABEL": "创建时间",
     "NEW_MESSAGE": "新消息",
+    "CALL": "呼叫",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
       "TITLE": "上一次对话"

@@ -128,7 +128,7 @@ const menuItems = computed(() => {
       to: accountScopedRoute('inbox_view'),
       activeOn: ['inbox_view', 'inbox_view_conversation'],
       getterKeys: {
-        badge: 'notifications/getHasUnreadNotifications',
+        count: 'notifications/getUnreadCount',
       },
     },
     {
