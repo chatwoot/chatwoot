@@ -2,7 +2,7 @@
 import PageHeader from '../../SettingsSubPageHeader.vue';
 // import Twilio from './Twilio.vue';
 // import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
-// import CloudWhatsapp from './CloudWhatsapp.vue';
+import CloudWhatsapp from './CloudWhatsapp.vue';
 import Whapi from './Whapi.vue';
 
 export default {
@@ -10,7 +10,7 @@ export default {
     PageHeader,
     // Twilio,
     // ThreeSixtyDialogWhatsapp,
-    // CloudWhatsapp,
+    CloudWhatsapp,
     Whapi,
   },
   props: {
@@ -43,14 +43,25 @@ export default {
       :header-title="$t('INBOX_MGMT.ADD.WHATSAPP.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WHATSAPP.DESC')"
     />
+    <div class="mb-4">
+      <a
+        href="https://doc.clickup.com/9013924102/d/h/8cmb486-4633/999a328108d91cd"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-sm text-n-brand dark:text-n-lightBrand hover:underline"
+      >
+        <fluent-icon icon="video" size="16" />
+        {{ $t('INBOX_MGMT.ADD.WHATSAPP.WATCH_VIDEO') }}
+      </a>
+    </div>
     <div class="flex-shrink-0 flex-grow-0">
       <label>
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
         <select v-model="provider" :disabled="whapiStep !== 'name'">
-          <!-- <option value="whatsapp_cloud">
+          <option value="whatsapp_cloud">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD') }}
           </option>
-          <option value="twilio">
+          <!-- <option value="twilio">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO') }}
           </option> -->
           <option value="whapi">
@@ -66,6 +77,6 @@ export default {
     />
     <!-- <Twilio v-else-if="provider === 'twilio'" type="whatsapp" />
     <ThreeSixtyDialogWhatsapp v-else-if="provider === '360dialog'" /> -->
-    <!-- <CloudWhatsapp v-else /> -->
+    <CloudWhatsapp v-else-if="provider === 'whatsapp_cloud'" />
   </div>
 </template>
