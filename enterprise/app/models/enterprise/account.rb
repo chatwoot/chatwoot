@@ -29,6 +29,6 @@ module Enterprise::Account
   end
 
   def saml_enabled?
-    AccountSamlSettings.find_by(account: self)&.saml_enabled? || false
+    saml_settings&.saml_enabled? || false
   end
 end
