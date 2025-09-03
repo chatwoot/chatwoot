@@ -67,5 +67,15 @@ RSpec.describe AgentBuilder, type: :model do
         expect(user.encrypted_password).not_to be_empty
       end
     end
+
+    context 'when timezone is provided' do
+      let(:timezone) { 'America/New_York' }
+      let(:params) { super().merge(timezone: timezone) }
+
+      it 'creates account user with the specified timezone' do
+        account_user = agent_builder.perform
+        expect(AccountUser.find_by(user: account_user).timezone).to eq(timezone)
+      end
+    end
   end
 end

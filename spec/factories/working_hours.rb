@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :working_hour do
-    inbox
+    workable { association :inbox }
     day_of_week   { 1 }
     open_hour     { 9 }
     open_minutes  { 0 }
