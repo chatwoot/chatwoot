@@ -17,6 +17,8 @@ json.role resource.active_account_user&.role
 json.ui_settings resource.ui_settings
 json.uid resource.uid
 json.type resource.type
+json.timezone resource.current_account_user&.timezone
+
 json.accounts do
   json.array! resource.account_users do |account_user|
     json.id account_user.account_id
@@ -32,4 +34,8 @@ json.accounts do
     json.auto_offline account_user.auto_offline
     json.partial! 'api/v1/models/account_user', account_user: account_user if ChatwootApp.enterprise?
   end
+end
+
+json.working_hours resource.current_account_user&.working_hours do |wh|
+  json.partial! 'api/v1/models/working_hours', resource: wh
 end

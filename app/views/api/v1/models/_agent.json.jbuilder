@@ -12,16 +12,8 @@ json.name resource.name
 json.role resource.role
 json.thumbnail resource.avatar_url
 json.custom_role_id resource.current_account_user&.custom_role_id if ChatwootApp.enterprise?
-json.timezone resource.timezone
+json.timezone resource.current_account_user&.timezone
 
-json.working_hours resource.working_hours do |wh|
-  json.id wh.id
-  json.day_of_week wh.day_of_week
-  json.open_all_day wh.open_all_day
-  json.closed_all_day wh.closed_all_day
-  json.open_hour wh.open_hour
-  json.open_minutes wh.open_minutes
-  json.close_hour wh.close_hour
-  json.close_minutes wh.close_minutes
-  json.timezone resource.timezone if resource.respond_to?(:timezone)
+json.working_hours resource.current_account_user&.working_hours do |wh|
+  json.partial! 'api/v1/models/working_hours', resource: wh
 end

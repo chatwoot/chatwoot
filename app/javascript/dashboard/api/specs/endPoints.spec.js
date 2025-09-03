@@ -10,4 +10,9 @@ describe('#endPoints', () => {
       params: { inbox_id: null },
     });
   });
+  it('it shout return woking hourst update url details', () => {
+    expect(endPoints('workingHoursUpdate')).toEqual({
+      url: '/api/v1/profile/update_working_hours',
+    });
+  });
 });

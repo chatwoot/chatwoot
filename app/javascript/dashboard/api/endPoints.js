@@ -22,6 +22,9 @@ const endPoints = {
   logout: {
     url: 'auth/sign_out',
   },
+  workingHoursUpdate: {
+    url: '/api/v1/profile/update_working_hours',
+  },
 
   me: {
     url: 'api/v1/conversations.json',

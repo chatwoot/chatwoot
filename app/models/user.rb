@@ -27,7 +27,6 @@
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
-#  timezone               :string           default("UTC")
 #  tokens                 :json
 #  type                   :string
 #  ui_settings            :jsonb
@@ -56,7 +55,6 @@ class User < ApplicationRecord
   include Reportable
   include SsoAuthenticatable
   include UserAttributeHelpers
-  include OutOfOffisable
 
   devise :database_authenticatable,
          :registerable,

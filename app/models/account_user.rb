@@ -7,6 +7,7 @@
 #  auto_offline             :boolean          default(TRUE), not null
 #  availability             :integer          default("online"), not null
 #  role                     :integer          default("agent")
+#  timezone                 :string           default("UTC")
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  account_id               :bigint
@@ -26,6 +27,7 @@
 
 class AccountUser < ApplicationRecord
   include AvailabilityStatusable
+  include OutOfOffisable
 
   belongs_to :account
   belongs_to :user

@@ -336,4 +336,62 @@ RSpec.describe 'Profile API', type: :request do
       end
     end
   end
+
+  describe 'PUT /api/v1/profile/update_working_hours' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        put '/api/v1/profile/update_working_hours'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:working_hours) do
+        [
+          { day_of_week: 2, closed_all_day: true,  open_hour: nil, open_minutes: nil, close_hour: nil, close_minutes: nil, open_all_day: false },
+          { day_of_week: 3, closed_all_day: true,  open_hour: nil, open_minutes: nil, close_hour: nil, close_minutes: nil, open_all_day: false },
+          { day_of_week: 4, closed_all_day: false, open_hour: 0,  open_minutes: 0,  close_hour: 8,  close_minutes: 0,  open_all_day: false },
+          { day_of_week: 0, closed_all_day: false, open_hour: 1,  open_minutes: 0,  close_hour: 9,  close_minutes: 0,  open_all_day: false },
+          { day_of_week: 1, closed_all_day: false, open_hour: 1,  open_minutes: 30, close_hour: 9,  close_minutes: 30, open_all_day: false },
+          { day_of_week: 5, closed_all_day: false, open_hour: 0,  open_minutes: 0,  close_hour: 8,  close_minutes: 0,  open_all_day: false },
+          { day_of_week: 6, closed_all_day: false, open_hour: 3,  open_minutes: 0,  close_hour: 4,  close_minutes: 30, open_all_day: false }
+        ]
+      end
+
+      it 'updates the working hours of the current account user' do
+        put '/api/v1/profile/update_working_hours',
+            params: { profile: { working_hours: working_hours } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+
+        agent.current_account_user.working_hours.each do |day|
+          expected_day = working_hours.find { |d| d[:day_of_week] == day['day_of_week'] }
+
+          expect(day['closed_all_day']).to eq(expected_day[:closed_all_day])
+          expect(day['open_hour']).to eq(expected_day[:open_hour])
+          expect(day['open_minutes']).to eq(expected_day[:open_minutes])
+          expect(day['close_hour']).to eq(expected_day[:close_hour])
+          expect(day['close_minutes']).to eq(expected_day[:close_minutes])
+          expect(day['open_all_day']).to eq(expected_day[:open_all_day])
+        end
+      end
+
+      it 'updates the timezone of the current account user' do
+        put '/api/v1/profile/update_working_hours',
+            params: { profile: { working_hours: working_hours, timezone: 'Kolkata' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+
+        expect(agent.current_account_user.timezone).to eq('Kolkata')
+      end
+    end
+  end
 end

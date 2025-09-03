@@ -24,7 +24,9 @@ module UserAttributeHelpers
   def current_account_user
     # We want to avoid subsequent queries in case where the association is preloaded.
     # using where here will trigger n+1 queries.
-    account_users.find { |ac_usr| ac_usr.account_id == Current.account.id } if Current.account
+    account_id  = Current.account&.id || active_account_user&.account_id
+
+    account_users.find { |ac_usr| ac_usr.account_id == account_id } if account_id
   end
 
   def account
