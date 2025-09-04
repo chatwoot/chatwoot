@@ -36,9 +36,12 @@ const handleClick = () => {
       <li
         v-for="feature in features"
         :key="feature.id"
-        class="flex items-center gap-3"
+        class="flex items-center gap-3 text-sm"
       >
-        <Icon :icon="feature.icon" class="text-n-slate-11 size-4" />
+        <Icon
+          :icon="feature.icon"
+          class="text-n-slate-11 size-4 flex-shrink-0"
+        />
         {{ feature.label }}
       </li>
     </ul>
