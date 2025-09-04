@@ -1,8 +1,8 @@
 class Duitku::PaymentService
     include HTTParty
     
-    def initialize(environment = ENV['DUITKU_ENV']&.to_sym || :production)
-      @base_url = environment == :production ? 'https://api.duitku.com' : 'https://sandbox.duitku.com'
+    def initialize
+      @base_url = ENV['DUITKU_BASE_URL'] || 'https://sandbox.duitku.com'
       @merchant_code = ENV['DUITKU_MERCHANT_CODE']
       @api_key = ENV['DUITKU_API_KEY']
     end
