@@ -24,24 +24,6 @@ export default {
             permissions: ['administrator'],
           },
         },
-        // {
-        //   path: 'assignment-policy',
-        //   name: 'assignment_policy',
-        //   component: AssignmentPolicyIndex,
-        //   meta: {
-        //     featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
-        //     permissions: ['administrator'],
-        //   },
-        // },
-        // {
-        //   path: 'agent-capacity-policy',
-        //   name: 'agent_capacity_policy',
-        //   component: AssignmentPolicyIndex,
-        //   meta: {
-        //     featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
-        //     permissions: ['administrator'],
-        //   },
-        // },
       ],
     },
   ],
