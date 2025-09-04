@@ -726,6 +726,7 @@ export default {
   border-radius: 4px;
 }
 
+
 ::-webkit-scrollbar-thumb:hover {
   background: #5a5a5a;
 }
