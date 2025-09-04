@@ -46,34 +46,4 @@ describe('#getters', () => {
     );
     expect(getters.getAssignmentPolicyById(state)(3)).toEqual({});
   });
-
-  it('getAssignmentPoliciesByOrder', () => {
-    const state = { records: assignmentPoliciesList };
-    expect(getters.getAssignmentPoliciesByOrder(state)('round_robin')).toEqual([
-      assignmentPoliciesList[0],
-    ]);
-    expect(getters.getAssignmentPoliciesByOrder(state)('balanced')).toEqual([
-      assignmentPoliciesList[1],
-    ]);
-    expect(getters.getAssignmentPoliciesByOrder(state)('nonexistent')).toEqual(
-      []
-    );
-  });
-
-  it('getAssignmentPoliciesByOrder with camelCase properties', () => {
-    const camelCaseRecords = [
-      {
-        ...assignmentPoliciesList[0],
-        assignmentOrder: 'round_robin',
-      },
-      {
-        ...assignmentPoliciesList[1],
-        assignmentOrder: 'balanced',
-      },
-    ];
-    const state = { records: camelCaseRecords };
-    expect(getters.getAssignmentPoliciesByOrder(state)('round_robin')).toEqual([
-      camelCaseRecords[0],
-    ]);
-  });
 });

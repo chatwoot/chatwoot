@@ -31,9 +31,6 @@ export const getters = {
   getAssignmentPolicyById: _state => id => {
     return _state.records.find(record => record.id === Number(id)) || {};
   },
-  getAssignmentPoliciesByOrder: _state => order => {
-    return _state.records.filter(record => record.assignment_order === order);
-  },
 };
 
 export const actions = {
