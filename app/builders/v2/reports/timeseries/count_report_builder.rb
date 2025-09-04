@@ -40,6 +40,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   def scope_for_resolutions_count
     scope.reporting_events.where(
       name: :conversation_resolved,
+      account_id: account.id,
       created_at: range
     )
   end
@@ -47,6 +48,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   def scope_for_bot_resolutions_count
     scope.reporting_events.where(
       name: :conversation_bot_resolved,
+      account_id: account.id,
       created_at: range
     )
   end
@@ -54,6 +56,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   def scope_for_bot_handoffs_count
     scope.reporting_events.joins(:conversation).select(:conversation_id).where(
       name: :conversation_bot_handoff,
+      account_id: account.id,
       created_at: range
     ).distinct
   end
