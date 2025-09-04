@@ -41,6 +41,8 @@ el:
       failed: Η εγγραφή απέτυχε
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Μη έγκυρος τύπος δεδομένων
