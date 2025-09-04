@@ -69,7 +69,7 @@ class AccountUser < ApplicationRecord
   private
 
   def notify_creation
-    Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)
+    Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account, user: user)
   end
 
   def notify_deletion

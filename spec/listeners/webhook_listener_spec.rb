@@ -354,4 +354,27 @@ describe WebhookListener do
       end
     end
   end
+
+  describe '#agent_added' do
+    let(:event_name) { :'agent.added' }
+    let!(:agent_added_event) { Events::Base.new(event_name, Time.zone.now, user: user, account: account) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.agent_added(agent_added_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account, subscriptions: ['agent_added'])
+
+        payload = user.webhook_data.merge(event: 'agent_added')
+
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+        listener.agent_added(agent_added_event)
+      end
+    end
+  end
 end
