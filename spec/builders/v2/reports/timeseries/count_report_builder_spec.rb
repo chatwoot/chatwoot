@@ -102,12 +102,12 @@ describe V2::Reports::Timeseries::CountReportBuilder do
 
   describe 'account isolation' do
     it 'does not leak data between accounts' do
-      # Verify the SQL includes account_id
-      allow(subject).to receive(:object_scope).and_call_original
-      subject.aggregate_value
+      # If account isolation works correctly, the counts should be different
+      account1_count = described_class.new(account, params).aggregate_value
+      account2_count = described_class.new(account2, params).aggregate_value
 
-      # The scope should filter by account_id
-      expect(subject.send(:object_scope).to_sql).to include('account_id')
+      expect(account1_count).to eq(2)
+      expect(account2_count).to eq(3)
     end
   end
 end
