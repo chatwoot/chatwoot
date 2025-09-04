@@ -4,14 +4,8 @@ require 'rails_helper'
 
 RSpec.describe Voice::StatusUpdateService do
   let(:account) { create(:account) }
-  let(:channel) { create(:channel_voice, account: account, phone_number: '+15551230002') }
-  let(:inbox) { channel.inbox }
-  let(:from_number) { '+15550002222' }
-  let(:call_sid) { 'CATESTSTATUS123' }
-
   let!(:contact) { create(:contact, account: account, phone_number: from_number) }
   let!(:contact_inbox) { ContactInbox.create!(contact: contact, inbox: inbox, source_id: from_number) }
-
   let!(:conversation) do
     Conversation.create!(
       account_id: account.id,
@@ -22,7 +16,6 @@ RSpec.describe Voice::StatusUpdateService do
       additional_attributes: { 'call_direction' => 'inbound', 'call_status' => 'ringing' }
     )
   end
-
   let!(:message) do
     conversation.messages.create!(
       account_id: account.id,
@@ -33,6 +26,15 @@ RSpec.describe Voice::StatusUpdateService do
       content_type: 'voice_call',
       content_attributes: { data: { call_sid: call_sid, status: 'ringing' } }
     )
+  end
+  let(:channel) { create(:channel_voice, account: account, phone_number: '+15551230002') }
+  let(:inbox) { channel.inbox }
+  let(:from_number) { '+15550002222' }
+  let(:call_sid) { 'CATESTSTATUS123' }
+
+  before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+      .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
   end
 
   it 'updates conversation and last voice message with call status' do
