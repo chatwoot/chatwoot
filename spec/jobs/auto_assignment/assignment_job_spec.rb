@@ -32,7 +32,7 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
 
         it 'uses custom bulk limit from environment' do
           allow(ENV).to receive(:fetch).with('AUTO_ASSIGNMENT_BULK_LIMIT', 100).and_return('50')
-          
+
           service = instance_double(AutoAssignment::AssignmentService)
           allow(AutoAssignment::AssignmentService).to receive(:new).with(inbox: inbox).and_return(service)
           expect(service).to receive(:perform_bulk_assignment).with(limit: 50).and_return(2)
@@ -56,7 +56,7 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
       it 'returns early without processing' do
         expect(AutoAssignment::AssignmentService).not_to receive(:new)
 
-        described_class.new.perform(inbox_id: 999999)
+        described_class.new.perform(inbox_id: 999_999)
       end
     end
 
@@ -68,9 +68,9 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
 
         expect(Rails.logger).to receive(:error).with("Bulk assignment failed for inbox #{inbox.id}: Something went wrong")
 
-        expect {
+        expect do
           described_class.new.perform(inbox_id: inbox.id)
-        }.to raise_error(StandardError, 'Something went wrong')
+        end.to raise_error(StandardError, 'Something went wrong')
       end
     end
   end

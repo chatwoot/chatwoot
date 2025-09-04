@@ -69,7 +69,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
     context 'with batch processing' do
       it 'processes accounts in batches' do
         # Create multiple accounts
-        5.times do |i|
+        5.times do |_i|
           acc = create(:account)
           inb = create(:inbox, account: acc, enable_auto_assignment: true)
           create(:assignment_policy, inbox: inb)
