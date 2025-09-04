@@ -41,6 +41,8 @@ sq:
       failed: Signup failed
     assignment_policy:
       not_found: Nuk u gjet politika e caktimit
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Invalid data type
