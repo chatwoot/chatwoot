@@ -198,3 +198,13 @@
 - name: twilio_content_templates
   display_name: Twilio Content Templates
   enabled: false
+  deprecated: true
+- name: advanced_search
+  display_name: Advanced Search
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+- name: saml
+  display_name: SAML
+  enabled: false
+  premium: true
