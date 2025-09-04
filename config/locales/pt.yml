@@ -41,6 +41,8 @@ pt:
       failed: Falha na inscrição
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Tipo de dados inválido
