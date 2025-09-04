@@ -19,7 +19,11 @@ services:
     <<: *base
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+      dockerfile: Dockerfile-staging-rails
+      args:
+        BUNDLE_WITHOUT: ''
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
     image: chatwoot-rails:development
     volumes:
       - ./:/app:delegated
@@ -45,7 +49,13 @@ services:
 
   sidekiq:
     <<: *base
-    image: chatwoot-rails:development
+    build:
+      context: .
+      dockerfile: Dockerfile-staging-sidekiq
+      args:
+        BUNDLE_WITHOUT: ''
+        RAILS_ENV: 'development'
+    image: chatwoot-sidekiq:development
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -92,7 +102,7 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=postgres
 
   redis:
     image: redis:alpine
