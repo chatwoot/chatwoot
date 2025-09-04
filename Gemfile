@@ -245,3 +245,7 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
+gem "aws-sdk-cloudwatch", "~> 1.73"
+
+gem "aws-sdk-ec2", "~> 1.380"

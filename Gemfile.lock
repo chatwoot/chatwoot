@@ -131,11 +131,17 @@ GEM
       activesupport (>= 5.0, < 7.7)
     aws-eventstream (1.2.0)
     aws-partitions (1.760.0)
+    aws-sdk-cloudwatch (1.73.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-core (3.171.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.5)
       jmespath (~> 1, >= 1.6.1)
+    aws-sdk-ec2 (1.380.0)
+      aws-sdk-core (~> 3, >= 3.165.0)
+      aws-sigv4 (~> 1.1)
     aws-sdk-kms (1.64.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
@@ -859,6 +865,8 @@ DEPENDENCIES
   annotate
   attr_extras
   audited (~> 5.4, >= 5.4.1)
+  aws-sdk-cloudwatch (~> 1.73)
+  aws-sdk-ec2 (~> 1.380)
   aws-sdk-s3
   azure-storage-blob!
   barnes
