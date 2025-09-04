@@ -91,7 +91,7 @@ services:
     command: bin/vite dev
 
   postgres:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg17
     restart: always
     ports:
       - '5432:5432'
