@@ -76,7 +76,6 @@ gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_pa
 gem 'devise_token_auth', '>= 1.2.3'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
-gem 'rqrcode', '>= 2.2.0'
 # authorization
 gem 'jwt'
 gem 'pundit'

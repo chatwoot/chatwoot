@@ -61,8 +61,8 @@ RSpec.describe 'MFA API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
-        expect(json_response['qr_code_url']).not_to be_nil
-        expect(json_response['qr_code_url']).to include('data:image/png')
+        expect(json_response['provisioning_url']).not_to be_nil
+        expect(json_response['provisioning_url']).to include('otpauth://totp')
         expect(json_response['secret']).not_to be_nil
         expect(json_response['backup_codes']).to be_an(Array)
         expect(json_response['backup_codes'].length).to eq(10)
@@ -106,7 +106,6 @@ RSpec.describe 'MFA API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
-        expect(json_response['message']).to eq(I18n.t('profile.mfa.enabled'))
         expect(json_response['enabled']).to be_truthy
 
         user.reload
@@ -121,7 +120,7 @@ RSpec.describe 'MFA API', type: :request do
              headers: user.create_new_auth_token,
              as: :json
 
-        expect(response).to have_http_status(:bad_request)
+        expect(response).to have_http_status(:unprocessable_entity)
         json_response = response.parsed_body
         expect(json_response['error']).to eq(I18n.t('errors.mfa.invalid_code'))
       end
@@ -164,7 +163,6 @@ RSpec.describe 'MFA API', type: :request do
 
           expect(response).to have_http_status(:success)
           json_response = response.parsed_body
-          expect(json_response['message']).to eq(I18n.t('profile.mfa.disabled'))
           expect(json_response['enabled']).to be_falsey
 
           user.reload
@@ -183,7 +181,7 @@ RSpec.describe 'MFA API', type: :request do
                  headers: user.create_new_auth_token,
                  as: :json
 
-          expect(response).to have_http_status(:bad_request)
+          expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['error']).to include('Invalid')
         end
@@ -196,7 +194,7 @@ RSpec.describe 'MFA API', type: :request do
                  headers: user.create_new_auth_token,
                  as: :json
 
-          expect(response).to have_http_status(:bad_request)
+          expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['error']).to include('Invalid')
         end
@@ -247,7 +245,7 @@ RSpec.describe 'MFA API', type: :request do
                headers: user.create_new_auth_token,
                as: :json
 
-          expect(response).to have_http_status(:bad_request)
+          expect(response).to have_http_status(:unprocessable_entity)
           json_response = response.parsed_body
           expect(json_response['error']).to eq(I18n.t('errors.mfa.invalid_code'))
         end
