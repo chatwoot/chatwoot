@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "Enviar mensagem"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Selecione o modelo",
+        "SEARCH_PLACEHOLDER": "Pesquisar modelos",
+        "EMPTY_STATE": "Nenhum modelo encontrado",
+        "TEMPLATE_PARSER": {
+          "BACK": "Voltar atrás",
+          "SEND_MESSAGE": "Enviar mensagem"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "Descartar",
         "SEND": "Enviar ({keyCode})"

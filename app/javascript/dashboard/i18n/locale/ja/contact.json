@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "メッセージを送信"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "テンプレートを選択",
+        "SEARCH_PLACEHOLDER": "テンプレートを検索",
+        "EMPTY_STATE": "テンプレートが見つかりません。",
+        "TEMPLATE_PARSER": {
+          "BACK": "戻る",
+          "SEND_MESSAGE": "メッセージを送信"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "破棄",
         "SEND": "送信 ({keyCode})"
