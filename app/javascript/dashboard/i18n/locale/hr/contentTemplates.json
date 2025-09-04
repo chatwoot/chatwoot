@@ -1,0 +1,51 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Templates",
+      "SUBTITLE": "Select the Twilio template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Pretraži Predloške",
+      "NO_TEMPLATES_FOUND": "Nije pronađen predložak za",
+      "NO_CONTENT": "No content",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Kategorija",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Jezik",
+        "TEMPLATE_BODY": "Tijelo predloška",
+        "CATEGORY": "Kategorija"
+      },
+      "TYPES": {
+        "MEDIA": "Media",
+        "QUICK_REPLY": "Quick Reply",
+        "TEXT": "Tekst"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Varijable",
+      "LANGUAGE": "Jezik",
+      "CATEGORY": "Kategorija",
+      "VARIABLE_PLACEHOLDER": "Unesi {variable} vrijednost",
+      "GO_BACK_LABEL": "Nazad",
+      "SEND_MESSAGE_LABEL": "Šalji poruku",
+      "FORM_ERROR_MESSAGE": "Popuniti sve varijable prije slanja",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Back",
+      "SEND_MESSAGE_BUTTON": "Šalji poruku"
+    }
+  }
+}
