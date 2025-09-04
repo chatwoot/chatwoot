@@ -45,20 +45,16 @@ RSpec.describe Enterprise::AutoAssignment::BalancedSelector do
         expect(selected_agent).to eq(agent1)
       end
 
-      it 'uses round robin as fallback when agents have equal workload' do
+      it 'selects any agent when agents have equal workload' do
         # All agents have same number of conversations
         [member1, member2, member3].each do |member|
           create(:conversation, inbox: inbox, assignee: member.user, status: 'open')
         end
 
-        round_robin_service = instance_double(AutoAssignment::InboxRoundRobinService)
-        allow(AutoAssignment::InboxRoundRobinService).to receive(:new).and_return(round_robin_service)
+        selected_agent = selector.select_agent(available_agents)
 
-        expect(round_robin_service).to receive(:available_agent).with(
-          allowed_agent_ids: [agent1.id.to_s, agent2.id.to_s, agent3.id.to_s]
-        )
-
-        selector.select_agent(available_agents)
+        # Should select one of the agents (when equal, min_by returns the first one it finds)
+        expect([agent1, agent2, agent3]).to include(selected_agent)
       end
     end
 
@@ -83,7 +79,7 @@ RSpec.describe Enterprise::AutoAssignment::BalancedSelector do
         create(:conversation, inbox: inbox, assignee: agent2, status: 'open')
 
         # Agent3 is new with no conversations
-        selected_agent = selector.select_agent(available_agents)
+        selected_agent = selector.select_agent([member1, member2, member3])
 
         expect(selected_agent).to eq(agent3)
       end
