@@ -190,6 +190,16 @@ class User < ApplicationRecord
     Chatwoot.mfa_enabled?
   end
 
+  def webhook_data
+    {
+      name: name,
+      email: email,
+      role: current_account_user&.role,
+      account_name: current_account_user&.account&.name,
+      created_at: created_at
+    }
+  end
+
   private
 
   def remove_macros

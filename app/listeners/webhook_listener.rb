@@ -91,6 +91,12 @@ class WebhookListener < BaseListener
     handle_typing_status(__method__.to_s, event)
   end
 
+  def agent_added(event)
+    agent, account = extract_agent_and_account(event)
+    payload = agent.webhook_data.merge(event: __method__.to_s)
+    deliver_account_webhooks(payload, account)
+  end
+
   private
 
   def handle_typing_status(event_name, event)

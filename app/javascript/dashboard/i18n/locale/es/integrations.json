@@ -43,7 +43,8 @@
             "CONTACT_CREATED": "Contacto creado",
             "CONTACT_UPDATED": "Contacto actualizado",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
+            "AGENT_ADDED": "Agente Creado"
           }
         },
         "NAME": {

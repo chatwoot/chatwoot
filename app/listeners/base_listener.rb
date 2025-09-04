@@ -29,6 +29,13 @@ class BaseListener
     [inbox, inbox.account]
   end
 
+  def extract_agent_and_account(event)
+    agent = event.data[:user]
+    account = event.data[:account]
+
+    [agent, account]
+  end
+
   def extract_changed_attributes(event)
     changed_attributes = event.data[:changed_attributes]
 
