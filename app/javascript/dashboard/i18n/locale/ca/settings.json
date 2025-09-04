@@ -330,6 +330,7 @@
     "REPORTS_LABEL": "Etiquetes",
     "REPORTS_INBOX": "Safata d'entrada",
     "REPORTS_TEAM": "Equip",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
     "SET_AVAILABILITY_TITLE": "Posa't com",
     "SET_YOUR_AVAILABILITY": "Estableix la vostra disponibilitat",
     "SLA": "SLA",
@@ -417,6 +418,32 @@
       "SWITCH_TO_PRIVATE_NOTE": "Canvia a la nota privada",
       "SWITCH_TO_REPLY": "Canvia a Respon",
       "TOGGLE_SNOOZE_DROPDOWN": "Commuta el menú desplegable de posposar"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
     }
   }
 }
