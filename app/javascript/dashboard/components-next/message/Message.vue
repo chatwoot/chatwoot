@@ -281,7 +281,6 @@ const componentToRender = computed(() => {
     return FormBubble;
   }
 
-  // Voice call bubble
   if (props.contentType === CONTENT_TYPES.VOICE_CALL) {
     return VoiceCallBubble;
   }

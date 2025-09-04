@@ -2,30 +2,19 @@
 import { computed } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import { useMessageContext } from '../provider.js';
-import { useFunctionGetter } from 'dashboard/composables/store';
 import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
 
-const { contentAttributes, conversationId } = useMessageContext();
+const { contentAttributes } = useMessageContext();
 
-const conversation = useFunctionGetter('getConversationById', conversationId);
+const data = computed(() => contentAttributes.value?.data);
 
-const data = computed(() => contentAttributes.value?.data || {});
+const status = computed(() => data.value?.status);
+const direction = computed(() => data.value?.call_direction);
 
-const status = computed(() => {
-  const msgStatus = data.value?.status;
-  if (msgStatus) return msgStatus;
-  const convStatus = conversation.value?.additional_attributes?.call_status;
-  return convStatus || 'ringing';
-});
-
-const direction = computed(
-  () =>
-    data.value?.call_direction ||
-    conversation.value?.additional_attributes?.call_direction ||
-    'inbound'
+const { labelKey, subtextKey, bubbleIconBg } = useVoiceCallStatus(
+  status,
+  direction
 );
-const { labelKey, subtextKey, bubbleIconName, bubbleIconBg } =
-  useVoiceCallStatus(status, direction);
 
 const containerRingClass = computed(() => {
   return status.value === 'ringing' ? 'ring-1 ring-emerald-300' : '';
@@ -43,7 +32,15 @@ const containerRingClass = computed(() => {
           class="size-10 shrink-0 flex items-center justify-center rounded-full text-white"
           :class="bubbleIconBg"
         >
-          <span class="text-xl" :class="[bubbleIconName]" />
+          <span
+            v-if="['no-answer', 'busy', 'failed'].includes(status)"
+            class="text-xl i-ph-phone-x-fill"
+          />
+          <span
+            v-else-if="direction === 'outbound'"
+            class="text-xl i-ph-phone-outgoing-fill"
+          />
+          <span v-else class="text-xl i-ph-phone-incoming-fill" />
         </div>
 
         <div class="flex flex-grow flex-col overflow-hidden">

@@ -84,13 +84,12 @@ const isInboxNameVisible = computed(() => !activeInbox.value);
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 
 const callStatus = computed(
-  () => props.chat.additional_attributes?.call_status || ''
+  () => props.chat.additional_attributes?.call_status
 );
-const hasVoiceStatus = computed(() => !!callStatus.value);
-
 const callDirection = computed(
-  () => props.chat.additional_attributes?.call_direction || 'inbound'
+  () => props.chat.additional_attributes?.call_direction
 );
+
 const { labelKey: voiceLabelKey, listIconColor: voiceIconColor } =
   useVoiceCallStatus(callStatus, callDirection);
 
@@ -319,7 +318,7 @@ const deleteConversation = () => {
         {{ currentContact.name }}
       </h4>
       <div
-        v-if="hasVoiceStatus"
+        v-if="callStatus"
         key="voice-status-row"
         class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
         :class="messagePreviewClass"

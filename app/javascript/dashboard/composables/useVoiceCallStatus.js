@@ -1,8 +1,8 @@
 import { computed, unref } from 'vue';
 
 export function useVoiceCallStatus(statusRef, directionRef) {
-  const status = computed(() => (unref(statusRef) || '').toString());
-  const direction = computed(() => (unref(directionRef) || '').toString());
+  const status = computed(() => unref(statusRef)?.toString());
+  const direction = computed(() => unref(directionRef)?.toString());
 
   const labelKey = computed(() => {
     const s = status.value;
@@ -39,7 +39,6 @@ export function useVoiceCallStatus(statusRef, directionRef) {
     return 'CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET';
   });
 
-  // Bubble (Phosphor) icon names and backgrounds (Tailwind classes)
   const bubbleIconName = computed(() => {
     const s = status.value;
     if (s === 'in-progress') {
@@ -57,15 +56,14 @@ export function useVoiceCallStatus(statusRef, directionRef) {
 
   const bubbleIconBg = computed(() => {
     const s = status.value;
-    if (s === 'in-progress') return 'bg-green-500';
+    if (s === 'in-progress') return 'bg-n-teal-9';
     if (s === 'no-answer' || s === 'busy' || s === 'failed')
-      return 'bg-red-500';
-    if (s === 'completed' || s === 'canceled') return 'bg-purple-500';
+      return 'bg-n-ruby-9';
+    if (s === 'completed' || s === 'canceled') return 'bg-n-slate-11';
     // ringing or initiated
-    return 'bg-green-500 animate-pulse';
+    return 'bg-n-teal-9 animate-pulse';
   });
 
-  // List (FluentIcon) icon names and colors
   const listIconName = computed(() => {
     const s = status.value;
     if (s === 'no-answer' || s === 'busy' || s === 'failed') return 'dismiss';
