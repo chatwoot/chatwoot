@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account, enable_auto_assignment: true) }
-  let(:assignment_policy) { create(:assignment_policy, inbox: inbox) }
+  let(:assignment_policy) { create(:assignment_policy, account: account) }
+  let!(:inbox_assignment_policy) { create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
   before do
@@ -13,12 +14,12 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
   describe '#perform' do
     context 'when account has assignment_v2 feature enabled' do
       before do
-        allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
+        allow_any_instance_of(Account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
       end
 
       context 'when inbox has auto_assignment_v2 enabled' do
         before do
-          allow(inbox).to receive(:auto_assignment_v2_enabled?).and_return(true)
+          allow_any_instance_of(Inbox).to receive(:auto_assignment_v2_enabled?).and_return(true)
         end
 
         it 'queues assignment job for eligible inboxes' do
@@ -30,9 +31,8 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
         it 'processes multiple accounts' do
           account2 = create(:account)
           inbox2 = create(:inbox, account: account2, enable_auto_assignment: true)
-          create(:assignment_policy, inbox: inbox2)
-          allow(account2).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
-          allow(inbox2).to receive(:auto_assignment_v2_enabled?).and_return(true)
+          policy2 = create(:assignment_policy, account: account2)
+          create(:inbox_assignment_policy, inbox: inbox2, assignment_policy: policy2)
 
           expect(AutoAssignment::AssignmentJob).to receive(:perform_later).with(inbox_id: inbox.id)
           expect(AutoAssignment::AssignmentJob).to receive(:perform_later).with(inbox_id: inbox2.id)
@@ -43,7 +43,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
 
       context 'when inbox does not have auto_assignment_v2 enabled' do
         before do
-          allow(inbox).to receive(:auto_assignment_v2_enabled?).and_return(false)
+          allow_any_instance_of(Inbox).to receive(:auto_assignment_v2_enabled?).and_return(false)
         end
 
         it 'does not queue assignment job' do
@@ -56,7 +56,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
 
     context 'when account does not have assignment_v2 feature enabled' do
       before do
-        allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(false)
+        allow_any_instance_of(Account).to receive(:feature_enabled?).with('assignment_v2').and_return(false)
       end
 
       it 'does not process the account' do
@@ -72,9 +72,8 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
         5.times do |_i|
           acc = create(:account)
           inb = create(:inbox, account: acc, enable_auto_assignment: true)
-          create(:assignment_policy, inbox: inb)
-          allow(acc).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
-          allow(inb).to receive(:auto_assignment_v2_enabled?).and_return(true)
+          policy = create(:assignment_policy, account: acc)
+          create(:inbox_assignment_policy, inbox: inb, assignment_policy: policy)
         end
 
         expect(Account).to receive(:find_in_batches).and_call_original

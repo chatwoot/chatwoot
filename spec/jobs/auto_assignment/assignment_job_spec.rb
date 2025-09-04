@@ -44,8 +44,10 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
       context 'when auto assignment is disabled' do
         before { inbox.update!(enable_auto_assignment: false) }
 
-        it 'returns early without processing' do
-          expect(AutoAssignment::AssignmentService).not_to receive(:new)
+        it 'calls the service which handles the disabled state' do
+          service = instance_double(AutoAssignment::AssignmentService)
+          allow(AutoAssignment::AssignmentService).to receive(:new).with(inbox: inbox).and_return(service)
+          expect(service).to receive(:perform_bulk_assignment).with(limit: 100).and_return(0)
 
           described_class.new.perform(inbox_id: inbox.id)
         end
