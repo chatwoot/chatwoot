@@ -29,6 +29,7 @@ export default {
         fullName: '',
         email: '',
         password: '',
+        confirmPassword: '',
         hCaptchaClientResponse: '',
       },
       didCaptchaReset: false,
@@ -58,6 +59,13 @@ export default {
           required,
           isValidPassword,
           minLength: minLength(6),
+        },
+        confirmPassword: {
+          required,
+          minLength: minLength(6),
+          isEqPassword(value) {
+            return value === this.credentials.password;
+          },
         },
       },
     };
@@ -91,11 +99,34 @@ export default {
       }
       return '';
     },
+    confirmPasswordErrorText() {
+      const { confirmPassword } = this.v$.credentials;
+      if (!confirmPassword.$error) {
+        return '';
+      }
+      if (confirmPassword.isEqPassword.$invalid) {
+        return this.$t('REGISTER.CONFIRM_PASSWORD.ERROR');
+      }
+      return '';
+    },
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
     },
     isFormValid() {
       return !this.v$.$invalid && this.hasAValidCaptcha;
+    },
+    passwordRequirements() {
+      const password = this.credentials.password;
+      return {
+        length: password.length >= 6,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/.test(password),
+      };
+    },
+    passwordRequirementsMet() {
+      return Object.values(this.passwordRequirements).every(Boolean);
     },
   },
   methods: {
@@ -183,6 +214,92 @@ export default {
         :has-error="v$.credentials.password.$error"
         :error-message="passwordErrorText"
         @blur="v$.credentials.password.$touch"
+      />
+      <div class="text-xs text-slate-600 dark:text-slate-400 mb-2 space-y-1">
+        <p class="font-medium">{{ $t('REGISTER.PASSWORD.REQUIREMENTS') }}</p>
+        <ul class="space-y-1">
+          <li class="flex items-center">
+            <span
+              :class="
+                passwordRequirements.length
+                  ? 'text-green-500'
+                  : 'text-slate-400'
+              "
+            >
+              {{ passwordRequirements.length ? '✓' : '○' }}
+            </span>
+            <span class="ml-2">
+              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH') }}
+            </span>
+          </li>
+          <li class="flex items-center">
+            <span
+              :class="
+                passwordRequirements.uppercase
+                  ? 'text-green-500'
+                  : 'text-slate-400'
+              "
+            >
+              {{ passwordRequirements.uppercase ? '✓' : '○' }}
+            </span>
+            <span class="ml-2">
+              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE') }}
+            </span>
+          </li>
+          <li class="flex items-center">
+            <span
+              :class="
+                passwordRequirements.lowercase
+                  ? 'text-green-500'
+                  : 'text-slate-400'
+              "
+            >
+              {{ passwordRequirements.lowercase ? '✓' : '○' }}
+            </span>
+            <span class="ml-2">
+              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE') }}
+            </span>
+          </li>
+          <li class="flex items-center">
+            <span
+              :class="
+                passwordRequirements.number
+                  ? 'text-green-500'
+                  : 'text-slate-400'
+              "
+            >
+              {{ passwordRequirements.number ? '✓' : '○' }}
+            </span>
+            <span class="ml-2">
+              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER') }}
+            </span>
+          </li>
+          <li class="flex items-center">
+            <span
+              :class="
+                passwordRequirements.special
+                  ? 'text-green-500'
+                  : 'text-slate-400'
+              "
+            >
+              {{ passwordRequirements.special ? '✓' : '○' }}
+            </span>
+            <span class="ml-2">
+              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL') }}
+            </span>
+          </li>
+        </ul>
+      </div>
+      <FormInput
+        v-model="credentials.confirmPassword"
+        type="password"
+        name="confirm_password"
+        :class="{ error: v$.credentials.confirmPassword.$error }"
+        :label="$t('REGISTER.CONFIRM_PASSWORD.LABEL')"
+        :placeholder="$t('REGISTER.CONFIRM_PASSWORD.PLACEHOLDER')"
+        :has-error="v$.credentials.confirmPassword.$error"
+        :error-message="confirmPasswordErrorText"
+        @blur="v$.credentials.confirmPassword.$touch"
       />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
         <VueHcaptcha
