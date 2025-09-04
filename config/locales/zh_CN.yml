@@ -41,6 +41,8 @@ zh_CN:
       failed: 注册失败
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: 错误的数据类型
