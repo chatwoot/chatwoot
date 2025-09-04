@@ -1,102 +1,61 @@
 class Api::V1::Profile::MfaController < Api::BaseController
-  before_action :authenticate_user!
-  before_action :check_mfa_not_enabled, only: [:enable, :verify]
+  before_action :set_user
   before_action :check_mfa_enabled, only: [:destroy, :backup_codes]
+  before_action :check_mfa_disabled, only: [:enable, :verify]
+  before_action :validate_otp, only: [:verify, :backup_codes, :destroy]
+  before_action :validate_password, only: [:destroy]
 
-  def show
-    render json: {
-      enabled: current_user.mfa_enabled?,
-      backup_codes_generated: current_user.backup_codes_generated?
-    }
-  end
+  def show; end
 
   def enable
-    current_user.otp_secret = User.generate_otp_secret
-    current_user.save!
-    qr_code = build_qr_code
-    backup_codes = current_user.generate_backup_codes!
-
-    render json: {
-      qr_code_url: qr_code.as_png(size: 200).to_data_url,
-      secret: current_user.otp_secret,
-      backup_codes: backup_codes
-    }
+    @user.enable_two_factor!
+    @backup_codes = @user.generate_backup_codes!
   end
 
   def verify
-    if current_user.validate_and_consume_otp!(verify_params[:otp_code])
-      current_user.update!(otp_required_for_login: true)
-      render json: { message: I18n.t('profile.mfa.enabled'), enabled: true }
-    else
-      render json: { error: I18n.t('errors.mfa.invalid_code') }, status: :bad_request
-    end
+    @user.update!(otp_required_for_login: true)
   end
 
   def destroy
-    return render_invalid_credentials unless valid_disable_request?
-
-    current_user.update!(
-      otp_required_for_login: false,
-      otp_secret: nil,
-      otp_backup_codes: nil
-    )
-
-    render json: { message: I18n.t('profile.mfa.disabled'), enabled: false }
+    @user.disable_two_factor!
   end
 
   def backup_codes
-    if current_user.validate_and_consume_otp!(backup_codes_params[:otp_code])
-      codes = current_user.generate_backup_codes!
-      render json: { backup_codes: codes }
-    else
-      render json: { error: I18n.t('errors.mfa.invalid_code') }, status: :bad_request
-    end
+    @backup_codes = @user.generate_backup_codes!
   end
 
   private
 
-  def check_mfa_not_enabled
-    return unless current_user.mfa_enabled?
-
-    render json: { error: I18n.t('errors.mfa.already_enabled') }, status: :unprocessable_entity
+  def set_user
+    @user = current_user
   end
 
   def check_mfa_enabled
-    return if current_user.mfa_enabled?
-
-    render json: { error: I18n.t('errors.mfa.not_enabled') }, status: :unprocessable_entity
+    render_could_not_create_error(I18n.t('errors.mfa.not_enabled')) unless @user.mfa_enabled?
   end
 
-  def verify_params
-    params.permit(:otp_code)
+  def check_mfa_disabled
+    render_could_not_create_error(I18n.t('errors.mfa.already_enabled')) if @user.mfa_enabled?
   end
 
-  def backup_codes_params
-    params.permit(:otp_code)
+  def validate_otp
+    authenticated = Mfa::AuthenticationService.new(
+      user: @user,
+      otp_code: mfa_params[:otp_code]
+    ).authenticate
+
+    return if authenticated
+
+    render_could_not_create_error(I18n.t('errors.mfa.invalid_code'))
   end
 
-  def destroy_params
-    params.permit(:password, :otp_code)
+  def validate_password
+    return if @user.valid_password?(mfa_params[:password])
+
+    render_could_not_create_error(I18n.t('errors.mfa.invalid_credentials'))
   end
 
-  def valid_disable_request?
-    current_user.valid_password?(destroy_params[:password]) &&
-      current_user.validate_and_consume_otp!(destroy_params[:otp_code])
-  end
-
-  def render_invalid_credentials
-    render json: { error: I18n.t('errors.mfa.invalid_credentials', default: 'Invalid credentials or verification code') },
-           status: :bad_request
-  end
-
-  def build_qr_code
-    require 'rqrcode'
-
-    issuer = Rails.application.class.module_parent.name
-    label = "#{issuer}:#{current_user.email}"
-
-    RQRCode::QRCode.new(
-      current_user.otp_provisioning_uri(label, issuer: issuer)
-    )
+  def mfa_params
+    params.permit(:otp_code, :password)
   end
 end

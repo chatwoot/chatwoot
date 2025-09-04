@@ -32,24 +32,5 @@ FactoryBot.define do
     trait :administrator do
       role { 'administrator' }
     end
-
-    trait :with_mfa_enabled do
-      after(:create) do |user|
-        user.update!(
-          otp_secret: user.class.generate_random_base32,
-          otp_required_for_login: true
-        )
-        user.generate_backup_codes!
-      end
-    end
-
-    trait :with_mfa_setup_pending do
-      after(:create) do |user|
-        user.update!(
-          otp_secret: user.class.generate_random_base32,
-          otp_required_for_login: false
-        )
-      end
-    end
   end
 end

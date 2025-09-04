@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_saml_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "sso_url"
+    t.text "certificate"
+    t.string "sp_entity_id"
+    t.string "idp_entity_id"
+    t.json "role_mappings", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
   end
 
   create_table "account_users", force: :cascade do |t|
@@ -324,8 +336,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
-    t.index ["content_type"], name: "index_captain_documents_on_content_type"
-    t.index ["metadata"], name: "index_captain_documents_on_metadata", using: :gin
     t.index ["status"], name: "index_captain_documents_on_status"
   end
 
@@ -853,7 +863,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
-  create_table "leave_records", force: :cascade do |t|
+  create_table "leaves", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "user_id", null: false
     t.date "start_date", null: false
@@ -865,10 +875,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_22_061042) do
     t.datetime "approved_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id", "status"], name: "index_leave_records_on_account_id_and_status"
-    t.index ["account_id"], name: "index_leave_records_on_account_id"
-    t.index ["approved_by_id"], name: "index_leave_records_on_approved_by_id"
-    t.index ["user_id"], name: "index_leave_records_on_user_id"
+    t.index ["account_id", "status"], name: "index_leaves_on_account_id_and_status"
+    t.index ["account_id"], name: "index_leaves_on_account_id"
+    t.index ["approved_by_id"], name: "index_leaves_on_approved_by_id"
+    t.index ["user_id"], name: "index_leaves_on_user_id"
   end
 
   create_table "macros", force: :cascade do |t|
