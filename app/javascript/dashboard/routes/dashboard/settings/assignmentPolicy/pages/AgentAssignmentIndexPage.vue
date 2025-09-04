@@ -1,13 +1,15 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRouter } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
 
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import SettingsLayout from 'dashboard/routes/dashboard/settings/SettingsLayout.vue';
 import AssignmentPolicyCard from 'dashboard/components-next/AssignmentPolicy/AssignmentPolicyCard/AssignmentPolicyCard.vue';
+import ConfirmDeletePolicyDialog from './components/ConfirmDeletePolicyDialog.vue';
 
 const store = useStore();
 const { t } = useI18n();
@@ -18,6 +20,8 @@ const agentAssignmentsPolicies = useMapGetter(
 );
 const uiFlags = useMapGetter('assignmentPolicies/getUIFlags');
 const inboxUiFlags = useMapGetter('assignmentPolicies/getInboxUiFlags');
+
+const confirmDeletePolicyDialogRef = ref(null);
 
 const breadcrumbItems = computed(() => {
   const items = [
@@ -47,6 +51,26 @@ const onClickCreatePolicy = () => {
 const handleFetchInboxes = id => {
   if (inboxUiFlags.isFetching) return;
   store.dispatch('assignmentPolicies/getInboxes', id);
+};
+
+const handleDelete = id => {
+  confirmDeletePolicyDialogRef.value.openDialog(id);
+};
+
+const handleDeletePolicy = async policyId => {
+  try {
+    await store.dispatch('assignmentPolicies/delete', policyId);
+    useAlert(
+      t(
+        'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.DELETE_POLICY.SUCCESS_MESSAGE'
+      )
+    );
+    confirmDeletePolicyDialogRef.value.closeDialog();
+  } catch (error) {
+    useAlert(
+      t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.DELETE_POLICY.ERROR_MESSAGE')
+    );
+  }
 };
 
 onMounted(() => {
@@ -89,8 +113,13 @@ onMounted(() => {
           :inboxes="policy.inboxes"
           :is-fetching-inboxes="inboxUiFlags.isFetching"
           @fetch-inboxes="handleFetchInboxes"
+          @delete="handleDelete"
         />
       </div>
     </template>
+    <ConfirmDeletePolicyDialog
+      ref="confirmDeletePolicyDialogRef"
+      @delete="handleDeletePolicy"
+    />
   </SettingsLayout>
 </template>
