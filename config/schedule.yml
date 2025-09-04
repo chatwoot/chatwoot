@@ -63,7 +63,7 @@ custom_conversation_dump_job:
   class: 'CustomConversationDumpJob'
   queue: scheduled_jobs
 # executed every 30 seconds for Sidekiq thread utilization monitoring
-# sidekiq_thread_utilization_monitoring_job:
-#   cron: '*/15 * * * * *'
-#   class: 'SidekiqThreadUtilizationMonitoringJob'
-#   queue: scheduled_jobs
+sidekiq_thread_utilization_monitoring_job:
+  cron: '*/15 * * * * *'
+  class: 'SidekiqThreadUtilizationMonitoringJob'
+  queue: scheduled_jobs
