@@ -14,24 +14,27 @@ RSpec.describe AutoAssignment::AssignmentService do
 
   describe '#perform_bulk_assignment' do
     context 'when auto assignment is enabled' do
+      let(:rate_limiter) { instance_double(AutoAssignment::RateLimiter) }
+
       before do
         allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ agent.id.to_s => 'online' })
-        
+
         # Mock RoundRobinSelector to return the agent
         round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
         allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
         allow(round_robin_selector).to receive(:select_agent).and_return(agent)
-        
+
         # Mock RateLimiter to allow all assignments by default
-        allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:within_limit?).and_return(true)
-        allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:track_assignment)
+        allow(AutoAssignment::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:within_limit?).and_return(true)
+        allow(rate_limiter).to receive(:track_assignment)
       end
 
       it 'assigns conversations to available agents' do
         # Create conversation and ensure it's unassigned
         conv = create(:conversation, inbox: inbox, status: 'open')
         conv.update!(assignee_id: nil)
-        
+
         assigned_count = service.perform_bulk_assignment(limit: 1)
 
         expect(assigned_count).to eq(1)
@@ -88,7 +91,7 @@ RSpec.describe AutoAssignment::AssignmentService do
       it 'dispatches assignee changed event' do
         conversation # ensure it exists
         conversation.update!(assignee_id: nil)
-        
+
         # The conversation model also dispatches a conversation.updated event
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
         expect(Rails.configuration.dispatcher).to receive(:dispatch).with(
@@ -113,17 +116,20 @@ RSpec.describe AutoAssignment::AssignmentService do
     end
 
     context 'with conversation priority' do
+      let(:rate_limiter) { instance_double(AutoAssignment::RateLimiter) }
+
       before do
         allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ agent.id.to_s => 'online' })
-        
+
         # Mock RoundRobinSelector to return the agent
         round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
         allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
         allow(round_robin_selector).to receive(:select_agent).and_return(agent)
-        
+
         # Mock RateLimiter to allow all assignments by default
-        allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:within_limit?).and_return(true)
-        allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:track_assignment)
+        allow(AutoAssignment::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:within_limit?).and_return(true)
+        allow(rate_limiter).to receive(:track_assignment)
       end
 
       context 'when priority is longest_waiting' do
@@ -189,12 +195,17 @@ RSpec.describe AutoAssignment::AssignmentService do
           round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
           allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
           allow(round_robin_selector).to receive(:select_agent).and_return(agent2)
-          
+
           # Mock agent1 at limit, agent2 not at limit
-          allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:within_limit?) do |limiter|
-            limiter.instance_variable_get(:@agent) != agent
-          end
-          allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:track_assignment)
+          agent1_limiter = instance_double(AutoAssignment::RateLimiter)
+          agent2_limiter = instance_double(AutoAssignment::RateLimiter)
+
+          allow(AutoAssignment::RateLimiter).to receive(:new).with(inbox: inbox, agent: agent).and_return(agent1_limiter)
+          allow(AutoAssignment::RateLimiter).to receive(:new).with(inbox: inbox, agent: agent2).and_return(agent2_limiter)
+
+          allow(agent1_limiter).to receive(:within_limit?).and_return(false)
+          allow(agent2_limiter).to receive(:within_limit?).and_return(true)
+          allow(agent2_limiter).to receive(:track_assignment)
 
           unassigned_conversation = create(:conversation, inbox: inbox, status: 'open')
           unassigned_conversation.update!(assignee_id: nil)
@@ -207,14 +218,16 @@ RSpec.describe AutoAssignment::AssignmentService do
         it 'tracks assignments in Redis' do
           conversation # ensure it exists
           conversation.update!(assignee_id: nil)
-          
+
           # Mock RoundRobinSelector
           round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
           allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
           allow(round_robin_selector).to receive(:select_agent).and_return(agent)
-          
-          allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:within_limit?).and_return(true)
-          expect_any_instance_of(AutoAssignment::RateLimiter).to receive(:track_assignment)
+
+          limiter = instance_double(AutoAssignment::RateLimiter)
+          allow(AutoAssignment::RateLimiter).to receive(:new).and_return(limiter)
+          allow(limiter).to receive(:within_limit?).and_return(true)
+          expect(limiter).to receive(:track_assignment)
 
           service.perform_bulk_assignment(limit: 1)
         end
@@ -224,13 +237,15 @@ RSpec.describe AutoAssignment::AssignmentService do
           round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
           allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
           allow(round_robin_selector).to receive(:select_agent).and_return(agent, agent2)
-          
+
           # Mock RateLimiter to allow all
-          allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:within_limit?).and_return(true)
-          allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:track_assignment)
-          
+          limiter = instance_double(AutoAssignment::RateLimiter)
+          allow(AutoAssignment::RateLimiter).to receive(:new).and_return(limiter)
+          allow(limiter).to receive(:within_limit?).and_return(true)
+          allow(limiter).to receive(:track_assignment)
+
           # Simulate time passing for rate limit window
-          travel_to(Time.current) do
+          freeze_time do
             2.times do
               conversation_new = create(:conversation, inbox: inbox, status: 'open')
               conversation_new.update!(assignee_id: nil)
@@ -255,15 +270,17 @@ RSpec.describe AutoAssignment::AssignmentService do
             conv = create(:conversation, inbox: inbox, status: 'open')
             conv.update!(assignee_id: nil)
           end
-          
+
           # Mock RoundRobinSelector
           round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
           allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
           allow(round_robin_selector).to receive(:select_agent).and_return(agent)
-          
+
           # Mock RateLimiter to allow all
-          allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:within_limit?).and_return(true)
-          allow_any_instance_of(AutoAssignment::RateLimiter).to receive(:track_assignment)
+          limiter = instance_double(AutoAssignment::RateLimiter)
+          allow(AutoAssignment::RateLimiter).to receive(:new).and_return(limiter)
+          allow(limiter).to receive(:within_limit?).and_return(true)
+          allow(limiter).to receive(:track_assignment)
 
           assigned_count = service.perform_bulk_assignment(limit: 5)
           expect(assigned_count).to eq(5)
