@@ -2,6 +2,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 
 import SettingsContent from './Wrapper.vue';
 import Index from './Index.vue';
+import MfaSettings from './MfaSettings.vue';
 
 export default {
   routes: [
@@ -17,6 +18,14 @@ export default {
           path: 'settings',
           name: 'profile_settings_index',
           component: Index,
+          meta: {
+            permissions: ['administrator', 'agent', 'custom_role'],
+          },
+        },
+        {
+          path: 'mfa',
+          name: 'profile_settings_mfa',
+          component: MfaSettings,
           meta: {
             permissions: ['administrator', 'agent', 'custom_role'],
           },
