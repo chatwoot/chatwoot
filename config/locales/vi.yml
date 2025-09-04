@@ -41,6 +41,8 @@ vi:
       failed: Đăng ký thât bại
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Kiểu dữ liệu không hợp lệ
