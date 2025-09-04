@@ -330,6 +330,7 @@
     "REPORTS_LABEL": "标签",
     "REPORTS_INBOX": "收件箱",
     "REPORTS_TEAM": "团队",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
     "SET_AVAILABILITY_TITLE": "将自己设置为",
     "SET_YOUR_AVAILABILITY": "设置您的可用性",
     "SLA": "SLA",
@@ -417,6 +418,32 @@
       "SWITCH_TO_PRIVATE_NOTE": "切换到私人笔记",
       "SWITCH_TO_REPLY": "切换到回复",
       "TOGGLE_SNOOZE_DROPDOWN": "切换暂停下拉菜单"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
     }
   }
 }
