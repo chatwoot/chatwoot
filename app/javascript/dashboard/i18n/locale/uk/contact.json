@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "Надіслати"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "BACK": "Повернутися назад",
+          "SEND_MESSAGE": "Надіслати"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "Discard",
         "SEND": "Send ({keyCode})"
