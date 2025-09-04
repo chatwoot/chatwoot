@@ -82,8 +82,8 @@ async function connectGoogle() {
     ticketLoading.value = true
     const response = await googleSheetsExportAPI.getAuthorizationUrl()
     if (response.data.authorization_url) {
-      showNotification('Redirecting to Google for authentication...', 'info')
-      window.location.href = response.data.authorization_url
+      showNotification('Opening Google authentication in a new tab...', 'info')
+      window.open(response.data.authorization_url, '_blank', 'noopener,noreferrer')
     } else {
       showNotification('Failed to get authorization URL. Please check backend logs.', 'error')
     }
