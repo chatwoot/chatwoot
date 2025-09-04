@@ -164,7 +164,7 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
         Rails.logger.info 'Creating new AWS CloudWatch client'
         self.class.cached_client = Aws::CloudWatch::Client.new(
           region: ENV.fetch('AWS_REGION', nil),
-          http_read_timeout: API_TIMEOUT
+          credentials: Aws::InstanceProfileCredentials.new(retries: 3)
         )
         self.class.client_created_at = Time.current
       end
