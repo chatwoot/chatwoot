@@ -444,6 +444,23 @@
           "Add agents to a policy - one policy per agent"
         ]
       }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "Priority",
+          "ACTIVE": "Active",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "Edit"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      }
     }
   }
 }
