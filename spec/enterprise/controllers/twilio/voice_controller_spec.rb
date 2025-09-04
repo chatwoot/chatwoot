@@ -8,6 +8,11 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
   let(:inbox) { channel.inbox }
   let(:digits) { channel.phone_number.delete_prefix('+') }
 
+  before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+      .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
+  end
+
   describe 'POST /twilio/voice/call/:phone' do
     let(:call_sid) { 'CA_test_call_sid_123' }
     let(:from_number) { '+15550003333' }

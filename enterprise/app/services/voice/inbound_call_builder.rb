@@ -16,9 +16,12 @@ class Voice::InboundCallBuilder
     response = Twilio::TwiML::VoiceResponse.new
     response.say(message: 'Please wait while we connect you to an agent')
     status_url = inbox.channel.try(:voice_status_webhook_url)
+    call_url = inbox.channel.try(:voice_call_webhook_url)
     response.dial(statusCallback: status_url,
                   statusCallbackEvent: 'initiated ringing answered completed',
-                  statusCallbackMethod: 'POST') do |d|
+                  statusCallbackMethod: 'POST',
+                  action: call_url,
+                  method: 'POST') do |d|
       d.conference(
         conference_sid,
         startConferenceOnEnter: false,

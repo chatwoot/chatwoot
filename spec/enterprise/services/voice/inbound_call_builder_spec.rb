@@ -11,6 +11,11 @@ RSpec.describe Voice::InboundCallBuilder do
   let(:to_number) { channel.phone_number }
   let(:call_sid) { 'CA1234567890abcdef' }
 
+  before do
+    allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+      .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
+  end
+
   def build_and_perform
     described_class.new(
       account: account,
