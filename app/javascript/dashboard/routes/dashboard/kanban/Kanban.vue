@@ -1,5 +1,6 @@
 <script>
 import ColumnModal from './ColumnModal.vue'
+import { toRaw } from 'vue'
 
 export default {
   components: {
@@ -19,24 +20,19 @@ export default {
 
   emits: ['update:columns', 'moved', 'columnDeleted'],
 
+  mounted() {
+    this.fetchLabels()
+    this.fetchColumns()
+  },
+
   data() {
     return {
-      localColumns: this.columns?.map(c => ({ ...c, items: [...c.items] })) ?? [
-        { title: 'To Do', items: [{ content: 'Task 1' }, { content: 'Task 2' }, { content: 'Task 3' }] },
-        { title: 'In Progress', items: [{ content: 'Task 4' }, { content: 'Task 5' }] },
-        { title: 'Done', items: [{ content: 'Task 6' }] }
-      ],
+      localColumns: [],
       draggedItem: null,
       sourceColumnIndex: null,
       sourceItemIndex: null,
       showColumnModal: false,
-      mockLabels: [
-        {text: 'Etapa 1', value: 'etapa_1'}, 
-        {text: 'Etapa 2', value: 'etapa_2'}, 
-        {text: 'Etapa 3', value: 'etapa_3'},
-        {text: 'Urgente', value: 'urgente'},
-        {text: 'Pode Esperar', value: 'esperar'}
-      ],
+      labels: [],
       isEditing: false,
       editedColumn: {}
     }
@@ -68,9 +64,42 @@ export default {
       target?.classList.remove('dragging')
     },
 
+    onDrop(_event, targetColumnIndex) {
+      if (this.draggedItem && this.sourceColumnIndex !== null && this.sourceItemIndex !== null) {
+        // Remove from source
+        const [removed] = this.localColumns[this.sourceColumnIndex].items.splice(this.sourceItemIndex, 1)
+        // Add to target
+        this.localColumns[targetColumnIndex].items.push(removed)
+
+        // Mirror to v-model
+        this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
+        this.$emit('moved', { 
+          item: removed, 
+          fromColumn: this.sourceColumnIndex, 
+          toColumn: targetColumnIndex 
+        })
+        // Update localStorage
+        localStorage.setItem('localColumns',JSON.stringify(this.localColumns))
+        // Reset state
+        this.draggedItem = null
+        this.sourceColumnIndex = null
+        this.sourceItemIndex = null
+      }
+    },
+
+    openColumnModal() {
+      this.showColumnModal = true
+      this.isEditing = false
+      this.editedColumn = null
+    },
+
+    closeColumnModal() {
+      this.showColumnModal = false
+    },
+
     deleteColumn(columnIndex) {
       this.localColumns.splice(columnIndex, 1)
-      this.$emit('update:columns', structuredClone(this.localColumns))
+      this.$emit('update:columns', [JSON.parse(JSON.stringify(this.localColumns))])
       this.$emit('columnDeleted', columnIndex)
     },
 
@@ -81,45 +110,109 @@ export default {
       this.showColumnModal =  true
     },
 
-    onDrop(_event, targetColumnIndex) {
-      if (this.draggedItem && this.sourceColumnIndex !== null && this.sourceItemIndex !== null) {
-        // Remove from source
-        const [removed] = this.localColumns[this.sourceColumnIndex].items.splice(this.sourceItemIndex, 1)
-        // Add to target
-        this.localColumns[targetColumnIndex].items.push(removed)
+    addNewColumn(columnData) {
+      const newCol = {
+        title: columnData.title,
+        items: [
+          {content: 'Fulano'},
+          {content: 'Sicrano'}
+        ],
+        labels: columnData.labels
+      }
+      this.localColumns.push(newCol)
+      this.closeColumnModal()
+      this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
+      localStorage.setItem('localColumns', JSON.stringify(this.localColumns))
+    },
 
-        // Mirror to v-model
-        this.$emit('update:columns', structuredClone(this.localColumns))
-        this.$emit('moved', { 
-          item: removed, 
-          fromColumn: this.sourceColumnIndex, 
-          toColumn: targetColumnIndex 
-        })
+    updateColumn(columnData) {
+      if (this.editedColumn) {
+        const index = this.localColumns.findIndex(col => col === this.editedColumn)
+        if (index !== -1) {
+          this.localColumns[index] = {
+            ...this.localColumns[index],
+            ...columnData
+          }
+          this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
+          localStorage.setItem('localColumns',  JSON.stringify(this.localColumns))
+        }
+      }
+      this.closeColumnModal()
+    },
 
-        // Reset state
-        this.draggedItem = null
-        this.sourceColumnIndex = null
-        this.sourceItemIndex = null
+    async fetchLabels() {
+      // Simulando delay de API
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Simulando resposta da API
+      const apiLabels = [
+        {text: 'Etapa 1', value: 'etapa_1'}, 
+        {text: 'Etapa 2', value: 'etapa_2'}, 
+        {text: 'Etapa 3', value: 'etapa_3'},
+        {text: 'Urgente', value: 'urgente'},
+        {text: 'Pode Esperar', value: 'esperar'}
+      ]
+      
+      this.labels = apiLabels
+
+    },
+
+    async fetchColumns() {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      // Verificar se tem localColumns no localStorage e setar o this.localColumns
+      const storedCols = localStorage.getItem('localColumns')
+      if (storedCols) {
+        const storedColsObject = JSON.parse(storedCols)
+        this.localColumns = storedColsObject
+      } else {
+        this.localColumns = []
       }
     },
 
-    openColumnModal() {
-      this.showColumnModal = true
-      this.newColumnTitle = ''
+    exportKanban() {
+      const plainData = toRaw(this.localColumns)
+      const jsonData = JSON.stringify(plainData, null, 2)
+      const blob = new Blob([jsonData], {type: 'application/json'})
+
+      const tempUrl = window.URL.createObjectURL(blob)
+      const linkElement = document.createElement('a')
+      linkElement.href = tempUrl
+      linkElement.download = 'kanban.json'
+      document.body.appendChild(linkElement)
+      linkElement.click()
+
+      document.body.removeChild(linkElement)
+      window.URL.revokeObjectURL(tempUrl)
     },
 
-    closeColumnModal() {
-      this.showColumnModal = false
-    },
+    importKanban() {
+      const fileInput = document.createElement('input')
+      fileInput.type = 'file'
+      fileInput.accept = '.json'
 
-    addNewColumn(columnData) {
-      this.localColumns.push({
-        title: columnData.title,
-        items: [],
-        labels: columnData.labels
-      })
-      this.closeColumnModal()
-      this.$emit('update:columns', structuredClone(this.localColumns))
+      fileInput.onchange = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          try {
+            const importedData = JSON.parse(e.target.result)
+            this.localColumns = importedData
+            this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
+          } catch (error) {
+            console.error('Erro ao importar arquivo: ', error)
+            alert('Erro ao importar arquivo')
+          }
+        }
+        reader.readAsText(file)
+      }
+
+      document.body.appendChild(fileInput)
+      fileInput.click()
+      setTimeout(() => {
+        document.body.removeChild(fileInput)
+      }, 100)
     }
   }
 }
@@ -129,11 +222,16 @@ export default {
   <div class="kanban-root">
     <header class="kanban-header">
       <button class="kanban-button" @click="openColumnModal">Nova coluna</button>
-      <button class="kanban-button">Importar Kanban</button>
-      <button class="kanban-button">Exportar Kanban</button>
+      <button class="kanban-button" @click="importKanban">Importar Kanban</button>
+      <button class="kanban-button" @click="exportKanban">Exportar Kanban</button>
     </header>
     <div class="kanban-board">
+      <div v-if="localColumns.length === 0" class="empty-state">
+        <h2>Nenhuma coluna criada</h2>
+        <p>Clique em "Nova coluna" para começar seu quadro Kanban</p>
+      </div>
       <div
+        v-else
         v-for="(column, columnIndex) in localColumns"
         :key="column.id ?? columnIndex"
         class="column"
@@ -167,9 +265,10 @@ export default {
       :isEditing="isEditing"
       :editedColumn="editedColumn"
       :show="showColumnModal"
-      :mock-labels="mockLabels"
+      :mock-labels="labels"
       @close="closeColumnModal"
       @add="addNewColumn"
+      @update="updateColumn"
     />
   </div>
 </template>
@@ -249,6 +348,27 @@ export default {
 }
 
 .dragging { opacity: 0.5; }
+
+.empty-state {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.empty-state h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #ccc;
+}
 
 .kanban-header {
   background-color: #464343;

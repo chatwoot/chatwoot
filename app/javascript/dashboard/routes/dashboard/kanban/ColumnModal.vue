@@ -21,8 +21,28 @@ export default {
 
   data() {
     return {
-      newColumnTitle: this.isEditing ? this.editedColumn.title : '',
-      selectedLabels: this.isEditing ? [...this.editedColumn.labels] : []
+      localColumnTitle: '',
+      localSelectedLabels: []
+    }
+  },
+
+  watch: {
+    editedColumn: {
+      handler(newVal) {
+        if (this.isEditing && newVal) {
+          this.localColumnTitle = newVal.title
+          this.localSelectedLabels = [...newVal.labels]
+        }
+      },
+      immediate: true
+    },
+    show: {
+      handler(newVal) {
+        console.log("show mudou para ", newVal)
+        if (!newVal) {
+          this.resetForm()
+        }
+      }
     }
   },
 
@@ -33,18 +53,20 @@ export default {
     },
 
     addColumn() {
-      if (this.newColumnTitle.trim()) {
-        this.$emit('add', {
-          title: this.newColumnTitle,
-          labels: [...this.selectedLabels]
-        })
-        this.resetForm()
+      if (this.localColumnTitle.trim()) {
+        const columnData = {
+          title: this.localColumnTitle,
+          labels: [...this.localSelectedLabels]
+        }
+        
+        this.$emit(this.isEditing ? 'update' : 'add', columnData)
+        this.closeModal()
       }
     },
 
     resetForm() {
-      this.newColumnTitle = ''
-      this.selectedLabels = []
+      this.localColumnTitle = ''
+      this.localSelectedLabels = []
     }
   }
 }
@@ -55,7 +77,7 @@ export default {
     <div class="modal">
       <h3 v-text="this.isEditing ? 'Editar Coluna' : 'Nova Coluna'"></h3>
       <input 
-        v-model="newColumnTitle"
+        v-model="localColumnTitle"
         type="text"
         placeholder="Nome da coluna"
         @keyup.enter="addColumn"
@@ -64,7 +86,7 @@ export default {
       <select 
         name="labels" 
         id="column-labels" 
-        v-model="selectedLabels" 
+        v-model="localSelectedLabels" 
         multiple
         class="labels-select"
       >
