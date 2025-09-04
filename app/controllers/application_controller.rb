@@ -7,15 +7,8 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
 
   before_action :set_current_user, unless: :devise_controller?
-  before_action :configure_permitted_parameters, if: :devise_controller?
   around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
-
-  protected
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_in, keys: [:otp_attempt])
-  end
 
   private
 

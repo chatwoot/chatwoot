@@ -12,7 +12,9 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
 
-    handle_standard_authentication
+    super do |resource|
+      return handle_mfa_required(resource) if resource&.mfa_enabled?
+    end
   end
 
   def render_create_success
@@ -33,12 +35,6 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     authenticate_resource_with_sso_token
     yield @resource if block_given?
     render_create_success
-  end
-
-  def handle_standard_authentication
-    super do |resource|
-      return handle_mfa_required(resource) if resource&.mfa_enabled?
-    end
   end
 
   def login_page_url(error: nil)

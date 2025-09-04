@@ -168,7 +168,6 @@ class User < ApplicationRecord
   # 2FA/MFA Methods
   def enable_two_factor!
     self.otp_secret = User.generate_otp_secret
-    self.otp_required_for_login = false # Will be true after verification
     save!
   end
 
@@ -187,52 +186,27 @@ class User < ApplicationRecord
     otp_provisioning_uri(label, issuer: issuer)
   end
 
-  def two_factor_qr_code_svg
-    return nil unless two_factor_provisioning_uri
-
-    qrcode = RQRCode::QRCode.new(two_factor_provisioning_uri)
-    qrcode.as_svg(
-      offset: 0,
-      color: '000',
-      shape_rendering: 'crispEdges',
-      module_size: 4,
-      standalone: true
-    )
-  end
-
-  def generate_otp_backup_codes!
+  def generate_backup_codes!
     codes = Array.new(10) { format('%06d', SecureRandom.random_number(1_000_000)) }
     self.otp_backup_codes = codes
     save!
     codes
   end
 
-  def generate_backup_codes!
-    generate_otp_backup_codes!
-  end
-
-  def invalidate_otp_backup_code!(code)
-    return false if otp_backup_codes.blank?
+  def validate_backup_code!(code)
+    return false if otp_backup_codes.blank? || code.blank?
 
     codes = otp_backup_codes || []
     index = codes.index(code)
-    return false unless index
 
-    codes[index] = 'XXXXXX' # Mark as used
+    # Code not found or already used
+    return false if index.nil? || code == 'XXXXXX'
+
+    # Mark as used and save
+    codes[index] = 'XXXXXX'
     self.otp_backup_codes = codes
     save!
     true
-  end
-
-  def validate_otp_backup_code(code)
-    return false if otp_backup_codes.blank?
-
-    codes = otp_backup_codes || []
-    codes.include?(code) && code != 'XXXXXX'
-  end
-
-  def validate_backup_code!(code)
-    validate_otp_backup_code(code) && invalidate_otp_backup_code!(code)
   end
 
   def backup_codes_generated?
