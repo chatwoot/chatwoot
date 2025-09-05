@@ -134,6 +134,7 @@ const submit = async () => {
           :min="topupType === 'ai_responses' ? 5000 : 1000"
           :step="topupType === 'ai_responses' ? 5000 : 1000"
           @input="updateTotal"
+          @keydown.prevent
         />
       </div>
 
