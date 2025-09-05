@@ -412,74 +412,74 @@ describe Telegram::IncomingMessageService do
     end
   end
 
-    context 'when lock to single conversation is enabled' do
-      before do
-        # garanta que message_params exista neste contexto e tenha from.id
-        message_params[:from] ||= {}
-        message_params[:from][:id] ||= 23
-      end
-
-      it 'reopens last conversation if last conversation is resolved' do
-        telegram_channel.inbox.update!(lock_to_single_conversation: true)
-        contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
-          ci.contact = create(:contact)
-        end
-        resolved_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :resolved)
-
-        params = {
-          'update_id' => 2_342_342_343_242,
-          'message' => { 'text' => 'test' }.merge(message_params)
-        }.with_indifferent_access
-
-        described_class.new(inbox: telegram_channel.inbox, params: params).perform
-
-        expect(telegram_channel.inbox.conversations.count).to eq(1)
-        expect(resolved_conversation.reload.messages.last.content).to eq('test')
-      end
+  context 'when lock to single conversation is enabled' do
+    before do
+      # garanta que message_params exista neste contexto e tenha from.id
+      message_params[:from] ||= {}
+      message_params[:from][:id] ||= 23
     end
 
-    context 'when lock to single conversation is disabled' do
-      before do
-        # garanta que message_params exista neste contexto e tenha from.id
-        message_params[:from] ||= {}
-        message_params[:from][:id] ||= 23
+    it 'reopens last conversation if last conversation is resolved' do
+      telegram_channel.inbox.update!(lock_to_single_conversation: true)
+      contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
+        ci.contact = create(:contact)
       end
+      resolved_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :resolved)
 
-      it 'creates new conversation if last conversation is resolved' do
-        telegram_channel.inbox.update!(lock_to_single_conversation: false)
-        contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
-          ci.contact = create(:contact)
-        end
-        _resolved_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :resolved)
+      params = {
+        'update_id' => 2_342_342_343_242,
+        'message' => { 'text' => 'test' }.merge(message_params)
+      }.with_indifferent_access
 
-        params = {
-          'update_id' => 2_342_342_343_242,
-          'message' => { 'text' => 'test' }.merge(message_params)
-        }.with_indifferent_access
+      described_class.new(inbox: telegram_channel.inbox, params: params).perform
 
-        described_class.new(inbox: telegram_channel.inbox, params: params).perform
-
-        expect(telegram_channel.inbox.conversations.count).to eq(2)
-        expect(telegram_channel.inbox.conversations.last.messages.first.content).to eq('test')
-        expect(telegram_channel.inbox.conversations.last.status).to eq('open')
-      end
-
-      it 'appends to last conversation if last conversation is not resolved' do
-        telegram_channel.inbox.update!(lock_to_single_conversation: false)
-        contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
-          ci.contact = create(:contact)
-        end
-        open_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :open)
-
-        params = {
-          'update_id' => 2_342_342_343_242,
-          'message' => { 'text' => 'test' }.merge(message_params)
-        }.with_indifferent_access
-
-        described_class.new(inbox: telegram_channel.inbox, params: params).perform
-
-        expect(telegram_channel.inbox.conversations.count).to eq(1)
-        expect(open_conversation.reload.messages.last.content).to eq('test')
-      end
+      expect(telegram_channel.inbox.conversations.count).to eq(1)
+      expect(resolved_conversation.reload.messages.last.content).to eq('test')
     end
+  end
+
+  context 'when lock to single conversation is disabled' do
+    before do
+      # garanta que message_params exista neste contexto e tenha from.id
+      message_params[:from] ||= {}
+      message_params[:from][:id] ||= 23
+    end
+
+    it 'creates new conversation if last conversation is resolved' do
+      telegram_channel.inbox.update!(lock_to_single_conversation: false)
+      contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
+        ci.contact = create(:contact)
+      end
+      _resolved_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :resolved)
+
+      params = {
+        'update_id' => 2_342_342_343_242,
+        'message' => { 'text' => 'test' }.merge(message_params)
+      }.with_indifferent_access
+
+      described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+      expect(telegram_channel.inbox.conversations.count).to eq(2)
+      expect(telegram_channel.inbox.conversations.last.messages.first.content).to eq('test')
+      expect(telegram_channel.inbox.conversations.last.status).to eq('open')
+    end
+
+    it 'appends to last conversation if last conversation is not resolved' do
+      telegram_channel.inbox.update!(lock_to_single_conversation: false)
+      contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
+        ci.contact = create(:contact)
+      end
+      open_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :open)
+
+      params = {
+        'update_id' => 2_342_342_343_242,
+        'message' => { 'text' => 'test' }.merge(message_params)
+      }.with_indifferent_access
+
+      described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+      expect(telegram_channel.inbox.conversations.count).to eq(1)
+      expect(open_conversation.reload.messages.last.content).to eq('test')
+    end
+  end
 end
