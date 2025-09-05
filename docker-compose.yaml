@@ -10,6 +10,7 @@ services:
         RAILS_ENV: 'development'
         EXECJS_RUNTIME: 'Node'
         RAILS_SERVE_STATIC_FILES: 'false'
+        BUILDKIT_INLINE_CACHE: 'true'
     tty: true
     stdin_open: true
     image: chatwoot-rails:development
@@ -43,6 +44,7 @@ services:
         BUNDLE_WITHOUT: 'test'
         RAILS_ENV: 'development'
         EXECJS_RUNTIME: 'Node'
+        BUILDKIT_INLINE_CACHE: 'true'
     tty: true
     stdin_open: true
     image: chatwoot-sidekiq:development
@@ -71,6 +73,7 @@ services:
         RAILS_ENV: 'development'
         EXECJS_RUNTIME: 'Node'
         RAILS_SERVE_STATIC_FILES: 'false'
+        BUILDKIT_INLINE_CACHE: 'true'
     tty: true
     stdin_open: true
     image: chatwoot-vite:development
@@ -98,7 +101,7 @@ services:
     volumes:
       - postgres:/data/postgres
     environment:
-      - POSTGRES_DB=chatwoot
+      - POSTGRES_DB=chatwoot_production
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
 
