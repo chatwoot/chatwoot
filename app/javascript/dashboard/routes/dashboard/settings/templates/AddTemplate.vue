@@ -4,40 +4,124 @@ import { required, minLength } from '@vuelidate/validators';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { useMapGetter } from 'dashboard/composables/store';
+import { vOnClickOutside } from '@vueuse/components';
+import { getInboxIconByType } from 'dashboard/helper/inbox';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import LanguageDropdown from 'dashboard/components-next/LanguageDropdown/LanguageDropdown.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { validateTemplateName } from './helpers/templateValidation';
 
 const emit = defineEmits(['close']);
 
 const { t } = useI18n();
 const router = useRouter();
+const store = useStore();
 
 const templateName = ref('');
-const selectedLanguage = ref('English (en-US)');
-const selectedChannelType = ref('whatsapp');
+const selectedLanguage = ref('en');
+const selectedChannelType = ref('Channel::Whatsapp');
+const selectedCategory = ref('utility');
+const selectedInbox = ref(null);
+const isInboxDropdownOpen = ref(false);
+const isCategoryDropdownOpen = ref(false);
 
 const channelTypes = [
-  { value: 'whatsapp', label: 'WhatsApp', icon: 'i-lucide-message-circle' },
+  {
+    value: 'Channel::Whatsapp',
+    label: 'WhatsApp',
+    icon: 'i-ri-whatsapp-fill',
+  },
 ];
 
-const languageOptions = [
-  { value: 'English (en-US)', label: 'English (en-US)' },
+// Category options with icons
+const categoryTypes = [
+  {
+    value: 'utility',
+    label: t('SETTINGS.TEMPLATES.ADD.FORM.CATEGORY.OPTIONS.UTILITY'),
+    icon: 'i-lucide-settings',
+  },
+  {
+    value: 'marketing',
+    label: t('SETTINGS.TEMPLATES.ADD.FORM.CATEGORY.OPTIONS.MARKETING'),
+    icon: 'i-lucide-megaphone',
+  },
+  {
+    value: 'authentication',
+    label: t('SETTINGS.TEMPLATES.ADD.FORM.CATEGORY.OPTIONS.AUTHENTICATION'),
+    icon: 'i-lucide-shield-check',
+  },
 ];
+
+// Transform categories for DropdownMenu format
+const categoryMenuItems = computed(() => {
+  return categoryTypes.map(category => ({
+    action: 'categorySelect',
+    value: category.value,
+    label: category.label,
+    icon: category.icon,
+    isSelected: selectedCategory.value === category.value,
+  }));
+});
+
+const selectedCategoryLabel = computed(() => {
+  const selected = categoryTypes.find(
+    cat => cat.value === selectedCategory.value
+  );
+  return selected
+    ? selected.label
+    : t('SETTINGS.TEMPLATES.ADD.FORM.CATEGORY.PLACEHOLDER');
+});
+
+// Get WhatsApp inboxes
+const allInboxes = useMapGetter('inboxes/getInboxes');
+const whatsappInboxes = computed(() =>
+  allInboxes.value.filter(inbox => inbox.channel_type === 'Channel::Whatsapp')
+);
+
+// Transform inboxes for DropdownMenu format
+const inboxMenuItems = computed(() => {
+  const inboxOptions = whatsappInboxes.value.map(inbox => ({
+    action: 'inboxSelect',
+    value: inbox,
+    label: inbox.name,
+    icon: getInboxIconByType(inbox.channel_type, inbox.medium),
+    isSelected: selectedInbox.value?.id === inbox.id,
+  }));
+
+  return inboxOptions;
+});
+
+const selectedInboxLabel = computed(() => {
+  return selectedInbox.value
+    ? selectedInbox.value.name
+    : t('SETTINGS.TEMPLATES.ADD.FORM.INBOX.PLACEHOLDER');
+});
 
 const validationRules = {
   templateName: {
     required,
     minLength: minLength(2),
   },
+  selectedInbox: {
+    required,
+  },
 };
 
 const v$ = useVuelidate(validationRules, {
   templateName,
+  selectedInbox,
 });
 
 const isBasicFormValid = computed(() => {
-  return !v$.value.$invalid && templateName.value.trim().length > 0;
+  return (
+    !v$.value.$invalid &&
+    templateName.value.trim().length > 0 &&
+    selectedInbox.value
+  );
 });
 
 const nameValidation = computed(() => {
@@ -51,21 +135,46 @@ const onClose = () => {
 
 const goToBuilder = () => {
   if (isBasicFormValid.value && nameValidation.value.isValid) {
-    // Navigate to builder page with template info as query params
-    router.push({
-      name: 'template_builder',
-      query: {
-        name: templateName.value.trim(),
-        language: selectedLanguage.value,
-        channelType: selectedChannelType.value,
-      },
+    // Save configuration to store
+    store.dispatch('messageTemplates/setBuilderConfig', {
+      name: templateName.value.trim(),
+      language: selectedLanguage.value,
+      channelType: selectedChannelType.value,
+      inboxId: selectedInbox.value.id,
+      category: selectedCategory.value,
     });
+
+    // Navigate to builder page without query params
+    router.push({ name: 'template_builder' });
     onClose();
   }
 };
 
-const selectChannelType = type => {
-  selectedChannelType.value = type;
+const handleInboxAction = ({ value }) => {
+  selectedInbox.value = value;
+  isInboxDropdownOpen.value = false;
+  v$.value.selectedInbox.$touch();
+};
+
+const toggleInboxDropdown = () => {
+  isInboxDropdownOpen.value = !isInboxDropdownOpen.value;
+};
+
+const handleCategoryAction = ({ value }) => {
+  selectedCategory.value = value;
+  isCategoryDropdownOpen.value = false;
+};
+
+const toggleCategoryDropdown = () => {
+  isCategoryDropdownOpen.value = !isCategoryDropdownOpen.value;
+};
+
+const closeCategoryDropdown = () => {
+  isCategoryDropdownOpen.value = false;
+};
+
+const closeInboxDropdown = () => {
+  isInboxDropdownOpen.value = false;
 };
 </script>
 
@@ -120,23 +229,54 @@ const selectChannelType = type => {
         </span>
       </div>
 
-      <!-- Language -->
       <div class="w-full">
         <label class="block text-sm font-medium text-n-slate-12 mb-2">
           {{ t('SETTINGS.TEMPLATES.ADD.FORM.LANGUAGE.LABEL') }}
         </label>
-        <select
+        <LanguageDropdown
           v-model="selectedLanguage"
-          class="w-full px-3 py-2 border border-n-weak rounded-lg bg-n-solid-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 focus:border-n-blue-5 pr-8"
-        >
-          <option
-            v-for="lang in languageOptions"
-            :key="lang.value"
-            :value="lang.value"
+          variant="outline"
+          size="md"
+          show-search
+          :show-all-option="false"
+        />
+      </div>
+
+      <!-- Category -->
+      <div class="w-full">
+        <label class="block text-sm font-medium text-n-slate-12 mb-2">
+          {{ t('SETTINGS.TEMPLATES.ADD.FORM.CATEGORY.LABEL') }}
+        </label>
+        <div v-on-click-outside="closeCategoryDropdown" class="relative w-full">
+          <button
+            type="button"
+            class="flex items-center justify-between gap-2 h-10 px-3 text-sm rounded-lg text-n-slate-12 transition-colors focus:outline-none focus:ring-2 focus:ring-n-blue-5 w-full border border-n-weak bg-n-solid-1 hover:bg-n-solid-2"
+            @click="toggleCategoryDropdown"
           >
-            {{ lang.label }}
-          </option>
-        </select>
+            <div class="flex items-center gap-2">
+              <span
+                v-if="selectedCategory"
+                :class="
+                  categoryTypes.find(cat => cat.value === selectedCategory)
+                    ?.icon
+                "
+                class="size-4"
+              />
+              <span class="truncate">{{ selectedCategoryLabel }}</span>
+            </div>
+            <Icon
+              icon="i-lucide-chevron-down"
+              class="size-4 flex-shrink-0 transition-transform"
+              :class="{ 'rotate-180': isCategoryDropdownOpen }"
+            />
+          </button>
+          <DropdownMenu
+            v-if="isCategoryDropdownOpen"
+            :menu-items="categoryMenuItems"
+            class="absolute top-full mt-1 left-0 right-0 w-full z-50 max-h-60 overflow-y-auto"
+            @action="handleCategoryAction"
+          />
+        </div>
       </div>
 
       <!-- Channel Type -->
@@ -145,24 +285,69 @@ const selectChannelType = type => {
           {{ t('SETTINGS.TEMPLATES.ADD.FORM.CHANNEL_TYPE.LABEL') }}
         </label>
 
-        <!-- Channel Type Buttons -->
-        <div class="grid grid-cols-1 gap-2">
-          <button
+        <!-- Channel Type Selection -->
+        <div class="space-y-2">
+          <NextButton
             v-for="type in channelTypes"
             :key="type.value"
-            type="button"
-            class="flex items-center p-3 border rounded-lg transition-colors"
-            :class="
-              selectedChannelType === type.value
-                ? 'border-n-blue-5 bg-n-blue-1 text-n-blue-text'
-                : 'border-n-weak bg-n-solid-1 text-n-slate-12 hover:bg-n-solid-2 hover:border-n-strong'
-            "
-            @click="selectChannelType(type.value)"
-          >
-            <span :class="type.icon" class="size-5 mr-3" />
-            <span class="text-sm font-medium">{{ type.label }}</span>
-          </button>
+            :label="type.label"
+            :icon="type.icon"
+            variant="outline"
+            :color="selectedChannelType === type.value ? 'blue' : 'slate'"
+            size="sm"
+            justify="start"
+            class="h-12"
+            @click="selectedChannelType = type.value"
+          />
         </div>
+      </div>
+
+      <!-- Inbox Selection -->
+      <div class="w-full">
+        <label class="block text-sm font-medium text-n-slate-12 mb-2">
+          {{ t('SETTINGS.TEMPLATES.ADD.FORM.INBOX.LABEL') }}
+        </label>
+        <div v-on-click-outside="closeInboxDropdown" class="relative w-full">
+          <button
+            type="button"
+            class="flex items-center justify-between gap-2 h-10 px-3 text-sm rounded-lg text-n-slate-12 transition-colors focus:outline-none focus:ring-2 focus:ring-n-blue-5 w-full border border-n-weak bg-n-solid-1 hover:bg-n-solid-2"
+            :class="{
+              'border-red-500': v$.selectedInbox.$error,
+            }"
+            @click="toggleInboxDropdown"
+            @blur="v$.selectedInbox.$touch"
+          >
+            <span
+              class="truncate"
+              :class="{ 'text-n-slate-9': !selectedInbox }"
+            >
+              {{ selectedInboxLabel }}
+            </span>
+            <Icon
+              icon="i-lucide-chevron-down"
+              class="size-4 flex-shrink-0 transition-transform"
+              :class="{ 'rotate-180': isInboxDropdownOpen }"
+            />
+          </button>
+          <DropdownMenu
+            v-if="isInboxDropdownOpen && whatsappInboxes.length > 0"
+            :menu-items="inboxMenuItems"
+            class="absolute top-full mt-1 left-0 right-0 w-full z-50 max-h-60 overflow-y-auto"
+            @action="handleInboxAction"
+          />
+        </div>
+        <span
+          v-if="v$.selectedInbox.$error"
+          class="text-xs text-red-500 mt-1 block"
+        >
+          {{ t('SETTINGS.TEMPLATES.ADD.FORM.INBOX.ERROR') }}
+        </span>
+        <span
+          v-if="whatsappInboxes.length === 0"
+          class="text-xs text-orange-500 mt-1 block"
+        >
+          {{ t('SETTINGS.TEMPLATES.ADD.FORM.INBOX.NO_WHATSAPP_INBOX') }}
+        </span>
       </div>
 
       <!-- Action Buttons -->

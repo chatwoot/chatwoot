@@ -9,7 +9,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  variableType: {
+  parameterType: {
     type: String,
     required: true,
   },
@@ -24,10 +24,16 @@ const bodyData = computed({
   set: value => emit('update:modelValue', value),
 });
 
+const exampleKey = computed(() => {
+  return props.parameterType === 'positional'
+    ? 'body_text'
+    : 'body_text_named_params';
+});
+
 const bodyTextData = computed({
   get: () => ({
     text: bodyData.value.text,
-    examples: bodyData.value.example?.body_text || [],
+    examples: bodyData.value.example[exampleKey.value],
     error: bodyData.value.error,
   }),
   set: ({ text, examples, error }) => {
@@ -36,7 +42,7 @@ const bodyTextData = computed({
       text,
       example: {
         ...bodyData.value.example,
-        body_text: examples,
+        [exampleKey.value]: examples,
       },
       error,
     };
@@ -65,7 +71,7 @@ const bodyTextData = computed({
       :max-length="1024"
       :placeholder="t('SETTINGS.TEMPLATES.BUILDER.BODY.TEXT_PLACEHOLDER')"
       :label="t('SETTINGS.TEMPLATES.BUILDER.BODY.TEXT_LABEL')"
-      :variable-type="variableType"
+      :parameter-type="parameterType"
     />
   </div>
 </template>

@@ -22,7 +22,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  variableType: {
+  parameterType: {
     type: String,
     required: true,
   },
@@ -74,7 +74,7 @@ const parseNumberVariables = text => {
  */
 const parseNamedVariable = text => {
   let error = '';
-  // Should start with a char, can end with a number or underscore - added global flag
+  // Should start with a char, can end with a number or underscore
   const regex = /\{\{([a-zA-Z][a-zA-Z0-9_]*)\}\}/g;
   const matches = [...text.matchAll(regex)];
   const variableNames = matches.map(match => match[1]);
@@ -90,10 +90,11 @@ const parseNamedVariable = text => {
   }
 
   // Create examples array based on unique variables
-  const examples = Array.from(uniqueNames).map(name => ({
-    name,
-    value:
-      props.modelValue.examples.find(ex => ex && ex.name === name)?.value || '',
+  const examples = Array.from(uniqueNames).map(param_name => ({
+    param_name,
+    example:
+      props.modelValue.examples.find(ex => ex && ex.param_name === param_name)
+        ?.example || '',
   }));
 
   return {
@@ -104,7 +105,7 @@ const parseNamedVariable = text => {
 };
 
 const parseVariables = text => {
-  if (props.variableType === 'number') {
+  if (props.parameterType === 'positional') {
     return parseNumberVariables(text);
   }
   return parseNamedVariable(text);
@@ -139,9 +140,9 @@ const updateNumberExample = (index, value) => {
   });
 };
 
-const updateNamedExample = (variableName, value) => {
+const updateNamedExample = (variableName, example) => {
   const newExamples = (props.modelValue.examples || []).map(ex =>
-    ex && ex.name === variableName ? { ...ex, value } : ex
+    ex && ex.param_name === variableName ? { ...ex, example } : ex
   );
 
   emit('update:modelValue', {
@@ -158,6 +159,25 @@ const formatPositionalVariable = index => {
 const formatNamedVariable = name => {
   return `{{${name}}}`;
 };
+
+const getPositionalHelpText = () => {
+  return t('SETTINGS.TEMPLATES.BUILDER.VARIABLES.POSITIONAL_HELP', {
+    example1: '{{1}}',
+    example2: '{{2}}',
+  });
+};
+
+const getNamedHelpText = () => {
+  return t('SETTINGS.TEMPLATES.BUILDER.VARIABLES.NAMED_HELP', {
+    example_param: '{{parameter_name}}',
+  });
+};
+
+const variableHelpText = computed(() => {
+  return props.parameterType === 'positional'
+    ? getPositionalHelpText()
+    : getNamedHelpText();
+});
 </script>
 
 <template>
@@ -218,15 +238,11 @@ const formatNamedVariable = name => {
       <div class="space-y-2">
         <!-- Dynamic Help Text -->
         <p class="text-xs text-n-slate-11">
-          {{
-            variableType === 'number'
-              ? t('SETTINGS.TEMPLATES.BUILDER.VARIABLES.NUMBER_HELP')
-              : t('SETTINGS.TEMPLATES.BUILDER.VARIABLES.NAMED_HELP')
-          }}
+          {{ variableHelpText }}
         </p>
 
-        <!-- Number Variables -->
-        <div v-if="variableType === 'number'" class="space-y-2">
+        <!-- Positional Parameters -->
+        <div v-if="parameterType === 'positional'" class="space-y-2">
           <div
             v-for="(example, index) in modelValue.examples"
             :key="`num-${index}`"
@@ -250,30 +266,32 @@ const formatNamedVariable = name => {
           </div>
         </div>
 
-        <!-- Named Variables -->
-        <div v-if="variableType === 'named'" class="space-y-2">
+        <!-- Named Parameters -->
+        <div v-if="parameterType === 'named'" class="space-y-2">
           <div
             v-for="example in modelValue.examples"
-            :key="`named-${example.name}`"
+            :key="`named-${example.param_name}`"
             class="flex items-center gap-3"
           >
             <span
               class="text-sm text-n-slate-11 min-w-[60px] flex items-center justify-center"
             >
-              {{ formatNamedVariable(example.name) }}
+              {{ formatNamedVariable(example.param_name) }}
             </span>
 
             <!-- Example Value Input -->
             <Input
-              :model-value="example.value"
+              :model-value="example.example"
               :placeholder="
                 t(
                   'SETTINGS.TEMPLATES.BUILDER.VARIABLES.NAMED_EXAMPLE_PLACEHOLDER',
-                  { name: example.name }
+                  { name: example.param_name }
                 )
               "
               custom-input-class="flex-1 text-sm"
-              @update:model-value="updateNamedExample(example.name, $event)"
+              @update:model-value="
+                updateNamedExample(example.param_name, $event)
+              "
             />
           </div>
         </div>

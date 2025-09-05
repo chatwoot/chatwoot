@@ -190,26 +190,29 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response, message)
   end
 
-  # name: String (snake_case), language: String (e.g., 'en' or 'en_US'), category: String (e.g., 'MARKETING', 'UTILITY', 'AUTHENTICATION')
-  def create_message_template(name:, language:, category:, components: [])
+  def create_message_template(template_params)
     response = HTTParty.post(
       "#{api_base_path}/v18.0/#{whatsapp_channel.provider_config['business_account_id']}/message_templates",
       headers: api_headers,
-      body: {
-        name: name,
-        language: language,
-        category: category,
-        components: components
-      }.to_json
+      body: template_params.slice(:name, :language, :category, :components).to_json
     )
     parsed_response = response.parsed_response
-    if response.success? && parsed_response['error'].blank?
-      parsed_response
-    else
-      error = parsed_response['error'] || {}
-      error_message = error['error_user_msg'] || error['error_user_title'] || error['message'] || 'Template creation failed on meta'
-      Rails.logger.error "WhatsApp API error: #{response.code} - #{error}"
-      raise StandardError, error_message
-    end
+
+    return parsed_response if response.success? && parsed_response['error'].blank?
+
+    handle_template_creation_error(response, parsed_response)
+  end
+
+  private
+
+  def handle_template_creation_error(response, parsed_response)
+    error = parsed_response['error'] || {}
+    error_message =
+      error['error_user_msg'] ||
+      error['error_user_title'] ||
+      error['message'] ||
+      'Template creation failed on meta'
+    Rails.logger.error "WhatsApp API error: #{response.code} - #{error}"
+    raise StandardError, error_message
   end
 end

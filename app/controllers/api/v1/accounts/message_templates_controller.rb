@@ -35,9 +35,14 @@ class Api::V1::Accounts::MessageTemplatesController < Api::V1::Accounts::BaseCon
 
   def message_template_params
     params.require(:message_template).permit(
-      :name, :category, :language, :channel_type, :status,
-      :inbox_id, :platform_template_id,
-      content: {}, metadata: {}
+      :name,
+      :category,
+      :language,
+      :channel_type,
+      :status,
+      :inbox_id,
+      :parameter_format,
+      content: {}
     )
   end
 
@@ -46,7 +51,7 @@ class Api::V1::Accounts::MessageTemplatesController < Api::V1::Accounts::BaseCon
     scope = scope.by_inbox(params[:inbox_id]) if params[:inbox_id]
     scope = scope.by_channel_type(params[:channel_type]) if params[:channel_type]
     scope = scope.by_language(params[:language]) if params[:language]
-    scope = scope.approved if params[:approved_only]
+    scope = scope.by_status(params[:status]) if params[:status]
     scope
   end
 end

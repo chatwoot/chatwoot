@@ -37,31 +37,15 @@ class Whatsapp::TemplateSyncService
   def update_template_attributes(template, data)
     template.assign_attributes(
       name: data['name'],
-      status: map_template_status(data['status']),
-      category: map_template_category(data['category']),
+      status: Whatsapp::TemplateFormatterService.format_status_from_meta(data['status']),
+      category: Whatsapp::TemplateFormatterService.format_category_from_meta(data['category']),
       language: normalize_language_code(data['language']),
       channel_type: 'Channel::Whatsapp',
+      parameter_format: Whatsapp::TemplateFormatterService.format_parameter_format_from_meta(data['parameter_format']),
       content: data.slice('components'),
       metadata: extract_metadata(data),
       last_synced_at: Time.current
     )
-  end
-
-  def map_template_status(meta_status)
-    case meta_status
-    when 'APPROVED' then 'approved'
-    when 'PENDING' then 'pending'
-    when 'REJECTED' then 'rejected'
-    else 'draft'
-    end
-  end
-
-  def map_template_category(meta_category)
-    case meta_category
-    when 'MARKETING' then 'marketing'
-    when 'AUTHENTICATION' then 'authentication'
-    else 'utility'
-    end
   end
 
   def normalize_language_code(language_code)
@@ -75,7 +59,6 @@ class Whatsapp::TemplateSyncService
   # TODO: check we need this
   def extract_metadata(data)
     {
-      whatsapp_parameter_format: data['parameter_format'],
       whatsapp_sub_category: data['sub_category']
     }.compact
   end

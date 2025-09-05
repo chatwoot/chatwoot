@@ -6,6 +6,7 @@ json.category message_template.category
 json.language message_template.language
 json.channel_type message_template.channel_type
 json.status message_template.status
+json.parameter_format message_template.parameter_format
 json.platform_template_id message_template.platform_template_id
 json.content message_template.content
 json.metadata message_template.metadata

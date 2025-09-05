@@ -1,29 +1,30 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TemplateBuilder from './TemplateBuilder.vue';
-import { createTemplate, updateTemplate } from './helpers/templatesHelper';
 
 const { t } = useI18n();
-const route = useRoute();
 const router = useRouter();
+const store = useStore();
 
-const isLoading = ref(false);
 const templateBuilderData = ref(null);
-const isEditMode = ref(false);
-const templateId = ref(null);
-
-// Template basic info from route params or localStorage
-const templateName = ref('');
-const selectedLanguage = ref('English (en-US)');
-const selectedChannelType = ref('whatsapp');
 
 const isTemplateBuilderValid = computed(() => {
   return templateBuilderData.value && templateBuilderData.value.isValid;
+});
+
+const isEditMode = computed(() => {
+  const config = store.getters['messageTemplates/getBuilderConfig'];
+  return !!config.templateId;
+});
+
+const isLoading = computed(() => {
+  const uiFlags = store.getters['messageTemplates/getUIFlags'];
+  return uiFlags.isCreating || uiFlags.isUpdating;
 });
 
 const handleTemplateUpdate = builderData => {
@@ -37,61 +38,48 @@ const goBack = () => {
 const handleSave = async () => {
   if (!isTemplateBuilderValid.value) return;
 
-  isLoading.value = true;
   try {
+    const config = store.getters['messageTemplates/getBuilderConfig'];
+
     const templateData = {
-      name: templateName.value.trim(),
-      language: selectedLanguage.value,
-      category: 'general',
-      channel_type: selectedChannelType.value,
-      status: 'pending',
-      content: templateBuilderData.value.content,
-      components: templateBuilderData.value.components,
+      name: config.name,
+      language: config.language,
+      category: config.category,
+      channel_type: config.channelType,
+      inbox_id: config.inboxId,
+      parameter_format: templateBuilderData.value.parameterType,
+      content: {
+        components: templateBuilderData.value.components,
+      },
     };
 
-    if (isEditMode.value) {
-      await updateTemplate(templateId.value, templateData);
+    if (config.templateId) {
+      await store.dispatch('messageTemplates/update', {
+        id: config.templateId,
+        ...templateData,
+      });
       useAlert(t('SETTINGS.TEMPLATES.API.UPDATE_SUCCESS'));
     } else {
-      await createTemplate(templateData);
+      await store.dispatch('messageTemplates/create', templateData);
       useAlert(t('SETTINGS.TEMPLATES.API.SUCCESS_MESSAGE'));
     }
 
     goBack();
   } catch (error) {
     useAlert(t('SETTINGS.TEMPLATES.API.ERROR_MESSAGE'));
-  } finally {
-    isLoading.value = false;
   }
 };
 
 onMounted(() => {
-  // Get template info from route query params
-  if (route.query.name) {
-    templateName.value = route.query.name;
+  const config = store.getters['messageTemplates/getBuilderConfig'];
+  if (!config.name) {
+    router.push({ name: 'templates_list' });
   }
-  if (route.query.language) {
-    selectedLanguage.value = route.query.language;
-  }
-  if (route.query.channelType) {
-    selectedChannelType.value = route.query.channelType;
-  }
-  if (route.query.id) {
-    templateId.value = route.query.id;
-    isEditMode.value = true;
-  }
+});
 
-  // Fallback to localStorage if no query params
-  if (!templateName.value) {
-    const storedData = localStorage.getItem('chatwoot_template_basic_info');
-    if (storedData) {
-      const parsed = JSON.parse(storedData);
-      templateName.value = parsed.name || '';
-      selectedLanguage.value = parsed.language || 'English (en-US)';
-      selectedChannelType.value = parsed.channelType || 'whatsapp';
-      localStorage.removeItem('chatwoot_template_basic_info');
-    }
-  }
+onUnmounted(() => {
+  // reset the state
+  store.dispatch('messageTemplates/resetBuilderConfig');
 });
 </script>
 

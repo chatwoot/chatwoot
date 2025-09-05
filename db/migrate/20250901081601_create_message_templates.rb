@@ -4,11 +4,12 @@ class CreateMessageTemplates < ActiveRecord::Migration[7.1]
     create_table :message_templates do |t|
       t.references :account, null: false
       t.references :inbox, null: true
-      t.string :name, null: false, limit: 255
+      t.string :name, null: false, limit: 512
       t.integer :category, null: false, default: 0
       t.string :language, null: false, default: 'en', limit: 10
       t.string :channel_type, null: false, limit: 50
       t.integer :status, default: 0
+      t.integer :parameter_format, null: true
 
       # Platform sync data
       t.string :platform_template_id, limit: 255

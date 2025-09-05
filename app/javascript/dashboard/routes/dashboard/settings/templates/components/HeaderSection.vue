@@ -11,7 +11,7 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  variableType: {
+  parameterType: {
     type: String,
     required: true,
   },
@@ -32,11 +32,16 @@ const setHeaderFormat = format => {
     format,
   };
 };
+const exampleKey = computed(() => {
+  return props.parameterType === 'positional'
+    ? 'header_text'
+    : 'header_text_named_params';
+});
 
 const headerTextData = computed({
   get: () => ({
-    text: headerData.value.text || '',
-    examples: headerData.value.example?.header_text || [],
+    text: headerData.value.text,
+    examples: headerData.value.example[exampleKey.value],
     error: headerData.value.error,
   }),
   set: ({ text, examples, error }) => {
@@ -45,7 +50,7 @@ const headerTextData = computed({
       text,
       example: {
         ...headerData.value.example,
-        header_text: examples,
+        [exampleKey.value]: [...examples],
       },
       error,
     };
@@ -109,7 +114,7 @@ const headerformats = [
           :placeholder="t('SETTINGS.TEMPLATES.BUILDER.HEADER.TEXT_PLACEHOLDER')"
           :label="t('SETTINGS.TEMPLATES.BUILDER.HEADER.TEXT_LABEL')"
           :help-text="t('SETTINGS.TEMPLATES.BUILDER.HEADER.TEXT_HELP')"
-          :variable-type="variableType"
+          :parameter-type="parameterType"
           :max-variables="1"
         />
       </div>

@@ -4,7 +4,6 @@ import { required } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
@@ -18,6 +17,7 @@ import AccountDelete from './components/AccountDelete.vue';
 import AutoResolve from './components/AutoResolve.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
 import SectionLayout from './components/SectionLayout.vue';
+import LanguageDropdown from 'dashboard/components-next/LanguageDropdown/LanguageDropdown.vue';
 
 export default {
   components: {
@@ -31,14 +31,14 @@ export default {
     SectionLayout,
     WithLabel,
     NextInput,
+    LanguageDropdown,
   },
   setup() {
     const { updateUISettings } = useUISettings();
-    const { enabledLanguages } = useConfig();
     const { accountId } = useAccount();
     const v$ = useVuelidate();
 
-    return { updateUISettings, v$, enabledLanguages, accountId };
+    return { updateUISettings, v$, accountId };
   },
   data() {
     return {
@@ -77,12 +77,7 @@ export default {
         FEATURE_FLAGS.CAPTAIN
       );
     },
-    languagesSortedByCode() {
-      const enabledLanguages = [...this.enabledLanguages];
-      return enabledLanguages.sort((l1, l2) =>
-        l1.iso_639_1_code.localeCompare(l2.iso_639_1_code)
-      );
-    },
+
     isUpdating() {
       return this.uiFlags.isUpdating;
     },
@@ -187,15 +182,13 @@ export default {
             :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
           >
-            <select v-model="locale" class="!mb-0 text-sm">
-              <option
-                v-for="lang in languagesSortedByCode"
-                :key="lang.iso_639_1_code"
-                :value="lang.iso_639_1_code"
-              >
-                {{ lang.name }}
-              </option>
-            </select>
+            <LanguageDropdown
+              v-model="locale"
+              :placeholder="$t('GENERAL_SETTINGS.FORM.LANGUAGE.PLACEHOLDER')"
+              variant="outline"
+              size="md"
+              show-search
+            />
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyDomainEnabled"

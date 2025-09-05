@@ -1,47 +1,117 @@
-<!-- eslint-disable vue/no-bare-strings-in-template -->
 <script setup>
 import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useEventListener } from '@vueuse/core';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import LanguageDropdown from 'dashboard/components-next/LanguageDropdown/LanguageDropdown.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { vOnClickOutside } from '@vueuse/components';
 import AddTemplate from './AddTemplate.vue';
-import { getTemplatesDemo, deleteTemplate } from './helpers/templatesHelper';
 
 const { t } = useI18n();
+const store = useStore();
+const router = useRouter();
 
-const loading = ref({});
-const isLoading = ref(false);
-const templates = ref([]);
-const showDeleteConfirmationPopup = ref(false);
 const showAddPopup = ref(false);
-const selectedTemplate = ref({});
 const newTemplateButtonRef = ref(null);
 
-// TODO: maybe change this filters to object , will check it after backend
-const selectedContent = ref('Content');
-const selectedChannel = ref('Channel');
-const selectedLanguage = ref('English (en-US)');
+// Filter states
+const selectedStatus = ref('');
+const selectedLanguage = ref('');
+const selectedChannelType = ref('');
 
-const filteredTemplates = computed(() => {
-  let filtered = templates.value;
+// Dropdown states
+const isStatusDropdownOpen = ref(false);
+const isChannelDropdownOpen = ref(false);
 
-  // TODO: Apply filters here
-  return filtered;
+// Store-based computed properties
+const templates = computed(
+  () => store.getters['messageTemplates/getTemplates']
+);
+const uiFlags = computed(() => store.getters['messageTemplates/getUIFlags']);
+const isLoading = computed(() => uiFlags.value.isFetching);
+
+// Filter options for dropdowns
+const statusMenuItems = computed(() => [
+  {
+    action: 'statusSelect',
+    value: '',
+    label: t('SETTINGS.TEMPLATES.FILTERS.ALL_STATUSES'),
+    isSelected: selectedStatus.value === '',
+  },
+  {
+    action: 'statusSelect',
+    value: 'approved',
+    label: t('SETTINGS.TEMPLATES.FILTERS.APPROVED'),
+    isSelected: selectedStatus.value === 'approved',
+  },
+  {
+    action: 'statusSelect',
+    value: 'pending',
+    label: t('SETTINGS.TEMPLATES.FILTERS.PENDING'),
+    isSelected: selectedStatus.value === 'pending',
+  },
+  {
+    action: 'statusSelect',
+    value: 'rejected',
+    label: t('SETTINGS.TEMPLATES.FILTERS.REJECTED'),
+    isSelected: selectedStatus.value === 'rejected',
+  },
+]);
+
+const channelMenuItems = computed(() => [
+  {
+    action: 'channelSelect',
+    value: '',
+    label: t('SETTINGS.TEMPLATES.FILTERS.ALL_CHANNELS'),
+    isSelected: selectedChannelType.value === '',
+  },
+  {
+    action: 'channelSelect',
+    value: 'Channel::Whatsapp',
+    label: 'WhatsApp',
+    isSelected: selectedChannelType.value === 'Channel::Whatsapp',
+  },
+]);
+
+const selectedStatusLabel = computed(() => {
+  const selected = statusMenuItems.value.find(
+    item => item.value === selectedStatus.value
+  );
+  return selected
+    ? selected.label
+    : t('SETTINGS.TEMPLATES.FILTERS.ALL_STATUSES');
 });
 
-const deleteMessage = computed(() => ` ${selectedTemplate.value.name}?`);
+const selectedChannelLabel = computed(() => {
+  const selected = channelMenuItems.value.find(
+    item => item.value === selectedChannelType.value
+  );
+  return selected
+    ? selected.label
+    : t('SETTINGS.TEMPLATES.FILTERS.ALL_CHANNELS');
+});
+
+const filteredTemplates = computed(() => {
+  return templates.value;
+});
 
 const fetchTemplates = async () => {
-  isLoading.value = true;
   try {
-    const data = await getTemplatesDemo();
-    templates.value = data;
+    const filters = {};
+    if (selectedStatus.value) filters.status = selectedStatus.value;
+    if (selectedLanguage.value) filters.language = selectedLanguage.value;
+    if (selectedChannelType.value)
+      filters.channel_type = selectedChannelType.value;
+
+    await store.dispatch('messageTemplates/get', filters);
   } catch (error) {
     useAlert(t('SETTINGS.TEMPLATES.API.FETCH_ERROR'));
-  } finally {
-    isLoading.value = false;
   }
 };
 
@@ -53,30 +123,57 @@ const hideAddPopup = () => {
   showAddPopup.value = false;
 };
 
-const openDeletePopup = template => {
-  showDeleteConfirmationPopup.value = true;
-  selectedTemplate.value = template;
+const editTemplate = template => {
+  // Set the template data in store for editing
+  store.dispatch('messageTemplates/setBuilderConfig', {
+    name: template.name,
+    language: template.language,
+    channelType: template.channel_type,
+    inboxId: template.inbox_id,
+    category: template.category,
+    templateId: template.id, // This makes it edit mode
+  });
+
+  // Navigate to template builder
+  router.push({ name: 'template_builder' });
 };
 
-const closeDeletePopup = () => {
-  showDeleteConfirmationPopup.value = false;
+// Filter change handlers
+const applyFilters = () => {
+  fetchTemplates();
 };
 
-const confirmDeletion = async () => {
-  loading.value[selectedTemplate.value.id] = true;
-  closeDeletePopup();
+const handleStatusAction = ({ value }) => {
+  selectedStatus.value = value;
+  isStatusDropdownOpen.value = false;
+  applyFilters();
+};
 
-  try {
-    await deleteTemplate(selectedTemplate.value.id);
-    templates.value = templates.value.filter(
-      tem => tem.id !== selectedTemplate.value.id
-    );
-    useAlert(t('SETTINGS.TEMPLATES.DELETE.SUCCESS'));
-  } catch (error) {
-    useAlert(t('SETTINGS.TEMPLATES.DELETE.ERROR'));
-  } finally {
-    loading.value[selectedTemplate.value.id] = false;
-  }
+const handleChannelAction = ({ value }) => {
+  selectedChannelType.value = value;
+  isChannelDropdownOpen.value = false;
+  applyFilters();
+};
+
+const handleLanguageChange = value => {
+  selectedLanguage.value = value;
+  applyFilters();
+};
+
+const toggleStatusDropdown = () => {
+  isStatusDropdownOpen.value = !isStatusDropdownOpen.value;
+};
+
+const toggleChannelDropdown = () => {
+  isChannelDropdownOpen.value = !isChannelDropdownOpen.value;
+};
+
+const closeStatusDropdown = () => {
+  isStatusDropdownOpen.value = false;
+};
+
+const closeChannelDropdown = () => {
+  isChannelDropdownOpen.value = false;
 };
 
 const getStatusColor = status => {
@@ -158,37 +255,60 @@ onMounted(() => {
 
     <!-- Filters -->
     <div class="flex items-center gap-3 mb-6">
-      <div class="relative w-48">
-        <select
-          v-model="selectedContent"
-          class="w-full pl-3 pr-8 py-2 text-sm border border-n-weak rounded-lg bg-n-solid-2 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 appearance-none"
+      <!-- Status Filter -->
+      <div v-on-click-outside="closeStatusDropdown" class="relative w-48">
+        <button
+          type="button"
+          class="flex items-center justify-between gap-2 h-10 px-3 text-sm rounded-lg text-n-slate-12 transition-colors focus:outline-none focus:ring-2 focus:ring-n-blue-5 w-full border border-n-weak bg-n-solid-1 hover:bg-n-solid-2"
+          @click="toggleStatusDropdown"
         >
-          <option value="Content">
-            {{ t('SETTINGS.TEMPLATES.FILTERS.CONTENT') }}
-          </option>
-        </select>
+          <span class="truncate">{{ selectedStatusLabel }}</span>
+          <Icon
+            icon="i-lucide-chevron-down"
+            class="size-4 flex-shrink-0 transition-transform"
+            :class="{ 'rotate-180': isStatusDropdownOpen }"
+          />
+        </button>
+        <DropdownMenu
+          v-if="isStatusDropdownOpen"
+          :menu-items="statusMenuItems"
+          class="absolute top-full mt-1 left-0 right-0 w-full z-50"
+          @action="handleStatusAction"
+        />
       </div>
 
-      <div class="relative w-48">
-        <select
-          v-model="selectedChannel"
-          class="w-full pl-3 pr-8 py-2 text-sm border border-n-weak rounded-lg bg-n-solid-2 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 appearance-none"
+      <!-- Channel Filter -->
+      <div v-on-click-outside="closeChannelDropdown" class="relative w-48">
+        <button
+          type="button"
+          class="flex items-center justify-between gap-2 h-10 px-3 text-sm rounded-lg text-n-slate-12 transition-colors focus:outline-none focus:ring-2 focus:ring-n-blue-5 w-full border border-n-weak bg-n-solid-1 hover:bg-n-solid-2"
+          @click="toggleChannelDropdown"
         >
-          <option value="Channel">
-            {{ t('SETTINGS.TEMPLATES.FILTERS.CHANNEL') }}
-          </option>
-        </select>
+          <span class="truncate">{{ selectedChannelLabel }}</span>
+          <Icon
+            icon="i-lucide-chevron-down"
+            class="size-4 flex-shrink-0 transition-transform"
+            :class="{ 'rotate-180': isChannelDropdownOpen }"
+          />
+        </button>
+        <DropdownMenu
+          v-if="isChannelDropdownOpen"
+          :menu-items="channelMenuItems"
+          class="absolute top-full mt-1 left-0 right-0 w-full z-50"
+          @action="handleChannelAction"
+        />
       </div>
 
+      <!-- Language Filter -->
       <div class="relative w-48">
-        <select
+        <LanguageDropdown
           v-model="selectedLanguage"
-          class="w-full pl-3 pr-8 py-2 text-sm border border-n-weak rounded-lg bg-n-solid-2 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-5 appearance-none"
-        >
-          <!-- TODO: fix me -->
-          <!--eslint-disable-next-line vue/no-bare-strings-in-template -->
-          <option value="English (en-US)">English (en-US)</option>
-        </select>
+          :placeholder="t('SETTINGS.TEMPLATES.FILTERS.ALL_LANGUAGES')"
+          size="md"
+          variant="outline"
+          show-search
+          @update:model-value="handleLanguageChange"
+        />
       </div>
     </div>
 
@@ -261,15 +381,7 @@ onMounted(() => {
             slate
             xs
             faded
-          />
-          <Button
-            v-tooltip.top="$t('SETTINGS.TEMPLATES.ACTIONS.DELETE')"
-            icon="i-lucide-trash-2"
-            xs
-            ruby
-            faded
-            :is-loading="loading[template.id]"
-            @click="openDeletePopup(template)"
+            @click="editTemplate(template)"
           />
         </div>
       </div>
@@ -288,17 +400,5 @@ onMounted(() => {
 
     <!-- Backdrop for mobile/overlay when popover is open -->
     <div v-if="showAddPopup" class="fixed inset-0 z-40" @click="hideAddPopup" />
-
-    <!-- Delete Confirmation Modal -->
-    <woot-delete-modal
-      v-model:show="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('SETTINGS.TEMPLATES.DELETE.CONFIRM.TITLE')"
-      :message="$t('SETTINGS.TEMPLATES.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="$t('SETTINGS.TEMPLATES.DELETE.CONFIRM.YES')"
-      :reject-text="$t('SETTINGS.TEMPLATES.DELETE.CONFIRM.NO')"
-    />
   </div>
 </template>

@@ -3,14 +3,15 @@
 # Table name: message_templates
 #
 #  id                   :bigint           not null, primary key
-#  category             :integer          default(0), not null
+#  category             :integer          default("marketing"), not null
 #  channel_type         :string(50)       not null
 #  content              :jsonb            not null
 #  language             :string(10)       default("en"), not null
 #  last_synced_at       :datetime
 #  metadata             :jsonb
-#  name                 :string(255)      not null
-#  status               :integer          default(0)
+#  name                 :string(512)      not null
+#  parameter_format     :integer
+#  status               :integer          default("draft")
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
 #  account_id           :bigint           not null
@@ -66,10 +67,15 @@ class MessageTemplate < ApplicationRecord
     authentication: 2
   }
 
+  enum parameter_format: {
+    positional: 0,
+    named: 1
+  }
+
   scope :by_channel_type, ->(type) { where(channel_type: type) }
   scope :by_language, ->(lang) { where(language: lang) }
   scope :by_inbox, ->(inbox_id) { where(inbox_id: inbox_id) }
-  scope :approved, -> { where(status: :approved) }
+  scope :by_status, ->(status) { where(status: status) }
 
   before_save :set_updated_by
   before_create :create_on_provider_platform, unless: :platform_template_id?
@@ -130,20 +136,35 @@ class MessageTemplate < ApplicationRecord
   end
 
   def create_whatsapp_template
-    provider_response = inbox.channel.provider_service.create_message_template(
+    response = call_whatsapp_provider
+    update_from_whatsapp_response(response)
+  rescue StandardError => e
+    handle_whatsapp_creation_error(e)
+  end
+
+  def call_whatsapp_provider
+    inbox.channel.provider_service.create_message_template(whatsapp_template_params)
+  end
+
+  def whatsapp_template_params
+    {
       name: name,
       language: language,
-      category: category.upcase,
-      components: content['components']
-    )
+      category: Whatsapp::TemplateFormatterService.format_category_for_meta(category),
+      components: content['components'],
+      parameter_format: Whatsapp::TemplateFormatterService.format_parameter_format_for_meta(parameter_format)
+    }
+  end
 
-    Rails.logger.info "WhatsApp template creation response: #{provider_response.inspect}"
+  def update_from_whatsapp_response(response)
+    Rails.logger.info "WhatsApp template creation response: #{response.inspect}"
+    self.platform_template_id = response['id']
+    self.status = Whatsapp::TemplateFormatterService.format_status_from_meta(response['status']) || 'pending'
+  end
 
-    self.platform_template_id = provider_response['id']
-    self.status = provider_response['status']&.downcase || 'pending'
-  rescue StandardError => e
-    Rails.logger.error "WhatsApp template creation failed: #{e.message}"
-    errors.add(:base, "Failed to create template on WhatsApp: #{e.message}")
+  def handle_whatsapp_creation_error(error)
+    Rails.logger.error "WhatsApp template creation failed: #{error.message}"
+    errors.add(:base, "Failed to create template on WhatsApp: #{error.message}")
     throw :abort
   end
 end

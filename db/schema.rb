@@ -897,11 +897,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_01_081601) do
   create_table "message_templates", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "inbox_id"
-    t.string "name", limit: 255, null: false
+    t.string "name", limit: 512, null: false
     t.integer "category", default: 0, null: false
     t.string "language", limit: 10, default: "en", null: false
     t.string "channel_type", limit: 50, null: false
     t.integer "status", default: 0
+    t.integer "parameter_format"
     t.string "platform_template_id", limit: 255
     t.jsonb "content", default: {}, null: false
     t.jsonb "metadata", default: {}
