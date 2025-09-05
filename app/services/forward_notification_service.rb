@@ -48,7 +48,7 @@ class ForwardNotificationService
     when 'whatsapp'
       send_whatsapp_notifications(target_chats)
     else
-      Rails.logger.warn "Unknown notification channel: #{channel}"
+      Rails.logger.warn "Not implemented notification channel: #{channel}"
     end
   end
 
@@ -57,14 +57,20 @@ class ForwardNotificationService
     whatsapp_channel = @account.whatsapp_channels.find_by(provider: 'whapi')
 
     if whatsapp_channel.nil?
-      default_api_key = ENV['DEFAULT_WHAPI_CHANNEL_TOKEN']
+    default_api_key = ENV['DEFAULT_WHAPI_CHANNEL_TOKEN']
       if default_api_key.present?
         whatsapp_channel = create_whapi_channel(default_api_key)
       else
-        Rails.logger.warn "No DEFAULT_WHAPI_CHANNEL_TOKEN found"
-        return
+        Rails.logger.error "Account #{@account.id} with no whapi channel and no default whapi channel token defined"
+      return
       end
     end
+
+    # Validate that the channel has proper configuration
+    unless whatsapp_channel&.provider_config&.dig('api_key').present?
+      Rails.logger.warn "WhatsApp channel missing API key for account #{@account.id}"
+      return
+    end  
 
     target_chats.each do |chat_id|
       # Send to the WhatsApp channel
@@ -73,37 +79,55 @@ class ForwardNotificationService
   end
 
   def send_via_whatsapp_channel(whatsapp_channel, target_chat, notification_message)
-    # Create a message object that the WhatsApp channel can send
-    message_object = OpenStruct.new(
-      content: notification_message,
-      content_type: 'text',
-      message_type: 'outgoing',
-      private: false,
-      attachments: [],
-      content_attributes: {}
-    )
+    return if whatsapp_channel.nil? || target_chat.blank?
 
-    # Add the outgoing_content method
-    def message_object.outgoing_content
-      content
-    end
+    # Create a proper message object for notification forwarding
+    message_object = NotificationMessage.new(notification_message)
 
-    # Send the message using the WhatsApp channel
-    message_id = whatsapp_channel.send_message(target_chat, message_object)
-
-    Rails.logger.info "WhatsApp notification sent successfully to #{target_chat}. Message ID: #{message_id}"
+    # Create the WhapiService instance and send the message
+    whapi_service = Whatsapp::Providers::WhapiService.new(whatsapp_channel: whatsapp_channel)
+    whapi_service.send_message(target_chat, message_object)
 
   rescue StandardError => e
     Rails.logger.error "Failed to send WhatsApp notification to #{target_chat}: #{e.message}"
   end
 
   def create_whapi_channel(api_key)
-    whatsapp_channel = OpenStruct.new(
-      provider: 'whapi',
-      provider_config: { 'api_key' => api_key }
-    )
-    
-    Whatsapp::Providers::WhapiService.new(whatsapp_channel: whatsapp_channel)
+    # Create a minimal channel object for notification forwarding
+    NotificationChannel.new('whapi', api_key, @account)
+  end
+
+  # Simple wrapper class for notification forwarding
+  class NotificationChannel
+    attr_reader :provider, :provider_config, :account
+
+    def initialize(provider, api_key, account)
+      @provider = provider
+      @provider_config = { 'api_key' => api_key }
+      @account = account
+    end
+
+    def mark_message_templates_updated
+      # No-op for notification forwarding
+    end
+  end
+
+  # Message object for notification forwarding
+  class NotificationMessage
+    attr_reader :content, :content_type, :message_type, :private, :attachments, :content_attributes
+
+    def initialize(content)
+      @content = content
+      @content_type = 'text'
+      @message_type = 'outgoing'
+      @private = false
+      @attachments = []
+      @content_attributes = {}
+    end
+
+    def outgoing_content
+      content
+    end
   end
 
   def find_notification_config
