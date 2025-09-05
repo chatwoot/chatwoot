@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -82,8 +83,8 @@ async function connectGoogle() {
     ticketLoading.value = true
     const response = await googleSheetsExportAPI.getAuthorizationUrl()
     if (response.data.authorization_url) {
-      showNotification('Redirecting to Google for authentication...', 'info')
-      window.location.href = response.data.authorization_url
+      showNotification('Opening Google authentication in a new tab...', 'info')
+      window.open(response.data.authorization_url, '_blank', 'noopener,noreferrer')
     } else {
       showNotification('Failed to get authorization URL. Please check backend logs.', 'error')
     }
@@ -96,30 +97,65 @@ async function connectGoogle() {
 }
 
 async function checkAuthStatus() {
+  alert("checking auth status...")
   try {
-    ticketLoading.value = true
-    const response = await googleSheetsExportAPI.getStatus()
+    ticketLoading.value = true;
+    const response = await googleSheetsExportAPI.getStatus();
+    // eslint-disable-next-line no-alert
+    alert(JSON.stringify(response.data));
     if (response.data.authorized) {
-      ticketStep.value = 'connected'
+      ticketStep.value = 'connected';
       ticketAccount.value = {
         email: response.data.email,
-        name: 'Connected Account'
-      }
-      if (response.data.spreadsheet_url_output) {
-        ticketSheets.output = response.data.spreadsheet_url_output
-        ticketStep.value = 'sheetConfig'
-      } else {
-        ticketSheets.output = ''
+        name: 'Connected Account',
+      };
+      try {
+        // console.log('props.data:', props.data);
+        // console.log(
+        //   'props.data.display_flow_data:',
+        //   props.data.display_flow_data
+        // );
+        const flowData = props.data.display_flow_data;
+        const payload = {
+          account_id: parseInt(flowData.account_id, 10),
+          agent_id: String(props.data.id),
+          type: 'tickets',
+        };
+        alert(JSON.stringify(payload))
+        console.log('payload:', payload);
+        const spreadsheet_url_response =
+          await googleSheetsExportAPI.getSpreadsheetUrl(payload);
+        alert(JSON.stringify(payload))
+        alert(JSON.stringify(spreadsheet_url_response))
+
+        console.log(
+          'spreadsheet_url_response.data:',
+          spreadsheet_url_response.data
+        );
+        if (spreadsheet_url_response.data.spreadsheet_url) {
+          ticketSheets.output = spreadsheet_url_response.data.spreadsheet_url;
+          ticketStep.value = 'sheetConfig';
+        } else {
+          ticketSheets.output = '';
+        }
+      } catch (error) {
+        console.error('Failed to check authorization status while retrieving spreadsheet data:', error);
+        ticketStep.value = 'connected';
       }
     } else {
-      ticketStep.value = 'auth'
+      ticketStep.value = 'auth';
     }
+    console.log('ticketStep:', ticketStep);
+    // eslint-disable-next-line no-alert
+    console.log('ticketAccount:', ticketAccount);
   } catch (error) {
     console.error('Failed to check authorization status:', error)
     ticketStep.value = 'auth'
   } finally {
     ticketLoading.value = false
   }
+  console.log('ticketStep.value:', ticketStep.value);
+  alert("checking auth status DONE")
 }
 
 async function createTicketSheet() {
@@ -127,16 +163,31 @@ async function createTicketSheet() {
   try {
     // TODO: Call backend to create ticket output sheet
     // For now, simulate sheet creation
-    await new Promise(resolve => setTimeout(resolve, 1200))
-    
-    ticketSheets.output = 'https://docs.google.com/spreadsheets/d/ticket-output-sheet-id'
-    ticketStep.value = 'sheetConfig'
+    // await new Promise(resolve => setTimeout(resolve, 1200))
+    // eslint-disable-next-line no-alert
+    alert(JSON.stringify(props.data));
+    // eslint-disable-next-line no-console
+    const flowData = props.data.display_flow_data;
+    const payload = {
+      account_id: parseInt(flowData.account_id, 10),
+      agent_id: String(props.data.id),
+      type: 'tickets',
+    };
+    // console.log(payload);
+    const response = await googleSheetsExportAPI.createSpreadsheet(payload);
+    // console.log(response)
+    ticketSheets.output = response.data.spreadsheet_url;
+    ticketStep.value = 'sheetConfig';
     showNotification('Ticket output sheet created successfully!', 'success')
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed to create ticket sheet:', error)
-    showNotification('Failed to create ticket sheet. Please try again.', 'error')
+    showNotification(
+      'Failed to create ticket sheet. Please try again.',
+      'error'
+    );
   } finally {
-    ticketLoading.value = false
+    ticketLoading.value = false;
   }
 }
 
@@ -154,12 +205,12 @@ async function save() {
     isSaving.value = true;
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
-    console.log(flowData)
+    // console.log(flowData)
     const agent_index = flowData.enabled_agents.indexOf('customer_service');
     flowData.agents_config[agent_index].configurations.ticket_system =
       ticketSystem;
-    console.log(flowData);
-    console.log(props.config);
+    // console.log(flowData);
+    // console.log(props.config);
     const payload = {
       flow_data: flowData,
     };
