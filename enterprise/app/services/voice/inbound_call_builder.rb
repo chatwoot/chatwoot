@@ -1,13 +1,12 @@
 class Voice::InboundCallBuilder
   pattr_initialize [:account!, :inbox!, :from_number!, :to_number, :call_sid!]
 
-  attr_reader :conversation, :conference_sid
+  attr_reader :conversation
 
   def perform
     contact = find_or_create_contact!
     contact_inbox = find_or_create_contact_inbox!(contact)
     @conversation = find_or_create_conversation!(contact, contact_inbox)
-    @conference_sid = compute_conference_sid(@conversation)
     create_call_message_if_needed!
     self
   end
@@ -33,10 +32,6 @@ class Voice::InboundCallBuilder
         'call_status' => 'ringing'
       }
     end
-  end
-
-  def compute_conference_sid(conversation)
-    "conf_account_#{account.id}_conv_#{conversation.display_id || conversation.id}"
   end
 
   def create_call_message!
@@ -66,7 +61,6 @@ class Voice::InboundCallBuilder
         status: 'ringing',
         conversation_id: @conversation.display_id,
         call_direction: 'inbound',
-        conference_sid: @conference_sid,
         from_number: from_number,
         to_number: to_number,
         meta: {

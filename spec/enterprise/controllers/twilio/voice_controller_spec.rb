@@ -42,15 +42,14 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response.body).to eq('<Response/>')
     end
 
-    it 'does not call the builder and returns hangup when inbox not found' do
+    it 'raises not found when inbox is not present' do
       expect(Voice::InboundCallBuilder).not_to receive(:new)
       post '/twilio/voice/call/19998887777', params: {
         'CallSid' => call_sid,
         'From' => from_number,
         'To' => to_number
       }
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include('<Hangup')
+      expect(response).to have_http_status(:not_found)
     end
   end
 
@@ -76,13 +75,13 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       expect(response).to have_http_status(:no_content)
     end
 
-    it 'does not invoke service when inbox not found' do
+    it 'raises not found when inbox is not present' do
       expect(Voice::StatusUpdateService).not_to receive(:new)
       post '/twilio/voice/status/18005550101', params: {
         'CallSid' => call_sid,
         'CallStatus' => 'busy'
       }
-      expect(response).to have_http_status(:no_content)
+      expect(response).to have_http_status(:not_found)
     end
   end
 end
