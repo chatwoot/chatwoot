@@ -55,6 +55,7 @@ class Voice::InboundCallBuilder
 
   def create_call_message_if_needed!
     return if @conversation.messages.voice_calls.exists?
+
     create_call_message!
   end
 
