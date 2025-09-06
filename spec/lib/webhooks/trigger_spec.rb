@@ -8,7 +8,7 @@ describe Webhooks::Trigger do
   let!(:conversation) { create(:conversation, inbox: inbox) }
   let!(:message) { create(:message, account: account, inbox: inbox, conversation: conversation) }
 
-  let!(:webhook_type) { :api_inbox_webhook }
+  let(:webhook_type) { :api_inbox_webhook }
   let!(:url) { 'https://test.com' }
 
   describe '#execute' do
@@ -53,6 +53,30 @@ describe Webhooks::Trigger do
           timeout: 5
         ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
       expect { trigger.execute(url, payload, webhook_type) }.to change { message.reload.status }.from('sent').to('failed')
+    end
+
+    context 'when webhook type is agent bot' do
+      let(:webhook_type) { :agent_bot_webhook }
+
+      it 'updates message status and reopens conversation if pending' do
+        conversation.update(status: :pending)
+        payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+
+        expect(RestClient::Request).to receive(:execute)
+          .with(
+            method: :post,
+            url: url,
+            payload: payload.to_json,
+            headers: { content_type: :json, accept: :json },
+            timeout: 5
+          ).and_raise(RestClient::ExceptionWithResponse.new('error', 500)).once
+
+        expect do
+          trigger.execute(url, payload, webhook_type)
+        end.to change { message.reload.status }.from('sent').to('failed')
+
+        expect(conversation.reload.status).to eq('open')
+      end
     end
   end
 
