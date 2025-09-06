@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe Voice::StatusUpdateService do
   let(:account) { create(:account) }
   let!(:contact) { create(:contact, account: account, phone_number: from_number) }
-  let!(:contact_inbox) { ContactInbox.create!(contact: contact, inbox: inbox, source_id: from_number) }
-  let!(:conversation) do
+  let(:contact_inbox) { ContactInbox.create!(contact: contact, inbox: inbox, source_id: from_number) }
+  let(:conversation) do
     Conversation.create!(
       account_id: account.id,
       inbox_id: inbox.id,
@@ -16,7 +16,7 @@ RSpec.describe Voice::StatusUpdateService do
       additional_attributes: { 'call_direction' => 'inbound', 'call_status' => 'ringing' }
     )
   end
-  let!(:message) do
+  let(:message) do
     conversation.messages.create!(
       account_id: account.id,
       inbox_id: inbox.id,
@@ -38,6 +38,10 @@ RSpec.describe Voice::StatusUpdateService do
   end
 
   it 'updates conversation and last voice message with call status' do
+    # Ensure records are created after stub setup
+    conversation
+    message
+
     described_class.new(
       account: account,
       call_sid: call_sid,
