@@ -6,7 +6,7 @@ class Captain::Llm::BaseJangkauService
 
   default_options.update(
     open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 5).to_i,
-    read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 120).to_i
+    read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 60).to_i
   )
 
   def initialize(account_id, ai_agent, question, session_id)
