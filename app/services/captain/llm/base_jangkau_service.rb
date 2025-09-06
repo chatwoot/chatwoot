@@ -31,7 +31,7 @@ class Captain::Llm::BaseJangkauService
     full_url = "#{base_url}#{endpoint}"  # 👈 Full URL
 
     Rails.logger.info "[generate_response] Request will be sent to: #{full_url}"
-    Rails.logger.info "[generate_response] Request payload: #{request_body.to_json}"
+    Rails.logger.info "[generate_response] Request message: #{@question}"
 
     response = self.class.post(
       endpoint,
