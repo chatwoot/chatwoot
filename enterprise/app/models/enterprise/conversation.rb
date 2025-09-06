@@ -11,6 +11,6 @@ module Enterprise::Conversation
     return false unless attrs_change.is_a?(Array) && attrs_change[1].is_a?(Hash)
 
     changed_attr_keys = attrs_change[1].keys
-    changed_attr_keys.intersect?(%w[call_status call_duration])
+    changed_attr_keys.intersect?(%w[call_status])
   end
 end

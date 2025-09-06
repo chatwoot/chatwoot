@@ -11,10 +11,8 @@ const data = computed(() => contentAttributes.value?.data);
 const status = computed(() => data.value?.status);
 const direction = computed(() => data.value?.call_direction);
 
-const { labelKey, subtextKey, bubbleIconBg } = useVoiceCallStatus(
-  status,
-  direction
-);
+const { labelKey, subtextKey, bubbleIconBg, bubbleIconName } =
+  useVoiceCallStatus(status, direction);
 
 const containerRingClass = computed(() => {
   return status.value === 'ringing' ? 'ring-1 ring-emerald-300' : '';
@@ -32,15 +30,7 @@ const containerRingClass = computed(() => {
           class="size-10 shrink-0 flex items-center justify-center rounded-full text-white"
           :class="bubbleIconBg"
         >
-          <span
-            v-if="['no-answer', 'busy', 'failed'].includes(status)"
-            class="text-xl i-ph-phone-x-fill"
-          />
-          <span
-            v-else-if="direction === 'outbound'"
-            class="text-xl i-ph-phone-outgoing-fill"
-          />
-          <span v-else class="text-xl i-ph-phone-incoming-fill" />
+          <span class="text-xl" :class="bubbleIconName" />
         </div>
 
         <div class="flex flex-grow flex-col overflow-hidden">

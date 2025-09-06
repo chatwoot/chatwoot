@@ -7,8 +7,7 @@ class Twilio::VoiceController < ApplicationController
     Voice::StatusUpdateService.new(
       account: @inbox.account,
       call_sid: params[:CallSid],
-      call_status: params[:CallStatus],
-      call_duration: params[:CallDuration]
+      call_status: params[:CallStatus]
     ).perform
 
     head :no_content

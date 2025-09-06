@@ -41,15 +41,13 @@ RSpec.describe Voice::StatusUpdateService do
     described_class.new(
       account: account,
       call_sid: call_sid,
-      call_status: 'completed',
-      call_duration: '42'
+      call_status: 'completed'
     ).perform
 
     conversation.reload
     message.reload
 
     expect(conversation.additional_attributes['call_status']).to eq('completed')
-    expect(conversation.additional_attributes['call_duration']).to eq('42')
     expect(message.content_attributes.dig('data', 'status')).to eq('completed')
   end
 

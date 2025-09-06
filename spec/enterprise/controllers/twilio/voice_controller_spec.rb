@@ -63,16 +63,14 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
         hash_including(
           account: account,
           call_sid: call_sid,
-          call_status: 'completed',
-          call_duration: '35'
+          call_status: 'completed'
         )
       ).and_return(service_double)
       expect(service_double).to receive(:perform)
 
       post "/twilio/voice/status/#{digits}", params: {
         'CallSid' => call_sid,
-        'CallStatus' => 'completed',
-        'CallDuration' => '35'
+        'CallStatus' => 'completed'
       }
 
       expect(response).to have_http_status(:no_content)

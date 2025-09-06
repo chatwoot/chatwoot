@@ -48,13 +48,10 @@ RSpec.describe Voice::InboundCallBuilder do
     expect(msg.content_attributes.dig('data', 'status')).to eq('ringing')
   end
 
-  it 'returns TwiML with conference and status callback url' do
+  it 'returns TwiML that informs the caller we are connecting' do
     builder = build_and_perform
-    with_modified_env FRONTEND_URL: 'https://app.chatwoot.test' do
-      xml = builder.twiml_response
-      expect(xml).to include('/twilio/voice/call/')
-      expect(xml).to include('/twilio/voice/status/')
-      expect(xml).to include('<Conference')
-    end
+    xml = builder.twiml_response
+    expect(xml).to include('Please wait while we connect you to an agent')
+    expect(xml).to include('<Say')
   end
 end

@@ -1,5 +1,5 @@
 class Voice::StatusUpdateService
-  pattr_initialize [:account!, :call_sid!, :call_status, :call_duration]
+  pattr_initialize [:account!, :call_sid!, :call_status]
 
   def perform
     conversation = account.conversations.find_by(identifier: call_sid)
@@ -14,7 +14,6 @@ class Voice::StatusUpdateService
 
   def update_conversation!(conversation)
     attrs = (conversation.additional_attributes || {}).merge('call_status' => call_status)
-    attrs['call_duration'] = call_duration if call_duration.present?
     conversation.update!(additional_attributes: attrs)
   end
 

@@ -6,48 +6,33 @@ class Voice::InboundCallBuilder
   def perform
     contact = find_or_create_contact!
     contact_inbox = find_or_create_contact_inbox!(contact)
-    @conversation = create_conversation!(contact, contact_inbox)
+    @conversation = find_or_create_conversation!(contact, contact_inbox)
     @conference_sid = compute_conference_sid(@conversation)
-    create_call_message!
+    create_call_message_if_needed!
     self
   end
 
   def twiml_response
     response = Twilio::TwiML::VoiceResponse.new
     response.say(message: 'Please wait while we connect you to an agent')
-    status_url = inbox.channel.try(:voice_status_webhook_url)
-    call_url = inbox.channel.try(:voice_call_webhook_url)
-    response.dial(statusCallback: status_url,
-                  statusCallbackEvent: 'initiated ringing answered completed',
-                  statusCallbackMethod: 'POST',
-                  action: call_url,
-                  method: 'POST') do |d|
-      d.conference(
-        conference_sid,
-        startConferenceOnEnter: false,
-        endConferenceOnExit: true,
-        beep: false,
-        muted: false,
-        waitUrl: ''
-      )
-    end
     response.to_s
   end
 
   private
 
-  def create_conversation!(contact, contact_inbox)
-    Conversation.create!(
+  def find_or_create_conversation!(contact, contact_inbox)
+    account.conversations.find_or_create_by!(
       account_id: account.id,
       inbox_id: inbox.id,
-      contact_id: contact.id,
-      contact_inbox_id: contact_inbox.id,
-      identifier: call_sid,
-      additional_attributes: {
+      identifier: call_sid
+    ) do |conv|
+      conv.contact_id = contact.id
+      conv.contact_inbox_id = contact_inbox.id
+      conv.additional_attributes = {
         'call_direction' => 'inbound',
         'call_status' => 'ringing'
       }
-    )
+    end
   end
 
   def compute_conference_sid(conversation)
@@ -66,6 +51,11 @@ class Voice::InboundCallBuilder
       content_type: 'voice_call',
       content_attributes: content_attrs
     )
+  end
+
+  def create_call_message_if_needed!
+    return if @conversation.messages.voice_calls.exists?
+    create_call_message!
   end
 
   def call_message_content_attributes

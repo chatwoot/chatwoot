@@ -60,20 +60,13 @@ export function useVoiceCallStatus(statusRef, directionRef) {
     if (s === 'no-answer' || s === 'busy' || s === 'failed')
       return 'bg-n-ruby-9';
     if (s === 'completed' || s === 'canceled') return 'bg-n-slate-11';
-    // ringing or initiated
+    // default (e.g., ringing)
     return 'bg-n-teal-9 animate-pulse';
-  });
-
-  const listIconName = computed(() => {
-    const s = status.value;
-    if (s === 'no-answer' || s === 'busy' || s === 'failed') return 'dismiss';
-    return direction.value === 'outbound' ? 'call-outbound' : 'call-inbound';
   });
 
   const listIconColor = computed(() => {
     const s = status.value;
-    if (s === 'in-progress' || s === 'ringing' || s === 'initiated')
-      return 'text-n-teal-9';
+    if (s === 'in-progress' || s === 'ringing') return 'text-n-teal-9';
     if (s === 'no-answer' || s === 'busy' || s === 'failed')
       return 'text-n-ruby-9';
     if (s === 'completed' || s === 'canceled') return 'text-n-slate-11';
@@ -86,7 +79,6 @@ export function useVoiceCallStatus(statusRef, directionRef) {
     subtextKey,
     bubbleIconName,
     bubbleIconBg,
-    listIconName,
     listIconColor,
   };
 }
