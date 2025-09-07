@@ -34,7 +34,8 @@ export default {
       showColumnModal: false,
       labels: [],
       isEditing: false,
-      editedColumn: {}
+      editedColumn: {},
+      dragColumnsMode: false,
     }
   },
 
@@ -62,6 +63,28 @@ export default {
     onDragEnd(event) {
       const target = event.target
       target?.classList.remove('dragging')
+    },
+
+    onColumnDragStart(event, columnIndex) {
+      this.sourceColumnIndex = columnIndex
+      event.target.classList.add('column-dragging')
+      // for Firefox compatibility
+      event.dataTransfer?.setData('text/plain', '')
+    },
+
+    onColumnDragEnd(event) {
+      event.target.classList.remove('column-dragging')
+      this.sourceColumnIndex = null
+    },
+
+    onColumnDrop(event, targetColumnIndex) {
+      if (this.sourceColumnIndex !== null && this.sourceColumnIndex !== targetColumnIndex) {
+        const [movedColumn] = this.localColumns.splice(this.sourceColumnIndex, 1)
+        this.localColumns.splice(targetColumnIndex, 0, movedColumn)
+        
+        this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
+        localStorage.setItem('localColumns', JSON.stringify(this.localColumns))
+      }
     },
 
     onDrop(_event, targetColumnIndex) {
@@ -221,9 +244,20 @@ export default {
 <template>
   <div class="kanban-root">
     <header class="kanban-header">
-      <button class="kanban-button" @click="openColumnModal">Nova coluna</button>
-      <button class="kanban-button" @click="importKanban">Importar Kanban</button>
-      <button class="kanban-button" @click="exportKanban">Exportar Kanban</button>
+      <div class="kanban-header-left">
+        <button 
+          class="kanban-button toggle-button" 
+          :class="{ active: dragColumnsMode }"
+          @click="dragColumnsMode = !dragColumnsMode"
+        >
+          {{ dragColumnsMode ? 'Modo Arrasto Ativo' : 'Modo Arrasto' }}
+        </button>
+      </div>
+      <div class="kanban-header-right">
+        <button class="kanban-button" @click="openColumnModal">Nova coluna</button>
+        <button class="kanban-button" @click="importKanban">Importar Kanban</button>
+        <button class="kanban-button" @click="exportKanban">Exportar Kanban</button>
+      </div>
     </header>
     <div class="kanban-board">
       <div v-if="localColumns.length === 0" class="empty-state">
@@ -235,8 +269,11 @@ export default {
         v-for="(column, columnIndex) in localColumns"
         :key="column.id ?? columnIndex"
         class="column"
+        :draggable="dragColumnsMode"
+        @dragstart="dragColumnsMode && onColumnDragStart($event, columnIndex)"
+        @dragend="dragColumnsMode && onColumnDragEnd"
         @dragover.prevent
-        @drop="onDrop($event, columnIndex)"
+        @drop="dragColumnsMode ? onColumnDrop($event, columnIndex) : onDrop($event, columnIndex)"
       >
         <div class="column-header">
           <h2>{{ column.title }}</h2>
@@ -375,12 +412,32 @@ export default {
   padding: 15px;
   display: flex;
   gap: 10px;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   position: sticky;
   top: 0;
   z-index: 100;
   margin-bottom: 1.5%;
+}
+
+.kanban-header-left,
+.kanban-header-right {
+  display: flex;
+  gap: 10px;
+}
+
+.toggle-button {
+  background-color: #666;
+  color: white;
+}
+
+.toggle-button.active {
+  background-color: #4CAF50;
+}
+
+.column-dragging {
+  opacity: 0.5;
+  cursor: move;
 }
 
 .kanban-button {
