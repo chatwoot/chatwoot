@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "إرسال الرسالة"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "BACK": "العودة للخلف",
+          "SEND_MESSAGE": "إرسال الرسالة"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "Discard",
         "SEND": "Send ({keyCode})"

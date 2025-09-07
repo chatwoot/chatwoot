@@ -28,6 +28,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_01_081601) do
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
   end
 
+  create_table "account_saml_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "sso_url"
+    t.text "certificate"
+    t.string "sp_entity_id"
+    t.string "idp_entity_id"
+    t.json "role_mappings", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
+  end
+
   create_table "account_users", force: :cascade do |t|
     t.bigint "account_id"
     t.bigint "user_id"

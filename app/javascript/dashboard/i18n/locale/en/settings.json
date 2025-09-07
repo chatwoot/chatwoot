@@ -523,6 +523,7 @@
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "SET_YOUR_AVAILABILITY": "Set your availability",
     "SLA": "SLA",
@@ -610,6 +611,32 @@
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
     }
   }
 }

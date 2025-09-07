@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "Enviar mensaje"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Seleccionar plantilla",
+        "SEARCH_PLACEHOLDER": "Buscar plantillas",
+        "EMPTY_STATE": "No se encontraron plantillas",
+        "TEMPLATE_PARSER": {
+          "BACK": "Volver",
+          "SEND_MESSAGE": "Enviar mensaje"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "Descartar",
         "SEND": "Enviar ({keyCode})"
