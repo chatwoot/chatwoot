@@ -110,6 +110,13 @@ class DailyConversationReportJob < ApplicationJob
 
     report = generate_report(account_id, range, created_at_flag: created_at_flag)
 
+    # Aggregates for additional reports/sections
+    overview = generate_overview_metrics(account_id, range, created_at_flag: created_at_flag)
+    resolution_metrics = generate_resolution_metrics(account_id, range)
+    agent_metrics = generate_agent_metrics(account_id, range)
+    issue_breakdown = generate_issue_breakdown(account_id, range, created_at_flag: created_at_flag)
+    escalations = generate_escalations_list(account_id, range, created_at_flag: created_at_flag)
+
     if report.present?
       Rails.logger.info "Data found for account_id: #{account_id} - #{report.length} records"
 
@@ -117,7 +124,17 @@ class DailyConversationReportJob < ApplicationJob
       end_date = range[:until].strftime('%Y-%m-%d')
 
       Rails.logger.info "Generating CSV for account_id: #{account_id}"
-      csv_content = generate_csv(report, start_date, end_date, mask_data)
+      csv_content = generate_csv(
+        report,
+        start_date,
+        end_date,
+        mask_data,
+        overview: overview,
+        resolution_metrics: resolution_metrics,
+        agent_metrics: agent_metrics,
+        issue_breakdown: issue_breakdown,
+        escalations: escalations
+      )
       Rails.logger.info "CSV generated for account_id: #{account_id} - #{csv_content.bytesize} bytes"
 
       upload_csv(account_id, range, csv_content, frequency, bitespeed_bot)
@@ -172,8 +189,7 @@ class DailyConversationReportJob < ApplicationJob
           conversations
           JOIN inboxes ON conversations.inbox_id = inboxes.id
           JOIN contacts ON conversations.contact_id = contacts.id
-          LEFT JOIN account_users ON conversations.assignee_id = account_users.user_id
-          LEFT JOIN users ON account_users.user_id = users.id
+          LEFT JOIN users ON users.id = conversations.assignee_id
           LEFT JOIN reporting_events AS reporting_events_first_response
               ON conversations.id = reporting_events_first_response.conversation_id
               AND reporting_events_first_response.name = 'first_response'
@@ -190,10 +206,7 @@ class DailyConversationReportJob < ApplicationJob
               FROM conversation_assignments ca
               JOIN users u ON ca.assignee_id = u.id
               WHERE ca.conversation_id = conversations.id
-                AND (
-                  (u.email IS NULL OR u.email NOT LIKE '%@bitespeed.co')
-                  AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
-                )
+                AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
               ORDER BY ca.created_at ASC
               LIMIT 1
           ) AS first_non_bot_assignment ON true
@@ -207,10 +220,7 @@ class DailyConversationReportJob < ApplicationJob
               WHERE m.conversation_id = conversations.id
                 AND m.sender_type = 'User'
                 AND m.created_at > first_non_bot_assignment.assignment_time
-                AND (
-                  (u.email IS NULL OR u.email NOT LIKE '%@bitespeed.co')
-                  AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
-                )
+                AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
           ) AS first_message_after_assignment ON true
       WHERE
           conversations.account_id = :account_id
@@ -225,9 +235,49 @@ class DailyConversationReportJob < ApplicationJob
 
   # rubocop:disable Metrics/BlockLength
   # rubocop:disable Metrics/MethodLength
-  def generate_csv(results, start_date, end_date, mask_data)
+  def generate_csv(results, start_date, end_date, mask_data, overview:, resolution_metrics:, agent_metrics:, issue_breakdown:, escalations:)
     CSV.generate(headers: true) do |csv|
       csv << ["Reporting period #{start_date} to #{end_date}"]
+
+      # Chat Overview
+      csv << ["Chat Overview"]
+      csv << ["Total", overview[:total]]
+      csv << ["Bot Resolved", overview[:bot_resolved]]
+      csv << ["Agent Handled", overview[:agent_handled]]
+      csv << ["Pending", overview[:pending]]
+      csv << []
+
+      # Resolution Metrics
+      csv << ["Resolution Metrics"]
+      csv << ["Avg First Response (minutes)", resolution_metrics[:avg_first_response_minutes]]
+      csv << ["Avg Resolution (minutes)", resolution_metrics[:avg_resolution_minutes]]
+      csv << []
+
+      # Agent-wise Performance
+      csv << ["Agent-wise Performance"]
+      csv << ["Agent Name", "Chats Handled", "Resolution Rate (%)", "Escalations"]
+      agent_metrics.each do |row|
+        csv << [row[:agent_name], row[:chats_handled], row[:resolution_rate_percent], row[:escalations]]
+      end
+      csv << []
+
+      # Label Report
+      csv << ["Label Report"]
+      csv << ["Label", "Count", "%"]
+      total_labels = issue_breakdown.sum { |i| i[:count].to_i }
+      issue_breakdown.each do |row|
+        percent = total_labels.positive? ? ((row[:count].to_f / total_labels) * 100.0).round(2) : 0
+        csv << [row[:label], row[:count], percent]
+      end
+      csv << []
+
+      # Escalations List
+      csv << ["Escalations"]
+      csv << ["Conversation ID", "Conversation Link", "Status", "Priority", "Agent Name"]
+      escalations.each do |row|
+        csv << [row[:conversation_display_id], row[:conversation_link], row[:status], row[:priority], row[:agent_name]]
+      end
+      csv << []
       headers = [
         'Conversation ID', 'Conversation Link', 'Conversation Created At', 'Conversation Updated At', 'Contact Created At', 'Inbox Name'
       ]
@@ -324,5 +374,327 @@ class DailyConversationReportJob < ApplicationJob
     end
   end
   # rubocop:enable Metrics/ParameterLists
+  
+  # Aggregates
+  def generate_overview_metrics(account_id, range, created_at_flag: false)
+    time_col = created_at_flag ? 'conversations.created_at' : 'conversations.updated_at'
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      WITH convs AS (
+        SELECT id, status
+        FROM conversations
+        WHERE account_id = :account_id AND #{time_col} BETWEEN :since AND :until
+      )
+      SELECT
+        COUNT(*) AS total,
+        SUM(CASE WHEN c.status = 1 AND NOT EXISTS (
+              SELECT 1 FROM conversation_assignments ca
+              JOIN users u ON u.id = ca.assignee_id
+              WHERE ca.conversation_id = c.id AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
+            ) AND NOT EXISTS (
+              SELECT 1 FROM messages m
+              JOIN users u2 ON u2.id = m.sender_id
+              WHERE m.conversation_id = c.id AND m.sender_type = 'User' AND (u2.name IS NULL OR u2.name != 'BiteSpeed Bot')
+            ) THEN 1 ELSE 0 END) AS bot_resolved,
+        SUM(CASE WHEN c.status = 1 AND EXISTS (
+              SELECT 1 FROM conversation_assignments ca
+              JOIN users u ON u.id = ca.assignee_id
+              WHERE ca.conversation_id = c.id AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
+            ) THEN 1 ELSE 0 END) AS agent_handled,
+        SUM(CASE WHEN c.status != 1 THEN 1 ELSE 0 END) AS pending
+      FROM convs c
+    SQL
+
+    row = ActiveRecord::Base.connection.exec_query(sql).first || {}
+    {
+      total: row['total'].to_i,
+      bot_resolved: row['bot_resolved'].to_i,
+      agent_handled: row['agent_handled'].to_i,
+      pending: row['pending'].to_i
+    }
+  end
+
+  def generate_resolution_metrics(account_id, range)
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT
+        AVG(CASE WHEN name = 'first_response' THEN value END) / 60.0 AS avg_first_response_minutes,
+        AVG(CASE WHEN name = 'conversation_resolved' THEN value END) / 60.0 AS avg_resolution_minutes
+      FROM reporting_events
+      WHERE account_id = :account_id AND created_at BETWEEN :since AND :until AND name IN ('first_response', 'conversation_resolved')
+    SQL
+
+    row = ActiveRecord::Base.connection.exec_query(sql).first || {}
+    {
+      avg_first_response_minutes: row['avg_first_response_minutes']&.to_f,
+      avg_resolution_minutes: row['avg_resolution_minutes']&.to_f
+    }
+  end
+
+  def generate_agent_metrics(account_id, range)
+    handled_sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT
+        u.name AS agent_name,
+        COUNT(*) AS chats_handled,
+        SUM(CASE WHEN c.priority IN (2,3) THEN 1 ELSE 0 END) AS escalations
+      FROM reporting_events re
+      JOIN conversations c ON c.id = re.conversation_id
+      LEFT JOIN LATERAL (
+        SELECT ca.assignee_id
+        FROM conversation_assignments ca
+        JOIN users ux ON ux.id = ca.assignee_id
+        WHERE ca.conversation_id = c.id AND ca.created_at <= re.created_at AND (ux.name IS NULL OR ux.name != 'BiteSpeed Bot')
+        ORDER BY ca.created_at DESC
+        LIMIT 1
+      ) last_non_bot_ca ON true
+      JOIN users u ON u.id = last_non_bot_ca.assignee_id
+      WHERE re.account_id = :account_id AND re.name = 'conversation_resolved' AND re.created_at BETWEEN :since AND :until
+      GROUP BY u.name
+    SQL
+
+    assigned_sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT u.name AS agent_name, COUNT(DISTINCT ca.conversation_id) AS assigned_total
+      FROM conversation_assignments ca
+      JOIN users u ON u.id = ca.assignee_id
+      JOIN conversations c ON c.id = ca.conversation_id
+      WHERE c.account_id = :account_id AND ca.created_at BETWEEN :since AND :until AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
+      GROUP BY u.name
+    SQL
+
+    handled = ActiveRecord::Base.connection.exec_query(handled_sql).to_a
+    assigned = ActiveRecord::Base.connection.exec_query(assigned_sql).to_a.each_with_object({}) { |r, h| h[r['agent_name']] = r['assigned_total'].to_i }
+
+    handled.map do |row|
+      agent_name = row['agent_name']
+      chats_handled = row['chats_handled'].to_i
+      assigned_total = assigned[agent_name].to_i
+      rate = assigned_total.positive? ? ((chats_handled.to_f / assigned_total) * 100.0).round(2) : nil
+      {
+        agent_name: agent_name,
+        chats_handled: chats_handled,
+        resolution_rate_percent: rate,
+        escalations: row['escalations'].to_i
+      }
+    end
+  end
+
+  def generate_issue_breakdown(account_id, range, created_at_flag: false)
+    time_col = created_at_flag ? 'conversations.created_at' : 'conversations.updated_at'
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      WITH convs AS (
+        SELECT cached_label_list
+        FROM conversations
+        WHERE account_id = :account_id AND #{time_col} BETWEEN :since AND :until
+      ), labels AS (
+        SELECT TRIM(label) AS label
+        FROM convs, LATERAL unnest(string_to_array(COALESCE(cached_label_list, ''), ',')) AS t(label)
+        WHERE TRIM(label) <> ''
+      )
+      SELECT label, COUNT(*) AS count
+      FROM labels
+      GROUP BY label
+      ORDER BY count DESC
+    SQL
+
+    ActiveRecord::Base.connection.exec_query(sql).to_a.map do |row|
+      { label: row['label'], count: row['count'].to_i }
+    end
+  end
+
+  def generate_escalations_list(account_id, range, created_at_flag: false)
+    time_col = created_at_flag ? 'conversations.created_at' : 'conversations.updated_at'
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT
+        c.display_id AS conversation_display_id,
+        CONCAT('https://chat.bitespeed.co/app/accounts/', c.account_id, '/conversations/', c.display_id) AS conversation_link,
+        CASE
+          WHEN c.status = 0 THEN 'open'
+          WHEN c.status = 1 THEN 'resolved'
+          WHEN c.status = 2 THEN 'pending'
+          WHEN c.status = 3 THEN 'snoozed'
+        END AS status,
+        CASE
+          WHEN c.priority = 0 THEN 'none'
+          WHEN c.priority = 1 THEN 'low'
+          WHEN c.priority = 2 THEN 'medium'
+          WHEN c.priority = 3 THEN 'high'
+          WHEN c.priority = 4 THEN 'urgent'
+          ELSE 'none'
+        END AS priority,
+        COALESCE(u.name, 'None') AS agent_name
+      FROM conversations c
+      LEFT JOIN users u ON u.id = c.assignee_id
+      WHERE c.account_id = :account_id AND #{time_col} BETWEEN :since AND :until AND c.priority IN (2,3)
+    SQL
+
+    ActiveRecord::Base.connection.exec_query(sql).to_a.map do |row|
+      {
+        conversation_display_id: row['conversation_display_id'],
+        conversation_link: row['conversation_link'],
+        status: row['status'],
+        priority: row['priority'],
+        agent_name: row['agent_name']
+      }
+    end
+  end
 end
 # rubocop:enable Metrics/ClassLength
+
+  # Aggregates
+  def generate_overview_metrics(account_id, range, created_at_flag: false)
+    time_col = created_at_flag ? 'conversations.created_at' : 'conversations.updated_at'
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      WITH convs AS (
+        SELECT id, status
+        FROM conversations
+        WHERE account_id = :account_id AND #{time_col} BETWEEN :since AND :until
+      )
+      SELECT
+        COUNT(*) AS total,
+        SUM(CASE WHEN c.status = 1 AND NOT EXISTS (
+              SELECT 1 FROM conversation_assignments ca
+              JOIN users u ON u.id = ca.assignee_id
+              WHERE ca.conversation_id = c.id AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
+            ) AND NOT EXISTS (
+              SELECT 1 FROM messages m
+              JOIN users u2 ON u2.id = m.sender_id
+              WHERE m.conversation_id = c.id AND m.sender_type = 'User' AND (u2.name IS NULL OR u2.name != 'BiteSpeed Bot')
+            ) THEN 1 ELSE 0 END) AS bot_resolved,
+        SUM(CASE WHEN c.status = 1 AND EXISTS (
+              SELECT 1 FROM conversation_assignments ca
+              JOIN users u ON u.id = ca.assignee_id
+              WHERE ca.conversation_id = c.id AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
+            ) THEN 1 ELSE 0 END) AS agent_handled,
+        SUM(CASE WHEN c.status != 1 THEN 1 ELSE 0 END) AS pending
+      FROM convs c
+    SQL
+
+    row = ActiveRecord::Base.connection.exec_query(sql).first || {}
+    {
+      total: row['total'].to_i,
+      bot_resolved: row['bot_resolved'].to_i,
+      agent_handled: row['agent_handled'].to_i,
+      pending: row['pending'].to_i
+    }
+  end
+
+  def generate_resolution_metrics(account_id, range)
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT
+        AVG(CASE WHEN name = 'first_response' THEN value END) / 60.0 AS avg_first_response_minutes,
+        AVG(CASE WHEN name = 'conversation_resolved' THEN value END) / 60.0 AS avg_resolution_minutes
+      FROM reporting_events
+      WHERE account_id = :account_id AND created_at BETWEEN :since AND :until AND name IN ('first_response', 'conversation_resolved')
+    SQL
+
+    row = ActiveRecord::Base.connection.exec_query(sql).first || {}
+    {
+      avg_first_response_minutes: row['avg_first_response_minutes']&.to_f,
+      avg_resolution_minutes: row['avg_resolution_minutes']&.to_f
+    }
+  end
+
+  def generate_agent_metrics(account_id, range)
+    handled_sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT
+        u.name AS agent_name,
+        COUNT(*) AS chats_handled,
+        SUM(CASE WHEN c.priority IN (2,3) THEN 1 ELSE 0 END) AS escalations
+      FROM reporting_events re
+      JOIN conversations c ON c.id = re.conversation_id
+      LEFT JOIN LATERAL (
+        SELECT ca.assignee_id
+        FROM conversation_assignments ca
+        JOIN users ux ON ux.id = ca.assignee_id
+        WHERE ca.conversation_id = c.id AND ca.created_at <= re.created_at AND (ux.name IS NULL OR ux.name != 'BiteSpeed Bot')
+        ORDER BY ca.created_at DESC
+        LIMIT 1
+      ) last_non_bot_ca ON true
+      JOIN users u ON u.id = last_non_bot_ca.assignee_id
+      WHERE re.account_id = :account_id AND re.name = 'conversation_resolved' AND re.created_at BETWEEN :since AND :until
+      GROUP BY u.name
+    SQL
+
+    assigned_sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT u.name AS agent_name, COUNT(DISTINCT ca.conversation_id) AS assigned_total
+      FROM conversation_assignments ca
+      JOIN users u ON u.id = ca.assignee_id
+      JOIN conversations c ON c.id = ca.conversation_id
+      WHERE c.account_id = :account_id AND ca.created_at BETWEEN :since AND :until AND (u.name IS NULL OR u.name != 'BiteSpeed Bot')
+      GROUP BY u.name
+    SQL
+
+    handled = ActiveRecord::Base.connection.exec_query(handled_sql).to_a
+    assigned = ActiveRecord::Base.connection.exec_query(assigned_sql).to_a.each_with_object({}) { |r, h| h[r['agent_name']] = r['assigned_total'].to_i }
+
+    handled.map do |row|
+      agent_name = row['agent_name']
+      chats_handled = row['chats_handled'].to_i
+      assigned_total = assigned[agent_name].to_i
+      rate = assigned_total.positive? ? ((chats_handled.to_f / assigned_total) * 100.0).round(2) : nil
+      {
+        agent_name: agent_name,
+        chats_handled: chats_handled,
+        resolution_rate_percent: rate,
+        escalations: row['escalations'].to_i
+      }
+    end
+  end
+
+  def generate_issue_breakdown(account_id, range, created_at_flag: false)
+    time_col = created_at_flag ? 'conversations.created_at' : 'conversations.updated_at'
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT category, COUNT(*) AS count FROM (
+        SELECT
+          CASE
+            WHEN cached_label_list ILIKE '%delayed_delivery%' OR cached_label_list ILIKE '%delayed_dispatch%' THEN 'Order delays'
+            WHEN cached_label_list ILIKE '%refund%' OR cached_label_list ILIKE '%exchange%' OR cached_label_list ILIKE '%refundandexchange%' THEN 'Refund/Return'
+            WHEN cached_label_list ILIKE '%technical_question%' OR cached_label_list ILIKE '%product%' OR cached_label_list ILIKE '%compatibility%' OR cached_label_list ILIKE '%pre-sale%' THEN 'Product compatibility'
+            WHEN cached_label_list IS NOT NULL AND cached_label_list <> '' THEN 'General'
+            ELSE 'General'
+          END AS category
+        FROM conversations
+        WHERE account_id = :account_id AND #{time_col} BETWEEN :since AND :until
+      ) t
+      GROUP BY category
+    SQL
+
+    ActiveRecord::Base.connection.exec_query(sql).to_a.map do |row|
+      { category: row['category'], count: row['count'].to_i }
+    end
+  end
+
+  def generate_escalations_list(account_id, range, created_at_flag: false)
+    time_col = created_at_flag ? 'conversations.created_at' : 'conversations.updated_at'
+    sql = ActiveRecord::Base.send(:sanitize_sql_array, [<<-SQL.squish, { account_id: account_id, since: range[:since], until: range[:until] }])
+      SELECT
+        c.display_id AS conversation_display_id,
+        CONCAT('https://chat.bitespeed.co/app/accounts/', c.account_id, '/conversations/', c.display_id) AS conversation_link,
+        CASE
+          WHEN c.status = 0 THEN 'open'
+          WHEN c.status = 1 THEN 'resolved'
+          WHEN c.status = 2 THEN 'pending'
+          WHEN c.status = 3 THEN 'snoozed'
+        END AS status,
+        CASE
+          WHEN c.priority = 0 THEN 'none'
+          WHEN c.priority = 1 THEN 'low'
+          WHEN c.priority = 2 THEN 'medium'
+          WHEN c.priority = 3 THEN 'high'
+          WHEN c.priority = 4 THEN 'urgent'
+          ELSE 'none'
+        END AS priority,
+        COALESCE(u.name, 'None') AS agent_name
+      FROM conversations c
+      LEFT JOIN users u ON u.id = c.assignee_id
+      WHERE c.account_id = :account_id AND #{time_col} BETWEEN :since AND :until AND c.priority IN (2,3)
+    SQL
+
+    ActiveRecord::Base.connection.exec_query(sql).to_a.map do |row|
+      {
+        conversation_display_id: row['conversation_display_id'],
+        conversation_link: row['conversation_link'],
+        status: row['status'],
+        priority: row['priority'],
+        agent_name: row['agent_name']
+      }
+    end
+  end
