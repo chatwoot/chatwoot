@@ -354,6 +354,8 @@
         "DESC": "Design your WhatsApp template with headers, body text, footers, and buttons.",
         "NEW_TITLE": "Create New Template",
         "EDIT_TITLE": "Edit Template",
+        "BUILD_TEMPLATE": "Build template",
+        "EDIT_TEMPLATE": "Edit template",
         "CREATE": "Create Template",
         "UPDATE": "Update Template",
         "OPTIONAL": "Optional",
@@ -364,9 +366,7 @@
           "TEXT_LABEL": "Header Text",
           "TEXT_PLACEHOLDER": "Enter header text",
           "TEXT_HELP": "Keep it short and engaging (max 60 characters)",
-          "MEDIA_TYPE": "Media Type",
           "MEDIA_UPLOAD": "Upload your file",
-          "UPLOAD_BTN": "Upload File",
           "DISABLED_TEXT": "Add an optional header to make your template more engaging"
         },
         "BODY": {
@@ -441,6 +441,19 @@
             "NAMED": "Named"
           }
         }
+      },
+      "MEDIA": {
+        "UPLOAD_LABEL": "Choose file",
+        "UPLOADING": "Uploading...",
+        "UPLOADED": "Uploaded",
+        "UPLOAD_ERROR": "Upload failed",
+        "IMAGE": "Image",
+        "VIDEO": "Video",
+        "DOCUMENT": "Document",
+        "SIZE_ERROR": "File size exceeds {size}MB limit",
+        "TYPE_ERROR": "Invalid file type",
+        "UPLOAD_FAILED": "Upload failed. Please try again.",
+        "HINT": "Max file size: {size}MB"
       },
       "LOADING": "Loading templates...",
       "LEARN_MORE_ABOUT_TEMPLATES": "Learn more about templates",

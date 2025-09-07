@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -8,8 +8,8 @@ import HeaderSection from './components/HeaderSection.vue';
 import BodySection from './components/BodySection.vue';
 import FooterSection from './components/FooterSection.vue';
 import ButtonsSection from './components/ButtonsSection.vue';
+import { MEDIA_FORMATS } from 'dashboard/constants/templates';
 
-const emit = defineEmits(['update:template']);
 const { t } = useI18n();
 
 /*
@@ -64,6 +64,7 @@ const templateData = ref({
       header_text: [],
       header_text_named_params: [], // param_name, example object
     },
+    media: {},
     error: '',
   },
   body: {
@@ -84,32 +85,56 @@ const templateData = ref({
 });
 
 const isValidTemplate = computed(() => {
-  const hasRequiredText = templateData.value.body.text.trim().length > 0;
-  const hasHeaderError = templateData.value.header.error.length > 0;
-  const hasBodyError = templateData.value.body.error.length > 0;
+  const { header, body, footer } = templateData.value;
+  if (body.error || !body.text) return false;
 
-  return hasRequiredText && !hasHeaderError && !hasBodyError;
+  if (header.enabled) {
+    const invalidHeaderText = header.format === 'TEXT' && !header.text?.length;
+    const invalidHeaderMedia =
+      MEDIA_FORMATS.includes(header.format) && !header.media?.blobId;
+
+    if (header.error || invalidHeaderText || invalidHeaderMedia) {
+      return false;
+    }
+  }
+  if (footer.enabled && !footer.text) return false;
+  return true;
 });
 
-const generateComponents = computed(() => {
+const generateComponents = () => {
   const components = [];
   const { header, body, footer, buttons } = templateData.value;
 
   if (header.enabled) {
+    const data = {};
+    if (header.format === 'TEXT') {
+      data = {
+        format: header.format,
+        text: header.text,
+        example:
+          parameterType.value === 'positional'
+            ? {
+                header_text: header.example.header_text,
+              }
+            : {
+                header_text_named_params:
+                  header.example.header_text_named_params,
+              },
+      };
+    } else if (MEDIA_FORMATS.includes(header.format)) {
+      data = {
+        format: header.format,
+        media: header.media, // send media as is -- backend will create a upload handle then create template on meta
+      };
+    } else {
+      // LOCATION
+      data = {
+        format: header.format,
+      };
+    }
     components.push({
-      // TODO: we don't need these type field on header, body , footer we can remove it from ref and hardcode it here
-      // we should also do final validation here
       type: header.type,
-      format: header.format,
-      text: header.text,
-      example:
-        parameterType.value === 'positional'
-          ? {
-              header_text: header.example.header_text,
-            }
-          : {
-              header_text_named_params: header.example.header_text_named_params,
-            },
+      ...data,
     });
   }
   components.push({
@@ -134,19 +159,13 @@ const generateComponents = computed(() => {
   components.push(...buttons);
 
   return components;
-});
+};
 
-watch(
-  [templateData, parameterType],
-  () => {
-    emit('update:template', {
-      components: generateComponents.value,
-      isValid: isValidTemplate.value,
-      parameterType: parameterType.value,
-    });
-  },
-  { deep: true }
-);
+defineExpose({
+  generateComponents,
+  isValidTemplate,
+  parameterType,
+});
 
 const parameterTypesOptions = computed(() => [
   {

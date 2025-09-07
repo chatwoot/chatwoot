@@ -5,6 +5,12 @@ import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import VariableSection from './VariableSection.vue';
+import FileUpload from 'dashboard/components-next/file-upload/FileUpload.vue';
+import {
+  MEDIA_FORMATS,
+  HEADER_FORMATS,
+  UPLOAD_CONFIG,
+} from 'dashboard/constants/templates';
 
 const props = defineProps({
   modelValue: {
@@ -25,13 +31,10 @@ const headerData = computed({
   get: () => props.modelValue,
   set: value => emit('update:modelValue', value),
 });
+const getUploadConfig = computed(() => {
+  return UPLOAD_CONFIG[headerData.value.format];
+});
 
-const setHeaderFormat = format => {
-  headerData.value = {
-    ...headerData.value,
-    format,
-  };
-};
 const exampleKey = computed(() => {
   return props.parameterType === 'positional'
     ? 'header_text'
@@ -57,15 +60,75 @@ const headerTextData = computed({
   },
 });
 
-const mediaFormats = ['IMAGE', 'VIDEO', 'DOCUMENT'];
+const setHeaderFormat = format => {
+  if (MEDIA_FORMATS.includes(format)) {
+    const newValue = {
+      ...headerData.value,
+      format,
+      text: '',
+      example: {
+        ...headerData.value.example,
+        header_text: [],
+        header_text_named_params: [],
+      },
+      media: {},
+      error: '',
+    };
+    headerData.value = newValue;
+  } else {
+    headerData.value = {
+      ...headerData.value,
+      format,
+      media: {},
+      error: '',
+    };
+  }
+};
 
-const headerformats = [
-  { value: 'TEXT', label: 'Text', icon: 'i-lucide-type' },
-  { value: 'IMAGE', label: 'Image', icon: 'i-lucide-image' },
-  { value: 'VIDEO', label: 'Video', icon: 'i-lucide-video' },
-  { value: 'DOCUMENT', label: 'Document', icon: 'i-lucide-file' },
-  { value: 'LOCATION', label: 'Location', icon: 'i-lucide-map-pin' },
-];
+const handleUploadStart = () => {
+  headerData.value = {
+    ...headerData.value,
+    media: {
+      ...headerData.value.media,
+      uploading: true,
+    },
+    error: '',
+  };
+};
+
+const handleUploadError = errorMessage => {
+  headerData.value = {
+    ...headerData.value,
+    media: {
+      ...headerData.value.media,
+      uploading: false,
+    },
+    error: errorMessage,
+  };
+};
+
+const handleMediaUpload = mediaData => {
+  if (mediaData) {
+    headerData.value = {
+      ...headerData.value,
+      media: {
+        blobId: mediaData.blobId,
+        blobKey: mediaData.blobKey,
+        fileUrl: mediaData.fileUrl,
+        fileName: mediaData.fileName,
+        contentType: mediaData.contentType,
+        uploading: false,
+      },
+      error: '',
+    };
+  } else {
+    headerData.value = {
+      ...headerData.value,
+      media: {},
+      error: '',
+    };
+  }
+};
 </script>
 
 <template>
@@ -93,7 +156,7 @@ const headerformats = [
         </label>
         <div class="flex gap-2">
           <NextButton
-            v-for="format in headerformats"
+            v-for="format in HEADER_FORMATS"
             :key="format.value"
             :label="format.label"
             :icon="format.icon"
@@ -104,8 +167,6 @@ const headerformats = [
           />
         </div>
       </div>
-
-      <!-- Text Header -->
       <div v-if="headerData.format === 'TEXT'">
         <VariableSection
           v-model="headerTextData"
@@ -118,26 +179,26 @@ const headerformats = [
           :max-variables="1"
         />
       </div>
-
-      <!-- Media  -->
-      <div v-if="mediaFormats.includes(headerData.format)" class="space-y-4">
+      <div v-if="MEDIA_FORMATS.includes(headerData.format)" class="space-y-4">
+        <FileUpload
+          :model-value="headerData.media"
+          :accept="getUploadConfig.accept"
+          :format="headerData.format"
+          :label="t('SETTINGS.TEMPLATES.BUILDER.HEADER.MEDIA_UPLOAD')"
+          :uploading="!!headerData.media?.uploading"
+          :error="headerData.error"
+          @update:model-value="handleMediaUpload"
+          @upload-start="handleUploadStart"
+          @upload-error="handleUploadError"
+        />
         <div
-          class="border-2 border-dashed border-n-weak rounded-lg p-6 text-center bg-n-solid-1"
+          v-if="headerData.error"
+          class="bg-red-50 border border-red-200 rounded-lg p-3"
         >
-          <span
-            :class="headerformats.find(m => m.value === headerData.format)"
-            class="size-12 text-n-slate-9 mx-auto mb-3"
-          />
-          <p class="text-sm text-n-slate-11 mb-2">
-            {{ t('SETTINGS.TEMPLATES.BUILDER.HEADER.MEDIA_UPLOAD') }}
-          </p>
-          <NextButton
-            faded
-            slate
-            xs
-            icon="i-lucide-upload"
-            :label="t('SETTINGS.TEMPLATES.BUILDER.HEADER.UPLOAD_BTN')"
-          />
+          <div class="flex items-center gap-2 text-sm text-red-600">
+            <span class="i-lucide-alert-circle size-4" />
+            <span>{{ headerData.error }}</span>
+          </div>
         </div>
       </div>
     </div>

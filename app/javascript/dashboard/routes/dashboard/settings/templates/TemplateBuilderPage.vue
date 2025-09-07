@@ -11,10 +11,10 @@ const { t } = useI18n();
 const router = useRouter();
 const store = useStore();
 
-const templateBuilderData = ref(null);
+const templateBuilderRef = ref(null);
 
 const isTemplateBuilderValid = computed(() => {
-  return templateBuilderData.value && templateBuilderData.value.isValid;
+  return !!templateBuilderRef.value?.isValidTemplate;
 });
 
 const isEditMode = computed(() => {
@@ -27,10 +27,6 @@ const isLoading = computed(() => {
   return uiFlags.isCreating || uiFlags.isUpdating;
 });
 
-const handleTemplateUpdate = builderData => {
-  templateBuilderData.value = builderData;
-};
-
 const goBack = () => {
   router.push({ name: 'templates_list' });
 };
@@ -40,6 +36,7 @@ const handleSave = async () => {
 
   try {
     const config = store.getters['messageTemplates/getBuilderConfig'];
+    const components = templateBuilderRef.value.generateComponents();
 
     const templateData = {
       name: config.name,
@@ -47,9 +44,9 @@ const handleSave = async () => {
       category: config.category,
       channel_type: config.channelType,
       inbox_id: config.inboxId,
-      parameter_format: templateBuilderData.value.parameterType,
+      parameter_format: templateBuilderRef.value.parameterType,
       content: {
-        components: templateBuilderData.value.components,
+        components,
       },
     };
 
@@ -100,7 +97,11 @@ onUnmounted(() => {
         </button>
         <span class="i-lucide-chevron-right size-4 text-slate-500" />
         <span class="text-sm text-slate-300">
-          {{ isEditMode ? 'Edit template' : 'Build template' }}
+          {{
+            isEditMode
+              ? t('SETTINGS.TEMPLATES.BUILDER.EDIT_TEMPLATE')
+              : t('SETTINGS.TEMPLATES.BUILDER.BUILD_TEMPLATE')
+          }}
         </span>
       </div>
 
@@ -122,7 +123,7 @@ onUnmounted(() => {
       <!-- Builder Panel -->
       <div class="flex-1 py-12 px-16">
         <div class="max-w-5xl mx-auto">
-          <TemplateBuilder @update:template="handleTemplateUpdate" />
+          <TemplateBuilder ref="templateBuilderRef" />
         </div>
       </div>
     </div>
