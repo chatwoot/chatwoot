@@ -395,7 +395,8 @@
       "DELETE_SUCCESS": "Successfully deleted data",
       "DELETE_ERROR": "Failed to delete data",
       "SAVE_SUCCESS": "Successfully saved content",
-      "SAVE_ERROR": "Failed to save content"
+      "SAVE_ERROR": "Failed to save content",
+      "AGENT_NOT_FOUND": "Agent not found"
     }
   }
 }

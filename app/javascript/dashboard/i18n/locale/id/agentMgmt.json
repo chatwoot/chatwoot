@@ -396,7 +396,8 @@
       "DELETE_SUCCESS": "Berhasil hapus data",
       "DELETE_ERROR": "Gagal hapus data",
       "SAVE_SUCCESS": "Berhasil simpan konten",
-      "SAVE_ERROR": "Gagal simpan konten"
+      "SAVE_ERROR": "Gagal simpan konten",
+      "AGENT_NOT_FOUND": "Agen tidak ditemukan"
     }
   }
 }

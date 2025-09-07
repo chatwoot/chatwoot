@@ -367,6 +367,16 @@
                       </div>
                     </div>
                   </div>
+                  <!-- estimasi pengiriman -->
+                   <div>
+                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME') }}</label>
+                      <input 
+                        type="text" 
+                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME_PLACEHOLDER')" 
+                        v-model="kurirToko.estimasi" 
+                      />
+                    </div>
                 </div>
               </div>
 
@@ -1060,8 +1070,19 @@ import { useI18n } from 'vue-i18n'
 
 // Google Sheets Auth Flow for Catalog
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
+// AI Agents API
+import aiAgents from '../../../../api/aiAgents';
+import { useAlert } from 'dashboard/composables';
 
 const { t } = useI18n()
+
+// Props for data from parent component
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+});
 
 // Initialize and load provinces on mount
 onMounted(async () => {
@@ -1238,7 +1259,8 @@ const kurirToko = reactive({
   latitude: -6.2088, // Default to Jakarta
   longitude: 106.8456,
   mapLoaded: false,
-  minimalBelanja: ''
+  minimalBelanja: '',
+  estimasi: ''
 });
 const kurirBiasa = reactive({ 
   provinsi: '', 
@@ -2053,10 +2075,12 @@ const paymentGatewayProviders = [
 
 
 
-function submitShippingConfig() {
+async function submitShippingConfig() {
+  if (isSaving.value) return;
+
   try {
     isSaving.value = true;
-    console.log('Shipping:', JSON.parse(JSON.stringify({ shippingMethods, kurirToko, kurirBiasa, ambilToko })));
+    // console.log('Shipping:', JSON.parse(JSON.stringify({ shippingMethods, kurirToko, kurirBiasa, ambilToko })));
     
     const shippingData = {
       kurirToko: shippingMethods.kurirToko ? {
@@ -2089,21 +2113,91 @@ function submitShippingConfig() {
         estimasi: ambilToko.estimasi
       } : null
     };
+
+    // Generate shipping configuration
+    const shippingConfig = {
+      methods: []
+    };
+
+    if (shippingMethods.kurirToko) {
+      shippingConfig.methods.push({
+        type: "store_courier",
+        name: "Kurir Toko",
+        store_address: {
+          address: kurirToko.alamat || "",
+          coordinates: {
+            latitude: kurirToko.latitude || 0,
+            longitude: kurirToko.longitude || 0
+          }
+        },
+        service_area: kurirToko.radius ? `Radius ${kurirToko.radius}km` : "",
+        // concat gratis ongkir
+        delivery_cost_info: (kurirToko.flatRate ? `Flat rate: Rp ${kurirToko.flatRate}` : 
+                            kurirToko.biayaPerJarak ? `Rp ${kurirToko.biayaPerJarak}/km` : "") + (
+                            kurirToko.gratisOngkir 
+                              ? ` | Gratis ongkir dengan minimal belanja Rp ${kurirToko.minimalBelanja}` 
+                              : ""
+                          ),
+        estimated_delivery_time: kurirToko.estimasi || ""
+      });
+    }
+
+    if (shippingMethods.kurirBiasa) {
+      const selectedKurir = kurirBiasa.kurir || [];
+      shippingConfig.methods.push({
+        type: "regular_courier",
+        name: "Kurir Reguler",
+        store_address: `${kurirBiasa.jalan || ''}, ${selectedKecamatanName.value || ''}, ${selectedKotaName.value || ''}, ${selectedProvinsiName.value || ''} ${kurirBiasa.kodePos || ''}`.trim(),
+        available_couriers: selectedKurir
+      });
+    }
+
+    if (shippingMethods.ambilToko) {
+      shippingConfig.methods.push({
+        type: "store_pickup",
+        name: "Ambil di Toko",
+        store_address: ambilToko.alamat || "",
+        operating_hours: `${ambilToko.jamBuka} - ${ambilToko.jamTutup}`,
+        pickup_ready_time: ambilToko.estimasi || ""
+      });
+    }
+
+    // Save to backend
+    let flowData = props.data.display_flow_data;
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
+    console.log('Agent Index:', agentIndex);
     
-    // TODO: API call integration
+    if (agentIndex === -1) {
+      useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.AGENT_NOT_FOUND'))
+      return;
+    }
+
+    // Initialize configurations if not exists
+    if (!flowData.agents_config[agentIndex].configurations) {
+      flowData.agents_config[agentIndex].configurations = {};
+    }
     
-    setTimeout(() => {
-      showNotification('Shipping configuration saved successfully', 'success');
-      isSaving.value = false;
-    }, 1000);
+    // Update shipping options configuration
+    flowData.agents_config[agentIndex].configurations.shipping_options = shippingConfig;
+
+    const payload = {
+      flow_data: flowData,
+    };
+    // console.log('Payload to save:');
+    // console.log(payload);
+
+    await aiAgents.updateAgent(props.data.id, payload);
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_SUCCESS'))
   } catch (error) {
-    console.error('Save error:', error);
-    showNotification('Failed to save shipping configuration', 'error');
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_ERROR'))
+  } finally {
     isSaving.value = false;
   }
 }
 
-function submitPaymentConfig() {
+async function submitPaymentConfig() {
+  if (isSaving.value) return;
+
   try {
     isSaving.value = true;
     
@@ -2122,17 +2216,70 @@ function submitPaymentConfig() {
         merchantCode: paymentGateway.merchantCode
       } : null
     };
+
+    // Generate payment configuration
+    const paymentConfig = {
+      methods: []
+    };
+
+    if (paymentMethods.cod) {
+      paymentConfig.methods.push({
+        type: "cod",
+        name: "Bayar di Tempat (COD)"
+      });
+    }
+
+    if (paymentMethods.bankTransfer) {
+      paymentConfig.methods.push({
+        type: "non_cod",
+        name: "Transfer Online",
+        bank_transfer: paymentMethods.bankTransfer ? {
+          accounts: bankAccounts.value.filter(account => 
+            account.bankName && account.accountNumber && account.accountHolder
+          )
+        } : null,
+        payment_gateway: paymentMethods.paymentGateway ? {
+          provider: paymentGateway.provider,
+          apiKey: paymentGateway.apiKey,
+          merchantCode: paymentGateway.merchantCode
+        } : null
+      });
+    }
+
+    if (paymentMethods.paymentGateway) {
+      paymentConfig.methods.push({
+        type: "non_cod",
+        name: "Payment Gateway"
+      });
+    }
+
+    // Save to backend
+    let flowData = props.data.display_flow_data;
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
     
-    console.log('Processed Payment Data:', paymentData);
-    // TODO: API call integration
+    if (agentIndex === -1) {
+      useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.AGENT_NOT_FOUND'))
+      return;
+    }
+
+    // Initialize configurations if not exists
+    if (!flowData.agents_config[agentIndex].configurations) {
+      flowData.agents_config[agentIndex].configurations = {};
+    }
     
-    setTimeout(() => {
-      showNotification('Payment configuration saved successfully', 'success');
-      isSaving.value = false;
-    }, 1000);
+    // Update payment options configuration
+    flowData.agents_config[agentIndex].configurations.payment_options = paymentConfig;
+
+    const payload = {
+      flow_data: flowData,
+    };
+
+    await aiAgents.updateAgent(props.data.id, payload);
+
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_SUCCESS'));
   } catch (error) {
-    console.error('Save error:', error);
-    showNotification('Failed to save payment configuration', 'error');
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_ERROR'));
+  } finally {
     isSaving.value = false;
   }
 }
