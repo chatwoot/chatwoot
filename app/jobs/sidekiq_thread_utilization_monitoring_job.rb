@@ -121,40 +121,13 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
   end
 
   def set_auto_scaling_group_name
-    ENV['AWS_AUTO_SCALING_GROUP_NAME'] ||= discover_asg_name_from_imds || discover_asg_name_from_ec2
+    ENV['AWS_AUTO_SCALING_GROUP_NAME'] ||= 'csdb-asg-1'
   end
 
   def log_aws_metadata
     Rails.logger.info "AWS metadata: REGION=#{ENV.fetch('AWS_REGION', nil)}, " \
                       "INSTANCE_ID=#{ENV.fetch('AWS_INSTANCE_ID', nil)}, " \
                       "ASG=#{ENV.fetch('AWS_AUTO_SCALING_GROUP_NAME', nil)}"
-  end
-
-  # Prefer IMDS tags (requires tags on IMDS enabled)
-  def discover_asg_name_from_imds
-    key = 'aws:autoscaling:groupName'
-    list = metadata_get('/latest/meta-data/tags/instance/')
-    return nil unless list&.split("\n")&.include?(key)
-
-    metadata_get("/latest/meta-data/tags/instance/#{URI.encode_www_form_component(key)}")
-  rescue StandardError
-    nil
-  end
-
-  # Fallback: EC2 DescribeTags (requires IAM permission ec2:DescribeTags)
-  def discover_asg_name_from_ec2
-    return nil unless ENV['AWS_REGION'].present? && ENV['AWS_INSTANCE_ID'].present?
-
-    ec2 = Aws::EC2::Client.new(region: ENV.fetch('AWS_REGION', nil))
-    resp = ec2.describe_tags(filters: [
-                               { name: 'resource-id', values: [ENV.fetch('AWS_INSTANCE_ID', nil)] },
-                               { name: 'key', values: ['aws:autoscaling:groupName'] }
-                             ])
-    tag = resp.tags.find { |t| t.key == 'aws:autoscaling:groupName' }
-    tag&.value
-  rescue StandardError => e
-    Rails.logger.debug { "ASG name via EC2 fallback failed: #{e.message}" }
-    nil
   end
 
   # ---------- CloudWatch client ----------
