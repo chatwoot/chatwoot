@@ -127,6 +127,14 @@ Rails.application.routes.draw do
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              # Streaming endpoints for bot responses
+              resources :message_streams, only: [] do
+                collection do
+                  post :start
+                  post :append
+                  post :finish
+                end
+              end
             end
             member do
               post :mute
@@ -398,198 +406,31 @@ Rails.application.routes.draw do
           end
           resources :live_reports, only: [] do
             collection do
-              get :conversation_metrics
-              get :grouped_conversation_metrics
+              get :account
+              get :inboxes
             end
           end
-        end
-      end
-    end
-  end
-
-  if ChatwootApp.enterprise?
-    namespace :enterprise, defaults: { format: 'json' } do
-      namespace :api do
-        namespace :v1 do
-          resources :accounts do
-            member do
-              post :checkout
-              post :subscription
-              get :limits
-              post :toggle_deletion
-            end
-          end
-        end
-      end
-
-      post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
-      post 'webhooks/firecrawl', to: 'webhooks/firecrawl#process_payload'
-    end
-  end
-
-  # ----------------------------------------------------------------------
-  # Routes for platform APIs
-  namespace :platform, defaults: { format: 'json' } do
-    namespace :api do
-      namespace :v1 do
-        resources :users, only: [:create, :show, :update, :destroy] do
-          member do
-            get :login
-            post :token
-          end
-        end
-        resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
-          delete :avatar, on: :member
-        end
-        resources :accounts, only: [:index, :create, :show, :update, :destroy] do
-          resources :account_users, only: [:index, :create] do
+          resources :csat_survey_responses, only: [] do
             collection do
-              delete :destroy
+              get :metrics
+              get :download
             end
           end
+        end
+      end
+
+      resources :accounts, only: [] do
+        scope module: :accounts do
+          resources :contacts, only: [:index]
+          resources :contactable_inboxes, only: [:index]
+          resources :conversations, only: [:index] do
+            resources :messages, only: [:index]
+          end
+          resource :profile, only: [:show]
         end
       end
     end
   end
 
-  # ----------------------------------------------------------------------
-  # Routes for inbox APIs Exposed to contacts
-  namespace :public, defaults: { format: 'json' } do
-    namespace :api do
-      namespace :v1 do
-        resources :inboxes do
-          scope module: :inboxes do
-            resources :contacts, only: [:create, :show, :update] do
-              resources :conversations, only: [:index, :create, :show] do
-                member do
-                  post :toggle_status
-                  post :toggle_typing
-                  post :update_last_seen
-                end
-
-                resources :messages, only: [:index, :create, :update]
-              end
-            end
-          end
-        end
-
-        resources :csat_survey, only: [:show, :update]
-      end
-    end
-  end
-
-  get 'hc/:slug', to: 'public/api/v1/portals#show'
-  get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
-  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
-  get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
-  get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
-  get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
-  get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
-  get 'hc/:slug/articles/:article_slug.png', to: 'public/api/v1/portals/articles#tracking_pixel'
-  get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
-
-  # ----------------------------------------------------------------------
-  # Used in mailer templates
-  resource :app, only: [:index] do
-    resources :accounts do
-      resources :conversations, only: [:show]
-    end
-  end
-
-  # ----------------------------------------------------------------------
-  # Routes for channel integrations
-  mount Facebook::Messenger::Server, at: 'bot'
-  get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
-  post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
-  post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
-  post 'webhooks/telegram/:bot_token', to: 'webhooks/telegram#process_payload'
-  post 'webhooks/sms/:phone_number', to: 'webhooks/sms#process_payload'
-  get 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#verify'
-  post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
-  get 'webhooks/instagram', to: 'webhooks/instagram#verify'
-  post 'webhooks/instagram', to: 'webhooks/instagram#events'
-
-  namespace :twitter do
-    resource :callback, only: [:show]
-  end
-
-  namespace :linear do
-    resource :callback, only: [:show]
-  end
-
-  namespace :shopify do
-    resource :callback, only: [:show]
-  end
-
-  namespace :twilio do
-    resources :callback, only: [:create]
-    resources :delivery_status, only: [:create]
-  end
-
-  get 'microsoft/callback', to: 'microsoft/callbacks#show'
-  get 'google/callback', to: 'google/callbacks#show'
-  get 'instagram/callback', to: 'instagram/callbacks#show'
-  get 'notion/callback', to: 'notion/callbacks#show'
-  # ----------------------------------------------------------------------
-  # Routes for external service verifications
-  get '.well-known/assetlinks.json' => 'android_app#assetlinks'
-  get '.well-known/apple-app-site-association' => 'apple_app#site_association'
-  get '.well-known/microsoft-identity-association.json' => 'microsoft#identity_association'
-  get '.well-known/cf-custom-hostname-challenge/:id', to: 'custom_domains#verify'
-
-  # ----------------------------------------------------------------------
-  # Internal Monitoring Routes
-  require 'sidekiq/web'
-  require 'sidekiq/cron/web'
-
-  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
-  devise_scope :super_admin do
-    get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
-    namespace :super_admin do
-      root to: 'dashboard#index'
-
-      resource :app_config, only: [:show, :create]
-
-      # order of resources affect the order of sidebar navigation in super admin
-      resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
-        post :seed, on: :member
-        post :reset_cache, on: :member
-      end
-      resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
-        delete :avatar, on: :member, action: :destroy_avatar
-      end
-
-      resources :access_tokens, only: [:index, :show]
-      resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
-      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
-        delete :avatar, on: :member, action: :destroy_avatar
-      end
-      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
-      resource :instance_status, only: [:show]
-
-      resource :settings, only: [:show] do
-        get :refresh, on: :collection
-      end
-
-      # resources that doesn't appear in primary navigation in super admin
-      resources :account_users, only: [:new, :create, :show, :destroy]
-    end
-    authenticated :super_admin do
-      mount Sidekiq::Web => '/monitoring/sidekiq'
-    end
-  end
-
-  namespace :installation do
-    get 'onboarding', to: 'onboarding#index'
-    post 'onboarding', to: 'onboarding#create'
-  end
-
-  # ---------------------------------------------------------------------
-  # Routes for swagger docs
-  get '/swagger/*path', to: 'swagger#respond'
-  get '/swagger', to: 'swagger#respond'
-
-  # ----------------------------------------------------------------------
-  # Routes for testing
-  resources :widget_tests, only: [:index] unless Rails.env.production?
+  mount ActionCable.server, at: '/cable'
 end
