@@ -7,6 +7,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
+import { AUTO_RESOLVE_DURATION_MINUTES } from 'dashboard/constants/account';
 import semver from 'semver';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -45,8 +46,8 @@ export default {
       required,
     },
     autoResolveDuration: {
-      minValue: minValue(1),
-      maxValue: maxValue(1440), // max 1 day in minutes
+      minValue: minValue(AUTO_RESOLVE_DURATION_MINUTES.MIN),
+      maxValue: maxValue(AUTO_RESOLVE_DURATION_MINUTES.MAX),
     },
   },
   computed: {

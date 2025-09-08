@@ -33,8 +33,12 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
-  # auto_resolve_duration is now in minutes instead of days, max 1 day = 1440 minutes
-  validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 1440, allow_nil: true }
+  # auto_resolve_duration is now in minutes instead of days
+  validates :auto_resolve_duration, numericality: { 
+    greater_than_or_equal_to: Limits::AUTO_RESOLVE_DURATION_MIN_MINUTES, 
+    less_than_or_equal_to: Limits::AUTO_RESOLVE_DURATION_MAX_MINUTES, 
+    allow_nil: true 
+  }
   validates :domain, length: { maximum: 100 }
 
   has_many :account_users, dependent: :destroy_async
