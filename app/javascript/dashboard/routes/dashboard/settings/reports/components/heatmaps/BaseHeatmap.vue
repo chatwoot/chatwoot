@@ -131,16 +131,28 @@ const tooltipContent = ref('');
 const tooltipX = ref(0);
 const tooltipY = ref(0);
 
-const showTooltip = (event, value) => {
-  tooltipContent.value = getCountTooltip(value);
+let tooltipTimeoutId = null;
+
+function showTooltip(event, value) {
+  clearTimeout(tooltipTimeoutId);
+
+  // Update position immediately for smooth movement
   const rect = event.target.getBoundingClientRect();
   tooltipX.value = rect.left + rect.width / 2;
   tooltipY.value = rect.top;
-  tooltipVisible.value = true;
-};
+
+  // Only delay content update and visibility
+  tooltipTimeoutId = setTimeout(() => {
+    tooltipContent.value = getCountTooltip(value);
+    tooltipVisible.value = true;
+  }, 100);
+}
 
 function hideTooltip() {
-  tooltipVisible.value = false;
+  clearTimeout(tooltipTimeoutId);
+  tooltipTimeoutId = setTimeout(() => {
+    tooltipVisible.value = false;
+  }, 50);
 }
 </script>
 
@@ -234,12 +246,13 @@ function hideTooltip() {
 
     <!-- Single tooltip -->
     <div
-      class="fixed z-50 px-2 py-1 text-xs font-medium text-n-slate-6 bg-n-slate-12 rounded shadow-lg pointer-events-none"
+      class="fixed z-50 px-2 py-1 text-xs font-medium text-n-slate-6 bg-n-slate-12 rounded shadow-lg pointer-events-none transition-[opacity,transform] duration-75"
       :class="{ 'opacity-100': tooltipVisible, 'opacity-0': !tooltipVisible }"
       :style="{
         left: `${tooltipX}px`,
         top: `${tooltipY - 15}px`,
         transform: 'translateX(-50%) translateZ(0)',
+        willChange: 'transform, opacity',
       }"
     >
       {{ tooltipContent }}
