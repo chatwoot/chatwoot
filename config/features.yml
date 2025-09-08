@@ -205,3 +205,7 @@
   enabled: false
   premium: true
   chatwoot_internal: true
+- name: saml
+  display_name: SAML
+  enabled: false
+  premium: true
