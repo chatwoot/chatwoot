@@ -34,14 +34,12 @@ const processedData = computed(() => {
   return groupHeatmapByDay(props.heatmapData);
 });
 
-// Memoized rows - each row only re-computes if its data changes
 const dataRows = computed(() => {
   return Array.from(processedData.value.keys()).map(dateKey => {
     const rowData = processedData.value.get(dateKey);
     return {
       dateKey,
       data: rowData,
-      // Create a hash of the row data for memoization
       dataHash: rowData.map(d => d.value).join(','),
     };
   });
@@ -51,9 +49,6 @@ const quantileRange = computed(() => {
   const flattendedData = props.heatmapData.map(data => data.value);
   return getQuantileIntervals(flattendedData, [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]);
 });
-
-// Stringify quantileRange only when it changes, not on every function call
-const quantileRangeStr = computed(() => JSON.stringify(quantileRange.value));
 
 function getCountTooltip(value) {
   if (!value) {
@@ -88,12 +83,11 @@ function getDayOfTheWeek(date) {
   ];
   return days[dayIndex];
 }
-// Create the memoized function - depends on value, quantileRange, and colorScheme
-const getHeatmapLevelClass = useMemoize(
-  (value, quantileRangeString, colorScheme) => {
-    if (!value) return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
 
-    const quantileRangeArray = JSON.parse(quantileRangeString);
+// Memoized function to calculate CSS class for heatmap cell intensity levels
+const getHeatmapLevelClass = useMemoize(
+  (value, quantileRangeArray, colorScheme) => {
+    if (!value) return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
     let level = [...quantileRangeArray, Infinity].findIndex(
       range => value <= range && value > 0
     );
@@ -127,9 +121,8 @@ const getHeatmapLevelClass = useMemoize(
   }
 );
 
-// Helper function to call the memoized version with current context
 function getHeatmapClass(value) {
-  return getHeatmapLevelClass(value, quantileRangeStr.value, props.colorScheme);
+  return getHeatmapLevelClass(value, quantileRange.value, props.colorScheme);
 }
 </script>
 
