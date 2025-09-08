@@ -23,12 +23,8 @@ class GoogleSheetsExportAPI extends ApiClient {
     return axios.post(`${this.url}/spreadsheet_url`, payload);
   }
 
-  syncSalesSpreadsheet(payload) {
-    return axios.post(`${this.url}/sync_sales`, payload);
-  }
-
-  syncBookingSpreadsheet(payload) {
-    return axios.post(`${this.url}/sync_booking`, payload);
+  syncSpreadsheet(payload) {
+    return axios.post(`${this.url}/sync`, payload);
   }
 }
 

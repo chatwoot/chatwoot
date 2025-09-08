@@ -479,7 +479,7 @@ Rails.application.routes.draw do
               get  :status
               post :generate
               post :spreadsheet_url
-              post :sync_sales
+              post :sync
             end
           end
         end

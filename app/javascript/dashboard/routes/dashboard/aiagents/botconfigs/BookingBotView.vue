@@ -163,25 +163,28 @@ async function syncScheduleColumns() {
     // prepare payload
     // retrieve resource_names, location_names, & resource_types
     // save to flow_data
+    let flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
       agent_id: String(props.data.id),
       type: 'booking',
-    };
-    const result = googleSheetsExportAPI.syncBookingSpreadsheet(payload);
-    let flowData = props.data.display_flow_data;
+    }
+
+    const result = await googleSheetsExportAPI.syncSpreadsheet(payload);
     console.log('flowData:', flowData);
+    console.log('result:', result);
     const agentsConfig = flowData.agents_config;
     // const agent_index = agentsConfig.findIndex(
     //   agent => agent.type === 'booking'
     // );
     const agent_index = flowData.enabled_agents.indexOf('booking');
+    console.log('agent_index:', agent_index);
     flowData.agents_config[agent_index].configurations.resource_names =
-      result.resource_names;
+      result.data.data.unique_resource_names;
     flowData.agents_config[agent_index].configurations.location_names =
-      result.location_names;
+      result.data.data.unique_location_names;
     flowData.agents_config[agent_index].configurations.resource_types =
-      result.resource_types;
+      result.data.data.unique_resource_types;
     // console.log(flowData);
     // console.log(props.config);
     const updatePayload = {
@@ -195,6 +198,8 @@ async function syncScheduleColumns() {
     // eslint-disable-next-line no-console
     console.error('Failed to sync schedule columns:', error);
     showNotification('Failed to sync schedule columns', 'error');
+    syncingColumns.value = false;
+  } finally {
     syncingColumns.value = false;
   }
 }
