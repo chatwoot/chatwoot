@@ -53,7 +53,7 @@ const orderSettings = reactive({
 // Save state
 const isSaving = ref(false);
 async function checkAuthStatus() {
-  useAlert(t('IN RESTAURANT...'));
+  // useAlert(t('IN RESTAURANT...'));
   console.log('checking auth status...');
   try {
     loading.value = true;

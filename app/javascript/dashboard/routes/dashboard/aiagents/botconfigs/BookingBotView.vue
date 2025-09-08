@@ -79,7 +79,7 @@ async function connectGoogle() {
 }
 
 async function checkAuthStatus() {
-  useAlert(t('IN BOOKING...'));
+  // useAlert(t('IN BOOKING...'));
   console.log('checking auth status...');
   try {
     loading.value = true;
