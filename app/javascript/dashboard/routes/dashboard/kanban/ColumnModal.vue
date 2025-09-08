@@ -172,6 +172,7 @@ export default {
 
 .labels-select {
   width: 100%;
+  height: 30%;
   padding: 8px;
   margin-bottom: 15px;
   border: none;
