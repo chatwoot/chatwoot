@@ -126,6 +126,7 @@ function getHeatmapClass(value) {
 }
 </script>
 
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <div
     class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[80px_1fr] min-h-72"
@@ -178,12 +179,16 @@ function getHeatmapClass(value) {
           </time>
         </div>
       </div>
-      <div class="grid gap-[5px] w-full min-w-[700px]">
+      <div
+        class="grid gap-[5px] w-full min-w-[700px]"
+        style="content-visibility: auto"
+      >
         <div
           v-for="row in dataRows"
           :key="row.dateKey"
           v-memo="[row.dataHash, colorScheme]"
           class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
+          style="content-visibility: auto; contain-intrinsic-size: auto 32px"
         >
           <div
             v-for="data in row.data"
