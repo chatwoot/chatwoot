@@ -75,7 +75,7 @@ test/cypress/videos/*
 # yalc for local testing
 .yalc
 yalc.lock
-
+.pnpm-store/
 /public/packs
 /public/packs-test
 /node_modules

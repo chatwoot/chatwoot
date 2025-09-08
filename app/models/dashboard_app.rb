@@ -37,7 +37,9 @@ class DashboardApp < ApplicationRecord
         }
       },
       'definitions' => {
-        'saneUrl' => { 'format' => 'uri', 'pattern' => '^https?://' }
+        'saneUrl' => { 
+          'pattern' => '^https?://(?:[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}|(?:[0-9]{1,3}\.){3}[0-9]{1,3}|localhost)(?::[0-9]{1,5})?(?:\/[-a-zA-Z0-9()@:%_\+.~#?&//=]*)?(?:\{[a-zA-Z0-9_]+\})*(?:\/[-a-zA-Z0-9()@:%_\+.~#?&//=]*)?$'
+        }
       },
       'additionalProperties' => false,
       'minItems' => 1

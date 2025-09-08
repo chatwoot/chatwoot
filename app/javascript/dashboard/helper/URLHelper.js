@@ -61,7 +61,14 @@ export const conversationListPageURL = ({
 export const isValidURL = value => {
   /* eslint-disable no-useless-escape */
   const URL_REGEX =
-    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/gm;
+    /^https?:\/\/(?:[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}|(?:[0-9]{1,3}\.){3}[0-9]{1,3}|localhost)(?::[0-9]{1,5})?(?:\/[-a-zA-Z0-9()@:%_\+.~#?&//=]*)?(?:\{[a-zA-Z0-9_]+\})*(?:\/[-a-zA-Z0-9()@:%_\+.~#?&//=]*)?$/gm;
+  return URL_REGEX.test(value);
+};
+
+export const isValidDashboardAppURL = value => {
+  /* eslint-disable no-useless-escape */
+  const URL_REGEX =
+    /^https?:\/\/(?:[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}|(?:[0-9]{1,3}\.){3}[0-9]{1,3}|localhost)(?::[0-9]{1,5})?(?:\/[-a-zA-Z0-9()@:%_\+.~#?&//=]*)?(?:\{[a-zA-Z0-9_]+\})*(?:\/[-a-zA-Z0-9()@:%_\+.~#?&//=]*)?$/gm;
   return URL_REGEX.test(value);
 };
 
@@ -124,4 +131,45 @@ export const getHostNameFromURL = url => {
   } catch (error) {
     return null;
   }
+};
+
+export const extractContactIdFromName = contactName => {
+  if (!contactName) return null;
+
+  const match = contactName.match(/^(\d+)\s*-\s*(.+)$/);
+  return match ? match[1] : null;
+};
+
+export const replaceUrlParams = (url, contact) => {
+  if (!url || !contact) return url;
+
+  let processedUrl = url;
+
+  if (contact.name) {
+    const contactId = extractContactIdFromName(contact.name);
+    if (contactId) {
+      processedUrl = processedUrl.replace(/\{id\}/g, contactId);
+    }
+
+    processedUrl = processedUrl.replace(
+      /\{name\}/g,
+      encodeURIComponent(contact.name)
+    );
+  }
+
+  if (contact.email) {
+    processedUrl = processedUrl.replace(
+      /\{email\}/g,
+      encodeURIComponent(contact.email)
+    );
+  }
+
+  if (contact.phone_number) {
+    processedUrl = processedUrl.replace(
+      /\{phone\}/g,
+      encodeURIComponent(contact.phone_number)
+    );
+  }
+
+  return processedUrl;
 };

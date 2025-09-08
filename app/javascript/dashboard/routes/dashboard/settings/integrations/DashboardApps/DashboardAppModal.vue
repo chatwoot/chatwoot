@@ -1,7 +1,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, url } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
+import { isValidDashboardAppURL } from 'dashboard/helper/URLHelper';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -32,7 +33,10 @@ export default {
       title: { required },
       content: {
         type: { required },
-        url: { required, url },
+        url: {
+          required,
+          isValidDashboardAppUrl: value => isValidDashboardAppURL(value),
+        },
       },
     },
   },

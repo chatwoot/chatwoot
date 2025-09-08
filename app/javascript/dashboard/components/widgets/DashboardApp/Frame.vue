@@ -1,5 +1,6 @@
 <script>
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+import { replaceUrlParams } from 'dashboard/helper/URLHelper';
 
 export default {
   components: {
@@ -30,6 +31,20 @@ export default {
     };
   },
   computed: {
+    processedConfig() {
+      return this.config.map(configItem => {
+        if (configItem.type === 'frame' && configItem.url) {
+          const contact = this.$store.getters['contacts/getContact'](
+            this.contactId
+          );
+          return {
+            ...configItem,
+            url: replaceUrlParams(configItem.url, contact),
+          };
+        }
+        return configItem;
+      });
+    },
     dashboardAppContext() {
       return {
         conversation: this.currentChat,
@@ -85,7 +100,7 @@ export default {
 <template>
   <div v-if="hasOpenedAtleastOnce" class="dashboard-app--container">
     <div
-      v-for="(configItem, index) in config"
+      v-for="(configItem, index) in processedConfig"
       :key="index"
       class="dashboard-app--list"
     >
