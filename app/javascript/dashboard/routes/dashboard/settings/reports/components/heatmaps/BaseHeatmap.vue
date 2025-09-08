@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useMemoize } from '@vueuse/core';
-import { debounce } from '@chatwoot/utils';
 
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
@@ -132,13 +131,13 @@ const tooltipContent = ref('');
 const tooltipX = ref(0);
 const tooltipY = ref(0);
 
-const showTooltip = debounce((event, value) => {
+const showTooltip = (event, value) => {
   tooltipContent.value = getCountTooltip(value);
   const rect = event.target.getBoundingClientRect();
   tooltipX.value = rect.left + rect.width / 2;
   tooltipY.value = rect.top;
   tooltipVisible.value = true;
-}, 100);
+};
 
 function hideTooltip() {
   tooltipVisible.value = false;
