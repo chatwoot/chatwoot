@@ -1149,12 +1149,12 @@ onMounted(async () => {
       try {
         // Check if Google is now available
         if (window.google && window.google.maps && window.google.maps.Map) {
-          console.log('Google Maps available after retry');
+          // Google Maps available after retry
         } else {
-          console.log('Google Maps still not available, will retry on map initialization');
+          // Google Maps still not available, will retry on map initialization
         }
       } catch (retryError) {
-        console.error('Retry loading also failed:', retryError);
+        // Retry loading also failed
       }
     }, 2000);
   }
@@ -1341,9 +1341,9 @@ const kotaOptions = ref([]);
 const kecamatanOptions = ref([]);
 const kelurahanOptions = ref([]);
 const loadingKelurahan = ref(false);
+
 // Load kelurahan/desa from JSON based on selected province, kabupaten/kota, and kecamatan
-const 
-loadKelurahan = async (provinceId, kabupatenId, kecamatanId) => {
+const loadKelurahan = async (provinceId, kabupatenId, kecamatanId) => {
   loadingKelurahan.value = true;
   try {
     const kelurahanModule = await import(
@@ -2124,18 +2124,26 @@ async function submitShippingConfig() {
         store_address: {
           address: kurirToko.alamat || "",
           coordinates: {
-            latitude: kurirToko.latitude || 0,
-            longitude: kurirToko.longitude || 0
+            latitude: kurirToko.latitude || -6.2088, // Default to Jakarta
+            longitude: kurirToko.longitude || 106.8456
           }
         },
         service_area: kurirToko.radius ? `Radius ${kurirToko.radius}km` : "",
-        // concat gratis ongkir
-        delivery_cost_info: (kurirToko.flatRate ? `Flat rate: Rp ${kurirToko.flatRate}` : 
-                            kurirToko.biayaPerJarak ? `Rp ${kurirToko.biayaPerJarak}/km` : "") + (
-                            kurirToko.gratisOngkir 
-                              ? ` | Gratis ongkir dengan minimal belanja Rp ${kurirToko.minimalBelanja}` 
-                              : ""
-                          ),
+        // Generate delivery cost info based on pricing method
+        delivery_cost_info: (() => {
+          let costInfo = "";
+          if (kurirToko.pricingMethod === 'flatRate' && kurirToko.flatRate) {
+            costInfo = `Flat rate: Rp ${kurirToko.flatRate}`;
+          } else if (kurirToko.pricingMethod === 'perDistance' && kurirToko.biayaPerJarak) {
+            costInfo = `Rp ${kurirToko.biayaPerJarak}/km`;
+          }
+          
+          if (kurirToko.gratisOngkir && kurirToko.minimalBelanja) {
+            costInfo += (costInfo ? " | " : "") + `Gratis ongkir dengan minimal belanja Rp ${kurirToko.minimalBelanja}`;
+          }
+          
+          return costInfo;
+        })(),
         estimated_delivery_time: kurirToko.estimasi || ""
       });
     }
@@ -2318,13 +2326,15 @@ function loadSavedConfiguration() {
       alamat: '',
       radius: '',
       wilayah: '',
+      pricingMethod: 'flatRate', // Reset to default
       flatRate: '',
       biayaPerJarak: '',
       gratisOngkir: false,
       minimalBelanja: '',
       estimasi: '',
-      latitude: 0,
-      longitude: 0
+      latitude: -6.2088, // Default to Jakarta
+      longitude: 106.8456,
+      mapLoaded: false
     });
     
     Object.assign(kurirBiasa, {
@@ -2358,8 +2368,8 @@ function loadSavedConfiguration() {
               // New format: object with address and coordinates
               kurirToko.alamat = method.store_address.address || '';
               if (method.store_address.coordinates) {
-                kurirToko.latitude = method.store_address.coordinates.latitude || 0;
-                kurirToko.longitude = method.store_address.coordinates.longitude || 0;
+                kurirToko.latitude = method.store_address.coordinates.latitude || -6.2088; // Default to Jakarta
+                kurirToko.longitude = method.store_address.coordinates.longitude || 106.8456;
               }
             } else if (typeof method.store_address === 'string') {
               // Old format: plain string
@@ -2379,11 +2389,13 @@ function loadSavedConfiguration() {
           if (method.delivery_cost_info) {
             
             if (method.delivery_cost_info.includes('Flat rate')) {
+              kurirToko.pricingMethod = 'flatRate';
               const flatRateMatch = method.delivery_cost_info.match(/Rp\s*([\d,]+)/);
               if (flatRateMatch) {
                 kurirToko.flatRate = flatRateMatch[1].replace(/,/g, '');
               }
             } else if (method.delivery_cost_info.includes('/km')) {
+              kurirToko.pricingMethod = 'perDistance';
               const perKmMatch = method.delivery_cost_info.match(/Rp\s*([\d,]+)\/km/);
               if (perKmMatch) {
                 kurirToko.biayaPerJarak = perKmMatch[1].replace(/,/g, '');
@@ -2497,7 +2509,6 @@ function loadSavedConfiguration() {
     }
     
   } catch (error) {
-    console.error('Error loading saved configuration:', error);
   }
 }
 
@@ -2517,7 +2528,6 @@ function updateLocalPropsData(configType, configData) {
     flowData.agents_config[agentIndex].configurations[configType] = configData;
     
   } catch (error) {
-    console.error('Error updating local props data:', error);
   }
 }
 </script>
