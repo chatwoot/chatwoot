@@ -1,6 +1,7 @@
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue';
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
+import aiAgents from '../../../../api/aiAgents';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -51,14 +52,72 @@ const orderSettings = reactive({
 
 // Save state
 const isSaving = ref(false);
+async function checkAuthStatus() {
+  useAlert(t('IN RESTAURANT...'));
+  console.log('checking auth status...');
+  try {
+    loading.value = true;
+    const response = await googleSheetsExportAPI.getStatus();
+    console.log(JSON.stringify(response.data));
+    if (response.data.authorized) {
+      step.value = 'connected';
+      account.value = {
+        email: response.data.email,
+        name: 'Connected Account',
+      };
+      try {
+        const flowData = props.data.display_flow_data;
+        const payload = {
+          account_id: parseInt(flowData.account_id, 10),
+          agent_id: String(props.data.id),
+          type: 'restaurant',
+        };
+        console.log(JSON.stringify(payload));
+        console.log('payload:', payload);
+        const spreadsheet_url_response =
+          await googleSheetsExportAPI.getSpreadsheetUrl(payload);
+        console.log(JSON.stringify(payload));
+        console.log(JSON.stringify(spreadsheet_url_response));
 
+        console.log(
+          'spreadsheet_url_response.data:',
+          spreadsheet_url_response.data
+        );
+        if (spreadsheet_url_response.data) {
+          sheets.input = spreadsheet_url_response.data.input_spreadsheet_url;
+          sheets.output = spreadsheet_url_response.data.output_spreadsheet_url;
+          step.value = 'sheetConfig';
+        } else {
+          sheets.input = '';
+          sheets.output = '';
+        }
+      } catch (error) {
+        console.error(
+          'Failed to check authorization status while retrieving spreadsheet data:',
+          error
+        );
+        step.value = 'connected';
+      }
+    } else {
+      step.value = 'auth';
+    }
+    console.log('step:', step);
+    console.log('account:', account);
+  } catch (error) {
+    console.error('Failed to check authorization status:', error)
+    step.value = 'auth';
+  } finally {
+    loading.value = false;
+  }
+  console.log('step.value:', step.value);
+  console.log('checking auth status DONE');
+}
 function showNotification(message, type = 'success') {
   notification.value = { message, type };
   setTimeout(() => {
     notification.value = null;
   }, 3000);
 }
-
 async function connectGoogle() {
   try {
     loading.value = true;
@@ -78,43 +137,108 @@ async function connectGoogle() {
 
 async function createSheets() {
   loading.value = true;
-  // Simulate sheet creation
-  setTimeout(() => {
-    sheets.input = 'https://docs.google.com/spreadsheets/d/restaurant-input-sheet-id';
-    sheets.output = 'https://docs.google.com/spreadsheets/d/restaurant-output-sheet-id';
-    loading.value = false;
+  try {
+    // TODO: Call backend to create output sheet
+    // For now, simulate sheet creation
+    // await new Promise(resolve => setTimeout(resolve, 1200))
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(props.data));
+    // eslint-disable-next-line no-console
+    const flowData = props.data.display_flow_data;
+    const payload = {
+      account_id: parseInt(flowData.account_id, 10),
+      agent_id: String(props.data.id),
+      type: 'restaurant',
+    };
+    // console.log(payload);
+    const response = await googleSheetsExportAPI.createSpreadsheet(payload);
+    // console.log(response)
+    sheets.output = response.data.output_spreadsheet_url;
     step.value = 'sheetConfig';
-  }, 1200);
+    showNotification('Output sheet created successfully!', 'success');
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to create sheet:', error);
+    showNotification(
+      'Failed to create sheet. Please try again.',
+      'error'
+    );
+  } finally {
+    loading.value = false;
+  }
 }
-
 async function save() {
+  if (isSaving.value) return; // Prevent multiple calls
+  const configData = {
+    menuBookLink: menuBookLink.value,
+    orderSettings: { ...orderSettings }
+  };
+  let tax = 0;
+  if (orderSettings.taxEnabled){
+    tax = orderSettings.taxPercent
+  }
+  let serviceCharge = 0;
+  if (orderSettings.serviceChargeEnabled){
+    serviceCharge = orderSettings.serviceChargePercent
+  }
   try {
     isSaving.value = true;
-    
-    // TODO: API call to save both menu book link and order settings
-    const configData = {
-      menuBookLink: menuBookLink.value,
-      orderSettings: { ...orderSettings }
+    // Hardcoded payload, exactly as you had it
+    let flowData = props.data.display_flow_data;
+    // console.log(flowData)
+    const agentsConfig = flowData.agents_config;
+    // const agent_index = agentsConfig.findIndex(agent => agent.type === "restaurant");
+    const agent_index = 0;
+
+    flowData.agents_config[agent_index].configurations.tax = tax;
+    flowData.agents_config[agent_index].configurations.service_charge = serviceCharge;
+    flowData.agents_config[agent_index].configurations.url_menu = configData.menuBookLink;
+    // console.log(flowData);
+    // console.log(props.config);
+    const payload = {
+      flow_data: flowData,
     };
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    useAlert(t('AGENT_MGMT.RESTAURANT_BOT.SAVE_SUCCESS'));
+    console.log("payload:", payload);
+    // ✅ Properly await the API call
+    await aiAgents.updateAgent(props.data.id, payload);
+
+    // ✅ Show success console.log after success
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
   } catch (e) {
-    useAlert(t('AGENT_MGMT.RESTAURANT_BOT.SAVE_ERROR'));
     console.error('Save error:', e);
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'));
   } finally {
     isSaving.value = false;
   }
 }
+// async function save() {
+//   try {
+//     isSaving.value = true;
+    
+//     // TODO: API call to save both menu book link and order settings
+//     const configData = {
+//       menuBookLink: menuBookLink.value,
+//       orderSettings: { ...orderSettings }
+//     };
+    
+//     await new Promise(resolve => setTimeout(resolve, 1000));
+//     useAlert(t('AGENT_MGMT.RESTAURANT_BOT.SAVE_SUCCESS'));
+//   } catch (e) {
+//     useAlert(t('AGENT_MGMT.RESTAURANT_BOT.SAVE_ERROR'));
+//     console.error('Save error:', e);
+//   } finally {
+//     isSaving.value = false;
+//   }
+// }
 
 // Legacy function for backward compatibility
 function saveOrderSettings() {
   save();
 }
 
-// TEMPORARY - skip Google connect for demo
-onMounted(() => {
-  step.value = 'connected';
+onMounted(async () => {
+  // eslint-disable-next-line no-use-before-define
+  await checkAuthStatus();
 });
 </script>
 
