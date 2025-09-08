@@ -1256,8 +1256,9 @@ async function checkAuthStatus() {
           'spreadsheet_url_response.data:',
           spreadsheet_url_response.data
         );
-        if (spreadsheet_url_response.data.spreadsheet_url) {
-          catalogSheets.output = spreadsheet_url_response.data.spreadsheet_url;
+        if (spreadsheet_url_response.data.input_spreadsheet_url && spreadsheet_url_response.data.output_spreadsheet_url) {
+          catalogSheets.input = spreadsheet_url_response.data.input_spreadsheet_url;
+          catalogSheets.output = spreadsheet_url_response.data.output_spreadsheet_url;
           catalogStep.value = 'sheetConfig';
         } else {
           catalogSheets.output = '';
@@ -1283,35 +1284,6 @@ async function checkAuthStatus() {
   console.log('catalogStep.value:', catalogStep.value);
   console.log('checking auth status DONE');
 }
-
-// async function checkAuthStatus() {
-//   try {
-//     catalogLoading.value = true;
-//     const response = await googleSheetsExportAPI.getStatus();
-//     if (response.data.authorized) {
-//       catalogStep.value = 'connected';
-//       catalogAccount.value = {
-//         email: response.data.email,
-//         name: 'Connected Account'
-//       };
-//       if (response.data.spreadsheet_url) {
-//         catalogSheets.input = response.data.spreadsheet_url;
-//         catalogSheets.output = response.data.spreadsheet_url_output || '';
-//         catalogStep.value = 'sheetConfig';
-//       } else {
-//         catalogSheets.input = '';
-//         catalogSheets.output = '';
-//       }
-//     } else {
-//       catalogStep.value = 'auth';
-//     }
-//   } catch (error) {
-//     showNotification('Failed to check authorization status. Please try again.', 'error');
-//     catalogStep.value = 'auth';
-//   } finally {
-//     catalogLoading.value = false;
-//   }
-// }
 
 async function createSheets() {
   catalogLoading.value = true;
@@ -1402,12 +1374,20 @@ async function syncProductColumns() {
     //   showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_SUCCESS'), 'success');
     //   syncingColumns.value = false;
     // }, 2000);
-    const syncDataResponse = await googleSheetsExportAPI.syncSalesSpreadsheet();
+    const flowData = props.data.display_flow_data;
+    const payload = {
+      account_id: parseInt(flowData.account_id, 10),
+      agent_id: String(props.data.id),
+      type: 'sales',
+    };
+    const syncDataResponse = await googleSheetsExportAPI.syncSalesSpreadsheet(payload);
+    console.log("syncDataResponse:", syncDataResponse)
     const request = {
       id: null,
-      text: syncDataResponse,
+      text: syncDataResponse.data.data,
       tab: 4, // Tab 4 for sales bot product
     };
+    console.log("request text:", request)
     let addResponse = await aiAgents
       .addKnowledgeText(props.data.id, {
         ...request,
@@ -1415,6 +1395,8 @@ async function syncProductColumns() {
     console.log("addResponse:", addResponse)
   } catch (error) {
     showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_ERROR'), 'error');
+    syncingColumns.value = false;
+  } finally {
     syncingColumns.value = false;
   }
 }
