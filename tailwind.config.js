@@ -29,6 +29,7 @@ const tailwindConfig = {
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
+    './app/javascript/ui/**/*.vue',
     './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',

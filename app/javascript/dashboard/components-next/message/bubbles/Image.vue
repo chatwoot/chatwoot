@@ -5,6 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import BaseBubble from './Base.vue';
 import Button from 'next/button/Button.vue';
 import Icon from 'next/icon/Icon.vue';
+import { useGallery } from '../useGallery';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
 import { downloadFile } from '@chatwoot/utils';
@@ -21,8 +22,8 @@ const attachment = computed(() => {
 });
 
 const hasError = ref(false);
-const showGallery = ref(false);
 const isDownloading = ref(false);
+const { showGallery, isGalleryAllowed, toggleGallery } = useGallery();
 
 const handleError = () => {
   hasError.value = true;
@@ -46,7 +47,7 @@ const downloadAttachment = async () => {
   <BaseBubble
     class="overflow-hidden p-3"
     data-bubble-name="image"
-    @click="showGallery = true"
+    @click="toggleGallery(true)"
   >
     <div v-if="hasError" class="flex items-center gap-1 text-center rounded-lg">
       <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
@@ -82,7 +83,7 @@ const downloadAttachment = async () => {
     </div>
   </BaseBubble>
   <GalleryView
-    v-if="showGallery"
+    v-if="showGallery && isGalleryAllowed"
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"

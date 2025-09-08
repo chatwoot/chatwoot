@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
+import { useGallery } from '../useGallery';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
@@ -12,7 +12,7 @@ defineProps({
   },
 });
 
-const showGallery = ref(false);
+const { showGallery, isGalleryAllowed, toggleGallery } = useGallery();
 
 const { filteredCurrentChatAttachments } = useMessageContext();
 </script>
@@ -20,7 +20,7 @@ const { filteredCurrentChatAttachments } = useMessageContext();
 <template>
   <div
     class="size-[72px] overflow-hidden contain-content rounded-xl cursor-pointer relative group"
-    @click="showGallery = true"
+    @click="toggleGallery(true)"
   >
     <video
       :src="attachment.dataUrl"
@@ -42,7 +42,7 @@ const { filteredCurrentChatAttachments } = useMessageContext();
     </div>
   </div>
   <GalleryView
-    v-if="showGallery"
+    v-if="showGallery && isGalleryAllowed"
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
