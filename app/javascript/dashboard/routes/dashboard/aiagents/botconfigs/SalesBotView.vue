@@ -1154,15 +1154,34 @@ async function checkAuthStatus() {
 }
 
 async function createSheets() {
-  catalogLoading.value = true;
-  // TODO: Call backend to create sheets if needed
-  // lihat contoh di configuration view, itu sudah diintegrate create sheet
-  setTimeout(() => {
-    catalogSheets.input = 'https://docs.google.com/spreadsheets/d/input-sheet-id';
-    catalogSheets.output = 'https://docs.google.com/spreadsheets/d/output-sheet-id';
-    catalogLoading.value = false;
-    catalogStep.value = 'sheetConfig';
-  }, 1200);
+  loading.value = true;
+  try {
+    // TODO: Call backend to create output sheet
+    // For now, simulate sheet creation
+    // await new Promise(resolve => setTimeout(resolve, 1200))
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(props.data));
+    // eslint-disable-next-line no-console
+    const flowData = props.data.display_flow_data;
+    const payload = {
+      account_id: parseInt(flowData.account_id, 10),
+      agent_id: String(props.data.id),
+      type: 'booking',
+    };
+    // console.log(payload);
+    const response = await googleSheetsExportAPI.createSpreadsheet(payload);
+    // console.log(response)
+    catalogSheets.input = response.data.input_spreadsheet_url;
+    catalogSheets.output = response.data.output_spreadsheet_url;
+    step.value = 'sheetConfig';
+    showNotification('Output sheet created successfully!', 'success');
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to create sheet:', error);
+    showNotification('Failed to create sheet. Please try again.', 'error');
+  } finally {
+    loading.value = false;
+  }
 }
 
 async function syncProductColumns() {
@@ -1171,7 +1190,7 @@ async function syncProductColumns() {
     showNotification(t('AGENT_MGMT.SALESBOT.PAYMENTSALESBOT.CATALOG.SYNC_INFO'), 'info');
     
     // TODO: Replace with your actual API endpoint
-    // const response = await fetch('/api/sheets/sync-columns', {
+    // const response = await fetch('/api/catalogSheets/sync-columns', {
     //   method: 'POST',
     //   headers: {
     //     'Content-Type': 'application/json',

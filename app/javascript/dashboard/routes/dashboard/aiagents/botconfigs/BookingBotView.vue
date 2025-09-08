@@ -2,6 +2,7 @@
 import { ref, reactive, onMounted, computed } from 'vue';
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
 import FileKnowledgeSources from '../knowledge-sources/FileKnowledgeSources.vue';
+import aiAgents from '../../../../api/aiAgents';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -32,7 +33,7 @@ const tabs = computed(() => [
   },
 ]);
 
-// Wizard step: 'auth', 'connected', 'sheetConfig'
+// Steps: 'auth', 'connected', 'sheetConfig'
 const step = ref('auth');
 const loading = ref(false);
 const account = ref(null); // { email: '...', name: '...' }
@@ -43,14 +44,20 @@ const notification = ref(null);
 const isSaving = ref(false);
 
 const templates = [
-  { label: t('AGENT_MGMT.BOOKING_BOT.TEMPLATE_OPTIONS.KLINIK'), value: 'klinik' },
-  { label: t('AGENT_MGMT.BOOKING_BOT.TEMPLATE_OPTIONS.LAPANGAN'), value: 'lapangan' },
+  {
+    label: t('AGENT_MGMT.BOOKING_BOT.TEMPLATE_OPTIONS.KLINIK'),
+    value: 'klinik',
+  },
+  {
+    label: t('AGENT_MGMT.BOOKING_BOT.TEMPLATE_OPTIONS.LAPANGAN'),
+    value: 'lapangan',
+  },
 ];
 const selectedTemplate = ref(templates[0].value);
 const minDuration = ref('');
 
 // New fields for resource and location columns
-const resourceColumn = ref(['resource','resource2','resource3']);
+const resourceColumn = ref(['resource', 'resource2', 'resource3']);
 const locationColumn = ref(['location']);
 const syncingColumns = ref(false);
 
@@ -72,32 +79,72 @@ async function connectGoogle() {
 }
 
 async function checkAuthStatus() {
+  useAlert(t('IN BOOKING...'));
+  console.log('checking auth status...');
   try {
     loading.value = true;
     const response = await googleSheetsExportAPI.getStatus();
+    console.log(JSON.stringify(response.data));
     if (response.data.authorized) {
       step.value = 'connected';
       account.value = {
         email: response.data.email,
-        name: 'Connected Account'
+        name: 'Connected Account',
       };
-      if (response.data.spreadsheet_url) {
-        sheets.input = response.data.spreadsheet_url;
-        sheets.output = response.data.spreadsheet_url_output || '';
-        step.value = 'sheetConfig';
-      } else {
-        sheets.input = '';
-        sheets.output = '';
+      try {
+        const flowData = props.data.display_flow_data;
+        if (flowData.agents_config[0].configurations.minimum_duration) {
+          minDuration.value =
+            flowData.agents_config[0].configurations.minimum_duration;
+        }
+        if (flowData.agents_config[0].configurations.industry) {
+          selectedTemplate.value =
+            flowData.agents_config[0].configurations.industry;
+        }
+        const payload = {
+          account_id: parseInt(flowData.account_id, 10),
+          agent_id: String(props.data.id),
+          type: 'booking',
+        };
+        console.log(JSON.stringify(payload));
+        console.log('payload:', payload);
+        const spreadsheet_url_response =
+          await googleSheetsExportAPI.getSpreadsheetUrl(payload);
+        console.log(JSON.stringify(payload));
+        console.log(JSON.stringify(spreadsheet_url_response));
+
+        console.log(
+          'spreadsheet_url_response.data:',
+          spreadsheet_url_response.data
+        );
+        if (spreadsheet_url_response.data) {
+          sheets.input = spreadsheet_url_response.data.input_spreadsheet_url;
+          sheets.output = spreadsheet_url_response.data.output_spreadsheet_url;
+          step.value = 'sheetConfig';
+        } else {
+          sheets.input = '';
+          sheets.output = '';
+        }
+      } catch (error) {
+        console.error(
+          'Failed to check authorization status while retrieving spreadsheet data:',
+          error
+        );
+        step.value = 'connected';
       }
     } else {
       step.value = 'auth';
     }
+    console.log('step:', step);
+    console.log('account:', account);
   } catch (error) {
-    showNotification('Failed to check authorization status. Please try again.', 'error');
+    console.error('Failed to check authorization status:', error)
     step.value = 'auth';
   } finally {
     loading.value = false;
   }
+  console.log('step.value:', step.value);
+  console.log('checking auth status DONE');
 }
 
 function showNotification(message, type = 'success') {
@@ -111,7 +158,7 @@ async function syncScheduleColumns() {
   try {
     syncingColumns.value = true;
     showNotification('Syncing schedule columns from sheet...', 'info');
-    
+
     // TODO: Replace with your actual API endpoint
     // const response = await fetch('/api/sheets/sync-schedule-columns', {
     //   method: 'POST',
@@ -123,63 +170,140 @@ async function syncScheduleColumns() {
     //   })
     // });
     // const data = await response.json();
-    
+
     // For now, simulate API response
     setTimeout(() => {
       const syncedResourceColumns = ['doctor_name', 'nurse_name', 'specialist'];
-      const syncedLocationColumns = ['clinic_location', 'room_number', 'building'];
+      const syncedLocationColumns = [
+        'clinic_location',
+        'room_number',
+        'building',
+      ];
       resourceColumn.value = syncedResourceColumns;
       locationColumn.value = syncedLocationColumns;
       showNotification('Schedule columns synced successfully!', 'success');
       syncingColumns.value = false;
     }, 2000);
-    
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed to sync schedule columns:', error);
     showNotification('Failed to sync schedule columns', 'error');
     syncingColumns.value = false;
   }
 }
 
+
+
 async function save() {
+  if (isSaving.value) return; // Prevent multiple calls
+  const configData = {
+    selectedTemplate: selectedTemplate.value,
+    minDuration: minDuration.value,
+  };
   try {
     isSaving.value = true;
-    
-    // TODO: API call to save booking bot configuration
-    const configData = {
-      selectedTemplate: selectedTemplate.value,
-      minDuration: minDuration.value,
-      resourceColumns: resourceColumn.value,
-      locationColumns: locationColumn.value,
-      sheets: { ...sheets }
+    // Hardcoded payload, exactly as you had it
+    let flowData = props.data.display_flow_data;
+    console.log('flowData:', flowData);
+    const agentsConfig = flowData.agents_config;
+    // const agent_index = agentsConfig.findIndex(
+    //   agent => agent.type === 'booking'
+    // );
+    const agent_index = 0;
+    flowData.agents_config[agent_index].configurations.minimum_duration =
+      configData.minDuration;
+    flowData.agents_config[agent_index].configurations.industry =
+      configData.selectedTemplate;
+    // console.log(flowData);
+    // console.log(props.config);
+    const payload = {
+      flow_data: flowData,
     };
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_SUCCESS'));
+    console.log("payload:", payload);
+    // ✅ Properly await the API call
+    await aiAgents.updateAgent(props.data.id, payload);
+
+    // ✅ Show success console.log after success
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
   } catch (e) {
-    useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_ERROR'));
     console.error('Save error:', e);
+    useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'));
   } finally {
     isSaving.value = false;
   }
 }
 
-// TEMPORARY
-onMounted(() => {
-  // Skip Google connect, go straight to sheetConfig for now
-  step.value = 'connected';
+// async function save() {
+//   try {
+//     isSaving.value = true;
+
+//     // TODO: API call to save booking bot configuration
+//     const configData = {
+//       selectedTemplate: selectedTemplate.value,
+//       minDuration: minDuration.value,
+//       resourceColumns: resourceColumn.value,
+//       locationColumns: locationColumn.value,
+//       sheets: { ...sheets }
+//     };
+//     // eslint-disable-next-line no-console
+//     console.log('configData:', configData);
+//     await new Promise(resolve => setTimeout(resolve, 1000));
+//     useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_SUCCESS'));
+//   } catch (e) {
+//     useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_ERROR'));
+//     // eslint-disable-next-line no-console
+//     console.error('Save error:', e);
+//   } finally {
+//     isSaving.value = false;
+//   }
+// }
+
+onMounted(async () => {
+  // eslint-disable-next-line no-use-before-define
+  await checkAuthStatus();
 });
+
+// async function createSheets() {
+//   loading.value = true;
+//   // TODO: Call backend to create sheets if needed
+//   // For now, just simulate success
+//   setTimeout(() => {
+//     sheets.input = 'https://docs.google.com/spreadsheets/d/input-sheet-id';
+//     sheets.output = 'https://docs.google.com/spreadsheets/d/output-sheet-id';
+//     loading.value = false;
+//     step.value = 'sheetConfig';
+//   }, 1200);
+// }
 
 async function createSheets() {
   loading.value = true;
-  // TODO: Call backend to create sheets if needed
-  // For now, just simulate success
-  setTimeout(() => {
-    sheets.input = 'https://docs.google.com/spreadsheets/d/input-sheet-id';
-    sheets.output = 'https://docs.google.com/spreadsheets/d/output-sheet-id';
-    loading.value = false;
+  try {
+    // TODO: Call backend to create output sheet
+    // For now, simulate sheet creation
+    // await new Promise(resolve => setTimeout(resolve, 1200))
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(props.data));
+    // eslint-disable-next-line no-console
+    const flowData = props.data.display_flow_data;
+    const payload = {
+      account_id: parseInt(flowData.account_id, 10),
+      agent_id: String(props.data.id),
+      type: 'booking',
+    };
+    // console.log(payload);
+    const response = await googleSheetsExportAPI.createSpreadsheet(payload);
+    // console.log(response)
+    sheets.input = response.data.input_spreadsheet_url;
+    sheets.output = response.data.output_spreadsheet_url;
     step.value = 'sheetConfig';
-  }, 1200);
+    showNotification('Output sheet created successfully!', 'success');
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to create sheet:', error);
+    showNotification('Failed to create sheet. Please try again.', 'error');
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
 

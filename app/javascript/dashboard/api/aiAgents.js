@@ -12,7 +12,9 @@ class AiAgents extends ApiClient {
     }
 
     createAiAgent(name, templateId) {
-    const agentType = Array.isArray(templateId) ? "multi_agent" : "single_agent";
+    const agentType = Array.isArray(templateId)
+      ? 'multi_agent'
+      : 'single_agent';
     const templateIds = Array.isArray(templateId) ? templateId : [templateId];
     return this.create({
         name,

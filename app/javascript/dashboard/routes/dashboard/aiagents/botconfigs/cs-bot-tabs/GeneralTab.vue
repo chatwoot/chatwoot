@@ -1,13 +1,14 @@
+<!-- eslint-disable no-console -->
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useAlert } from 'dashboard/composables'
-import Button from 'dashboard/components-next/button/Button.vue'
+import { ref, reactive, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 // Google Sheets Auth Flow for Tickets
-import googleSheetsExportAPI from '../../../../../api/googleSheetsExport'
+import googleSheetsExportAPI from '../../../../../api/googleSheetsExport';
 // ✅ Add this line to fix the "aiAgents is not defined" error
-import aiAgents from '../../../../../api/aiAgents'
+import aiAgents from '../../../../../api/aiAgents';
 import { watch } from 'vue';
 
 const props = defineProps({
@@ -25,7 +26,7 @@ const { t } = useI18n();
 // Watch for props.data and extract ticket system settings
 watch(
   () => props.data,
-  (newData) => {
+  newData => {
     if (!newData?.display_flow_data) return;
 
     const flowData = newData.display_flow_data;
@@ -33,7 +34,9 @@ watch(
 
     // If customer_service agent isn't in the flow, skip
     if (agentIndex === -1) {
+      // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketSystemActive = false;
+      // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketCreateWhen = 'always';
       return;
     }
@@ -42,14 +45,20 @@ watch(
 
     // Map backend value to UI
     if (ticketSystem === 'always') {
+      // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketSystemActive = true;
+      // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketCreateWhen = 'always';
     } else if (ticketSystem === 'conditional') {
+      // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketSystemActive = true;
+      // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketCreateWhen = 'bot_fail';
     } else {
+      // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketSystemActive = false;
       // Optionally keep last value or reset
+      // eslint-disable-next-line vue/no-mutating-props
       props.config.ticketCreateWhen = 'always';
     }
   },
@@ -67,6 +76,7 @@ const notification = ref(null);
 
 // Check auth status on mount
 onMounted(async () => {
+  // eslint-disable-next-line no-use-before-define
   await checkAuthStatus();
 });
 
@@ -79,64 +89,118 @@ function showNotification(message, type = 'success') {
 
 async function connectGoogle() {
   try {
-    ticketLoading.value = true
-    const response = await googleSheetsExportAPI.getAuthorizationUrl()
+    ticketLoading.value = true;
+    const response = await googleSheetsExportAPI.getAuthorizationUrl();
     if (response.data.authorization_url) {
+<<<<<<< HEAD
       showNotification('Opening Google authentication in a new tab...', 'info')
       window.open(response.data.authorization_url, '_blank', 'noopener,noreferrer')
+=======
+      showNotification('Opening Google authentication in a new tab...', 'info');
+      window.location.href = response.data.authorization_url;
+      // window.open(response.data.authorization_url, '_blank', 'noopener,noreferrer')
+>>>>>>> integration/fe-be
     } else {
-      showNotification('Failed to get authorization URL. Please check backend logs.', 'error')
+      showNotification(
+        'Failed to get authorization URL. Please check backend logs.',
+        'error'
+      );
     }
   } catch (error) {
-    showNotification('Authentication failed. Please try again.', 'error')
+    showNotification('Authentication failed. Please try again.', 'error');
     console.error('Google auth error:', error)
   } finally {
-    ticketLoading.value = false
+    ticketLoading.value = false;
   }
 }
 
 async function checkAuthStatus() {
+  console.log('checking auth status...');
   try {
-    ticketLoading.value = true
-    const response = await googleSheetsExportAPI.getStatus()
+    ticketLoading.value = true;
+    const response = await googleSheetsExportAPI.getStatus();
+    console.log(JSON.stringify(response.data));
     if (response.data.authorized) {
-      ticketStep.value = 'connected'
+      ticketStep.value = 'connected';
       ticketAccount.value = {
         email: response.data.email,
-        name: 'Connected Account'
-      }
-      if (response.data.spreadsheet_url_output) {
-        ticketSheets.output = response.data.spreadsheet_url_output
-        ticketStep.value = 'sheetConfig'
-      } else {
-        ticketSheets.output = ''
+        name: 'Connected Account',
+      };
+      try {
+        const flowData = props.data.display_flow_data;
+        const payload = {
+          account_id: parseInt(flowData.account_id, 10),
+          agent_id: String(props.data.id),
+          type: 'tickets',
+        };
+        console.log(JSON.stringify(payload));
+        console.log('payload:', payload);
+        const spreadsheet_url_response =
+          await googleSheetsExportAPI.getSpreadsheetUrl(payload);
+        console.log(JSON.stringify(payload));
+        console.log(JSON.stringify(spreadsheet_url_response));
+
+        console.log(
+          'spreadsheet_url_response.data:',
+          spreadsheet_url_response.data
+        );
+        if (spreadsheet_url_response.data.spreadsheet_url) {
+          ticketSheets.output = spreadsheet_url_response.data.spreadsheet_url;
+          ticketStep.value = 'sheetConfig';
+        } else {
+          ticketSheets.output = '';
+        }
+      } catch (error) {
+        console.error(
+          'Failed to check authorization status while retrieving spreadsheet data:',
+          error
+        );
+        ticketStep.value = 'connected';
       }
     } else {
-      ticketStep.value = 'auth'
+      ticketStep.value = 'auth';
     }
+    console.log('ticketStep:', ticketStep);
+    console.log('ticketAccount:', ticketAccount);
   } catch (error) {
     console.error('Failed to check authorization status:', error)
-    ticketStep.value = 'auth'
+    ticketStep.value = 'auth';
   } finally {
-    ticketLoading.value = false
+    ticketLoading.value = false;
   }
+  console.log('ticketStep.value:', ticketStep.value);
+  console.log('checking auth status DONE');
 }
 
 async function createTicketSheet() {
-  ticketLoading.value = true
+  ticketLoading.value = true;
   try {
     // TODO: Call backend to create ticket output sheet
     // For now, simulate sheet creation
-    await new Promise(resolve => setTimeout(resolve, 1200))
-    
-    ticketSheets.output = 'https://docs.google.com/spreadsheets/d/ticket-output-sheet-id'
-    ticketStep.value = 'sheetConfig'
+    // await new Promise(resolve => setTimeout(resolve, 1200))
+    console.log(JSON.stringify(props.data));
+    // eslint-disable-next-line no-console
+    const flowData = props.data.display_flow_data;
+    const payload = {
+      account_id: parseInt(flowData.account_id, 10),
+      agent_id: String(props.data.id),
+      type: 'tickets',
+    };
+    // console.log(payload);
+    const response = await googleSheetsExportAPI.createSpreadsheet(payload);
+    // console.log(response)
+    ticketSheets.output = response.data.spreadsheet_url;
+    ticketStep.value = 'sheetConfig';
     showNotification('Ticket output sheet created successfully!', 'success')
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Failed to create ticket sheet:', error)
-    showNotification('Failed to create ticket sheet. Please try again.', 'error')
+    showNotification(
+      'Failed to create ticket sheet. Please try again.',
+      'error'
+    );
   } finally {
-    ticketLoading.value = false
+    ticketLoading.value = false;
   }
 }
 
@@ -154,19 +218,19 @@ async function save() {
     isSaving.value = true;
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
-    console.log(flowData)
+    // console.log(flowData)
     const agent_index = flowData.enabled_agents.indexOf('customer_service');
     flowData.agents_config[agent_index].configurations.ticket_system =
       ticketSystem;
-    console.log(flowData);
-    console.log(props.config);
+    // console.log(flowData);
+    // console.log(props.config);
     const payload = {
       flow_data: flowData,
     };
     // ✅ Properly await the API call
     await aiAgents.updateAgent(props.data.id, payload);
 
-    // ✅ Show success alert after success
+    // ✅ Show success console.log after success
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
   } catch (e) {
     console.error('Save error:', e);
@@ -176,6 +240,7 @@ async function save() {
   }
 }
 </script>
+
 <template>
   <div class="w-full">
     <!-- Notification -->
