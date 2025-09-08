@@ -257,7 +257,7 @@ RSpec.describe User do
 
   context 'get weebhook data' do
     it 'returns the required fields' do
-      webhook_data = user.webhook_data
+      webhook_data = user.webhook_create_data
       expect(webhook_data[:name]).to eq(user.name)
       expect(webhook_data[:email]).to eq(user.email)
       expect(webhook_data[:role]).to eq(user.current_account_user&.role)

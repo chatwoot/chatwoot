@@ -370,7 +370,7 @@ describe WebhookListener do
       it 'triggers webhook' do
         webhook = create(:webhook, account: account, subscriptions: ['agent_added'])
 
-        payload = user.webhook_data.merge(event: 'agent_added')
+        payload = user.webhook_create_data.merge(event: 'agent_added')
 
         expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
         listener.agent_added(agent_added_event)

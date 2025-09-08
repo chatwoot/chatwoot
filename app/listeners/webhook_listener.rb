@@ -93,7 +93,7 @@ class WebhookListener < BaseListener
 
   def agent_added(event)
     agent, account = extract_agent_and_account(event)
-    payload = agent.webhook_data.merge(event: __method__.to_s)
+    payload = agent.webhook_create_data.merge(event: __method__.to_s)
     deliver_account_webhooks(payload, account)
   end
 
