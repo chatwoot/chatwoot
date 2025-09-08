@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useMemoize } from '@vueuse/core';
 
 import format from 'date-fns/format';
@@ -124,6 +124,24 @@ const getHeatmapLevelClass = useMemoize(
 function getHeatmapClass(value) {
   return getHeatmapLevelClass(value, quantileRange.value, props.colorScheme);
 }
+
+// Tooltip state
+const tooltipVisible = ref(false);
+const tooltipContent = ref('');
+const tooltipX = ref(0);
+const tooltipY = ref(0);
+
+function showTooltip(event, value) {
+  tooltipContent.value = getCountTooltip(value);
+  const rect = event.target.getBoundingClientRect();
+  tooltipX.value = rect.left + rect.width / 2;
+  tooltipY.value = rect.top;
+  tooltipVisible.value = true;
+}
+
+function hideTooltip() {
+  tooltipVisible.value = false;
+}
 </script>
 
 <!-- eslint-disable vue/no-static-inline-styles -->
@@ -193,9 +211,10 @@ function getHeatmapClass(value) {
           <div
             v-for="data in row.data"
             :key="data.timestamp"
-            v-tooltip.top="getCountTooltip(data.value)"
-            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1"
+            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 cursor-pointer"
             :class="getHeatmapClass(data.value)"
+            @mouseenter="showTooltip($event, data.value)"
+            @mouseleave="hideTooltip"
           />
         </div>
       </div>
@@ -212,5 +231,18 @@ function getHeatmapClass(value) {
         </div>
       </div>
     </template>
+
+    <!-- Single tooltip -->
+    <div
+      class="fixed z-50 px-2 py-1 text-xs font-medium text-n-slate-6 bg-n-slate-12 rounded shadow-lg pointer-events-none transition-opacity duration-100"
+      :class="{ 'opacity-100': tooltipVisible, 'opacity-0': !tooltipVisible }"
+      :style="{
+        left: `${tooltipX}px`,
+        top: `${tooltipY - 15}px`,
+        transform: 'translateX(-50%) translateZ(0)',
+      }"
+    >
+      {{ tooltipContent }}
+    </div>
   </div>
 </template>
