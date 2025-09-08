@@ -50,6 +50,12 @@ class AgentBot < ApplicationRecord
     }
   end
 
+  # Some serializers/listeners expect `pubsub_token` on `sender`.
+  # AgentBot does not receive WS messages, so return empty string for safe subtraction in listeners.
+  def pubsub_token
+    ''
+  end
+
   def system_bot?
     account.nil?
   end
