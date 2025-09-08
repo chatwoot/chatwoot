@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useMemoize } from '@vueuse/core';
 
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
@@ -33,10 +34,26 @@ const processedData = computed(() => {
   return groupHeatmapByDay(props.heatmapData);
 });
 
+// Memoized rows - each row only re-computes if its data changes
+const memoizedRows = computed(() => {
+  return Array.from(processedData.value.keys()).map(dateKey => {
+    const rowData = processedData.value.get(dateKey);
+    return {
+      dateKey,
+      data: rowData,
+      // Create a hash of the row data for memoization
+      dataHash: rowData.map(d => d.value).join(','),
+    };
+  });
+});
+
 const quantileRange = computed(() => {
   const flattendedData = props.heatmapData.map(data => data.value);
   return getQuantileIntervals(flattendedData, [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]);
 });
+
+// Stringify quantileRange only when it changes, not on every function call
+const quantileRangeStr = computed(() => JSON.stringify(quantileRange.value));
 
 function getCountTooltip(value) {
   if (!value) {
@@ -71,39 +88,48 @@ function getDayOfTheWeek(date) {
   ];
   return days[dayIndex];
 }
-function getHeatmapLevelClass(value) {
-  if (!value) return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+// Create the memoized function - depends on value, quantileRange, and colorScheme
+const getHeatmapLevelClass = useMemoize(
+  (value, quantileRangeString, colorScheme) => {
+    if (!value) return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
 
-  let level = [...quantileRange.value, Infinity].findIndex(
-    range => value <= range && value > 0
-  );
+    const quantileRangeArray = JSON.parse(quantileRangeString);
+    let level = [...quantileRangeArray, Infinity].findIndex(
+      range => value <= range && value > 0
+    );
 
-  if (level > 6) level = 5;
+    if (level > 6) level = 5;
 
-  if (level === 0) {
-    return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+    if (level === 0) {
+      return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+    }
+
+    const colorSchemes = {
+      blue: [
+        'bg-n-blue-3 dark:outline-n-blue-4',
+        'bg-n-blue-5 dark:outline-n-blue-6',
+        'bg-n-blue-7 dark:outline-n-blue-8',
+        'bg-n-blue-8 dark:outline-n-blue-9',
+        'bg-n-blue-10 dark:outline-n-blue-8',
+        'bg-n-blue-11 dark:outline-n-blue-10',
+      ],
+      green: [
+        'bg-n-teal-3 dark:outline-n-teal-4',
+        'bg-n-teal-5 dark:outline-n-teal-6',
+        'bg-n-teal-7 dark:outline-n-teal-8',
+        'bg-n-teal-8 dark:outline-n-teal-9',
+        'bg-n-teal-10 dark:outline-n-teal-8',
+        'bg-n-teal-11 dark:outline-n-teal-10',
+      ],
+    };
+
+    return colorSchemes[colorScheme][level - 1];
   }
+);
 
-  const colorSchemes = {
-    blue: [
-      'bg-n-blue-3 dark:outline-n-blue-4',
-      'bg-n-blue-5 dark:outline-n-blue-6',
-      'bg-n-blue-7 dark:outline-n-blue-8',
-      'bg-n-blue-8 dark:outline-n-blue-9',
-      'bg-n-blue-10 dark:outline-n-blue-8',
-      'bg-n-blue-11 dark:outline-n-blue-10',
-    ],
-    green: [
-      'bg-n-teal-3 dark:outline-n-teal-4',
-      'bg-n-teal-5 dark:outline-n-teal-6',
-      'bg-n-teal-7 dark:outline-n-teal-8',
-      'bg-n-teal-8 dark:outline-n-teal-9',
-      'bg-n-teal-10 dark:outline-n-teal-8',
-      'bg-n-teal-11 dark:outline-n-teal-10',
-    ],
-  };
-
-  return colorSchemes[props.colorScheme][level - 1];
+// Helper function to call the memoized version with current context
+function getHeatmapClass(value) {
+  return getHeatmapLevelClass(value, quantileRangeStr.value, props.colorScheme);
 }
 </script>
 
@@ -148,28 +174,30 @@ function getHeatmapLevelClass(value) {
     <template v-else>
       <div class="grid gap-[5px] flex-shrink-0">
         <div
-          v-for="dateKey in processedData.keys()"
-          :key="dateKey"
+          v-for="row in memoizedRows"
+          :key="row.dateKey"
+          v-memo="[row.dateKey]"
           class="h-8 min-w-[70px] text-n-slate-12 text-[10px] font-semibold flex flex-col items-end justify-center"
         >
-          {{ getDayOfTheWeek(new Date(dateKey)) }}
+          {{ getDayOfTheWeek(new Date(row.dateKey)) }}
           <time class="font-normal text-n-slate-11">
-            {{ formatDate(dateKey) }}
+            {{ formatDate(row.dateKey) }}
           </time>
         </div>
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
         <div
-          v-for="dateKey in processedData.keys()"
-          :key="dateKey"
+          v-for="row in memoizedRows"
+          :key="row.dateKey"
+          v-memo="[row.dataHash, colorScheme]"
           class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
         >
           <div
-            v-for="data in processedData.get(dateKey)"
+            v-for="data in row.data"
             :key="data.timestamp"
             v-tooltip.top="getCountTooltip(data.value)"
             class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1"
-            :class="getHeatmapLevelClass(data.value)"
+            :class="getHeatmapClass(data.value)"
           />
         </div>
       </div>
