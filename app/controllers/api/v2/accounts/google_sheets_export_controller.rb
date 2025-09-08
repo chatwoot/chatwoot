@@ -278,6 +278,66 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     end
   end
 
+  def sync_booking
+    # Extract and validate payload
+    payload = {
+      account_id: params[:account_id],
+      agent_id: params[:agent_id],
+      type: params[:type]
+    }
+
+    # Validate required fields
+    unless payload[:account_id] && payload[:agent_id] && payload[:type]
+      return render json: { error: 'Missing required parameters: account_id, agent_id, or type', payload: payload }, status: :bad_request
+    end
+
+    # Build external API URL
+    base_api_url = GlobalConfigService.load('EXTERNAL_TOKEN_API_URL', nil)
+    return render json: { error: 'EXTERNAL_TOKEN_API_URL not configured' }, status: :service_unavailable unless base_api_url
+
+    # Replace the base path and append `/create`
+    # Example: http://0.0.0.0:8080/v2/oauth/google/credentials → http://0.0.0.0:8080/v2/oauth/google/spreadsheet/create
+    target_url = base_api_url.gsub(%r{/v2/oauth/google/.*}, '/v2/oauth/google/spreadsheet/sync_sales')
+    Rails.logger.info "[generate_response] Request will be sent to: #{target_url}"
+
+    begin
+      response = HTTParty.post(
+        target_url,
+        headers: { 'Content-Type' => 'application/json' },
+        body: payload.to_json,
+        timeout: 30
+      )
+
+      if response.success?
+        Rails.logger.info "Response status code: #{response}"
+        json_response = response.parsed_response
+        
+        message = json_response['message']
+        data = json_response['data']
+
+        render json: {
+              message: message,
+              data: data,
+            }, status: :ok
+
+        
+      else
+        Rails.logger.error "External API error: #{response.body}"
+        render json: {
+          error: 'Failed to create spreadsheet',
+          status: response.code,
+          message: response.parsed_response
+        }, status: :bad_gateway
+      end
+    rescue StandardError => e
+      Rails.logger.error "Exception during external API call: #{e.message}"
+      render json: {
+        error: 'Failed to connect to external service',
+        message: e.message
+      }, status: :service_unavailable
+    end
+  end
+  
   private
 
   # Ensures the current user is an administrator for the account.

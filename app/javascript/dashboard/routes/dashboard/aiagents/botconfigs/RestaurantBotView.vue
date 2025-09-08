@@ -186,9 +186,11 @@ async function save() {
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
     // console.log(flowData)
-    const agentsConfig = flowData.agents_config;
+    // const agentsConfig = flowData.agents_config;
     // const agent_index = agentsConfig.findIndex(agent => agent.type === "restaurant");
-    const agent_index = 0;
+    // const agent_index = 0;
+    const agent_index = flowData.enabled_agents.indexOf('restaurant');
+
 
     flowData.agents_config[agent_index].configurations.tax = tax;
     flowData.agents_config[agent_index].configurations.service_charge = serviceCharge;

@@ -160,30 +160,37 @@ async function syncScheduleColumns() {
     showNotification('Syncing schedule columns from sheet...', 'info');
 
     // TODO: Replace with your actual API endpoint
-    // const response = await fetch('/api/sheets/sync-schedule-columns', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     sheetUrl: sheets.input
-    //   })
-    // });
-    // const data = await response.json();
-
-    // For now, simulate API response
-    setTimeout(() => {
-      const syncedResourceColumns = ['doctor_name', 'nurse_name', 'specialist'];
-      const syncedLocationColumns = [
-        'clinic_location',
-        'room_number',
-        'building',
-      ];
-      resourceColumn.value = syncedResourceColumns;
-      locationColumn.value = syncedLocationColumns;
-      showNotification('Schedule columns synced successfully!', 'success');
-      syncingColumns.value = false;
-    }, 2000);
+    // prepare payload
+    // retrieve resource_names, location_names, & resource_types
+    // save to flow_data
+    const payload = {
+      account_id: parseInt(flowData.account_id, 10),
+      agent_id: String(props.data.id),
+      type: 'booking',
+    };
+    const result = googleSheetsExportAPI.syncBookingSpreadsheet(payload);
+    let flowData = props.data.display_flow_data;
+    console.log('flowData:', flowData);
+    const agentsConfig = flowData.agents_config;
+    // const agent_index = agentsConfig.findIndex(
+    //   agent => agent.type === 'booking'
+    // );
+    const agent_index = flowData.enabled_agents.indexOf('booking');
+    flowData.agents_config[agent_index].configurations.resource_names =
+      result.resource_names;
+    flowData.agents_config[agent_index].configurations.location_names =
+      result.location_names;
+    flowData.agents_config[agent_index].configurations.resource_types =
+      result.resource_types;
+    // console.log(flowData);
+    // console.log(props.config);
+    const updatePayload = {
+      flow_data: flowData,
+    };
+    // eslint-disable-next-line no-console
+    console.log('payload:', updatePayload);
+    // ✅ Properly await the API call
+    await aiAgents.updateAgent(props.data.id, updatePayload);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Failed to sync schedule columns:', error);
@@ -204,12 +211,10 @@ async function save() {
     isSaving.value = true;
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
+    // eslint-disable-next-line no-console
     console.log('flowData:', flowData);
-    const agentsConfig = flowData.agents_config;
-    // const agent_index = agentsConfig.findIndex(
-    //   agent => agent.type === 'booking'
-    // );
-    const agent_index = 0;
+    const agent_index = flowData.enabled_agents.indexOf('customer_service');
+
     flowData.agents_config[agent_index].configurations.minimum_duration =
       configData.minDuration;
     flowData.agents_config[agent_index].configurations.industry =
