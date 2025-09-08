@@ -310,31 +310,56 @@
                   <div>
                     <label class="block font-medium mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SHIPPING_COST') }}</label>
                     <div class="space-y-4">
-                      <!-- Flat Rate -->
-                      <div>
-                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE') }}</label>
-                        <div class="relative">
-                          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">Rp</span>
-                          <input 
-                            type="number" 
-                            min="0"
-                            class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pl-8 !pr-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                            :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE_PLACEHOLDER')" 
-                            v-model="kurirToko.flatRate" 
-                          />
+                      <!-- Pricing Method Selection -->
+                      <div class="space-y-3">
+                        <!-- Flat Rate Option -->
+                        <div class="flex items-start space-x-3">
+                          <label class="inline-flex items-center cursor-pointer">
+                            <input 
+                              type="radio" 
+                              v-model="kurirToko.pricingMethod" 
+                              value="flatRate"
+                              class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                            />
+                          </label>
+                          <div class="flex-1">
+                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE') }}</label>
+                            <div class="relative">
+                              <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                              <input 
+                                type="number" 
+                                min="0"
+                                :disabled="kurirToko.pricingMethod !== 'flatRate'"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pl-8 !pr-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                                :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE_PLACEHOLDER')" 
+                                v-model="kurirToko.flatRate" 
+                              />
+                            </div>
+                          </div>
                         </div>
-                      </div>
 
-                      <!-- Cost per Distance -->
-                      <div>
-                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE') }}</label>
-                        <input 
-                          type="number" 
-                          min="0"
-                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                          :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE_PLACEHOLDER')" 
-                          v-model="kurirToko.biayaPerJarak" 
-                        />
+                        <!-- Cost per Distance Option -->
+                        <div class="flex items-start space-x-3">
+                          <label class="inline-flex items-center cursor-pointer">
+                            <input 
+                              type="radio" 
+                              v-model="kurirToko.pricingMethod" 
+                              value="perDistance"
+                              class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                            />
+                          </label>
+                          <div class="flex-1">
+                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE') }}</label>
+                            <input 
+                              type="number" 
+                              min="0"
+                              :disabled="kurirToko.pricingMethod !== 'perDistance'"
+                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                              :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE_PLACEHOLDER')" 
+                              v-model="kurirToko.biayaPerJarak" 
+                            />
+                          </div>
+                        </div>
                       </div>
 
                       <!-- Free Shipping Toggle -->
@@ -404,10 +429,23 @@
                   v-if="shippingMethods.kurirBiasa" 
                   class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
                 >
-                  <div>
+                <!-- Coming Soon Message -->
+                <div class="flex items-center justify-center py-8">
+                  <div class="text-center">
+                    <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                      </svg>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Coming Soon</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Regular courier configuration will be available soon.</p>
+                  </div>
+                </div>
+                <!-- DONT DELETE! -->
+                  <!-- <div>
                     <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ORIGIN_ADDRESS') }}</label>
                     
-                    <!-- Provinsi -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL') }}</label>
                       <div class="relative dropdown-container" ref="provinsiDropdownRef">
@@ -453,7 +491,6 @@
                       </div>
                     </div>
 
-                    <!-- Kota/Kabupaten -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
                       <div class="relative dropdown-container" ref="kotaDropdownRef">
@@ -499,7 +536,6 @@
                       </div>
                     </div>
 
-                    <!-- Kecamatan -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL') }}</label>
                       <div class="relative dropdown-container" ref="kecamatanDropdownRef">
@@ -545,7 +581,6 @@
                       </div>
                     </div>
 
-                    <!-- Kelurahan -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL') }}</label>
                       <div class="relative dropdown-container" ref="kelurahanDropdownRef">
@@ -591,7 +626,6 @@
                       </div>
                     </div>
 
-                    <!-- Jalan/Gang -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STREET_LABEL') }}</label>
                       <input 
@@ -602,7 +636,6 @@
                       />
                     </div>
 
-                    <!-- Kode Pos -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ZIP_CODE_LABEL') }}</label>
                       <input 
@@ -690,7 +723,6 @@
                       </div>
                     </div>
                     
-                    <!-- Calculate Shipping Cost Button -->
                     <div v-if="kurirBiasa.kurir.length > 0 && kurirBiasa.kota" class="mb-4">
                       <button
                         @click="calculateShippingCosts"
@@ -705,7 +737,6 @@
                       </button>
                     </div>
 
-                    <!-- Display Shipping Costs -->
                     <div v-if="Object.keys(kurirBiasa.shippingCosts).length > 0" class="mb-4">
                       <h4 class="font-medium mb-2">Shipping Cost Estimates:</h4>
                       <div class="space-y-2">
@@ -729,7 +760,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
 
@@ -963,11 +994,11 @@
                     <div class="flex items-center justify-between p-4">
                       <div class="flex items-center">
                         <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fill-green-600 dark:fill-white lucide lucide-credit-card-icon lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-credit-card-icon lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
                         </div>
                         <div>
-                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
-                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
+                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h3>
+                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
                         </div>
                       </div>
                       <label class="inline-flex items-center cursor-pointer">
@@ -982,6 +1013,22 @@
                       v-if="paymentMethods.paymentGateway" 
                       class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
                     >
+                      <!-- Coming Soon -->
+                      <div class="flex items-center justify-center py-8">
+                        <div class="text-center">
+                          <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                              <circle cx="12" cy="12" r="10"/>
+                              <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                          </div>
+                          <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Coming Soon</h4>
+                          <p class="text-sm text-gray-500 dark:text-gray-400">Payment gateway configuration will be available soon.</p>
+                        </div>
+                      </div>
+
+                      <!-- DONT DELETE! -->
+                      <!--
                       <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
@@ -1020,6 +1067,7 @@
                           class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
                         />
                       </div>
+                      -->
                     </div>
                   </div>
                 </div>
@@ -1262,6 +1310,7 @@ const kurirToko = reactive({
   alamat: '', 
   radius: '', 
   wilayah: '', 
+  pricingMethod: 'flatRate', // 'flatRate' or 'perDistance'
   flatRate: '',
   biayaPerJarak: '',
   gratisOngkir: false,

@@ -197,7 +197,7 @@
         "SERVICE_RADIUS_PLACEHOLDER": "5",
         "SERVICE_REGION": "Wilayah",
         "SERVICE_REGION_PLACEHOLDER": "Pilih kecamatan/kota",
-        "SHIPPING_COST": "Biaya Pengiriman",
+        "SHIPPING_COST": "Biaya Pengiriman (Pilih satu)",
         "FLAT_RATE": "Tarif Flat",
         "FLAT_RATE_PLACEHOLDER": "10000",
         "COST_PER_DISTANCE": "Biaya per Jarak (Rp/km)",
