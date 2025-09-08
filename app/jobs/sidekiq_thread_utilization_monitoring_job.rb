@@ -2,7 +2,6 @@
 # gem 'aws-sdk-cloudwatch'
 # (optional, only if IMDS tags are disabled and you want ASG lookup fallback)
 # gem 'aws-sdk-ec2'
-# rubocop:disable Metrics/ClassLength
 require 'sidekiq/api'
 require 'aws-sdk-cloudwatch'
 require 'aws-sdk-ec2' # optional (see notes)
@@ -90,7 +89,6 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
 
     set_instance_identity_data
     set_basic_instance_id
-    set_auto_scaling_group_name
     log_aws_metadata
   rescue StandardError => e
     Rails.logger.error "AWS metadata detection failed: #{e.message}"
@@ -120,14 +118,10 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
     ENV['AWS_INSTANCE_ID'] ||= metadata_get('/latest/meta-data/instance-id')
   end
 
-  def set_auto_scaling_group_name
-    ENV['AWS_AUTO_SCALING_GROUP_NAME'] ||= 'csdb-asg-1'
-  end
-
   def log_aws_metadata
     Rails.logger.info "AWS metadata: REGION=#{ENV.fetch('AWS_REGION', nil)}, " \
                       "INSTANCE_ID=#{ENV.fetch('AWS_INSTANCE_ID', nil)}, " \
-                      "ASG=#{ENV.fetch('AWS_AUTO_SCALING_GROUP_NAME', nil)}"
+                      'ASG=csdb-asg-1'
   end
 
   # ---------- CloudWatch client ----------
@@ -162,13 +156,7 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
   end
 
   def build_cloudwatch_dimensions
-    dims = [{ name: 'InstanceId', value: ENV.fetch('AWS_INSTANCE_ID', nil) }]
-    add_asg_dimension(dims) if ENV['AWS_AUTO_SCALING_GROUP_NAME'].present?
-    dims
-  end
-
-  def add_asg_dimension(dimensions)
-    dimensions << { name: 'AutoScalingGroupName', value: ENV.fetch('AWS_AUTO_SCALING_GROUP_NAME', nil) }
+    [{ name: 'InstanceId', value: ENV.fetch('AWS_INSTANCE_ID', nil) }, { name: 'AutoScalingGroupName', value: 'csdb-asg-1' }]
   end
 
   def publish_metric_data(ratio, dimensions)
@@ -245,4 +233,3 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
     nil
   end
 end
-# rubocop:enable Metrics/ClassLength
