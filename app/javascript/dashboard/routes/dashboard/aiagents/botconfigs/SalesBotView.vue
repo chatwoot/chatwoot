@@ -1086,17 +1086,17 @@ const props = defineProps({
 
 // Initialize and load provinces on mount
 onMounted(async () => {
-  console.log('Component mounted');
-  // loadProvinsi();
+  // Load saved configuration first
+  loadSavedConfiguration();
+  
+  // Load provinces for address selection
+  loadProvinsi();
   
   // Pre-load Google Maps API but don't initialize map yet
   try {
     await loadGoogleMaps();
-    console.log('Google Maps API pre-loaded successfully');
   } catch (error) {
-    console.error('Failed to pre-load Google Maps API:', error);
     // Try alternative loading method
-    console.log('Attempting alternative Google Maps loading...');
     setTimeout(async () => {
       try {
         // Check if Google is now available
@@ -1110,8 +1110,18 @@ onMounted(async () => {
       }
     }, 2000);
   }
-  loadProvinsi();
 });
+
+// Watch for props data changes and reload configuration
+watch(
+  () => props.data,
+  (newData) => {
+    if (newData && newData.display_flow_data) {
+      loadSavedConfiguration();
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 const catalogStep = ref('connected'); // 'auth', 'connected', 'sheetConfig'
 const catalogLoading = ref(false);
@@ -1212,7 +1222,6 @@ async function syncProductColumns() {
     }, 2000);
     
   } catch (error) {
-    console.error('Failed to sync product columns:', error);
     showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_ERROR'), 'error');
     syncingColumns.value = false;
   }
@@ -1294,7 +1303,6 @@ loadKelurahan = async (provinceId, kabupatenId, kecamatanId) => {
     const kelurahanJson = kelurahanModule.default || kelurahanModule;
     kelurahanOptions.value = Object.entries(kelurahanJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load kelurahan JSON:', error);
     showNotification('Failed to load kelurahan data', 'error');
     kelurahanOptions.value = [];
   } finally {
@@ -1392,7 +1400,6 @@ const loadProvinsi = async () => {
     // Use provinsi.json as the source
     provinsiOptions.value = Object.entries(provinsiJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load provinces from provinsi.json:', error);
     showNotification('Failed to load provinces data', 'error');
     provinsiOptions.value = [];
   } finally {
@@ -1412,7 +1419,6 @@ const loadKota = async (provinceId) => {
     const kabupatenJson = kabupatenModule.default || kabupatenModule;
     kotaOptions.value = Object.entries(kabupatenJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load kabupaten/kota JSON:', error);
     showNotification('Failed to load cities data', 'error');
     kotaOptions.value = [];
   } finally {
@@ -1446,7 +1452,6 @@ const calculateShippingCost = async (origin, destination, weight, courier) => {
       throw new Error(data.rajaongkir.status.description);
     }
   } catch (error) {
-    console.error('Failed to calculate shipping cost:', error);
     showNotification('Failed to calculate shipping cost', 'error');
     return [];
   } finally {
@@ -1465,7 +1470,6 @@ const loadKecamatan = async (provinceId, kabupatenId) => {
     const kecamatanJson = kecamatanModule.default || kecamatanModule;
     kecamatanOptions.value = Object.entries(kecamatanJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load kecamatan JSON:', error);
     showNotification('Failed to load districts data', 'error');
     kecamatanOptions.value = [];
   } finally {
@@ -1673,7 +1677,7 @@ async function calculateShippingCosts() {
     return;
   }
   
-  const weight = 1000; // Default 1kg, configurable
+  const weight = 1; // Default 1kg, configurable
   const origin = '501'; // Default origin city ID (Yogyakarta), configurable based on store location
   
   showNotification('Calculating shipping costs...', 'info');
@@ -1685,12 +1689,9 @@ async function calculateShippingCosts() {
       const costs = await calculateShippingCost(origin, kurirBiasa.kota, weight, courier);
       kurirBiasa.shippingCosts[courier] = costs;
     } catch (error) {
-      console.error(`Failed to get costs for ${courier}:`, error);
       kurirBiasa.shippingCosts[courier] = [];
     }
   }
-  
-  console.log('Shipping Costs:', kurirBiasa.shippingCosts);
   showNotification('Shipping costs calculated successfully', 'success');
 }
 
@@ -1750,12 +1751,11 @@ const mapLoadingTimeout = ref(null);
 
 // Google Maps API Integration
 // NOTE: Replace with your actual Google Maps API key
-const GOOGLE_MAPS_API_KEY = '';
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_GOOGLE_MAPS_API_KEY';
 
 // Validate API key
 const validateApiKey = () => {
   if (!GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
-    console.error('Google Maps API key is missing or not configured');
     return false;
   }
   return true;
@@ -1772,7 +1772,6 @@ const loadGoogleMaps = () => {
 
     // Check if Google Maps is already loaded
     if (window.google && window.google.maps && window.google.maps.Map) {
-      // console.log('Google Maps already loaded');
       resolve(window.google); // Return the full google object
       return;
     }
@@ -1780,7 +1779,6 @@ const loadGoogleMaps = () => {
     // Check if script is already loading
     const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
     if (existingScript) {
-      // console.log('Google Maps script already exists, waiting for load...');
       const checkGoogleMaps = () => {
         if (window.google && window.google.maps && window.google.maps.Map) {
           resolve(window.google); // Return the full google object
@@ -1792,21 +1790,14 @@ const loadGoogleMaps = () => {
       return;
     }
 
-    // console.log('Loading Google Maps API with key:', GOOGLE_MAPS_API_KEY.substring(0, 10) + '...');
     
     // Create a unique callback name to avoid conflicts
     const callbackName = `initGoogleMaps_${Date.now()}`;
     
     window[callbackName] = () => {
-      // console.log('Google Maps API callback triggered');
       if (window.google && window.google.maps && window.google.maps.Map) {
-        // console.log('Google Maps API loaded successfully');
         resolve(window.google); // Return the full google object
       } else {
-        console.error('Google Maps API callback triggered but objects not available');
-        console.error('window.google:', window.google);
-        console.error('window.google.maps:', window.google?.maps);
-        console.error('window.google.maps.Map:', window.google?.maps?.Map);
         reject(new Error('Google Maps API loaded but objects not available'));
       }
       delete window[callbackName];
@@ -1817,50 +1808,33 @@ const loadGoogleMaps = () => {
     script.async = true;
     script.defer = true;
     script.onerror = (error) => {
-      console.error('Failed to load Google Maps script:', error);
-      console.error('API Key used:', GOOGLE_MAPS_API_KEY.substring(0, 10) + '...');
       delete window[callbackName];
       reject(new Error('Failed to load Google Maps script - please check your API key'));
     };
     
-    console.log('Appending script to head:', script.src);
     document.head.appendChild(script);
   });
 };
 
 // Initialize Google Maps
 const initializeMap = async () => {
-  // console.log('initializeMap called');
-  // console.log('mapRef.value:', mapRef.value);
-  // console.log('kurirToko.mapLoaded:', kurirToko.mapLoaded);
   
   if (!mapRef.value) {
-    console.error('Map reference not found');
     return;
   }
   
   if (kurirToko.mapLoaded) {
-    // console.log('Map already loaded');
     return;
   }
 
   try {
-    // console.log('Loading Google Maps...');
     const google = await loadGoogleMaps();
     
-    // console.log('Google Maps loaded, google object:', google);
-    // console.log('google.maps:', google.maps);
-    // console.log('google.maps.Map:', google.maps?.Map);
-    
     if (!google || !google.maps) {
-      console.error('Google object or google.maps is missing');
-      console.error('Available google properties:', google ? Object.keys(google) : 'none');
       throw new Error('Google Maps API not properly loaded - missing maps object');
     }
     
     if (!google.maps.Map) {
-      console.error('google.maps.Map is missing');
-      console.error('Available google.maps properties:', Object.keys(google.maps));
       throw new Error('Google Maps API not properly loaded - missing Map constructor');
     }
     
@@ -1873,8 +1847,6 @@ const initializeMap = async () => {
       fullscreenControl: false,
     });
 
-    console.log('Map instance created:', mapInstance.value);
-
     // Initialize marker
     markerInstance.value = new google.maps.Marker({
       position: { lat: kurirToko.latitude, lng: kurirToko.longitude },
@@ -1883,12 +1855,8 @@ const initializeMap = async () => {
       title: 'Store Location'
     });
 
-    console.log('Marker created:', markerInstance.value);
-
     // Initialize geocoder
     geocoderInstance.value = new google.maps.Geocoder();
-
-    console.log('Geocoder created:', geocoderInstance.value);
 
     // Add marker drag listener
     markerInstance.value.addListener('dragend', (event) => {
@@ -1902,17 +1870,7 @@ const initializeMap = async () => {
     });
 
     kurirToko.mapLoaded = true;
-    console.log('Google Maps initialized successfully');
   } catch (error) {
-    console.error('Error initializing Google Maps:', error);
-    console.error('Error details:', {
-      message: error.message,
-      stack: error.stack,
-      window_google: window.google,
-      google_maps: window.google?.maps,
-      google_maps_Map: window.google?.maps?.Map,
-      google_maps_keys: window.google?.maps ? Object.keys(window.google.maps) : 'no maps object'
-    });
     showNotification('Failed to load map. Please check your API key and internet connection.', 'error');
   }
 };
@@ -1948,7 +1906,6 @@ const geocodeAddress = async (address) => {
     }
 
   } catch (error) {
-    console.error('Geocoding error:', error);
     showNotification('Could not find the address on the map', 'error');
   }
 };
@@ -1995,19 +1952,15 @@ watch(() => shippingMethods.kurirToko, (enabled) => {
   if (enabled && !kurirToko.mapLoaded) {
     // Wait for DOM update and then initialize map
     setTimeout(async () => {
-      console.log('Attempting to initialize map after DOM update');
       
       // Try direct access to Google Maps first
       if (window.google && window.google.maps && window.google.maps.Map) {
-        console.log('Google Maps already available, initializing directly...');
         await initializeMap();
       } else {
-        console.log('Google Maps not available, loading first...');
         try {
           await loadGoogleMaps();
           await initializeMap();
         } catch (error) {
-          console.error('Failed to load Google Maps on toggle:', error);
           showNotification('Failed to load map. Please refresh the page and try again.', 'error');
         }
       }
@@ -2017,16 +1970,13 @@ watch(() => shippingMethods.kurirToko, (enabled) => {
 
 // Also watch for mapRef availability
 watch(mapRef, (newMapRef) => {
-  console.log('mapRef changed:', newMapRef);
   if (newMapRef && shippingMethods.kurirToko && !kurirToko.mapLoaded) {
     setTimeout(async () => {
-      console.log('Attempting to initialize map after mapRef available');
       
       // Ensure Google Maps is loaded
       if (window.google && window.google.maps && window.google.maps.Map) {
         await initializeMap();
       } else {
-        console.log('Google Maps not ready, loading...');
         try {
           await loadGoogleMaps();
           await initializeMap();
@@ -2080,7 +2030,6 @@ async function submitShippingConfig() {
 
   try {
     isSaving.value = true;
-    // console.log('Shipping:', JSON.parse(JSON.stringify({ shippingMethods, kurirToko, kurirBiasa, ambilToko })));
     
     const shippingData = {
       kurirToko: shippingMethods.kurirToko ? {
@@ -2165,7 +2114,6 @@ async function submitShippingConfig() {
     // Save to backend
     let flowData = props.data.display_flow_data;
     const agentIndex = flowData.enabled_agents.indexOf('sales');
-    console.log('Agent Index:', agentIndex);
     
     if (agentIndex === -1) {
       useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.AGENT_NOT_FOUND'))
@@ -2183,10 +2131,12 @@ async function submitShippingConfig() {
     const payload = {
       flow_data: flowData,
     };
-    // console.log('Payload to save:');
-    // console.log(payload);
 
     await aiAgents.updateAgent(props.data.id, payload);
+    
+    // Update local props data to maintain state after update
+    updateLocalPropsData('shipping_options', shippingConfig);
+    
     useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_SUCCESS'))
   } catch (error) {
     useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_ERROR'))
@@ -2200,8 +2150,6 @@ async function submitPaymentConfig() {
 
   try {
     isSaving.value = true;
-    
-    console.log('Payment Methods:', JSON.parse(JSON.stringify({ paymentMethods, bankAccounts: bankAccounts.value, paymentGateway })));
     
     const paymentData = {
       cod: paymentMethods.cod,
@@ -2229,28 +2177,31 @@ async function submitPaymentConfig() {
       });
     }
 
-    if (paymentMethods.bankTransfer) {
-      paymentConfig.methods.push({
+    if (paymentMethods.bankTransfer || paymentMethods.paymentGateway) {
+      const nonCodMethod = {
         type: "non_cod",
-        name: "Transfer Online",
-        bank_transfer: paymentMethods.bankTransfer ? {
+        name: "Transfer Online"
+      };
+
+      // Add bank transfer if enabled
+      if (paymentMethods.bankTransfer) {
+        nonCodMethod.bank_transfer = {
           accounts: bankAccounts.value.filter(account => 
             account.bankName && account.accountNumber && account.accountHolder
           )
-        } : null,
-        payment_gateway: paymentMethods.paymentGateway ? {
+        };
+      }
+
+      // Add payment gateway if enabled
+      if (paymentMethods.paymentGateway) {
+        nonCodMethod.payment_gateway = {
           provider: paymentGateway.provider,
           apiKey: paymentGateway.apiKey,
           merchantCode: paymentGateway.merchantCode
-        } : null
-      });
-    }
+        };
+      }
 
-    if (paymentMethods.paymentGateway) {
-      paymentConfig.methods.push({
-        type: "non_cod",
-        name: "Payment Gateway"
-      });
+      paymentConfig.methods.push(nonCodMethod);
     }
 
     // Save to backend
@@ -2276,11 +2227,248 @@ async function submitPaymentConfig() {
 
     await aiAgents.updateAgent(props.data.id, payload);
 
+    // Update local props data to maintain state after update
+    updateLocalPropsData('payment_options', paymentConfig);
+
     useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_SUCCESS'));
   } catch (error) {
     useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_ERROR'));
   } finally {
     isSaving.value = false;
+  }
+}
+
+// Function to load saved configuration from backend
+function loadSavedConfiguration() {
+  try {
+    
+    const flowData = props.data.display_flow_data;
+    if (!flowData) {
+      return;
+    }
+    
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
+    
+    if (agentIndex === -1) {
+      return;
+    }
+    
+    const config = flowData.agents_config[agentIndex]?.configurations;
+    
+    if (!config) {
+      return;
+    }
+
+    // Reset all shipping methods first
+    shippingMethods.kurirToko = false;
+    shippingMethods.kurirBiasa = false;
+    shippingMethods.ambilToko = false;
+    
+    // Reset all shipping configs
+    Object.assign(kurirToko, {
+      alamat: '',
+      radius: '',
+      wilayah: '',
+      flatRate: '',
+      biayaPerJarak: '',
+      gratisOngkir: false,
+      minimalBelanja: '',
+      estimasi: '',
+      latitude: 0,
+      longitude: 0
+    });
+    
+    Object.assign(kurirBiasa, {
+      provinsi: '',
+      kota: '',
+      kecamatan: '',
+      kelurahan: '',
+      jalan: '',
+      kodePos: '',
+      kurir: []
+    });
+    
+    Object.assign(ambilToko, {
+      alamat: '',
+      jamBuka: '',
+      jamTutup: '',
+      estimasi: ''
+    });
+
+    // Load Shipping Configuration
+    if (config.shipping_options && config.shipping_options.methods) {
+      
+      config.shipping_options.methods.forEach(method => {
+        
+        if (method.type === 'store_courier') {
+          shippingMethods.kurirToko = true;
+          
+          // Handle store_address as object or string
+          if (method.store_address) {
+            if (typeof method.store_address === 'object' && method.store_address.address) {
+              // New format: object with address and coordinates
+              kurirToko.alamat = method.store_address.address || '';
+              if (method.store_address.coordinates) {
+                kurirToko.latitude = method.store_address.coordinates.latitude || 0;
+                kurirToko.longitude = method.store_address.coordinates.longitude || 0;
+              }
+            } else if (typeof method.store_address === 'string') {
+              // Old format: plain string
+              kurirToko.alamat = method.store_address;
+            }
+          }
+          
+          // Parse service area (e.g., "Radius 15km" -> "15")
+          if (method.service_area) {
+            const radiusMatch = method.service_area.match(/Radius\s*(\d+)km/i);
+            if (radiusMatch) {
+              kurirToko.radius = radiusMatch[1];
+            }
+          }
+          
+          // Parse delivery cost info
+          if (method.delivery_cost_info) {
+            
+            if (method.delivery_cost_info.includes('Flat rate')) {
+              const flatRateMatch = method.delivery_cost_info.match(/Rp\s*([\d,]+)/);
+              if (flatRateMatch) {
+                kurirToko.flatRate = flatRateMatch[1].replace(/,/g, '');
+              }
+            } else if (method.delivery_cost_info.includes('/km')) {
+              const perKmMatch = method.delivery_cost_info.match(/Rp\s*([\d,]+)\/km/);
+              if (perKmMatch) {
+                kurirToko.biayaPerJarak = perKmMatch[1].replace(/,/g, '');
+              }
+            }
+            
+            kurirToko.gratisOngkir = method.delivery_cost_info.includes('Gratis ongkir');
+            
+            const minimalMatch = method.delivery_cost_info.match(/minimal belanja Rp\s*([\d,]+)/i);
+            if (minimalMatch) {
+              kurirToko.minimalBelanja = minimalMatch[1].replace(/,/g, '');
+            }
+          }
+          
+          // Load estimated delivery time
+          if (method.estimated_delivery_time) {
+            kurirToko.estimasi = method.estimated_delivery_time;
+          }
+        }
+        
+        if (method.type === 'regular_courier') {
+          shippingMethods.kurirBiasa = true;
+          
+          // Parse store_address string back to address components
+          if (method.store_address) {
+            // Try to extract jalan from the full address
+            const addressParts = method.store_address.split(',');
+            if (addressParts.length > 0) {
+              kurirBiasa.jalan = addressParts[0].trim();
+            }
+            
+            // Extract postal code if present
+            const postalMatch = method.store_address.match(/(\d{5})$/);
+            if (postalMatch) {
+              kurirBiasa.kodePos = postalMatch[1];
+            }
+          }
+          
+          // Load available couriers
+          if (method.available_couriers && Array.isArray(method.available_couriers)) {
+            kurirBiasa.kurir = method.available_couriers;
+          }
+        }
+        
+        if (method.type === 'store_pickup') {
+          shippingMethods.ambilToko = true;
+          ambilToko.alamat = method.store_address || '';
+          
+          // Parse operating hours (e.g., "08:00 - 17:00")
+          if (method.operating_hours) {
+            const hoursMatch = method.operating_hours.match(/(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})/);
+            if (hoursMatch) {
+              ambilToko.jamBuka = hoursMatch[1];
+              ambilToko.jamTutup = hoursMatch[2];
+            }
+          }
+          
+          if (method.pickup_ready_time) {
+            ambilToko.estimasi = method.pickup_ready_time;
+          }
+        }
+      });
+    }
+
+    // Reset all payment methods first
+    paymentMethods.cod = false;
+    paymentMethods.bankTransfer = false;
+    paymentMethods.paymentGateway = false;
+    
+    // Reset payment configs
+    bankAccounts.value = [];
+    Object.assign(paymentGateway, {
+      provider: 'duitku',
+      apiKey: '',
+      merchantCode: ''
+    });
+
+    // Load Payment Configuration
+    if (config.payment_options && config.payment_options.methods) {
+      
+      config.payment_options.methods.forEach(method => {
+        
+        if (method.type === 'cod') {
+          paymentMethods.cod = true;
+        }
+        
+        if (method.type === 'non_cod') {
+          
+          // Check if bank transfer is available
+          if (method.bank_transfer && method.bank_transfer.accounts) {
+            paymentMethods.bankTransfer = true;
+            
+            bankAccounts.value = method.bank_transfer.accounts.map(acc => ({
+              id: Date.now() + Math.random(),
+              bankName: acc.bankName || '',
+              accountNumber: acc.accountNumber || '',
+              accountHolder: acc.accountHolder || ''
+            }));
+          }
+          
+          // Check if payment gateway is available
+          if (method.payment_gateway) {
+            paymentMethods.paymentGateway = true;
+            
+            paymentGateway.provider = method.payment_gateway.provider || 'duitku';
+            paymentGateway.apiKey = method.payment_gateway.apiKey || '';
+            paymentGateway.merchantCode = method.payment_gateway.merchantCode || '';
+          }
+        }
+      });
+    }
+    
+  } catch (error) {
+    console.error('Error loading saved configuration:', error);
+  }
+}
+
+// Function to update local props data after successful save
+function updateLocalPropsData(configType, configData) {
+  try {
+    const flowData = props.data.display_flow_data;
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
+    if (agentIndex === -1) return;
+    
+    // Initialize configurations if not exists
+    if (!flowData.agents_config[agentIndex].configurations) {
+      flowData.agents_config[agentIndex].configurations = {};
+    }
+    
+    // Update the specific configuration
+    flowData.agents_config[agentIndex].configurations[configType] = configData;
+    
+  } catch (error) {
+    console.error('Error updating local props data:', error);
   }
 }
 </script>
