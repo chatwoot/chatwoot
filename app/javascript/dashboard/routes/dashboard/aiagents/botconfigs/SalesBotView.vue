@@ -1132,6 +1132,20 @@ const props = defineProps({
   },
 });
 
+// Helper function to get agent ID by type
+function getAgentIdByType(type) {
+  const flowData = props.data?.display_flow_data;
+  if (!flowData?.agents_config) return null;
+  
+  const agent = flowData.agents_config.find(config => config.type === type);
+  return agent?.agent_id || null;
+}
+
+// Computed property to get sales agent ID
+const salesAgentId = computed(() => {
+  return getAgentIdByType('sales');
+});
+
 // Initialize and load provinces on mount
 onMounted(async () => {
   // Load saved configuration first
@@ -1204,7 +1218,6 @@ async function connectGoogle() {
     }
   } catch (error) {
     showNotification('Authentication failed. Please try again.', 'error');
-    console.error('Google auth error:', error)
   } finally {
     catalogLoading.value = false;
   }
@@ -1227,11 +1240,9 @@ async function connectGoogle() {
 // }
 
 async function checkAuthStatus() {
-  console.log('checking auth status...');
   try {
     catalogLoading.value = true;
     const response = await googleSheetsExportAPI.getStatus();
-    console.log(JSON.stringify(response.data));
     if (response.data.authorized) {
       catalogStep.value = 'connected';
       catalogAccount.value = {
@@ -1242,20 +1253,11 @@ async function checkAuthStatus() {
         const flowData = props.data.display_flow_data;
         const payload = {
           account_id: parseInt(flowData.account_id, 10),
-          agent_id: String(props.data.id),
+          agent_id: salesAgentId.value,
           type: 'sales',
         };
-        console.log(JSON.stringify(payload));
-        console.log('payload:', payload);
-        const spreadsheet_url_response =
-          await googleSheetsExportAPI.getSpreadsheetUrl(payload);
-        console.log(JSON.stringify(payload));
-        console.log(JSON.stringify(spreadsheet_url_response));
+        const spreadsheet_url_response = await googleSheetsExportAPI.getSpreadsheetUrl(payload);
 
-        console.log(
-          'spreadsheet_url_response.data:',
-          spreadsheet_url_response.data
-        );
         if (spreadsheet_url_response.data.input_spreadsheet_url && spreadsheet_url_response.data.output_spreadsheet_url) {
           catalogSheets.input = spreadsheet_url_response.data.input_spreadsheet_url;
           catalogSheets.output = spreadsheet_url_response.data.output_spreadsheet_url;
@@ -1264,39 +1266,25 @@ async function checkAuthStatus() {
           catalogSheets.output = '';
         }
       } catch (error) {
-        console.error(
-          'Failed to check authorization status while retrieving spreadsheet data:',
-          error
-        );
         catalogStep.value = 'connected';
       }
     } else {
       catalogStep.value = 'auth';
     }
-    console.log('catalogStep:', catalogStep);
-    console.log('catalogAccount:', catalogAccount);
   } catch (error) {
-    console.error('Failed to check authorization status:', error)
     catalogStep.value = 'auth';
   } finally {
     catalogLoading.value = false;
   }
-  console.log('catalogStep.value:', catalogStep.value);
-  console.log('checking auth status DONE');
 }
 
 async function createSheets() {
   catalogLoading.value = true;
   try {
-    // TODO: Call backend to create catalog output sheet
-    // For now, simulate sheet creation
-    // await new Promise(resolve => setTimeout(resolve, 1200))
-    console.log(JSON.stringify(props.data));
-    // eslint-disable-next-line no-console
     const flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
-      agent_id: String(props.data.id),
+      agent_id: salesAgentId.value,
       type: 'sales',
     };
     // console.log(payload);
@@ -1308,7 +1296,7 @@ async function createSheets() {
     showNotification('catalog output sheet created successfully!', 'success')
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Failed to create catalog sheet:', error)
+    catalogLoading.value = false;
     showNotification(
       'Failed to create catalog sheet. Please try again.',
       'error'
@@ -1319,80 +1307,30 @@ async function createSheets() {
 }
 
 
-// async function createSheets() {
-//   loading.value = true;
-//   try {
-//     // TODO: Call backend to create output sheet
-//     // For now, simulate sheet creation
-//     // await new Promise(resolve => setTimeout(resolve, 1200))
-//     // eslint-disable-next-line no-console
-//     console.log(JSON.stringify(props.data));
-//     // eslint-disable-next-line no-console
-//     const flowData = props.data.display_flow_data;
-//     const payload = {
-//       account_id: parseInt(flowData.account_id, 10),
-//       agent_id: String(props.data.id),
-//       type: 'booking',
-//     };
-//     // console.log(payload);
-//     const response = await googleSheetsExportAPI.createSpreadsheet(payload);
-//     // console.log(response)
-//     catalogSheets.input = response.data.input_spreadsheet_url;
-//     catalogSheets.output = response.data.output_spreadsheet_url;
-//     step.value = 'sheetConfig';
-//     showNotification('Output sheet created successfully!', 'success');
-//   } catch (error) {
-//     // eslint-disable-next-line no-console
-//     console.error('Failed to create sheet:', error);
-//     showNotification('Failed to create sheet. Please try again.', 'error');
-//   } finally {
-//     loading.value = false;
-//   }
-// }
-
 async function syncProductColumns() {
   try {
     syncingColumns.value = true;
     showNotification(t('AGENT_MGMT.SALESBOT.PAYMENTSALESBOT.CATALOG.SYNC_INFO'), 'info');
-    
-    // TODO: Replace with your actual API endpoint
-    // const response = await fetch('/api/catalogSheets/sync-columns', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     sheetUrl: catalogSheets.input
-    //   })
-    // });
-    // const data = await response.json();
-    
-    // For now, simulate API response
-    // setTimeout(() => {
-    //   const syncedColumns = 'product_id,product_name,price,stock,description,category';
-    //   productColumns.value = syncedColumns;
-    //   showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_SUCCESS'), 'success');
-    //   syncingColumns.value = false;
-    // }, 2000);
+
     const flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
-      agent_id: String(props.data.id),
+      agent_id: salesAgentId.value,
       type: 'sales',
     };
-    const syncDataResponse = await googleSheetsExportAPI.syncSalesSpreadsheet(payload);
-    console.log("syncDataResponse:", syncDataResponse)
+    const syncDataResponse = await googleSheetsExportAPI.syncSpreadsheet(payload);
+    // console.log("syncDataResponse:", syncDataResponse)
     const request = {
       id: null,
       text: syncDataResponse.data.data,
       tab: 4, // Tab 4 for sales bot product
     };
-    console.log("request text:", request)
+    // console.log("request text:", request)
     let addResponse = await aiAgents
       .addKnowledgeText(props.data.id, {
         ...request,
       })
-    console.log("addResponse:", addResponse)
+    // console.log("addResponse:", addResponse)
   } catch (error) {
     showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_ERROR'), 'error');
     syncingColumns.value = false;
