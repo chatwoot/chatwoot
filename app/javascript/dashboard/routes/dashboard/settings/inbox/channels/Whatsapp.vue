@@ -26,6 +26,16 @@ export default {
       whapiStep: 'name',
     };
   },
+  computed: {
+    watchVideoUrl() {
+      // Return Spanish video URL if current locale is Spanish, otherwise return English URL
+      const currentLocale = this.$root.$i18n.locale;
+      if (currentLocale === 'es') {
+        return 'https://doc.clickup.com/9013924102/d/h/8cmb486-4673/4ff687bee4893ae';
+      }
+      return 'https://doc.clickup.com/9013924102/d/h/8cmb486-4633/999a328108d91cd';
+    },
+  },
   methods: {
     handleStepChanged(step) {
       this.whapiStep = step;
@@ -45,7 +55,7 @@ export default {
     />
     <div class="mb-4">
       <a
-        href="https://doc.clickup.com/9013924102/d/h/8cmb486-4633/999a328108d91cd"
+        :href="watchVideoUrl"
         target="_blank"
         rel="noopener noreferrer"
         class="inline-flex items-center gap-2 text-sm text-n-brand dark:text-n-lightBrand hover:underline"
