@@ -102,24 +102,24 @@ function removeCategory(index) {
 
 async function save() {
   try {
-    isSaving.value = true
-    
+    isSaving.value = true;
+
     // Validate all categories
-    let isValid = true
+    let isValid = true;
     categories.forEach((_, index) => {
       if (!validateCategoryName(index)) {
-        isValid = false
+        isValid = false;
       }
-    })
-    
+    });
+
     if (!isValid) {
-      useAlert(t('AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR'))
-      return
+      useAlert(t('AGENT_MGMT.CSBOT.TICKET.VALIDATION_ERROR'));
+      return;
     }
-    useAlert(t(JSON.stringify(categories)))
     // TODO: API call to save categories
     let flowData = props.data.display_flow_data;
     let categoryItems = [];
+    // eslint-disable-next-line no-unused-vars
     categories.forEach((item, _) => {
       categoryItems.push({
         key: item.name,
@@ -128,7 +128,7 @@ async function save() {
     });
     const agent_index = flowData.enabled_agents.indexOf('customer_service');
     flowData.agents_config[agent_index].configurations.category = categoryItems;
-    useAlert(t(JSON.stringify(flowData)));
+    // eslint-disable-next-line no-console
     console.log(JSON.stringify(flowData));
 
     const payload = {

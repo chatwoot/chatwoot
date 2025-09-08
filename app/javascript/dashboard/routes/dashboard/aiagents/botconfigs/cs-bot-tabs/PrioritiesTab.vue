@@ -1,16 +1,16 @@
 <script setup>
-import { reactive, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useAlert } from 'dashboard/composables'
-import Button from 'dashboard/components-next/button/Button.vue'
-import aiAgents from '../../../../../api/aiAgents'
+import { reactive, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import Button from 'dashboard/components-next/button/Button.vue';
+import aiAgents from '../../../../../api/aiAgents';
 
 const props = defineProps({
   data: {
     type: Object,
     required: true,
   },
-})
+});
 
 const { t } = useI18n()
 
@@ -21,7 +21,7 @@ const priorities = reactive([
   { name: 'Urgent', condition: '' }
 ])
 
-const expandedPriorities = ref({}) // Track expanded state for each priority
+const expandedPriorities = ref({}); // Track expanded state for each priority
 
 const validation = reactive({
   priorities: {}
@@ -39,10 +39,10 @@ watch(
     
     if (agentIndex === -1) return // Skip if agent not in flow
 
-    const categoryConfig = flowData.agents_config?.[agentIndex]?.configurations?.category
-    if (Array.isArray(categoryConfig)) {
+    const priorityConfig = flowData.agents_config?.[agentIndex]?.configurations?.priority
+    if (Array.isArray(priorityConfig)) {
       // Replace local priorities with backend values
-      priorities.splice(0, priorities.length, ...categoryConfig.map(c => ({
+      priorities.splice(0, priorities.length, ...priorityConfig.map(c => ({
         name: c.key || '',
         condition: c.conditions || ''
       })))
@@ -131,7 +131,6 @@ async function save() {
     });
     const agent_index = flowData.enabled_agents.indexOf('customer_service');
     flowData.agents_config[agent_index].configurations.priority = priorityItems;
-    useAlert(t(JSON.stringify(flowData)));
     console.log(JSON.stringify(flowData));
 
     const payload = {
