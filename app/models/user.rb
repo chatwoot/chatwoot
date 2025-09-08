@@ -190,7 +190,7 @@ class User < ApplicationRecord
     Chatwoot.mfa_enabled?
   end
 
-  def webhook_data
+  def webhook_create_data
     {
       name: name,
       email: email,
