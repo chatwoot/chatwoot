@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, url } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import samlSettingsAPI from 'dashboard/api/samlSettings';
@@ -33,7 +33,7 @@ const formState = reactive({
 });
 
 const validations = {
-  ssoUrl: { required, url },
+  ssoUrl: { required },
   certificate: { required },
   idpEntityId: { required },
 };
