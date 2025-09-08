@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "Отправить сообщение"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Выбрать шаблон",
+        "SEARCH_PLACEHOLDER": "Поиск шаблонов",
+        "EMPTY_STATE": "Шаблоны не найдены",
+        "TEMPLATE_PARSER": {
+          "BACK": "Вернуться",
+          "SEND_MESSAGE": "Отправить сообщение"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "Сбросить",
         "SEND": "Отправить ({keyCode})"
