@@ -329,7 +329,7 @@
         "SERVICE_RADIUS_PLACEHOLDER": "5",
         "SERVICE_REGION": "Region",
         "SERVICE_REGION_PLACEHOLDER": "Select district/city",
-        "SHIPPING_COST": "Shipping Cost",
+        "SHIPPING_COST": "Shipping Cost (Select one)",
         "FLAT_RATE": "Flat Rate",
         "FLAT_RATE_PLACEHOLDER": "10000",
         "COST_PER_DISTANCE": "Cost per Distance (Rp/km)",
@@ -395,7 +395,8 @@
       "DELETE_SUCCESS": "Successfully deleted data",
       "DELETE_ERROR": "Failed to delete data",
       "SAVE_SUCCESS": "Successfully saved content",
-      "SAVE_ERROR": "Failed to save content"
+      "SAVE_ERROR": "Failed to save content",
+      "AGENT_NOT_FOUND": "Agent not found"
     }
   }
 }

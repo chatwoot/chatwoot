@@ -310,31 +310,56 @@
                   <div>
                     <label class="block font-medium mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SHIPPING_COST') }}</label>
                     <div class="space-y-4">
-                      <!-- Flat Rate -->
-                      <div>
-                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE') }}</label>
-                        <div class="relative">
-                          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">Rp</span>
-                          <input 
-                            type="number" 
-                            min="0"
-                            class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pl-8 !pr-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                            :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE_PLACEHOLDER')" 
-                            v-model="kurirToko.flatRate" 
-                          />
+                      <!-- Pricing Method Selection -->
+                      <div class="space-y-3">
+                        <!-- Flat Rate Option -->
+                        <div class="flex items-start space-x-3">
+                          <label class="inline-flex items-center cursor-pointer">
+                            <input 
+                              type="radio" 
+                              v-model="kurirToko.pricingMethod" 
+                              value="flatRate"
+                              class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                            />
+                          </label>
+                          <div class="flex-1">
+                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE') }}</label>
+                            <div class="relative">
+                              <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">Rp</span>
+                              <input 
+                                type="number" 
+                                min="0"
+                                :disabled="kurirToko.pricingMethod !== 'flatRate'"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pl-8 !pr-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                                :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.FLAT_RATE_PLACEHOLDER')" 
+                                v-model="kurirToko.flatRate" 
+                              />
+                            </div>
+                          </div>
                         </div>
-                      </div>
 
-                      <!-- Cost per Distance -->
-                      <div>
-                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE') }}</label>
-                        <input 
-                          type="number" 
-                          min="0"
-                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                          :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE_PLACEHOLDER')" 
-                          v-model="kurirToko.biayaPerJarak" 
-                        />
+                        <!-- Cost per Distance Option -->
+                        <div class="flex items-start space-x-3">
+                          <label class="inline-flex items-center cursor-pointer">
+                            <input 
+                              type="radio" 
+                              v-model="kurirToko.pricingMethod" 
+                              value="perDistance"
+                              class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                            />
+                          </label>
+                          <div class="flex-1">
+                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE') }}</label>
+                            <input 
+                              type="number" 
+                              min="0"
+                              :disabled="kurirToko.pricingMethod !== 'perDistance'"
+                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                              :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.COST_PER_DISTANCE_PLACEHOLDER')" 
+                              v-model="kurirToko.biayaPerJarak" 
+                            />
+                          </div>
+                        </div>
                       </div>
 
                       <!-- Free Shipping Toggle -->
@@ -367,6 +392,16 @@
                       </div>
                     </div>
                   </div>
+                  <!-- estimasi pengiriman -->
+                   <div>
+                      <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME') }}</label>
+                      <input 
+                        type="text" 
+                        class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                        :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.PICKUP_TIME_PLACEHOLDER')" 
+                        v-model="kurirToko.estimasi" 
+                      />
+                    </div>
                 </div>
               </div>
 
@@ -394,10 +429,23 @@
                   v-if="shippingMethods.kurirBiasa" 
                   class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
                 >
-                  <div>
+                <!-- Coming Soon Message -->
+                <div class="flex items-center justify-center py-8">
+                  <div class="text-center">
+                    <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12,6 12,12 16,14"/>
+                      </svg>
+                    </div>
+                    <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Coming Soon</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Regular courier configuration will be available soon.</p>
+                  </div>
+                </div>
+                <!-- DONT DELETE! -->
+                  <!-- <div>
                     <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ORIGIN_ADDRESS') }}</label>
                     
-                    <!-- Provinsi -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL') }}</label>
                       <div class="relative dropdown-container" ref="provinsiDropdownRef">
@@ -443,7 +491,6 @@
                       </div>
                     </div>
 
-                    <!-- Kota/Kabupaten -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
                       <div class="relative dropdown-container" ref="kotaDropdownRef">
@@ -489,7 +536,6 @@
                       </div>
                     </div>
 
-                    <!-- Kecamatan -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SUBDISTRICT_LABEL') }}</label>
                       <div class="relative dropdown-container" ref="kecamatanDropdownRef">
@@ -535,7 +581,6 @@
                       </div>
                     </div>
 
-                    <!-- Kelurahan -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.WARD_LABEL') }}</label>
                       <div class="relative dropdown-container" ref="kelurahanDropdownRef">
@@ -581,7 +626,6 @@
                       </div>
                     </div>
 
-                    <!-- Jalan/Gang -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.STREET_LABEL') }}</label>
                       <input 
@@ -592,7 +636,6 @@
                       />
                     </div>
 
-                    <!-- Kode Pos -->
                     <div class="mb-3">
                       <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.ZIP_CODE_LABEL') }}</label>
                       <input 
@@ -680,7 +723,6 @@
                       </div>
                     </div>
                     
-                    <!-- Calculate Shipping Cost Button -->
                     <div v-if="kurirBiasa.kurir.length > 0 && kurirBiasa.kota" class="mb-4">
                       <button
                         @click="calculateShippingCosts"
@@ -695,7 +737,6 @@
                       </button>
                     </div>
 
-                    <!-- Display Shipping Costs -->
                     <div v-if="Object.keys(kurirBiasa.shippingCosts).length > 0" class="mb-4">
                       <h4 class="font-medium mb-2">Shipping Cost Estimates:</h4>
                       <div class="space-y-2">
@@ -719,7 +760,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
 
@@ -953,11 +994,11 @@
                     <div class="flex items-center justify-between p-4">
                       <div class="flex items-center">
                         <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="fill-green-600 dark:fill-white lucide lucide-credit-card-icon lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-credit-card-icon lucide-credit-card"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
                         </div>
                         <div>
-                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_TITLE') }}</h3>
-                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.BANK_TRANSFER_DESC') }}</p>
+                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_TITLE') }}</h3>
+                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PAYMENT_GATEWAY_DESC') }}</p>
                         </div>
                       </div>
                       <label class="inline-flex items-center cursor-pointer">
@@ -972,6 +1013,22 @@
                       v-if="paymentMethods.paymentGateway" 
                       class="border-t border-gray-200 dark:border-gray-700 p-4 space-y-4 transition-all duration-200 ease-in-out"
                     >
+                      <!-- Coming Soon -->
+                      <div class="flex items-center justify-center py-8">
+                        <div class="text-center">
+                          <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400">
+                              <circle cx="12" cy="12" r="10"/>
+                              <polyline points="12,6 12,12 16,14"/>
+                            </svg>
+                          </div>
+                          <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-2">Coming Soon</h4>
+                          <p class="text-sm text-gray-500 dark:text-gray-400">Payment gateway configuration will be available soon.</p>
+                        </div>
+                      </div>
+
+                      <!-- DONT DELETE! -->
+                      <!--
                       <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           {{ $t('AGENT_MGMT.SALESBOT.PAYMENT.PROVIDER_LABEL') }} <span class="text-red-500">*</span>
@@ -1010,6 +1067,7 @@
                           class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
                         />
                       </div>
+                      -->
                     </div>
                   </div>
                 </div>
@@ -1060,37 +1118,58 @@ import { useI18n } from 'vue-i18n'
 
 // Google Sheets Auth Flow for Catalog
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
+// AI Agents API
+import aiAgents from '../../../../api/aiAgents';
+import { useAlert } from 'dashboard/composables';
 
 const { t } = useI18n()
 
+// Props for data from parent component
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true,
+  },
+});
+
 // Initialize and load provinces on mount
 onMounted(async () => {
-  console.log('Component mounted');
-  // loadProvinsi();
+  // Load saved configuration first
+  loadSavedConfiguration();
+  
+  // Load provinces for address selection
+  loadProvinsi();
   await checkAuthStatus();
   // Pre-load Google Maps API but don't initialize map yet
   try {
     await loadGoogleMaps();
-    console.log('Google Maps API pre-loaded successfully');
   } catch (error) {
-    console.error('Failed to pre-load Google Maps API:', error);
     // Try alternative loading method
-    console.log('Attempting alternative Google Maps loading...');
     setTimeout(async () => {
       try {
         // Check if Google is now available
         if (window.google && window.google.maps && window.google.maps.Map) {
-          console.log('Google Maps available after retry');
+          // Google Maps available after retry
         } else {
-          console.log('Google Maps still not available, will retry on map initialization');
+          // Google Maps still not available, will retry on map initialization
         }
       } catch (retryError) {
-        console.error('Retry loading also failed:', retryError);
+        // Retry loading also failed
       }
     }, 2000);
   }
-  loadProvinsi();
 });
+
+// Watch for props data changes and reload configuration
+watch(
+  () => props.data,
+  (newData) => {
+    if (newData && newData.display_flow_data) {
+      loadSavedConfiguration();
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 const catalogStep = ref('connected'); // 'auth', 'connected', 'sheetConfig'
 const catalogLoading = ref(false);
@@ -1335,7 +1414,6 @@ async function syncProductColumns() {
       })
     console.log("addResponse:", addResponse)
   } catch (error) {
-    console.error('Failed to sync product columns:', error);
     showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_ERROR'), 'error');
     syncingColumns.value = false;
   }
@@ -1376,13 +1454,15 @@ const kurirToko = reactive({
   alamat: '', 
   radius: '', 
   wilayah: '', 
+  pricingMethod: 'flatRate', // 'flatRate' or 'perDistance'
   flatRate: '',
   biayaPerJarak: '',
   gratisOngkir: false,
   latitude: -6.2088, // Default to Jakarta
   longitude: 106.8456,
   mapLoaded: false,
-  minimalBelanja: ''
+  minimalBelanja: '',
+  estimasi: ''
 });
 const kurirBiasa = reactive({ 
   provinsi: '', 
@@ -1405,9 +1485,9 @@ const kotaOptions = ref([]);
 const kecamatanOptions = ref([]);
 const kelurahanOptions = ref([]);
 const loadingKelurahan = ref(false);
+
 // Load kelurahan/desa from JSON based on selected province, kabupaten/kota, and kecamatan
-const 
-loadKelurahan = async (provinceId, kabupatenId, kecamatanId) => {
+const loadKelurahan = async (provinceId, kabupatenId, kecamatanId) => {
   loadingKelurahan.value = true;
   try {
     const kelurahanModule = await import(
@@ -1416,7 +1496,6 @@ loadKelurahan = async (provinceId, kabupatenId, kecamatanId) => {
     const kelurahanJson = kelurahanModule.default || kelurahanModule;
     kelurahanOptions.value = Object.entries(kelurahanJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load kelurahan JSON:', error);
     showNotification('Failed to load kelurahan data', 'error');
     kelurahanOptions.value = [];
   } finally {
@@ -1514,7 +1593,6 @@ const loadProvinsi = async () => {
     // Use provinsi.json as the source
     provinsiOptions.value = Object.entries(provinsiJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load provinces from provinsi.json:', error);
     showNotification('Failed to load provinces data', 'error');
     provinsiOptions.value = [];
   } finally {
@@ -1534,7 +1612,6 @@ const loadKota = async (provinceId) => {
     const kabupatenJson = kabupatenModule.default || kabupatenModule;
     kotaOptions.value = Object.entries(kabupatenJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load kabupaten/kota JSON:', error);
     showNotification('Failed to load cities data', 'error');
     kotaOptions.value = [];
   } finally {
@@ -1568,7 +1645,6 @@ const calculateShippingCost = async (origin, destination, weight, courier) => {
       throw new Error(data.rajaongkir.status.description);
     }
   } catch (error) {
-    console.error('Failed to calculate shipping cost:', error);
     showNotification('Failed to calculate shipping cost', 'error');
     return [];
   } finally {
@@ -1587,7 +1663,6 @@ const loadKecamatan = async (provinceId, kabupatenId) => {
     const kecamatanJson = kecamatanModule.default || kecamatanModule;
     kecamatanOptions.value = Object.entries(kecamatanJson).map(([id, name]) => ({ id, name }));
   } catch (error) {
-    console.error('Failed to load kecamatan JSON:', error);
     showNotification('Failed to load districts data', 'error');
     kecamatanOptions.value = [];
   } finally {
@@ -1795,7 +1870,7 @@ async function calculateShippingCosts() {
     return;
   }
   
-  const weight = 1000; // Default 1kg, configurable
+  const weight = 1; // Default 1kg, configurable
   const origin = '501'; // Default origin city ID (Yogyakarta), configurable based on store location
   
   showNotification('Calculating shipping costs...', 'info');
@@ -1807,12 +1882,9 @@ async function calculateShippingCosts() {
       const costs = await calculateShippingCost(origin, kurirBiasa.kota, weight, courier);
       kurirBiasa.shippingCosts[courier] = costs;
     } catch (error) {
-      console.error(`Failed to get costs for ${courier}:`, error);
       kurirBiasa.shippingCosts[courier] = [];
     }
   }
-  
-  console.log('Shipping Costs:', kurirBiasa.shippingCosts);
   showNotification('Shipping costs calculated successfully', 'success');
 }
 
@@ -1872,12 +1944,11 @@ const mapLoadingTimeout = ref(null);
 
 // Google Maps API Integration
 // NOTE: Replace with your actual Google Maps API key
-const GOOGLE_MAPS_API_KEY = '';
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_GOOGLE_MAPS_API_KEY';
 
 // Validate API key
 const validateApiKey = () => {
   if (!GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
-    console.error('Google Maps API key is missing or not configured');
     return false;
   }
   return true;
@@ -1894,7 +1965,6 @@ const loadGoogleMaps = () => {
 
     // Check if Google Maps is already loaded
     if (window.google && window.google.maps && window.google.maps.Map) {
-      // console.log('Google Maps already loaded');
       resolve(window.google); // Return the full google object
       return;
     }
@@ -1902,7 +1972,6 @@ const loadGoogleMaps = () => {
     // Check if script is already loading
     const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
     if (existingScript) {
-      // console.log('Google Maps script already exists, waiting for load...');
       const checkGoogleMaps = () => {
         if (window.google && window.google.maps && window.google.maps.Map) {
           resolve(window.google); // Return the full google object
@@ -1914,21 +1983,14 @@ const loadGoogleMaps = () => {
       return;
     }
 
-    // console.log('Loading Google Maps API with key:', GOOGLE_MAPS_API_KEY.substring(0, 10) + '...');
     
     // Create a unique callback name to avoid conflicts
     const callbackName = `initGoogleMaps_${Date.now()}`;
     
     window[callbackName] = () => {
-      // console.log('Google Maps API callback triggered');
       if (window.google && window.google.maps && window.google.maps.Map) {
-        // console.log('Google Maps API loaded successfully');
         resolve(window.google); // Return the full google object
       } else {
-        console.error('Google Maps API callback triggered but objects not available');
-        console.error('window.google:', window.google);
-        console.error('window.google.maps:', window.google?.maps);
-        console.error('window.google.maps.Map:', window.google?.maps?.Map);
         reject(new Error('Google Maps API loaded but objects not available'));
       }
       delete window[callbackName];
@@ -1939,50 +2001,33 @@ const loadGoogleMaps = () => {
     script.async = true;
     script.defer = true;
     script.onerror = (error) => {
-      console.error('Failed to load Google Maps script:', error);
-      console.error('API Key used:', GOOGLE_MAPS_API_KEY.substring(0, 10) + '...');
       delete window[callbackName];
       reject(new Error('Failed to load Google Maps script - please check your API key'));
     };
     
-    console.log('Appending script to head:', script.src);
     document.head.appendChild(script);
   });
 };
 
 // Initialize Google Maps
 const initializeMap = async () => {
-  // console.log('initializeMap called');
-  // console.log('mapRef.value:', mapRef.value);
-  // console.log('kurirToko.mapLoaded:', kurirToko.mapLoaded);
   
   if (!mapRef.value) {
-    console.error('Map reference not found');
     return;
   }
   
   if (kurirToko.mapLoaded) {
-    // console.log('Map already loaded');
     return;
   }
 
   try {
-    // console.log('Loading Google Maps...');
     const google = await loadGoogleMaps();
     
-    // console.log('Google Maps loaded, google object:', google);
-    // console.log('google.maps:', google.maps);
-    // console.log('google.maps.Map:', google.maps?.Map);
-    
     if (!google || !google.maps) {
-      console.error('Google object or google.maps is missing');
-      console.error('Available google properties:', google ? Object.keys(google) : 'none');
       throw new Error('Google Maps API not properly loaded - missing maps object');
     }
     
     if (!google.maps.Map) {
-      console.error('google.maps.Map is missing');
-      console.error('Available google.maps properties:', Object.keys(google.maps));
       throw new Error('Google Maps API not properly loaded - missing Map constructor');
     }
     
@@ -1995,8 +2040,6 @@ const initializeMap = async () => {
       fullscreenControl: false,
     });
 
-    console.log('Map instance created:', mapInstance.value);
-
     // Initialize marker
     markerInstance.value = new google.maps.Marker({
       position: { lat: kurirToko.latitude, lng: kurirToko.longitude },
@@ -2005,12 +2048,8 @@ const initializeMap = async () => {
       title: 'Store Location'
     });
 
-    console.log('Marker created:', markerInstance.value);
-
     // Initialize geocoder
     geocoderInstance.value = new google.maps.Geocoder();
-
-    console.log('Geocoder created:', geocoderInstance.value);
 
     // Add marker drag listener
     markerInstance.value.addListener('dragend', (event) => {
@@ -2024,17 +2063,7 @@ const initializeMap = async () => {
     });
 
     kurirToko.mapLoaded = true;
-    console.log('Google Maps initialized successfully');
   } catch (error) {
-    console.error('Error initializing Google Maps:', error);
-    console.error('Error details:', {
-      message: error.message,
-      stack: error.stack,
-      window_google: window.google,
-      google_maps: window.google?.maps,
-      google_maps_Map: window.google?.maps?.Map,
-      google_maps_keys: window.google?.maps ? Object.keys(window.google.maps) : 'no maps object'
-    });
     showNotification('Failed to load map. Please check your API key and internet connection.', 'error');
   }
 };
@@ -2070,7 +2099,6 @@ const geocodeAddress = async (address) => {
     }
 
   } catch (error) {
-    console.error('Geocoding error:', error);
     showNotification('Could not find the address on the map', 'error');
   }
 };
@@ -2117,19 +2145,15 @@ watch(() => shippingMethods.kurirToko, (enabled) => {
   if (enabled && !kurirToko.mapLoaded) {
     // Wait for DOM update and then initialize map
     setTimeout(async () => {
-      console.log('Attempting to initialize map after DOM update');
       
       // Try direct access to Google Maps first
       if (window.google && window.google.maps && window.google.maps.Map) {
-        console.log('Google Maps already available, initializing directly...');
         await initializeMap();
       } else {
-        console.log('Google Maps not available, loading first...');
         try {
           await loadGoogleMaps();
           await initializeMap();
         } catch (error) {
-          console.error('Failed to load Google Maps on toggle:', error);
           showNotification('Failed to load map. Please refresh the page and try again.', 'error');
         }
       }
@@ -2139,16 +2163,13 @@ watch(() => shippingMethods.kurirToko, (enabled) => {
 
 // Also watch for mapRef availability
 watch(mapRef, (newMapRef) => {
-  console.log('mapRef changed:', newMapRef);
   if (newMapRef && shippingMethods.kurirToko && !kurirToko.mapLoaded) {
     setTimeout(async () => {
-      console.log('Attempting to initialize map after mapRef available');
       
       // Ensure Google Maps is loaded
       if (window.google && window.google.maps && window.google.maps.Map) {
         await initializeMap();
       } else {
-        console.log('Google Maps not ready, loading...');
         try {
           await loadGoogleMaps();
           await initializeMap();
@@ -2197,10 +2218,11 @@ const paymentGatewayProviders = [
 
 
 
-function submitShippingConfig() {
+async function submitShippingConfig() {
+  if (isSaving.value) return;
+
   try {
     isSaving.value = true;
-    console.log('Shipping:', JSON.parse(JSON.stringify({ shippingMethods, kurirToko, kurirBiasa, ambilToko })));
     
     const shippingData = {
       kurirToko: shippingMethods.kurirToko ? {
@@ -2233,25 +2255,102 @@ function submitShippingConfig() {
         estimasi: ambilToko.estimasi
       } : null
     };
+
+    // Generate shipping configuration
+    const shippingConfig = {
+      methods: []
+    };
+
+    if (shippingMethods.kurirToko) {
+      shippingConfig.methods.push({
+        type: "store_courier",
+        name: "Kurir Toko",
+        store_address: {
+          address: kurirToko.alamat || "",
+          coordinates: {
+            latitude: kurirToko.latitude || -6.2088, // Default to Jakarta
+            longitude: kurirToko.longitude || 106.8456
+          }
+        },
+        service_area: kurirToko.radius ? `Radius ${kurirToko.radius}km` : "",
+        // Generate delivery cost info based on pricing method
+        delivery_cost_info: (() => {
+          let costInfo = "";
+          if (kurirToko.pricingMethod === 'flatRate' && kurirToko.flatRate) {
+            costInfo = `Flat rate: Rp ${kurirToko.flatRate}`;
+          } else if (kurirToko.pricingMethod === 'perDistance' && kurirToko.biayaPerJarak) {
+            costInfo = `Rp ${kurirToko.biayaPerJarak}/km`;
+          }
+          
+          if (kurirToko.gratisOngkir && kurirToko.minimalBelanja) {
+            costInfo += (costInfo ? " | " : "") + `Gratis ongkir dengan minimal belanja Rp ${kurirToko.minimalBelanja}`;
+          }
+          
+          return costInfo;
+        })(),
+        estimated_delivery_time: kurirToko.estimasi || ""
+      });
+    }
+
+    if (shippingMethods.kurirBiasa) {
+      const selectedKurir = kurirBiasa.kurir || [];
+      shippingConfig.methods.push({
+        type: "regular_courier",
+        name: "Kurir Reguler",
+        store_address: `${kurirBiasa.jalan || ''}, ${selectedKecamatanName.value || ''}, ${selectedKotaName.value || ''}, ${selectedProvinsiName.value || ''} ${kurirBiasa.kodePos || ''}`.trim(),
+        available_couriers: selectedKurir
+      });
+    }
+
+    if (shippingMethods.ambilToko) {
+      shippingConfig.methods.push({
+        type: "store_pickup",
+        name: "Ambil di Toko",
+        store_address: ambilToko.alamat || "",
+        operating_hours: `${ambilToko.jamBuka} - ${ambilToko.jamTutup}`,
+        pickup_ready_time: ambilToko.estimasi || ""
+      });
+    }
+
+    // Save to backend
+    let flowData = props.data.display_flow_data;
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
     
-    // TODO: API call integration
+    if (agentIndex === -1) {
+      useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.AGENT_NOT_FOUND'))
+      return;
+    }
+
+    // Initialize configurations if not exists
+    if (!flowData.agents_config[agentIndex].configurations) {
+      flowData.agents_config[agentIndex].configurations = {};
+    }
     
-    setTimeout(() => {
-      showNotification('Shipping configuration saved successfully', 'success');
-      isSaving.value = false;
-    }, 1000);
+    // Update shipping options configuration
+    flowData.agents_config[agentIndex].configurations.shipping_options = shippingConfig;
+
+    const payload = {
+      flow_data: flowData,
+    };
+
+    await aiAgents.updateAgent(props.data.id, payload);
+    
+    // Update local props data to maintain state after update
+    updateLocalPropsData('shipping_options', shippingConfig);
+    
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_SUCCESS'))
   } catch (error) {
-    console.error('Save error:', error);
-    showNotification('Failed to save shipping configuration', 'error');
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_ERROR'))
+  } finally {
     isSaving.value = false;
   }
 }
 
-function submitPaymentConfig() {
+async function submitPaymentConfig() {
+  if (isSaving.value) return;
+
   try {
     isSaving.value = true;
-    
-    console.log('Payment Methods:', JSON.parse(JSON.stringify({ paymentMethods, bankAccounts: bankAccounts.value, paymentGateway })));
     
     const paymentData = {
       cod: paymentMethods.cod,
@@ -2266,18 +2365,313 @@ function submitPaymentConfig() {
         merchantCode: paymentGateway.merchantCode
       } : null
     };
+
+    // Generate payment configuration
+    const paymentConfig = {
+      methods: []
+    };
+
+    if (paymentMethods.cod) {
+      paymentConfig.methods.push({
+        type: "cod",
+        name: "Bayar di Tempat (COD)"
+      });
+    }
+
+    if (paymentMethods.bankTransfer || paymentMethods.paymentGateway) {
+      const nonCodMethod = {
+        type: "non_cod",
+        name: "Transfer Online"
+      };
+
+      // Add bank transfer if enabled
+      if (paymentMethods.bankTransfer) {
+        nonCodMethod.bank_transfer = {
+          accounts: bankAccounts.value.filter(account => 
+            account.bankName && account.accountNumber && account.accountHolder
+          )
+        };
+      }
+
+      // Add payment gateway if enabled
+      if (paymentMethods.paymentGateway) {
+        nonCodMethod.payment_gateway = {
+          provider: paymentGateway.provider,
+          apiKey: paymentGateway.apiKey,
+          merchantCode: paymentGateway.merchantCode
+        };
+      }
+
+      paymentConfig.methods.push(nonCodMethod);
+    }
+
+    // Save to backend
+    let flowData = props.data.display_flow_data;
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
     
-    console.log('Processed Payment Data:', paymentData);
-    // TODO: API call integration
+    if (agentIndex === -1) {
+      useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.AGENT_NOT_FOUND'))
+      return;
+    }
+
+    // Initialize configurations if not exists
+    if (!flowData.agents_config[agentIndex].configurations) {
+      flowData.agents_config[agentIndex].configurations = {};
+    }
     
-    setTimeout(() => {
-      showNotification('Payment configuration saved successfully', 'success');
-      isSaving.value = false;
-    }, 1000);
+    // Update payment options configuration
+    flowData.agents_config[agentIndex].configurations.payment_options = paymentConfig;
+
+    const payload = {
+      flow_data: flowData,
+    };
+
+    await aiAgents.updateAgent(props.data.id, payload);
+
+    // Update local props data to maintain state after update
+    updateLocalPropsData('payment_options', paymentConfig);
+
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_SUCCESS'));
   } catch (error) {
-    console.error('Save error:', error);
-    showNotification('Failed to save payment configuration', 'error');
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_ERROR'));
+  } finally {
     isSaving.value = false;
+  }
+}
+
+// Function to load saved configuration from backend
+function loadSavedConfiguration() {
+  try {
+    
+    const flowData = props.data.display_flow_data;
+    if (!flowData) {
+      return;
+    }
+    
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
+    
+    if (agentIndex === -1) {
+      return;
+    }
+    
+    const config = flowData.agents_config[agentIndex]?.configurations;
+    
+    if (!config) {
+      return;
+    }
+
+    // Reset all shipping methods first
+    shippingMethods.kurirToko = false;
+    shippingMethods.kurirBiasa = false;
+    shippingMethods.ambilToko = false;
+    
+    // Reset all shipping configs
+    Object.assign(kurirToko, {
+      alamat: '',
+      radius: '',
+      wilayah: '',
+      pricingMethod: 'flatRate', // Reset to default
+      flatRate: '',
+      biayaPerJarak: '',
+      gratisOngkir: false,
+      minimalBelanja: '',
+      estimasi: '',
+      latitude: -6.2088, // Default to Jakarta
+      longitude: 106.8456,
+      mapLoaded: false
+    });
+    
+    Object.assign(kurirBiasa, {
+      provinsi: '',
+      kota: '',
+      kecamatan: '',
+      kelurahan: '',
+      jalan: '',
+      kodePos: '',
+      kurir: []
+    });
+    
+    Object.assign(ambilToko, {
+      alamat: '',
+      jamBuka: '',
+      jamTutup: '',
+      estimasi: ''
+    });
+
+    // Load Shipping Configuration
+    if (config.shipping_options && config.shipping_options.methods) {
+      
+      config.shipping_options.methods.forEach(method => {
+        
+        if (method.type === 'store_courier') {
+          shippingMethods.kurirToko = true;
+          
+          // Handle store_address as object or string
+          if (method.store_address) {
+            if (typeof method.store_address === 'object' && method.store_address.address) {
+              // New format: object with address and coordinates
+              kurirToko.alamat = method.store_address.address || '';
+              if (method.store_address.coordinates) {
+                kurirToko.latitude = method.store_address.coordinates.latitude || -6.2088; // Default to Jakarta
+                kurirToko.longitude = method.store_address.coordinates.longitude || 106.8456;
+              }
+            } else if (typeof method.store_address === 'string') {
+              // Old format: plain string
+              kurirToko.alamat = method.store_address;
+            }
+          }
+          
+          // Parse service area (e.g., "Radius 15km" -> "15")
+          if (method.service_area) {
+            const radiusMatch = method.service_area.match(/Radius\s*(\d+)km/i);
+            if (radiusMatch) {
+              kurirToko.radius = radiusMatch[1];
+            }
+          }
+          
+          // Parse delivery cost info
+          if (method.delivery_cost_info) {
+            
+            if (method.delivery_cost_info.includes('Flat rate')) {
+              kurirToko.pricingMethod = 'flatRate';
+              const flatRateMatch = method.delivery_cost_info.match(/Rp\s*([\d,]+)/);
+              if (flatRateMatch) {
+                kurirToko.flatRate = flatRateMatch[1].replace(/,/g, '');
+              }
+            } else if (method.delivery_cost_info.includes('/km')) {
+              kurirToko.pricingMethod = 'perDistance';
+              const perKmMatch = method.delivery_cost_info.match(/Rp\s*([\d,]+)\/km/);
+              if (perKmMatch) {
+                kurirToko.biayaPerJarak = perKmMatch[1].replace(/,/g, '');
+              }
+            }
+            
+            kurirToko.gratisOngkir = method.delivery_cost_info.includes('Gratis ongkir');
+            
+            const minimalMatch = method.delivery_cost_info.match(/minimal belanja Rp\s*([\d,]+)/i);
+            if (minimalMatch) {
+              kurirToko.minimalBelanja = minimalMatch[1].replace(/,/g, '');
+            }
+          }
+          
+          // Load estimated delivery time
+          if (method.estimated_delivery_time) {
+            kurirToko.estimasi = method.estimated_delivery_time;
+          }
+        }
+        
+        if (method.type === 'regular_courier') {
+          shippingMethods.kurirBiasa = true;
+          
+          // Parse store_address string back to address components
+          if (method.store_address) {
+            // Try to extract jalan from the full address
+            const addressParts = method.store_address.split(',');
+            if (addressParts.length > 0) {
+              kurirBiasa.jalan = addressParts[0].trim();
+            }
+            
+            // Extract postal code if present
+            const postalMatch = method.store_address.match(/(\d{5})$/);
+            if (postalMatch) {
+              kurirBiasa.kodePos = postalMatch[1];
+            }
+          }
+          
+          // Load available couriers
+          if (method.available_couriers && Array.isArray(method.available_couriers)) {
+            kurirBiasa.kurir = method.available_couriers;
+          }
+        }
+        
+        if (method.type === 'store_pickup') {
+          shippingMethods.ambilToko = true;
+          ambilToko.alamat = method.store_address || '';
+          
+          // Parse operating hours (e.g., "08:00 - 17:00")
+          if (method.operating_hours) {
+            const hoursMatch = method.operating_hours.match(/(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})/);
+            if (hoursMatch) {
+              ambilToko.jamBuka = hoursMatch[1];
+              ambilToko.jamTutup = hoursMatch[2];
+            }
+          }
+          
+          if (method.pickup_ready_time) {
+            ambilToko.estimasi = method.pickup_ready_time;
+          }
+        }
+      });
+    }
+
+    // Reset all payment methods first
+    paymentMethods.cod = false;
+    paymentMethods.bankTransfer = false;
+    paymentMethods.paymentGateway = false;
+    
+    // Reset payment configs
+    bankAccounts.value = [];
+    Object.assign(paymentGateway, {
+      provider: 'duitku',
+      apiKey: '',
+      merchantCode: ''
+    });
+
+    // Load Payment Configuration
+    if (config.payment_options && config.payment_options.methods) {
+      
+      config.payment_options.methods.forEach(method => {
+        
+        if (method.type === 'cod') {
+          paymentMethods.cod = true;
+        }
+        
+        if (method.type === 'non_cod') {
+          
+          // Check if bank transfer is available
+          if (method.bank_transfer && method.bank_transfer.accounts) {
+            paymentMethods.bankTransfer = true;
+            
+            bankAccounts.value = method.bank_transfer.accounts.map(acc => ({
+              id: Date.now() + Math.random(),
+              bankName: acc.bankName || '',
+              accountNumber: acc.accountNumber || '',
+              accountHolder: acc.accountHolder || ''
+            }));
+          }
+          
+          // Check if payment gateway is available
+          if (method.payment_gateway) {
+            paymentMethods.paymentGateway = true;
+            
+            paymentGateway.provider = method.payment_gateway.provider || 'duitku';
+            paymentGateway.apiKey = method.payment_gateway.apiKey || '';
+            paymentGateway.merchantCode = method.payment_gateway.merchantCode || '';
+          }
+        }
+      });
+    }
+    
+  } catch (error) {
+  }
+}
+
+// Function to update local props data after successful save
+function updateLocalPropsData(configType, configData) {
+  try {
+    const flowData = props.data.display_flow_data;
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
+    if (agentIndex === -1) return;
+    
+    // Initialize configurations if not exists
+    if (!flowData.agents_config[agentIndex].configurations) {
+      flowData.agents_config[agentIndex].configurations = {};
+    }
+    
+    // Update the specific configuration
+    flowData.agents_config[agentIndex].configurations[configType] = configData;
+    
+  } catch (error) {
   }
 }
 </script>
