@@ -198,19 +198,12 @@ async function save() {
     const payload = {
       flow_data: flowData,
     };
-<<<<<<< HEAD
-    console.log(configData)
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    useAlert(t('AGENT_MGMT.RESTAURANT_BOT.SAVE_SUCCESS'));
-=======
     console.log("payload:", payload);
     // ✅ Properly await the API call
     await aiAgents.updateAgent(props.data.id, payload);
 
     // ✅ Show success console.log after success
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
->>>>>>> integration/fe-be
   } catch (e) {
     console.error('Save error:', e);
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'));
