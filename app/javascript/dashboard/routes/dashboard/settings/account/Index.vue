@@ -46,7 +46,7 @@ export default {
     },
     autoResolveDuration: {
       minValue: minValue(1),
-      maxValue: maxValue(999),
+      maxValue: maxValue(1440), // max 1 day in minutes
     },
   },
   computed: {
