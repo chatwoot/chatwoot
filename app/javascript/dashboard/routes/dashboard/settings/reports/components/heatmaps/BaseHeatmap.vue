@@ -32,13 +32,11 @@ const props = defineProps({
   },
 });
 const { t } = useI18n();
-const processedData = computed(() => {
-  return groupHeatmapByDay(props.heatmapData);
-});
 
 const dataRows = computed(() => {
-  return Array.from(processedData.value.keys()).map(dateKey => {
-    const rowData = processedData.value.get(dateKey);
+  const groupedData = groupHeatmapByDay(props.heatmapData);
+  return Array.from(groupedData.keys()).map(dateKey => {
+    const rowData = groupedData.get(dateKey);
     return {
       dateKey,
       data: rowData,
