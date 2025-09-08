@@ -24,7 +24,7 @@
 #  index_working_hours_on_workable_type_and_workable_id  (workable_type,workable_id)
 #
 class WorkingHour < ApplicationRecord
-  # belongs_to :inbox # delete this line after backfill is done.
+  belongs_to :inbox, optional: true # delete this line after backfill is done.
   belongs_to :workable, polymorphic: true
 
   before_validation :ensure_open_all_day_hours
@@ -49,7 +49,7 @@ class WorkingHour < ApplicationRecord
   def self.today
     # While getting the day of the week, consider the timezone as well. `first` would
     # return the first working hour from the list of working hours available per week.
-    # inbox = first.inbox
+
     inbox = first.workable
     find_by(day_of_week: Time.zone.now.in_time_zone(inbox.timezone).to_date.wday)
   end
