@@ -35,7 +35,7 @@ const processedData = computed(() => {
 });
 
 // Memoized rows - each row only re-computes if its data changes
-const memoizedRows = computed(() => {
+const dataRows = computed(() => {
   return Array.from(processedData.value.keys()).map(dateKey => {
     const rowData = processedData.value.get(dateKey);
     return {
@@ -174,7 +174,7 @@ function getHeatmapClass(value) {
     <template v-else>
       <div class="grid gap-[5px] flex-shrink-0">
         <div
-          v-for="row in memoizedRows"
+          v-for="row in dataRows"
           :key="row.dateKey"
           v-memo="[row.dateKey]"
           class="h-8 min-w-[70px] text-n-slate-12 text-[10px] font-semibold flex flex-col items-end justify-center"
@@ -187,7 +187,7 @@ function getHeatmapClass(value) {
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
         <div
-          v-for="row in memoizedRows"
+          v-for="row in dataRows"
           :key="row.dateKey"
           v-memo="[row.dataHash, colorScheme]"
           class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
