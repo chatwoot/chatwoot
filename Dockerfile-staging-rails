@@ -126,8 +126,7 @@ COPY --from=pre-builder /app/.git_sha /app/.git_sha
 
 WORKDIR /app
 
-# Add staging-specific initialization
-COPY container_init.sh /app/container_init.sh
+# Add staging-specific initialization (script already copied from pre-builder stage)
 RUN chmod +x /app/container_init.sh
 
 EXPOSE 3001
