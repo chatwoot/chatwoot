@@ -269,6 +269,7 @@ watch(routeId, fetchPolicyData, { immediate: true });
             </p>
           </div>
           <FairDistribution
+            :key="routeId"
             v-model:fair-distribution-limit="state.fairDistributionLimit"
             v-model:fair-distribution-window="state.fairDistributionWindow"
             v-model:window-unit="state.windowUnit"

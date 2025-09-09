@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUpdated } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Input from 'dashboard/components-next/input/Input.vue';
 import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
@@ -28,10 +28,6 @@ const detectUnit = minutes => {
 };
 
 onMounted(() => {
-  windowUnit.value = detectUnit(fairDistributionWindow.value);
-});
-
-onUpdated(() => {
   windowUnit.value = detectUnit(fairDistributionWindow.value);
 });
 </script>
