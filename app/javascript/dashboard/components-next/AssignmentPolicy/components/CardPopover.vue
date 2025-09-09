@@ -38,7 +38,7 @@ const handleButtonClick = () => {
 
 <template>
   <div
-    v-on-clickaway="() => togglePopover(false)"
+    v-on-click-outside="handleClickOutside"
     class="relative flex items-center group"
   >
     <button
