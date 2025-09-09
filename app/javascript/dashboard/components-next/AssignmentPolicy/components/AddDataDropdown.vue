@@ -56,7 +56,7 @@ const handleAdd = inbox => {
     />
     <div
       v-if="showPopover"
-      class="top-full mt-1 ltr:left-0 rtl:right-0 z-50 flex flex-col items-start absolute bg-n-alpha-3 backdrop-blur-[50px] border-0 gap-4 outline outline-1 outline-n-weak rounded-xl max-w-96 min-w-80 max-h-[20rem] overflow-y-auto py-2"
+      class="top-full mt-2 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 z-50 flex flex-col items-start absolute bg-n-alpha-3 backdrop-blur-[50px] border-0 gap-4 outline outline-1 outline-n-weak rounded-xl max-w-96 min-w-80 max-h-[20rem] overflow-y-auto py-2"
     >
       <div class="flex flex-col divide-y divide-n-slate-4 w-full">
         <Input

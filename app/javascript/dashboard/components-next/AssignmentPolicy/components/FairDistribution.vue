@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUpdated } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Input from 'dashboard/components-next/input/Input.vue';
 import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
@@ -19,15 +19,21 @@ const fairDistributionWindow = defineModel('fairDistributionWindow', {
 
 const windowUnit = ref(DURATION_UNITS.MINUTES);
 
-// onUpdated(() => {
-//   if (fairDistributionWindow.value % (24 * 60) === 0) {
-//     windowUnit.value = DURATION_UNITS.DAYS;
-//   } else if (fairDistributionWindow.value % 60 === 0) {
-//     windowUnit.value = DURATION_UNITS.HOURS;
-//   } else {
-//     windowUnit.value = DURATION_UNITS.MINUTES;
-//   }
-// });
+const detectUnit = minutes => {
+  const m = Number(minutes) || 0;
+  if (m === 0) return DURATION_UNITS.MINUTES;
+  if (m % (24 * 60) === 0) return DURATION_UNITS.DAYS;
+  if (m % 60 === 0) return DURATION_UNITS.HOURS;
+  return DURATION_UNITS.MINUTES;
+};
+
+onMounted(() => {
+  windowUnit.value = detectUnit(fairDistributionWindow.value);
+});
+
+onUpdated(() => {
+  windowUnit.value = detectUnit(fairDistributionWindow.value);
+});
 </script>
 
 <template>
@@ -60,7 +66,9 @@ const windowUnit = ref(DURATION_UNITS.MINUTES);
           )
         }}
       </label>
-      <div class="flex items-center gap-2 flex-1">
+      <div
+        class="flex items-center gap-2 flex-1 [&>select]:!bg-n-alpha-2 [&>select]:!outline-none [&>select]:hover:brightness-110"
+      >
         <DurationInput
           v-model:model-value="fairDistributionWindow"
           v-model:unit="windowUnit"
