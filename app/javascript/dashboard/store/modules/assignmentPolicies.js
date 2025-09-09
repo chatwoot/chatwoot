@@ -117,39 +117,6 @@ export const actions = {
       });
     }
   },
-
-  // TODO: Check when working on this
-  setInboxPolicy: async function setInboxPolicy({ inboxId, policyId }) {
-    try {
-      const response = await AssignmentPoliciesAPI.setInboxPolicy(
-        inboxId,
-        policyId
-      );
-      return response.data;
-    } catch (error) {
-      throwErrorMessage(error);
-      throw error;
-    }
-  },
-
-  getInboxPolicy: async function getInboxPolicy(inboxId) {
-    try {
-      const response = await AssignmentPoliciesAPI.getInboxPolicy(inboxId);
-      return response.data;
-    } catch (error) {
-      throwErrorMessage(error);
-      throw error;
-    }
-  },
-
-  removeInboxPolicy: async function removeInboxPolicy(inboxId) {
-    try {
-      await AssignmentPoliciesAPI.removeInboxPolicy(inboxId);
-    } catch (error) {
-      throwErrorMessage(error);
-      throw error;
-    }
-  },
 };
 
 export const mutations = {
