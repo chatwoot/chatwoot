@@ -6,7 +6,7 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   def show; end
 
   def create
-    @saml_settings = AccountSamlSettings.new(saml_settings_params.merge(account: Current.account))
+    @saml_settings = Current.account.build_saml_settings(saml_settings_params)
     if @saml_settings.save
       render :show
     else
@@ -30,8 +30,8 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   private
 
   def set_saml_settings
-    @saml_settings = AccountSamlSettings.find_by(account: Current.account) ||
-                     AccountSamlSettings.new(account: Current.account)
+    @saml_settings = Current.account.saml_settings ||
+                     Current.account.build_saml_settings
   end
 
   def saml_settings_params
@@ -51,6 +51,6 @@ class Api::V1::Accounts::SamlSettingsController < Api::V1::Accounts::BaseControl
   def check_saml_feature_enabled
     return if Current.account.feature_enabled?('saml')
 
-    render json: { error: 'SAML feature not enabled for this account' }, status: :forbidden
+    render json: { error: I18n.t('errors.saml.feature_not_enabled') }, status: :forbidden
   end
 end
