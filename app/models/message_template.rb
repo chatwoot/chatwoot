@@ -45,7 +45,6 @@ class MessageTemplate < ApplicationRecord
   # NOTE: disable this for now as language config may not contain the lanugage created on meta
   # validates :language, inclusion: { in: SUPPORTED_LANGUAGES }
   validates :content, presence: true
-  validate :validate_content
   validate :validate_inbox_belongs_to_account
   validate :validate_unique_template_name
 
@@ -78,6 +77,7 @@ class MessageTemplate < ApplicationRecord
   scope :by_status, ->(status) { where(status: status) }
 
   before_save :set_updated_by
+
   before_create :create_on_provider_platform, unless: :platform_template_id?
 
   def whatsapp_template?
@@ -88,27 +88,6 @@ class MessageTemplate < ApplicationRecord
 
   def set_updated_by
     self.updated_by = Current.user if Current.user.present?
-  end
-
-  def validate_content
-    return if content.blank?
-
-    return errors.add(:channel_type, 'Not implemented') unless whatsapp_template?
-
-    validate_whatsapp_content
-  end
-
-  def validate_whatsapp_content
-    components = content['components']
-    return errors.add(:content, 'Components are required') if components.blank?
-
-    validate_whatsapp_components(components)
-  end
-
-  def validate_whatsapp_components(components)
-    body_count = components.count { |c| c['type'] == 'BODY' }
-    errors.add(:content, 'Must have exactly one BODY component') if body_count != 1
-    # TODO: add header, footer and button components validation if need
   end
 
   def validate_inbox_belongs_to_account
@@ -130,41 +109,8 @@ class MessageTemplate < ApplicationRecord
   def create_on_provider_platform
     case channel_type
     when 'Channel::Whatsapp'
-      create_whatsapp_template
-      # add more providers here
+      service = Whatsapp::TemplateCreationService.new(message_template: self)
+      throw :abort unless service.call
     end
-  end
-
-  def create_whatsapp_template
-    response = call_whatsapp_provider
-    update_from_whatsapp_response(response)
-  rescue StandardError => e
-    handle_whatsapp_creation_error(e)
-  end
-
-  def call_whatsapp_provider
-    inbox.channel.provider_service.create_message_template(whatsapp_template_params)
-  end
-
-  def whatsapp_template_params
-    {
-      name: name,
-      language: language,
-      category: Whatsapp::TemplateFormatterService.format_category_for_meta(category),
-      components: content['components'],
-      parameter_format: Whatsapp::TemplateFormatterService.format_parameter_format_for_meta(parameter_format)
-    }
-  end
-
-  def update_from_whatsapp_response(response)
-    Rails.logger.info "WhatsApp template creation response: #{response.inspect}"
-    self.platform_template_id = response['id']
-    self.status = Whatsapp::TemplateFormatterService.format_status_from_meta(response['status']) || 'pending'
-  end
-
-  def handle_whatsapp_creation_error(error)
-    Rails.logger.error "WhatsApp template creation failed: #{error.message}"
-    errors.add(:base, "Failed to create template on WhatsApp: #{error.message}")
-    throw :abort
   end
 end
