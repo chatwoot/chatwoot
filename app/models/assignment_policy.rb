@@ -3,7 +3,7 @@
 # Table name: assignment_policies
 #
 #  id                       :bigint           not null, primary key
-#  assignment_order         :integer          default(0), not null
+#  assignment_order         :integer          default("round_robin"), not null
 #  conversation_priority    :integer          default("earliest_created"), not null
 #  description              :text
 #  enabled                  :boolean          default(TRUE), not null

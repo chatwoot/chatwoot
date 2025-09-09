@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IPアドレス",
     "CREATED_AT_LABEL": "作成日時",
     "NEW_MESSAGE": "新しいメッセージ",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
       "TITLE": "以前の会話"
@@ -601,6 +606,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsAppテンプレート: {templateName}",
           "VARIABLES": "変数",
+          "BACK": "戻る",
+          "SEND_MESSAGE": "メッセージを送信"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "テンプレートを選択",
+        "SEARCH_PLACEHOLDER": "テンプレートを検索",
+        "EMPTY_STATE": "テンプレートが見つかりません。",
+        "TEMPLATE_PARSER": {
           "BACK": "戻る",
           "SEND_MESSAGE": "メッセージを送信"
         }
