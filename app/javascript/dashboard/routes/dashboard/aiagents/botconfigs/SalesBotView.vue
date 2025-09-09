@@ -1309,7 +1309,7 @@ async function createSheets() {
 async function syncProductColumns() {
   try {
     syncingColumns.value = true;
-    showNotification(t('AGENT_MGMT.SALESBOT.PAYMENTSALESBOT.CATALOG.SYNC_INFO'), 'info');
+    showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_INFO'), 'info');
     const flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
@@ -1365,6 +1365,7 @@ async function syncProductColumns() {
     
     // If no existing knowledge source, create one first
     if (!knowledgeId) {
+      console.log('Creating new knowledge source for tab 4');
       const createRequest = {
         id: null,
         tab: 4,
@@ -1372,18 +1373,16 @@ async function syncProductColumns() {
       };
       await aiAgents.addKnowledgeText(props.data.id, createRequest);
     }
-    
     // Update the knowledge source with new data
-    if (knowledgeId) {
+    else {
+      console.log('Updating existing knowledge source ID:', knowledgeId);
       await aiAgents.updateKnowledgeText(props.data.id, {
         id: knowledgeId,
         tab: 4,
         text: syncDataResponse.data.data,
       });
-      showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_SUCCESS'), 'success');
-    } else {
-      throw new Error('Failed to get or create knowledge source');
     }
+    showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_SUCCESS'), 'success');
   } catch (error) {
     showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_ERROR'), 'error');
     syncingColumns.value = false;
