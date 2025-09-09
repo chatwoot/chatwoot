@@ -8,13 +8,13 @@ module Stark
       return unless response_valid?(response)
 
       if response['content'].present? || (response['attachments'].is_a?(Array) && response['attachments'].any?)
-        create_bot_response_message(current_conversation, response['content'], response['attachments'])
+        create_bot_response_message(current_conversation, response['content'], response['attachments'], response['metadata'])
       end
       process_action(event_data[:message], response['action']) if response['action'].present?
     end
 
-    def create_bot_response_message(conversation, content, attachments = nil)
-      create_text_message(conversation, content) if content.present?
+    def create_bot_response_message(conversation, content, attachments = nil, metadata = [])
+      create_text_message(conversation, content, metadata) if content.present?
       create_attachment_messages(conversation, attachments) if attachments.is_a?(Array)
     end
 
@@ -25,13 +25,14 @@ module Stark
 
     private
 
-    def create_text_message(conversation, content)
+    def create_text_message(conversation, content, metadata = [])
       conversation.messages.create!(
         content: content,
         message_type: :outgoing,
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id,
-        sender: agent_bot
+        sender: agent_bot,
+        metadata: metadata
       )
     end
 

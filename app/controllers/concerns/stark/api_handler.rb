@@ -15,9 +15,9 @@ module Stark
         response = make_api_request(conversation, content)
 
         return nil if response.nil?
-    
+
         status_code = response.dig('metadata', 'status_code').to_i
-    
+
         case status_code
         when 200
           parse_stark_response(response)
@@ -80,8 +80,7 @@ module Stark
       conversation.messages
                   .not_activity
                   .not_template
-                  .left_outer_joins(:attachments)
-                  .where(attachments: { id: nil })
+                  .where.missing(:attachments)
                   .where.not(content: [nil, ''])
                   .reorder(created_at: :desc)
                   .limit(10)
@@ -92,7 +91,7 @@ module Stark
           content: message.content,
           created_at: message.created_at,
           is_follow_up_message: message.content_attributes['follow_up'] || false,
-          metadata: message.metadata,
+          metadata: message.metadata
         }
       end
     end
@@ -113,7 +112,8 @@ module Stark
         'content' => data['answer'],
         'action' => nil,
         'stop_follow_up' => data['stop_follow_up'],
-        'attachments' => data['attachments'] || []
+        'attachments' => data['attachments'] || [],
+        'metadata' => data['metadata'] || []
       }
     end
 
@@ -143,7 +143,7 @@ module Stark
     def log_stark_error(status_code, response)
       message = response.dig('body', 'message')
       errors  = response.dig('body', 'errors')
-    
+
       error_text = case status_code
                    when 400
                      "400 Bad Request: #{message}, Errors: #{errors}"
@@ -152,10 +152,10 @@ module Stark
                    else
                      "Unknown Error (#{status_code}): #{response.inspect}"
                    end
-    
+
       log_and_notify_slack("[STARK API ERROR] #{error_text}")
     end
-    
+
     def log_and_notify_slack(message)
       Rails.logger.error(message)
       SlackNotifierService.call(
