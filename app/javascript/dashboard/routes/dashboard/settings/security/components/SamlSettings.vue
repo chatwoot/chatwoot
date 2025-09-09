@@ -104,6 +104,7 @@ const saveSamlSettings = async settings => {
       if (response?.data) {
         id.value = response.data.id;
         fingerprint.value = response.data.fingerprint || '';
+        spEntityId.value = response.data.sp_entity_id || '';
       }
 
       useAlert(t('SECURITY_SETTINGS.SAML.API.SUCCESS'));
