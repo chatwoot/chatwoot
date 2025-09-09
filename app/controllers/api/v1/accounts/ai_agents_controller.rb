@@ -2,7 +2,7 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   include ResponseFormatChatHelper
 
   before_action :ai_agent, only: [:chat]
-  # before_action :check_max_ai_agents, only: [:create]
+  before_action :check_max_ai_agents, only: [:create]
 
   def index
     ai_agents = account.ai_agents.select(:id, :account_id, :name, :description).order(id: :desc)
@@ -63,7 +63,11 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   private
 
   def ai_agent_builder(action = :create)
-    @ai_agent_builder ||= V2::AiAgents::AiAgentBuilder.new(Current.account, params, action)
+    @ai_agent_builder ||= if agent_custom?
+                            V2::AiAgents::AiAgentCustomBuilder.new(Current.account, params, action)
+                          else
+                            V2::AiAgents::AiAgentBuilder.new(Current.account, params, action)
+                          end
   end
 
   def ai_agent
@@ -72,6 +76,10 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
   def account
     @account ||= Current.account
+  end
+
+  def agent_custom?
+    params[:agent_type] == 'custom_agent'
   end
 
   def check_max_ai_agents
