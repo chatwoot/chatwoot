@@ -24,9 +24,16 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  botType: {
+    type: String,
+    default: '',
+  },
 });
 
 const { t } = useI18n();
+
+// custom agent type
+const isCustomAgent = computed(() => props.botType === 'custom_agent');
 
 const chatflowId = ref();
 const chatInput = ref('');
@@ -309,39 +316,44 @@ function resetChat() {
             />
           </div> -->
         </div>
-        <div>
-          <label for="welcome_message">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE') }}</label>
-          <TextArea
-            :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER')"            id="welcome_message"
-            v-model="state.welcoming_message"
-            custom-text-area-wrapper-class=""
-            custom-text-area-class="!outline-none"
-            auto-height
-          />
-        </div>
-        <div>
-          <label for="routing_conditions">{{ t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION') }}</label>
-          <TextArea
-            id="routing_conditions"
-            v-model="state.routing_conditions"
-            custom-text-area-wrapper-class=""
-            custom-text-area-class="!outline-none"
-            :placeholder="t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION_PLACEHOLDER')"
-            auto-height
-          />
-        </div>
-        <div>
-          <label for="business_info">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO') }}</label>
-          <TextArea
-            id="business_info"
-            v-model="state.business_info"
-            custom-text-area-wrapper-class=""
-            custom-text-area-class="!outline-none"
-            auto-height
-            :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO_PLACEHOLDER')"
-          />
-        </div>
-        <button class="button self-start" type="submit" :disabled="loadingSave">
+        
+        <!-- Only show these fields if NOT a custom agent -->
+        <template v-if="!isCustomAgent">
+          <div>
+            <label for="welcome_message">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE') }}</label>
+            <TextArea
+              :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_PERSONA_LANG_STYLE_PLACEHOLDER')"            id="welcome_message"
+              v-model="state.welcoming_message"
+              custom-text-area-wrapper-class=""
+              custom-text-area-class="!outline-none"
+              auto-height
+            />
+          </div>
+          <div>
+            <label for="routing_conditions">{{ t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION') }}</label>
+            <TextArea
+              id="routing_conditions"
+              v-model="state.routing_conditions"
+              custom-text-area-wrapper-class=""
+              custom-text-area-class="!outline-none"
+              :placeholder="t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION_PLACEHOLDER')"
+              auto-height
+            />
+          </div>
+          <div>
+            <label for="business_info">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO') }}</label>
+            <TextArea
+              id="business_info"
+              v-model="state.business_info"
+              custom-text-area-wrapper-class=""
+              custom-text-area-class="!outline-none"
+              auto-height
+              :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_BUSINESS_INFO_PLACEHOLDER')"
+            />
+          </div>
+        </template>
+        
+        <button v-if="!isCustomAgent" class="button self-start" type="submit" :disabled="loadingSave">
           <span v-if="loadingSave" class="mt-4 mb-4 spinner" />
           <span v-else>{{ t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}</span>
         </button>

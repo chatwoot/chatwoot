@@ -57,8 +57,21 @@ const allTabs = [
 ];
 
 const visibleTabs = computed(() => {
-  if (!data.value?.display_flow_data?.enabled_agents) {
+  if (!data.value?.display_flow_data) {
     // If no data yet, show only general tabs
+    return allTabs.filter(tab => tab.type === 'general' || tab.type === 'website');
+  }
+
+  // custom_agent type
+  if (data.value.display_flow_data.type === 'custom_agent') {
+    return allTabs.filter(tab => tab.type === 'general').map((tab, index) => ({
+      ...tab,
+      displayIndex: index
+    }));
+  }
+
+  if (!data.value?.display_flow_data?.enabled_agents) {
+    // If no enabled_agents yet, show only general tabs
     return allTabs.filter(tab => tab.type === 'general' || tab.type === 'website');
   }
 
@@ -135,7 +148,7 @@ onMounted(() => {
     </woot-tabs>
 
     <div v-show="activeIndex === 0">
-      <AiAgentGeneralSettingsView :data="data" />
+      <AiAgentGeneralSettingsView :data="data" :bot-type="data?.display_flow_data?.type" />
     </div>
 
     <!-- <div v-show="activeIndex === 1">
