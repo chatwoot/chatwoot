@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 # Container initialization script for Chatwoot Rails application
@@ -34,5 +34,5 @@ fi
 rm -f tmp/pids/server.pid
 
 # Start the Rails server
-echo "Starting Chatwoot Rails server on port 3001..."
-exec bundle exec rails server -b 0.0.0.0 -p 3001
+echo "Starting Chatwoot Rails server on port 3000..."
+exec bundle exec rails server -b 0.0.0.0 -p 3000

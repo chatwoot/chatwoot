@@ -226,7 +226,6 @@ workflows:
             branches:
               only:
                 - develop
-                - feat/BIZ-196-auto-resolve-in-mins
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -253,7 +252,6 @@ workflows:
             branches:
               only:
                 - develop
-                - feat/BIZ-196-auto-resolve-in-mins
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -329,7 +327,6 @@ workflows:
             branches:
               only:
                 - develop
-                - feat/BIZ-196-auto-resolve-in-mins
           cluster-name: devnet-delta-exchange
           min-replicas: '1'
           max-replicas: '2'
@@ -355,7 +352,6 @@ workflows:
             branches:
               only:
                 - develop
-                - feat/BIZ-196-auto-resolve-in-mins
           cluster-name: devnet-delta-exchange
           min-replicas: '1'
           max-replicas: '2'
