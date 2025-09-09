@@ -42,7 +42,6 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
 
     attrs = avatarable.additional_attributes || {}
 
-    # Rate limit and duplicate URL checks are evaluated separately for clarity
     return false if within_rate_limit?(attrs)
     return false if duplicate_url?(attrs, avatar_url)
 
