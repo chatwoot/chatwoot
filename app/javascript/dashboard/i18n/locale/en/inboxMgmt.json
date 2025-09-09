@@ -296,7 +296,7 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already linked to an Embedded Signup, or if you're a tech provider onboarding your own number, please use the {link} instead.",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow"
         },
         "API": {
