@@ -218,7 +218,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     end
   end
 
-  def sync
+  def sync # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     # Extract and validate payload
     payload = {
       account_id: params[:account_id],
@@ -249,20 +249,17 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       )
 
       if response.success?
-        Rails.logger.info "Response status code: #{response}"
         json_response = response.parsed_response
-        
+
         message = json_response['message']
         data = json_response['data']
 
         render json: {
-              message: message,
-              data: data,
-            }, status: :ok
+          message: message,
+          data: data
+        }, status: :ok
 
-        
       else
-        Rails.logger.error "External API error: #{response.body}"
         render json: {
           error: 'Failed to sync spreadsheet',
           status: response.code,
@@ -277,7 +274,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       }, status: :service_unavailable
     end
   end
-  
+
   private
 
   # Ensures the current user is an administrator for the account.
