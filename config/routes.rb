@@ -147,7 +147,7 @@ Rails.application.routes.draw do
                 post :website, to: 'knowledge_source_websites#create'
                 patch :website, to: 'knowledge_source_websites#update'
                 delete :website, to: 'knowledge_source_websites#destroy'
-                post :qna, to: 'knowledge_source_qna#create'
+                post :qna, to: 'knolewdge_source_qna#create'
                 delete :'qna/:id', to: 'knowledge_source_qna#destroy'
               end
             end

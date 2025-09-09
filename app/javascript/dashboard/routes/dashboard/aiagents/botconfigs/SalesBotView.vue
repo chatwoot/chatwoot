@@ -1367,11 +1367,10 @@ async function syncProductColumns() {
     if (!knowledgeId) {
       const createRequest = {
         id: null,
-        text: '',
         tab: 4,
+        text: syncDataResponse.data.data,
       };
-      const createResponse = await aiAgents.addKnowledgeText(props.data.id, createRequest);
-      knowledgeId = createResponse.data?.id;
+      await aiAgents.addKnowledgeText(props.data.id, createRequest);
     }
     
     // Update the knowledge source with new data
