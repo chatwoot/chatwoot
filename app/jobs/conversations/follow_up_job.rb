@@ -37,7 +37,8 @@ class Conversations::FollowUpJob < ApplicationJob
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: :outgoing,
-      content: content,
+      content: content[:message],
+      metadata: content[:metadata],
       content_attributes: {
         follow_up: true,
         follow_up_number: follow_up_number
