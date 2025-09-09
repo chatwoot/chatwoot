@@ -1328,9 +1328,40 @@ async function syncProductColumns() {
       knowledgeSources = [];
     }
     
-    // Find existing knowledge source for tab 4 (sales bot product)
-    let existingKnowledge = knowledgeSources.find(k => k.tab === 4);
-    let knowledgeId = existingKnowledge?.id;
+    // // Find existing knowledge source for tab 4 (sales bot product)
+    // let existingKnowledge = knowledgeSources.find(k => k.tab === 4);
+    // let knowledgeId = existingKnowledge?.id;
+    // Find all knowledge sources with tab = 4
+    let existingKnowledgeTab4 = knowledgeSources.filter(k => k.tab === 4);
+    
+    let knowledgeId;
+
+    if (existingKnowledgeTab4.length === 0) {
+      // No knowledge source with tab = 4, we'll create one later
+      knowledgeId = null;
+    } else if (existingKnowledgeTab4.length === 1) {
+      // Only one knowledge source with tab = 4, use it
+      knowledgeId = existingKnowledgeTab4[0].id;
+    } else {
+      // Multiple knowledge sources with tab = 4
+      // Find the one with the biggest ID
+      const latestKnowledge = existingKnowledgeTab4.reduce((prev, current) => {
+        return (current.id > prev.id) ? current : prev;
+      });
+      
+      knowledgeId = latestKnowledge.id;
+      
+      // Delete all others except the one with biggest ID
+      const toDelete = existingKnowledgeTab4.filter(k => k.id !== latestKnowledge.id);
+      
+      for (const knowledge of toDelete) {
+        try {
+          await aiAgents.deleteKnowledgeText(props.data.id, knowledge.id);
+        } catch (error) {
+          // Continue even if deletion fails for some entries
+        }
+      }
+    }
     
     // If no existing knowledge source, create one first
     if (!knowledgeId) {
@@ -1356,6 +1387,7 @@ async function syncProductColumns() {
     }
   } catch (error) {
     showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_ERROR'), 'error');
+    syncingColumns.value = false;
   } finally {
     syncingColumns.value = false;
   }
