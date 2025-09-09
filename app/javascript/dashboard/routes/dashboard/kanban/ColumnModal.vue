@@ -22,7 +22,8 @@ export default {
   data() {
     return {
       localColumnTitle: '',
-      localSelectedLabels: []
+      localSelectedLabels: [],
+      label_to_add: ''
     }
   },
 
@@ -32,6 +33,7 @@ export default {
         if (this.isEditing && newVal) {
           this.localColumnTitle = newVal.title
           this.localSelectedLabels = [...newVal.labels]
+          this.label_to_add = newVal.label_to_add || ''
         }
       },
       immediate: true
@@ -56,7 +58,8 @@ export default {
       if (this.localColumnTitle.trim()) {
         const columnData = {
           title: this.localColumnTitle,
-          labels: [...this.localSelectedLabels]
+          labels: [...this.localSelectedLabels],
+          label_to_add: this.label_to_add
         }
         
         this.$emit(this.isEditing ? 'update' : 'add', columnData)
@@ -67,6 +70,7 @@ export default {
     resetForm() {
       this.localColumnTitle = ''
       this.localSelectedLabels = []
+      this.label_to_add = ''
     }
   }
 }
@@ -92,6 +96,22 @@ export default {
       >
         <option v-for="label in mockLabels" :key="label.value" :value="label.value">
           {{ label.text }}
+        </option>
+      </select>
+      <label for="label_to_add">Adicionar etiqueta</label>
+      <select
+      name="label_to_add"
+      id="label-to-add"
+      v-model="label_to_add"
+      class="single-select"
+      >
+        <option value="">Selecione uma label</option>
+        <option
+         v-for="labelValue in localSelectedLabels"
+         :key="labelValue"
+         :value="labelValue"
+         >
+         {{ mockLabels.find(l => l.value === labelValue)?.text }}
         </option>
       </select>
       <div class="modal-actions">
@@ -190,4 +210,18 @@ export default {
   background-color: #464343;
   color: white;
 }
+
+.single-select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(46, 42, 42);
+  color: white;
+}
+
+.single-select option {
+  padding: 8px;
+} 
 </style>
