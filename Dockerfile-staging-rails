@@ -129,5 +129,5 @@ WORKDIR /app
 # Add staging-specific initialization (script already copied from pre-builder stage)
 RUN chmod +x /app/container_init.sh
 
-EXPOSE 3001
+EXPOSE 3000
 CMD ["/app/container_init.sh"]
