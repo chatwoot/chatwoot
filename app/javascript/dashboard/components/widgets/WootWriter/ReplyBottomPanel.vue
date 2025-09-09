@@ -10,7 +10,6 @@ import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
-import { REPLY_EDITOR_MODES } from './constants';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -20,9 +19,9 @@ export default {
   components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [inboxMixin],
   props: {
-    mode: {
-      type: String,
-      default: REPLY_EDITOR_MODES.REPLY,
+    isNote: {
+      type: Boolean,
+      default: false,
     },
     onSend: {
       type: Function,
@@ -168,9 +167,6 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'integrations/getUIFlags',
     }),
-    isNote() {
-      return this.mode === REPLY_EDITOR_MODES.NOTE;
-    },
     wrapClass() {
       return {
         'is-note-mode': this.isNote,
