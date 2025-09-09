@@ -21,7 +21,7 @@ module Stark
         case status_code
         when 200
           # Success: return the message
-          response.dig('body', 'message')
+          { message: response.dig('body', 'message'), metadata: response.dig('body', 'metadata') || [] }
         when 400
           # Invalid data: log and return nil
           message = response.dig('body', 'message')
@@ -135,8 +135,7 @@ module Stark
       @conversation.messages
                    .not_activity
                    .not_template
-                   .left_outer_joins(:attachments)
-                   .where(attachments: { id: nil })
+                   .where.missing(:attachments)
                    .where.not(content: [nil, ''])
                    .reorder(created_at: :desc)
                    .limit(10)
@@ -147,7 +146,7 @@ module Stark
           content: message.content,
           created_at: message.created_at,
           is_follow_up_message: message.content_attributes['follow_up'] || false,
-          metadata: message.metadata,
+          metadata: message.metadata
         }
       end
     end
