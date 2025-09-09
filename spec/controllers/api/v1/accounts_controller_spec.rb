@@ -119,7 +119,7 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows an account' do
-        account.update(auto_resolve_duration: 30)
+        account.update(auto_resolve_duration: 120)
 
         get "/api/v1/accounts/#{account.id}",
             headers: admin.create_new_auth_token,
@@ -141,7 +141,7 @@ RSpec.describe 'Accounts API', type: :request do
     let(:admin) { create(:user, account: account, role: :administrator) }
 
     it 'returns cache_keys as expected' do
-      account.update(auto_resolve_duration: 30)
+      account.update(auto_resolve_duration: 120)
 
       get "/api/v1/accounts/#{account.id}/cache_keys",
           headers: admin.create_new_auth_token,
@@ -189,7 +189,7 @@ RSpec.describe 'Accounts API', type: :request do
         locale: 'en',
         domain: 'example.com',
         support_email: 'care@example.com',
-        auto_resolve_duration: 40,
+        auto_resolve_duration: 240,
         timezone: 'Asia/Kolkata',
         industry: 'Technology',
         company_size: '1-10'

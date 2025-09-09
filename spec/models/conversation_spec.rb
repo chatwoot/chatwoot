@@ -217,7 +217,7 @@ RSpec.describe Conversation do
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
       Current.user = nil
 
-      system_resolved_message = "Conversation was marked resolved by system due to #{account.auto_resolve_duration} days of inactivity"
+      system_resolved_message = "Conversation was marked resolved by system due to #{account.auto_resolve_duration} minutes of inactivity"
       expect { conversation2.update(status: :resolved) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,
@@ -795,7 +795,7 @@ RSpec.describe Conversation do
             account_id: conversation_1.account_id,
             inbox_id: conversation_1.inbox_id,
             message_type: :activity,
-            content: 'Conversation was marked resolved by system due to days of inactivity'
+            content: 'Conversation was marked resolved by system due to minutes of inactivity'
           )
         end
         records = described_class.sort_on_last_activity_at
