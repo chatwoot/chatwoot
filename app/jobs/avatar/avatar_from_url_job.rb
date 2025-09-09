@@ -1,54 +1,63 @@
+# Downloads and attaches avatar images from a URL.
+# Notes:
+# - For contact objects, we use `additional_attributes` to rate limit the
+#   job and track state. Sync
+#   attributes are only persisted when an actual avatar update occurs.
+# - We save the hash of the synced URL to retrigger downloads only when
+#   there is a change in the underlying asset.
+# - A 1 minute rate limit window is enforced via `last_avatar_sync_at`.
 class Avatar::AvatarFromUrlJob < ApplicationJob
+  include UrlHelper
   queue_as :purgable
+
+  MAX_DOWNLOAD_SIZE = 15 * 1024 * 1024
+  RATE_LIMIT_WINDOW = 1.minute
 
   def perform(avatarable, avatar_url)
     return unless avatarable.respond_to?(:avatar)
-    return unless valid_url?(avatar_url)
+    return unless url_valid?(avatar_url)
+
     return unless should_sync_avatar?(avatarable, avatar_url)
 
-    avatar_file = Down.download(
-      avatar_url,
-      max_size: 15 * 1024 * 1024
+    avatar_file = Down.download(avatar_url, max_size: MAX_DOWNLOAD_SIZE)
+    return unless valid_image?(avatar_file)
+
+    avatarable.avatar.attach(
+      io: avatar_file,
+      filename: avatar_file.original_filename,
+      content_type: avatar_file.content_type
     )
-    if valid_image?(avatar_file)
-      avatarable.avatar.attach(io: avatar_file, filename: avatar_file.original_filename,
-                               content_type: avatar_file.content_type)
-      update_avatar_sync_attributes(avatarable, avatar_url)
-    end
+
+    # Persist sync attributes only when an actual update happens
+    update_avatar_sync_attributes(avatarable, avatar_url)
   rescue Down::NotFound, Down::Error => e
-    Rails.logger.error "Exception: invalid avatar url #{avatar_url} : #{e.message}"
+    Rails.logger.error "AvatarFromUrlJob error for #{avatar_url}: #{e.class} - #{e.message}"
   end
 
   private
 
-  def valid_url?(url)
-    return false if url.blank?
-
-    uri = URI.parse(url)
-    uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-  rescue URI::InvalidURIError
-    false
-  end
-
   def should_sync_avatar?(avatarable, avatar_url)
-    # Rate limiting and URL hash comparison only for contacts (which have additional_attributes)
-    if avatarable.respond_to?(:additional_attributes) && avatarable.additional_attributes.present?
-      # Check if we should skip due to rate limiting (30 minutes)
-      last_sync_time = avatarable.additional_attributes['last_avatar_sync_at']
-      if last_sync_time.present?
-        last_sync = Time.zone.parse(last_sync_time)
-        return false if last_sync > 30.minutes.ago
-      end
+    # Only Contacts are rate-limited and hash-gated.
+    return true unless avatarable.is_a?(Contact)
 
-      # Check if URL hash has changed
-      current_url_hash = generate_url_hash(avatar_url)
-      stored_url_hash = avatarable.additional_attributes['avatar_url_hash']
+    attrs = avatarable.additional_attributes || {}
 
-      # Skip if URL hash is the same (URL hasn't changed)
-      return false if stored_url_hash == current_url_hash
-    end
+    # Rate limit and duplicate URL checks are evaluated separately for clarity
+    return false if within_rate_limit?(attrs)
+    return false if duplicate_url?(attrs, avatar_url)
 
     true
+  end
+
+  def within_rate_limit?(attrs)
+    ts = attrs['last_avatar_sync_at']
+    return false if ts.blank?
+    Time.zone.parse(ts) > RATE_LIMIT_WINDOW.ago
+  end
+
+  def duplicate_url?(attrs, avatar_url)
+    stored_hash = attrs['avatar_url_hash']
+    stored_hash.present? && stored_hash == generate_url_hash(avatar_url)
   end
 
   def generate_url_hash(url)
@@ -56,8 +65,8 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
   end
 
   def update_avatar_sync_attributes(avatarable, avatar_url)
-    # Only update sync attributes for contacts (which have additional_attributes)
-    return unless avatarable.respond_to?(:additional_attributes)
+    # Only Contacts have sync attributes persisted
+    return unless avatarable.is_a?(Contact)
 
     additional_attributes = avatarable.additional_attributes || {}
     additional_attributes['last_avatar_sync_at'] = Time.current.iso8601
