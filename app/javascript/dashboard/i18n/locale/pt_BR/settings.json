@@ -51,6 +51,13 @@
             "LARGER": "Maior",
             "EXTRA_LARGE": "Muito Grande"
           }
+        },
+        "LANGUAGE": {
+          "TITLE": "Preferred Language",
+          "NOTE": "Choose the language you want to use.",
+          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
+          "USE_ACCOUNT_DEFAULT": "Use account default"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
