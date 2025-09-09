@@ -420,9 +420,9 @@
         "TITLE": "Telegram Channel",
         "DESC": "Integrate with Telegram channel and start supporting your customers.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
-          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "LABEL": "AI agent Token",
+          "SUBTITLE": "Configure the AI agent token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "AI agent Token"
         },
         "SUBMIT_BUTTON": "Create Telegram Channel",
         "API": {
@@ -610,7 +610,7 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
+      "BOT_CONFIGURATION": "AI agent Configuration",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
@@ -675,7 +675,7 @@
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the AI agent"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
