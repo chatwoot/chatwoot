@@ -231,13 +231,14 @@ export default {
     },
     // Check if a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
-      const instagramId = this.inbox.instagram_id;
-      const instagramInbox =
-        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
-          instagramId
-        );
+      // const instagramId = this.inbox.instagram_id;
+      // const instagramInbox =
+      //   this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
+      //     instagramId
+      //   );
 
-      return this.inbox.channel_type === INBOX_TYPES.FB && instagramInbox;
+      // return this.inbox.channel_type === INBOX_TYPES.FB && instagramInbox;
+      return false;
     },
     microsoftUnauthorized() {
       return this.isAMicrosoftInbox && this.inbox.reauthorization_required;
