@@ -217,8 +217,12 @@ async function save() {
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
     // eslint-disable-next-line no-console
-    console.log('flowData:', flowData);
-    const agent_index = flowData.enabled_agents.indexOf('customer_service');
+    const agent_index = flowData.enabled_agents.indexOf('booking');
+
+    if (agent_index === -1) {
+      useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.AGENT_NOT_FOUND'))
+      return;
+    }
 
     flowData.agents_config[agent_index].configurations.minimum_duration =
       configData.minDuration;
