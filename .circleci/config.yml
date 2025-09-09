@@ -265,8 +265,6 @@ workflows:
           profile_name: deltaexchange-oidc
           repo: chatwoot
           tag: sidekiq-${CIRCLE_SHA1}
-          requires:
-            - staging-build-rails # Build sidekiq after rails image
       
       # Build production environment chatwoot rails image with current codebase
       - aws-ecr/build_and_push_image:
@@ -319,8 +317,6 @@ workflows:
           profile_name: deltaexchange-oidc
           repo: chatwoot
           tag: sidekiq-${CIRCLE_SHA1}
-          requires:
-            - prod-ind-build-rails
 
       # Devnet Sidekiq Deployment
       - deploy-sidekiq:
