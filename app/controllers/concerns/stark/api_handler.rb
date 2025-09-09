@@ -80,7 +80,8 @@ module Stark
       conversation.messages
                   .not_activity
                   .not_template
-                  .where.missing(:attachments)
+                  .left_outer_joins(:attachments)
+                  .where(attachments: { id: nil })
                   .where.not(content: [nil, ''])
                   .reorder(created_at: :desc)
                   .limit(10)
