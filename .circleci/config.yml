@@ -225,9 +225,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
-                - v4.0.4-test
+                - v4.0.4
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -253,9 +251,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
-                - v4.0.4-test
+                - v4.0.4
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -284,9 +280,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
-                - v4.0.4-test
+                - v4.0.4
           region: "${AWS_REGION}"
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
@@ -312,9 +306,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
-                - v4.0.4-test
+                - v4.0.4
           region: "${AWS_REGION}"
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
@@ -338,9 +330,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
-                - v4.0.4-test
+                - v4.0.4
           cluster-name: devnet-delta-exchange
           min-replicas: '1'
           max-replicas: '2'
@@ -365,9 +355,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
-                - v4.0.4-test
+                - v4.0.4
           cluster-name: devnet-delta-exchange
           min-replicas: '1'
           max-replicas: '2'
@@ -391,8 +379,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
+                - v4.0.4
           requires:
             - prod-ind-build-sidekiq
 
@@ -401,8 +388,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
+                - v4.0.4
           requires:
             - prod-ind-build-rails
 
@@ -414,8 +400,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
+                - v4.0.4
           cluster-name: prod-india-exchange
           min-replicas: '5'
           max-replicas: '8'
@@ -441,8 +426,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop
-                - chatwoot-3.10.0
+                - v4.0.4
           cluster-name: prod-india-exchange
           min-replicas: '8'
           max-replicas: '12'
