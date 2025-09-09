@@ -61,6 +61,20 @@ const resourceColumn = ref(['resource', 'resource2', 'resource3']);
 const locationColumn = ref(['location']);
 const syncingColumns = ref(false);
 
+
+// Helper function to get agent ID by type
+function getAgentIdByType(type) {
+  const flowData = props.data?.display_flow_data;
+  if (!flowData?.agents_config) return null;
+  
+  const agent = flowData.agents_config.find(config => config.type === type);
+  return agent?.agent_id || null;
+}
+
+const agentId = computed(() => {
+  return getAgentIdByType('booking');
+});
+
 async function connectGoogle() {
   try {
     loading.value = true;
@@ -103,7 +117,7 @@ async function checkAuthStatus() {
         }
         const payload = {
           account_id: parseInt(flowData.account_id, 10),
-          agent_id: String(props.data.id),
+          agent_id: agentId.value,
           type: 'booking',
         };
         console.log(JSON.stringify(payload));
@@ -166,7 +180,7 @@ async function syncScheduleColumns() {
     let flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
-      agent_id: String(props.data.id),
+      agent_id: agentId.value,
       type: 'booking',
     }
 
@@ -301,7 +315,7 @@ async function createSheets() {
     const flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
-      agent_id: String(props.data.id),
+      agent_id: agentId.value,
       type: 'booking',
     };
     // console.log(payload);
