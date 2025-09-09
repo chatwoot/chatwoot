@@ -9,7 +9,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import googleSheetsExportAPI from '../../../../../api/googleSheetsExport';
 // ✅ Add this line to fix the "aiAgents is not defined" error
 import aiAgents from '../../../../../api/aiAgents';
-import { watch } from 'vue';
+import { watch, computed } from 'vue';
 
 const props = defineProps({
   data: {
@@ -80,6 +80,20 @@ onMounted(async () => {
   await checkAuthStatus();
 });
 
+
+// Helper function to get agent ID by type
+function getAgentIdByType(type) {
+  const flowData = props.data?.display_flow_data;
+  if (!flowData?.agents_config) return null;
+  
+  const agent = flowData.agents_config.find(config => config.type === type);
+  return agent?.agent_id || null;
+}
+
+const agentId = computed(() => {
+  return getAgentIdByType('customer_service');
+});
+
 function showNotification(message, type = 'success') {
   notification.value = { message, type }
   setTimeout(() => {
@@ -125,7 +139,7 @@ async function checkAuthStatus() {
         const flowData = props.data.display_flow_data;
         const payload = {
           account_id: parseInt(flowData.account_id, 10),
-          agent_id: String(props.data.id),
+          agent_id: agentId.value,
           type: 'tickets',
         };
         console.log(JSON.stringify(payload));
@@ -178,7 +192,7 @@ async function createTicketSheet() {
     const flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
-      agent_id: String(props.data.id),
+      agent_id: agentId.value,
       type: 'tickets',
     };
     // console.log(payload);
