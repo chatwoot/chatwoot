@@ -270,9 +270,9 @@ workflows:
           repo: chatwoot
           tag: sidekiq-${CIRCLE_SHA1}
           requires:
-            - staging-build-rails
+            - staging-build-rails # Build sidekiq after rails image
       
-      # Build production environment images with current codebase
+      # Build production environment chatwoot rails image with current codebase
       - aws-ecr/build_and_push_image:
           name: prod-ind-build-rails
           auth:
@@ -286,6 +286,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
+                - v4.0.4-test
           region: "${AWS_REGION}"
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
@@ -313,6 +314,7 @@ workflows:
               only:
                 - develop
                 - chatwoot-3.10.0
+                - v4.0.4-test
           region: "${AWS_REGION}"
           account_id: ${AWS_IND_ACCOUNT}
           create_repo: true
@@ -328,7 +330,7 @@ workflows:
           requires:
             - prod-ind-build-rails
 
-      # Staging deployments (automatic)
+      # Devnet Sidekiq Deployment
       - deploy-sidekiq:
           name: devnet-india-sidekiq
           context: staging-v2
@@ -340,7 +342,7 @@ workflows:
                 - chatwoot-3.10.0
                 - v4.0.4-test
           cluster-name: devnet-delta-exchange
-          min-replicas: '2'
+          min-replicas: '1'
           max-replicas: '2'
           env-name: devnet
           app-name: devnet-sidekiq
@@ -348,10 +350,10 @@ workflows:
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_TOKYO_ECR_URL}/chatwoot:sidekiq-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '2'
-          request_cpu: '1'
-          limit_memory: '800M'
-          request_memory: '400M'
+          total_cpu: '0.5'
+          request_cpu: '0.2'
+          limit_memory: '512M'
+          request_memory: '256M'
           deployment-name: 'staging-sidekiq'
           requires:
             - staging-build-sidekiq
@@ -367,7 +369,7 @@ workflows:
                 - chatwoot-3.10.0
                 - v4.0.4-test
           cluster-name: devnet-delta-exchange
-          min-replicas: '2'
+          min-replicas: '1'
           max-replicas: '2'
           env-name: devnet
           app-name: devnet-chatwoot
@@ -375,16 +377,15 @@ workflows:
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_TOKYO_ECR_URL}/chatwoot:rails-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '4'
-          request_cpu: '2'
-          limit_memory: '4G'
-          request_memory: '2G'
+          total_cpu: '1'
+          request_cpu: '0.5'
+          limit_memory: '1G'
+          request_memory: '512M'
           deployment-name: 'staging-chatwoot'
           service-account: 'rails-sa'
           requires:
-            - staging-build-rails
+            - staging-build-sidekiq
       
-      # Production deployment approvals
       - deploy-approval-ind-sidekiq:
           type: approval
           filters:
@@ -405,7 +406,7 @@ workflows:
           requires:
             - prod-ind-build-rails
 
-      # Production deployments (manual approval required)
+      # Production sidekiq deployment
       - deploy-sidekiq:
           name: prod-ind-sidekiq
           context: prod-india-v2
@@ -416,22 +417,23 @@ workflows:
                 - develop
                 - chatwoot-3.10.0
           cluster-name: prod-india-exchange
-          min-replicas: '2'
-          max-replicas: '2'
+          min-replicas: '5'
+          max-replicas: '8'
           env-name: production
           app-name: prod-sidekiq
           secret-name: prod-ind-sidekiq
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_INDIA_ECR_URL}/chatwoot:sidekiq-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '2'
-          request_cpu: '1'
-          limit_memory: '2G'
-          request_memory: '1G'
+          total_cpu: '1'
+          request_cpu: '0.4'
+          limit_memory: '2Gi'
+          request_memory: '400M'
           deployment-name: 'prod-sidekiq'
           requires:
             - deploy-approval-ind-sidekiq
 
+      # Production chatwoot rails deployment
       - deploy-rails:
           name: prod-ind-chatwoot-rails
           context: prod-india-v2
@@ -442,19 +444,20 @@ workflows:
                 - develop
                 - chatwoot-3.10.0
           cluster-name: prod-india-exchange
-          min-replicas: '2'
-          max-replicas: '2'
+          min-replicas: '8'
+          max-replicas: '12'
           env-name: production
           app-name: prod-chatwoot
           secret-name: prod-ind-chatwoot
           aws-region: $AWS_REGION
           docker-image-name: '${AWS_INDIA_ECR_URL}/chatwoot:rails-${CIRCLE_SHA1}'
           version-info: ${CIRCLE_SHA1}
-          total_cpu: '4'
-          request_cpu: '2'
-          limit_memory: '4G'
-          request_memory: '2G'
+          total_cpu: '2'
+          request_cpu: '1'
+          limit_memory: '2Gi'
+          request_memory: '1Gi'
           deployment-name: 'prod-chatwoot'
           service-account: 'chatwoot-rails-sa'
           requires:
             - deploy-approval-ind-rails
+      

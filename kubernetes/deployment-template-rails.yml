@@ -41,13 +41,13 @@ spec:
           envFrom:
           - secretRef:
               name: SECRET_NAME
-          # readinessProbe:
-          #   httpGet:
-          #     path: /health
-          #     port: 3001
-          #   periodSeconds: 10
-          #   successThreshold: 1
-          #   failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: 3000
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 2
           resources:
             limits:
               cpu: 'TOTAL_CPU'
@@ -56,4 +56,4 @@ spec:
               cpu: 'REQUEST_CPU'
               memory: 'REQUEST_MEMORY'
           ports:
-            - containerPort: 5151
+            - containerPort: 3000
