@@ -9,6 +9,7 @@ import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue'
 import wootConstants from 'dashboard/constants/globals';
 import PaymentVoucherInput from './PaymentVoucherInput.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import { calculatePackagePrice } from '../pricing-utils';
 
 const props = defineProps({
   id: {
@@ -81,7 +82,11 @@ const selectedPlanMonthlyPrice = computed(() => selectedPlan.value.monthly_price
 
 // Kalkulasi total harga berdasarkan siklus penagihan
 const totalPrice = computed(() => {
-  return selectedBillingCycle.value.qty * selectedPlanMonthlyPrice.value;
+  return calculatePackagePrice(
+    selectedPlanMonthlyPrice.value,
+    selectedPlan.value.name,
+    selectedBillingCycle.value.qty
+  );
 });
 
 // Fungsi untuk handle klik di luar dropdown
@@ -250,7 +255,7 @@ const submit = async () => {
               </span>
             </div>
             <div class="font-medium">
-              {{ (cycle.qty * selectedPlanMonthlyPrice).toLocaleString() }}
+              {{ calculatePackagePrice(selectedPlanMonthlyPrice, selectedPlan.name, cycle.qty).toLocaleString() }}
               IDR
             </div>
           </div>

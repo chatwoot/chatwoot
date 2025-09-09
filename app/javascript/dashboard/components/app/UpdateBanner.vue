@@ -34,13 +34,14 @@ export default {
       });
     },
     shouldShowBanner() {
-      return (
-        !this.userDismissedBanner &&
-        this.globalConfig.displayManifest &&
-        this.updateAvailable &&
-        !this.isVersionNotificationDismissed(this.latestChatwootVersion) &&
-        this.isAdmin
-      );
+      return false; // Temporarily disable the update banner
+      // return (
+      //   !this.userDismissedBanner &&
+      //   this.globalConfig.displayManifest &&
+      //   this.updateAvailable &&
+      //   !this.isVersionNotificationDismissed(this.latestChatwootVersion) &&
+      //   this.isAdmin
+      // );
     },
   },
   methods: {

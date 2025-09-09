@@ -28,6 +28,7 @@ import {
 } from '@tanstack/vue-table';
 
 import { getPlanIcon } from './billing-icon-utils'
+import { calculatePackagePrice, durationMap } from './pricing-utils'
 import { useAccount } from 'dashboard/composables/useAccount';
 
 const { pageIndex } = defineProps({
@@ -300,20 +301,6 @@ const table = useVueTable({
 // Reactive state
 const selectedTab = ref('quarterly');
 const qty = ref(3);
-
-const durationMap = {
-  monthly: 1,
-  quarterly: 3,
-  halfyear: 6,
-  yearly: 12,
-}
-
-const calculatePackagePrice = price => {
-  const duration = durationMap[selectedTab.value ?? 'halfyear'];
-  qty.value = duration;
-
-  return price * duration;
-};
 
 // Billing cycle tabs data
 const billingCycleTabs = computed(() => {
@@ -693,7 +680,7 @@ function scrollToPackage() {
 
               <div class="plan-price text-[#475569] dark:text-[#E0E1E6]">
                 <div class="price">
-                  {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
+                  {{ formatPrice(calculatePackagePrice(plan.monthly_price, plan.name, selectedTab)) }}
                 </div>
                 <div class="price-period">
                   IDR /{{ qty == 1 ? t('BILLING.TAB_DISPLAY.qty_month') : `${qty} ${t('BILLING.TAB_DISPLAY.qty_month')}` }}

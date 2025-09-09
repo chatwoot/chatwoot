@@ -6,10 +6,13 @@
       <div class="title-section">
         <h1>Quick Replies</h1>
         <div class="actions">
-          <button class="add-button"  @click="addQuickReply">
-            <Plus class="icon" size="18" />
+          <woot-button
+            class="rounded-md button nice"
+            icon="add-circle"
+            @click="addQuickReply"
+          >
             Tambah Balasan Cepat
-          </button>
+          </woot-button>
           <div class= "flex px-4 pb-1 justify-between items-center flex-row gap-1 pt-2.5 border-b border-transparent">
             <div class="search-container">
             <div class="flex items-center">
