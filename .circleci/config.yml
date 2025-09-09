@@ -368,7 +368,7 @@ workflows:
           deployment-name: 'staging-chatwoot'
           service-account: 'rails-sa'
           requires:
-            - staging-build-sidekiq
+            - staging-build-rails
       
       - deploy-approval-ind-sidekiq:
           type: approval
