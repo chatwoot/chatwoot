@@ -6,11 +6,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import VariableSection from './VariableSection.vue';
 import FileUpload from 'dashboard/components-next/file-upload/FileUpload.vue';
-import {
-  MEDIA_FORMATS,
-  HEADER_FORMATS,
-  UPLOAD_CONFIG,
-} from 'dashboard/constants/templates';
+import { MEDIA_FORMATS, UPLOAD_CONFIG } from 'dashboard/constants/templates';
 
 const props = defineProps({
   modelValue: {
@@ -34,6 +30,14 @@ const headerData = computed({
 const getUploadConfig = computed(() => {
   return UPLOAD_CONFIG[headerData.value.format];
 });
+
+const headerFormats = [
+  { value: 'TEXT', label: 'Text', icon: 'i-lucide-type' },
+  { value: 'IMAGE', label: 'Image', icon: 'i-lucide-image' },
+  { value: 'VIDEO', label: 'Video', icon: 'i-lucide-video' },
+  { value: 'DOCUMENT', label: 'Document', icon: 'i-lucide-file-text' },
+  { value: 'LOCATION', label: 'Location', icon: 'i-lucide-map-pin' },
+];
 
 const exampleKey = computed(() => {
   return props.parameterType === 'positional'
@@ -156,7 +160,7 @@ const handleMediaUpload = mediaData => {
         </label>
         <div class="flex gap-2">
           <NextButton
-            v-for="format in HEADER_FORMATS"
+            v-for="format in headerFormats"
             :key="format.value"
             :label="format.label"
             :icon="format.icon"

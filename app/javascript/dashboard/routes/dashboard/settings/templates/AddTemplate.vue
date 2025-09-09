@@ -53,6 +53,7 @@ const categoryTypes = [
     value: 'authentication',
     label: t('SETTINGS.TEMPLATES.ADD.FORM.CATEGORY.OPTIONS.AUTHENTICATION'),
     icon: 'i-lucide-shield-check',
+    disabled: true,
   },
 ];
 
@@ -64,6 +65,7 @@ const categoryMenuItems = computed(() => {
     label: category.label,
     icon: category.icon,
     isSelected: selectedCategory.value === category.value,
+    disabled: category.disabled,
   }));
 });
 

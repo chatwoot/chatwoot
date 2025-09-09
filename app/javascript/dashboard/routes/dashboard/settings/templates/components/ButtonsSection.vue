@@ -128,6 +128,7 @@ const canAddMoreButtons = computed(() => {
         color="slate"
         variant="outline"
         size="md"
+        :disabled="buttonsData.length >= 10"
         @click="showDropdown = !showDropdown"
       />
 

@@ -101,26 +101,37 @@ const isValidTemplate = computed(() => {
   return true;
 });
 
+const getExampleProperty = (exampleData, componentType) => {
+  const positionalKey = `${componentType}_text`;
+  const namedKey = `${componentType}_text_named_params`;
+
+  const hasVariables =
+    parameterType.value === 'positional'
+      ? exampleData[positionalKey]?.length > 0
+      : exampleData[namedKey]?.length > 0;
+
+  if (!hasVariables) return null;
+
+  return parameterType.value === 'positional'
+    ? { [positionalKey]: exampleData[positionalKey] }
+    : { [namedKey]: exampleData[namedKey] };
+};
+
 const generateComponents = () => {
   const components = [];
   const { header, body, footer, buttons } = templateData.value;
 
   if (header.enabled) {
-    const data = {};
+    let data = {};
     if (header.format === 'TEXT') {
       data = {
         format: header.format,
         text: header.text,
-        example:
-          parameterType.value === 'positional'
-            ? {
-                header_text: header.example.header_text,
-              }
-            : {
-                header_text_named_params:
-                  header.example.header_text_named_params,
-              },
       };
+      const example = getExampleProperty(header.example, 'header');
+      if (example) {
+        data.example = example;
+      }
     } else if (MEDIA_FORMATS.includes(header.format)) {
       data = {
         format: header.format,
@@ -137,18 +148,19 @@ const generateComponents = () => {
       ...data,
     });
   }
-  components.push({
+
+  // Body component
+  const bodyComponent = {
     type: body.type,
     text: body.text,
-    example:
-      parameterType.value === 'positional'
-        ? {
-            body_text: body.example.body_text,
-          }
-        : {
-            body_text_named_params: body.example.body_text_named_params,
-          },
-  });
+  };
+
+  const example = getExampleProperty(body.example, 'body');
+  if (example) {
+    bodyComponent.example = example;
+  }
+
+  components.push(bodyComponent);
 
   if (footer.enabled) {
     components.push({
@@ -156,7 +168,13 @@ const generateComponents = () => {
       text: footer.text,
     });
   }
-  components.push(...buttons);
+
+  if (buttons.length) {
+    components.push({
+      type: 'BUTTONS',
+      buttons: [...buttons],
+    });
+  }
 
   return components;
 };
