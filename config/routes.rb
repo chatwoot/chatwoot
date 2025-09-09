@@ -69,6 +69,7 @@ Rails.application.routes.draw do
             end
             resources :documents, only: [:index, :show, :create, :destroy]
           end
+          resource :saml_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -523,6 +524,15 @@ Rails.application.routes.draw do
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
+
+    if ChatwootApp.enterprise?
+      resource :voice, only: [], controller: 'voice' do
+        collection do
+          post 'call/:phone', action: :call_twiml
+          post 'status/:phone', action: :status
+        end
+      end
+    end
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

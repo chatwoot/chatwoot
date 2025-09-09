@@ -1,0 +1,51 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Templates",
+      "SUBTITLE": "Select the Twilio template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "查找模板",
+      "NO_TEMPLATES_FOUND": "没有找到对应的模版",
+      "NO_CONTENT": "无内容",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "类别",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "语言",
+        "TEMPLATE_BODY": "模板内容",
+        "CATEGORY": "类别"
+      },
+      "TYPES": {
+        "MEDIA": "Media",
+        "QUICK_REPLY": "Quick Reply",
+        "TEXT": "文本"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "参数",
+      "LANGUAGE": "语言",
+      "CATEGORY": "类别",
+      "VARIABLE_PLACEHOLDER": "请填写 {variable}",
+      "GO_BACK_LABEL": "返回",
+      "SEND_MESSAGE_LABEL": "发送消息",
+      "FORM_ERROR_MESSAGE": "你必须填写所有参数才能发送",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "后退",
+      "SEND_MESSAGE_BUTTON": "发送消息"
+    }
+  }
+}
