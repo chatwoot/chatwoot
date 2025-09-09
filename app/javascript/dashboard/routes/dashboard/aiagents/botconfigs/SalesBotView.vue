@@ -1306,12 +1306,10 @@ async function createSheets() {
   }
 }
 
-
 async function syncProductColumns() {
   try {
     syncingColumns.value = true;
     showNotification(t('AGENT_MGMT.SALESBOT.PAYMENTSALESBOT.CATALOG.SYNC_INFO'), 'info');
-
     const flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
@@ -1319,26 +1317,49 @@ async function syncProductColumns() {
       type: 'sales',
     };
     const syncDataResponse = await googleSheetsExportAPI.syncSpreadsheet(payload);
-    // console.log("syncDataResponse:", syncDataResponse)
-    const request = {
-      id: null,
-      text: syncDataResponse.data.data,
-      tab: 4, // Tab 4 for sales bot product
-    };
-    // console.log("request text:", request)
-    let addResponse = await aiAgents
-      .addKnowledgeText(props.data.id, {
-        ...request,
-      })
-    // console.log("addResponse:", addResponse)
+    
+    // Get existing knowledge sources for this agent
+    let knowledgeSources = [];
+    try {
+      const knowledgeResponse = await aiAgents.getKnowledgeSources(props.data.id);
+      knowledgeSources = knowledgeResponse.data?.knowledge_source_texts || [];
+    } catch (error) {
+      // If fetching fails, we'll create a new one
+      knowledgeSources = [];
+    }
+    
+    // Find existing knowledge source for tab 4 (sales bot product)
+    let existingKnowledge = knowledgeSources.find(k => k.tab === 4);
+    let knowledgeId = existingKnowledge?.id;
+    
+    // If no existing knowledge source, create one first
+    if (!knowledgeId) {
+      const createRequest = {
+        id: null,
+        text: '',
+        tab: 4,
+      };
+      const createResponse = await aiAgents.addKnowledgeText(props.data.id, createRequest);
+      knowledgeId = createResponse.data?.id;
+    }
+    
+    // Update the knowledge source with new data
+    if (knowledgeId) {
+      await aiAgents.updateKnowledgeText(props.data.id, {
+        id: knowledgeId,
+        tab: 4,
+        text: syncDataResponse.data.data,
+      });
+      showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_SUCCESS'), 'success');
+    } else {
+      throw new Error('Failed to get or create knowledge source');
+    }
   } catch (error) {
     showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_ERROR'), 'error');
-    syncingColumns.value = false;
   } finally {
     syncingColumns.value = false;
   }
 }
-
 
 const tabs = computed(() => [
   {
