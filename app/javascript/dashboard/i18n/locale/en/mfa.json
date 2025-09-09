@@ -3,6 +3,8 @@
     "TITLE": "Two-Factor Authentication",
     "SUBTITLE": "Secure your account with TOTP-based authentication",
     "DESCRIPTION": "Add an extra layer of security to your account using a time-based one-time password (TOTP)",
+    "STATUS_TITLE": "Authentication Status",
+    "STATUS_DESCRIPTION": "Manage your two-factor authentication settings and backup recovery codes",
     "ENABLED": "Enabled",
     "DISABLED": "Disabled",
     "STATUS_ENABLED": "Two-factor authentication is active",
@@ -21,7 +23,8 @@
       "COPY": "Copy",
       "ENTER_CODE": "Enter the 6-digit code from your authenticator app",
       "ENTER_CODE_PLACEHOLDER": "000000",
-      "VERIFY_BUTTON": "Verify & Continue"
+      "VERIFY_BUTTON": "Verify & Continue",
+      "CANCEL": "Cancel"
     },
     "BACKUP": {
       "TITLE": "Save Your Backup Codes",
