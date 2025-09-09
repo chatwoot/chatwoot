@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_07_21_052113) do
+ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -153,6 +153,10 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_21_052113) do
     t.jsonb "store_config", default: {}, null: false
     t.text "handover_prompt"
     t.text "system_prompt_rules"
+    t.string "source_type", default: "FLOWISE", null: false
+    t.string "agent_type", default: "SINGLE_AGENT", null: false
+    t.string "name_id", default: "", null: false
+    t.string "description", default: ""
   end
 
   create_table "ai_agents", force: :cascade do |t|
@@ -174,6 +178,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_21_052113) do
     t.string "description"
     t.string "chat_flow_id"
     t.jsonb "flow_data", default: {}, null: false
+    t.jsonb "display_flow_data", default: {}
+    t.string "template_type", default: "FLOWISE", null: false
+    t.string "agent_type", default: "SINGLE_AGENT", null: false
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -807,6 +814,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_21_052113) do
     t.jsonb "source_config", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ai_agent_name_id"
     t.index ["knowledge_source_id"], name: "index_knowledge_source_files_on_knowledge_source_id"
   end
 
@@ -820,6 +828,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_21_052113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "loader_id", default: "", null: false
+    t.string "ai_agent_name_id"
     t.index ["knowledge_source_id"], name: "index_knowledge_source_qnas_on_knowledge_source_id"
   end
 
@@ -833,6 +842,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_21_052113) do
     t.datetime "updated_at", null: false
     t.integer "total_chunks", default: 0, null: false
     t.integer "total_chars", default: 0, null: false
+    t.string "ai_agent_name_id"
     t.index ["knowledge_source_id"], name: "index_knowledge_source_texts_on_knowledge_source_id"
   end
 
@@ -846,6 +856,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_21_052113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "content", default: "", null: false
+    t.string "ai_agent_name_id"
     t.index ["knowledge_source_id"], name: "index_knowledge_source_websites_on_knowledge_source_id"
   end
 

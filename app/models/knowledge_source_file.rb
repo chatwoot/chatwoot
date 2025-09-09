@@ -11,6 +11,7 @@
 #  total_chunks        :integer          default(0), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  ai_agent_name_id    :string
 #  knowledge_source_id :bigint           not null
 #  loader_id           :string           not null
 #

@@ -475,8 +475,11 @@ Rails.application.routes.draw do
           end
           resource :google_sheets_export, only: [], controller: 'google_sheets_export' do
             collection do
-              get :authorize
-              get :status
+              get  :authorize
+              get  :status
+              post :generate
+              post :spreadsheet_url
+              post :sync
             end
           end
         end

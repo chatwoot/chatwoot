@@ -3,9 +3,11 @@
 # Table name: ai_agents
 #
 #  id                 :bigint           not null, primary key
+#  agent_type         :string           default(NULL), not null
 #  context_limit      :integer          default(10)
 #  control_flow_rules :boolean          default(FALSE), not null
 #  description        :string
+#  display_flow_data  :jsonb
 #  flow_data          :jsonb            not null
 #  history_limit      :integer          default(20)
 #  llm_model          :string           default("gpt-4o")
@@ -14,6 +16,7 @@
 #  name               :string           not null
 #  routing_conditions :text
 #  system_prompts     :text             not null
+#  template_type      :string           default("flowise"), not null
 #  timezone           :string           default("UTC"), not null
 #  welcoming_message  :text             not null
 #  created_at         :datetime         not null
@@ -33,6 +36,15 @@ class AiAgent < ApplicationRecord
   validates :name, :system_prompts, :welcoming_message, presence: true
   validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }
 
+  enum template_type: { flowise: 'FLOWISE', jangkau: 'JANGKAU' }
+  enum agent_type: { single_agent: 'single_agent', multi_agent: 'multi_agent', custom_agent: 'custom_agent' }
+
+  scope :flowise, -> { where(template_type: :flowise) }
+  scope :jangkau, -> { where(template_type: :jangkau) }
+  scope :single_agent, -> { where(agent_type: :single_agent) }
+  scope :multi_agent, -> { where(agent_type: :multi_agent) }
+  scope :custom_agent, -> { where(agent_type: :custom_agent) }
+
   accepts_nested_attributes_for :ai_agent_selected_labels, allow_destroy: true
 
   def push_event_data(_inbox = nil)
@@ -43,12 +55,21 @@ class AiAgent < ApplicationRecord
     }
   end
 
-  def self.add_ai_agent(params, template, chat_flow, document_store)
+  def self.agent_type_matches?(param_type, enum_key)
+    agent_types[param_type] == agent_types[enum_key]
+  end
+
+  def self.source_type_matches?(param_type, enum_key)
+    template_types[param_type] == template_types[enum_key]
+  end
+
+  def self.add_ai_agent(params, chat_flow, document_store)
     agent = new(
       params.merge(
-        system_prompts: template.system_prompt,
-        welcoming_message: template.welcoming_message,
+        system_prompts: 'template.system_prompt',
+        welcoming_message: 'template.welcoming_message',
         flow_data: chat_flow['flow_data'],
+        display_flow_data: chat_flow['display_flow_data'],
         chat_flow_id: chat_flow['id']
       )
     )
@@ -61,6 +82,19 @@ class AiAgent < ApplicationRecord
 
     agent.save!
     agent
+  end
+
+  def as_create_json
+    {
+      id: id,
+      name: name,
+      description: description,
+      agent_type: agent_type,
+      template_type: template_type,
+      display_flow_data: display_flow_data,
+      created_at: created_at,
+      updated_at: updated_at
+    }
   end
 
   def as_detailed_json
@@ -91,12 +125,7 @@ class AiAgent < ApplicationRecord
   end
 
   def base_attributes
-    %i[
-      id uid name description system_prompts welcoming_message
-      routing_conditions control_flow_rules model_name
-      history_limit context_limit message_await message_limit
-      timezone created_at updated_at account_id chat_flow_id
-    ]
+    %i[id uid name description welcoming_message agent_type template_type display_flow_data]
   end
 
   def included_associations
