@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRouter } from 'vue-router';
@@ -33,6 +33,10 @@ const state = reactive({
   conversationPriority: 'earliest_created',
   fairDistributionLimit: 100,
   fairDistributionWindow: 3600,
+});
+
+const validationState = ref({
+  isValid: false,
 });
 
 const breadcrumbItems = computed(() => {
@@ -108,6 +112,10 @@ const handleConversationPriorityChange = value => {
   state.conversationPriority = value;
 };
 
+const handleValidationChange = validation => {
+  validationState.value = validation;
+};
+
 const onClickCreatePolicy = async () => {
   try {
     const policy = await store.dispatch('assignmentPolicies/create', state);
@@ -175,6 +183,7 @@ const handleBreadcrumbClick = item => {
                   'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.FORM.STATUS.INACTIVE'
                 )
           "
+          @validation-change="handleValidationChange"
         />
         <div class="flex flex-col items-center">
           <div class="py-4 flex flex-col items-start gap-3 w-full">
@@ -245,7 +254,7 @@ const handleBreadcrumbClick = item => {
       <Button
         type="button"
         :is-loading="uiFlags.isCreating"
-        :disabled="uiFlags.isCreating"
+        :disabled="!validationState.isValid || uiFlags.isCreating"
         :label="
           t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.CREATE.CREATE_BUTTON')
         "

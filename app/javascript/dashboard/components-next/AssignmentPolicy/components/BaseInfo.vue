@@ -1,4 +1,8 @@
 <script setup>
+import { computed, watch } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
+
 import Input from 'dashboard/components-next/input/Input.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 
@@ -29,6 +33,8 @@ defineProps({
   },
 });
 
+const emit = defineEmits(['validationChange']);
+
 const policyName = defineModel('policyName', {
   type: String,
   default: '',
@@ -43,6 +49,25 @@ const enabled = defineModel('enabled', {
   type: Boolean,
   default: true,
 });
+
+const validationRules = {
+  policyName: { required, minLength: minLength(1) },
+  description: { required, minLength: minLength(1) },
+};
+
+const v$ = useVuelidate(validationRules, { policyName, description });
+
+const isValid = computed(() => !v$.value.$invalid);
+
+watch(
+  isValid,
+  () => {
+    emit('validationChange', {
+      isValid: isValid.value,
+    });
+  },
+  { immediate: true }
+);
 </script>
 
 <template>

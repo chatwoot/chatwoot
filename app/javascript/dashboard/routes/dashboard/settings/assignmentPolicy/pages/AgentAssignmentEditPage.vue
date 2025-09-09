@@ -54,6 +54,10 @@ const state = reactive({
   fairDistributionWindow: 0,
 });
 
+const validationState = ref({
+  isValid: false,
+});
+
 const breadcrumbItems = computed(() => [
   {
     label: t(`${BASE_KEY}.INDEX.HEADER.TITLE`),
@@ -172,6 +176,10 @@ const handleConfirmAddInbox = async inboxId => {
   confirmInboxDialogRef.value.closeDialog();
 };
 
+const handleValidationChange = validation => {
+  validationState.value = validation;
+};
+
 const onClickUpdatePolicy = async () => {
   try {
     await store.dispatch('assignmentPolicies/update', {
@@ -225,6 +233,7 @@ watch(routeId, fetchPolicyData, { immediate: true });
               `${BASE_KEY}.FORM.STATUS.${state.enabled ? 'ACTIVE' : 'INACTIVE'}`
             )
           "
+          @validation-change="handleValidationChange"
         />
 
         <div class="flex flex-col items-center">
@@ -297,6 +306,8 @@ watch(routeId, fetchPolicyData, { immediate: true });
       <Button
         type="button"
         :label="t(`${BASE_KEY}.EDIT.UPDATE_BUTTON`)"
+        :disabled="!validationState.isValid || uiFlags.isUpdating"
+        :is-loading="uiFlags.isUpdating"
         @click="onClickUpdatePolicy"
       />
     </template>
