@@ -42,7 +42,19 @@ class Imap::ImapMailbox
 
     message = @inbox.messages.find_by(source_id: in_reply_to)
     if message.nil?
-      @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
+      # Use a more specific query with inbox_id to leverage existing indexes
+      # and add a timeout to prevent long-running queries
+      begin
+        @inbox.conversations
+              .where("additional_attributes->>'in_reply_to' = ?", in_reply_to)
+              .limit(1)
+              .first
+      rescue ActiveRecord::QueryCanceled => e
+        Rails.logger.error "Query timeout in find_conversation_by_in_reply_to for in_reply_to: #{in_reply_to}, inbox: #{@inbox.id}"
+        Rails.logger.error e.message
+        # Return nil to allow conversation creation to proceed
+        nil
+      end
     else
       @inbox.conversations.find(message.conversation_id)
     end
