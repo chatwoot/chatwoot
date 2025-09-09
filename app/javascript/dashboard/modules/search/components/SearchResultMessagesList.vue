@@ -54,7 +54,7 @@ const getName = message => {
         >
           <MessageContent
             :author="getName(message)"
-            :content="message.content"
+            :message="message"
             :search-term="query"
           />
         </SearchResultConversationItem>

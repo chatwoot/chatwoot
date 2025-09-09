@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 tr:
   hello: 'Merhaba Dünya'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
@@ -34,6 +39,8 @@ tr:
       email_already_exists: '%{email} ile zaten bir hesaba kaydoldunuz'
       invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'
       failed: Kayıt başarısız oldu
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: Hatalı veri türü
@@ -53,6 +60,13 @@ tr:
       invalid_message_type: 'Geçersiz mesaj türü. İşlem izin verilmiyor'
     slack:
       invalid_channel_id: 'Geçersiz Slack kanalı. Lütfen tekrar deneyin'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -264,6 +278,26 @@ tr:
       completed_tool_call: '%{function_name} aracı çağrısı tamamlandı'
       invalid_tool_call: 'Geçersiz araç çağrısı'
       tool_not_available: 'Araç mevcut değil'
+    documents:
+      limit_exceeded: 'Document limit exceeded'
+      pdf_format_error: 'must be a PDF file'
+      pdf_size_error: 'must be less than 10MB'
+      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
+      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
+      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
+      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      openai_api_error: 'OpenAI API Error: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
+      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
+      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
   public_portal:
     search:
       search_placeholder: Başlık veya içerikle makale arayın...
@@ -344,3 +378,14 @@ tr:
 
       Döküm:
       %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+  portals:
+    send_instructions:
+      email_required: 'E-posta gereklidir'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Özel alan adı yapılandırılmamış'

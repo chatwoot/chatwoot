@@ -18,6 +18,11 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 zh_CN:
   hello: '您好世界'
+  inbox:
+    reauthorization:
+      success: 'Channel reauthorized successfully'
+      not_required: 'Reauthorization is not required for this inbox'
+      invalid_channel: 'Invalid channel type for reauthorization'
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
@@ -34,6 +39,8 @@ zh_CN:
       email_already_exists: '您已经注册了 %{email} 的帐户'
       invalid_params: '无效，请检查注册参数并重试'
       failed: 注册失败
+    assignment_policy:
+      not_found: Assignment policy not found
     data_import:
       data_type:
         invalid: 错误的数据类型
@@ -53,6 +60,13 @@ zh_CN:
       invalid_message_type: '无效的消息类型。不允许操作'
     slack:
       invalid_channel_id: '无效的Slack频道。请重试'
+    whatsapp:
+      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
+      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
+      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      reauthorization:
+        generic: 'Failed to reauthorize WhatsApp. Please try again.'
+        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
     inboxes:
       imap:
         socket_error: 请检查网络连接，IMAP地址，然后再试一次。
@@ -264,6 +278,26 @@ zh_CN:
       completed_tool_call: '%{function_name} 工具调用完成'
       invalid_tool_call: '无效的工具调用'
       tool_not_available: '工具不可用'
+    documents:
+      limit_exceeded: 'Document limit exceeded'
+      pdf_format_error: 'must be a PDF file'
+      pdf_size_error: 'must be less than 10MB'
+      pdf_upload_failed: 'Failed to upload PDF to OpenAI'
+      pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
+      pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
+      pdf_processing_success: 'Successfully processed PDF document %{document_id}'
+      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
+      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
+      response_creation_error: 'Error in creating response document: %{error}'
+      missing_openai_file_id: 'Document must have openai_file_id for paginated processing'
+      openai_api_error: 'OpenAI API Error: %{error}'
+      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      stopping_faq_generation: 'Stopping processing. Reason: %{reason}'
+      paginated_faq_complete: 'Paginated generation complete. Total FAQs: %{total_faqs}, Pages processed: %{pages_processed}'
+      processing_pages: 'Processing pages %{start}-%{end} (iteration %{iteration})'
+      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...
@@ -340,3 +374,14 @@ zh_CN:
 
       副本：
       %{format_messages}
+  agent_capacity_policy:
+    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+  portals:
+    send_instructions:
+      email_required: 'Email 是必填项'
+      invalid_email_format: 'Invalid email format'
+      custom_domain_not_configured: 'Custom domain is not configured'
+      instructions_sent_successfully: 'Instructions sent successfully'
+      subject: 'Finish setting up %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'Custom domain is not configured'

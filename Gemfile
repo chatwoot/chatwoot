@@ -62,6 +62,10 @@ gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
 
+gem 'searchkick'
+gem 'opensearch-ruby'
+gem 'faraday_middleware-aws-sigv4'
+
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
@@ -89,7 +93,7 @@ gem 'wisper', '2.0.0'
 ##--- gems for channels ---##
 gem 'facebook-messenger'
 gem 'line-bot-api'
-gem 'twilio-ruby', '~> 5.66'
+gem 'twilio-ruby'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
 gem 'twitty', '~> 0.1.5'
@@ -108,7 +112,7 @@ gem 'google-cloud-translate-v3', '>= 0.7.0'
 ##-- apm and error monitoring ---#
 # loaded only when environment variables are set.
 # ref application.rb
-gem 'ddtrace', require: false
+gem 'datadog', '~> 2.0', require: false
 gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
@@ -121,6 +125,8 @@ gem 'sentry-sidekiq', '>= 5.19.0', require: false
 gem 'sidekiq', '>= 7.3.1'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
+# for sidekiq healthcheck
+gem 'sidekiq_alive'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -177,7 +183,10 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.2.1'
+gem 'ai-agents', '>= 0.4.3'
+
+# TODO: Move this gem as a dependency of ai-agents
+gem 'ruby_llm-schema'
 
 gem 'shopify_api'
 
@@ -207,6 +216,8 @@ group :development do
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
+
+  gem 'tidewave'
 end
 
 group :test do
@@ -216,6 +227,7 @@ group :test do
   gem 'webmock'
   # test profiling
   gem 'test-prof'
+  gem 'simplecov_json_formatter', require: false
 end
 
 group :development, :test do
@@ -240,7 +252,7 @@ group :development, :test do
   gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
-  gem 'simplecov', '0.17.1', require: false
+  gem 'simplecov', '>= 0.21', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
 end

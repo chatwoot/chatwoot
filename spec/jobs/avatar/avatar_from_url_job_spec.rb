@@ -6,7 +6,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
 
   it 'enqueues the job' do
     expect { described_class.perform_later(avatarable, avatar_url) }.to have_enqueued_job(described_class)
-      .on_queue('deferred')
+      .on_queue('purgable')
   end
 
   it 'will attach avatar from url' do

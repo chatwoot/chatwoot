@@ -70,11 +70,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def sync_templates
-    unless @inbox.channel.is_a?(Channel::Whatsapp)
-      return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' }
-    end
+    return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' } unless whatsapp_channel?
 
-    Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
+    trigger_template_sync
     render status: :ok, json: { message: 'Template sync initiated successfully' }
   rescue StandardError => e
     render status: :internal_server_error, json: { error: e.message }
@@ -183,6 +181,18 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       channel_type.constantize::EDITABLE_ATTRS.presence
     else
       []
+    end
+  end
+
+  def whatsapp_channel?
+    @inbox.whatsapp? || (@inbox.twilio? && @inbox.channel.whatsapp?)
+  end
+
+  def trigger_template_sync
+    if @inbox.whatsapp?
+      Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
+    elsif @inbox.twilio? && @inbox.channel.whatsapp?
+      Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)
     end
   end
 end
