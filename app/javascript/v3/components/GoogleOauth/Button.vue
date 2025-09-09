@@ -11,8 +11,33 @@ export default {
       default: true,
     },
   },
+  computed: {
+    shouldShowGoogleLogin() {
+      // Check if Google OAuth is disabled via config
+      const googleOAuthDisabled = window.chatwootConfig?.googleOAuthDisabled;
+
+      // Handle string values from ENV (since ENV variables are strings)
+      if (googleOAuthDisabled === 'true' || googleOAuthDisabled === true) {
+        return false;
+      }
+
+      // Also check if required config exists
+      const hasGoogleConfig = 
+        window.chatwootConfig?.googleOAuthClientId && 
+        window.chatwootConfig?.googleOAuthCallbackUrl &&
+        window.chatwootConfig.googleOAuthClientId !== 'null' &&
+        window.chatwootConfig.googleOAuthClientId !== '';
+      
+      return hasGoogleConfig;
+    },
+  },
   methods: {
     getGoogleAuthUrl() {
+      // Return empty if not enable
+      if (!this.shouldShowGoogleLogin()) {
+        return '';
+      }
+
       // Ideally a request to /auth/google_oauth2 should be made
       // Creating the URL manually because the devise-token-auth with
       // omniauth has a standing issue on redirecting the post request
@@ -42,7 +67,7 @@ export default {
 <!-- eslint-disable vue/no-unused-refs -->
 <!-- Added ref for writing specs -->
 <template>
-  <div class="flex flex-col">
+  <div v-if="shouldShowGoogleLogin" class="flex flex-col">
     <a
       :href="getGoogleAuthUrl()"
       class="inline-flex justify-center w-full px-4 py-3 bg-white rounded-md shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-slate-600 hover:bg-slate-50 focus:outline-offset-0 dark:bg-slate-700 dark:hover:bg-slate-700"

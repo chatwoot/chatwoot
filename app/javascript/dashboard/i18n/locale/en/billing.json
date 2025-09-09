@@ -59,13 +59,14 @@
     "Complete Documentation": "Complete Documentation",
     "Standard Support": "Standard Support",
     "Dedicated Support": "Dedicated Support",
-    "1000 Maximum Active Users": "1.000 Maximum Active users",
-    "5000 Maximum Active Users": "5.000 Maximum Active users",
-    "Unlimited Maximum Active Users": "Unlimited Maximum Active users",
+    "1000 Maximum Active Users": "1.000 Maximum Active Users",
+    "5000 Maximum Active Users": "5.000 Maximum Active Users",
+    "Unlimited Maximum Active Users": "Unlimited Maximum Active Users",
     "150 Monthly Active Users": "150 Monthly Active Users",
     "500 Monthly Active Users": "500 Monthly Active Users",
     "1000 Monthly Active Users": "1.000 Monthly Active Users",
     "5000 Monthly Active Users": "5.000 Monthly Active Users",
+    "Unlimited Monthly Active Users": "Unlimited Maximum Active Users",
     "1 AI Agents": "1 AI Agent",
     "2 AI Agents": "2 AI Agents",
     "3 AI Agents": "3 AI Agents",
@@ -74,10 +75,12 @@
     "1 Human Agents": "1 Human Agent",
     "5 Human Agents": "5 Human Agents",
     "20 Human Agents": "20 Human Agents",
+    "50 Human Agents": "50 Human Agents",
     "Unlimited Human Agents": "Unlimited Human Agents",
     "1000 AI Responses": "1.000 AI Responses",
     "5000 AI Responses": "5.000 AI Responses",
     "20000 AI Responses": "20.000 AI Responses",
+    "50000 AI Responses": "50.000 AI Responses",
     "200000 AI Responses": "200.000 AI Responses",
     "INVOICE": {
       "TITLE": "Invoice",
@@ -91,15 +94,15 @@
       "PAY_TOTAL": "Total Payment",
       "CLOSE": "Close",
       "PAYMENT_WAITING": "Please make the payment before <b>{time}</b>, and ensure the amount matches <b>the payment information</b>"
+    },
+    "SUB_TOTAL" : "Sub Total",
+    "DISCOUNT_LBL": "Discount",
+    "Total_PAY": "Total Payment",
+    "DISCOUNT": {
+      "INPUT_PLACEHOLDER": "Enter voucher code",
+      "SUCCESS_APPLY": "Voucher is applied",
+      "CLEAR_VOUCHER_BTN": "Cancel",
+      "APPLY_BTN": "Apply"
     }
-  },
-  "SUB_TOTAL" : "Sub Total",
-  "DISCOUNT_LBL": "Discount",
-  "Total_PAY": "Total Payment",
-  "DISCOUNT": {
-    "INPUT_PLACEHOLDER": "Enter voucher code",
-    "SUCCESS_APPLY": "Voucher is applied",
-    "CLEAR_VOUCHER_BTN": "Cancel",
-    "APPLY_BTN": "Apply"
   }
 }

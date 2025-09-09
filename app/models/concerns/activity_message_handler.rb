@@ -25,7 +25,7 @@ module ActivityMessageHandler
     return unless saved_change_to_status?
 
     # If the status is changed to resolved, we create a resolved activity message.
-    status_change_template
+    # status_change_template
 
     status_change_activity(user_name)
   end
@@ -59,13 +59,13 @@ module ActivityMessageHandler
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
-  def status_change_template
-    return unless resolved?
+  # def status_change_template
+  #   return unless resolved?
 
-    content = I18n.t('conversations.templates.closing_message_body')
+  #   content = I18n.t('conversations.templates.closing_message_body')
 
-    ::Conversations::ActivityMessageJob.perform_later(self, template_message_params(content)) if content
-  end
+  #   ::Conversations::ActivityMessageJob.perform_later(self, template_message_params(content)) if content
+  # end
 
   def user_status_change_activity_content(user_name)
     if user_name
@@ -90,9 +90,9 @@ module ActivityMessageHandler
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
-  def template_message_params(content)
-    { account_id: account_id, inbox_id: inbox_id, message_type: :template, content: content }
-  end
+  # def template_message_params(content)
+  #   { account_id: account_id, inbox_id: inbox_id, message_type: :template, content: content }
+  # end
 
   def create_muted_message
     create_mute_change_activity('muted')

@@ -10,16 +10,17 @@ export default {
       return window.chatwootWebChannel.replyTime;
     },
     replyTimeStatus() {
-      switch (this.replyTime) {
-        case 'in_a_few_minutes':
-          return this.$t('REPLY_TIME.IN_A_FEW_MINUTES');
-        case 'in_a_few_hours':
-          return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
-        case 'in_a_day':
-          return this.$t('REPLY_TIME.IN_A_DAY');
-        default:
-          return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
-      }
+      // switch (this.replyTime) {
+      //   case 'in_a_few_minutes':
+      //     return this.$t('REPLY_TIME.IN_A_FEW_MINUTES');
+      //   case 'in_a_few_hours':
+      //     return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
+      //   case 'in_a_day':
+      //     return this.$t('REPLY_TIME.IN_A_DAY');
+      //   default:
+      //     return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
+      // }
+      return this.$t('REPLY_TIME.IN_A_FEW_MINUTES');
     },
     replyWaitMessage() {
       const { workingHoursEnabled } = this.channelConfig;
@@ -36,40 +37,41 @@ export default {
       return this.channelConfig.outOfOfficeMessage;
     },
     isInBetweenTheWorkingHours() {
-      const {
-        openHour,
-        openMinute,
-        closeHour,
-        closeMinute,
-        closedAllDay,
-        openAllDay,
-      } = this.currentDayAvailability;
+      return true;
+      // const {
+      //   openHour,
+      //   openMinute,
+      //   closeHour,
+      //   closeMinute,
+      //   closedAllDay,
+      //   openAllDay,
+      // } = this.currentDayAvailability;
 
-      if (openAllDay) {
-        return true;
-      }
+      // if (openAllDay) {
+      //   return true;
+      // }
 
-      if (closedAllDay) {
-        return false;
-      }
+      // if (closedAllDay) {
+      //   return false;
+      // }
 
-      const { utcOffset } = this.channelConfig;
-      const today = this.getDateWithOffset(utcOffset);
-      const currentHours = today.getHours();
-      const currentMinutes = today.getMinutes();
-      const isAfterStartTime = isTimeAfter(
-        currentHours,
-        currentMinutes,
-        openHour,
-        openMinute
-      );
-      const isBeforeEndTime = isTimeAfter(
-        closeHour,
-        closeMinute,
-        currentHours,
-        currentMinutes
-      );
-      return isAfterStartTime && isBeforeEndTime;
+      // const { utcOffset } = this.channelConfig;
+      // const today = this.getDateWithOffset(utcOffset);
+      // const currentHours = today.getHours();
+      // const currentMinutes = today.getMinutes();
+      // const isAfterStartTime = isTimeAfter(
+      //   currentHours,
+      //   currentMinutes,
+      //   openHour,
+      //   openMinute
+      // );
+      // const isBeforeEndTime = isTimeAfter(
+      //   closeHour,
+      //   closeMinute,
+      //   currentHours,
+      //   currentMinutes
+      // );
+      // return isAfterStartTime && isBeforeEndTime;
     },
     currentDayAvailability() {
       const { utcOffset } = this.channelConfig;

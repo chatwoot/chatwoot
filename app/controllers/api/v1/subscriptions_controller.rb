@@ -29,7 +29,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
     billing_cycle = params[:billing_cycle] || 'monthly'
     qty = params[:qty] || 1
     voucher_code = params[:voucher_code]
-    price = @subscription_plan.monthly_price * qty
+    price = calculate_package_price(@subscription_plan.monthly_price, @subscription_plan.name, qty)
 
     # Apply voucher if present
     if voucher_code.present?
@@ -195,6 +195,42 @@ class Api::V1::SubscriptionsController < Api::BaseController
   end
   
   private
+  
+  def round_price_by_range(amount)
+    if amount < 1_000_000
+      return (amount / 1_000.0).round * 1_000
+    elsif amount < 2_000_000
+      return (amount / 50_000.0).round * 50_000
+    elsif amount < 5_000_000
+      return (amount / 25_000.0).round * 25_000
+    elsif amount < 6_000_000
+      return (amount / 100_000.0).ceil * 100_000  # selalu naik
+    elsif amount < 10_000_000
+      return (amount / 100_000.0).round * 100_000
+    elsif amount < 30_000_000
+      return (amount / 250_000.0).round * 250_000
+    else
+      return (amount / 1_000_000.0).round * 1_000_000
+    end
+  end
+
+  def calculate_package_price(price, plan_name, duration)
+      # Hitung harga dasar sesuai durasi
+      total = price * duration
+
+      # Diskon berdasarkan durasi
+      case duration
+      when 3
+        total = round_price_by_range(price * 3 * 0.98)  # diskon 2%
+      when 6
+        total = round_price_by_range(price * 6 * 0.95)  # diskon 5%
+      when 12
+        total = round_price_by_range(price * 12 * 0.90) # diskon 10%
+      end
+
+      # Bulatkan sesuai aturan range
+      return total
+  end
   
   def set_account
     @account = current_user.accounts.where(status: 'active').find(params[:account_id])
