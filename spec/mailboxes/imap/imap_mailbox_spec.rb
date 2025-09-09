@@ -265,29 +265,5 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
-    context 'when find_conversation_by_in_reply_to times out' do
-      let(:inbound_mail) { create_inbound_email_from_mail(from: 'testemail@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'timeout-test@example.com') }
-
-      it 'handles query timeout gracefully and creates a new conversation' do
-        # Mock the query timeout
-        allow_any_instance_of(ActiveRecord::Relation).to receive(:first).and_raise(ActiveRecord::QueryCanceled.new('statement timeout'))
-        
-        expect do
-          class_instance.process(inbound_mail.mail, channel)
-        end.to change(Conversation, :count).by(1)
-
-        expect(conversation.contact.email).to eq(inbound_mail.mail.from.first)
-        expect(conversation.additional_attributes['source']).to eq('email')
-        expect(conversation.messages.empty?).to be false
-      end
-
-      it 'logs the timeout error' do
-        allow_any_instance_of(ActiveRecord::Relation).to receive(:first).and_raise(ActiveRecord::QueryCanceled.new('statement timeout'))
-        expect(Rails.logger).to receive(:error).with(/Query timeout in find_conversation_by_in_reply_to/)
-        expect(Rails.logger).to receive(:error).with(/statement timeout/)
-
-        class_instance.process(inbound_mail.mail, channel)
-      end
-    end
   end
 end

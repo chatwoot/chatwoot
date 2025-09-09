@@ -50,19 +50,7 @@ class SupportMailbox < ApplicationMailbox
   def find_conversation_by_in_reply_to
     return if in_reply_to.blank?
 
-    # Use a more optimized query with limit to prevent long-running queries
-    # The index on additional_attributes->>'in_reply_to' will help with performance
-    begin
-      @account.conversations
-              .where("additional_attributes->>'in_reply_to' = ?", in_reply_to)
-              .limit(1)
-              .first
-    rescue ActiveRecord::QueryCanceled => e
-      Rails.logger.error "Query timeout in find_conversation_by_in_reply_to for in_reply_to: #{in_reply_to}, account: #{@account.id}"
-      Rails.logger.error e.message
-      # Return nil to allow conversation creation to proceed
-      nil
-    end
+    @account.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
   end
 
   def in_reply_to
