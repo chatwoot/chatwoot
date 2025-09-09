@@ -62,6 +62,24 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#SET_ASSIGNMENT_POLICY', () => {
+    it('sets single assignment policy record', () => {
+      const state = { records: [] };
+
+      mutations[types.SET_ASSIGNMENT_POLICY](state, assignmentPoliciesList[0]);
+
+      expect(state.records).toEqual([assignmentPoliciesList[0]]);
+    });
+
+    it('replaces existing record', () => {
+      const state = { records: [{ id: 1, name: 'Old Policy' }] };
+
+      mutations[types.SET_ASSIGNMENT_POLICY](state, assignmentPoliciesList[0]);
+
+      expect(state.records).toEqual([assignmentPoliciesList[0]]);
+    });
+  });
+
   describe('#ADD_ASSIGNMENT_POLICY', () => {
     it('adds new policy to empty records', () => {
       const state = { records: [] };
@@ -262,6 +280,106 @@ describe('#mutations', () => {
       });
 
       expect(state).toEqual(originalState);
+    });
+  });
+
+  describe('#DELETE_ASSIGNMENT_POLICIES_INBOXES', () => {
+    it('removes inbox from policy', () => {
+      const mockInboxes = [
+        { id: 1, name: 'Support Inbox' },
+        { id: 2, name: 'Sales Inbox' },
+        { id: 3, name: 'Marketing Inbox' },
+      ];
+
+      const state = {
+        records: [
+          { id: 1, name: 'Policy 1', inboxes: mockInboxes },
+          { id: 2, name: 'Policy 2', inboxes: [] },
+        ],
+      };
+
+      mutations[types.DELETE_ASSIGNMENT_POLICIES_INBOXES](state, {
+        policyId: 1,
+        inboxId: 2,
+      });
+
+      expect(state.records[0].inboxes).toEqual([
+        { id: 1, name: 'Support Inbox' },
+        { id: 3, name: 'Marketing Inbox' },
+      ]);
+      expect(state.records[1].inboxes).toEqual([]);
+    });
+
+    it('does nothing if policy not found', () => {
+      const state = {
+        records: [
+          { id: 1, name: 'Policy 1', inboxes: [{ id: 1, name: 'Test' }] },
+        ],
+      };
+
+      const originalState = JSON.parse(JSON.stringify(state));
+
+      mutations[types.DELETE_ASSIGNMENT_POLICIES_INBOXES](state, {
+        policyId: 999,
+        inboxId: 1,
+      });
+
+      expect(state).toEqual(originalState);
+    });
+
+    it('does nothing if inbox not found in policy', () => {
+      const mockInboxes = [{ id: 1, name: 'Support Inbox' }];
+
+      const state = {
+        records: [{ id: 1, name: 'Policy 1', inboxes: mockInboxes }],
+      };
+
+      mutations[types.DELETE_ASSIGNMENT_POLICIES_INBOXES](state, {
+        policyId: 1,
+        inboxId: 999,
+      });
+
+      expect(state.records[0].inboxes).toEqual(mockInboxes);
+    });
+
+    it('handles policy with no inboxes', () => {
+      const state = {
+        records: [{ id: 1, name: 'Policy 1' }],
+      };
+
+      mutations[types.DELETE_ASSIGNMENT_POLICIES_INBOXES](state, {
+        policyId: 1,
+        inboxId: 1,
+      });
+
+      expect(state.records[0]).toEqual({ id: 1, name: 'Policy 1' });
+    });
+  });
+
+  describe('#ADD_ASSIGNMENT_POLICIES_INBOXES', () => {
+    it('updates policy attributes using MutationHelpers.updateAttributes', () => {
+      const state = {
+        records: [
+          { id: 1, name: 'Policy 1', assignedInboxCount: 2 },
+          { id: 2, name: 'Policy 2', assignedInboxCount: 1 },
+        ],
+      };
+
+      const updatedPolicy = {
+        id: 1,
+        name: 'Policy 1',
+        assignedInboxCount: 3,
+        inboxes: [{ id: 1, name: 'New Inbox' }],
+      };
+
+      mutations[types.ADD_ASSIGNMENT_POLICIES_INBOXES](state, updatedPolicy);
+
+      expect(state.records[0]).toEqual(updatedPolicy);
+      expect(state.records[1]).toEqual({
+        id: 2,
+        name: 'Policy 2',
+        assignedInboxCount: 1,
+      });
     });
   });
 });
