@@ -29,32 +29,23 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
     context 'when valid attachment message params' do
       it 'creates appropriate conversations, message and contacts' do
-        stub_request(:get, whatsapp_channel.media_url('b1c68f38-8734-4ad3-b4a1-ef0c10d683')).to_return(
-          status: 200,
-          body: {
-            messaging_product: 'whatsapp',
-            url: 'https://chatwoot-assets.local/sample.png',
-            mime_type: 'image/jpeg',
-            sha256: 'sha256',
-            file_size: 'SIZE',
-            id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683'
-          }.to_json,
-          headers: { 'content-type' => 'application/json' }
-        )
-        stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
-          status: 200,
-          body: File.read('spec/assets/sample.png')
-        )
-
+        stub_media_url_request
+        stub_sample_png_request
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
-        expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
-        expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be true
+        expect_conversation_created
+        expect_contact_name
+        expect_message_content
+        expect_message_has_attachment
       end
 
       it 'increments reauthorization count if fetching attachment fails' do
-        stub_request(:get, whatsapp_channel.media_url('b1c68f38-8734-4ad3-b4a1-ef0c10d683')).to_return(
+        stub_request(
+          :get,
+          whatsapp_channel.media_url(
+            'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+            whatsapp_channel.provider_config['phone_number_id']
+          )
+        ).to_return(
           status: 401
         )
 
@@ -114,5 +105,51 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
     end
+  end
+
+  # Métodos auxiliares para reduzir o tamanho do exemplo
+
+  def stub_media_url_request
+    stub_request(
+      :get,
+      whatsapp_channel.media_url(
+        'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+        whatsapp_channel.provider_config['phone_number_id']
+      )
+    ).to_return(
+      status: 200,
+      body: {
+        messaging_product: 'whatsapp',
+        url: 'https://chatwoot-assets.local/sample.png',
+        mime_type: 'image/jpeg',
+        sha256: 'sha256',
+        file_size: 'SIZE',
+        id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683'
+      }.to_json,
+      headers: { 'content-type' => 'application/json' }
+    )
+  end
+
+  def stub_sample_png_request
+    stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
+      status: 200,
+      body: File.read('spec/assets/sample.png')
+    )
+  end
+
+  def expect_conversation_created
+    expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+  end
+
+  def expect_contact_name
+    expect(Contact.all.first.name).to eq('Sojan Jose')
+  end
+
+  def expect_message_content
+    expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
+  end
+
+  def expect_message_has_attachment
+    expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be true
   end
 end
