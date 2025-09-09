@@ -27,4 +27,8 @@ module Enterprise::Account
   def unmark_for_deletion
     custom_attributes.delete('marked_for_deletion_at') && custom_attributes.delete('marked_for_deletion_reason') && save
   end
+
+  def saml_enabled?
+    saml_settings&.saml_enabled? || false
+  end
 end

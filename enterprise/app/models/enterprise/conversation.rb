@@ -1,17 +1,16 @@
 module Enterprise::Conversation
-  private
-
-  # Extend the base list so SLA changes trigger updates in EE
   def list_of_keys
     super + %w[sla_policy_id]
   end
 
-  # In EE, also consider call-related attributes in additional_attributes
+  # Include select additional_attributes keys (call related) for update events
   def allowed_keys?
-    (
-      previous_changes.keys.intersect?(list_of_keys) ||
-      (previous_changes['additional_attributes'].present? &&
-        previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language call_status call_duration]))
-    )
+    return true if super
+
+    attrs_change = previous_changes['additional_attributes']
+    return false unless attrs_change.is_a?(Array) && attrs_change[1].is_a?(Hash)
+
+    changed_attr_keys = attrs_change[1].keys
+    changed_attr_keys.intersect?(%w[call_status])
   end
 end

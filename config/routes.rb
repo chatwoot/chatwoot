@@ -69,6 +69,7 @@ Rails.application.routes.draw do
             end
             resources :documents, only: [:index, :show, :create, :destroy]
           end
+          resource :saml_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -540,13 +541,9 @@ Rails.application.routes.draw do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
 
-    # Voice webhooks (Enterprise-only)
     if ChatwootApp.enterprise?
-      # Use resource scope to avoid plural/singular confusion
       resource :voice, only: [], controller: 'voice' do
         collection do
-          # Phone-number-scoped endpoints (digits only, no '+')
-          get 'call/:phone', action: :call_twiml
           post 'call/:phone', action: :call_twiml
           post 'status/:phone', action: :status
         end

@@ -87,11 +87,11 @@
       "ERRORS": {
         "NAME": "El nombre del bot es obligatorio",
         "URL": "Dirección del webhook es requerida",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "VALID_URL": "Por favor, introduzca una URL válida comenzando con http:// o https://"
       },
       "CANCEL": "Cancelar",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "Crear Bot",
+      "UPDATE": "Actualizar Bot"
     },
     "WEBHOOK": {
       "DESCRIPTION": "Configure el webhook del bot para integrarse con sus servicios personalizados. El bot recibirá y procesará eventos de conversaciones y podrá responder a ellos."
