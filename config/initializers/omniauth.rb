@@ -2,6 +2,19 @@
 # SAML authentication is sensitive to URL mismatches, so OmniAuth needs the correct host
 OmniAuth.config.full_host = ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
 
+# Handle IdP-initiated Single Logout (SLO) session destruction
+def handle_saml_slo_session_destroy(env, _session)
+  # Extract user info from SAML logout request
+  logout_request = env['omniauth.strategy'].response_object
+  name_id = logout_request.name_id if logout_request.respond_to?(:name_id)
+
+  return unless name_id
+
+  # Find user by email and verify it's a SAML user
+  user = User.from_email(name_id)
+  user&.logout_all_sessions! if user&.provider == 'saml'
+end
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_oauth2, ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil), ENV.fetch('GOOGLE_OAUTH_CLIENT_SECRET', nil), {
     provider_ignores_state: true
@@ -34,6 +47,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                  env['omniauth.strategy'].options[:idp_sso_service_url] = settings.sso_url
                  env['omniauth.strategy'].options[:idp_cert] = settings.certificate
                  env['omniauth.strategy'].options[:name_identifier_format] = 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
+                 env['omniauth.strategy'].options[:idp_slo_session_destroy] = method(:handle_saml_slo_session_destroy)
                else
                  # Set a dummy certificate to avoid the error
                  env['omniauth.strategy'].options[:idp_cert] = 'DUMMY'
