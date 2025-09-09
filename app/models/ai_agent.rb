@@ -47,6 +47,13 @@ class AiAgent < ApplicationRecord
 
   accepts_nested_attributes_for :ai_agent_selected_labels, allow_destroy: true
 
+  before_validation :set_default_messages
+
+  def set_default_messages
+    self.system_prompts ||= 'Default system prompt'
+    self.welcoming_message ||= 'Welcome!'
+  end
+
   def push_event_data(_inbox = nil)
     {
       id: id,

@@ -13,16 +13,10 @@ class Captain::Llm::AssistantChatService
   private
 
   def generate_response
-    ::Captain::Llm::BaseJangkauService.new(@account_id, @ai_agent, @question, @session_id).perform
+    if @ai_agent.custom_agent?
+      ::Captain::Llm::BaseFlowiseService.new(@account_id, @ai_agent, @question, @session_id).perform
+    else
+      ::Captain::Llm::BaseJangkauService.new(@account_id, @ai_agent, @question, @session_id).perform
+    end
   end
-
-  # def generate_response
-  #   if @ai_agent.flowise?
-  #     ::Captain::Llm::BaseFlowiseService.new(@account_id, @ai_agent, @question, @session_id).perform
-  #   elsif @ai_agent.jangkau?
-  #     ::Captain::Llm::BaseJangkauService.new(@account_id, @ai_agent, @question, @session_id).perform
-  #   else
-  #     raise "Unsupported AI Agent type: #{@ai_agent.template_type}"
-  #   end
-  # end
 end

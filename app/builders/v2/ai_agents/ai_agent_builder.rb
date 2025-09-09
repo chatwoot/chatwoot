@@ -33,8 +33,6 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder
   end
 
   def update
-    # update_chat_flow
-
     ActiveRecord::Base.transaction do
       ai_agent.update!(ai_agent_params.merge(display_flow_data: ai_agent_params[:flow_data]))
     end
@@ -141,30 +139,6 @@ class V2::AiAgents::AiAgentBuilder < V2::AiAgents::AiAgentBaseBuilder
     selected_label = ai_agent.ai_agent_selected_labels.find_or_initialize_by(label_id: label[:label_id])
     selected_label.label_condition = label[:label_condition]
     selected_label.save!
-  end
-
-  def template_id
-    params[:template_id].presence || ai_agent.template_id
-  end
-
-  def template_ids
-    params[:template_ids].presence || ai_agent.template_id
-  end
-
-  def ai_agent_template
-    @ai_agent_template ||= AiAgentTemplate.find_by(id: template_id)
-  end
-
-  def ai_agent_templates
-    @ai_agent_templates ||= AiAgentTemplate.where(id: template_ids)
-  end
-
-  def ai_agent
-    @ai_agent ||= account.ai_agents.find(params[:id])
-  end
-
-  def production_environment?
-    ENV.fetch('RAILS_ENV', nil) == 'production'
   end
 
   def selected_labels_params
