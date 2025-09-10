@@ -2,7 +2,7 @@
 # This initializer adds SAML authentication support for Enterprise customers
 
 # SAML setup proc for multi-tenant configuration
-ENTERPRISE_SAML_SETUP_PROC = proc do |env|
+SAML_SETUP_PROC = proc do |env|
   request = ActionDispatch::Request.new(env)
 
   # Extract account_id from various sources
@@ -39,5 +39,5 @@ end
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   # SAML provider with setup phase for multi-tenant configuration
-  provider :saml, setup: ENTERPRISE_SAML_SETUP_PROC
+  provider :saml, setup: SAML_SETUP_PROC
 end
