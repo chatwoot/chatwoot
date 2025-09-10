@@ -6,8 +6,13 @@ RSpec.describe 'Enterprise Audit API', type: :request do
 
   describe 'POST /sign_in' do
     context 'with SAML user attempting password login' do
-      let!(:saml_settings) { create(:account_saml_settings, account: account) }
-      let!(:saml_user) { create(:user, email: 'saml@example.com', provider: 'saml', account: account) }
+      let(:saml_settings) { create(:account_saml_settings, account: account) }
+      let(:saml_user) { create(:user, email: 'saml@example.com', provider: 'saml', account: account) }
+
+      before do
+        saml_settings
+        saml_user
+      end
 
       it 'prevents login and returns SAML authentication error' do
         params = { email: saml_user.email, password: 'Password1!' }
@@ -16,7 +21,7 @@ RSpec.describe 'Enterprise Audit API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
         json_response = JSON.parse(response.body)
-        expect(json_response['success']).to eq(false)
+        expect(json_response['success']).to be(false)
         expect(json_response['errors']).to include(I18n.t('messages.login_saml_user'))
       end
 
