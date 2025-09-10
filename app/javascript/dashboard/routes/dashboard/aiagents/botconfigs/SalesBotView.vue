@@ -1915,8 +1915,7 @@ const mapLoadingTimeout = ref(null);
 
 // Google Maps API Integration
 // NOTE: Replace with your actual Google Maps API key
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'YOUR_GOOGLE_MAPS_API_KEY';
-
+const GOOGLE_MAPS_API_KEY = window.chatwootConfig?.googleMapsApiKey || '';
 // Validate API key
 const validateApiKey = () => {
   if (!GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
@@ -2194,38 +2193,6 @@ async function submitShippingConfig() {
 
   try {
     isSaving.value = true;
-    
-    const shippingData = {
-      kurirToko: shippingMethods.kurirToko ? {
-        alamat: kurirToko.alamat,
-        radius: kurirToko.radius,
-        wilayah: kurirToko.wilayah,
-        flatRate: kurirToko.flatRate,
-        biayaPerJarak: kurirToko.biayaPerJarak,
-        gratisOngkir: kurirToko.gratisOngkir,
-        minimalBelanja: kurirToko.gratisOngkir ? kurirToko.minimalBelanja : null,
-        coordinates: {
-          latitude: kurirToko.latitude,
-          longitude: kurirToko.longitude
-        }      
-      } : null,
-      kurirBiasa: shippingMethods.kurirBiasa ? {
-        alamat: {
-          provinsi: kurirBiasa.provinsi,
-          kota: kurirBiasa.kota,
-          kecamatan: kurirBiasa.kecamatan,
-          kelurahan: kurirBiasa.kelurahan,
-          jalan: kurirBiasa.jalan,
-          kodePos: kurirBiasa.kodePos
-        },
-        kurir: kurirBiasa.kurir
-      } : null,
-      ambilToko: shippingMethods.ambilToko ? {
-        alamat: ambilToko.alamat,
-        jamOperasional: `${ambilToko.jamBuka} - ${ambilToko.jamTutup}`,
-        estimasi: ambilToko.estimasi
-      } : null
-    };
 
     // Generate shipping configuration
     const shippingConfig = {
@@ -2322,20 +2289,6 @@ async function submitPaymentConfig() {
 
   try {
     isSaving.value = true;
-    
-    const paymentData = {
-      cod: paymentMethods.cod,
-      bankTransfer: paymentMethods.bankTransfer ? {
-        accounts: bankAccounts.value.filter(account => 
-          account.bankName && account.accountNumber && account.accountHolder
-        )
-      } : null,
-      paymentGateway: paymentMethods.paymentGateway ? {
-        provider: paymentGateway.provider,
-        apiKey: paymentGateway.apiKey,
-        merchantCode: paymentGateway.merchantCode
-      } : null
-    };
 
     // Generate payment configuration
     const paymentConfig = {
