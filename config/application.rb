@@ -49,7 +49,7 @@ module Chatwoot
 
     # Load enterprise initializers alongside standard initializers
     enterprise_initializers = Rails.root.join('enterprise/config/initializers')
-    Dir[enterprise_initializers.join('**/*.rb')].sort.each { |f| require f } if enterprise_initializers.exist?
+    Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
