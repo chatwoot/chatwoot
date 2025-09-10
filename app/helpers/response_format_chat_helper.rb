@@ -18,6 +18,8 @@ module ResponseFormatChatHelper
   end
 
   def normalize_utf8(string)
-    string.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
+    string.to_s
+          .force_encoding('UTF-8')
+          .encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
   end
 end

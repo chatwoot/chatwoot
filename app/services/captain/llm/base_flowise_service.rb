@@ -25,9 +25,8 @@ class Captain::Llm::BaseFlowiseService
       body: request_body.to_json,
       headers: headers
     )
-    response_body = response.body.force_encoding('UTF-8')
-    Rails.logger.info "[generate_response] Received Flowise response: #{response.code} #{response_body[0..100]}"
-    response_body
+    Rails.logger.info '[generate_response] Received Flowise response'
+    response
   rescue Net::OpenTimeout => e
     Rails.logger.error "[generate_response] Net::OpenTimeout error: #{e.message}"
     raise "Failed to generate response: #{e.message}"
