@@ -47,7 +47,7 @@ class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
 
   def send_messages
     send_message = Captain::Llm::AssistantChatService.new(
-      @message.content,
+      @message,
       @context.conversation.id,
       @context.ai_agent,
       @current_account.id

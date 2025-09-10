@@ -10,11 +10,12 @@ class Captain::Llm::BaseJangkauService
   #   write_timeout: ENV.fetch('JANGKAU_AGENT_API_WRITE_TIMEOUT', 30).to_i
   # )
 
-  def initialize(account_id, ai_agent, question, session_id)
+  def initialize(account_id, ai_agent, question, session_id, additional_attributes)
     @account_id = account_id
     @ai_agent = ai_agent
     @question = question
     @session_id = session_id
+    @additional_attributes = additional_attributes
   end
 
   def perform
@@ -63,7 +64,10 @@ class Captain::Llm::BaseJangkauService
       'overrideConfig' => {
         'sessionId' => @session_id.to_s,
         'vars' => {
-          'account_id' => @account_id.to_s
+          'account_id' => @account_id.to_s,
+          'customer_name' => @additional_attributes['name'] || '',
+          'contact' => @additional_attributes['phone_number'] || '',
+          'channel' => @additional_attributes['channel'] || ''
         }.merge(@ai_agent.flow_data || {})
       }
     }

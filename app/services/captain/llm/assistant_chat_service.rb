@@ -5,8 +5,10 @@ class Captain::Llm::AssistantChatService
 
   base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/')
 
-  def initialize(question, session_id, ai_agent, account_id)
-    @question = question
+  def initialize(message, session_id, ai_agent, account_id)
+    @message = message
+    @question = message.content
+    @additional_attributes = message.additional_attributes
     @session_id = session_id
     @ai_agent = ai_agent
     @account_id = account_id
@@ -39,9 +41,21 @@ class Captain::Llm::AssistantChatService
 
   def generate_response
     if @ai_agent.custom_agent?
-      ::Captain::Llm::BaseFlowiseService.new(@account_id, @ai_agent, @question, @session_id).perform
+      ::Captain::Llm::BaseFlowiseService.new(
+        @account_id,
+        @ai_agent,
+        @question,
+        @session_id,
+        @additional_attributes
+      ).perform
     else
-      ::Captain::Llm::BaseJangkauService.new(@account_id, @ai_agent, @question, @session_id).perform
+      ::Captain::Llm::BaseJangkauService.new(
+        @account_id,
+        @ai_agent,
+        @question,
+        @session_id,
+        @additional_attributes
+      ).perform
     end
   end
 end
