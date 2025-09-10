@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
 import { picoSearch } from '@scmmishra/pico-search';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -39,11 +40,17 @@ const handleAdd = inbox => {
   emit('add', inbox);
   togglePopover(false);
 };
+
+const handleClickOutside = () => {
+  if (showPopover.value) {
+    togglePopover(false);
+  }
+};
 </script>
 
 <template>
   <div
-    v-on-clickaway="() => togglePopover(false)"
+    v-on-click-outside="handleClickOutside"
     class="relative flex items-center group"
   >
     <Button
