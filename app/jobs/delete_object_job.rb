@@ -3,7 +3,6 @@ class DeleteObjectJob < ApplicationJob
 
   BATCH_SIZE = 5_000
   HEAVY_ASSOCIATIONS = {
-    # Order matters; purge largest fan-out first
     Account => %i[conversations contacts inboxes reporting_events],
     Inbox => %i[conversations contact_inboxes reporting_events]
   }.freeze
