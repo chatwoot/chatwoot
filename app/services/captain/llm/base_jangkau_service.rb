@@ -5,7 +5,7 @@ class Captain::Llm::BaseJangkauService
   base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/v2')
 
   default_options.update(
-    open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 5).to_i,
+    open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 30).to_i,
     read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 60).to_i
   )
 
