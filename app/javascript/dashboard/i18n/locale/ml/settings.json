@@ -451,6 +451,31 @@
           "Add agents to a policy - one policy per agent"
         ]
       }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "Priority",
+          "ACTIVE": "സജീവമാണ്",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "എഡിറ്റുചെയ്യുക"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "DELETE_POLICY": {
+        "TITLE": "Delete policy",
+        "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+        "CONFIRM_BUTTON_LABEL": "ഇല്ലാതാക്കുക",
+        "CANCEL_BUTTON_LABEL": "റദ്ദാക്കുക",
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
     }
   }
 }
