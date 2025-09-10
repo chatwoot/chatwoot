@@ -274,34 +274,139 @@
                   <!-- Service Area -->
                   <div>
                     <label class="block font-medium mb-3">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_AREA') }}</label>
-                    <div class="gap-4">
-                      <!-- Radius -->
-                      <div class="mb-3">
-                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_RADIUS') }}</label>
-                        <input 
-                          type="number" 
-                          min="0"
-                          step="0.1"
-                          class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
-                          :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_RADIUS_PLACEHOLDER')" 
-                          v-model="kurirToko.radius" 
-                        />
+                    <div class="space-y-4">
+                      <!-- Radius Option -->
+                      <div class="flex items-start space-x-3">
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input 
+                            type="radio" 
+                            v-model="kurirToko.serviceAreaType" 
+                            value="radius"
+                            class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                          />
+                        </label>
+                        <div class="flex-1">
+                          <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_RADIUS') }}</label>
+                          <div class="relative">
+                            <input 
+                              type="number" 
+                              min="0"
+                              step="0.1"
+                              :disabled="kurirToko.serviceAreaType !== 'radius'"
+                              class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !pr-10 !pl-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out" 
+                              :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_RADIUS_PLACEHOLDER')" 
+                              v-model="kurirToko.radius" 
+                            />
+                            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">km</span>
+                          </div>
+                        </div>
                       </div>
-                      <!-- Wilayah -->
-                      <div>
-                        <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_REGION') }}</label>
-                        <select 
-                          v-model="kurirToko.wilayah"
-                          class="w-full mb-0 p-2 text-sm  border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-                        >
-                          <option value="">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_REGION_PLACEHOLDER') }}</option>
-                          <option v-for="kecamatan in kecamatanOptions" :key="kecamatan.id" :value="kecamatan.name">
-                            {{ kecamatan.name }}
-                          </option>
-                          <option v-for="kota in kotaOptions" :key="'city-' + kota.id" :value="kota.name">
-                            {{ kota.name }}
-                          </option>
-                        </select>
+
+                      <!-- Region Option -->
+                      <div class="flex items-start space-x-3">
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input 
+                            type="radio" 
+                            v-model="kurirToko.serviceAreaType" 
+                            value="region"
+                            class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 focus:ring-2"
+                          />
+                        </label>
+                        <div class="flex-1">
+                          <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.SERVICE_REGION') }}</label>
+                          <div class="dropdown-menu dropdown-container bg-white dark:bg-slate-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60" ref="serviceAreaDropdownRef">
+                            <div class="relative">
+                              <input
+                                v-model="serviceAreaProvinsiSearchQuery"
+                                type="text"
+                                :placeholder="$t('AGENT_MGMT.SALESBOT.SHIPPING.PROVINCE_LABEL_PLACEHOLDER')"
+                                :disabled="kurirToko.serviceAreaType !== 'region'"
+                                class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                @input="onServiceAreaProvinsiSearch"
+                                @click="toggleServiceAreaProvinsiDropdown"
+                                :readonly="loadingProvinsi || kurirToko.serviceAreaType !== 'region'"
+                                :value="selectedServiceAreaProvinsiName"
+                              />
+                              <button
+                                type="button"
+                                @click="toggleServiceAreaProvinsiDropdown"
+                                :disabled="loadingProvinsi || kurirToko.serviceAreaType !== 'region'"
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                              >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                              </button>
+                            </div>
+                            
+                            <div
+                              v-if="isServiceAreaProvinsiDropdownOpen && kurirToko.serviceAreaType === 'region'"
+                              class="dropdown-menu absolute top-full left-0 right-0 mt-1 bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-600 rounded-lg max-h-60 overflow-y-auto z-50"
+                            >
+                              <div
+                                v-for="provinsi in filteredServiceAreaProvinsiOptions"
+                                :key="provinsi.id"
+                                @click="selectServiceAreaProvinsi(provinsi)"
+                                class="dropdown-item px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100 text-sm"
+                              >
+                                {{ provinsi.name }}
+                              </div>
+                              <div v-if="filteredServiceAreaProvinsiOptions.length === 0" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
+                                {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.NO_PROVINCE_FOUND') }}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <!-- City/District Dropdown for Region -->
+                          <div v-if="kurirToko.serviceAreaType === 'region' && kurirToko.wilayah" class="mt-3">
+                            <label class="block text-sm font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL') }}</label>
+                            <div class="dropdown-container" ref="serviceAreaKotaDropdownRef">
+                              <div class="relative">
+                                <input
+                                  v-model="serviceAreaKotaSearchQuery"
+                                  type="text"
+                                  :placeholder="selectedServiceAreaKotaName || (loadingServiceAreaKota ? 'Loading...' : $t('AGENT_MGMT.SALESBOT.SHIPPING.CITY_LABEL_PLACEHOLDER'))"
+                                  :disabled="!kurirToko.wilayah || loadingServiceAreaKota"
+                                  class="border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+                                  @input="onServiceAreaKotaSearch"
+                                  @click="toggleServiceAreaKotaDropdown"
+                                  :readonly="!kurirToko.wilayah || loadingServiceAreaKota"
+                                  :value="selectedServiceAreaKotaName"
+                                />
+                                <button
+                                  type="button"
+                                  @click="toggleServiceAreaKotaDropdown"
+                                  :disabled="!kurirToko.wilayah || loadingServiceAreaKota"
+                                  class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                >
+                                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                  </svg>
+                                </button>
+                              </div>
+                              
+                              <div
+                                v-if="isServiceAreaKotaDropdownOpen && kurirToko.wilayah"
+                                class="dropdown-menu absolute top-full left-0 right-0 mt-1 bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-600 rounded-lg max-h-60 overflow-y-auto z-50"
+                              >
+                                <div v-if="loadingServiceAreaKota" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
+                                  Loading cities...
+                                </div>
+                                <div
+                                  v-for="kota in filteredServiceAreaKotaOptions"
+                                  :key="kota.id"
+                                  @click="selectServiceAreaKota(kota)"
+                                  class="dropdown-item px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100 text-sm"
+                                >
+                                  {{ kota.name }}
+                                </div>
+                                <div v-if="!loadingServiceAreaKota && filteredServiceAreaKotaOptions.length === 0 && kurirToko.wilayah" class="px-4 py-2 text-gray-500 dark:text-gray-400 text-sm">
+                                  {{ $t('AGENT_MGMT.SALESBOT.SHIPPING.NO_CITY_FOUND') }}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1425,6 +1530,8 @@ const kurirToko = reactive({
   alamat: '', 
   radius: '', 
   wilayah: '', 
+  kotaWilayah: '', // For storing city/district selection in region type
+  serviceAreaType: 'radius', // 'radius' or 'region'
   pricingMethod: 'flatRate', // 'flatRate' or 'perDistance'
   flatRate: '',
   biayaPerJarak: '',
@@ -1456,6 +1563,9 @@ const kotaOptions = ref([]);
 const kecamatanOptions = ref([]);
 const kelurahanOptions = ref([]);
 const loadingKelurahan = ref(false);
+
+// Service area specific options
+const serviceAreaKotaOptions = ref([]);
 
 // Load kelurahan/desa from JSON based on selected province, kabupaten/kota, and kecamatan
 const loadKelurahan = async (provinceId, kabupatenId, kecamatanId) => {
@@ -1491,6 +1601,17 @@ const kecamatanDropdownRef = ref(null);
 const kelurahanSearchQuery = ref('');
 const isKelurahanDropdownOpen = ref(false);
 const kelurahanDropdownRef = ref(null);
+
+// Service Area dropdown variables
+const serviceAreaProvinsiSearchQuery = ref('');
+const isServiceAreaProvinsiDropdownOpen = ref(false);
+const serviceAreaDropdownRef = ref(null);
+
+// Service Area city dropdown variables
+const serviceAreaKotaSearchQuery = ref('');
+const isServiceAreaKotaDropdownOpen = ref(false);
+const serviceAreaKotaDropdownRef = ref(null);
+const loadingServiceAreaKota = ref(false);
 
 // Computed properties for filtered options
 const filteredProvinsiOptions = computed(() => {
@@ -1547,6 +1668,35 @@ const selectedKecamatanName = computed(() => {
 
 const selectedKelurahanName = computed(() => {
   const selected = kelurahanOptions.value.find(k => k.id === kurirBiasa.kelurahan);
+  return selected ? selected.name : '';
+});
+
+// Service Area computed properties
+const filteredServiceAreaProvinsiOptions = computed(() => {
+  if (!serviceAreaProvinsiSearchQuery.value) {
+    return provinsiOptions.value;
+  }
+  return provinsiOptions.value.filter(provinsi => 
+    provinsi.name.toLowerCase().includes(serviceAreaProvinsiSearchQuery.value.toLowerCase())
+  );
+});
+
+const filteredServiceAreaKotaOptions = computed(() => {
+  if (!serviceAreaKotaSearchQuery.value) {
+    return serviceAreaKotaOptions.value;
+  }
+  return serviceAreaKotaOptions.value.filter(kota => 
+    kota.name.toLowerCase().includes(serviceAreaKotaSearchQuery.value.toLowerCase())
+  );
+});
+
+const selectedServiceAreaProvinsiName = computed(() => {
+  const selected = provinsiOptions.value.find(p => p.id === kurirToko.wilayah);
+  return selected ? selected.name : '';
+});
+
+const selectedServiceAreaKotaName = computed(() => {
+  const selected = serviceAreaKotaOptions.value.find(k => k.id === kurirToko.kotaWilayah);
   return selected ? selected.name : '';
 });
 
@@ -1725,6 +1875,65 @@ function onKelurahanSearch() {
   }
 }
 
+// Service Area dropdown functions
+function toggleServiceAreaProvinsiDropdown() {
+  if (!loadingProvinsi.value && kurirToko.serviceAreaType === 'region') {
+    isServiceAreaProvinsiDropdownOpen.value = !isServiceAreaProvinsiDropdownOpen.value;
+  }
+}
+
+function toggleServiceAreaKotaDropdown() {
+  if (!loadingServiceAreaKota.value && kurirToko.serviceAreaType === 'region' && kurirToko.wilayah) {
+    isServiceAreaKotaDropdownOpen.value = !isServiceAreaKotaDropdownOpen.value;
+  }
+}
+
+function onServiceAreaProvinsiSearch() {
+  if (kurirToko.serviceAreaType === 'region') {
+    isServiceAreaProvinsiDropdownOpen.value = true;
+  }
+}
+
+function onServiceAreaKotaSearch() {
+  if (kurirToko.serviceAreaType === 'region' && kurirToko.wilayah) {
+    isServiceAreaKotaDropdownOpen.value = true;
+  }
+}
+
+function selectServiceAreaProvinsi(provinsi) {
+  kurirToko.wilayah = provinsi.id;
+  kurirToko.kotaWilayah = ''; // Reset city selection when province changes
+  serviceAreaProvinsiSearchQuery.value = '';
+  isServiceAreaProvinsiDropdownOpen.value = false;
+  serviceAreaKotaOptions.value = []; // Clear city options
+  // Load cities for selected province
+  loadServiceAreaKota(provinsi.id);
+}
+
+function selectServiceAreaKota(kota) {
+  kurirToko.kotaWilayah = kota.id;
+  serviceAreaKotaSearchQuery.value = '';
+  isServiceAreaKotaDropdownOpen.value = false;
+}
+
+// Load cities for service area based on selected province
+const loadServiceAreaKota = async (provinceId) => {
+  loadingServiceAreaKota.value = true;
+  try {
+    // Dynamically import kabupaten/kota JSON based on provinceId
+    const kabupatenModule = await import(
+      `../wilayah/kabupaten_kota/kab-${provinceId}.json`
+    );
+    const kabupatenJson = kabupatenModule.default || kabupatenModule;
+    serviceAreaKotaOptions.value = Object.entries(kabupatenJson).map(([id, name]) => ({ id, name }));
+  } catch (error) {
+    showNotification('Failed to load cities data for service area', 'error');
+    serviceAreaKotaOptions.value = [];
+  } finally {
+    loadingServiceAreaKota.value = false;
+  }
+};
+
 function selectKota(kota) {
   kurirBiasa.kota = kota.id;
   kotaSearchQuery.value = '';
@@ -1767,6 +1976,18 @@ function handleKecamatanClickOutside(event) {
 function handleKelurahanClickOutside(event) {
   if (kelurahanDropdownRef.value && !kelurahanDropdownRef.value.contains(event.target)) {
     isKelurahanDropdownOpen.value = false;
+  }
+}
+
+function handleServiceAreaClickOutside(event) {
+  if (serviceAreaDropdownRef.value && !serviceAreaDropdownRef.value.contains(event.target)) {
+    isServiceAreaProvinsiDropdownOpen.value = false;
+  }
+}
+
+function handleServiceAreaKotaClickOutside(event) {
+  if (serviceAreaKotaDropdownRef.value && !serviceAreaKotaDropdownRef.value.contains(event.target)) {
+    isServiceAreaKotaDropdownOpen.value = false;
   }
 }
 
@@ -1816,6 +2037,22 @@ watch(isKelurahanDropdownOpen, (isOpen) => {
   }
 });
 
+watch(isServiceAreaProvinsiDropdownOpen, (isOpen) => {
+  if (isOpen) {
+    document.addEventListener('click', handleServiceAreaClickOutside);
+  } else {
+    document.removeEventListener('click', handleServiceAreaClickOutside);
+  }
+});
+
+watch(isServiceAreaKotaDropdownOpen, (isOpen) => {
+  if (isOpen) {
+    document.addEventListener('click', handleServiceAreaKotaClickOutside);
+  } else {
+    document.removeEventListener('click', handleServiceAreaKotaClickOutside);
+  }
+});
+
 // Reset search queries when selections change
 watch(() => kurirBiasa.provinsi, () => {
   provinsiSearchQuery.value = '';
@@ -1831,6 +2068,14 @@ watch(() => kurirBiasa.kecamatan, () => {
 
 watch(() => kurirBiasa.kelurahan, () => {
   kelurahanSearchQuery.value = '';
+});
+
+watch(() => kurirToko.wilayah, () => {
+  serviceAreaProvinsiSearchQuery.value = '';
+});
+
+watch(() => kurirToko.kotaWilayah, () => {
+  serviceAreaKotaSearchQuery.value = '';
 });
 
 
@@ -2200,10 +2445,14 @@ async function submitShippingConfig() {
         alamat: kurirToko.alamat,
         radius: kurirToko.radius,
         wilayah: kurirToko.wilayah,
+        kotaWilayah: kurirToko.kotaWilayah,
+        serviceAreaType: kurirToko.serviceAreaType,
+        pricingMethod: kurirToko.pricingMethod,
         flatRate: kurirToko.flatRate,
         biayaPerJarak: kurirToko.biayaPerJarak,
         gratisOngkir: kurirToko.gratisOngkir,
         minimalBelanja: kurirToko.gratisOngkir ? kurirToko.minimalBelanja : null,
+        estimasi: kurirToko.estimasi,
         coordinates: {
           latitude: kurirToko.latitude,
           longitude: kurirToko.longitude
@@ -2441,6 +2690,8 @@ function loadSavedConfiguration() {
       alamat: '',
       radius: '',
       wilayah: '',
+      kotaWilayah: '', // Reset city selection
+      serviceAreaType: 'radius', // Reset to default
       pricingMethod: 'flatRate', // Reset to default
       flatRate: '',
       biayaPerJarak: '',
