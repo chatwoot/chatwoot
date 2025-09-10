@@ -417,8 +417,8 @@
         "DESC": "Integre con el canal de Telegram y comience a apoyar a sus clientes.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Configura el token de bot que has obtenido de Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "SUBTITLE": "Configura el token de agente IA que has obtenido de Telegram BotFather.",
+          "PLACEHOLDER": "Agente IA Token"
         },
         "SUBMIT_BUTTON": "Crear canal de Telegram",
         "API": {
@@ -606,7 +606,7 @@
       "PRE_CHAT_FORM": "Pre-formulario de chat",
       "BUSINESS_HOURS": "Horarios",
       "WIDGET_BUILDER": "Constructor de Widget",
-      "BOT_CONFIGURATION": "Configuración del bot",
+      "BOT_CONFIGURATION": "Configuración del agente IA",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "Encuestas de Satisfacción"
     },
@@ -671,7 +671,7 @@
       "DISPLAY_FILE_PICKER": "Mostrar el selector de archivos en el widget",
       "DISPLAY_EMOJI_PICKER": "Mostrar el selector de emoji en el widget",
       "ALLOW_END_CONVERSATION": "Permitir a los usuarios finalizar conversaciones desde el widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Usar nombre de bandeja de entrada y avatar para el bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Usar nombre de bandeja de entrada y avatar para el agente IA"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
