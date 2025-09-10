@@ -160,8 +160,10 @@ const setInboxPolicy = async (inboxId, policyId) => {
       'assignmentPolicies/getInboxes',
       Number(routeId.value)
     );
+    return true;
   } catch (error) {
     useAlert(t(`${BASE_KEY}.FORM.INBOXES.API.ERROR_MESSAGE`));
+    return false;
   }
 };
 
@@ -187,15 +189,21 @@ const handleAddInbox = async inbox => {
 };
 
 const handleConfirmAddInbox = async inboxId => {
-  await setInboxPolicy(inboxId, selectedPolicy.value?.id);
-  // Update the policy to reflect the assigned inbox count change
-  await store.dispatch('assignmentPolicies/updateInboxPolicy', {
-    policy: inboxLinkedPolicy.value,
-  });
-  // Fetch the updated inboxes for the policy after update, to reflect real-time changes
-  store.dispatch('assignmentPolicies/getInboxes', inboxLinkedPolicy.value?.id);
-  inboxLinkedPolicy.value = null;
-  confirmInboxDialogRef.value.closeDialog();
+  const success = await setInboxPolicy(inboxId, selectedPolicy.value?.id);
+
+  if (success) {
+    // Update the policy to reflect the assigned inbox count change
+    await store.dispatch('assignmentPolicies/updateInboxPolicy', {
+      policy: inboxLinkedPolicy.value,
+    });
+    // Fetch the updated inboxes for the policy after update, to reflect real-time changes
+    store.dispatch(
+      'assignmentPolicies/getInboxes',
+      inboxLinkedPolicy.value?.id
+    );
+    inboxLinkedPolicy.value = null;
+    confirmInboxDialogRef.value.closeDialog();
+  }
 };
 
 const handleValidationChange = validation => {
