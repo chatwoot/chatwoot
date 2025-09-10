@@ -4704,10 +4704,9 @@
                     "example": "open"
                   },
                   "snoozed_until": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "When status is `snoozed`, schedule the reopen time. If not provided, the conversation is snoozed until the next customer reply. The conversation always reopens when the customer replies.",
-                    "example": "2025-08-10T17:32:28Z"
+                    "type": "number",
+                    "description": "When status is `snoozed`, schedule the reopen time as a Unix timestamp in seconds. If not provided, the conversation is snoozed until the next customer reply. The conversation always reopens when the customer replies.",
+                    "example": 1757506877
                   }
                 }
               }
