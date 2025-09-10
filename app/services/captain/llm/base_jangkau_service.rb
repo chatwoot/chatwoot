@@ -5,8 +5,9 @@ class Captain::Llm::BaseJangkauService
   base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/')
 
   default_options.update(
-    open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 30).to_i,
-    read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 60).to_i
+    open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 5).to_i,
+    read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 15).to_i,
+    write_timeout: ENV.fetch('JANGKAU_AGENT_API_WRITE_TIMEOUT', 30).to_i
   )
 
   def initialize(account_id, ai_agent, question, session_id)
@@ -22,7 +23,7 @@ class Captain::Llm::BaseJangkauService
 
   private
 
-  def generate_response # rubocop:disable Metrics/AbcSize
+  def generate_response # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     Rails.logger.info '[generate_response] Generating response for Jangkau AI Agent'
 
     # 👇 Build the full URL
@@ -34,12 +35,20 @@ class Captain::Llm::BaseJangkauService
     Rails.logger.info "[generate_response] Request message: #{@question}"
 
     response = self.class.post(
-      endpoint,
+      '/v2/chat/override/',
       body: request_body.to_json,
       headers: headers
     )
     Rails.logger.info "[generate_response] Received Jangkau response: #{response.code} #{response.body}"
     response
+  rescue Net::OpenTimeout => e
+    Rails.logger.error "[generate_response] Net::OpenTimeout error: #{e.message}"
+    raise "Failed to generate response: #{e.message}"
+  rescue Net::ReadTimeout => e
+    Rails.logger.error "[generate_response] Net::ReadTimeout error: #{e.message}"
+    raise "Failed to generate response: #{e.message}"
+  rescue Net::WriteTimeout => e
+    Rails.logger.error "[generate_response] Net::WriteTimeout error: #{e.message}"
   rescue HTTParty::Error => e
     Rails.logger.error "[generate_response] HTTParty error: #{e.message}"
     raise "Failed to generate response: #{e.message}"
