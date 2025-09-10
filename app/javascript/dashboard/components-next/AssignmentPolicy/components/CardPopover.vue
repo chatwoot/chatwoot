@@ -1,6 +1,8 @@
 <script setup>
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
+
+import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
@@ -12,6 +14,10 @@ defineProps({
   title: {
     type: String,
     default: '',
+  },
+  buttonIcon: {
+    type: String,
+    default: 'i-lucide-inbox',
   },
   icon: {
     type: String,
@@ -53,7 +59,7 @@ const handleClickOutside = () => {
       class="h-6 px-2 rounded-md bg-n-alpha-2 gap-1.5 flex items-center"
       @click="handleButtonClick()"
     >
-      <Icon icon="i-lucide-inbox" class="size-3.5 text-n-slate-12" />
+      <Icon :icon="buttonIcon" class="size-3.5 text-n-slate-12" />
       <span class="text-n-slate-12 text-sm">
         {{ count }}
       </span>
@@ -74,28 +80,44 @@ const handleClickOutside = () => {
         <Spinner />
       </div>
 
-      <div v-else class="flex flex-col gap-4">
+      <div v-else class="flex flex-col gap-4 w-full">
         <div
           v-for="item in items"
           :key="item.id"
-          class="flex items-center gap-2 min-w-0 w-full"
+          class="flex items-center justify-between gap-2 min-w-0 w-full"
         >
-          <Icon
-            v-if="item.icon"
-            :icon="item.icon"
-            class="size-4 text-n-slate-12 flex-shrink-0"
-          />
-          <div class="flex items-center gap-1 min-w-0 flex-1">
-            <span
+          <div class="flex items-center gap-2 min-w-0 w-full">
+            <Icon
+              v-if="item.icon"
+              :icon="item.icon"
+              class="size-4 text-n-slate-12 flex-shrink-0"
+            />
+            <Avatar
+              v-else
               :title="item.name"
-              class="text-sm text-n-slate-12 truncate min-w-0"
-            >
-              {{ item.name }}
-            </span>
-            <span v-if="item.id" class="text-sm text-n-slate-11 flex-shrink-0">
-              {{ `#${item.id}` }}
-            </span>
+              :src="item.avatarUrl"
+              :name="item.name"
+              :size="20"
+              rounded-full
+            />
+            <div class="flex items-center gap-1 min-w-0 flex-1">
+              <span
+                :title="item.name"
+                class="text-sm text-n-slate-12 truncate min-w-0"
+              >
+                {{ item.name }}
+              </span>
+              <span
+                v-if="item.id"
+                class="text-sm text-n-slate-11 flex-shrink-0"
+              >
+                {{ `#${item.id}` }}
+              </span>
+            </div>
           </div>
+          <span v-if="item.email" class="text-sm text-n-slate-11 flex-shrink-0">
+            {{ item.email }}
+          </span>
         </div>
       </div>
     </div>
