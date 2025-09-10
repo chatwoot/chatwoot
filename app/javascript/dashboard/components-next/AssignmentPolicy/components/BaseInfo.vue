@@ -3,6 +3,7 @@ import { computed, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 
+import WithLabel from 'v3/components/Form/WithLabel.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 
@@ -74,43 +75,52 @@ watch(
   <div class="flex flex-col gap-4 pb-4">
     <!-- Policy Name Field -->
     <div class="flex items-center gap-6">
-      <label class="text-sm font-medium text-n-slate-12 min-w-[120px]">
-        {{ nameLabel }}
-      </label>
-      <div class="flex-1">
-        <Input
-          v-model="policyName"
-          type="text"
-          :placeholder="namePlaceholder"
-        />
-      </div>
+      <WithLabel
+        :label="nameLabel"
+        name="policyName"
+        class="flex items-center w-full [&>label]:min-w-[120px]"
+      >
+        <div class="flex-1">
+          <Input
+            v-model="policyName"
+            type="text"
+            :placeholder="namePlaceholder"
+          />
+        </div>
+      </WithLabel>
     </div>
 
     <!-- Description Field -->
     <div class="flex items-center gap-6">
-      <label class="text-sm font-medium text-n-slate-12 min-w-[120px]">
-        {{ descriptionLabel }}
-      </label>
-      <div class="flex-1">
-        <Input
-          v-model="description"
-          type="text"
-          :placeholder="descriptionPlaceholder"
-        />
-      </div>
+      <WithLabel
+        :label="descriptionLabel"
+        name="description"
+        class="flex items-center w-full [&>label]:min-w-[120px]"
+      >
+        <div class="flex-1">
+          <Input
+            v-model="description"
+            type="text"
+            :placeholder="descriptionPlaceholder"
+          />
+        </div>
+      </WithLabel>
     </div>
 
     <!-- Status Field -->
     <div class="flex items-center gap-6">
-      <label class="text-sm font-medium text-n-slate-12 min-w-[120px]">
-        {{ statusLabel }}
-      </label>
-      <div class="flex items-center gap-3">
-        <Switch v-model="enabled" />
-        <span class="text-sm text-n-slate-11">
-          {{ statusPlaceholder }}
-        </span>
-      </div>
+      <WithLabel
+        :label="statusLabel"
+        name="enabled"
+        class="flex items-center w-full [&>label]:min-w-[120px]"
+      >
+        <div class="flex items-center gap-2">
+          <Switch v-model="enabled" />
+          <span class="text-sm text-n-slate-11">
+            {{ statusPlaceholder }}
+          </span>
+        </div>
+      </WithLabel>
     </div>
   </div>
 </template>

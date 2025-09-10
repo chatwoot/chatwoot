@@ -9,6 +9,7 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import WithLabel from 'v3/components/Form/WithLabel.vue';
 import SettingsLayout from 'dashboard/routes/dashboard/settings/SettingsLayout.vue';
 import BaseInfo from 'dashboard/components-next/AssignmentPolicy/components/BaseInfo.vue';
 import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
@@ -272,20 +273,22 @@ watch(routeId, fetchPolicyData, { immediate: true });
             :key="section.key"
             class="py-4 flex flex-col items-start gap-3 w-full"
           >
-            <label class="text-sm font-medium text-n-slate-12 py-1">
-              {{ section.label }}
-            </label>
-            <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 w-full">
-              <RadioCard
-                v-for="option in section.options"
-                :id="option.key"
-                :key="option.key"
-                :label="option.label"
-                :description="option.description"
-                :is-active="option.isActive"
-                @select="state[section.key] = $event"
-              />
-            </div>
+            <WithLabel
+              :label="section.label"
+              class="w-full flex items-start flex-col gap-3"
+            >
+              <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 w-full">
+                <RadioCard
+                  v-for="option in section.options"
+                  :id="option.key"
+                  :key="option.key"
+                  :label="option.label"
+                  :description="option.description"
+                  :is-active="option.isActive"
+                  @select="state[section.key] = $event"
+                />
+              </div>
+            </WithLabel>
           </div>
         </div>
 

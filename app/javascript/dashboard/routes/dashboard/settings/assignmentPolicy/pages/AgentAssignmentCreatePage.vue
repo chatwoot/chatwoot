@@ -12,6 +12,7 @@ import SettingsLayout from 'dashboard/routes/dashboard/settings/SettingsLayout.v
 import BaseInfo from 'dashboard/components-next/AssignmentPolicy/components/BaseInfo.vue';
 import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
 import FairDistribution from 'dashboard/components-next/AssignmentPolicy/components/FairDistribution.vue';
+import WithLabel from 'v3/components/Form/WithLabel.vue';
 
 const ROUND_ROBIN = 'round_robin';
 const BALANCED = 'balanced';
@@ -201,44 +202,50 @@ const handleBreadcrumbClick = item => {
         />
         <div class="flex flex-col items-center">
           <div class="py-4 flex flex-col items-start gap-3 w-full">
-            <label class="text-sm font-medium text-n-slate-12 py-1">
-              {{
+            <WithLabel
+              :label="
                 t(
                   'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.FORM.ASSIGNMENT_ORDER.LABEL'
                 )
-              }}
-            </label>
-            <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 w-full">
-              <RadioCard
-                v-for="option in assignmentOrderOptions"
-                :id="option.key"
-                :key="option.key"
-                :label="option.label"
-                :description="option.description"
-                :is-active="option.isActive"
-                @select="handleAssignmentOrderChange"
-              />
-            </div>
+              "
+              name="assignment-order"
+              class="w-full flex items-start flex-col gap-3"
+            >
+              <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 w-full">
+                <RadioCard
+                  v-for="option in assignmentOrderOptions"
+                  :id="option.key"
+                  :key="option.key"
+                  :label="option.label"
+                  :description="option.description"
+                  :is-active="option.isActive"
+                  @select="handleAssignmentOrderChange"
+                />
+              </div>
+            </WithLabel>
           </div>
           <div class="py-4 flex flex-col items-start gap-3 w-full">
-            <label class="text-sm font-medium text-n-slate-12 py-1">
-              {{
+            <WithLabel
+              :label="
                 t(
                   'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.FORM.ASSIGNMENT_PRIORITY.LABEL'
                 )
-              }}
-            </label>
-            <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 w-full">
-              <RadioCard
-                v-for="option in assignmentPriorityOptions"
-                :id="option.key"
-                :key="option.key"
-                :label="option.label"
-                :description="option.description"
-                :is-active="option.isActive"
-                @select="handleConversationPriorityChange"
-              />
-            </div>
+              "
+              name="assignment-priority"
+              class="w-full flex items-start flex-col gap-3"
+            >
+              <div class="grid grid-cols-1 xs:grid-cols-2 gap-4 w-full">
+                <RadioCard
+                  v-for="option in assignmentPriorityOptions"
+                  :id="option.key"
+                  :key="option.key"
+                  :label="option.label"
+                  :description="option.description"
+                  :is-active="option.isActive"
+                  @select="handleConversationPriorityChange"
+                />
+              </div>
+            </WithLabel>
           </div>
         </div>
         <div class="py-4 pb-6 flex-col flex gap-4">
