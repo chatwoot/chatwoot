@@ -8,7 +8,8 @@ class DeleteObjectJob < ApplicationJob
   }.freeze
 
   def perform(object, user = nil, ip = nil)
-    # Pre-purge heavy associations for large objects to avoid timeouts
+    # Pre-purge heavy associations for large objects to avoid
+    # timeouts & race conditions due to destroy_async fan-out.
     purge_heavy_associations(object)
     object.destroy!
     process_post_deletion_tasks(object, user, ip)
