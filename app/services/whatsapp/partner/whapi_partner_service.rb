@@ -171,56 +171,87 @@ class Whatsapp::Partner::WhapiPartnerService
   # Authenticates using the per-channel token against WHAPI_API_BASE_URL
   # Canonical endpoint: GET /users/login → returns QR as base64
   def generate_qr_code(channel_token:)
+    Rails.logger.info "[WhapiPartner] Starting QR code generation for channel token: #{channel_token[0..8]}..."
+    
     # Check circuit breaker before attempting
-    Rails.logger.warn '[WhapiPartner] Service is degraded, using minimal timeout for QR generation' if service_degraded?
+    if service_degraded?
+      Rails.logger.warn '[WhapiPartner] Service is degraded, using minimal timeout for QR generation'
+    else
+      Rails.logger.info '[WhapiPartner] Service is healthy, using standard timeout for QR generation'
+    end
 
-    generate_qr_code_base64_with_retry(channel_token: channel_token)
+    result = generate_qr_code_base64_with_retry(channel_token: channel_token)
+    Rails.logger.info "[WhapiPartner] QR code generation completed successfully. QR expires in: #{result['expires_in']}s"
+    result
+  rescue StandardError => e
+    Rails.logger.error "[WhapiPartner] QR code generation failed completely: #{e.message}"
+    raise e
   end
 
   def generate_qr_code_base64_with_retry(channel_token:, retries: 3)
+    Rails.logger.info "[WhapiPartner] Starting QR code base64 generation with #{retries} retries for token: #{channel_token[0..8]}..."
+    
     # Check if service is known to be down
     if Rails.cache.read(WHAPI_SERVICE_DOWN_CACHE_KEY)
+      Rails.logger.error '[WhapiPartner] Service is marked as down, aborting QR generation'
       raise StandardError, 'WHAPI service is temporarily unavailable. Please try again in a few minutes.'
     end
 
     last_error = nil
 
     retries.times do |attempt|
-      Rails.logger.info "[WhapiPartner] QR Code base64 attempt #{attempt + 1} of #{retries}"
-      result = generate_qr_code_base64(channel_token: channel_token)
+      Rails.logger.info "[WhapiPartner] QR Code base64 attempt #{attempt + 1} of #{retries} for token #{channel_token[0..8]}..."
+      
+      begin
+        result = generate_qr_code_base64(channel_token: channel_token)
+        Rails.logger.info "[WhapiPartner] QR Code attempt #{attempt + 1} succeeded! QR length: #{result['image_base64']&.length}, expires_in: #{result['expires_in']}"
+        
+        # Clear circuit breaker on success
+        Rails.cache.delete(WHAPI_SERVICE_DOWN_CACHE_KEY)
+        return result
+      rescue StandardError => e
+        last_error = e.message
+      
+        # Log detailed error information
+        Rails.logger.error "[WhapiPartner] QR Code attempt #{attempt + 1} failed with #{e.class}: #{last_error}"
+        Rails.logger.error "[WhapiPartner] Error backtrace: #{e.backtrace&.first(3)&.join(' -> ')}"
+        Rails.logger.error "[WhapiPartner] Channel token used: #{channel_token[0..8]}..."
 
-      # Clear circuit breaker on success
-      Rails.cache.delete(WHAPI_SERVICE_DOWN_CACHE_KEY)
-      return result
+        # Don't retry if channel is already authenticated
+        if e.message.include?('already authenticated')
+          Rails.logger.info '[WhapiPartner] QR Code: Channel already authenticated, stopping retries'
+          raise e
+        end
 
-    rescue StandardError => e
-      last_error = e.message
+        # Check for service degradation patterns
+        if e.message.include?('503') || e.message.include?('temporarily unavailable')
+          Rails.logger.warn '[WhapiPartner] Detected service degradation, marking service as degraded'
+          mark_service_degraded
+        end
 
-      # Don't retry if channel is already authenticated
-      if e.message.include?('already authenticated')
-        Rails.logger.info '[WhapiPartner] QR Code: Channel already authenticated, stopping retries'
-        raise e
-      end
+        Rails.logger.warn "[WhapiPartner] QR Code base64 attempt #{attempt + 1} failed: #{last_error}"
 
-      # Check for service degradation patterns
-      mark_service_degraded if e.message.include?('503') || e.message.include?('temporarily unavailable')
-
-      Rails.logger.warn "[WhapiPartner] QR Code base64 attempt #{attempt + 1} failed: #{last_error}"
-
-      # Linear backoff with faster recovery - wait before retry, but not on the last attempt
-      if attempt < retries - 1
-        sleep_time = [1, 2, 3][attempt] || 3 # 1s, 2s, 3s instead of 1s, 2s, 4s
-        Rails.logger.info "[WhapiPartner] QR Code: Waiting #{sleep_time}s before retry..."
-        sleep(sleep_time)
+        # Linear backoff with faster recovery - wait before retry, but not on the last attempt
+        if attempt < retries - 1
+          sleep_time = [1, 2, 3][attempt] || 3 # 1s, 2s, 3s instead of 1s, 2s, 4s
+          Rails.logger.info "[WhapiPartner] QR Code: Waiting #{sleep_time}s before retry #{attempt + 2}..."
+          sleep(sleep_time)
+        else
+          Rails.logger.error "[WhapiPartner] All QR Code attempts exhausted for token #{channel_token[0..8]}..."
+        end
       end
     end
 
     # Mark service as potentially down after all retries fail
     if last_error&.include?('Timeout') || last_error&.include?('503')
+      Rails.logger.error "[WhapiPartner] Marking WHAPI service as down due to: #{last_error}"
+      Rails.logger.error "[WhapiPartner] Service will be marked as down for #{WHAPI_SERVICE_DOWN_TTL} seconds"
       Rails.cache.write(WHAPI_SERVICE_DOWN_CACHE_KEY, true, expires_in: WHAPI_SERVICE_DOWN_TTL)
     end
 
-    raise(StandardError, "WHAPI generate_qr_code_base64 failed after #{retries} attempts. Last error: #{last_error}")
+    final_error = "WHAPI generate_qr_code_base64 failed after #{retries} attempts for token #{channel_token[0..8]}.... Last error: #{last_error}"
+    Rails.logger.error "[WhapiPartner] #{final_error}"
+    raise(StandardError, final_error)
   end
 
   def delete_channel(channel_id:)
@@ -338,6 +369,8 @@ class Whatsapp::Partner::WhapiPartnerService
   private
 
   def generate_qr_code_base64(channel_token:)
+    Rails.logger.info "[WhapiPartner] Executing QR code base64 request for token: #{channel_token[0..8]}..."
+    
     rate_limit_external_api_call('generate_qr_code')
     headers = api_headers_with_channel_token(channel_token).merge(
       'Accept' => 'application/json, text/plain, */*'
@@ -345,20 +378,30 @@ class Whatsapp::Partner::WhapiPartnerService
 
     # Optimized timeout settings based on service health
     timeout_config = if service_degraded?
+                       Rails.logger.info '[WhapiPartner] Using generous timeouts (service degraded): 15s total, 12s read, 8s open'
                        { timeout: 15, read_timeout: 12, open_timeout: 8 } # More generous timeouts when degraded
                      else
+                       Rails.logger.info '[WhapiPartner] Using aggressive timeouts (service healthy): 8s total, 6s read, 3s open'
                        { timeout: 8, read_timeout: 6, open_timeout: 3 }   # Aggressive timeouts when healthy
                      end
 
+    Rails.logger.info "[WhapiPartner] Making GET request to #{api_base_url}/users/login with timeout config: #{timeout_config}"
+    start_time = Time.current
+    
     response = self.class.get(
       "#{api_base_url}/users/login",
       headers: headers,
       **timeout_config
     )
 
-    # Enhanced logging for debugging
-    if Rails.env.development?
-      Rails.logger.debug "[WhapiPartner] QR Code Base64 Response: Status=#{response&.code}, Content-Type=#{response&.headers&.[]('content-type')}"
+    duration = Time.current - start_time
+    Rails.logger.info "[WhapiPartner] QR Code Response: Status=#{response&.code}, Content-Type=#{response&.headers&.[]('content-type')}, Duration=#{duration.round(2)}s"
+    
+    # Log response details for debugging service failures
+    unless response&.success?
+      Rails.logger.error "[WhapiPartner] QR Code Failed: Status=#{response&.code}, Duration=#{duration.round(2)}s"
+      Rails.logger.error "[WhapiPartner] QR Code Failed Body: #{response&.body&.truncate(500)}"
+      Rails.logger.error "[WhapiPartner] QR Code Failed Headers: #{response&.headers}"
     end
 
     # Handle specific HTTP status codes

@@ -57,13 +57,18 @@ class ForwardNotificationService
     whatsapp_channel = @account.whatsapp_channels.find_by(provider: 'whapi')
 
     if whatsapp_channel.nil?
+      Rails.logger.info "No existing whapi channel found for account #{@account.id}, checking for default API key"
       default_api_key = ENV['DEFAULT_WHAPI_CHANNEL_TOKEN']
       if default_api_key.present?
+        Rails.logger.info "Creating new whapi channel for account #{@account.id} using default API Token: #{default_api_key[0..8]}..."
         whatsapp_channel = create_whapi_channel(default_api_key)
       else
         Rails.logger.error "Account #{@account.id} with no whapi channel and no default whapi channel token defined"
       return
       end
+    else
+      api_key = whatsapp_channel.provider_config&.dig('api_key')
+      Rails.logger.info "Using existing whapi channel for account #{@account.id} with API key: #{api_key&.[](0..8)}..."
     end
 
     # Validate that the channel has proper configuration
