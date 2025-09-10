@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
+import { formatToTitleCase } from 'dashboard/helper/commons';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
@@ -32,10 +33,6 @@ const inboxes = computed(() => {
     };
   });
 });
-
-const formatToTitleCase = str => {
-  return str?.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || '';
-};
 
 const order = computed(() => {
   return formatToTitleCase(props.assignmentOrder);
