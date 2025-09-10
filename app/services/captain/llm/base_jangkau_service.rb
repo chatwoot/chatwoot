@@ -4,11 +4,11 @@ class Captain::Llm::BaseJangkauService
   include HTTParty
   base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/')
 
-  default_options.update(
-    open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 5).to_i,
-    read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 15).to_i,
-    write_timeout: ENV.fetch('JANGKAU_AGENT_API_WRITE_TIMEOUT', 30).to_i
-  )
+  # default_options.update(
+  #   open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 5).to_i,
+  #   read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 15).to_i,
+  #   write_timeout: ENV.fetch('JANGKAU_AGENT_API_WRITE_TIMEOUT', 30).to_i
+  # )
 
   def initialize(account_id, ai_agent, question, session_id)
     @account_id = account_id
