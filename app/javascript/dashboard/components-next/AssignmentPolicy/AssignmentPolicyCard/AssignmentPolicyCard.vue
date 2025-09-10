@@ -60,7 +60,7 @@ const handleFetchInboxes = () => {
 </script>
 
 <template>
-  <CardLayout class="[&>div]:px-5 cursor-pointer">
+  <CardLayout class="[&>div]:px-5">
     <div class="flex flex-col gap-2 relative justify-between w-full">
       <div class="flex items-center gap-3 justify-between w-full">
         <div class="flex items-center gap-3">
