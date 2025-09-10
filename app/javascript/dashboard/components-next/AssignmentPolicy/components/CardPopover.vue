@@ -1,5 +1,6 @@
 <script setup>
 import { useToggle } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
@@ -33,6 +34,12 @@ const [showPopover, togglePopover] = useToggle();
 const handleButtonClick = () => {
   emit('fetch');
   togglePopover(!showPopover.value);
+};
+
+const handleClickOutside = () => {
+  if (showPopover.value) {
+    togglePopover(false);
+  }
 };
 </script>
 
