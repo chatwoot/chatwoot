@@ -1,8 +1,7 @@
 # Downloads and attaches avatar images from a URL.
 # Notes:
 # - For contact objects, we use `additional_attributes` to rate limit the
-#   job and track state. Sync
-#   attributes are only persisted when an actual avatar update occurs.
+#   job and track state.
 # - We save the hash of the synced URL to retrigger downloads only when
 #   there is a change in the underlying asset.
 # - A 1 minute rate limit window is enforced via `last_avatar_sync_at`.
