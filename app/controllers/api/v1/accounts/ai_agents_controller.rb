@@ -55,6 +55,23 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     end
   end
 
+  def chat_health
+    Captain::Llm::AssistantChatService.new(
+      params[:question],
+      params[:session_id],
+      ai_agent,
+      account.id
+    ).health.then do |response|
+      if response.success?
+        parsed_response = response.parsed_response
+        json_data = json_response(parsed_response)
+        render json: json_data, status: :ok
+      else
+        handle_error('Failed to generate AI response', status: :unprocessable_entity, exception: response)
+      end
+    end
+  end
+
   def ai_agent_templates
     agent_templates = AiAgentTemplate.jangkau.select(:id, :name)
     render json: agent_templates, status: :ok

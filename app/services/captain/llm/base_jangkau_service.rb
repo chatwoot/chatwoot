@@ -2,10 +2,10 @@ require 'httparty'
 
 class Captain::Llm::BaseJangkauService
   include HTTParty
-  base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/v2')
+  base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/')
 
   default_options.update(
-    open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 5).to_i,
+    open_timeout: ENV.fetch('JANGKAU_AGENT_API_OPEN_TIMEOUT', 30).to_i,
     read_timeout: ENV.fetch('JANGKAU_AGENT_API_READ_TIMEOUT', 60).to_i
   )
 
@@ -27,8 +27,8 @@ class Captain::Llm::BaseJangkauService
 
     # 👇 Build the full URL
     base_url = self.class.base_uri.strip # e.g., "https://agent.jangkau.ai/v2"
-    endpoint = '/chat/override/'         # the path you're POSTing to
-    full_url = "#{base_url}#{endpoint}"  # 👈 Full URL
+    endpoint = '/v2/chat/override/' # the path you're POSTing to
+    full_url = "#{base_url}#{endpoint}" # 👈 Full URL
 
     Rails.logger.info "[generate_response] Request will be sent to: #{full_url}"
     Rails.logger.info "[generate_response] Request message: #{@question}"
