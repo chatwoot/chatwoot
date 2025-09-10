@@ -2,7 +2,8 @@ module ResponseFormatChatHelper
   include JsonHelper
 
   def parsed_response(response)
-    message = response&.dig('response')
+    raw_message = response&.dig('response')
+    message = normalize_utf8(raw_message)
     is_handover = response&.dig('is_handover_human') || false
 
     [message, is_handover]
@@ -14,5 +15,9 @@ module ResponseFormatChatHelper
     else
       response
     end
+  end
+
+  def normalize_utf8(string)
+    string.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
   end
 end
