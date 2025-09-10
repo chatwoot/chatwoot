@@ -1,12 +1,14 @@
 module Enterprise::DeviseOverrides::SessionsController
   def create
-    check_saml_user
+    if saml_user_attempting_password_login?
+      render json: {
+        success: false,
+        errors: [I18n.t('messages.login_saml_user')]
+      }, status: :unauthorized
+      return
+    end
+
     super
-  rescue CustomExceptions::Base => e
-    render json: {
-      success: false,
-      errors: [e.message]
-    }, status: e.http_status_code
   end
 
   def render_create_success
@@ -35,14 +37,14 @@ module Enterprise::DeviseOverrides::SessionsController
 
   private
 
-  def check_saml_user
-    return if params[:email].blank?
+  def saml_user_attempting_password_login?
+    return false if params[:email].blank?
 
     user = User.from_email(params[:email])
-    return unless user&.provider == 'saml'
+    return false unless user&.provider == 'saml'
 
-    return if params[:sso_auth_token].present? && user.valid_sso_auth_token?(params[:sso_auth_token])
+    return false if params[:sso_auth_token].present? && user.valid_sso_auth_token?(params[:sso_auth_token])
 
-    raise CustomExceptions::Base.new(I18n.t('messages.login_saml_user'), :unauthorized)
+    true
   end
 end
