@@ -409,7 +409,7 @@ workflows:
           total_cpu: '1'
           request_cpu: '0.4'
           limit_memory: '2Gi'
-          request_memory: '400M'
+          request_memory: '800M'
           deployment-name: 'prod-sidekiq'
           requires:
             - deploy-approval-ind-sidekiq
@@ -435,7 +435,7 @@ workflows:
           total_cpu: '2'
           request_cpu: '1'
           limit_memory: '2Gi'
-          request_memory: '1Gi'
+          request_memory: '1.4Gi'
           deployment-name: 'prod-chatwoot'
           service-account: 'chatwoot-rails-sa'
           requires:
