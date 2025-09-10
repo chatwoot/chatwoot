@@ -226,6 +226,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix_hpa
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -252,6 +253,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix_hpa
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -327,9 +329,10 @@ workflows:
             branches:
               only:
                 - develop
+                - fix_hpa
           cluster-name: devnet-delta-exchange
-          min-replicas: '1'
-          max-replicas: '2'
+          min-replicas: '2'
+          max-replicas: '3'
           env-name: devnet
           app-name: devnet-sidekiq
           secret-name: devnet-ind-sidekiq
@@ -352,9 +355,10 @@ workflows:
             branches:
               only:
                 - develop
+                - fix_hpa
           cluster-name: devnet-delta-exchange
-          min-replicas: '1'
-          max-replicas: '2'
+          min-replicas: '2'
+          max-replicas: '3'
           env-name: devnet
           app-name: devnet-chatwoot
           secret-name: devnet-ind-chatwoot
