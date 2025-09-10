@@ -15,10 +15,6 @@ defineProps({
     type: String,
     default: '',
   },
-  buttonIcon: {
-    type: String,
-    default: 'i-lucide-inbox',
-  },
   icon: {
     type: String,
     default: '',
@@ -59,7 +55,7 @@ const handleClickOutside = () => {
       class="h-6 px-2 rounded-md bg-n-alpha-2 gap-1.5 flex items-center"
       @click="handleButtonClick()"
     >
-      <Icon :icon="buttonIcon" class="size-3.5 text-n-slate-12" />
+      <Icon :icon="icon" class="size-3.5 text-n-slate-12" />
       <span class="text-n-slate-12 text-sm">
         {{ count }}
       </span>

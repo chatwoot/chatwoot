@@ -79,7 +79,6 @@ const mockUsers = [
         <CardPopover
           :count="3"
           title="Added Agents"
-          button-icon="i-lucide-users-round"
           icon="i-lucide-users-round"
           :items="mockUsers.slice(0, 3)"
           @fetch="() => console.log('Fetch triggered')"
