@@ -555,7 +555,11 @@
             "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
             "ADD_BUTTON": "Add"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started"
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
         }
       },
       "DELETE_POLICY": {

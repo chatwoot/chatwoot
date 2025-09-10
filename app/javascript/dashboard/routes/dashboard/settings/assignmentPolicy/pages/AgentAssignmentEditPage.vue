@@ -143,25 +143,37 @@ const setSelectedPolicy = () => {
 };
 
 const setInboxPolicy = async (inboxId, policyId) => {
-  await store.dispatch('assignmentPolicies/setInboxPolicy', {
-    inboxId,
-    policyId,
-  });
-  await store.dispatch('assignmentPolicies/getInboxes', Number(routeId.value));
+  try {
+    await store.dispatch('assignmentPolicies/setInboxPolicy', {
+      inboxId,
+      policyId,
+    });
+    useAlert(t(`${BASE_KEY}.FORM.INBOXES.API.SUCCESS_MESSAGE`));
+    await store.dispatch(
+      'assignmentPolicies/getInboxes',
+      Number(routeId.value)
+    );
+  } catch (error) {
+    useAlert(t(`${BASE_KEY}.FORM.INBOXES.API.ERROR_MESSAGE`));
+  }
 };
 
 const handleAddInbox = async inbox => {
-  const policy = await store.dispatch('assignmentPolicies/getInboxPolicy', {
-    inboxId: inbox?.id,
-  });
+  try {
+    const policy = await store.dispatch('assignmentPolicies/getInboxPolicy', {
+      inboxId: inbox?.id,
+    });
 
-  if (policy?.id !== selectedPolicy.value?.id) {
-    inboxLinkedPolicy.value = {
-      ...policy,
-      assignedInboxCount: policy.assignedInboxCount - 1,
-    };
-    confirmInboxDialogRef.value.openDialog(inbox);
-    return;
+    if (policy?.id !== selectedPolicy.value?.id) {
+      inboxLinkedPolicy.value = {
+        ...policy,
+        assignedInboxCount: policy.assignedInboxCount - 1,
+      };
+      confirmInboxDialogRef.value.openDialog(inbox);
+      return;
+    }
+  } catch (error) {
+    // If getInboxPolicy fails, continue to setInboxPolicy
   }
 
   await setInboxPolicy(inbox?.id, selectedPolicy.value?.id);
@@ -169,9 +181,12 @@ const handleAddInbox = async inbox => {
 
 const handleConfirmAddInbox = async inboxId => {
   await setInboxPolicy(inboxId, selectedPolicy.value?.id);
+  // Update the policy to reflect the assigned inbox count change
   await store.dispatch('assignmentPolicies/updateInboxPolicy', {
     policy: inboxLinkedPolicy.value,
   });
+  // Fetch the updated inboxes for the policy after update, to reflect real-time changes
+  store.dispatch('assignmentPolicies/getInboxes', inboxLinkedPolicy.value?.id);
   inboxLinkedPolicy.value = null;
   confirmInboxDialogRef.value.closeDialog();
 };
