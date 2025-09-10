@@ -119,12 +119,23 @@ const handleValidationChange = validation => {
   validationState.value = validation;
 };
 
+const resetForm = () => {
+  state.name = '';
+  state.description = '';
+  state.enabled = false;
+  state.assignmentOrder = 'round_robin';
+  state.conversationPriority = 'earliest_created';
+  state.fairDistributionLimit = DEFAULT_FAIR_DISTRIBUTION_LIMIT;
+  state.fairDistributionWindow = DEFAULT_FAIR_DISTRIBUTION_WINDOW;
+};
+
 const onClickCreatePolicy = async () => {
   try {
     const policy = await store.dispatch('assignmentPolicies/create', state);
     useAlert(
       t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.CREATE.API.SUCCESS_MESSAGE')
     );
+    resetForm();
     router.push({
       name: 'agent_assignment_policy_edit',
       params: {
