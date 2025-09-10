@@ -10,11 +10,17 @@ const { t } = useI18n();
 const fairDistributionLimit = defineModel('fairDistributionLimit', {
   type: Number,
   default: 100,
+  set(value) {
+    return Number(value) || 0;
+  },
 });
 
 const fairDistributionWindow = defineModel('fairDistributionWindow', {
   type: Number,
   default: 3600,
+  set(value) {
+    return Number(value) || 0;
+  },
 });
 
 const windowUnit = ref(DURATION_UNITS.MINUTES);
@@ -62,13 +68,13 @@ onMounted(() => {
           )
         }}
       </label>
+
       <div
         class="flex items-center gap-2 flex-1 [&>select]:!bg-n-alpha-2 [&>select]:!outline-none [&>select]:hover:brightness-110"
       >
         <DurationInput
           v-model:model-value="fairDistributionWindow"
           v-model:unit="windowUnit"
-          class="flex items-center gap-2"
         />
       </div>
     </div>

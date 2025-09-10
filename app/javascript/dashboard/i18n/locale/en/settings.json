@@ -482,7 +482,7 @@
         "HEADER": {
           "TITLE": "Edit assignment policy"
         },
-        "UPDATE_BUTTON": "Update policy",
+        "EDIT_BUTTON": "Update policy",
         "CONFIRM_ADD_INBOX_DIALOG": {
           "TITLE": "Add inbox",
           "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
