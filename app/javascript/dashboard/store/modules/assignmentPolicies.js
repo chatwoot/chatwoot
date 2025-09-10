@@ -3,6 +3,7 @@ import types from '../mutation-types';
 import AssignmentPoliciesAPI from '../../api/assignmentPolicies';
 import { throwErrorMessage } from '../utils/api';
 import camelcaseKeys from 'camelcase-keys';
+import snakecaseKeys from 'snakecase-keys';
 
 export const state = {
   records: [],
@@ -15,6 +16,7 @@ export const state = {
   },
   inboxUiFlags: {
     isFetching: false,
+    isDeleting: false,
   },
 };
 
@@ -51,7 +53,7 @@ export const actions = {
     try {
       const response = await AssignmentPoliciesAPI.show(policyId);
       const policy = camelcaseKeys(response.data);
-      commit(types.EDIT_ASSIGNMENT_POLICY, policy);
+      commit(types.SET_ASSIGNMENT_POLICY, policy);
     } catch (error) {
       throwErrorMessage(error);
     } finally {
@@ -62,7 +64,9 @@ export const actions = {
   create: async function create({ commit }, policyObj) {
     commit(types.SET_ASSIGNMENT_POLICIES_UI_FLAG, { isCreating: true });
     try {
-      const response = await AssignmentPoliciesAPI.create(policyObj);
+      const response = await AssignmentPoliciesAPI.create(
+        snakecaseKeys(policyObj)
+      );
       commit(types.ADD_ASSIGNMENT_POLICY, camelcaseKeys(response.data));
       return response.data;
     } catch (error) {
@@ -76,7 +80,10 @@ export const actions = {
   update: async function update({ commit }, { id, ...policyParams }) {
     commit(types.SET_ASSIGNMENT_POLICIES_UI_FLAG, { isUpdating: true });
     try {
-      const response = await AssignmentPoliciesAPI.update(id, policyParams);
+      const response = await AssignmentPoliciesAPI.update(
+        id,
+        snakecaseKeys(policyParams)
+      );
       commit(types.EDIT_ASSIGNMENT_POLICY, camelcaseKeys(response.data));
       return response.data;
     } catch (error) {
@@ -117,6 +124,68 @@ export const actions = {
       });
     }
   },
+
+  setInboxPolicy: async function setInboxPolicy(
+    { commit },
+    { inboxId, policyId }
+  ) {
+    try {
+      const response = await AssignmentPoliciesAPI.setInboxPolicy(
+        inboxId,
+        policyId
+      );
+      commit(
+        types.ADD_ASSIGNMENT_POLICIES_INBOXES,
+        camelcaseKeys(response.data)
+      );
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
+  getInboxPolicy: async function getInboxPolicy(_, { inboxId }) {
+    try {
+      const response = await AssignmentPoliciesAPI.getInboxPolicy(inboxId);
+      return camelcaseKeys(response.data);
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
+  updateInboxPolicy: async function updateInboxPolicy({ commit }, { policy }) {
+    try {
+      commit(types.EDIT_ASSIGNMENT_POLICY, policy);
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
+  removeInboxPolicy: async function removeInboxPolicy(
+    { commit },
+    { policyId, inboxId }
+  ) {
+    commit(types.SET_ASSIGNMENT_POLICIES_INBOXES_UI_FLAG, {
+      isDeleting: true,
+    });
+    try {
+      await AssignmentPoliciesAPI.removeInboxPolicy(inboxId);
+      commit(types.DELETE_ASSIGNMENT_POLICIES_INBOXES, {
+        policyId,
+        inboxId,
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.SET_ASSIGNMENT_POLICIES_INBOXES_UI_FLAG, {
+        isDeleting: false,
+      });
+    }
+  },
 };
 
 export const mutations = {
@@ -128,8 +197,9 @@ export const mutations = {
   },
 
   [types.SET_ASSIGNMENT_POLICIES]: MutationHelpers.set,
+  [types.SET_ASSIGNMENT_POLICY]: MutationHelpers.setSingleRecord,
   [types.ADD_ASSIGNMENT_POLICY]: MutationHelpers.create,
-  [types.EDIT_ASSIGNMENT_POLICY]: MutationHelpers.update,
+  [types.EDIT_ASSIGNMENT_POLICY]: MutationHelpers.updateAttributes,
   [types.DELETE_ASSIGNMENT_POLICY]: MutationHelpers.destroy,
 
   [types.SET_ASSIGNMENT_POLICIES_INBOXES_UI_FLAG](_state, data) {
@@ -138,13 +208,19 @@ export const mutations = {
       ...data,
     };
   },
-
   [types.SET_ASSIGNMENT_POLICIES_INBOXES](_state, { policyId, inboxes }) {
     const policy = _state.records.find(p => p.id === policyId);
     if (policy) {
       policy.inboxes = inboxes;
     }
   },
+  [types.DELETE_ASSIGNMENT_POLICIES_INBOXES](_state, { policyId, inboxId }) {
+    const policy = _state.records.find(p => p.id === policyId);
+    if (policy) {
+      policy.inboxes = policy?.inboxes?.filter(inbox => inbox.id !== inboxId);
+    }
+  },
+  [types.ADD_ASSIGNMENT_POLICIES_INBOXES]: MutationHelpers.updateAttributes,
 };
 
 export default {
