@@ -351,6 +351,7 @@
         "OPERATION_HOURS": "Operating Hours",
         "OPERATION_HOURS_PLACEHOLDER": "09:00 - 17:00",
         "PICKUP_TIME": "Estimated Pickup Time",
+        "DELIVERY_TIME": "Estimated Delivery Time",
         "PICKUP_TIME_PLACEHOLDER": "1 hour after payment",
         "SELECT_COURIER_PLACEHOLDER": "Select Courier",
         "PROVINCE_LABEL": "Province",

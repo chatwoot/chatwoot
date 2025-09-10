@@ -218,6 +218,7 @@
         "BRANCH_ADDRESS_PLACEHOLDER": "Jl. Raya No. 123",
         "OPERATION_HOURS": "Jam Operasional",
         "OPERATION_HOURS_PLACEHOLDER": "09:00 - 17:00",
+        "DELIVERY_TIME": "Estimasi Waktu Pengiriman",
         "PICKUP_TIME": "Estimasi Waktu Pengambilan",
         "PICKUP_TIME_PLACEHOLDER": "1 jam setelah pembayaran",
         "SELECT_COURIER_PLACEHOLDER": "Pilih Kurir",
