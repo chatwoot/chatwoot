@@ -4673,7 +4673,7 @@
         ],
         "operationId": "toggle-status-of-a-conversation",
         "summary": "Toggle Status",
-        "description": "Toggles the status of the conversation between open and resolved",
+        "description": "Toggle the status of a conversation. Pass `status` to explicitly set the\nconversation state. Use `snoozed` along with `snoozed_until` to snooze a\nconversation until a specific time. If `snoozed_until` is omitted, the\nconversation is snoozed until the next reply from the contact. Regardless\nof the value provided, snoozed conversations always reopen on the next\nreply from the contact.",
         "security": [
           {
             "userApiKey": []
@@ -4697,10 +4697,17 @@
                     "enum": [
                       "open",
                       "resolved",
-                      "pending"
+                      "pending",
+                      "snoozed"
                     ],
                     "description": "The status of the conversation",
                     "example": "open"
+                  },
+                  "snoozed_until": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When status is `snoozed`, schedule the reopen time. If not provided, the conversation is snoozed until the next customer reply. The conversation always reopens when the customer replies.",
+                    "example": "2025-08-10T17:32:28Z"
                   }
                 }
               }
@@ -4713,7 +4720,32 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/conversation_status_toggle"
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object"
+                    },
+                    "payload": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean"
+                        },
+                        "current_status": {
+                          "type": "string",
+                          "enum": [
+                            "open",
+                            "resolved",
+                            "pending",
+                            "snoozed"
+                          ]
+                        },
+                        "conversation_id": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
