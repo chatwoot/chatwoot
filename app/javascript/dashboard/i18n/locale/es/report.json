@@ -434,23 +434,23 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Informes de bot",
+    "HEADER": "Informes de agente IA",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "Núm. de conversaciones",
-        "TOOLTIP": "Número total de conversaciones manejadas por el bot"
+        "TOOLTIP": "Número total de conversaciones manejadas por el agente IA"
       },
       "TOTAL_RESPONSES": {
         "LABEL": "Total de respuestas",
-        "TOOLTIP": "Número total de respuestas enviadas por el bot"
+        "TOOLTIP": "Número total de respuestas enviadas por el agente IA"
       },
       "RESOLUTION_RATE": {
         "LABEL": "Tiempo de resolución",
-        "TOOLTIP": "Número total de conversaciones resueltas por el bot / Número total de conversaciones manejadas por el bot * 100"
+        "TOOLTIP": "Número total de conversaciones resueltas por el agente IA / Número total de conversaciones manejadas por el agente IA * 100"
       },
       "HANDOFF_RATE": {
         "LABEL": "Tasa de traspasos",
-        "TOOLTIP": "Número total de conversaciones transmitidas a agentes / Número total de conversaciones manejadas por el bot * 100"
+        "TOOLTIP": "Número total de conversaciones transmitidas a agentes / Número total de conversaciones manejadas por el agente IA * 100"
       }
     }
   },
