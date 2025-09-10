@@ -20,7 +20,7 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
     return unless should_sync_avatar?(avatarable, avatar_url)
 
     avatar_file = Down.download(avatar_url, max_size: MAX_DOWNLOAD_SIZE)
-    return unless valid_image?(avatar_file)
+    raise Down::Error, 'Invalid file' unless valid_file?(avatar_file)
 
     avatarable.avatar.attach(
       io: avatar_file,
@@ -28,10 +28,10 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
       content_type: avatar_file.content_type
     )
 
-    # Persist sync attributes only when an actual update happens
-    update_avatar_sync_attributes(avatarable, avatar_url)
   rescue Down::NotFound, Down::Error => e
     Rails.logger.error "AvatarFromUrlJob error for #{avatar_url}: #{e.class} - #{e.message}"
+  ensure
+    update_avatar_sync_attributes(avatarable, avatar_url)
   end
 
   private
@@ -51,6 +51,7 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
   def within_rate_limit?(attrs)
     ts = attrs['last_avatar_sync_at']
     return false if ts.blank?
+
     Time.zone.parse(ts) > RATE_LIMIT_WINDOW.ago
   end
 
@@ -71,13 +72,12 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
     additional_attributes['last_avatar_sync_at'] = Time.current.iso8601
     additional_attributes['avatar_url_hash'] = generate_url_hash(avatar_url)
 
-    avatarable.update(additional_attributes: additional_attributes)
+    # Persist without triggering validations that may fail due to avatar file checks
+    avatarable.update_columns(additional_attributes: additional_attributes)
   end
 
-  def valid_image?(file)
+  def valid_file?(file)
     return false if file.original_filename.blank?
-
-    # TODO: check if the file is an actual image
 
     true
   end
