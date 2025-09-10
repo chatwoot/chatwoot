@@ -33,7 +33,7 @@ spec:
                   - key: app
                     operator: In
                     values:
-                      - api-gtw-elixir
+                      - chatwoot
       containers:
         - name: APP_NAME
           image: DOCKER_IMAGE_NAME
@@ -49,3 +49,29 @@ spec:
               memory: 'REQUEST_MEMORY'
           ports:
             - containerPort: 3000
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: DEPLOYMENT_NAME-hpa
+  namespace: chatwoot
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: DEPLOYMENT_NAME
+  minReplicas: MIN_REPLICAS
+  maxReplicas: MAX_REPLICAS
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 75
+  - type: Resource    
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80            

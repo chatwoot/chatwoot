@@ -328,8 +328,8 @@ workflows:
               only:
                 - develop
           cluster-name: devnet-delta-exchange
-          min-replicas: '1'
-          max-replicas: '2'
+          min-replicas: '2'
+          max-replicas: '3'
           env-name: devnet
           app-name: devnet-sidekiq
           secret-name: devnet-ind-sidekiq
@@ -353,8 +353,8 @@ workflows:
               only:
                 - develop
           cluster-name: devnet-delta-exchange
-          min-replicas: '1'
-          max-replicas: '2'
+          min-replicas: '2'
+          max-replicas: '3'
           env-name: devnet
           app-name: devnet-chatwoot
           secret-name: devnet-ind-chatwoot
