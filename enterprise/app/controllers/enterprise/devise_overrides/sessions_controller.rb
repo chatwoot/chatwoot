@@ -36,12 +36,12 @@ module Enterprise::DeviseOverrides::SessionsController
   private
 
   def check_saml_user
-    # Skip if using SSO token (SAML users can use SSO tokens)
-    return if params[:sso_auth_token].present?
     return if params[:email].blank?
 
     user = User.from_email(params[:email])
     return unless user&.provider == 'saml'
+
+    return if params[:sso_auth_token].present? && user.valid_sso_auth_token?(params[:sso_auth_token])
 
     raise CustomExceptions::Base.new(I18n.t('messages.login_saml_user'), :unauthorized)
   end
