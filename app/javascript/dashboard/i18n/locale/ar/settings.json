@@ -451,6 +451,31 @@
           "Add agents to a policy - one policy per agent"
         ]
       }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "الأولوية",
+          "ACTIVE": "مفعل",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "تعديل"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "DELETE_POLICY": {
+        "TITLE": "Delete policy",
+        "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+        "CONFIRM_BUTTON_LABEL": "حذف",
+        "CANCEL_BUTTON_LABEL": "إلغاء",
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
     }
   }
 }
