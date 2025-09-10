@@ -92,8 +92,8 @@ class ForwardNotificationService
     Rails.logger.error "Failed to send WhatsApp notification to #{target_chat}: #{e.message}"
   end
 
+
   def create_whapi_channel(api_key)
-    Rails.logger.error "Creating whapi channel with api key: #{api_key}"
     # Create a minimal Channel::Whatsapp instance with only the API key
     Channel::Whatsapp.new(
       provider: 'whapi',
@@ -107,6 +107,7 @@ class ForwardNotificationService
   # Message object for notification forwarding
   class NotificationMessage
     attr_reader :content, :content_type, :message_type, :private, :attachments, :content_attributes
+    attr_accessor :external_error, :status
 
     def initialize(content)
       @content = content
@@ -115,10 +116,16 @@ class ForwardNotificationService
       @private = false
       @attachments = []
       @content_attributes = {}
+      @external_error = nil
+      @status = 'sent'
     end
 
     def outgoing_content
       content
+    end
+
+    def save!
+      # No-op for notification messages - they don't get persisted
     end
   end
 
