@@ -32,10 +32,12 @@ describe('#getters', () => {
     const state = {
       inboxUiFlags: {
         isFetching: false,
+        isDeleting: false,
       },
     };
     expect(getters.getInboxUiFlags(state)).toEqual({
       isFetching: false,
+      isDeleting: false,
     });
   });
 
