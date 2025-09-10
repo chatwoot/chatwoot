@@ -16,10 +16,6 @@ module Enterprise::DeviseOverrides::SessionsController
 
   def destroy
     create_audit_event('sign_out')
-
-    # Logout all sessions for SAML users
-    @resource.logout_all_sessions! if @resource&.provider == 'saml'
-
     super
   end
 
