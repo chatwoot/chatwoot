@@ -43,6 +43,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     provider_ignores_state: true
   }
 
-  # SAML provider with setup phase for multi-tenant configuration
-  provider :saml, setup: SAML_SETUP_PROC
+  # SAML provider with setup phase for multi-tenant configuration (Enterprise only)
+  provider :saml, setup: SAML_SETUP_PROC if defined?(ChatwootApp) && ChatwootApp.enterprise?
 end
