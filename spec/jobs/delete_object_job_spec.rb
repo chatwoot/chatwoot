@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DeleteObjectJob, type: :job do
   describe '#perform' do
-    context 'heavy object (Inbox)' do
+    context 'when object is heavy (Inbox)' do
       let!(:account) { create(:account) }
       let!(:inbox) { create(:inbox, account: account) }
 
@@ -29,7 +29,7 @@ RSpec.describe DeleteObjectJob, type: :job do
         expect { inbox.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
 
-      context 'pre-purge timing' do
+      context 'when pre-purge happens before final destroy' do
         it 'removes associations during pre-purge, independent of final destroy' do
           conv_ids = inbox.conversations.pluck(:id)
           ci_ids = inbox.contact_inboxes.pluck(:id)
@@ -51,12 +51,13 @@ RSpec.describe DeleteObjectJob, type: :job do
       end
     end
 
-    context 'regular object (Label)' do
+    context 'when object is regular (Label)' do
       it 'just destroys the object without batched purges' do
         label = create(:label)
-        expect_any_instance_of(described_class).not_to receive(:batch_destroy)
+        job = described_class.new
+        expect(job).not_to receive(:batch_destroy)
 
-        described_class.perform_now(label)
+        job.perform(label)
 
         expect { label.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end

@@ -25,6 +25,7 @@ class DeleteObjectJob < ApplicationJob
 
     HEAVY_ASSOCIATIONS[klass].each do |assoc|
       next unless object.respond_to?(assoc)
+
       batch_destroy(object.public_send(assoc))
     end
   end
