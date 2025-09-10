@@ -55,6 +55,7 @@ onMounted(() => {
           v-model="fairDistributionLimit"
           type="number"
           placeholder="100"
+          :max="100000"
           class="w-full"
         />
       </div>
@@ -72,9 +73,12 @@ onMounted(() => {
       <div
         class="flex items-center gap-2 flex-1 [&>select]:!bg-n-alpha-2 [&>select]:!outline-none [&>select]:hover:brightness-110"
       >
+        <!-- allow 10 mins to 999 days -->
         <DurationInput
           v-model:model-value="fairDistributionWindow"
           v-model:unit="windowUnit"
+          min="10"
+          max="1438560"
         />
       </div>
     </div>
