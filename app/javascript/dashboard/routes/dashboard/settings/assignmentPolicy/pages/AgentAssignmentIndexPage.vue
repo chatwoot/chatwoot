@@ -49,7 +49,7 @@ const onClickCreatePolicy = () => {
 };
 
 const handleFetchInboxes = id => {
-  if (inboxUiFlags.isFetching) return;
+  if (inboxUiFlags.value.isFetching) return;
   store.dispatch('assignmentPolicies/getInboxes', id);
 };
 
