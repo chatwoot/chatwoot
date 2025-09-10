@@ -105,4 +105,15 @@ RSpec.describe Avatar::AvatarFromUrlJob do
     temp_file.close
     temp_file.unlink
   end
+
+  it 'skips sync attribute updates when URL is nil' do
+    contact = create(:contact)
+    expect(Down).not_to receive(:download)
+
+    expect { described_class.perform_now(contact, nil) }.not_to raise_error
+
+    contact.reload
+    expect(contact.additional_attributes['last_avatar_sync_at']).to be_nil
+    expect(contact.additional_attributes['avatar_url_hash']).to be_nil
+  end
 end

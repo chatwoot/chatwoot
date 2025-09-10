@@ -66,6 +66,7 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
   def update_avatar_sync_attributes(avatarable, avatar_url)
     # Only Contacts have sync attributes persisted
     return unless avatarable.is_a?(Contact)
+    return if avatar_url.blank?
 
     additional_attributes = avatarable.additional_attributes || {}
     additional_attributes['last_avatar_sync_at'] = Time.current.iso8601
