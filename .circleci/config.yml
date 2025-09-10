@@ -226,7 +226,6 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/disable-branding
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -353,7 +352,6 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/disable-branding
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
