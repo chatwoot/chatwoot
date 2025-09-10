@@ -111,15 +111,8 @@ onMounted(() => {
       <div class="flex flex-col gap-4 pt-8">
         <AssignmentPolicyCard
           v-for="policy in agentAssignmentsPolicies"
-          :id="policy.id"
           :key="policy.id"
-          :name="policy.name"
-          :description="policy.description"
-          :assignment-order="policy.assignmentOrder"
-          :conversation-priority="policy.conversationPriority"
-          :assigned-inbox-count="policy.assignedInboxCount"
-          :enabled="policy.enabled"
-          :inboxes="policy.inboxes"
+          v-bind="policy"
           :is-fetching-inboxes="inboxUiFlags.isFetching"
           @fetch-inboxes="handleFetchInboxes"
           @edit="onClickEditPolicy"
