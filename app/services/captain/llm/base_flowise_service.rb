@@ -18,15 +18,24 @@ class Captain::Llm::BaseFlowiseService
 
   private
 
-  def generate_response
+  def generate_response # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     Rails.logger.info '[generate_response] Generating response for Flowise AI Agent'
     response = self.class.post(
       "/prediction/#{@ai_agent.chat_flow_id}",
       body: request_body.to_json,
       headers: headers
     )
-    Rails.logger.info "[generate_response] Received Flowise response: #{response.code} #{response.body}"
-    response
+    response_body = response.body.force_encoding('UTF-8')
+    Rails.logger.info "[generate_response] Received Flowise response: #{response.code} #{response_body[0..100]}"
+    response_body
+  rescue Net::OpenTimeout => e
+    Rails.logger.error "[generate_response] Net::OpenTimeout error: #{e.message}"
+    raise "Failed to generate response: #{e.message}"
+  rescue Net::ReadTimeout => e
+    Rails.logger.error "[generate_response] Net::ReadTimeout error: #{e.message}"
+    raise "Failed to generate response: #{e.message}"
+  rescue Net::WriteTimeout => e
+    Rails.logger.error "[generate_response] Net::WriteTimeout error: #{e.message}"
   rescue HTTParty::Error => e
     Rails.logger.error "[generate_response] HTTParty error: #{e.message}"
     raise "Failed to generate response: #{e.message}"
