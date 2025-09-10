@@ -18,6 +18,9 @@ const BALANCED = 'balanced';
 const EARLIEST_CREATED = 'earliest_created';
 const LONGEST_WAITING = 'longest_waiting';
 
+const DEFAULT_FAIR_DISTRIBUTION_LIMIT = 100;
+const DEFAULT_FAIR_DISTRIBUTION_WINDOW = 3600;
+
 const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
@@ -31,8 +34,8 @@ const state = reactive({
   enabled: false,
   assignmentOrder: 'round_robin',
   conversationPriority: 'earliest_created',
-  fairDistributionLimit: 100,
-  fairDistributionWindow: 3600,
+  fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
+  fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
 });
 
 const validationState = ref({

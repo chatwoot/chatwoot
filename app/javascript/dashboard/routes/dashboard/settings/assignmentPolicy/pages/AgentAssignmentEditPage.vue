@@ -24,6 +24,9 @@ const OPTIONS = {
 
 const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY';
 
+const DEFAULT_FAIR_DISTRIBUTION_LIMIT = 100;
+const DEFAULT_FAIR_DISTRIBUTION_WINDOW = 3600;
+
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -50,8 +53,8 @@ const state = reactive({
   enabled: false,
   assignmentOrder: '',
   conversationPriority: '',
-  fairDistributionLimit: 0,
-  fairDistributionWindow: 0,
+  fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
+  fairDistributionWindow: DEFAULT_FAIR_DISTRIBUTION_WINDOW,
 });
 
 const validationState = ref({
@@ -137,8 +140,12 @@ const setSelectedPolicy = () => {
     enabled: selectedPolicy.value.enabled || false,
     assignmentOrder: selectedPolicy.value.assignmentOrder || '',
     conversationPriority: selectedPolicy.value.conversationPriority || '',
-    fairDistributionLimit: selectedPolicy.value.fairDistributionLimit || 100,
-    fairDistributionWindow: selectedPolicy.value.fairDistributionWindow || 3600,
+    fairDistributionLimit:
+      selectedPolicy.value.fairDistributionLimit ||
+      DEFAULT_FAIR_DISTRIBUTION_LIMIT,
+    fairDistributionWindow:
+      selectedPolicy.value.fairDistributionWindow ||
+      DEFAULT_FAIR_DISTRIBUTION_WINDOW,
   });
 };
 

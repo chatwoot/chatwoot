@@ -9,12 +9,12 @@ const { t } = useI18n();
 
 const fairDistributionLimit = defineModel('fairDistributionLimit', {
   type: Number,
-  default: 0,
+  default: 100,
 });
 
 const fairDistributionWindow = defineModel('fairDistributionWindow', {
   type: Number,
-  default: 0,
+  default: 3600,
 });
 
 const windowUnit = ref(DURATION_UNITS.MINUTES);
