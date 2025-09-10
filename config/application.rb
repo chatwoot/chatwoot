@@ -47,6 +47,10 @@ module Chatwoot
     # Add enterprise views to the view paths
     config.paths['app/views'].unshift('enterprise/app/views')
 
+    # Load enterprise initializers alongside standard initializers
+    enterprise_initializers = Rails.root.join('enterprise/config/initializers')
+    Dir[enterprise_initializers.join('**/*.rb')].sort.each { |f| require f } if enterprise_initializers.exist?
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
