@@ -73,7 +73,7 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
     additional_attributes['avatar_url_hash'] = generate_url_hash(avatar_url)
 
     # Persist without triggering validations that may fail due to avatar file checks
-    avatarable.update_columns(additional_attributes: additional_attributes)
+    avatarable.update_columns(additional_attributes: additional_attributes) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def valid_file?(file)

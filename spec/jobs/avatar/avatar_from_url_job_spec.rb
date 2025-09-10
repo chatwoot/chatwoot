@@ -10,7 +10,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
       .to have_enqueued_job(described_class).on_queue('purgable')
   end
 
-  context 'rate_limited_avatarable' do
+  context 'with rate-limited avatarable (Contact)' do
     let(:avatarable) { create(:contact) }
 
     it 'attaches and updates sync attributes' do
@@ -80,7 +80,7 @@ RSpec.describe Avatar::AvatarFromUrlJob do
     end
   end
 
-  context 'regular_avatarable' do
+  context 'with regular avatarable' do
     let(:avatarable) { create(:agent_bot) }
 
     it 'downloads and attaches avatar' do
