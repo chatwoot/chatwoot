@@ -26,6 +26,9 @@ ta:
   messages:
     reset_password_success: வூட்! பாஸ்வேர்டை மீட்டமைப்பிற்கான கோரிக்கை வெற்றிகரமாக அனுப்பப்பட்டுள்ளது. வழிமுறைகளுக்கு உங்கள் ஈ-மெயிலைப் பார்க்கவும்.
     reset_password_failure: மன்னிக்கவும்! குறிப்பிட்ட ஈ-மெயிலுடன் எந்த பயனரையும் எங்களால் கண்டுபிடிக்க முடியவில்லை.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
@@ -211,6 +214,7 @@ ta:
     reply:
       email:
         header:
+          notifications: 'Notifications'
           from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
