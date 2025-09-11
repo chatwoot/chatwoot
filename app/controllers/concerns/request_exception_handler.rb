@@ -23,24 +23,29 @@ module RequestExceptionHandler
     Current.reset
   end
 
+  def render_error(message, status, error = nil)
+    log_handled_error(error) if error
+    render json: { error: message }, status: status
+  end
+
   def render_unauthorized(message)
-    render json: { error: message }, status: :unauthorized
+    render_error(message, :unauthorized)
   end
 
   def render_not_found_error(message)
-    render json: { error: message }, status: :not_found
+    render_error(message, :not_found)
   end
 
   def render_could_not_create_error(message)
-    render json: { error: message }, status: :unprocessable_entity
+    render_error(message, :unprocessable_entity)
   end
 
   def render_payment_required(message)
-    render json: { error: message }, status: :payment_required
+    render_error(message, :payment_required)
   end
 
   def render_internal_server_error(message)
-    render json: { error: message }, status: :internal_server_error
+    render_error(message, :internal_server_error)
   end
 
   def render_record_invalid(exception)
@@ -57,6 +62,23 @@ module RequestExceptionHandler
   end
 
   def log_handled_error(exception)
+    return unless exception
+
     logger.info("Handled error: #{exception.inspect}")
+    report_to_apms(exception)
+  end
+
+  def report_to_apms(exception)
+    apm_reporters = {
+      'NewRelic::Agent' => -> { ::NewRelic::Agent.notice_error(exception) },
+      'Datadog::Tracing' => -> { ::Datadog::Tracing.active_trace&.set_error(exception) },
+      'ElasticAPM' => -> { ::ElasticAPM.report(exception) },
+      'ScoutApm::Error' => -> { ::ScoutApm::Error.capture(exception) },
+      'Sentry' => -> { ::Sentry.capture_exception(exception) }
+    }
+
+    apm_reporters.each do |module_name, reporter|
+      reporter.call if Object.const_defined?(module_name)
+    end
   end
 end
