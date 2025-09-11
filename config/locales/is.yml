@@ -26,6 +26,9 @@ is:
   messages:
     reset_password_success: Woot! Beiðni um endurstillingu lykilorðs tókst. Skoðaðu póstinn þinn til að fá leiðbeiningar.
     reset_password_failure: Uh ó! Við fundum engan notanda með tilgreint netfang.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
@@ -211,6 +214,7 @@ is:
     reply:
       email:
         header:
+          notifications: 'Skilaboð'
           from_with_name: '%{assignee_name} frá %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} frá %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} frá %{business_name} <%{from_email}>'
