@@ -211,8 +211,8 @@ export function useConversationFilterContext() {
     
     // NOVO: Etiquetas de CONTATO (visível para o usuário)
     {
-      attributeKey: 'labels',
-      value: 'labels', 
+      attributeKey: 'contact_labels',
+      value: 'contact_labels', 
       attributeName: t('FILTER.ATTRIBUTES.LABELS'),
       label: t('FILTER.ATTRIBUTES.LABELS'),
       inputType: 'multiSelect',

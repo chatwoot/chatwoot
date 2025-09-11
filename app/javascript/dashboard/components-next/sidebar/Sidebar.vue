@@ -200,31 +200,11 @@ const menuItems = computed(() => {
               }),
           })),
         },
-        // ORIGINAL: Labels de CONVERSA (comentado para ocultar do usuário)
-        // {
-        //   name: 'Labels',
-        //   label: t('SIDEBAR.LABELS'),
-        //   icon: 'i-lucide-tag',
-        //   activeOn: ['conversations_through_label'],
-        //   children: labels.value.map(label => ({
-        //     name: `${label.title}-${label.id}`,
-        //     label: label.title,
-        //     icon: h('span', {
-        //       class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
-        //       style: { backgroundColor: label.color },
-        //     }),
-        //     to: accountScopedRoute('label_conversations', {
-        //       label: label.title,
-        //     }),
-        //   })),
-        // },
-        
-        // NOVO: Labels de CONTATO (visível para o usuário - filtra conversas por contatos com etiquetas)
         {
           name: 'Labels',
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tag',
-          activeOn: ['contacts_dashboard_labels_index', 'conversations_through_contact_label'],
+          activeOn: ['conversations_through_label'],
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
@@ -232,9 +212,9 @@ const menuItems = computed(() => {
               class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
               style: { backgroundColor: label.color },
             }),
-            to: accountScopedRoute('contacts_dashboard_labels_index', {
+            to: accountScopedRoute('label_conversations', {
               label: label.title,
-            }, { page: 1, search: undefined }),
+            }),
           })),
         },
       ],

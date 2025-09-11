@@ -1,7 +1,7 @@
-# 🎯 Plano FINAL: Ocultar Etiquetas de Conversa - Chatwoot
+# 🎯 Plano REFORMULADO: Unificação TOTAL de Etiquetas - Chatwoot
 
 ## 📝 Objetivo
-Simplificar a experiência do usuário **OCULTANDO** etiquetas de conversa da interface, mantendo **apenas etiquetas de contato** visíveis, sem remover funcionalidade da API ou backend.
+Unificar **COMPLETAMENTE** o sistema de etiquetas para usar **APENAS etiquetas de CONTATO** em toda a interface: filtros, macros, automações e navegação.
 
 ## 🔍 Situação Atual vs Desejada
 
@@ -20,49 +20,44 @@ Simplificar a experiência do usuário **OCULTANDO** etiquetas de conversa da in
 - **ContactPanel accordion** → Escondido ✅ (já feito)
 - **API/Backend** → Mantém etiquetas de conversa funcionando ✅ (não mexer)
 
-## 🛠️ Etapas de Implementação
+## 🛠️ Etapas de Implementação REFORMULADAS
 
-### **Etapa 1: Backup e Preparação**
-- [ ] Verificar se existe endpoint backend para filtrar conversas por etiquetas de contato
-- [ ] Documentar código atual que será alterado
-- [ ] Criar comentários explicativos para facilitar reversão
+### **Etapa 1: ✅ Filtros Avançados (JÁ FEITO)**
+**Arquivo:** `provider.js` 
+- ✅ Etiquetas de conversa comentadas
+- ✅ Etiquetas de contato adicionadas
+- ✅ Interface funcionando
 
-### **Etapa 2: Modificar Filtros Avançados (OCULTAR)**
-**Arquivo:** `app/javascript/dashboard/components-next/filter/provider.js`
+### **Etapa 2: Esconder Labels da Sidebar de Conversas**
+**Arquivo:** `Sidebar.vue`
+**Ação:** COMENTAR completamente a seção "Labels" em conversas
+- [ ] Comentar seção Labels (linhas 203-220)
+- [ ] **NÃO DELETAR** - manter para rollback
+- [ ] Resultado: Só aparecem labels em contatos
 
-**Ação:** COMENTAR etiquetas de conversa e ADICIONAR etiquetas de contato
-- [ ] Comentar bloco atual (linhas 186-209) com `//`
-- [ ] Adicionar novo bloco para etiquetas de contato
-- [ ] **NÃO DELETAR** - apenas comentar para facilitar rollback
-- [ ] Testar se filtros avançados funcionam
+### **Etapa 3: Modificar Macros**
+**Arquivo:** `automationHelper.js`
+**Ação:** Trocar etiquetas de conversa por etiquetas de contato
+- [ ] Modificar `add_label` e `remove_label` (linhas 110-111)
+- [ ] Apontar para etiquetas de contato
+- [ ] Testar macros
 
-### **Etapa 3: Modificar Barra Lateral (OCULTAR)**
-**Arquivo:** `app/javascript/dashboard/components-next/sidebar/Sidebar.vue`
+### **Etapa 4: Modificar Automações**
+**Arquivos:** Sistema de automações
+**Ação:** Trocar etiquetas de conversa por etiquetas de contato
+- [ ] Identificar onde automações usam etiquetas
+- [ ] Modificar para usar etiquetas de contato
+- [ ] Testar automações
 
-**Ação:** COMENTAR seção "Labels" atual e ADICIONAR nova para contatos
-- [ ] Comentar configuração atual (linhas 203-220) com `//`
-- [ ] Adicionar nova configuração que filtra conversas por etiquetas de contato
-- [ ] **NÃO DELETAR** - manter código original comentado
-- [ ] Verificar se roteamento funciona corretamente
+### **Etapa 5: Testes Integrados**
+- [ ] Testar fluxo completo: filtros → macros → automações
+- [ ] Verificar se tudo usa etiquetas de contato
+- [ ] Confirmar que não há referências a etiquetas de conversa
 
-### **Etapa 4: Verificar Integração (SEM MEXER NA API)**
-- [ ] Confirmar que `contactLabels` store está disponível na interface de conversas
-- [ ] Verificar se filtro por etiquetas de contato funciona no frontend
-- [ ] **NÃO ALTERAR** endpoints de backend
-- [ ] Testar se dados fluem corretamente
-
-### **Etapa 5: Testes de Funcionalidade**
-- [ ] Criar contato com etiquetas
-- [ ] Verificar se conversas aparecem quando filtradas por etiqueta do contato
-- [ ] Testar filtros avançados
-- [ ] Testar navegação pela barra lateral
-- [ ] **IMPORTANTE:** Verificar se automações/macros ainda funcionam
-
-### **Etapa 6: Validação e Rollback**
-- [ ] Documentar mudanças realizadas (só frontend)
-- [ ] Criar instruções de rollback (descomentar código)
-- [ ] Validar com usuário final
-- [ ] **Garantir:** API de etiquetas de conversa ainda funciona
+### **Etapa 6: Validação Final**
+- [ ] Documentar todas as mudanças
+- [ ] Criar instruções de rollback completas
+- [ ] Validar unificação total
 
 ## 📋 Arquivos Modificados
 
