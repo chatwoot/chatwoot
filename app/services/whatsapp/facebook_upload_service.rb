@@ -1,4 +1,6 @@
-class Whatsapp::MediaUploadService
+# Implements Facebook Graph API Upload
+# https://developers.facebook.com/docs/graph-api/guides/upload
+class Whatsapp::FacebookUploadService
   SUPPORTED_FORMATS = {
     'IMAGE' => %w[image/jpeg image/jpg image/png],
     'VIDEO' => %w[video/mp4],

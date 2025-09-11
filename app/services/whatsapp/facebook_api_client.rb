@@ -89,7 +89,7 @@ class Whatsapp::FacebookApiClient
       api_base: BASE_URI,
       api_version: @api_version
     }
-    upload_service = Whatsapp::MediaUploadService.new(facebook_credentials: credentials)
+    upload_service = Whatsapp::FacebookUploadService.new(facebook_credentials: credentials)
     upload_service.upload_media_for_template(blob_id: blob_id, format: format)
   end
 
