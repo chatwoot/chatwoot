@@ -24,8 +24,10 @@ module MailboxHelper
   def add_attachments_to_message
     return if @message.blank?
 
-    # ensure we don't add more than the permitted number of attachments
-    all_attachments = processed_mail.attachments.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
+    # ensure we don't add more than the permitted number of attachments per conversation
+    current_attachments_count = @conversation.attachments.count
+    remaining_slots = [Message::NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION - current_attachments_count, 0].max
+    all_attachments = processed_mail.attachments.last(remaining_slots)
     grouped_attachments = group_attachments(all_attachments)
 
     process_inline_attachments(grouped_attachments[:inline]) if grouped_attachments[:inline].present?

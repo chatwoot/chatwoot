@@ -85,6 +85,8 @@
     "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "ATTACHMENT_LIMIT_REACHED": "Attachment limit reached ({ATTACHMENT_LIMIT} attachments maximum)",
+  "ATTACHMENT_COUNT_INFO": "Attachments: {current}/{limit}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Invalid field"

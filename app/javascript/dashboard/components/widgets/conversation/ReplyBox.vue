@@ -253,7 +253,7 @@ export default {
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
-      return (
+      const channelSupportsUpload = (
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
         this.isAWhatsAppChannel ||
@@ -263,6 +263,9 @@ export default {
         this.isATelegramChannel ||
         this.isALineChannel
       );
+      
+      // Hide file upload if attachment limit is reached (only for customer conversations)
+      return channelSupportsUpload && !this.isAttachmentLimitReached;
     },
     replyButtonLabel() {
       let sendMessageText = this.$t('CONVERSATION.REPLYBOX.SEND');

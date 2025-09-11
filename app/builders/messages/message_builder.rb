@@ -60,6 +60,14 @@ class Messages::MessageBuilder
 
   def process_attachments
     return if @attachments.blank?
+    
+    # Pre-validate for Contact (user) messages
+    if sender.is_a?(Contact) # This is a contact/user message
+      current_count = @conversation.attachments.count  
+      if current_count + @attachments.size > Message::NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION
+        raise StandardError, "Conversation attachment limit exceeded (#{current_count + @attachments.size}/#{Message::NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION})"
+      end
+    end
 
     @attachments.each do |uploaded_attachment|
       attachment = @message.attachments.build(

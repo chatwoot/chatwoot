@@ -27,6 +27,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def attachments
     @attachments_count = @conversation.attachments.count
+    @attachments_limit = Message::NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION
+    @attachments_remaining = [@attachments_limit - @attachments_count, 0].max
     @attachments = @conversation.attachments
                                 .includes(:message)
                                 .order(created_at: :desc)

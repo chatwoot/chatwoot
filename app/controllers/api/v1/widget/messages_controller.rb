@@ -31,6 +31,17 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def build_attachment
     return if params[:message][:attachments].blank?
+    
+    # Pre-validate conversation attachment limit for widget users
+    current_count = @conversation.attachments.count
+    new_count = params[:message][:attachments].size
+    
+    if current_count + new_count > Message::NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION
+      render json: { 
+        error: "Cannot upload #{new_count} attachments. Conversation limit is #{Message::NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION} attachments total (#{current_count} already uploaded)." 
+      }, status: :unprocessable_entity
+      return
+    end
 
     params[:message][:attachments].each do |uploaded_attachment|
       attachment = @message.attachments.new(

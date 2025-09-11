@@ -23,6 +23,17 @@ export const useFileUpload = ({ isATwilioSMSChannel, attachFile }) => {
   const currentUser = useMapGetter('getCurrentUser');
   const currentChat = useMapGetter('getSelectedChat');
   const globalConfig = useMapGetter('globalConfig/get');
+  
+  // Get attachment count from conversation
+  const conversationAttachments = computed(() => {
+    if (!currentChat.value || !currentChat.value.attachments) return [];
+    return currentChat.value.attachments;
+  });
+  
+  const attachmentCount = computed(() => conversationAttachments.value.length);
+  const attachmentLimit = computed(() => 10); // Could be made configurable
+  const remainingAttachments = computed(() => Math.max(0, attachmentLimit.value - attachmentCount.value));
+  const isAttachmentLimitReached = computed(() => remainingAttachments.value === 0);
 
   const maxFileSize = computed(() =>
     isATwilioSMSChannel
@@ -78,6 +89,16 @@ export const useFileUpload = ({ isATwilioSMSChannel, attachFile }) => {
   };
 
   const onFileUpload = file => {
+    // Check attachment limit before upload (only for customer messages)
+    if (isAttachmentLimitReached.value) {
+      useAlert(
+        t('CONVERSATION.ATTACHMENT_LIMIT_REACHED', {
+          ATTACHMENT_LIMIT: attachmentLimit.value,
+        })
+      );
+      return;
+    }
+
     if (globalConfig.value.directUploadsEnabled) {
       handleDirectFileUpload(file);
     } else {
@@ -87,5 +108,9 @@ export const useFileUpload = ({ isATwilioSMSChannel, attachFile }) => {
 
   return {
     onFileUpload,
+    attachmentCount,
+    attachmentLimit,
+    remainingAttachments,
+    isAttachmentLimitReached,
   };
 };

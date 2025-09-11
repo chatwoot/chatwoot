@@ -903,6 +903,18 @@ RSpec.describe 'Conversations API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload'].length).to eq(1)
       end
+
+      it 'returns attachment limit information in the response' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/attachments",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        expect(response_body['meta']['total_count']).to eq(1)
+        expect(response_body['meta']['limit']).to eq(10)
+        expect(response_body['meta']['remaining']).to eq(9)
+      end
     end
   end
 end

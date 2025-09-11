@@ -24,7 +24,13 @@ export default {
     return { isUploading: false };
   },
   computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    ...mapGetters({ 
+      globalConfig: 'globalConfig/get',
+      attachmentCount: 'conversation/getAttachmentCount',
+      attachmentLimit: 'conversation/getAttachmentLimit',
+      remainingAttachments: 'conversation/getRemainingAttachments',
+      isAttachmentLimitReached: 'conversation/isAttachmentLimitReached'
+    }),
     fileUploadSizeLimit() {
       return MAXIMUM_FILE_UPLOAD_SIZE;
     },
@@ -55,6 +61,16 @@ export default {
       return fileType.includes('image') ? 'image' : 'file';
     },
     async onFileUpload(file) {
+      // Check attachment limit before upload
+      if (this.isAttachmentLimitReached) {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('ATTACHMENT_LIMIT_REACHED', {
+            ATTACHMENT_LIMIT: this.attachmentLimit,
+          }),
+        });
+        return;
+      }
+
       if (this.globalConfig.directUploadsEnabled) {
         await this.onDirectFileUpload(file);
       } else {
@@ -137,19 +153,32 @@ export default {
 </script>
 
 <template>
-  <FileUpload
-    ref="upload"
-    :size="4096 * 2048"
-    :accept="allowedFileTypes"
-    :data="{
-      direct_upload_url: '/api/v1/widget/direct_uploads',
-      direct_upload: true,
-    }"
-    @input-file="onFileUpload"
-  >
-    <button class="min-h-8 min-w-8 flex items-center justify-center">
-      <FluentIcon v-if="!isUploading.image" icon="attach" />
-      <Spinner v-if="isUploading" size="small" />
-    </button>
-  </FileUpload>
+  <div v-if="!isAttachmentLimitReached">
+    <FileUpload
+      ref="upload"
+      :size="4096 * 2048"
+      :accept="allowedFileTypes"
+      :multiple="remainingAttachments > 1"
+      :maximum="remainingAttachments"
+      :data="{
+        direct_upload_url: '/api/v1/widget/direct_uploads',
+        direct_upload: true,
+      }"
+      @input-file="onFileUpload"
+    >
+      <button 
+        class="min-h-8 min-w-8 flex items-center justify-center"
+        :title="$t('ATTACHMENT_COUNT_INFO', { 
+          current: attachmentCount, 
+          limit: attachmentLimit 
+        })"
+      >
+        <FluentIcon v-if="!isUploading" icon="attach" />
+        <Spinner v-if="isUploading" size="small" />
+      </button>
+    </FileUpload>
+  </div>
+  <div v-else class="min-h-8 min-w-8 flex items-center justify-center opacity-50">
+    <FluentIcon icon="attach" />
+  </div>
 </template>

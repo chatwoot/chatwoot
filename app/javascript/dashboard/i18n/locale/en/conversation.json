@@ -206,6 +206,7 @@
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "ATTACHMENT_LIMIT_REACHED": "Attachment limit reached",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
     "BOT": "Bot",

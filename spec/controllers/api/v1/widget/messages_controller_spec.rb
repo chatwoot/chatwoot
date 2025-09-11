@@ -115,6 +115,50 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
 
+      it 'prevents attachment upload when conversation limit is exceeded', :skip_before do
+        # Create 10 existing attachments in the conversation
+        10.times do |i|
+          message = create(:message, conversation: conversation, account: account, sender: contact, message_type: 'incoming')
+          attachment = message.attachments.create!(account_id: account.id, file_type: :image)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: "avatar#{i}.png", content_type: 'image/png')
+        end
+
+        # Try to upload one more attachment - should fail
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        message_params = { content: 'hello world', timestamp: Time.current, attachments: [file] }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = response.parsed_body
+        expect(json_response['error']).to include('Cannot upload 1 attachments. Conversation limit is 10 attachments total')
+      end
+
+      it 'prevents multiple attachment upload when conversation limit would be exceeded', :skip_before do
+        # Create 8 existing attachments in the conversation
+        8.times do |i|
+          message = create(:message, conversation: conversation, account: account, sender: contact, message_type: 'incoming')
+          attachment = message.attachments.create!(account_id: account.id, file_type: :image)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: "avatar#{i}.png", content_type: 'image/png')
+        end
+
+        # Try to upload 3 more attachments - should fail (8 + 3 = 11 > 10)
+        files = [
+          fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'),
+          fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'),
+          fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        ]
+        message_params = { content: 'hello world', timestamp: Time.current, attachments: files }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        json_response = response.parsed_body
+        expect(json_response['error']).to include('Cannot upload 3 attachments. Conversation limit is 10 attachments total (8 already uploaded)')
+      end
+
       it 'does not reopen conversation when conversation is muted' do
         conversation.mute!
 

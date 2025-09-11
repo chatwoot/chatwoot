@@ -1,5 +1,7 @@
 json.meta do
   json.total_count @attachments_count
+  json.limit @attachments_limit
+  json.remaining @attachments_remaining
 end
 
 json.payload @attachments do |attachment|

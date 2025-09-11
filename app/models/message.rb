@@ -40,7 +40,7 @@
 class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
-  NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+  NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION = (ENV['CHATWOOT_ATTACHMENTS_PER_CONVERSATION_LIMIT'] || 10).to_i
 
   TEMPLATE_PARAMS_SCHEMA = {
     'type': 'object',
@@ -398,7 +398,13 @@ class Message < ApplicationRecord
   end
 
   def validate_attachments_limit(_attachment)
-    errors.add(:attachments, message: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+    # Only apply conversation-level limit to customer/user messages
+    if sender_type == 'Contact'
+      conversation_attachments_count = conversation.attachments.count
+      if conversation_attachments_count >= NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION
+        errors.add(:attachments, message: "exceeded maximum allowed per conversation (#{NUMBER_OF_PERMITTED_ATTACHMENTS_PER_CONVERSATION} attachments)")
+      end
+    end
   end
 
   def set_conversation_activity

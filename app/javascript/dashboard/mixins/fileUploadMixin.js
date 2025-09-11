@@ -12,9 +12,32 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+    conversationAttachmentCount() {
+      if (!this.currentChat || !this.currentChat.attachments) return 0;
+      return this.currentChat.attachments.length;
+    },
+    attachmentLimit() {
+      return 10; // Could be made configurable
+    },
+    remainingAttachments() {
+      return Math.max(0, this.attachmentLimit - this.conversationAttachmentCount);
+    },
+    isAttachmentLimitReached() {
+      return this.remainingAttachments === 0;
+    },
   },
   methods: {
     onFileUpload(file) {
+      // Check attachment limit before upload (only for customer messages)
+      if (this.isAttachmentLimitReached) {
+        useAlert(
+          this.$t('CONVERSATION.ATTACHMENT_LIMIT_REACHED', {
+            ATTACHMENT_LIMIT: this.attachmentLimit,
+          })
+        );
+        return;
+      }
+
       if (this.globalConfig.directUploadsEnabled) {
         this.onDirectFileUpload(file);
       } else {

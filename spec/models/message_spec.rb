@@ -353,15 +353,84 @@ RSpec.describe Message do
   end
 
   context 'when attachments size maximum' do
-    let(:message) { build(:message, content_type: nil, account: create(:account)) }
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:contact) { conversation.contact }
+    let(:message) { build(:message, content_type: nil, account: account, conversation: conversation, sender: contact, sender_type: 'Contact') }
 
     it 'add errors to message for attachment size is more than allowed limit' do
-      16.times.each do
-        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      # Create 10 existing attachments in the conversation first
+      10.times do |i|
+        existing_message = create(:message, conversation: conversation, account: account, sender: contact, message_type: 'incoming')
+        attachment = existing_message.attachments.create!(account_id: account.id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: "avatar#{i}.png", content_type: 'image/png')
       end
 
-      expect(message.errors.messages).to eq({ attachments: ['exceeded maximum allowed'] })
+      # Now try to add one more attachment - should fail
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+      expect(message.errors.messages).to eq({ attachments: ['exceeded maximum allowed per conversation (10 attachments)'] })
+    end
+  end
+
+  context 'when conversation attachment limits' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    
+    context 'for contact messages' do
+      let(:contact) { conversation.contact }
+      let(:message) { build(:message, conversation: conversation, account: account, sender: contact, message_type: 'incoming') }
+
+      it 'allows up to 10 attachments per conversation for contacts' do
+        # Create 9 existing attachments in the conversation
+        9.times do |i|
+          existing_message = create(:message, conversation: conversation, account: account, sender: contact, message_type: 'incoming')
+          attachment = existing_message.attachments.create!(account_id: account.id, file_type: :image)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: "avatar#{i}.png", content_type: 'image/png')
+        end
+
+        # Try to add 1 more - should succeed
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        
+        expect(message.errors.messages).to be_empty
+      end
+
+      it 'prevents adding attachments when conversation limit is exceeded' do
+        # Create 10 existing attachments in the conversation
+        10.times do |i|
+          existing_message = create(:message, conversation: conversation, account: account, sender: contact, message_type: 'incoming')
+          attachment = existing_message.attachments.create!(account_id: account.id, file_type: :image)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: "avatar#{i}.png", content_type: 'image/png')
+        end
+
+        # Try to add 1 more - should fail
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        
+        expect(message.errors.messages).to eq({ attachments: ['exceeded maximum allowed per conversation (10 attachments)'] })
+      end
+    end
+
+    context 'for agent messages' do
+      let(:agent) { create(:user, account: account) }
+      let(:message) { build(:message, conversation: conversation, account: account, sender: agent, message_type: 'outgoing') }
+
+      it 'does not apply conversation limit to agent messages' do
+        # Create 10 existing attachments from contact messages
+        10.times do |i|
+          existing_message = create(:message, conversation: conversation, account: account, sender: conversation.contact, message_type: 'incoming')
+          attachment = existing_message.attachments.create!(account_id: account.id, file_type: :image)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: "avatar#{i}.png", content_type: 'image/png')
+        end
+
+        # Agent should still be able to add attachments
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        
+        expect(message.errors.messages).to be_empty
+      end
     end
   end
 

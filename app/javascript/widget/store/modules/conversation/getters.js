@@ -58,4 +58,25 @@ export const getters = {
     const maxUnreadCount = Math.min(unreadCount, 3);
     return unreadAgentMessages.splice(-maxUnreadCount);
   },
+  getAttachmentCount: _state => {
+    const allMessages = Object.values(_state.conversations);
+    return allMessages.reduce((count, message) => {
+      if (message.attachments && message.attachments.length > 0) {
+        return count + message.attachments.length;
+      }
+      return count;
+    }, 0);
+  },
+  getAttachmentLimit: () => {
+    // Default to 10, could be made configurable later
+    return 10;
+  },
+  getRemainingAttachments: (_state, _getters) => {
+    const limit = _getters.getAttachmentLimit;
+    const current = _getters.getAttachmentCount;
+    return Math.max(0, limit - current);
+  },
+  isAttachmentLimitReached: (_state, _getters) => {
+    return _getters.getRemainingAttachments === 0;
+  },
 };
