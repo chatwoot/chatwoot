@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
+import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import Avatar from 'next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
@@ -81,6 +82,16 @@ const hasUnread = computed(() => unreadCount.value > 0);
 const isInboxNameVisible = computed(() => !activeInbox.value);
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
+
+const callStatus = computed(
+  () => props.chat.additional_attributes?.call_status
+);
+const callDirection = computed(
+  () => props.chat.additional_attributes?.call_direction
+);
+
+const { labelKey: voiceLabelKey, listIconColor: voiceIconColor } =
+  useVoiceCallStatus(callStatus, callDirection);
 
 const inboxId = computed(() => props.chat.inbox_id);
 
@@ -306,14 +317,30 @@ const deleteConversation = () => {
       >
         {{ currentContact.name }}
       </h4>
+      <div
+        v-if="callStatus"
+        key="voice-status-row"
+        class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+        :class="messagePreviewClass"
+      >
+        <span
+          class="inline-block -mt-0.5 align-middle text-[16px] i-ph-phone-incoming"
+          :class="[voiceIconColor]"
+        />
+        <span class="mx-1">
+          {{ $t(voiceLabelKey) }}
+        </span>
+      </div>
       <MessagePreview
-        v-if="lastMessageInChat"
+        v-else-if="lastMessageInChat"
+        key="message-preview"
         :message="lastMessageInChat"
         class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm"
         :class="messagePreviewClass"
       />
       <p
         v-else
+        key="no-messages"
         class="text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap"
         :class="messagePreviewClass"
       >
