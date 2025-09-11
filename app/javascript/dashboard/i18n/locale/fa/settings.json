@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "صورتحساب حساب شما در حال پیکربندی است. لطفا صفحه را مجددا بارگزاری کرده و دوباره تلاش کنید."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
+    "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی LocalCom پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
     "NEW_ACCOUNT": "حساب‌کاربری جدید",
     "SELECTOR_SUBTITLE": "ایجاد حساب‌کاربری جدید",
     "API": {

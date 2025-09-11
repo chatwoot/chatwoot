@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Izvēlieties Kanālu",
-        "BODY": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
+        "BODY": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar LocalCom."
       },
       "INBOX": {
         "TITLE": "Izveidot Iesūtni",
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Ievadiet Jūsu tīmekļa vietnes nosaukumu (piemēram: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Pierakstoties mēs iegūstam piekļuvi tikai pie Jūsu lapas ziņojumiem. Chatwoot nekad nevar piekļūt jūsu privātajām ziņām.",
+        "HELP": "PS: Pierakstoties mēs iegūstam piekļuvi tikai pie Jūsu lapas ziņojumiem. LocalCom nekad nevar piekļūt jūsu privātajām ziņām.",
         "CHOOSE_PAGE": "Izvēlieties Lapu",
         "CHOOSE_PLACEHOLDER": "Izvēlieties lapu no saraksta",
         "INBOX_NAME": "Iesūtnes Nosaukums",
@@ -423,7 +423,7 @@
       },
       "AUTH": {
         "TITLE": "Izvēlieties kanālu",
-        "DESC": "Chatwoot atbalsta tiešraides tērzēšanas logrīkus, Facebook Messenger, Twitter profilus, WhatsApp, e-pastus kā kanālus. Ja vēlaties izveidot pielāgotu kanālu, varat to izveidot, izmantojot API kanālu. Lai sāktu, izvēlieties vienu no tālāk norādītajiem kanāliem."
+        "DESC": "LocalCom atbalsta tiešraides tērzēšanas logrīkus, Facebook Messenger, Twitter profilus, WhatsApp, e-pastus kā kanālus. Ja vēlaties izveidot pielāgotu kanālu, varat to izveidot, izmantojot API kanālu. Lai sāktu, izvēlieties vienu no tālāk norādītajiem kanāliem."
       },
       "AGENTS": {
         "TITLE": "Aģenti",
@@ -433,11 +433,11 @@
       },
       "DETAILS": {
         "TITLE": "Informācija par Iesūtni",
-        "DESC": "Tālāk esošajā nolaižamajā izvēlnē izvēlieties Facebook lapu, kuru vēlaties savienot ar Chatwoot. Jūs varat savai iesūtnei, lai to labāk atpazītu, piešķirt pielāgotu nosaukumu."
+        "DESC": "Tālāk esošajā nolaižamajā izvēlnē izvēlieties Facebook lapu, kuru vēlaties savienot ar LocalCom. Jūs varat savai iesūtnei, lai to labāk atpazītu, piešķirt pielāgotu nosaukumu."
       },
       "FINISH": {
         "TITLE": "Sanāca!",
-        "DESC": "Jūs esat veiksmīgi pabeidzis savas Facebook lapas integrēšanu ar Chatwoot. Nākamreiz, kad klients nosūtīs ziņojumu Jūsu lapai, saruna automātiski parādīsies Jūsu iesūtnē.<br>Mēs nodrošinām Jums arī logrīka skriptu, ko varat viegli pievienot savai tīmekļa vietnei. Kad tas būs pieejams Jūsu vietnē, klienti varēs Jums nosūtīt ziņojumus tieši no Jūsu tīmekļa vietnes, neizmantojot ārējus rīkus, un saruna tiks parādīta tieši šeit, vietnē Chatwoot.<br>"
+        "DESC": "Jūs esat veiksmīgi pabeidzis savas Facebook lapas integrēšanu ar LocalCom. Nākamreiz, kad klients nosūtīs ziņojumu Jūsu lapai, saruna automātiski parādīsies Jūsu iesūtnē.<br>Mēs nodrošinām Jums arī logrīka skriptu, ko varat viegli pievienot savai tīmekļa vietnei. Kad tas būs pieejams Jūsu vietnē, klienti varēs Jums nosūtīt ziņojumus tieši no Jūsu tīmekļa vietnes, neizmantojot ārējus rīkus, un saruna tiks parādīta tieši šeit, vietnē LocalCom.<br>"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Izvēlieties savu e-pasta pakalpojumu sniedzēju",
@@ -863,7 +863,7 @@
         "USER_MESSAGE": "Sveicināti",
         "AGENT_MESSAGE": "Labdien"
       },
-      "BRANDING_TEXT": "Darbināts ar Chatwoot",
+      "BRANDING_TEXT": "Darbināts ar LocalCom",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

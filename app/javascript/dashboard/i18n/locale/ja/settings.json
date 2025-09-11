@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "請求アカウントを設定中です。ページを更新してもう一度お試しください。"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Chatwootアカウントが見つかりませんでした。続行するには新しいアカウントを作成してください。",
+    "NO_ACCOUNT_WARNING": "LocalComアカウントが見つかりませんでした。続行するには新しいアカウントを作成してください。",
     "NEW_ACCOUNT": "新規アカウント",
     "SELECTOR_SUBTITLE": "新しいアカウントを作成",
     "API": {

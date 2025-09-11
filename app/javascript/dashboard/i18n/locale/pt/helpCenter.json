@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Criar",
       "NAME": {
         "LABEL": "Nome:",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | LocalCom",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Nome é obrigatório"
       },

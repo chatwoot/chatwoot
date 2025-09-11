@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Eyvah! Hiçbir Chatwoot hesabı bulunamadı. Devam etmek için yeni bir hesap oluşturun.",
+    "NO_ACCOUNT_WARNING": "Eyvah! Hiçbir LocalCom hesabı bulunamadı. Devam etmek için yeni bir hesap oluşturun.",
     "NEW_ACCOUNT": "Yeni hesap",
     "SELECTOR_SUBTITLE": "Yeni bir hesap oluştur",
     "API": {

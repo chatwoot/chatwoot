@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Verið er að stilla innheimtureikninginn þinn. Endurnýjaðu síðuna og reyndu aftur."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh ó! Við fundum enga Chatwoot reikninga. Vinsamlegast búðu til nýjan reikning til að halda áfram.",
+    "NO_ACCOUNT_WARNING": "Uh ó! Við fundum enga LocalCom reikninga. Vinsamlegast búðu til nýjan reikning til að halda áfram.",
     "NEW_ACCOUNT": "New Account",
     "SELECTOR_SUBTITLE": "Stofna nýjan aðgang",
     "API": {

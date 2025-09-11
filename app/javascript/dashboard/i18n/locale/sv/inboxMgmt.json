@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Välj kanal",
-        "BODY": "Välj den leverantör du vill integrera med Chatwoot."
+        "BODY": "Välj den leverantör du vill integrera med LocalCom."
       },
       "INBOX": {
         "TITLE": "Skapa inkorg",
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Ange namnet på din webbplats (t.ex. Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av Chatwoot.",
+        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av LocalCom.",
         "CHOOSE_PAGE": "Välj sida",
         "CHOOSE_PLACEHOLDER": "Välj en sida från listan",
         "INBOX_NAME": "Inkorgsnamn",
@@ -423,7 +423,7 @@
       },
       "AUTH": {
         "TITLE": "Välj en kanal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "LocalCom supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenter",
@@ -433,11 +433,11 @@
       },
       "DETAILS": {
         "TITLE": "Inkorgsdetaljer",
-        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till Chatwoot. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
+        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till LocalCom. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
       },
       "FINISH": {
         "TITLE": "Där satt den!",
-        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med Chatwoot. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på Chatwoot.<br>Cool, va? Tja, vi försöker säkert att vara :)"
+        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med LocalCom. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på LocalCom.<br>Cool, va? Tja, vi försöker säkert att vara :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -863,7 +863,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Drivs av Chatwoot",
+      "BRANDING_TEXT": "Drivs av LocalCom",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

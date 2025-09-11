@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Sada možete da dobijate e-poruke u vaš prilagođeni domen."
       }
     },
-    "UPDATE_CHATWOOT": "Dostupna je nadogradnja {latestChatwootVersion} za Chatwoot. Molim vas nadogradite vaše izdanje.",
+    "UPDATE_CHATWOOT": "Dostupna je nadogradnja {latestLocalComVersion} za LocalCom. Molim vas nadogradite vaše izdanje.",
     "LEARN_MORE": "Saznajte više",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
+    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using LocalCom",
+    "UPGRADE": "Upgrade to continue using LocalCom",
+    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using LocalCom",
     "OPEN_BILLING": "Open billing"
   },
   "FORMS": {

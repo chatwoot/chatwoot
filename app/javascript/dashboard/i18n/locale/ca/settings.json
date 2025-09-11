@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "El teu compte de facturació s'està configurant. Actualitza la pàgina i torna-ho a provar."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! No hem trobat cap compte de Chatwoot. Crea un compte nou per continuar.",
+    "NO_ACCOUNT_WARNING": "Uh oh! No hem trobat cap compte de LocalCom. Crea un compte nou per continuar.",
     "NEW_ACCOUNT": "Compte nou",
     "SELECTOR_SUBTITLE": "Crear un compte nou",
     "API": {

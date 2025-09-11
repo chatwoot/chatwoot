@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "אה הו! לא הצלחנו למצוא חשבונות Chatwoot. נא ליצור חשבון חדש כדי להמשיך.",
+    "NO_ACCOUNT_WARNING": "אה הו! לא הצלחנו למצוא חשבונות LocalCom. נא ליצור חשבון חדש כדי להמשיך.",
     "NEW_ACCOUNT": "חשבון חדש",
     "SELECTOR_SUBTITLE": "צור חשבון חדש",
     "API": {

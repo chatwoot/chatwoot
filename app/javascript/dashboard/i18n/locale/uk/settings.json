@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Ваш платіжний обліковий запис налаштовується. Будь ласка, оновіть сторінку та повторіть спробу."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису Chatwoot. Будь ласка, створіть новий обліковий запис, щоб продовжити.",
+    "NO_ACCOUNT_WARNING": "Ой! Ми не змогли знайти жодного облікового запису LocalCom. Будь ласка, створіть новий обліковий запис, щоб продовжити.",
     "NEW_ACCOUNT": "Новий акаунт",
     "SELECTOR_SUBTITLE": "Створити новий обліковий запис",
     "API": {

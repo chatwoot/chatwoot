@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "界面",
-        "NOTE": "自定义您的 Chatwoot 仪表板的外观和感觉。",
+        "NOTE": "自定义您的 LocalCom 仪表板的外观和感觉。",
         "FONT_SIZE": {
           "TITLE": "字体大小",
           "NOTE": "根据您的偏好调整仪表板中的文本大小。",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "您的计费账户正在配置中。请刷新页面并重试。"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "哦，糟糕！我们找不到任何 Chatwoot 账户。请创建一个新账户以继续。",
+    "NO_ACCOUNT_WARNING": "哦，糟糕！我们找不到任何 LocalCom 账户。请创建一个新账户以继续。",
     "NEW_ACCOUNT": "新账户",
     "SELECTOR_SUBTITLE": "创建一个新账户",
     "API": {

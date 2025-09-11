@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Vaš nalog za plaćanje se podešava. Molim vas osvežite stranicu i pokušajte ponovo."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "O ne! Nismo mogli da pronađemo nijedan Chatwoot nalog. Molim vas kreirajte novi da bi ste nastavili.",
+    "NO_ACCOUNT_WARNING": "O ne! Nismo mogli da pronađemo nijedan LocalCom nalog. Molim vas kreirajte novi da bi ste nastavili.",
     "NEW_ACCOUNT": "Novi nalog",
     "SELECTOR_SUBTITLE": "Napravite novi nalog",
     "API": {

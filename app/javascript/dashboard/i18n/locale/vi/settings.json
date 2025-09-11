@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Tài khoản thanh toán của bạn đang được định cấu hình. Hãy làm mới trang và thử lại."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản Chatwoot nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
+    "NO_ACCOUNT_WARNING": "Ồ ồ! Chúng tôi không thể tìm thấy bất kỳ tài khoản LocalCom nào. Vui lòng tạo một tài khoản mới để tiếp tục.",
     "NEW_ACCOUNT": "Tạo mới tài khoản",
     "SELECTOR_SUBTITLE": "Tạo mới một tài khoản",
     "API": {

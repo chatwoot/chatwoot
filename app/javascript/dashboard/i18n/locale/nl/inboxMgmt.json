@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Kies kanaal",
-        "BODY": "Kies de aanbieder die je wilt integreren met Chatwoot."
+        "BODY": "Kies de aanbieder die je wilt integreren met LocalCom."
       },
       "INBOX": {
         "TITLE": "Maak inbox",
@@ -423,7 +423,7 @@
       },
       "AUTH": {
         "TITLE": "Kies een kanaal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "LocalCom supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenten",
@@ -437,7 +437,7 @@
       },
       "FINISH": {
         "TITLE": "Geïnstalleerd het!",
-        "DESC": "U heeft de integratie van uw Facebook-pagina met Chatwood succesvol voltooid. Volgende keer dat een klant uw pagina bericht, zal het gesprek automatisch in uw inbox verschijnen.<br>We bieden u ook een widget script aan, dat u eenvoudig aan uw website kunt toevoegen. Zodra dit live is op je website klanten kunnen vanaf uw website een bericht sturen zonder de hulp van een externe tool en het gesprek verschijnt hier op Chatwoot.<br>Koel, toch? Wel, proberen we zeker om te zijn :)"
+        "DESC": "U heeft de integratie van uw Facebook-pagina met Chatwood succesvol voltooid. Volgende keer dat een klant uw pagina bericht, zal het gesprek automatisch in uw inbox verschijnen.<br>We bieden u ook een widget script aan, dat u eenvoudig aan uw website kunt toevoegen. Zodra dit live is op je website klanten kunnen vanaf uw website een bericht sturen zonder de hulp van een externe tool en het gesprek verschijnt hier op LocalCom.<br>Koel, toch? Wel, proberen we zeker om te zijn :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -863,7 +863,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Mogelijk gemaakt door Chatwoot",
+      "BRANDING_TEXT": "Mogelijk gemaakt door LocalCom",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

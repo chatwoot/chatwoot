@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -75,7 +75,7 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "رمز المصادقة",
-        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع Chatwoot",
+        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع LocalCom",
         "COPY": "نسخ",
         "RESET": "Reset",
         "CONFIRM_RESET": "Are you sure?",

@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Ihr Rechnungskonto wird konfiguriert. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
+    "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine LocalCom-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",
     "NEW_ACCOUNT": "Neuer Account",
     "SELECTOR_SUBTITLE": "Neuen Account erstellen",
     "API": {

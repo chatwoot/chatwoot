@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Contul de facturare este configurat. Vă rugăm să reîmprospătați pagina și încercați din nou."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont LocalCom. Vă rugăm să creați un cont nou pentru a continua.",
     "NEW_ACCOUNT": "Cont Nou",
     "SELECTOR_SUBTITLE": "Creează un cont nou",
     "API": {

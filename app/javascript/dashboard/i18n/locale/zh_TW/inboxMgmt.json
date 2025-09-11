@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "選擇頻道",
-        "BODY": "選擇你想要與 Chatwoot 整合的提供商。"
+        "BODY": "選擇你想要與 LocalCom 整合的提供商。"
       },
       "INBOX": {
         "TITLE": "新增收件匣",
@@ -423,7 +423,7 @@
       },
       "AUTH": {
         "TITLE": "選擇一個頻道",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "LocalCom supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "客服",
@@ -437,7 +437,7 @@
       },
       "FINISH": {
         "TITLE": "做得漂亮！",
-        "DESC": "您已成功地將您的 Facebook 頁面與 Chatwoot 整合。下次客户發送消息到您的頁面時，對話將自動出現在收件匣中。<br>我們還為您提供了一個小元件脚本，您可以輕鬆地建立到您的網站。 在您的網站上登入後， 客户可以在没有任何外部工具幫助的情况下，從您的網站向您發送消息，對話將會在這裡出現在 Chatwoot 上。<br>酷，對吧？好吧，我們很肯定 :)"
+        "DESC": "您已成功地將您的 Facebook 頁面與 LocalCom 整合。下次客户發送消息到您的頁面時，對話將自動出現在收件匣中。<br>我們還為您提供了一個小元件脚本，您可以輕鬆地建立到您的網站。 在您的網站上登入後， 客户可以在没有任何外部工具幫助的情况下，從您的網站向您發送消息，對話將會在這裡出現在 LocalCom 上。<br>酷，對吧？好吧，我們很肯定 :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "選擇你的電子郵件供應商",
@@ -863,7 +863,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Powered by LocalCom",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

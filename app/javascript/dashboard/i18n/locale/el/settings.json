@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Ο λογαριασμός χρέωσης έχει ρυθμιστεί. Παρακαλώ ανανεώστε τη σελίδα και προσπαθήστε ξανά."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
+    "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό LocalCom. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
     "NEW_ACCOUNT": "Νέος Λογαριασμός",
     "SELECTOR_SUBTITLE": "Δημιουργία νέου Λογαριασμού",
     "API": {

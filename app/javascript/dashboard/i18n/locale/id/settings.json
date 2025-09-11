@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your LocalCom dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -382,7 +382,7 @@
     "NO_BILLING_USER": "Akun pembayaran Anda sedang dikonfigurasi. Silakan segarkan halaman dan coba lagi."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemukan akun Chatwoot apa pun. Harap buat akun baru untuk melanjutkan.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemukan akun LocalCom apa pun. Harap buat akun baru untuk melanjutkan.",
     "NEW_ACCOUNT": "Akun Baru",
     "SELECTOR_SUBTITLE": "Buat akun baru",
     "API": {

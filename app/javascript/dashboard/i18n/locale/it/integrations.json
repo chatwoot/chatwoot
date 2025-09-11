@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrazioni",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "LocalCom integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Annulla",
-        "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account Chatwoot. Per favore inserisci un URL valido per configurare un callback.",
+        "DESC": "Gli eventi Webhook ti forniscono le informazioni in tempo reale su ciò che sta accadendo nel tuo account LocalCom. Per favore inserisci un URL valido per configurare un callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Eventi",
           "EVENTS": {
@@ -60,7 +60,7 @@
       "HEADER_BTN_TXT": "Aggiungi nuovo webhook",
       "LOADING": "Recupero dei webhooks collegati",
       "SEARCH_404": "Non ci sono elementi che corrispondono a questa richiesta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>I Webhooks sono callback HTTP che possono essere definiti per ogni account. Sono innescati da eventi come la creazione di messaggi in Chatwoot. Puoi creare più di un webhook per questo account. <br /><br /> Per creare un <b>webhook</b>, clicca sul pulsante <b>Aggiungi nuovo webhook</b>. Puoi anche rimuovere qualsiasi webhook esistente cliccando sul pulsante Elimina.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>I Webhooks sono callback HTTP che possono essere definiti per ogni account. Sono innescati da eventi come la creazione di messaggi in LocalCom. Puoi creare più di un webhook per questo account. <br /><br /> Per creare un <b>webhook</b>, clicca sul pulsante <b>Aggiungi nuovo webhook</b>. Puoi anche rimuovere qualsiasi webhook esistente cliccando sul pulsante Elimina.</p>",
       "LIST": {
         "404": "Non ci sono webhook configurati per questo account.",
         "TITLE": "Gestisci webhook",
@@ -107,14 +107,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Stai utilizzando l'integrazione Slack",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through LocalCom. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in LocalCom under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "Aggiorna",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with LocalCom. However, the integration is currently inactive. To activate the integration and connect a channel to LocalCom, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the LocalCom app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -194,7 +194,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "App dashboard",
       "HEADER_BTN_TXT": "Aggiungi una nuova app dashboard",
-      "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno del cruscotto Chatwoot per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni all'utente, i loro ordini, o la loro cronologia di pagamento precedente.</p><p>Quando hai incorporato la tua applicazione usando il cruscotto in Chatwoot, la tua applicazione avrà il contesto della conversazione e del contatto come evento finestra. Implementa un ascoltatore per l'evento del messaggio sulla tua pagina per ricevere il contesto.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
+      "SIDEBAR_TXT": "<p><b>App dashboard</b></p><p>Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno del cruscotto LocalCom per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporata all'interno della dashboard per fornire informazioni all'utente, i loro ordini, o la loro cronologia di pagamento precedente.</p><p>Quando hai incorporato la tua applicazione usando il cruscotto in LocalCom, la tua applicazione avrà il contesto della conversazione e del contatto come evento finestra. Implementa un ascoltatore per l'evento del messaggio sulla tua pagina per ricevere il contesto.</p><p>Per aggiungere una nuova app dashboard, clicca sul pulsante 'Aggiungi una nuova app dashboard'.</p>",
       "DESCRIPTION": "Le app dashboard consentono alle organizzazioni di incorporare un'applicazione all'interno della dashboard per fornire il contesto per gli agenti di assistenza clienti. Questa funzione consente di creare un'applicazione in modo indipendente e incorporare che per fornire informazioni sull'utente, i suoi ordini o la loro cronologia di pagamento precedente.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
