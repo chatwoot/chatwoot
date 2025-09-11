@@ -133,6 +133,7 @@ Style/ClassAndModuleChildren:
   Exclude:
     - 'config/application.rb'
     - 'config/initializers/monkey_patches/*'
+    - enterprise/lib/enterprise/railtie.rb
 
 Style/MapToHash:
   Enabled: false
