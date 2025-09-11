@@ -44,13 +44,13 @@ const handleBreadcrumbClick = item => {
 
 const onClickCreatePolicy = () => {
   router.push({
-    name: 'agent_assignment_policy_create',
+    name: 'agent_capacity_policy_create',
   });
 };
 
 const onClickEditPolicy = id => {
   router.push({
-    name: 'agent_assignment_policy_edit',
+    name: 'agent_capacity_policy_edit',
     params: {
       id,
     },
