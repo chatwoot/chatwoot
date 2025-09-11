@@ -328,6 +328,9 @@
     "SELECT": {
       "PLACEHOLDER": "None"
     },
+    "SUMMARY": {
+      "TITLE": "Conversation Summary"
+    },
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",

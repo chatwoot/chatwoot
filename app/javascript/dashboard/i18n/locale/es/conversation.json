@@ -329,6 +329,9 @@
     "SELECT": {
       "PLACEHOLDER": "Ninguna"
     },
+    "RESUME": {
+      "TITLE": "Resumen de conversación"
+    },
     "ACCORDION": {
       "CONTACT_DETAILS": "Detalles de contacto",
       "CONVERSATION_ACTIONS": "Acciones de conversación",
