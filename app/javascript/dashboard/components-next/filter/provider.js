@@ -183,9 +183,36 @@ export function useConversationFilterContext() {
       filterOperators: presenceOperators.value,
       attributeModel: 'standard',
     },
+    // ORIGINAL: Etiquetas de CONVERSA (comentado para ocultar do usuário)
+    // {
+    //   attributeKey: CONVERSATION_ATTRIBUTES.LABELS,
+    //   value: CONVERSATION_ATTRIBUTES.LABELS,
+    //   attributeName: t('FILTER.ATTRIBUTES.LABELS'),
+    //   label: t('FILTER.ATTRIBUTES.LABELS'),
+    //   inputType: 'multiSelect',
+    //   options: labels.value.map(label => {
+    //     return {
+    //       id: label.title,
+    //       name: label.title,
+    //       icon: h('span', {
+    //         class: `rounded-full`,
+    //         style: {
+    //           backgroundColor: label.color,
+    //           height: '6px',
+    //           width: '6px',
+    //         },
+    //       }),
+    //     };
+    //   }),
+    //   dataType: 'text',
+    //   filterOperators: presenceOperators.value,
+    //   attributeModel: 'standard',
+    // },
+    
+    // NOVO: Etiquetas de CONTATO (visível para o usuário)
     {
-      attributeKey: CONVERSATION_ATTRIBUTES.LABELS,
-      value: CONVERSATION_ATTRIBUTES.LABELS,
+      attributeKey: 'labels',
+      value: 'labels', 
       attributeName: t('FILTER.ATTRIBUTES.LABELS'),
       label: t('FILTER.ATTRIBUTES.LABELS'),
       inputType: 'multiSelect',
