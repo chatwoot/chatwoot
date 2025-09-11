@@ -283,12 +283,12 @@ export default {
     </div>
     
     <!-- Etiquetas da Conversa - QUARTA POSIÇÃO (ÚLTIMA) -->
-    <div>
+    <!-- <div>
       <ContactDetailsItem
         compact
         :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
       />
       <ConversationLabels :conversation-id="conversationId" />
-    </div>
+    </div> -->
   </div>
 </template>
