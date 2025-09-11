@@ -56,7 +56,6 @@ class Whatsapp::TemplateSyncService
     language_code.split('_').first.downcase
   end
 
-  # TODO: check we need this
   def extract_metadata(data)
     {
       whatsapp_sub_category: data['sub_category']

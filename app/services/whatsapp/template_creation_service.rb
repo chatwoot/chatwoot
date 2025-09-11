@@ -102,7 +102,7 @@ class Whatsapp::TemplateCreationService
       return false
     end
 
-    # TODO: add header, footer and button components validation if needed
+    # NOTE: we can also add other components validation but meta will anyways do that so lets keep it simple
     true
   end
 end

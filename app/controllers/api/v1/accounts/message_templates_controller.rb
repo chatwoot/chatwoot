@@ -13,11 +13,11 @@ class Api::V1::Accounts::MessageTemplatesController < Api::V1::Accounts::BaseCon
     @message_template.created_by = Current.user
     @message_template.save!
   rescue ActiveRecord::RecordNotSaved
-    render json: { error: @message_template.errors.full_messages.join(', ') }, status: :unprocessable_entity
+    render json: { error: @message_template.errors.full_messages.join(', ') }, status: :unprocessable_content
   end
 
   def update
-    @message_template.update!(message_template_params)
+    @message_template.assign_attributes(message_template_params)
     @message_template.updated_by = Current.user
     @message_template.save!
   end

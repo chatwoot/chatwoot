@@ -98,6 +98,8 @@ class MessageTemplate < ApplicationRecord
   end
 
   def validate_unique_template_name
+    return if account.blank?
+
     existing_template = account.message_templates
                                .where(name: name, language: language, inbox_id: inbox_id)
                                .where.not(id: id)
