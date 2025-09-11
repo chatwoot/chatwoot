@@ -1,6 +1,6 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'LocalCom'
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
 - name: LOGO
@@ -8,15 +8,15 @@
 - name: LOGO_DARK
   value: '/brand-assets/logo_dark.svg'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://localcom.com.au'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://localcom.com.au'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'LocalCom'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://localcom.com.au/policies'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://localcom.com.au/wp-content/uploads/2025/06/Privacy-Policy-LocalCom-1.pdf'
 - name: DISPLAY_MANIFEST
   value: true
 # ------- End of Branding Related Config ------- #

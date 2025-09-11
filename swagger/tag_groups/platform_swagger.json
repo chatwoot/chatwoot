@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "Chatwoot",
-    "description": "This is the API documentation for Chatwoot server.",
+    "title": "LocalCom",
+    "description": "This is the API documentation for LocalCom server.",
     "version": "1.1.0",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "termsOfService": "https://localcom.com.au/policies/",
     "contact": {
-      "email": "hello@chatwoot.com"
+      "email": "hello@localcom.com.au"
     },
     "license": {
       "name": "MIT License",
