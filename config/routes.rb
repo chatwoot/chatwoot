@@ -134,6 +134,7 @@ Rails.application.routes.draw do
             member do
               patch :update_followups, to: 'ai_agent_followups#update'
               post :chat, to: 'ai_agents#chat'
+              get :chat_health, to: 'ai_agents#chat_health'
             end
 
             resources :knowledge_sources, only: [:index], controller: 'knowledge_sources' do
@@ -475,8 +476,11 @@ Rails.application.routes.draw do
           end
           resource :google_sheets_export, only: [], controller: 'google_sheets_export' do
             collection do
-              get :authorize
-              get :status
+              get  :authorize
+              get  :status
+              post :generate
+              post :spreadsheet_url
+              post :sync
             end
           end
         end

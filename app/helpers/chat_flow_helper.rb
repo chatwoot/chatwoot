@@ -9,12 +9,23 @@ module ChatFlowHelper
     end
   end
 
-  def create_flow_data_and_store_config(store_id)
+  def create_flow_data
     update_node_input('chatPromptTemplate_0', 'systemMessagePrompt', system_prompt)
     update_node_input('bufferWindowMemory_0', 'k', WINDOW_SIZE)
     update_node_input('qdrant_0', 'qdrantCollection', database_name)
 
-    [flow_data, store_config(store_id)]
+    flow_data
+  end
+
+  def store_config(store_id)
+    store_config = template.store_config.deep_dup
+
+    store_config['storeId'] = store_id
+    store_config['vectorStoreConfig']['databaseName'] = database_name
+    store_config['vectorStoreConfig']['qdrantCollection'] = database_name
+    store_config['recordManagerConfig']['tableName'] = "#{database_name}_upsertion_records"
+
+    [store_config, database_name]
   end
 
   def save_as(ai_agent)
@@ -34,17 +45,6 @@ module ChatFlowHelper
 
   def flow_data=(new_data)
     @flow_data = new_data
-  end
-
-  def store_config(store_id)
-    store_config = template.store_config.deep_dup
-
-    store_config['storeId'] = store_id
-    store_config['vectorStoreConfig']['databaseName'] = database_name
-    store_config['vectorStoreConfig']['qdrantCollection'] = database_name
-    store_config['recordManagerConfig']['tableName'] = "#{database_name}_upsertion_records"
-
-    store_config
   end
 
   def find_node_by_id(id)
@@ -81,7 +81,7 @@ module ChatFlowHelper
   end
 
   def combined_system_prompt
-    identity = params[:system_prompts]
+    identity = params[:flow_data]&.dig('agents_config', 0, 'bot_prompt')
     guideline_and_task = multi_gsub(template.system_prompt_rules, placeholders)
     generate_system_prompt(identity, guideline_and_task)
   end

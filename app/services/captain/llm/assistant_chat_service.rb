@@ -2,49 +2,70 @@ require 'httparty'
 
 class Captain::Llm::AssistantChatService
   include HTTParty
-  base_uri ENV.fetch('FLOWISE_API_URL', 'https://ai.radyalabs.id/api/v1')
 
-  def initialize(question, session_id, chat_flow_id, account_id)
-    @question = question
+  base_uri ENV.fetch('JANGKAU_AGENT_API_URL', 'https://agent.jangkau.ai/')
+
+  def initialize(message, session_id, ai_agent, account_id)
+    @message = message
     @session_id = session_id
-    @chat_flow_id = chat_flow_id
+    @ai_agent = ai_agent
     @account_id = account_id
   end
 
-  def generate_response
-    Rails.logger.info "[generate_response] Sending request to /prediction/#{@chat_flow_id} with body: #{request_body.to_json}"
+  def perform
+    generate_response
+  end
 
-    response = self.class.post(
-      "/prediction/#{@chat_flow_id}",
-      body: request_body.to_json,
-      headers: headers
+  def health
+    Rails.logger.info "[health] Generating response for Jangkau AI Agent #{self.class.base_uri.strip}"
+    response = self.class.get(
+      '/v1/monitoring/health/',
+      headers: {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
     )
-
-    Rails.logger.info "[generate_response] Received response: #{response.code} #{response.body}"
-
+    Rails.logger.info "[health] Received Jangkau response: #{response.code} #{response.body}"
     response
+  rescue HTTParty::Error => e
+    Rails.logger.error "[health] HTTParty error: #{e.message}"
+    raise "Failed to generate response: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error "[health] Standard error: #{e.message}"
+    raise "Failed to generate response: #{e.message}"
   end
 
   private
 
-  def request_body
-    {
-      'question' => @question,
-      'overrideConfig' => {
-        'sessionId' => @session_id,
-        'vars' => {
-          'account_id' => @account_id,
-          'table_name' => ENV.fetch('SUPABASE_TABLE_NAME', 'reservasi_klinik')
-        }
-      }
-    }
+  def generate_response
+    question, additional_attributes = extract_message_data(@message)
+
+    Rails.logger.info "Additional attributes: #{additional_attributes}"
+
+    if @ai_agent.custom_agent?
+      ::Captain::Llm::BaseFlowiseService.new(
+        @account_id,
+        @ai_agent,
+        question,
+        @session_id,
+        additional_attributes
+      ).perform
+    else
+      ::Captain::Llm::BaseJangkauService.new(
+        @account_id,
+        @ai_agent,
+        question,
+        @session_id,
+        additional_attributes
+      ).perform
+    end
   end
 
-  def headers
-    {
-      'Content-Type' => 'application/json',
-      'Accept' => 'application/json',
-      'Authorization' => "Bearer #{ENV.fetch('FLOWISE_API_KEY', nil)}"
-    }
+  def extract_message_data(message)
+    if message.is_a?(String)
+      [message, {}]
+    else
+      [message.content, message.additional_attributes || {}]
+    end
   end
 end

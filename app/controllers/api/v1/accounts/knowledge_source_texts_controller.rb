@@ -88,7 +88,7 @@ class Api::V1::Accounts::KnowledgeSourceTextsController < Api::V1::Accounts::Bas
     AiAgents::FlowiseService.add_document_loader(
       store_id: store_id,
       loader_id: 'plainText',
-      splitter_id: 'htmlToMarkdownTextSplitter',
+      splitter_id: 'recursiveCharacterTextSplitter',
       name: name,
       content: text
     )

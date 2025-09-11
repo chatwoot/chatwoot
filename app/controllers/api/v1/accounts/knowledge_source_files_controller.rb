@@ -61,11 +61,21 @@ class Api::V1::Accounts::KnowledgeSourceFilesController < Api::V1::Accounts::Bas
 
   def create_document_loader(store_id, file)
     file_name = formatted_file_name(file.original_filename)
+    ext = File.extname(file_name).downcase
+
+    raise "Unsupported file type: #{ext}" unless %w[.pdf .docx].include?(ext)
+
+    loader_id = if ext == '.pdf'
+                  'pdfFile'
+                else
+                  'docxFile'
+                end
+
     base64_content = convert_file_to_base64(file, file_name)
 
     AiAgents::FlowiseService.add_document_loader(
       store_id: store_id,
-      loader_id: 'pdfFile',
+      loader_id: loader_id,
       splitter_id: 'recursiveCharacterTextSplitter',
       name: file_name,
       content: base64_content

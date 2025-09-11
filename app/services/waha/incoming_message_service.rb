@@ -28,9 +28,9 @@ class Waha::IncomingMessageService
   end
 
   def set_contact
-    sender_phone = params[:sender].to_s
-    cleaned_source_id = sender_phone.split(':').first.split('@').first
-    formatted_phone_number = cleaned_source_id.start_with?('+') ? cleaned_source_id : "+#{cleaned_source_id}"
+    # sender_phone = params[:sender].to_s
+    # cleaned_source_id = sender_phone.split(':').first.split('@').first
+    # formatted_phone_number = cleaned_source_id.start_with?('+') ? cleaned_source_id : "+#{cleaned_source_id}"
 
     contact_inbox = ContactInboxWithContactBuilder.new(
       source_id: cleaned_source_id,
@@ -47,15 +47,15 @@ class Waha::IncomingMessageService
 
   def set_conversation
     @conversation = @contact.conversations.where(inbox: inbox).last
-    
-    if @conversation.blank? || @conversation.resolved?
-      @conversation = Conversation.create!(
-        account_id: @contact.account_id,
-        inbox: inbox,
-        contact: @contact,
-        contact_inbox: @contact_inbox
-      )
-    end
+
+    return unless @conversation.blank? || @conversation.resolved?
+
+    @conversation = Conversation.create!(
+      account_id: @contact.account_id,
+      inbox: inbox,
+      contact: @contact,
+      contact_inbox: @contact_inbox
+    )
   end
 
   def create_message
@@ -65,9 +65,23 @@ class Waha::IncomingMessageService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: params[:message_id]
+      source_id: params[:message_id],
+      additional_attributes: {
+        name: params[:sender_name],
+        phone_number: formatted_phone_number,
+        channel: 'WhatsappUnofficial'
+      }
     )
-    
+
     message.save!
+  end
+
+  def cleaned_source_id
+    sender_phone = params[:sender].to_s
+    @cleaned_source_id ||= sender_phone.split(':').first.split('@').first
+  end
+
+  def formatted_phone_number
+    @formatted_phone_number ||= @cleaned_source_id.start_with?('+') ? @cleaned_source_id : "+#{@cleaned_source_id}"
   end
 end

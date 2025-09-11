@@ -187,6 +187,8 @@ class AiAgents::FlowiseService
           'usage' => 'perPage',
           'legacyBuild' => ''
         }
+      when 'docxFile'
+        { 'docxFile' => content }
       when 'htmlFile'
         { 'htmlFile' => content }
       else

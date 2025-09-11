@@ -1,6 +1,6 @@
 class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
   include SwitchLocale
-  include JsonHelper
+  include ResponseFormatChatHelper
 
   def initialize(message)
     @message = message
@@ -36,7 +36,6 @@ class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
     return I18n.t('conversations.bot.not_available_ai_agent') unless @context.inbox
 
     return I18n.t('conversations.bot.not_available_ai_agent') unless @context.ai_agent
-    return I18n.t('conversations.bot.not_available_ai_agent') if @context.ai_agent.chat_flow_id.blank?
 
     return I18n.t('subscriptions.limit_reached') unless @context.subscription
     return I18n.t('subscriptions.limit_reached') unless @context.usage
@@ -48,22 +47,17 @@ class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
 
   def send_messages
     send_message = Captain::Llm::AssistantChatService.new(
-      @message.content,
+      @message,
       @context.conversation.id,
-      @context.ai_agent.chat_flow_id,
+      @context.ai_agent,
       @current_account.id
-    ).generate_response
+    ).perform
 
     return send_reply_failure(I18n.t('conversations.bot.failure')) unless send_message.success?
 
     @context.usage.increment_ai_responses
-    Rails.logger.info("🤖 AI Response: #{send_message.body}")
-
     response = send_message.parsed_response
-    message, is_handover = get_message_content(response)
-
-    Rails.logger.info("🤖 AI Reply: #{message}, Handover: #{is_handover}")
-
+    message, is_handover = parsed_response(response)
     send_reply(message, is_handover: is_handover, additional_attributes: { message_type: 1, sender_type: 'AiAgent' })
   end
 
@@ -99,14 +93,6 @@ class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
     else
       Rails.logger.info('🤖 Bot completed to reply message')
     end
-  end
-
-  def get_message_content(response)
-    json_data = extract_json_from_code_block(response['text'])
-    is_handover = json_data&.dig('is_handover_human') || false
-    message = json_data&.dig('response')
-
-    [message, is_handover]
   end
 
   def find_available_agent
