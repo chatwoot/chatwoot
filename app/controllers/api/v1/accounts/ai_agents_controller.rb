@@ -46,8 +46,8 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
       account.id
     ).perform.then do |response|
       if response.success?
-        parsed_response = response.parsed_response
-        json_data = json_response(parsed_response)
+        parsed = response.parsed_response
+        json_data = json_response(parsed, is_custom_agent: ai_agent.custom_agent?)
         render json: json_data, status: :ok
       else
         handle_error('Failed to generate AI response', status: :unprocessable_entity, exception: response)

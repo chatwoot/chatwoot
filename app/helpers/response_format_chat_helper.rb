@@ -9,8 +9,8 @@ module ResponseFormatChatHelper
     [message, is_handover]
   end
 
-  def json_response(response, is_flowise: false)
-    if is_flowise
+  def json_response(response, is_custom_agent: false)
+    if is_custom_agent
       extract_json_from_code_block(response['text'])
     else
       response
