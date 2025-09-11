@@ -683,7 +683,7 @@ function scrollToPackage() {
                   {{ formatPrice(calculatePackagePrice(plan.monthly_price, plan.name, selectedTab)) }}
                 </div>
                 <div class="price-period">
-                  IDR /{{ qty == 1 ? t('BILLING.TAB_DISPLAY.qty_month') : `${qty} ${t('BILLING.TAB_DISPLAY.qty_month')}` }}
+                  IDR /{{ durationMap[selectedTab] == 1 ? t('BILLING.TAB_DISPLAY.qty_month') : `${durationMap[selectedTab]} ${t('BILLING.TAB_DISPLAY.qty_month')}` }}
                 </div>
                 <div class="package-type">{{ selectedTabDisplay }}</div>
               </div>
