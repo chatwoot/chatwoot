@@ -54,6 +54,7 @@ const closeContactPanel = () => {
       <ContactPanel
         v-show="activeTab === 0"
         :conversation-id="currentChat.id"
+        :conversation-summary="currentChat.summary"
         :inbox-id="currentChat.inbox_id"
       />
     </div>

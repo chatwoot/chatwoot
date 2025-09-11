@@ -295,6 +295,17 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
       end
+
+      it 'updaates the summary of the conversation' do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: { summary: 'This is a test summary' },
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:summary]).to eq('This is a test summary')
+      end
     end
   end
 
