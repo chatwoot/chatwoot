@@ -26,6 +26,9 @@ nl:
   messages:
     reset_password_success: Woot! Verzoek om wachtwoord te resetten is gelukt. Controleer je e-mail voor instructies.
     reset_password_failure: Oh ho! We konden geen gebruiker vinden met het opgegeven e-mailadres.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Uw verzoek tot verwijdering binnen de inbox zal binnen enige tijd worden verwerkt.
   errors:
     validations:
@@ -211,6 +214,7 @@ nl:
     reply:
       email:
         header:
+          notifications: 'Notifications'
           from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
