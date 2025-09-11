@@ -26,6 +26,9 @@ hu:
   messages:
     reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
     reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: A beérkező üzeneteid törlésére vonatkozó kérésed nem sokára feldolgozásra kerül.
   errors:
     validations:
@@ -211,6 +214,7 @@ hu:
     reply:
       email:
         header:
+          notifications: 'Értesítések'
           from_with_name: '%{assignee_name} innen %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} innen %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} innen %{business_name} <%{from_email}>'
