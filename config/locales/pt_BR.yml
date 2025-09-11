@@ -26,6 +26,9 @@ pt_BR:
   messages:
     reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
   errors:
     validations:
@@ -211,6 +214,7 @@ pt_BR:
     reply:
       email:
         header:
+          notifications: 'Notificações'
           from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} de %{business_name} <%{from_email}>'
