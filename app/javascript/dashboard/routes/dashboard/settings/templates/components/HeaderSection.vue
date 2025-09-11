@@ -6,7 +6,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import VariableSection from './VariableSection.vue';
 import FileUpload from 'dashboard/components-next/file-upload/FileUpload.vue';
-import { MEDIA_FORMATS, UPLOAD_CONFIG } from 'dashboard/constants/templates';
+import { MEDIA_FORMATS, UPLOAD_CONFIG } from 'dashboard/helper/templateHelper';
 
 const props = defineProps({
   modelValue: {

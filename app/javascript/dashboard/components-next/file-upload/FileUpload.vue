@@ -31,7 +31,7 @@ import { uploadFile } from 'dashboard/helper/uploadHelper';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import { MEDIA_FORMATS } from 'dashboard/constants/templates';
+import { MEDIA_FORMATS } from 'dashboard/helper/templateHelper';
 
 const props = defineProps({
   modelValue: {

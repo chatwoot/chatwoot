@@ -8,7 +8,7 @@ import HeaderSection from './components/HeaderSection.vue';
 import BodySection from './components/BodySection.vue';
 import FooterSection from './components/FooterSection.vue';
 import ButtonsSection from './components/ButtonsSection.vue';
-import { MEDIA_FORMATS } from 'dashboard/constants/templates';
+import { MEDIA_FORMATS } from 'dashboard/helper/templateHelper';
 
 const { t } = useI18n();
 
@@ -54,6 +54,7 @@ Header:
 const parameterType = ref('positional'); // 'positional' or 'named'
 const isParameterTypeDropdownOpen = ref(false);
 
+// TODO: For type constants use COMPONENT_TYPES from templateHelper
 const templateData = ref({
   header: {
     enabled: false,

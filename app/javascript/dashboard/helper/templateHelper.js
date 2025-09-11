@@ -7,6 +7,11 @@ export const COMPONENT_TYPES = {
   BUTTONS: 'BUTTONS',
 };
 export const MEDIA_FORMATS = ['IMAGE', 'VIDEO', 'DOCUMENT'];
+export const UPLOAD_CONFIG = {
+  IMAGE: { accept: 'image/jpeg,image/jpg,image/png' },
+  VIDEO: { accept: 'video/mp4' },
+  DOCUMENT: { accept: 'application/pdf' },
+};
 
 export const findComponentByType = (template, type) =>
   template.components?.find(component => component.type === type);
