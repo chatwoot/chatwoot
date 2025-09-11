@@ -216,6 +216,6 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   });
 };
 
-window.chatwootSDK = {
+window.localComChatSDK = {
   run: runSDK,
 };

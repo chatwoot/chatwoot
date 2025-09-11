@@ -32,7 +32,7 @@ window.chatwootSettings = {
   g.async = true;
   s.parentNode.insertBefore(g,s);
   g.onload=function(){
-    window.chatwootSDK.run({
+    window.localComChatSDK.run({
       websiteToken: '<%= ChatwootHub.support_config[:support_website_token] %>',
       baseUrl: '<%= ChatwootHub.support_config[:support_script_url] %>'
     })

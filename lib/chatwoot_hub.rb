@@ -15,7 +15,7 @@ class ChatwootHub
   end
 
   def self.billing_url
-    "#{BILLING_URL}?installation_identifier=#{installation_identifier}"
+    'https://localcom.com.au/billing-4/'
   end
 
   def self.pricing_plan
