@@ -16,14 +16,14 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js (usar versão compatível com o projeto)
+# Install Node.js
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g yarn@$YARN_VERSION
 
 WORKDIR /app
 
-# Copy package files e instalar dependências Node
+# Copy apenas package.json e instalar dependências Node
 COPY package.json ./
 RUN yarn install
 
@@ -31,7 +31,7 @@ RUN yarn install
 COPY Gemfile Gemfile.lock ./
 RUN bundle install -j4
 
-# Copy application code
+# Copy todo o código da aplicação
 COPY . .
 
 # Precompile assets
