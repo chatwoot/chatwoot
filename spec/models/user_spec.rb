@@ -187,7 +187,7 @@ RSpec.describe User do
 
         # Verify it's marked as used
         user.reload
-        expect(user.otp_backup_codes).to include('XXXXXX')
+        expect(user.otp_backup_codes).to include('XXXXXXXX')
       end
 
       it 'rejects invalid backup code' do

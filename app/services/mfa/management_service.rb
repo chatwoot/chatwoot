@@ -1,6 +1,13 @@
 class Mfa::ManagementService
   pattr_initialize [:user!]
 
+  def enable_two_factor_with_backup_codes!
+    ActiveRecord::Base.transaction do
+      enable_two_factor!
+      generate_backup_codes!
+    end
+  end
+
   def enable_two_factor!
     user.otp_secret = User.generate_otp_secret
     user.save!
@@ -27,27 +34,50 @@ class Mfa::ManagementService
   alias two_factor_provisioning_uri provisioning_uri
 
   def generate_backup_codes!
-    codes = Array.new(10) { format('%06d', SecureRandom.random_number(1_000_000)) }
+    codes = Array.new(10) { format('%08d', SecureRandom.random_number(100_000_000)) }
     user.otp_backup_codes = codes
     user.save!
     codes
   end
 
   def validate_backup_code!(code)
-    return false if user.otp_backup_codes.blank? || code.blank?
+    return false unless valid_backup_code_input?(code)
 
-    codes = user.otp_backup_codes || []
-    index = codes.index(code)
+    codes = user.otp_backup_codes
+    found_index = find_matching_code_index(codes, code)
 
-    # Code not found or already used
-    return false if index.nil? || code == 'XXXXXX'
+    return false if found_index.nil?
 
-    # Mark as used and save
-    codes[index] = 'XXXXXX'
+    mark_code_as_used(codes, found_index)
+  end
+
+  private
+
+  def valid_backup_code_input?(code)
+    user.otp_backup_codes.present? && code.present?
+  end
+
+  def find_matching_code_index(codes, code)
+    found_index = nil
+
+    # Constant-time comparison to prevent timing attacks
+    codes.each_with_index do |stored_code, idx|
+      is_match = ActiveSupport::SecurityUtils.secure_compare(stored_code, code)
+      is_unused = stored_code != 'XXXXXXXX'
+      found_index = idx if is_match && is_unused
+    end
+
+    found_index
+  end
+
+  def mark_code_as_used(codes, index)
+    codes[index] = 'XXXXXXXX'
     user.otp_backup_codes = codes
     user.save!
     true
   end
+
+  public
 
   def backup_codes_generated?
     user.otp_backup_codes.present?
