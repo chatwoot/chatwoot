@@ -40,7 +40,10 @@ export const actions = {
     commit(types.SET_AGENT_CAPACITY_POLICIES_UI_FLAG, { isFetching: true });
     try {
       const response = await AgentCapacityPoliciesAPI.get();
-      commit(types.SET_AGENT_CAPACITY_POLICIES, camelcaseKeys(response.data));
+      commit(
+        types.SET_AGENT_CAPACITY_POLICIES,
+        camelcaseKeys(response.data, { deep: true })
+      );
     } catch (error) {
       throwErrorMessage(error);
     } finally {
@@ -52,7 +55,7 @@ export const actions = {
     commit(types.SET_AGENT_CAPACITY_POLICIES_UI_FLAG, { isFetchingItem: true });
     try {
       const response = await AgentCapacityPoliciesAPI.show(policyId);
-      const policy = camelcaseKeys(response.data);
+      const policy = camelcaseKeys(response.data, { deep: true });
       commit(types.SET_AGENT_CAPACITY_POLICY, policy);
     } catch (error) {
       throwErrorMessage(error);
@@ -69,7 +72,10 @@ export const actions = {
       const response = await AgentCapacityPoliciesAPI.create(
         snakecaseKeys(policyObj)
       );
-      commit(types.ADD_AGENT_CAPACITY_POLICY, camelcaseKeys(response.data));
+      commit(
+        types.ADD_AGENT_CAPACITY_POLICY,
+        camelcaseKeys(response.data, { deep: true })
+      );
       return response.data;
     } catch (error) {
       throwErrorMessage(error);
@@ -86,7 +92,10 @@ export const actions = {
         id,
         snakecaseKeys(policyParams)
       );
-      commit(types.EDIT_AGENT_CAPACITY_POLICY, camelcaseKeys(response.data));
+      commit(
+        types.EDIT_AGENT_CAPACITY_POLICY,
+        camelcaseKeys(response.data, { deep: true })
+      );
       return response.data;
     } catch (error) {
       throwErrorMessage(error);
@@ -129,6 +138,97 @@ export const actions = {
       });
     }
   },
+
+  addUser: async function addUser({ commit }, { policyId, userData }) {
+    try {
+      const response = await AgentCapacityPoliciesAPI.addUser(
+        policyId,
+        userData
+      );
+      commit(types.ADD_AGENT_CAPACITY_POLICIES_USERS, {
+        policyId,
+        user: camelcaseKeys(response.data),
+      });
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
+  removeUser: async function removeUser({ commit }, { policyId, userId }) {
+    commit(types.SET_AGENT_CAPACITY_POLICIES_USERS_UI_FLAG, {
+      isDeleting: true,
+    });
+    try {
+      await AgentCapacityPoliciesAPI.removeUser(policyId, userId);
+      commit(types.DELETE_AGENT_CAPACITY_POLICIES_USERS, { policyId, userId });
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.SET_AGENT_CAPACITY_POLICIES_USERS_UI_FLAG, {
+        isDeleting: false,
+      });
+    }
+  },
+
+  createInboxLimit: async function createInboxLimit(
+    { commit },
+    { policyId, limitData }
+  ) {
+    try {
+      const response = await AgentCapacityPoliciesAPI.createInboxLimit(
+        policyId,
+        limitData
+      );
+      commit(
+        types.SET_AGENT_CAPACITY_POLICIES_INBOXES,
+        camelcaseKeys(response.data)
+      );
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
+  updateInboxLimit: async function updateInboxLimit(
+    { commit },
+    { policyId, limitId, limitData }
+  ) {
+    try {
+      const response = await AgentCapacityPoliciesAPI.updateInboxLimit(
+        policyId,
+        limitId,
+        limitData
+      );
+      commit(
+        types.EDIT_AGENT_CAPACITY_POLICIES_INBOXES,
+        camelcaseKeys(response.data)
+      );
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
+
+  deleteInboxLimit: async function deleteInboxLimit(
+    { commit },
+    { policyId, limitId }
+  ) {
+    try {
+      await AgentCapacityPoliciesAPI.deleteInboxLimit(policyId, limitId);
+      commit(types.DELETE_AGENT_CAPACITY_POLICIES_INBOXES, {
+        policyId,
+        limitId,
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    }
+  },
 };
 
 export const mutations = {
@@ -155,6 +255,54 @@ export const mutations = {
     const policy = _state.records.find(p => p.id === policyId);
     if (policy) {
       policy.users = users;
+    }
+  },
+  [types.ADD_AGENT_CAPACITY_POLICIES_USERS](_state, { policyId, user }) {
+    const policy = _state.records.find(p => p.id === policyId);
+    if (policy) {
+      policy.users = policy.users || [];
+      policy.users.push(user);
+      policy.assignedAgentCount = policy.users.length;
+    }
+  },
+  [types.DELETE_AGENT_CAPACITY_POLICIES_USERS](_state, { policyId, userId }) {
+    const policy = _state.records.find(p => p.id === policyId);
+    if (policy) {
+      policy.users = (policy.users || []).filter(user => user.id !== userId);
+      policy.assignedAgentCount = policy.users.length;
+    }
+  },
+
+  [types.SET_AGENT_CAPACITY_POLICIES_INBOXES](_state, data) {
+    const policy = _state.records.find(
+      p => p.id === data.agentCapacityPolicyId
+    );
+    policy?.inboxCapacityLimits.push({
+      id: data.id,
+      inboxId: data.inboxId,
+      conversationLimit: data.conversationLimit,
+    });
+  },
+  [types.EDIT_AGENT_CAPACITY_POLICIES_INBOXES](_state, data) {
+    const policy = _state.records.find(
+      p => p.id === data.agentCapacityPolicyId
+    );
+    const limit = policy?.inboxCapacityLimits.find(l => l.id === data.id);
+    if (limit) {
+      Object.assign(limit, {
+        conversationLimit: data.conversationLimit,
+      });
+    }
+  },
+  [types.DELETE_AGENT_CAPACITY_POLICIES_INBOXES](
+    _state,
+    { policyId, limitId }
+  ) {
+    const policy = _state.records.find(p => p.id === policyId);
+    if (policy) {
+      policy.inboxCapacityLimits = policy.inboxCapacityLimits.filter(
+        limit => limit.id !== limitId
+      );
     }
   },
 };
