@@ -552,7 +552,7 @@
           "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
           "ADD_BUTTON": "Add inbox",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "SEARCH_PLACEHOLDER": "Виберіть канали для додавання",
             "ADD_BUTTON": "Додати"
           },
           "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
@@ -641,7 +641,7 @@
             "LABEL": "Exclude conversations tagged with specific labels",
             "ADD_TAG": "add tag",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "Виберіть мітки для додавання"
             },
             "EMPTY_STATE": "No tags added to this policy."
           },
@@ -655,7 +655,7 @@
           "DESCRIPTION": "Add agents for which this policy will be applicable.",
           "ADD_BUTTON": "Add agent",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "SEARCH_PLACEHOLDER": "Виберіть агентів для додавання",
             "ADD_BUTTON": "Додати"
           },
           "EMPTY_STATE": "No agents added",
