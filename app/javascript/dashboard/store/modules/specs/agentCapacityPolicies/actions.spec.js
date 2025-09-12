@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { actions } from '../../agentCapacityPolicies';
 import types from '../../../mutation-types';
-import agentCapacityPoliciesList, { camelCaseFixtures } from './fixtures';
+import agentCapacityPoliciesList, {
+  camelCaseFixtures,
+  mockUsers,
+  mockInboxLimits,
+  camelCaseMockInboxLimits,
+} from './fixtures';
 import camelcaseKeys from 'camelcase-keys';
 import snakecaseKeys from 'snakecase-keys';
 
@@ -25,7 +30,9 @@ describe('#actions', () => {
 
       await actions.get({ commit });
 
-      expect(camelcaseKeys).toHaveBeenCalledWith(agentCapacityPoliciesList);
+      expect(camelcaseKeys).toHaveBeenCalledWith(agentCapacityPoliciesList, {
+        deep: true,
+      });
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_CAPACITY_POLICIES_UI_FLAG, { isFetching: true }],
         [types.SET_AGENT_CAPACITY_POLICIES, camelCaseFixtures],
@@ -55,7 +62,9 @@ describe('#actions', () => {
 
       await actions.show({ commit }, 1);
 
-      expect(camelcaseKeys).toHaveBeenCalledWith(policyData);
+      expect(camelcaseKeys).toHaveBeenCalledWith(policyData, {
+        deep: true,
+      });
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_CAPACITY_POLICIES_UI_FLAG, { isFetchingItem: true }],
         [types.SET_AGENT_CAPACITY_POLICY, camelCasedPolicy],
@@ -88,7 +97,9 @@ describe('#actions', () => {
       const result = await actions.create({ commit }, newPolicy);
 
       expect(snakecaseKeys).toHaveBeenCalledWith(newPolicy);
-      expect(camelcaseKeys).toHaveBeenCalledWith(newPolicy);
+      expect(camelcaseKeys).toHaveBeenCalledWith(newPolicy, {
+        deep: true,
+      });
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_CAPACITY_POLICIES_UI_FLAG, { isCreating: true }],
         [types.ADD_AGENT_CAPACITY_POLICY, camelCasedData],
@@ -129,7 +140,9 @@ describe('#actions', () => {
       const result = await actions.update({ commit }, updateParams);
 
       expect(snakecaseKeys).toHaveBeenCalledWith({ name: 'Updated Policy' });
-      expect(camelcaseKeys).toHaveBeenCalledWith(responseData);
+      expect(camelcaseKeys).toHaveBeenCalledWith(responseData, {
+        deep: true,
+      });
       expect(commit.mock.calls).toEqual([
         [types.SET_AGENT_CAPACITY_POLICIES_UI_FLAG, { isUpdating: true }],
         [types.EDIT_AGENT_CAPACITY_POLICY, camelCasedData],
@@ -222,6 +235,174 @@ describe('#actions', () => {
           { isFetching: false },
         ],
       ]);
+    });
+  });
+
+  describe('#addUser', () => {
+    it('sends correct actions if API is success', async () => {
+      const policyId = 1;
+      const userData = { user_id: 3, capacity: 12 };
+      const responseData = mockUsers[2];
+      const camelCasedUser = mockUsers[2];
+
+      axios.post.mockResolvedValue({ data: responseData });
+      camelcaseKeys.mockReturnValue(camelCasedUser);
+
+      const result = await actions.addUser({ commit }, { policyId, userData });
+
+      expect(camelcaseKeys).toHaveBeenCalledWith(responseData);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.ADD_AGENT_CAPACITY_POLICIES_USERS,
+          { policyId, user: camelCasedUser },
+        ],
+      ]);
+      expect(result).toEqual(responseData);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue(new Error('Validation error'));
+
+      await expect(
+        actions.addUser({ commit }, { policyId: 1, userData: {} })
+      ).rejects.toThrow(Error);
+
+      expect(commit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#removeUser', () => {
+    it('sends correct actions if API is success', async () => {
+      const policyId = 1;
+      const userId = 2;
+      axios.delete.mockResolvedValue({});
+
+      await actions.removeUser({ commit }, { policyId, userId });
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_CAPACITY_POLICIES_USERS_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_AGENT_CAPACITY_POLICIES_USERS, { policyId, userId }],
+        [
+          types.SET_AGENT_CAPACITY_POLICIES_USERS_UI_FLAG,
+          { isDeleting: false },
+        ],
+      ]);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue(new Error('Not found'));
+
+      await expect(
+        actions.removeUser({ commit }, { policyId: 1, userId: 2 })
+      ).rejects.toThrow(Error);
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_CAPACITY_POLICIES_USERS_UI_FLAG, { isDeleting: true }],
+        [
+          types.SET_AGENT_CAPACITY_POLICIES_USERS_UI_FLAG,
+          { isDeleting: false },
+        ],
+      ]);
+    });
+  });
+
+  describe('#createInboxLimit', () => {
+    it('sends correct actions if API is success', async () => {
+      const policyId = 1;
+      const limitData = { inbox_id: 3, conversation_limit: 20 };
+      const responseData = mockInboxLimits[2];
+      const camelCasedData = camelCaseMockInboxLimits[2];
+
+      axios.post.mockResolvedValue({ data: responseData });
+      camelcaseKeys.mockReturnValue(camelCasedData);
+
+      const result = await actions.createInboxLimit(
+        { commit },
+        { policyId, limitData }
+      );
+
+      expect(camelcaseKeys).toHaveBeenCalledWith(responseData);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_CAPACITY_POLICIES_INBOXES, camelCasedData],
+      ]);
+      expect(result).toEqual(responseData);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue(new Error('Validation error'));
+
+      await expect(
+        actions.createInboxLimit({ commit }, { policyId: 1, limitData: {} })
+      ).rejects.toThrow(Error);
+
+      expect(commit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#updateInboxLimit', () => {
+    it('sends correct actions if API is success', async () => {
+      const policyId = 1;
+      const limitId = 1;
+      const limitData = { conversation_limit: 25 };
+      const responseData = {
+        ...mockInboxLimits[0],
+        conversation_limit: 25,
+      };
+      const camelCasedData = {
+        ...camelCaseMockInboxLimits[0],
+        conversationLimit: 25,
+      };
+
+      axios.put.mockResolvedValue({ data: responseData });
+      camelcaseKeys.mockReturnValue(camelCasedData);
+
+      const result = await actions.updateInboxLimit(
+        { commit },
+        { policyId, limitId, limitData }
+      );
+
+      expect(camelcaseKeys).toHaveBeenCalledWith(responseData);
+      expect(commit.mock.calls).toEqual([
+        [types.EDIT_AGENT_CAPACITY_POLICIES_INBOXES, camelCasedData],
+      ]);
+      expect(result).toEqual(responseData);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.put.mockRejectedValue(new Error('Validation error'));
+
+      await expect(
+        actions.updateInboxLimit(
+          { commit },
+          { policyId: 1, limitId: 1, limitData: {} }
+        )
+      ).rejects.toThrow(Error);
+
+      expect(commit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('#deleteInboxLimit', () => {
+    it('sends correct actions if API is success', async () => {
+      const policyId = 1;
+      const limitId = 1;
+      axios.delete.mockResolvedValue({});
+
+      await actions.deleteInboxLimit({ commit }, { policyId, limitId });
+
+      expect(commit.mock.calls).toEqual([
+        [types.DELETE_AGENT_CAPACITY_POLICIES_INBOXES, { policyId, limitId }],
+      ]);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue(new Error('Not found'));
+
+      await expect(
+        actions.deleteInboxLimit({ commit }, { policyId: 1, limitId: 1 })
+      ).rejects.toThrow(Error);
+
+      expect(commit).not.toHaveBeenCalled();
     });
   });
 });
