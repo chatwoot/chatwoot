@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
@@ -46,7 +46,17 @@ const { t } = useI18n();
 
 const parseNumberVariables = text => {
   const numberVariableRegex = /\{\{(\d+)\}\}/g;
+  const namedVariableRegex = /\{\{([a-zA-Z][a-zA-Z0-9_]*)\}\}/g;
   const examples = [...(props.modelValue.examples || [])];
+
+  // Check for named variables in positional mode
+  if (namedVariableRegex.test(text)) {
+    return {
+      processedText: text,
+      examples: [],
+      error: 'Named variables are not allowed in positional parameter mode',
+    };
+  }
 
   let count = 0;
 
@@ -74,8 +84,19 @@ const parseNumberVariables = text => {
  */
 const parseNamedVariable = text => {
   let error = '';
+  const numberVariableRegex = /\{\{(\d+)\}\}/g;
   // Should start with a char, can end with a number or underscore
   const regex = /\{\{([a-zA-Z][a-zA-Z0-9_]*)\}\}/g;
+
+  // Check for positional variables in named mode
+  if (numberVariableRegex.test(text)) {
+    return {
+      processedText: text,
+      examples: [],
+      error: 'Positional variables are not allowed in named parameter mode',
+    };
+  }
+
   const matches = [...text.matchAll(regex)];
   const variableNames = matches.map(match => match[1]);
   const uniqueNames = new Set(variableNames);
@@ -178,6 +199,13 @@ const variableHelpText = computed(() => {
     ? getPositionalHelpText()
     : getNamedHelpText();
 });
+
+watch(
+  () => props.parameterType,
+  () => {
+    updateText(props.modelValue.text);
+  }
+);
 </script>
 
 <template>

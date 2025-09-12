@@ -29,7 +29,7 @@ class Whatsapp::TemplateCreationService
   end
 
   def process_media_uploads
-    blob_id = header_component['media']['blobId']
+    blob_id = header_component['media']['blob_id']
     format = header_component['format']
 
     facebook_client = Whatsapp::FacebookApiClient.new

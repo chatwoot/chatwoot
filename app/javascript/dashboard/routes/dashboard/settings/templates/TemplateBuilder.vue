@@ -136,7 +136,9 @@ const generateComponents = () => {
     } else if (MEDIA_FORMATS.includes(header.format)) {
       data = {
         format: header.format,
-        media: header.media, // send media as is -- backend will create a upload handle then create template on meta
+        media: {
+          blob_id: header.media.blobId,
+        },
       };
     } else {
       // LOCATION
