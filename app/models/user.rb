@@ -65,7 +65,7 @@ class User < ApplicationRecord
          :confirmable,
          :password_has_required_content,
          :two_factor_authenticatable,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+         :omniauthable, omniauth_providers: [:google_oauth2, :saml]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
@@ -166,55 +166,24 @@ class User < ApplicationRecord
   end
 
   # 2FA/MFA Methods
-  def enable_two_factor!
-    self.otp_secret = User.generate_otp_secret
-    save!
+  # Delegated to Mfa::ManagementService for better separation of concerns
+  def mfa_service
+    @mfa_service ||= Mfa::ManagementService.new(user: self)
   end
 
-  def disable_two_factor!
-    self.otp_secret = nil
-    self.otp_required_for_login = false
-    self.otp_backup_codes = nil
-    save!
-  end
-
-  def two_factor_provisioning_uri
-    return nil if otp_secret.blank?
-
-    issuer = 'Chatwoot'
-    label = email
-    otp_provisioning_uri(label, issuer: issuer)
-  end
-
-  def generate_backup_codes!
-    codes = Array.new(10) { format('%06d', SecureRandom.random_number(1_000_000)) }
-    self.otp_backup_codes = codes
-    save!
-    codes
-  end
-
-  def validate_backup_code!(code)
-    return false if otp_backup_codes.blank? || code.blank?
-
-    codes = otp_backup_codes || []
-    index = codes.index(code)
-
-    # Code not found or already used
-    return false if index.nil? || code == 'XXXXXX'
-
-    # Mark as used and save
-    codes[index] = 'XXXXXX'
-    self.otp_backup_codes = codes
-    save!
-    true
-  end
-
-  def backup_codes_generated?
-    otp_backup_codes.present?
-  end
+  delegate :two_factor_provisioning_uri, to: :mfa_service
+  delegate :backup_codes_generated?, to: :mfa_service
+  delegate :enable_two_factor!, to: :mfa_service
+  delegate :disable_two_factor!, to: :mfa_service
+  delegate :generate_backup_codes!, to: :mfa_service
+  delegate :validate_backup_code!, to: :mfa_service
 
   def mfa_enabled?
     otp_required_for_login?
+  end
+
+  def mfa_feature_available?
+    Chatwoot.mfa_enabled?
   end
 
   private

@@ -47,6 +47,10 @@ module Chatwoot
     # Add enterprise views to the view paths
     config.paths['app/views'].unshift('enterprise/app/views')
 
+    # Load enterprise initializers alongside standard initializers
+    enterprise_initializers = Rails.root.join('enterprise/config/initializers')
+    Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
@@ -64,6 +68,15 @@ module Chatwoot
 
     # Disable PDF/video preview generation as we don't use them
     config.active_storage.previewers = []
+
+    # Active Record Encryption configuration
+    # These keys are required for encrypting sensitive data in the database (e.g., MFA/2FA)
+    # In production, always set these via environment variables
+    # For CI/CD and initial setup, we provide insecure defaults that should NEVER be used with real data
+    config.active_record.encryption.primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY', 'insecure_default_primary_key_32b')
+    config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', 'insecure_default_deterministic32')
+    config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT',
+                                                                    'insecure_default_key_salt_value32')
   end
 
   def self.config
@@ -77,5 +90,22 @@ module Chatwoot
     # unless the redis verify mode is explicitly specified as none, we will fall back to the default 'verify peer'
     # ref: https://www.rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLContext#DEFAULT_PARAMS-constant
     ENV['REDIS_OPENSSL_VERIFY_MODE'] == 'none' ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+  end
+
+  def self.encryption_configured?
+    # Check if proper encryption keys are configured (not using insecure defaults)
+    # MFA/2FA features should only be enabled when proper keys are set
+    primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY', 'insecure_default_primary_key_32b')
+    deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', 'insecure_default_deterministic32')
+    salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', 'insecure_default_key_salt_value32')
+
+    # Return false if any key is using the insecure default
+    !primary_key.start_with?('insecure_default') &&
+      !deterministic_key.start_with?('insecure_default') &&
+      !salt.start_with?('insecure_default')
+  end
+
+  def self.mfa_enabled?
+    encryption_configured?
   end
 end

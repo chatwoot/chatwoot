@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_26_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1144,14 +1144,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_teams_on_account_id"
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
-  end
-
-  create_table "telegram_bots", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.string "auth_key"
-    t.integer "account_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

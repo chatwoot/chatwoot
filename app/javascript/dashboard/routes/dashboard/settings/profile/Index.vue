@@ -11,6 +11,7 @@ import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import FontSize from './FontSize.vue';
+import UserLanguageSelect from './UserLanguageSelect.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
@@ -29,6 +30,7 @@ export default {
     MessageSignature,
     FormSection,
     FontSize,
+    UserLanguageSelect,
     UserProfilePicture,
     Policy,
     UserBasicDetails,
@@ -231,6 +233,12 @@ export default {
           $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
         "
         @change="updateFontSize"
+      />
+      <UserLanguageSelect
+        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
+        "
       />
     </FormSection>
     <FormSection

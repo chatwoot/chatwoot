@@ -86,13 +86,4 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
-  # Active Record Encryption configuration for development
-  # These keys are for development only and should NEVER be used in production
-  # In production, set these via environment variables:
-  # - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
-  # - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
-  # - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
-  config.active_record.encryption.primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY', 'sAK7479yQQvk0574SPM9RZFi9xx3dlBY')
-  config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', 't8mg48yhHqOaAH7R2HA4SDDsXWcyWBYL')
-  config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', 'bsfGUb0GEmghCU5HZlBjILZwoMjypLpS')
 end
