@@ -13,10 +13,10 @@ export const UPLOAD_CONFIG = {
   DOCUMENT: { accept: 'application/pdf' },
 };
 
-// Variable parsing regexes
-export const POSITIONAL_VARIABLE_REGEX = /\{\{(\d+)\}\}/g;
-export const NAMED_VARIABLE_REGEX = /\{\{([a-zA-Z][a-zA-Z0-9_]*)\}\}/g;
-export const GENERIC_VARIABLE_REGEX = /\{\{([^}]+)\}\}/g;
+// Variable parsing regex factories (returns fresh regex objects)
+const getPositionalVariableRegex = () => /\{\{(\d+)\}\}/g;
+const getNamedVariableRegex = () => /\{\{([a-zA-Z][a-zA-Z0-9_]*)\}\}/g;
+const getGenericVariableRegex = () => /\{\{([^}]+)\}\}/g;
 
 export const findComponentByType = (template, type) =>
   template.components?.find(component => component.type === type);
@@ -25,22 +25,17 @@ export const processVariable = str => {
   return str.replace(/{{|}}/g, '');
 };
 
-export const extractPositionalVariables = text => {
-  const matches = [...text.matchAll(POSITIONAL_VARIABLE_REGEX)];
-  return matches.map(match => parseInt(match[1], 10));
-};
-
 export const extractNamedVariables = text => {
-  const matches = [...text.matchAll(NAMED_VARIABLE_REGEX)];
+  const matches = [...text.matchAll(getNamedVariableRegex())];
   return matches.map(match => match[1]);
 };
 
 export const hasPositionalVariables = text => {
-  return POSITIONAL_VARIABLE_REGEX.test(text);
+  return getPositionalVariableRegex().test(text);
 };
 
 export const hasNamedVariables = text => {
-  return NAMED_VARIABLE_REGEX.test(text);
+  return getNamedVariableRegex().test(text);
 };
 
 export const allKeysRequired = value => {
@@ -49,7 +44,7 @@ export const allKeysRequired = value => {
 };
 
 export const replaceTemplateVariables = (templateText, processedParams) => {
-  return templateText.replace(GENERIC_VARIABLE_REGEX, (match, variable) => {
+  return templateText.replace(getGenericVariableRegex(), (match, variable) => {
     const variableKey = processVariable(variable);
     return processedParams.body?.[variableKey] || `{{${variable}}}`;
   });
@@ -66,7 +61,7 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
   const templateString = bodyComponent.text;
 
   // Process body variables
-  const matchedVariables = templateString.match(GENERIC_VARIABLE_REGEX);
+  const matchedVariables = templateString.match(getGenericVariableRegex());
   if (matchedVariables) {
     allVariables.body = {};
     matchedVariables.forEach(variable => {
@@ -91,7 +86,7 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
       buttonComponent.buttons.forEach((button, index) => {
         // Handle URL buttons with variables
         if (button.type === 'URL' && button.url && button.url.includes('{{')) {
-          const buttonVars = button.url.match(GENERIC_VARIABLE_REGEX) || [];
+          const buttonVars = button.url.match(getGenericVariableRegex()) || [];
           if (buttonVars.length > 0) {
             if (!allVariables.buttons) allVariables.buttons = [];
             allVariables.buttons[index] = {
@@ -134,20 +129,25 @@ export const parsePositionalVariables = (
     };
   }
 
+  // it keeps track of number of variables
+  // in text.replace below it may exceed maxVariables so we are resetting it to maxVariables
   let count = 0;
 
-  const processedText = text.replace(POSITIONAL_VARIABLE_REGEX, () => {
+  const processedText = text.replace(getPositionalVariableRegex(), () => {
     count += 1;
     if (count > maxVariables) {
       return '';
     }
     return `{{${count}}}`;
   });
+  count = Math.min(count, maxVariables);
 
+  // if examples length is more than variables found in text remove extra
   if (examples.length > count) {
     examples.splice(count);
   }
 
+  // add extra variable values if needed
   for (let i = examples.length; i < count; i += 1) {
     examples.push('');
   }
@@ -169,7 +169,7 @@ export const parseNamedVariables = (text, maxVariables, existingExamples) => {
   const error = {};
 
   const variableNames = extractNamedVariables(text);
-  const uniqueNames = new Set(...variableNames);
+  const uniqueNames = new Set(variableNames);
 
   if (variableNames.length !== uniqueNames.size) {
     error.key = 'DUPLICATE_VARIABLES';
@@ -178,8 +178,17 @@ export const parseNamedVariables = (text, maxVariables, existingExamples) => {
     error.data = { count: maxVariables };
   }
 
+  // no need to create examples if error
+  if (error.key) {
+    return {
+      processedText: text,
+      examples: existingExamples,
+      error,
+    };
+  }
+
   // Create examples array based on unique variables
-  const examples = Array.from(uniqueNames).map(param_name => ({
+  const examples = variableNames.map(param_name => ({
     param_name,
     example:
       existingExamples.find(ex => ex && ex.param_name === param_name)
@@ -200,7 +209,7 @@ export const parseNamedVariables = (text, maxVariables, existingExamples) => {
  * @param {Array} existingExamples
  * @returns {{
  *   processedText: string,
- *   examples: Array<{param_name: string, example: string}>,
+ *   examples: Array,
  *   error: {key?: string, data?: Record<string, any>}
  * }}
  */
