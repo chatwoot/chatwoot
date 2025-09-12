@@ -182,6 +182,10 @@ class User < ApplicationRecord
     otp_required_for_login?
   end
 
+  def mfa_feature_available?
+    Chatwoot.mfa_enabled?
+  end
+
   private
 
   def remove_macros

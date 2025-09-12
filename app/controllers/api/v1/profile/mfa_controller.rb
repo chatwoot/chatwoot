@@ -1,5 +1,6 @@
 class Api::V1::Profile::MfaController < Api::BaseController
   before_action :set_user
+  before_action :check_mfa_feature_available
   before_action :set_mfa_service
   before_action :check_mfa_enabled, only: [:destroy, :backup_codes]
   before_action :check_mfa_disabled, only: [:create, :verify]
@@ -37,6 +38,15 @@ class Api::V1::Profile::MfaController < Api::BaseController
 
   def check_mfa_enabled
     render_could_not_create_error(I18n.t('errors.mfa.not_enabled')) unless @user.mfa_enabled?
+  end
+
+  def check_mfa_feature_available
+    return if Chatwoot.mfa_enabled?
+
+    render json: {
+      error: I18n.t('errors.mfa.feature_unavailable',
+                    default: 'MFA feature is not available. Please configure encryption keys.')
+    }, status: :forbidden
   end
 
   def check_mfa_disabled

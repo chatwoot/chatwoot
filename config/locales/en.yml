@@ -110,6 +110,7 @@ en:
       invalid_backup_code: Invalid backup code
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
   profile:
     mfa:
       enabled: MFA enabled successfully
