@@ -17,6 +17,7 @@ class Mfa::AuthenticationService
   end
 
   def authenticate_with_backup_code
-    user.validate_backup_code!(backup_code)
+    mfa_service = Mfa::ManagementService.new(user: user)
+    mfa_service.validate_backup_code!(backup_code)
   end
 end

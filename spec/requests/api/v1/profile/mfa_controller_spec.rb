@@ -52,10 +52,10 @@ RSpec.describe 'MFA API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/profile/mfa/enable' do
+  describe 'POST /api/v1/profile/mfa' do
     context 'when 2FA is not enabled' do
       it 'enables 2FA and returns QR code URL' do
-        post '/api/v1/profile/mfa/enable',
+        post '/api/v1/profile/mfa',
              headers: user.create_new_auth_token,
              as: :json
 
@@ -79,7 +79,7 @@ RSpec.describe 'MFA API', type: :request do
       end
 
       it 'returns error message' do
-        post '/api/v1/profile/mfa/enable',
+        post '/api/v1/profile/mfa',
              headers: user.create_new_auth_token,
              as: :json
 

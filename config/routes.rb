@@ -337,8 +337,7 @@ Rails.application.routes.draw do
 
         # MFA routes
         scope module: 'profile' do
-          resource :mfa, controller: 'mfa', only: [:show, :destroy] do
-            post :enable
+          resource :mfa, controller: 'mfa', only: [:show, :create, :destroy] do
             post :verify
             post :backup_codes
           end
