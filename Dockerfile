@@ -23,14 +23,11 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files e instalar dependências Node
 COPY package.json ./
-COPY yarn.lock ./
+RUN yarn install
 
-# Install Node dependencies
-RUN yarn install --frozen-lockfile
-
-# Copy Gemfile and install Ruby dependencies
+# Copy Gemfile e instalar dependências Ruby
 COPY Gemfile Gemfile.lock ./
 RUN bundle install -j4
 
