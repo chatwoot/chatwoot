@@ -36,17 +36,4 @@ module Enterprise::DeviseOverrides::SessionsController
       )
     end
   end
-
-  private
-
-  def saml_user_attempting_password_login?
-    return false if params[:email].blank?
-
-    user = User.from_email(params[:email])
-    return false unless user&.provider == 'saml'
-
-    return false if params[:sso_auth_token].present? && user.valid_sso_auth_token?(params[:sso_auth_token])
-
-    true
-  end
 end
