@@ -47,6 +47,7 @@ class User < ApplicationRecord
   include Pubsubable
   include Rails.application.routes.url_helpers
   include Reportable
+  include SessionManageable
   include SsoAuthenticatable
   include UserAttributeHelpers
 

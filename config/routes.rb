@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
+  # SAML SLO endpoint - handled by OmniAuth SAML strategy
+  post '/auth/saml/slo', to: 'devise_overrides/omniauth_callbacks#passthru'
+
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
     root to: 'api#index'
