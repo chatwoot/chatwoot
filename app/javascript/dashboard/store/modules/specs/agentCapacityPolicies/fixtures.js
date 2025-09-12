@@ -10,6 +10,20 @@ export default [
     created_at: '2024-01-01T10:00:00.000Z',
     updated_at: '2024-01-01T10:00:00.000Z',
     users: [],
+    inbox_capacity_limits: [
+      {
+        id: 1,
+        inbox_id: 1,
+        conversation_limit: 15,
+        agent_capacity_policy_id: 1,
+      },
+      {
+        id: 2,
+        inbox_id: 2,
+        conversation_limit: 8,
+        agent_capacity_policy_id: 1,
+      },
+    ],
   },
   {
     id: 2,
@@ -21,7 +35,21 @@ export default [
     assigned_agent_count: 5,
     created_at: '2024-01-01T11:00:00.000Z',
     updated_at: '2024-01-01T11:00:00.000Z',
-    users: [],
+    users: [
+      {
+        id: 1,
+        name: 'Agent Smith',
+        email: 'agent.smith@example.com',
+        capacity: 25,
+      },
+      {
+        id: 2,
+        name: 'Agent Johnson',
+        email: 'agent.johnson@example.com',
+        capacity: 18,
+      },
+    ],
+    inbox_capacity_limits: [],
   },
   {
     id: 3,
@@ -34,6 +62,7 @@ export default [
     created_at: '2024-01-01T12:00:00.000Z',
     updated_at: '2024-01-01T12:00:00.000Z',
     users: [],
+    inbox_capacity_limits: [],
   },
 ];
 
@@ -49,6 +78,20 @@ export const camelCaseFixtures = [
     createdAt: '2024-01-01T10:00:00.000Z',
     updatedAt: '2024-01-01T10:00:00.000Z',
     users: [],
+    inboxCapacityLimits: [
+      {
+        id: 1,
+        inboxId: 1,
+        conversationLimit: 15,
+        agentCapacityPolicyId: 1,
+      },
+      {
+        id: 2,
+        inboxId: 2,
+        conversationLimit: 8,
+        agentCapacityPolicyId: 1,
+      },
+    ],
   },
   {
     id: 2,
@@ -60,7 +103,21 @@ export const camelCaseFixtures = [
     assignedAgentCount: 5,
     createdAt: '2024-01-01T11:00:00.000Z',
     updatedAt: '2024-01-01T11:00:00.000Z',
-    users: [],
+    users: [
+      {
+        id: 1,
+        name: 'Agent Smith',
+        email: 'agent.smith@example.com',
+        capacity: 25,
+      },
+      {
+        id: 2,
+        name: 'Agent Johnson',
+        email: 'agent.johnson@example.com',
+        capacity: 18,
+      },
+    ],
+    inboxCapacityLimits: [],
   },
   {
     id: 3,
@@ -73,5 +130,70 @@ export const camelCaseFixtures = [
     createdAt: '2024-01-01T12:00:00.000Z',
     updatedAt: '2024-01-01T12:00:00.000Z',
     users: [],
+    inboxCapacityLimits: [],
+  },
+];
+
+// Additional test data for user and inbox limit operations
+export const mockUsers = [
+  {
+    id: 1,
+    name: 'Agent Smith',
+    email: 'agent.smith@example.com',
+    capacity: 25,
+  },
+  {
+    id: 2,
+    name: 'Agent Johnson',
+    email: 'agent.johnson@example.com',
+    capacity: 18,
+  },
+  {
+    id: 3,
+    name: 'Agent Brown',
+    email: 'agent.brown@example.com',
+    capacity: 12,
+  },
+];
+
+export const mockInboxLimits = [
+  {
+    id: 1,
+    inbox_id: 1,
+    conversation_limit: 15,
+    agent_capacity_policy_id: 1,
+  },
+  {
+    id: 2,
+    inbox_id: 2,
+    conversation_limit: 8,
+    agent_capacity_policy_id: 1,
+  },
+  {
+    id: 3,
+    inbox_id: 3,
+    conversation_limit: 20,
+    agent_capacity_policy_id: 2,
+  },
+];
+
+export const camelCaseMockInboxLimits = [
+  {
+    id: 1,
+    inboxId: 1,
+    conversationLimit: 15,
+    agentCapacityPolicyId: 1,
+  },
+  {
+    id: 2,
+    inboxId: 2,
+    conversationLimit: 8,
+    agentCapacityPolicyId: 1,
+  },
+  {
+    id: 3,
+    inboxId: 3,
+    conversationLimit: 20,
+    agentCapacityPolicyId: 2,
   },
 ];

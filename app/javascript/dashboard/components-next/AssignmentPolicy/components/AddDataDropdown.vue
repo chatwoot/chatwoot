@@ -4,6 +4,7 @@ import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { picoSearch } from '@scmmishra/pico-search';
 
+import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -36,8 +37,8 @@ const filteredItems = computed(() => {
   return picoSearch(props.items, query, ['name']);
 });
 
-const handleAdd = inbox => {
-  emit('add', inbox);
+const handleAdd = item => {
+  emit('add', item);
   togglePopover(false);
 };
 
@@ -82,21 +83,35 @@ const handleClickOutside = () => {
         <div
           v-for="item in filteredItems"
           :key="item.id"
-          class="flex items-start gap-3 min-w-0 w-full py-4 px-3 hover:bg-n-alpha-2 cursor-pointer"
+          class="flex gap-3 min-w-0 w-full py-4 px-3 hover:bg-n-alpha-2 cursor-pointer"
+          :class="{ 'items-center': item.color, 'items-start': !item.color }"
           @click="handleAdd(item)"
         >
           <Icon
             v-if="item.icon"
             :icon="item.icon"
-            class="size-4 text-n-slate-12 flex-shrink-0 mt-0.5"
+            class="size-2 text-n-slate-12 flex-shrink-0 mt-0.5"
+          />
+          <span
+            v-else-if="item.color"
+            :style="{ backgroundColor: item.color }"
+            class="size-3 rounded-sm"
+          />
+          <Avatar
+            v-else
+            :title="item.name"
+            :src="item.avatarUrl"
+            :name="item.name"
+            :size="20"
+            rounded-full
           />
           <div class="flex flex-col items-start gap-2 min-w-0">
             <div class="flex items-center gap-1 min-w-0">
               <span
-                :title="item.name"
+                :title="item.name || item.title"
                 class="text-sm text-n-slate-12 truncate min-w-0"
               >
-                {{ item.name }}
+                {{ item.name || item.title }}
               </span>
               <span
                 v-if="item.id"
