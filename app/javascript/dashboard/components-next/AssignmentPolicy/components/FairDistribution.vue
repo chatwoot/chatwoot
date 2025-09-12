@@ -55,7 +55,7 @@ onMounted(() => {
           v-model="fairDistributionLimit"
           type="number"
           placeholder="100"
-          :max="100000"
+          max="100000"
           class="w-full"
         />
       </div>
@@ -77,8 +77,8 @@ onMounted(() => {
         <DurationInput
           v-model:model-value="fairDistributionWindow"
           v-model:unit="windowUnit"
-          min="10"
-          max="1438560"
+          :min="10"
+          :max="1438560"
         />
       </div>
     </div>
