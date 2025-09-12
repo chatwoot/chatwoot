@@ -165,7 +165,7 @@ export function useConversationFilterContext() {
       attributeName: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
       label: t('FILTER.ATTRIBUTES.CONVERSATION_IDENTIFIER'),
       inputType: 'plainText',
-      datatype: 'number',
+      dataType: 'number',
       filterOperators: containmentOperators.value,
       attributeModel: 'standard',
     },
