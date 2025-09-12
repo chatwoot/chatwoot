@@ -4,6 +4,11 @@ RSpec.describe 'MFA API', type: :request do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, password: 'Test@123456') }
 
+  before do
+    # Enable MFA feature for tests by stubbing the encryption check
+    allow(Chatwoot).to receive(:mfa_enabled?).and_return(true)
+  end
+
   describe 'GET /api/v1/profile/mfa' do
     context 'when 2FA is disabled' do
       it 'returns MFA disabled status' do

@@ -10,8 +10,7 @@ class Api::V1::Profile::MfaController < Api::BaseController
   def show; end
 
   def create
-    @mfa_service.enable_two_factor!
-    @backup_codes = @mfa_service.generate_backup_codes!
+    @backup_codes = @mfa_service.enable_two_factor_with_backup_codes!
   end
 
   def verify

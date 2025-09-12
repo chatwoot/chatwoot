@@ -45,7 +45,7 @@ describe Mfa::AuthenticationService do
 
           # Code should be invalidated after use
           user.reload
-          expect(user.otp_backup_codes).to include('XXXXXX')
+          expect(user.otp_backup_codes).to include('XXXXXXXX')
         end
       end
 
