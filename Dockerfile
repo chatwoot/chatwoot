@@ -22,7 +22,7 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json ./
 RUN yarn install --frozen-lockfile
 
 COPY Gemfile Gemfile.lock ./
