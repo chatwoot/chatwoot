@@ -15,7 +15,7 @@ const props = defineProps({
 const emit = defineEmits(['remove', 'hover']);
 
 const handleRemoveLabel = () => {
-  emit('remove', props.label?.id);
+  emit('remove', props.label);
 };
 
 const handleMouseEnter = () => {
@@ -45,6 +45,7 @@ const handleMouseEnter = () => {
       <Button
         class="transition-opacity duration-200 !h-7 ltr:rounded-r-md rtl:rounded-l-md ltr:rounded-l-none rtl:rounded-r-none w-6 bg-transparent"
         :class="{ 'opacity-0': !isHovered, 'opacity-100': isHovered }"
+        type="button"
         slate
         xs
         faded

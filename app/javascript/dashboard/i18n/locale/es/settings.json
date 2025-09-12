@@ -226,6 +226,7 @@
     "APPEARANCE": "Cambiar apariencia",
     "SUPER_ADMIN_CONSOLE": "Consola SuperAdmin",
     "DOCS": "Leer la documentación",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "Cerrar sesión"
   },
   "APP_GLOBAL": {

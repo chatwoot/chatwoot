@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Dirección IP",
     "CREATED_AT_LABEL": "Creado",
     "NEW_MESSAGE": "Nuevo mensaje",
+    "CALL": "Llamar",
+    "CALL_UNDER_DEVELOPMENT": "Llamar está bajo desarrollo",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Seleccionar un buzón de entrada"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
       "TITLE": "Conversaciones anteriores"
@@ -601,6 +606,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "Plantilla de WhatsApp: {templateName}",
           "VARIABLES": "Variables",
+          "BACK": "Volver",
+          "SEND_MESSAGE": "Enviar mensaje"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Seleccionar plantilla",
+        "SEARCH_PLACEHOLDER": "Buscar plantillas",
+        "EMPTY_STATE": "No se encontraron plantillas",
+        "TEMPLATE_PARSER": {
           "BACK": "Volver",
           "SEND_MESSAGE": "Enviar mensaje"
         }

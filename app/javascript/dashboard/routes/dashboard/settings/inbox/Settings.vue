@@ -116,15 +116,21 @@ export default {
           key: 'collaborators',
           name: this.$t('INBOX_MGMT.TABS.COLLABORATORS'),
         },
-        {
-          key: 'businesshours',
-          name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
-        },
-        {
-          key: 'csat',
-          name: this.$t('INBOX_MGMT.TABS.CSAT'),
-        },
       ];
+
+      if (!this.isAVoiceChannel) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'businesshours',
+            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+          },
+          {
+            key: 'csat',
+            name: this.$t('INBOX_MGMT.TABS.CSAT'),
+          },
+        ];
+      }
 
       if (this.isAWebWidgetInbox) {
         visibleToAllChannelTabs = [
@@ -144,6 +150,7 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
+        this.isAVoiceChannel ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
         this.shouldShowWhatsAppConfiguration ||
         this.isAWebWidgetInbox
@@ -676,7 +683,7 @@ export default {
               }}
             </p>
           </label>
-          <div class="pb-4">
+          <div v-if="!isAVoiceChannel" class="pb-4">
             <label>
               {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
             </label>

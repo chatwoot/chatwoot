@@ -24,6 +24,9 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       end
 
       it 'creates a voice inbox when administrator' do
+        allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService,
+                                                                                            perform: "AP#{SecureRandom.hex(16)}"))
+
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: { name: 'Voice Inbox',
@@ -31,7 +34,8 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
                                   provider_config: { account_sid: "AC#{SecureRandom.hex(16)}",
                                                      auth_token: SecureRandom.hex(16),
                                                      api_key_sid: SecureRandom.hex(8),
-                                                     api_key_secret: SecureRandom.hex(16) } } },
+                                                     api_key_secret: SecureRandom.hex(16),
+                                                     twiml_app_sid: "AP#{SecureRandom.hex(16)}" } } },
              as: :json
 
         expect(response).to have_http_status(:success)

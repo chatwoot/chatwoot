@@ -33,13 +33,15 @@ export default {
     brandRedirectURL() {
       try {
         const referrerHost = this.$store.getters['appConfig/getReferrerHost'];
-        const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=${
-          referrerHost ? 'widget_branding' : 'survey_branding'
-        }`;
+        const url = new URL(this.globalConfig.widgetBrandURL);
         if (referrerHost) {
-          return `${baseURL}&utm_referrer=${referrerHost}`;
+          url.searchParams.set('utm_source', referrerHost);
+          url.searchParams.set('utm_medium', 'widget');
+        } else {
+          url.searchParams.set('utm_medium', 'survey');
         }
-        return baseURL;
+        url.searchParams.set('utm_campaign', 'branding');
+        return url.toString();
       } catch (e) {
         // Suppressing the error as getter is not defined in some cases
       }

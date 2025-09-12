@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP адрес",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Ново съобщение",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Няма предишни разговори асоцирани с този контакт.",
       "TITLE": "Предишни разговори"
@@ -601,6 +606,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variables",
+          "BACK": "Go back",
+          "SEND_MESSAGE": "Изпрати съобщение"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "Go back",
           "SEND_MESSAGE": "Изпрати съобщение"
         }

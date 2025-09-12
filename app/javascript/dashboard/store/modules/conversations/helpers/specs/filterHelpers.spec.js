@@ -247,7 +247,7 @@ describe('filterHelpers', () => {
 
     // Text search tests - display_id
     it('should match conversation with equal_to operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -260,7 +260,7 @@ describe('filterHelpers', () => {
     });
 
     it('should match conversation with contains operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -273,7 +273,7 @@ describe('filterHelpers', () => {
     });
 
     it('should not match conversation with does_not_contain operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -286,7 +286,7 @@ describe('filterHelpers', () => {
     });
 
     it('should match conversation with does_not_contain operator when value is not present', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -989,7 +989,7 @@ describe('filterHelpers', () => {
 
     it('should handle empty string values in conversation', () => {
       const conversation = {
-        display_id: '',
+        id: '',
       };
       const filters = [
         {

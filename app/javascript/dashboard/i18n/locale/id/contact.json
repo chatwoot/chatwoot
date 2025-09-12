@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Alamat IP",
     "CREATED_AT_LABEL": "Dibuat",
     "NEW_MESSAGE": "Pesan baru",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tidak ada percakapan sebelumnya yang terkait dengan kontak ini.",
       "TITLE": "Percakapan Sebelumnya"
@@ -601,6 +606,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variabel",
+          "BACK": "Kembali",
+          "SEND_MESSAGE": "Kirim Pesan"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "Kembali",
           "SEND_MESSAGE": "Kirim Pesan"
         }

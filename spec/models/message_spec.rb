@@ -613,4 +613,57 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe '#should_index?' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:message) { create(:message, conversation: conversation, account: account) }
+
+    before do
+      allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+      account.enable_features('advanced_search')
+    end
+
+    context 'when advanced search is not allowed globally' do
+      before do
+        allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when advanced search feature is not enabled for account' do
+      before do
+        account.disable_features('advanced_search')
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when message type is not incoming or outgoing' do
+      before do
+        message.message_type = 'activity'
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when all conditions are met' do
+      it 'returns true for incoming message' do
+        message.message_type = 'incoming'
+        expect(message.should_index?).to be true
+      end
+
+      it 'returns true for outgoing message' do
+        message.message_type = 'outgoing'
+        expect(message.should_index?).to be true
+      end
+    end
+  end
 end

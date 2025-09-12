@@ -704,10 +704,27 @@
         "ERROR_MESSAGE": "创建文档时出错，请重试"
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "网址",
+          "PDF": "PDF File"
+        },
         "URL": {
           "LABEL": "网址",
           "PLACEHOLDER": "输入文档的 URL",
           "ERROR": "请提供有效的文档 URL"
+        },
+        "PDF_FILE": {
+          "LABEL": "PDF File",
+          "CHOOSE_FILE": "Choose PDF file",
+          "ERROR": "Please select a PDF file",
+          "HELP_TEXT": "Maximum file size: 10MB",
+          "INVALID_TYPE": "Please select a valid PDF file",
+          "TOO_LARGE": "File size exceeds 10MB limit"
+        },
+        "NAME": {
+          "LABEL": "Document Name (Optional)",
+          "PLACEHOLDER": "Enter a name for the document"
         },
         "ASSISTANT": {
           "LABEL": "助手",

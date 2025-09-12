@@ -1,4 +1,13 @@
 <script setup>
+/**
+ * This component handles parsing and sending WhatsApp message templates.
+ * It works as follows:
+ * 1. Displays the template text with variable placeholders.
+ * 2. Generates input fields for each variable in the template.
+ * 3. Validates that all variables are filled before sending.
+ * 4. Replaces placeholders with user-provided values.
+ * 5. Emits events to send the processed message or reset the template.
+ */
 import { ref, computed, onMounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { requiredIf } from '@vuelidate/validators';

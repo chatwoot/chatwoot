@@ -7,6 +7,7 @@ import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
+import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const route = useRoute();
@@ -45,16 +46,16 @@ const showConfiguration = computed(() => Boolean(selectedProvider.value));
 
 const availableProviders = computed(() => [
   {
-    value: PROVIDER_TYPES.WHATSAPP,
-    label: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD'),
+    key: PROVIDER_TYPES.WHATSAPP,
+    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD'),
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_DESC'),
-    icon: '/assets/images/dashboard/channels/whatsapp.png',
+    icon: 'i-woot-whatsapp',
   },
   {
-    value: PROVIDER_TYPES.TWILIO,
-    label: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO'),
+    key: PROVIDER_TYPES.TWILIO,
+    title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO'),
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO_DESC'),
-    icon: '/assets/images/dashboard/channels/twilio.png',
+    icon: 'i-woot-twilio',
   },
 ]);
 
@@ -92,9 +93,7 @@ const shouldShowCloudWhatsapp = provider => {
 </script>
 
 <template>
-  <div
-    class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
-  >
+  <div class="overflow-auto col-span-6 p-6 w-full h-full">
     <div v-if="showProviderSelection">
       <div class="mb-10 text-left">
         <h1 class="mb-2 text-lg font-medium text-slate-12">
@@ -106,51 +105,30 @@ const shouldShowCloudWhatsapp = provider => {
       </div>
 
       <div class="flex gap-6 justify-start">
-        <div
+        <ChannelSelector
           v-for="provider in availableProviders"
-          :key="provider.value"
-          class="gap-6 px-5 py-6 w-96 rounded-2xl border transition-all duration-200 cursor-pointer border-n-weak hover:bg-n-slate-3"
-          @click="selectProvider(provider.value)"
-        >
-          <div class="flex justify-start mb-5">
-            <div
-              class="flex justify-center items-center rounded-full size-10 bg-n-alpha-2"
-            >
-              <img
-                :src="provider.icon"
-                :alt="provider.label"
-                class="object-contain size-[26px]"
-              />
-            </div>
-          </div>
-
-          <div class="text-start">
-            <h3 class="mb-1.5 text-sm font-medium text-slate-12">
-              {{ provider.label }}
-            </h3>
-            <p class="text-sm text-slate-11">
-              {{ provider.description }}
-            </p>
-          </div>
-        </div>
+          :key="provider.key"
+          :title="provider.title"
+          :description="provider.description"
+          :icon="provider.icon"
+          @click="selectProvider(provider.key)"
+        />
       </div>
     </div>
 
     <div v-else-if="showConfiguration">
-      <div class="px-6 py-5 rounded-2xl border bg-n-solid-2 border-n-weak">
-        <WhatsappEmbeddedSignup
-          v-if="shouldShowEmbeddedSignup(selectedProvider)"
-        />
-        <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
-        <Twilio
-          v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
-          type="whatsapp"
-        />
-        <ThreeSixtyDialogWhatsapp
-          v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
-        />
-        <CloudWhatsapp v-else />
-      </div>
+      <WhatsappEmbeddedSignup
+        v-if="shouldShowEmbeddedSignup(selectedProvider)"
+      />
+      <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
+      <Twilio
+        v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
+        type="whatsapp"
+      />
+      <ThreeSixtyDialogWhatsapp
+        v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
+      />
+      <CloudWhatsapp v-else />
     </div>
   </div>
 </template>
