@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { useToggle } from '@vueuse/core';
+import { useToggle, useWindowSize, useElementBounding } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
 import { picoSearch } from '@scmmishra/pico-search';
 
@@ -27,8 +27,20 @@ const props = defineProps({
 const emit = defineEmits(['add']);
 
 const [showPopover, togglePopover] = useToggle();
+const buttonRef = ref();
+const dropdownRef = ref();
 
 const searchValue = ref('');
+
+const { width: windowWidth, height: windowHeight } = useWindowSize();
+const {
+  top: buttonTop,
+  left: buttonLeft,
+  width: buttonWidth,
+  height: buttonHeight,
+} = useElementBounding(buttonRef);
+const { width: dropdownWidth, height: dropdownHeight } =
+  useElementBounding(dropdownRef);
 
 const filteredItems = computed(() => {
   if (!searchValue.value) return props.items;
@@ -41,6 +53,22 @@ const handleAdd = item => {
   emit('add', item);
   togglePopover(false);
 };
+
+const shouldShowAbove = computed(() => {
+  if (!buttonRef.value || !dropdownRef.value) return false;
+  const spaceBelow =
+    windowHeight.value - (buttonTop.value + buttonHeight.value);
+  const spaceAbove = buttonTop.value;
+  return spaceBelow < dropdownHeight.value && spaceAbove > spaceBelow;
+});
+
+const shouldAlignRight = computed(() => {
+  if (!buttonRef.value || !dropdownRef.value) return false;
+  const spaceRight = windowWidth.value - buttonLeft.value;
+  const spaceLeft = buttonLeft.value + buttonWidth.value;
+
+  return spaceRight < dropdownWidth.value && spaceLeft > spaceRight;
+});
 
 const handleClickOutside = () => {
   if (showPopover.value) {
@@ -55,6 +83,7 @@ const handleClickOutside = () => {
     class="relative flex items-center group"
   >
     <Button
+      ref="buttonRef"
       slate
       type="button"
       icon="i-lucide-plus"
@@ -64,7 +93,12 @@ const handleClickOutside = () => {
     />
     <div
       v-if="showPopover"
-      class="top-full mt-2 ltr:right-0 rtl:left-0 xl:ltr:left-0 xl:rtl:right-0 z-50 flex flex-col items-start absolute bg-n-alpha-3 backdrop-blur-[50px] border-0 gap-4 outline outline-1 outline-n-weak rounded-xl max-w-96 min-w-80 max-h-[20rem] overflow-y-auto py-2"
+      ref="dropdownRef"
+      class="z-50 flex flex-col items-start absolute bg-n-alpha-3 backdrop-blur-[50px] border-0 gap-4 outline outline-1 outline-n-weak rounded-xl max-w-96 min-w-80 max-h-[20rem] overflow-y-auto py-2"
+      :class="[
+        shouldShowAbove ? 'bottom-full mb-2' : 'top-full mt-2',
+        shouldAlignRight ? 'right-0' : 'left-0',
+      ]"
     >
       <div class="flex flex-col divide-y divide-n-slate-4 w-full">
         <Input
@@ -90,7 +124,7 @@ const handleClickOutside = () => {
           <Icon
             v-if="item.icon"
             :icon="item.icon"
-            class="size-2 text-n-slate-12 flex-shrink-0 mt-0.5"
+            class="size-4 text-n-slate-12 flex-shrink-0 mt-0.5"
           />
           <span
             v-else-if="item.color"
@@ -105,24 +139,19 @@ const handleClickOutside = () => {
             :size="20"
             rounded-full
           />
-          <div class="flex flex-col items-start gap-2 min-w-0">
-            <div class="flex items-center gap-1 min-w-0">
+          <div class="flex flex-col items-start gap-2 min-w-0 flex-1">
+            <div class="flex items-center gap-1 min-w-0 w-full">
               <span
                 :title="item.name || item.title"
-                class="text-sm text-n-slate-12 truncate min-w-0"
+                class="text-sm text-n-slate-12 truncate min-w-0 flex-1"
               >
                 {{ item.name || item.title }}
-              </span>
-              <span
-                v-if="item.id"
-                class="text-xs text-n-slate-11 flex-shrink-0"
-              >
-                {{ `#${item.id}` }}
               </span>
             </div>
             <span
               v-if="item.email || item.phoneNumber"
-              class="text-sm text-n-slate-11 truncate min-w-0"
+              :title="item.email || item.phoneNumber"
+              class="text-sm text-n-slate-11 truncate min-w-0 w-full block"
             >
               {{ item.email || item.phoneNumber }}
             </span>
