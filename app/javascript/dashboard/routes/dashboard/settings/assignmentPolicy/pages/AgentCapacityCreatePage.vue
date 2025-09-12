@@ -19,9 +19,9 @@ const labelsList = useMapGetter('labels/getLabels');
 
 const allLabels = computed(() =>
   labelsList.value?.map(({ title, color, id }) => ({
-    id: id,
+    id,
     name: title,
-    color: color,
+    color,
   }))
 );
 

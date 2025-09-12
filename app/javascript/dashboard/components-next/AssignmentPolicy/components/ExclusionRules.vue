@@ -18,10 +18,14 @@ const excludedLabels = defineModel('excludedLabels', {
   default: () => [],
 });
 
-const excludeOlderThanHours = defineModel('excludeOlderThanHours', {
+const excludeOlderThanMinutes = defineModel('excludeOlderThanMinutes', {
   type: Number,
   default: 10,
 });
+
+// Duration limits: 10 minutes to 999 days (in minutes)
+const MIN_DURATION_MINUTES = 10;
+const MAX_DURATION_MINUTES = 1438560; // 999 days * 24 hours * 60 minutes
 
 const { t } = useI18n();
 
@@ -52,17 +56,14 @@ const onClickAddTag = tag => {
   excludedLabels.value = [...excludedLabels.value, tag.name];
 };
 
-const onClickRemoveTag = tagId => {
-  const tag = props.tagsList?.find(label => label.id === tagId);
-  if (tag) {
-    excludedLabels.value = excludedLabels.value.filter(
-      name => name !== tag.name
-    );
-  }
+const onClickRemoveTag = tag => {
+  excludedLabels.value = excludedLabels.value.filter(
+    name => name !== tag.title
+  );
 };
 
 onMounted(() => {
-  windowUnit.value = detectUnit(excludeOlderThanHours.value);
+  windowUnit.value = detectUnit(excludeOlderThanMinutes.value);
 });
 </script>
 
@@ -138,9 +139,9 @@ onMounted(() => {
         <!-- allow 10 mins to 999 days -->
         <DurationInput
           v-model:unit="windowUnit"
-          v-model:model-value="excludeOlderThanHours"
-          :min="10"
-          :max="1438560"
+          v-model:model-value="excludeOlderThanMinutes"
+          :min="MIN_DURATION_MINUTES"
+          :max="MAX_DURATION_MINUTES"
         />
       </div>
     </div>

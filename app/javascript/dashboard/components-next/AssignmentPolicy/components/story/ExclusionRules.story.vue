@@ -58,7 +58,7 @@ const excludeOlderThanHoursBasic = ref(10);
       <div class="p-8 bg-n-background h-[600px]">
         <ExclusionRules
           v-model:excluded-labels="excludedLabelsBasic"
-          v-model:exclude-older-than-hours="excludeOlderThanHoursBasic"
+          v-model:exclude-older-than-minutes="excludeOlderThanHoursBasic"
           :tags-list="mockTagsList"
         />
       </div>

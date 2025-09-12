@@ -29,6 +29,7 @@ const inboxesUiFlags = useMapGetter('inboxes/getUIFlags');
 
 const routeId = computed(() => route.params.id);
 const selectedPolicy = computed(() => selectedPolicyById.value(routeId.value));
+const selectedPolicyId = computed(() => selectedPolicy.value?.id);
 
 const breadcrumbItems = computed(() => [
   {
@@ -80,28 +81,28 @@ const handleBreadcrumbClick = ({ routeName }) =>
 
 const handleDeleteUser = agentId => {
   store.dispatch('agentCapacityPolicies/removeUser', {
-    policyId: selectedPolicy.value?.id,
+    policyId: selectedPolicyId.value,
     userId: agentId,
   });
 };
 
 const handleAddUser = agent => {
   store.dispatch('agentCapacityPolicies/addUser', {
-    policyId: selectedPolicy.value?.id,
+    policyId: selectedPolicyId.value,
     userData: { id: agent.id, capacity: 20 },
   });
 };
 
 const handleDeleteInboxLimit = limitId => {
   store.dispatch('agentCapacityPolicies/deleteInboxLimit', {
-    policyId: selectedPolicy.value?.id,
+    policyId: selectedPolicyId.value,
     limitId,
   });
 };
 
 const handleAddInboxLimit = limit => {
   store.dispatch('agentCapacityPolicies/createInboxLimit', {
-    policyId: selectedPolicy.value?.id,
+    policyId: selectedPolicyId.value,
     limitData: {
       inboxId: limit.inboxId,
       conversationLimit: limit.conversationLimit,
@@ -111,7 +112,7 @@ const handleAddInboxLimit = limit => {
 
 const handleLimitChange = limit => {
   store.dispatch('agentCapacityPolicies/updateInboxLimit', {
-    policyId: selectedPolicy.value?.id,
+    policyId: selectedPolicyId.value,
     limitId: limit.id,
     limitData: { conversationLimit: limit.conversationLimit },
   });
@@ -120,7 +121,7 @@ const handleLimitChange = limit => {
 const handleSubmit = async formState => {
   try {
     await store.dispatch('agentCapacityPolicies/update', {
-      id: selectedPolicy.value?.id,
+      id: selectedPolicyId.value,
       ...formState,
     });
 
@@ -134,7 +135,7 @@ const fetchPolicyData = async () => {
   if (!routeId.value) return;
 
   // Fetch policy if not available
-  if (!selectedPolicy.value?.id)
+  if (!selectedPolicyId.value)
     await store.dispatch('agentCapacityPolicies/show', routeId.value);
 
   await store.dispatch('agentCapacityPolicies/getUsers', Number(routeId.value));

@@ -27,6 +27,8 @@ const { t } = useI18n();
 
 const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_CAPACITY_POLICY';
 const DEFAULT_CONVERSATION_LIMIT = 10;
+const MIN_CONVERSATION_LIMIT = 1;
+const MAX_CONVERSATION_LIMIT = 100000;
 
 const selectedInboxIds = computed(
   () => new Set(inboxCapacityLimits.value.map(limit => limit.inboxId))
@@ -39,7 +41,10 @@ const availableInboxes = computed(() =>
 );
 
 const isLimitValid = limit => {
-  return limit.conversationLimit >= 1 && limit.conversationLimit <= 100000;
+  return (
+    limit.conversationLimit >= MIN_CONVERSATION_LIMIT &&
+    limit.conversationLimit <= MAX_CONVERSATION_LIMIT
+  );
 };
 
 const inboxMap = computed(
@@ -130,8 +135,8 @@ const getInboxName = inboxId => {
           <input
             v-model.number="limit.conversationLimit"
             type="number"
-            :min="1"
-            :max="100000"
+            :min="MIN_CONVERSATION_LIMIT"
+            :max="MAX_CONVERSATION_LIMIT"
             class="reset-base bg-transparent focus:outline-none max-w-20 text-sm"
             :class="[
               !isLimitValid(limit)
@@ -141,7 +146,7 @@ const getInboxName = inboxId => {
             :placeholder="
               t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.SET_LIMIT`)
             "
-            @blur="handleLimitChange(limit, $event)"
+            @blur="handleLimitChange(limit)"
           />
         </div>
 
