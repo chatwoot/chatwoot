@@ -38,11 +38,9 @@ const availableInboxes = computed(() =>
   )
 );
 
-const isLimitValid = computed(() => {
-  return inboxCapacityLimits.value.every(
-    limit => limit.conversationLimit >= 1 && limit.conversationLimit <= 100000
-  );
-});
+const isLimitValid = limit => {
+  return limit.conversationLimit >= 1 && limit.conversationLimit <= 100000;
+};
 
 const inboxMap = computed(
   () => new Map(props.inboxList.map(inbox => [inbox.id, inbox]))
@@ -60,7 +58,7 @@ const handleRemoveLimit = limitId => {
 };
 
 const handleLimitChange = limit => {
-  if (isLimitValid.value) {
+  if (isLimitValid(limit)) {
     emit('update', limit);
   }
 };
@@ -117,7 +115,9 @@ const getInboxName = inboxId => {
 
         <div
           class="py-2.5 px-3 rounded-lg gap-2 outline outline-1 flex-shrink-0 flex items-center"
-          :class="[!isLimitValid ? 'outline-n-ruby-8' : 'outline-n-weak']"
+          :class="[
+            !isLimitValid(limit) ? 'outline-n-ruby-8' : 'outline-n-weak',
+          ]"
         >
           <label class="text-sm text-n-slate-12 ltr:pr-2 rtl:pl-2">
             {{
@@ -134,7 +134,7 @@ const getInboxName = inboxId => {
             :max="100000"
             class="reset-base bg-transparent focus:outline-none max-w-20 text-sm"
             :class="[
-              !isLimitValid
+              !isLimitValid(limit)
                 ? 'placeholder:text-n-ruby-9 !text-n-ruby-9'
                 : 'placeholder:text-n-slate-10 text-n-slate-12',
             ]"
