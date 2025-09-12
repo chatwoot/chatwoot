@@ -1,12 +1,16 @@
 module Enterprise::DeviseOverrides::SessionsController
+  include SamlAuthenticationHelper
+
   def create
-    check_saml_user
+    if saml_user_attempting_password_auth?(params[:email], sso_auth_token: params[:sso_auth_token])
+      render json: {
+        success: false,
+        errors: [I18n.t('messages.login_saml_user')]
+      }, status: :unauthorized
+      return
+    end
+
     super
-  rescue CustomExceptions::Base => e
-    render json: {
-      success: false,
-      errors: [e.message]
-    }, status: e.http_status_code
   end
 
   def render_create_success

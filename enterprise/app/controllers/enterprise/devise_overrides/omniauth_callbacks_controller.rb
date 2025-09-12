@@ -35,9 +35,6 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   private
 
   def handle_saml_auth
-    # Check if enterprise edition and SAML feature are available
-    return redirect_to login_page_url(error: 'saml-not-available') unless ChatwootApp.enterprise?
-
     account_id = extract_saml_account_id
     return redirect_to login_page_url(error: 'saml-not-enabled') unless saml_enabled_for_account?(account_id)
 
@@ -55,7 +52,6 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   end
 
   def saml_enabled_for_account?(account_id)
-    return false unless ChatwootApp.enterprise?
     return false if account_id.blank?
 
     account = Account.find_by(id: account_id)

@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "发送消息"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "选择模板",
+        "SEARCH_PLACEHOLDER": "搜索模板",
+        "EMPTY_STATE": "未找到模板",
+        "TEMPLATE_PARSER": {
+          "BACK": "返回",
+          "SEND_MESSAGE": "发送消息"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "丢弃",
         "SEND": "发送 ({keyCode})"
