@@ -69,8 +69,6 @@ RSpec.describe 'MFA API', type: :request do
         expect(json_response['provisioning_url']).not_to be_nil
         expect(json_response['provisioning_url']).to include('otpauth://totp')
         expect(json_response['secret']).not_to be_nil
-        expect(json_response['backup_codes']).to be_an(Array)
-        expect(json_response['backup_codes'].length).to eq(10)
 
         user.reload
         expect(user.otp_secret).not_to be_nil
@@ -101,7 +99,7 @@ RSpec.describe 'MFA API', type: :request do
     end
 
     context 'with valid OTP code' do
-      it 'verifies and confirms 2FA setup' do
+      it 'verifies and confirms 2FA setup with backup codes' do
         otp_code = user.current_otp
 
         post '/api/v1/profile/mfa/verify',
@@ -112,9 +110,12 @@ RSpec.describe 'MFA API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['enabled']).to be_truthy
+        expect(json_response['backup_codes']).to be_an(Array)
+        expect(json_response['backup_codes'].length).to eq(10)
 
         user.reload
         expect(user.otp_required_for_login).to be_truthy
+        expect(user.otp_backup_codes).not_to be_nil
       end
     end
 

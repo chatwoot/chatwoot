@@ -1,13 +1,6 @@
 class Mfa::ManagementService
   pattr_initialize [:user!]
 
-  def enable_two_factor_with_backup_codes!
-    ActiveRecord::Base.transaction do
-      enable_two_factor!
-      generate_backup_codes!
-    end
-  end
-
   def enable_two_factor!
     user.otp_secret = User.generate_otp_secret
     user.save!
@@ -21,7 +14,10 @@ class Mfa::ManagementService
   end
 
   def verify_and_activate!
-    user.update!(otp_required_for_login: true)
+    ActiveRecord::Base.transaction do
+      user.update!(otp_required_for_login: true)
+      backup_codes_generated? ? nil : generate_backup_codes!
+    end
   end
 
   def provisioning_uri
