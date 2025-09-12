@@ -1,0 +1,385 @@
+name: LiliDesk Chatwoot CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop, lilidesk-* ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: # Allow manual trigger
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  RUBY_VERSION: '3.2.0'
+  NODE_VERSION: '18'
+  JENKINS_URL: 'https://jenkins.lilidesk.com'
+  JENKINS_JOB: 'chatwoot-pipeline'
+
+jobs:
+  # Job 1: Code Quality & Testing
+  test:
+    name: 🧪 Test & Quality Checks
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: chatwoot_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+          
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Ruby ${{ env.RUBY_VERSION }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+          
+      - name: 🔧 Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 🔧 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+          
+      - name: 📦 Install Ruby Dependencies
+        run: |
+          bundle config set --local deployment 'false'
+          bundle config set --local without 'development'
+          bundle install --jobs 4 --retry 3
+          
+      - name: 📦 Install Node.js Dependencies  
+        run: pnpm install --frozen-lockfile
+        
+      - name: 🗄️ Setup Test Database
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/chatwoot_test
+          REDIS_URL: redis://localhost:6379/0
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:schema:load
+          
+      - name: 🔍 Run RuboCop (Ruby Linting)
+        run: bundle exec rubocop --parallel
+        continue-on-error: true
+        
+      - name: 🔍 Run ESLint (JavaScript Linting)
+        run: pnpm lint
+        continue-on-error: true
+        
+      - name: 🧪 Run RSpec Tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/chatwoot_test
+          REDIS_URL: redis://localhost:6379/0
+          COVERAGE: true
+        run: |
+          bundle exec rspec --format progress --format RspecJunitFormatter --out tmp/rspec_results.xml
+          
+      - name: 🧪 Run Frontend Tests
+        run: pnpm test
+        env:
+          CI: true
+          
+      - name: 📊 Upload Test Results
+        uses: dorny/test-reporter@v1
+        if: success() || failure()
+        with:
+          name: RSpec Tests
+          path: tmp/rspec_results.xml
+          reporter: java-junit
+          
+      - name: 🏗️ Precompile Assets
+        env:
+          RAILS_ENV: production
+          NODE_ENV: production
+          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE || 'dummy_secret_for_assets' }}
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/chatwoot_test
+        run: |
+          bundle exec rails assets:precompile
+          
+      - name: 📁 Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: chatwoot-build-${{ github.sha }}
+          path: |
+            public/assets/
+            public/packs/
+          retention-days: 7
+
+  # Job 2: Security Scanning
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Ruby ${{ env.RUBY_VERSION }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+          
+      - name: 📦 Install Dependencies
+        run: bundle install --jobs 4 --retry 3
+        
+      - name: 🔍 Run Brakeman Security Scan
+        run: |
+          gem install brakeman
+          brakeman --format json --output tmp/brakeman_results.json .
+        continue-on-error: true
+        
+      - name: 📤 Upload Security Scan Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-scan-results
+          path: tmp/brakeman_results.json
+          
+      - name: 🔍 Run bundle-audit
+        run: |
+          gem install bundle-audit
+          bundle audit check --update
+        continue-on-error: true
+
+  # Job 3: Build Docker Image
+  build:
+    name: 🐳 Build Docker Image
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/lilidesk-')
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: chatwoot-build-${{ github.sha }}
+          path: public/
+          
+      - name: 🐳 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: 🔧 Extract Metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            91.98.136.233:30501/chatwoot
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix=lilidesk-{{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+            
+      - name: 🔑 Login to Private Registry
+        uses: docker/login-action@v3
+        with:
+          registry: 91.98.136.233:30501
+          username: admin
+          password: registrypass123
+          
+      - name: 🏗️ Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+  # Job 4: Deploy via Jenkins
+  deploy:
+    name: 🚀 Deploy to LiliDesk Infrastructure
+    runs-on: ubuntu-latest
+    needs: [test, security, build]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/lilidesk-')
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: 🔧 Setup Environment Info
+        id: env-info
+        run: |
+          echo "COMMIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "COMMIT_MSG=$(git log -1 --pretty=format:'%s' | tr -d '\n' | tr -d '\r')" >> $GITHUB_OUTPUT
+          echo "BUILD_TIME=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_OUTPUT
+          
+      - name: 🚀 Trigger Jenkins Deployment
+        env:
+          JENKINS_USER: ${{ secrets.JENKINS_USER || 'admin' }}
+          JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
+        run: |
+          echo "🚀 Triggering Jenkins deployment for Chatwoot..."
+          echo "📋 Build Info:"
+          echo "   • Repository: ${{ github.repository }}"
+          echo "   • Branch: ${{ steps.env-info.outputs.BRANCH_NAME }}"
+          echo "   • Commit: ${{ steps.env-info.outputs.COMMIT_SHA }}"
+          echo "   • Message: ${{ steps.env-info.outputs.COMMIT_MSG }}"
+          echo "   • Build Time: ${{ steps.env-info.outputs.BUILD_TIME }}"
+          echo "   • Actor: ${{ github.actor }}"
+          
+          # If no Jenkins token is provided, use default admin password
+          if [ -z "$JENKINS_TOKEN" ]; then
+            echo "⚠️  No JENKINS_TOKEN secret found, using default admin password"
+            JENKINS_TOKEN="CuwqDlpA7sFssrFi"
+          fi
+          
+          # Get Jenkins crumb for CSRF protection
+          CRUMB_RESPONSE=$(curl -s -u "${JENKINS_USER}:${JENKINS_TOKEN}" \
+            "${{ env.JENKINS_URL }}/crumbIssuer/api/json" || echo '{"crumb":"none"}')
+          CRUMB=$(echo $CRUMB_RESPONSE | python3 -c "import sys,json; data=json.load(sys.stdin); print(data.get('crumb', 'none'))" 2>/dev/null || echo "none")
+          
+          echo "🔑 Jenkins Crumb: ${CRUMB:0:10}..."
+          
+          # Prepare Jenkins job trigger
+          JENKINS_PARAMS=""
+          JENKINS_PARAMS="${JENKINS_PARAMS} -F GITHUB_SHA=${{ steps.env-info.outputs.COMMIT_SHA }}"
+          JENKINS_PARAMS="${JENKINS_PARAMS} -F GITHUB_REF=${{ github.ref }}"
+          JENKINS_PARAMS="${JENKINS_PARAMS} -F GITHUB_REPOSITORY=${{ github.repository }}"
+          JENKINS_PARAMS="${JENKINS_PARAMS} -F GITHUB_ACTOR=${{ github.actor }}"
+          JENKINS_PARAMS="${JENKINS_PARAMS} -F BUILD_REASON=GitHub Actions CI/CD"
+          JENKINS_PARAMS="${JENKINS_PARAMS} -F COMMIT_MESSAGE=${{ steps.env-info.outputs.COMMIT_MSG }}"
+          
+          # Trigger Jenkins job
+          if [ "$CRUMB" != "none" ]; then
+            CRUMB_HEADER="-H Jenkins-Crumb:${CRUMB}"
+          else
+            CRUMB_HEADER=""
+          fi
+          
+          HTTP_STATUS=$(curl -w "%{http_code}" -s -o /tmp/jenkins_response.txt \
+            -X POST \
+            -u "${JENKINS_USER}:${JENKINS_TOKEN}" \
+            ${CRUMB_HEADER} \
+            ${JENKINS_PARAMS} \
+            "${{ env.JENKINS_URL }}/job/${{ env.JENKINS_JOB }}/buildWithParameters" || echo "000")
+          
+          echo "📡 Jenkins Response Code: $HTTP_STATUS"
+          
+          if [ -f /tmp/jenkins_response.txt ]; then
+            echo "📄 Jenkins Response:"
+            cat /tmp/jenkins_response.txt
+          fi
+          
+          if [ "$HTTP_STATUS" = "201" ] || [ "$HTTP_STATUS" = "200" ] || [ "$HTTP_STATUS" = "302" ]; then
+            echo "✅ Jenkins deployment triggered successfully!"
+            echo "🔗 Monitor status at: ${{ env.JENKINS_URL }}/job/${{ env.JENKINS_JOB }}"
+            echo "🌐 App will be available at: https://chat.lilidesk.com"
+          else
+            echo "❌ Failed to trigger Jenkins deployment (HTTP $HTTP_STATUS)"
+            if [ "$HTTP_STATUS" = "000" ]; then
+              echo "💡 This might be due to network issues or Jenkins being unreachable"
+              echo "💡 Please check Jenkins manually at: ${{ env.JENKINS_URL }}"
+            fi
+            exit 1
+          fi
+
+  # Job 5: Notify Results
+  notify:
+    name: 📢 Notify Deployment Results
+    runs-on: ubuntu-latest
+    needs: [test, security, build, deploy]
+    if: always()
+    
+    steps:
+      - name: 📢 Deployment Success Notification
+        if: needs.deploy.result == 'success'
+        run: |
+          echo "🎉 Chatwoot deployment completed successfully!"
+          echo "✅ All tests passed"
+          echo "🔒 Security scans completed"
+          echo "🐳 Docker image built and pushed"
+          echo "🚀 Deployment triggered in Jenkins"
+          echo "🌐 Chatwoot will be available at: https://chat.lilidesk.com"
+          echo ""
+          echo "📋 Deployment Summary:"
+          echo "   • Repository: ${{ github.repository }}"
+          echo "   • Branch: ${{ github.ref_name }}"
+          echo "   • Commit: ${{ github.sha }}"
+          echo "   • Actor: ${{ github.actor }}"
+          echo "   • Workflow: ${{ github.workflow }}"
+          
+      - name: 📢 Deployment Failure Notification
+        if: needs.deploy.result == 'failure' || needs.test.result == 'failure'
+        run: |
+          echo "❌ Chatwoot deployment failed!"
+          echo "🔍 Check the logs above for details"
+          echo ""
+          echo "📊 Job Results:"
+          echo "   🧪 Tests: ${{ needs.test.result }}"
+          echo "   🔒 Security: ${{ needs.security.result }}"
+          echo "   🐳 Build: ${{ needs.build.result }}"
+          echo "   🚀 Deploy: ${{ needs.deploy.result }}"
+          echo ""
+          echo "🔗 View full logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+      # Optional: Slack notification (if configured)
+      - name: 📱 Slack Notification
+        if: always() && (needs.deploy.result == 'success' || needs.deploy.result == 'failure') && secrets.SLACK_WEBHOOK_URL
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ needs.deploy.result }}
+          channel: '#deployments'
+          title: 'Chatwoot Deployment ${{ needs.deploy.result }}'
+          text: |
+            🤖 *Chatwoot CI/CD Pipeline*
+            
+            *Status:* ${{ needs.deploy.result == 'success' && '✅ SUCCESS' || '❌ FAILURE' }}
+            *Repository:* ${{ github.repository }}
+            *Branch:* ${{ github.ref_name }}
+            *Commit:* `${{ github.sha }}`
+            *Actor:* ${{ github.actor }}
+            
+            *Job Results:*
+            • Tests: ${{ needs.test.result }}
+            • Security: ${{ needs.security.result }}
+            • Build: ${{ needs.build.result }}
+            • Deploy: ${{ needs.deploy.result }}
+            
+            ${{ needs.deploy.result == 'success' && '🌐 App: https://chat.lilidesk.com' || '🔗 Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}' }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        continue-on-error: true
