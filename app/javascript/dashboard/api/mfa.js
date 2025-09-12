@@ -7,7 +7,7 @@ class MfaAPI extends ApiClient {
   }
 
   enable() {
-    return axios.post(`${this.url}/enable`);
+    return axios.post(`${this.url}`);
   }
 
   verify(otpCode) {
