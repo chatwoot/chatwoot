@@ -65,7 +65,7 @@ class User < ApplicationRecord
          :confirmable,
          :password_has_required_content,
          :two_factor_authenticatable,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+         :omniauthable, omniauth_providers: [:google_oauth2, :saml]
 
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
