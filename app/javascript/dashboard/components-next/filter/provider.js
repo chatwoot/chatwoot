@@ -179,7 +179,7 @@ export function useConversationFilterContext() {
         id: campaign.id,
         name: campaign.title,
       })),
-      datatype: 'number',
+      dataType: 'number',
       filterOperators: presenceOperators.value,
       attributeModel: 'standard',
     },
