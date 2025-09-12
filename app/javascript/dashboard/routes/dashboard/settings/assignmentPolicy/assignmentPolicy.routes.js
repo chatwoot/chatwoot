@@ -3,6 +3,8 @@ import { frontendURL } from '../../../../helper/URLHelper';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import AssignmentPolicyIndex from './Index.vue';
 import AgentAssignmentIndex from './pages/AgentAssignmentIndexPage.vue';
+import AgentAssignmentCreate from './pages/AgentAssignmentCreatePage.vue';
+import AgentAssignmentEdit from './pages/AgentAssignmentEditPage.vue';
 
 export default {
   routes: [
@@ -29,6 +31,24 @@ export default {
           path: 'assignment',
           name: 'agent_assignment_policy_index',
           component: AgentAssignmentIndex,
+          meta: {
+            featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'assignment/create',
+          name: 'agent_assignment_policy_create',
+          component: AgentAssignmentCreate,
+          meta: {
+            featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'assignment/edit/:id',
+          name: 'agent_assignment_policy_edit',
+          component: AgentAssignmentEdit,
           meta: {
             featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
             permissions: ['administrator'],

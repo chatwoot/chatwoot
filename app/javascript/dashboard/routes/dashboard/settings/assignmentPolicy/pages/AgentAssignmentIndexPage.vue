@@ -44,7 +44,16 @@ const handleBreadcrumbClick = item => {
 
 const onClickCreatePolicy = () => {
   router.push({
-    name: 'assignment_policy_create',
+    name: 'agent_assignment_policy_create',
+  });
+};
+
+const onClickEditPolicy = id => {
+  router.push({
+    name: 'agent_assignment_policy_edit',
+    params: {
+      id,
+    },
   });
 };
 
@@ -106,6 +115,7 @@ onMounted(() => {
           v-bind="policy"
           :is-fetching-inboxes="inboxUiFlags.isFetching"
           @fetch-inboxes="handleFetchInboxes"
+          @edit="onClickEditPolicy"
           @delete="handleDelete"
         />
       </div>

@@ -52,7 +52,6 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   end
 
   def saml_enabled_for_account?(account_id)
-    return false unless ChatwootApp.enterprise?
     return false if account_id.blank?
 
     account = Account.find_by(id: account_id)

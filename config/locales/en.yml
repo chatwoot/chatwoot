@@ -230,6 +230,7 @@ en:
     reply:
       email:
         header:
+          notifications: 'Notifications'
           from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
