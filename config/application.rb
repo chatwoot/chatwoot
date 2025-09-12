@@ -93,16 +93,11 @@ module Chatwoot
   end
 
   def self.encryption_configured?
-    # Check if proper encryption keys are configured (not using insecure defaults)
+    # Check if proper encryption keys are configured
     # MFA/2FA features should only be enabled when proper keys are set
-    primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY', 'insecure_default_primary_key_32b')
-    deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', 'insecure_default_deterministic32')
-    salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', 'insecure_default_key_salt_value32')
-
-    # Return false if any key is using the insecure default
-    !primary_key.start_with?('insecure_default') &&
-      !deterministic_key.start_with?('insecure_default') &&
-      !salt.start_with?('insecure_default')
+    ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'].present? &&
+      ENV['ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY'].present? &&
+      ENV['ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT'].present?
   end
 
   def self.mfa_enabled?

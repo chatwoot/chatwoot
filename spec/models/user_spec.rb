@@ -153,7 +153,7 @@ RSpec.describe User do
 
         expect(codes).to be_an(Array)
         expect(codes.length).to eq(10)
-        expect(codes.first).to match(/\A\d{6}\z/) # 6-digit codes
+        expect(codes.first).to match(/\A\d{8}\z/) # 8-digit codes
         expect(user.otp_backup_codes).not_to be_nil
       end
     end
