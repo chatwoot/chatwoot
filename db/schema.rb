@@ -1172,14 +1172,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_01_081601) do
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
-  create_table "telegram_bots", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.string "auth_key"
-    t.integer "account_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
