@@ -38,7 +38,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     return if templates.blank?
 
-    # whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc)
+    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc)
+
+    return true unless whatsapp_channel.account.feature_enabled?('template_builder')
 
     Whatsapp::TemplateSyncService.new(
       channel: whatsapp_channel,

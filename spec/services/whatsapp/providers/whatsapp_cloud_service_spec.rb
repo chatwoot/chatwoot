@@ -211,13 +211,8 @@ describe Whatsapp::Providers::WhatsappCloudService do
               ], paging: { prev: 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key' } }.to_json }
           )
 
-        # TODO: Fix this test as it tries to test channel.message_templates
         timstamp = whatsapp_channel.reload.message_templates_last_updated
         expect(subject.sync_templates).to be(true)
-
-        templates = MessageTemplate.where(inbox: whatsapp_channel.inbox)
-        expect(templates.count).to eq(3)
-
         expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
       end
 
@@ -228,6 +223,59 @@ describe Whatsapp::Providers::WhatsappCloudService do
         timstamp = whatsapp_channel.reload.message_templates_last_updated
         subject.sync_templates
         expect(whatsapp_channel.reload.message_templates_last_updated).not_to eq(timstamp)
+      end
+
+      it 'calls TemplateSyncService when template_builder feature is enabled' do
+        whatsapp_channel.account.enable_features!('template_builder')
+
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+          .to_return(
+            status: 200, headers: response_headers,
+            body: { data: [
+              { id: '123456789', name: 'test_template', status: 'APPROVED', category: 'MARKETING', language: 'en' }
+            ] }.to_json
+          )
+
+        template_sync_service = instance_double(Whatsapp::TemplateSyncService)
+        allow(Whatsapp::TemplateSyncService).to receive(:new).and_return(template_sync_service)
+        allow(template_sync_service).to receive(:call)
+
+        subject.sync_templates
+
+        expect(Whatsapp::TemplateSyncService).to have_received(:new).with(
+          channel: whatsapp_channel,
+          templates: [{ 'id' => '123456789', 'name' => 'test_template', 'status' => 'APPROVED', 'category' => 'MARKETING', 'language' => 'en' }]
+        )
+        expect(template_sync_service).to have_received(:call)
+      end
+
+      it 'does not call TemplateSyncService when template_builder feature is disabled' do
+        # Feature is disabled by default, so no need to explicitly disable it
+
+        stub_request(:get, 'https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key')
+          .to_return(
+            status: 200, headers: response_headers,
+            body: { data: [
+              { id: '123456789', name: 'test_template', status: 'APPROVED', category: 'MARKETING', language: 'en' }
+            ] }.to_json
+          )
+
+        template_sync_service = instance_double(Whatsapp::TemplateSyncService)
+        allow(Whatsapp::TemplateSyncService).to receive(:new).and_return(template_sync_service)
+        allow(template_sync_service).to receive(:call)
+
+        result = subject.sync_templates
+
+        # Should return true (successful sync) but not call TemplateSyncService
+        expect(result).to be true
+        expect(Whatsapp::TemplateSyncService).not_to have_received(:new)
+        expect(template_sync_service).not_to have_received(:call)
+
+        # Templates should still be updated in the channel
+        expect(whatsapp_channel.reload.message_templates).to eq([
+                                                                  { 'id' => '123456789', 'name' => 'test_template', 'status' => 'APPROVED',
+                                                                    'category' => 'MARKETING', 'language' => 'en' }
+                                                                ])
       end
     end
   end

@@ -1,8 +1,5 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
-import {
-  ROLES,
-  CONVERSATION_PERMISSIONS,
-} from 'dashboard/constants/permissions.js';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import TemplatesHome from './Index.vue';
 import TemplateBuilderPage from './TemplateBuilderPage.vue';
@@ -15,15 +12,10 @@ export default {
       children: [
         {
           path: '',
-          redirect: to => {
-            return { name: 'templates_list', params: to.params };
-          },
-        },
-        {
-          path: 'list',
           name: 'templates_list',
           meta: {
-            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+            permissions: ['administrator'],
+            featureFlag: FEATURE_FLAGS.TEMPLATE_BUILDER,
           },
           component: TemplatesHome,
         },
@@ -31,7 +23,8 @@ export default {
           path: 'builder',
           name: 'template_builder',
           meta: {
-            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+            permissions: ['administrator'],
+            featureFlag: FEATURE_FLAGS.TEMPLATE_BUILDER,
           },
           component: TemplateBuilderPage,
         },
