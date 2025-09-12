@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.2
 
-FROM ruby:3.2.3-slim-bullseye as base
+FROM ruby:3.4.4-slim-bullseye as base
 
 ARG NODE_VERSION=18.16.0
 ARG YARN_VERSION=1.22.19
