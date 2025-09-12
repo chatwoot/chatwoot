@@ -70,13 +70,12 @@ module Chatwoot
     config.active_storage.previewers = []
 
     # Active Record Encryption configuration
-    # These keys are required for encrypting sensitive data in the database (e.g., MFA/2FA)
-    # In production, always set these via environment variables
-    # For CI/CD and initial setup, we provide insecure defaults that should NEVER be used with real data
-    config.active_record.encryption.primary_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY', 'insecure_default_primary_key_32b')
-    config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', 'insecure_default_deterministic32')
-    config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT',
-                                                                    'insecure_default_key_salt_value32')
+    # Required for MFA/2FA features - skip if not using encryption
+    if ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'].present?
+      config.active_record.encryption.primary_key = ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY']
+      config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', nil)
+      config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', nil)
+    end
   end
 
   def self.config
