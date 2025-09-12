@@ -5,14 +5,8 @@ RSpec.describe 'MFA API', type: :request do
   let(:user) { create(:user, account: account, password: 'Test@123456') }
 
   before do
-    # Set up encryption keys for MFA feature
-    allow(ENV).to receive(:fetch).and_call_original
-    allow(ENV).to receive(:fetch).with('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY', anything)
-                                 .and_return('test_primary_key_32_bytes_long_12')
-    allow(ENV).to receive(:fetch).with('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', anything)
-                                 .and_return('test_deterministic_key_32_bytes_')
-    allow(ENV).to receive(:fetch).with('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', anything)
-                                 .and_return('test_salt_32_bytes_long_12345678')
+    # Enable MFA feature for tests by stubbing the encryption check
+    allow(Chatwoot).to receive(:mfa_enabled?).and_return(true)
   end
 
   describe 'GET /api/v1/profile/mfa' do
