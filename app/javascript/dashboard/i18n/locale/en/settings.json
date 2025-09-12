@@ -329,8 +329,12 @@
           "NAME": {
             "LABEL": "Template name",
             "PLACEHOLDER": "Enter template name",
-            "ERROR": "Template name is required and must be at least 2 characters",
-            "HELP": "Use lowercase letters, numbers, and underscores only"
+            "HELP": "Use lowercase letters, numbers, and underscores only",
+            "VALIDATION": {
+              "PATTERN": "Template name can only contain lowercase letters, numbers, and underscores",
+              "NO_LEADING_UNDERSCORE": "Template name cannot start with underscore",
+              "NO_TRAILING_UNDERSCORE": "Template name cannot end with underscore"
+            }
           },
           "LANGUAGE": {
             "LABEL": "Language"
@@ -430,7 +434,13 @@
           "POSITIONAL_HELP": "Provide example values for positional parameters ({example1}, {example2}, etc.)",
           "NAMED_HELP": "Provide example values for named parameters ({example_param})",
           "EXAMPLE_PLACEHOLDER": "Example {index}",
-          "NAMED_EXAMPLE_PLACEHOLDER": "Example for {name}"
+          "NAMED_EXAMPLE_PLACEHOLDER": "Example for {name}",
+          "ERRORS": {
+            "NAMED_IN_POSITIONAL": "Named variables are not allowed in positional parameter mode",
+            "POSITIONAL_IN_NAMED": "Positional variables are not allowed in named parameter mode",
+            "DUPLICATE_VARIABLES": "Text cannot contain duplicate variables",
+            "MAX_VARIABLES_EXCEEDED": "Maximum {count} variables allowed"
+          }
         },
         "PREVIEW": {
           "TITLE": "Preview",

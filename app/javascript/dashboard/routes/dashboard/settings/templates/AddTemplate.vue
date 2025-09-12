@@ -1,6 +1,6 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
+import { required, minLength, maxLength, helpers } from '@vuelidate/validators';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
@@ -13,7 +13,6 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import LanguageDropdown from 'dashboard/components-next/LanguageDropdown/LanguageDropdown.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import { validateTemplateName } from './helpers/templateValidation';
 
 const emit = defineEmits(['close']);
 
@@ -107,6 +106,21 @@ const validationRules = {
   templateName: {
     required,
     minLength: minLength(2),
+    maxLength: maxLength(512),
+    templateNamePattern: helpers.withMessage(
+      () => t('SETTINGS.TEMPLATES.ADD.FORM.NAME.VALIDATION.PATTERN'),
+      helpers.regex(/^[a-z0-9_]+$/)
+    ),
+    noLeadingUnderscore: helpers.withMessage(
+      () =>
+        t('SETTINGS.TEMPLATES.ADD.FORM.NAME.VALIDATION.NO_LEADING_UNDERSCORE'),
+      value => !value || !value.startsWith('_')
+    ),
+    noTrailingUnderscore: helpers.withMessage(
+      () =>
+        t('SETTINGS.TEMPLATES.ADD.FORM.NAME.VALIDATION.NO_TRAILING_UNDERSCORE'),
+      value => !value || !value.endsWith('_')
+    ),
   },
   selectedInbox: {
     required,
@@ -126,17 +140,12 @@ const isBasicFormValid = computed(() => {
   );
 });
 
-const nameValidation = computed(() => {
-  if (!templateName.value) return { isValid: true, errors: [] };
-  return validateTemplateName(templateName.value);
-});
-
 const onClose = () => {
   emit('close');
 };
 
 const goToBuilder = () => {
-  if (isBasicFormValid.value && nameValidation.value.isValid) {
+  if (isBasicFormValid.value) {
     // Save configuration to store
     store.dispatch('messageTemplates/setBuilderConfig', {
       name: templateName.value.trim(),
@@ -205,7 +214,7 @@ const closeInboxDropdown = () => {
           :placeholder="$t('SETTINGS.TEMPLATES.ADD.FORM.NAME.PLACEHOLDER')"
           class="w-full px-3 py-2 border border-n-weak rounded-lg bg-n-solid-1 text-n-slate-12 placeholder-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-5 focus:border-n-blue-5"
           :class="{
-            'border-red-500': v$.templateName.$error || !nameValidation.isValid,
+            'border-red-500': v$.templateName.$error,
           }"
           @blur="v$.templateName.$touch"
         />
@@ -213,18 +222,11 @@ const closeInboxDropdown = () => {
           v-if="v$.templateName.$error"
           class="text-xs text-red-500 mt-1 block"
         >
-          {{ t('SETTINGS.TEMPLATES.ADD.FORM.NAME.ERROR') }}
+          {{ v$.templateName.$errors[0].$message }}
         </span>
+
         <span
-          v-if="!nameValidation.isValid"
-          class="text-xs text-red-500 mt-1 block"
-        >
-          {{ nameValidation.errors[0] }}
-        </span>
-        <span
-          v-if="
-            !v$.templateName.$error && nameValidation.isValid && templateName
-          "
+          v-if="!v$.templateName.$error && templateName"
           class="text-xs text-n-slate-11 mt-1 block"
         >
           {{ t('SETTINGS.TEMPLATES.ADD.FORM.NAME.HELP') }}
@@ -362,7 +364,7 @@ const closeInboxDropdown = () => {
         />
         <NextButton
           :label="$t('SETTINGS.TEMPLATES.ADD.CONTINUE')"
-          :disabled="!isBasicFormValid || !nameValidation.isValid"
+          :disabled="!isBasicFormValid"
           @click="goToBuilder"
         />
       </div>

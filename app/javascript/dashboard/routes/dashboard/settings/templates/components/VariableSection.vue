@@ -3,6 +3,7 @@ import { computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
+import { parseTemplateVariables } from 'dashboard/helper/templateHelper';
 
 const props = defineProps({
   modelValue: {
@@ -44,94 +45,6 @@ const emit = defineEmits(['update:modelValue']);
 
 const { t } = useI18n();
 
-const parseNumberVariables = text => {
-  const numberVariableRegex = /\{\{(\d+)\}\}/g;
-  const namedVariableRegex = /\{\{([a-zA-Z][a-zA-Z0-9_]*)\}\}/g;
-  const examples = [...(props.modelValue.examples || [])];
-
-  // Check for named variables in positional mode
-  if (namedVariableRegex.test(text)) {
-    return {
-      processedText: text,
-      examples: [],
-      error: 'Named variables are not allowed in positional parameter mode',
-    };
-  }
-
-  let count = 0;
-
-  const processedText = text.replace(numberVariableRegex, () => {
-    count += 1;
-    if (count > props.maxVariables) {
-      return '';
-    }
-    return `{{${count}}}`;
-  });
-
-  if (props.modelValue.examples.length > count) {
-    examples.splice(count);
-  }
-
-  for (let i = examples.length; i < count; i += 1) {
-    examples.push('');
-  }
-
-  return { processedText, examples, error: '' };
-};
-
-/**
- * @param {string} text
- */
-const parseNamedVariable = text => {
-  let error = '';
-  const numberVariableRegex = /\{\{(\d+)\}\}/g;
-  // Should start with a char, can end with a number or underscore
-  const regex = /\{\{([a-zA-Z][a-zA-Z0-9_]*)\}\}/g;
-
-  // Check for positional variables in named mode
-  if (numberVariableRegex.test(text)) {
-    return {
-      processedText: text,
-      examples: [],
-      error: 'Positional variables are not allowed in named parameter mode',
-    };
-  }
-
-  const matches = [...text.matchAll(regex)];
-  const variableNames = matches.map(match => match[1]);
-  const uniqueNames = new Set(variableNames);
-
-  // Check for duplicate variables (priority error)
-  if (variableNames.length !== uniqueNames.size) {
-    error = 'Text cannot contain duplicate variables';
-  }
-  // Check max variables limit (only if no duplicate error)
-  else if (variableNames.length > props.maxVariables) {
-    error = `Maximum ${props.maxVariables} variables allowed`;
-  }
-
-  // Create examples array based on unique variables
-  const examples = Array.from(uniqueNames).map(param_name => ({
-    param_name,
-    example:
-      props.modelValue.examples.find(ex => ex && ex.param_name === param_name)
-        ?.example || '',
-  }));
-
-  return {
-    processedText: text, // Named variables don't need text processing
-    examples,
-    error,
-  };
-};
-
-const parseVariables = text => {
-  if (props.parameterType === 'positional') {
-    return parseNumberVariables(text);
-  }
-  return parseNamedVariable(text);
-};
-
 const hasVariables = computed(() => {
   return props.modelValue.examples.length > 0;
 });
@@ -140,13 +53,37 @@ const hasErrors = computed(() => {
   return props.modelValue.error.length > 0;
 });
 
+const getErrorMessage = (errorKey, data = {}) => {
+  if (errorKey === 'NAMED_IN_POSITIONAL') {
+    return t('SETTINGS.TEMPLATES.BUILDER.VARIABLES.ERRORS.NAMED_IN_POSITIONAL');
+  }
+  if (errorKey === 'POSITIONAL_IN_NAMED') {
+    return t('SETTINGS.TEMPLATES.BUILDER.VARIABLES.ERRORS.POSITIONAL_IN_NAMED');
+  }
+  if (errorKey === 'DUPLICATE_VARIABLES') {
+    return t('SETTINGS.TEMPLATES.BUILDER.VARIABLES.ERRORS.DUPLICATE_VARIABLES');
+  }
+  if (errorKey === 'MAX_VARIABLES_EXCEEDED') {
+    return t(
+      'SETTINGS.TEMPLATES.BUILDER.VARIABLES.ERRORS.MAX_VARIABLES_EXCEEDED',
+      data
+    );
+  }
+  return '';
+};
+
 const updateText = value => {
-  const { processedText, examples, error } = parseVariables(value);
+  const result = parseTemplateVariables(
+    value,
+    props.parameterType,
+    props.maxVariables,
+    props.modelValue.examples
+  );
 
   emit('update:modelValue', {
-    text: processedText,
-    examples,
-    error,
+    text: result.processedText,
+    examples: result.examples,
+    error: getErrorMessage(result.error.key, result.error.data),
   });
 };
 

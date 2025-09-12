@@ -8,48 +8,12 @@ import HeaderSection from './components/HeaderSection.vue';
 import BodySection from './components/BodySection.vue';
 import FooterSection from './components/FooterSection.vue';
 import ButtonsSection from './components/ButtonsSection.vue';
-import { MEDIA_FORMATS } from 'dashboard/helper/templateHelper';
+import {
+  generateTemplateComponents,
+  validateTemplateData,
+} from 'dashboard/helper/templateHelper';
 
 const { t } = useI18n();
-
-/*
-Component structure
-
-Header:
-{
-  "type": "HEADER",
-  "format": "TEXT",
-  "text": "Our new sale starts {{1}}!",
-  "example": {
-    "header_text": [
-      "December 1st"
-    ]
-  }
-} | {
-  "type": "HEADER",
-  "format": "TEXT",
-  "text": "Our new sale starts {{sale_start_date}}!",
-  "example": {
-    "header_text_named_params": [
-      {
-        "param_name": "sale_start_date",
-        "example": "December 1st"
-      }
-    ]
-  }
-} | {
-  "type": "HEADER",
-  "format": "<FORMAT>", // `IMAGE`, `VIDEO`, or `DOCUMENT`
-  "example": {
-    "header_handle": [
-      "<HEADER_HANDLE>"
-    ]
-  }
-} | {
-  "type": "HEADER",
-  "format": "LOCATION"
-}
-*/
 
 const parameterType = ref('positional'); // 'positional' or 'named'
 const isParameterTypeDropdownOpen = ref(false);
@@ -86,100 +50,11 @@ const templateData = ref({
 });
 
 const isValidTemplate = computed(() => {
-  const { header, body, footer } = templateData.value;
-  if (body.error || !body.text) return false;
-
-  if (header.enabled) {
-    const invalidHeaderText = header.format === 'TEXT' && !header.text?.length;
-    const invalidHeaderMedia =
-      MEDIA_FORMATS.includes(header.format) && !header.media?.blobId;
-
-    if (header.error || invalidHeaderText || invalidHeaderMedia) {
-      return false;
-    }
-  }
-  if (footer.enabled && !footer.text) return false;
-  return true;
+  return validateTemplateData(templateData.value);
 });
 
-const getExampleProperty = (exampleData, componentType) => {
-  const positionalKey = `${componentType}_text`;
-  const namedKey = `${componentType}_text_named_params`;
-
-  const hasVariables =
-    parameterType.value === 'positional'
-      ? exampleData[positionalKey]?.length > 0
-      : exampleData[namedKey]?.length > 0;
-
-  if (!hasVariables) return null;
-
-  return parameterType.value === 'positional'
-    ? { [positionalKey]: exampleData[positionalKey] }
-    : { [namedKey]: exampleData[namedKey] };
-};
-
 const generateComponents = () => {
-  const components = [];
-  const { header, body, footer, buttons } = templateData.value;
-
-  if (header.enabled) {
-    let data = {};
-    if (header.format === 'TEXT') {
-      data = {
-        format: header.format,
-        text: header.text,
-      };
-      const example = getExampleProperty(header.example, 'header');
-      if (example) {
-        data.example = example;
-      }
-    } else if (MEDIA_FORMATS.includes(header.format)) {
-      data = {
-        format: header.format,
-        media: {
-          blob_id: header.media.blobId,
-        },
-      };
-    } else {
-      // LOCATION
-      data = {
-        format: header.format,
-      };
-    }
-    components.push({
-      type: header.type,
-      ...data,
-    });
-  }
-
-  // Body component
-  const bodyComponent = {
-    type: body.type,
-    text: body.text,
-  };
-
-  const example = getExampleProperty(body.example, 'body');
-  if (example) {
-    bodyComponent.example = example;
-  }
-
-  components.push(bodyComponent);
-
-  if (footer.enabled) {
-    components.push({
-      type: footer.type,
-      text: footer.text,
-    });
-  }
-
-  if (buttons.length) {
-    components.push({
-      type: 'BUTTONS',
-      buttons: [...buttons],
-    });
-  }
-
-  return components;
+  return generateTemplateComponents(templateData.value, parameterType.value);
 };
 
 defineExpose({
