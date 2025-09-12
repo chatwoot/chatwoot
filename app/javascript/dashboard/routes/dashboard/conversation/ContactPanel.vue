@@ -297,6 +297,12 @@ onMounted(() => {
           </div>
         </template>
       </Draggable>
+      <script setup>
+import AssistantIA from './assistantIA/AssistantIA.vue';
+</script>
+<AccordionItem title="Assistente IA" :is-open="true">
+  <AssistantIA />
+</AccordionItem>
     </div>
   </div>
 </template>
