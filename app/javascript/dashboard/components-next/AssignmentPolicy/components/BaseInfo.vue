@@ -65,6 +65,7 @@ watch(
   () => {
     emit('validationChange', {
       isValid: isValid.value,
+      section: 'baseInfo',
     });
   },
   { immediate: true }
@@ -108,7 +109,7 @@ watch(
     </div>
 
     <!-- Status Field -->
-    <div class="flex items-center gap-6">
+    <div v-if="statusLabel" class="flex items-center gap-6">
       <WithLabel
         :label="statusLabel"
         name="enabled"
