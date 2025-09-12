@@ -5,6 +5,7 @@ import AssignmentPolicyIndex from './Index.vue';
 import AgentAssignmentIndex from './pages/AgentAssignmentIndexPage.vue';
 import AgentAssignmentCreate from './pages/AgentAssignmentCreatePage.vue';
 import AgentAssignmentEdit from './pages/AgentAssignmentEditPage.vue';
+import AgentCapacityIndex from './pages/AgentCapacityIndexPage.vue';
 
 export default {
   routes: [
@@ -49,6 +50,15 @@ export default {
           path: 'assignment/edit/:id',
           name: 'agent_assignment_policy_edit',
           component: AgentAssignmentEdit,
+          meta: {
+            featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'capacity',
+          name: 'agent_capacity_policy_index',
+          component: AgentCapacityIndex,
           meta: {
             featureFlag: FEATURE_FLAGS.ASSIGNMENT_V2,
             permissions: ['administrator'],

@@ -55,7 +55,12 @@ const inputOutlineClass = computed(() => {
 });
 
 const handleInput = event => {
-  emit('update:modelValue', event.target.value);
+  let value = event.target.value;
+  // Convert to number if type is number and value is not empty
+  if (props.type === 'number' && value !== '') {
+    value = Number(value);
+  }
+  emit('update:modelValue', value);
   emit('input', event);
 };
 
@@ -114,7 +119,7 @@ onMounted(() => {
           ? max
           : undefined
       "
-      class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+      class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
