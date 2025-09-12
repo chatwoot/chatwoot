@@ -209,7 +209,7 @@ jobs:
           namespace: chatwoot
           get-rollout-status: true
           resource-name: deployment/<< parameters.deployment-name >>
-   
+
 workflows:
   build-and-deploy:
     jobs:
@@ -338,8 +338,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '0.5'
           request_cpu: '0.2'
-          limit_memory: '512M'
-          request_memory: '256M'
+          limit_memory: '768M'
+          request_memory: '384M'
           deployment-name: 'staging-sidekiq'
           requires:
             - staging-build-sidekiq
@@ -363,8 +363,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '1'
           request_cpu: '0.5'
-          limit_memory: '1G'
-          request_memory: '512M'
+          limit_memory: '1.5G'
+          request_memory: '768M'
           deployment-name: 'staging-chatwoot'
           service-account: 'rails-sa'
           requires:
