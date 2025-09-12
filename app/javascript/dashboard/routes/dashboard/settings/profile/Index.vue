@@ -17,6 +17,7 @@ import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
+import MfaSettingsCard from './MfaSettingsCard.vue';
 import Policy from 'dashboard/components/policy.vue';
 import {
   ROLES,
@@ -36,6 +37,7 @@ export default {
     NotificationPreferences,
     AudioNotifications,
     AccessToken,
+    MfaSettingsCard,
   },
   setup() {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
@@ -279,62 +281,7 @@ export default {
       :title="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE')"
     >
-      <div class="flex flex-col space-y-4">
-        <div class="bg-n-slate-2 rounded-lg p-4 border border-n-slate-4">
-          <div class="flex items-start justify-between">
-            <div class="flex items-start space-x-3">
-              <div class="flex-shrink-0">
-                <svg
-                  class="w-6 h-6 text-n-slate-10 mt-0.5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
-              </div>
-              <div class="flex-1">
-                <h5 class="text-sm font-semibold text-n-slate-12">
-                  {{ $t('MFA_SETTINGS.TITLE') }}
-                </h5>
-                <p class="mt-1 text-sm text-n-slate-11">
-                  {{ $t('MFA_SETTINGS.DESCRIPTION') }}
-                </p>
-              </div>
-            </div>
-            <router-link
-              :to="`/app/accounts/${$route.params.accountId}/profile/mfa`"
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-n-blue-11 bg-n-blue-2 border border-n-blue-4 rounded-lg hover:bg-n-blue-3 hover:border-n-blue-5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-n-blue-8 transition-colors"
-            >
-              <svg
-                class="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              {{ $t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.MFA_BUTTON') }}
-            </router-link>
-          </div>
-        </div>
-      </div>
+      <MfaSettingsCard />
     </FormSection>
     <Policy :permissions="audioNotificationPermissions">
       <FormSection

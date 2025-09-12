@@ -4,8 +4,9 @@ import QRCode from 'qrcode';
 import mfaAPI from 'dashboard/api/mfa';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { useAlert } from 'dashboard/composables';
-import FormSection from 'dashboard/components/FormSection.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 // State
@@ -179,7 +180,9 @@ const cancelSetup = () => {
 </script>
 
 <template>
-  <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
+  <div
+    class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md w-full"
+  >
     <!-- Page Header -->
     <div class="flex flex-col gap-6">
       <h2 class="text-2xl font-medium text-n-slate-12">
@@ -191,14 +194,15 @@ const cancelSetup = () => {
     </div>
 
     <!-- MFA Status Section -->
-    <FormSection
-      :title="$t('MFA_SETTINGS.STATUS_TITLE')"
-      :description="$t('MFA_SETTINGS.STATUS_DESCRIPTION')"
-    >
-      <!-- MFA Setup Flow -->
-      <div v-if="showSetup && !mfaEnabled">
-        <!-- Step 1: QR Code -->
-        <div v-if="setupStep === 'qr'" class="space-y-6">
+
+    <!-- MFA Setup Flow -->
+    <div v-if="showSetup && !mfaEnabled" class="">
+      <!-- Step 1: QR Code -->
+      <div v-if="setupStep === 'qr'" class="space-y-6">
+        <!-- QR Code Display -->
+        <div
+          class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-10 flex flex-col gap-4"
+        >
           <div class="text-center">
             <h3 class="text-lg font-medium text-n-slate-12 mb-2">
               {{ $t('MFA_SETTINGS.SETUP.STEP1_TITLE') }}
@@ -207,17 +211,15 @@ const cancelSetup = () => {
               {{ $t('MFA_SETTINGS.SETUP.STEP1_DESCRIPTION') }}
             </p>
           </div>
-
-          <!-- QR Code Display -->
           <div class="flex justify-center">
             <div
-              class="bg-white dark:bg-n-slate-3 p-4 rounded-lg border-2 border-n-slate-4 dark:border-n-slate-6"
+              class="bg-n-background p-4 rounded-lg outline outline-1 outline-n-weak"
             >
               <img
                 v-if="qrCodeUrl"
                 :src="qrCodeUrl"
                 alt="MFA QR Code"
-                class="w-48 h-48"
+                class="w-48 h-48 dark:invert-0"
               />
               <div
                 v-else
@@ -230,7 +232,6 @@ const cancelSetup = () => {
             </div>
           </div>
 
-          <!-- Manual Entry Option -->
           <details class="border border-n-slate-4 rounded-lg">
             <summary
               class="px-4 py-3 cursor-pointer hover:bg-n-slate-2 dark:hover:bg-n-slate-3 text-sm font-medium text-n-slate-11"
@@ -248,7 +249,7 @@ const cancelSetup = () => {
                   :styles="inputStyles"
                   class="flex-1"
                 />
-                <NextButton
+                <Button
                   variant="outline"
                   color="slate"
                   size="sm"
@@ -259,28 +260,30 @@ const cancelSetup = () => {
             </div>
           </details>
 
-          <!-- Verification Input -->
-          <div class="space-y-4">
-            <woot-input
+          <div class="flex flex-col items-start gap-3 w-full">
+            <Input
               v-model="verificationCode"
               type="text"
               maxlength="6"
               pattern="[0-9]{6}"
-              :styles="inputStyles"
               :label="$t('MFA_SETTINGS.SETUP.ENTER_CODE')"
               :placeholder="$t('MFA_SETTINGS.SETUP.ENTER_CODE_PLACEHOLDER')"
-              :error="verificationError"
+              :message="verificationError"
+              :message-type="verificationError ? 'error' : 'info'"
+              class="w-full"
               @keyup.enter="verifyCode"
             />
 
-            <div class="flex gap-3">
-              <NextButton
-                variant="outline"
+            <div class="flex gap-3 mt-1 w-full justify-between">
+              <Button
+                faded
                 color="slate"
+                class="flex-1"
                 :label="$t('MFA_SETTINGS.SETUP.CANCEL')"
                 @click="cancelSetup"
               />
-              <NextButton
+              <Button
+                class="flex-1"
                 :disabled="verificationCode.length !== 6"
                 :label="$t('MFA_SETTINGS.SETUP.VERIFY_BUTTON')"
                 @click="verifyCode"
@@ -288,184 +291,187 @@ const cancelSetup = () => {
             </div>
           </div>
         </div>
-
-        <!-- Step 2: Backup Codes -->
-        <div v-if="setupStep === 'backup'" class="space-y-6">
-          <div class="text-center">
-            <h3 class="text-lg font-medium text-n-slate-12 mb-2">
-              {{ $t('MFA_SETTINGS.BACKUP.TITLE') }}
-            </h3>
-            <p class="text-sm text-n-slate-11">
-              {{ $t('MFA_SETTINGS.BACKUP.DESCRIPTION') }}
-            </p>
-          </div>
-
-          <!-- Warning Alert -->
-          <div
-            class="bg-n-slate-2 dark:bg-n-solid-3 border border-n-slate-4 dark:border-n-slate-6 rounded-lg p-4"
-          >
-            <div class="flex">
-              <i
-                class="fluent-icon icon-warning text-xl text-n-slate-10 mr-2 flex-shrink-0 mt-0.5"
-              />
-              <p class="text-sm text-n-slate-11">
-                <strong>{{ $t('MFA_SETTINGS.BACKUP.IMPORTANT') }}</strong>
-                {{ $t('MFA_SETTINGS.BACKUP.IMPORTANT_NOTE') }}
-              </p>
-            </div>
-          </div>
-
-          <!-- Backup Codes Grid -->
-          <div class="bg-n-slate-2 dark:bg-n-solid-3 rounded-lg p-6">
-            <div class="grid grid-cols-2 gap-3">
-              <div
-                v-for="(code, index) in backupCodes"
-                :key="index"
-                class="px-3 py-2 bg-white dark:bg-n-slate-3 border border-n-slate-4 dark:border-n-slate-6 rounded font-mono text-sm text-center text-n-slate-12"
-              >
-                {{ code }}
-              </div>
-            </div>
-
-            <div class="mt-6 flex items-center justify-center gap-3">
-              <NextButton
-                variant="outline"
-                color="slate"
-                size="sm"
-                icon="arrow-download"
-                :label="$t('MFA_SETTINGS.BACKUP.DOWNLOAD')"
-                @click="downloadBackupCodes"
-              />
-              <NextButton
-                variant="outline"
-                color="slate"
-                size="sm"
-                icon="clipboard-copy"
-                :label="$t('MFA_SETTINGS.BACKUP.COPY_ALL')"
-                @click="copyBackupCodes"
-              />
-            </div>
-          </div>
-
-          <!-- Confirmation -->
-          <div class="space-y-4">
-            <label class="flex items-start gap-3">
-              <input
-                v-model="backupCodesConfirmed"
-                type="checkbox"
-                class="mt-1 rounded border-n-slate-4 text-n-blue-9 focus:ring-n-blue-8"
-              />
-              <span class="text-sm text-n-slate-11">
-                {{ $t('MFA_SETTINGS.BACKUP.CONFIRM') }}
-              </span>
-            </label>
-
-            <NextButton
-              :disabled="!backupCodesConfirmed"
-              :label="$t('MFA_SETTINGS.BACKUP.COMPLETE_SETUP')"
-              @click="completeMfaSetup"
-            />
-          </div>
-        </div>
       </div>
 
-      <!-- MFA Disabled State -->
-      <div v-else-if="!mfaEnabled" class="space-y-6">
-        <div
-          class="bg-n-slate-2 dark:bg-n-solid-3 rounded-lg p-6 border border-n-slate-4 dark:border-n-slate-6 text-center"
-        >
-          <i
-            class="fluent-icon icon-shield-keyhole text-5xl text-n-slate-10 mx-auto mb-4 block"
-          />
+      <!-- Step 2: Backup Codes -->
+      <div v-if="setupStep === 'backup'" class="space-y-6">
+        <div class="text-start">
           <h3 class="text-lg font-medium text-n-slate-12 mb-2">
-            {{ $t('MFA_SETTINGS.ENHANCE_SECURITY') }}
+            {{ $t('MFA_SETTINGS.BACKUP.TITLE') }}
           </h3>
-          <p class="text-sm text-n-slate-11 mb-6 max-w-md mx-auto">
-            {{ $t('MFA_SETTINGS.ENHANCE_SECURITY_DESC') }}
+          <p class="text-sm text-n-slate-11">
+            {{ $t('MFA_SETTINGS.BACKUP.DESCRIPTION') }}
           </p>
-          <NextButton
-            icon="add"
-            :label="$t('MFA_SETTINGS.ENABLE_BUTTON')"
-            @click="startMfaSetup"
+        </div>
+
+        <!-- Warning Alert -->
+        <div
+          class="flex items-start gap-2 p-4 bg-n-solid-1 outline outline-n-weak rounded-xl outline-1"
+        >
+          <Icon
+            icon="i-lucide-alert-circle"
+            class="size-4 text-n-slate-10 flex-shrink-0 mt-0.5"
+          />
+          <p class="text-sm text-n-slate-11">
+            <strong>{{ $t('MFA_SETTINGS.BACKUP.IMPORTANT') }}</strong>
+            {{ $t('MFA_SETTINGS.BACKUP.IMPORTANT_NOTE') }}
+          </p>
+        </div>
+
+        <!-- Backup Codes Grid -->
+        <div
+          class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline flex flex-col gap-6 p-6"
+        >
+          <div class="grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-5 gap-3">
+            <span
+              v-for="(code, index) in backupCodes"
+              :key="index"
+              class="px-1 py-2 font-mono text-base text-center text-n-slate-12"
+            >
+              {{ code }}
+            </span>
+          </div>
+
+          <div class="flex items-center justify-center gap-3">
+            <Button
+              outline
+              slate
+              sm
+              icon="i-lucide-download"
+              :label="$t('MFA_SETTINGS.BACKUP.DOWNLOAD')"
+              @click="downloadBackupCodes"
+            />
+            <Button
+              outline
+              slate
+              sm
+              icon="i-lucide-clipboard"
+              :label="$t('MFA_SETTINGS.BACKUP.COPY_ALL')"
+              @click="copyBackupCodes"
+            />
+          </div>
+        </div>
+
+        <!-- Confirmation -->
+        <div class="space-y-4">
+          <label class="flex items-start gap-3">
+            <input
+              v-model="backupCodesConfirmed"
+              type="checkbox"
+              class="mt-1 rounded border-n-slate-4 text-n-blue-9 focus:ring-n-blue-8"
+            />
+            <span class="text-sm text-n-slate-11">
+              {{ $t('MFA_SETTINGS.BACKUP.CONFIRM') }}
+            </span>
+          </label>
+
+          <Button
+            :disabled="!backupCodesConfirmed"
+            :label="$t('MFA_SETTINGS.BACKUP.COMPLETE_SETUP')"
+            @click="completeMfaSetup"
           />
         </div>
       </div>
+    </div>
 
-      <!-- MFA Enabled State -->
-      <div v-else class="space-y-6">
-        <!-- Status Info -->
+    <!-- MFA Disabled State -->
+    <div v-else-if="!mfaEnabled" class="space-y-6">
+      <div
+        class="bg-n-solid-1 rounded-lg p-6 outline outline-n-weak outline-1 text-center"
+      >
+        <Icon
+          icon="i-lucide-lock-keyhole"
+          class="size-8 text-n-slate-10 mx-auto mb-4 block"
+        />
+        <h3 class="text-lg font-medium text-n-slate-12 mb-2">
+          {{ $t('MFA_SETTINGS.ENHANCE_SECURITY') }}
+        </h3>
+        <p class="text-sm text-n-slate-11 mb-6 max-w-md mx-auto">
+          {{ $t('MFA_SETTINGS.ENHANCE_SECURITY_DESC') }}
+        </p>
+        <Button
+          icon="i-lucide-settings"
+          :label="$t('MFA_SETTINGS.ENABLE_BUTTON')"
+          @click="startMfaSetup"
+        />
+      </div>
+    </div>
+
+    <!-- MFA Enabled State -->
+    <div v-else>
+      <!-- Status Info -->
+      <div
+        class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-4 flex-1 flex flex-col gap-2"
+      >
+        <div class="flex items-center gap-2">
+          <Icon
+            icon="i-lucide-lock-keyhole"
+            class="size-4 flex-shrink-0 text-n-slate-11"
+          />
+          <h4 class="text-sm font-medium text-n-slate-12">
+            {{ $t('MFA_SETTINGS.STATUS_ENABLED') }}
+          </h4>
+        </div>
+        <p class="text-sm text-n-slate-11">
+          {{ $t('MFA_SETTINGS.STATUS_ENABLED_DESC') }}
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <!-- Regenerate Backup Codes -->
         <div
-          class="bg-n-slate-2 dark:bg-n-solid-3 border border-n-slate-4 dark:border-n-slate-6 rounded-lg p-4"
+          class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-5"
         >
-          <div class="flex">
-            <i
-              class="fluent-icon icon-checkmark-circle text-xl text-n-slate-10 mr-2"
-            />
-            <div>
-              <p class="text-sm font-medium text-n-slate-12">
-                {{ $t('MFA_SETTINGS.STATUS_ENABLED') }}
-              </p>
-              <p class="mt-1 text-sm text-n-slate-11">
-                {{ $t('MFA_SETTINGS.STATUS_ENABLED_DESC') }}
-              </p>
+          <div class="flex-1 flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <Icon
+                icon="i-lucide-key"
+                class="size-4 flex-shrink-0 text-n-slate-11"
+              />
+              <h4 class="font-medium text-n-slate-12">
+                {{ $t('MFA_SETTINGS.MANAGEMENT.BACKUP_CODES') }}
+              </h4>
             </div>
+            <p class="text-sm text-n-slate-11">
+              {{ $t('MFA_SETTINGS.MANAGEMENT.BACKUP_CODES_DESC') }}
+            </p>
+            <Button
+              faded
+              slate
+              :label="$t('MFA_SETTINGS.MANAGEMENT.REGENERATE')"
+              @click="regenerateDialogRef?.open()"
+            />
           </div>
         </div>
 
-        <!-- Actions -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Regenerate Backup Codes -->
-          <div
-            class="bg-n-slate-2 dark:bg-n-solid-3 border border-n-slate-4 dark:border-n-slate-6 rounded-lg p-5"
-          >
-            <div class="flex items-start space-x-3">
-              <i class="fluent-icon icon-key text-xl text-n-slate-10 mt-0.5" />
-              <div class="flex-1">
-                <h4 class="font-medium text-n-slate-12 mb-2">
-                  {{ $t('MFA_SETTINGS.MANAGEMENT.BACKUP_CODES') }}
-                </h4>
-                <p class="text-sm text-n-slate-11 mb-4">
-                  {{ $t('MFA_SETTINGS.MANAGEMENT.BACKUP_CODES_DESC') }}
-                </p>
-                <NextButton
-                  variant="outline"
-                  color="slate"
-                  size="sm"
-                  :label="$t('MFA_SETTINGS.MANAGEMENT.REGENERATE')"
-                  @click="regenerateDialogRef?.open()"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Disable MFA -->
-          <div
-            class="bg-n-slate-2 dark:bg-n-solid-3 border border-n-slate-4 dark:border-n-slate-6 rounded-lg p-5"
-          >
-            <div class="flex items-start space-x-3">
-              <i
-                class="fluent-icon icon-lock-closed-key-open text-xl text-n-slate-10 mt-0.5"
+        <!-- Disable MFA -->
+        <div
+          class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline p-5"
+        >
+          <div class="flex-1 flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <Icon
+                icon="i-lucide-lock-keyhole-open"
+                class="size-4 flex-shrink-0 text-n-slate-11"
               />
-              <div class="flex-1">
-                <h4 class="font-medium text-n-slate-12 mb-2">
-                  {{ $t('MFA_SETTINGS.MANAGEMENT.DISABLE_MFA') }}
-                </h4>
-                <p class="text-sm text-n-slate-11 mb-4">
-                  {{ $t('MFA_SETTINGS.MANAGEMENT.DISABLE_MFA_DESC') }}
-                </p>
-                <NextButton
-                  variant="outline"
-                  color="ruby"
-                  size="sm"
-                  :label="$t('MFA_SETTINGS.MANAGEMENT.DISABLE_BUTTON')"
-                  @click="disableDialogRef?.open()"
-                />
-              </div>
+              <h4 class="font-medium text-n-slate-12">
+                {{ $t('MFA_SETTINGS.MANAGEMENT.DISABLE_MFA') }}
+              </h4>
             </div>
+            <p class="text-sm text-n-slate-11">
+              {{ $t('MFA_SETTINGS.MANAGEMENT.DISABLE_MFA_DESC') }}
+            </p>
+            <Button
+              faded
+              ruby
+              :label="$t('MFA_SETTINGS.MANAGEMENT.DISABLE_BUTTON')"
+              @click="disableDialogRef?.open()"
+            />
           </div>
         </div>
       </div>
-    </FormSection>
+    </div>
 
     <!-- Disable MFA Dialog -->
     <Dialog
@@ -478,17 +484,15 @@ const cancelSetup = () => {
       @confirm="disableMfa"
     >
       <div class="space-y-4">
-        <woot-input
+        <Input
           v-model="disablePassword"
           type="password"
-          :styles="inputStyles"
           :label="$t('MFA_SETTINGS.DISABLE.PASSWORD')"
         />
-        <woot-input
+        <Input
           v-model="disableOtpCode"
           type="text"
           maxlength="6"
-          :styles="inputStyles"
           :label="$t('MFA_SETTINGS.DISABLE.OTP_CODE')"
           :placeholder="$t('MFA_SETTINGS.DISABLE.OTP_CODE_PLACEHOLDER')"
         />
@@ -505,11 +509,10 @@ const cancelSetup = () => {
       :cancel-button-label="$t('MFA_SETTINGS.DISABLE.CANCEL')"
       @confirm="regenerateBackupCodes"
     >
-      <woot-input
+      <Input
         v-model="regenerateOtpCode"
         type="text"
         maxlength="6"
-        :styles="inputStyles"
         :label="$t('MFA_SETTINGS.REGENERATE.OTP_CODE')"
         :placeholder="$t('MFA_SETTINGS.REGENERATE.OTP_CODE_PLACEHOLDER')"
       />
@@ -528,50 +531,49 @@ const cancelSetup = () => {
     >
       <!-- Warning Alert -->
       <div
-        class="bg-n-slate-2 dark:bg-n-solid-3 border border-n-slate-4 dark:border-n-slate-6 rounded-lg p-4 mb-4"
+        class="flex items-start gap-2 p-4 bg-n-solid-1 outline outline-n-weak rounded-xl outline-1"
       >
-        <div class="flex">
-          <i
-            class="fluent-icon icon-warning text-xl text-n-slate-10 mr-2 flex-shrink-0 mt-0.5"
-          />
-          <p class="text-sm text-n-slate-11">
-            <strong>{{ $t('MFA_SETTINGS.REGENERATE.CODES_IMPORTANT') }}</strong>
-            {{ $t('MFA_SETTINGS.REGENERATE.CODES_IMPORTANT_NOTE') }}
-          </p>
-        </div>
+        <Icon
+          icon="i-lucide-alert-circle"
+          class="size-4 text-n-slate-10 flex-shrink-0 mt-0.5"
+        />
+        <p class="text-sm text-n-slate-11">
+          <strong>{{ $t('MFA_SETTINGS.BACKUP.IMPORTANT') }}</strong>
+          {{ $t('MFA_SETTINGS.BACKUP.IMPORTANT_NOTE') }}
+        </p>
       </div>
 
-      <!-- Backup Codes Display -->
-      <div class="bg-n-slate-2 dark:bg-n-solid-3 rounded-lg p-6 mb-4">
-        <div class="grid grid-cols-2 gap-3">
-          <div
+      <div
+        class="bg-n-solid-1 rounded-xl outline-1 outline-n-weak outline flex flex-col gap-6 p-6"
+      >
+        <div class="grid grid-cols-2 xs:grid-cols-4 sm:grid-cols-5 gap-3">
+          <span
             v-for="(code, index) in backupCodes"
             :key="index"
-            class="font-mono text-sm bg-white dark:bg-n-slate-3 px-3 py-2 rounded border border-n-slate-4 dark:border-n-slate-6 text-n-slate-12 text-center"
+            class="px-1 py-2 font-mono text-base text-center text-n-slate-12"
           >
             {{ code }}
-          </div>
+          </span>
         </div>
-      </div>
 
-      <!-- Actions -->
-      <div class="flex items-center justify-center gap-3">
-        <NextButton
-          variant="outline"
-          color="slate"
-          size="sm"
-          icon="arrow-download"
-          :label="$t('MFA_SETTINGS.REGENERATE.DOWNLOAD_CODES')"
-          @click="downloadBackupCodes"
-        />
-        <NextButton
-          variant="outline"
-          color="slate"
-          size="sm"
-          icon="clipboard-copy"
-          :label="$t('MFA_SETTINGS.REGENERATE.COPY_ALL_CODES')"
-          @click="copyBackupCodes"
-        />
+        <div class="flex items-center justify-center gap-3">
+          <Button
+            outline
+            slate
+            sm
+            icon="i-lucide-download"
+            :label="$t('MFA_SETTINGS.BACKUP.DOWNLOAD')"
+            @click="downloadBackupCodes"
+          />
+          <Button
+            outline
+            slate
+            sm
+            icon="i-lucide-clipboard"
+            :label="$t('MFA_SETTINGS.BACKUP.COPY_ALL')"
+            @click="copyBackupCodes"
+          />
+        </div>
       </div>
     </Dialog>
   </div>
