@@ -1,0 +1,59 @@
+# Nome do workflow que aparecerá na aba "Actions" do GitHub
+name: Build and Push Docker Image to Docker Hub
+
+# Gatilho (trigger): este workflow roda sempre que uma nova tag
+# que corresponde ao padrão 'v*' (ex: v1.0, v2.3.4) for criada.
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Jobs que serão executados
+jobs:
+  build-and-push:
+    # O tipo de máquina virtual que o job vai rodar
+    runs-on: ubuntu-latest
+
+    # Passos que compõem o job
+    steps:
+      # 1. Faz o checkout do seu código-fonte
+      # Para que o workflow possa acessar o Dockerfile e o resto do código.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Configura o Docker Buildx
+      # Buildx é um plugin do Docker que permite construir imagens para múltiplas
+      # arquiteturas (ex: amd64 para servidores, arm64 para Mac M1/Raspberry Pi).
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 3. Faz login no Docker Hub
+      # Utiliza segredos (secrets) para autenticação segura.
+      # Você precisará configurar esses segredos no seu repositório GitHub.
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 4. Extrai metadados (como tags) da imagem Docker
+      # Este passo é muito útil! Ele automaticamente pega a tag do Git (ex: v1.2.3)
+      # e a usa como tag para a imagem Docker. Também adiciona a tag "latest".
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: seu-usuario/seu-repositorio # <-- MUDE AQUI
+
+      # 5. Constrói a imagem Docker e a envia para o Docker Hub
+      # Este é o passo principal. Ele usa o Dockerfile na raiz do seu projeto.
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Opcional: para construir para múltiplas arquiteturas
+          # platforms: linux/amd64,linux/arm64
+
