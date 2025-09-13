@@ -79,6 +79,9 @@ class MessageTemplate < ApplicationRecord
   before_save :set_updated_by
 
   before_create :create_on_provider_platform, unless: :platform_template_id?
+  after_create :sync_templates_from_provider
+  before_destroy :delete_on_provider_platform
+  after_destroy :sync_templates_from_provider
 
   def whatsapp_template?
     channel_type == 'Channel::Whatsapp'
@@ -113,6 +116,23 @@ class MessageTemplate < ApplicationRecord
     when 'Channel::Whatsapp'
       service = Whatsapp::TemplateCreationService.new(message_template: self)
       throw :abort unless service.call
+    end
+  end
+
+  def sync_templates_from_provider
+    return unless inbox&.channel
+
+    inbox.channel.sync_templates
+  rescue StandardError => e
+    Rails.logger.error "Failed to sync templates after creation: #{e.message}"
+  end
+
+  def delete_on_provider_platform
+    case channel_type
+    when 'Channel::Whatsapp'
+      return unless inbox&.channel.is_a?(Channel::Whatsapp)
+
+      inbox.channel.provider_service.delete_message_template(platform_template_id, name)
     end
   end
 end

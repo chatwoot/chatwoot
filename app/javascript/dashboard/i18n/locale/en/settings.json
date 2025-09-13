@@ -291,7 +291,7 @@
       "ACTIONS": {
         "CREATE_TEMPLATE": "Create Template",
         "NEW_TEMPLATE": "New template",
-        "EDIT": "Edit template"
+        "DELETE": "Delete template"
       },
       "FILTERS": {
         "CONTENT": "Content",
@@ -358,6 +358,19 @@
             "ERROR": "Please select a WhatsApp inbox",
             "NO_WHATSAPP_INBOX": "No WhatsApp inboxes found. Create a WhatsApp inbox first."
           }
+        }
+      },
+      "DELETE": {
+        "CONFIRM": {
+          "TITLE": "Delete {templateName}",
+          "MESSAGE": "Are you sure you want to delete this template? This action cannot be undone.",
+          "YES": "Delete",
+          "NO": "Cancel",
+          "PLACE_HOLDER": "Type {templateName} to confirm"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Template deleted successfully",
+          "ERROR_MESSAGE": "Failed to delete template"
         }
       },
       "BUILDER": {

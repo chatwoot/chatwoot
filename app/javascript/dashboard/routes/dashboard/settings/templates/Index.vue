@@ -33,6 +33,7 @@ const templates = computed(
 );
 const uiFlags = computed(() => store.getters['messageTemplates/getUIFlags']);
 const isLoading = computed(() => uiFlags.value.isFetching);
+const isDeleting = computed(() => uiFlags.value.isDeleting);
 
 // Filter options for dropdowns
 const statusMenuItems = computed(() => [
@@ -199,6 +200,53 @@ const onKeydown = e => {
 
 useEventListener(document, 'keydown', onKeydown);
 
+// Delete confirmation modal
+const showDeletePopup = ref(false);
+const selectedTemplate = ref({});
+
+const openDelete = template => {
+  showDeletePopup.value = true;
+  selectedTemplate.value = template;
+};
+
+const closeDelete = () => {
+  showDeletePopup.value = false;
+  selectedTemplate.value = {};
+};
+
+const confirmDeletion = async () => {
+  try {
+    await store.dispatch('messageTemplates/delete', selectedTemplate.value.id);
+    useAlert(t('SETTINGS.TEMPLATES.DELETE.API.SUCCESS_MESSAGE'));
+    await fetchTemplates();
+  } catch (error) {
+    useAlert(t('SETTINGS.TEMPLATES.DELETE.API.ERROR_MESSAGE'));
+  } finally {
+    closeDelete();
+  }
+};
+
+const confirmDeleteTitle = computed(() =>
+  t('SETTINGS.TEMPLATES.DELETE.CONFIRM.TITLE', {
+    templateName: selectedTemplate.value.name,
+  })
+);
+
+const deleteConfirmText = computed(
+  () =>
+    `${t('SETTINGS.TEMPLATES.DELETE.CONFIRM.YES')} ${selectedTemplate.value.name}`
+);
+
+const deleteRejectText = computed(() =>
+  t('SETTINGS.TEMPLATES.DELETE.CONFIRM.NO')
+);
+
+const confirmPlaceHolderText = computed(() =>
+  t('SETTINGS.TEMPLATES.DELETE.CONFIRM.PLACE_HOLDER', {
+    templateName: selectedTemplate.value.name,
+  })
+);
+
 onMounted(() => {
   fetchTemplates();
 });
@@ -354,16 +402,16 @@ onMounted(() => {
         </div>
 
         <!-- Actions -->
-        <!-- <div class="flex items-center gap-1"> -->
-        <!--   <Button -->
-        <!--     v-tooltip.top="$t('SETTINGS.TEMPLATES.ACTIONS.EDIT')" -->
-        <!--     icon="i-lucide-pen" -->
-        <!--     slate -->
-        <!--     xs -->
-        <!--     faded -->
-        <!--     @click="editTemplate(template)" -->
-        <!--   /> -->
-        <!-- </div> -->
+        <div class="flex items-center gap-1">
+          <Button
+            v-tooltip.top="$t('SETTINGS.TEMPLATES.ACTIONS.DELETE')"
+            icon="i-lucide-trash-2"
+            ruby
+            xs
+            faded
+            @click="openDelete(template)"
+          />
+        </div>
       </div>
     </div>
 
@@ -380,5 +428,20 @@ onMounted(() => {
 
     <!-- Backdrop for mobile/overlay when popover is open -->
     <div v-if="showAddPopup" class="fixed inset-0 z-40" @click="hideAddPopup" />
+
+    <!-- Delete Confirmation Modal -->
+    <woot-confirm-delete-modal
+      v-if="showDeletePopup"
+      v-model:show="showDeletePopup"
+      :title="confirmDeleteTitle"
+      :message="$t('SETTINGS.TEMPLATES.DELETE.CONFIRM.MESSAGE')"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+      :confirm-value="selectedTemplate.name"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      :is-loading="isDeleting"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
+    />
   </div>
 </template>

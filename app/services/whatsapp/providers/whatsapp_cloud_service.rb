@@ -202,18 +202,33 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     return parsed_response if response.success? && parsed_response['error'].blank?
 
-    handle_template_creation_error(response, parsed_response)
+    handle_template_error(response, parsed_response)
+  end
+
+  def delete_message_template(whatsapp_template_id, template_name)
+    params = { name: template_name, hsm_id: whatsapp_template_id }
+
+    response = HTTParty.delete(
+      "#{api_base_path}/v18.0/#{whatsapp_channel.provider_config['business_account_id']}/message_templates",
+      headers: api_headers,
+      query: params
+    )
+    parsed_response = response.parsed_response
+
+    return parsed_response if response.success? && parsed_response['error'].blank?
+
+    handle_template_error(response, parsed_response)
   end
 
   private
 
-  def handle_template_creation_error(response, parsed_response)
+  def handle_template_error(response, parsed_response)
     error = parsed_response['error'] || {}
     error_message =
       error['error_user_msg'] ||
       error['error_user_title'] ||
       error['message'] ||
-      'Template creation failed on meta'
+      'Template operation failed on meta'
     Rails.logger.error "WhatsApp API error: #{response.code} - #{error}"
     raise StandardError, error_message
   end
