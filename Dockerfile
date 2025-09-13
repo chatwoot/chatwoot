@@ -16,8 +16,8 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+# Install Node.js (versão 23.x conforme exigido pelo Chatwoot)
+RUN curl -sL https://deb.nodesource.com/setup_23.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g yarn@$YARN_VERSION
 
