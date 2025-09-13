@@ -19,10 +19,11 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Instala Node.js e Yarn
+# Instala Node.js, Yarn e PNPM (necessário para o build do Vite)
 RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g yarn@$YARN_VERSION
+    && npm install -g yarn@$YARN_VERSION \
+    && npm install -g pnpm
 
 WORKDIR /app
 
