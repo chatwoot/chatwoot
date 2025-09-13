@@ -1,6 +1,8 @@
 <script>
 import ColumnModal from './ColumnModal.vue'
+import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { toRaw } from 'vue'
+import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
@@ -23,6 +25,24 @@ export default {
   mounted() {
     this.fetchLabels()
     this.fetchColumns()
+  },
+
+  setup() {
+      const {
+      savedLabels,
+      activeLabels,
+      accountLabels,
+      addLabelToConversation,
+      removeLabelFromConversation,
+      } = useConversationLabels();
+      
+      return {
+        savedLabels,
+        activeLabels,
+        accountLabels,
+        addLabelToConversation,
+        removeLabelFromConversation
+      }
   },
 
   data() {
@@ -125,7 +145,7 @@ export default {
       // Encontra e remove do array de labels as labels que ja foram usadas
       this.labels = this.labels.filter(label => 
         !usedLabels.some(usedLabel => 
-          label.value === usedLabel.value
+          label.title === usedLabel.title
         )
       )
       this.showColumnModal = false
@@ -175,7 +195,7 @@ export default {
       // Encontra e remove do array de labels as labels que ja foram usadas
       this.labels = this.labels.filter(label => 
         !usedLabels.some(usedLabel => 
-          label.value === usedLabel.value
+          label.title === usedLabel.title
         )
       )
       this.localColumns.push(newCol)
@@ -204,7 +224,6 @@ export default {
     async fetchLabels() {
       // Simulando delay de API
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
       // Simulando resposta da API
       const apiLabels = [
         {text: 'Etapa 1', value: 'etapa_1'}, 
@@ -214,7 +233,7 @@ export default {
         {text: 'Pode Esperar', value: 'esperar'}
       ]
       
-      this.labels = apiLabels
+      this.labels = this.accountLabels
 
     },
 
@@ -230,7 +249,7 @@ export default {
           // Encontra e remove do array de labels as labels que ja foram usadas
           this.labels = this.labels.filter(label => 
             !col.labels.some(usedLabel => 
-              label.value === usedLabel.value
+              label.title === usedLabel.title
             )
           )
         }
@@ -312,6 +331,7 @@ export default {
             <strong>Labels:</strong> 
             {{ labels }}
           </div>
+          {{ accountLabels }}
         </div>
     <div class="kanban-board">
       <div v-if="localColumns.length === 0" class="empty-state">

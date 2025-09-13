@@ -110,8 +110,8 @@ export default {
         multiple
         class="labels-select"
       >
-        <option v-for="label in mockLabels" :key="label.value" :value="label">
-          {{ label.text }}
+        <option v-for="label in mockLabels" :key="label.title" :value="label">
+          {{ label.description }}
         </option>
       </select>
       <label for="label_to_add">Adicionar etiqueta</label>
@@ -125,10 +125,10 @@ export default {
         <option value="">Selecione uma label</option>
         <option
          v-for="labelValue in localSelectedLabels"
-         :key="labelValue.value"
+         :key="labelValue.title"
          :value="labelValue"
          >
-         {{ labelValue.text }}
+         {{ labelValue.description }}
         </option>
       </select>
       <div class="modal-actions">
