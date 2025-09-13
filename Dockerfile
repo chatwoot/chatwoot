@@ -48,11 +48,16 @@ RUN RAILS_ENV=production NODE_ENV=production NODE_OPTIONS="--max-old-space-size=
 # Estágio de produção (production image)
 FROM ruby:3.4.4-slim
 
-# Instala apenas as dependências necessárias para rodar a aplicação
+# Re-declara o argumento para usá-lo neste estágio
+ARG NODE_VERSION=23
+
+# Instala apenas as dependências de execução, incluindo o Node.js para o ExecJS
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     libpq-dev \
     curl \
     gnupg2 \
+    && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
