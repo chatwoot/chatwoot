@@ -39,8 +39,9 @@ COPY . .
 
 # Expõe o ARG como uma variável de ambiente para que o comando rake a utilize
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
-# Precompila os assets
-RUN RAILS_ENV=production NODE_ENV=production bundle exec rake assets:precompile
+
+# Precompila os assets, aumentando a memória do Node.js para evitar erros de "out of memory"
+RUN RAILS_ENV=production NODE_ENV=production NODE_OPTIONS="--max-old-space-size=4096" bundle exec rake assets:precompile
 
 # ---
 
