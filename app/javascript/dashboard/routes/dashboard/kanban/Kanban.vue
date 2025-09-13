@@ -46,10 +46,12 @@ export default {
         this.localColumns = next.map(c => ({ ...c, items: [...c.items] }))
       },
       deep: true
-    }
+    },
+
   },
 
   methods: {
+    
     onDragStart(event, columnIndex, itemIndex) {
       this.draggedItem = this.localColumns[columnIndex].items[itemIndex]
       this.sourceColumnIndex = columnIndex
@@ -116,19 +118,45 @@ export default {
       this.editedColumn = null
     },
 
-    closeColumnModal() {
+    closeColumnModal(columnData) {
+      console.log("pegou evento de close modal no pai")
+      console.log(columnData)
+      const usedLabels = columnData.labels
+      // Encontra e remove do array de labels as labels que ja foram usadas
+      this.labels = this.labels.filter(label => 
+        !usedLabels.some(usedLabel => 
+          label.value === usedLabel.value
+        )
+      )
       this.showColumnModal = false
+      this.editedColumn = columnData
     },
 
     deleteColumn(columnIndex) {
+      // Pegar as labels da coluna que será deletada
+      const deletedColumn = this.localColumns[columnIndex]
+      const deletedLabels = deletedColumn.labels
+
+      // Adicionar as labels de volta ao array de labels disponíveis
+      this.labels = [...this.labels, ...deletedLabels]
+
+      // Remover a coluna
       this.localColumns.splice(columnIndex, 1)
-      this.$emit('update:columns', [JSON.parse(JSON.stringify(this.localColumns))])
+      
+      // Emitir eventos e atualizar localStorage
+      this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
       this.$emit('columnDeleted', columnIndex)
+      localStorage.setItem('localColumns', JSON.stringify(this.localColumns))
     },
 
     editColumn(columnIndex) {
+      console.log("Editando coluna")
+      
       const editedColumn = this.localColumns[columnIndex]
+      console.log(editedColumn)
       this.isEditing =  true
+      const labelsToAdd = editedColumn.labels
+      this.labels = [...this.labels, ...labelsToAdd]
       this.editedColumn = editedColumn
       this.showColumnModal =  true
     },
@@ -140,10 +168,18 @@ export default {
           {content: 'Fulano'},
           {content: 'Sicrano'}
         ],
-        labels: columnData.labels
+        labels: columnData.labels,
+        label_to_add: columnData.label_to_add
       }
+      const usedLabels = columnData.labels
+      // Encontra e remove do array de labels as labels que ja foram usadas
+      this.labels = this.labels.filter(label => 
+        !usedLabels.some(usedLabel => 
+          label.value === usedLabel.value
+        )
+      )
       this.localColumns.push(newCol)
-      this.closeColumnModal()
+      this.closeColumnModal(newCol)
       this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
       localStorage.setItem('localColumns', JSON.stringify(this.localColumns))
     },
@@ -152,15 +188,17 @@ export default {
       if (this.editedColumn) {
         const index = this.localColumns.findIndex(col => col === this.editedColumn)
         if (index !== -1) {
+          // update the column
           this.localColumns[index] = {
             ...this.localColumns[index],
             ...columnData
           }
+          this.closeColumnModal(this.localColumns[index])
           this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
           localStorage.setItem('localColumns',  JSON.stringify(this.localColumns))
         }
       }
-      this.closeColumnModal()
+      //this.closeColumnModal()
     },
 
     async fetchLabels() {
@@ -187,6 +225,15 @@ export default {
       if (storedCols) {
         const storedColsObject = JSON.parse(storedCols)
         this.localColumns = storedColsObject
+        // Para cada coluna, percorrer e remover os labels
+        for (const col of this.localColumns) {
+          // Encontra e remove do array de labels as labels que ja foram usadas
+          this.labels = this.labels.filter(label => 
+            !col.labels.some(usedLabel => 
+              label.value === usedLabel.value
+            )
+          )
+        }
       } else {
         this.localColumns = []
       }
@@ -236,7 +283,8 @@ export default {
       setTimeout(() => {
         document.body.removeChild(fileInput)
       }, 100)
-    }
+    },
+
   }
 }
 </script>
@@ -259,6 +307,12 @@ export default {
         <button class="kanban-button" @click="exportKanban">Exportar Kanban</button>
       </div>
     </header>
+        <div class="debug-section">
+          <div class="debug-item">
+            <strong>Labels:</strong> 
+            {{ labels }}
+          </div>
+        </div>
     <div class="kanban-board">
       <div v-if="localColumns.length === 0" class="empty-state">
         <h2>Nenhuma coluna criada</h2>
@@ -275,6 +329,7 @@ export default {
         @dragover.prevent
         @drop="dragColumnsMode ? onColumnDrop($event, columnIndex) : onDrop($event, columnIndex)"
       >
+
         <div class="column-header">
           <h2>{{ column.title }}</h2>
           <button class="delete-column-btn" @click="deleteColumn(columnIndex)">
@@ -454,6 +509,25 @@ export default {
 .kanban-button:hover {
   background-color: #e0e0e0;
   transform: translateY(-1px);
+}
+
+.debug-section {
+  background: #464343;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.debug-item {
+  color: white;
+  margin: 10px 0;
+  padding: 5px;
+  border-bottom: 1px solid #666;
+}
+
+.debug-item strong {
+  color: #4CAF50;
+  margin-right: 10px;
 }
 
 </style>

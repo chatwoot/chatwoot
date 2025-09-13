@@ -23,7 +23,7 @@ export default {
     return {
       localColumnTitle: '',
       localSelectedLabels: [],
-      label_to_add: ''
+      label_to_add: {}
     }
   },
 
@@ -31,26 +31,38 @@ export default {
     editedColumn: {
       handler(newVal) {
         if (this.isEditing && newVal) {
+          console.log("Editando coluna = ", newVal)
+          console.log("labels da coluna = ", newVal.labels)
+          if (newVal.labels) {
+            // Se estamos editando, adicionar as labels já existentes na coluna as labels 
+          }
           this.localColumnTitle = newVal.title
           this.localSelectedLabels = [...newVal.labels]
-          this.label_to_add = newVal.label_to_add || ''
+          this.label_to_add = newVal.label_to_add || {}
         }
       },
       immediate: true
     },
     show: {
       handler(newVal) {
-        console.log("show mudou para ", newVal)
         if (!newVal) {
           this.resetForm()
         }
       }
-    }
+    },
   },
 
   methods: {
     closeModal() {
-      this.$emit('close')
+      console.log("fechando modal no filho")
+      
+      const columnData = {
+          title: this.localColumnTitle,
+          labels: this.localSelectedLabels,
+          label_to_add: this.label_to_add
+      }
+      console.log("Passando pro evento = ", columnData)
+      this.$emit('close', columnData)
       this.resetForm()
     },
 
@@ -58,10 +70,11 @@ export default {
       if (this.localColumnTitle.trim()) {
         const columnData = {
           title: this.localColumnTitle,
-          labels: [...this.localSelectedLabels],
+          labels: this.localSelectedLabels,
           label_to_add: this.label_to_add
         }
-        
+        console.log("Emitindo evento de edit/add do modal pro kanban")
+        console.log("coluna = ", columnData)
         this.$emit(this.isEditing ? 'update' : 'add', columnData)
         this.closeModal()
       }
@@ -70,8 +83,10 @@ export default {
     resetForm() {
       this.localColumnTitle = ''
       this.localSelectedLabels = []
-      this.label_to_add = ''
-    }
+      this.label_to_add = {}
+    },
+
+
   }
 }
 </script>
@@ -87,6 +102,7 @@ export default {
         @keyup.enter="addColumn"
       >
       <label for="labels">Etiquetas: (para escolher mais de uma, mantenha ctrl pressionado ao escolher)</label>
+      {{ localSelectedLabels }}
       <select 
         name="labels" 
         id="column-labels" 
@@ -94,11 +110,12 @@ export default {
         multiple
         class="labels-select"
       >
-        <option v-for="label in mockLabels" :key="label.value" :value="label.value">
+        <option v-for="label in mockLabels" :key="label.value" :value="label">
           {{ label.text }}
         </option>
       </select>
       <label for="label_to_add">Adicionar etiqueta</label>
+      {{ label_to_add }}
       <select
       name="label_to_add"
       id="label-to-add"
@@ -108,10 +125,10 @@ export default {
         <option value="">Selecione uma label</option>
         <option
          v-for="labelValue in localSelectedLabels"
-         :key="labelValue"
+         :key="labelValue.value"
          :value="labelValue"
          >
-         {{ mockLabels.find(l => l.value === labelValue)?.text }}
+         {{ labelValue.text }}
         </option>
       </select>
       <div class="modal-actions">

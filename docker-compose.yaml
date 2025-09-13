@@ -59,6 +59,7 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
+      - SIDEKIQ_CONCURRENCY=2
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
   vite:
