@@ -1,12 +1,15 @@
 # syntax = docker/dockerfile:1.2
 
-# Usar versão específica do Ruby que coincide com o Gemfile
+# Estágio de construção (build stage)
 FROM ruby:3.4.4-slim as base
 
-ARG NODE_VERSION=18.16.0
+# Define argumentos que podem ser passados durante o build
+ARG NODE_VERSION=23
 ARG YARN_VERSION=1.22.19
+# Argumento para a chave secreta do Rails
+ARG SECRET_KEY_BASE
 
-# Install dependencies
+# Instala dependências essenciais do sistema
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
@@ -16,30 +19,34 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js (versão 23.x conforme exigido pelo Chatwoot)
-RUN curl -sL https://deb.nodesource.com/setup_23.x | bash - \
+# Instala Node.js e Yarn
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g yarn@$YARN_VERSION
 
 WORKDIR /app
 
-# Copy apenas package.json e instalar dependências Node
+# Copia e instala primeiro as dependências para aproveitar o cache do Docker
 COPY package.json ./
 RUN yarn install
 
-# Copy Gemfile e instalar dependências Ruby
 COPY Gemfile Gemfile.lock ./
 RUN bundle install -j4
 
-# Copy todo o código da aplicação
+# Copia o restante do código da aplicação
 COPY . .
 
-# Precompile assets
+# Expõe o ARG como uma variável de ambiente para que o comando rake a utilize
+ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
+# Precompila os assets
 RUN RAILS_ENV=production NODE_ENV=production bundle exec rake assets:precompile
 
-# Production image
+# ---
+
+# Estágio de produção (production image)
 FROM ruby:3.4.4-slim
 
+# Instala apenas as dependências necessárias para rodar a aplicação
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     libpq-dev \
     curl \
@@ -48,16 +55,12 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy from build stage
+# Copia os arquivos e dependências do estágio de construção
 COPY --from=base /usr/local/bundle /usr/local/bundle
 COPY --from=base /app /app
 
-# Set environment variables
-ENV RAILS_ENV=production
-ENV NODE_ENV=production
-
-# Expose port
+# Expõe a porta 3000
 EXPOSE 3000
 
-# Start command
+# Comando para iniciar o servidor Rails
 CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
