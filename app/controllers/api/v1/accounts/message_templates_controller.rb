@@ -1,6 +1,6 @@
 class Api::V1::Accounts::MessageTemplatesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :fetch_message_template, only: [:show, :update, :destroy]
+  before_action :fetch_message_template, only: [:show, :destroy]
 
   def index
     @message_templates = message_templates_scope
@@ -16,11 +16,12 @@ class Api::V1::Accounts::MessageTemplatesController < Api::V1::Accounts::BaseCon
     render json: { error: @message_template.errors.full_messages.join(', ') }, status: :unprocessable_content
   end
 
-  def update
-    @message_template.assign_attributes(message_template_params)
-    @message_template.updated_by = Current.user
-    @message_template.save!
-  end
+  # TODO: update not implemented
+  # def update
+  #   @message_template.assign_attributes(message_template_params)
+  #   @message_template.updated_by = Current.user
+  #   @message_template.save!
+  # end
 
   def destroy
     @message_template.destroy!

@@ -118,7 +118,7 @@ export const mutations = {
 
   [types.SET_MESSAGE_TEMPLATES]: MutationHelpers.set,
   [types.ADD_MESSAGE_TEMPLATE]: MutationHelpers.create,
-  [types.EDIT_MESSAGE_TEMPLATE]: MutationHelpers.update,
+  // [types.EDIT_MESSAGE_TEMPLATE]: MutationHelpers.update,
   [types.DELETE_MESSAGE_TEMPLATE]: MutationHelpers.destroy,
 
   [types.SET_TEMPLATE_BUILDER_CONFIG](_state, config) {
