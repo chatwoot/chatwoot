@@ -43,7 +43,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: seu-usuario/seu-repositorio # <-- MUDE AQUI
+          images: linkkotech/chatwoot-ia
 
       # 5. Constrói a imagem Docker e a envia para o Docker Hub
       # Este é o passo principal. Ele usa o Dockerfile na raiz do seu projeto.
