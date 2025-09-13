@@ -18,6 +18,12 @@ export const getters = {
   getRecords(_state) {
     return _state.records;
   },
+  getAppsOnSidebar(_state) {
+    return _state.records.filter(record => record.show_on_sidebar);
+  },
+  getAppsInConversation(_state) {
+    return _state.records.filter(record => !record.show_on_sidebar);
+  },
 };
 
 export const actions = {

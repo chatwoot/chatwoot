@@ -210,7 +210,10 @@
         "TITLE_ERROR": "A name for the dashboard app is required",
         "URL_LABEL": "Endpoint",
         "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_ERROR": "A valid URL is required",
+        "SHOW_ON_SIDEBAR": {
+          "LABEL": "Show on sidebar"
+        }
       },
       "CREATE": {
         "HEADER": "Add a new dashboard app",

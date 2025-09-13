@@ -531,7 +531,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.datetime "updated_at", null: false
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated", precision: nil
+    t.jsonb "provider_connection", default: {}
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+    t.index ["provider_connection"], name: "index_channel_whatsapp_baileys_connection", where: "((provider)::text = 'baileys'::text)", using: :gin
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -721,6 +723,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "show_on_sidebar", default: false
     t.index ["account_id"], name: "index_dashboard_apps_on_account_id"
     t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
   end
@@ -1181,6 +1184,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.datetime "updated_at", null: false
     t.integer "webhook_type", default: 0
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
+    t.string "name"
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 

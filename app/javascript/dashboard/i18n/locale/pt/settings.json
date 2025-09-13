@@ -321,6 +321,7 @@
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Campanhas",
+    "DASHBOARD_APPS": "Dashboard Apps",
     "ONGOING": "Em curso",
     "ONE_OFF": "Pontual",
     "REPORTS_SLA": "SLA",

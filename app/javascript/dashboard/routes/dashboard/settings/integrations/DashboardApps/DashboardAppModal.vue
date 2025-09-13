@@ -46,6 +46,7 @@ export default {
           url: '',
         },
       },
+      showOnSidebar: false,
     };
   },
   computed: {
@@ -62,6 +63,7 @@ export default {
     if (this.mode === 'UPDATE' && this.selectedAppData) {
       this.app.title = this.selectedAppData.title;
       this.app.content = this.selectedAppData.content[0];
+      this.showOnSidebar = this.selectedAppData.show_on_sidebar;
     }
   },
   methods: {
@@ -71,6 +73,7 @@ export default {
         title: '',
         content: { type: 'frame', url: '' },
       };
+      this.showOnSidebar = false;
       this.$emit('close');
     },
     async submit() {
@@ -84,6 +87,7 @@ export default {
         const payload = {
           title: this.app.title,
           content: [this.app.content],
+          show_on_sidebar: this.showOnSidebar,
         };
 
         if (action === 'update') {
@@ -149,6 +153,16 @@ export default {
           @input="v$.app.content.url.$touch"
           @blur="v$.app.content.url.$touch"
         />
+        <div class="flex items-center w-full gap-2 my-2">
+          <input v-model="showOnSidebar" type="checkbox" :value="true" />
+          <label>
+            {{
+              $t(
+                'INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.SHOW_ON_SIDEBAR.LABEL'
+              )
+            }}
+          </label>
+        </div>
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <NextButton
             faded

@@ -322,6 +322,7 @@
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Campaigns",
+    "DASHBOARD_APPS": "Dashboard Apps",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
     "REPORTS_SLA": "SLA",

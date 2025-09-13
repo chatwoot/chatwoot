@@ -67,6 +67,7 @@ provideSidebarContext({
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const teams = useMapGetter('teams/getMyTeams');
+const dashboardApps = useMapGetter('dashboardApps/getAppsOnSidebar');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
@@ -121,6 +122,16 @@ const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
+    {
+      name: 'Dashboard Apps',
+      label: t('SIDEBAR.DASHBOARD_APPS'),
+      icon: 'i-lucide-layout-dashboard',
+      children: dashboardApps.value.map(app => ({
+        name: `dashboard-app-${app.id}`,
+        label: app.title,
+        to: accountScopedRoute('dashboard_app_view', { id: app.id }),
+      })),
+    },
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),

@@ -8,13 +8,15 @@
 #  phone_number                   :string           not null
 #  provider                       :string           default("default")
 #  provider_config                :jsonb
+#  provider_connection            :jsonb
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
 #  account_id                     :integer          not null
 #
 # Indexes
 #
-#  index_channel_whatsapp_on_phone_number  (phone_number) UNIQUE
+#  index_channel_whatsapp_baileys_connection  (provider_connection) WHERE ((provider)::text = 'baileys'::text) USING gin
+#  index_channel_whatsapp_on_phone_number     (phone_number) UNIQUE
 #
 
 class Channel::Whatsapp < ApplicationRecord
