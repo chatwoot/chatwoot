@@ -68,21 +68,21 @@ export const actions = {
     }
   },
 
-  update: async function updateMessageTemplate(
-    { commit },
-    { id, ...templateData }
-  ) {
-    commit(types.SET_MESSAGE_TEMPLATE_UI_FLAG, { isUpdating: true });
-    try {
-      const response = await MessageTemplatesAPI.update(id, {
-        message_template: templateData,
-      });
-      commit(types.EDIT_MESSAGE_TEMPLATE, response.data);
-      return response.data;
-    } finally {
-      commit(types.SET_MESSAGE_TEMPLATE_UI_FLAG, { isUpdating: false });
-    }
-  },
+  // update: async function updateMessageTemplate(
+  //   { commit },
+  //   { id, ...templateData }
+  // ) {
+  //   commit(types.SET_MESSAGE_TEMPLATE_UI_FLAG, { isUpdating: true });
+  //   try {
+  //     const response = await MessageTemplatesAPI.update(id, {
+  //       message_template: templateData,
+  //     });
+  //     commit(types.EDIT_MESSAGE_TEMPLATE, response.data);
+  //     return response.data;
+  //   } finally {
+  //     commit(types.SET_MESSAGE_TEMPLATE_UI_FLAG, { isUpdating: false });
+  //   }
+  // },
 
   delete: async function deleteMessageTemplate({ commit }, templateId) {
     commit(types.SET_MESSAGE_TEMPLATE_UI_FLAG, { isDeleting: true });

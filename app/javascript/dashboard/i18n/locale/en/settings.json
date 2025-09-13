@@ -473,7 +473,6 @@
         "HINT": "Max file size: {size}MB"
       },
       "LOADING": "Loading templates...",
-      "LEARN_MORE_ABOUT_TEMPLATES": "Learn more about templates",
       "API": {
         "FETCH_ERROR": "Failed to load templates. Please try again.",
         "SUCCESS_MESSAGE": "Template created successfully",

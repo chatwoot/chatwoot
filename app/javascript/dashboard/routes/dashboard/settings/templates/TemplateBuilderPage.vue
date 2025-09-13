@@ -19,7 +19,7 @@ const isTemplateBuilderValid = computed(() => {
 
 const isEditMode = computed(() => {
   const config = store.getters['messageTemplates/getBuilderConfig'];
-  return !!config.templateId;
+  return !!config.id;
 });
 
 const isLoading = computed(() => {
@@ -35,31 +35,32 @@ const handleSave = async () => {
   if (!isTemplateBuilderValid.value) return;
 
   try {
-    const config = store.getters['messageTemplates/getBuilderConfig'];
+    const templateConfig = store.getters['messageTemplates/getBuilderConfig'];
     const components = templateBuilderRef.value.generateComponents();
 
     const templateData = {
-      name: config.name,
-      language: config.language,
-      category: config.category,
-      channel_type: config.channelType,
-      inbox_id: config.inboxId,
+      name: templateConfig.name,
+      language: templateConfig.language,
+      category: templateConfig.category,
+      channel_type: templateConfig.channelType,
+      inbox_id: templateConfig.inboxId,
       parameter_format: templateBuilderRef.value.parameterType,
       content: {
         components,
       },
     };
 
-    if (config.templateId) {
-      await store.dispatch('messageTemplates/update', {
-        id: config.templateId,
-        ...templateData,
-      });
-      useAlert(t('SETTINGS.TEMPLATES.API.UPDATE_SUCCESS'));
-    } else {
-      await store.dispatch('messageTemplates/create', templateData);
-      useAlert(t('SETTINGS.TEMPLATES.API.SUCCESS_MESSAGE'));
-    }
+    await store.dispatch('messageTemplates/create', templateData);
+    useAlert(t('SETTINGS.TEMPLATES.API.SUCCESS_MESSAGE'));
+
+    // if (templateConfig.id) {
+    //   await store.dispatch('messageTemplates/update', {
+    //     id: templateConfig.id,
+    //     ...templateData,
+    //   });
+    //   useAlert(t('SETTINGS.TEMPLATES.API.UPDATE_SUCCESS'));
+    // } else {
+    // }
 
     goBack();
   } catch (error) {

@@ -4,7 +4,6 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useEventListener } from '@vueuse/core';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import LanguageDropdown from 'dashboard/components-next/LanguageDropdown/LanguageDropdown.vue';
@@ -15,7 +14,6 @@ import AddTemplate from './AddTemplate.vue';
 
 const { t } = useI18n();
 const store = useStore();
-const router = useRouter();
 
 const showAddPopup = ref(false);
 const newTemplateButtonRef = ref(null);
@@ -123,21 +121,6 @@ const hideAddPopup = () => {
   showAddPopup.value = false;
 };
 
-const editTemplate = template => {
-  // Set the template data in store for editing
-  store.dispatch('messageTemplates/setBuilderConfig', {
-    name: template.name,
-    language: template.language,
-    channelType: template.channel_type,
-    inboxId: template.inbox_id,
-    category: template.category,
-    templateId: template.id, // This makes it edit mode
-  });
-
-  // Navigate to template builder
-  router.push({ name: 'template_builder' });
-};
-
 // Filter change handlers
 const applyFilters = () => {
   fetchTemplates();
@@ -229,9 +212,6 @@ onMounted(() => {
         <h1 class="text-2xl font-semibold text-n-slate-12">
           {{ t('SETTINGS.TEMPLATES.HEADER.TITLE') }}
         </h1>
-        <a href="#" class="text-sm text-n-blue-text hover:underline">
-          {{ t('SETTINGS.TEMPLATES.LEARN_MORE_ABOUT_TEMPLATES') }}
-        </a>
       </div>
       <div class="relative">
         <Button
@@ -374,16 +354,16 @@ onMounted(() => {
         </div>
 
         <!-- Actions -->
-        <div class="flex items-center gap-1">
-          <Button
-            v-tooltip.top="$t('SETTINGS.TEMPLATES.ACTIONS.EDIT')"
-            icon="i-lucide-pen"
-            slate
-            xs
-            faded
-            @click="editTemplate(template)"
-          />
-        </div>
+        <!-- <div class="flex items-center gap-1"> -->
+        <!--   <Button -->
+        <!--     v-tooltip.top="$t('SETTINGS.TEMPLATES.ACTIONS.EDIT')" -->
+        <!--     icon="i-lucide-pen" -->
+        <!--     slate -->
+        <!--     xs -->
+        <!--     faded -->
+        <!--     @click="editTemplate(template)" -->
+        <!--   /> -->
+        <!-- </div> -->
       </div>
     </div>
 
