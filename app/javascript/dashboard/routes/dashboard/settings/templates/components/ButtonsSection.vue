@@ -5,6 +5,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
+import VariableSection from './VariableSection.vue';
 import { vOnClickOutside } from '@vueuse/components';
 
 const props = defineProps({
@@ -59,6 +60,8 @@ const addButton = buttonType => {
         type: 'URL',
         text: '',
         url: '',
+        example: [],
+        error: '',
       },
       PHONE_NUMBER: {
         type: 'PHONE_NUMBER',
@@ -96,6 +99,31 @@ const updateButton = (index, field, value) => {
 const canAddMoreButtons = computed(() => {
   return buttonsData.value.length < 10;
 });
+
+const getUrlVariableData = button => ({
+  text: button.url,
+  examples: button.example,
+  error: button.error,
+});
+
+const updateUrlWithVariable = (index, variableData) => {
+  const newButtons = [...buttonsData.value];
+  let error = variableData.error;
+  if (
+    !error &&
+    variableData.examples.length &&
+    !variableData.text.endsWith('{{1}}')
+  ) {
+    error = 'should be at end';
+  }
+  newButtons[index] = {
+    ...newButtons[index],
+    url: variableData.text,
+    example: variableData.examples,
+    error,
+  };
+  buttonsData.value = newButtons;
+};
 </script>
 
 <template>
@@ -203,17 +231,23 @@ const canAddMoreButtons = computed(() => {
           </div>
 
           <!-- URL Field -->
-          <div v-if="button.type === 'URL'" class="col-span-6">
-            <label class="block text-xs font-medium text-n-slate-11 mb-1">
-              {{ t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.URL') }}
-            </label>
-            <Input
-              type="url"
-              :model-value="button.url"
+          <!--url can have max 1 dynamic variable but doesn't support named format-->
+          <div
+            v-if="button.type === 'URL'"
+            class="col-span-6 url-variable-container"
+          >
+            <VariableSection
+              :model-value="getUrlVariableData(button)"
+              input-type="input"
+              :max-length="2000"
               :placeholder="
                 t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.URL_PLACEHOLDER')
               "
-              @update:model-value="updateButton(index, 'url', $event)"
+              :label="t('SETTINGS.TEMPLATES.BUILDER.BUTTONS.URL')"
+              parameter-type="positional"
+              :max-variables="1"
+              :show-character-count="false"
+              @update:model-value="updateUrlWithVariable(index, $event)"
             />
           </div>
 
@@ -278,5 +312,14 @@ const canAddMoreButtons = computed(() => {
 
 .phone-input-container :deep(button) {
   height: 2.375rem !important;
+}
+
+/* URL Variable Section styles */
+.url-variable-container :deep(input) {
+  @apply h-10 text-sm;
+}
+
+.url-variable-container :deep(label) {
+  @apply text-xs text-n-slate-11 mb-1;
 }
 </style>

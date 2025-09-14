@@ -449,8 +449,8 @@
           "EXAMPLE_PLACEHOLDER": "Example {index}",
           "NAMED_EXAMPLE_PLACEHOLDER": "Example for {name}",
           "ERRORS": {
-            "NAMED_IN_POSITIONAL": "Named variables are not allowed in positional parameter mode",
-            "POSITIONAL_IN_NAMED": "Positional variables are not allowed in named parameter mode",
+            "NAMED_IN_POSITIONAL": "Named variables are not allowed",
+            "POSITIONAL_IN_NAMED": "Positional variables are not allowed",
             "DUPLICATE_VARIABLES": "Text cannot contain duplicate variables",
             "MAX_VARIABLES_EXCEEDED": "Maximum {count} variables allowed"
           }

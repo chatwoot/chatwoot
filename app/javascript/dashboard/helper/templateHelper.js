@@ -308,6 +308,9 @@ export const generateTemplateComponents = (templateData, parameterType) => {
   }
 
   if (buttons.length) {
+    buttons.forEach(b => {
+      delete b.error;
+    });
     components.push({
       type: COMPONENT_TYPES.BUTTONS,
       buttons: [...buttons],
@@ -318,7 +321,7 @@ export const generateTemplateComponents = (templateData, parameterType) => {
 };
 
 export const validateTemplateData = templateData => {
-  const { header, body, footer } = templateData;
+  const { header, body, footer, buttons } = templateData;
 
   // Body is required and must have text without errors
   if (body.error || !body.text) return false;
@@ -336,6 +339,10 @@ export const validateTemplateData = templateData => {
 
   // Footer validation (if enabled)
   if (footer.enabled && !footer.text) return false;
+
+  if (buttons && buttons.length > 0) {
+    return buttons.every(b => !b.error);
+  }
 
   return true;
 };

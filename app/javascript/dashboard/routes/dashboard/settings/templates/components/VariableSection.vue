@@ -39,6 +39,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  showCharacterCount: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -161,7 +165,7 @@ watch(
         :model-value="modelValue.text"
         :placeholder="placeholder"
         :message-type="hasErrors ? 'error' : 'info'"
-        show-character-count
+        :show-character-count="showCharacterCount"
         :max-length="maxLength"
         @update:model-value="updateText"
       />
@@ -172,7 +176,7 @@ watch(
         :placeholder="placeholder"
         :max-length="maxLength"
         :message-type="hasErrors ? 'error' : 'info'"
-        show-character-count
+        :show-character-count="showCharacterCount"
         @update:model-value="updateText"
       />
 
