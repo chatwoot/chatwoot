@@ -7,6 +7,7 @@ import {
   extractNamedVariables,
   buildExamplePropertyByParameterType,
   generateTemplateComponents,
+  validateTemplateData,
   COMPONENT_TYPES,
 } from '../templateHelper';
 import { templates } from '../../store/modules/specs/inboxes/templateFixtures';
@@ -1030,6 +1031,164 @@ describe('templateHelper', () => {
           expect.objectContaining({ type: COMPONENT_TYPES.BUTTONS })
         );
       });
+
+      it('should remove error property from buttons before including them', () => {
+        const templateData = {
+          header: { enabled: false },
+          body: { type: 'BODY', text: 'Body', example: {} },
+          footer: { enabled: false },
+          buttons: [
+            {
+              type: 'URL',
+              text: 'Visit',
+              url: 'https://example.com',
+              error: 'Named variable is not supported',
+            },
+            {
+              type: 'QUICK_REPLY',
+              text: 'Help',
+            },
+            {
+              type: 'PHONE_NUMBER',
+              text: 'Call',
+              phone_number: '+1234567890',
+              error: null,
+            },
+          ],
+        };
+
+        const result = generateTemplateComponents(templateData, 'positional');
+
+        // Find the buttons component in the result
+        const buttonsComponent = result.find(
+          component => component.type === COMPONENT_TYPES.BUTTONS
+        );
+
+        expect(buttonsComponent).toBeDefined();
+        expect(buttonsComponent.buttons).toHaveLength(3);
+
+        // Verify that none of the buttons have the error property
+        buttonsComponent.buttons.forEach(button => {
+          expect(button).not.toHaveProperty('error');
+        });
+
+        // Verify the buttons still have their other properties
+        expect(buttonsComponent.buttons[0]).toEqual({
+          type: 'URL',
+          text: 'Visit',
+          url: 'https://example.com',
+        });
+        expect(buttonsComponent.buttons[1]).toEqual({
+          type: 'QUICK_REPLY',
+          text: 'Help',
+        });
+        expect(buttonsComponent.buttons[2]).toEqual({
+          type: 'PHONE_NUMBER',
+          text: 'Call',
+          phone_number: '+1234567890',
+        });
+      });
+    });
+  });
+
+  describe('validateTemplateData', () => {
+    const validTemplateData = {
+      header: { enabled: false },
+      body: { type: 'BODY', text: 'Valid body text' },
+      footer: { enabled: false },
+      buttons: [],
+    };
+
+    it('should return true for valid template data', () => {
+      expect(validateTemplateData(validTemplateData)).toBe(true);
+    });
+
+    it('should return false when body has error', () => {
+      const templateData = {
+        ...validTemplateData,
+        body: { ...validTemplateData.body, error: 'Body error' },
+      };
+      expect(validateTemplateData(templateData)).toBe(false);
+    });
+
+    it('should return false when body has no text', () => {
+      const templateData = {
+        ...validTemplateData,
+        body: { type: 'BODY', text: '' },
+      };
+      expect(validateTemplateData(templateData)).toBe(false);
+    });
+
+    it('should return false when TEXT header is enabled but has no text', () => {
+      const templateData = {
+        ...validTemplateData,
+        header: { enabled: true, format: 'TEXT', text: '' },
+      };
+      expect(validateTemplateData(templateData)).toBe(false);
+    });
+
+    it('should return false when IMAGE header is enabled but has no blobId', () => {
+      const templateData = {
+        ...validTemplateData,
+        header: { enabled: true, format: 'IMAGE', media: {} },
+      };
+      expect(validateTemplateData(templateData)).toBe(false);
+    });
+
+    it('should return true when IMAGE header has blobId', () => {
+      const templateData = {
+        ...validTemplateData,
+        header: {
+          enabled: true,
+          format: 'IMAGE',
+          media: { blobId: 'blob123' },
+        },
+      };
+      expect(validateTemplateData(templateData)).toBe(true);
+    });
+
+    it('should return false when header has error', () => {
+      const templateData = {
+        ...validTemplateData,
+        header: {
+          enabled: true,
+          format: 'TEXT',
+          text: 'Header',
+          error: 'Error',
+        },
+      };
+      expect(validateTemplateData(templateData)).toBe(false);
+    });
+
+    it('should return false when footer is enabled but has no text', () => {
+      const templateData = {
+        ...validTemplateData,
+        footer: { enabled: true, text: '' },
+      };
+      expect(validateTemplateData(templateData)).toBe(false);
+    });
+
+    it('should return false when buttons have errors', () => {
+      const templateData = {
+        ...validTemplateData,
+        buttons: [
+          {
+            type: 'URL',
+            text: 'Visit',
+            url: 'https://example.com',
+            error: 'Button error',
+          },
+        ],
+      };
+      expect(validateTemplateData(templateData)).toBe(false);
+    });
+
+    it('should return true when buttons have no errors', () => {
+      const templateData = {
+        ...validTemplateData,
+        buttons: [{ type: 'URL', text: 'Visit', url: 'https://example.com' }],
+      };
+      expect(validateTemplateData(templateData)).toBe(true);
     });
   });
 });
