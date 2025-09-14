@@ -40,6 +40,7 @@ export const FEATURE_FLAGS = {
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   WHATSAPP_EMBEDDED_SIGNUP: 'whatsapp_embedded_signup',
   CAPTAIN_V2: 'captain_integration_v2',
+  TEMPLATE_BUILDER: 'template_builder',
 };
 
 export const PREMIUM_FEATURES = [

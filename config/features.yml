@@ -208,3 +208,6 @@
   display_name: SAML
   enabled: false
   premium: true
+- name: template_builder
+  display_name: Template Builder
+  enabled: false
