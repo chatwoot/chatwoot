@@ -20,7 +20,11 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
-import { getAlertAudio, initOnEvents } from 'shared/helpers/AudioNotificationHelper';
+import {
+  getAlertAudio,
+  initOnEvents,
+} from 'shared/helpers/AudioNotificationHelper';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
   name: 'App',
@@ -41,12 +45,14 @@ export default {
     const { accountId } = useAccount();
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
+    const { uiSettings } = useUISettings();
 
     return {
       router,
       store,
       currentAccountId: accountId,
       currentFontSize,
+      uiSettings,
     };
   },
   data() {
@@ -93,8 +99,10 @@ export default {
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
-    this.setLocale(window.chatwootConfig.selectedLocale);
-
+    // If user locale is set, use it; otherwise use account locale
+    this.setLocale(
+      this.uiSettings?.locale || window.chatwootConfig.selectedLocale
+    );
 
     // Prepare dashboard ringtone; requires a user gesture once to unlock AudioContext
     window.playAudioAlert = () => {};
@@ -136,7 +144,8 @@ export default {
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
-      this.setLocale(locale);
+      // If user locale is set, use it; otherwise use account locale
+      this.setLocale(this.uiSettings?.locale || locale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);

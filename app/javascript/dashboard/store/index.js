@@ -2,7 +2,9 @@ import { createStore } from 'vuex';
 
 import accounts from './modules/accounts';
 import agentBots from './modules/agentBots';
+import agentCapacityPolicies from './modules/agentCapacityPolicies';
 import agents from './modules/agents';
+import assignmentPolicies from './modules/assignmentPolicies';
 import articles from './modules/helpCenterArticles';
 import attributes from './modules/attributes';
 import auditlogs from './modules/auditlogs';
@@ -63,7 +65,9 @@ export default createStore({
   modules: {
     accounts,
     agentBots,
+    agentCapacityPolicies,
     agents,
+    assignmentPolicies,
     articles,
     attributes,
     auditlogs,
