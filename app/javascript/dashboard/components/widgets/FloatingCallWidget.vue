@@ -1,10 +1,13 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 import VoiceAPI from 'dashboard/api/channels/voice';
 import { useRingtone } from 'dashboard/composables/useRingtone';
 
 const store = useStore();
+const router = useRouter();
+const route = useRoute();
 
 const callDuration = ref(0);
 const durationTimer = ref(null);
@@ -63,7 +66,7 @@ const stopDurationTimer = () => {
 
 const isJoining = ref(false);
 
-const joinCall = async () => {
+const joinConference = async () => {
   const callData = callInfo.value;
   if (!callData) return;
   if (isJoined.value || isJoining.value) return;
@@ -74,32 +77,31 @@ const joinCall = async () => {
     await VoiceAPI.initializeDevice(callData.inboxId, { store });
 
     // Join the call on server and use returned conference_sid
-    const joinRes = await VoiceAPI.joinCall({
+    const joinRes = await VoiceAPI.joinConference({
       conversation_id: callData.conversationId,
+      inbox_id: callData.inboxId,
       call_sid: callData.callSid,
-      account_id: store.getters.getCurrentAccountId,
     });
 
-    const conferenceSid = joinRes?.conference_sid || `conf_account_${store.getters.getCurrentAccountId}_conv_${callData.conversationId}`;
+    const conferenceSid = joinRes.conference_sid;
 
     // Join client call using server-provided conference sid when available
-    VoiceAPI.joinClientCall({ To: conferenceSid, account_id: store.getters.getCurrentAccountId });
+    VoiceAPI.joinClientCall({ To: conferenceSid, conversationId: callData.conversationId });
     
-    // Move from incoming to active call for outbound calls
-    if (incomingCall.value?.isOutbound) {
+    // Navigate to the conversation now that we're joining
+    try {
+      const path = `/app/accounts/${route.params.accountId}/conversations/${callData.conversationId}`;
+      router.push({ path });
+    } catch (_) {}
+
+    // Promote to active and clear any incoming ringing state
+    store.dispatch('calls/setActiveCall', {
+      ...callData,
+      isJoined: true,
+      startedAt: Date.now(),
+    });
+    if (hasIncomingCall.value) {
       store.dispatch('calls/clearIncomingCall');
-      store.dispatch('calls/setActiveCall', {
-        ...callData,
-        isJoined: true,
-        startedAt: Date.now(),
-      });
-    } else {
-      // Mark as joined for regular active calls
-      store.dispatch('calls/setActiveCall', {
-        ...callData,
-        isJoined: true,
-        startedAt: Date.now(),
-      });
     }
     
     startDurationTimer();
@@ -120,11 +122,11 @@ const endCall = async () => {
     stopRingTone();
     
     // End server call first to terminate on Twilio's side
-    if (callInfo.value.callSid && callInfo.value.callSid !== 'pending' && callInfo.value.conversationId) {
+    if (callInfo.value.inboxId && callInfo.value.conversationId) {
       try {
-        await VoiceAPI.endCall(callInfo.value.callSid, callInfo.value.conversationId);
+        await VoiceAPI.leaveConference(callInfo.value.inboxId, callInfo.value.conversationId);
       } catch (serverError) {
-        // Server call end failed, but continue with client cleanup
+        // Server leave failed, continue client cleanup
       }
     }
     
@@ -153,37 +155,24 @@ const endCall = async () => {
 };
 
 const acceptCall = async () => {
-  // Reuse join logic; acceptIncomingCall will be triggered via joinCall flow
-  await joinCall();
+  await joinConference();
 };
 
 const rejectCall = async () => {
   if (!incomingCall.value) return;
   
-  try {
-    // End any WebRTC connection first to disconnect customer immediately
-    VoiceAPI.endClientCall();
-    
-    // Then call server API to reject the call
-    await VoiceAPI.rejectCall(incomingCall.value.callSid, incomingCall.value.conversationId);
-    
-    // Clear state
-    store.dispatch('calls/clearIncomingCall');
-    stopRingTone();
-    
-  } catch (error) {
-    // Even if reject API fails, still clean up WebRTC and state
-    VoiceAPI.endClientCall();
-    store.dispatch('calls/clearIncomingCall');
-    stopRingTone();
-  }
+  // End any WebRTC connection first
+  VoiceAPI.endClientCall();
+  // Clear state; server-side webhook will mark no-answer on conference end
+  store.dispatch('calls/clearIncomingCall');
+  stopRingTone();
 };
 
 // Watchers
 watch([isOutgoing, incomingCall], ([newIsOutgoing, newIncomingCall]) => {
   // Auto-join outgoing calls when they appear
   if (newIsOutgoing && newIncomingCall?.isOutbound && !isJoined.value) {
-    joinCall();
+    joinConference();
   }
 }, { immediate: true });
 
@@ -225,7 +214,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    v-if="hasIncomingCall || hasActiveCall"
+    v-if="hasActiveCall || hasIncomingCall"
     class="fixed bottom-4 right-4 z-50 w-80 rounded-xl bg-white shadow-2xl border border-slate-200 dark:bg-slate-800 dark:border-slate-700"
   >
     <!-- Header -->

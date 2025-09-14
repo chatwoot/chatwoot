@@ -518,7 +518,7 @@ provideMessageContext({
         }"
         @contextmenu="openContextMenu($event)"
       >
-        <Component :is="componentToRender" :message="props" />
+        <Component :is="componentToRender" />
       </div>
       <MessageError
         v-if="contentAttributes.externalError"

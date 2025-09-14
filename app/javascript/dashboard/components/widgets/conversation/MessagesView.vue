@@ -525,7 +525,6 @@ export default {
       </div>
       <ReplyBox
         :pop-out-reply-box="isPopOutReplyBox"
-        :is-private-note-only="isAVoiceChannel"
         @update:pop-out-reply-box="isPopOutReplyBox = $event"
       />
     </div>

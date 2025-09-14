@@ -2,16 +2,34 @@ module Voice
   class ConversationFinderService
     pattr_initialize [:account!, :phone_number, :inbox, :call_sid, :is_outbound]
 
-    def perform
-      # First try to find existing conversation by call_sid if available
+  def perform
+    # For outbound calls, always create a fresh conversation
+    if is_outbound
+      conv = create_new_conversation
+      Rails.logger.info(
+        "VOICE_CONV_FINDER_CREATED_OUTBOUND account=#{account.id} conv=#{conv.display_id} phone=#{phone_number} inbox=#{inbox.id}"
+      )
+      return conv
+    end
+
+    # For inbound: try to find existing conversation by call_sid if available
       conversation = find_by_call_sid if call_sid.present?
-      return conversation if conversation
+      if conversation
+        Rails.logger.info(
+          "VOICE_CONV_FINDER_FOUND_BY_SID account=#{account.id} conv=#{conversation.display_id} call_sid=#{call_sid}"
+        )
+        return conversation
+      end
 
       # Ensure we have a phone number for new conversation creation
       validate_and_normalize_phone_number
 
       # If not found, create a new conversation
-      create_new_conversation
+      conv = create_new_conversation
+      Rails.logger.info(
+        "VOICE_CONV_FINDER_CREATED account=#{account.id} conv=#{conv.display_id} phone=#{phone_number} inbox=#{inbox.id}"
+      )
+      conv
   end
 
   private
@@ -25,7 +43,7 @@ module Voice
     end
 
     def find_by_call_sid
-      account.conversations.where("additional_attributes->>'call_sid' = ?", call_sid).first
+      account.conversations.find_by(identifier: call_sid)
     end
 
     def find_or_create_contact
@@ -39,13 +57,12 @@ module Voice
       # First ensure we have a contact
       contact = find_or_create_contact
 
-      # Find or initialize the contact inbox
+      # Reuse existing contact_inbox (do not create new per outbound).
+      # We still create a brand new Conversation below for every outbound call.
       contact_inbox = ContactInbox.find_or_initialize_by(
         contact_id: contact.id,
         inbox_id: inbox.id
       )
-
-      # Set source_id if not set - needed for properly mapping the conversation
       contact_inbox.source_id ||= phone_number
       contact_inbox.save!
 
@@ -58,13 +75,13 @@ module Voice
         additional_attributes: initial_attributes
       )
 
+      # Ensure identifier set when call_sid available
+      if call_sid.present?
+        conversation.update!(identifier: call_sid)
+      end
+
       # Need to reload conversation to get the display_id populated by the database
       conversation.reload
-
-      # Add conference_sid to attributes
-      conference_sid = generate_conference_sid(conversation)
-      conversation.additional_attributes['conference_sid'] = conference_sid
-      conversation.save!
 
       conversation
     end
@@ -74,8 +91,7 @@ module Voice
         'call_initiated_at' => Time.now.to_i
       }
 
-      # Add call_sid if available
-      attributes['call_sid'] = call_sid if call_sid.present?
+      
 
       # Set call direction based on is_outbound flag
       if is_outbound
@@ -98,9 +114,6 @@ module Voice
       attributes
     end
 
-    def generate_conference_sid(conversation)
-      "conf_account_#{account.id}_conv_#{conversation.display_id}"
-    end
     public :find_by_call_sid
   end
 end

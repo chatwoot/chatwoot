@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { getAlertAudio } from 'shared/helpers/AudioNotificationHelper';
 
 export function useRingtone(intervalMs = 2500) {
   const timer = ref(null);
@@ -22,8 +23,15 @@ export function useRingtone(intervalMs = 2500) {
     }
   };
 
-  const start = () => {
+  const start = async () => {
     stop();
+    try {
+      if (typeof window.playAudioAlert !== 'function') {
+        await getAlertAudio('', { type: 'dashboard', alertTone: 'call-ring' });
+      }
+    } catch (_) {
+      // ignore preload errors
+    }
     play();
     timer.value = setInterval(() => {
       play();

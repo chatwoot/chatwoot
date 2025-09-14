@@ -61,4 +61,17 @@ class InboxPolicy < ApplicationPolicy
   def sync_templates?
     @account_user.administrator?
   end
+
+  # Voice conference endpoints authorization
+  def conference_token?
+    show?
+  end
+
+  def conference_join?
+    show?
+  end
+
+  def conference_leave?
+    show?
+  end
 end

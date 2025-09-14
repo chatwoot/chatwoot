@@ -15,6 +15,7 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useRingtone } from 'dashboard/composables/useRingtone';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -46,6 +47,7 @@ export default {
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
     const { uiSettings } = useUISettings();
+    const { start: startRingTone, stop: stopRingTone } = useRingtone();
 
     return {
       router,
@@ -53,6 +55,8 @@ export default {
       currentAccountId: accountId,
       currentFontSize,
       uiSettings,
+      startRingTone,
+      stopRingTone,
     };
   },
   data() {
@@ -87,6 +91,18 @@ export default {
         this.showAddAccountModal = true;
       }
     },
+    hasIncomingCall(newVal) {
+      // Drive ringtone globally based on incoming state; widget does not show for incoming per UX
+      try {
+        if (newVal) {
+          this.startRingTone();
+        } else {
+          this.stopRingTone();
+        }
+      } catch (e) {
+        // ignore ringtone errors
+      }
+    },
     currentAccountId: {
       immediate: true,
       handler() {
@@ -104,8 +120,8 @@ export default {
       this.uiSettings?.locale || window.chatwootConfig.selectedLocale
     );
 
-    // Prepare dashboard ringtone; requires a user gesture once to unlock AudioContext
-    window.playAudioAlert = () => {};
+    // Prepare dashboard ringtone on first user gesture to unlock AudioContext
+    window.playAudioAlert = window.playAudioAlert || (() => {});
     const setupDashboardAudio = () => {
       getAlertAudio('', { type: 'dashboard', alertTone: 'call-ring' }).then(
         () => {
@@ -123,6 +139,7 @@ export default {
     if (this.reconnectService) {
       this.reconnectService.disconnect();
     }
+    try { this.stopRingTone(); } catch (e) {}
   },
   methods: {
     initializeColorTheme() {
@@ -183,7 +200,7 @@ export default {
     <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
     <WootSnackbarBox />
     <NetworkNotification />
-    <!-- Floating call widget (Vuex-driven) -->
+    <!-- Floating call widget (shows for incoming and active) -->
     <FloatingCallWidget v-if="hasActiveCall || hasIncomingCall" />
   </div>
   <LoadingState v-else />

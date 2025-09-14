@@ -8,28 +8,33 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
       return
     end
 
-    begin
-      # Use the outgoing call service to handle the entire process
-      service = Voice::OutgoingCallService.new(
-        account: Current.account,
-        contact: @contact,
-        user: Current.user,
-        inbox_id: params[:inbox_id]
-      )
-      
-      # Process the call - this handles all the steps
-      conversation = service.process
-      
-      # Assign to @conversation so jbuilder template can access it
-      @conversation = conversation
+    # Use the outgoing call service to handle the entire process
+    service = Voice::OutgoingCallService.new(
+      account: Current.account,
+      contact: @contact,
+      user: Current.user,
+      inbox_id: params[:inbox_id]
+    )
 
-      # Use the conversation jbuilder template to ensure consistent representation
-      # This will ensure only display_id is used as the id, not the internal database id
-      render 'api/v1/accounts/conversations/show'
-    rescue StandardError => e
-      Rails.logger.error("Error initiating call: #{e.message}")
-      render json: { error: e.message }, status: :unprocessable_entity
-    end
+    result = service.process
+    conversation = Current.account.conversations.find_by!(display_id: result[:conversation_id])
+    conference_sid = result[:conference_sid]
+    call_sid = result[:call_sid]
+
+    render json: {
+      status: 'success',
+      conversation_id: result[:conversation_id],
+      inbox_id: conversation.inbox_id,
+      conference_sid: conference_sid,
+      call_sid: call_sid
+    }
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: 'not_found', code: 'not_found', details: e.message }, status: :not_found
+  rescue StandardError => e
+    Rails.logger.error("VOICE_CONTACT_CALL_ERROR #{e.class}: #{e.message}")
+    Sentry.capture_exception(e) if defined?(Sentry)
+    Raven.capture_exception(e) if defined?(Raven)
+    render json: { error: 'failed_to_initiate_call', code: 'initiate_error', details: e.message }, status: :unprocessable_entity
   end
 
   private

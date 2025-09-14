@@ -8,6 +8,9 @@ class Voice::InboundCallBuilder
     contact_inbox = find_or_create_contact_inbox!(contact)
     @conversation = find_or_create_conversation!(contact, contact_inbox)
     create_call_message_if_needed!
+    Rails.logger.info(
+      "VOICE_INBOUND_BUILDER account=#{account.id} inbox=#{inbox.id} conv=#{@conversation.display_id} from=#{from_number} to=#{to_number}"
+    )
     self
   end
 

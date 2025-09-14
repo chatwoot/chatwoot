@@ -1,5 +1,7 @@
 import AuthAPI from '../api/auth';
+import VoiceAPI from 'dashboard/api/channels/voice';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
+import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
@@ -52,6 +54,64 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onMessageUpdated = data => {
     this.app.$store.dispatch('updateMessage', data);
+
+    // Sync call status when voice_call message gets updated
+    try {
+      const isVoiceCallMessage =
+        data?.content_type === 12 || data?.content_type === 'voice_call';
+      const status = data?.content_attributes?.data?.status;
+      const callSid = data?.content_attributes?.data?.call_sid;
+      const conversationId = data?.conversation_id;
+      const inboxId = data?.inbox_id;
+
+      if (isVoiceCallMessage && callSid && status) {
+        this.app.$store.dispatch('calls/handleCallStatusChanged', {
+          callSid,
+          status,
+        });
+        // Reflect it on conversation list item state
+        try {
+          this.app.$store.commit('UPDATE_CONVERSATION_CALL_STATUS', {
+            conversationId,
+            callStatus: status,
+          });
+        } catch (_) {
+          // ignore commit errors
+        }
+
+        // Backfill incoming call payload only when ringing and no active/incoming
+        const hasIncoming = this.app.$store.getters['calls/hasIncomingCall'];
+        const hasActive = this.app.$store.getters['calls/hasActiveCall'];
+        if (status === 'ringing' && !hasIncoming && !hasActive) {
+          const conv = this.app.$store.getters[
+            'conversations/getConversationById'
+          ]?.(conversationId);
+          const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
+            conv?.inbox_id || inboxId
+          );
+          const payload = ActionCableConnector.buildIncomingCallPayload(
+            {
+              ...data,
+              display_id: conversationId,
+              inbox_id: conv?.inbox_id || inboxId,
+              account_id: conv?.account_id || data?.account_id,
+              meta: {
+                inbox: conv?.meta?.inbox || {
+                  name: inboxFromStore?.name,
+                  avatar_url: inboxFromStore?.avatar_url,
+                  phone_number: inboxFromStore?.phone_number,
+                },
+                sender: conv?.meta?.sender,
+              },
+            },
+            inboxFromStore
+          );
+          this.app.$store.dispatch('calls/setIncomingCall', payload);
+        }
+      }
+    } catch (_) {
+      // ignore voice call sync errors
+    }
   };
 
   onPresenceUpdate = data => {
@@ -82,21 +142,6 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
-
-    // Check if this is a voice channel conversation (incoming call)
-    if (this.constructor.isVoiceChannel(data)) {
-      if (data.additional_attributes?.call_sid) {
-        const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
-          data.inbox_id
-        );
-        const payload = this.constructor.buildIncomingCallPayload(
-          data,
-          inboxFromStore
-        );
-        this.app.$store.dispatch('calls/setIncomingCall', payload);
-      }
-    }
-
     this.fetchConversationStats();
   };
 
@@ -105,18 +150,72 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  onLogout = () => AuthAPI.logout();
+  onLogout = () => {
+    try {
+      VoiceAPI.endClientCall();
+      VoiceAPI.destroyDevice();
+    } catch (_) {}
+    AuthAPI.logout();
+  };
 
   onMessageCreated = data => {
     const {
       conversation: { last_activity_at: lastActivityAt },
       conversation_id: conversationId,
     } = data;
+    DashboardAudioNotificationHelper.onNewMessage(data);
     this.app.$store.dispatch('addMessage', data);
     this.app.$store.dispatch('updateConversationLastActivity', {
       lastActivityAt,
       conversationId,
     });
+
+    // Voice call messages bootstrap call state across clients
+    try {
+      const isVoiceCallMessage =
+        data?.content_type === 12 || data?.content_type === 'voice_call';
+      if (isVoiceCallMessage) {
+        const status = data?.content_attributes?.data?.status;
+        const callSid = data?.content_attributes?.data?.call_sid;
+        if (callSid) {
+          // Compose payload using conversation details from store
+          const conv = this.app.$store.getters[
+            'conversations/getConversationById'
+          ]?.(conversationId);
+          const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
+            conv?.inbox_id || data?.inbox_id
+          );
+          const payload = ActionCableConnector.buildIncomingCallPayload(
+            {
+              ...data,
+              display_id: conversationId,
+              inbox_id: conv?.inbox_id || data?.inbox_id,
+              account_id: conv?.account_id || data?.account_id,
+              meta: {
+                inbox: conv?.meta?.inbox || {
+                  name: inboxFromStore?.name,
+                  avatar_url: inboxFromStore?.avatar_url,
+                  phone_number: inboxFromStore?.phone_number,
+                },
+                sender: conv?.meta?.sender,
+              },
+            },
+            inboxFromStore
+          );
+
+          this.app.$store.dispatch('calls/setIncomingCall', payload);
+
+          if (status) {
+            this.app.$store.dispatch('calls/handleCallStatusChanged', {
+              callSid,
+              status,
+            });
+          }
+        }
+      }
+    } catch (_) {
+      // non-fatal; ignore voice bootstrap errors
+    }
   };
 
   // eslint-disable-next-line class-methods-use-this
@@ -129,53 +228,6 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationUpdated = data => {
     this.app.$store.dispatch('updateConversation', data);
-
-    // Check if this conversation update includes call status changes
-    if (
-      data.additional_attributes?.call_status &&
-      data.additional_attributes?.call_sid
-    ) {
-      this.app.$store.dispatch('calls/handleCallStatusChanged', {
-        callSid: data.additional_attributes.call_sid,
-        status: data.additional_attributes.call_status,
-        conversationId: data.display_id,
-        inboxId: data.inbox_id,
-      });
-
-      // Reflect call status onto the latest voice call message in the store
-      try {
-        this.app.$store.commit('UPDATE_CONVERSATION_CALL_STATUS', {
-          conversationId: data.display_id,
-          callStatus: data.additional_attributes.call_status,
-        });
-      } catch (_) {
-        // ignore store commit failures
-      }
-
-      // Backfill: if status indicates a live call and we missed creation
-      if (['ringing', 'in-progress'].includes(data.additional_attributes.call_status)) {
-        const hasIncoming = this.app.$store.getters['calls/hasIncomingCall'];
-        const hasActive = this.app.$store.getters['calls/hasActiveCall'];
-        const currentIncoming =
-          this.app.$store.getters['calls/getIncomingCall'];
-        if (
-          !hasIncoming &&
-          !hasActive &&
-          (!currentIncoming ||
-            currentIncoming.callSid !== data.additional_attributes.call_sid)
-        ) {
-          const inboxFromStore = this.app.$store.getters['inboxes/getInbox']?.(
-            data.inbox_id
-          );
-          const payload = this.constructor.buildIncomingCallPayload(
-            data,
-            inboxFromStore
-          );
-          this.app.$store.dispatch('calls/setIncomingCall', payload);
-        }
-      }
-    }
-
     this.fetchConversationStats();
   };
 
@@ -191,7 +243,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   // Normalize an incoming call payload for Vuex calls module
   static buildIncomingCallPayload(data, inboxFromStore) {
     return {
-      callSid: data.additional_attributes?.call_sid,
+      callSid: data.content_attributes?.data?.call_sid,
       conversationId: data.display_id || data.id,
       inboxId: data.inbox_id,
       inboxName: data.meta?.inbox?.name || inboxFromStore?.name,
@@ -201,8 +253,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       contactName: data.meta?.sender?.name || 'Unknown Caller',
       contactId: data.meta?.sender?.id,
       accountId: data.account_id,
-      isOutbound: data.additional_attributes?.call_direction === 'outbound',
-      callDirection: data.additional_attributes?.call_direction,
+      isOutbound: data.content_attributes?.data?.call_direction === 'outbound',
+      callDirection: data.content_attributes?.data?.call_direction,
       phoneNumber: data.meta?.sender?.phone_number,
       avatarUrl: data.meta?.sender?.avatar_url,
     };

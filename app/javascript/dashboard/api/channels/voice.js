@@ -1,5 +1,6 @@
 /* global axios */
 import ApiClient from '../ApiClient';
+import ContactsAPI from '../contacts';
 
 class VoiceAPI extends ApiClient {
   constructor() {
@@ -12,52 +13,40 @@ class VoiceAPI extends ApiClient {
 
   // ------------------- Server APIs -------------------
   initiateCall(contactId, inboxId) {
-    if (!contactId)
-      throw new Error('Contact ID is required to initiate a call');
-    const payload = {};
-    if (inboxId) payload.inbox_id = inboxId;
-    // The endpoint is defined in the contacts namespace, not voice namespace
-    return axios.post(
-      `${this.baseUrl().replace('/voice', '')}/contacts/${contactId}/call`,
-      payload
-    ).then(r => r.data);
+    return ContactsAPI.initiateCall(contactId, inboxId).then(r => r.data);
   }
 
-  endCall(callSid, conversationId) {
+  leaveConference(inboxId, conversationId) {
+    if (!inboxId) throw new Error('Inbox ID is required to leave a conference');
     if (!conversationId)
-      throw new Error('Conversation ID is required to end a call');
-    if (!callSid) throw new Error('Call SID is required to end a call');
-    return axios.post(`${this.url}/end_call`, {
-      call_sid: callSid,
-      conversation_id: conversationId,
-      id: conversationId,
-    }).then(r => r.data);
+      throw new Error('Conversation ID is required to leave a conference');
+    return axios
+      .delete(`${this.baseUrl()}/inboxes/${inboxId}/conference`, { params: { conversation_id: conversationId } })
+      .then(r => r.data);
   }
 
-  joinCall(params) {
+  joinConference(params) {
     const conversationId = params.conversation_id || params.conversationId;
+    const inboxId = params.inbox_id || params.inboxId;
     const callSid = params.call_sid || params.callSid;
-    const payload = { call_sid: callSid, conversation_id: conversationId };
+    if (!inboxId) throw new Error('Inbox ID is required to join a call');
     if (!conversationId)
       throw new Error('Conversation ID is required to join a call');
-    if (!callSid) throw new Error('Call SID is required to join a call');
-    if (params.account_id) payload.account_id = params.account_id;
-    return axios.post(`${this.url}/join_call`, payload).then(r => r.data);
+    return axios
+      .post(`${this.baseUrl()}/inboxes/${inboxId}/conference`, {
+        conversation_id: conversationId,
+        call_sid: callSid,
+      })
+      .then(r => r.data);
   }
 
-  rejectCall(callSid, conversationId) {
-    if (!conversationId)
-      throw new Error('Conversation ID is required to reject a call');
-    if (!callSid) throw new Error('Call SID is required to reject a call');
-    return axios.post(`${this.url}/reject_call`, {
-      call_sid: callSid,
-      conversation_id: conversationId,
-    }).then(r => r.data);
-  }
+  // Reject is handled client-side by not joining and clearing state
 
   getToken(inboxId) {
     if (!inboxId) return Promise.reject(new Error('Inbox ID is required'));
-    return axios.post(`${this.url}/token`, { inbox_id: inboxId }).then(r => r.data);
+    return axios
+      .get(`${this.baseUrl()}/inboxes/${inboxId}/conference_token`)
+      .then(r => r.data);
   }
 
   // ------------------- Client (Twilio) APIs -------------------
@@ -136,7 +125,21 @@ class VoiceAPI extends ApiClient {
     }
   }
 
-  joinClientCall({ To }) {
+  destroyDevice() {
+    try {
+      if (this.device) {
+        this.device.destroy?.();
+      }
+    } catch (_) {
+      // ignore
+    } finally {
+      this.activeConnection = null;
+      this.device = null;
+      this.initialized = false;
+    }
+  }
+
+  joinClientCall({ To, conversationId }) {
     if (!this.device || !this.initialized) throw new Error('Twilio not ready');
     if (!To) throw new Error('Missing To');
 
@@ -152,9 +155,9 @@ class VoiceAPI extends ApiClient {
       }
     }
 
-    const connection = this.device.connect({
-      params: { To: String(To), is_agent: 'true' },
-    });
+    const params = { To: String(To), is_agent: 'true' };
+    if (conversationId) params.conversation_id = String(conversationId);
+    const connection = this.device.connect({ params });
     this.activeConnection = connection;
     return connection;
   }

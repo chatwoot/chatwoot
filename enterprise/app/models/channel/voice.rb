@@ -45,7 +45,11 @@ class Channel::Voice < ApplicationRecord
   def initiate_call(to:, conference_sid: nil, agent_id: nil)
     case provider
     when 'twilio'
-      initiate_twilio_call(to, conference_sid, agent_id)
+      Voice::Provider::TwilioAdapter.new(self).initiate_call(
+        to: to,
+        conference_sid: conference_sid,
+        agent_id: agent_id
+      )
     else
       raise "Unsupported voice provider: #{provider}"
     end
@@ -85,42 +89,7 @@ class Channel::Voice < ApplicationRecord
       errors.add(:provider_config, "#{key} is required for Twilio provider") if config[key].blank?
     end
   end
-  def initiate_twilio_call(to, conference_sid = nil, agent_id = nil)
-    config = provider_config_hash
-
-    host = ENV.fetch('FRONTEND_URL')
-    phone_digits = phone_number.delete_prefix('+')
-    callback_url = "#{host}/twilio/voice/call/#{phone_digits}"
-
-    params = {
-      from: phone_number,
-      to: to,
-      url: callback_url,
-      status_callback: "#{host}/twilio/voice/status/#{phone_digits}",
-      status_callback_event: %w[initiated ringing answered completed failed busy no-answer canceled],
-      status_callback_method: 'POST'
-    }
-
-    Rails.logger.info(
-      "VOICE_OUTBOUND_CALL_PARAMS to=#{to} from=#{phone_number} conference=#{conference_sid}"
-    )
-
-    call = twilio_client(config).calls.create(**params)
-
-    {
-      provider: 'twilio',
-      call_sid: call.sid,
-      status: call.status,
-      call_direction: 'outbound',
-      requires_agent_join: true,
-      agent_id: agent_id,
-      conference_sid: conference_sid
-    }
-  end
-
-  def twilio_client(config)
-    Twilio::REST::Client.new(config['account_sid'], config['auth_token'])
-  end
+  # twilio_client and initiate_twilio_call moved to Voice::Provider::TwilioAdapter
 
   def provider_config_hash
     if provider_config.is_a?(Hash)

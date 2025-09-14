@@ -1,97 +1,68 @@
-require 'twilio-ruby'
-
 class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
-  before_action :fetch_conversation, only: %i[end_call join_call reject_call]
-  before_action :set_voice_inbox, only: %i[token]
+  before_action :set_voice_inbox_for_conference, only: %i[conference_token conference_join conference_leave]
 
-  def end_call
-    call_sid = params[:call_sid] || convo_attr('call_sid')
-    return render_not_found_error('No active call found') unless call_sid
-
-    begin
-      twilio_client.calls(call_sid).update(status: 'completed') if in_progress?(call_sid)
-    rescue StandardError
-      # ignore provider errors
-    end
-
-    render json: { status: 'success', message: 'Call successfully ended' }
-  rescue StandardError => e
-    render_internal_server_error("Failed to end call: #{e.message}")
-  end
-
-  def join_call
-    call_sid = params[:call_sid] || convo_attr('call_sid')
-    outbound  = convo_attr('requires_agent_join') == true
-
-    return render_not_found_error('No active call found') unless call_sid || outbound
-
-    conference_sid = convo_attr('conference_sid') || create_conference_sid!
-    update_join_metadata!(call_sid)
-
-    render json: {
-      status:         'success',
-      message:        'Agent joining call via WebRTC',
-      conference_sid: conference_sid,
-      using_webrtc:   true,
-      conversation_id: @conversation.display_id,
-      account_id:     Current.account.id
-    }
-  rescue StandardError => e
-    render_internal_server_error("Failed to join call: #{e.message}")
-  end
-
-  def reject_call
-    call_sid = params[:call_sid] || convo_attr('call_sid')
-    return render_not_found_error('No active call found') unless call_sid
-
-    begin
-      twilio_client.calls(call_sid).update(status: 'completed') if in_progress?(call_sid)
-    rescue StandardError
-      # ignore provider errors
-    end
-
-    # Mark rejection metadata; status will be updated via Twilio webhooks
-    @conversation.update!(additional_attributes: convo_attrs.merge(
-      'agent_rejected' => true,
-      'rejected_at'    => Time.current.to_i,
-      'rejected_by'    => user_meta
-    ))
-
-    render json: { status: 'success', message: 'Call rejected by agent' }
-  end
-
-
-  # Token for client SDK
-  def token
+  # GET /api/v1/accounts/:account_id/inboxes/:inbox_id/conference_token
+  def conference_token
     payload = Voice::TokenService.new(
       inbox: @voice_inbox,
       user: Current.user,
       account: Current.account
     ).generate
-
     render json: payload
   rescue StandardError => e
-    Rails.logger.error("Voice::Token error: #{e.class} - #{e.message}")
-    render json: { error: 'Failed to generate token' }, status: :internal_server_error
+    Rails.logger.error("VOICE_CONFERENCE_TOKEN_ERROR #{e.class}: #{e.message}")
+    Sentry.capture_exception(e) if defined?(Sentry)
+    Raven.capture_exception(e) if defined?(Raven)
+    render json: { error: 'failed_to_generate_token', code: 'token_error', details: e.message }, status: :internal_server_error
+  end
+
+  # POST /api/v1/accounts/:account_id/inboxes/:inbox_id/conference
+  def conference_join
+    conversation = fetch_conversation_by_display_id
+    # Deterministic conference SID from account + call_sid
+    call_sid = conversation.identifier
+    if call_sid.blank?
+      incoming_sid = params[:call_sid].to_s
+      if incoming_sid.blank?
+        return render json: { error: 'conference_not_ready', code: 'not_ready', details: 'call_sid missing' }, status: :conflict
+      end
+      call_sid = incoming_sid
+      conversation.update!(identifier: call_sid)
+    end
+    conference_sid = "conf_account_#{Current.account.id}_call_#{call_sid}"
+    @conversation = conversation
+    update_join_metadata!(conversation.identifier)
+    render json: {
+      status: 'success',
+      conversation_id: conversation.display_id,
+      conference_sid: conference_sid,
+      using_webrtc: true,
+    }
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found
+  rescue StandardError => e
+    Rails.logger.error("VOICE_CONFERENCE_JOIN_ERROR #{e.class}: #{e.message}")
+    Sentry.capture_exception(e) if defined?(Sentry)
+    Raven.capture_exception(e) if defined?(Raven)
+    render json: { error: 'failed_to_join_conference', code: 'join_error', details: e.message }, status: :internal_server_error
+  end
+
+  # DELETE /api/v1/accounts/:account_id/inboxes/:inbox_id/conference?conversation_id=:id
+  def conference_leave
+    conversation = fetch_conversation_by_display_id
+    # End the conference when an agent leaves from the app
+    Voice::ConferenceEndService.new(conversation: conversation).perform
+    render json: { status: 'success', conversation_id: conversation.display_id }
+  rescue ActiveRecord::RecordNotFound => e
+    render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found
+  rescue StandardError => e
+    Rails.logger.error("VOICE_CONFERENCE_LEAVE_ERROR #{e.class}: #{e.message}")
+    Sentry.capture_exception(e) if defined?(Sentry)
+    Raven.capture_exception(e) if defined?(Raven)
+    render json: { error: 'failed_to_leave_conference', code: 'leave_error', details: e.message }, status: :internal_server_error
   end
 
   private
-
-
-  def fetch_conversation
-    @conversation = Current.account.conversations.find_by(display_id: params[:conversation_id])
-  end
-
-  def twilio_client
-    @twilio_client ||= begin
-      cfg = @conversation.inbox.channel.provider_config_hash
-      Twilio::REST::Client.new(cfg['account_sid'], cfg['auth_token'])
-    end
-  end
-
-  def in_progress?(call_sid)
-    %w[in-progress ringing].include?(twilio_client.calls(call_sid).fetch.status)
-  end
 
   def convo_attrs
     @conversation.additional_attributes || {}
@@ -105,12 +76,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     { id: current_user.id, name: current_user.name }
   end
 
-  def create_conference_sid!
-    sid = "conf_account_#{Current.account.id}_conv_#{@conversation.display_id}"
-    @conversation.update!(additional_attributes: convo_attrs.merge('conference_sid' => sid))
-    sid
-  end
-
   def update_join_metadata!(call_sid)
     attrs = convo_attrs.merge(
       'agent_joined' => true,
@@ -121,10 +86,14 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     @conversation.update!(additional_attributes: attrs)
   end
 
+  def set_voice_inbox_for_conference
+    @voice_inbox = Current.account.inboxes.find(params[:id] || params[:inbox_id])
+    authorize @voice_inbox
+  end
 
-  # ---- Tokens ---------------------------------------------------------------
-
-  def set_voice_inbox
-    @voice_inbox = Current.account.inboxes.find(params[:inbox_id])
+  def fetch_conversation_by_display_id
+    cid = params[:conversation_id] || params[:conversationId]
+    raise ActiveRecord::RecordNotFound, 'conversation_id required' if cid.blank?
+    Current.account.conversations.find_by!(display_id: cid)
   end
 end

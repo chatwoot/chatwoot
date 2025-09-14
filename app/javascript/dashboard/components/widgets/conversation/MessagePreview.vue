@@ -53,67 +53,26 @@ export default {
     // Simple check: Is this a voice channel conversation?
     isVoiceChannel() {
       return (
+        this.conversation?.channel === 'Channel::Voice' ||
         this.conversation?.meta?.channel === 'Channel::Voice' ||
         this.conversation?.meta?.inbox?.channel_type === 'Channel::Voice'
       );
     },
     // Check if this is a voice call message
     isVoiceCall() {
-      return this.message?.content_type === CONTENT_TYPES.VOICE_CALL;
+      const ct = this.message?.content_type;
+      return ct === CONTENT_TYPES.VOICE_CALL || ct === 12;
     },
-    // Get call direction for voice calls
+    // Get call direction for voice calls (authoritative: conversation-level)
     isIncomingCall() {
       if (!this.isVoiceChannel) return false;
-
-      // Prefer conversation-level call direction
       const convDir = this.conversation?.additional_attributes?.call_direction;
-      if (convDir) return convDir === 'inbound';
-
-      // Fallback to last message direction if present
-      const msgDir = this.message?.content_attributes?.data?.call_direction;
-      if (msgDir) return msgDir === 'inbound';
-
-      return false;
+      return convDir === 'inbound';
     },
     // Get call status (Twilio-native)
     callStatus() {
       if (!this.isVoiceChannel) return null;
-
-      // Prefer conversation-level status
-      const convStatus = this.conversation?.additional_attributes?.call_status;
-      if (convStatus) return convStatus;
-
-      // Fallback to last message status if available
-      const msgStatus = this.message?.content_attributes?.data?.status;
-      if (msgStatus) return msgStatus;
-
-      return null;
-    },
-    // Voice call icon based on status
-    voiceCallIcon() {
-      if (!this.isVoiceChannel) return null;
-
-      const status = this.callStatus;
-      const isIncoming = this.isIncomingCall;
-
-      if (status === 'no-answer' || status === 'busy' || status === 'failed') {
-        return 'phone-missed-call';
-      }
-
-      if (status === 'in-progress') {
-        return 'phone-in-talk';
-      }
-
-      if (status === 'completed' || status === 'canceled') {
-        return isIncoming ? 'phone-incoming' : 'phone-outgoing';
-      }
-
-      if (status === 'ringing') {
-        return isIncoming ? 'phone-incoming' : 'phone-outgoing';
-      }
-
-      // Default based on direction
-      return isIncoming ? 'phone-incoming' : 'phone-outgoing';
+      return this.message?.content_attributes?.data?.status || null;
     },
     parsedLastMessage() {
       // For voice calls, return status text

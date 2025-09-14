@@ -31,51 +31,6 @@
 
 en:
   hello: 'Hello world'
-  INBOX_MGMT:
-    ADD:
-      TWILIO_VOICE:
-        TITLE: 'Add Twilio Voice Channel'
-        DESC: 'Integrate Twilio Voice to accept and make voice calls through Chatwoot.'
-        PHONE_NUMBER:
-          LABEL: 'Phone Number'
-          PLACEHOLDER: '+1234567890'
-          ERROR: 'Please enter a valid phone number'
-        ACCOUNT_SID:
-          LABEL: 'Account SID'
-          PLACEHOLDER: 'Enter your Twilio Account SID'
-          REQUIRED: 'Account SID is required'
-        AUTH_TOKEN:
-          LABEL: 'Auth Token'
-          PLACEHOLDER: 'Enter your Twilio Auth Token'
-          REQUIRED: 'Auth Token is required'
-        SUBMIT_BUTTON: 'Create Channel'
-        API:
-          ERROR_MESSAGE: 'Failed to create Twilio Voice channel'
-  CONVERSATION:
-    VOICE_CALL: 'Voice Call'
-    CALL_ERROR: 'Failed to initiate voice call'
-    CALL_INITIATED: 'Voice call initiated successfully'
-    END_CALL: 'End call'
-    CALL_ENDED: 'Call ended successfully'
-    CALL_END_ERROR: 'Failed to end call. Please try again.'
-    AUDIO_NOT_SUPPORTED: 'Your browser does not support audio playback'
-    TRANSCRIPTION: 'Transcription'
-    VOICE_CALL:
-      RINGING: 'Incoming Call - Join'
-      ACTIVE: 'Call in progress'
-      MISSED: 'Missed Call'
-      ENDED: 'Call Ended'
-      INCOMING_CALL: 'Incoming Call'
-      JOIN_CALL: 'Join'
-      CALL_JOINED: 'Joining call...'
-      JOIN_ERROR: 'Failed to join call. Please try again.'
-      MISSED_CALL: 'Call was not answered'
-      DURATION: 'Duration: %{duration}'
-      INCOMING_FROM: 'Incoming call from %{name}'
-      OUTGOING_FROM: 'Outgoing call from %{name}'
-  CONTACT_PANEL:
-    NEW_MESSAGE: 'New Message'
-    MERGE_CONTACT: 'Merge Contact'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'

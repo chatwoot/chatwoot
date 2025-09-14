@@ -196,19 +196,14 @@ Rails.application.routes.draw do
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
             post :sync_templates, on: :member
-          end
-
-          # Voice call management (Enterprise-only)
-          if ChatwootApp.enterprise?
-            resource :voice, only: [], controller: 'voice' do
-              collection do
-                post :end_call
-                post :join_call
-                post :reject_call
-                post :token
-              end
+            if ChatwootApp.enterprise?
+              # Conference operations
+              get :conference_token, on: :member, to: 'voice#conference_token'
+              post :conference, on: :member, to: 'voice#conference_join'
+              delete :conference, on: :member, to: 'voice#conference_leave'
             end
           end
+
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
               delete :destroy
@@ -546,6 +541,7 @@ Rails.application.routes.draw do
         collection do
           post 'call/:phone', action: :call_twiml
           post 'status/:phone', action: :status
+          post 'conference_status/:phone', action: :conference_status
         end
       end
     end
