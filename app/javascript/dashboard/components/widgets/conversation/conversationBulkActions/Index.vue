@@ -1,6 +1,7 @@
 <script>
 import { getUnixTime } from 'date-fns';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { getLastCustomSnoozeTime } from 'dashboard/helper/customSnoozeStorage';
 import { emitter } from 'shared/helpers/mitt';
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -100,6 +101,17 @@ export default {
     onCmdSnoozeConversation(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
         this.showCustomTimeSnoozeModal = true;
+      } else if (
+        snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_LAST_CUSTOM_TIME
+      ) {
+        // Use the saved custom time
+        const lastCustomTime = getLastCustomSnoozeTime();
+        if (lastCustomTime) {
+          this.updateConversations('snoozed', lastCustomTime);
+        } else {
+          // Fallback to showing custom modal if no saved time exists
+          this.showCustomTimeSnoozeModal = true;
+        }
       } else {
         this.updateConversations('snoozed', findSnoozeTime(snoozeType) || null);
       }
