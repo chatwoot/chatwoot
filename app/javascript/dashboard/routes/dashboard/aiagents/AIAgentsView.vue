@@ -11,8 +11,8 @@ import useVuelidate from '@vuelidate/core';
 import { useI18n } from 'vue-i18n';
 
 const agentTypes = [
-  { label: 'Multi Agent', id: 'multi' },
   { label: 'Single Agent', id: 'single' },
+  { label: 'Multi Agent', id: 'multi' },
   { label: 'Custom Agent', id: 'custom' }
 ];
 const selectedAgentType = ref(agentTypes[0].id);
