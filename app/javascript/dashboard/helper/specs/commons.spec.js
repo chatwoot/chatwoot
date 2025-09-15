@@ -1,5 +1,4 @@
 import {
-  getTypingUsersText,
   createPendingMessage,
   convertToAttributeSlug,
   convertToCategorySlug,
@@ -7,32 +6,6 @@ import {
   sanitizeVariableSearchKey,
   formatToTitleCase,
 } from '../commons';
-
-describe('#getTypingUsersText', () => {
-  it('returns the correct text is there is only one typing user', () => {
-    expect(getTypingUsersText([{ name: 'Pranav' }])).toEqual([
-      'TYPING.ONE',
-      { user: 'Pranav' },
-    ]);
-  });
-
-  it('returns the correct text is there are two typing users', () => {
-    expect(
-      getTypingUsersText([{ name: 'Pranav' }, { name: 'Nithin' }])
-    ).toEqual(['TYPING.TWO', { user: 'Pranav', secondUser: 'Nithin' }]);
-  });
-
-  it('returns the correct text is there are more than two users are typing', () => {
-    expect(
-      getTypingUsersText([
-        { name: 'Pranav' },
-        { name: 'Nithin' },
-        { name: 'Subin' },
-        { name: 'Sojan' },
-      ])
-    ).toEqual(['TYPING.MULTIPLE', { user: 'Pranav', count: 3 }]);
-  });
-});
 
 describe('#createPendingMessage', () => {
   const message = {

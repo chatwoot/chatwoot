@@ -208,3 +208,6 @@
   display_name: SAML
   enabled: false
   premium: true
+- name: chat_preserve_user_scroll
+  display_name: Preserve User Scroll on Chat
+  enabled: false
