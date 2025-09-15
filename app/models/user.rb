@@ -19,7 +19,7 @@
 #  message_signature      :text
 #  name                   :string           not null
 #  otp_backup_codes       :text
-#  otp_required_for_login :boolean          default(FALSE)
+#  otp_required_for_login :boolean          default(FALSE), not null
 #  otp_secret             :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
@@ -78,6 +78,10 @@ class User < ApplicationRecord
   validates :email, presence: true
 
   serialize :otp_backup_codes, type: Array
+
+  # Encrypt sensitive MFA fields
+  encrypts :otp_secret, deterministic: true
+  encrypts :otp_backup_codes
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
