@@ -89,6 +89,8 @@ es:
       invalid_value: Valor no válido. Los valores proporcionados para %{attribute_name} no son válidos
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     utc_warning: El informe generado está en zona horaria UTC
