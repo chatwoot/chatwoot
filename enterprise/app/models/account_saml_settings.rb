@@ -23,6 +23,7 @@ class AccountSamlSettings < ApplicationRecord
   validates :sso_url, presence: true
   validates :certificate, presence: true
   validates :idp_entity_id, presence: true
+  validate :certificate_must_be_valid_x509
 
   before_validation :set_sp_entity_id, if: :sp_entity_id_needs_generation?
 
@@ -55,5 +56,13 @@ class AccountSamlSettings < ApplicationRecord
 
   def installation_name
     GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
+  end
+
+  def certificate_must_be_valid_x509
+    return if certificate.blank?
+
+    OpenSSL::X509::Certificate.new(certificate)
+  rescue OpenSSL::X509::CertificateError
+    errors.add(:certificate, I18n.t('errors.account_saml_settings.invalid_certificate'))
   end
 end
