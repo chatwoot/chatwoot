@@ -17,6 +17,7 @@ class SamlUserBuilder
     user = User.from_email(auth_attribute('email'))
 
     if user
+      user.skip_confirmation! unless user.confirmed?
       convert_existing_user_to_saml(user)
       return user
     end
