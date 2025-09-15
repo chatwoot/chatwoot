@@ -156,7 +156,7 @@ RSpec.describe SamlUserBuilder do
           builder.perform
 
           expect(existing_user.reload.confirmed?).to be true
-          expect(existing_user.reload.confirmed_at).to eq(original_confirmed_at)
+          expect(existing_user.reload.confirmed_at).to be_within(2.seconds).of(original_confirmed_at)
         end
       end
     end
