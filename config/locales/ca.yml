@@ -89,6 +89,8 @@ ca:
       invalid_value: Valor no vàlid. Els valors proporcionats per a %{attribute_name} no són vàlids
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Període d'informes %{since} a %{until}
     utc_warning: L'informe generat es troba a la zona horària UTC
