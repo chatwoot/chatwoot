@@ -89,6 +89,8 @@ ja:
       invalid_value: 無効な値です。%{attribute_name} に提供された値は無効です。
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: レポート期間 %{since} から %{until} まで
     utc_warning: 生成されたレポートはUTCタイムゾーンです
