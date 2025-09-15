@@ -53,4 +53,4 @@ class AgentBuilder
   end
 end
 
-AgentBuilder.prepend_mod_with('Enterprise::AgentBuilder')
+AgentBuilder.prepend_mod_with('AgentBuilder')
