@@ -16,7 +16,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: pgvector/pgvector:pg15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ''
@@ -65,6 +65,10 @@ jobs:
 
       - name: Create database
         run: bundle exec rake db:create
+
+      - name: Install pgvector extension
+        run: |
+          PGPASSWORD="" psql -h localhost -U postgres -d chatwoot_test -c "CREATE EXTENSION IF NOT EXISTS vector;"
 
       - name: Seed database
         run: bundle exec rake db:schema:load
