@@ -115,6 +115,8 @@ en:
     mfa:
       enabled: MFA enabled successfully
       disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
