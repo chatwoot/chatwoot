@@ -89,6 +89,8 @@ lv:
       invalid_value: Nederīga vērtība. Norādītās vērtības priekš %{attribute_name} nav derīgas
     custom_attribute_definition:
       key_conflict: Norādītā atslēga nav atļauta, jo tā var būt pretrunā ar noklusējuma atribūtiem.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
