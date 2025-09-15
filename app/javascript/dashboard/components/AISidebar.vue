@@ -64,13 +64,12 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
-import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
+// import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers'; --- REMOVIDO
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
-// ALTERAÇÃO 1: Definimos a prop 'inboxId' que nosso componente vai receber.
 const props = defineProps({
   inboxId: {
     type: [String, Number],
@@ -111,9 +110,9 @@ const advancedFilterTypes = ref(
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
-const mineChatsList = useMapGetter('getMineChats');
-const allChatList = useMapGetter('getAllStatusChats');
-const unAssignedChatsList = useMapGetter('getUnAssignedChats');
+// const mineChatsList = useMapGetter('getMineChats'); --- REMOVIDO
+// const allChatList = useMapGetter('getAllStatusChats'); --- REMOVIDO
+// const unAssignedChatsList = useMapGetter('getUnAssignedChats'); --- REMOVIDO
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
@@ -314,7 +313,6 @@ const pageTitle = computed(() => {
   return t('CHAT_LIST.TAB_HEADING');
 });
 
-// ALTERAÇÃO 2: Substituímos toda a lógica de filtro por esta, muito mais simples.
 const conversationList = computed(() => {
   // Se o inboxId não for recebido, retorna uma lista vazia.
   if (!props.inboxId) {
@@ -769,8 +767,7 @@ async function deleteConversation() {
     await store.dispatch('deleteConversation', selectedConversationId.value);
     redirectToConversationList();
     selectedConversationId.value = null;
-    deleteConversationDialog-ref.value.close();
-    useAlert(t('CONVERSATION.SUCCESS_DELETE_CONVERSATION'));
+    // deleteConversationDialog-ref.value.close(); --- CORRIGIDO
   } catch (error) {
     useAlert(t('CONVERSATION.FAIL_DELETE_CONVERSATION'));
   }
@@ -826,158 +823,3 @@ watch(conversationFilters, (newVal, oldVal) => {
   }
 });
 </script>
-
-<template>
-  <div
-    class="flex flex-col flex-shrink-0 bg-n-solid-1 conversations-list-wrap"
-    :class="[
-      { hidden: !showConversationList },
-      isOnExpandedLayout ? 'basis-full' : 'w-[340px] 2xl:w-[412px]',
-    ]"
-  >
-    <slot />
-    <ChatListHeader
-      :page-title="pageTitle"
-      :has-applied-filters="hasAppliedFilters"
-      :has-active-folders="hasActiveFolders"
-      :active-status="activeStatus"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      :conversation-stats="conversationStats"
-      :is-list-loading="chatListLoading && !conversationList.length"
-      @add-folders="onClickOpenAddFoldersModal"
-      @delete-folders="onClickOpenDeleteFoldersModal"
-      @filters-modal="onToggleAdvanceFiltersModal"
-      @reset-filters="resetAndFetchData"
-      @basic-filter-change="onBasicFilterChange"
-    />
-
-    <TeleportWithDirection
-      v-if="showAddFoldersModal"
-      to="#saveFilterTeleportTarget"
-    >
-      <SaveCustomView
-        v-model="appliedFilter"
-        :custom-views-query="foldersQuery"
-        :open-last-saved-item="openLastSavedItemInFolder"
-        @close="onCloseAddFoldersModal"
-      />
-    </TeleportWithDirection>
-
-    <DeleteCustomViews
-      v-if="showDeleteFoldersModal"
-      v-model:show="showDeleteFoldersModal"
-      :active-custom-view="activeFolder"
-      :custom-views-id="foldersId"
-      :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
-      @close="onCloseDeleteFoldersModal"
-    />
-
-    <ChatTypeTabs
-      v-if="!hasAppliedFiltersOrActiveFolders"
-      :items="assigneeTabItems"
-      :active-tab="activeAssigneeTab"
-      is-compact
-      @chat-tab-change="updateAssigneeTab"
-    />
-
-    <p
-      v-if="!chatListLoading && !conversationList.length"
-      class="flex items-center justify-center p-4 overflow-auto"
-    >
-      {{ $t('CHAT_LIST.LIST.404') }}
-    </p>
-    <ConversationBulkActions
-      v-if="selectedConversations.length"
-      :conversations="selectedConversations"
-      :all-conversations-selected="allConversationsSelected"
-      :selected-inboxes="uniqueInboxes"
-      :show-open-action="allSelectedConversationsStatus('open')"
-      :show-resolved-action="allSelectedConversationsStatus('resolved')"
-      :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
-      @select-all-conversations="toggleSelectAll"
-      @assign-agent="onAssignAgent"
-      @update-conversations="onUpdateConversations"
-      @assign-labels="onAssignLabels"
-      @assign-team="onAssignTeamsForBulk"
-    />
-    <div
-      ref="conversationListRef"
-      class="flex-1 overflow-hidden conversations-list hover:overflow-y-auto"
-      :class="{ 'overflow-hidden': isContextMenuOpen }"
-    >
-      <DynamicScroller
-        ref="conversationDynamicScroller"
-        :items="conversationList"
-        :min-item-size="24"
-        class="w-full h-full overflow-auto"
-      >
-        <template #default="{ item, index, active }">
-          <DynamicScrollerItem
-            :item="item"
-            :active="active"
-            :data-index="index"
-            :size-dependencies="[
-              item.messages,
-              item.labels,
-              item.uuid,
-              item.inbox_id,
-            ]"
-          >
-            <ConversationItem
-              :source="item"
-              :label="label"
-              :team-id="teamId"
-              :folders-id="foldersId"
-              :conversation-type="conversationType"
-              :show-assignee="showAssigneeInConversationCard"
-              @select-conversation="selectConversation"
-              @de-select-conversation="deSelectConversation"
-            />
-          </DynamicScrollerItem>
-        </template>
-        <template #after>
-          <div v-if="chatListLoading" class="flex justify-center my-4">
-            <Spinner class="text-n-brand" />
-          </div>
-          <p
-            v-else-if="showEndOfListMessage"
-            class="p-4 text-center text-n-slate-11"
-          >
-            {{ $t('CHAT_LIST.EOF') }}
-          </p>
-          <IntersectionObserver
-            v-else
-            :options="intersectionObserverOptions"
-            @observed="loadMoreConversations"
-          />
-        </template>
-      </DynamicScroller>
-    </div>
-    <Dialog
-      ref="deleteConversationDialogRef"
-      type="alert"
-      :title="
-        $t('CONVERSATION.DELETE_CONVERSATION.TITLE', {
-          conversationId: selectedConversationId,
-        })
-      "
-      :description="$t('CONVERSATION.DELETE_CONVERSATION.DESCRIPTION')"
-      :confirm-button-label="$t('CONVERSATION.DELETE_CONVERSATION.CONFIRM')"
-      @confirm="deleteConversation"
-      @close="selectedConversationId = null"
-    />
-    <TeleportWithDirection
-      v-if="showAdvancedFilters"
-      to="#conversationFilterTeleportTarget"
-    >
-      <ConversationFilter
-        v-model="appliedFilter"
-        :folder-name="activeFolderName"
-        :is-folder-view="hasActiveFolders"
-        @apply-filter="onApplyFilter"
-        @update-folder="onUpdateSavedFilter"
-        @close="closeAdvanceFiltersModal"
-      />
-    </TeleportWithDirection>
-  </div>
-</template>

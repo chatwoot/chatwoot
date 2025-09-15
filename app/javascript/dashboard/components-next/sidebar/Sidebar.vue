@@ -72,11 +72,12 @@ const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
 
-// +++ NOSSA LÓGICA CONDICIONAL +++
+// +++ NOSSA LÓGICA CONDICIONAL (COM FORMATAÇÃO CORRETA) +++
 const aiAssistantMenuItem = computed(() => {
   // 1. Procura pela nossa caixa de entrada "interruptor"
   const aiInbox = inboxes.value.find(
-    inbox => inbox.name === 'assistente-ai' && inbox.channel_type === 'Channel::Api'
+    inbox =>
+      inbox.name === 'assistente-ai' && inbox.channel_type === 'Channel::Api'
   );
 
   // 2. Se não encontrar, retorna um array vazio
@@ -85,14 +86,16 @@ const aiAssistantMenuItem = computed(() => {
   }
 
   // 3. Se encontrar, constrói e retorna o item de menu em um array
-  return [{
-    name: 'Assistente IA',
-    label: 'Assistente IA', // Podemos ajustar a tradução depois
-    icon: 'i-lucide-bot',
-    to: accountScopedRoute('inbox_dashboard', { inbox_id: aiInbox.id }),
-    // A linha acima usa uma rota que já existe, 'inbox_dashboard',
-    // para levar o usuário diretamente para a caixa de entrada do assistente.
-  }];
+  return [
+    {
+      name: 'Assistente IA',
+      label: 'Assistente IA', // Podemos ajustar a tradução depois
+      icon: 'i-lucide-bot',
+      to: accountScopedRoute('inbox_dashboard', { inbox_id: aiInbox.id }),
+      // A linha acima usa uma rota que já existe, 'inbox_dashboard',
+      // para levar o usuário diretamente para a caixa de entrada do assistente.
+    },
+  ];
 });
 
 onMounted(() => {
@@ -154,7 +157,7 @@ const menuItems = computed(() => {
         count: 'notifications/getUnreadCount',
       },
     },
-    // +++ INTEGRAÇÃO DO NOSSO ITEM DE MENU +++
+    // +++ INTEGRAÇÃO DO NOSSO ITEM DE MENU (COM FORMATAÇÃO CORRETA) +++
     ...aiAssistantMenuItem.value,
     {
       name: 'Conversation',
@@ -518,12 +521,6 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.SLA'),
           icon: 'i-lucide-clock-alert',
           to: accountScopedRoute('sla_list'),
-        },
-        {
-          name: 'Settings Security',
-          label: t('SIDEBAR.SECURITY'),
-          icon: 'i-lucide-shield',
-          to: accountScopedRoute('security_settings_index'),
         },
         {
           name: 'Settings Billing',
