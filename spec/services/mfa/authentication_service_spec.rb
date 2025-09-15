@@ -99,7 +99,7 @@ describe Mfa::AuthenticationService do
         expect(service.authenticate).to be_truthy
         # Backup code should not be consumed
         user.reload
-        expect(user.otp_backup_codes).not_to include('XXXXXX')
+        expect(user.otp_backup_codes).not_to include('XXXXXXXX')
       end
     end
   end
