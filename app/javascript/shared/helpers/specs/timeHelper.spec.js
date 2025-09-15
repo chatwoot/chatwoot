@@ -4,6 +4,7 @@ import {
   dynamicTime,
   dateFormat,
   shortTimestamp,
+  getDayDifferenceFromNow,
 } from 'shared/helpers/timeHelper';
 
 beforeEach(() => {
@@ -88,5 +89,69 @@ describe('#shortTimestamp', () => {
     expect(shortTimestamp('a year ago', true)).toEqual('1y ago');
     expect(shortTimestamp('1 year ago', true)).toEqual('1y ago');
     expect(shortTimestamp('4 years ago', true)).toEqual('4y ago');
+  });
+});
+
+describe('#getDayDifferenceFromNow', () => {
+  it('returns 0 for timestamps from today', () => {
+    // Mock current date: May 5, 2023
+    const now = new Date(Date.UTC(2023, 4, 5, 12, 0, 0)); // 12:00 PM
+    const todayTimestamp = Math.floor(now.getTime() / 1000); // Same day
+
+    expect(getDayDifferenceFromNow(now, todayTimestamp)).toEqual(0);
+  });
+
+  it('returns 2 for timestamps from 2 days ago', () => {
+    const now = new Date(Date.UTC(2023, 4, 5, 12, 0, 0)); // May 5, 2023
+    const twoDaysAgoTimestamp = Math.floor(
+      new Date(Date.UTC(2023, 4, 3, 10, 0, 0)).getTime() / 1000
+    ); // May 3, 2023
+
+    expect(getDayDifferenceFromNow(now, twoDaysAgoTimestamp)).toEqual(2);
+  });
+
+  it('returns 7 for timestamps from a week ago', () => {
+    const now = new Date(Date.UTC(2023, 4, 5, 12, 0, 0)); // May 5, 2023
+    const weekAgoTimestamp = Math.floor(
+      new Date(Date.UTC(2023, 3, 28, 8, 0, 0)).getTime() / 1000
+    ); // April 28, 2023
+
+    expect(getDayDifferenceFromNow(now, weekAgoTimestamp)).toEqual(7);
+  });
+
+  it('returns 30 for timestamps from a month ago', () => {
+    const now = new Date(Date.UTC(2023, 4, 5, 12, 0, 0)); // May 5, 2023
+    const monthAgoTimestamp = Math.floor(
+      new Date(Date.UTC(2023, 3, 5, 12, 0, 0)).getTime() / 1000
+    ); // April 5, 2023
+
+    expect(getDayDifferenceFromNow(now, monthAgoTimestamp)).toEqual(30);
+  });
+
+  it('handles edge case with different times on same day', () => {
+    const now = new Date(Date.UTC(2023, 4, 5, 23, 59, 59)); // May 5, 2023 11:59:59 PM
+    const morningTimestamp = Math.floor(
+      new Date(Date.UTC(2023, 4, 5, 0, 0, 1)).getTime() / 1000
+    ); // May 5, 2023 12:00:01 AM
+
+    expect(getDayDifferenceFromNow(now, morningTimestamp)).toEqual(0);
+  });
+
+  it('handles cross-month boundaries correctly', () => {
+    const now = new Date(Date.UTC(2023, 4, 1, 12, 0, 0)); // May 1, 2023
+    const lastMonthTimestamp = Math.floor(
+      new Date(Date.UTC(2023, 3, 30, 12, 0, 0)).getTime() / 1000
+    ); // April 30, 2023
+
+    expect(getDayDifferenceFromNow(now, lastMonthTimestamp)).toEqual(1);
+  });
+
+  it('handles cross-year boundaries correctly', () => {
+    const now = new Date(Date.UTC(2023, 0, 2, 12, 0, 0)); // January 2, 2023
+    const lastYearTimestamp = Math.floor(
+      new Date(Date.UTC(2022, 11, 31, 12, 0, 0)).getTime() / 1000
+    ); // December 31, 2022
+
+    expect(getDayDifferenceFromNow(now, lastYearTimestamp)).toEqual(2);
   });
 });

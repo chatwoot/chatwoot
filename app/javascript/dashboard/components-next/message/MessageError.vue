@@ -1,16 +1,25 @@
 <script setup>
+import { computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageContext } from './provider.js';
-import { ORIENTATION } from './constants';
+import { getDayDifferenceFromNow } from 'shared/helpers/timeHelper';
+import { ORIENTATION, MESSAGE_STATUS } from './constants';
 
 defineProps({
   error: { type: String, required: true },
 });
 
-const { orientation } = useMessageContext();
+const emit = defineEmits(['retry']);
+
+const { orientation, status, createdAt } = useMessageContext();
 
 const { t } = useI18n();
+
+const hasOneDayPassed = computed(() => {
+  // Disable retry button if the message is older than 24 hours
+  return getDayDifferenceFromNow(new Date(), createdAt.value) >= 1;
+});
 </script>
 
 <template>
@@ -34,6 +43,13 @@ const { t } = useI18n();
       >
         {{ error }}
       </div>
+    </div>
+    <div
+      v-if="status === MESSAGE_STATUS.FAILED && !hasOneDayPassed"
+      class="bg-n-alpha-2 rounded-md size-5 grid place-content-center cursor-pointer"
+      @click="emit('retry')"
+    >
+      <Icon icon="i-lucide-refresh-ccw" class="text-n-ruby-11 size-[14px]" />
     </div>
   </div>
 </template>
