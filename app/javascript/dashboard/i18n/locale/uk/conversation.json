@@ -71,6 +71,17 @@
       "SHOW_LABELS": "Показати мітки",
       "HIDE_LABELS": "Сховати мітки"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
       "REOPEN_ACTION": "Відкрити знову",
@@ -316,7 +327,7 @@
       "CONVERSATION_ACTIONS": "Дії при бесіді",
       "CONVERSATION_LABELS": "Мітки бесіди",
       "CONVERSATION_INFO": "Інформація про бесіду",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "Нотатки контакту",
       "CONTACT_ATTRIBUTES": "Атрибути контакту",
       "PREVIOUS_CONVERSATION": "Попередні бесіди",
       "MACROS": "Макрос",

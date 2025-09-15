@@ -26,6 +26,9 @@ tr:
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Gelen kutusu silme isteğiniz bir süre sonra işleme alınacaktır.
   errors:
     validations:
@@ -41,6 +44,8 @@ tr:
       failed: Kayıt başarısız oldu
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Hatalı veri türü
@@ -209,6 +214,7 @@ tr:
     reply:
       email:
         header:
+          notifications: 'Bildirimler'
           from_with_name: '"%{inbox_name} <%{from_email}> adresinden %{assignee_name}''e gönderildi,'
           reply_with_name: '%{assignee_name} tarafından %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} tarafından %{business_name} <%{from_email}>'

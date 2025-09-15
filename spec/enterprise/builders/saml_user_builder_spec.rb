@@ -109,6 +109,56 @@ RSpec.describe SamlUserBuilder do
 
         expect { builder.perform }.not_to change(AccountUser, :count)
       end
+
+      context 'when user is not confirmed' do
+        let(:unconfirmed_email) { 'unconfirmed_saml_user@example.com' }
+        let(:unconfirmed_auth_hash) do
+          {
+            'provider' => 'saml',
+            'uid' => 'saml-uid-123',
+            'info' => {
+              'email' => unconfirmed_email,
+              'name' => 'SAML User',
+              'first_name' => 'SAML',
+              'last_name' => 'User'
+            },
+            'extra' => {
+              'raw_info' => {
+                'groups' => %w[Administrators Users]
+              }
+            }
+          }
+        end
+        let(:unconfirmed_builder) { described_class.new(unconfirmed_auth_hash, account.id) }
+        let!(:existing_user) do
+          user = build(:user, email: unconfirmed_email)
+          user.confirmed_at = nil
+          user.save!(validate: false)
+          user
+        end
+
+        it 'confirms unconfirmed user after SAML authentication' do
+          expect(existing_user.confirmed?).to be false
+
+          unconfirmed_builder.perform
+
+          expect(existing_user.reload.confirmed?).to be true
+        end
+      end
+
+      context 'when user is already confirmed' do
+        let!(:existing_user) { create(:user, email: email, confirmed_at: Time.current) }
+
+        it 'keeps already confirmed user confirmed' do
+          expect(existing_user.confirmed?).to be true
+          original_confirmed_at = existing_user.confirmed_at
+
+          builder.perform
+
+          expect(existing_user.reload.confirmed?).to be true
+          expect(existing_user.reload.confirmed_at).to be_within(2.seconds).of(original_confirmed_at)
+        end
+      end
     end
 
     context 'with role mappings' do

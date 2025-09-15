@@ -114,4 +114,21 @@ RSpec.describe AccountSamlSettings, type: :model do
       expect(fingerprint.count(':')).to eq(19) # 20 bytes = 19 colons
     end
   end
+
+  describe 'callbacks' do
+    describe 'after_create_commit' do
+      it 'queues job to set account users to saml provider' do
+        expect(Saml::UpdateAccountUsersProviderJob).to receive(:perform_later).with(account.id, 'saml')
+        create(:account_saml_settings, account: account)
+      end
+    end
+
+    describe 'after_destroy_commit' do
+      it 'queues job to reset account users provider' do
+        settings = create(:account_saml_settings, account: account)
+        expect(Saml::UpdateAccountUsersProviderJob).to receive(:perform_later).with(account.id, 'email')
+        settings.destroy
+      end
+    end
+  end
 end
