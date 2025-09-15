@@ -127,34 +127,36 @@ const regenerateBackupCodes = async ({ otpCode }) => {
       </p>
     </div>
 
-    <!-- MFA Status Card -->
-    <MfaStatusCard
-      :mfa-enabled="mfaEnabled"
-      :show-setup="showSetup"
-      @enable-mfa="startMfaSetup"
-    />
+    <div class="grid gap-4 w-full">
+      <!-- MFA Status Card -->
+      <MfaStatusCard
+        :mfa-enabled="mfaEnabled"
+        :show-setup="showSetup"
+        @enable-mfa="startMfaSetup"
+      />
 
-    <!-- MFA Setup Wizard -->
-    <MfaSetupWizard
-      ref="setupWizardRef"
-      :show-setup="showSetup"
-      :mfa-enabled="mfaEnabled"
-      :provisioning-uri="provisioningUri"
-      :secret-key="secretKey"
-      :backup-codes="backupCodes"
-      :qr-code-url-prop="qrCodeUrl"
-      @cancel="cancelSetup"
-      @verify="verifyCode"
-      @complete="completeMfaSetup"
-    />
+      <!-- MFA Setup Wizard -->
+      <MfaSetupWizard
+        ref="setupWizardRef"
+        :show-setup="showSetup"
+        :mfa-enabled="mfaEnabled"
+        :provisioning-uri="provisioningUri"
+        :secret-key="secretKey"
+        :backup-codes="backupCodes"
+        :qr-code-url-prop="qrCodeUrl"
+        @cancel="cancelSetup"
+        @verify="verifyCode"
+        @complete="completeMfaSetup"
+      />
 
-    <!-- MFA Management Actions -->
-    <MfaManagementActions
-      ref="managementActionsRef"
-      :mfa-enabled="mfaEnabled"
-      :backup-codes="backupCodes"
-      @disable-mfa="disableMfa"
-      @regenerate-backup-codes="regenerateBackupCodes"
-    />
+      <!-- MFA Management Actions -->
+      <MfaManagementActions
+        ref="managementActionsRef"
+        :mfa-enabled="mfaEnabled"
+        :backup-codes="backupCodes"
+        @disable-mfa="disableMfa"
+        @regenerate-backup-codes="regenerateBackupCodes"
+      />
+    </div>
   </div>
 </template>
