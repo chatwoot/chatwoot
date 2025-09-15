@@ -89,6 +89,8 @@ sl:
       invalid_value: Neveljavna vrednost. Podane vrednosti za %{attribute_name} so neveljavne
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Obdobje poročanja %{since} do %{until}
     utc_warning: Ustvarjeno poročilo je v časovnem pasu UTC
