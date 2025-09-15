@@ -26,6 +26,8 @@ const props = defineProps({
 
 const emit = defineEmits(['add']);
 
+const BUFFER_SPACE = 20;
+
 const [showPopover, togglePopover] = useToggle();
 const buttonRef = ref();
 const dropdownRef = ref();
@@ -59,7 +61,9 @@ const shouldShowAbove = computed(() => {
   const spaceBelow =
     windowHeight.value - (buttonTop.value + buttonHeight.value);
   const spaceAbove = buttonTop.value;
-  return spaceBelow < dropdownHeight.value && spaceAbove > spaceBelow;
+  return (
+    spaceBelow < dropdownHeight.value + BUFFER_SPACE && spaceAbove > spaceBelow
+  );
 });
 
 const shouldAlignRight = computed(() => {
@@ -67,7 +71,9 @@ const shouldAlignRight = computed(() => {
   const spaceRight = windowWidth.value - buttonLeft.value;
   const spaceLeft = buttonLeft.value + buttonWidth.value;
 
-  return spaceRight < dropdownWidth.value && spaceLeft > spaceRight;
+  return (
+    spaceRight < dropdownWidth.value + BUFFER_SPACE && spaceLeft > spaceRight
+  );
 });
 
 const handleClickOutside = () => {
