@@ -321,12 +321,13 @@ export default {
           size="60px"
         />
       </div>
-      <!-- Unread counter positioned at bottom-right of avatar -->
+      <!-- Unread counter half-overlapping at avatar bottom-right (center on corner) -->
       <div
         v-if="unreadCount > 0"
-        class="absolute bottom-3 right-1 inline-flex items-center justify-center rounded-full size-5 bg-n-teal-9 border-2 border-white z-10"
+        class="absolute bottom-0 right-0 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full bg-n-teal-9 border-2 border-white z-10"
+        :class="unreadCount > 9 ? 'min-w-8 h-5 px-1' : 'size-5'"
       >
-        <span class="text-xs font-semibold text-white">
+        <span class="text-xs font-semibold text-white whitespace-nowrap">
           {{
             unreadCount > 9 ? $t('COMBOBOX.MORE', { count: 9 }) : unreadCount
           }}
@@ -334,7 +335,7 @@ export default {
       </div>
     </div>
     <div
-      class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 w-[calc(100%-40px)] relative ml-4"
+      class="px-0 py-3 pr-12 border-b group-hover:border-transparent flex-1 border-n-slate-3 w-[calc(100%-40px)] relative ml-4"
     >
       <div class="flex justify-between conversation-card--meta">
         <InboxName v-if="showInboxName" :inbox="inbox" />
@@ -355,50 +356,30 @@ export default {
           </span>
           <PriorityMark :priority="chat.priority" />
         </div>
-        <!-- Move timestamp to align with AI button position and assignee baseline -->
-        <div class="absolute right-8 top-2">
-          <span
-            class="font-normal leading-3 text-xxs text-n-slate-10 py-0.5 inline-flex"
-          >
-            <TimeAgo
-              :last-activity-timestamp="chat.timestamp"
-              :created-at-timestamp="chat.created_at"
-            />
-          </span>
-        </div>
       </div>
+
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-n-slate-12"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[calc(100%-50px)] text-n-slate-12"
         :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
         {{ currentContact.name }}
       </h4>
 
-      <!-- Message area with AI button positioned at bottom -->
-      <div class="relative">
-        <!-- AI Enable Button positioned absolutely at bottom-right -->
-        <div class="absolute right-8 bottom-1 z-10">
-          <span
-            :class="hasAiImplemented ? 'opacity-100' : 'opacity-40'"
-            @click="!hasAiImplemented && notAiImplementedNotification()"
-          >
-            <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
-          </span>
-        </div>
-
+      <!-- Message area with AI button positioned absolutely -->
+      <div class="relative w-full">
         <!-- Message content with right padding to avoid AI button -->
-        <div class="pr-20">
+        <div class="pr-16">
           <MessagePreview
             v-if="lastMessageInChat"
             :message="lastMessageInChat"
-            class="conversation--message my-0 mx-2 leading-6 h-6 text-sm truncate"
+            class="conversation--message my-0 mx-2 leading-6 h-6 text-sm"
             :class="
               hasUnread ? 'font-medium text-n-slate-12' : 'text-n-slate-11'
             "
           />
           <p
             v-else
-            class="conversation--message text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 overflow-hidden text-ellipsis whitespace-nowrap truncate"
+            class="conversation--message text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6"
             :class="
               hasUnread ? 'font-medium text-n-slate-12' : 'text-n-slate-11'
             "
@@ -421,6 +402,29 @@ export default {
         </template>
       </CardLabels>
     </div>
+
+    <!-- Timestamp positioned at card top-right (absolute to top-level wrapper) -->
+    <div class="absolute right-2 top-2">
+      <span
+        class="font-normal leading-3 text-xxs text-n-slate-10 py-0.5 inline-flex"
+      >
+        <TimeAgo
+          :last-activity-timestamp="chat.timestamp"
+          :created-at-timestamp="chat.created_at"
+        />
+      </span>
+    </div>
+
+    <!-- Right-rail AI icon anchored to card right, vertically centered to message row -->
+    <div class="absolute right-2 top-1/2 -translate-y-1/2">
+      <span
+        :class="hasAiImplemented ? 'opacity-100' : 'opacity-40'"
+        @click="!hasAiImplemented && notAiImplementedNotification()"
+      >
+        <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
+      </span>
+    </div>
+
     <ContextMenu
       v-if="showContextMenu"
       :x="contextMenu.x"

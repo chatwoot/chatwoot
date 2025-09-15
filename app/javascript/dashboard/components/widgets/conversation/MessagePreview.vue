@@ -61,7 +61,7 @@ export default {
 </script>
 
 <template>
-  <div class="overflow-hidden text-ellipsis whitespace-nowrap">
+  <div class="overflow-hidden whitespace-nowrap max-w-full text-ellipsis">
     <template v-if="showMessageType">
       <fluent-icon
         v-if="isMessagePrivate"
@@ -100,7 +100,7 @@ export default {
         class="-mt-0.5 align-middle inline-block text-n-slate-11"
         :icon="attachmentIcon"
       />
-      {{ $t(`${attachmentMessageContent}`) }}
+      {{ $t(attachmentMessageContent) }}
     </span>
     <span v-else>
       {{ defaultEmptyMessage || $t('CHAT_LIST.NO_CONTENT') }}

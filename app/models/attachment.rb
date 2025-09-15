@@ -98,13 +98,17 @@ class Attachment < ApplicationRecord
   end
 
   def file_metadata
+    # Ensure we don't attempt to read metadata from a non-attached file
+    attached = file.attached?
+    dims = attached ? (file.metadata || {}) : {}
+
     metadata = {
       extension: extension,
       data_url: file_url,
       thumb_url: thumb_url,
-      file_size: file.byte_size,
-      width: file.metadata[:width],
-      height: file.metadata[:height]
+      file_size: attached ? file.byte_size : 0,
+      width: dims[:width] || dims['width'],
+      height: dims[:height] || dims['height']
     }
 
     metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram? && message.incoming?

@@ -1,6 +1,5 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { useStore } from 'vuex';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useRouter, useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
@@ -11,7 +10,6 @@ import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardMessagePreview from './CardMessagePreview.vue';
 import CardMessagePreviewWithMeta from './CardMessagePreviewWithMeta.vue';
 import CardPriorityIcon from './CardPriorityIcon.vue';
-import AIEnableBanner from 'dashboard/components/ui/AIEnableBanner.vue';
 
 const props = defineProps({
   conversation: {
@@ -34,7 +32,6 @@ const props = defineProps({
 
 const router = useRouter();
 const route = useRoute();
-const store = useStore();
 
 const cardMessagePreviewWithMetaRef = ref(null);
 
@@ -62,13 +59,11 @@ const lastActivityAt = computed(() => {
 
 const showMessagePreviewWithoutMeta = computed(() => {
   const { labels = [] } = props.conversation;
-  return (
-    !cardMessagePreviewWithMetaRef.value?.hasSlaThreshold && labels.length === 0
-  );
-});
+  const result =
+    !cardMessagePreviewWithMetaRef.value?.hasSlaThreshold &&
+    labels.length === 0;
 
-const isAiEnabled = computed(() => {
-  return !!currentContact.value?.custom_attributes?.ai_enabled;
+  return result;
 });
 
 const onCardClick = e => {
@@ -89,27 +84,16 @@ const onCardClick = e => {
   }
   router.push({ path });
 };
-
-const onToggleAi = async () => {
-  const contactId = currentContact.value?.id;
-  if (!contactId) return;
-  const next = !isAiEnabled.value;
-
-  await store.dispatch('contacts/toggleAi', {
-    id: contactId,
-    aiEnabled: next,
-  });
-};
 </script>
 
 <template>
   <div
     role="button"
-    class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
+    class="relative flex w-full px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
     @click="onCardClick"
   >
     <!-- Avatar with counter positioned at bottom-right -->
-    <div class="relative flex-shrink-0">
+    <div class="relative flex-shrink-0 mr-3">
       <Avatar
         :name="currentContactName"
         :src="currentContactThumbnail"
@@ -117,12 +101,13 @@ const onToggleAi = async () => {
         :status="currentContactStatus"
         rounded-full
       />
-      <!-- Unread counter positioned at bottom-right of avatar -->
+      <!-- Unread counter half-overlapping at avatar bottom-right (center on corner) -->
       <div
         v-if="conversation.unreadCount > 0"
-        class="absolute -bottom-1 -right-1 inline-flex items-center justify-center rounded-full size-5 bg-n-brand border-2 border-white"
+        class="absolute bottom-0 right-0 -translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-full bg-n-brand border-2 border-white"
+        :class="conversation.unreadCount > 9 ? 'min-w-8 h-5 px-1' : 'size-5'"
       >
-        <span class="text-xs font-semibold text-white">
+        <span class="text-xs font-semibold text-white whitespace-nowrap">
           {{
             conversation.unreadCount > 9
               ? $t('COMBOBOX.MORE', { count: 9 })
@@ -132,50 +117,60 @@ const onToggleAi = async () => {
       </div>
     </div>
 
+    <!-- Main content area -->
     <div class="flex flex-col w-full gap-1 min-w-0">
-      <!-- Header with username and dates aligned at top -->
-      <div class="flex items-start justify-between gap-2 min-h-[24px]">
-        <h4 class="text-base font-medium truncate text-n-slate-12 leading-6">
-          {{ currentContactName }}
-        </h4>
-        <div class="flex items-start gap-2 flex-shrink-0">
-          <CardPriorityIcon :priority="conversation.priority || null" />
-          <div
-            v-tooltip.left="inboxName"
-            class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"
-          >
-            <Icon
-              :icon="inboxIcon"
-              class="flex-shrink-0 text-n-slate-11 size-3"
-            />
-          </div>
-          <span class="text-sm text-n-slate-10 leading-6">
-            {{ lastActivityAt }}
+      <!-- Header with assignee name -->
+      <div class="flex items-center gap-1 min-w-0">
+        <span class="text-xs font-medium text-n-slate-11 truncate">
+          {{ $t('ASSIGNEE_TYPE_TABS.assigned') }}
+          <span v-if="conversation.priority === 'urgent'" class="text-n-red-9">
+            !!!
           </span>
-        </div>
+          <span
+            v-else-if="conversation.priority === 'high'"
+            class="text-n-orange-9"
+          >
+            !!
+          </span>
+          <span v-else class="text-n-slate-11">!</span>
+        </span>
       </div>
 
-      <!-- Message preview with AI button centered vertically -->
+      <!-- Contact name -->
+      <h4 class="text-sm font-medium text-n-slate-12 truncate">
+        {{ currentContactName }}
+      </h4>
+
+      <!-- Message preview -->
       <div class="relative">
-        <!-- AI Enable Button positioned absolutely in center -->
-        <div class="absolute right-4 top-1/2 -translate-y-1/2 z-10">
-          <AIEnableBanner :ai-enable="isAiEnabled" @toggle-ai="onToggleAi" />
-        </div>
-
-        <!-- Message content with right padding to avoid AI button -->
-        <div class="pr-16">
-          <CardMessagePreview
-            v-show="showMessagePreviewWithoutMeta"
-            :conversation="conversation"
-          />
-          <CardMessagePreviewWithMeta
-            v-show="!showMessagePreviewWithoutMeta"
-            ref="cardMessagePreviewWithMetaRef"
-            :conversation="conversation"
-            :account-labels="accountLabels"
-          />
-        </div>
+        <CardMessagePreview
+          v-show="showMessagePreviewWithoutMeta"
+          :conversation="conversation"
+        />
+        <CardMessagePreviewWithMeta
+          v-show="!showMessagePreviewWithoutMeta"
+          ref="cardMessagePreviewWithMetaRef"
+          :conversation="conversation"
+          :account-labels="accountLabels"
+        />
       </div>
+    </div>
+
+    <!-- Timestamp and icons positioned absolutely at top right -->
+    <div class="absolute top-4 right-3 flex items-center gap-2 flex-shrink-0">
+      <CardPriorityIcon :priority="conversation.priority || null" />
+      <div
+        v-tooltip.left="inboxName"
+        class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-4"
+      >
+        <Icon
+          :icon="inboxIcon"
+          class="flex-shrink-0 text-n-slate-11 size-2.5"
+        />
+      </div>
+      <span class="text-sm text-n-slate-10">
+        {{ lastActivityAt }}
+      </span>
     </div>
   </div>
 </template>
