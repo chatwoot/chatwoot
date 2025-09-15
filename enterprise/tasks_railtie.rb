@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class TasksRailtie < Rails::Railtie
   rake_tasks do
     # Load all rake tasks from enterprise/lib/tasks
