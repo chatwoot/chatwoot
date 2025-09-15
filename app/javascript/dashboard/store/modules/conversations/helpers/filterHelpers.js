@@ -47,7 +47,29 @@
  * 3. Nested properties in custom_attributes (conversation_type, etc.)
  */
 import jsonLogic from 'json-logic-js';
-import { coerceToDate } from '@chatwoot/utils';
+
+// Local coerceToDate function to handle date conversion properly
+const coerceToDate = (value) => {
+  if (!value) return null;
+  
+  // If it's already a Date object, return it
+  if (value instanceof Date) {
+    return value;
+  }
+  
+  // If it's a number (timestamp), convert to Date
+  if (typeof value === 'number') {
+    return new Date(value * 1000); // Convert seconds to milliseconds
+  }
+  
+  // If it's a string, try to parse it
+  if (typeof value === 'string') {
+    const parsed = new Date(value);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+  
+  return null;
+};
 
 /**
  * Gets a value from a conversation based on the attribute key
@@ -173,29 +195,48 @@ const compareDates = (conversationValue, filterValue, compareFn) => {
   const valueToCompare = Array.isArray(filterValue)
     ? filterValue[0]
     : filterValue;
-  const filterDate = coerceToDate(valueToCompare);
+  
+  // Convert string date to timestamp for comparison
+  let filterDate = coerceToDate(valueToCompare);
+  
+  // If coerceToDate returns a Date object, convert to timestamp
+  if (filterDate instanceof Date) {
+    filterDate = filterDate.getTime();
+  }
+  
+  // Ensure conversationDate is also a timestamp
+  let conversationTimestamp = conversationDate;
+  if (conversationDate instanceof Date) {
+    conversationTimestamp = conversationDate.getTime();
+  }
 
-  if (conversationDate === null || filterDate === null) return false;
-  return compareFn(conversationDate, filterDate);
+
+  if (conversationTimestamp === null || filterDate === null) return false;
+  return compareFn(conversationTimestamp, filterDate);
 };
 
 /**
- * Checks if a value matches a filter condition
- * @param {*} conversationValue - The value to check
- * @param {Object} filter - The filter condition
- * @returns {Boolean} - Returns true if the value matches the filter
+ * Checks if a value matches a specific condition
+ * @param {*} conversationValue - The value from the conversation
+ * @param {Object} filter - The filter object containing operator and value
+ * @returns {Boolean} - Returns true if the value matches the condition
  */
 const matchesCondition = (conversationValue, filter) => {
-  const { filter_operator: filterOperator, values } = filter;
+  const { filter_operator: filterOperator, values: filterValue } = filter;
+
 
   // Handle null/undefined values
-  if (conversationValue === null || conversationValue === undefined) {
+  if (conversationValue == null) {
     return filterOperator === 'is_not_present';
   }
 
-  const filterValue = Array.isArray(values)
-    ? values.map(resolveValue)
-    : resolveValue(values);
+  if (filterOperator === 'is_not_present') {
+    return false;
+  }
+
+  // Resolve values to handle objects with IDs
+  const resolvedConversationValue = resolveValue(conversationValue);
+  const resolvedFilterValue = resolveValue(filterValue);
 
   switch (filterOperator) {
     case 'equal_to':
@@ -347,6 +388,7 @@ const evaluateFilters = (conversation, filters) => {
     const isLastFilter = index === filters.length - 1;
     const operator = isLastFilter ? null : filter.query_operator || 'and';
 
+
     return { result, operator };
   });
 };
@@ -358,22 +400,32 @@ const evaluateFilters = (conversation, filters) => {
  * @returns {Boolean} - Returns true if conversation matches filters, false otherwise
  */
 export const matchesFilters = (conversation, filters) => {
-  // If no filters, return true
   if (!filters || filters.length === 0) {
     return true;
   }
 
-  // Handle single filter case
   if (filters.length === 1) {
     const value = getValueFromConversation(
       conversation,
       filters[0].attribute_key
     );
-
-    return matchesCondition(value, filters[0]);
+    const result = matchesCondition(value, filters[0]);
+    
+    // Debug for conversations 30 and 29
+    if (conversation.id === 30 || conversation.id === 29) {
+      console.log(`[DEBUG] matchesFilters conversation ${conversation.id}:`, {
+        filter: filters[0],
+        value: value,
+        result: result
+      });
+    }
+    
+    return result;
   }
 
-  // Evaluate all conditions and prepare for jsonLogic
   const evaluatedFilters = evaluateFilters(conversation, filters);
-  return jsonLogic.apply(buildJsonLogicRule(evaluatedFilters));
+  const result = jsonLogic.apply(buildJsonLogicRule(evaluatedFilters));
+  
+  
+  return result;
 };
