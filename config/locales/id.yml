@@ -26,6 +26,9 @@ id:
   messages:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Permintaan penghapusan kotak masuk Anda akan diproses dalam beberapa waktu.
   errors:
     validations:
@@ -41,6 +44,8 @@ id:
       failed: Pendaftaran gagal
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Jenis data tidak valid
@@ -209,6 +214,7 @@ id:
     reply:
       email:
         header:
+          notifications: 'Notifikasi'
           from_with_name: '%{assignee_name} dari %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} dari %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} dari %{business_name} <%{from_email}>'
