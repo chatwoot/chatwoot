@@ -43,8 +43,7 @@ class Api::V1::Profile::MfaController < Api::BaseController
     return if Chatwoot.mfa_enabled?
 
     render json: {
-      error: I18n.t('errors.mfa.feature_unavailable',
-                    default: 'MFA feature is not available. Please configure encryption keys.')
+      error: I18n.t('errors.mfa.feature_unavailable')
     }, status: :forbidden
   end
 
