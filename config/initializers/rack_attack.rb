@@ -116,7 +116,11 @@ class Rack::Attack
 
   ## MFA throttling - prevent brute force attacks
   throttle('mfa_verification/ip', limit: 5, period: 1.minute) do |req|
-    req.ip if req.path_without_extentions.match?(%r{/api/v1/profile/mfa/(verify|disable)}) && req.post?
+    if req.path_without_extentions == '/api/v1/profile/mfa'
+      req.ip if req.delete? # Throttle disable attempts
+    elsif req.path_without_extentions.match?(%r{/api/v1/profile/mfa/(verify|backup_codes)})
+      req.ip if req.post? # Throttle verify and backup_codes attempts
+    end
   end
 
   throttle('mfa_login/ip', limit: 10, period: 5.minutes) do |req|
