@@ -26,6 +26,9 @@ sr-Latn:
   messages:
     reset_password_success: Opa! Zahtev za resetovanjem lozinke je uspešan. Proverite vašu e-poštu za uputstvo.
     reset_password_failure: O ne! Nismo mogli da pronađemo nijednog korisnika sa navedenom e-poštom.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
@@ -41,6 +44,8 @@ sr-Latn:
       failed: Registracija nije uspela
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Neispravan tip podatka
@@ -209,6 +214,7 @@ sr-Latn:
     reply:
       email:
         header:
+          notifications: 'Obaveštenja'
           from_with_name: '%{assignee_name} iz %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} iz %{business_name} <%{from_email}>'
