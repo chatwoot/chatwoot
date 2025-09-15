@@ -48,7 +48,8 @@ const startMfaSetup = async () => {
     }
 
     secretKey.value = response.data.secret;
-    backupCodes.value = response.data.backup_codes;
+    // Backup codes are now generated after verification, not during enable
+    backupCodes.value = [];
     showSetup.value = true;
   } catch (error) {
     useAlert(t('MFA_SETTINGS.SETUP.ERROR_STARTING'));
@@ -58,7 +59,11 @@ const startMfaSetup = async () => {
 // Verify OTP code
 const verifyCode = async verificationCode => {
   try {
-    await mfaAPI.verify(verificationCode);
+    const response = await mfaAPI.verify(verificationCode);
+    // Store backup codes returned from verification
+    if (response.data.backup_codes) {
+      backupCodes.value = response.data.backup_codes;
+    }
     return true;
   } catch (error) {
     setupWizardRef.value?.handleVerificationError(

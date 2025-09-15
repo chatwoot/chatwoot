@@ -24,7 +24,11 @@
       "ENTER_CODE": "Enter the 6-digit code from your authenticator app",
       "ENTER_CODE_PLACEHOLDER": "000000",
       "VERIFY_BUTTON": "Verify & Continue",
-      "CANCEL": "Cancel"
+      "CANCEL": "Cancel",
+      "ERROR_STARTING": "MFA not enabled. Please contact administrator.",
+      "INVALID_CODE": "Invalid verification code",
+      "SECRET_COPIED": "Secret key copied to clipboard",
+      "SUCCESS": "Two-factor authentication has been enabled successfully"
     },
     "BACKUP": {
       "TITLE": "Save Your Backup Codes",
@@ -34,7 +38,8 @@
       "DOWNLOAD": "Download",
       "COPY_ALL": "Copy All",
       "CONFIRM": "I have saved my backup codes in a secure location and understand that I won't be able to see them again",
-      "COMPLETE_SETUP": "Complete Setup"
+      "COMPLETE_SETUP": "Complete Setup",
+      "CODES_COPIED": "Backup codes copied to clipboard"
     },
     "MANAGEMENT": {
       "BACKUP_CODES": "Backup Codes",
@@ -51,7 +56,9 @@
       "OTP_CODE": "Verification Code",
       "OTP_CODE_PLACEHOLDER": "000000",
       "CONFIRM": "Disable 2FA",
-      "CANCEL": "Cancel"
+      "CANCEL": "Cancel",
+      "SUCCESS": "Two-factor authentication has been disabled",
+      "ERROR": "Failed to disable MFA. Please check your credentials."
     },
     "REGENERATE": {
       "TITLE": "Regenerate Backup Codes",
@@ -66,7 +73,9 @@
       "CODES_IMPORTANT_NOTE": " Each code can only be used once. Save them before closing this window.",
       "DOWNLOAD_CODES": "Download Codes",
       "COPY_ALL_CODES": "Copy All Codes",
-      "CODES_SAVED": "I've Saved My Codes"
+      "CODES_SAVED": "I've Saved My Codes",
+      "SUCCESS": "New backup codes have been generated",
+      "ERROR": "Failed to regenerate backup codes"
     }
   },
   "MFA_VERIFICATION": {
