@@ -26,12 +26,31 @@ RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
         # rubocop:enable Rails/SkipsModelValidations
       end
 
-      it 'updates all account users to email provider' do
-        described_class.new.perform(account.id, 'email')
+      context 'when users have no other SAML accounts' do
+        it 'updates all account users to email provider' do
+          described_class.new.perform(account.id, 'email')
 
-        expect(user1.reload.provider).to eq('email')
-        expect(user2.reload.provider).to eq('email')
-        expect(user3.reload.provider).to eq('email')
+          expect(user1.reload.provider).to eq('email')
+          expect(user2.reload.provider).to eq('email')
+          expect(user3.reload.provider).to eq('email')
+        end
+      end
+
+      context 'when users belong to other accounts with SAML enabled' do
+        let(:other_account) { create(:account) }
+
+        before do
+          create(:account_saml_settings, account: other_account)
+          user1.account_users.create!(account: other_account, role: :agent)
+        end
+
+        it 'preserves SAML provider for users with other SAML accounts' do
+          described_class.new.perform(account.id, 'email')
+
+          expect(user1.reload.provider).to eq('saml')
+          expect(user2.reload.provider).to eq('email')
+          expect(user3.reload.provider).to eq('email')
+        end
       end
     end
 
