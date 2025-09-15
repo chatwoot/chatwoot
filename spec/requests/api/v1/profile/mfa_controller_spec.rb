@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'MFA API', type: :request do
-  let(:account) { create(:account) }
-  let(:user) { create(:user, account: account, password: 'Test@123456') }
-
   before do
-    # Enable MFA feature for tests by stubbing the encryption check
+    skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
     allow(Chatwoot).to receive(:mfa_enabled?).and_return(true)
   end
+
+  let(:account) { create(:account) }
+  let(:user) { create(:user, account: account, password: 'Test@123456') }
 
   describe 'GET /api/v1/profile/mfa' do
     context 'when 2FA is disabled' do

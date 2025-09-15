@@ -26,6 +26,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
 
     context 'with MFA authentication' do
       before do
+        skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
         user.enable_two_factor!
         user.update!(otp_required_for_login: true)
       end

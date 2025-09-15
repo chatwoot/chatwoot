@@ -112,6 +112,10 @@ RSpec.describe User do
   end
 
   describe '2FA/MFA functionality' do
+    before do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+    end
+
     let(:user) { create(:user, password: 'Test@123456') }
 
     describe '#enable_two_factor!' do
