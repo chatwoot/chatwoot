@@ -29,6 +29,15 @@ export default {
           meta: {
             permissions: ['administrator', 'agent', 'custom_role'],
           },
+          beforeEnter: (to, from, next) => {
+            // Check if MFA is enabled globally
+            if (window.chatwootConfig?.isMfaEnabled !== 'true') {
+              // Redirect to profile settings if MFA is disabled
+              next({ name: 'profile_settings_index' });
+            } else {
+              next();
+            }
+          },
         },
       ],
     },

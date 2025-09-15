@@ -97,6 +97,9 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
+    isMfaEnabled() {
+      return window.chatwootConfig?.isMfaEnabled === 'true';
+    },
   },
   mounted() {
     if (this.currentUserId) {
@@ -286,6 +289,7 @@ export default {
       <ChangePassword />
     </FormSection>
     <FormSection
+      v-if="isMfaEnabled"
       :title="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE')"
     >
