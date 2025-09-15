@@ -89,6 +89,8 @@ ru:
       invalid_value: Недопустимое значение. Значения, предоставленные для %{attribute_name} являются недопустимыми
     custom_attribute_definition:
       key_conflict: Предоставленный ключ не разрешён, так как он может конфликтовать со стандартными атрибутами.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Отчётный период с %{since} по %{until}
     utc_warning: Отчёт создан в часовом поясе UTC
