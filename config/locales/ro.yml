@@ -89,6 +89,8 @@ ro:
       invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Perioada de raportare %{since}-%{until}
     utc_warning: Raportul generat este în fusul orar UTC
