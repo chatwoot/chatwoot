@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import Icon from 'next/icon/Icon.vue';
 
 const { t } = useI18n();
 const isExpanded = ref(false);
@@ -22,8 +23,9 @@ const toggleExpanded = () => {
       <h4 class="font-medium text-n-slate-12">
         {{ t('SECURITY_SETTINGS.SAML.ATTRIBUTE_MAPPING.TITLE') }}
       </h4>
-      <i
-        class="i-lucide-chevron-down transition-transform duration-200"
+      <Icon
+        icon="i-lucide-chevron-down"
+        class="transition-transform duration-200"
         :class="{ 'rotate-180': isExpanded }"
       />
     </button>
