@@ -1,6 +1,9 @@
 <script setup>
-import { ref, computed, nextTick } from 'vue';
 import axios from 'axios';
+import { ref, computed, nextTick } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { handleOtpPaste } from 'shared/helpers/clipboard';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import FormInput from 'v3/components/Form/Input.vue';
@@ -16,22 +19,29 @@ const props = defineProps({
 
 const emit = defineEmits(['verified', 'cancel']);
 
+const { t } = useI18n();
+
+const OTP = 'otp';
+const BACKUP = 'backup';
+
 // State
-const verificationMethod = ref('otp');
+const verificationMethod = ref(OTP);
 const otpDigits = ref(['', '', '', '', '', '']);
 const backupCode = ref('');
 const isVerifying = ref(false);
 const errorMessage = ref('');
 const helpModalRef = ref(null);
+const otpInputRefs = ref([]);
 
 // Computed
 const otpCode = computed(() => otpDigits.value.join(''));
-const canSubmit = computed(() => {
-  if (verificationMethod.value === 'otp') {
-    return otpCode.value.length === 6;
-  }
-  return backupCode.value.length === 6;
-});
+const canSubmit = computed(() =>
+  verificationMethod.value === OTP
+    ? otpCode.value.length === 6
+    : backupCode.value.length === 6
+);
+
+const focusInput = i => otpInputRefs.value[i]?.focus();
 
 // Verification
 const handleVerification = async () => {
@@ -45,7 +55,7 @@ const handleVerification = async () => {
       mfa_token: props.mfaToken,
     };
 
-    if (verificationMethod.value === 'otp') {
+    if (verificationMethod.value === OTP) {
       payload.otp_code = otpCode.value;
     } else {
       payload.backup_code = backupCode.value;
@@ -74,13 +84,13 @@ const handleVerification = async () => {
     }
   } catch (error) {
     errorMessage.value =
-      error.response?.data?.error || 'Verification failed. Please try again.';
+      parseAPIErrorResponse(error) || t('MFA_VERIFICATION.VERIFICATION_FAILED');
 
     // Clear inputs on error
-    if (verificationMethod.value === 'otp') {
-      otpDigits.value = ['', '', '', '', '', ''];
-      const firstInput = document.querySelector('input:first-of-type');
-      if (firstInput) firstInput.focus();
+    if (verificationMethod.value === OTP) {
+      otpDigits.value.fill('');
+      await nextTick();
+      focusInput(0);
     } else {
       backupCode.value = '';
     }
@@ -90,20 +100,19 @@ const handleVerification = async () => {
 };
 
 // OTP Input Handling
-const handleOtpInput = async index => {
-  const value = otpDigits.value[index];
+const handleOtpInput = async i => {
+  const v = otpDigits.value[i];
 
   // Only allow numbers
-  if (!/^\d*$/.test(value)) {
-    otpDigits.value[index] = '';
+  if (!/^\d*$/.test(v)) {
+    otpDigits.value[i] = '';
     return;
   }
 
   // Move to next input if value entered
-  if (value && index < 5) {
+  if (v && i < 5) {
     await nextTick();
-    const nextInput = document.querySelector(`input:nth-of-type(${index + 2})`);
-    if (nextInput) nextInput.focus();
+    focusInput(i + 1);
   }
 
   // Auto-submit if all digits entered
@@ -112,40 +121,20 @@ const handleOtpInput = async index => {
   }
 };
 
-const handleOtpKeydown = async (event, index) => {
-  // Handle backspace
-  if (event.key === 'Backspace' && !otpDigits.value[index] && index > 0) {
-    event.preventDefault();
-    const prevInput = document.querySelector(`input:nth-of-type(${index})`);
-    if (prevInput) {
-      prevInput.focus();
-      otpDigits.value[index - 1] = '';
-    }
-  }
-
-  // Handle arrow keys
-  if (event.key === 'ArrowLeft' && index > 0) {
-    event.preventDefault();
-    const prevInput = document.querySelector(`input:nth-of-type(${index})`);
-    if (prevInput) prevInput.focus();
-  }
-
-  if (event.key === 'ArrowRight' && index < 5) {
-    event.preventDefault();
-    const nextInput = document.querySelector(`input:nth-of-type(${index + 2})`);
-    if (nextInput) nextInput.focus();
+const handleBackspace = (e, i) => {
+  if (!otpDigits.value[i] && i > 0) {
+    e.preventDefault();
+    focusInput(i - 1);
+    otpDigits.value[i - 1] = '';
   }
 };
 
-const handleOtpPaste = event => {
-  event.preventDefault();
-  const pastedData = event.clipboardData
-    .getData('text')
-    .replace(/\D/g, '')
-    .slice(0, 6);
+const handleOtpCodePaste = e => {
+  e.preventDefault();
+  const code = handleOtpPaste(e, 6);
 
-  if (pastedData.length === 6) {
-    otpDigits.value = pastedData.split('');
+  if (code) {
+    otpDigits.value = code.split('');
     handleVerification();
   }
 };
@@ -153,17 +142,10 @@ const handleOtpPaste = event => {
 // Alternative Actions
 const handleTryAnotherMethod = () => {
   // Toggle between methods
-  verificationMethod.value =
-    verificationMethod.value === 'otp' ? 'backup' : 'otp';
-
-  // Clear inputs
-  otpDigits.value = ['', '', '', '', '', ''];
+  verificationMethod.value = verificationMethod.value === OTP ? BACKUP : OTP;
+  otpDigits.value.fill('');
   backupCode.value = '';
   errorMessage.value = '';
-};
-
-const handleCancel = () => {
-  emit('cancel');
 };
 </script>
 
@@ -190,56 +172,53 @@ const handleCancel = () => {
       <!-- Tab Selection -->
       <div class="flex rounded-lg bg-n-alpha-black2 p-1 mb-6">
         <button
+          v-for="method in [OTP, BACKUP]"
+          :key="method"
           class="flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors"
-          :class="[
-            verificationMethod === 'otp'
+          :class="
+            verificationMethod === method
               ? 'bg-n-solid-active text-n-slate-12 shadow-sm'
-              : 'text-n-slate-12',
-          ]"
-          @click="verificationMethod = 'otp'"
+              : 'text-n-slate-12'
+          "
+          @click="verificationMethod = method"
         >
-          {{ $t('MFA_VERIFICATION.AUTHENTICATOR_APP') }}
-        </button>
-        <button
-          class="flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors"
-          :class="[
-            verificationMethod === 'backup'
-              ? 'bg-n-solid-active text-n-slate-12 shadow-sm'
-              : 'text-n-slate-12',
-          ]"
-          @click="verificationMethod = 'backup'"
-        >
-          {{ $t('MFA_VERIFICATION.BACKUP_CODE') }}
+          {{
+            $t(
+              `MFA_VERIFICATION.${method === OTP ? 'AUTHENTICATOR_APP' : 'BACKUP_CODE'}`
+            )
+          }}
         </button>
       </div>
 
       <!-- Verification Form -->
       <form class="space-y-4" @submit.prevent="handleVerification">
         <!-- OTP Code Input -->
-        <div v-if="verificationMethod === 'otp'">
+        <div v-if="verificationMethod === OTP">
           <label class="block text-sm font-medium text-n-slate-12 mb-2">
             {{ $t('MFA_VERIFICATION.ENTER_OTP_CODE') }}
           </label>
           <div class="flex justify-between gap-2">
             <input
-              v-for="(digit, index) in otpDigits"
-              :key="index"
-              :ref="`otpInput${index}`"
-              v-model="otpDigits[index]"
+              v-for="(_, i) in otpDigits"
+              :key="i"
+              ref="otpInputRefs"
+              v-model="otpDigits[i]"
               type="text"
               maxlength="1"
               pattern="[0-9]"
               inputmode="numeric"
               class="w-12 h-12 text-center text-lg font-semibold border-2 border-n-weak hover:border-n-strong rounded-lg focus:border-n-brand bg-n-alpha-black2 text-n-slate-12 placeholder:text-n-slate-10"
-              @input="handleOtpInput(index)"
-              @keydown="handleOtpKeydown($event, index)"
-              @paste="handleOtpPaste"
+              @input="handleOtpInput(i)"
+              @keydown.left.prevent="focusInput(i - 1)"
+              @keydown.right.prevent="focusInput(i + 1)"
+              @keydown.backspace="handleBackspace($event, i)"
+              @paste="handleOtpCodePaste"
             />
           </div>
         </div>
 
         <!-- Backup Code Input -->
-        <div v-if="verificationMethod === 'backup'">
+        <div v-if="verificationMethod === BACKUP">
           <FormInput
             v-model="backupCode"
             name="backup_code"
@@ -260,9 +239,7 @@ const handleCancel = () => {
           v-if="errorMessage"
           class="p-3 bg-n-ruby-3 outline outline-n-ruby-5 outline-1 rounded-lg"
         >
-          <p class="text-sm text-n-ruby-9">
-            {{ errorMessage }}
-          </p>
+          <p class="text-sm text-n-ruby-9">{{ errorMessage }}</p>
         </div>
 
         <!-- Submit Button -->
@@ -296,7 +273,7 @@ const handleCancel = () => {
             class="w-full hover:!no-underline"
             :tabindex="3"
             :label="$t('MFA_VERIFICATION.CANCEL_LOGIN')"
-            @click="handleCancel"
+            @click="() => emit('cancel')"
           />
         </div>
       </form>
@@ -327,25 +304,14 @@ const handleCancel = () => {
       @confirm="helpModalRef?.close()"
     >
       <div class="space-y-4 text-sm text-n-slate-11">
-        <div>
+        <div
+          v-for="section in ['AUTHENTICATOR', 'BACKUP', 'CONTACT']"
+          :key="section"
+        >
           <h4 class="font-medium text-n-slate-12 mb-2">
-            {{ $t('MFA_VERIFICATION.HELP_MODAL.AUTHENTICATOR_TITLE') }}
+            {{ $t(`MFA_VERIFICATION.HELP_MODAL.${section}_TITLE`) }}
           </h4>
-          <p>
-            {{ $t('MFA_VERIFICATION.HELP_MODAL.AUTHENTICATOR_DESC') }}
-          </p>
-        </div>
-        <div>
-          <h4 class="font-medium text-n-slate-12 mb-2">
-            {{ $t('MFA_VERIFICATION.HELP_MODAL.BACKUP_TITLE') }}
-          </h4>
-          <p>{{ $t('MFA_VERIFICATION.HELP_MODAL.BACKUP_DESC') }}</p>
-        </div>
-        <div>
-          <h4 class="font-medium text-n-slate-12 mb-2">
-            {{ $t('MFA_VERIFICATION.HELP_MODAL.CONTACT_TITLE') }}
-          </h4>
-          <p>{{ $t('MFA_VERIFICATION.HELP_MODAL.CONTACT_DESC') }}</p>
+          <p>{{ $t(`MFA_VERIFICATION.HELP_MODAL.${section}_DESC`) }}</p>
         </div>
       </div>
     </Dialog>

@@ -17,7 +17,7 @@ export default {
         this.theme = 'dark';
         document.documentElement.classList.add('dark');
       } else {
-        this.theme = 'light ';
+        this.theme = 'light';
         document.documentElement.classList.remove('dark');
       }
     },
