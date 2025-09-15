@@ -89,6 +89,8 @@ ar:
       invalid_value: قيمة غير صالحة. القيم المقدمة ل %{attribute_name} غير صالحة
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     utc_warning: التقرير الذي تم إنشاؤه في التوقيت العالمي الموحّد
