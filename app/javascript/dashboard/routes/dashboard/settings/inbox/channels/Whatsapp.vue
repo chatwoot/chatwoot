@@ -1,25 +1,23 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
+import { useI18n, I18nT } from 'vue-i18n';
 import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const store = useStore();
 
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
   TWILIO: 'twilio',
   WHATSAPP_CLOUD: 'whatsapp_cloud',
   WHATSAPP_EMBEDDED: 'whatsapp_embedded',
+  WHATSAPP_MANUAL: 'whatsapp_manual',
   THREE_SIXTY_DIALOG: '360dialog',
 };
 
@@ -27,14 +25,6 @@ const hasWhatsappAppId = computed(() => {
   return (
     window.chatwootConfig?.whatsappAppId &&
     window.chatwootConfig.whatsappAppId !== 'none'
-  );
-});
-
-const isWhatsappEmbeddedSignupEnabled = computed(() => {
-  const accountId = route.params.accountId;
-  return store.getters['accounts/isFeatureEnabledonAccount'](
-    accountId,
-    FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP
   );
 });
 
@@ -67,28 +57,15 @@ const selectProvider = providerValue => {
   });
 };
 
-const shouldShowEmbeddedSignup = provider => {
-  // Check if the feature is enabled for the account
-  if (!isWhatsappEmbeddedSignupEnabled.value) {
-    return false;
-  }
-
+const shouldShowCloudWhatsapp = provider => {
   return (
-    (provider === PROVIDER_TYPES.WHATSAPP && hasWhatsappAppId.value) ||
-    provider === PROVIDER_TYPES.WHATSAPP_EMBEDDED
+    provider === PROVIDER_TYPES.WHATSAPP_MANUAL ||
+    (provider === PROVIDER_TYPES.WHATSAPP && !hasWhatsappAppId.value)
   );
 };
 
-const shouldShowCloudWhatsapp = provider => {
-  // If embedded signup feature is enabled and app ID is configured, don't show cloud whatsapp
-  if (isWhatsappEmbeddedSignupEnabled.value && hasWhatsappAppId.value) {
-    return false;
-  }
-
-  // Show cloud whatsapp when:
-  // 1. Provider is whatsapp AND
-  // 2. Either no app ID is configured OR embedded signup feature is disabled
-  return provider === PROVIDER_TYPES.WHATSAPP;
+const handleManualLinkClick = () => {
+  selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL);
 };
 </script>
 
@@ -117,18 +94,52 @@ const shouldShowCloudWhatsapp = provider => {
     </div>
 
     <div v-else-if="showConfiguration">
-      <WhatsappEmbeddedSignup
-        v-if="shouldShowEmbeddedSignup(selectedProvider)"
-      />
-      <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
-      <Twilio
-        v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
-        type="whatsapp"
-      />
-      <ThreeSixtyDialogWhatsapp
-        v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
-      />
-      <CloudWhatsapp v-else />
+      <div class="px-6 py-5 rounded-2xl border border-n-weak">
+        <!-- Show embedded signup if app ID is configured -->
+        <div
+          v-if="
+            hasWhatsappAppId && selectedProvider === PROVIDER_TYPES.WHATSAPP
+          "
+        >
+          <WhatsappEmbeddedSignup />
+
+          <!-- Manual setup fallback option -->
+          <div class="pt-6 mt-6 border-t border-n-weak">
+            <I18nT
+              keypath="INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_FALLBACK"
+              tag="p"
+              class="text-sm text-n-slate-11"
+            >
+              <template #link>
+                <a
+                  href="#"
+                  class="underline text-n-brand"
+                  @click.prevent="handleManualLinkClick"
+                >
+                  {{
+                    $t(
+                      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.MANUAL_LINK_TEXT'
+                    )
+                  }}
+                </a>
+              </template>
+            </I18nT>
+          </div>
+        </div>
+
+        <!-- Show manual setup -->
+        <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
+
+        <!-- Other providers -->
+        <Twilio
+          v-else-if="selectedProvider === PROVIDER_TYPES.TWILIO"
+          type="whatsapp"
+        />
+        <ThreeSixtyDialogWhatsapp
+          v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
+        />
+        <CloudWhatsapp v-else />
+      </div>
     </div>
   </div>
 </template>
