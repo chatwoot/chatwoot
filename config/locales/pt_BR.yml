@@ -89,6 +89,8 @@ pt_BR:
       invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
     custom_attribute_definition:
       key_conflict: A chave fornecida não é permitida pois pode entrar em conflito com os atributos padrão.
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Reportando o período %{since} a %{until}
     utc_warning: O relatório gerado está em fuso horário UTC
