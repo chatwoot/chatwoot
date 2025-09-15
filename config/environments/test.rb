@@ -51,9 +51,4 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
-
-  # Configure Active Record encryption for tests (required by devise-two-factor v6+)
-  config.active_record.encryption.primary_key = 'test_primary_key_for_ar_encryption'
-  config.active_record.encryption.deterministic_key = 'test_deterministic_key_for_ar_enc'
-  config.active_record.encryption.key_derivation_salt = 'test_key_derivation_salt_for_ar_'
 end

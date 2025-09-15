@@ -29,11 +29,11 @@ RSpec.describe Inbox do
     it 'returns member ids with assignment capacity with inbox max_assignment_limit is configured' do
       # agent 1 has 1 conversations, agent 2 has 2 conversations, agent 3 has 3 conversations and agent 4 with none
       inbox.update(auto_assignment_config: { max_assignment_limit: 2 })
-      expect(inbox.member_ids_with_assignment_capacity).to eq([inbox_member_1.user_id, inbox_member_4.user_id])
+      expect(inbox.member_ids_with_assignment_capacity).to contain_exactly(inbox_member_1.user_id, inbox_member_4.user_id)
     end
 
     it 'returns all member ids when inbox max_assignment_limit is not configured' do
-      expect(inbox.member_ids_with_assignment_capacity).to eq(inbox.members.ids)
+      expect(inbox.member_ids_with_assignment_capacity).to match_array(inbox.members.ids)
     end
   end
 

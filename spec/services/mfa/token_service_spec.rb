@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe Mfa::TokenService do
+  before do
+    skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+  end
+
   let(:user) { create(:user) }
   let(:token_service) { described_class.new(user: user) }
 

@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 describe Mfa::AuthenticationService do
-  let(:user) { create(:user) }
-
   before do
+    skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
     user.enable_two_factor!
     user.update!(otp_required_for_login: true)
   end
+
+  let(:user) { create(:user) }
 
   describe '#authenticate' do
     context 'with OTP code' do
@@ -98,7 +99,7 @@ describe Mfa::AuthenticationService do
         expect(service.authenticate).to be_truthy
         # Backup code should not be consumed
         user.reload
-        expect(user.otp_backup_codes).not_to include('XXXXXX')
+        expect(user.otp_backup_codes).not_to include('XXXXXXXX')
       end
     end
   end

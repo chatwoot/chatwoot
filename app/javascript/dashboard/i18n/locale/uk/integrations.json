@@ -555,7 +555,7 @@
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Пошук..."
         },
         "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
         "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
@@ -603,7 +603,7 @@
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Пошук..."
         },
         "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
         "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
@@ -670,7 +670,7 @@
           "UPDATE": "Update changes"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Пошук..."
         },
         "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
         "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
