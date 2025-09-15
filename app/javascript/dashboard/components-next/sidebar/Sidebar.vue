@@ -72,6 +72,29 @@ const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
 
+// +++ NOSSA LÓGICA CONDICIONAL +++
+const aiAssistantMenuItem = computed(() => {
+  // 1. Procura pela nossa caixa de entrada "interruptor"
+  const aiInbox = inboxes.value.find(
+    inbox => inbox.name === 'assistente-ai' && inbox.channel_type === 'Channel::Api'
+  );
+
+  // 2. Se não encontrar, retorna um array vazio
+  if (!aiInbox) {
+    return [];
+  }
+
+  // 3. Se encontrar, constrói e retorna o item de menu em um array
+  return [{
+    name: 'Assistente IA',
+    label: 'Assistente IA', // Podemos ajustar a tradução depois
+    icon: 'i-lucide-bot',
+    to: accountScopedRoute('inbox_dashboard', { inbox_id: aiInbox.id }),
+    // A linha acima usa uma rota que já existe, 'inbox_dashboard',
+    // para levar o usuário diretamente para a caixa de entrada do assistente.
+  }];
+});
+
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
@@ -131,6 +154,8 @@ const menuItems = computed(() => {
         count: 'notifications/getUnreadCount',
       },
     },
+    // +++ INTEGRAÇÃO DO NOSSO ITEM DE MENU +++
+    ...aiAssistantMenuItem.value,
     {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
