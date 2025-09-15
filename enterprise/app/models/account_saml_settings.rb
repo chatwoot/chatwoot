@@ -61,10 +61,10 @@ class AccountSamlSettings < ApplicationRecord
   end
 
   def update_account_users_provider
-    UpdateAccountUsersProviderJob.perform_later(account_id, 'saml')
+    Saml::UpdateAccountUsersProviderJob.perform_later(account_id, 'saml')
   end
 
   def reset_account_users_provider
-    UpdateAccountUsersProviderJob.perform_later(account_id, 'email')
+    Saml::UpdateAccountUsersProviderJob.perform_later(account_id, 'email')
   end
 end

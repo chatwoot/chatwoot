@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UpdateAccountUsersProviderJob, type: :job do
+RSpec.describe Saml::UpdateAccountUsersProviderJob, type: :job do
   let(:account) { create(:account) }
   let!(:user1) { create(:user, accounts: [account], provider: 'email') }
   let!(:user2) { create(:user, accounts: [account], provider: 'email') }

@@ -1,4 +1,4 @@
-class UpdateAccountUsersProviderJob < ApplicationJob
+class Saml::UpdateAccountUsersProviderJob < ApplicationJob
   queue_as :default
 
   def perform(account_id, provider)
