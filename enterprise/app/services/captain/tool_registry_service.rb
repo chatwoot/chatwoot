@@ -27,4 +27,10 @@ class Captain::ToolRegistryService
   def respond_to_missing?(method_name, include_private = false)
     @tools.key?(method_name.to_s) || super
   end
+
+  def tools_summary
+    @tools.map do |name, tool|
+      "- #{name}: #{tool.description}"
+    end.join("\n")
+  end
 end

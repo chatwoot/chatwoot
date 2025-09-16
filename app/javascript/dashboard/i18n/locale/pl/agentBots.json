@@ -2,7 +2,7 @@
   "AGENT_BOTS": {
     "HEADER": "Boty",
     "LOADING_EDITOR": "Ładowanie edytora...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "DESCRIPTION": "Boty agentów są jak najbardziej fantastyczni członkowie Twojego zespołu. Mogą zajmować się drobnymi sprawami, dzięki czemu Ty możesz skupić się na tym, co naprawdę ważne. Wypróbuj je! Możesz zarządzać swoimi botami z tej strony lub tworzyć nowe za pomocą przycisku 'Dodaj bota'.",
     "LEARN_MORE": "Learn about agent bots",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "System",
@@ -30,10 +30,10 @@
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "404": "Nie znaleziono botów. Możesz utworzyć bota klikając przycisk 'Dodaj bota'.",
       "LOADING": "Pobieranie botów...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "Szczegóły bota",
         "URL": "Adres URL webhooka"
       }
     },
@@ -58,6 +58,13 @@
         "SUCCESS_MESSAGE": "Bot zaktualizowany pomyślnie.",
         "ERROR_MESSAGE": "Nie udało się zaktualizować bota. Proszę spróbować ponownie."
       }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "Token dostępu",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
     },
     "FORM": {
       "AVATAR": {

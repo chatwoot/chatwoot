@@ -30,14 +30,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  inputPlaceholder: {
-    type: String,
-    required: true,
-  },
 });
 
 const isRequestingAuthorization = ref(false);
-const email = ref('');
 
 const client = computed(() => {
   if (props.provider === 'microsoft') {
@@ -50,9 +45,7 @@ const client = computed(() => {
 async function requestAuthorization() {
   try {
     isRequestingAuthorization.value = true;
-    const response = await client.value.generateAuthorization({
-      email: email.value,
-    });
+    const response = await client.value.generateAuthorization();
     const {
       data: { url },
     } = response;
@@ -67,19 +60,12 @@ async function requestAuthorization() {
 </script>
 
 <template>
-  <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
-  >
+  <div class="h-full w-full p-6 col-span-6">
     <SettingsSubPageHeader
       :header-title="title"
       :header-content="description"
     />
     <form class="mt-6" @submit.prevent="requestAuthorization">
-      <woot-input
-        v-model="email"
-        type="email"
-        :placeholder="inputPlaceholder"
-      />
       <NextButton
         :is-loading="isRequestingAuthorization"
         type="submit"

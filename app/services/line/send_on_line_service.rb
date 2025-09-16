@@ -22,6 +22,14 @@ class Line::SendOnLineService < Base::SendOnChannelService
   end
 
   def build_payload
+    if message.content_type == 'input_select' && message.content_attributes['items'].any?
+      build_input_select_payload
+    else
+      build_text_payload
+    end
+  end
+
+  def build_text_payload
     if message.content && message.attachments.any?
       [text_message, *attachments]
     elsif message.content.nil? && message.attachments.any?
@@ -48,8 +56,46 @@ class Line::SendOnLineService < Base::SendOnChannelService
   def text_message
     {
       type: 'text',
-      text: message.content
+      text: message.outgoing_content
     }
+  end
+
+  # https://developers.line.biz/en/reference/messaging-api/#flex-message
+  def build_input_select_payload
+    {
+      type: 'flex',
+      altText: message.content,
+      contents: {
+        type: 'bubble',
+        body: {
+          type: 'box',
+          layout: 'vertical',
+          contents: [
+            {
+              type: 'text',
+              text: message.content,
+              wrap: true
+            },
+            *input_select_to_button
+          ]
+        }
+      }
+    }
+  end
+
+  def input_select_to_button
+    message.content_attributes['items'].map do |item|
+      {
+        type: 'button',
+        style: 'link',
+        height: 'sm',
+        action: {
+          type: 'message',
+          label: item['title'],
+          text: item['value']
+        }
+      }
+    end
   end
 
   # https://developers.line.biz/en/reference/messaging-api/#error-responses

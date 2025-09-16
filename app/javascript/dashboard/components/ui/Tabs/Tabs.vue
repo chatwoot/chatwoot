@@ -11,10 +11,6 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  isCompact: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits(['change']);
@@ -70,25 +66,28 @@ watch(
 <template>
   <div
     ref="tabsContainer"
-    :class="{
-      'tabs--container--with-border': border,
-      'tabs--container--compact': isCompact,
-    }"
-    class="tabs--container"
+    class="flex"
+    :class="[border && 'border-b border-b-n-weak']"
   >
     <button
       v-if="hasScroll"
-      class="tabs--scroll-button button clear secondary button--only-icon"
+      class="items-center rounded-none cursor-pointer flex h-auto justify-center min-w-8"
       @click="onScrollClick('left')"
     >
       <fluent-icon icon="chevron-left" :size="16" />
     </button>
-    <ul ref="tabsList" :class="{ 'tabs--with-scroll': hasScroll }" class="tabs">
+    <ul
+      ref="tabsList"
+      class="border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4 list-none mb-0"
+      :class="
+        hasScroll ? 'overflow-hidden py-0 px-1 max-w-[calc(100%-64px)]' : ''
+      "
+    >
       <slot />
     </ul>
     <button
       v-if="hasScroll"
-      class="tabs--scroll-button button clear secondary button--only-icon"
+      class="items-center rounded-none cursor-pointer flex h-auto justify-center min-w-8"
       @click="onScrollClick('right')"
     >
       <fluent-icon icon="chevron-right" :size="16" />

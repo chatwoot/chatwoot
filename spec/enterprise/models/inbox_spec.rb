@@ -15,8 +15,8 @@ RSpec.describe Inbox do
       create(:conversation, inbox: inbox, assignee: inbox_member_1.user)
       # to test conversations in other inboxes won't impact
       create_list(:conversation, 3, assignee: inbox_member_1.user)
-      create_list(:conversation, 2, inbox: inbox, assignee: inbox_member_2.user)
-      create_list(:conversation, 3, inbox: inbox, assignee: inbox_member_3.user)
+      create_list(:conversation, 2, inbox: inbox, account: inbox.account, assignee: inbox_member_2.user)
+      create_list(:conversation, 3, inbox: inbox, account: inbox.account, assignee: inbox_member_3.user)
     end
 
     it 'validated max_assignment_limit' do

@@ -12,7 +12,7 @@ Bundler.require(*Rails.groups)
 # We rely on DOTENV to load the environment variables
 # We need these environment variables to load the specific APM agent
 Dotenv::Rails.load
-require 'ddtrace' if ENV.fetch('DD_TRACE_AGENT_URL', false).present?
+require 'datadog' if ENV.fetch('DD_TRACE_AGENT_URL', false).present?
 require 'elastic-apm' if ENV.fetch('ELASTIC_APM_SECRET_TOKEN', false).present?
 require 'scout_apm' if ENV.fetch('SCOUT_KEY', false).present?
 
@@ -47,6 +47,10 @@ module Chatwoot
     # Add enterprise views to the view paths
     config.paths['app/views'].unshift('enterprise/app/views')
 
+    # Load enterprise initializers alongside standard initializers
+    enterprise_initializers = Rails.root.join('enterprise/config/initializers')
+    Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
@@ -61,6 +65,9 @@ module Chatwoot
     # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
     # FIX ME : fixes breakage of installation config. we need to migrate.
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
+
+    # Disable PDF/video preview generation as we don't use them
+    config.active_storage.previewers = []
   end
 
   def self.config

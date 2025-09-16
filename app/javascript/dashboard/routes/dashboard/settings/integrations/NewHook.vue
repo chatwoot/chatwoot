@@ -179,7 +179,7 @@ export default {
 }
 
 [data-invalid] .formkit-message {
-  @apply text-red-500 block text-xs font-normal my-1 w-full;
+  @apply text-n-ruby-9 block text-xs font-normal my-1 w-full;
 }
 
 .formkit-outer[data-type='checkbox'] .formkit-wrapper {

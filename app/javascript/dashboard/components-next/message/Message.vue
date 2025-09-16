@@ -36,6 +36,7 @@ import DyteBubble from './bubbles/Dyte.vue';
 import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
+import VoiceCallBubble from './bubbles/VoiceCall.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -280,6 +281,10 @@ const componentToRender = computed(() => {
     return FormBubble;
   }
 
+  if (props.contentType === CONTENT_TYPES.VOICE_CALL) {
+    return VoiceCallBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return EmailBubble;
   }
@@ -379,7 +384,7 @@ const shouldRenderMessage = computed(() => {
 function openContextMenu(e) {
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
-    e.target?.tagName.toLowerCase() === 'a';
+    ['a', 'img'].includes(e.target?.tagName.toLowerCase());
   if (shouldSkipContextMenu || getSelection().toString()) {
     return;
   }

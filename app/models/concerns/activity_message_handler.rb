@@ -5,7 +5,6 @@ module ActivityMessageHandler
   include LabelActivityMessageHandler
   include SlaActivityMessageHandler
   include TeamActivityMessageHandler
-  include CsatActivityMessageHandler
 
   private
 

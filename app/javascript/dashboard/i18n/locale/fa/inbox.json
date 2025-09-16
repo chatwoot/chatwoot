@@ -72,6 +72,24 @@
       "MARK_ALL_READ": "ثبت همه اعلان ها به عنوان خوانده شده",
       "DELETE_ALL": "حذف همه اعلان ها",
       "DELETE_ALL_READ": "حذف همه اعلان های خوانده شده"
+    },
+    "REAUTHORIZE": {
+      "TITLE": "Reauthorization Required",
+      "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
+      "BUTTON_TEXT": "Reconnect WhatsApp",
+      "LOADING_FACEBOOK": "Loading Facebook SDK...",
+      "SUCCESS": "WhatsApp reconnected successfully",
+      "ERROR": "Failed to reconnect WhatsApp. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "CONFIGURATION_ERROR": "Configuration error occurred during reauthorization.",
+      "FACEBOOK_LOAD_ERROR": "Failed to load Facebook SDK. Please try again.",
+      "TROUBLESHOOTING": {
+        "TITLE": "Troubleshooting",
+        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
+        "COOKIES": "Third-party cookies must be enabled",
+        "ADMIN_ACCESS": "You need admin access to the WhatsApp Business Account"
+      }
     }
   }
 }

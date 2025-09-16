@@ -74,7 +74,11 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'])
+      content: Captain::Llm::SystemPromptsService.copilot_response_generator(
+        @assistant.config['product_name'],
+        @tool_registry.tools_summary,
+        @assistant.config
+      )
     }
   end
 

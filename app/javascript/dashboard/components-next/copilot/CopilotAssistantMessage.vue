@@ -11,6 +11,10 @@ import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
+  isLastMessage: {
+    type: Boolean,
+    default: false,
+  },
   message: {
     type: Object,
     required: true,
@@ -19,6 +23,15 @@ const props = defineProps({
     type: String,
     required: true,
   },
+});
+const hasEmptyMessageContent = computed(() => !props.message?.content);
+
+const showUseButton = computed(() => {
+  return (
+    !hasEmptyMessageContent.value &&
+    props.message.reply_suggestion &&
+    props.isLastMessage
+  );
 });
 
 const messageContent = computed(() => {
@@ -31,8 +44,6 @@ const insertIntoRichEditor = computed(() => {
     props.conversationInboxType
   );
 });
-
-const hasEmptyMessageContent = computed(() => !props.message?.content);
 
 const useCopilotResponse = () => {
   if (insertIntoRichEditor.value) {
@@ -57,7 +68,7 @@ const useCopilotResponse = () => {
     />
     <div class="flex flex-row mt-1">
       <Button
-        v-if="!hasEmptyMessageContent"
+        v-if="showUseButton"
         :label="$t('CAPTAIN.COPILOT.USE')"
         faded
         sm
