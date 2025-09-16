@@ -106,6 +106,7 @@ export const IFrameHelper = {
       ) {
         return;
       }
+
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
       if (typeof IFrameHelper.events[message.event] === 'function') {
         IFrameHelper.events[message.event](message);

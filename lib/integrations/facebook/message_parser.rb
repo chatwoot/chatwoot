@@ -3,7 +3,32 @@
 class Integrations::Facebook::MessageParser
   def initialize(response_json)
     @response = JSON.parse(response_json)
-    @messaging = @response['messaging'] || @response['standby']
+  
+    # Support both formats:
+    # - Wrapped inside "messaging"/"standby" array
+    # - Wrapped inside "messaging"/"standby" object (non-standard but sometimes happens)
+    # - Directly sent as single event hash (e.g., for testing or broken webhooks)
+    @messaging =
+      if @response['messaging']&.is_a?(Array)
+        @response['messaging'].first
+      elsif @response['standby']&.is_a?(Array)
+        @response['standby'].first
+      elsif @response['messaging']&.is_a?(Hash)
+        @response['messaging']
+      elsif @response['standby']&.is_a?(Hash)
+        @response['standby']
+      else
+        @response
+      end
+  end
+  
+
+  def message
+    @messaging["message"]
+  end  
+
+  def read
+    @messaging["read"]
   end
 
   def sender_id
@@ -67,23 +92,8 @@ class Integrations::Facebook::MessageParser
   def in_reply_to_external_id
     @messaging.dig('message', 'reply_to', 'mid')
   end
-end
 
-# Sample Response
-# {
-#   "sender":{
-#     "id":"USER_ID"
-#   },
-#   "recipient":{
-#     "id":"PAGE_ID"
-#   },
-#   "timestamp":1458692752478,
-#   "message":{
-#     "mid":"mid.1457764197618:41d102a3e1ae206a38",
-#     "seq":73,
-#     "text":"hello, world!",
-#     "quick_reply": {
-#       "payload": "DEVELOPER_DEFINED_PAYLOAD"
-#     }
-#   }
-# }
+  def raw
+    @response
+  end
+end
