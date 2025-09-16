@@ -145,7 +145,7 @@ defineExpose({
 
 <template>
   <form @submit.prevent="handleSubmit">
-    <div class="flex flex-col gap-4 divide-y divide-n-weak">
+    <div class="flex flex-col gap-4 mb-2 divide-y divide-n-weak">
       <BaseInfo
         v-model:policy-name="state.name"
         v-model:description="state.description"
