@@ -32,37 +32,19 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def authenticate_resource_with_sso_token
-    # Follow devise_token_auth's expected flow exactly
-    create_and_assign_token
+    @token = @resource.create_token
+    @resource.save!
 
-    # Use sign_in with bypass: false (the default) to match devise_token_auth behavior
-    sign_in(@resource, scope: :user, store: false, bypass: false)
-
-    # Invalidate the SSO token after the user is signed in
+    sign_in(:user, @resource, store: false, bypass: false)
+    # invalidate the token after the user is signed in
     @resource.invalidate_sso_auth_token(params[:sso_auth_token])
-  end
-
-  def create_and_assign_token
-    if @resource.respond_to?(:with_lock)
-      @resource.with_lock do
-        @token = @resource.create_token
-        @resource.save!
-      end
-    else
-      @token = @resource.create_token
-      @resource.save!
-    end
   end
 
   def process_sso_auth_token
     return if params[:email].blank?
 
     user = User.from_email(params[:email])
-
-    return unless user && params[:sso_auth_token]
-
-    token_valid = user.valid_sso_auth_token?(params[:sso_auth_token])
-    @resource = user if token_valid
+    @resource = user if user&.valid_sso_auth_token?(params[:sso_auth_token])
   end
 end
 
