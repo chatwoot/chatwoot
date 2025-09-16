@@ -32,7 +32,6 @@ class Api::V1::AuthController < Api::BaseController
     return render_saml_error unless account_user
 
     @account = account_user.account
-    return render_saml_error unless @account&.feature_enabled?('saml')
   end
 
   def find_account_with_saml(user)
@@ -40,7 +39,7 @@ class Api::V1::AuthController < Api::BaseController
         .joins(account: :saml_settings)
         .where.not(saml_settings: { sso_url: [nil, ''] })
         .where.not(saml_settings: { certificate: [nil, ''] })
-        .first
+        .find { |account_user| account_user.account.feature_enabled?('saml') }
   end
 
   def render_saml_error
