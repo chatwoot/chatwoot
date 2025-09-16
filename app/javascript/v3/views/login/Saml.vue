@@ -82,14 +82,6 @@ const submitSamlLogin = async () => {
       <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
         {{ t('LOGIN.SAML.TITLE') }}
       </h2>
-      <p class="mt-3 text-sm text-center text-n-slate-11">
-        {{ t('LOGIN.SAML.SUBTITLE') }}
-      </p>
-      <p class="mt-2 text-sm text-center text-n-slate-11">
-        <router-link to="/app/login" class="text-link text-n-brand">
-          {{ t('LOGIN.SAML.BACK_TO_LOGIN') }}
-        </router-link>
-      </p>
     </section>
     <section
       class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
@@ -120,5 +112,10 @@ const submitSamlLogin = async () => {
         />
       </form>
     </section>
+    <p class="mt-6 text-sm text-center text-n-slate-11">
+      <router-link to="/app/login" class="text-link text-n-brand">
+        {{ t('LOGIN.SAML.BACK_TO_LOGIN') }}
+      </router-link>
+    </p>
   </main>
 </template>
