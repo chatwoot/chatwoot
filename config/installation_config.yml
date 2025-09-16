@@ -447,3 +447,11 @@
   locked: false
   description: 'Zone ID for the Cloudflare domain'
 ## ------ End of Configs added for Cloudflare ------ ##
+
+## ------ Configs added for Stark ------ ##
+- name: STARK_FOLLOW_UP_ENDPOINT
+  display_title: 'Stark Follow-up Endpoint'
+  value: ''
+  locked: false
+  description: 'The endpoint path for Stark follow-up API'
+## ------ End of Configs added for Stark ------ ##
