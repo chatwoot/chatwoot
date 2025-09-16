@@ -79,6 +79,7 @@ class Api::V1::AccountsController < Api::BaseController
         max_ai_agents: free_trial_plan.max_ai_agents,
         max_ai_responses: free_trial_plan.max_ai_responses,
         max_human_agents: free_trial_plan.max_human_agents,
+        max_channels: free_trial_plan.max_channels,
         available_channels: free_trial_plan.available_channels,
         support_level: free_trial_plan.support_level,
         subscription_plan_id: free_trial_plan.id,

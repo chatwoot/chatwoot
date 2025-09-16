@@ -372,7 +372,10 @@
       },
       "AUTH": {
         "TITLE": "Pilih sebuah channel",
-        "DESC": "Jangkau mendukung berbagai saluran seperti live chat di website, Facebook Messenger, profil Twitter, WhatsApp, email, dan lainnya. Kalau kamu ingin membuat saluran sendiri, kamu bisa menggunakan API Channel. Untuk memulai, silakan pilih salah satu saluran di bawah ini."
+        "DESC": "Jangkau mendukung berbagai saluran seperti live chat di website, Facebook Messenger, profil Twitter, WhatsApp, email, dan lainnya. Kalau kamu ingin membuat saluran sendiri, kamu bisa menggunakan API Channel. Untuk memulai, silakan pilih salah satu saluran di bawah ini.",
+        "CHANNEL_LIMIT_REACHED": "Anda telah mencapai batas maksimum channel ({current}/{max}). Silakan upgrade paket Anda untuk membuat lebih banyak channel.",
+        "CHANNEL_LIMIT_INFO": "Channel yang digunakan: {current}/{max}",
+        "CHANNEL_LIMIT_NO_QUOTA": "Pembuatan channel dibatasi. Belum ada kuota yang ditetapkan untuk akun Anda."
       },
       "AGENTS": {
         "TITLE": "Agen",

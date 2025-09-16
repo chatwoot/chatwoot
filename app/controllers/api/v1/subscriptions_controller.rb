@@ -49,6 +49,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
         max_ai_agents: @subscription_plan.max_ai_agents,
         max_ai_responses: @subscription_plan.max_ai_responses,
         max_human_agents: @subscription_plan.max_human_agents,
+        max_channels: @subscription_plan.max_channels,
         available_channels: @subscription_plan.available_channels,
         support_level: @subscription_plan.support_level,
         starts_at: Time.now,

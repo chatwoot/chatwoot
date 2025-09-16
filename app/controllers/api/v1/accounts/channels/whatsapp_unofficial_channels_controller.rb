@@ -1,4 +1,6 @@
 class Api::V1::Accounts::Channels::WhatsappUnofficialChannelsController < Api::V1::Accounts::BaseController
+  include ChannelLimitationConcern
+  
   def create
     account = Account.find(params[:account_id])
     inbox_name = params[:inbox_name]

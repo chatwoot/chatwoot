@@ -33,7 +33,31 @@ export default {
   }
 
   &:hover {
-    @apply border-transparent shadow-none cursor-not-allowed;
+    border-color: transparent;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  
+  img {
+    filter: grayscale(100%);
+  }
+
+  &:hover {
+    border-color: transparent;
+    box-shadow: none;
+  }
+  
+  h3 {
+    color: #94a3b8;
+  }
+  
+  .dark & h3 {
+    color: #475569;
   }
 }
 </style>
