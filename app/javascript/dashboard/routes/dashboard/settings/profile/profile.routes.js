@@ -1,4 +1,5 @@
 import { frontendURL } from '../../../../helper/URLHelper';
+import { parseBoolean } from '@chatwoot/utils';
 
 import SettingsContent from './Wrapper.vue';
 import Index from './Index.vue';
@@ -31,7 +32,7 @@ export default {
           },
           beforeEnter: (to, from, next) => {
             // Check if MFA is enabled globally
-            if (window.chatwootConfig?.isMfaEnabled !== 'true') {
+            if (!parseBoolean(window.chatwootConfig?.isMfaEnabled)) {
               // Redirect to profile settings if MFA is disabled
               next({ name: 'profile_settings_index' });
             } else {
