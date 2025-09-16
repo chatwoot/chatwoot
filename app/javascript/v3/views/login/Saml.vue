@@ -1,11 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import { samlLogin } from '../../api/auth';
 
 // components
 import FormInput from '../../components/Form/Input.vue';
@@ -35,30 +33,14 @@ const validations = {
 const v$ = useVuelidate(validations, { credentials });
 
 const globalConfig = computed(() => store.getters['globalConfig/get']);
+const csrfToken = ref('');
 
-const showAlertMessage = message => {
-  loginApi.value.showLoading = false;
-  useAlert(message);
-};
-
-const submitSamlLogin = async () => {
-  if (v$.value.credentials.email.$invalid) {
-    showAlertMessage(t('LOGIN.EMAIL.ERROR'));
-    return;
-  }
-
-  loginApi.value.hasErrored = false;
-  loginApi.value.showLoading = true;
-
-  try {
-    await samlLogin({ email: credentials.value.email });
-  } catch (error) {
-    loginApi.value.hasErrored = true;
-    showAlertMessage(
-      error?.response?.data?.error || t('LOGIN.SAML.API.ERROR_MESSAGE')
-    );
-  }
-};
+onMounted(() => {
+  csrfToken.value =
+    document
+      .querySelector('meta[name="csrf-token"]')
+      ?.getAttribute('content') || '';
+});
 </script>
 
 <template>
@@ -87,10 +69,11 @@ const submitSamlLogin = async () => {
         'animate-wiggle': loginApi.hasErrored,
       }"
     >
-      <form class="space-y-5" @submit.prevent="submitSamlLogin">
+      <form class="space-y-5" method="POST" action="/api/v1/auth/saml_login">
+        <input type="hidden" name="authenticity_token" :value="csrfToken" I />
         <FormInput
           v-model="credentials.email"
-          name="email_address"
+          name="email"
           type="text"
           :tabindex="1"
           required

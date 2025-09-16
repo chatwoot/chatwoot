@@ -3,8 +3,10 @@ class Api::V1::AuthController < Api::BaseController
   before_action :find_user_and_account, only: [:saml_login]
 
   def saml_login
+    return if @account.nil?
+
     saml_initiation_url = "/auth/saml?account_id=#{@account.id}"
-    redirect_to saml_initiation_url, status: :see_other
+    redirect_to saml_initiation_url, status: :temporary_redirect
   end
 
   private
