@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
   # AUTH STARTS
-  # NOTE: Devise Token Auth will expose both `/auth/:provider` and `/omniauth/:provider/callback`
-  # routes. OmniAuth runs its request/callback phases under `/omniauth/*`, so those entries
-  # must remain even though the API is mounted at `/auth`.
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
     passwords: 'devise_overrides/passwords',
@@ -10,12 +7,6 @@ Rails.application.routes.draw do
     token_validations: 'devise_overrides/token_validations',
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
-
-  # OmniAuth internal redirect routes (used by devise_token_auth)
-  # OmniAuth invokes the request phase at `/omniauth/:provider`; these passthrough routes
-  # hand the call to our override so the SP-initiated flow can trigger the IdP redirect.
-  get '/omniauth/saml', to: 'devise_overrides/omniauth_callbacks#passthru', defaults: { provider: 'saml' }
-  post '/omniauth/saml', to: 'devise_overrides/omniauth_callbacks#passthru', defaults: { provider: 'saml' }
 
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))

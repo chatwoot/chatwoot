@@ -52,8 +52,29 @@ const submitSamlLogin = async () => {
 
   try {
     const response = await samlLogin({ email: credentials.value.email });
-    // Redirect to the SAML initiation URL
-    window.location.href = response.data.redirect_url;
+    // Create a form and submit as POST request with CSRF token
+    // The user has to make a post request to the redirect_url for
+    // the passthru controller to work
+    // There's multiple issues across the devise+omniauth ecosystem,
+    // Here's one: https://github.com/omniauth/omniauth/issues/1053
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = response.data.redirect_url;
+
+    // Add CSRF token
+    const csrfToken = document
+      .querySelector('meta[name="csrf-token"]')
+      ?.getAttribute('content');
+    if (csrfToken) {
+      const tokenInput = document.createElement('input');
+      tokenInput.type = 'hidden';
+      tokenInput.name = 'authenticity_token';
+      tokenInput.value = csrfToken;
+      form.appendChild(tokenInput);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
   } catch (error) {
     loginApi.value.hasErrored = true;
     showAlertMessage(
