@@ -144,6 +144,13 @@ class Account < ApplicationRecord
       .pick(:max_ai_agents) || 0
   end
 
+  def current_max_channels
+    subscriptions
+      .active
+      .order(starts_at: :desc)
+      .pick(:max_channels) || 0
+  end
+
   private
 
   def notify_creation

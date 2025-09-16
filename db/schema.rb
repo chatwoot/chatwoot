@@ -1168,6 +1168,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
     t.datetime "updated_at", null: false
     t.jsonb "features", default: [], null: false
     t.text "description"
+    t.integer "max_channels", default: 0
   end
 
   create_table "subscription_plans_vouchers", id: false, force: :cascade do |t|
@@ -1229,6 +1230,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
     t.integer "additional_mau", default: 0, null: false
     t.integer "additional_ai_responses", default: 0, null: false
     t.datetime "last_notify_expiry"
+    t.integer "max_channels", default: 0
     t.index ["account_id"], name: "index_subscriptions_on_account_id"
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
   end
