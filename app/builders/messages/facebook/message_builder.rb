@@ -64,6 +64,10 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     end
   
     @message = @conversation.messages.create!(message_params)
+
+    additional_attributes = @conversation.additional_attributes
+    additional_attributes["type"] = "template_dm"
+    @conversation.update!(additional_attributes: additional_attributes)
   
     @attachments.each do |attachment|
       process_attachment(attachment)
