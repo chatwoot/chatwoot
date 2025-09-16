@@ -1,6 +1,7 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 import Login from './login/Index.vue';
+import SamlLogin from './login/Saml.vue';
 import Signup from './auth/signup/Index.vue';
 import ResetPassword from './auth/reset/password/Index.vue';
 import Confirmation from './auth/confirmation/Index.vue';
@@ -19,6 +20,11 @@ export default [
       ssoConversationId: route.query.sso_conversation_id,
       authError: route.query.error,
     }),
+  },
+  {
+    path: frontendURL('login/saml'),
+    name: 'saml_login',
+    component: SamlLogin,
   },
   {
     path: frontendURL('auth/signup'),
