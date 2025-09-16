@@ -13,27 +13,34 @@ class Api::V1::AuthController < Api::BaseController
   private
 
   def find_user_and_account
+    validate_email_presence
+    find_saml_enabled_account
+  end
+
+  def validate_email_presence
     @email = params[:email]&.downcase&.strip
+    return if @email.present?
 
-    return render json: { error: I18n.t('auth.saml.invalid_email') }, status: :bad_request if @email.blank?
+    render json: { error: I18n.t('auth.saml.invalid_email') }, status: :bad_request
+  end
 
+  def find_saml_enabled_account
     user = User.from_email(@email)
-
     return render_saml_error unless user
 
-    # Find first account with SAML enabled for this user
-    account_user = user.account_users
-                       .joins(account: :saml_settings)
-                       .where.not(saml_settings: { sso_url: [nil, ''] })
-                       .where.not(saml_settings: { certificate: [nil, ''] })
-                       .first
-
+    account_user = find_account_with_saml(user)
     return render_saml_error unless account_user
 
     @account = account_user.account
-
-    # Check if account has enterprise features and SAML enabled
     return render_saml_error unless @account&.feature_enabled?('saml')
+  end
+
+  def find_account_with_saml(user)
+    user.account_users
+        .joins(account: :saml_settings)
+        .where.not(saml_settings: { sso_url: [nil, ''] })
+        .where.not(saml_settings: { certificate: [nil, ''] })
+        .first
   end
 
   def render_saml_error
