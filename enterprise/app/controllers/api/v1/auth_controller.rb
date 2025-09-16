@@ -4,10 +4,7 @@ class Api::V1::AuthController < Api::BaseController
 
   def saml_login
     saml_initiation_url = "/auth/saml?account_id=#{@account.id}"
-
-    render json: {
-      redirect_url: saml_initiation_url
-    }
+    redirect_to saml_initiation_url, status: :see_other
   end
 
   private
