@@ -15,9 +15,9 @@ module Stark
         response = make_api_request(conversation, content)
 
         return nil if response.nil?
-    
+
         status_code = response.dig('metadata', 'status_code').to_i
-    
+
         case status_code
         when 200
           parse_stark_response(response)
@@ -144,7 +144,7 @@ module Stark
     def log_stark_error(status_code, response)
       message = response.dig('body', 'message')
       errors  = response.dig('body', 'errors')
-    
+
       error_text = case status_code
                    when 400
                      "400 Bad Request: #{message}, Errors: #{errors}"
@@ -153,10 +153,10 @@ module Stark
                    else
                      "Unknown Error (#{status_code}): #{response.inspect}"
                    end
-    
+
       log_and_notify_slack("[STARK API ERROR] #{error_text}")
     end
-    
+
     def log_and_notify_slack(message)
       Rails.logger.error(message)
       SlackNotifierService.call(
