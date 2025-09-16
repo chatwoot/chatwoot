@@ -60,19 +60,25 @@ class AgentBotListener < BaseListener
   end
 
   def process_message_event(method_name, agent_bot, message, event)
+    conversation = message.conversation
     case agent_bot.bot_type
     when 'stark'
       return unless message.incoming?
 
-      process_stark_bot_event(event.name, agent_bot, message)
+      process_stark_bot_event(event.name, agent_bot, message, conversation)
     when 'webhook'
       payload = message.webhook_data.merge(event: method_name)
       process_webhook_bot_event(agent_bot, payload)
     end
   end
 
-  def process_stark_bot_event(event, agent_bot, message)
+  def process_stark_bot_event(event, agent_bot, message, conversation)
     return if agent_bot.outgoing_url.blank?
+    return unless message.present? && conversation.present?
+  
+    message_type = conversation.additional_attributes['type']
+    # Check if the message_type is 'feed_comment' or 'instagram_comment', and skip job execution if true
+    return if message_type == 'feed_comments' || message_type == 'instagram_comments'
 
     AgentBots::StarkJob.perform_later(event, agent_bot, message)
   end

@@ -92,7 +92,7 @@ module Stark
           content: message.content,
           created_at: message.created_at,
           is_follow_up_message: message.content_attributes['follow_up'] || false,
-          metadata: message.metadata,
+          metadata: message.metadata
         }
       end
     end
@@ -113,7 +113,8 @@ module Stark
         'content' => data['answer'],
         'action' => nil,
         'stop_follow_up' => data['stop_follow_up'],
-        'attachments' => data['attachments'] || []
+        'attachments' => data['attachments'] || [],
+        'metadata' => data['metadata'] || []
       }
     end
 

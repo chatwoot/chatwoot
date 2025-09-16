@@ -1,33 +1,145 @@
-class Instagram::SendOnInstagramService < Instagram::BaseSendService
+class Instagram::SendOnInstagramService < Base::SendOnChannelService
+  include HTTParty
+
+  pattr_initialize [:message!]
+
+  base_uri 'https://graph.facebook.com/v18.0'
+
   private
 
+  delegate :additional_attributes, to: :contact
+
   def channel_class
-    Channel::Instagram
+    Channel::FacebookPage
   end
 
-  # Deliver a message with the given payload.
-  # https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api
-  def send_message(message_content)
-    access_token = channel.access_token
+  def perform_reply
+    if message.attachments.present?
+      send_to_instagram_page attachment_message_params
+    else
+      send_to_instagram_page message_params
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
+  end
+
+  def message_params
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        text: message.content
+      }
+    }.tap { |params| merge_human_agent_tag(params) }
+  end
+
+  def attachment_message_params
+    attachment = message.attachments.first
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: attachment_type(attachment),
+          payload: {
+            url: attachment.download_url
+          }
+        }
+      }
+    }.tap { |params| merge_human_agent_tag(params) }
+  end
+
+  def send_to_instagram_page(message_content)
+    puts "=================== send_to_instagram_page START ==================="
+    access_token = channel.page_access_token
     query = { access_token: access_token }
-    instagram_id = channel.instagram_id.presence || 'me'
+
+    if conversation.additional_attributes['type'] == 'instagram_comments'
+
+      send_reply_to_instagram_comment(query, message_content)
+    else
+      send_message_to_instagram(query, message_content)
+    end
+  end
+
+  def send_reply_to_instagram_comment(query, message_content)
+    comment_id = conversation.additional_attributes['comment_id']
+    url = "https://graph.facebook.com/v18.0/#{comment_id}/replies"
 
     response = HTTParty.post(
-      "https://graph.instagram.com/v22.0/#{instagram_id}/messages",
+      url,
+      body: {
+        message: message_content[:message][:text],
+        access_token: query[:access_token]
+      }
+    )
+    handle_response(response)
+  end
+
+  def send_message_to_instagram(query, message_content)
+    url = "https://graph.facebook.com/v18.0/me/messages"
+    response = HTTParty.post(
+      url,
       body: message_content,
       query: query
     )
 
-    process_response(response, message_content)
+    handle_response(response)
+  end
+
+  def handle_response(response)
+    if response['error'].present?
+      Rails.logger.error("Instagram response: #{response['error']} : #{message.content}")
+      message.status = :failed
+      message.external_error = external_error(response)
+    else
+      message.source_id = response['id'] || response['message_id'] if response['id'].present? || response['message_id'].present?
+    end
+    message.save!
+  end
+
+  def external_error(response)
+    error_message = response['error']['message']
+    error_code = response['error']['code']
+    "#{error_code} - #{error_message}"
   end
 
   def merge_human_agent_tag(params)
     global_config = GlobalConfig.get('ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
-
     return params unless global_config['ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT']
 
     params[:messaging_type] = 'MESSAGE_TAG'
     params[:tag] = 'HUMAN_AGENT'
     params
+  end
+
+  def attachment_type(attachment)
+    return attachment.file_type if %w[image audio video file].include?(attachment.file_type)
+    'file'
+  end
+
+  def contact
+    @contact ||= begin
+      conv = message.conversation
+      raise "❌ Conversation not found for message ID #{message.id}" unless conv
+      raise "❌ Contact not found for conversation ID #{conv.id}" unless conv.contact
+      conv.contact
+    end
+  end
+
+  def inbox
+    @inbox ||= begin
+      raise "❌ Inbox not found for message ID #{message.id}" unless message.inbox
+      message.inbox
+    end
+  end
+
+  def channel
+    @channel ||= inbox.channel
+  end
+
+  def conversation
+    @conversation ||= begin
+      raise "❌ Conversation not found for message ID #{message.id}" unless message.conversation
+      message.conversation
+    end
   end
 end

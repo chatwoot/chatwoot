@@ -5,6 +5,8 @@ class Webhooks::FacebookEventsJob < MutexApplicationJob
   def perform(message)
     response = ::Integrations::Facebook::MessageParser.new(message)
 
+    return if !response.message.present?
+
     key = format(::Redis::Alfred::FACEBOOK_MESSAGE_MUTEX, sender_id: response.sender_id, recipient_id: response.recipient_id)
     with_lock(key) do
       process_message(response)
