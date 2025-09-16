@@ -15,6 +15,7 @@ const {
   LOGO: logo,
   LOGO_DARK: logoDark,
   PRIVACY_URL: privacyURL,
+  IS_ENTERPRISE: isEnterprise,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
@@ -42,6 +43,7 @@ const state = {
   privacyURL,
   termsURL,
   widgetBrandURL,
+  isEnterprise,
 };
 
 export const getters = {
