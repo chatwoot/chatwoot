@@ -38,7 +38,7 @@ const otpCode = computed(() => otpDigits.value.join(''));
 const canSubmit = computed(() =>
   verificationMethod.value === OTP
     ? otpCode.value.length === 6
-    : backupCode.value.length === 6
+    : backupCode.value.length === 8
 );
 
 const focusInput = i => otpInputRefs.value[i]?.focus();
