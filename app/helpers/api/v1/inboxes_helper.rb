@@ -17,15 +17,30 @@ module Api::V1::InboxesHelper
   def validate_imap(channel_data)
     return unless channel_data.key?('imap_enabled') && channel_data[:imap_enabled]
 
+    # Validate IMAP authentication mechanism
+    validate_imap_auth_mechanism(channel_data[:imap_authentication])
+
+    auth = (channel_data[:imap_authentication].presence || 'plain')
+
     Mail.defaults do
       retriever_method :imap, { address: channel_data[:imap_address],
                                 port: channel_data[:imap_port],
                                 user_name: channel_data[:imap_login],
                                 password: channel_data[:imap_password],
-                                enable_ssl: channel_data[:imap_enable_ssl] }
+                                enable_ssl: channel_data[:imap_enable_ssl],
+                                authentication: auth }
     end
 
     check_imap_connection(channel_data)
+  end
+
+  def validate_imap_auth_mechanism(auth_mechanism)
+    return if auth_mechanism.blank?
+
+    allowed_mechanisms = %w[plain login cram-md5]
+    unless allowed_mechanisms.include?(auth_mechanism.to_s.downcase)
+      raise StandardError, "Invalid IMAP authentication mechanism. Allowed values: #{allowed_mechanisms.join(', ')}"
+    end
   end
 
   def validate_smtp(channel_data)

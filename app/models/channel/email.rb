@@ -6,6 +6,7 @@
 #  email                     :string           not null
 #  forward_to_email          :string           not null
 #  imap_address              :string           default("")
+#  imap_authentication       :string           default("plain")
 #  imap_enable_ssl           :boolean          default(TRUE)
 #  imap_enabled              :boolean          default(FALSE)
 #  imap_login                :string           default("")
@@ -40,7 +41,7 @@ class Channel::Email < ApplicationRecord
   AUTHORIZATION_ERROR_THRESHOLD = 10
 
   self.table_name = 'channel_email'
-  EDITABLE_ATTRS = [:email, :imap_enabled, :imap_login, :imap_password, :imap_address, :imap_port, :imap_enable_ssl,
+  EDITABLE_ATTRS = [:email, :imap_enabled, :imap_login, :imap_password, :imap_address, :imap_port, :imap_enable_ssl, :imap_authentication,
                     :smtp_enabled, :smtp_login, :smtp_password, :smtp_address, :smtp_port, :smtp_domain, :smtp_enable_starttls_auto,
                     :smtp_enable_ssl_tls, :smtp_openssl_verify_mode, :smtp_authentication, :provider].freeze
 
