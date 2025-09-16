@@ -5,6 +5,7 @@ import {
   dateFormat,
   shortTimestamp,
   getDayDifferenceFromNow,
+  hasOneDayPassed,
 } from 'shared/helpers/timeHelper';
 
 beforeEach(() => {
@@ -153,5 +154,86 @@ describe('#getDayDifferenceFromNow', () => {
     ); // December 31, 2022
 
     expect(getDayDifferenceFromNow(now, lastYearTimestamp)).toEqual(2);
+  });
+});
+
+describe('#hasOneDayPassed', () => {
+  beforeEach(() => {
+    // Mock current date: May 5, 2023, 12:00 PM UTC (1683288000)
+    const mockDate = new Date(1683288000 * 1000);
+    vi.setSystemTime(mockDate);
+  });
+
+  it('returns false for timestamps from today', () => {
+    // Same day, different time - May 5, 2023 8:00 AM UTC
+    const todayTimestamp = 1683273600;
+
+    expect(hasOneDayPassed(todayTimestamp)).toBe(false);
+  });
+
+  it('returns false for timestamps from yesterday (less than 24 hours)', () => {
+    // Yesterday but less than 24 hours ago - May 4, 2023 6:00 PM UTC (18 hours ago)
+    const yesterdayTimestamp = 1683230400;
+
+    expect(hasOneDayPassed(yesterdayTimestamp)).toBe(false);
+  });
+
+  it('returns true for timestamps from exactly 1 day ago', () => {
+    // Exactly 24 hours ago - May 4, 2023 12:00 PM UTC
+    const oneDayAgoTimestamp = 1683201600;
+
+    expect(hasOneDayPassed(oneDayAgoTimestamp)).toBe(true);
+  });
+
+  it('returns true for timestamps from more than 1 day ago', () => {
+    // 2 days ago - May 3, 2023 10:00 AM UTC
+    const twoDaysAgoTimestamp = 1683108000;
+
+    expect(hasOneDayPassed(twoDaysAgoTimestamp)).toBe(true);
+  });
+
+  it('returns true for timestamps from a week ago', () => {
+    // 7 days ago - April 28, 2023 8:00 AM UTC
+    const weekAgoTimestamp = 1682668800;
+
+    expect(hasOneDayPassed(weekAgoTimestamp)).toBe(true);
+  });
+
+  it('returns true for null timestamp (defensive check)', () => {
+    expect(hasOneDayPassed(null)).toBe(true);
+  });
+
+  it('returns true for undefined timestamp (defensive check)', () => {
+    expect(hasOneDayPassed(undefined)).toBe(true);
+  });
+
+  it('returns true for zero timestamp (defensive check)', () => {
+    expect(hasOneDayPassed(0)).toBe(true);
+  });
+
+  it('returns true for empty string timestamp (defensive check)', () => {
+    expect(hasOneDayPassed('')).toBe(true);
+  });
+
+  it('handles cross-month boundaries correctly', () => {
+    // Set current time to May 1, 2023 12:00 PM UTC (1682942400)
+    const mayFirst = new Date(1682942400 * 1000);
+    vi.setSystemTime(mayFirst);
+
+    // April 29, 2023 12:00 PM UTC (1682769600) - 2 days ago, crossing month boundary
+    const crossMonthTimestamp = 1682769600;
+
+    expect(hasOneDayPassed(crossMonthTimestamp)).toBe(true);
+  });
+
+  it('handles cross-year boundaries correctly', () => {
+    // Set current time to January 2, 2023 12:00 PM UTC (1672660800)
+    const newYear = new Date(1672660800 * 1000);
+    vi.setSystemTime(newYear);
+
+    // December 30, 2022 12:00 PM UTC (1672401600) - 3 days ago, crossing year boundary
+    const crossYearTimestamp = 1672401600;
+
+    expect(hasOneDayPassed(crossYearTimestamp)).toBe(true);
   });
 });
