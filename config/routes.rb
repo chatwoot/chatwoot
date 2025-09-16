@@ -8,6 +8,13 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
+  # SAML SP-initiated authentication - starts SAML flow and redirects to IdP
+  get '/auth/saml', to: 'devise_overrides/omniauth_callbacks#passthru', defaults: { provider: 'saml' }
+  post '/auth/saml', to: 'devise_overrides/omniauth_callbacks#passthru', defaults: { provider: 'saml' }
+  # OmniAuth internal redirect routes (used by devise_token_auth)
+  get '/omniauth/saml', to: 'devise_overrides/omniauth_callbacks#passthru', defaults: { provider: 'saml' }
+  post '/omniauth/saml', to: 'devise_overrides/omniauth_callbacks#passthru', defaults: { provider: 'saml' }
+
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
     root to: 'api#index'
@@ -324,6 +331,9 @@ Rails.application.routes.draw do
       namespace :integrations do
         resources :webhooks, only: [:create]
       end
+
+      # Frontend API endpoint to trigger SAML authentication flow
+      post 'auth/saml_login', to: 'auth#saml_login'
 
       resource :profile, only: [:show, :update] do
         delete :avatar, on: :collection

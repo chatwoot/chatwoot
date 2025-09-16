@@ -1,6 +1,32 @@
 class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCallbacksController
   include EmailHelper
 
+  def passthru
+    if params[:provider] == 'saml'
+      strategy = request.env['omniauth.strategy']
+
+      if strategy
+        # Generate and redirect to the IdP URL with SAML request
+        result = strategy.request_phase
+
+        # request_phase returns a Rack response array [status, headers, body]
+        if result.is_a?(Array) && result[0] == 302
+          redirect_url = result[1]['location']
+          redirect_to redirect_url, allow_other_host: true
+        else
+          render plain: 'SAML request phase failed', status: :internal_server_error
+        end
+      else
+        render plain: 'SAML strategy not configured', status: :internal_server_error
+      end
+    else
+      render plain: "Unsupported provider: #{params[:provider]}", status: :bad_request
+    end
+  rescue StandardError => e
+    Rails.logger.error "OmniAuth passthru error: #{e.message}"
+    render plain: 'Authentication error', status: :internal_server_error
+  end
+
   def omniauth_success
     get_resource_from_auth_hash
 
@@ -15,8 +41,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # once the resource is found and verified
     # we can just send them to the login page again with the SSO params
     # that will log them in
-    encoded_email = ERB::Util.url_encode(@resource.email)
-    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
+    redirect_to login_page_url(email: @resource.email, sso_auth_token: @resource.generate_sso_auth_token)
   end
 
   def sign_up_user
