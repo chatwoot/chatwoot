@@ -31,7 +31,7 @@ class SendTemplateDmJob < ApplicationJob
       return
     end
 
-    template_message = "Hello! 👋 Just following up via DM with some important info for you."
+    template_message = "Hi! 👋 Thanks for engaging! Let me know if you need any specific information or have any questions!"
 
     job_key = "template_dm_job_#{contact_inbox.id}_#{contact.id}_#{comment_id}"
     puts "================job_key==================#{job_key}==================="
