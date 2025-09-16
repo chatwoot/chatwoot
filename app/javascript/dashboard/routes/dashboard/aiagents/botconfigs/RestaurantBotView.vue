@@ -13,6 +13,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  googleSheetsAuth: {
+    type: Object,
+    required: true,
+  },
 });
 
 // Tab management
@@ -32,13 +36,14 @@ const tabs = computed(() => [
   },
 ]);
 
-// General Tab - Google Sheets Integration (similar to BookingBot)
-const step = ref('auth');
-const loading = ref(false);
-const account = ref(null);
-const sheets = reactive({ input: '', output: '' });
+// General Tab - Google Sheets Integration (centralized from parent)
+const step = computed(() => props.googleSheetsAuth.step);
+const loading = computed(() => props.googleSheetsAuth.loading);
+const account = computed(() => props.googleSheetsAuth.account);
+const sheets = computed(() => props.googleSheetsAuth.spreadsheetUrls.restaurant);
 const notification = ref(null);
 const menuBookLink = ref('');
+const syncingColumns = ref(false);
 
 // Orders & Costs Tab
 const orderSettings = reactive({
@@ -52,66 +57,6 @@ const orderSettings = reactive({
 
 // Save state
 const isSaving = ref(false);
-async function checkAuthStatus() {
-  // useAlert(t('IN RESTAURANT...'));
-  console.log('checking auth status...');
-  try {
-    loading.value = true;
-    const response = await googleSheetsExportAPI.getStatus();
-    console.log(JSON.stringify(response.data));
-    if (response.data.authorized) {
-      step.value = 'connected';
-      account.value = {
-        email: response.data.email,
-        name: 'Connected Account',
-      };
-      try {
-        const flowData = props.data.display_flow_data;
-        const payload = {
-          account_id: parseInt(flowData.account_id, 10),
-          agent_id: String(props.data.id),
-          type: 'restaurant',
-        };
-        console.log(JSON.stringify(payload));
-        console.log('payload:', payload);
-        const spreadsheet_url_response =
-          await googleSheetsExportAPI.getSpreadsheetUrl(payload);
-        console.log(JSON.stringify(payload));
-        console.log(JSON.stringify(spreadsheet_url_response));
-
-        console.log(
-          'spreadsheet_url_response.data:',
-          spreadsheet_url_response.data
-        );
-        if (spreadsheet_url_response.data) {
-          sheets.input = spreadsheet_url_response.data.input_spreadsheet_url;
-          sheets.output = spreadsheet_url_response.data.output_spreadsheet_url;
-          step.value = 'sheetConfig';
-        } else {
-          sheets.input = '';
-          sheets.output = '';
-        }
-      } catch (error) {
-        console.error(
-          'Failed to check authorization status while retrieving spreadsheet data:',
-          error
-        );
-        step.value = 'connected';
-      }
-    } else {
-      step.value = 'auth';
-    }
-    console.log('step:', step);
-    console.log('account:', account);
-  } catch (error) {
-    console.error('Failed to check authorization status:', error)
-    step.value = 'auth';
-  } finally {
-    loading.value = false;
-  }
-  console.log('step.value:', step.value);
-  console.log('checking auth status DONE');
-}
 function showNotification(message, type = 'success') {
   notification.value = { message, type };
   setTimeout(() => {
@@ -120,7 +65,7 @@ function showNotification(message, type = 'success') {
 }
 async function connectGoogle() {
   try {
-    loading.value = true;
+    props.googleSheetsAuth.loading = true;
     const response = await googleSheetsExportAPI.getAuthorizationUrl();
     if (response.data.authorization_url) {
       showNotification('Redirecting to Google for authentication...', 'info');
@@ -131,12 +76,12 @@ async function connectGoogle() {
   } catch (error) {
     showNotification('Authentication failed. Please try again.', 'error');
   } finally {
-    loading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
 }
 
 async function createSheets() {
-  loading.value = true;
+  props.googleSheetsAuth.loading = true;
   try {
     // TODO: Call backend to create output sheet
     // For now, simulate sheet creation
@@ -153,8 +98,9 @@ async function createSheets() {
     // console.log(payload);
     const response = await googleSheetsExportAPI.createSpreadsheet(payload);
     // console.log(response)
-    sheets.output = response.data.output_spreadsheet_url;
-    step.value = 'sheetConfig';
+    props.googleSheetsAuth.spreadsheetUrls.restaurant.input = response.data.input_spreadsheet_url;
+    props.googleSheetsAuth.spreadsheetUrls.restaurant.output = response.data.output_spreadsheet_url;
+    props.googleSheetsAuth.step = 'sheetConfig';
     showNotification('Output sheet created successfully!', 'success');
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -164,7 +110,7 @@ async function createSheets() {
       'error'
     );
   } finally {
-    loading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
 }
 async function save() {
@@ -238,10 +184,7 @@ function saveOrderSettings() {
   save();
 }
 
-onMounted(async () => {
-  // eslint-disable-next-line no-use-before-define
-  await checkAuthStatus();
-});
+
 </script>
 
 <template>

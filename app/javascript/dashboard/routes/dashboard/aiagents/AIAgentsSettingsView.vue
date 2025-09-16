@@ -8,8 +8,9 @@ import CSBotView from './botconfigs/CSBotView.vue';
 import RestaurantBotView from './botconfigs/RestaurantBotView.vue';
 import BookingBotView from './botconfigs/BookingBotView.vue';
 import SalesBotView from './botconfigs/SalesBotView.vue';
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, reactive } from 'vue';
 import aiAgents from '../../../api/aiAgents';
+import googleSheetsExportAPI from '../../../api/googleSheetsExport';
 
 const route = useRoute();
 const allTabs = [
@@ -98,6 +99,112 @@ const activeIndex = ref(0);
 const loadingData = ref(false);
 const data = ref();
 
+// Google Sheets Authentication State (centralized)
+const googleSheetsAuth = reactive({
+  loading: false,
+  authorized: false,
+  email: null,
+  step: 'auth', // 'auth', 'connected', 'sheetConfig'
+  account: null,
+  spreadsheetUrls: {
+    booking: { input: '', output: '' },
+    customer_service: { output: '' },
+    restaurant: { input: '', output: '' },
+    sales: { input: '', output: '' }
+  }
+});
+
+// Helper function to get agent ID by type
+function getAgentIdByType(type) {
+  const flowData = data.value?.display_flow_data;
+  if (!flowData?.agents_config) return null;
+  
+  const agent = flowData.agents_config.find(config => config.type === type);
+  return agent?.agent_id || null;
+}
+
+// Centralized Google Sheets authentication check
+async function checkGoogleSheetsAuth() {
+  if (googleSheetsAuth.loading) return;
+  
+  try {
+    googleSheetsAuth.loading = true;
+    const response = await googleSheetsExportAPI.getStatus();
+    
+    if (response.data.authorized) {
+      googleSheetsAuth.authorized = true;
+      googleSheetsAuth.email = response.data.email;
+      googleSheetsAuth.account = {
+        email: response.data.email,
+        name: 'Connected Account',
+      };
+      googleSheetsAuth.step = 'connected';
+      
+      // Load spreadsheet URLs for all enabled agents
+      await loadSpreadsheetUrls();
+    } else {
+      googleSheetsAuth.authorized = false;
+      googleSheetsAuth.step = 'auth';
+    }
+  } catch (error) {
+    console.error('Failed to check Google Sheets authorization status:', error);
+    googleSheetsAuth.authorized = false;
+    googleSheetsAuth.step = 'auth';
+  } finally {
+    googleSheetsAuth.loading = false;
+  }
+}
+
+// Load spreadsheet URLs for all enabled agent types
+async function loadSpreadsheetUrls() {
+  if (!data.value?.display_flow_data) return;
+  
+  const flowData = data.value.display_flow_data;
+  const enabledAgents = flowData.enabled_agents || [];
+  
+  for (const agentType of enabledAgents) {
+    try {
+      const agentId = getAgentIdByType(agentType);
+      if (!agentId) continue;
+      
+      const payload = {
+        account_id: parseInt(flowData.account_id, 10),
+        agent_id: agentId,
+        type: agentType,
+      };
+      
+      const response = await googleSheetsExportAPI.getSpreadsheetUrl(payload);
+      
+      if (response.data) {
+        // Store spreadsheet URLs based on agent type
+        if (agentType === 'booking') {
+          googleSheetsAuth.spreadsheetUrls.booking.input = response.data.input_spreadsheet_url || '';
+          googleSheetsAuth.spreadsheetUrls.booking.output = response.data.output_spreadsheet_url || '';
+        } else if (agentType === 'customer_service') {
+          googleSheetsAuth.spreadsheetUrls.customer_service.output = response.data.spreadsheet_url || '';
+        } else if (agentType === 'restaurant') {
+          googleSheetsAuth.spreadsheetUrls.restaurant.input = response.data.input_spreadsheet_url || '';
+          googleSheetsAuth.spreadsheetUrls.restaurant.output = response.data.output_spreadsheet_url || '';
+        } else if (agentType === 'sales') {
+          googleSheetsAuth.spreadsheetUrls.sales.input = response.data.input_spreadsheet_url || '';
+          googleSheetsAuth.spreadsheetUrls.sales.output = response.data.output_spreadsheet_url || '';
+        }
+      }
+    } catch (error) {
+      console.error(`Failed to load spreadsheet URLs for ${agentType}:`, error);
+    }
+  }
+  
+  // Check if we have any spreadsheet URLs configured, if so set step to 'sheetConfig'
+  const hasAnySpreadsheets = Object.values(googleSheetsAuth.spreadsheetUrls).some(urls => {
+    return (urls.input && urls.input !== '') || (urls.output && urls.output !== '');
+  });
+  
+  if (hasAnySpreadsheets) {
+    googleSheetsAuth.step = 'sheetConfig';
+  }
+}
+
 const showData = async () => {
   try {
     loadingData.value = true;
@@ -111,6 +218,7 @@ const showData = async () => {
 
 onMounted(() => {
   showData();
+  checkGoogleSheetsAuth();
 });
 </script>
 
@@ -164,19 +272,19 @@ onMounted(() => {
     </div>
 
     <div v-show="visibleTabs[activeIndex]?.index === 3">
-      <CSBotView :data="data" />
+      <CSBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
     </div>
 
     <div v-show="visibleTabs[activeIndex]?.index === 4">
-      <RestaurantBotView :data="data" />
+      <RestaurantBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
     </div>
 
     <div v-show="visibleTabs[activeIndex]?.index === 5">
-      <BookingBotView :data="data" />
+      <BookingBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
     </div>
 
     <div v-show="visibleTabs[activeIndex]?.index === 6">
-      <SalesBotView :data="data" />
+      <SalesBotView :data="data" :google-sheets-auth="googleSheetsAuth" />
     </div>
   </div>
 </template>

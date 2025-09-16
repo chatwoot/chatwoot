@@ -1235,6 +1235,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  googleSheetsAuth: {
+    type: Object,
+    required: true,
+  },
 });
 
 // Helper function to get agent ID by type
@@ -1258,7 +1262,6 @@ onMounted(async () => {
   
   // Load provinces for address selection
   loadProvinsi();
-  await checkAuthStatus();
   // Pre-load Google Maps API but don't initialize map yet
   try {
     await loadGoogleMaps();
@@ -1290,10 +1293,10 @@ watch(
   { immediate: true, deep: true }
 );
 
-const catalogStep = ref('connected'); // 'auth', 'connected', 'sheetConfig'
-const catalogLoading = ref(false);
-const catalogAccount = ref(null); // { email: '...', name: '...' }
-const catalogSheets = reactive({ input: '', output: '' });
+const catalogStep = computed(() => props.googleSheetsAuth.step);
+const catalogLoading = computed(() => props.googleSheetsAuth.loading);
+const catalogAccount = computed(() => props.googleSheetsAuth.account);
+const catalogSheets = computed(() => props.googleSheetsAuth.spreadsheetUrls.sales);
 const notification = ref(null);
 const productColumns = ref('sku,name,unit_price,quantity,deskripsi');
 const syncingColumns = ref(false);
@@ -1309,7 +1312,7 @@ function showNotification(message, type = 'success') {
 
 async function connectGoogle() {
   try {
-    catalogLoading.value = true;
+    props.googleSheetsAuth.loading = true;
     const response = await googleSheetsExportAPI.getAuthorizationUrl();
     if (response.data.authorization_url) {
       showNotification('Opening Google authentication in a new tab...', 'info');
@@ -1324,67 +1327,12 @@ async function connectGoogle() {
   } catch (error) {
     showNotification('Authentication failed. Please try again.', 'error');
   } finally {
-    catalogLoading.value = false;
-  }
-}
-// async function connectGoogle() {
-//   try {
-//     catalogLoading.value = true;
-//     const response = await googleSheetsExportAPI.getAuthorizationUrl();
-//     if (response.data.authorization_url) {
-//       showNotification('Redirecting to Google for authentication...', 'info');
-//       window.location.href = response.data.authorization_url;
-//     } else {
-//       showNotification('Failed to get authorization URL. Please check backend logs.', 'error');
-//     }
-//   } catch (error) {
-//     showNotification('Authentication failed. Please try again.', 'error');
-//   } finally {
-//     catalogLoading.value = false;
-//   }
-// }
-
-async function checkAuthStatus() {
-  try {
-    catalogLoading.value = true;
-    const response = await googleSheetsExportAPI.getStatus();
-    if (response.data.authorized) {
-      catalogStep.value = 'connected';
-      catalogAccount.value = {
-        email: response.data.email,
-        name: 'Connected Account',
-      };
-      try {
-        const flowData = props.data.display_flow_data;
-        const payload = {
-          account_id: parseInt(flowData.account_id, 10),
-          agent_id: salesAgentId.value,
-          type: 'sales',
-        };
-        const spreadsheet_url_response = await googleSheetsExportAPI.getSpreadsheetUrl(payload);
-
-        if (spreadsheet_url_response.data.input_spreadsheet_url && spreadsheet_url_response.data.output_spreadsheet_url) {
-          catalogSheets.input = spreadsheet_url_response.data.input_spreadsheet_url;
-          catalogSheets.output = spreadsheet_url_response.data.output_spreadsheet_url;
-          catalogStep.value = 'sheetConfig';
-        } else {
-          catalogSheets.output = '';
-        }
-      } catch (error) {
-        catalogStep.value = 'connected';
-      }
-    } else {
-      catalogStep.value = 'auth';
-    }
-  } catch (error) {
-    catalogStep.value = 'auth';
-  } finally {
-    catalogLoading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
 }
 
 async function createSheets() {
-  catalogLoading.value = true;
+  props.googleSheetsAuth.loading = true;
   try {
     const flowData = props.data.display_flow_data;
     const payload = {
@@ -1395,19 +1343,19 @@ async function createSheets() {
     // console.log(payload);
     const response = await googleSheetsExportAPI.createSpreadsheet(payload);
     // console.log(response)
-    catalogSheets.input = response.data.input_spreadsheet_url;
-    catalogSheets.output = response.data.output_spreadsheet_url;
-    catalogStep.value = 'sheetConfig';
+    props.googleSheetsAuth.spreadsheetUrls.sales.input = response.data.input_spreadsheet_url;
+    props.googleSheetsAuth.spreadsheetUrls.sales.output = response.data.output_spreadsheet_url;
+    props.googleSheetsAuth.step = 'sheetConfig';
     showNotification('catalog output sheet created successfully!', 'success')
   } catch (error) {
     // eslint-disable-next-line no-console
-    catalogLoading.value = false;
+    props.googleSheetsAuth.loading = false;
     showNotification(
       'Failed to create catalog sheet. Please try again.',
       'error'
     );
   } finally {
-    catalogLoading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
 }
 

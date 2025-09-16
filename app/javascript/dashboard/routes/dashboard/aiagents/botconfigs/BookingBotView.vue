@@ -14,6 +14,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  googleSheetsAuth: {
+    type: Object,
+    required: true,
+  },
 });
 
 // Tab management
@@ -34,10 +38,10 @@ const tabs = computed(() => [
 ]);
 
 // Steps: 'auth', 'connected', 'sheetConfig'
-const step = ref('auth');
-const loading = ref(false);
-const account = ref(null); // { email: '...', name: '...' }
-const sheets = reactive({ input: '', output: '' });
+const step = computed(() => props.googleSheetsAuth.step);
+const loading = computed(() => props.googleSheetsAuth.loading);
+const account = computed(() => props.googleSheetsAuth.account);
+const sheets = computed(() => props.googleSheetsAuth.spreadsheetUrls.booking);
 const notification = ref(null);
 
 // Save state
@@ -77,7 +81,7 @@ const agentId = computed(() => {
 
 async function connectGoogle() {
   try {
-    loading.value = true;
+    props.googleSheetsAuth.loading = true;
     const response = await googleSheetsExportAPI.getAuthorizationUrl();
     if (response.data.authorization_url) {
       showNotification('Redirecting to Google for authentication...', 'info');
@@ -88,77 +92,8 @@ async function connectGoogle() {
   } catch (error) {
     showNotification('Authentication failed. Please try again.', 'error');
   } finally {
-    loading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
-}
-
-async function checkAuthStatus() {
-  // useAlert(t('IN BOOKING...'));
-  console.log('checking auth status...');
-  try {
-    loading.value = true;
-    const response = await googleSheetsExportAPI.getStatus();
-    console.log(JSON.stringify(response.data));
-    if (response.data.authorized) {
-      step.value = 'connected';
-      account.value = {
-        email: response.data.email,
-        name: 'Connected Account',
-      };
-      try {
-        const flowData = props.data.display_flow_data;
-        if (flowData.agents_config[0].configurations.minimum_duration) {
-          minDuration.value =
-            flowData.agents_config[0].configurations.minimum_duration;
-        }
-        if (flowData.agents_config[0].configurations.industry) {
-          selectedTemplate.value =
-            flowData.agents_config[0].configurations.industry;
-        }
-        const payload = {
-          account_id: parseInt(flowData.account_id, 10),
-          agent_id: agentId.value,
-          type: 'booking',
-        };
-        console.log(JSON.stringify(payload));
-        console.log('payload:', payload);
-        const spreadsheet_url_response =
-          await googleSheetsExportAPI.getSpreadsheetUrl(payload);
-        console.log(JSON.stringify(payload));
-        console.log(JSON.stringify(spreadsheet_url_response));
-
-        console.log(
-          'spreadsheet_url_response.data:',
-          spreadsheet_url_response.data
-        );
-        if (spreadsheet_url_response.data) {
-          sheets.input = spreadsheet_url_response.data.input_spreadsheet_url;
-          sheets.output = spreadsheet_url_response.data.output_spreadsheet_url;
-          step.value = 'sheetConfig';
-        } else {
-          sheets.input = '';
-          sheets.output = '';
-        }
-      } catch (error) {
-        console.error(
-          'Failed to check authorization status while retrieving spreadsheet data:',
-          error
-        );
-        step.value = 'connected';
-      }
-    } else {
-      step.value = 'auth';
-    }
-    console.log('step:', step);
-    console.log('account:', account);
-  } catch (error) {
-    console.error('Failed to check authorization status:', error)
-    step.value = 'auth';
-  } finally {
-    loading.value = false;
-  }
-  console.log('step.value:', step.value);
-  console.log('checking auth status DONE');
 }
 
 function showNotification(message, type = 'success') {
@@ -173,10 +108,6 @@ async function syncScheduleColumns() {
     syncingColumns.value = true;
     showNotification('Syncing schedule columns from sheet...', 'info');
 
-    // TODO: Replace with your actual API endpoint
-    // prepare payload
-    // retrieve resource_names, location_names, & resource_types
-    // save to flow_data
     let flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
@@ -187,10 +118,6 @@ async function syncScheduleColumns() {
     const result = await googleSheetsExportAPI.syncSpreadsheet(payload);
     console.log('flowData:', flowData);
     console.log('result:', result);
-    const agentsConfig = flowData.agents_config;
-    // const agent_index = agentsConfig.findIndex(
-    //   agent => agent.type === 'booking'
-    // );
     const agent_index = flowData.enabled_agents.indexOf('booking');
     console.log('agent_index:', agent_index);
     flowData.agents_config[agent_index].configurations.resource_names =
@@ -199,17 +126,13 @@ async function syncScheduleColumns() {
       result.data.data.unique_location_names;
     flowData.agents_config[agent_index].configurations.resource_types =
       result.data.data.unique_resource_types;
-    // console.log(flowData);
-    // console.log(props.config);
+    
     const updatePayload = {
       flow_data: flowData,
     };
-    // eslint-disable-next-line no-console
     console.log('payload:', updatePayload);
-    // ✅ Properly await the API call
     await aiAgents.updateAgent(props.data.id, updatePayload);
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Failed to sync schedule columns:', error);
     showNotification('Failed to sync schedule columns', 'error');
     syncingColumns.value = false;
@@ -217,8 +140,6 @@ async function syncScheduleColumns() {
     syncingColumns.value = false;
   }
 }
-
-
 
 async function save() {
   if (isSaving.value) return; // Prevent multiple calls
@@ -228,9 +149,7 @@ async function save() {
   };
   try {
     isSaving.value = true;
-    // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
-    // eslint-disable-next-line no-console
     const agent_index = flowData.enabled_agents.indexOf('booking');
 
     if (agent_index === -1) {
@@ -242,16 +161,13 @@ async function save() {
       configData.minDuration;
     flowData.agents_config[agent_index].configurations.industry =
       configData.selectedTemplate;
-    // console.log(flowData);
-    // console.log(props.config);
+    
     const payload = {
       flow_data: flowData,
     };
     console.log("payload:", payload);
-    // ✅ Properly await the API call
     await aiAgents.updateAgent(props.data.id, payload);
 
-    // ✅ Show success console.log after success
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
   } catch (e) {
     console.error('Save error:', e);
@@ -261,78 +177,23 @@ async function save() {
   }
 }
 
-// async function save() {
-//   try {
-//     isSaving.value = true;
-
-//     // TODO: API call to save booking bot configuration
-//     const configData = {
-//       selectedTemplate: selectedTemplate.value,
-//       minDuration: minDuration.value,
-//       resourceColumns: resourceColumn.value,
-//       locationColumns: locationColumn.value,
-//       sheets: { ...sheets }
-//     };
-//     // eslint-disable-next-line no-console
-//     console.log('configData:', configData);
-//     await new Promise(resolve => setTimeout(resolve, 1000));
-//     useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_SUCCESS'));
-//   } catch (e) {
-//     useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_ERROR'));
-//     // eslint-disable-next-line no-console
-//     console.error('Save error:', e);
-//   } finally {
-//     isSaving.value = false;
-//   }
-// }
-
+// Load configuration data on mount
 onMounted(async () => {
-  // eslint-disable-next-line no-use-before-define
-  await checkAuthStatus();
-});
-
-// async function createSheets() {
-//   loading.value = true;
-//   // TODO: Call backend to create sheets if needed
-//   // For now, just simulate success
-//   setTimeout(() => {
-//     sheets.input = 'https://docs.google.com/spreadsheets/d/input-sheet-id';
-//     sheets.output = 'https://docs.google.com/spreadsheets/d/output-sheet-id';
-//     loading.value = false;
-//     step.value = 'sheetConfig';
-//   }, 1200);
-// }
-
-async function createSheets() {
-  loading.value = true;
-  try {
-    // TODO: Call backend to create output sheet
-    // For now, simulate sheet creation
-    // await new Promise(resolve => setTimeout(resolve, 1200))
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(props.data));
-    // eslint-disable-next-line no-console
-    const flowData = props.data.display_flow_data;
-    const payload = {
-      account_id: parseInt(flowData.account_id, 10),
-      agent_id: agentId.value,
-      type: 'booking',
-    };
-    // console.log(payload);
-    const response = await googleSheetsExportAPI.createSpreadsheet(payload);
-    // console.log(response)
-    sheets.input = response.data.input_spreadsheet_url;
-    sheets.output = response.data.output_spreadsheet_url;
-    step.value = 'sheetConfig';
-    showNotification('Output sheet created successfully!', 'success');
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Failed to create sheet:', error);
-    showNotification('Failed to create sheet. Please try again.', 'error');
-  } finally {
-    loading.value = false;
+  // Load existing configuration if available
+  const flowData = props.data?.display_flow_data;
+  if (flowData?.agents_config) {
+    const agent_index = flowData.enabled_agents.indexOf('booking');
+    if (agent_index !== -1) {
+      const config = flowData.agents_config[agent_index].configurations;
+      if (config?.minimum_duration) {
+        minDuration.value = config.minimum_duration;
+      }
+      if (config?.industry) {
+        selectedTemplate.value = config.industry;
+      }
+    }
   }
-}
+});
 </script>
 
 <template>
