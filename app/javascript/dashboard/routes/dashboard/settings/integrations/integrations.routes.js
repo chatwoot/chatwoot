@@ -10,7 +10,7 @@ import SettingsContent from '../Wrapper.vue';
 import Linear from './Linear.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
-
+import Github from './Github.vue';
 export default {
   routes: [
     {
@@ -99,6 +99,16 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'github',
+          name: 'settings_integrations_github',
+          component: Github,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+          props: route => ({ error: route.query.error }),
         },
         {
           path: 'shopify',
