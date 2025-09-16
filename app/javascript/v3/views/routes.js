@@ -22,9 +22,10 @@ export default [
     }),
   },
   {
-    path: frontendURL('login/saml'),
-    name: 'saml_login',
+    path: frontendURL('login/sso'),
+    name: 'sso_login',
     component: SamlLogin,
+    meta: { requireEnterprise: true },
   },
   {
     path: frontendURL('auth/signup'),
