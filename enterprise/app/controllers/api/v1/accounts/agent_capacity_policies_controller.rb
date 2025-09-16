@@ -27,7 +27,7 @@ class Api::V1::Accounts::AgentCapacityPoliciesController < Api::V1::Accounts::En
     params.require(:agent_capacity_policy).permit(
       :name,
       :description,
-      exclusion_rules: [:overall_capacity, { hours: [], days: [] }]
+      exclusion_rules: [:exclude_older_than_hours, { excluded_labels: [] }]
     )
   end
 
