@@ -1,19 +1,4 @@
 module Enterprise::DeviseOverrides::OmniauthCallbacksController
-  def passthru
-    return super unless params[:provider] == 'saml'
-
-    strategy = request.env['omniauth.strategy']
-    return render plain: 'SAML strategy not configured', status: :internal_server_error unless strategy
-
-    result = strategy.request_phase
-    return render plain: 'SAML request phase failed', status: :internal_server_error unless result.is_a?(Array) && result[0] == 302
-
-    redirect_to result[1]['location'], allow_other_host: true
-  rescue StandardError => e
-    Rails.logger.error "OmniAuth passthru error: #{e.message}"
-    render plain: 'Authentication error', status: :internal_server_error
-  end
-
   def saml
     # Call parent's omniauth_success which handles the auth
     omniauth_success
