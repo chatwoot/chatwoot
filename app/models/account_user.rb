@@ -25,6 +25,7 @@
 #
 
 class AccountUser < ApplicationRecord
+  include BillingPlanLimitable
   include AvailabilityStatusable
 
   belongs_to :account

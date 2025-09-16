@@ -1,0 +1,162 @@
+<div class="billing-plans-container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Gerenciar Plano de Billing</h1>
+      <p class="text-muted">Conta: <%= @account.name %> (ID: <%= @account.id %>)</p>
+      <p class="text-muted">Usuário: <%= @account.users.count %> usuários</p>
+    </div>
+  </div>
+
+  <!-- Plano Atual -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3>Plano Atual</h3>
+        </div>
+        <div class="card-body">
+          <% if @plan_stats[:plan_name] %>
+            <div class="row">
+              <div class="col-md-6">
+                <h4><%= @plan_stats[:plan_details][:name] %></h4>
+                <p class="text-muted">R$ <%= @plan_stats[:plan_details][:price] %>/mês</p>
+                <p class="text-muted">Status: <%= @account.billing_plan&.active? ? 'Ativo' : 'Inativo' %></p>
+              </div>
+              <div class="col-md-6">
+                <h5>Features Incluídas:</h5>
+                <ul class="list-unstyled">
+                  <% @plan_stats[:plan_details][:features].each do |feature| %>
+                    <li><i class="fas fa-check text-success"></i> <%= feature.humanize %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% else %>
+            <p class="text-muted">Nenhum plano atribuído</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Uso Atual -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3>Uso Atual</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% @plan_stats[:usage].each do |resource, stats| %>
+              <div class="col-md-4 mb-3">
+                <div class="usage-item">
+                  <h5><%= resource.to_s.humanize %></h5>
+                  <div class="progress mb-2">
+                    <div class="progress-bar <%= progress_bar_class(stats[:percentage]) %>" 
+                         style="width: <%= [stats[:percentage], 100].min %>%">
+                    </div>
+                  </div>
+                  <small class="text-muted">
+                    <%= stats[:current] %> / 
+                    <%= stats[:limit] == -1 ? 'Ilimitado' : stats[:limit] %>
+                    (<%= stats[:percentage] %>%)
+                  </small>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Planos Disponíveis -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3>Alterar Plano</h3>
+        </div>
+        <div class="card-body">
+          <%= form_with model: [@account, @account.billing_plan || @account.build_billing_plan], 
+                        url: super_admin_account_billing_plan_path(@account), 
+                        method: :patch, 
+                        local: true do |form| %>
+            
+            <div class="row">
+              <% @available_plans.each do |plan_key, plan_details| %>
+                <div class="col-md-3 mb-3">
+                  <div class="card plan-card <%= 'border-primary' if @plan_stats[:plan_name] == plan_key %>">
+                    <div class="card-body text-center">
+                      <h5><%= plan_details[:name] %></h5>
+                      <h3 class="text-primary">R$ <%= plan_details[:price] %></h3>
+                      <p class="text-muted">por mês</p>
+                      
+                      <div class="form-check">
+                        <%= form.radio_button :plan_name, plan_key, 
+                            class: "form-check-input", 
+                            checked: @plan_stats[:plan_name] == plan_key %>
+                        <%= form.label "plan_name_#{plan_key}", "Selecionar", class: "form-check-label" %>
+                      </div>
+                      
+                      <hr>
+                      
+                      <ul class="list-unstyled small">
+                        <% plan_details[:limits].each do |limit_key, limit_value| %>
+                          <li>
+                            <strong><%= limit_key.to_s.humanize %>:</strong>
+                            <%= limit_value == -1 ? 'Ilimitado' : limit_value %>
+                          </li>
+                        <% end %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            
+            <div class="text-center mt-4">
+              <%= form.submit "Atualizar Plano", class: "btn btn-primary" %>
+              <%= link_to "Voltar para Contas", super_admin_accounts_path, class: "btn btn-secondary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.plan-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.usage-item {
+  padding: 10px;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+}
+
+.progress-bar.bg-success { background-color: #28a745 !important; }
+.progress-bar.bg-warning { background-color: #ffc107 !important; }
+.progress-bar.bg-danger { background-color: #dc3545 !important; }
+</style>
+
+<script>
+// Auto-select plan on card click
+document.querySelectorAll('.plan-card').forEach(card => {
+  card.addEventListener('click', function() {
+    const radio = this.querySelector('input[type="radio"]');
+    if (radio) {
+      radio.checked = true;
+    }
+  });
+});
+</script>

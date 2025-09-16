@@ -57,6 +57,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
 
   has_many :account_users, dependent: :destroy_async
+  has_one :billing_plan, class_name: 'AccountBillingPlan', dependent: :destroy
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :agent_bots, dependent: :destroy_async
   has_many :api_channels, dependent: :destroy_async, class_name: '::Channel::Api'

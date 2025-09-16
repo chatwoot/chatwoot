@@ -1,0 +1,88 @@
+<div class="billing-plans-index">
+  <div class="row">
+    <div class="col-12">
+      <h1>Gerenciar Planos de Billing</h1>
+      <p class="text-muted">Visualize e gerencie os planos de todas as contas</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome da Conta</th>
+                  <th>Plano Atual</th>
+                  <th>Status</th>
+                  <th>Agentes</th>
+                  <th>Inboxes</th>
+                  <th>Conversas</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @accounts.each do |account| %>
+                  <tr>
+                    <td><%= account.id %></td>
+                    <td><%= account.name %></td>
+                    <td>
+                      <% if account.billing_plan %>
+                        <span class="badge badge-<%= plan_badge_class(account.billing_plan.plan_name) %>">
+                          <%= account.billing_plan.plan_details[:name] %>
+                        </span>
+                      <% else %>
+                        <span class="badge badge-secondary">Sem plano</span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if account.billing_plan&.active? %>
+                        <span class="badge badge-success">Ativo</span>
+                      <% else %>
+                        <span class="badge badge-warning">Inativo</span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= account.account_users.count %>
+                      <% if account.billing_plan %>
+                        / <%= account.billing_plan.plan_details.dig(:limits, :agents) == -1 ? '∞' : account.billing_plan.plan_details.dig(:limits, :agents) %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= account.inboxes.count %>
+                      <% if account.billing_plan %>
+                        / <%= account.billing_plan.plan_details.dig(:limits, :inboxes) == -1 ? '∞' : account.billing_plan.plan_details.dig(:limits, :inboxes) %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= account.conversations.count %>
+                      <% if account.billing_plan %>
+                        / <%= account.billing_plan.plan_details.dig(:limits, :conversations) == -1 ? '∞' : account.billing_plan.plan_details.dig(:limits, :conversations) %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= link_to "Gerenciar", super_admin_account_billing_plan_path(account), 
+                          class: "btn btn-sm btn-primary" %>
+                      <%= link_to "Ver Conta", super_admin_account_path(account), 
+                          class: "btn btn-sm btn-outline-secondary" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.badge-free { background-color: #6c757d; }
+.badge-starter { background-color: #17a2b8; }
+.badge-professional { background-color: #007bff; }
+.badge-enterprise { background-color: #28a745; }
+</style>

@@ -1,0 +1,6 @@
+en:
+  super_admin:
+    billing_plans:
+      update:
+        success: "Plan updated successfully!"
+        failure: "Could not update the plan. Please check the limits."
