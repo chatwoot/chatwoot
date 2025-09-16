@@ -67,8 +67,10 @@ module Stark
     private
 
     def make_api_request
+      stark_endpoint = GlobalConfig.get_value('STARK_FOLLOW_UP_ENDPOINT')
+
       response = HTTParty.post(
-        "#{ENV.fetch('STARK_HOST')}/api/v1/stark/follow-up/",
+        "#{stark_endpoint}",
         body: build_follow_up_payload.to_json,
         headers: build_request_headers,
         timeout: 60
