@@ -1,22 +1,25 @@
 class Api::V1::AuthController < Api::BaseController
   skip_before_action :authenticate_user!, only: [:saml_login]
+  before_action :find_user_and_account, only: [:saml_login]
 
   def saml_login
-    email = params[:email]&.downcase&.strip
+    saml_initiation_url = "/auth/saml?account_id=#{@account.id}"
 
-    if email.blank?
-      render json: { error: 'Please enter a valid email address' }, status: :bad_request
-      return
-    end
+    render json: {
+      redirect_url: saml_initiation_url
+    }
+  end
 
-    # Find user by email
-    user = User.find_by(email: email)
+  private
 
-    if user.blank?
-      # Generic error - don't reveal if email exists
-      render json: { error: 'Please check your email and try again' }, status: :unauthorized
-      return
-    end
+  def find_user_and_account
+    @email = params[:email]&.downcase&.strip
+
+    return render json: { error: I18n.t('auth.saml.invalid_email') }, status: :bad_request if @email.blank?
+
+    user = User.from_email(@email)
+
+    return render_saml_error unless user
 
     # Find first account with SAML enabled for this user
     account_user = user.account_users
@@ -25,25 +28,15 @@ class Api::V1::AuthController < Api::BaseController
                        .where.not(saml_settings: { certificate: [nil, ''] })
                        .first
 
-    if account_user.blank?
-      render json: { error: 'SSO authentication not configured for your account' }, status: :unauthorized
-      return
-    end
+    return render_saml_error unless account_user
 
-    account = account_user.account
+    @account = account_user.account
 
     # Check if account has enterprise features and SAML enabled
-    unless account.feature_enabled?('saml')
-      render json: { error: 'SSO authentication not available' }, status: :unauthorized
-      return
-    end
+    return render_saml_error unless @account&.feature_enabled?('saml')
+  end
 
-    # Return the OmniAuth SAML initiation URL
-    # This triggers OmniAuth to generate SAML AuthnRequest and redirect to IdP
-    saml_initiation_url = "/auth/saml?account_id=#{account.id}"
-
-    render json: {
-      redirect_url: saml_initiation_url
-    }
+  def render_saml_error
+    render json: { error: I18n.t('auth.saml.authentication_failed') }, status: :unauthorized
   end
 end

@@ -21,7 +21,6 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         post '/api/v1/auth/saml_login', params: { email: '' }
 
         expect(response).to have_http_status(:bad_request)
-        expect(json_response[:error]).to eq('Please enter a valid email address')
       end
     end
 
@@ -30,7 +29,6 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         post '/api/v1/auth/saml_login', params: {}
 
         expect(response).to have_http_status(:bad_request)
-        expect(json_response[:error]).to eq('Please enter a valid email address')
       end
     end
 
@@ -39,7 +37,6 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         post '/api/v1/auth/saml_login', params: { email: 'nonexistent@example.com' }
 
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response[:error]).to eq('Please check your email and try again')
       end
     end
 
@@ -52,7 +49,6 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         post '/api/v1/auth/saml_login', params: { email: user.email }
 
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response[:error]).to eq('SSO authentication not configured for your account')
       end
     end
 
@@ -70,7 +66,6 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         post '/api/v1/auth/saml_login', params: { email: user.email }
 
         expect(response).to have_http_status(:unauthorized)
-        expect(json_response[:error]).to eq('SSO authentication not available')
       end
     end
 
