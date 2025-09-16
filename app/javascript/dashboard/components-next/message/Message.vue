@@ -131,6 +131,8 @@ const props = defineProps({
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
 
+const emit = defineEmits(['retry']);
+
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
@@ -524,6 +526,7 @@ provideMessageContext({
         class="[grid-area:meta]"
         :class="flexOrientationClass"
         :error="contentAttributes.externalError"
+        @retry="emit('retry')"
       />
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
