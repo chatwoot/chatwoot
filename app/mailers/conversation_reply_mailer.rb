@@ -124,14 +124,6 @@ class ConversationReplyMailer < ApplicationMailer
     end
   end
 
-  def reply_email
-    if should_use_conversation_email_address?
-      sender_name("reply+#{@conversation.uuid}@#{@account.inbound_email_domain}")
-    else
-      @inbox.email_address || @agent&.email
-    end
-  end
-
   def from_email_with_name
     sender_name(from_email)
   end

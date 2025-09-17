@@ -57,6 +57,10 @@ module ConversationReplyMailerHelper
 
   private
 
+  def email_reply_to
+    Email::ReplyToBuilder.new(inbox: @inbox, conversation: @conversation).build
+  end
+
   def oauth_smtp_settings
     return unless @inbox.email? && @channel.imap_enabled
     return unless oauth_provider_domain
@@ -109,20 +113,12 @@ module ConversationReplyMailerHelper
     @inbox.inbox_type == 'Email' && @channel.smtp_enabled
   end
 
-  def email_imap_enabled
-    @inbox.inbox_type == 'Email' && @channel.imap_enabled
-  end
-
   def email_oauth_enabled
     @inbox.inbox_type == 'Email' && (@channel.microsoft? || @channel.google?)
   end
 
   def email_from
     email_oauth_enabled || email_smtp_enabled ? channel_email_with_name : from_email_with_name
-  end
-
-  def email_reply_to
-    email_imap_enabled ? @channel.email : reply_email
   end
 
   # Use channel email domain in case of account email domain is not set for custom message_id and in_reply_to
