@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_15_131625) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -993,6 +993,21 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "operational_hours", force: :cascade do |t|
+    t.bigint "agent_bot_id", null: false
+    t.integer "day_of_week", null: false
+    t.integer "open_hour"
+    t.integer "open_minute"
+    t.integer "close_hour"
+    t.integer "close_minute"
+    t.boolean "open_allday", default: false
+    t.boolean "close_allday", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_bot_id"], name: "index_operational_hours_on_agent_bot_id"
+    t.index ["day_of_week", "agent_bot_id"], name: "index_operational_hours_on_day_of_week_and_agent_bot_id", unique: true
+  end
+
   create_table "platform_app_permissibles", force: :cascade do |t|
     t.bigint "platform_app_id", null: false
     t.string "permissible_type", null: false
@@ -1437,6 +1452,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
   add_foreign_key "knowledge_source_texts", "knowledge_sources"
   add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"
+  add_foreign_key "operational_hours", "agent_bots"
   add_foreign_key "quick_replies", "accounts"
   add_foreign_key "subscription_payments", "subscriptions"
   add_foreign_key "subscription_topups", "subscriptions"

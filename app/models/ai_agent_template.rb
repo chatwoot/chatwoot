@@ -3,11 +3,11 @@
 # Table name: ai_agent_templates
 #
 #  id                  :bigint           not null, primary key
-#  agent_type          :string           default("SINGLE_AGENT"), not null
+#  agent_type          :string           default(NULL), not null
 #  description         :string           default("")
 #  handover_prompt     :text
 #  name                :string
-#  source_type         :string           default("FLOWISE"), not null
+#  source_type         :string           default("flowise"), not null
 #  store_config        :jsonb            not null
 #  system_prompt       :text             not null
 #  system_prompt_rules :text
