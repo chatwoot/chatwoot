@@ -12,15 +12,17 @@ class Api::V1::AuthController < Api::BaseController
   private
 
   def find_user_and_account
-    validate_email_presence
+    return unless validate_email_presence
+
     find_saml_enabled_account
   end
 
   def validate_email_presence
     @email = params[:email]&.downcase&.strip
-    return if @email.present?
+    return true if @email.present?
 
     render json: { error: I18n.t('auth.saml.invalid_email') }, status: :bad_request
+    false
   end
 
   def find_saml_enabled_account
