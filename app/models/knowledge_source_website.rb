@@ -4,6 +4,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  content             :text             default(""), not null
+#  loader_ids          :string           default([]), is an Array
 #  parent_url          :string           not null
 #  total_chars         :integer          not null
 #  total_chunks        :integer          not null
