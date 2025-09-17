@@ -45,7 +45,7 @@
           "ERROR": "Nomor telepon harus dimulai dengan 62"
         },
         "SUBMIT_BUTTON": "Buat Channel",
-        "ERROR_MESSAGE": "Gagal membuat channel WhatsApp Unofficial"
+        "ERROR_MESSAGE": "Gagal membuat channel WhatsApp"
       },
       "CHANNEL_NAME": {
         "LABEL": "Nama Kotak Masuk",
@@ -792,8 +792,8 @@
       "WEB_WIDGET": "Website",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
-      "WHATSAPP": "WhatsApp",
-      "WHATSAPP_UNOFFICIAL": "WhatsApp (Unofficial)",
+      "WHATSAPP": "WhatsApp Official",
+      "WHATSAPP_UNOFFICIAL": "WhatsApp",
       "SMS": "SMS",
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",

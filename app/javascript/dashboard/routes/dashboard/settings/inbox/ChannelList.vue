@@ -72,11 +72,11 @@ export default {
       const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
       return [
         { key: 'website', name: 'Website' },
-        { key: 'whatsapp', name: 'WhatsApp' },
+        { key: 'whatsapp', name: 'WhatsApp Official' },
         {
           key: 'whatsapp_unofficial',
-          name: 'WhatsApp (Unofficial)',
-          thumbnail: '/assets/images/channels/whatsapp.png',
+          name: 'WhatsApp',
+          thumbnail: '/assets/images/channels/whatsapp_unofficial.png',
         },
         {
           key: 'api',
