@@ -439,3 +439,11 @@
   locked: false
   description: 'Zone ID for the Cloudflare domain'
 ## ------ End of Configs added for Cloudflare ------ ##
+
+## ------ Customizations for Customers ------ ##
+- name: WIDGET_TOKEN_EXPIRY
+  display_title: 'Widget Token Expiry'
+  value: 180
+  locked: false
+  description: 'Token expiry in days'
+## ------ End of Customizations for Customers ------ ##

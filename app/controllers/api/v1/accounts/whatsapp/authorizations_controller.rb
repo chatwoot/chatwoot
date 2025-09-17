@@ -1,5 +1,4 @@
 class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts::BaseController
-  before_action :validate_feature_enabled!
   before_action :fetch_and_validate_inbox, if: -> { params[:inbox_id].present? }
 
   # POST /api/v1/accounts/:account_id/whatsapp/authorization
@@ -63,15 +62,6 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
       success: false,
       error: error.message
     }, status: :unprocessable_entity
-  end
-
-  def validate_feature_enabled!
-    return if Current.account.feature_whatsapp_embedded_signup?
-
-    render json: {
-      success: false,
-      error: 'WhatsApp embedded signup is not enabled for this account'
-    }, status: :forbidden
   end
 
   def validate_embedded_signup_params!
