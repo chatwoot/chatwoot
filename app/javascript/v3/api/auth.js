@@ -72,6 +72,3 @@ export const setNewPassword = async ({
 
 export const resetPassword = async ({ email }) =>
   wootAPI.post('auth/password', { email });
-
-export const samlLogin = async ({ email }) =>
-  wootAPI.post('api/v1/auth/saml_login', { email });
