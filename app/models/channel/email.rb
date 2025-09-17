@@ -66,10 +66,6 @@ class Channel::Email < ApplicationRecord
     imap_enabled && imap_address == 'imap.gmail.com'
   end
 
-  def verified
-    ChatwootApp.chatwoot_cloud? ? super : true
-  end
-
   private
 
   def ensure_forward_to_email

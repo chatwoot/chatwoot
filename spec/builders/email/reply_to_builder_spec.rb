@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Email::ReplyToBuilder do
   let(:account) { create(:account, domain: 'mail.example.com', support_email: 'support@example.com') }
   let(:agent) { create(:user, account: account) }
-  let(:conversation) { create(:conversation, account: account, assignee: agent) }
+  let(:conversation) { create(:conversation, account: account) }
+  let(:current_message) { create(:message, conversation: conversation, sender: agent, message_type: :outgoing) }
   let(:inbox) { create(:inbox, account: account) }
 
   describe '#build' do
@@ -12,7 +13,7 @@ RSpec.describe Email::ReplyToBuilder do
       let(:inbox) { create(:inbox, channel: channel, account: account) }
 
       it 'returns the channel email with sender name formatting' do
-        builder = described_class.new(inbox: inbox, conversation: conversation)
+        builder = described_class.new(inbox: inbox, message: current_message)
         result = builder.build
 
         expect(result).to include('care@example.com')
@@ -24,7 +25,7 @@ RSpec.describe Email::ReplyToBuilder do
         end
 
         it 'returns friendly formatted sender name' do
-          builder = described_class.new(inbox: inbox, conversation: conversation)
+          builder = described_class.new(inbox: inbox, message: current_message)
           result = builder.build
 
           expect(result).to include(agent.available_name)
@@ -36,7 +37,7 @@ RSpec.describe Email::ReplyToBuilder do
         let(:inbox) { create(:inbox, channel: channel, account: account, sender_name_type: :professional) }
 
         it 'returns professional formatted sender name' do
-          builder = described_class.new(inbox: inbox, conversation: conversation)
+          builder = described_class.new(inbox: inbox, message: current_message)
           result = builder.build
 
           expect(result).to include('care@example.com')
@@ -55,7 +56,7 @@ RSpec.describe Email::ReplyToBuilder do
         end
 
         it 'returns reply email with conversation uuid' do
-          builder = described_class.new(inbox: inbox, conversation: conversation)
+          builder = described_class.new(inbox: inbox,   message: current_message)
           result = builder.build
 
           expect(result).to include("reply+#{conversation.uuid}@mail.example.com")
@@ -68,7 +69,7 @@ RSpec.describe Email::ReplyToBuilder do
         end
 
         it 'returns account support email' do
-          builder = described_class.new(inbox: inbox, conversation: conversation)
+          builder = described_class.new(inbox: inbox, message: current_message)
           result = builder.build
 
           expect(result).to include('support@example.com')
@@ -82,7 +83,7 @@ RSpec.describe Email::ReplyToBuilder do
         end
 
         it 'returns account support email' do
-          builder = described_class.new(inbox: inbox, conversation: conversation)
+          builder = described_class.new(inbox: inbox, message: current_message)
           result = builder.build
 
           expect(result).to include('support@example.com')

@@ -1,5 +1,5 @@
 class Email::ReplyToBuilder < Email::BaseBuilder
-  pattr_initialize [:inbox!, :conversation!]
+  pattr_initialize [:inbox!, :message!]
 
   def build
     reply_to = if inbox.email?
@@ -17,9 +17,5 @@ class Email::ReplyToBuilder < Email::BaseBuilder
 
   def inbound_email_enabled?
     account.feature_enabled?('inbound_emails') && account.inbound_email_domain.present?
-  end
-
-  def custom_sender_name
-    conversation.assignee&.available_name || I18n.t('conversations.reply.email.header.notifications')
   end
 end
