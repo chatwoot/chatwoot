@@ -120,20 +120,22 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   def process_single_scrape(knowledge_source, scrape, document_loaders, created_ids_array)
     return nil if scrape.nil?
 
-    matched_loader = document_loaders.select { |loader| loader.dig('file', 'loaderName') == scrape[:url] }
-    return nil if matched_loader.empty?
+    document_loaders = document_loaders.flatten
+    matched_loaders = document_loaders.select { |loader| loader.dig('file', 'loaderName') == scrape[:url] }
+    return nil if matched_loaders.empty?
 
-    loader_ids = matched_loader.pluck('docId')
+    loader_ids = matched_loaders.pluck('docId')
     created_ids_array.concat(loader_ids)
 
     total_chars = matched_loaders.sum { |loader| loader['characters'].to_i }
+    total_chunks  = matched_loaders.sum { |loader| loader.dig('file', 'totalChunks').to_i }
 
-    create_knowledge_source_website(knowledge_source, scrape, loader_ids, total_chars)
+    create_knowledge_source_website(knowledge_source, scrape, loader_ids, total_chars, total_chunks)
 
     scrape
   end
 
-  def create_knowledge_source_website(knowledge_source, scrape, loader_ids, total_chars)
+  def create_knowledge_source_website(knowledge_source, scrape, loader_ids, total_chars, total_chunks)
     parent_url = get_parent_url(scrape[:url])
 
     knowledge_source.knowledge_source_websites.create!(
@@ -142,7 +144,8 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
       content: scrape[:markdown].to_s,
       loader_id: loader_ids.first,
       loader_ids: loader_ids,
-      total_chars: total_chars
+      total_chars: total_chars,
+      total_chunks: total_chunks
     )
   end
 
