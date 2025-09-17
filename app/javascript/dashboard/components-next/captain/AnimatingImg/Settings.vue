@@ -735,7 +735,7 @@ svg {
   --gradient-end: #fcfcfd;
 }
 
-body.dark,
+body.dark svg,
 .htw-dark svg {
   --gradient-start: #121213;
   --gradient-end: #121213;
