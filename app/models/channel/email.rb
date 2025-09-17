@@ -23,6 +23,7 @@
 #  smtp_openssl_verify_mode  :string           default("none")
 #  smtp_password             :string           default("")
 #  smtp_port                 :integer          default(0)
+#  verified                  :boolean          default(FALSE), not null
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #  account_id                :integer          not null
@@ -63,6 +64,10 @@ class Channel::Email < ApplicationRecord
 
   def legacy_google?
     imap_enabled && imap_address == 'imap.gmail.com'
+  end
+
+  def verified
+    ChatwootApp.chatwoot_cloud? ? super : true
   end
 
   private
