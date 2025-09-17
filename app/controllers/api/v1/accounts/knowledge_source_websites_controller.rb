@@ -21,8 +21,6 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
       # because it will be deleted in the destroy method of the knowledge source.
       render json: processed_scrapes.compact, status: :created
     rescue StandardError => e
-      Rails.logger.error("Error: #{e.class} - #{e.message}")
-      Rails.logger.error(e.backtrace.join("\n"))
       cleanup_created_loaders(find_knowledge_source.store_id, created_document_loader_ids)
       handle_error('Failed to create knowledge source websites', e)
     end
@@ -141,8 +139,13 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   def create_knowledge_source_website(knowledge_source, scrape, loader_ids, total_chars, total_chunks)
     parent_url = get_parent_url(scrape[:url])
 
-    knowledge_source.knowledge_source_websites.create!(
-      url: scrape[:url],
+    entity = if params[:id].present?
+               knowledge_source.knowledge_source_websites.find_or_initialize_by(id: params[:id])
+             else
+               knowledge_source.knowledge_source_websites.new
+             end
+
+    entity.assign_attributes(
       parent_url: parent_url,
       content: scrape[:markdown].to_s,
       loader_id: loader_ids.first,
@@ -150,6 +153,8 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
       total_chars: total_chars,
       total_chunks: total_chunks
     )
+    entity.save!
+    entity
   end
 
   def cleanup_created_loaders(store_id, loader_ids)
@@ -178,23 +183,6 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   rescue StandardError => e
     Rails.logger.error("Failed to add document loader: #{e.message}")
     nil
-  end
-
-  def update_record(knowledge_source, document_loader)
-    result = knowledge_source.knowledge_source_websites.update_record!(
-      params: params, document_loader: document_loader
-    )
-    delete_document_loader(store_id: knowledge_source.store_id, loader_id: result[:previous_loader_id])
-    upsert_document_store(knowledge_source) if knowledge_source.not_empty?
-    # If the knowledge source is empty, we don't need to upsert the document store
-    # because it will be deleted in the destroy method of the knowledge source.
-
-    render json: result[:updated], status: :ok
-  end
-
-  def handle_update_failure(knowledge_source, document_loader, error)
-    delete_document_loader(store_id: knowledge_source.store_id, loader_id: document_loader['docId'])
-    handle_error('Failed to update knowledge source website', error)
   end
 
   def delete_document_loader(store_id:, loader_id:)
