@@ -29,4 +29,5 @@ class KnowledgeSourceWebsite < ApplicationRecord
   validates :url, presence: true
   validates :parent_url, presence: true
   validates :loader_id, presence: true
+  validates :content, length: { maximum: 100_000 }
 end
