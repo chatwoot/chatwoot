@@ -75,6 +75,8 @@ module Chatwoot
       config.active_record.encryption.primary_key = ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY']
       config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', nil)
       config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', nil)
+      config.active_record.encryption.support_unencrypted_data = true
+      config.active_record.encryption.store_key_references = true
     end
   end
 
