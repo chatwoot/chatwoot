@@ -15,7 +15,9 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # once the resource is found and verified
     # we can just send them to the login page again with the SSO params
     # that will log them in
-    redirect_to login_page_url(email: @resource.email, sso_auth_token: @resource.generate_sso_auth_token)
+    encoded_email = ERB::Util.url_encode(@resource.email)
+
+    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
   end
 
   def sign_up_user
