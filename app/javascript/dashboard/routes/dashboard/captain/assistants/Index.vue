@@ -8,6 +8,7 @@ import DeleteDialog from 'dashboard/components-next/captain/pageComponents/Delet
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
+import CreateNewAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateNewAssistantDialog.vue';
 import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
@@ -24,15 +25,29 @@ const isFetching = computed(() => uiFlags.value.fetchingList);
 const selectedAssistant = ref(null);
 const deleteAssistantDialog = ref(null);
 
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const isCaptainV2Enabled = isFeatureEnabledonAccount.value(
+  currentAccountId.value,
+  FEATURE_FLAGS.CAPTAIN_V2
+);
+
 const handleDelete = () => {
   deleteAssistantDialog.value.dialogRef.open();
 };
 
 const createAssistantDialog = ref(null);
+const createNewAssistantDialog = ref(null);
 
 const handleCreate = () => {
-  dialogType.value = 'create';
-  nextTick(() => createAssistantDialog.value.dialogRef.open());
+  if (isCaptainV2Enabled) {
+    createNewAssistantDialog.value?.dialogRef.open();
+  } else {
+    dialogType.value = 'create';
+    nextTick(() => createAssistantDialog.value.dialogRef.open());
+  }
 };
 
 const handleEdit = () => {
@@ -67,8 +82,16 @@ const handleAction = ({ action, id }) => {
 };
 
 const handleCreateClose = () => {
-  dialogType.value = '';
-  selectedAssistant.value = null;
+  if (!isCaptainV2Enabled) {
+    dialogType.value = '';
+    selectedAssistant.value = null;
+  }
+};
+
+const handleCreateAssistant = () => {
+  router.push({
+    name: 'captain_assistants_create_loader',
+  });
 };
 
 onMounted(() => store.dispatch('captainAssistants/get'));
@@ -127,8 +150,13 @@ onMounted(() => store.dispatch('captainAssistants/get'));
       type="Assistants"
     />
 
+    <CreateNewAssistantDialog
+      v-if="isCaptainV2Enabled"
+      ref="createNewAssistantDialog"
+      @confirm="handleCreateAssistant"
+    />
     <CreateAssistantDialog
-      v-if="dialogType"
+      v-else-if="dialogType"
       ref="createAssistantDialog"
       :type="dialogType"
       :selected-assistant="selectedAssistant"

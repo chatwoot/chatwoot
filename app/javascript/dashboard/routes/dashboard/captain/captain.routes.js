@@ -11,6 +11,13 @@ import AssistantScenariosIndex from './assistants/scenarios/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
 
+// Onboarding flow components
+import AssistantCreateLoader from './assistants/create/Loader.vue';
+import AssistantCreateSettings from './assistants/create/Settings.vue';
+import AssistantCreateGuardrails from './assistants/create/Guardrails.vue';
+import AssistantCreateScenarios from './assistants/create/Scenarios.vue';
+import AssistantCreateGuidelines from './assistants/create/Guidelines.vue';
+
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/captain/assistants'),
@@ -25,6 +32,79 @@ export const routes = [
       ],
     },
   },
+  // Assistant create onboarding flow routes
+  {
+    path: frontendURL('accounts/:accountId/captain/assistants/create'),
+    component: AssistantCreateLoader,
+    name: 'captain_assistants_create_loader',
+    meta: {
+      permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
+      installationTypes: [
+        INSTALLATION_TYPES.CLOUD,
+        INSTALLATION_TYPES.ENTERPRISE,
+      ],
+    },
+  },
+  {
+    path: frontendURL('accounts/:accountId/captain/assistants/create/settings'),
+    component: AssistantCreateSettings,
+    name: 'captain_assistants_create_settings',
+    meta: {
+      permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
+      installationTypes: [
+        INSTALLATION_TYPES.CLOUD,
+        INSTALLATION_TYPES.ENTERPRISE,
+      ],
+    },
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/assistants/create/guardrails'
+    ),
+    component: AssistantCreateGuardrails,
+    name: 'captain_assistants_create_guardrails',
+    meta: {
+      permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
+      installationTypes: [
+        INSTALLATION_TYPES.CLOUD,
+        INSTALLATION_TYPES.ENTERPRISE,
+      ],
+    },
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/assistants/create/scenarios'
+    ),
+    component: AssistantCreateScenarios,
+    name: 'captain_assistants_create_scenarios',
+    meta: {
+      permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
+      installationTypes: [
+        INSTALLATION_TYPES.CLOUD,
+        INSTALLATION_TYPES.ENTERPRISE,
+      ],
+    },
+  },
+  {
+    path: frontendURL(
+      'accounts/:accountId/captain/assistants/create/guidelines'
+    ),
+    component: AssistantCreateGuidelines,
+    name: 'captain_assistants_create_guidelines',
+    meta: {
+      permissions: ['administrator', 'agent'],
+      featureFlag: FEATURE_FLAGS.CAPTAIN,
+      installationTypes: [
+        INSTALLATION_TYPES.CLOUD,
+        INSTALLATION_TYPES.ENTERPRISE,
+      ],
+    },
+  },
+  // End
   {
     path: frontendURL('accounts/:accountId/captain/assistants/:assistantId'),
     component: AssistantEdit,
