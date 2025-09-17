@@ -13,7 +13,10 @@ class SendReplyJob < ApplicationJob
       'Channel::Telegram' => ::Telegram::SendOnTelegramService,
       'Channel::Whatsapp' => ::Whatsapp::SendOnWhatsappService,
       'Channel::Sms' => ::Sms::SendOnSmsService,
-      'Channel::Instagram' => ::Instagram::SendOnInstagramService
+      'Channel::Instagram' => ::Instagram::SendOnInstagramService,
+      'Channel::Email' => ::Email::SendOnEmailService,
+      'Channel::WebWidget' => ::Messages::SendEmailNotificationService,
+      'Channel::Api' => ::Messages::SendEmailNotificationService
     }
 
     case channel_name
