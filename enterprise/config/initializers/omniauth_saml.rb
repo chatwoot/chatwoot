@@ -39,5 +39,5 @@ end
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   # SAML provider with setup phase for multi-tenant configuration
-  provider :saml, setup: SAML_SETUP_PROC, allowed_request_methods: [:get, :post]
+  provider :saml, setup: SAML_SETUP_PROC
 end
