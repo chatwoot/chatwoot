@@ -16,7 +16,7 @@ const toggle = () => {
     tabindex="0"
     @click="toggle"
   >
-    <div class="absolute z-0">
+    <div class="absolute z-0 flex-shrink-0">
       <svg
         width="auto"
         height="auto"
@@ -707,7 +707,7 @@ const toggle = () => {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="false"
       focusable="false"
-      class="z-10 relative"
+      class="z-10 relative flex-shrink-0"
     >
       <rect width="136" height="108" fill="url(#paint0_radial_720_25689)" />
       <path
@@ -953,7 +953,8 @@ body.dark svg,
 }
 
 .svg-wrapper {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
