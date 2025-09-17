@@ -21,6 +21,8 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
       # because it will be deleted in the destroy method of the knowledge source.
       render json: processed_scrapes.compact, status: :created
     rescue StandardError => e
+      Rails.logger.error("Error: #{e.class} - #{e.message}")
+      Rails.logger.error(e.backtrace.join("\n"))
       cleanup_created_loaders(find_knowledge_source.store_id, created_document_loader_ids)
       handle_error('Failed to create knowledge source websites', e)
     end
@@ -106,6 +108,7 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
       chunks = markdown.chars.each_slice(10_000).map(&:join)
 
       chunks.map.with_index do |chunk, _index|
+        Rails.logger.info("Chunk: #{chunk}")
         document_loader = create_document_loader(store_id, url, chunk)
         if document_loader.nil?
           raise StandardError,
