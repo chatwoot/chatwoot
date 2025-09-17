@@ -137,6 +137,7 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   end
 
   def create_knowledge_source_website(knowledge_source, scrape, loader_ids, total_chars, total_chunks)
+    url = scrape[:url]
     parent_url = get_parent_url(scrape[:url])
 
     entity = if params[:id].present?
@@ -146,6 +147,7 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
              end
 
     entity.assign_attributes(
+      url: url,
       parent_url: parent_url,
       content: scrape[:markdown].to_s,
       loader_id: loader_ids.first,
