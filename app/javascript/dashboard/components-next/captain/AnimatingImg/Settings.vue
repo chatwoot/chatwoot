@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="svg-wrapper relative"
-    :class="{ paused }"
-    :aria-pressed="paused"
-    tabindex="0"
-    @click="toggle"
-  >
+  <div class="svg-wrapper relative" tabindex="0">
     <div class="absolute z-0">
       <svg
         width="auto"
