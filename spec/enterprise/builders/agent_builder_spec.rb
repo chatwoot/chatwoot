@@ -16,11 +16,7 @@ RSpec.describe AgentBuilder do
 
   describe '#perform with SAML enabled' do
     let(:saml_settings) do
-      create(:account_saml_settings,
-             account: account,
-             sso_url: 'https://idp.example.com/sso',
-             certificate: 'CERT_DATA',
-             idp_entity_id: 'http://example.com/idp')
+      create(:account_saml_settings, account: account)
     end
 
     before { saml_settings }
@@ -123,11 +119,7 @@ RSpec.describe AgentBuilder do
 
     context 'when SAML settings are deleted after user creation' do
       let(:saml_settings) do
-        create(:account_saml_settings,
-               account: account,
-               sso_url: 'https://idp.example.com/sso',
-               certificate: 'CERT_DATA',
-               idp_entity_id: 'http://example.com/idp')
+        create(:account_saml_settings, account: account)
       end
       let(:existing_user) { create(:user, email: email, provider: 'saml') }
 
