@@ -741,7 +741,8 @@
         "LIVE_CHAT_WIDGET": {
           "LABEL": "在线聊天小部件",
           "PLACEHOLDER": "选择在线聊天小部件",
-          "HELP_TEXT": "选择将显示在您的帮助中心上的在线聊天小部件"
+          "HELP_TEXT": "选择将显示在您的帮助中心上的在线聊天小部件",
+          "NONE_OPTION": "No widget"
         },
         "BRAND_COLOR": {
           "LABEL": "品牌颜色"
