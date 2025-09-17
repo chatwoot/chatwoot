@@ -43,7 +43,7 @@ const state = {
   privacyURL,
   termsURL,
   widgetBrandURL,
-  isEnterprise,
+  isEnterprise: isEnterprise === 'true',
 };
 
 export const getters = {
