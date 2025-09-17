@@ -94,7 +94,7 @@
     "HELP_MODAL": {
       "TITLE": "Two-Factor Authentication Help",
       "AUTHENTICATOR_TITLE": "Using an Authenticator App",
-      "AUTHENTICATOR_DESC": "Open your authenticator app (Google Authenticator, Authy, etc.) and enter the 6-digit code shown for your Chatwoot account.",
+      "AUTHENTICATOR_DESC": "Open your authenticator app (Google Authenticator, Authy, etc.) and enter the 6-digit code shown for your account.",
       "BACKUP_TITLE": "Using a Backup Code",
       "BACKUP_DESC": "If you don't have access to your authenticator app, you can use one of the backup codes you saved when setting up 2FA. Each code can only be used once.",
       "CONTACT_TITLE": "Need More Help?",
