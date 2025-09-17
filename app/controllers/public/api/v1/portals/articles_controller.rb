@@ -7,13 +7,19 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def index
     @articles = @portal.articles.published.includes(:category, :author)
+
+    @articles = @articles.where(locale: permitted_params[:locale]) if permitted_params[:locale].present?
+
     @articles_count = @articles.count
+
     search_articles
     order_by_sort_param
     limit_results
   end
 
-  def show; end
+  def show
+    @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
+  end
 
   def tracking_pixel
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])

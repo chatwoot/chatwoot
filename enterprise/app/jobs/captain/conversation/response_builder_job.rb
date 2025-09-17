@@ -1,6 +1,7 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   MAX_MESSAGE_LENGTH = 10_000
-  retry_on ActiveStorage::FileNotFoundError, attempts: 3
+  retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
+  retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds
 
   def perform(conversation, assistant)
     @conversation = conversation
@@ -13,7 +14,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       generate_and_process_response
     end
   rescue StandardError => e
-    raise e if e.is_a?(ActiveJob::FileNotFoundError)
+    raise e if e.is_a?(ActiveStorage::FileNotFoundError) || e.is_a?(Faraday::BadRequestError)
 
     handle_error(e)
   ensure
@@ -25,10 +26,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      @conversation.messages.incoming.last.content,
-      collect_previous_messages
-    )
+    @response = if captain_v2_enabled?
+                  Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
+                    message_history: collect_previous_messages
+                  )
+                else
+                  Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+                    message_history: collect_previous_messages
+                  )
+                end
 
     return process_action('handoff') if handoff_requested?
 
@@ -43,39 +49,19 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       .where(message_type: [:incoming, :outgoing])
       .where(private: false)
       .map do |message|
-        {
-          content: message_content(message),
-          role: determine_role(message)
-        }
-      end
-  end
-
-  def message_content(message)
-    return message.content if message.content.present?
-    return 'User has shared a message without content' unless message.attachments.any?
-
-    audio_transcriptions = extract_audio_transcriptions(message.attachments)
-    return audio_transcriptions if audio_transcriptions.present?
-
-    'User has shared an attachment'
-  end
-
-  def extract_audio_transcriptions(attachments)
-    audio_attachments = attachments.where(file_type: :audio)
-    return '' if audio_attachments.blank?
-
-    transcriptions = ''
-    audio_attachments.each do |attachment|
-      result = Messages::AudioTranscriptionService.new(attachment).perform
-      transcriptions += result[:transcriptions] if result[:success]
+      {
+        content: prepare_multimodal_message_content(message),
+        role: determine_role(message)
+      }
     end
-    transcriptions
   end
 
   def determine_role(message)
-    return 'system' if message.content.blank?
+    message.message_type == 'incoming' ? 'user' : 'assistant'
+  end
 
-    message.message_type == 'incoming' ? 'user' : 'system'
+  def prepare_multimodal_message_content(message)
+    Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
   def handoff_requested?
@@ -123,5 +109,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def log_error(error)
     ChatwootExceptionTracker.new(error, account: account).capture_exception
+  end
+
+  def captain_v2_enabled?
+    return account.feature_enabled?('captain_integration_v2')
   end
 end

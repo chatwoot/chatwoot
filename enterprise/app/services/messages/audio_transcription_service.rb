@@ -20,7 +20,10 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
   private
 
   def can_transcribe?
-    account.audio_transcriptions.present? && account.usage_limits[:captain][:responses][:current_available].positive?
+    return false unless account.feature_enabled?('captain_integration')
+    return false if account.audio_transcriptions.blank?
+
+    account.usage_limits[:captain][:responses][:current_available].positive?
   end
 
   def fetch_audio_file
@@ -57,5 +60,9 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
     attachment.update!(meta: { transcribed_text: transcribed_text })
     message.reload.send_update_event
     message.account.increment_response_usage
+
+    return unless ChatwootApp.advanced_search_allowed?
+
+    message.reindex
   end
 end

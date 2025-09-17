@@ -20,6 +20,7 @@ const props = defineProps({
   enableVariables: { type: Boolean, default: false },
   enableCannedResponses: { type: Boolean, default: true },
   enabledMenuOptions: { type: Array, default: () => [] },
+  enableCaptainTools: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -35,7 +36,7 @@ const messageClass = computed(() => {
     case 'error':
       return 'text-n-ruby-9 dark:text-n-ruby-9';
     case 'success':
-      return 'text-green-500 dark:text-green-400';
+      return 'text-n-teal-10 dark:text-n-teal-10';
     default:
       return 'text-n-slate-11 dark:text-n-slate-11';
   }
@@ -98,6 +99,7 @@ watch(
         :enable-variables="enableVariables"
         :enable-canned-responses="enableCannedResponses"
         :enabled-menu-options="enabledMenuOptions"
+        :enable-captain-tools="enableCaptainTools"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"

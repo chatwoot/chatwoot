@@ -13,7 +13,7 @@
 <% else %>
   <% if @message.content %>
     <div>
-      <%= ChatwootMarkdownRenderer.new(@message.content).render_message.html_safe %>
+      <%= ChatwootMarkdownRenderer.new(@message.outgoing_content).render_message %>
     </div>
   <% end %>
 <% end %>

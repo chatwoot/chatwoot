@@ -1,0 +1,51 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Templates",
+      "SUBTITLE": "Select the Twilio template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Şablon Ara",
+      "NO_TEMPLATES_FOUND": "İçin hiç şablon bulunamadı",
+      "NO_CONTENT": "No content",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Kategori",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Dil",
+        "TEMPLATE_BODY": "Şablon İçeriği",
+        "CATEGORY": "Kategori"
+      },
+      "TYPES": {
+        "MEDIA": "Media",
+        "QUICK_REPLY": "Quick Reply",
+        "TEXT": "Metin"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Değişkenler",
+      "LANGUAGE": "Dil",
+      "CATEGORY": "Kategori",
+      "VARIABLE_PLACEHOLDER": "{variable} değerini girin",
+      "GO_BACK_LABEL": "Geri Git",
+      "SEND_MESSAGE_LABEL": "Mesaj Gönder",
+      "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Geri",
+      "SEND_MESSAGE_BUTTON": "Mesaj Gönder"
+    }
+  }
+}

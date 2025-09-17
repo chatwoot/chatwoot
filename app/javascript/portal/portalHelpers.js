@@ -112,11 +112,14 @@ export const InitializationHelpers = {
   },
 
   setDirectionAttribute: () => {
-    const portalElement = document.getElementById('portal');
-    if (!portalElement) return;
+    const htmlElement = document.querySelector('html');
+    // If direction is already applied through props, do not apply again (iframe case)
+    const hasDirApplied = htmlElement.getAttribute('data-dir-applied');
+    if (!htmlElement || hasDirApplied) return;
 
-    const locale = document.querySelector('.locale-switcher')?.value;
-    portalElement.dir = locale && getLanguageDirection(locale) ? 'rtl' : 'ltr';
+    const localeFromHtml = htmlElement.lang;
+    htmlElement.dir =
+      localeFromHtml && getLanguageDirection(localeFromHtml) ? 'rtl' : 'ltr';
   },
 
   initializeThemesInPortal: initializeTheme,

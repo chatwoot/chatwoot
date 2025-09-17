@@ -37,6 +37,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['retry']);
+
 const allMessages = computed(() => {
   return useCamelCase(props.messages, { deep: true });
 });
@@ -128,6 +130,7 @@ const getForwardedMessageAddress = message => {
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
+        @retry="emit('retry', message)"
       />
     </template>
     <slot name="after" />

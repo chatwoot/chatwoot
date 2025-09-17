@@ -18,6 +18,16 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
   describe '#perform' do
     let(:service) { described_class.new(attachment) }
 
+    context 'when captain_integration feature is not enabled' do
+      before do
+        account.disable_features!('captain_integration')
+      end
+
+      it 'returns transcription limit exceeded' do
+        expect(service.perform).to eq({ error: 'Transcription limit exceeded' })
+      end
+    end
+
     context 'when transcription is successful' do
       before do
         # Mock can_transcribe? to return true and transcribe_audio method
