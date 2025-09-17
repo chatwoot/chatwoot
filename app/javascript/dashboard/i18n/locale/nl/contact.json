@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP-adres",
     "CREATED_AT_LABEL": "Aangemaakt op",
     "NEW_MESSAGE": "Nieuw bericht",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Er zijn geen eerdere gesprekken gekoppeld aan dit contact.",
       "TITLE": "Vorige gesprekken"
@@ -601,6 +606,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variabelen",
+          "BACK": "Ga terug",
+          "SEND_MESSAGE": "Verstuur bericht"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "Ga terug",
           "SEND_MESSAGE": "Verstuur bericht"
         }

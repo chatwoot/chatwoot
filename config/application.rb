@@ -12,7 +12,7 @@ Bundler.require(*Rails.groups)
 # We rely on DOTENV to load the environment variables
 # We need these environment variables to load the specific APM agent
 Dotenv::Rails.load
-require 'ddtrace' if ENV.fetch('DD_TRACE_AGENT_URL', false).present?
+require 'datadog' if ENV.fetch('DD_TRACE_AGENT_URL', false).present?
 require 'elastic-apm' if ENV.fetch('ELASTIC_APM_SECRET_TOKEN', false).present?
 require 'scout_apm' if ENV.fetch('SCOUT_KEY', false).present?
 
@@ -46,6 +46,10 @@ module Chatwoot
     # rubocop:enable Rails/FilePath
     # Add enterprise views to the view paths
     config.paths['app/views'].unshift('enterprise/app/views')
+
+    # Load enterprise initializers alongside standard initializers
+    enterprise_initializers = Rails.root.join('enterprise/config/initializers')
+    Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

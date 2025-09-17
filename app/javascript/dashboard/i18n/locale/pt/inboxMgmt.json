@@ -330,12 +330,13 @@
             "LABEL": "Chave secreta da API",
             "PLACEHOLDER": "Insira a chave secreta da API Twilio",
             "REQUIRED": "A chave secreta da API é obrigatória"
-          },
-          "TWIML_APP_SID": {
-            "LABEL": "TwiML App SID",
-            "PLACEHOLDER": "Insira a sua Twilio TwiML App SID (começa por AP)",
-            "REQUIRED": "TwiML App SID é obrigatória"
           }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
         },
         "SUBMIT_BUTTON": "Criar canal de Voz",
         "API": {
@@ -423,7 +424,51 @@
       },
       "AUTH": {
         "TITLE": "Escolher um canal",
-        "DESC": "O Chatwoot suporta widgets de live-chat, Facebook Messenger, perfis do Twitter, WhatsApp, E-mails, etc., como canais. Se pretende criar um canal personalizado, pode fazê-lo usando o canal API. Para começar, escolha um dos canais abaixo."
+        "DESC": "O Chatwoot suporta widgets de live-chat, Facebook Messenger, perfis do Twitter, WhatsApp, E-mails, etc., como canais. Se pretende criar um canal personalizado, pode fazê-lo usando o canal API. Para começar, escolha um dos canais abaixo.",
+        "TITLE_NEXT": "Complete the setup",
+        "TITLE_FINISH": "Pronto!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Website",
+            "DESCRIPTION": "Create a live-chat widget"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook",
+            "DESCRIPTION": "Connect your Facebook page"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "E-mail",
+            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Make a custom channel using our API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integrate your Line channel"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connect your instagram account"
+          },
+          "VOICE": {
+            "TITLE": "Voz",
+            "DESCRIPTION": "Integrate with Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "Agentes",
@@ -477,7 +522,10 @@
       "MESSAGE": "Agora, pode conectar-se com os seus clientes através do seu novo canal.",
       "BUTTON_TEXT": "Ir para a caixa de entrada",
       "MORE_SETTINGS": "Mais configurações",
-      "WEBSITE_SUCCESS": "Acabou de criar um canal de site com sucesso. Copie o código mostrado abaixo e cole-o no seu site. Da próxima vez que um cliente usar o chat em tempo real, a conversa aparecerá automaticamente na sua caixa de entrada."
+      "WEBSITE_SUCCESS": "Acabou de criar um canal de site com sucesso. Copie o código mostrado abaixo e cole-o no seu site. Da próxima vez que um cliente usar o chat em tempo real, a conversa aparecerá automaticamente na sua caixa de entrada.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Reautorizar",
     "VIEW": "Ver",
@@ -867,9 +915,18 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "Outros fornecedores"
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "Connect with Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connect with Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "Outros fornecedores",
+        "DESCRIPTION": "Connect with Other Providers"
+      }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
