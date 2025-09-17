@@ -26,6 +26,9 @@ ca:
   messages:
     reset_password_success: Woot! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
     reset_password_failure: Uh ho! No s'ha trobat cap compte amb aquest correu electrònic.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: La teva sol·licitud d'eliminació de la safata d'entrada es processarà d'aquí a un temps.
   errors:
     validations:
@@ -41,6 +44,8 @@ ca:
       failed: El registre ha fallat
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Tipus de dades no vàlid
@@ -209,6 +214,7 @@ ca:
     reply:
       email:
         header:
+          notifications: 'Notificacions'
           from_with_name: '%{assignee_name} des de %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} des de %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} des de %{business_name} <%{from_email}>'

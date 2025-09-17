@@ -26,6 +26,9 @@ el:
   messages:
     reset_password_success: Woot! Το αίτημά σας για επαναφορά κωδικού ενεργοποιήθηκε. Ελέξτε το email σας για οδηγίες.
     reset_password_failure: Ωχ όχι! Δεν υπάρχει κάποιος χρήστης με το συγκεκριμένο email.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
   errors:
     validations:
@@ -41,6 +44,8 @@ el:
       failed: Η εγγραφή απέτυχε
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Μη έγκυρος τύπος δεδομένων
@@ -209,6 +214,7 @@ el:
     reply:
       email:
         header:
+          notifications: 'Ειδοποιήσεις'
           from_with_name: '%{assignee_name} από %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} από %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} από %{business_name} <%{from_email}>'
