@@ -563,6 +563,13 @@ Rails.application.routes.draw do
       resources :accounts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         post :seed, on: :member
         post :reset_cache, on: :member
+
+        # Rotas de billing plans
+        resource :billing_plan, only: [:show, :update] do
+          member do
+            get :usage
+          end
+        end
       end
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
@@ -574,6 +581,7 @@ Rails.application.routes.draw do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+      resources :billing_plans, only: [:index, :show, :edit, :update]
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do

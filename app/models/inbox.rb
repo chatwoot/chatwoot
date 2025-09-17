@@ -40,6 +40,7 @@
 #
 
 class Inbox < ApplicationRecord
+  include BillingPlanLimitable
   include Reportable
   include Avatarable
   include OutOfOffisable
