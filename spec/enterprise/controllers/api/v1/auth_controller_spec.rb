@@ -79,25 +79,25 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         create(:account_user, user: user, account: account)
       end
 
-      it 'returns SAML initiation URL' do
+      it 'redirects to SAML initiation URL' do
         post '/api/v1/auth/saml_login', params: { email: user.email }
 
-        expect(response).to have_http_status(:success)
-        expect(json_response[:redirect_url]).to eq("/auth/saml?account_id=#{account.id}")
+        expect(response).to have_http_status(:temporary_redirect)
+        expect(response.location).to include("/auth/saml?account_id=#{account.id}")
       end
 
       it 'handles email case insensitivity' do
         post '/api/v1/auth/saml_login', params: { email: user.email.upcase }
 
-        expect(response).to have_http_status(:success)
-        expect(json_response[:redirect_url]).to eq("/auth/saml?account_id=#{account.id}")
+        expect(response).to have_http_status(:temporary_redirect)
+        expect(response.location).to include("/auth/saml?account_id=#{account.id}")
       end
 
       it 'strips whitespace from email' do
         post '/api/v1/auth/saml_login', params: { email: "  #{user.email}  " }
 
-        expect(response).to have_http_status(:success)
-        expect(json_response[:redirect_url]).to eq("/auth/saml?account_id=#{account.id}")
+        expect(response).to have_http_status(:temporary_redirect)
+        expect(response.location).to include("/auth/saml?account_id=#{account.id}")
       end
     end
 
@@ -119,11 +119,11 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         create(:account_user, user: user, account: account2)
       end
 
-      it 'returns the first SAML enabled account' do
+      it 'redirects to the first SAML enabled account' do
         post '/api/v1/auth/saml_login', params: { email: user.email }
 
-        expect(response).to have_http_status(:success)
-        returned_account_id = json_response[:redirect_url].match(/account_id=(\d+)/)[1].to_i
+        expect(response).to have_http_status(:temporary_redirect)
+        returned_account_id = response.location.match(/account_id=(\d+)/)[1].to_i
         expect([account.id, account2.id]).to include(returned_account_id)
       end
     end
