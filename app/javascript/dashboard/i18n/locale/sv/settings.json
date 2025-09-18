@@ -80,6 +80,11 @@
         "NOTE": "Uppdatering av ditt lösenord skulle återställa dina inloggningar på flera enheter.",
         "BTN_TEXT": "Change password"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Åtkomsttoken",
         "NOTE": "Denna token kan användas om du bygger en API-baserad integration",
