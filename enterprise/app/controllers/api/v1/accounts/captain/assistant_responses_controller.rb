@@ -22,6 +22,14 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
 
     base_query = base_query.where(status: permitted_params[:status]) if permitted_params[:status].present?
 
+    if permitted_params[:search].present?
+      search_term = "%#{permitted_params[:search]}%"
+      base_query = base_query.where(
+        'question ILIKE :search OR answer ILIKE :search',
+        search: search_term
+      )
+    end
+
     @responses_count = base_query.count
 
     @responses = base_query.page(@current_page).per(RESULTS_PER_PAGE)
@@ -63,7 +71,7 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   end
 
   def permitted_params
-    params.permit(:id, :assistant_id, :page, :document_id, :account_id, :status)
+    params.permit(:id, :assistant_id, :page, :document_id, :account_id, :status, :search)
   end
 
   def response_params
