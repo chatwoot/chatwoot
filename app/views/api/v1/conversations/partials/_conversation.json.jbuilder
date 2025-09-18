@@ -53,4 +53,10 @@ json.last_activity_at conversation.last_activity_at.to_i
 json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i.to_i
 json.sla_policy_id conversation.sla_policy_id
-json.partial! 'enterprise/api/v1/conversations/partials/conversation', conversation: conversation if ChatwootApp.enterprise?
+if ChatwootApp.enterprise?
+  begin
+    json.partial! 'enterprise/api/v1/conversations/partials/conversation', conversation: conversation
+  rescue ActionView::MissingTemplate
+    # Enterprise partial not found, continue without it
+  end
+end
