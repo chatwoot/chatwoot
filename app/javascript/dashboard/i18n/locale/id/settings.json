@@ -80,6 +80,11 @@
         "NOTE": "Memperbarui kata sandi Anda akan mengatur ulang login Anda di beberapa perangkat.",
         "BTN_TEXT": "Ubah Kata Sandi"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token Akses",
         "NOTE": "Token ini dapat digunakan jika Anda sedang membangun integrasi berbasis API",
