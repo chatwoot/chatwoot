@@ -11,6 +11,7 @@ import SalesBotView from './botconfigs/SalesBotView.vue';
 import { onMounted, ref, computed, reactive } from 'vue';
 import aiAgents from '../../../api/aiAgents';
 import googleSheetsExportAPI from '../../../api/googleSheetsExport';
+import { error } from '@formkit/core/index.cjs';
 
 const route = useRoute();
 const allTabs = [
@@ -111,7 +112,8 @@ const googleSheetsAuth = reactive({
     customer_service: { output: '' },
     restaurant: { input: '', output: '' },
     sales: { input: '', output: '' }
-  }
+  },
+  error: null,
 });
 
 // Helper function to get agent ID by type
@@ -150,6 +152,7 @@ async function checkGoogleSheetsAuth() {
     console.error('Failed to check Google Sheets authorization status:', error);
     googleSheetsAuth.authorized = false;
     googleSheetsAuth.step = 'auth';
+    googleSheetsAuth.error = 'Failed to connect to Google Sheets. Please try again.';
   } finally {
     googleSheetsAuth.loading = false;
   }
@@ -170,7 +173,7 @@ async function loadSpreadsheetUrls() {
       const payload = {
         account_id: parseInt(flowData.account_id, 10),
         agent_id: agentId,
-        type: agentType,
+        type: agentType === 'customer_service' ? 'tickets' : agentType,
       };
       
       const response = await googleSheetsExportAPI.getSpreadsheetUrl(payload);
@@ -191,6 +194,7 @@ async function loadSpreadsheetUrls() {
         }
       }
     } catch (error) {
+      googleSheetsAuth.error = 'Failed to connect to Google Sheets. Please try again.';
       console.error(`Failed to load spreadsheet URLs for ${agentType}:`, error);
     }
   }

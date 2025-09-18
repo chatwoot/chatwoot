@@ -92,9 +92,20 @@
         "VALIDATION_ERROR": "Please fix validation errors",
         "SYSTEM_SETTINGS": "System Settings",
         "CHARACTERS": "Characters"
+      },
+      "COMMON": {
+        "GOOGLE_SHEETS_OUTPUT": "Ticket Output Sheet",
+        "GOOGLE_SHEETS_OUTPUT_DESC": "Tickets will be automatically saved here",
+        "GOOGLE_SHEETS_AUTH_TITLE": "Google Sheets Connection",
+        "GOOGLE_SHEETS_AUTH_DESC": "Authorize access to create ticket output sheets",
+        "GOOGLE_SHEETS_TITLE": "Ticket Output Integration",
+        "CONNECT_SHEETS_DESC": "Connect to Google Sheets to automatically create spreadsheets containing ticket data from your CS Bot. After successful authentication, the system will immediately create a new spreadsheet in your Google account.",
+        "REMOVE": "Remove"
       }
       },
       "COMMON": {
+        "GOOGLE_SHEETS_TITLE": "Ticket Output Integration",
+        "CONNECT_SHEETS_DESC": "Connect to Google Sheets to automatically create spreadsheets containing ticket data from your CS Bot. After successful authentication, the system will immediately create a new spreadsheet in your Google account.",
         "REMOVE": "Remove"
       },
     "EDIT": {
@@ -209,6 +220,8 @@
       "AUTH_BTN": "Start Authentication with Google",
       "CONNECTED_HEADER": "Connected Successfully!",
       "CONNECTED_DESC": "Your Google account is connected.",
+      "RETRY_AUTH_BTN": "Retry Authentication",
+      "RETRY_AUTH_LOADING": "Retrying Authentication...",
       "CREATE_SHEETS_BTN": "Create Input & Output Sheets",
       "CREATE_SHEETS_LOADING": "Creating Sheets...",
       "INPUT_SHEET_LABEL": "Input Sheet",

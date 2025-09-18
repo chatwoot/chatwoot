@@ -92,6 +92,15 @@
         "VALIDATION_ERROR": "Silakan perbaiki kesalahan validasi",
         "SYSTEM_SETTINGS": "Pengaturan Sistem",
         "CHARACTERS": "Karakter"
+      },
+      "COMMON": {
+        "GOOGLE_SHEETS_OUTPUT": "Sheet Output Tiket",
+        "GOOGLE_SHEETS_OUTPUT_DESC": "Tiket akan otomatis disimpan di sini",
+        "GOOGLE_SHEETS_AUTH_TITLE": "Hubungkan Google Sheets",
+        "GOOGLE_SHEETS_AUTH_DESC": "Beri akses untuk membuat sheet output tiket",
+        "GOOGLE_SHEETS_TITLE": "Integrasi Google Sheets",
+        "CONNECT_SHEETS_DESC": "Hubungkan ke Google Sheets untuk secara otomatis membuat spreadsheet yang berisi data tiket dari Bot CS Anda. Setelah otentikasi berhasil, sistem akan segera membuat spreadsheet baru di akun Google Anda.",
+        "REMOVE": "Hapus"
       }
     },
     "COMMON": {
@@ -316,6 +325,8 @@
       "AUTH_BTN": "Mulai Autentikasi dengan Google",
       "CONNECTED_HEADER": "Berhasil Terhubung!",
       "CONNECTED_DESC": "Akun Google Anda telah terhubung.",
+      "RETRY_AUTH_BTN": "Coba Ulang Autentikasi",
+      "RETRY_AUTH_LOADING": "Mencoba Ulang Autentikasi...",
       "CREATE_SHEETS_BTN": "Buat Sheets Input & Output",
       "CREATE_SHEETS_LOADING": "Membuat Sheets...",
       "INPUT_SHEET_LABEL": "Input Sheet",

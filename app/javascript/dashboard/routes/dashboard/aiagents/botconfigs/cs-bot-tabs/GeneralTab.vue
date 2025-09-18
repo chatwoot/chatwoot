@@ -94,6 +94,11 @@ const ticketAccount = computed(() => props.googleSheetsAuth.account);
 const ticketSheets = computed(() => ({
   output: props.googleSheetsAuth.spreadsheetUrls.customer_service.output || ''
 }));
+const ticketAuthError = computed(() => props.googleSheetsAuth.error);
+function retryAuthentication() {
+  connectGoogle();
+  ticketAuthError.value = null;
+}
 
 function showNotification(message, type = 'success') {
   notification.value = { message, type }
@@ -123,6 +128,11 @@ async function connectGoogle() {
   } finally {
     props.googleSheetsAuth.loading = false;
   }
+}
+
+function disconnectGoogle() {
+  // TODO: Implement disconnect logic
+  console.log('Disconnect Google account clicked');
 }
 
 async function createTicketSheet() {
@@ -241,9 +251,9 @@ async function save() {
 
         <!-- Google Sheets Integration -->
         <div v-if="config.ticketSystemActive" class="mb-6">
-          <h4 class="text-md font-medium text-slate-900 dark:text-slate-25 mb-3">Ticket Output Integration</h4>
-          <p class="text-sm text-gray-500 mb-4">Connect to Google Sheets to automatically save tickets data</p>
-          
+          <h4 class="text-md font-medium text-slate-900 dark:text-slate-25 mb-3">{{ $t('AGENT_MGMT.CSBOT.COMMON.GOOGLE_SHEETS_TITLE') }}</h4>
+          <p class="text-sm text-gray-500 mb-4">{{ $t('AGENT_MGMT.CSBOT.COMMON.CONNECT_SHEETS_DESC') }}</p>
+
           <!-- Google Sheets Auth Flow -->
           <div v-if="ticketStep === 'auth'" class="mb-6">
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
@@ -254,8 +264,8 @@ async function save() {
                     </svg>
                   </div>
                 <div>
-                  <h5 class="text-sm font-medium text-blue-900 dark:text-blue-100">Google Sheets Connection</h5>
-                  <p class="text-xs text-blue-700 dark:text-blue-300">Authorize access to create ticket output sheets</p>
+                  <h5 class="text-sm font-medium text-blue-900 dark:text-blue-100">{{ $t('AGENT_MGMT.CSBOT.COMMON.GOOGLE_SHEETS_AUTH_TITLE') }}</h5>
+                  <p class="text-xs text-blue-700 dark:text-blue-300">{{ $t('AGENT_MGMT.CSBOT.COMMON.GOOGLE_SHEETS_AUTH_DESC') }}</p>
                 </div>
               </div>
               
@@ -294,14 +304,42 @@ async function save() {
                     <p class="text-xs text-green-700 dark:text-green-300">{{ ticketAccount?.email || 'Connected successfully' }}</p>
                   </div>
                 </div>
-                <button
-                  class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                  @click="createTicketSheet"
-                  :disabled="ticketLoading"
-                >
-                  <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
-                  <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
-                </button>
+                
+                <div class="flex gap-2 align-center content-center">
+                  <template v-if="!ticketAuthError">
+                    <button
+                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                      @click="createTicketSheet"
+                      :disabled="ticketLoading"
+                    >
+                      <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
+                      <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
+                    </button>
+                  </template>
+                  <template v-else>
+                    <div class="text-red-600 text-sm flex items-center gap-2 content-center">
+                      <button
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                        @click="retryAuthentication"
+                        :disabled="ticketLoading"
+                      >
+                        <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                        <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                      </button>
+                    </div>
+                  </template>
+                  <div class="gap-2 items-center">
+
+                    <button
+                    @click="disconnectGoogle"
+                    class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20"
+                    :disabled="ticketLoading"
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                    <span>Disconnect</span>
+                  </button>
+                </div>
+                </div>
               </div>
             </div>
           </div>
@@ -317,8 +355,8 @@ async function save() {
                     </svg>
                   </div>
                   <div>
-                    <h5 class="text-sm font-medium text-slate-900 dark:text-slate-100">Ticket Output Sheet</h5>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">Tickets will be automatically saved here</p>
+                    <h5 class="text-sm font-medium text-slate-900 dark:text-slate-100">{{ $t('AGENT_MGMT.GOOGLE_SHEETS_OUTPUT') }}</h5>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">{{ $t('AGENT_MGMT.GOOGLE_SHEETS_OUTPUT_DESC') }}</p>
                   </div>
                 </div>
                   <div class="space-y-3">
@@ -333,6 +371,23 @@ async function save() {
                         </svg>
                         {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
                       </a>
+                      <div v-if="ticketAuthError" class="text-red-600 text-sm flex items-center gap-2">
+                        <button
+                          @click="retryAuthentication"
+                          class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20 ml-3"
+                          :disabled="ticketLoading"
+                        >
+                          <span>Retry Authenticate</span>
+                        </button>
+                      </div>
+                      <button
+                        @click="disconnectGoogle"
+                        class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
+                        :disabled="ticketLoading"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                        <span>Disconnect</span>
+                      </button>
                     </div>
                   </div>
               </div>
