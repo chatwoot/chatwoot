@@ -80,6 +80,11 @@
         "NOTE": "Aggiornare la tua password reimposterà i tuoi accessi in più dispositivi.",
         "BTN_TEXT": "Cambia password"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API",
