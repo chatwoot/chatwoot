@@ -80,6 +80,11 @@
         "NOTE": "Оновлення вашого пароля призведе до скидання ваших записів про вхід на інших пристроях.",
         "BTN_TEXT": "Змінити пароль"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Ключ доступу",
         "NOTE": "Цей ключ можна використовувати, якщо ви створюєте API-інтеграцію",
