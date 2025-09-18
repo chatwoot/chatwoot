@@ -80,6 +80,11 @@
         "NOTE": "Actualizarea parolei ar reseta autentificările pe mai multe dispozitive.",
         "BTN_TEXT": "Schimba parola"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token acces",
         "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API",
