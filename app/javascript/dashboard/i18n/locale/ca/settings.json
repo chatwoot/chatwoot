@@ -80,6 +80,11 @@
         "NOTE": "L'actualització de la contrasenya restableix els vostres inicis de sessió en múltiples dispositius.",
         "BTN_TEXT": "Canvia la contrasenya"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token d'accés",
         "NOTE": "Aquest token es pot utilitzar si creeu una integració basada en l'API",
