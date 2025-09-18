@@ -287,6 +287,7 @@ describe('composeConversationHelper', () => {
         contactId: 2,
         message: { content: 'Hello' },
         assigneeId: 3,
+        status: 'open',
       });
     });
 

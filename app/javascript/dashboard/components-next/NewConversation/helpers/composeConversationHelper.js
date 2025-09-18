@@ -136,6 +136,7 @@ export const prepareNewMessagePayload = ({
     contactId: Number(selectedContact.id),
     message: { content: message },
     assigneeId: currentUser.id,
+    status: 'open', // Explicitly set status to open for manually created conversations
   };
 
   if (attachedFiles?.length) {
