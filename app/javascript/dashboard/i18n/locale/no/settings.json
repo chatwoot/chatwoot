@@ -80,6 +80,11 @@
         "NOTE": "Oppdatering av passordet ditt nullstiller logger deg ut på andre enheter.",
         "BTN_TEXT": "Change password"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Tilgangstoken",
         "NOTE": "Dette tokenet kan brukes hvis du lager en API-basert integrasjon",
