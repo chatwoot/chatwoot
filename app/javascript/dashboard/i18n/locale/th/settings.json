@@ -80,6 +80,11 @@
         "NOTE": "การอัปเดตรหัสผ่านจะรีเซ็ทการเข้าสู่ระบบของบัญชีนี้ในอุปกรณ์อื่นๆ",
         "BTN_TEXT": "เปลี่ยนรหัสผ่าน"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "คุณสามารถใช้ token นี้เชื่อมต่อกับ API ได้",
