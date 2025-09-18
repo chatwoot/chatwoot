@@ -80,6 +80,11 @@
         "NOTE": "تغییر دادن رمز عبور باعث می‌شود مجبور شوید دوباره به سیستم وارد شوید",
         "BTN_TEXT": "تغییر رمز عبور"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "توکن دسترسی",
         "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود",
