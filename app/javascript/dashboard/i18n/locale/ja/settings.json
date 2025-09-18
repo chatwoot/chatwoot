@@ -80,6 +80,11 @@
         "NOTE": "パスワードを更新すると、複数のデバイスでログインがリセットされます。",
         "BTN_TEXT": "パスワードを変更"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "アクセストークン",
         "NOTE": "このトークンは、API連携を構築する場合に利用します。",
