@@ -50,11 +50,36 @@ const updateCampaignReadStatus = baseDomain => {
   });
 };
 
+const sanitizeURL = url => {
+  if (url === '') return '';
+
+  try {
+    // any invalid url will not be accepted
+    // example - JaVaScRiP%0at:alert(document.domain)"
+    // this has an obfuscated javascript protocol
+    const parsedURL = new URL(url);
+
+    // filter out dangerous protocols like `javascript`, `data`, `vbscript`
+    if (!['https:', 'http:'].includes(parsedURL.protocol)) {
+      throw new Error('Invalid Protocol');
+    }
+
+    return url; // Return the original valid URL
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Invalid URL', e);
+    return 'about:blank'; // Only return blank for invalid URLs
+  }
+};
+
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
+    baseUrl = sanitizeURL(baseUrl);
     return `${baseUrl}/widget?website_token=${websiteToken}`;
   },
   createFrame: ({ baseUrl, websiteToken }) => {
+    baseUrl = sanitizeURL(baseUrl);
+
     if (IFrameHelper.getAppFrame()) {
       return;
     }
@@ -106,6 +131,23 @@ export const IFrameHelper = {
       ) {
         return;
       }
+
+      // Validate origin - allow messages from either:
+      // 1. The widget origin (widget -> parent communication)
+      // 2. The current page origin (same-origin messages)
+      const widgetOrigin = window.$chatwoot?.baseUrl
+        ? new URL(window.$chatwoot.baseUrl).origin
+        : null;
+      const parentOrigin = window.location.origin;
+
+      const isValidOrigin =
+        e.origin === parentOrigin ||
+        (widgetOrigin && e.origin === widgetOrigin);
+
+      if (!isValidOrigin) {
+        return;
+      }
+
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
       if (typeof IFrameHelper.events[message.event] === 'function') {
         IFrameHelper.events[message.event](message);
@@ -140,7 +182,9 @@ export const IFrameHelper = {
   },
 
   setupAudioListeners: () => {
-    const { baseUrl = '' } = window.$chatwoot;
+    let { baseUrl = '' } = window.$chatwoot;
+    baseUrl = sanitizeURL(baseUrl);
+
     getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
@@ -234,6 +278,7 @@ export const IFrameHelper = {
     },
 
     popoutChatWindow: ({ baseUrl, websiteToken, locale }) => {
+      baseUrl = sanitizeURL(baseUrl);
       const cwCookie = Cookies.get('cw_conversation');
       window.$chatwoot.toggle('close');
       popoutChatWindow(baseUrl, websiteToken, locale, cwCookie);
