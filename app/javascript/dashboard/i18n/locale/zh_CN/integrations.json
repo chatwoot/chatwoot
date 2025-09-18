@@ -761,6 +761,7 @@
       "SELECTED": "{count} 已选择",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
+      "SEARCH_PLACEHOLDER": "Search FAQs...",
       "BULK_APPROVE_BUTTON": "批准",
       "BULK_DELETE_BUTTON": "删除",
       "BULK_APPROVE": {
