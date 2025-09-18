@@ -80,6 +80,11 @@
         "NOTE": "Zmiana hasła spowoduje zresetowanie logowania na wielu urządzeniach.",
         "BTN_TEXT": "Zmień hasło"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token dostępu",
         "NOTE": "Ten token może być użyty, jeśli budujesz integrację opartą na API",
