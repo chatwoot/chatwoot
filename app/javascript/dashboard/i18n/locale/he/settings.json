@@ -80,6 +80,11 @@
         "NOTE": "עדכון הסיסמה שלך יאפס את הכניסות שלך במספר מכשירים.",
         "BTN_TEXT": "שנה סיסמא"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "אסימון",
         "NOTE": "משמש לחיבורי API",
