@@ -1,7 +1,5 @@
 class Api::V1::Profile::MfaController < Api::BaseController
-  before_action :set_user
   before_action :check_mfa_feature_available
-  before_action :set_mfa_service
   before_action :check_mfa_enabled, only: [:destroy, :backup_codes]
   before_action :check_mfa_disabled, only: [:create, :verify]
   before_action :validate_otp, only: [:verify, :backup_codes, :destroy]
@@ -10,33 +8,29 @@ class Api::V1::Profile::MfaController < Api::BaseController
   def show; end
 
   def create
-    @mfa_service.enable_two_factor!
+    mfa_service.enable_two_factor!
   end
 
   def verify
-    @backup_codes = @mfa_service.verify_and_activate!
+    @backup_codes = mfa_service.verify_and_activate!
   end
 
   def destroy
-    @mfa_service.disable_two_factor!
+    mfa_service.disable_two_factor!
   end
 
   def backup_codes
-    @backup_codes = @mfa_service.generate_backup_codes!
+    @backup_codes = mfa_service.generate_backup_codes!
   end
 
   private
 
-  def set_user
-    @user = current_user
-  end
-
-  def set_mfa_service
-    @mfa_service = Mfa::ManagementService.new(user: @user)
+  def mfa_service
+    @mfa_service ||= Mfa::ManagementService.new(user: current_user)
   end
 
   def check_mfa_enabled
-    render_could_not_create_error(I18n.t('errors.mfa.not_enabled')) unless @user.mfa_enabled?
+    render_could_not_create_error(I18n.t('errors.mfa.not_enabled')) unless current_user.mfa_enabled?
   end
 
   def check_mfa_feature_available
@@ -48,12 +42,12 @@ class Api::V1::Profile::MfaController < Api::BaseController
   end
 
   def check_mfa_disabled
-    render_could_not_create_error(I18n.t('errors.mfa.already_enabled')) if @user.mfa_enabled?
+    render_could_not_create_error(I18n.t('errors.mfa.already_enabled')) if current_user.mfa_enabled?
   end
 
   def validate_otp
     authenticated = Mfa::AuthenticationService.new(
-      user: @user,
+      user: current_user,
       otp_code: mfa_params[:otp_code]
     ).authenticate
 
@@ -63,7 +57,7 @@ class Api::V1::Profile::MfaController < Api::BaseController
   end
 
   def validate_password
-    return if @user.valid_password?(mfa_params[:password])
+    return if current_user.valid_password?(mfa_params[:password])
 
     render_could_not_create_error(I18n.t('errors.mfa.invalid_credentials'))
   end

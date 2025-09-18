@@ -218,6 +218,7 @@ describe('templateHelper', () => {
       expect(result.header).toEqual({
         media_url: '',
         media_type: 'document',
+        media_name: '',
       });
       expect(result.body).toEqual({
         1: '',

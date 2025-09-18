@@ -20,17 +20,16 @@ class Mfa::ManagementService
     end
   end
 
-  def provisioning_uri
+  def two_factor_provisioning_uri
     return nil if user.otp_secret.blank?
 
     issuer = 'Chatwoot'
     label = user.email
     user.otp_provisioning_uri(label, issuer: issuer)
   end
-  alias two_factor_provisioning_uri provisioning_uri
 
   def generate_backup_codes!
-    codes = Array.new(10) { format('%08d', SecureRandom.random_number(100_000_000)) }
+    codes = Array.new(10) { SecureRandom.hex(4).upcase }
     user.otp_backup_codes = codes
     user.save!
     codes

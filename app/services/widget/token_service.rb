@@ -2,14 +2,13 @@ class Widget::TokenService < BaseTokenService
   DEFAULT_EXPIRY_DAYS = 180
 
   def generate_token
-    @payload = build_payload
-    super
+    JWT.encode(token_payload, secret_key, algorithm)
   end
 
   private
 
-  def build_payload
-    payload.merge(exp: exp, iat: iat)
+  def token_payload
+    (payload || {}).merge(exp: exp, iat: iat)
   end
 
   def iat
