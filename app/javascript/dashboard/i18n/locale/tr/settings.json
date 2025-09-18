@@ -80,6 +80,11 @@
         "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar.",
         "BTN_TEXT": "Şifre değiştir"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
         "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir",
