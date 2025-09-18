@@ -29,17 +29,28 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   def update
     return render json: { error: 'Knowledge source not found' }, status: :not_found if find_knowledge_source.nil?
 
-    document_loader = create_document_loader(find_knowledge_source.store_id, params[:url], params[:markdown])
-    return render json: { error: 'Failed to create document loader' }, status: :bad_request if document_loader.nil?
+    scrapes = [
+      {
+        url: params[:url],
+        markdown: params[:markdown]
+      }
+    ]
+
+    created_document_loader_ids = []
 
     begin
-      update_record(find_knowledge_source, document_loader)
+      processed_scrapes = process_scrapes(find_knowledge_source, scrapes, created_document_loader_ids)
+      upsert_document_store(find_knowledge_source) if find_knowledge_source.not_empty?
+      # If the knowledge source is empty, we don't need to upsert the document store
+      # because it will be deleted in the destroy method of the knowledge source.
+      render json: processed_scrapes.compact, status: :created
     rescue StandardError => e
-      handle_update_failure(find_knowledge_source, document_loader, e)
+      cleanup_created_loaders(find_knowledge_source.store_id, created_document_loader_ids)
+      handle_error('Failed to create knowledge source websites', e)
     end
   end
 
-  def destroy
+  def destroy # rubocop:disable Metrics/AbcSize
     return render json: { error: 'No links provided' }, status: :bad_request if params[:ids].blank?
 
     knowledge_source_websites = find_knowledge_source.knowledge_source_websites.where(id: params[:ids])
@@ -49,10 +60,11 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
       knowledge_source_websites.each(&:destroy!)
     end
 
-    knowledge_source_websites.each do |knowledge_source_website|
-      delete_document_loader(store_id: find_knowledge_source.store_id, loader_id: knowledge_source_website.loader_id)
-    end
+    document_loader_ids = knowledge_source_websites.flat_map do |website|
+      [website.loader_id, *website.loader_ids]
+    end.compact.uniq
 
+    cleanup_created_loaders(find_knowledge_source.store_id, document_loader_ids)
     upsert_document_store(find_knowledge_source) if find_knowledge_source.not_empty?
 
     render json: { message: 'Knowledge source websites deleted successfully' }, status: :ok
@@ -74,7 +86,8 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   end
 
   def process_scrapes(knowledge_source, scrapes, created_ids_array)
-    document_loaders = process_scrape_to_create_document_loader(knowledge_source, scrapes)
+    store_id = knowledge_source.store_id
+    document_loaders = process_scrape_to_create_document_loader(store_id, scrapes)
 
     ActiveRecord::Base.transaction do
       scrapes.map do |scrape|
@@ -85,42 +98,65 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
     scrapes
   end
 
-  def process_scrape_to_create_document_loader(knowledge_source, scrapes)
+  def process_scrape_to_create_document_loader(store_id, scrapes)
     scrapes.map do |scrape|
-      document_loader = create_document_loader(
-        knowledge_source.store_id,
-        scrape[:url],
-        scrape[:markdown]
-      )
-      raise StandardError, "Failed to create document loader for scrape #{scrape[:url]}" if document_loader.nil?
+      url = scrape[:url]
+      markdown = scrape[:markdown]
 
-      document_loader
+      chunks = markdown.chars.each_slice(10_000).map(&:join)
+
+      chunks.map.with_index do |chunk, _index|
+        Rails.logger.info("Chunk: #{chunk}")
+        document_loader = create_document_loader(store_id, url, chunk)
+        if document_loader.nil?
+          raise StandardError,
+                "Failed to create document loader for scrape #{scrape[:url]} batch #{idx + 1}"
+        end
+
+        document_loader
+      end
     end
   end
 
   def process_single_scrape(knowledge_source, scrape, document_loaders, created_ids_array)
     return nil if scrape.nil?
 
-    found_loader = document_loaders.find { |loader| loader.dig('file', 'loaderName') == scrape[:url] }
-    return nil if found_loader.nil?
+    document_loaders = document_loaders.flatten
+    matched_loaders = document_loaders.select { |loader| loader.dig('file', 'loaderName') == scrape[:url] }
+    return nil if matched_loaders.empty?
 
-    Rails.logger.info("Found loader: #{found_loader}")
+    loader_ids = matched_loaders.pluck('docId')
+    created_ids_array.concat(loader_ids)
 
-    created_ids_array << found_loader['docId']
-    create_knowledge_source_website(knowledge_source, scrape, found_loader)
+    total_chars = matched_loaders.sum { |loader| loader['characters'].to_i }
+    total_chunks  = matched_loaders.sum { |loader| loader.dig('file', 'totalChunks').to_i }
+
+    create_knowledge_source_website(knowledge_source, scrape, loader_ids, total_chars, total_chunks)
 
     scrape
   end
 
-  def create_knowledge_source_website(knowledge_source, scrape, document_loader)
+  def create_knowledge_source_website(knowledge_source, scrape, loader_ids, total_chars, total_chunks)
+    url = scrape[:url]
     parent_url = get_parent_url(scrape[:url])
 
-    knowledge_source.knowledge_source_websites.add_record!(
-      url: scrape[:url],
+    entity = if params[:id].present?
+               knowledge_source.knowledge_source_websites.find_or_initialize_by(id: params[:id])
+             else
+               knowledge_source.knowledge_source_websites.new
+             end
+
+    entity.assign_attributes(
+      url: url,
       parent_url: parent_url,
-      content: scrape[:markdown],
-      document_loader: document_loader
+      content: scrape[:markdown].to_s,
+      loader_id: loader_ids.first,
+      loader_ids: loader_ids,
+      total_chars: total_chars,
+      total_chunks: total_chunks
     )
+    entity.save!
+    entity
   end
 
   def cleanup_created_loaders(store_id, loader_ids)
@@ -135,7 +171,7 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   end
 
   def render_error(message, status = :bad_request)
-    render json: { error: message }, status: status
+    render json: { error: message, message: message }, status: status
   end
 
   def create_document_loader(store_id, name, text)
@@ -149,23 +185,6 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   rescue StandardError => e
     Rails.logger.error("Failed to add document loader: #{e.message}")
     nil
-  end
-
-  def update_record(knowledge_source, document_loader)
-    result = knowledge_source.knowledge_source_websites.update_record!(
-      params: params, document_loader: document_loader
-    )
-    delete_document_loader(store_id: knowledge_source.store_id, loader_id: result[:previous_loader_id])
-    upsert_document_store(knowledge_source) if knowledge_source.not_empty?
-    # If the knowledge source is empty, we don't need to upsert the document store
-    # because it will be deleted in the destroy method of the knowledge source.
-
-    render json: result[:updated], status: :ok
-  end
-
-  def handle_update_failure(knowledge_source, document_loader, error)
-    delete_document_loader(store_id: knowledge_source.store_id, loader_id: document_loader['docId'])
-    handle_error('Failed to update knowledge source website', error)
   end
 
   def delete_document_loader(store_id:, loader_id:)

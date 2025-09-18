@@ -11,6 +11,7 @@
 #  is_active          :boolean          default(TRUE)
 #  max_ai_agents      :integer          default(0), not null
 #  max_ai_responses   :integer          default(0), not null
+#  max_channels       :integer          default(0)
 #  max_human_agents   :integer          default(0), not null
 #  max_mau            :integer          default(0), not null
 #  monthly_price      :decimal(16, 2)   not null

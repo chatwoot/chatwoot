@@ -76,7 +76,8 @@ class Captain::Llm::BaseJangkauService
   def headers
     {
       'Content-Type' => 'application/json',
-      'Accept' => 'application/json'
+      'Accept' => 'application/json',
+      'X-API-Key' => ENV.fetch('JANGKAU_AGENT_API_KEY', nil)
       # 'Authorization' => "Bearer #{ENV.fetch('JANGKAU_AGENT_API_KEY', nil)}"
     }
   end

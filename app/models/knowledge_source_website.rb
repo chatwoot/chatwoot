@@ -4,6 +4,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  content             :text             default(""), not null
+#  loader_ids          :string           default([]), is an Array
 #  parent_url          :string           not null
 #  total_chars         :integer          not null
 #  total_chunks        :integer          not null
@@ -28,31 +29,5 @@ class KnowledgeSourceWebsite < ApplicationRecord
   validates :url, presence: true
   validates :parent_url, presence: true
   validates :loader_id, presence: true
-
-  def self.add_record!(url:, parent_url:, content:, document_loader:)
-    create!(
-      url: url,
-      parent_url: parent_url,
-      content: content,
-      loader_id: document_loader['docId'],
-      total_chars: document_loader.dig('file', 'totalChars'),
-      total_chunks: document_loader.dig('file', 'totalChunks')
-    )
-  end
-
-  def self.update_record!(params:, document_loader:)
-    knowledge_source_website = find_by(id: params[:id])
-    raise ActiveRecord::RecordNotFound, 'Knowledge source website not found' if knowledge_source_website.nil?
-
-    previous_loader_id = knowledge_source_website.loader_id
-
-    knowledge_source_website.update!(
-      content: params[:markdown],
-      loader_id: document_loader['docId'],
-      total_chars: document_loader.dig('file', 'totalChars'),
-      total_chunks: document_loader.dig('file', 'totalChunks')
-    )
-
-    { updated: knowledge_source_website, previous_loader_id: previous_loader_id }
-  end
+  validates :content, length: { maximum: 1_000_000 }
 end
