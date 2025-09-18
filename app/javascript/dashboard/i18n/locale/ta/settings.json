@@ -80,6 +80,11 @@
         "NOTE": "உங்கள் பாஸ்வேர்டைப் புதுப்பிப்பது உங்கள் உள்நுழைவுகளை பல சாதனங்களில் மீட்டமைக்கும்.",
         "BTN_TEXT": "Change password"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "அணுகுவதற்கான டோக்கன்",
         "NOTE": "நீங்கள் API அடிப்படையிலான ஒருங்கிணைப்பை உருவாக்கினால் இந்த டோக்கனைப் பயன்படுத்தலாம்",
