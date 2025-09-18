@@ -80,6 +80,11 @@
         "NOTE": "Обновление пароля сбросит вашу авторизацию на всех устройствах.",
         "BTN_TEXT": "Изменить пароль"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Токен доступа",
         "NOTE": "Этот токен может быть использован, если вы настраиваете интеграцию на основе API",
