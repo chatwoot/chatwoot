@@ -80,6 +80,11 @@
         "NOTE": "更新您的密码会在多个设备中重置您的登录信息。",
         "BTN_TEXT": "更改密码"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "访问令牌",
         "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用",
