@@ -179,6 +179,8 @@ async function loadSpreadsheetUrls() {
       const response = await googleSheetsExportAPI.getSpreadsheetUrl(payload);
       
       if (response.data) {
+        console.log(`Loaded spreadsheet URLs for ${agentType}:`, response.data);
+        googleSheetsAuth.error = null;
         // Store spreadsheet URLs based on agent type
         if (agentType === 'booking') {
           googleSheetsAuth.spreadsheetUrls.booking.input = response.data.input_spreadsheet_url || '';

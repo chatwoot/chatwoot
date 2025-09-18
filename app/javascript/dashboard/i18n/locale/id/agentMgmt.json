@@ -2,6 +2,7 @@
   "AGENT_MGMT": {
     "HEADER": "Agen",
     "HEADER_BTN_TXT": "Tambahkan Agen",
+    "AUTH_ERROR": "Gagal mengautentikasi dengan Google. Silakan autentikasi ulang.",
     "LOADING": "Mendapatkan Daftar Agen",
     "DESCRIPTION": "Agen adalah anggota tim dukungan yang dapat melihat dan membalas pesan pengguna. Berikut adalah daftar agen yang ada di akun Anda.",
     "LEARN_MORE": "Pelajari tentang peran pengguna",
@@ -327,6 +328,7 @@
       "CONNECTED_DESC": "Akun Google Anda telah terhubung.",
       "RETRY_AUTH_BTN": "Coba Ulang Autentikasi",
       "RETRY_AUTH_LOADING": "Mencoba Ulang Autentikasi...",
+      "DISC_BTN": "Putuskan Koneksi",
       "CREATE_SHEETS_BTN": "Buat Sheets Input & Output",
       "CREATE_SHEETS_LOADING": "Membuat Sheets...",
       "INPUT_SHEET_LABEL": "Input Sheet",

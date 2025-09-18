@@ -2,6 +2,7 @@
   "AGENT_MGMT": {
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Add Agent",
+    "AUTH_ERROR": "Error authenticating with Google. Please re-authenticate.",
     "LOADING": "Fetching Agent List",
     "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
     "LEARN_MORE": "Learn about user roles",
@@ -222,6 +223,7 @@
       "CONNECTED_DESC": "Your Google account is connected.",
       "RETRY_AUTH_BTN": "Retry Authentication",
       "RETRY_AUTH_LOADING": "Retrying Authentication...",
+      "DISC_BTN": "Disconnect",
       "CREATE_SHEETS_BTN": "Create Input & Output Sheets",
       "CREATE_SHEETS_LOADING": "Creating Sheets...",
       "INPUT_SHEET_LABEL": "Input Sheet",

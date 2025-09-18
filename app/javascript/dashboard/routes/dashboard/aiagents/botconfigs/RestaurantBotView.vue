@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue';
+import { ref, reactive, onMounted, computed, watch } from 'vue';
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
 import aiAgents from '../../../../api/aiAgents';
 import { useI18n } from 'vue-i18n';
@@ -44,6 +44,27 @@ const sheets = computed(() => props.googleSheetsAuth.spreadsheetUrls.restaurant)
 const notification = ref(null);
 const menuBookLink = ref('');
 const syncingColumns = ref(false);
+const authError = computed(() => props.googleSheetsAuth.error);
+
+watch(authError, (newError) => {
+  if (newError) {
+    notification.value = { message: t('AGENT_MGMT.AUTH_ERROR'), type: 'error' };
+  }
+  else {
+    notification.value = null;
+  }
+}, { immediate: true });
+
+function retryAuthentication() {
+  connectGoogle();
+  authError.value = null;
+}
+
+
+function disconnectGoogle() {
+  // TODO: Implement disconnect logic
+  console.log('Disconnect Google account clicked');
+}
 
 // Orders & Costs Tab
 const orderSettings = reactive({
@@ -268,14 +289,30 @@ function saveOrderSettings() {
               <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.RESTAURANT_BOT.CONNECTED_HEADER') }}</h3>
               <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.RESTAURANT_BOT.CONNECTED_DESC') }}</p>
               <p class="mt-2 text-sm text-gray-500">{{ account?.email }}</p>
-              <button
-                class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                @click="createSheets"
-                :disabled="loading"
-              >
-                <span v-if="loading">{{ $t('AGENT_MGMT.RESTAURANT_BOT.CREATE_SHEETS_LOADING') }}</span>
-                <span v-else>{{ $t('AGENT_MGMT.RESTAURANT_BOT.CREATE_SHEETS_BTN') }}</span>
-              </button>
+              <div class="flex gap-2 center justify-center mt-4">
+                  <template v-if="!authError">
+                    <button
+                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                      @click="createSheets"
+                      :disabled="loading"
+                    >
+                      <span v-if="loading">{{ $t('AGENT_MGMT.RESTAURANT_BOT.CREATE_SHEETS_LOADING') }}</span>
+                      <span v-else>{{ $t('AGENT_MGMT.RESTAURANT_BOT.CREATE_SHEETS_BTN') }}</span>
+                    </button>
+                  </template>
+                  <template v-else>
+                    <div class="mt-3 text-red-600 text-sm flex items-center gap-2">
+                      <button
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                        @click="retryAuthentication"
+                        :disabled="loading"
+                      >
+                        <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                        <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                      </button>
+                    </div>
+                  </template>
+              </div>
             </div>
           </div>
 
@@ -302,7 +339,7 @@ function saveOrderSettings() {
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-col gap-2">
+                  <div v-if="!ticketAuthError" class="flex flex-col gap-2">
                     <a 
                       :href="sheets.input" 
                       target="_blank" 
@@ -318,7 +355,8 @@ function saveOrderSettings() {
 
                 <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
                   <div class="flex justify-start">
-                    <button
+                    <div v-if="!authError">
+                      <button
                       @click="syncScheduleColumns"
                       :disabled="syncingColumns"
                       class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 h-10"
@@ -332,6 +370,27 @@ function saveOrderSettings() {
                       </svg>
                       {{ syncingColumns ? 'Syncing...' : $t('AGENT_MGMT.BOOKING_BOT.SYNC_BUTTON') }}
                     </button>
+                    </div>
+                    <div v-else class="text-red-600 text-sm flex items-center gap-2">
+                      <button
+                        @click="retryAuthentication"
+                        class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 pr-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20"
+                        :disabled="loading"
+                      >
+                        <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                        <span>{{ t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                      </button>
+                    </div>
+                    <div class="gap-2 items-center">
+                      <button
+                        @click="disconnectGoogle"
+                        class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
+                        :disabled="loading"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                        <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

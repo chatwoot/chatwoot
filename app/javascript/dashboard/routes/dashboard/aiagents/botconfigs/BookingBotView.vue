@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue';
+import { ref, reactive, onMounted, computed, watch } from 'vue';
 import googleSheetsExportAPI from '../../../../api/googleSheetsExport';
 import FileKnowledgeSources from '../knowledge-sources/FileKnowledgeSources.vue';
 import aiAgents from '../../../../api/aiAgents';
@@ -43,6 +43,25 @@ const loading = computed(() => props.googleSheetsAuth.loading);
 const account = computed(() => props.googleSheetsAuth.account);
 const sheets = computed(() => props.googleSheetsAuth.spreadsheetUrls.booking);
 const notification = ref(null);
+const authError = computed(() => props.googleSheetsAuth.error);
+
+watch(authError, (newError) => {
+  if (newError) {
+    notification.value = { message: t('AGENT_MGMT.AUTH_ERROR'), type: 'error' };
+  } else {
+    notification.value = null;
+  }
+}, { immediate: true });
+
+function retryAuthentication() {
+  connectGoogle();
+  authError.value = null;
+}
+
+function disconnectGoogle() {
+  // TODO: Implement disconnect logic
+  console.log('Disconnect Google account clicked');
+}
 
 // Save state
 const isSaving = ref(false);
@@ -176,6 +195,31 @@ async function save() {
     isSaving.value = false;
   }
 }
+
+// async function save() {
+//   try {
+//     isSaving.value = true;
+
+//     // TODO: API call to save booking bot configuration
+//     const configData = {
+//       selectedTemplate: selectedTemplate.value,
+//       minDuration: minDuration.value,
+//       resourceColumns: resourceColumn.value,
+//       locationColumns: locationColumn.value,
+//       sheets: { ...sheets }
+//     };
+//     // eslint-disable-next-line no-console
+//     console.log('configData:', configData);
+//     await new Promise(resolve => setTimeout(resolve, 1000));
+//     useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_SUCCESS'));
+//   } catch (e) {
+//     useAlert(t('AGENT_MGMT.BOOKING_BOT.SAVE_ERROR'));
+//     // eslint-disable-next-line no-console
+//     console.error('Save error:', e);
+//   } finally {
+//     isSaving.value = false;
+//   }
+// }
 
 // Load configuration data on mount
 onMounted(async () => {
@@ -313,7 +357,7 @@ onMounted(async () => {
                           </div>
                         </div>
                       </div>
-                      <div class="flex flex-col gap-2">
+                      <div v-if="!ticketAuthError" class="flex flex-col gap-2">
                         <a 
                           :href="sheets.input" 
                           target="_blank" 
@@ -361,20 +405,39 @@ onMounted(async () => {
 
                       <!-- Sync Button for Resource and Location Lists -->
                       <div class="flex justify-start">
+                        <div v-if="!authError">
+                          <button
+                            @click="syncScheduleColumns"
+                            :disabled="syncingColumns"
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 h-10"
+                          >
+                            <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                              <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
+                            </svg>
+                            <svg v-else class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            {{ syncingColumns ? 'Syncing...' : $t('AGENT_MGMT.BOOKING_BOT.SYNC_BUTTON') }}
+                          </button>
+                        </div>
+                        <div v-else class="text-red-600 text-sm flex items-center gap-2">
                         <button
-                          @click="syncScheduleColumns"
-                          :disabled="syncingColumns"
-                          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 h-10"
+                          @click="retryAuthentication"
+                          class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20"
+                          :disabled="loading"
                         >
-                          <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
-                            <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
-                          </svg>
-                          <svg v-else class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                          </svg>
-                          {{ syncingColumns ? 'Syncing...' : $t('AGENT_MGMT.BOOKING_BOT.SYNC_BUTTON') }}
+                          <span>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
                         </button>
+                      </div>
+                      <button
+                        @click="disconnectGoogle"
+                        class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
+                        :disabled="loading"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                        <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                      </button>
                       </div>
                     </div>
                   </div>
@@ -393,16 +456,18 @@ onMounted(async () => {
                           <p class="text-sm text-slate-600 dark:text-slate-400">{{ $t('AGENT_MGMT.BOOKING_BOT.OUTPUT_SHEET_DESC') }}</p>
                         </div>
                       </div>
-                      <a 
-                        :href="sheets.output" 
-                        target="_blank" 
-                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
-                      >
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                        </svg>
-                        {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
-                      </a>
+                      <div v-if="!ticketAuthError">
+                        <a 
+                          :href="sheets.output" 
+                          target="_blank" 
+                          class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                        >
+                          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                          </svg>
+                          {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
