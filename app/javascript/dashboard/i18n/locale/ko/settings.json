@@ -80,6 +80,11 @@
         "NOTE": "암호를 업데이트하면 여러 장치의 로그인이 재설정됩니다.",
         "BTN_TEXT": "Change password"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "엑세스 토큰",
         "NOTE": "API 기반 통합을 구축하는 경우 이 토큰을 사용할 수 있음",
