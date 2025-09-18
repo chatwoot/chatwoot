@@ -80,6 +80,11 @@
         "NOTE": "A jelszó frissítása minden beléptetett eszközt kiléptet.",
         "BTN_TEXT": "Jelszó megváltoztatása"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Hozzáférési kulcs",
         "NOTE": "Ez a kulcs akkor használható, ha API-alapú integrációt építesz",
