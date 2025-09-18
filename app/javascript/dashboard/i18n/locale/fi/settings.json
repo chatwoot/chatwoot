@@ -80,6 +80,11 @@
         "NOTE": "Salasanan vaihtaminen kirjaa sinut ulos muilta laitteilta.",
         "BTN_TEXT": "Change password"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "Tätä tunnusta voidaan käyttää, jos olet rakentamassa API-pohjaista integraatiota",
