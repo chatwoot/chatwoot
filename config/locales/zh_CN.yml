@@ -26,6 +26,9 @@ zh_CN:
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: 您的收件箱删除请求将在一段时间内处理。
   errors:
     validations:
@@ -41,6 +44,8 @@ zh_CN:
       failed: 注册失败
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: 错误的数据类型
@@ -209,6 +214,7 @@ zh_CN:
     reply:
       email:
         header:
+          notifications: '消息通知'
           from_with_name: '%{assignee_name} 来自 %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} 来自 %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} 来自 %{business_name} <%{from_email}>'

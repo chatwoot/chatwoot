@@ -26,6 +26,9 @@ lt:
   messages:
     reset_password_success: Kietai! Slaptažodžio nustatymo iš naujo užklausa įvykdyta. Instrukcijų ieškokite savo pašte.
     reset_password_failure: Oho! Nepavyko rasti vartotojo su nurodytu el. pašto adresu.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Jūsų gautųj laiškų aplanko ištrynimo užklausa bus apdorota po kurio laiko.
   errors:
     validations:
@@ -41,6 +44,8 @@ lt:
       failed: Prisijungimas nesėkmingas
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Neteisingas duomenų tipas
@@ -209,6 +214,7 @@ lt:
     reply:
       email:
         header:
+          notifications: 'Perspėjimai'
           from_with_name: '%{assignee_name} nuo %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} nuo %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} nuo %{business_name} <%{from_email}>'
