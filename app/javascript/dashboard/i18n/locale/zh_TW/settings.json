@@ -80,6 +80,11 @@
         "NOTE": "更新您的密碼會在多個設備中重置您的登入資訊。",
         "BTN_TEXT": "變更密碼"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "訪問 token",
         "NOTE": "如果要構建基於 API 的整合，則可以使用此 token",
