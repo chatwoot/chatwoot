@@ -80,6 +80,11 @@
         "NOTE": "A atualização da sua senha redefiniria o seu login em vários dispositivos.",
         "BTN_TEXT": "Mudar Senha"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
         "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API",
