@@ -80,6 +80,11 @@
         "NOTE": "Að uppfæra lykilorðið þitt myndi endurstilla innskráningar þínar í mörgum tækjum.",
         "BTN_TEXT": "Breyta lykilorði"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Aðgangslykill",
         "NOTE": "Þetta token er hægt að nota ef þú ert að byggja upp API byggða samþættingu",
