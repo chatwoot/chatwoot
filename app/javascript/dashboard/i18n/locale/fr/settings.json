@@ -80,6 +80,11 @@
         "NOTE": "Mettre à jour votre mot de passe réinitialisera vos connexions sur plusieurs appareils.",
         "BTN_TEXT": "Modifier le mot de passe"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Jeton d'accès",
         "NOTE": "Ce jeton peut être utilisé si vous construisez une intégration basée sur l'API",
