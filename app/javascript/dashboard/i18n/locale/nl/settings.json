@@ -80,6 +80,11 @@
         "NOTE": "Het bijwerken van uw wachtwoord zou uw logins op meerdere apparaten opnieuw instellen.",
         "BTN_TEXT": "Wachtwoord wijzigen"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Toegangs-token",
         "NOTE": "Dit token kan worden gebruikt als u een API gebaseerde integratie bouwt",
