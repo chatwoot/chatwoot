@@ -80,6 +80,11 @@
         "NOTE": "നിങ്ങളുടെ പാസ്‌വേഡ് അപ്‌ഡേറ്റ് ചെയ്യുന്നത് ഒന്നിലധികം ഉപകരണങ്ങളിൽ നിങ്ങളുടെ ലോഗിനുകൾ പുനഃസജ്ജീകരിക്കും.",
         "BTN_TEXT": "Change password"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "ആക്സസ് ടോക്കൺ",
         "NOTE": "നിങ്ങൾ ഒരു എപിഐ അടിസ്ഥാനമാക്കിയുള്ള സംയോജനം നിർമ്മിക്കുകയാണെങ്കിൽ ഈ ടോക്കൺ ഉപയോഗിക്കാൻ കഴിയും",
