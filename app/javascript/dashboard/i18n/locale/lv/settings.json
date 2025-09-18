@@ -80,6 +80,11 @@
         "NOTE": "Paroles atjaunināšana varētu atiestatīt jūsu pierakstīšanos vairākās ierīcēs.",
         "BTN_TEXT": "Mainīt paroli"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Piekļuves Token",
         "NOTE": "Šo token var izmantot, ja veidojat uz API balstītu integrāciju",
