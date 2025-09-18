@@ -80,6 +80,11 @@
         "NOTE": "تعديل كلمة المرور الخاصة بك سيعيد ضبط تسجيلات الدخول الخاصة بك في الأجهزة الأخرى.",
         "BTN_TEXT": "تغيير كلمة المرور"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "رمز المصادقة",
         "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع Chatwoot",
