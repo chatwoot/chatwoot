@@ -80,6 +80,11 @@
         "NOTE": "Izmena lozinke će resetovati vaše prijave na više uređaja.",
         "BTN_TEXT": "Promeni lozinku"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token za pristup",
         "NOTE": "Ovaj token se može koristiti ako izgrađujete integraciju zasnovanu na API-ju",
