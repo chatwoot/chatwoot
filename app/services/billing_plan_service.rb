@@ -25,7 +25,7 @@ class BillingPlanService
   def can_use_feature?(feature)
     return true unless billing_plan # Se não tem plano, permite tudo (compatibilidade)
 
-    billing_plan.has_feature?(feature)
+    billing_plan.feature?(feature)
   end
 
   # Verificar se conta pode adicionar um recurso
@@ -217,12 +217,12 @@ class BillingPlanService
 
   def llm_credits_limit
     purchased = llm_credits_purchased
-    purchased == 0 ? resource_limit(:llm_credits) : purchased
+    purchased.zero? ? resource_limit(:llm_credits) : purchased
   end
 
   def llm_credits_usage_percentage
     limit = llm_credits_limit
-    return 0 if limit == -1 || limit == 0
+    return 0 if limit == -1 || limit.zero?
 
     used = current_llm_credits_used
     ((used.to_f / limit) * 100).round(1)
@@ -238,7 +238,7 @@ class BillingPlanService
   # Usar créditos LLM
   def use_llm_credits(amount)
     return false unless billing_plan
-    return false if llm_credits_remaining == 0
+    return false if llm_credits_remaining.zero?
 
     current_used = current_llm_credits_used
     new_used = current_used + amount

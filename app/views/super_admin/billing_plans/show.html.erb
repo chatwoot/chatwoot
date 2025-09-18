@@ -263,19 +263,21 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- Modal Logic ---
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', event => {
     event.preventDefault();
-    
+
     const selectedRadio = form.querySelector('input[type="radio"]:checked');
-    const currentRadio = form.querySelector(`input[type="radio"][value="${currentPlanName}"]`);
-    
+    const currentRadio = form.querySelector(
+      `input[type="radio"][value="${currentPlanName}"]`
+    );
+
     if (selectedRadio && selectedRadio.value !== currentPlanName) {
       const currentPlanDetails = `${currentRadio.dataset.planName} (R$ ${currentRadio.dataset.planPrice}/mês)`;
       const newPlanDetails = `${selectedRadio.dataset.planName} (R$ ${selectedRadio.dataset.planPrice}/mês)`;
-      
+
       currentPlanInfo.textContent = currentPlanDetails;
       newPlanInfo.textContent = newPlanDetails;
-      
+
       modal.classList.remove('hidden');
       modal.classList.add('flex');
     }
@@ -292,7 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Close modal on escape key
-  document.addEventListener('keydown', (event) => {
+  document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       closeModal();
     }

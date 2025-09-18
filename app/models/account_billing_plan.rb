@@ -109,7 +109,7 @@ class AccountBillingPlan < ApplicationRecord
     count <= limit
   end
 
-  def has_feature?(feature)
+  def feature?(feature)
     plan_details[:features].include?(feature)
   end
 
