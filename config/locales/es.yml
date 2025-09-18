@@ -18,10 +18,18 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 es:
   hello: 'Hola mundo'
+  inbox:
+    reauthorization:
+      success: 'Canal reautorizado exitosamente'
+      not_required: 'La reautorización no es necesaria para esta bandeja de entrada'
+      invalid_channel: 'Tipo de canal inválido para reautorización'
   messages:
     reset_password_success: '¡Genial! La solicitud de restablecimiento de contraseña ha sido exitosa. Revisa tu correo para ver las instrucciones.'
     reset_password_failure: '¡Uh ho! No hemos podido encontrar ningún usuario con el correo electrónico especificado.'
-    inbox_deletetion_response: Su solicitud de eliminación de la bandeja de entrada será procesada en algún tiempo.
+    reset_password_saml_user: 'Esta cuenta usa autenticación SAML. El restablecimiento de contraseña no está disponible. Por favor, contacta a tu administrador.'
+    login_saml_user: 'Esta cuenta usa autenticación SAML. Por favor, inicia sesión a través del proveedor SAML de tu organización.'
+    saml_not_available: 'La autenticación SAML no está disponible en esta instalación.'
+    inbox_deletetion_response: 'Su solicitud de eliminación de la bandeja de entrada será procesada en algún tiempo.'
   errors:
     validations:
       presence: no debe estar en blanco
@@ -35,6 +43,10 @@ es:
       invalid_params: 'Inválido, por favor comprueba los parámetros de registro e inténtalo de nuevo'
       failed: Registro fallido
       account_name_already_exists: 'El nombre de la empresa %{name} ya existe'
+    assignment_policy:
+      not_found: Política de asignación no encontrada
+    saml:
+      feature_not_enabled: La funcionalidad SAML no está habilitada para esta cuenta
     data_import:
       data_type:
         invalid: Tipo de datos no válido
@@ -54,6 +66,13 @@ es:
       invalid_message_type: 'Tipo de mensaje inválido. Acción no permitida'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, inténtalo de nuevo'
+    whatsapp:
+      token_exchange_failed: 'Error al intercambiar código por token de acceso. Por favor, inténtalo de nuevo.'
+      invalid_token_permissions: 'El token de acceso no tiene los permisos requeridos para WhatsApp.'
+      phone_info_fetch_failed: 'Error al obtener información del número de teléfono. Por favor, inténtalo de nuevo.'
+      reauthorization:
+        generic: 'Error al reautorizar WhatsApp. Por favor, inténtalo de nuevo.'
+        not_supported: 'La reautorización no es compatible con este tipo de canal de WhatsApp.'
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
@@ -70,7 +89,7 @@ es:
       invalid_query_operator: El operador de consulta debe ser "Y" o "O".
       invalid_value: Valor no válido. Los valores proporcionados para %{attribute_name} no son válidos
     custom_attribute_definition:
-      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+      key_conflict: La clave proporcionada no está permitida ya que podría entrar en conflicto con los atributos predeterminados.
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     utc_warning: El informe generado está en zona horaria UTC
@@ -92,7 +111,7 @@ es:
       conversations_count: Núm. de conversaciones
       avg_first_response_time: Promedio de tiempo de la primera respuesta
       avg_resolution_time: Tiempo promedio de resolución
-      avg_reply_time: Avg reply time
+      avg_reply_time: Tiempo promedio de respuesta
       resolution_count: Número de resoluciones
     team_csv:
       team_name: Nombre del equipo
@@ -102,7 +121,7 @@ es:
       resolution_count: Número de resoluciones
       avg_customer_waiting_time: Tiempo promedio de espera del cliente
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Zona horaria
     sla_csv:
       conversation_id: ID de conversación
       sla_policy_breached: Política de SLA
@@ -136,19 +155,19 @@ es:
     no_content: 'Sin contenido'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: 'Transferir a otro agente para asistencia adicional.'
     messages:
       instagram_story_content: '%{story_sender} te mencionó en la historia: '
       instagram_deleted_story_content: Esta historia ya no está disponible.
       deleted: Este mensaje se ha eliminado
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: 'Elegir un elemento'
       delivery_status:
         error_code: 'Código de error: %{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
-        open: 'Conversation was marked open by %{user_name}'
+        resolved: 'La conversación fue marcada como resuelta por %{user_name} debido a inactividad'
+        open: 'La conversación fue marcada como abierta por %{user_name}'
       status:
         resolved: 'La conversación fue marcada por %{user_name}'
         contact_resolved: 'Conversación fue resuelta por %{contact_name}'
@@ -156,8 +175,8 @@ es:
         pending: 'La conversación fue marcada como pendiente por %{user_name}'
         snoozed: 'La conversación fue pospuesta por %{user_name}'
         auto_resolved_days: 'La conversación fue marcada por el sistema debido a %{count} días de inactividad'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
+        auto_resolved_hours: 'La conversación fue marcada como resuelta por el sistema debido a %{count} horas de inactividad'
+        auto_resolved_minutes: 'La conversación fue marcada como resuelta por el sistema debido a %{count} minutos de inactividad'
         system_auto_open: El sistema reabrió la conversación debido a un nuevo mensaje entrante.
       priority:
         added: '%{user_name} estableció la prioridad a %{new_priority}'
@@ -178,11 +197,13 @@ es:
         added: '%{user_name} agregó la política de SLA %{sla_name}'
         removed: '%{user_name} eliminó la política de SLA %{sla_name}'
       linear:
-        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
-        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
-        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+        issue_created: 'El issue de Linear %{issue_id} fue creado por %{user_name}'
+        issue_linked: 'El issue de Linear %{issue_id} fue enlazado por %{user_name}'
+        issue_unlinked: 'El issue de Linear %{issue_id} fue desenlazado por %{user_name}'
       csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: 'Encuesta CSAT no enviada debido a restricciones de mensajes salientes'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Mensaje de resolución automática no enviado debido a restricciones de mensajes salientes'
       muted: '%{user_name} ha silenciado la conversación'
       unmuted: '%{user_name} ha anulado el silenciado de la conversación'
       auto_resolution_message: 'Resolviendo la conversación, ya que ha estado inactiva durante un tiempo. Por favor, inicia una nueva conversación si necesitas más ayuda.'
@@ -194,6 +215,7 @@ es:
     reply:
       email:
         header:
+          notifications: 'Notificaciones'
           from_with_name: '%{assignee_name} de %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} de %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} de %{business_name} <%{from_email}>'
@@ -206,6 +228,19 @@ es:
       transcript_subject: 'Transcripción de la conversación'
     survey:
       response: 'Por favor califica esta conversación, %{link}'
+    ai_feedback:
+      providing_feedback_for: 'Proporcionando retroalimentación para mensaje de IA:'
+      no_content: '[El mensaje de IA no tiene contenido]'
+      cancel_feedback: 'Cancelar retroalimentación'
+      empty_feedback_error: 'Por favor proporciona texto de retroalimentación antes de enviar.'
+      submit_success: 'Retroalimentación de IA enviada exitosamente'
+      submit_error: 'Error al enviar retroalimentación de IA. Por favor, inténtalo de nuevo.'
+    replybox:
+      ai_feedback_mode: 'Retroalimentación de IA'
+      ai_feedback_input: 'Proporciona retroalimentación detallada sobre este mensaje generado por IA...'
+      submit_feedback: 'Enviar Retroalimentación'
+    footer:
+      ai_feedback_input: 'Proporciona retroalimentación detallada sobre este mensaje generado por IA...'
   contacts:
     online:
       delete: '%{contact_name} está conectado, por favor inténtalo más tarde'
@@ -216,48 +251,73 @@ es:
       description: 'Las aplicaciones de panel te permiten crear e incrustar aplicaciones que muestran información de usuario, pedidos o historial de pagos, proporcionando más contexto a tus agentes de soporte al cliente.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
+      short_description: 'Inicia llamadas de video/voz con clientes directamente desde Chatwoot.'
       description: 'Dyte es un producto que integra funcionalidades de audio y video en tu aplicación. Con esta integración, tus agentes pueden iniciar llamadas de video/voz con tus clientes directamente desde Chatwoot.'
       meeting_name: '%{agent_name} ha iniciado una reunión'
     slack:
       name: 'Slack'
-      short_description: 'Receive notifications and respond to conversations directly in Slack.'
+      short_description: 'Recibe notificaciones y responde a conversaciones directamente en Slack.'
       description: 'Integra Chatwoot con Slack para mantener a tu equipo sincronizado. Esta integración te permite recibir notificaciones de nuevas conversaciones y responder directamente desde la interfaz de Slack.'
     webhooks:
       name: 'Webhook'
       description: 'Los eventos de webhook proporcionan actualizaciones en tiempo real sobre las actividades en tu cuenta de Chatwoot. Puedes suscribirte a los eventos que prefieras y Chatwoot te enviará llamadas HTTP con las actualizaciones.'
     dialogflow:
       name: 'Dialogflow'
-      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
+      short_description: 'Construye chatbots para manejar consultas iniciales antes de transferir a agentes.'
       description: 'Construye chatbots con Dialogflow e intégralos fácilmente en tu bandeja de entrada. Estos bots pueden manejar consultas iniciales antes de transferirlas a un agente de servicio al cliente.'
     google_translate:
       name: 'Traductor de Google'
-      short_description: 'Automatically translate customer messages for agents.'
+      short_description: 'Traduce automáticamente los mensajes de clientes para agentes.'
       description: 'Integra Google Translate para ayudar a los agentes a traducir fácilmente los mensajes de los clientes. Esta integración detecta automáticamente el idioma y lo convierte al idioma preferido del agente o del administrador.'
     openai:
       name: 'OpenAI'
-      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
+      short_description: 'Sugerencias de respuestas con IA, resúmenes y mejora de mensajes.'
       description: 'Aprovecha el poder de los grandes modelos de lenguaje de OpenAI con funciones como sugerencias de respuestas, resúmenes, reformulación de mensajes, corrección ortográfica y clasificación de etiquetas.'
     linear:
       name: 'Lineal'
-      short_description: 'Create and link Linear issues directly from conversations.'
+      short_description: 'Crea y enlaza issues de Linear directamente desde conversaciones.'
       description: 'Crea problemas en Linear directamente desde tu ventana de conversación. Alternativamente, enlaza problemas existentes en Linear para un proceso de seguimiento de problemas más eficiente y ágil.'
+    notion:
+      name: 'Notion'
+      short_description: 'Integra bases de datos, documentos y páginas directamente con Captain.'
+      description: 'Conecta tu espacio de trabajo de Notion para permitir que Captain acceda y genere respuestas inteligentes usando contenido de tus bases de datos, documentos y páginas para proporcionar soporte al cliente más contextual.'
     shopify:
       name: 'Shopify'
-      short_description: 'Access order details and customer data from your Shopify store.'
-      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+      short_description: 'Accede a detalles de pedidos y datos de clientes desde tu tienda de Shopify.'
+      description: 'Conecta tu tienda de Shopify para acceder a detalles de pedidos, información de clientes y datos de productos directamente dentro de tus conversaciones y ayuda a tu equipo de soporte a proporcionar asistencia más rápida y contextual a tus clientes.'
     leadsquared:
       name: 'LeadSquared'
-      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
-      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+      short_description: 'Sincroniza tus contactos y conversaciones con LeadSquared CRM.'
+      description: 'Sincroniza tus contactos y conversaciones con LeadSquared CRM. Esta integración crea automáticamente leads en LeadSquared cuando se agregan nuevos contactos, y registra la actividad de conversaciones para proporcionar a tu equipo de ventas contexto completo.'
   captain:
+    copilot_message_required: El mensaje es obligatorio
     copilot_error: 'Conecte un asistente a esta bandeja de entrada para utilizar Copilot'
     copilot_limit: 'Te quedaste sin créditos de Copilot. Puedes comprar más créditos desde la sección de facturación.'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: 'Usando herramienta %{function_name}'
+      completed_tool_call: 'Llamada de herramienta %{function_name} completada'
+      invalid_tool_call: 'Llamada de herramienta inválida'
+      tool_not_available: 'Herramienta no disponible'
+    documents:
+      limit_exceeded: 'Límite de documentos excedido'
+      pdf_format_error: 'debe ser un archivo PDF'
+      pdf_size_error: 'debe ser menor a 10MB'
+      pdf_upload_failed: 'Error al subir PDF a OpenAI'
+      pdf_upload_success: 'PDF subido exitosamente con file_id: %{file_id}'
+      pdf_processing_failed: 'Error al procesar documento PDF %{document_id}: %{error}'
+      pdf_processing_success: 'Documento PDF %{document_id} procesado exitosamente'
+      faq_generation_complete: 'Generación de FAQ completada. Total de FAQs creadas: %{count}'
+      using_paginated_faq: 'Usando generación de FAQ paginada para documento %{document_id}'
+      using_standard_faq: 'Usando generación de FAQ estándar para documento %{document_id}'
+      response_creation_error: 'Error al crear documento de respuesta: %{error}'
+      missing_openai_file_id: 'El documento debe tener openai_file_id para procesamiento paginado'
+      openai_api_error: 'Error de API de OpenAI: %{error}'
+      starting_paginated_faq: 'Iniciando generación de FAQ paginada (%{pages_per_chunk} páginas por fragmento)'
+      stopping_faq_generation: 'Deteniendo procesamiento. Razón: %{reason}'
+      paginated_faq_complete: 'Generación paginada completada. Total de FAQs: %{total_faqs}, Páginas procesadas: %{pages_processed}'
+      processing_pages: 'Procesando páginas %{start}-%{end} (iteración %{iteration})'
+      chunk_generated: 'Fragmento generó %{chunk_faqs} FAQs. Total hasta ahora: %{total_faqs}'
+      page_processing_error: 'Error procesando páginas %{start}-%{end}: %{error}'
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...
@@ -283,7 +343,7 @@ es:
       made_with: Hecho con
     header:
       go_to_homepage: Sitio web
-      visit_website: Visit website
+      visit_website: Visitar sitio web
       appearance:
         system: Sistema
         light: Claro
@@ -317,28 +377,27 @@ es:
       one: '%{count} segundo'
       other: '%{count} segundos'
   automation:
-    system_name: 'Automation System'
+    system_name: 'Sistema de Automatización'
   crm:
-    no_message: 'No messages in conversation'
-    attachment: '[Attachment: %{type}]'
+    no_message: 'No hay mensajes en la conversación'
+    attachment: '[Adjunto: %{type}]'
     no_content: '[Sin contenido]'
     created_activity: |
-      New conversation started on %{brand_name}
+      Nueva conversación iniciada en %{brand_name}
 
-      Channel: %{channel_info}
-      Created: %{formatted_creation_time}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      Canal: %{channel_info}
+      Creado: %{formatted_creation_time}
+      ID de Conversación: %{display_id}
+      Ver en %{brand_name}: %{url}
     transcript_activity: |
-      Conversation Transcript from %{brand_name}
+      Transcripción de Conversación de %{brand_name}
 
-      Channel: %{channel_info}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      Canal: %{channel_info}
+      ID de Conversación: %{display_id}
+      Ver en %{brand_name}: %{url}
 
-      Transcript:
+      Transcripción:
       %{format_messages}
-
   add_knowledge_source_button: 'Agregar fuente de conocimiento'
   knowledge_source:
     choose_type: 'Elegir tipo'
@@ -369,3 +428,15 @@ es:
     add_source: 'Agregar fuente'
     success_message: 'Fuente de conocimiento agregada exitosamente'
     create_error: 'Error al crear fuente de conocimiento'
+
+  agent_capacity_policy:
+    inbox_already_assigned: 'La bandeja de entrada ya ha sido asignada a esta política'
+  portals:
+    send_instructions:
+      email_required: 'El email es requerido'
+      invalid_email_format: 'Formato de email inválido'
+      custom_domain_not_configured: 'El dominio personalizado no está configurado'
+      instructions_sent_successfully: 'Instrucciones enviadas exitosamente'
+      subject: 'Terminar configuración de %{custom_domain}'
+    ssl_status:
+      custom_domain_not_configured: 'El dominio personalizado no está configurado'

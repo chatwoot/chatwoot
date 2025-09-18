@@ -40,6 +40,17 @@ class Channel::FacebookPage < ApplicationRecord
                                                           }).perform
   end
 
+  def create_contact_inbox_with_identifier(instagram_id, name, username)
+    @contact_inbox = ::ContactInboxWithContactBuilder.new({
+                                                            source_id: instagram_id,
+                                                            inbox: inbox,
+                                                            contact_attributes: {
+                                                              name: name,
+                                                              identifier: username
+                                                            }
+                                                          }).perform
+  end
+
   def subscribe
     # ref https://developers.facebook.com/docs/messenger-platform/reference/webhook-events
     Facebook::Messenger::Subscriptions.subscribe(

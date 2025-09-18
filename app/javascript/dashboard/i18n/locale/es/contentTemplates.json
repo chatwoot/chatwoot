@@ -1,0 +1,51 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Plantillas de Twilio",
+      "SUBTITLE": "Selecciona la plantilla de Twilio que quieres enviar",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configurar plantilla: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Buscar plantillas",
+      "NO_TEMPLATES_FOUND": "No se encontraron plantillas para",
+      "NO_CONTENT": "Sin contenido",
+      "HEADER": "Encabezado",
+      "BODY": "Cuerpo",
+      "FOOTER": "Pie de página",
+      "BUTTONS": "Botones",
+      "CATEGORY": "Categoría",
+      "MEDIA_CONTENT": "Contenido Multimedia",
+      "MEDIA_CONTENT_FALLBACK": "contenido multimedia",
+      "NO_TEMPLATES_AVAILABLE": "No hay plantillas de Twilio disponibles. Haz clic en actualizar para sincronizar plantillas desde Twilio.",
+      "REFRESH_BUTTON": "Actualizar plantillas",
+      "REFRESH_SUCCESS": "Actualización de plantillas iniciada. Puede tomar un par de minutos para actualizar.",
+      "REFRESH_ERROR": "Error al actualizar plantillas. Por favor, inténtalo de nuevo.",
+      "LABELS": {
+        "LANGUAGE": "Idioma",
+        "TEMPLATE_BODY": "Cuerpo de plantilla",
+        "CATEGORY": "Categoría"
+      },
+      "TYPES": {
+        "MEDIA": "Multimedia",
+        "QUICK_REPLY": "Respuesta Rápida",
+        "TEXT": "Texto"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Variables",
+      "LANGUAGE": "Idioma",
+      "CATEGORY": "Categoría",
+      "VARIABLE_PLACEHOLDER": "Introduzca el valor de {variable}",
+      "GO_BACK_LABEL": "Volver",
+      "SEND_MESSAGE_LABEL": "Enviar mensaje",
+      "FORM_ERROR_MESSAGE": "Por favor, rellene todas las variables antes de enviar",
+      "MEDIA_HEADER_LABEL": "Encabezado {type}",
+      "MEDIA_URL_LABEL": "Introduzca la URL completa del medio",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Atrás",
+      "SEND_MESSAGE_BUTTON": "Enviar mensaje"
+    }
+  }
+}

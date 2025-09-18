@@ -17,7 +17,7 @@ RSpec.describe Channel::Instagram do
   end
 
   describe '#create_contact_inbox_with_identifier' do
-    let(:inbox) { create(:inbox, channel: channel) }
+    let(:inbox) { channel.inbox }
 
     it 'creates contact inbox with identifier' do
       instagram_id = 'ig_12345'

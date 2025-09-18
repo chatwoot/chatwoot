@@ -238,7 +238,14 @@ onMounted(async () => {
         >
           {{ greetingMessage }}
         </p>
-        <p class="text-slate-600 dark:text-slate-400 text-base">
+        <p
+          v-if="
+            $t('ONBOARDING.DESCRIPTION', {
+              installationName: globalConfig.installationName,
+            })
+          "
+          class="text-slate-600 dark:text-slate-400 text-base text-center"
+        >
           {{
             $t('ONBOARDING.DESCRIPTION', {
               installationName: globalConfig.installationName,

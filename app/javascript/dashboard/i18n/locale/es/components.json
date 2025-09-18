@@ -48,6 +48,9 @@
     "MINUTES": "Minutos",
     "HOURS": "Horas",
     "DAYS": "Días",
-    "PLACEHOLDER": "Ingrese duración"
+    "PLACEHOLDER": "Ingresar duración"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "¡Muy pronto!"
   }
 }

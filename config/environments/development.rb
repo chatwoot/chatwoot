@@ -64,6 +64,8 @@ Rails.application.configure do
 
   # Disable host check during development - REMOVED FOR EXPLICIT HOSTS
   # config.hosts = nil
+
+
   
   # GitHub Codespaces configuration
   if ENV['CODESPACES']

@@ -24,6 +24,7 @@
     "ADD": {
       "TITLE": "Añadir miembro a tu equipo",
       "DESC": "Puedes añadir personas que podrán manejar el soporte para tus canales.",
+      "INVITATION_DESC": "Los miembros del equipo recibirán invitaciones por correo electrónico y deben aceptarlas para unirse a tu cuenta. Siempre puedes invitar más miembros del equipo más tarde desde la sección Miembros.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {

@@ -35,6 +35,11 @@
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -45,7 +50,9 @@
     "SAVE_CONTACT": "Save Contact",
     "NO_CONTENT": "No content to display",
     "CARD": {
-      "VIEW_MORE": "View More"
+      "VIEW_MORE": "View More",
+      "SHOW_LABELS": "Show labels",
+      "HIDE_LABELS": "Hide labels"
     },
     "SHARED_ATTACHMENT": {
       "CONTACT": "{sender} has shared a contact",
@@ -65,9 +72,16 @@
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
-    "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
@@ -147,6 +161,9 @@
       "AGENTS_LOADING": "Loading members...",
       "ASSIGN_TEAM": "Assign team",
       "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
@@ -190,7 +207,6 @@
       "DRAG_DROP": "Drag and drop here to attach",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
-      "AI_FEEDBACK_MODE": "AI Feedback",
       "AI_FEEDBACK_INPUT": "Provide feedback about this AI response...",
       "SUBMIT_FEEDBACK": "Submit Feedback",
       "SUBMITTING_FEEDBACK": "Submitting...",
@@ -306,10 +322,10 @@
   },
   "ONBOARDING": {
     "TITLE": "Welcome to {installationName}!",
-    "DESCRIPTION": "Thanks for signing up. Please follow the steps below to get started.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "DESCRIPTION": "",
+    "GREETING_MORNING": "👋 Good morning, {name}.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}.",
+    "GREETING_EVENING": "👋 Good evening, {name}.",
     "READ_LATEST_UPDATES": "Read our latest updates",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
@@ -317,20 +333,20 @@
       "NEW_LINK": "Click here to create a channel"
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "First, you can bring in your team members to assist you. Invite your team members by email.",
+      "TITLE": "Invite your team by email",
+      "DESCRIPTION": "Bring in your team members to assist you",
       "NEW_LINK": "Click here to invite a team member"
     },
     "ADD_CHANNEL": {
-      "TITLE": "Add your channels",
-      "DESCRIPTION": "Let´s add the channels where you will be receiving your conversations",
+      "TITLE": "Link your channels",
+      "DESCRIPTION": "Specify the channels where you'll receive conversations",
       "NEW_LINK": "Click here to add a channel",
       "CHANNEL_AGENTS_UPDATED": "Channel Members Update Successfully!",
       "ADDING_AGENTS": "Adding Members to {channel}"
     },
     "ADD_AI_AGENT": {
-      "TITLE": "Add your AI Bot",
-      "DESCRIPTION": "Let´s add the AI Bot that will be helping you with your conversations",
+      "TITLE": "Add your AI assistant",
+      "DESCRIPTION": "AI Bot that will be helping you with your conversations",
       "NEW_LINK": "Click here to add an AI Bot"
     },
     "LABELS": {
@@ -460,5 +476,8 @@
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   },
-  "AI_NOT_IMPLEMENTED_NOTIFICATION": "No AI is assigned for this channel"
+  "AI_NOT_IMPLEMENTED_NOTIFICATION": "No AI is assigned for this channel",
+    "UNREAD_COUNT": {
+      "NINE_PLUS": "9+"
+    }
 }

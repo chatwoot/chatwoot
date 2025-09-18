@@ -99,7 +99,7 @@ export default {
         );
 
         router.replace({
-          name: 'settings_inboxes_add_agents',
+          name: 'settings_inboxes_invite_team',
           params: {
             page: 'new',
             inbox_id: twilioChannel.id,
@@ -225,16 +225,19 @@ export default {
     </div>
     <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.authToken.$error }">
+        <!-- eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys -->
         {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.LABEL`) }}
         <input
           v-model="authToken"
           type="text"
           :placeholder="
+            /* eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys */
             $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.PLACEHOLDER`)
           "
           @blur="v$.authToken.$touch"
         />
         <span v-if="v$.authToken.$error" class="message">
+          <!-- eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys -->
           {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.ERROR`) }}
         </span>
       </label>

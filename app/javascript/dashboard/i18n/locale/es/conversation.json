@@ -35,9 +35,14 @@
     "API_HOURS_WINDOW": "Solo puedes responder a esta conversación dentro de {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversación no te está asignada. ¿Quieres asignarla a ti mismo?",
     "ASSIGN_TO_ME": "Asignar a mi",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram se ha migrado al nuevo canal de Instagram.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram fue migrada a la nueva bandeja de entrada del canal Instagram. Todos los nuevos mensajes aparecerán allí. Ya no podrás enviar mensajes de esta conversación.",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
@@ -67,11 +72,22 @@
       "HIDE_LABELS": "Ocultar etiquetas",
       "VIEW_MORE": "Ver más"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
       "OPEN_ACTION": "Abrir",
-      "MORE_ACTIONS": "Más acciones",
+      "MORE_ACTIONS": "Otras acciones",
       "OPEN": "Más",
       "CLOSE": "Cerrar",
       "DETAILS": "detalles",
@@ -97,6 +113,10 @@
         "NEXT_WEEK": "Próxima semana"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agentes",
+      "TEAMS": "Equipos"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Posponer hasta",
       "APPLY": "Posponer",
@@ -121,7 +141,7 @@
     },
     "DELETE_CONVERSATION": {
       "TITLE": "Eliminar conversación #{conversationId}",
-      "DESCRIPTION": "¿Está seguro de que desea eliminar esta conversación?",
+      "DESCRIPTION": "¿Está seguro que desea eliminar esta conversación?",
       "CONFIRM": "Eliminar"
     },
     "CARD_CONTEXT_MENU": {
@@ -141,6 +161,9 @@
       "AGENTS_LOADING": "Cargando miembros...",
       "ASSIGN_TEAM": "Asignar equipo",
       "DELETE": "Eliminar conversación",
+      "OPEN_IN_NEW_TAB": "Abrir en nueva pestaña",
+      "COPY_LINK": "Copiar enlace de conversación",
+      "COPY_LINK_SUCCESS": "Enlace de conversación copiado en portapapeles",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID de conversación {conversationId} asignado a \"{agentName}\"",
@@ -219,7 +242,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta asignada correctamente",
     "ASSIGN_LABEL_FAILED": "No se ha podido asignar la etiqueta",
     "CHANGE_TEAM": "Equipo de conversación cambiado",
-    "SUCCESS_DELETE_CONVERSATION": "Conversación eliminada correctamente",
+    "SUCCESS_DELETE_CONVERSATION": "Conversación eliminada con éxito",
     "FAIL_DELETE_CONVERSATION": "¡No se pudo eliminar la conversación! Inténtalo de nuevo",
     "FILE_SIZE_LIMIT": "El archivo supera el límite de archivos adjuntos de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "No se puede enviar este mensaje, por favor inténtalo de nuevo más tarde",
@@ -272,10 +295,10 @@
   },
   "ONBOARDING": {
     "TITLE": "Hola 👋, ¡Bienvenido a {installationName}!",
-    "DESCRIPTION": "Gracias por registrarte. Por favor, sigue los pasos a continuación para comenzar.",
-    "GREETING_MORNING": "👋 Buenos días, {name}. Bienvenido a  {installationName}.",
-    "GREETING_AFTERNOON": "👋 Buenas tardes, {name}. Bienvenido a  {installationName}.",
-    "GREETING_EVENING": "👋 Buenas noches, {name}. Bienvenido a  {installationName}.",
+    "DESCRIPTION": "",
+    "GREETING_MORNING": "👋 Buenos días, {name}.",
+    "GREETING_AFTERNOON": "👋 Buenas tardes, {name}.",
+    "GREETING_EVENING": "👋 Buenas noches, {name}.",
     "READ_LATEST_UPDATES": "Leer nuestras últimas actualizaciones",
     "ALL_CONVERSATION": {
       "TITLE": "Todas sus conversaciones en un solo lugar",
@@ -283,8 +306,8 @@
       "NEW_LINK": "Haga clic aquí para crear un canal"
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite a los miembros de su equipo",
-      "DESCRIPTION": "Primero, puedes traer a tu equipo para asistirte. Invita a tus compañeros de equipo por correo electrónico.",
+      "TITLE": "Invite a su equipo por correo electrónico",
+      "DESCRIPTION": "Trae a tu equipo para asistirte",
       "NEW_LINK": "Haga clic aquí para invitar a un miembro del equipo"
     },
     "LABELS": {
@@ -293,14 +316,14 @@
       "NEW_LINK": "Haga clic aquí para crear etiquetas"
     },
     "ADD_CHANNEL": {
-      "TITLE": "Añadir sus canales",
-      "DESCRIPTION": "Vamos a añadir los canales donde recibirás las conversaciones",
+      "TITLE": "Conecte sus canales",
+      "DESCRIPTION": "Especifica los canales donde recibirás las conversaciones",
       "NEW_LINK": "Haga clic aquí para añadir un canal",
       "CHANNEL_AGENTS_UPDATED": "Agentes de canal actualizados correctamente!"
     },
     "ADD_AI_AGENT": {
-      "TITLE": "Añadir su AI Bot",
-      "DESCRIPTION": "Vamos a añadir el AI Bot que ayudará a responder a las conversaciones",
+      "TITLE": "Añadir su asistente de IA",
+      "DESCRIPTION": "AI Bot que ayudará a responder a las conversaciones",
       "NEW_LINK": "Haga clic aquí para añadir un AI Bot"
     },
     "CANNED_RESPONSES": {
@@ -337,8 +360,8 @@
       "CONTACT_ATTRIBUTES": "Atributos de contacto",
       "PREVIOUS_CONVERSATION": "Conversaciones anteriores",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Problemas de Linear vinculados",
-      "SHOPIFY_ORDERS": "Pedidos de Shopify"
+      "LINEAR_ISSUES": "Problemas lineales vinculados",
+      "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
       "ORDER_ID": "Pedido #{id}",

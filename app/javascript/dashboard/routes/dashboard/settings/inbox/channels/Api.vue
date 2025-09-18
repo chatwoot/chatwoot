@@ -50,7 +50,7 @@ export default {
         });
 
         router.replace({
-          name: 'settings_inboxes_add_agents',
+          name: 'settings_inboxes_invite_team',
           params: {
             page: 'new',
             inbox_id: apiChannel.id,
@@ -65,9 +65,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
-  >
+  <div class="h-full w-full p-6 col-span-6">
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.API_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.API_CHANNEL.DESC')"

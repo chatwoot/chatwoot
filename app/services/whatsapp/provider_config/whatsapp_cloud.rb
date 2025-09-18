@@ -26,6 +26,14 @@ module Whatsapp
         channel.provider_config&.[]('business_account_id')
       end
 
+      def webhook_verify_token
+        channel.provider_config['webhook_verify_token'] || generate_webhook_verify_token
+      end
+
+      def cleanup_on_destroy
+        # WhatsApp Cloud doesn't require cleanup
+      end
+
       private
 
       def business_account_path
@@ -36,24 +44,12 @@ module Whatsapp
         ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com')
       end
 
-      public
-
-      def webhook_verify_token
-        channel.provider_config['webhook_verify_token'] || generate_webhook_verify_token
-      end
-
-      private
-
       def generate_webhook_verify_token
         token = SecureRandom.hex(16)
         config = channel.provider_config || {}
         config['webhook_verify_token'] = token
         channel.update!(provider_config: config) if channel.persisted?
         token
-      end
-
-      def cleanup_on_destroy
-        # WhatsApp Cloud doesn't require cleanup
       end
     end
   end

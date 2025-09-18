@@ -48,10 +48,8 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
-    # find the user with their email instead of UID and token
-    @resource = resource_class.where(
-      email: auth_hash['info']['email']
-    ).first
+    email = auth_hash.dig('info', 'email')
+    @resource = resource_class.from_email(email)
   end
 
   def validate_signup_email_is_business_domain?
@@ -78,3 +76,5 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     'user'
   end
 end
+
+DeviseOverrides::OmniauthCallbacksController.prepend_mod_with('DeviseOverrides::OmniauthCallbacksController')

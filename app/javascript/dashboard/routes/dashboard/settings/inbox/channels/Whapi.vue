@@ -196,7 +196,7 @@ const createChannel = async () => {
 const proceedOnSuccess = () => {
   if (props.disabledAutoRoute) return;
   router.replace({
-    name: 'settings_inboxes_add_agents',
+    name: 'settings_inboxes_invite_team',
     params: { page: 'new', inbox_id: createdInbox.value.id },
   });
 };

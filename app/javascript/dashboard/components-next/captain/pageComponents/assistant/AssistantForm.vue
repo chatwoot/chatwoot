@@ -35,6 +35,7 @@ const initialState = {
   productName: '',
   featureFaq: false,
   featureMemory: false,
+  featureCitation: false,
 };
 
 const state = reactive({ ...initialState });
@@ -70,6 +71,7 @@ const prepareAssistantDetails = () => ({
     product_name: state.productName,
     feature_faq: state.featureFaq,
     feature_memory: state.featureMemory,
+    feature_citation: state.featureCitation,
   },
 });
 
@@ -93,6 +95,7 @@ const updateStateFromAssistant = assistant => {
     productName: config.product_name,
     featureFaq: config.feature_faq || false,
     featureMemory: config.feature_memory || false,
+    featureCitation: config.feature_citation || false,
   });
 };
 
@@ -149,6 +152,13 @@ watch(
         <input v-model="state.featureMemory" type="checkbox" />
         <span class="text-sm font-medium text-n-slate-12">
           {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_MEMORIES') }}
+        </span>
+      </label>
+
+      <label class="flex items-center gap-2">
+        <input v-model="state.featureCitation" type="checkbox" />
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('CAPTAIN.ASSISTANTS.FORM.FEATURES.ALLOW_CITATIONS') }}
         </span>
       </label>
     </fieldset>

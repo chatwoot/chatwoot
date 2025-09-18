@@ -69,6 +69,15 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
   end
 
+  def sync_templates
+    return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' } unless whatsapp_channel?
+
+    trigger_template_sync
+    render status: :ok, json: { message: 'Template sync initiated successfully' }
+  rescue StandardError => e
+    render status: :internal_server_error, json: { error: e.message }
+  end
+
   private
 
   def fetch_inbox
@@ -172,6 +181,18 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       channel_type.constantize::EDITABLE_ATTRS.presence
     else
       []
+    end
+  end
+
+  def whatsapp_channel?
+    @inbox.whatsapp? || (@inbox.twilio? && @inbox.channel.whatsapp?)
+  end
+
+  def trigger_template_sync
+    if @inbox.whatsapp?
+      Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
+    elsif @inbox.twilio? && @inbox.channel.whatsapp?
+      Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)
     end
   end
 end

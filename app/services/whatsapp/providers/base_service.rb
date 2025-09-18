@@ -22,7 +22,7 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
-  def send_template(_phone_number, _template_info)
+  def send_template(_phone_number, _template_info, _message)
     raise 'Overwrite this method in child class'
   end
 
