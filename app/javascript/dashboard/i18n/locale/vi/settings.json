@@ -80,6 +80,11 @@
         "NOTE": "Cập nhật mật khẩu của bạn sẽ đặt lại thông tin đăng nhập của bạn trên nhiều thiết bị.",
         "BTN_TEXT": "Thay đổi mật khẩu"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token truy cập",
         "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API",
