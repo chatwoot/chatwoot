@@ -116,6 +116,7 @@ onMounted(() => {
     <slot name="prefix" />
     <input
       :id="uniqueId"
+      v-bind="$attrs"
       ref="inputRef"
       :value="modelValue"
       :class="[
