@@ -80,6 +80,11 @@
         "NOTE": "Η ενημέρωση του κωδικού κα επαναφέρει τα logins σε όλες τις συσκευές που έχετε συνδεθεί.",
         "BTN_TEXT": "Αλλαγή κωδικού πρόσβασης"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Κώδικας Πρόσβασης (Access Token)",
         "NOTE": "Χρησιμοποιείται σε περίπτωση εξωτερικής ενοποίησης της εφαρμογής με κώδικα (API)",
