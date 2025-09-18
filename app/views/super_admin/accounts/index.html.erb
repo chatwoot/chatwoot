@@ -1,0 +1,153 @@
+<% content_for(:title) { "Contas" } %>
+
+<%# Definição de cores e estilos para os status para reutilização e clareza %>
+<% status_classes = {
+  active: "bg-[rgb(var(--teal-3))] text-[rgb(var(--teal-11))] dark:bg-[rgb(var(--teal-3))] dark:text-[rgb(var(--teal-12))]",
+  suspended: "bg-[rgb(var(--ruby-3))] text-[rgb(var(--ruby-11))] dark:bg-[rgb(var(--ruby-3))] dark:text-[rgb(var(--ruby-12))]"
+} %>
+
+<% plan_status_classes = {
+  active: "bg-[rgb(var(--teal-3))] text-[rgb(var(--teal-11))] dark:bg-[rgb(var(--teal-3))] dark:text-[rgb(var(--teal-12))]",
+  paused: "bg-[rgb(var(--amber-3))] text-[rgb(var(--amber-11))] dark:bg-[rgb(var(--amber-3))] dark:text-[rgb(var(--amber-12))]"
+} %>
+
+<div class="min-h-screen bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--slate-1))] p-4 sm:p-6 lg:p-8 font-sans">
+  <div class="max-w-screen-2xl mx-auto">
+    
+    <header class="mb-8">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 class="text-4xl font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]">
+            Gerenciamento de Contas
+          </h1>
+          <p class="mt-2 text-lg text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">
+            Visualize, filtre e gerencie todas as contas do sistema.
+          </p>
+        </div>
+        <%= link_to new_super_admin_account_path, class: "inline-flex items-center justify-center px-5 py-3 border border-transparent rounded-lg text-base font-medium text-white bg-[rgb(var(--iris-9))] hover:bg-[rgb(var(--iris-10))] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[rgb(var(--iris-8))] transition-transform transform hover:scale-105" do %>
+          <i class="ri-add-circle-line mr-2 -ml-1 text-xl"></i>
+          Criar Nova Conta
+        <% end %>
+      </div>
+    </header>
+
+    <div class="mb-8 p-4 bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-2))] rounded-xl shadow-sm border border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))]">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-center">
+        
+        <div class="lg:col-span-2">
+          <label for="search" class="sr-only">Buscar contas</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="ri-search-line text-[rgb(var(--slate-8))]"></i>
+            </div>
+            <input type="text" name="search" id="search" class="block w-full pl-10 pr-3 py-2 border border-[rgb(var(--border-strong))] rounded-lg leading-5 bg-transparent dark:bg-[rgb(var(--slate-2))] placeholder-[rgb(var(--slate-9))] focus:outline-none focus:ring-[rgb(var(--iris-9))] focus:border-[rgb(var(--iris-9))] sm:text-sm" placeholder="Buscar por nome ou ID...">
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center space-x-2 bg-[rgb(var(--slate-3))] dark:bg-[rgb(var(--slate-3))] p-1 rounded-lg">
+          <%= link_to "Todas", super_admin_accounts_path, class: "px-4 py-1.5 rounded-md text-sm font-semibold transition-colors #{params[:filter].blank? ? 'bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-3))] text-[rgb(var(--iris-9))] shadow' : 'text-[rgb(var(--slate-11))] hover:text-[rgb(var(--slate-12))]'}" %>
+          <%= link_to "Ativas", super_admin_accounts_path(filter: :active), class: "px-4 py-1.5 rounded-md text-sm font-semibold transition-colors #{params[:filter] == 'active' ? 'bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-3))] text-[rgb(var(--iris-9))] shadow' : 'text-[rgb(var(--slate-11))] hover:text-[rgb(var(--slate-12))]'}" %>
+          <%= link_to "Suspensas", super_admin_accounts_path(filter: :suspended), class: "px-4 py-1.5 rounded-md text-sm font-semibold transition-colors #{params[:filter] == 'suspended' ? 'bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-3))] text-[rgb(var(--iris-9))] shadow' : 'text-[rgb(var(--slate-11))] hover:text-[rgb(var(--slate-12))]'}" %>
+        </div>
+
+        <div>
+          <label for="sort" class="sr-only">Ordenar por</label>
+          <select id="sort" name="sort" class="block w-full pl-3 pr-10 py-2 text-base border-[rgb(var(--border-strong))] focus:outline-none focus:ring-[rgb(var(--iris-9))] focus:border-[rgb(var(--iris-9))] sm:text-sm rounded-lg bg-transparent dark:bg-[rgb(var(--slate-2))]">
+            <option>Recentes</option>
+            <option>Mais Antigas</option>
+            <option>Nome (A-Z)</option>
+            <option>Mais Usuários</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <% @accounts.each do |account| %>
+        <div class="group bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-2))] rounded-xl shadow-md border border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))] flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-[rgb(var(--iris-7))]">
+          
+          <div class="p-5">
+            <div class="flex justify-between items-start">
+              <div class="flex items-center space-x-4">
+                 <div class="h-12 w-12 rounded-full bg-[rgb(var(--iris-2))] dark:bg-[rgb(var(--iris-3))] flex items-center justify-center shrink-0">
+                    <i class="ri-building-4-line text-2xl text-[rgb(var(--iris-9))]"></i>
+                  </div>
+                <div>
+                  <h2 class="text-lg font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))] truncate" title="<%= account.name %>">
+                    <%= account.name %>
+                  </h2>
+                  <p class="text-sm text-[rgb(var(--slate-10))]">ID: #<%= account.id %></p>
+                </div>
+              </div>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold <%= account.active? ? status_classes[:active] : status_classes[:suspended] %>">
+                <%= account.status&.humanize || 'N/A' %>
+              </span>
+            </div>
+
+            <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p class="text-xs text-[rgb(var(--slate-9))]">Usuários</p>
+                <p class="text-xl font-semibold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]"><%= account.users.count %></p>
+              </div>
+              <div>
+                <p class="text-xs text-[rgb(var(--slate-9))]">Conversas</p>
+                <p class="text-xl font-semibold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]"><%= account.conversations.count %></p>
+              </div>
+              <div>
+                <p class="text-xs text-[rgb(var(--slate-9))]">Idioma</p>
+                <p class="text-xl font-semibold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]"><%= account.locale&.upcase || 'N/A' %></p>
+              </div>
+            </div>
+            
+            <div class="mt-6">
+               <p class="text-xs font-medium text-[rgb(var(--slate-9))] uppercase tracking-wider">Plano de Billing</p>
+               <% if account.billing_plan %>
+                <div class="mt-2 flex items-center justify-between p-3 bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--slate-3))] rounded-lg">
+                    <div>
+                      <p class="font-semibold text-sm text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]">
+                         <%= AccountBillingPlan::PLANS[account.billing_plan.plan_name.to_sym]&.dig(:name) || account.billing_plan.plan_name.humanize %>
+                      </p>
+                    </div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold <%= account.billing_plan.active? ? plan_status_classes[:active] : plan_status_classes[:paused] %>">
+                      <i class="ri-<%= account.billing_plan.active? ? 'play' : 'pause' %>-circle-fill mr-1.5"></i>
+                      <%= account.billing_plan.active? ? 'Ativo' : 'Pausado' %>
+                    </span>
+                </div>
+               <% else %>
+                 <div class="mt-2 text-center p-3 bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--slate-3))] rounded-lg">
+                    <p class="text-sm text-[rgb(var(--slate-9))]">Sem plano ativo</p>
+                 </div>
+               <% end %>
+            </div>
+          </div>
+          
+          <div class="p-5 bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--solid-3))] rounded-b-xl border-t border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))]">
+            <div class="flex items-center justify-center space-x-2">
+              <%= link_to super_admin_account_path(account), class: "flex-1 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-lg text-sm font-medium text-white bg-[rgb(var(--iris-9))] hover:bg-[rgb(var(--iris-10))] transition-colors", title: "Ver Detalhes" do %>
+                  <i class="ri-eye-line mr-2"></i>
+                  Ver Detalhes
+              <% end %>
+              <%= link_to super_admin_account_billing_plan_path(account), class: "flex-1 inline-flex items-center justify-center px-4 py-2 border border-[rgb(var(--border-strong))] rounded-lg text-sm font-medium text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))] bg-white dark:bg-[rgb(var(--slate-4))] hover:bg-[rgb(var(--slate-3))] hover:text-[rgb(var(--slate-12))] dark:hover:bg-[rgb(var(--slate-5))] transition-colors", title: "Gerenciar Billing" do %>
+                  <i class="ri-settings-3-line mr-2"></i>
+                  Billing
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    
+    <% if @accounts.respond_to?(:current_page) && @accounts.total_pages > 1 %>
+      <div class="mt-10 flex items-center justify-between">
+        <div class="text-sm text-[rgb(var(--slate-11))]">
+          Mostrando <span class="font-semibold text-[rgb(var(--slate-12))]"><%= @accounts.offset_value + 1 %></span> a <span class="font-semibold text-[rgb(var(--slate-12))]"><%= [@accounts.offset_value + @accounts.limit_value, @accounts.total_count].min %></span> de <span class="font-semibold text-[rgb(var(--slate-12))]"><%= @accounts.total_count %></span> resultados
+        </div>
+        <div class="flex items-center space-x-1">
+          <%= paginate @accounts, window: 1, outer_window: 1 %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>

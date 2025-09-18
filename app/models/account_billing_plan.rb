@@ -1,3 +1,35 @@
+# == Schema Information
+#
+# Table name: account_billing_plans
+#
+#  id                          :bigint           not null, primary key
+#  active                      :boolean          default(TRUE)
+#  current_agents_count        :integer          default(0)
+#  current_conversations_count :integer          default(0)
+#  current_inboxes_count       :integer          default(0)
+#  metadata                    :jsonb
+#  payment_status              :string
+#  plan_name                   :string           default("free"), not null
+#  previous_plan               :string
+#  trial_ends_at               :datetime
+#  upgraded_at                 :datetime
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  account_id                  :bigint           not null
+#  stripe_customer_id          :string
+#  stripe_subscription_id      :string
+#
+# Indexes
+#
+#  index_account_billing_plans_on_account_id          (account_id) UNIQUE
+#  index_account_billing_plans_on_active              (active)
+#  index_account_billing_plans_on_plan_name           (plan_name)
+#  index_account_billing_plans_on_stripe_customer_id  (stripe_customer_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id)
+#
 # Modelo para gerenciar planos de billing por conta (SaaS)
 class AccountBillingPlan < ApplicationRecord
   belongs_to :account
@@ -12,7 +44,8 @@ class AccountBillingPlan < ApplicationRecord
         inboxes: 2,
         conversations_per_month: 100,
         contacts: 1000,
-        storage_mb: 100
+        storage_mb: 100,
+        llm_credits: 1000
       },
       features: %w[basic_chat email_support]
     },
@@ -24,9 +57,10 @@ class AccountBillingPlan < ApplicationRecord
         inboxes: 5,
         conversations_per_month: 1000,
         contacts: 10_000,
-        storage_mb: 1000
+        storage_mb: 1000,
+        llm_credits: 10_000
       },
-      features: %w[basic_chat email_support automations team_management]
+      features: %w[basic_chat email_support automations team_management ai_assistant]
     },
     'professional' => {
       name: 'Professional',
@@ -36,9 +70,10 @@ class AccountBillingPlan < ApplicationRecord
         inboxes: 20,
         conversations_per_month: 10_000,
         contacts: 100_000,
-        storage_mb: 10_000
+        storage_mb: 10_000,
+        llm_credits: 50_000
       },
-      features: %w[basic_chat email_support automations team_management custom_attributes audit_logs sla]
+      features: %w[basic_chat email_support automations team_management custom_attributes audit_logs sla ai_assistant ai_insights]
     },
     'enterprise' => {
       name: 'Enterprise',
@@ -48,9 +83,11 @@ class AccountBillingPlan < ApplicationRecord
         inboxes: -1,
         conversations_per_month: -1,
         contacts: -1,
-        storage_mb: -1
+        storage_mb: -1,
+        llm_credits: 200_000
       },
-      features: %w[basic_chat email_support automations team_management custom_attributes audit_logs sla custom_roles saml captain_integration]
+      features: %w[basic_chat email_support automations team_management custom_attributes audit_logs sla custom_roles saml captain_integration
+                   ai_assistant ai_insights ai_custom_models]
     }
   }.freeze
 

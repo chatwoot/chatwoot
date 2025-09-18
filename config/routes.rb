@@ -568,6 +568,8 @@ Rails.application.routes.draw do
         resource :billing_plan, only: [:show, :update] do
           member do
             get :usage
+            patch :pause
+            patch :resume
           end
         end
       end

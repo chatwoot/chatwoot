@@ -142,6 +142,30 @@ class BillingPlanService
     @account.inboxes.order(:created_at).limit(excess_count).destroy_all
   end
 
+  # Pausar plano
+  def pause_plan
+    return false unless billing_plan
+
+    billing_plan.update!(active: false)
+    Rails.logger.info "Account #{@account.id} billing plan paused"
+    true
+  rescue StandardError => e
+    Rails.logger.error "Failed to pause billing plan for account #{@account.id}: #{e.message}"
+    false
+  end
+
+  # Retomar plano
+  def resume_plan
+    return false unless billing_plan
+
+    billing_plan.update!(active: true)
+    Rails.logger.info "Account #{@account.id} billing plan resumed"
+    true
+  rescue StandardError => e
+    Rails.logger.error "Failed to resume billing plan for account #{@account.id}: #{e.message}"
+    false
+  end
+
   # Obter estatísticas do plano
   def plan_stats
     return {} unless billing_plan
@@ -164,9 +188,106 @@ class BillingPlanService
           current: current_usage(:conversations_per_month),
           limit: resource_limit(:conversations_per_month),
           percentage: usage_percentage(:conversations_per_month)
+        },
+        llm_credits: {
+          current: current_llm_credits_used,
+          limit: llm_credits_limit,
+          percentage: llm_credits_usage_percentage,
+          purchased: llm_credits_purchased
         }
       }
     }
+  end
+
+  # Métodos para gerenciar créditos LLM
+  def current_llm_credits_used
+    return 0 unless billing_plan
+
+    billing_plan.metadata&.dig('llm_credits_used') || 0
+  end
+
+  def llm_credits_purchased
+    return 0 unless billing_plan
+
+    # Créditos comprados adicionalmente + créditos do plano
+    additional_credits = billing_plan.metadata&.dig('llm_credits_purchased') || 0
+    plan_credits = resource_limit(:llm_credits)
+    plan_credits == -1 ? additional_credits : plan_credits + additional_credits
+  end
+
+  def llm_credits_limit
+    purchased = llm_credits_purchased
+    purchased == 0 ? resource_limit(:llm_credits) : purchased
+  end
+
+  def llm_credits_usage_percentage
+    limit = llm_credits_limit
+    return 0 if limit == -1 || limit == 0
+
+    used = current_llm_credits_used
+    ((used.to_f / limit) * 100).round(1)
+  end
+
+  def llm_credits_remaining
+    limit = llm_credits_limit
+    return -1 if limit == -1
+
+    [limit - current_llm_credits_used, 0].max
+  end
+
+  # Usar créditos LLM
+  def use_llm_credits(amount)
+    return false unless billing_plan
+    return false if llm_credits_remaining == 0
+
+    current_used = current_llm_credits_used
+    new_used = current_used + amount
+
+    # Atualizar metadata
+    metadata = billing_plan.metadata || {}
+    metadata['llm_credits_used'] = new_used
+    billing_plan.update!(metadata: metadata)
+
+    true
+  rescue StandardError => e
+    Rails.logger.error "Failed to use LLM credits for account #{@account.id}: #{e.message}"
+    false
+  end
+
+  # Comprar créditos LLM adicionais
+  def purchase_llm_credits(amount)
+    return false unless billing_plan
+
+    current_purchased = billing_plan.metadata&.dig('llm_credits_purchased') || 0
+    new_purchased = current_purchased + amount
+
+    # Atualizar metadata
+    metadata = billing_plan.metadata || {}
+    metadata['llm_credits_purchased'] = new_purchased
+    billing_plan.update!(metadata: metadata)
+
+    Rails.logger.info "Account #{@account.id} purchased #{amount} LLM credits"
+    true
+  rescue StandardError => e
+    Rails.logger.error "Failed to purchase LLM credits for account #{@account.id}: #{e.message}"
+    false
+  end
+
+  # Reset de créditos (mensal)
+  def reset_llm_credits
+    return false unless billing_plan
+
+    # Reset apenas os créditos usados, mantém os comprados
+    metadata = billing_plan.metadata || {}
+    metadata['llm_credits_used'] = 0
+    metadata['llm_credits_reset_at'] = Time.current
+    billing_plan.update!(metadata: metadata)
+
+    Rails.logger.info "Account #{@account.id} LLM credits reset"
+    true
+  rescue StandardError => e
+    Rails.logger.error "Failed to reset LLM credits for account #{@account.id}: #{e.message}"
+    false
   end
 
   private

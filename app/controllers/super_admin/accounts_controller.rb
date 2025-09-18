@@ -7,6 +7,23 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   #   send_foo_updated_email(requested_resource)
   # end
 
+  def index
+    @accounts = Account.includes(:billing_plan, :users, :conversations)
+                       .order(created_at: :desc)
+                       .page(params[:page])
+                       .per(20)
+
+    # Apply filters
+    case params[:filter]
+    when 'active'
+      @accounts = @accounts.where(status: :active)
+    when 'suspended'
+      @accounts = @accounts.where(status: :suspended)
+    when 'recent'
+      @accounts = @accounts.where('created_at > ?', 30.days.ago)
+    end
+  end
+
   # Override this method to specify custom lookup behavior.
   # This will be used to set the resource for the `show`, `edit`, and `update`
   # actions.

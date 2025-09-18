@@ -1,68 +1,203 @@
-<div class="billing-plans-container">
-  <div class="row">
-    <div class="col-12">
-      <h1>Gerenciar Plano de Billing</h1>
-      <p class="text-muted">Conta: <%= @account.name %> (ID: <%= @account.id %>)</p>
-      <p class="text-muted">Usuário: <%= @account.users.count %> usuários</p>
-    </div>
-  </div>
+<% content_for(:title) { "Gerenciar Plano de Billing" } %>
 
-  <!-- Plano Atual -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3>Plano Atual</h3>
-        </div>
-        <div class="card-body">
-          <% if @plan_stats[:plan_name] %>
-            <div class="row">
-              <div class="col-md-6">
-                <h4><%= @plan_stats[:plan_details][:name] %></h4>
-                <p class="text-muted">R$ <%= @plan_stats[:plan_details][:price] %>/mês</p>
-                <p class="text-muted">Status: <%= @account.billing_plan&.active? ? 'Ativo' : 'Inativo' %></p>
-              </div>
-              <div class="col-md-6">
-                <h5>Features Incluídas:</h5>
-                <ul class="list-unstyled">
-                  <% @plan_stats[:plan_details][:features].each do |feature| %>
-                    <li><i class="fas fa-check text-success"></i> <%= feature.humanize %></li>
-                  <% end %>
-                </ul>
-              </div>
+<div class="min-h-screen bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--slate-1))] p-4 sm:p-6 lg:p-8 font-sans">
+  <div class="max-w-screen-2xl mx-auto">
+    
+    <header class="mb-8">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 class="text-4xl font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]">
+            Gerenciar Plano de Cobrança
+          </h1>
+          <div class="mt-3 flex flex-wrap items-center gap-6 text-lg text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">
+            <div class="flex items-center space-x-2">
+              <i class="ri-building-4-line text-[rgb(var(--iris-9))]"></i>
+              <span class="font-medium text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]"><%= @account.name %></span>
+              <span class="px-3 py-1 bg-[rgb(var(--slate-3))] dark:bg-[rgb(var(--slate-4))] rounded-full text-sm font-semibold text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">ID: #<%= @account.id %></span>
             </div>
-          <% else %>
-            <p class="text-muted">Nenhum plano atribuído</p>
+            <div class="flex items-center space-x-2">
+              <i class="ri-user-line text-[rgb(var(--iris-9))]"></i>
+              <span class="font-medium text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]"><%= @account.users.count %></span>
+              <span class="text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">usuários</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button disabled class="inline-flex items-center justify-center px-4 py-2 border border-dashed border-[rgb(var(--border-strong))] rounded-lg text-sm font-medium text-[rgb(var(--slate-9))] dark:text-[rgb(var(--slate-10))] bg-transparent cursor-not-allowed" title="Em breve">
+            <i class="ri-file-list-3-line mr-2"></i>
+            Ver Faturas
+          </button>
+          <button disabled class="inline-flex items-center justify-center px-4 py-2 border border-dashed border-[rgb(var(--border-strong))] rounded-lg text-sm font-medium text-[rgb(var(--slate-9))] dark:text-[rgb(var(--slate-10))] bg-transparent cursor-not-allowed" title="Em breve">
+            <i class="ri-add-circle-line mr-2"></i>
+            Adicionar Créditos
+          </button>
+          <%= link_to super_admin_accounts_path, class: "inline-flex items-center justify-center px-5 py-3 border border-[rgb(var(--border-strong))] rounded-lg text-base font-medium text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))] bg-white dark:bg-[rgb(var(--slate-4))] hover:bg-[rgb(var(--slate-3))] hover:text-[rgb(var(--slate-12))] dark:hover:bg-[rgb(var(--slate-5))] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[rgb(var(--iris-8))] transition-colors" do %>
+            <i class="ri-arrow-left-line mr-2 -ml-1 text-xl"></i>
+            Voltar
           <% end %>
         </div>
       </div>
-    </div>
-  </div>
+    </header>
 
-  <!-- Uso Atual -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3>Uso Atual</h3>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <% @plan_stats[:usage].each do |resource, stats| %>
-              <div class="col-md-4 mb-3">
-                <div class="usage-item">
-                  <h5><%= resource.to_s.humanize %></h5>
-                  <div class="progress mb-2">
-                    <div class="progress-bar <%= progress_bar_class(stats[:percentage]) %>" 
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Coluna da Esquerda: Uso e Créditos -->
+      <div class="space-y-8">
+        <!-- Uso de Recursos -->
+        <div class="bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-2))] rounded-xl shadow-md border border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))] overflow-hidden">
+          <div class="px-6 py-5 border-b border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))] bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--slate-3))]">
+            <h3 class="text-xl font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))] flex items-center">
+              <i class="ri-bar-chart-line mr-3 text-[rgb(var(--teal-9))] text-2xl"></i>
+              Uso de Recursos
+            </h3>
+          </div>
+          <div class="p-6">
+            <div class="space-y-6">
+              <% @plan_stats[:usage].reject { |k, _| k == :llm_credits }.each do |resource, stats| %>
+                <div class="bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--slate-3))] rounded-lg p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h5 class="text-base font-semibold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]">
+                      <%= resource.to_s.humanize %>
+                    </h5>
+                    <span class="text-sm font-bold text-[rgb(var(--slate-10))] dark:text-[rgb(var(--slate-10))]">
+                      <%= stats[:percentage] %>%
+                    </span>
+                  </div>
+                  <div class="w-full bg-[rgb(var(--slate-4))] dark:bg-[rgb(var(--slate-5))] rounded-full h-3 mb-3">
+                    <div class="h-3 rounded-full <%= progress_bar_class(stats[:percentage]) %> transition-all duration-500" 
                          style="width: <%= [stats[:percentage], 100].min %>%">
                     </div>
                   </div>
-                  <small class="text-muted">
-                    <%= stats[:current] %> / 
-                    <%= stats[:limit] == -1 ? 'Ilimitado' : stats[:limit] %>
-                    (<%= stats[:percentage] %>%)
-                  </small>
+                  <div class="text-sm text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">
+                    <span class="font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]"><%= stats[:current] %></span> / 
+                    <span><%= stats[:limit] == -1 ? 'Ilimitado' : stats[:limit] %></span>
+                  </div>
                 </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Créditos LLM -->
+        <div class="bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-2))] rounded-xl shadow-md border border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))] overflow-hidden">
+          <div class="px-6 py-5 border-b border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))] bg-gradient-to-r from-[rgb(var(--iris-2))] to-[rgb(var(--iris-3))] dark:from-[rgb(var(--iris-3))] dark:to-[rgb(var(--iris-4))]">
+            <h3 class="text-xl font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))] flex items-center">
+              <i class="ri-brain-line mr-3 text-[rgb(var(--iris-9))] text-2xl"></i>
+              Créditos LLM
+            </h3>
+          </div>
+          <div class="p-6">
+            <% if @plan_stats.dig(:usage, :llm_credits) %>
+              <% llm_stats = @plan_stats[:usage][:llm_credits] %>
+              
+              <div class="text-center mb-6">
+                <div class="text-4xl font-bold text-[rgb(var(--iris-9))] mb-2">
+                  <%= number_with_delimiter(llm_stats[:current]) %>
+                </div>
+                <div class="text-sm text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">
+                  de <%= llm_stats[:limit] == -1 ? 'Ilimitados' : number_with_delimiter(llm_stats[:limit]) %> usados
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <div class="w-full bg-[rgb(var(--slate-4))] dark:bg-[rgb(var(--slate-5))] rounded-full h-4 mb-3">
+                  <div class="h-4 rounded-full bg-gradient-to-r from-[rgb(var(--iris-9))] to-[rgb(var(--iris-10))] transition-all duration-700" 
+                       style="width: <%= [llm_stats[:percentage], 100].min %>%">
+                  </div>
+                </div>
+                <div class="flex justify-between text-xs text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">
+                  <span>0</span>
+                  <span><%= llm_stats[:limit] == -1 ? '∞' : number_with_delimiter(llm_stats[:limit]) %></span>
+                </div>
+              </div>
+
+              <div class="bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--slate-3))] rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-medium text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">
+                    Créditos Restantes:
+                  </span>
+                  <span class="text-lg font-bold text-[rgb(var(--teal-9))]">
+                    <%= llm_stats[:limit] == -1 ? '∞' : number_with_delimiter(llm_stats[:limit] - llm_stats[:current]) %>
+                  </span>
+                </div>
+              </div>
+            <% else %>
+              <div class="text-center py-8">
+                <i class="ri-brain-line text-4xl text-[rgb(var(--slate-8))] dark:text-[rgb(var(--slate-9))] mb-4"></i>
+                <p class="text-lg text-[rgb(var(--slate-10))] dark:text-[rgb(var(--slate-10))]">Créditos LLM não disponíveis</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna da Direita: Planos Disponíveis -->
+      <div class="lg:col-span-1">
+        <div class="bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-2))] rounded-xl shadow-md border border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))] overflow-hidden">
+          <div class="px-6 py-5 border-b border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))] bg-[rgb(var(--slate-2))] dark:bg-[rgb(var(--slate-3))]">
+            <h3 class="text-xl font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))] flex items-center">
+              <i class="ri-refresh-line mr-3 text-[rgb(var(--iris-9))] text-2xl"></i>
+              Alterar Plano
+            </h3>
+          </div>
+          <div class="p-6">
+            <%= form_with model: [@account, @account.billing_plan || @account.build_billing_plan], 
+                          url: super_admin_account_billing_plan_path(@account), 
+                          method: :patch, 
+                          local: true,
+                          id: 'billing-plan-form',
+                          class: "space-y-8" do |form| %>
+              
+              <div class="space-y-6">
+                <% @available_plans.each do |plan_key, plan_details| %>
+                  <% is_current_plan = (@plan_stats[:plan_name] == plan_key) %>
+                  <div class="plan-card group relative bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-2))] border-2 rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-[rgb(var(--iris-7))] <%= is_current_plan ? 'border-[rgb(var(--iris-9))] bg-[rgb(var(--iris-2))] dark:bg-[rgb(var(--iris-3))] shadow-md' : 'border-[rgb(var(--border-strong))] dark:border-[rgb(var(--border-strong))]' %>">
+                    
+                    <% if is_current_plan %>
+                      <span class="absolute top-0 -translate-y-1/2 right-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-[rgb(var(--iris-9))] text-white">Plano Atual</span>
+                    <% end %>
+
+                    <label class="flex items-center cursor-pointer">
+                      <%= form.radio_button :plan_name, plan_key, 
+                          class: "form-radio h-5 w-5 text-[rgb(var(--iris-9))] border-[rgb(var(--border-strong))] focus:ring-[rgb(var(--iris-8))]", 
+                          checked: is_current_plan,
+                          'data-plan-name': plan_details[:name],
+                          'data-plan-price': plan_details[:price]
+                          %>
+                      <div class="ml-4 flex-grow">
+                        <div class="flex justify-between items-center">
+                          <h5 class="text-xl font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]">
+                            <%= plan_details[:name] %>
+                          </h5>
+                          <div>
+                            <span class="text-2xl font-bold text-[rgb(var(--iris-9))]">R$ <%= plan_details[:price] %></span>
+                            <span class="text-base text-[rgb(var(--slate-10))] dark:text-[rgb(var(--slate-10))]">/mês</span>
+                          </div>
+                        </div>
+                      </div>
+                    </label>
+
+                    <div class="mt-4 pt-4 border-t border-dashed border-[rgb(var(--border-container))] dark:border-[rgb(var(--border-strong))]">
+                       <ul class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">
+                        <% plan_details[:limits].each do |limit_key, limit_value| %>
+                          <li class="flex justify-between items-center">
+                            <span class="font-semibold"><%= limit_key.to_s.humanize %>:</span>
+                            <span class="text-[rgb(var(--slate-10))] dark:text-[rgb(var(--slate-10))] font-bold">
+                              <%= limit_value == -1 ? 'Ilimitado' : number_with_delimiter(limit_value) %>
+                            </span>
+                          </li>
+                        <% end %>
+                      </ul>
+                    </div>
+
+                  </div>
+                <% end %>
+              </div>
+              
+              <div class="flex justify-center pt-8">
+                <%= form.submit "Atualizar Plano",
+                    id: 'update-plan-button',
+                    disabled: true,
+                    class: "w-full inline-flex items-center justify-center px-8 py-4 border border-transparent text-lg font-bold rounded-lg text-white bg-[rgb(var(--iris-9))] hover:bg-[rgb(var(--iris-10))] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[rgb(var(--iris-8))] transition-colors shadow-lg disabled:bg-[rgb(var(--slate-5))] disabled:text-[rgb(var(--slate-9))] disabled:cursor-not-allowed disabled:shadow-none" %>
               </div>
             <% end %>
           </div>
@@ -70,92 +205,96 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Planos Disponíveis -->
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3>Alterar Plano</h3>
-        </div>
-        <div class="card-body">
-          <%= form_with model: [@account, @account.billing_plan || @account.build_billing_plan], 
-                        url: super_admin_account_billing_plan_path(@account), 
-                        method: :patch, 
-                        local: true do |form| %>
-            
-            <div class="row">
-              <% @available_plans.each do |plan_key, plan_details| %>
-                <div class="col-md-3 mb-3">
-                  <div class="card plan-card <%= 'border-primary' if @plan_stats[:plan_name] == plan_key %>">
-                    <div class="card-body text-center">
-                      <h5><%= plan_details[:name] %></h5>
-                      <h3 class="text-primary">R$ <%= plan_details[:price] %></h3>
-                      <p class="text-muted">por mês</p>
-                      
-                      <div class="form-check">
-                        <%= form.radio_button :plan_name, plan_key, 
-                            class: "form-check-input", 
-                            checked: @plan_stats[:plan_name] == plan_key %>
-                        <%= form.label "plan_name_#{plan_key}", "Selecionar", class: "form-check-label" %>
-                      </div>
-                      
-                      <hr>
-                      
-                      <ul class="list-unstyled small">
-                        <% plan_details[:limits].each do |limit_key, limit_value| %>
-                          <li>
-                            <strong><%= limit_key.to_s.humanize %>:</strong>
-                            <%= limit_value == -1 ? 'Ilimitado' : limit_value %>
-                          </li>
-                        <% end %>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-            
-            <div class="text-center mt-4">
-              <%= form.submit "Atualizar Plano", class: "btn btn-primary" %>
-              <%= link_to "Voltar para Contas", super_admin_accounts_path, class: "btn btn-secondary" %>
-            </div>
-          <% end %>
-        </div>
+<!-- Confirmation Modal -->
+<div id="confirmation-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-60 transition-opacity" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="bg-[rgb(var(--solid-1))] dark:bg-[rgb(var(--solid-2))] rounded-xl shadow-xl w-full max-w-lg mx-4 p-6 sm:p-8 transform transition-all">
+    <div class="text-center">
+      <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[rgb(var(--iris-2))] dark:bg-[rgb(var(--iris-3))]">
+        <i class="ri-refresh-line text-2xl text-[rgb(var(--iris-9))]"></i>
       </div>
+      <h3 class="mt-4 text-2xl font-bold text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]" id="modal-title">Confirmar Alteração de Plano</h3>
+      <div class="mt-4 text-base text-[rgb(var(--slate-11))] dark:text-[rgb(var(--slate-11))]">
+        <p>Você está prestes a alterar o plano do cliente <strong class="text-[rgb(var(--slate-12))] dark:text-[rgb(var(--slate-12))]"><%= @account.name %></strong>.</p>
+        <p class="mt-2">
+          De <strong id="current-plan-info"></strong> para <strong id="new-plan-info"></strong>.
+        </p>
+        <p class="mt-6 text-sm text-[rgb(var(--slate-10))]">Uma nova fatura será gerada imediatamente. Deseja continuar?</p>
+      </div>
+    </div>
+    <div class="mt-8 grid grid-cols-2 gap-4">
+      <button type="button" id="cancel-button" class="inline-flex justify-center rounded-lg border border-[rgb(var(--border-strong))] bg-transparent px-4 py-3 text-base font-medium text-[rgb(var(--slate-11))] hover:bg-[rgb(var(--slate-3))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--iris-8))] focus:ring-offset-2">
+        Cancelar
+      </button>
+      <button type="button" id="confirm-button" class="inline-flex justify-center rounded-lg border border-transparent bg-[rgb(var(--iris-9))] px-4 py-3 text-base font-medium text-white hover:bg-[rgb(var(--iris-10))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--iris-8))] focus:ring-offset-2">
+        Confirmar Alteração
+      </button>
     </div>
   </div>
 </div>
 
-<style>
-.plan-card {
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.plan-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.usage-item {
-  padding: 10px;
-  border: 1px solid #e9ecef;
-  border-radius: 5px;
-}
-
-.progress-bar.bg-success { background-color: #28a745 !important; }
-.progress-bar.bg-warning { background-color: #ffc107 !important; }
-.progress-bar.bg-danger { background-color: #dc3545 !important; }
-</style>
 
 <script>
-// Auto-select plan on card click
-document.querySelectorAll('.plan-card').forEach(card => {
-  card.addEventListener('click', function() {
-    const radio = this.querySelector('input[type="radio"]');
-    if (radio) {
-      radio.checked = true;
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('billing-plan-form');
+  const updateButton = document.getElementById('update-plan-button');
+  const radioButtons = form.querySelectorAll('input[type="radio"]');
+  const modal = document.getElementById('confirmation-modal');
+  const cancelButton = document.getElementById('cancel-button');
+  const confirmButton = document.getElementById('confirm-button');
+  const currentPlanInfo = document.getElementById('current-plan-info');
+  const newPlanInfo = document.getElementById('new-plan-info');
+
+  const currentPlanName = '<%= @plan_stats[:plan_name] %>';
+
+  // --- Smart Button Logic ---
+  function checkSelection() {
+    const selectedRadio = form.querySelector('input[type="radio"]:checked');
+    if (selectedRadio && selectedRadio.value !== currentPlanName) {
+      updateButton.disabled = false;
+    } else {
+      updateButton.disabled = true;
+    }
+  }
+
+  radioButtons.forEach(radio => {
+    radio.addEventListener('change', checkSelection);
+  });
+
+  // --- Modal Logic ---
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    
+    const selectedRadio = form.querySelector('input[type="radio"]:checked');
+    const currentRadio = form.querySelector(`input[type="radio"][value="${currentPlanName}"]`);
+    
+    if (selectedRadio && selectedRadio.value !== currentPlanName) {
+      const currentPlanDetails = `${currentRadio.dataset.planName} (R$ ${currentRadio.dataset.planPrice}/mês)`;
+      const newPlanDetails = `${selectedRadio.dataset.planName} (R$ ${selectedRadio.dataset.planPrice}/mês)`;
+      
+      currentPlanInfo.textContent = currentPlanDetails;
+      newPlanInfo.textContent = newPlanDetails;
+      
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  });
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  cancelButton.addEventListener('click', closeModal);
+  confirmButton.addEventListener('click', () => {
+    form.submit();
+  });
+
+  // Close modal on escape key
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeModal();
     }
   });
 });

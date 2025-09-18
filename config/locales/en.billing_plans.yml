@@ -4,3 +4,9 @@ en:
       update:
         success: "Plan updated successfully!"
         failure: "Could not update the plan. Please check the limits."
+      pause:
+        success: "Billing plan paused successfully!"
+        failure: "Could not pause the billing plan. Please try again."
+      resume:
+        success: "Billing plan resumed successfully!"
+        failure: "Could not resume the billing plan. Please try again."

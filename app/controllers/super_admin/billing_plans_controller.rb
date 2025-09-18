@@ -33,6 +33,26 @@ class SuperAdmin::BillingPlansController < SuperAdmin::ApplicationController
     render json: @plan_stats
   end
 
+  def pause
+    @billing_service = BillingPlanService.new(@account)
+
+    if @billing_service.pause_plan
+      redirect_to super_admin_accounts_path, notice: I18n.t('super_admin.billing_plans.pause.success')
+    else
+      redirect_to super_admin_accounts_path, alert: I18n.t('super_admin.billing_plans.pause.failure')
+    end
+  end
+
+  def resume
+    @billing_service = BillingPlanService.new(@account)
+
+    if @billing_service.resume_plan
+      redirect_to super_admin_accounts_path, notice: I18n.t('super_admin.billing_plans.resume.success')
+    else
+      redirect_to super_admin_accounts_path, alert: I18n.t('super_admin.billing_plans.resume.failure')
+    end
+  end
+
   private
 
   def set_account
