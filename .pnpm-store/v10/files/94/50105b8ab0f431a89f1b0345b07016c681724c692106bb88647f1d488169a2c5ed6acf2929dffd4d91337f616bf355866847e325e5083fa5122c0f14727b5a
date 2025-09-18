@@ -1,0 +1,48 @@
+{
+  "name": "@lk77/vue3-color",
+  "version": "3.0.6",
+  "description": "Color of Vue 3 Components",
+  "keywords": [
+    "color",
+    "vuejs",
+    "vuejs3",
+    "vue3"
+  ],
+  "main": "dist/vue3-color.common.js",
+  "unpkg": "dist/vue3-color.umd.min.js",
+  "jsdelivr": "dist/vue3-color.umd.min.js",
+  "scripts": {
+    "dev": "npm run serve",
+    "prod": "npm run build && npm run gh:build",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --target lib --name vue3-color src/build.js",
+    "gh:build": "vue-cli-service build --dest='dist/vue3-color'",
+    "lint": "vue-cli-service lint",
+    "patch": "npm version patch && npm run build && npm publish && git push --follow-tags"
+  },
+  "homepage": "https://lk77.github.io/vue3-color/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lk77/vue3-color"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-standard": "^6.1.0",
+    "clamp": "^1.0.1",
+    "core-js": "^3.21.1",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "lodash": "^4.17.21",
+    "material-colors": "^1.2.6",
+    "tinycolor2": "^1.4.2",
+    "vue": "^3.2.31"
+  },
+  "license": "MIT"
+}

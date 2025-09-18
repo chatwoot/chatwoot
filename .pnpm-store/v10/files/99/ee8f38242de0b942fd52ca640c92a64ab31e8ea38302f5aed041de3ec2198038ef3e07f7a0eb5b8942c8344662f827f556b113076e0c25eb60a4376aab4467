@@ -1,0 +1,29 @@
+{
+  "name": "@material/mwc-icon",
+  "version": "0.25.3",
+  "description": "Material Design icon web component",
+  "keywords": [
+    "material design",
+    "web components",
+    "icon"
+  ],
+  "main": "mwc-icon.js",
+  "module": "mwc-icon.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/material-components/material-components-web-components.git",
+    "directory": "packages/icon"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "lit": "^2.0.0",
+    "tslib": "^2.0.1"
+  },
+  "scripts": {
+    "build:style": "node ../../scripts/sass-to-lit-css/index.js mwc-icon-host.scss"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "1f19804bea995fc84ab35feb67668d9874ff10f9"
+}

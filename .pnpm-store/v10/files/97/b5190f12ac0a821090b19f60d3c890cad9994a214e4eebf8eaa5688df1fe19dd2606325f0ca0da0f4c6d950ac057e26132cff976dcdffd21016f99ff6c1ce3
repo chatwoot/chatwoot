@@ -1,0 +1,22 @@
+{
+  "name": "@rollup/rollup-linux-x64-musl",
+  "version": "4.50.1",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "rollup.linux-x64-musl.node"
+  ],
+  "description": "Native bindings for Rollup",
+  "author": "Lukas Taegert-Atkinson",
+  "homepage": "https://rollupjs.org/",
+  "license": "MIT",
+  "repository": "rollup/rollup",
+  "libc": [
+    "musl"
+  ],
+  "main": "./rollup.linux-x64-musl.node"
+}

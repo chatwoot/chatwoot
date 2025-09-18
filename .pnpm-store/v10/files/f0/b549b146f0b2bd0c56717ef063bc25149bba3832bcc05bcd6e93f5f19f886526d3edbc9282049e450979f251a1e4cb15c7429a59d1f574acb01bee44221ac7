@@ -1,0 +1,14 @@
+import type { ResolvedPos } from 'prosemirror-model';
+import { Selection } from 'prosemirror-state';
+import type { FindPredicate, FindResult, DomAtPos, NodeTypeParam } from './types';
+export declare const findParentNode: (predicate: FindPredicate) => ({ $from, $to }: Selection, validateSameParent?: boolean) => FindResult;
+export declare const findParentNodeClosestToPos: ($pos: ResolvedPos, predicate: FindPredicate) => FindResult;
+export declare const findParentDomRef: (predicate: FindPredicate, domAtPos: DomAtPos) => (selection: Selection) => Node | undefined;
+export declare const hasParentNode: (predicate: FindPredicate) => (selection: Selection) => boolean;
+export declare const findParentNodeOfType: (nodeType: NodeTypeParam) => (selection: Selection) => FindResult;
+export declare const findParentNodeOfTypeClosestToPos: ($pos: ResolvedPos, nodeType: NodeTypeParam) => FindResult;
+export declare const hasParentNodeOfType: (nodeType: NodeTypeParam) => (selection: Selection) => boolean;
+export declare const findParentDomRefOfType: (nodeType: NodeTypeParam, domAtPos: DomAtPos) => (selection: Selection) => Node | undefined;
+export declare const findSelectedNodeOfType: (nodeType: NodeTypeParam) => (selection: Selection) => FindResult;
+export declare const findPositionOfNodeBefore: (selection: Selection) => number | undefined;
+export declare const findDomRefAtPos: (position: number, domAtPos: DomAtPos) => Node;

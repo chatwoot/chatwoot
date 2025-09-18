@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --tomato-a1: #ff000003;
+  --tomato-a2: #ff200008;
+  --tomato-a3: #f52b0018;
+  --tomato-a4: #ff35002c;
+  --tomato-a5: #ff2e003d;
+  --tomato-a6: #f92d0050;
+  --tomato-a7: #e7280067;
+  --tomato-a8: #db250084;
+  --tomato-a9: #df2600d1;
+  --tomato-a10: #d72400da;
+  --tomato-a11: #cd2200ea;
+  --tomato-a12: #460900e0;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --tomato-a1: color(display-p3 0.675 0.024 0.024 / 0.012);
+      --tomato-a2: color(display-p3 0.757 0.145 0.02 / 0.032);
+      --tomato-a3: color(display-p3 0.831 0.184 0.012 / 0.091);
+      --tomato-a4: color(display-p3 0.976 0.192 0.004 / 0.165);
+      --tomato-a5: color(display-p3 0.918 0.192 0.004 / 0.232);
+      --tomato-a6: color(display-p3 0.847 0.173 0.004 / 0.302);
+      --tomato-a7: color(display-p3 0.788 0.165 0.004 / 0.389);
+      --tomato-a8: color(display-p3 0.749 0.153 0.004 / 0.499);
+      --tomato-a9: color(display-p3 0.78 0.149 0 / 0.769);
+      --tomato-a10: color(display-p3 0.757 0.141 0 / 0.8);
+      --tomato-a11: color(display-p3 0.755 0.259 0.152);
+      --tomato-a12: color(display-p3 0.335 0.165 0.132);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+html {
+  max-width: 38rem;
+  padding: 2rem;
+  margin: auto;
+  font-size: 24px;
+}
+pre code.hljs {
+  padding: 0.5em;
+  margin: 0.5em 0;
+}

@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --lime-a1: #11bb0003;
+  --lime-a2: #78f7000a;
+  --lime-a3: #9bfd4c1a;
+  --lime-a4: #a7fe5c29;
+  --lime-a5: #affe6537;
+  --lime-a6: #b2fe6d46;
+  --lime-a7: #b6ff6f57;
+  --lime-a8: #b6fd6d6c;
+  --lime-a9: #caff69ed;
+  --lime-a10: #d4ff70;
+  --lime-a11: #d1fe77e4;
+  --lime-a12: #e9febff7;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --lime-a1: color(display-p3 0.067 0.941 0 / 0.009);
+      --lime-a2: color(display-p3 0.584 0.996 0.071 / 0.038);
+      --lime-a3: color(display-p3 0.69 1 0.38 / 0.101);
+      --lime-a4: color(display-p3 0.729 1 0.435 / 0.16);
+      --lime-a5: color(display-p3 0.745 1 0.471 / 0.215);
+      --lime-a6: color(display-p3 0.769 1 0.482 / 0.274);
+      --lime-a7: color(display-p3 0.769 1 0.506 / 0.341);
+      --lime-a8: color(display-p3 0.784 1 0.51 / 0.416);
+      --lime-a9: color(display-p3 0.839 1 0.502 / 0.925);
+      --lime-a10: color(display-p3 0.871 1 0.522 / 0.996);
+      --lime-a11: color(display-p3 0.771 0.893 0.485);
+      --lime-a12: color(display-p3 0.905 0.966 0.753);
+    }
+  }
+}

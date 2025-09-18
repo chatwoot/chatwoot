@@ -2,5 +2,6 @@
     "cSpell.words": [
         "chatwoot",
         "dompurify"
-    ]
+    ],
+    "git.ignoreLimitWarning": true
 }

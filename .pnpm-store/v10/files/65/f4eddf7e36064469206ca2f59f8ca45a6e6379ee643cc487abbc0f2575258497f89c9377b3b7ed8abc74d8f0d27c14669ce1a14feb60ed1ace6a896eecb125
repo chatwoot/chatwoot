@@ -1,0 +1,28 @@
+export { SDK_VERSION, SEMANTIC_ATTRIBUTE_SENTRY_OP, SEMANTIC_ATTRIBUTE_SENTRY_ORIGIN, SEMANTIC_ATTRIBUTE_SENTRY_SAMPLE_RATE, SEMANTIC_ATTRIBUTE_SENTRY_SOURCE, Scope, addBreadcrumb, addEventProcessor, addIntegration, addTracingExtensions, captureConsoleIntegration, captureEvent, captureException, captureFeedback, captureMessage, captureSession, close, continueTrace, createTransport, debugIntegration, dedupeIntegration, endSession, extraErrorDataIntegration, flush, functionToStringIntegration, getActiveSpan, getClient, getCurrentHub, getCurrentScope, getGlobalScope, getIsolationScope, getRootSpan, getSpanDescendants, getSpanStatusFromHttpCode, inboundFiltersIntegration, isInitialized, lastEventId, makeMultiplexedTransport, moduleMetadataIntegration, parameterize, registerSpanErrorInstrumentation, rewriteFramesIntegration, sessionTimingIntegration, setContext, setCurrentClient, setExtra, setExtras, setHttpStatus, setMeasurement, setTag, setTags, setUser, spanToBaggageHeader, spanToJSON, spanToTraceHeader, startInactiveSpan, startNewTrace, startSession, startSpan, startSpanManual, thirdPartyErrorFilterIntegration, withActiveSpan, withIsolationScope, withScope, zodErrorsIntegration } from '@sentry/core';
+export { WINDOW } from './helpers.js';
+export { BrowserClient } from './client.js';
+export { makeFetchTransport } from './transports/fetch.js';
+export { chromeStackLineParser, defaultStackLineParsers, defaultStackParser, geckoStackLineParser, opera10StackLineParser, opera11StackLineParser, winjsStackLineParser } from './stack-parsers.js';
+export { eventFromException, eventFromMessage, exceptionFromError } from './eventbuilder.js';
+export { createUserFeedbackEnvelope } from './userfeedback.js';
+export { captureUserFeedback, forceLoad, getDefaultIntegrations, init, onLoad, showReportDialog } from './sdk.js';
+export { breadcrumbsIntegration } from './integrations/breadcrumbs.js';
+export { globalHandlersIntegration } from './integrations/globalhandlers.js';
+export { httpContextIntegration } from './integrations/httpcontext.js';
+export { linkedErrorsIntegration } from './integrations/linkederrors.js';
+export { browserApiErrorsIntegration } from './integrations/browserapierrors.js';
+export { lazyLoadIntegration } from './utils/lazyLoadIntegration.js';
+export { reportingObserverIntegration } from './integrations/reportingobserver.js';
+export { httpClientIntegration } from './integrations/httpclient.js';
+export { contextLinesIntegration } from './integrations/contextlines.js';
+export { getReplay, replayIntegration } from '@sentry-internal/replay';
+export { replayCanvasIntegration } from '@sentry-internal/replay-canvas';
+export { feedbackAsyncIntegration } from './feedbackAsync.js';
+export { feedbackSyncIntegration as feedbackIntegration, feedbackSyncIntegration } from './feedbackSync.js';
+export { getFeedback, sendFeedback } from '@sentry-internal/feedback';
+export { metrics } from './metrics.js';
+export { defaultRequestInstrumentationOptions, instrumentOutgoingRequests } from './tracing/request.js';
+export { browserTracingIntegration, startBrowserTracingNavigationSpan, startBrowserTracingPageLoadSpan } from './tracing/browserTracingIntegration.js';
+export { makeBrowserOfflineTransport } from './transports/offline.js';
+export { browserProfilingIntegration } from './profiling/integration.js';
+//# sourceMappingURL=index.js.map

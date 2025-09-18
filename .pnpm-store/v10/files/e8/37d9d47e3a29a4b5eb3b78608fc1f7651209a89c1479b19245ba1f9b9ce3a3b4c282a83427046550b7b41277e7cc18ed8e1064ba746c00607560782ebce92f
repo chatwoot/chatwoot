@@ -1,0 +1,33 @@
+.dark, .dark-theme {
+  --sand-a1: #00000000;
+  --sand-a2: #f4f4f309;
+  --sand-a3: #f6f6f513;
+  --sand-a4: #fefef31b;
+  --sand-a5: #fbfbeb23;
+  --sand-a6: #fffaed2d;
+  --sand-a7: #fffbed3c;
+  --sand-a8: #fff9eb57;
+  --sand-a9: #fffae965;
+  --sand-a10: #fffdee73;
+  --sand-a11: #fffcf4b0;
+  --sand-a12: #fffffded;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --sand-a1: color(display-p3 0 0 0 / 0);
+      --sand-a2: color(display-p3 0.992 0.992 0.988 / 0.034);
+      --sand-a3: color(display-p3 0.996 0.996 0.992 / 0.072);
+      --sand-a4: color(display-p3 0.992 0.992 0.953 / 0.106);
+      --sand-a5: color(display-p3 1 1 0.965 / 0.135);
+      --sand-a6: color(display-p3 1 0.976 0.929 / 0.177);
+      --sand-a7: color(display-p3 1 0.984 0.929 / 0.236);
+      --sand-a8: color(display-p3 1 0.976 0.925 / 0.341);
+      --sand-a9: color(display-p3 1 0.98 0.925 / 0.395);
+      --sand-a10: color(display-p3 1 0.992 0.933 / 0.45);
+      --sand-a11: color(display-p3 1 0.996 0.961 / 0.685);
+      --sand-a12: color(display-p3 1 1 0.992 / 0.929);
+    }
+  }
+}

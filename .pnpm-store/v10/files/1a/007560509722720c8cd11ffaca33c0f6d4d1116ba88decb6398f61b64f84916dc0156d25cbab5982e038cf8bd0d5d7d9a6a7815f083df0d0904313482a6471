@@ -1,0 +1,35 @@
+{
+  "name": "spark-md5",
+  "version": "3.0.2",
+  "description": "Lightning fast normal and incremental md5 for javascript",
+  "main": "spark-md5.js",
+  "files": [
+    "spark-md5.js",
+    "spark-md5.min.js"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:satazor/js-spark-md5.git"
+  },
+  "keywords": [
+    "md5",
+    "fast",
+    "spark",
+    "incremental"
+  ],
+  "author": "André Cruz <andremiguelcruz@msn.com>",
+  "license": "(WTFPL OR MIT)",
+  "bugs": {
+    "url": "https://github.com/satazor/js-spark-md5/issues"
+  },
+  "scripts": {
+    "min": "uglifyjs spark-md5.js > spark-md5.min.js",
+    "test": "open test/index.html"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.0.0"
+  }
+}

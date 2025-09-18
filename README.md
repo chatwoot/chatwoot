@@ -101,6 +101,173 @@ If you are looking for a stable version, please use the `master` or tags labelle
 
 ## Deployment
 
+### Docker (Local Development)
+
+Для запуска Chatwoot локально с базами данных в Docker выполните следующие шаги:
+
+#### Подготовка
+
+1. Убедитесь что у вас установлены:
+   - Docker и Docker Compose
+   - Ruby 3.3+
+   - Node.js 18+
+   - pnpm
+
+2. Склонируйте репозиторий:
+   ```bash
+   git clone https://github.com/chatwoot/chatwoot.git
+   cd chatwoot
+   ```
+
+#### Запуск баз данных в Docker
+
+1. Запустите только базы данных и MailHog:
+   ```bash
+   docker-compose -f docker-compose.dev.yaml up -d
+   ```
+
+2. Проверьте что сервисы запущены:
+   ```bash
+   docker-compose -f docker-compose.dev.yaml ps
+   ```
+
+#### Настройка локального приложения
+
+1. Создайте файл `.env`:
+   ```bash
+   # Chatwoot Configuration
+   NODE_ENV=development
+   RAILS_ENV=development
+
+   # Database Configuration
+   POSTGRES_HOST=localhost
+   POSTGRES_PORT=5433
+   POSTGRES_DB=chatwoot
+   POSTGRES_USER=postgres
+   POSTGRES_PASSWORD=chatwoot_password
+
+   # Redis Configuration
+   REDIS_URL=redis://localhost:6380
+   REDIS_PASSWORD=
+
+   # Frontend Configuration
+   FRONTEND_URL=http://localhost:3000
+
+   # Email Configuration (using MailHog for development)
+   SMTP_DOMAIN=localhost
+   SMTP_PORT=1025
+   SMTP_ADDRESS=localhost
+   SMTP_USERNAME=
+   SMTP_PASSWORD=
+   SMTP_AUTHENTICATION=
+   FORCE_SSL=false
+
+   # Application Configuration
+   SECRET_KEY_BASE=your_secret_key_base_here_minimum_30_characters
+   INSTALLATION_ENV=docker
+
+   # Disable Enterprise features for OSS version
+   CW_ENTERPRISE_EDITION=false
+   DISABLE_ENTERPRISE=true
+
+   # Active Storage Configuration
+   ACTIVE_STORAGE_SERVICE=local
+
+   # Default settings
+   DEFAULT_LOCALE=en
+   ```
+
+2. Установите зависимости:
+   ```bash
+   # Ruby зависимости
+   bundle install
+
+   # Node.js зависимости
+   pnpm install
+   ```
+
+3. Настройте базу данных:
+   ```bash
+   # Создание и миграции базы данных
+   bundle exec rails db:create
+   bundle exec rails db:migrate
+   bundle exec rails db:seed
+   ```
+
+#### Запуск приложения
+
+1. В первом терминале запустите Rails сервер:
+   ```bash
+   bundle exec rails server
+   ```
+
+2. Во втором терминале запустите Sidekiq:
+   ```bash
+   bundle exec sidekiq -C config/sidekiq.yml
+   ```
+
+3. В третьем терминале запустите Vite dev server:
+   ```bash
+   bin/vite dev
+   ```
+
+#### Доступ к приложению
+
+- **Chatwoot**: http://localhost:3000
+- **MailHog** (для тестирования email): http://localhost:8025
+- **PostgreSQL**: localhost:5433
+- **Redis**: localhost:6380
+
+#### Persistent Storage
+
+Данные PostgreSQL и Redis сохраняются в Docker volumes:
+- `chatwoot_postgres_data` - данные PostgreSQL
+- `chatwoot_redis_data` - данные Redis
+
+При перезапуске Docker контейнеров данные сохранятся.
+
+#### Остановка сервисов
+
+```bash
+# Остановка Docker сервисов
+docker-compose -f docker-compose.dev.yaml down
+
+# Остановка с удалением volumes (ВНИМАНИЕ: удалит все данные!)
+docker-compose -f docker-compose.dev.yaml down -v
+```
+
+#### Альтернативный метод: полный Docker запуск
+
+Полный запуск всех сервисов в Docker (исправлены все проблемы с подключениями):
+
+```bash
+# 1. Запустите базовые сервисы
+docker-compose up -d postgres redis mailhog
+
+# 2. Запустите основные сервисы  
+docker-compose up -d rails sidekiq
+
+# 3. (Опционально) Запустите Vite dev server
+docker-compose up -d vite
+
+# Проверьте статус всех сервисов
+docker-compose ps
+```
+
+**Что было исправлено для полного Docker запуска:**
+- ✅ Настроены правильные environment переменные для связи между контейнерами
+- ✅ Исправлена проблема с `POSTGRES_USER` vs `POSTGRES_USERNAME` в entrypoint скриптах
+- ✅ Sidekiq корректно подключается к Redis через `redis://redis:6379`
+- ✅ Rails сервер успешно стартует и подключается к PostgreSQL
+- ✅ Persistent storage настроен для сохранения данных
+
+#### Troubleshooting
+
+- Если порты 5432 или 6379 заняты, проект использует 5433 и 6380 соответственно
+- Для просмотра логов: `docker-compose -f docker-compose.dev.yaml logs <service-name>`
+- Для входа в контейнер: `docker-compose -f docker-compose.dev.yaml exec <service-name> bash`
+- При проблемах с сетью при сборке Docker образов используйте гибридный подход (базы в Docker, приложение локально)
+
 ### Heroku one-click deploy
 
 Deploying Chatwoot to Heroku is a breeze. It's as simple as clicking this button:

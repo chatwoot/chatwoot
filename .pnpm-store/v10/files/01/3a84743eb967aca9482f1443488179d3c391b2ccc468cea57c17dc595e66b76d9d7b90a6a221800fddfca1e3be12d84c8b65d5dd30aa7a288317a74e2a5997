@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/css/genesis/index.ts"],"names":[],"mappings":";AAEA,IAAO,kBAAQ,MAAY;AAE3B","sourcesContent":["import './genesis.css'\n\nexport default (): void => {\n  // Do nothing for now.\n}\n"]}

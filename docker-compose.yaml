@@ -1,4 +1,3 @@
-version: '3'
 
 services:
   base: &base
@@ -30,21 +29,38 @@ services:
     depends_on:
       - postgres
       - redis
-      - vite
       - mailhog
-      - sidekiq
     ports:
       - 3000:3000
-    env_file: .env
     environment:
       - VITE_DEV_SERVER_HOST=vite
       - NODE_ENV=development
       - RAILS_ENV=development
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=chatwoot_password
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=
+      - FRONTEND_URL=http://localhost:3000
+      - SMTP_DOMAIN=localhost
+      - SMTP_PORT=1025
+      - SMTP_ADDRESS=mailhog
+      - SECRET_KEY_BASE=replace_with_your_own_secret_key_base_minimum_length_is_30_characters_placeholder
+      - INSTALLATION_ENV=docker
+      - CW_ENTERPRISE_EDITION=false
+      - DISABLE_ENTERPRISE=true
+      - ACTIVE_STORAGE_SERVICE=local
+      - DEFAULT_LOCALE=en
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
   sidekiq:
     <<: *base
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
     image: chatwoot-rails:development
     volumes:
       - ./:/app:delegated
@@ -59,6 +75,23 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=chatwoot_password
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=
+      - FRONTEND_URL=http://localhost:3000
+      - SMTP_DOMAIN=localhost
+      - SMTP_PORT=1025
+      - SMTP_ADDRESS=mailhog
+      - SECRET_KEY_BASE=replace_with_your_own_secret_key_base_minimum_length_is_30_characters_placeholder
+      - INSTALLATION_ENV=docker
+      - CW_ENTERPRISE_EDITION=false
+      - DISABLE_ENTERPRISE=true
+      - ACTIVE_STORAGE_SERVICE=local
+      - DEFAULT_LOCALE=en
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
   vite:
@@ -66,6 +99,11 @@ services:
     build:
       context: .
       dockerfile: ./docker/dockerfiles/vite.Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        EXECJS_RUNTIME: 'Node'
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
     image: chatwoot-vite:development
     volumes:
       - ./:/app:delegated
@@ -79,20 +117,34 @@ services:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=chatwoot_password
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=
+      - FRONTEND_URL=http://localhost:3000
+      - SECRET_KEY_BASE=replace_with_your_own_secret_key_base_minimum_length_is_30_characters_placeholder
+      - INSTALLATION_ENV=docker
+      - CW_ENTERPRISE_EDITION=false
+      - DISABLE_ENTERPRISE=true
+      - ACTIVE_STORAGE_SERVICE=local
+      - DEFAULT_LOCALE=en
     entrypoint: docker/entrypoints/vite.sh
-    command: bin/vite dev
+    command: ["pnpm", "dev"]
 
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
-      - postgres:/data/postgres
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=chatwoot_password
 
   redis:
     image: redis:alpine
@@ -100,9 +152,9 @@ services:
     command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
     env_file: .env
     volumes:
-      - redis:/data/redis
+      - redis_data:/data
     ports:
-      - '6379:6379'
+      - '6380:6379'
 
   mailhog:
     image: mailhog/mailhog
@@ -111,8 +163,10 @@ services:
       - 8025:8025
 
 volumes:
-  postgres:
-  redis:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
   packs:
   node_modules:
   cache:

@@ -1,0 +1,37 @@
+{
+  "name": "prosemirror-transform",
+  "version": "1.10.0",
+  "description": "ProseMirror document transformations",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "sideEffects": false,
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "Marijn Haverbeke",
+      "email": "marijn@haverbeke.berlin",
+      "web": "http://marijnhaverbeke.nl"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/prosemirror/prosemirror-transform.git"
+  },
+  "dependencies": {
+    "prosemirror-model": "^1.21.0"
+  },
+  "devDependencies": {
+    "@prosemirror/buildhelper": "^0.1.5",
+    "prosemirror-test-builder": "^1.0.0"
+  },
+  "scripts": {
+    "test": "pm-runtests",
+    "prepare": "pm-buildhelper src/index.ts"
+  }
+}

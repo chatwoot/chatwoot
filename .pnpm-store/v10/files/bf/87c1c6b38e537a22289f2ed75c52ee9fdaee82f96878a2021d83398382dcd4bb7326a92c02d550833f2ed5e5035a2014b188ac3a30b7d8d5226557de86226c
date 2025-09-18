@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --teal-a1: #00cc9905;
+  --teal-a2: #00aa800c;
+  --teal-a3: #00c69d1f;
+  --teal-a4: #00c39633;
+  --teal-a5: #00b49047;
+  --teal-a6: #00a6855e;
+  --teal-a7: #0099807c;
+  --teal-a8: #009783ac;
+  --teal-a9: #009e8ced;
+  --teal-a10: #009684f2;
+  --teal-a11: #008573;
+  --teal-a12: #00332df2;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --teal-a1: color(display-p3 0.024 0.757 0.514 / 0.016);
+      --teal-a2: color(display-p3 0.02 0.647 0.467 / 0.044);
+      --teal-a3: color(display-p3 0.004 0.741 0.557 / 0.106);
+      --teal-a4: color(display-p3 0.004 0.702 0.537 / 0.169);
+      --teal-a5: color(display-p3 0.004 0.643 0.494 / 0.24);
+      --teal-a6: color(display-p3 0.004 0.569 0.447 / 0.318);
+      --teal-a7: color(display-p3 0.004 0.518 0.424 / 0.42);
+      --teal-a8: color(display-p3 0 0.506 0.424 / 0.569);
+      --teal-a9: color(display-p3 0 0.482 0.404 / 0.702);
+      --teal-a10: color(display-p3 0 0.451 0.369 / 0.726);
+      --teal-a11: color(display-p3 0.08 0.5 0.43);
+      --teal-a12: color(display-p3 0.11 0.235 0.219);
+    }
+  }
+}

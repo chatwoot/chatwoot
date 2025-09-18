@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --amber-a1: #c0800004;
+  --amber-a2: #f4d10016;
+  --amber-a3: #ffde003d;
+  --amber-a4: #ffd40063;
+  --amber-a5: #f8cf0088;
+  --amber-a6: #eab5008c;
+  --amber-a7: #dc9b009d;
+  --amber-a8: #da8a00c9;
+  --amber-a9: #ffb300c2;
+  --amber-a10: #ffb300e7;
+  --amber-a11: #ab6400;
+  --amber-a12: #341500dd;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --amber-a1: color(display-p3 0.757 0.514 0.024 / 0.016);
+      --amber-a2: color(display-p3 0.902 0.804 0.008 / 0.079);
+      --amber-a3: color(display-p3 0.965 0.859 0.004 / 0.22);
+      --amber-a4: color(display-p3 0.969 0.82 0.004 / 0.35);
+      --amber-a5: color(display-p3 0.933 0.796 0.004 / 0.475);
+      --amber-a6: color(display-p3 0.875 0.682 0.004 / 0.495);
+      --amber-a7: color(display-p3 0.804 0.573 0 / 0.557);
+      --amber-a8: color(display-p3 0.788 0.502 0 / 0.699);
+      --amber-a9: color(display-p3 1 0.686 0 / 0.742);
+      --amber-a10: color(display-p3 0.945 0.643 0 / 0.726);
+      --amber-a11: color(display-p3 0.64 0.4 0);
+      --amber-a12: color(display-p3 0.294 0.208 0.145);
+    }
+  }
+}
