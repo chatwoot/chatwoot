@@ -80,6 +80,11 @@
         "NOTE": "Opdatering af din adgangskode vil nulstille dine logins på flere enheder.",
         "BTN_TEXT": "Skift adgangskode"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Adgangs Token",
         "NOTE": "Denne token kan bruges, hvis du bygger en API-baseret integration",
