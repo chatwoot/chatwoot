@@ -994,6 +994,21 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_17_030942) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "operational_hours", force: :cascade do |t|
+    t.bigint "agent_bot_id", null: false
+    t.integer "day_of_week", null: false
+    t.integer "open_hour"
+    t.integer "open_minute"
+    t.integer "close_hour"
+    t.integer "close_minute"
+    t.boolean "open_allday", default: false
+    t.boolean "close_allday", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_bot_id"], name: "index_operational_hours_on_agent_bot_id"
+    t.index ["day_of_week", "agent_bot_id"], name: "index_operational_hours_on_day_of_week_and_agent_bot_id", unique: true
+  end
+
   create_table "platform_app_permissibles", force: :cascade do |t|
     t.bigint "platform_app_id", null: false
     t.string "permissible_type", null: false
@@ -1169,6 +1184,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_17_030942) do
     t.datetime "updated_at", null: false
     t.jsonb "features", default: [], null: false
     t.text "description"
+    t.integer "max_channels", default: 0
   end
 
   create_table "subscription_plans_vouchers", id: false, force: :cascade do |t|
@@ -1230,6 +1246,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_17_030942) do
     t.integer "additional_mau", default: 0, null: false
     t.integer "additional_ai_responses", default: 0, null: false
     t.datetime "last_notify_expiry"
+    t.integer "max_channels", default: 0
     t.index ["account_id"], name: "index_subscriptions_on_account_id"
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
   end
@@ -1436,6 +1453,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_17_030942) do
   add_foreign_key "knowledge_source_texts", "knowledge_sources"
   add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"
+  add_foreign_key "operational_hours", "agent_bots"
   add_foreign_key "quick_replies", "accounts"
   add_foreign_key "subscription_payments", "subscriptions"
   add_foreign_key "subscription_topups", "subscriptions"
