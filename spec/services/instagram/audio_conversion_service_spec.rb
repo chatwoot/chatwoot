@@ -160,7 +160,7 @@ describe Instagram::AudioConversionService do
         end
 
         it 'returns false and logs warning' do
-          expect(Rails.logger).to receive(:warn).with(/Audio file size.*exceeds Instagram limit/)
+          expect(Rails.logger).to receive(:warn).with(/\[INSTAGRAM_AUDIO\] Audio file size.*exceeds Instagram limit/)
           expect(service.send(:should_convert_audio?, attachment)).to be false
         end
       end
@@ -307,6 +307,27 @@ describe Instagram::AudioConversionService do
       expect(attachment.file.filename.to_s).to eq('test.m4a')
       expect(attachment.file.content_type).to eq('audio/mp4')
       expect(attachment.file.blob).not_to eq(original_blob)
+      expect(attachment.reload.file_type).to eq('audio')
+    end
+
+    it 'preserves audio file type after conversion' do
+      allow(service).to receive(:build_public_url_for_blob).and_return('http://example.com/converted.m4a')
+
+      expect(attachment.file_type).to eq('audio')
+
+      result = service.send(:upload_converted_file, attachment, mp4_file)
+
+      expect(result).to eq('http://example.com/converted.m4a')
+      expect(attachment.reload.file_type).to eq('audio')
+    end
+
+    it 'removes original blob after successful conversion' do
+      original_blob = attachment.file.blob
+      allow(service).to receive(:build_public_url_for_blob).and_return('http://example.com/converted.m4a')
+
+      service.send(:upload_converted_file, attachment, mp4_file)
+
+      expect { original_blob.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -402,7 +423,7 @@ describe Instagram::AudioConversionService do
     it 'handles cleanup errors gracefully' do
       allow(temp_file1).to receive(:respond_to?).with(:close).and_return(true)
       allow(temp_file1).to receive(:close).and_raise(StandardError.new('Cleanup failed'))
-      expect(Rails.logger).to receive(:warn).with(/Failed to cleanup temp file/)
+      expect(Rails.logger).to receive(:warn).with(/Instagram: Failed to cleanup temp file/)
 
       expect { service.send(:cleanup_temp_files, [temp_file1]) }.not_to raise_error
     end
@@ -424,6 +445,10 @@ describe Instagram::AudioConversionService do
 
     it 'defines maximum file size' do
       expect(described_class::MAX_FILE_SIZE).to eq(25.megabytes)
+    end
+
+    it 'defines audio file type constant' do
+      expect(described_class::AUDIO_FILE_TYPE).to eq('audio')
     end
   end
 end

@@ -33,6 +33,9 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
+  
+  # Set ActiveStorage URL expiration to 30 minutes for external services (e.g., Instagram)
+  config.active_storage.service_urls_expire_in = 30.minutes
 
   config.active_job.queue_adapter = :sidekiq
 
