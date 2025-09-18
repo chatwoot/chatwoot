@@ -80,6 +80,11 @@
         "NOTE": "Atnaujinus slaptažodį būtų iš naujo nustatyti prisijungimai keliuose įrenginiuose.",
         "BTN_TEXT": "Keisti slaptažodį"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Prieeigos raktas",
         "NOTE": "Šis prieigos raktas gali būti naudojamas, jei kuriate API pagrįstą integraciją",
