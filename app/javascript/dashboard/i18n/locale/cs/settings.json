@@ -80,6 +80,11 @@
         "NOTE": "Aktualizace hesla by obnovila vaše přihlašovací údaje na více zařízeních.",
         "BTN_TEXT": "Change password"
       },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Přístupový token",
         "NOTE": "Tento token může být použit při vytváření integrace založené na API",
