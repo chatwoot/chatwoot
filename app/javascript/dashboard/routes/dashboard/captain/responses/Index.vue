@@ -302,9 +302,9 @@ onMounted(() => {
     <template #controls>
       <div
         v-if="shouldShowDropdown"
-        class="mb-4 -mt-3 flex justify-between items-center w-full py-1"
+        class="mb-4 -mt-3 flex justify-between items-center py-1"
         :class="{
-          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3':
+          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 w-fit':
             bulkSelectionState.hasSelected,
         }"
       >
