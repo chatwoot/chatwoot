@@ -64,11 +64,13 @@ const getValueFromConversation = (conversation, attributeKey) => {
   switch (attributeKey) {
     case 'status':
     case 'priority':
-    case 'display_id':
     case 'labels':
     case 'created_at':
     case 'last_activity_at':
       return conversation[attributeKey];
+    case 'display_id':
+      // Frontend uses 'id' but backend expects 'display_id'
+      return conversation.display_id || conversation.id;
     case 'assignee_id':
       return conversation.meta?.assignee?.id;
     case 'inbox_id':

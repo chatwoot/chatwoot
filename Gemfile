@@ -62,6 +62,10 @@ gem 'redis-namespace'
 # super fast record imports in bulk
 gem 'activerecord-import'
 
+gem 'searchkick'
+gem 'opensearch-ruby'
+gem 'faraday_middleware-aws-sigv4'
+
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
@@ -74,9 +78,12 @@ gem 'barnes'
 gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth', '>= 1.2.3'
+# two-factor authentication
+gem 'devise-two-factor', '>= 5.0.0'
 # authorization
 gem 'jwt'
 gem 'pundit'
+
 # super admin
 gem 'administrate', '>= 0.20.1'
 gem 'administrate-field-active_storage', '>= 1.0.3'
@@ -89,7 +96,7 @@ gem 'wisper', '2.0.0'
 ##--- gems for channels ---##
 gem 'facebook-messenger'
 gem 'line-bot-api'
-gem 'twilio-ruby', '~> 5.66'
+gem 'twilio-ruby'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
 gem 'twitty', '~> 0.1.5'
@@ -167,6 +174,7 @@ gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
+gem 'omniauth-saml'
 gem 'omniauth-google-oauth2', '>= 1.1.3'
 gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
 
@@ -212,6 +220,8 @@ group :development do
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
+
+  gem 'tidewave'
 end
 
 group :test do
@@ -221,6 +231,7 @@ group :test do
   gem 'webmock'
   # test profiling
   gem 'test-prof'
+  gem 'simplecov_json_formatter', require: false
 end
 
 group :development, :test do
@@ -245,7 +256,7 @@ group :development, :test do
   gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
-  gem 'simplecov', '0.17.1', require: false
+  gem 'simplecov', '>= 0.21', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
 end

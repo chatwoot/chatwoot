@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_16_024703) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_saml_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "sso_url"
+    t.text "certificate"
+    t.string "sp_entity_id"
+    t.string "idp_entity_id"
+    t.json "role_mappings", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
   end
 
   create_table "account_users", force: :cascade do |t|
@@ -320,6 +332,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
+    t.jsonb "metadata", default: {}
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
@@ -474,6 +487,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.integer "medium", default: 0
     t.string "messaging_service_sid"
     t.string "api_key_sid"
+    t.jsonb "content_templates", default: {}
+    t.datetime "content_templates_last_updated"
     t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
     t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
@@ -518,6 +533,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.jsonb "pre_chat_form_options", default: {}
     t.boolean "hmac_mandatory", default: false
     t.boolean "continuity_via_email", default: true, null: false
+    t.text "allowed_domains", default: ""
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
@@ -1131,14 +1147,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
-  create_table "telegram_bots", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.string "auth_key"
-    t.integer "account_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-  end
-
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -1167,7 +1175,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_08_123008) do
     t.jsonb "custom_attributes", default: {}
     t.string "type"
     t.text "message_signature"
+    t.string "otp_secret"
+    t.integer "consumed_timestep"
+    t.boolean "otp_required_for_login", default: false
+    t.text "otp_backup_codes"
     t.index ["email"], name: "index_users_on_email"
+    t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
+    t.index ["otp_secret"], name: "index_users_on_otp_secret", unique: true
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
