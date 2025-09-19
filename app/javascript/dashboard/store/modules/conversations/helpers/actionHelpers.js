@@ -38,6 +38,14 @@ export const isOnFoldersView = ({ route: { name: routeName } }) => {
   return FOLDER_ROUTES.includes(routeName);
 };
 
+const getTabFromFilterType = filterType => {
+  if (filterType === 'me') return 'me';
+  if (filterType === 'unassigned') return 'unassigned';
+  if (filterType === 'all') return 'all';
+  // For appliedFilters and other cases, default to 'all'
+  return 'all';
+};
+
 export const buildConversationList = (
   context,
   requestPayload,
@@ -45,7 +53,18 @@ export const buildConversationList = (
   filterType
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
+  const tab = getTabFromFilterType(filterType);
+
+  // Use tab-scoped mutation
+  context.commit(types.SET_TAB_CONVERSATION, {
+    conversations: conversationList,
+    tab,
+  });
+  context.commit(types.SET_ACTIVE_TAB, tab);
+
+  // Keep legacy mutation for backward compatibility during migration
   context.commit(types.SET_ALL_CONVERSATION, conversationList);
+
   context.dispatch('conversationStats/set', metaData);
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',

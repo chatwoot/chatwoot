@@ -616,6 +616,8 @@ function updateAssigneeTab(selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
     activeAssigneeTab.value = selectedTab;
+    // Set active tab in store for tab-scoped caching
+    store.commit('conversations/SET_ACTIVE_TAB', selectedTab);
     if (!currentPage.value) {
       fetchConversations();
     }

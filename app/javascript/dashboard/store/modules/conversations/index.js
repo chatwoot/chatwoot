@@ -8,7 +8,13 @@ import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 
 const state = {
-  allConversations: [],
+  allConversations: [], // Keep for backward compatibility during migration
+  conversationsByTab: {
+    me: [],
+    unassigned: [],
+    all: [],
+  },
+  activeCacheTab: 'all',
   attachments: {},
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
@@ -54,9 +60,46 @@ export const mutations = {
     });
     _state.allConversations = newAllConversations;
   },
+  [types.SET_TAB_CONVERSATION](_state, { conversations, tab }) {
+    if (!_state.conversationsByTab[tab]) {
+      _state.conversationsByTab[tab] = [];
+    }
+
+    const targetCache = [..._state.conversationsByTab[tab]];
+    const newConversations = [];
+
+    conversations.forEach(conversation => {
+      const indexInCache = targetCache.findIndex(c => c.id === conversation.id);
+      if (indexInCache < 0) {
+        newConversations.push(conversation);
+      } else if (conversation.id !== _state.selectedChatId) {
+        targetCache[indexInCache] = conversation;
+      } else {
+        // Preserve messages, attachments, dataFetched, allMessagesLoaded for selected chat
+        const existingConversation = targetCache[indexInCache];
+        targetCache[indexInCache] = {
+          ...conversation,
+          allMessagesLoaded: existingConversation.allMessagesLoaded,
+          messages: existingConversation.messages,
+          dataFetched: existingConversation.dataFetched,
+        };
+      }
+    });
+
+    // Maintain server order by appending new conversations
+    _state.conversationsByTab[tab] = [...targetCache, ...newConversations];
+  },
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
     _state.selectedChatId = null;
+  },
+  [types.EMPTY_TAB_CONVERSATION](_state, tab) {
+    if (_state.conversationsByTab[tab]) {
+      _state.conversationsByTab[tab] = [];
+    }
+  },
+  [types.SET_ACTIVE_TAB](_state, tab) {
+    _state.activeCacheTab = tab;
   },
   [types.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
@@ -202,12 +245,38 @@ export const mutations = {
 
   [types.ADD_CONVERSATION](_state, conversation) {
     _state.allConversations.push(conversation);
+
+    // Add to appropriate tab caches based on conversation properties
+    const { meta: { assignee } = {} } = conversation;
+
+    // Add to 'all' tab
+    if (!_state.conversationsByTab.all.find(c => c.id === conversation.id)) {
+      _state.conversationsByTab.all.unshift(conversation);
+    }
+
+    // Add to 'me' or 'unassigned' tab based on assignee
+    if (assignee) {
+      if (!_state.conversationsByTab.me.find(c => c.id === conversation.id)) {
+        _state.conversationsByTab.me.unshift(conversation);
+      }
+    } else if (
+      !_state.conversationsByTab.unassigned.find(c => c.id === conversation.id)
+    ) {
+      _state.conversationsByTab.unassigned.unshift(conversation);
+    }
   },
 
   [types.DELETE_CONVERSATION](_state, conversationId) {
     _state.allConversations = _state.allConversations.filter(
       c => c.id !== conversationId
     );
+
+    // Also remove from all tab caches
+    Object.keys(_state.conversationsByTab).forEach(tab => {
+      _state.conversationsByTab[tab] = _state.conversationsByTab[tab].filter(
+        c => c.id !== conversationId
+      );
+    });
   },
 
   [types.UPDATE_CONVERSATION](_state, conversation) {
@@ -231,6 +300,28 @@ export const mutations = {
     } else {
       _state.allConversations.push(conversation);
     }
+
+    // Also update conversation in all tab caches
+    Object.keys(_state.conversationsByTab).forEach(tab => {
+      const tabIndex = _state.conversationsByTab[tab].findIndex(
+        c => c.id === conversation.id
+      );
+      if (tabIndex > -1) {
+        const selectedTabConversation =
+          _state.conversationsByTab[tab][tabIndex];
+
+        // ignore out of order events
+        if (conversation.updated_at < selectedTabConversation.updated_at) {
+          return;
+        }
+
+        const { messages, ...updates } = conversation;
+        _state.conversationsByTab[tab][tabIndex] = {
+          ...selectedTabConversation,
+          ...updates,
+        };
+      }
+    });
   },
 
   [types.SET_LIST_LOADING_STATUS](_state) {
@@ -253,10 +344,22 @@ export const mutations = {
   },
   [types.CHANGE_CHAT_STATUS_FILTER](_state, data) {
     _state.chatStatusFilter = data;
+    // Clear all tab caches since status filter is global
+    _state.conversationsByTab = {
+      me: [],
+      unassigned: [],
+      all: [],
+    };
   },
 
   [types.CHANGE_CHAT_SORT_FILTER](_state, data) {
     _state.chatSortFilter = data;
+    // Clear all tab caches since sort filter is global
+    _state.conversationsByTab = {
+      me: [],
+      unassigned: [],
+      all: [],
+    };
   },
 
   // Update assignee on action cable message
