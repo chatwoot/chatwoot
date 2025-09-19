@@ -96,6 +96,7 @@ const completeSignupFlow = async businessDataParam => {
   }
 
   isProcessing.value = true;
+
   processingMessage.value = t(
     'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
   );
@@ -105,6 +106,7 @@ const completeSignupFlow = async businessDataParam => {
       code: authCode.value,
       business_id: businessDataParam.business_id,
       waba_id: businessDataParam.waba_id,
+      is_business_app_onboarding: businessDataParam.is_business_app_onboarding,
       phone_number_id: businessDataParam?.phone_number_id || '',
     };
 
@@ -129,8 +131,11 @@ const handleEmbeddedSignupData = async data => {
     data.event === 'FINISH' ||
     data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
   ) {
-    const businessDataLocal = data.data;
-
+    const businessDataLocal = {
+      ...data.data,
+      is_business_app_onboarding:
+        data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
+    };
     if (isValidBusinessData(businessDataLocal)) {
       businessData.value = businessDataLocal;
       if (authCodeReceived.value && authCode.value) {
