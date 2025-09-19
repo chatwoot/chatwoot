@@ -75,7 +75,13 @@ const getters = {
   getMineChats: (_state, _, __, rootGetters) => activeFilters => {
     const currentUserID = rootGetters.getCurrentUser?.id;
 
-    return _state.allConversations.filter(conversation => {
+    // Use allConversations if there are applied filters, otherwise use tab cache
+    const hasAppliedFilters = _state.appliedFilters?.length > 0;
+    const conversations = hasAppliedFilters
+      ? _state.allConversations
+      : _state.conversationsByTab.me || [];
+
+    return conversations.filter(conversation => {
       const { assignee } = conversation.meta;
       const isAssignedToMe = assignee && assignee.id === currentUserID;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
@@ -96,7 +102,13 @@ const getters = {
     return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
   },
   getUnAssignedChats: _state => activeFilters => {
-    return _state.allConversations.filter(conversation => {
+    // Use allConversations if there are applied filters, otherwise use tab cache
+    const hasAppliedFilters = _state.appliedFilters?.length > 0;
+    const conversations = hasAppliedFilters
+      ? _state.allConversations
+      : _state.conversationsByTab.unassigned || [];
+
+    return conversations.filter(conversation => {
       const isUnAssigned = !conversation.meta.assignee;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       return isUnAssigned && shouldFilter;
@@ -107,10 +119,16 @@ const getters = {
     const currentUserId = rootGetters.getCurrentUser.id;
     const currentAccountId = rootGetters.getCurrentAccountId;
 
+    // Use allConversations if there are applied filters, otherwise use tab cache
+    const hasAppliedFilters = _state.appliedFilters?.length > 0;
+    const conversations = hasAppliedFilters
+      ? _state.allConversations
+      : _state.conversationsByTab.all || [];
+
     const permissions = getUserPermissions(currentUser, currentAccountId);
     const userRole = getUserRole(currentUser, currentAccountId);
 
-    return _state.allConversations.filter(conversation => {
+    return conversations.filter(conversation => {
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       const allowedForRole = applyRoleFilter(
         conversation,

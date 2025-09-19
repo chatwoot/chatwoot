@@ -38,6 +38,14 @@ export const isOnFoldersView = ({ route: { name: routeName } }) => {
   return FOLDER_ROUTES.includes(routeName);
 };
 
+const getTabFromFilterType = filterType => {
+  if (filterType === 'me') return 'me';
+  if (filterType === 'unassigned') return 'unassigned';
+  if (filterType === 'all') return 'all';
+  // For appliedFilters and other cases, return null to use allConversations
+  return null;
+};
+
 export const buildConversationList = (
   context,
   requestPayload,
@@ -45,7 +53,20 @@ export const buildConversationList = (
   filterType
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  const tab = getTabFromFilterType(filterType);
+
+  if (tab) {
+    // Use tab-scoped mutation for basic assignee tabs
+    context.commit(types.SET_TAB_CONVERSATION, {
+      conversations: conversationList,
+      tab,
+    });
+    context.commit(types.SET_ACTIVE_TAB, tab);
+  } else {
+    // Use allConversations for filtered views (appliedFilters, folders, etc.)
+    context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  }
+
   context.dispatch('conversationStats/set', metaData);
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',
