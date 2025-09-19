@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
   isFetching: {
@@ -33,9 +34,13 @@ defineProps({
     type: Array,
     default: () => [],
   },
+  headerButtonLabel: {
+    type: String,
+    default: '',
+  },
 });
 
-const emit = defineEmits(['update:currentPage']);
+const emit = defineEmits(['update:currentPage', 'click']);
 
 const router = useRouter();
 
@@ -48,6 +53,10 @@ const handleBreadcrumbClick = item => {
     name: item.routeName,
   });
 };
+
+const onHeaderButtonClick = () => {
+  emit('click');
+};
 </script>
 
 <template>
@@ -55,8 +64,20 @@ const handleBreadcrumbClick = item => {
     class="px-6 flex flex-col w-full h-screen overflow-y-auto bg-n-background"
   >
     <div class="max-w-[60rem] mx-auto flex flex-col w-full h-full mb-4">
-      <header class="mb-7 sticky top-0 bg-n-background pt-4 z-20">
+      <header
+        class="mb-7 sticky top-0 bg-n-background pt-4 z-20 w-full flex justify-between items-center"
+      >
         <Breadcrumb :items="breadcrumbItems" @click="handleBreadcrumbClick" />
+        <div class="flex gap-4 items-center">
+          <slot name="headerControls" />
+          <Button
+            v-if="headerButtonLabel"
+            class="ml-auto"
+            @click="onHeaderButtonClick"
+          >
+            {{ headerButtonLabel }}
+          </Button>
+        </div>
       </header>
       <main class="flex gap-16 w-full flex-1 pb-16">
         <section
