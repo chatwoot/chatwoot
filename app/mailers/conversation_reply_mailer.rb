@@ -41,6 +41,8 @@ class ConversationReplyMailer < ApplicationMailer
     @message = message
     reply_mail_object = prepare_mail(true)
     message.update(source_id: reply_mail_object.message_id)
+    # Store in IMAP after preparing the mail
+    store_in_imap(reply_mail_object)
   end
 
   def conversation_transcript(conversation, to_email)
@@ -207,5 +209,18 @@ class ConversationReplyMailer < ApplicationMailer
     return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
 
     'mailer/base'
+  end
+
+  def store_in_imap(mail_object)
+    if @channel.microsoft?
+      imap_service = Imap::MicrosoftFetchEmailService.new(channel: @channel)
+    elsif @channel.google?
+      imap_service = Imap::GoogleFetchEmailService.new(channel: @channel)
+    else
+      imap_service = Imap::FetchEmailService.new(channel: @channel)
+    end
+    imap_service.store_in_imap(mail_object)
+  rescue => e
+    Rails.logger.error "Failed to store email in IMAP: #{e.message}"
   end
 end
