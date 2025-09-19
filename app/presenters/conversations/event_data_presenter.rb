@@ -1,9 +1,11 @@
 class Conversations::EventDataPresenter < SimpleDelegator
+  # rubocop:disable Metrics/MethodLength
   def push_data
     {
       additional_attributes: additional_attributes,
       can_reply: can_reply?,
       channel: inbox.try(:channel_type),
+      account_id: account_id,
       contact_inbox: contact_inbox,
       id: display_id,
       inbox_id: inbox_id,
@@ -20,6 +22,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       **push_timestamps
     }
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 
