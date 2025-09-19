@@ -177,7 +177,8 @@
       "REFERER_LINK": "Yönlendiren Bağlantı",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Ekip",
-      "PRIORITY": "Öncelik"
+      "PRIORITY": "Öncelik",
+      "LABELS": "Etiketler"
     }
   }
 }

@@ -177,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Назначено",
       "TEAM_NAME": "Команда",
-      "PRIORITY": "Приоритет"
+      "PRIORITY": "Приоритет",
+      "LABELS": "Категории"
     }
   }
 }

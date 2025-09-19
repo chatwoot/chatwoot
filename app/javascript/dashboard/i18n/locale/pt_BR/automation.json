@@ -177,7 +177,8 @@
       "REFERER_LINK": "Link de origem",
       "ASSIGNEE_NAME": "Agente atribuído",
       "TEAM_NAME": "Time",
-      "PRIORITY": "Prioridade"
+      "PRIORITY": "Prioridade",
+      "LABELS": "Etiquetas"
     }
   }
 }

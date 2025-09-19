@@ -177,7 +177,8 @@
       "REFERER_LINK": "Novirzītāja Saite",
       "ASSIGNEE_NAME": "Uzdevuma saņēmējs",
       "TEAM_NAME": "Komanda",
-      "PRIORITY": "Prioritāte"
+      "PRIORITY": "Prioritāte",
+      "LABELS": "Etiķetes"
     }
   }
 }

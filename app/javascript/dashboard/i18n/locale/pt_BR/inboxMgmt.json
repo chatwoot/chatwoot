@@ -272,8 +272,8 @@
         },
         "SUBMIT_BUTTON": "Criar canal do WhatsApp",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Configuração rápida com Meta",
-          "DESC": "Você será redirecionado para a Meta para entrar na sua conta do WhatsApp Business. Ter acesso administrativo ajudará a facilitar a instalação.",
+          "TITLE": "Quick setup with Meta",
+          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Benefícios da inscrição incorporada:",
             "EASY_SETUP": "Nenhuma configuração manual é necessária",
@@ -281,9 +281,8 @@
             "AUTO_CONFIG": "Configuração automática de webhook e número de telefone"
           },
           "LEARN_MORE": {
-            "TEXT": "Para saber mais sobre inscrições integradas, preços e limitações visite",
-            "LINK_TEXT": "este link.",
-            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "LINK_TEXT": "este link"
           },
           "SUBMIT_BUTTON": "Conecte-se com WhatsApp Business",
           "AUTH_PROCESSING": "Autenticando com Meta",
@@ -296,7 +295,9 @@
           "INVALID_BUSINESS_DATA": "Dados de negócio inválidos recebidos do Facebook. Por favor, tente novamente.",
           "SIGNUP_ERROR": "Ocorreu um erro no cadastro",
           "AUTH_NOT_COMPLETED": "Autenticação não concluída. Por favor, reinicie o processo.",
-          "SUCCESS_FALLBACK": "A conta do WhatsApp Business foi configurada com sucesso"
+          "SUCCESS_FALLBACK": "A conta do WhatsApp Business foi configurada com sucesso",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_LINK_TEXT": "manual setup flow"
         },
         "API": {
           "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp"
