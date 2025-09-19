@@ -1,11 +1,11 @@
 <script>
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 
 export default {
   components: {
     PreviewCard,
-    Thumbnail,
+    Avatar,
   },
   props: {
     senderNameType: {
@@ -45,7 +45,7 @@ export default {
           ),
           preview: {
             senderName: '',
-            businessName: 'Chatwoot',
+            businessName: 'Chatwoot   ',
             email: '<support@yourbusiness.com>',
           },
         },
@@ -86,7 +86,7 @@ export default {
             {{ $t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FOR_EG') }}
           </span>
           <div class="flex flex-row items-center gap-2">
-            <Thumbnail :username="userName(keyOption)" size="32px" />
+            <Avatar :name="userName(keyOption)" :size="32" rounded-full />
             <div class="flex flex-col items-start gap-1">
               <div class="items-center flex flex-row gap-0.5 max-w-[18rem]">
                 <span

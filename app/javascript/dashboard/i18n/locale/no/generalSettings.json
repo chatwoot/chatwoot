@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Trykk enter for å velge",
       "ENTER_TO_REMOVE": "Trykk enter for å fjerne",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Velg en",
       "SELECT": "Select"
     }

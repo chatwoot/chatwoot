@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "按下 enter 以選擇",
       "ENTER_TO_REMOVE": "按下 enter 以移除",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "選擇其中一項",
       "SELECT": "選擇"
     }

@@ -45,32 +45,32 @@
         "NOTE": "Этот ID требуется для построения интеграции, основанной на API"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "TITLE": "Автоматически завершать диалоги",
+        "NOTE": "Эта опция позволит вам завершать диалоги после определенного периода бездействия.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
-          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "LABEL": "Время бездействия",
+          "HELP": "Время бездействия, после которого диалог будет завершен",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
           "API": {
             "SUCCESS": "Auto resolve settings updated successfully",
             "ERROR": "Failed to update auto resolve settings"
           }
         },
         "MESSAGE": {
-          "LABEL": "Custom auto-resolution message",
-          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "LABEL": "Сообщение об автозавершении диалога",
+          "PLACEHOLDER": "Диалог помечен завершенным автоматически из-за бездействия в течение 15 дней",
+          "HELP": "Сообщение будет отправлено после автозавершения диалога"
         },
         "PREFERENCES": "Настройки",
         "LABEL": {
-          "LABEL": "Add label after auto-resolution",
-          "PLACEHOLDER": "Select a label"
+          "LABEL": "Добавить метку после автозавершения",
+          "PLACEHOLDER": "Выбрать метку"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Skip conversations waiting for agent’s reply"
+          "LABEL": "Пропустить диалоги ожидающие ответа агента"
         },
-        "UPDATE_BUTTON": "Save Changes"
+        "UPDATE_BUTTON": "Сохранить"
       },
       "NAME": {
         "LABEL": "Имя аккаунта",
@@ -108,14 +108,14 @@
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
+          "SUCCESS": "Настройки автозавершения сохранены",
           "ERROR": "Failed to update auto resolve settings"
         },
         "UPDATE_BUTTON": "Обновить",
         "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_PLACEHOLDER": "Диалог помечен завершенным автоматически из-за бездействия в течение 15 дней",
         "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Нажмите Enter для выбора",
       "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Выберите один",
       "SELECT": "Выбрать"
     }

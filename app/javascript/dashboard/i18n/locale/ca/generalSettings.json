@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Presiona retorn (tecla enter) per seleccionar",
       "ENTER_TO_REMOVE": "Presiona retorn (tecla enter) per eliminar",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Selecciona un",
       "SELECT": "Selecciona"
     }

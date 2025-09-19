@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Conversa criada",
       "CONVERSATION_UPDATED": "Conversa atualizada",
       "MESSAGE_CREATED": "Mensagem criada",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversa aberta"
     },
     "ACTIONS": {
@@ -146,9 +147,21 @@
       "SEND_WEBHOOK_EVENT": "Enviar evento webhook",
       "SEND_ATTACHMENT": "Enviar anexo",
       "SEND_MESSAGE": "Enviar mensagem",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Privada",
       "CHANGE_PRIORITY": "Alterar prioridade",
       "ADD_SLA": "Adicionar SLA",
       "OPEN_CONVERSATION": "Abrir conversa"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nenhuma",
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Elevada",
+      "URGENT": "Urgente"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo de mensagem",

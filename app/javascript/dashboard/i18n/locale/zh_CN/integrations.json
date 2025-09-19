@@ -472,7 +472,8 @@
         "FEATURES": {
           "TITLE": "特性",
           "ALLOW_CONVERSATION_FAQS": "从已解决的对话中生成常见问题",
-          "ALLOW_MEMORIES": "从客户互动中捕获关键细节作为记忆"
+          "ALLOW_MEMORIES": "从客户互动中捕获关键细节作为记忆",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
@@ -480,6 +481,37 @@
         "SUCCESS_MESSAGE": "助手已成功更新",
         "ERROR_MESSAGE": "更新助手时出错，请重试",
         "NOT_FOUND": "无法找到助手。请重试。"
+      },
+      "SETTINGS": {
+        "BREADCRUMB": {
+          "ASSISTANT": "助手"
+        },
+        "BASIC_SETTINGS": {
+          "TITLE": "Basic settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "System settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "The Fun Stuff",
+          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Guardrails",
+              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+            },
+            "SCENARIOS": {
+              "TITLE": "Scenarios",
+              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Response guidelines",
+              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+            }
+          }
+        }
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "编辑助手",
@@ -492,6 +524,169 @@
         "FEATURE_SPOTLIGHT": {
           "TITLE": "助理队长",
           "NOTE": "助理队长直接与客户互动，从您的帮助文档和过去的对话中学习，并提供即时、准确的回复。它处理初始查询，快速解决问题，在需要时再转接给客服人员。"
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Guardrails",
+        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "BREADCRUMB": {
+          "TITLE": "Guardrails"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "删除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example guardrails",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another guardrail..."
+          },
+          "NEW": {
+            "TITLE": "Add a guardrail",
+            "CREATE": "创建",
+            "CANCEL": "取消",
+            "PLACEHOLDER": "Type in another guardrail...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "搜索……"
+        },
+        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Guardrails added successfully",
+            "ERROR": "There was an error adding guardrails, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Guardrails updated successfully",
+            "ERROR": "There was an error updating guardrails, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Guardrails deleted successfully",
+            "ERROR": "There was an error deleting guardrails, please try again."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Response Guidelines",
+        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "BREADCRUMB": {
+          "TITLE": "Response Guidelines"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "删除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example response guidelines",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another response guideline..."
+          },
+          "NEW": {
+            "TITLE": "Add a response guideline",
+            "CREATE": "创建",
+            "CANCEL": "取消",
+            "PLACEHOLDER": "Type in another response guideline...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "搜索……"
+        },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Response Guidelines added successfully",
+            "ERROR": "There was an error adding response guidelines, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Response Guidelines updated successfully",
+            "ERROR": "There was an error updating response guidelines, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Response Guidelines deleted successfully",
+            "ERROR": "There was an error deleting response guidelines, please try again."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Scenarios",
+        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "BREADCRUMB": {
+          "TITLE": "Scenarios"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "删除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example scenarios",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "TOOLS_USED": "Tools used :"
+          },
+          "NEW": {
+            "CREATE": "Add a scenario",
+            "TITLE": "Create a scenario",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "标题",
+                "PLACEHOLDER": "Enter a name for the scenario",
+                "ERROR": "Scenario name is required"
+              },
+              "DESCRIPTION": {
+                "LABEL": "描述信息",
+                "PLACEHOLDER": "Describe how and where this scenario will be used",
+                "ERROR": "Scenario description is required"
+              },
+              "INSTRUCTION": {
+                "LABEL": "How to handle",
+                "PLACEHOLDER": "Describe how and where this scenario will be handled",
+                "ERROR": "Scenario content is required"
+              },
+              "CREATE": "创建",
+              "CANCEL": "取消"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "取消",
+          "UPDATE": "Update changes"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "搜索……"
+        },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Scenarios added successfully",
+            "ERROR": "There was an error adding scenarios, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Scenarios updated successfully",
+            "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Scenarios deleted successfully",
+            "ERROR": "There was an error deleting scenarios, please try again."
+          }
         }
       }
     },
@@ -509,10 +704,27 @@
         "ERROR_MESSAGE": "创建文档时出错，请重试"
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "网址",
+          "PDF": "PDF File"
+        },
         "URL": {
           "LABEL": "网址",
           "PLACEHOLDER": "输入文档的 URL",
           "ERROR": "请提供有效的文档 URL"
+        },
+        "PDF_FILE": {
+          "LABEL": "PDF File",
+          "CHOOSE_FILE": "Choose PDF file",
+          "ERROR": "Please select a PDF file",
+          "HELP_TEXT": "Maximum file size: 10MB",
+          "INVALID_TYPE": "Please select a valid PDF file",
+          "TOO_LARGE": "File size exceeds 10MB limit"
+        },
+        "NAME": {
+          "LABEL": "Document Name (Optional)",
+          "PLACEHOLDER": "Enter a name for the document"
         },
         "ASSISTANT": {
           "LABEL": "助手",

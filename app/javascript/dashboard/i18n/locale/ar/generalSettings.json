@@ -29,7 +29,7 @@
       "FAILURE": "Could not delete account, try again!",
       "SCHEDULED_DELETION": {
         "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_MANUAL": "هذا الحساب مجدول للحذف بتاريخ {deletionDate}. تم طلبه من قبل المسؤول. يمكنك إلغاء الحذف قبل هذا التاريخ.",
         "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
         "CLEAR_BUTTON": "Cancel Scheduled Deletion"
       }
@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "اضغط على زر الإدخال للاختيار",
       "ENTER_TO_REMOVE": "اضغط على زر الإدخال للحذف",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "اختر واحدا",
       "SELECT": "اختر"
     }

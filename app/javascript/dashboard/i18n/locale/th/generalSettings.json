@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "กด enter เพื่อเลือก",
       "ENTER_TO_REMOVE": "กด enter เพื่อลบ",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "เลือก",
       "SELECT": "เลือก"
     }
