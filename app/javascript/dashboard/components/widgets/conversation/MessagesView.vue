@@ -11,6 +11,7 @@ import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 // stores and apis
@@ -44,6 +45,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
     Spinner,
+    Icon,
   },
   mixins: [inboxMixin],
   setup() {
@@ -492,6 +494,16 @@ export default {
             class="shadow-lg rounded-full bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
           >
             {{ unreadMessageLabel }}
+          </span>
+        </li>
+      </template>
+      <template #forwardedMessageAddress="{ address }">
+        <li class="flex items-center gap-1 !mt-4 !mb-2.5 ltr:pl-9 rtl:pr-9 h-5">
+          <Icon icon="i-lucide-forward" class="text-n-amber-10 size-4" />
+          <span class="text-n-amber-10 text-xs font-medium leading-[20px]">
+            {{
+              $t('CONVERSATION.FORWARDED_TO', { address: address?.join(', ') })
+            }}
           </span>
         </li>
       </template>

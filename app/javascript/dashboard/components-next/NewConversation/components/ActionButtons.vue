@@ -148,6 +148,7 @@ const keyboardEvents = {
         emit('sendMessage');
       }
     },
+    allowOnFocusedInput: true,
   },
   '$mod+Enter': {
     action: () => {
@@ -159,6 +160,7 @@ const keyboardEvents = {
         emit('sendMessage');
       }
     },
+    allowOnFocusedInput: true,
   },
 };
 useKeyboardEvents(keyboardEvents);

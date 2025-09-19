@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref, toRefs } from 'vue';
+import { onMounted, computed, ref, toRefs, useTemplateRef } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
@@ -136,6 +136,7 @@ const emit = defineEmits(['retry']);
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
+const emailBubbleRef = useTemplateRef('emailBubbleRef');
 const { t } = useI18n();
 const route = useRoute();
 
@@ -364,6 +365,16 @@ const contextMenuEnabledOptions = computed(() => {
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
       !isFailedOrProcessing,
+    // Forward email is enabled only when the message is not in progress and is not private and is an email inbox
+    forwardEmail:
+      props.isEmailInbox &&
+      !props.private &&
+      props.status !== MESSAGE_STATUS.PROGRESS &&
+      ![
+        CONTENT_TYPES.FORM,
+        CONTENT_TYPES.INPUT_CSAT,
+        CONTENT_TYPES.CARDS,
+      ].includes(props.contentType),
   };
 });
 
@@ -384,6 +395,9 @@ const shouldRenderMessage = computed(() => {
 });
 
 function openContextMenu(e) {
+  // Close forward modal, when opening context menu
+  emailBubbleRef.value?.closeForwardModal();
+
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
     ['a', 'img'].includes(e.target?.tagName.toLowerCase());
@@ -459,6 +473,11 @@ const setupHighlightTimer = () => {
   }, HIGHLIGHT_TIMER);
 };
 
+const openForwardModal = ({ x, y }) => {
+  // Open forward modal, with the event from context menu
+  emailBubbleRef.value.openForwardModal({ x, y });
+};
+
 onMounted(setupHighlightTimer);
 
 provideMessageContext({
@@ -519,7 +538,12 @@ provideMessageContext({
         }"
         @contextmenu="openContextMenu($event)"
       >
-        <Component :is="componentToRender" />
+        <component
+          :is="componentToRender"
+          :ref="
+            componentToRender === EmailBubble ? 'emailBubbleRef' : undefined
+          "
+        />
       </div>
       <MessageError
         v-if="contentAttributes.externalError"
@@ -540,6 +564,7 @@ provideMessageContext({
         @open="openContextMenu"
         @close="closeContextMenu"
         @reply-to="handleReplyTo"
+        @forward-email="openForwardModal"
       />
     </div>
   </div>

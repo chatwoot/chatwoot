@@ -1,6 +1,23 @@
-<% if @message.content %>
-  <%= ChatwootMarkdownRenderer.new(@message.outgoing_content).render_message %>
+<% if @message.content_attributes&.dig('forwarded_message_id').present? %>  
+  <% if @message.content_attributes&.dig('email', 'html_content', 'full').present? %>
+    <%= @message.content_attributes.dig('email', 'html_content', 'full').html_safe %>
+  <% elsif @message.content_attributes&.dig('email', 'text_content', 'full').present? %>
+    <div>
+      <%= simple_format(@message.content_attributes.dig('email', 'text_content', 'full')) %>
+    </div>
+  <% elsif @message.content %>
+    <div>
+      <%= ChatwootMarkdownRenderer.new(@message.content).render_message.html_safe %>
+    </div>
+  <% end %>
+<% else %>
+  <% if @message.content %>
+    <div>
+      <%= ChatwootMarkdownRenderer.new(@message.outgoing_content).render_message %>
+    </div>
+  <% end %>
 <% end %>
+
 <% if @large_attachments.present? %>
   <p>Attachments:</p>
   <% @large_attachments.each do |attachment| %>

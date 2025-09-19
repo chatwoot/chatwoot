@@ -39,6 +39,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(message.conversation)
     @message = message
+    @has_forwarded_content = message.content_attributes['forwarded_message_id'].present?
     reply_mail_object = prepare_mail(true)
     message.update(source_id: reply_mail_object.message_id)
   end

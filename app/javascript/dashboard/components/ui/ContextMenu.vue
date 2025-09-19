@@ -24,7 +24,7 @@ const menuRef = useTemplateRef('menuRef');
 
 const scrollLockElement = computed(() => {
   if (!elementToLock?.value) return null;
-  return elementToLock.value?.$el;
+  return elementToLock.value.$el;
 });
 
 const isLocked = useScrollLock(scrollLockElement);

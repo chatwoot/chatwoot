@@ -240,7 +240,15 @@ RSpec.describe ConversationReplyMailer do
       end
 
       it 'renders the body' do
-        expect(mail.decoded).to include message.content
+        body_content = if mail.multipart?
+                         # Check either HTML part or text part for the content
+                         mail.html_part&.body&.decoded || mail.text_part&.body&.decoded
+                       else
+                         # Fallback to single-part handling
+                         mail.body.decoded
+                       end
+
+        expect(body_content).to include message.content
       end
 
       it 'updates the source_id' do
