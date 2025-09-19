@@ -325,6 +325,9 @@ Rails.application.routes.draw do
         resources :webhooks, only: [:create]
       end
 
+      # Frontend API endpoint to trigger SAML authentication flow
+      post 'auth/saml_login', to: 'auth#saml_login'
+
       resource :profile, only: [:show, :update] do
         delete :avatar, on: :collection
         member do
