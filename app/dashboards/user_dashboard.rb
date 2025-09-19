@@ -50,6 +50,7 @@ class UserDashboard < Administrate::BaseDashboard
     avatar_url
     name
     email
+    unconfirmed_email
     accounts
     type
   ].freeze
