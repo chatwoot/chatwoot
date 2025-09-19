@@ -154,6 +154,25 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         portal.reload
         expect(portal.archived).to be_truthy
       end
+
+      it 'clears associated web widget when inbox selection is blank' do
+        web_widget_inbox = create(:inbox, account: account)
+        portal.update!(channel_web_widget: web_widget_inbox.channel)
+
+        expect(portal.channel_web_widget_id).to eq(web_widget_inbox.channel.id)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: {
+              portal: { name: portal.name },
+              inbox_id: ''
+            },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        portal.reload
+        expect(portal.channel_web_widget_id).to be_nil
+        expect(response.parsed_body['inbox']).to be_nil
+      end
     end
   end
 
