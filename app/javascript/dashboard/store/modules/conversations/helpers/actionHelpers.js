@@ -42,8 +42,8 @@ const getTabFromFilterType = filterType => {
   if (filterType === 'me') return 'me';
   if (filterType === 'unassigned') return 'unassigned';
   if (filterType === 'all') return 'all';
-  // For appliedFilters and other cases, default to 'all'
-  return 'all';
+  // For appliedFilters and other cases, return null to use allConversations
+  return null;
 };
 
 export const buildConversationList = (
@@ -55,15 +55,17 @@ export const buildConversationList = (
   const { payload: conversationList, meta: metaData } = responseData;
   const tab = getTabFromFilterType(filterType);
 
-  // Use tab-scoped mutation
-  context.commit(types.SET_TAB_CONVERSATION, {
-    conversations: conversationList,
-    tab,
-  });
-  context.commit(types.SET_ACTIVE_TAB, tab);
-
-  // Keep legacy mutation for backward compatibility during migration
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  if (tab) {
+    // Use tab-scoped mutation for basic assignee tabs
+    context.commit(types.SET_TAB_CONVERSATION, {
+      conversations: conversationList,
+      tab,
+    });
+    context.commit(types.SET_ACTIVE_TAB, tab);
+  } else {
+    // Use allConversations for filtered views (appliedFilters, folders, etc.)
+    context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  }
 
   context.dispatch('conversationStats/set', metaData);
   context.dispatch(

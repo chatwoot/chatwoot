@@ -92,6 +92,12 @@ export const mutations = {
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
     _state.selectedChatId = null;
+    // Also clear all tab caches so UI renders empty state immediately
+    _state.conversationsByTab = {
+      me: [],
+      unassigned: [],
+      all: [],
+    };
   },
   [types.EMPTY_TAB_CONVERSATION](_state, tab) {
     if (_state.conversationsByTab[tab]) {
