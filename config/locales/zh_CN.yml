@@ -90,7 +90,7 @@ zh_CN:
     custom_attribute_definition:
       key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
     mfa:
-      already_enabled: MFA is already enabled
+      already_enabled: MFA 已启用
       not_enabled: MFA is not enabled
       invalid_code: Invalid verification code
       invalid_backup_code: Invalid backup code
