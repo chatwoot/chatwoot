@@ -53,11 +53,11 @@
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "首选语言",
+          "NOTE": "选择您想要使用的语言。",
+          "UPDATE_SUCCESS": "您的语言设置已成功更新",
+          "UPDATE_ERROR": "更新语言设置时出错，请重试",
+          "USE_ACCOUNT_DEFAULT": "使用账户默认值"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -81,7 +81,7 @@
         "BTN_TEXT": "更改密码"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
+        "TITLE": "安全",
         "NOTE": "Manage additional security features for your account.",
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
@@ -238,7 +238,7 @@
     "APPEARANCE": "更改外观",
     "SUPER_ADMIN_CONSOLE": "超级管理员控制台",
     "DOCS": "阅读文档",
-    "CHANGELOG": "Changelog",
+    "CHANGELOG": "更新日志",
     "LOGOUT": "注销"
   },
   "APP_GLOBAL": {
@@ -364,7 +364,7 @@
       "INFO_SHORT": "当您不使用应用程序时自动标记离线。"
     },
     "DOCS": "阅读文档",
-    "SECURITY": "Security"
+    "SECURITY": "安全"
   },
   "BILLING_SETTINGS": {
     "TITLE": "计费方式",
@@ -397,9 +397,9 @@
     "NO_BILLING_USER": "您的计费账户正在配置中。请刷新页面并重试。"
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
+    "TITLE": "安全",
+    "DESCRIPTION": "管理您的账户安全设置。",
+    "LINK_TEXT": "了解更多关于 SAML SSO 的信息",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
@@ -432,7 +432,7 @@
         "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "更新 SAML 设置",
       "API": {
         "SUCCESS": "SAML settings updated successfully",
         "ERROR": "Failed to update SAML settings",
@@ -709,14 +709,14 @@
             "MAX_CONVERSATIONS": "Max conversations",
             "SET_LIMIT": "Set limit"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "没有设置收件箱限制"
         },
         "EXCLUSION_RULES": {
           "LABEL": "Exclusion rules",
           "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
           "TAGS": {
             "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "ADD_TAG": "添加标签",
             "DROPDOWN": {
               "SEARCH_PLACEHOLDER": "Search and select tags to add"
             },
