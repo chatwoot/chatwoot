@@ -2,12 +2,18 @@ class Voice::StatusUpdateService
   pattr_initialize [:account!, :call_sid!, :call_status]
 
   def perform
+    Rails.logger.info(
+      "VOICE_STATUS_UPDATE account=#{account.id} call_sid=#{call_sid} status=#{call_status}"
+    )
     conversation = account.conversations.find_by(identifier: call_sid)
     return unless conversation
     return if call_status.to_s.strip.empty?
 
     update_conversation!(conversation)
     update_last_call_message!(conversation)
+    Rails.logger.info(
+      "VOICE_STATUS_UPDATED account=#{account.id} conversation=#{conversation.display_id} status=#{call_status}"
+    )
   end
 
   private
