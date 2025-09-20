@@ -121,35 +121,34 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def upload_file
-    message.attachments.each do |attachment|
-      next unless attachment.with_attached_file?
+    return unless message.attachments.any?
 
-      begin
-        result = slack_client.files_upload_v2(
-          filename: attachment.file.filename.to_s,
-          content: attachment.file.download,
-          initial_comment: 'Attached File!',
-          thread_ts: conversation.identifier,
-          channel_id: hook.reference_id
-        )
-        Rails.logger.info "slack_upload_result: #{result}"
-      rescue Slack::Web::Api::Errors::SlackError => e
-        Rails.logger.error "Failed to upload file #{attachment.file.filename}: #{e.message}"
-      end
+    files = build_files_array
+    return if files.empty?
+
+    begin
+      result = slack_client.files_upload_v2(
+        files: files,
+        initial_comment: 'Attached File!',
+        thread_ts: conversation.identifier,
+        channel_id: hook.reference_id
+      )
+      Rails.logger.info "slack_upload_result: #{result}"
+    rescue Slack::Web::Api::Errors::SlackError => e
+      Rails.logger.error "Failed to upload files: #{e.message}"
     end
   end
 
-  def file_type
-    File.extname(message.attachments.first.download_url).strip.downcase[1..]
-  end
+  def build_files_array
+    message.attachments.filter_map do |attachment|
+      next unless attachment.with_attached_file?
 
-  def file_information
-    {
-      filename: message.attachments.first.file.filename,
-      filetype: file_type,
-      content: message.attachments.first.file.download,
-      title: message.attachments.first.file.filename
-    }
+      {
+        filename: attachment.file.filename.to_s,
+        content: attachment.file.download,
+        title: attachment.file.filename.to_s
+      }
+    end
   end
 
   def sender_name(sender)
