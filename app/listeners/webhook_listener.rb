@@ -23,6 +23,7 @@ class WebhookListener < BaseListener
   end
 
   def conversation_deleted(event)
+    puts event.inspect
     conversation = event.data[:conversation]
     inbox = conversation.inbox
     payload = conversation.webhook_data.merge(event: __method__.to_s)
@@ -74,9 +75,9 @@ class WebhookListener < BaseListener
   end
 
   def contact_deleted(event)
-    contact, account = extract_contact_and_account(event)
-    payload = contact.webhook_data.merge(event: __method__.to_s)
-    deliver_account_webhooks(payload, account)
+    contact_data = event.data[:contact]
+    payload = contact_data.merge(event: __method__.to_s)
+    deliver_account_webhooks(payload, event.data[:account])
   end
 
   def inbox_created(event)

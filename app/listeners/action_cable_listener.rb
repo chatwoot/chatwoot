@@ -151,8 +151,8 @@ class ActionCableListener < BaseListener
   end
 
   def contact_deleted(event)
-    contact, account = extract_contact_and_account(event)
-    broadcast(account, [account_token(account)], CONTACT_DELETED, contact.push_event_data)
+    contact_data = event.data[:contact]
+    broadcast(event.data[:account], [account_token(event.data[:account])], CONTACT_DELETED, contact_data)
   end
 
   def conversation_mentioned(event)
