@@ -23,7 +23,6 @@ class WebhookListener < BaseListener
   end
 
   def conversation_deleted(event)
-    puts event.inspect
     conversation = event.data[:conversation]
     inbox = conversation.inbox
     payload = conversation.webhook_data.merge(event: __method__.to_s)

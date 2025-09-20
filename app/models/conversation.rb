@@ -309,7 +309,7 @@ class Conversation < ApplicationRecord
   end
 
   def dispatch_destroy_event
-    Rails.configuration.dispatcher.dispatch(CONVERSATION_DELETED, Time.zone.now, conversation: self, account: account)
+    Rails.configuration.dispatcher.dispatch(CONVERSATION_DELETED, Time.zone.now, conversation: webhook_data, account: account)
   end
 
   # creating db triggers
