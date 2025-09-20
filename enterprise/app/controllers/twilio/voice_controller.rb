@@ -47,18 +47,22 @@ class Twilio::VoiceController < ApplicationController
         conversation = account.conversations.find_by(display_id: display_id)
       end
     else
-      # PSTN leg: try to resolve an existing outbound conversation first to avoid
-      # creating an inbound duplicate. Prefer identifier match, then latest outbound.
       conversation = account.conversations.find_by(identifier: call_sid)
-      if conversation.nil?
-        conversation = account.conversations
-                               .where(inbox_id: @inbox.id)
-                               .where("additional_attributes->>'call_direction' = ?", 'outbound')
-                               .order(created_at: :desc)
-                               .first
-      end
-      # If still not found, this is a true inbound call; create conversation + message
-      if conversation.nil?
+
+      if conversation
+        ensure_conference_sid!(conversation)
+        call_direction = conversation.additional_attributes&.dig('call_direction') || 'outbound'
+        conference_sid = conversation.additional_attributes['conference_sid']
+        Voice::CallMessageBuilder.new(
+          conversation: conversation,
+          direction: call_direction,
+          call_sid: call_sid,
+          conference_sid: conference_sid,
+          from_number: outbound_from_number(conversation, from_number),
+          to_number: outbound_to_number(conversation, to_number),
+          user: nil
+        ).perform
+      else
         conversation = Voice::CallOrchestratorService.new(
           account: account,
           inbox: @inbox,
@@ -84,7 +88,7 @@ class Twilio::VoiceController < ApplicationController
     host = ENV.fetch('FRONTEND_URL', '')
     phone_digits = @inbox.channel.phone_number.delete_prefix('+')
     conf_status_url = "#{host}/twilio/voice/conference_status/#{phone_digits}"
-    # Note: agent_leg computed above
+    # NOTE: agent_leg computed above
     response.say(message: 'Please wait while we connect you to an agent') unless agent_leg
     response.dial do |dial|
       dial.conference(
@@ -118,13 +122,12 @@ class Twilio::VoiceController < ApplicationController
              when /conference-end/i then 'end'
              when /participant-join/i then 'join'
              when /participant-leave/i then 'leave'
-             else nil
              end
 
     if mapped
       conversation = account.conversations
-                             .where("additional_attributes->>'conference_sid' = ?", conference_sid)
-                             .first
+                            .where("additional_attributes->>'conference_sid' = ?", conference_sid)
+                            .first
       if conversation
         Voice::ConferenceManagerService.new(
           conversation: conversation,
@@ -147,6 +150,22 @@ class Twilio::VoiceController < ApplicationController
   end
 
   private
+
+  def ensure_conference_sid!(conversation)
+    attrs = conversation.additional_attributes || {}
+    return if attrs['conference_sid'].present?
+
+    attrs['conference_sid'] = "conf_account_#{conversation.account_id}_conv_#{conversation.display_id}"
+    conversation.update!(additional_attributes: attrs)
+  end
+
+  def outbound_from_number(conversation, fallback)
+    conversation.inbox&.channel&.phone_number || fallback
+  end
+
+  def outbound_to_number(conversation, fallback)
+    conversation.contact&.phone_number || fallback
+  end
 
   def set_inbox!
     # Resolve from the digits in the route param and look up exact E.164 match
