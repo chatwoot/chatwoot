@@ -2,7 +2,7 @@ import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 import ConversationApi from '../../api/conversations';
 import camelcaseKeys from 'camelcase-keys';
-import axios from 'axios';
+import VoiceAPI from 'dashboard/api/channels/voice';
 
 export const createMessagePayload = (payload, message) => {
   const { content, cc_emails, bcc_emails } = message;
@@ -97,16 +97,12 @@ export const actions = {
         files,
       });
 
-      // If this is a voice call, adjust the endpoint to trigger voice
+      // If this is a voice call, trigger call initiation instead of creating a chat
       let data;
 
       if (isVoiceCall) {
-        const accountId = window.store.getters['accounts/getCurrentAccountId'];
-        // MVP: Only support calls to existing contacts via the contacts endpoint
-        const response = await axios.post(
-          `/api/v1/accounts/${accountId}/contacts/${contactId}/call`
-        );
-        data = response.data;
+        const inboxId = params?.inboxId;
+        data = await VoiceAPI.initiateCall(contactId, inboxId);
       } else {
         // Regular conversation creation
         const response = await ConversationApi.create(payload);
