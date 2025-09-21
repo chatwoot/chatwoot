@@ -1,82 +1,68 @@
-class Voice::OutboundCallBuilder
-  pattr_initialize [:account!, :inbox!, :user!, :contact!, :call_sid!, :to_number!]
-
-  attr_reader :conversation
-
-  def perform
-    contact_inbox = find_or_create_contact_inbox!
-    @conversation = create_conversation!(contact_inbox)
-    set_identifier_and_conference_sid!
-    create_call_message!
-
-    Rails.logger.info(
-      "VOICE_OUTBOUND_BUILDER account=#{account.id} inbox=#{inbox.id} conv=#{@conversation.display_id} to=#{to_number} call_sid=#{call_sid}"
+class Voice::OutboundCallBuilder < Voice::BaseCallBuilder
+  def initialize(account:, inbox:, user:, contact:, call_sid:, to_number: nil)
+    super(
+      account: account,
+      inbox: inbox,
+      call_sid: call_sid,
+      direction: 'outbound',
+      from_number: inbox.channel&.phone_number,
+      to_number: to_number || contact.phone_number,
+      user: user,
+      contact: contact
     )
-    @conversation
   end
 
   private
 
-  def find_or_create_contact_inbox!
-    ContactInbox.find_or_create_by!(
-      contact_id: contact.id,
-      inbox_id: inbox.id
-    ) { |ci| ci.source_id = contact.phone_number }
+  def find_existing_conversation
+    return if call_sid.blank?
+
+    account.conversations.includes(:contact).find_by(identifier: call_sid)
   end
 
-  def create_conversation!(contact_inbox)
+  def create_conversation!
+    contact_inbox = find_or_create_contact_inbox(contact)
+    attrs = {
+      'call_direction' => 'outbound',
+      'call_type' => 'outbound',
+      'requires_agent_join' => true,
+      'agent_id' => user.id,
+      'call_status' => 'ringing',
+      'meta' => { 'initiated_at' => Time.current.to_i }
+    }
+
     account.conversations.create!(
       contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
       contact_id: contact.id,
       status: :open,
-      additional_attributes: outbound_attributes
+      additional_attributes: attrs
     ).tap(&:reload)
   end
 
-  def outbound_attributes
+  def find_or_create_contact_inbox(contact_record)
+    ContactInbox.find_or_create_by!(
+      contact_id: contact_record.id,
+      inbox_id: inbox.id
+    ) do |ci|
+      ci.source_id = contact_record.phone_number
+    end
+  end
+
+  def conversation_metadata_overrides
     {
-      'call_direction' => 'outbound',
-      'call_type' => 'outbound',
       'requires_agent_join' => true,
-      'agent_id' => user.id,
-      'meta' => { 'initiated_at' => Time.now.to_i },
-      'call_status' => 'ringing'
+      'agent_id' => user.id
     }
   end
 
-  def set_identifier_and_conference_sid!
-    @conversation.update!(identifier: call_sid)
-    conf = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
-    attrs = @conversation.additional_attributes.merge('conference_sid' => conf)
-    @conversation.update!(additional_attributes: attrs)
+  def message_sender
+    user
   end
 
-  def create_call_message!
-    content_attrs = {
-      data: {
-        call_sid: call_sid,
-        status: 'ringing',
-        conversation_id: @conversation.display_id,
-        call_direction: 'outbound',
-        from_number: inbox.channel&.phone_number || '',
-        to_number: to_number,
-        meta: {
-          created_at: Time.current.to_i,
-          ringing_at: Time.current.to_i
-        }
-      }
-    }
-
-    @conversation.messages.create!(
-      account_id: account.id,
-      inbox_id: inbox.id,
-      message_type: :outgoing,
-      sender: user,
-      content: 'Voice Call',
-      content_type: 'voice_call',
-      content_attributes: content_attrs
+  def log_success!
+    Rails.logger.info(
+      "VOICE_OUTBOUND_BUILDER account=#{account.id} inbox=#{inbox.id} conv=#{conversation.display_id} to=#{to_number_for_message} call_sid=#{call_sid}"
     )
   end
 end
-

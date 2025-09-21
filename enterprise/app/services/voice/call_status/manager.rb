@@ -36,12 +36,6 @@ module Voice
 
         update_status(normalized_status, duration)
 
-        if custom_message.present?
-          create_activity_message(custom_message)
-        elsif call_ended?(normalized_status)
-          create_activity_message(activity_message_for_status(normalized_status))
-        end
-
         true
       end
 
@@ -56,19 +50,6 @@ module Voice
 
       def call_ended?(status)
         TERMINAL_STATUSES.include?(status)
-      end
-
-      def create_activity_message(content, additional_attributes = {})
-        return nil if content.blank?
-
-        conversation.messages.create!(
-          account_id: conversation.account_id,
-          inbox_id: conversation.inbox_id,
-          message_type: :activity,
-          content: content,
-          sender: nil,
-          additional_attributes: additional_attributes
-        )
       end
 
       private
@@ -113,13 +94,6 @@ module Voice
                     .first
       end
 
-      def activity_message_for_status(status)
-        return 'Call ended' if status == 'completed' || status == 'canceled'
-        return 'No answer' if status == 'no-answer'
-        return 'Call ended' if %w[busy failed].include?(status)
-
-        'Call ended'
-      end
     end
   end
 end

@@ -48,6 +48,8 @@ module Voice
     def handle_any_participant_join
       return if conversation.additional_attributes['call_ended_at'].present?
       return unless conversation.additional_attributes['call_status'] == 'ringing'
+      return unless participant_label.to_s.start_with?('agent')
+
       call_status_manager.process_status_update('in-progress')
     end
 

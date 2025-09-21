@@ -3,12 +3,14 @@ module Voice
     pattr_initialize [:conversation!, :direction!, :call_sid!, :conference_sid!, :from_number!, :to_number!, :user]
 
     def perform
+      validate_sender!
+
       timestamp = Time.current.to_i
       existing_message = find_existing_message
       return update_existing_message(existing_message, timestamp) if existing_message
 
       Messages::MessageBuilder.new(
-        direction == 'outgoing' ? user : nil,
+        sender_for_direction,
         conversation,
         build_message_params(timestamp)
       ).perform
@@ -27,10 +29,9 @@ module Voice
 
       message.update!(
         message_type: direction == 'inbound' ? :incoming : :outgoing,
-        content_attributes: attrs
+        content_attributes: attrs,
+        sender: sender_for_direction
       )
-
-      message
     end
 
     def build_message_params(timestamp)
@@ -59,6 +60,20 @@ module Voice
       data['meta'] ||= {}
       data['meta']['created_at'] ||= timestamp
       data['meta']['ringing_at'] ||= timestamp
+    end
+
+    def sender_for_direction
+      return user if direction == 'outbound'
+
+      return conversation.contact if direction == 'inbound'
+
+      nil
+    end
+
+    def validate_sender!
+      return unless direction == 'outbound'
+
+      raise ArgumentError, 'Agent sender required for outbound calls' unless user
     end
   end
 end

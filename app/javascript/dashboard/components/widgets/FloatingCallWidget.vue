@@ -86,8 +86,11 @@ const joinConference = async () => {
     const conferenceSid = joinRes.conference_sid;
 
     // Join client call using server-provided conference sid when available
-    VoiceAPI.joinClientCall({ To: conferenceSid, conversationId: callData.conversationId });
-    
+    VoiceAPI.joinClientCall({
+      To: conferenceSid,
+      conversationId: callData.conversationId,
+    });
+
     // Navigate to the conversation now that we're joining
     try {
       const path = `/app/accounts/${route.params.accountId}/conversations/${callData.conversationId}`;
@@ -103,7 +106,6 @@ const joinConference = async () => {
     if (hasIncomingCall.value) {
       store.dispatch('calls/clearIncomingCall');
     }
-    
     startDurationTimer();
     stopRingTone();
   } catch (error) {

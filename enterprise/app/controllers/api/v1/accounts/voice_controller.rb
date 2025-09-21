@@ -29,7 +29,15 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       call_sid = incoming_sid
       conversation.update!(identifier: call_sid)
     end
-    conference_sid = "conf_account_#{Current.account.id}_call_#{call_sid}"
+    conference_sid = conversation.additional_attributes&.dig('conference_sid')
+    if conference_sid.blank?
+      conference_sid = "conf_account_#{Current.account.id}_conv_#{conversation.display_id}"
+      conversation.update!(
+        additional_attributes:
+          (conversation.additional_attributes || {}).merge('conference_sid' => conference_sid)
+      )
+    end
+
     @conversation = conversation
     update_join_metadata!(conversation.identifier)
     render json: {
