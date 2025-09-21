@@ -117,13 +117,13 @@ describe ActionCableListener do
   describe '#contact_deleted' do
     let(:event_name) { :'contact.deleted' }
     let!(:contact) { create(:contact, account: account) }
-    let!(:event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, contact: contact.webhook_data, account: account) }
 
     it 'sends message to account admins, inbox agents' do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         ["account_#{account.id}"],
         'contact.deleted',
-        contact.push_event_data.merge(account_id: account.id)
+        contact.webhook_data
       )
       listener.contact_deleted(event)
     end

@@ -241,6 +241,6 @@ class Contact < ApplicationRecord
   end
 
   def dispatch_destroy_event
-    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
+    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: webhook_data, account: account)
   end
 end
