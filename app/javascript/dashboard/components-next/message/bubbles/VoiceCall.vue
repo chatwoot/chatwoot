@@ -1,14 +1,14 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import { useMessageContext } from '../provider.js';
 import { useVoiceCallStatus } from 'dashboard/composables/useVoiceCallStatus';
-import VoiceAPI from 'dashboard/api/channels/voice';
-import { useStore } from 'vuex';
+import { useCallSession } from 'dashboard/composables/useCallSession';
 import { MESSAGE_TYPES } from 'dashboard/components-next/message/constants.js';
 
-const store = useStore();
-const { contentAttributes, conversationId, inboxId, messageType } = useMessageContext();
+const { contentAttributes, conversationId, inboxId, messageType } =
+  useMessageContext();
+const { joinCall, isJoining } = useCallSession();
 
 const data = computed(() => contentAttributes.value?.data);
 
@@ -31,42 +31,28 @@ const containerRingClass = computed(() => {
 
 // Make join available whenever the call is ringing
 const isJoinable = computed(() => status.value === 'ringing');
-const isJoining = ref(false);
 
 const joinConference = async () => {
-  if (!isJoinable.value || isJoining.value) return;
+  if (!isJoinable.value || isJoining.value) return null;
   try {
-    isJoining.value = true;
-    await VoiceAPI.initializeDevice(inboxId.value, { store });
-    const res = await VoiceAPI.joinConference({
-      inbox_id: inboxId.value,
-      conversation_id: conversationId.value,
-      call_sid: contentAttributes.value?.data?.call_sid,
+    const result = await joinCall({
+      conversationId: conversationId.value,
+      inboxId: inboxId.value,
+      callSid: contentAttributes.value?.data?.call_sid,
+      callMeta: data.value ? { ...data.value } : {},
     });
-    const conferenceSid = res?.conference_sid;
-    if (conferenceSid) {
-      VoiceAPI.joinClientCall({ To: conferenceSid, conversationId: conversationId.value });
 
-      const currentIncoming = store.getters['calls/getIncomingCall'];
-      const callSidToUse = currentIncoming?.callSid || contentAttributes.value?.data?.call_sid;
-
-      if (callSidToUse) {
-        store.dispatch('calls/setActiveCall', {
-          callSid: callSidToUse,
-          conversationId: conversationId.value,
-          inboxId: inboxId.value,
-          isJoined: true,
-          startedAt: Date.now(),
-        });
-        // Clear any incoming banner and stop ringtone if present
-        try { store.dispatch('calls/clearIncomingCall'); } catch (_) {}
-        try { if (typeof window.stopAudioAlert === 'function') window.stopAudioAlert(); } catch (_) {}
+    if (result) {
+      try {
+        if (typeof window.stopAudioAlert === 'function')
+          window.stopAudioAlert();
+      } catch (_error) {
+        // Ignore audio stop errors
       }
     }
-  } catch (_) {
-    // ignore join errors here; UI will remain joinable
-  } finally {
-    isJoining.value = false;
+    return result;
+  } catch (_error) {
+    return null;
   }
 };
 </script>
