@@ -6,18 +6,14 @@ module Voice
       find_voice_inbox
 
       ActiveRecord::Base.transaction do
-        orchestrator = Voice::CallOrchestratorService.new(
+        Voice::CallOrchestratorService.new(
           account: account,
           inbox: @voice_inbox,
           direction: :outbound,
           contact: contact,
           user: user
-        )
-
-        @conversation, @call_details = orchestrator.outbound!
+        ).outbound!
       end
-
-      @conversation
     end
 
     private
