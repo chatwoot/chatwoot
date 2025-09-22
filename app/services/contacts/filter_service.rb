@@ -21,11 +21,7 @@ class Contacts::FilterService < FilterService
   def filter_values(query_hash)
     current_val = query_hash['values'][0]
     if query_hash['attribute_key'] == 'phone_number'
-      if current_val.present? && current_val.start_with?('+')
-        current_val
-      else
-        "+#{current_val}"
-      end
+      "+#{current_val&.delete('+')}"
     elsif query_hash['attribute_key'] == 'country_code'
       current_val.downcase
     else
