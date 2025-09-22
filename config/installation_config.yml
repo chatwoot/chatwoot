@@ -238,9 +238,8 @@
   type: code
 - name: SKIP_INCOMING_BCC_PROCESSING
   value:
-  display_title: 'Account IDs to skip incoming BCC processing for'
+  display_title: 'Skip BCC Processing For'
   description: 'Comma-separated list of account IDs that should be skipped from incoming BCC processing'
-  type: code
 - name: INACTIVE_WHATSAPP_NUMBERS
   value: ''
   display_title: 'Inactive WhatsApp Numbers'
