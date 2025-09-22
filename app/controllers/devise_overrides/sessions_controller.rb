@@ -11,10 +11,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def create
     return handle_mfa_verification if mfa_verification_request?
     return handle_sso_authentication if sso_authentication_request?
+    return handle_mfa_required if should_require_mfa?
 
-    super do |resource|
-      return handle_mfa_required(resource) if resource&.mfa_enabled?
-    end
+    # Only proceed with standard authentication if no MFA is required
+    super
   end
 
   def render_create_success
@@ -22,6 +22,17 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   private
+
+  def should_require_mfa?
+    return false unless params[:email].present? && params[:password].present?
+
+    user = User.from_email(params[:email])
+    return false unless user&.valid_password?(params[:password])
+    return false unless user.active_for_authentication?
+
+    @temp_resource = user
+    user.mfa_enabled?
+  end
 
   def mfa_verification_request?
     params[:mfa_token].present?
@@ -59,10 +70,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
     @resource = user if user&.valid_sso_auth_token?(params[:sso_auth_token])
   end
 
-  def handle_mfa_required(resource)
+  def handle_mfa_required
     render json: {
       mfa_required: true,
-      mfa_token: Mfa::TokenService.new(user: resource).generate_token
+      mfa_token: Mfa::TokenService.new(user: @temp_resource).generate_token
     }, status: :partial_content
   end
 
