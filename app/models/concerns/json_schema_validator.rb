@@ -56,6 +56,8 @@ class JsonSchemaValidator < ActiveModel::Validator
 
   def format_and_append_error(error, record)
     return handle_required(error, record) if error['type'] == 'required'
+    return handle_minimum(error, record) if error['type'] == 'minimum'
+    return handle_maximum(error, record) if error['type'] == 'maximum'
 
     type = error['type'] == 'object' ? 'hash' : error['type']
 
@@ -72,6 +74,16 @@ class JsonSchemaValidator < ActiveModel::Validator
   def handle_type(error, record, expected_type)
     data = get_name_from_data_pointer(error)
     record.errors.add(data, "must be of type #{expected_type}")
+  end
+
+  def handle_minimum(error, record)
+    data = get_name_from_data_pointer(error)
+    record.errors.add(data, "must be greater than or equal to #{error['schema']['minimum']}")
+  end
+
+  def handle_maximum(error, record)
+    data = get_name_from_data_pointer(error)
+    record.errors.add(data, "must be less than or equal to #{error['schema']['maximum']}")
   end
 
   def get_name_from_data_pointer(error)

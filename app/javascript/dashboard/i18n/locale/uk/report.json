@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Огляд міток",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_LABEL_REPORTS": "Завантажити звіти по міткам",
@@ -559,6 +560,7 @@
     "INBOX": "Вхідні",
     "AGENT": "Агент",
     "TEAM": "Команда",
+    "LABEL": "Мітка",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

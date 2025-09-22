@@ -11,6 +11,7 @@
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  name                  :string           not null
+#  settings              :jsonb
 #  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
@@ -28,19 +29,39 @@ class Account < ApplicationRecord
   include Featurable
   include CacheKeys
 
+  SETTINGS_PARAMS_SCHEMA = {
+    'type': 'object',
+    'properties':
+      {
+        'auto_resolve_after': { 'type': %w[integer null], 'minimum': 10, 'maximum': 1_439_856 },
+        'auto_resolve_message': { 'type': %w[string null] },
+        'auto_resolve_ignore_waiting': { 'type': %w[boolean null] },
+        'audio_transcriptions': { 'type': %w[boolean null] },
+        'auto_resolve_label': { 'type': %w[string null] }
+      },
+    'required': [],
+    'additionalProperties': true
+  }.to_json.freeze
+
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
     check_for_column: false
   }.freeze
 
-  validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
   validates :domain, length: { maximum: 100 }
+  validates_with JsonSchemaValidator,
+                 schema: SETTINGS_PARAMS_SCHEMA,
+                 attribute_resolver: ->(record) { record.settings }
+
+  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
+  store_accessor :settings, :audio_transcriptions, :auto_resolve_label
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :agent_bots, dependent: :destroy_async
   has_many :api_channels, dependent: :destroy_async, class_name: '::Channel::Api'
   has_many :articles, dependent: :destroy_async, class_name: '::Article'
+  has_many :assignment_policies, dependent: :destroy_async
   has_many :automation_rules, dependent: :destroy_async
   has_many :macros, dependent: :destroy_async
   has_many :campaigns, dependent: :destroy_async
@@ -68,7 +89,6 @@ class Account < ApplicationRecord
   has_many :portals, dependent: :destroy_async, class_name: '::Portal'
   has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :teams, dependent: :destroy_async
-  has_many :telegram_bots, dependent: :destroy_async
   has_many :telegram_channels, dependent: :destroy_async, class_name: '::Channel::Telegram'
   has_many :twilio_sms, dependent: :destroy_async, class_name: '::Channel::TwilioSms'
   has_many :twitter_profiles, dependent: :destroy_async, class_name: '::Channel::TwitterProfile'
@@ -80,8 +100,10 @@ class Account < ApplicationRecord
 
   has_one_attached :contacts_export
 
-  enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
-  enum status: { active: 0, suspended: 1 }
+  enum :locale, LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h, prefix: true
+  enum :status, { active: 0, suspended: 1 }
+
+  scope :with_auto_resolve, -> { where("(settings ->> 'auto_resolve_after')::int IS NOT NULL") }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation

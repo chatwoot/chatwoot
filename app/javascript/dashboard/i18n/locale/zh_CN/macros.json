@@ -83,6 +83,29 @@
       "ACTION_PARAMETERS_REQUIRED": "需要操作参数",
       "ATLEAST_ONE_CONDITION_REQUIRED": "至少需要一个条件",
       "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一个动作"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "分配团队",
+      "ASSIGN_AGENT": "分配客服",
+      "ADD_LABEL": "添加标签",
+      "REMOVE_LABEL": "移除标签",
+      "REMOVE_ASSIGNED_TEAM": "移除已分配的团队",
+      "SEND_EMAIL_TRANSCRIPT": "通过邮件发送聊天记录",
+      "MUTE_CONVERSATION": "开始会话",
+      "SNOOZE_CONVERSATION": "暂停对话",
+      "RESOLVE_CONVERSATION": "解决对话",
+      "SEND_ATTACHMENT": "发送附件",
+      "SEND_MESSAGE": "发送消息",
+      "CHANGE_PRIORITY": "更改优先级",
+      "ADD_PRIVATE_NOTE": "添加私密注释",
+      "SEND_WEBHOOK_EVENT": "发送 Webhook 事件"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "啥都没有",
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "紧急的"
     }
   }
 }

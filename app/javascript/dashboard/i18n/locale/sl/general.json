@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Iskanje",
       "EMPTY_STATE": "Ni rezultatov"
-    }
+    },
+    "CLOSE": "Close"
   }
 }

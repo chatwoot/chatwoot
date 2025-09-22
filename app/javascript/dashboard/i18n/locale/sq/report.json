@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
+    "DESCRIPTION": "Ndiqni performancën e etiketave me metrika kyçe, përfshirë bisedat, kohët e përgjigjes, kohët e zgjidhjes dhe rastet e zgjidhura. Klikoni një emër etikete për analiza të detajuara.",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
@@ -559,6 +560,7 @@
     "INBOX": "Inbox",
     "AGENT": "Agent",
     "TEAM": "Team",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

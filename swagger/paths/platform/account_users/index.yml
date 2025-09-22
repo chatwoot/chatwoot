@@ -6,23 +6,15 @@ description: List all account users
 security:
   - platformAppApiKey: []
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      type: array
-      description: 'Array of account users'
-      items:
-        type: object
-        properties: 
-          account_id:
-            type: integer
-            description: The ID of the user
-          user_id:
-            type: integer
-            description: The ID of the user
-          role:
-            type: string
-            description: whether user is an administrator or agent
-      
-  401:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/account_user'
+  '401':
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

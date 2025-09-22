@@ -87,8 +87,10 @@ useKeyboardEvents(keyboardEvents);
       <ContactNoteItem
         v-for="note in notes"
         :key="note.id"
+        class="mx-6 py-4"
         :note="note"
         :written-by="getWrittenBy(note)"
+        allow-delete
         @delete="onDelete"
       />
     </div>

@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Dirección IP",
     "CREATED_AT_LABEL": "Creado",
     "NEW_MESSAGE": "Nuevo mensaje",
+    "CALL": "Llamar",
+    "CALL_UNDER_DEVELOPMENT": "Llamar está bajo desarrollo",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Seleccionar un buzón de entrada"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
       "TITLE": "Conversaciones anteriores"
@@ -285,6 +290,7 @@
     "HEADER": {
       "TITLE": "Contactos",
       "SEARCH_TITLE": "Buscar contactos",
+      "ACTIVE_TITLE": "Contactos activos",
       "SEARCH_PLACEHOLDER": "Buscar...",
       "MESSAGE_BUTTON": "Mensaje",
       "SEND_MESSAGE": "Enviar mensaje",
@@ -457,6 +463,10 @@
             "PLACEHOLDER": "Agregar Twitter/X"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "Eliminar permanentemente este contacto. Esta acción es irreversible.",
+        "BUTTON": "Eliminar ahora"
       }
     },
     "DETAILS": {
@@ -466,7 +476,7 @@
       "DELETE_CONTACT": "Eliminar contacto",
       "DELETE_DIALOG": {
         "TITLE": "Confirmar eliminación",
-        "DESCRIPTION": "¿Estás seguro de que quieres eliminar este contacto {contactName}?",
+        "DESCRIPTION": "¿Está seguro que desea eliminar este contacto?",
         "CONFIRM": "Sí, eliminar",
         "API": {
           "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
@@ -544,6 +554,9 @@
         "WROTE": "escribió",
         "YOU": "Tú",
         "SAVE": "Guardar nota",
+        "EXPAND": "Expandir",
+        "COLLAPSE": "Contraer",
+        "NO_NOTES": "No hay notas, puede agregar notas desde la página de detalles de contacto.",
         "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior."
       }
     },
@@ -552,7 +565,8 @@
       "SUBTITLE": "Empieza a añadir nuevos contactos haciendo clic en el botón de abajo",
       "BUTTON_LABEL": "Añadir contacto",
       "SEARCH_EMPTY_STATE_TITLE": "No hay contactos que coincidan con tu búsqueda 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋"
+      "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos por el momento 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -592,6 +606,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "Plantilla de WhatsApp: {templateName}",
           "VARIABLES": "Variables",
+          "BACK": "Volver",
+          "SEND_MESSAGE": "Enviar mensaje"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Seleccionar plantilla",
+        "SEARCH_PLACEHOLDER": "Buscar plantillas",
+        "EMPTY_STATE": "No se encontraron plantillas",
+        "TEMPLATE_PARSER": {
           "BACK": "Volver",
           "SEND_MESSAGE": "Enviar mensaje"
         }

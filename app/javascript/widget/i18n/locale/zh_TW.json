@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "我們在線上",
-    "OFFLINE": "我們目前不在線上"
+    "OFFLINE": "我們目前不在線上",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "通常在幾分鐘內回覆",
     "IN_A_FEW_HOURS": "通常在幾小時內回覆",
     "IN_A_DAY": "通常在一天內回覆",
-    "BACK_IN": "We will be back online"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
     "SUNDAY": "星期日",

@@ -51,4 +51,85 @@ RSpec.describe Integrations::Hook do
       expect(openai_double).to have_received(:perform)
     end
   end
+
+  describe 'scopes' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let!(:account_hook) { create(:integrations_hook, account: account, app_id: 'webhook') }
+    let!(:inbox_hook) do
+      create(:integrations_hook,
+             account: account,
+             app_id: 'dialogflow',
+             inbox: inbox,
+             settings: {
+               project_id: 'test-project',
+               credentials: { type: 'service_account' }
+             })
+    end
+
+    it 'returns account hooks' do
+      expect(described_class.account_hooks).to include(account_hook)
+      expect(described_class.account_hooks).not_to include(inbox_hook)
+    end
+
+    it 'returns inbox hooks' do
+      expect(described_class.inbox_hooks).to include(inbox_hook)
+      expect(described_class.inbox_hooks).not_to include(account_hook)
+    end
+  end
+
+  describe '#crm_integration?' do
+    let(:account) { create(:account) }
+
+    before do
+      account.enable_features('crm_integration')
+    end
+
+    it 'returns true for leadsquared integration' do
+      hook = create(:integrations_hook,
+                    account: account,
+                    app_id: 'leadsquared',
+                    settings: {
+                      access_key: 'test',
+                      secret_key: 'test',
+                      endpoint_url: 'https://api.leadsquared.com'
+                    })
+      expect(hook.send(:crm_integration?)).to be true
+    end
+
+    it 'returns false for non-crm integrations' do
+      hook = create(:integrations_hook, account: account, app_id: 'slack')
+      expect(hook.send(:crm_integration?)).to be false
+    end
+  end
+
+  describe '#trigger_setup_if_crm' do
+    let(:account) { create(:account) }
+
+    before do
+      account.enable_features('crm_integration')
+      allow(Crm::SetupJob).to receive(:perform_later)
+    end
+
+    context 'when integration is a CRM' do
+      it 'enqueues setup job' do
+        create(:integrations_hook,
+               account: account,
+               app_id: 'leadsquared',
+               settings: {
+                 access_key: 'test',
+                 secret_key: 'test',
+                 endpoint_url: 'https://api.leadsquared.com'
+               })
+        expect(Crm::SetupJob).to have_received(:perform_later)
+      end
+    end
+
+    context 'when integration is not a CRM' do
+      it 'does not enqueue setup job' do
+        create(:integrations_hook, account: account, app_id: 'slack')
+        expect(Crm::SetupJob).not_to have_received(:perform_later)
+      end
+    end
+  end
 end

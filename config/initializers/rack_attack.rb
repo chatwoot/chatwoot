@@ -11,7 +11,12 @@ class Rack::Attack
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   # https://github.com/rack/rack-attack/issues/102
-  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma)
+  # Rails 7.1 automatically adds its own ConnectionPool around RedisCacheStore.
+  # Because `$velma` is *already* a ConnectionPool, double-wrapping causes
+  # Redis calls like `get` to hit the outer wrapper and explode.
+  # `pool: false` tells Rails to skip its internal pool and use ours directly.
+  # TODO: We can use build in connection pool in future upgrade
+  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma, pool: false)
 
   class Request < ::Rack::Request
     # You many need to specify a method to fetch the correct remote IP address
@@ -21,8 +26,9 @@ class Rack::Attack
     end
 
     def allowed_ip?
-      allowed_ips = ['127.0.0.1', '::1']
-      allowed_ips.include?(remote_ip)
+      default_allowed_ips = ['127.0.0.1', '::1']
+      env_allowed_ips = ENV.fetch('RACK_ATTACK_ALLOWED_IPS', '').split(',').map(&:strip)
+      (default_allowed_ips + env_allowed_ips).include?(remote_ip)
     end
 
     # Rails would allow requests to paths with extentions, so lets compare against the path with extention stripped
@@ -31,6 +37,15 @@ class Rack::Attack
       path[/^[^.]+/]
     end
   end
+
+  ### Safelist IPs from Environment Variable ###
+  #
+  # This block ensures requests from any IP present in RACK_ATTACK_ALLOWED_IPS
+  # will bypass Rack::Attack’s throttling rules.
+  #
+  # Example: RACK_ATTACK_ALLOWED_IPS="127.0.0.1,::1,192.168.0.10"
+
+  Rack::Attack.safelist('trusted IPs', &:allowed_ip?)
 
   ### Throttle Spammy Clients ###
 
@@ -68,12 +83,17 @@ class Rack::Attack
   end
 
   # ### Prevent Brute-Force Login Attacks ###
+  # Exclude MFA verification attempts from regular login throttling
   throttle('login/ip', limit: 5, period: 5.minutes) do |req|
-    req.ip if req.path_without_extentions == '/auth/sign_in' && req.post?
+    if req.path_without_extentions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
+      # Skip if this is an MFA verification request
+      req.ip
+    end
   end
 
   throttle('login/email', limit: 10, period: 15.minutes) do |req|
-    if req.path_without_extentions == '/auth/sign_in' && req.post?
+    # Skip if this is an MFA verification request
+    if req.path_without_extentions == '/auth/sign_in' && req.post? && req.params['mfa_token'].blank?
       # ref: https://github.com/rack/rack-attack/issues/399
       # NOTE: This line used to throw ArgumentError /rails/action_mailbox/sendgrid/inbound_emails : invalid byte sequence in UTF-8
       # Hence placed in the if block
@@ -97,6 +117,28 @@ class Rack::Attack
   ## Resend confirmation throttling
   throttle('resend_confirmation/ip', limit: 5, period: 30.minutes) do |req|
     req.ip if req.path_without_extentions == '/api/v1/profile/resend_confirmation' && req.post?
+  end
+
+  ## MFA throttling - prevent brute force attacks
+  throttle('mfa_verification/ip', limit: 5, period: 1.minute) do |req|
+    if req.path_without_extentions == '/api/v1/profile/mfa'
+      req.ip if req.delete? # Throttle disable attempts
+    elsif req.path_without_extentions.match?(%r{/api/v1/profile/mfa/(verify|backup_codes)})
+      req.ip if req.post? # Throttle verify and backup_codes attempts
+    end
+  end
+
+  # Separate rate limiting for MFA verification attempts
+  throttle('mfa_login/ip', limit: 10, period: 1.minute) do |req|
+    req.ip if req.path_without_extentions == '/auth/sign_in' && req.post? && req.params['mfa_token'].present?
+  end
+
+  throttle('mfa_login/token', limit: 10, period: 1.minute) do |req|
+    if req.path_without_extentions == '/auth/sign_in' && req.post?
+      # Track by MFA token to prevent brute force on a specific token
+      mfa_token = req.params['mfa_token'].presence
+      (mfa_token.presence)
+    end
   end
 
   ## Prevent Brute-Force Signup Attacks ###

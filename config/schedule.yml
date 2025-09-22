@@ -33,9 +33,23 @@ remove_stale_redis_keys_job.rb:
   class: 'Internal::RemoveStaleRedisKeysJob'
   queue: scheduled_jobs
 
-# executed daily at 2230 UTC
-# which is our lowest traffic time
-# process_stale_contacts_job:
-#   cron: '30 22 * * *'
-#   class: 'Internal::ProcessStaleContactsJob'
-#   queue: scheduled_jobs
+#executed daily at 0430 UTC
+# which will be IST 10:00 AM
+process_stale_contacts_job:
+  cron: '30 04 * * *'
+  class: 'Internal::ProcessStaleContactsJob'
+  queue: housekeeping
+
+# executed daily at 0100 UTC
+# to delete accounts marked for deletion
+delete_accounts_job:
+  cron: '0 1 * * *'
+  class: 'Internal::DeleteAccountsJob'
+  queue: scheduled_jobs
+
+# executed every 15 minutes
+# to assign unassigned conversations for all inboxes
+bulk_auto_assignment_job:
+  cron: '*/15 * * * *'
+  class: 'Inboxes::BulkAutoAssignmentJob'
+  queue: scheduled_jobs
