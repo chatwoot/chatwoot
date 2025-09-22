@@ -20,7 +20,8 @@ class Telegram::IncomingMessageService
       message_type: :incoming,
       sender: @contact,
       content_attributes: telegram_params_content_attributes,
-      source_id: telegram_params_message_id.to_s
+      source_id: telegram_params_message_id.to_s,
+      additional_attributes: message_additional_attributes
     )
 
     process_message_attachments if message_params?
@@ -95,6 +96,14 @@ class Telegram::IncomingMessageService
   def conversation_additional_attributes
     {
       chat_id: telegram_params_chat_id
+    }
+  end
+
+  def message_additional_attributes
+    {
+      name: telegram_params_full_name,
+      username: telegram_params_username,
+      channel: 'Telegram'
     }
   end
 
