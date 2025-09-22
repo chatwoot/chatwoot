@@ -349,7 +349,10 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
     context 'when there is a message' do
       it 'logs error and updates message status' do
+<<<<<<< HEAD
+=======
         service.instance_variable_set(:@message, message)
+>>>>>>> origin/development
         service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).to eq('failed')

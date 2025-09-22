@@ -99,14 +99,14 @@ class Instagram::AudioConversionService
     # FFmpeg command to convert to audio-only MP4 (M4A)
     command = [
       'ffmpeg', '-i', input_file.path,
-      '-c:a', 'aac',               # AAC codec (widely supported in MP4)
-      '-b:a', '128k',              # Bitrate optimized for Instagram
-      '-ar', '44100',              # Sample rate
-      '-ac', '2',                  # Stereo channel
-      '-movflags', '+faststart',   # Optimize for streaming
-      '-f', 'mp4',                 # MP4 container
-      '-vn',                       # No video stream (audio only)
-      '-y', output_file.path       # Overwrite output file
+      '-c:a', 'aac',
+      '-b:a', '128k',
+      '-ar', '44100',
+      '-ac', '2',
+      '-movflags', '+faststart',
+      '-f', 'mp4',
+      '-vn',
+      '-y', output_file.path
     ]
 
     Rails.logger.info "[INSTAGRAM_AUDIO] Running FFmpeg command: #{command.join(' ')}"

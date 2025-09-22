@@ -33,7 +33,6 @@ module Whatsapp
       def cleanup_on_destroy
         # WhatsApp Cloud doesn't require cleanup
       end
-
       private
 
       def business_account_path

@@ -318,7 +318,7 @@
           "HELP_TEXT": "Puede encontrar su token de API en su panel de control de WHAPI",
           "ERROR": "Por favor, ingrese un valor válido."
         },
-        "GENERATING_QR": "Generando código QR...",
+        "GENERANDO_QR": "Generando código QR...",
         "LOADING_QR": "Cargando código QR...",
         "QR_HELP_TEXT": "Escanea este código QR con tu aplicación móvil de WhatsApp para conectar tu canal",
         "SUCCESS_TEXT": "¡Tu canal de WhatsApp se ha conectado exitosamente!",
@@ -365,6 +365,7 @@
         "API": {
           "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
+>>>>>>> origin/development
       },
       "API_CHANNEL": {
         "TITLE": "Canal API",

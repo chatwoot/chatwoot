@@ -262,7 +262,7 @@ const deleteConversation = () => {
     @contextmenu="openContextMenu($event)"
   >
     <div
-      class="relative"
+      class="relative flex-shrink-0 flex items-start py-3"
       @mouseenter="onThumbnailHover"
       @mouseleave="onThumbnailLeave"
     >
@@ -308,123 +308,171 @@ const deleteConversation = () => {
             'flex-1 justify-between': !showInboxName,
           }"
         >
-          <span
-            v-if="showAssignee && assignee.name"
-            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center truncate"
+          <Avatar
+            v-if="!hideThumbnail"
+            :name="currentContact.name"
+            :src="currentContact.thumbnail"
+            :size="32"
+            :status="currentContact.availability_status"
+            :class="!showInboxName ? 'mt-4' : 'mt-8'"
+            hide-offline-status
+            rounded-full
           >
-            <fluent-icon icon="person" size="12" class="text-n-slate-11" />
-            {{ assignee.name }}
-          </span>
-          <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
+            <template #overlay="{ size }">
+              <label
+                v-if="hovered || selected"
+                class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px]"
+                :style="{ width: `${size}px`, height: `${size}px` }"
+                @click.stop
+              >
+                <input
+                  :value="selected"
+                  :checked="selected"
+                  class="!m-0 cursor-pointer"
+                  type="checkbox"
+                  @change="onSelectConversation($event.target.checked)"
+                />
+              </label>
+            </template>
+          </Avatar>
         </div>
-      </div>
-      <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
-        :class="hasUnread ? 'font-semibold' : 'font-medium'"
-      >
-        {{ currentContact.name }}
-      </h4>
-      <div
-        v-if="callStatus"
-        key="voice-status-row"
-        class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
-        :class="messagePreviewClass"
-      >
-        <span
-          class="inline-block -mt-0.5 align-middle text-[16px] i-ph-phone-incoming"
-          :class="[voiceIconColor]"
-        />
-        <span class="mx-1">
-          {{ $t(voiceCallLabel) }}
-        </span>
-      </div>
-      <MessagePreview
-        v-else-if="lastMessageInChat"
-        key="message-preview"
-        :message="lastMessageInChat"
-        class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm"
-        :class="messagePreviewClass"
-      />
-      <p
-        v-else
-        key="no-messages"
-        class="text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap"
-        :class="messagePreviewClass"
-      >
-        <fluent-icon
-          size="16"
-          class="-mt-0.5 align-middle inline-block text-n-slate-10"
-          icon="info"
-        />
-        <span class="mx-0.5">
-          {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
-        </span>
-      </p>
-      <div
-        class="absolute flex flex-col ltr:right-3 rtl:left-3"
-        :class="showMetaSection ? 'top-8' : 'top-4'"
-      >
-        <span class="ml-auto font-normal leading-4 text-xxs">
-          <TimeAgo
-            :last-activity-timestamp="chat.timestamp"
-            :created-at-timestamp="chat.created_at"
-          />
-        </span>
-        <div class="flex items-center gap-1 ltr:ml-auto rtl:mr-auto mt-1">
-          <!-- AI Icon - only show when AI is enabled -->
-          <img
-            v-if="isAiEnabled"
-            src="~dashboard/assets/images/eleva_ai/icon-ai-on.svg"
-            alt="AI Enabled"
-            class="w-4 h-4 flex-shrink-0"
-          />
-          <!-- Unread count -->
-          <span
-            class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
-            :class="hasUnread ? 'block' : 'hidden'"
+        <div
+          class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 min-w-0"
+        >
+          <div
+            v-if="showMetaSection"
+            class="flex items-center min-w-0 gap-1 ltr:ml-2 rtl:mr-2"
           >
-            {{
-              unreadCount > 9
-                ? $t('CONVERSATION.UNREAD_COUNT.NINE_PLUS')
-                : unreadCount
-            }}
-          </span>
+            <InboxName
+              v-if="showInboxName"
+              :inbox="inbox"
+              class="flex-1 min-w-0"
+            />
+            <div
+              class="flex items-center gap-2 flex-shrink-0"
+              :class="{
+                'flex-1 justify-between': !showInboxName,
+              }"
+            >
+              <span
+                v-if="showAssignee && assignee.name"
+                class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center truncate"
+              >
+                <fluent-icon icon="person" size="12" class="text-n-slate-11" />
+                {{ assignee.name }}
+              </span>
+              <PriorityMark :priority="chat.priority" class="flex-shrink-0" />
+            </div>
+          </div>
+          <h4
+            class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
+            :class="hasUnread ? 'font-semibold' : 'font-medium'"
+          >
+            {{ currentContact.name }}
+          </h4>
+          <div
+            v-if="callStatus"
+            key="voice-status-row"
+            class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+            :class="messagePreviewClass"
+          >
+            <span
+              class="inline-block -mt-0.5 align-middle text-[16px] i-ph-phone-incoming"
+              :class="[voiceIconColor]"
+            />
+            <span class="mx-1">
+              {{ $t(voiceCallLabel) }}
+            </span>
+          </div>
+          <MessagePreview
+            v-else-if="lastMessageInChat"
+            key="message-preview"
+            :message="lastMessageInChat"
+            class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm"
+            :class="messagePreviewClass"
+          />
+          <p
+            v-else
+            key="no-messages"
+            class="text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap"
+            :class="messagePreviewClass"
+          >
+            <fluent-icon
+              size="16"
+              class="-mt-0.5 align-middle inline-block text-n-slate-10"
+              icon="info"
+            />
+            <span class="mx-0.5">
+              {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
+            </span>
+          </p>
+          <div
+            class="absolute flex flex-col ltr:right-3 rtl:left-3"
+            :class="showMetaSection ? 'top-8' : 'top-4'"
+          >
+            <span class="ml-auto font-normal leading-4 text-xxs">
+              <TimeAgo
+                :last-activity-timestamp="chat.timestamp"
+                :created-at-timestamp="chat.created_at"
+              />
+            </span>
+            <div class="flex items-center gap-1 ltr:ml-auto rtl:mr-auto mt-1">
+              <!-- AI Icon - only show when AI is enabled -->
+              <img
+                v-if="isAiEnabled"
+                src="~dashboard/assets/images/eleva_ai/icon-ai-on.svg"
+                alt="AI Enabled"
+                class="w-4 h-4 flex-shrink-0"
+              />
+              <!-- Unread count -->
+              <span
+                class="shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
+                :class="hasUnread ? 'block' : 'hidden'"
+              >
+                {{
+                  unreadCount > 9
+                    ? $t('CONVERSATION.UNREAD_COUNT.NINE_PLUS')
+                    : unreadCount
+                }}
+              </span>
+            </div>
+          </div>
+          <CardLabels
+            v-if="showLabelsSection"
+            :conversation-labels="chat.labels"
+            class="mt-0.5 mx-2 mb-0"
+          >
+            <template v-if="hasSlaPolicyId" #before>
+              <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
+            </template>
+          </CardLabels>
         </div>
+        <ContextMenu
+          v-if="showContextMenu"
+          :x="contextMenu.x"
+          :y="contextMenu.y"
+          @close="closeContextMenu"
+        >
+          <ConversationContextMenu
+            :status="chat.status"
+            :inbox-id="inbox.id"
+            :priority="chat.priority"
+            :chat-id="chat.id"
+            :has-unread-messages="hasUnread"
+            :conversation-url="conversationPath"
+            :allowed-options="allowedContextMenuOptions"
+            @update-conversation="onUpdateConversation"
+            @assign-agent="onAssignAgent"
+            @assign-label="onAssignLabel"
+            @assign-team="onAssignTeam"
+            @mark-as-unread="markAsUnread"
+            @mark-as-read="markAsRead"
+            @assign-priority="assignPriority"
+            @delete-conversation="deleteConversation"
+            @close="closeContextMenu"
+          />
+        </ContextMenu>
       </div>
-      <CardLabels
-        v-if="showLabelsSection"
-        :conversation-labels="chat.labels"
-        class="mt-0.5 mx-2 mb-0"
-      >
-        <template v-if="hasSlaPolicyId" #before>
-          <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
-        </template>
-      </CardLabels>
     </div>
-    <ContextMenu
-      v-if="showContextMenu"
-      :x="contextMenu.x"
-      :y="contextMenu.y"
-      @close="closeContextMenu"
-    >
-      <ConversationContextMenu
-        :status="chat.status"
-        :inbox-id="inbox.id"
-        :priority="chat.priority"
-        :chat-id="chat.id"
-        :has-unread-messages="hasUnread"
-        :conversation-url="conversationPath"
-        :allowed-options="allowedContextMenuOptions"
-        @update-conversation="onUpdateConversation"
-        @assign-agent="onAssignAgent"
-        @assign-label="onAssignLabel"
-        @assign-team="onAssignTeam"
-        @mark-as-unread="markAsUnread"
-        @mark-as-read="markAsRead"
-        @assign-priority="assignPriority"
-        @delete-conversation="deleteConversation"
-        @close="closeContextMenu"
-      />
-    </ContextMenu>
   </div>
 </template>

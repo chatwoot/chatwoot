@@ -91,7 +91,7 @@ FactoryBot.define do
       validate_provider_config { true }
     end
 
-    before(:create) do |channel_whatsapp, options|
+    before(:build) do |channel_whatsapp, options|
       # since factory already has the required message templates, we just need to bypass it getting updated
       channel_whatsapp.define_singleton_method(:sync_templates) { nil } unless options.sync_templates
       channel_whatsapp.define_singleton_method(:validate_provider_config) { nil } unless options.validate_provider_config
