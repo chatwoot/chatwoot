@@ -1,4 +1,4 @@
-namespace :mfa do
+namespace :mfa do # rubocop:disable Metrics/BlockLength
   desc 'Reset MFA for a specific user by email'
   task :reset, [:email] => :environment do |_task, args|
     email = args[:email]
@@ -9,7 +9,7 @@ namespace :mfa do
       exit 1
     end
 
-    user = User.find_by(email: email)
+    user = User.from_email(email)
 
     if user.nil?
       puts "Error: User with email '#{email}' not found"
@@ -30,9 +30,9 @@ namespace :mfa do
     )
 
     puts "✓ MFA has been successfully reset for #{email}"
-    puts "  - Two-factor authentication: Disabled"
-    puts "  - OTP secret: Removed"
-    puts "  - Backup codes: Cleared"
+    puts '  - Two-factor authentication: Disabled'
+    puts '  - OTP secret: Removed'
+    puts '  - Backup codes: Cleared'
     puts "\nThe user can now log in with just their password and re-enable MFA if desired."
   rescue StandardError => e
     puts "Error resetting MFA: #{e.message}"
@@ -59,11 +59,13 @@ namespace :mfa do
 
     puts "\nResetting MFA for #{count} user(s)..."
 
-    affected_users.update_all(
-      otp_required_for_login: false,
-      otp_secret: nil,
-      otp_backup_codes: nil
-    )
+    affected_users.find_each do |user|
+      user.update!(
+        otp_required_for_login: false,
+        otp_secret: nil,
+        otp_backup_codes: nil
+      )
+    end
 
     puts "✓ MFA has been reset for #{count} user(s)"
     puts "\nAll users can now log in with just their passwords."
@@ -79,7 +81,7 @@ namespace :mfa do
       exit 1
     end
 
-    user = User.find_by(email: email)
+    user = User.from_email(email)
 
     if user.nil?
       puts "Error: User with email '#{email}' not found"
@@ -97,12 +99,12 @@ namespace :mfa do
     codes = service.generate_backup_codes!
 
     puts "\nNew backup codes generated for #{email}:"
-    puts "━" * 40
+    puts '━' * 40
     codes.each_with_index do |code, index|
       puts "#{index + 1}. #{code}"
     end
-    puts "━" * 40
+    puts '━' * 40
     puts "\n⚠ Important: Share these codes securely with the user"
-    puts "Each code can only be used once"
+    puts 'Each code can only be used once'
   end
 end
