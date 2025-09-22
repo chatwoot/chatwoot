@@ -6,7 +6,6 @@ class Webhooks::InstagramController < ActionController::API
 
     # Webhook verification
     challenge = params['hub.challenge']
-    puts "================challenge======================#{challenge}==================="
     render plain: challenge and return if challenge.present?
 
     handle_entries(params['entry'])
@@ -16,7 +15,6 @@ class Webhooks::InstagramController < ActionController::API
   private
 
   def handle_entries(entries)
-    puts "======================entries======================#{entries}==================="
     entries.each do |entry|
       if entry['changes']
         handle_changes(entry)
@@ -27,7 +25,8 @@ class Webhooks::InstagramController < ActionController::API
   end
 
   def handle_changes(entry)
-    page = Channel::FacebookPage.find_by(instagram_id: entry[:id])
+    page = Channel::Instagram.find_by(instagram_id: entry[:id])
+    puts "================page===============#{page.inspect}==================="
     return unless page
 
     entry['changes'].each do |changes|
@@ -55,7 +54,7 @@ class Webhooks::InstagramController < ActionController::API
   end
 
   def handle_messaging(entry)
-    page = Channel::FacebookPage.find_by(instagram_id: entry['id'])
+    page = Channel::Instagram.find_by(instagram_id: entry['id'])
 
     if page.nil?
       Rails.logger.warn("⚠️ No FacebookPage found for instagram_id #{entry['id']}")
@@ -64,7 +63,7 @@ class Webhooks::InstagramController < ActionController::API
   
     entry['messaging'].each do |messaging|
       Rails.logger.info("📥 Processing messaging payload: #{messaging}")
-      Webhooks::FacebookEventsJob.perform_later(messaging.to_json)
+      Webhooks::InstagramEventsJob.perform_later(messaging.to_json)
     end
   end
   
@@ -104,9 +103,7 @@ class Webhooks::InstagramController < ActionController::API
     Rails.logger.info("🔎 [IG] comment_id=#{comment_id}")
   
     # Try to find an existing conversation with the same comment_id or media_id
-    puts "+=================parent_id======================#{parent_id}==================="
     conversation = Conversation.where("additional_attributes->>'comment_id' = ?", parent_id).last
-    puts "================conversation======================#{conversation.inspect}==================="
 
     # If an existing conversation is found, return it
     if conversation.present?
@@ -158,8 +155,8 @@ class Webhooks::InstagramController < ActionController::API
 
     # Job deduplication (best-effort)
     unless job_already_enqueued?(contact_inbox.id, conversation.id, comment_id)
-      SendCommentReplyJob.set(wait: 10.seconds).perform_later(contact_inbox.id, conversation)
-      SendTemplateDmJob.set(wait: 20.seconds).perform_later(contact_inbox.id, conversation, comment_id)
+      SendCommentReplyJob.set(wait: 5.seconds).perform_later(contact_inbox.id, conversation)
+      SendTemplateDmJob.set(wait: 10.seconds).perform_later(contact_inbox.id, conversation, comment_id)
     end
   end
 

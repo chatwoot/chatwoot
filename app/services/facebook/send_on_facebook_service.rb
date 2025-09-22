@@ -16,8 +16,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       end
       return
     end
-
-    send_message_to_facebook fb_text_message_params if message.content.present?
+    send_message_to_facebook(fb_text_message_params)
 
     if message.attachments.present?
       message.attachments.each do |attachment|

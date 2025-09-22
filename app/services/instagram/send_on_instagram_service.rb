@@ -48,8 +48,9 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def send_to_instagram_page(message_content)
-    puts "=================== send_to_instagram_page START ==================="
-    access_token = channel.page_access_token
+    puts "=================== send_to_instagram_page START ==1111================="
+    puts "=======================channel==================#{channel.inspect}==================="
+    access_token = channel.access_token
     query = { access_token: access_token }
 
     if conversation.additional_attributes['type'] == 'instagram_comments'
@@ -62,7 +63,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def send_reply_to_instagram_comment(query, message_content)
     comment_id = conversation.additional_attributes['comment_id']
-    url = "https://graph.facebook.com/v18.0/#{comment_id}/replies"
+    url = "https://graph.instagram.com/v23.0/#{comment_id}/replies"
 
     response = HTTParty.post(
       url,
@@ -75,7 +76,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def send_message_to_instagram(query, message_content)
-    url = "https://graph.facebook.com/v18.0/me/messages"
+    url = "https://graph.instagram.com/v23.0/me/messages"
     response = HTTParty.post(
       url,
       body: message_content,
