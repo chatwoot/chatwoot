@@ -226,6 +226,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/disable-request-summary
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -252,6 +253,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/disable-request-summary
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -327,6 +329,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/disable-request-summary
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -338,8 +341,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '0.5'
           request_cpu: '0.2'
-          limit_memory: '768M'
-          request_memory: '384M'
+          limit_memory: '768Mi'
+          request_memory: '384Mi'
           deployment-name: 'staging-sidekiq'
           requires:
             - staging-build-sidekiq
@@ -352,6 +355,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/disable-request-summary
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -363,8 +367,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '1'
           request_cpu: '0.5'
-          limit_memory: '1.5G'
-          request_memory: '768M'
+          limit_memory: '1500Mi'
+          request_memory: '768Mi'
           deployment-name: 'staging-chatwoot'
           service-account: 'rails-sa'
           requires:
@@ -408,8 +412,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '1'
           request_cpu: '0.4'
-          limit_memory: '2Gi'
-          request_memory: '800M'
+          limit_memory: '2000Mi'
+          request_memory: '800Mi'
           deployment-name: 'prod-sidekiq'
           requires:
             - deploy-approval-ind-sidekiq
@@ -434,8 +438,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '2'
           request_cpu: '1'
-          limit_memory: '2Gi'
-          request_memory: '1.4Gi'
+          limit_memory: '2000Mi'
+          request_memory: '1500Mi'
           deployment-name: 'prod-chatwoot'
           service-account: 'chatwoot-rails-sa'
           requires:
