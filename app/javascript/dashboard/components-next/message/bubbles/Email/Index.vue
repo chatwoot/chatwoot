@@ -1,6 +1,7 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
+import { sanitizeTextForRender } from '@chatwoot/utils';
 import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
@@ -37,12 +38,12 @@ const { hasTranslations, translationContent } =
 const originalEmailText = computed(() => {
   const text =
     contentAttributes?.value?.email?.textContent?.full ?? content.value;
-  return text?.replace(/\n/g, '<br>');
+  return sanitizeTextForRender(text);
 });
 
 const originalEmailHtml = computed(
   () =>
-    contentAttributes?.value?.email?.htmlContent?.full ??
+    contentAttributes?.value?.email?.htmlContent?.full ||
     originalEmailText.value
 );
 
