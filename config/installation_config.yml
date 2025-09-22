@@ -236,6 +236,10 @@
   display_title: 'Blocked Email Domains'
   description: 'Add a domain per line to block them from signing up, accepts Regex'
   type: code
+- name: SKIP_INCOMING_BCC_PROCESSING
+  value:
+  display_title: 'Skip BCC Processing For'
+  description: 'Comma-separated list of account IDs that should be skipped from incoming BCC processing'
 - name: INACTIVE_WHATSAPP_NUMBERS
   value: ''
   display_title: 'Inactive WhatsApp Numbers'
