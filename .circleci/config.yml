@@ -226,6 +226,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/disable-request-summary
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -252,6 +253,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/disable-request-summary
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
