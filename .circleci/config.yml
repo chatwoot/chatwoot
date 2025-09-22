@@ -327,6 +327,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/disable-request-summary
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -352,6 +353,7 @@ workflows:
             branches:
               only:
                 - develop
+                - fix/disable-request-summary
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
