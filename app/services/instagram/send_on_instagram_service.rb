@@ -10,7 +10,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   delegate :additional_attributes, to: :contact
 
   def channel_class
-    Channel::FacebookPage
+    Channel::Instagram
   end
 
   def perform_reply
