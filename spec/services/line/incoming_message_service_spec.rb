@@ -198,7 +198,7 @@ describe Line::IncomingMessageService do
 
   describe '#perform' do
     context 'when not text message params' do
-      it 'creates not create conversations, message and contacts' do
+      it 'does not create conversations, messages and contacts' do
         line_bot = double
         line_user_profile = double
         allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
