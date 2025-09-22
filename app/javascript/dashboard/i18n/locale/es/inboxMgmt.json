@@ -365,7 +365,6 @@
         "API": {
           "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
->>>>>>> origin/development
       },
       "API_CHANNEL": {
         "TITLE": "Canal API",
