@@ -10,11 +10,6 @@ class Line::IncomingMessageService
     # probably test events
     return if params[:events].blank?
 
-    line_contact_info
-    return if line_contact_info['userId'].blank?
-
-    set_contact
-    set_conversation
     parse_events
   end
 
@@ -22,6 +17,14 @@ class Line::IncomingMessageService
 
   def parse_events
     params[:events].each do |event|
+      next unless event_type_message?(event)
+
+      get_line_contact_info(event)
+      next if @line_contact_info['userId'].blank?
+
+      set_contact
+      set_conversation
+
       next unless message_created? event
 
       attach_files event['message']
@@ -30,8 +33,6 @@ class Line::IncomingMessageService
   end
 
   def message_created?(event)
-    return unless event_type_message?(event)
-
     @message = @conversation.messages.build(
       content: message_content(event),
       account_id: @inbox.account_id,
@@ -119,13 +120,13 @@ class Line::IncomingMessageService
     @account ||= inbox.account
   end
 
-  def line_contact_info
-    @line_contact_info ||= JSON.parse(inbox.channel.client.get_profile(params[:events].first['source']['userId']).body)
+  def get_line_contact_info(event)
+    @line_contact_info = JSON.parse(inbox.channel.client.get_profile(event['source']['userId']).body)
   end
 
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: line_contact_info['userId'],
+      source_id: @line_contact_info['userId'],
       inbox: inbox,
       contact_attributes: contact_attributes
     ).perform
@@ -152,15 +153,15 @@ class Line::IncomingMessageService
 
   def contact_attributes
     {
-      name: line_contact_info['displayName'],
-      avatar_url: line_contact_info['pictureUrl'],
+      name: @line_contact_info['displayName'],
+      avatar_url: @line_contact_info['pictureUrl'],
       additional_attributes: additional_attributes
     }
   end
 
   def additional_attributes
     {
-      social_line_user_id: line_contact_info['userId']
+      social_line_user_id: @line_contact_info['userId']
     }
   end
 
