@@ -212,6 +212,11 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-two-factor (6.1.0)
+      activesupport (>= 7.0, < 8.1)
+      devise (~> 4.0)
+      railties (>= 7.0, < 8.1)
+      rotp (~> 6.0)
     devise_token_auth (1.2.5)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
@@ -722,7 +727,8 @@ GEM
     retriable (3.1.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.4.1)
+    rexml (3.4.4)
+    rotp (6.3.0)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.2)
@@ -1005,6 +1011,7 @@ DEPENDENCIES
   debug (~> 1.8)
   devise (>= 4.9.4)
   devise-secure_password!
+  devise-two-factor (>= 5.0.0)
   devise_token_auth (>= 1.2.3)
   dotenv-rails (>= 3.0.0)
   down
