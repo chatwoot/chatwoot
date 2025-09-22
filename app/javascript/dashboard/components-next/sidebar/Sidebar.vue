@@ -425,32 +425,24 @@ const menuItems = computed(() => {
               },
             ]
           : []),
-        ...(isUserSuperAdmin.value
-          ? [
-              {
-                name: 'Settings Agents',
-                label: t('SIDEBAR.AGENTS'),
-                icon: 'i-lucide-square-user',
-                to: accountScopedRoute('agent_list'),
-              },
-            ]
-          : []),
+        {
+          name: 'Settings Agents',
+          label: t('SIDEBAR.AGENTS'),
+          icon: 'i-lucide-square-user',
+          to: accountScopedRoute('agent_list'),
+        },
         {
           name: 'Settings Teams',
           label: t('SIDEBAR.TEAMS'),
           icon: 'i-lucide-users',
           to: accountScopedRoute('settings_teams_list'),
         },
-        ...(isUserSuperAdmin.value
-          ? [
-              {
-                name: 'Settings Inboxes',
-                label: t('SIDEBAR.INBOXES'),
-                icon: 'i-lucide-inbox',
-                to: accountScopedRoute('settings_inbox_list'),
-              },
-            ]
-          : []),
+        {
+          name: 'Settings Inboxes',
+          label: t('SIDEBAR.INBOXES'),
+          icon: 'i-lucide-inbox',
+          to: accountScopedRoute('settings_inbox_list'),
+        },
         {
           name: 'Settings Labels',
           label: t('SIDEBAR.LABELS'),
