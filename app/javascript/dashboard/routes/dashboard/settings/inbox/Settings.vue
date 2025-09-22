@@ -801,7 +801,7 @@ export default {
             webhook_url:
               this.channelType === 'Channel::WebWidget'
                 ? this.webhookUrl ??
-                  'https://chatwoot-connector-767152501284.us-east4.run.app/chatwoot/webhook/webWidget'
+                  'https://cwconnect.bitespeed.co/chatwoot/webhook/webWidget'
                 : this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
