@@ -101,7 +101,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_sender_name
-    current_message&.sender&.available_name || @agent&.available_name || 'Notifications'
+    current_message&.sender&.available_name || @agent&.available_name || I18n.t('conversations.reply.email.header.notifications')
   end
 
   def business_name

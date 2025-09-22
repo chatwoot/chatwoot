@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP 位置",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "新訊息",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此聯絡人没有關聯到以前的對話。",
       "TITLE": "上一次對話"
@@ -601,6 +606,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variables",
+          "BACK": "返回",
+          "SEND_MESSAGE": "傳送訊息"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "返回",
           "SEND_MESSAGE": "傳送訊息"
         }
