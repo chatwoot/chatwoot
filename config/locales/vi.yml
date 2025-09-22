@@ -26,6 +26,9 @@ vi:
   messages:
     reset_password_success: Chà! Yêu cầu đặt lại mật khẩu thành công. Kiểm tra thư của bạn để biết hướng dẫn.
     reset_password_failure: Uh ho! Chúng tôi không thể tìm thấy bất kỳ người dùng nào có email được chỉ định.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Yêu cầu xoá hộp thư của bạn sẽ được xử lý.
   errors:
     validations:
@@ -41,6 +44,8 @@ vi:
       failed: Đăng ký thât bại
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Kiểu dữ liệu không hợp lệ
@@ -209,6 +214,7 @@ vi:
     reply:
       email:
         header:
+          notifications: 'Thông báo'
           from_with_name: '%{assignee_name} từ %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} từ %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} từ %{business_name} <%{from_email}>'

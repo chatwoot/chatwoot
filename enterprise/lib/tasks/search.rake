@@ -1,22 +1,4 @@
-module Tasks::SearchTaskHelpers
-  def check_opensearch_config
-    if ENV['OPENSEARCH_URL'].blank?
-      puts 'Skipping reindex as OPENSEARCH_URL is not configured'
-      return false
-    end
-    true
-  end
-
-  def reindex_account(account)
-    Messages::ReindexService.new(account: account).perform
-    puts "Reindex task queued for account #{account.id}"
-  end
-end
-
 namespace :search do
-  desc 'Reindex messages using searchkick'
-  include Tasks::SearchTaskHelpers
-
   desc 'Reindex messages for all accounts'
   task all: :environment do
     next unless check_opensearch_config
@@ -46,4 +28,17 @@ namespace :search do
     puts "Reindexing messages for account #{account.id}"
     reindex_account(account)
   end
+end
+
+def check_opensearch_config
+  if ENV['OPENSEARCH_URL'].blank?
+    puts 'Skipping reindex as OPENSEARCH_URL is not configured'
+    return false
+  end
+  true
+end
+
+def reindex_account(account)
+  Messages::ReindexService.new(account: account).perform
+  puts "Reindex task queued for account #{account.id}"
 end
