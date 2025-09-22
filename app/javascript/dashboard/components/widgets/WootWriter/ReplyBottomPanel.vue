@@ -10,7 +10,6 @@ import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
-import { REPLY_EDITOR_MODES } from './constants';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -20,9 +19,9 @@ export default {
   components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [inboxMixin],
   props: {
-    mode: {
-      type: String,
-      default: REPLY_EDITOR_MODES.REPLY,
+    isNote: {
+      type: Boolean,
+      default: false,
     },
     onSend: {
       type: Function,
@@ -95,6 +94,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableContentTemplates: {
+      type: Boolean,
+      default: false,
+    },
     conversationId: {
       type: Number,
       required: true,
@@ -121,6 +124,7 @@ export default {
     'toggleInsertArticle',
     'toggleEditor',
     'selectWhatsappTemplate',
+    'selectContentTemplate',
   ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -163,9 +167,6 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'integrations/getUIFlags',
     }),
-    isNote() {
-      return this.mode === REPLY_EDITOR_MODES.NOTE;
-    },
     wrapClass() {
       return {
         'is-note-mode': this.isNote,
@@ -347,6 +348,15 @@ export default {
         sm
         @click="$emit('selectWhatsappTemplate')"
       />
+      <NextButton
+        v-if="enableContentTemplates"
+        v-tooltip.top-end="'Content Templates'"
+        icon="i-ph-whatsapp-logo"
+        slate
+        faded
+        sm
+        @click="$emit('selectContentTemplate')"
+      />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
@@ -361,7 +371,7 @@ export default {
       <transition name="modal-fade">
         <div
           v-show="uploadRef && uploadRef.dropActive"
-          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-n-slate-12 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
+          class="flex fixed top-0 right-0 bottom-0 left-0 z-20 flex-col gap-2 justify-center items-center w-full h-full text-n-slate-12 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
           <fluent-icon icon="cloud-backup" size="40" />
           <h4 class="text-2xl break-words text-n-slate-12">

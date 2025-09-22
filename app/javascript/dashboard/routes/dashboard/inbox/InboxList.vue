@@ -94,12 +94,7 @@ const loadMoreNotifications = () => {
 const markNotificationAsRead = async notificationItem => {
   useTrack(INBOX_EVENTS.MARK_NOTIFICATION_AS_READ);
 
-  const {
-    id,
-    primary_actor_id: primaryActorId,
-    primary_actor_type: primaryActorType,
-  } = notificationItem;
-
+  const { id, primaryActorId, primaryActorType } = notificationItem;
   try {
     await store.dispatch('notifications/read', {
       id,

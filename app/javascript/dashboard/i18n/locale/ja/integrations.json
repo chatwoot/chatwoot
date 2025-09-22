@@ -704,10 +704,27 @@
         "ERROR_MESSAGE": "ドキュメントの作成中にエラーが発生しました。もう一度お試しください。"
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "URL",
+          "PDF": "PDF File"
+        },
         "URL": {
           "LABEL": "URL",
           "PLACEHOLDER": "ドキュメントのURLを入力",
           "ERROR": "有効なURLを入力してください"
+        },
+        "PDF_FILE": {
+          "LABEL": "PDF File",
+          "CHOOSE_FILE": "Choose PDF file",
+          "ERROR": "Please select a PDF file",
+          "HELP_TEXT": "Maximum file size: 10MB",
+          "INVALID_TYPE": "Please select a valid PDF file",
+          "TOO_LARGE": "File size exceeds 10MB limit"
+        },
+        "NAME": {
+          "LABEL": "Document Name (Optional)",
+          "PLACEHOLDER": "Enter a name for the document"
         },
         "ASSISTANT": {
           "LABEL": "アシスタント",

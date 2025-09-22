@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "Senda skilaboð"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
+          "BACK": "Go back",
+          "SEND_MESSAGE": "Senda skilaboð"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "Discard",
         "SEND": "Send ({keyCode})"

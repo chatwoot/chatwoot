@@ -143,7 +143,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     # {
     #   processed_params: {
     #     body: { '1': 'John', '2': '123 Main St' },
-    #     header: { media_url: 'https://...', media_type: 'image' },
+    #     header: {
+    #       media_url: 'https://...',
+    #       media_type: 'image',
+    #       media_name: 'filename.pdf' # Optional, for document templates only
+    #     },
     #     buttons: [{ type: 'url', parameter: 'otp123456' }]
     #   }
     # }
