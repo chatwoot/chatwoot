@@ -34,6 +34,7 @@ const {
   isAWhatsAppChannel,
   isAFacebookInbox,
   isATelegramChannel,
+  isATwilioWhatsAppChannel,
 } = useInbox(route.params.inbox_id);
 
 const hasDuplicateInstagramInbox = computed(() => {
@@ -131,7 +132,13 @@ async function generateQRCodes() {
 
   // WhatsApp (both Cloud and Twilio)
   if (currentInbox.value.phone_number && isAWhatsAppChannel.value) {
-    await generateQRCode('whatsapp', currentInbox.value.phone_number);
+    // For Twilio WhatsApp, phone_number format is "whatsapp:+1234567890"
+    // Extract just the phone number part for QR code generation
+    const phoneNumber = currentInbox.value.phone_number.replace(
+      'whatsapp:',
+      ''
+    );
+    await generateQRCode('whatsapp', phoneNumber);
   }
 
   // Facebook Messenger
@@ -162,9 +169,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
-  >
+  <div class="overflow-auto col-span-6 p-6 w-full h-full">
     <DuplicateInboxBanner
       v-if="hasDuplicateInstagramInbox"
       :content="$t('INBOX_MGMT.ADD.INSTAGRAM.NEW_INBOX_SUGGESTION')"
@@ -183,7 +188,7 @@ onMounted(() => {
         </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">
           <woot-code
-            v-if="isATwilioChannel"
+            v-if="isATwilioWhatsAppChannel"
             lang="html"
             :script="currentInbox.callback_webhook_url"
           />
@@ -230,47 +235,47 @@ onMounted(() => {
         </div>
         <div
           v-if="isAWhatsAppChannel && qrCodes.whatsapp"
-          class="flex flex-col items-center mt-8 gap-3"
+          class="flex flex-col gap-3 items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.FINISH.WHATSAPP_QR_INSTRUCTION') }}
           </p>
-          <div class="outline-1 outline-n-strong outline rounded-lg shadow">
+          <div class="rounded-lg shadow outline-1 outline-n-strong outline">
             <img
               :src="qrCodes.whatsapp"
               alt="WhatsApp QR Code"
-              class="size-48 dark:invert rounded-lg"
+              class="rounded-lg size-48 dark:invert"
             />
           </div>
         </div>
         <div
           v-if="isAFacebookInbox && qrCodes.messenger"
-          class="flex flex-col items-center mt-8 gap-3"
+          class="flex flex-col gap-3 items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.FINISH.MESSENGER_QR_INSTRUCTION') }}
           </p>
-          <div class="outline-1 outline-n-strong outline rounded-lg shadow">
+          <div class="rounded-lg shadow outline-1 outline-n-strong outline">
             <img
               :src="qrCodes.messenger"
               alt="Messenger QR Code"
-              class="size-48 dark:invert rounded-lg"
+              class="rounded-lg size-48 dark:invert"
             />
           </div>
         </div>
         <div
           v-if="isATelegramChannel && qrCodes.telegram"
-          class="flex flex-col items-center mt-8 gap-4"
+          class="flex flex-col gap-4 items-center mt-8"
         >
           <p class="mt-2 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.FINISH.TELEGRAM_QR_INSTRUCTION') }}
           </p>
 
-          <div class="outline-1 outline-n-strong outline rounded-lg shadow">
+          <div class="rounded-lg shadow outline-1 outline-n-strong outline">
             <img
               :src="qrCodes.telegram"
               alt="Telegram QR Code"
-              class="size-48 dark:invert rounded-lg"
+              class="rounded-lg size-48 dark:invert"
             />
           </div>
         </div>

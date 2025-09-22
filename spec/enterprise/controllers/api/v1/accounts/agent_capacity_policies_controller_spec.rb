@@ -103,7 +103,10 @@ RSpec.describe 'Agent Capacity Policies API', type: :request do
           agent_capacity_policy: {
             name: 'Test Policy',
             description: 'Test Description',
-            exclusion_rules: { overall_capacity: 10 }
+            exclusion_rules: {
+              excluded_labels: %w[urgent spam],
+              exclude_older_than_hours: 24
+            }
           }
         }
 
@@ -115,6 +118,10 @@ RSpec.describe 'Agent Capacity Policies API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['name']).to eq('Test Policy')
         expect(response.parsed_body['description']).to eq('Test Description')
+        expect(response.parsed_body['exclusion_rules']).to eq({
+                                                                'excluded_labels' => %w[urgent spam],
+                                                                'exclude_older_than_hours' => 24
+                                                              })
       end
 
       it 'returns validation errors for invalid data' do
@@ -164,6 +171,28 @@ RSpec.describe 'Agent Capacity Policies API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['name']).to eq('Updated Policy')
+      end
+
+      it 'updates exclusion rules when administrator' do
+        params = {
+          agent_capacity_policy: {
+            exclusion_rules: {
+              excluded_labels: %w[vip priority],
+              exclude_older_than_hours: 48
+            }
+          }
+        }
+
+        put "/api/v1/accounts/#{account.id}/agent_capacity_policies/#{agent_capacity_policy.id}",
+            params: params,
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['exclusion_rules']).to eq({
+                                                                'excluded_labels' => %w[vip priority],
+                                                                'exclude_older_than_hours' => 48
+                                                              })
       end
     end
   end
