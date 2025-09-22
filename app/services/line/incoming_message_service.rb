@@ -77,7 +77,8 @@ class Line::IncomingMessageService
 
     response = inbox.channel.client.get_message_content(message['id'])
 
-    file_name = "media-#{message['id']}.#{response.content_type.split('/')[1]}"
+    extension = get_file_extension(response)
+    file_name = message['fileName'] || "media-#{message['id']}.#{extension}"
     temp_file = Tempfile.new(file_name)
     temp_file.binmode
     temp_file << response.body
@@ -94,12 +95,25 @@ class Line::IncomingMessageService
     )
   end
 
+  def get_file_extension(response)
+    if response.content_type&.include?('/')
+      response.content_type.split('/')[1]
+    else
+      'bin'
+    end
+  end
+
   def event_type_message?(event)
     event['type'] == 'message' || event['type'] == 'sticker'
   end
 
   def message_type_non_text?(type)
-    [Line::Bot::Event::MessageType::Video, Line::Bot::Event::MessageType::Audio, Line::Bot::Event::MessageType::Image].include?(type)
+    [
+      Line::Bot::Event::MessageType::Video,
+      Line::Bot::Event::MessageType::Audio,
+      Line::Bot::Event::MessageType::Image,
+      Line::Bot::Event::MessageType::File
+    ].include?(type)
   end
 
   def account
