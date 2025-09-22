@@ -92,17 +92,43 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def build_message
-    # Duplicate webhook events may be sent for the same message
-    # when a user is connected to the Instagram account through both Messenger and Instagram login.
-    # There is chance for echo events to be sent for the same message.
-    # Therefore, we need to check if the message already exists before creating it.
+    contact_id = contact.id
+    inbox_id = @inbox.id
+    account_id = @inbox.account_id
+
+    # Find existing conversation first
+    template_dm_conversation = Conversation.where(
+      contact_id: contact_id,
+      inbox_id: inbox_id,
+      account_id: account_id
+    ).where("conversations.additional_attributes->>'type' = ?", 'instagram_dm').last
+
+    if template_dm_conversation
+      Rails.logger.info "Found existing template_dm conversation #{template_dm_conversation.id} for contact #{contact_id} in inbox #{inbox_id}"
+      @conversation = template_dm_conversation
+    else
+      Rails.logger.info "No existing template_dm conversation found, creating a new one for contact #{contact_id} in inbox #{inbox_id}"
+      @conversation = build_conversation
+    end
+
+    # Stop if this message was already processed
     return if message_already_exists?
 
+    # Skip if no content and all attachments unsupported
     return if message_content.blank? && all_unsupported_files?
 
-    @message = conversation.messages.create!(message_params)
+    # Create the message
+    @message = @conversation.messages.create!(message_params)
     save_story_id
 
+    # Update conversation to mark as instagram_dm if not already set
+    additional_attributes = @conversation.additional_attributes || {}
+    unless additional_attributes['type'] == 'instagram_dm'
+      additional_attributes['type'] = 'instagram_dm'
+      @conversation.update!(additional_attributes: additional_attributes)
+    end
+
+    # Handle attachments
     attachments.each do |attachment|
       process_attachment(attachment)
     end

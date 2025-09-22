@@ -109,7 +109,7 @@ class SendCommentReplyJob < ApplicationJob
   def send_to_instagram_page(contact_inbox, conversation, message_content)
 
     channel = contact_inbox.inbox.channel
-    access_token = channel.page_access_token
+    access_token = channel.access_token
 
     comment_id = conversation.additional_attributes['comment_id']
     unless comment_id
@@ -117,7 +117,7 @@ class SendCommentReplyJob < ApplicationJob
       return
     end
 
-    url = "https://graph.facebook.com/v23.0/#{comment_id}/replies"
+    url = "https://graph.instagram.com/v23.0/#{comment_id}/replies"
 
     response = HTTParty.post(
       url,

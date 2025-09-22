@@ -6,18 +6,41 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   SUPPORTED_EVENTS = [:message, :read].freeze
 
   def perform(entries)
-    @entries = entries
 
-    key = format(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: sender_id, ig_account_id: ig_account_id)
+    # Step 1: Parse JSON string if needed
+    parsed_entries = entries.is_a?(String) ? JSON.parse(entries) : entries
+
+    # Step 2: Normalize to array of hashes
+    parsed_entries = [parsed_entries] if parsed_entries.is_a?(Hash)
+
+    # Step 3: Allow indifferent access to keys
+    @entries = parsed_entries.map(&:with_indifferent_access)
+
+    # Step 4: Normalize each entry to have :messaging key if it looks like a direct message payload
+    @entries = @entries.map do |entry|
+      if entry[:messaging].blank? && (entry[:sender].present? || entry[:message].present?)
+        # Wrap the entry itself inside :messaging array for consistent processing downstream
+        { messaging: [entry] }.with_indifferent_access
+      else
+        entry
+      end
+    end
+
+
+    return if @entries.blank?
+
+
+    # Step 5: Build a Redis mutex key (fallback to 'unknown' if sender_id or ig_account_id nil)
+    key = format(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: sender_id || 'unknown', ig_account_id: ig_account_id || 'unknown')
+
     with_lock(key) do
-      process_entries(entries)
+      process_entries(@entries)
     end
   end
 
-  # https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
   def process_entries(entries)
     entries.each do |entry|
-      process_single_entry(entry.with_indifferent_access)
+      process_single_entry(entry)
     end
   end
 
@@ -36,14 +59,26 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     messages(entry).each do |messaging|
       Rails.logger.info("Instagram Events Job Messaging: #{messaging}")
 
-      instagram_id = instagram_id(messaging)
-      channel = find_channel(instagram_id)
+      instagram_id_val = instagram_id(messaging)
+      channel = find_channel(instagram_id_val)
 
       next if channel.blank?
 
-      if (event_name = event_name(messaging))
-        send(event_name, messaging, channel)
+      if (event_name_val = event_name(messaging))
+        send(event_name_val, messaging, channel)
       end
+    end
+  end
+
+  def messages(entry)
+    # Return the messaging array if present
+    return entry[:messaging] if entry[:messaging].present?
+
+    # If no messaging but it looks like a single message payload, wrap it in array
+    if entry[:message].present? || entry[:sender].present?
+      [entry]
+    else
+      entry[:standby] || []
     end
   end
 
@@ -74,26 +109,38 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def ig_account_id
-    @entries&.first&.dig(:id)
+    # Try normal key
+    id = @entries.dig(0, :id)
+    return id if id.present?
+
+    # fallback - no id available
+    nil
   end
 
   def sender_id
-    @entries&.dig(0, :messaging, 0, :sender, :id)
+    # Try extracting sender id from messaging array if present
+    id = @entries.dig(0, :messaging, 0, :sender, :id)
+    return id if id.present?
+
+    # fallback to top-level sender id if messaging not present
+    id = @entries.dig(0, :sender, :id)
+    return id if id.present?
+
+    nil
   end
 
   def find_channel(instagram_id)
-    # There will be chances for the instagram account to be connected to a facebook page,
-    # so we need to check for both instagram and facebook page channels
-    # priority is for instagram channel which created via instagram login
+    # Priority: Instagram channel (via Instagram login)
     channel = Channel::Instagram.find_by(instagram_id: instagram_id)
-    # If not found, fallback to the facebook page channel
-    channel ||= Channel::FacebookPage.find_by(instagram_id: instagram_id)
+
+    # Fallback: Facebook Page channel (linked Instagram)
+    channel = Channel::FacebookPage.find_by(instagram_id: instagram_id) if !channel.present?
 
     channel
   end
 
   def event_name(messaging)
-    @event_name ||= SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
+    SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
   end
 
   def message(messaging, channel)
@@ -105,92 +152,6 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def read(messaging, channel)
-    # Use a single service to handle read status for both channel types since the params are same
     ::Instagram::ReadStatusService.new(params: messaging, channel: channel).perform
   end
-
-  def messages(entry)
-    (entry[:messaging].presence || entry[:standby] || [])
-  end
 end
-
-# Actual response from Instagram webhook (both via Facebook page and Instagram direct)
-# [
-#   {
-#     "time": <timestamp>,
-#     "id": <INSTAGRAM_USER_ID>,
-#     "messaging": [
-#       {
-#         "sender": {
-#           "id": <INSTAGRAM_USER_ID>
-#         },
-#         "recipient": {
-#           "id": <INSTAGRAM_USER_ID>
-#         },
-#         "timestamp": <timestamp>,
-#         "message": {
-#           "mid": <MESSAGE_ID>,
-#           "text": <MESSAGE_TEXT>
-#         }
-#       }
-#     ]
-#   }
-# ]
-
-# Instagram's webhook via Instagram direct testing quirk: Test payloads vs Actual payloads
-# When testing in Facebook's developer dashboard, you'll get a Page-style
-# payload with a "changes" object. But don't be fooled! Real Instagram DMs
-# arrive in the familiar Messenger format with a "messaging" array.
-# This apparent inconsistency is actually by design - Instagram's webhooks
-# use different formats for testing vs production to maintain compatibility
-# with both Instagram Direct and Facebook Page integrations.
-# See: https://developers.facebook.com/docs/instagram-platform/webhooks#event-notifications
-
-# Test response from via Instagram direct
-# [
-#   {
-#     "id": "0",
-#     "time": <timestamp>,
-#     "changes": [
-#       {
-#         "field": "messages",
-#         "value": {
-#           "sender": {
-#             "id": "12334"
-#           },
-#           "recipient": {
-#             "id": "23245"
-#           },
-#           "timestamp": "1527459824",
-#           "message": {
-#             "mid": "random_mid",
-#             "text": "random_text"
-#           }
-#         }
-#       }
-#     ]
-#   }
-# ]
-
-# Test response via Facebook page
-# [
-#   {
-#     "time": <timestamp>,,
-#     "id": "0",
-#     "messaging": [
-#       {
-#         "sender": {
-#           "id": "12334"
-#         },
-#         "recipient": {
-#           "id": "23245"
-#         },
-#         "timestamp": <timestamp>,
-#         "message": {
-#             "mid": "random_mid",
-#             "text": "random_text"
-#         }
-#       }
-#     ]
-#   }
-# ]

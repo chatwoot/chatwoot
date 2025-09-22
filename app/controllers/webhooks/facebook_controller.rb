@@ -158,8 +158,8 @@ class Webhooks::FacebookController < ActionController::API
     Rails.logger.info("✅ [FB Webhook] Message created successfully for comment_id: #{comment_id}")
 
 
-    SendCommentReplyJob.set(wait: 10.seconds).perform_later(contact_inbox.id, conversation)
-    SendTemplateDmJob.set(wait: 20.seconds).perform_later(contact_inbox.id, conversation,comment_id)
+    SendCommentReplyJob.set(wait: 5.seconds).perform_later(contact_inbox.id, conversation)
+    SendTemplateDmJob.set(wait: 10.seconds).perform_later(contact_inbox.id, conversation,comment_id)
   rescue => e
     Rails.logger.error("❌ [FB Webhook] Error creating message: #{e.message}")
   end

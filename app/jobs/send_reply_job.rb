@@ -28,7 +28,7 @@ class SendReplyJob < ApplicationJob
 
   def send_on_facebook_page(message)
     if message.conversation.additional_attributes['type'] == 'instagram_dm' ||
-       message.conversation.additional_attributes['type'] == 'instagram_comments' || message.conversation.additional_attributes['type'] == 'template_dm'
+       message.conversation.additional_attributes['type'] == 'instagram_comments'
       ::Instagram::SendOnInstagramService.new(message: message).perform
     elsif message.conversation.additional_attributes['type'] == 'feed_comments'
       ::FacebookComments::SendOnFacebookCommentsService.new(message: message).perform
