@@ -101,7 +101,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def send_message
     post_message if message_content.present?
-    upload_file if message.attachments.any?
+    upload_files if message.attachments.any?
   rescue Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope, Slack::Web::Api::Errors::InvalidAuth,
          Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::NotInChannel => e
     Rails.logger.error e
@@ -120,7 +120,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     )
   end
 
-  def upload_file
+  def upload_files
     return unless message.attachments.any?
 
     files = build_files_array
