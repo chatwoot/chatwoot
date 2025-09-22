@@ -42,6 +42,9 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
 
+  # Set ActiveStorage URL expiration time (default is 5 minutes)
+  config.active_storage.urls_expire_in = ENV.fetch('ACTIVE_STORAGE_URL_EXPIRES_IN', '1.hour').to_i.seconds
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = ActiveModel::Type::Boolean.new.cast(ENV.fetch('FORCE_SSL', false))
 
