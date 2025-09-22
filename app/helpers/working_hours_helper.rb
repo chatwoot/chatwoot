@@ -71,7 +71,7 @@ module WorkingHoursHelper # rubocop:disable Metrics/ModuleLength
   def fetch_working_hours_from_api_web_widget(shop_url)
     Rails.logger.info('This Called For Live chat')
     response = HTTParty.get(
-      'https://rest-apis-767152501284.us-east4.run.app/api/v1/liveChat/liveChatBotConfig',
+      'https://restapis.bitespeed.co/api/v1/liveChat/liveChatBotConfig',
       query: { shopUrl: shop_url }
     )
     return nil unless response.success?

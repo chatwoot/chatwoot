@@ -300,7 +300,7 @@ module LiveChatAnalyticsHelper
       params[:timeQuantifierTo] = time_range&.end&.strftime('%Y-%m-%d')
     end
 
-    response = HTTParty.get('https://rest-apis-767152501284.us-east4.run.app/api/v1/chatbot/wa/getIntentMatching', query: params)
+    response = HTTParty.get('https://restapis.bitespeed.co/api/v1/chatbot/wa/getIntentMatching', query: params)
 
     JSON.parse(response.body)
   rescue StandardError => e

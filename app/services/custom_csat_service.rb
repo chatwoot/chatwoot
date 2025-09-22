@@ -14,7 +14,7 @@ class CustomCsatService
     user_phone_number = conversation.contact.phone_number.delete('+')
 
     response = HTTParty.post(
-      'https://rest-apis-767152501284.us-east4.run.app/api/v1/chatbot/wa/sendCsatMessage',
+      'https://restapis.bitespeed.co/api/v1/chatbot/wa/sendCsatMessage',
       body: {
         phoneNumber: user_phone_number,
         shopUrl: shop_url,
