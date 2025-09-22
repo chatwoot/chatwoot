@@ -1,6 +1,6 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import {
@@ -9,10 +9,9 @@ import {
 } from '../constants/widgetBusEvents';
 import { emitter } from 'shared/helpers/mitt';
 
-import { useDarkMode } from 'widget/composables/useDarkMode';
 export default {
   name: 'UnreadMessage',
-  components: { Thumbnail },
+  components: { Avatar },
   mixins: [configMixin],
   props: {
     message: {
@@ -35,13 +34,11 @@ export default {
   setup() {
     const { formatMessage, getPlainText, truncateMessage, highlightContent } =
       useMessageFormatter();
-    const { getThemeClass } = useDarkMode();
     return {
       formatMessage,
       getPlainText,
       truncateMessage,
       highlightContent,
-      getThemeClass,
     };
   },
   computed: {
@@ -96,17 +93,14 @@ export default {
 
 <template>
   <div class="chat-bubble-wrap">
-    <button
-      class="chat-bubble agent"
-      :class="getThemeClass('bg-white', 'dark:bg-slate-50')"
-      @click="onClickMessage"
-    >
+    <button class="chat-bubble agent bg-white" @click="onClickMessage">
       <div v-if="showSender" class="row--agent-block">
-        <Thumbnail
+        <Avatar
           :src="avatarUrl"
-          size="20px"
-          :username="agentName"
+          :size="20"
+          :name="agentName"
           :status="availabilityStatus"
+          rounded-full
         />
         <span v-dompurify-html="agentName" class="agent--name" />
         <span v-dompurify-html="companyName" class="company--name" />
@@ -120,29 +114,19 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'widget/assets/scss/variables.scss';
-
 .chat-bubble {
-  max-width: 85%;
-  padding: $space-normal;
-  cursor: pointer;
+  @apply max-w-[85%] cursor-pointer p-4;
 }
 
 .row--agent-block {
-  align-items: center;
-  display: flex;
-  text-align: left;
-  padding-bottom: $space-small;
-  font-size: $font-size-small;
+  @apply items-center flex text-left pb-2 text-xs;
 
   .agent--name {
-    font-weight: $font-weight-medium;
-    margin-left: $space-smaller;
+    @apply font-medium ml-1;
   }
 
   .company--name {
-    color: $color-light-gray;
-    margin-left: $space-smaller;
+    @apply text-n-slate-11 dark:text-n-slate-10 ml-1;
   }
 }
 </style>

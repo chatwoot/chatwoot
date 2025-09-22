@@ -19,6 +19,10 @@ export default {
       type: String,
       default: 'getAccountSummary',
     },
+    summaryFetchingKey: {
+      type: String,
+      default: 'getAccountSummaryFetchingStatus',
+    },
     reportKeys: {
       type: Object,
       default: () => ({
@@ -112,22 +116,28 @@ export default {
       };
     },
     getChartOptions(metric) {
-      let tooltips = {};
+      const options = {
+        scales: METRIC_CHART[metric.KEY].scales,
+      };
+
+      // Only add tooltip configuration for time-based metrics
       if (this.isAverageMetricType(metric.KEY)) {
-        tooltips.callbacks = {
-          label: tooltipItem => {
-            return this.$t(metric.TOOLTIP_TEXT, {
-              metricValue: formatTime(tooltipItem.yLabel),
-              conversationCount:
-                this.accountReport.data[metric.KEY][tooltipItem.index].count,
-            });
+        options.plugins = {
+          tooltip: {
+            callbacks: {
+              label: ({ raw, dataIndex }) => {
+                return this.$t(metric.TOOLTIP_TEXT, {
+                  metricValue: formatTime(raw || 0),
+                  conversationCount:
+                    this.accountReport.data[metric.KEY][dataIndex]?.count || 0,
+                });
+              },
+            },
           },
         };
       }
-      return {
-        scales: METRIC_CHART[metric.KEY].scales,
-        tooltips: tooltips,
-      };
+
+      return options;
     },
   },
 };
@@ -135,14 +145,18 @@ export default {
 
 <template>
   <div
-    class="grid grid-cols-1 p-2 bg-white border rounded-md md:grid-cols-2 lg:grid-cols-3 dark:bg-slate-800 border-slate-100 dark:border-slate-700"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-6 py-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
     <div
       v-for="metric in metrics"
       :key="metric.KEY"
       class="p-4 mb-3 rounded-md"
     >
-      <ChartStats :metric="metric" :account-summary-key="accountSummaryKey" />
+      <ChartStats
+        :metric="metric"
+        :account-summary-key="accountSummaryKey"
+        :summary-fetching-key="summaryFetchingKey"
+      />
       <div class="mt-4 h-72">
         <woot-loading-state
           v-if="accountReport.isFetching[metric.KEY]"
@@ -155,7 +169,7 @@ export default {
             :collection="getCollection(metric)"
             :chart-options="getChartOptions(metric)"
           />
-          <span v-else class="text-sm text-slate-600">
+          <span v-else class="text-sm text-n-slate-10">
             {{ $t('REPORT.NO_ENOUGH_DATA') }}
           </span>
         </div>

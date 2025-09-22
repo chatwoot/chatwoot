@@ -66,9 +66,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def check_authorization
-    return if Current.account_user.administrator?
-
-    raise Pundit::NotAuthorizedError
+    authorize :report, :view?
   end
 
   def common_params
@@ -137,5 +135,3 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     V2::ReportBuilder.new(Current.account, conversation_params).conversation_metrics
   end
 end
-
-Api::V2::Accounts::ReportsController.prepend_mod_with('Api::V2::Accounts::ReportsController')

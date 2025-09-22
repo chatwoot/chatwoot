@@ -1,49 +1,31 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, useSlots } from 'vue';
 
 import WootEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 const props = defineProps({
-  modelValue: {
-    type: String,
-    default: '',
-  },
-  label: {
-    type: String,
-    default: '',
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  focusOnMount: {
-    type: Boolean,
-    default: false,
-  },
-  maxLength: {
-    type: Number,
-    default: 200,
-  },
-  showCharacterCount: {
-    type: Boolean,
-    default: true,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  message: {
-    type: String,
-    default: '',
-  },
+  modelValue: { type: String, default: '' },
+  label: { type: String, default: '' },
+  placeholder: { type: String, default: '' },
+  focusOnMount: { type: Boolean, default: false },
+  maxLength: { type: Number, default: 200 },
+  showCharacterCount: { type: Boolean, default: true },
+  disabled: { type: Boolean, default: false },
+  message: { type: String, default: '' },
   messageType: {
     type: String,
     default: 'info',
     validator: value => ['info', 'error', 'success'].includes(value),
   },
+  enableVariables: { type: Boolean, default: false },
+  enableCannedResponses: { type: Boolean, default: true },
+  enabledMenuOptions: { type: Array, default: () => [] },
+  enableCaptainTools: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['update:modelValue']);
+
+const slots = useSlots();
 
 const isFocused = ref(false);
 
@@ -54,7 +36,7 @@ const messageClass = computed(() => {
     case 'error':
       return 'text-n-ruby-9 dark:text-n-ruby-9';
     case 'success':
-      return 'text-green-500 dark:text-green-400';
+      return 'text-n-teal-10 dark:text-n-teal-10';
     default:
       return 'text-n-slate-11 dark:text-n-slate-11';
   }
@@ -81,7 +63,7 @@ const handleBlur = () => {
 watch(
   () => props.modelValue,
   newValue => {
-    if (props.maxLength && props.showCharacterCount) {
+    if (props.maxLength && props.showCharacterCount && !slots.actions) {
       if (characterCount.value >= props.maxLength) {
         emit('update:modelValue', newValue.slice(0, props.maxLength));
       }
@@ -114,17 +96,25 @@ watch(
         :placeholder="placeholder"
         :focus-on-mount="focusOnMount"
         :disabled="disabled"
+        :enable-variables="enableVariables"
+        :enable-canned-responses="enableCannedResponses"
+        :enabled-menu-options="enabledMenuOptions"
+        :enable-captain-tools="enableCaptainTools"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
       />
       <div
-        v-if="showCharacterCount"
+        v-if="showCharacterCount || slots.actions"
         class="flex items-center justify-end h-4 ltr:right-3 rtl:left-3"
       >
-        <span class="text-xs tabular-nums text-n-slate-10">
+        <span
+          v-if="showCharacterCount && !slots.actions"
+          class="text-xs tabular-nums text-n-slate-10"
+        >
           {{ characterCount }} / {{ maxLength }}
         </span>
+        <slot v-else name="actions" />
       </div>
     </div>
     <p
@@ -144,7 +134,7 @@ watch(
       @apply gap-2 !important;
 
       .ProseMirror-menubar {
-        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5  !important;
+        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5 !top-0 !relative !important;
 
         .ProseMirror-menuitem {
           @apply h-5 !important;
@@ -163,7 +153,7 @@ watch(
           @apply m-0 !important;
 
           &::before {
-            @apply text-n-slate-11 dark:text-n-slate-11 !important;
+            @apply text-n-slate-11 dark:text-n-slate-11;
           }
         }
       }

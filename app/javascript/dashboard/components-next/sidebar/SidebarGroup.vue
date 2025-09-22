@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, nextTick } from 'vue';
 import { useSidebarContext } from './provider';
 import { useRoute, useRouter } from 'vue-router';
 import Policy from 'dashboard/components/policy.vue';
@@ -15,6 +15,7 @@ const props = defineProps({
   to: { type: Object, default: null },
   activeOn: { type: Array, default: () => [] },
   children: { type: Array, default: undefined },
+  getterKeys: { type: Object, default: () => ({}) },
 });
 
 const {
@@ -40,7 +41,12 @@ const hasChildren = computed(
 
 const accessibleItems = computed(() => {
   if (!hasChildren.value) return [];
-  return props.children.filter(child => isAllowed(child.to));
+  return props.children.filter(child => {
+    // If a item has no link, it means it's just a subgroup header
+    // So we don't need to check for permissions here, because there's nothing to
+    // access here anyway
+    return child.to && isAllowed(child.to);
+  });
 });
 
 const hasAccessibleChildren = computed(() => {
@@ -66,13 +72,34 @@ const activeChild = computed(() => {
   );
   if (pathSame) return pathSame;
 
-  const pathSatrtsWith = navigableChildren.value.find(
-    child => child.to && route.path.startsWith(resolvePath(child.to))
-  );
-  if (pathSatrtsWith) return pathSatrtsWith;
-
-  return navigableChildren.value.find(child =>
+  // Rank the activeOn Prop higher than the path match
+  // There will be cases where the path name is the same but the params are different
+  // So we need to rank them based on the params
+  // For example, contacts segment list in the sidebar effectively has the same name
+  // But the params are different
+  const activeOnPages = navigableChildren.value.filter(child =>
     child.activeOn?.includes(route.name)
+  );
+
+  if (activeOnPages.length > 0) {
+    const rankedPage = activeOnPages.find(child => {
+      return Object.keys(child.to.params)
+        .map(key => {
+          return String(child.to.params[key]) === String(route.params[key]);
+        })
+        .every(match => match);
+    });
+
+    // If there is no ranked page, return the first activeOn page anyway
+    // Since this takes higher precedence over the path match
+    // This is not perfect, ideally we should rank each route based on all the techniques
+    // and then return the highest ranked one
+    // But this is good enough for now
+    return rankedPage ?? activeOnPages[0];
+  }
+
+  return navigableChildren.value.find(
+    child => child.to && route.path.startsWith(resolvePath(child.to))
   );
 });
 
@@ -92,6 +119,13 @@ const toggleTrigger = () => {
   }
   setExpandedItem(props.name);
 };
+
+onMounted(async () => {
+  await nextTick();
+  if (hasActiveChild.value) {
+    setExpandedItem(props.name);
+  }
+});
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
@@ -101,13 +135,14 @@ const toggleTrigger = () => {
     :permissions="resolvePermissions(to)"
     :feature-flag="resolveFeatureFlag(to)"
     as="li"
-    class="text-sm cursor-pointer select-none gap-1 grid"
+    class="grid gap-1 text-sm cursor-pointer select-none"
   >
     <SidebarGroupHeader
       :icon
       :name
       :label
       :to
+      :getter-keys="getterKeys"
       :is-active="isActive"
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
@@ -117,17 +152,19 @@ const toggleTrigger = () => {
     <ul
       v-if="hasChildren"
       v-show="isExpanded || hasActiveChild"
-      class="list-none m-0 grid sidebar-group-children"
+      class="grid m-0 list-none sidebar-group-children"
     >
       <template v-for="child in children" :key="child.name">
         <SidebarSubGroup
           v-if="child.children"
-          v-bind="child"
+          :label="child.label"
+          :icon="child.icon"
+          :children="child.children"
           :is-expanded="isExpanded"
           :active-child="activeChild"
         />
         <SidebarGroupLeaf
-          v-else
+          v-else-if="isAllowed(child.to)"
           v-show="isExpanded || activeChild?.name === child.name"
           v-bind="child"
           :active="activeChild?.name === child.name"
@@ -181,8 +218,8 @@ const toggleTrigger = () => {
   left: 0;
 }
 
-.app-rtl--wrapper .sidebar-group-children > .child-item:last-child::after,
-.app-rtl--wrapper
+#app[dir='rtl'] .sidebar-group-children > .child-item:last-child::after,
+#app[dir='rtl']
   .sidebar-group-children
   > *:last-child
   > *:last-child

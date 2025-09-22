@@ -1,5 +1,10 @@
 {
   "HELP_CENTER": {
+    "TITLE": "Help Center",
+    "NEW_PAGE": {
+      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "CREATE_PORTAL_BUTTON": "Δημιουργία Πύλης"
+    },
     "HEADER": {
       "FILTER": "Φιλτράρισμα κατά",
       "SORT": "Ταξινόμηση κατά",
@@ -152,6 +157,12 @@
             "DELETE_SUCCESS": "Η πύλη διαγράφηκε επιτυχώς",
             "DELETE_ERROR": "Σφάλμα κατά τη διαγραφή της πύλης"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -190,26 +201,20 @@
         }
       },
       "ADD": {
-        "CREATE_FLOW": [
-          {
-            "title": "Πληροφορίες κέντρου βοήθειας",
-            "route": "new_portal_information",
-            "body": "Βασικές πληροφορίες σχετικά με την πύλη",
-            "CREATE_BASIC_SETTING_BUTTON": "Δημιουργία βασικών ρυθμίσεων πύλης"
+        "CREATE_FLOW": {
+          "BASIC": {
+            "TITLE": "Πληροφορίες κέντρου βοήθειας",
+            "BODY": "Βασικές πληροφορίες σχετικά με την πύλη"
           },
-          {
-            "title": "Προσαρμογή του κέντρου βοήθειας",
-            "route": "portal_customization",
-            "body": "Προσαρμογή πύλης",
-            "UPDATE_PORTAL_BUTTON": "Ενημέρωση ρυθμίσεων πύλης"
+          "CUSTOMIZATION": {
+            "TITLE": "Προσαρμογή του κέντρου βοήθειας",
+            "BODY": "Προσαρμογή πύλης"
           },
-          {
-            "title": "Έξοχα! 🎉",
-            "route": "portal_finish",
-            "body": "Είναι όλα έτοιμα!",
-            "FINISH": "Τέλος"
+          "FINISH": {
+            "TITLE": "Έξοχα! 🎉",
+            "BODY": "Είναι όλα έτοιμα!"
           }
-        ],
+        },
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Πίσω",
           "BASIC_SETTINGS_PAGE": {
@@ -250,13 +255,13 @@
         "DOMAIN": {
           "LABEL": "Προσαρμοσμένο Domain",
           "PLACEHOLDER": "Προσαρμοσμένος τομέας πύλης",
-          "HELP_TEXT": "Προσθήκη μόνο Αν θέλετε να χρησιμοποιήσετε ένα προσαρμοσμένο τομέα για τις πύλες σας. π.χ: https://example.com",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
           "ERROR": "Εισάγετε ένα έγκυρο URL τομέα"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Σύνδεσμος Αρχικής Σελίδας",
           "PLACEHOLDER": "Σύνδεσμος αρχικής σελίδας πύλης",
-          "HELP_TEXT": "Ο σύνδεσμος που χρησιμοποιείται για την επιστροφή από την πύλη στην αρχική σελίδα. π.χ. https://example.com",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
           "ERROR": "Εισάγετε μια έγκυρη διεύθυνση URL της αρχικής σελίδας"
         },
         "THEME_COLOR": {
@@ -347,6 +352,12 @@
       "API": {
         "ERROR": "Σφάλμα κατά την αρχειοθέτηση άρθρου",
         "SUCCESS": "Το άρθρο αρχειοθετήθηκε επιτυχώς"
+      }
+    },
+    "DRAFT_ARTICLE": {
+      "API": {
+        "ERROR": "Error while drafting article",
+        "SUCCESS": "Article drafted successfully"
       }
     },
     "DELETE_ARTICLE": {
@@ -483,6 +494,371 @@
         }
       }
     },
-    "LOADING": "Loading..."
+    "LOADING": "Loading...",
+    "ARTICLES_PAGE": {
+      "ARTICLE_CARD": {
+        "CARD": {
+          "VIEWS": "{count} view | {count} views",
+          "DROPDOWN_MENU": {
+            "PUBLISH": "Δημοσιευμένο",
+            "DRAFT": "Πρόχειρο",
+            "ARCHIVE": "Archive",
+            "DELETE": "Διαγραφή"
+          },
+          "STATUS": {
+            "DRAFT": "Πρόχειρο",
+            "PUBLISHED": "Δημοσιευμένο",
+            "ARCHIVED": "Αρχειοθετημένο"
+          },
+          "CATEGORY": {
+            "UNCATEGORISED": "Uncategorised"
+          }
+        }
+      },
+      "ARTICLES_HEADER": {
+        "TABS": {
+          "ALL": "All articles",
+          "MINE": "Δικές μου",
+          "DRAFT": "Πρόχειρο",
+          "PUBLISHED": "Δημοσιευμένο",
+          "ARCHIVED": "Αρχειοθετημένο"
+        },
+        "CATEGORY": {
+          "ALL": "All categories"
+        },
+        "LOCALE": {
+          "ALL": "All locales"
+        },
+        "NEW_ARTICLE": "New article"
+      },
+      "EMPTY_STATE": {
+        "ALL": {
+          "TITLE": "Write an article",
+          "SUBTITLE": "Write a rich article, let’s get started!",
+          "BUTTON_LABEL": "New article"
+        },
+        "MINE": {
+          "TITLE": "You haven't written any articles here",
+          "SUBTITLE": "All articles written by you show up here for quick access."
+        },
+        "DRAFT": {
+          "TITLE": "There are no articles in drafts",
+          "SUBTITLE": "Draft articles will appear here"
+        },
+        "PUBLISHED": {
+          "TITLE": "There are no published articles",
+          "SUBTITLE": "Published articles will appear here"
+        },
+        "ARCHIVED": {
+          "TITLE": "There are no articles in the archive",
+          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+        },
+        "CATEGORY": {
+          "TITLE": "There are no articles in this category",
+          "SUBTITLE": "Articles in this category will appear here"
+        }
+      }
+    },
+    "CATEGORY_PAGE": {
+      "CATEGORY_HEADER": {
+        "NEW_CATEGORY": "Νέα κατηγορία",
+        "EDIT_CATEGORY": "Επεξεργασία κατηγορίας",
+        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "BREADCRUMB": {
+          "CATEGORY_LOCALE": "Categories ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+        }
+      },
+      "CATEGORY_EMPTY_STATE": {
+        "TITLE": "Δεν βρέθηκαν κατηγορίες",
+        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "CATEGORY_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles"
+      },
+      "CATEGORY_DIALOG": {
+        "CREATE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Η κατηγορία δημιουργήθηκε με επιτυχία",
+            "ERROR_MESSAGE": "Αδυναμία δημιουργίας κατηγορίας"
+          }
+        },
+        "EDIT": {
+          "API": {
+            "SUCCESS_MESSAGE": "Η ετικέτα ενημερώθηκε επιτυχώς",
+            "ERROR_MESSAGE": "Αδύνατη η ενημέρωση της κατηγορίας"
+          }
+        },
+        "DELETE": {
+          "API": {
+            "SUCCESS_MESSAGE": "Η καμπάνια διαγράφηκε επιτυχώς",
+            "ERROR_MESSAGE": "Δεν είναι δυνατή η διαγραφή κατηγορίας"
+          }
+        },
+        "HEADER": {
+          "CREATE": "Δημιουργία κατηγορίας",
+          "EDIT": "Επεξεργασία κατηγορίας",
+          "DESCRIPTION": "Η επεξεργασία μιας κατηγορίας θα ενημερώσει την κατηγορία στην πύλη που βλέπει το κοινό.",
+          "PORTAL": "Πύλη",
+          "LOCALE": "Γλώσσα"
+        },
+        "FORM": {
+          "NAME": {
+            "LABEL": "Όνομα",
+            "PLACEHOLDER": "Όνομα κατηγορίας",
+            "ERROR": "Απαιτείται όνομα"
+          },
+          "SLUG": {
+            "LABEL": "Slug",
+            "PLACEHOLDER": "Slug κατηγορίας για urls",
+            "ERROR": "Το Slug είναι απαραίτητο",
+            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Περιγραφή",
+            "PLACEHOLDER": "Δώστε μια σύντομη περιγραφή της κατηγορίας.",
+            "ERROR": "Η περιγραφή απαιτείται"
+          }
+        },
+        "BUTTONS": {
+          "CREATE": "Δημιουργία",
+          "EDIT": "Ενημέρωση",
+          "CANCEL": "Άκυρο"
+        }
+      }
+    },
+    "LOCALES_PAGE": {
+      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
+      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALE_CARD": {
+        "ARTICLES_COUNT": "{count} article | {count} articles",
+        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "DEFAULT": "Προεπιλογή",
+        "DROPDOWN_MENU": {
+          "MAKE_DEFAULT": "Make default",
+          "DELETE": "Διαγραφή"
+        }
+      },
+      "ADD_LOCALE_DIALOG": {
+        "TITLE": "Προσθέστε μια νέα γλώσσα",
+        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "COMBOBOX": {
+          "PLACEHOLDER": "Select locale..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Η γλώσσα προστέθηκε επιτυχώς",
+          "ERROR_MESSAGE": "Δεν είναι δυνατή η προσθήκη γλώσσας. Δοκιμάστε ξανά."
+        }
+      }
+    },
+    "EDIT_ARTICLE_PAGE": {
+      "HEADER": {
+        "STATUS": {
+          "SAVING": "Αποθηκεύεται...",
+          "SAVED": "Αποθηκεύτηκε"
+        },
+        "PREVIEW": "Προεπισκόπηση",
+        "PUBLISH": "Δημοσιευμένο",
+        "DRAFT": "Πρόχειρο",
+        "ARCHIVE": "Archive",
+        "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "EDIT_ARTICLE": {
+        "MORE_PROPERTIES": "More properties",
+        "UNCATEGORIZED": "Uncategorized",
+        "EDITOR_PLACEHOLDER": "Write something..."
+      },
+      "ARTICLE_PROPERTIES": {
+        "ARTICLE_PROPERTIES": "Article properties",
+        "META_DESCRIPTION": "Meta περιγραφή",
+        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_TITLE": "Μετα-τίτλος",
+        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TAGS": "Meta tags",
+        "META_TAGS_PLACEHOLDER": "Add meta tags"
+      },
+      "API": {
+        "ERROR": "Σφάλμα κατά την αποθήκευση άρθρου"
+      }
+    },
+    "PORTAL_SWITCHER": {
+      "NEW_PORTAL": "New portal",
+      "PORTALS": "Πύλες",
+      "CREATE_PORTAL": "Create and manage multiple portals",
+      "ARTICLES": "άρθρα",
+      "DOMAIN": "domain",
+      "PORTAL_NAME": "Όνομα πύλης"
+    },
+    "CREATE_PORTAL_DIALOG": {
+      "TITLE": "Create new portal",
+      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
+      "CONFIRM_BUTTON_LABEL": "Δημιουργία",
+      "NAME": {
+        "LABEL": "Όνομα",
+        "PLACEHOLDER": "User Guide | Chatwoot",
+        "MESSAGE": "Choose an name for your portal.",
+        "ERROR": "Απαιτείται όνομα"
+      },
+      "SLUG": {
+        "LABEL": "Slug",
+        "PLACEHOLDER": "user-guide",
+        "ERROR": "Το Slug είναι απαραίτητο",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+      }
+    },
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "AVATAR": {
+          "LABEL": "Λογότυπο",
+          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
+          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
+          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        },
+        "NAME": {
+          "LABEL": "Όνομα",
+          "PLACEHOLDER": "Όνομα πύλης",
+          "ERROR": "Απαιτείται όνομα"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "Header text",
+          "PLACEHOLDER": "Κείμενο κεφαλίδας πύλης"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "Page title",
+          "PLACEHOLDER": "Τίτλος σελίδας πύλης"
+        },
+        "HOME_PAGE_LINK": {
+          "LABEL": "Home page link",
+          "PLACEHOLDER": "Σύνδεσμος αρχικής σελίδας πύλης",
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Portal slug"
+        },
+        "LIVE_CHAT_WIDGET": {
+          "LABEL": "Live chat widget",
+          "PLACEHOLDER": "Select live chat widget",
+          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+        },
+        "BRAND_COLOR": {
+          "LABEL": "Brand color"
+        },
+        "SAVE_CHANGES": "Save changes"
+      },
+      "CONFIGURATION_FORM": {
+        "CUSTOM_DOMAIN": {
+          "HEADER": "Προσαρμοσμένο Domain",
+          "LABEL": "Προσαρμοσμένο Domain:",
+          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "PLACEHOLDER": "Προσαρμοσμένος τομέας πύλης",
+          "EDIT_BUTTON": "Επεξεργασία",
+          "ADD_BUTTON": "Add custom domain",
+          "STATUS": {
+            "LIVE": "Ζωντανά",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
+          "DIALOG": {
+            "ADD_HEADER": "Add custom domain",
+            "EDIT_HEADER": "Edit custom domain",
+            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
+            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "LABEL": "Προσαρμοσμένο Domain",
+            "PLACEHOLDER": "Προσαρμοσμένος τομέας πύλης",
+            "ERROR": "Custom domain is required",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+          },
+          "DNS_CONFIGURATION_DIALOG": {
+            "HEADER": "DNS configuration",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Αποστολή"
+            }
+          }
+        },
+        "DELETE_PORTAL": {
+          "BUTTON": "Delete {portalName}",
+          "HEADER": "Διαγραφή πύλης",
+          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DIALOG": {
+            "HEADER": "Sure you want to delete {portalName}?",
+            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "CONFIRM_BUTTON_LABEL": "Διαγραφή"
+          }
+        },
+        "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "API": {
+        "CREATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Ο φάκελος δημιουργήθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Unable to create portal"
+        },
+        "UPDATE_PORTAL": {
+          "SUCCESS_MESSAGE": "Η πύλη ενημερώθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Unable to update portal"
+        }
+      }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "Ανέβασμα...",
+      "UPLOAD": "Upload & Process",
+      "CANCEL": "Άκυρο",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF Documents",
+      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
+      "UPLOAD_PDF": "Upload PDF",
+      "UPLOAD_FIRST_PDF": "Upload your first PDF",
+      "UPLOADED_BY": "Uploaded by",
+      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATING": "Generating...",
+      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+      },
+      "STATUS": {
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
+        "PROCESSED": "Ολοκληρώθηκε",
+        "FAILED": "Failed"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Content Generation",
+      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "UPLOADING": "Processing document...",
+      "UPLOAD_SUCCESS": "Document processed successfully!",
+      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "FILE_TOO_LARGE": "File size must be less than 512MB",
+      "GENERATED_CONTENT": "Generated FAQ Content",
+      "PUBLISH_SELECTED": "Publish Selected",
+      "PUBLISHING": "Publishing...",
+      "FROM_DOCUMENT": "From document",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Loading generated content..."
+    }
   }
 }

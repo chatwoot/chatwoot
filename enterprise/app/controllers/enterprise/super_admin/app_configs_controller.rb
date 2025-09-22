@@ -10,7 +10,7 @@ module Enterprise::SuperAdmin::AppConfigsController
     when 'internal'
       @allowed_configs = internal_config_options
     when 'captain'
-      @allowed_configs = %w[CAPTAIN_API_URL CAPTAIN_APP_URL]
+      @allowed_configs = captain_config_options
     else
       super
     end
@@ -32,6 +32,18 @@ module Enterprise::SuperAdmin::AppConfigsController
   end
 
   def internal_config_options
-    %w[CHATWOOT_INBOX_TOKEN CHATWOOT_INBOX_HMAC_KEY ANALYTICS_TOKEN CLEARBIT_API_KEY DASHBOARD_SCRIPTS BLOCKED_EMAIL_DOMAINS]
+    %w[CHATWOOT_INBOX_TOKEN CHATWOOT_INBOX_HMAC_KEY ANALYTICS_TOKEN CLEARBIT_API_KEY DASHBOARD_SCRIPTS INACTIVE_WHATSAPP_NUMBERS BLOCKED_EMAIL_DOMAINS
+       CAPTAIN_CLOUD_PLAN_LIMITS ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL CHATWOOT_INSTANCE_ADMIN_EMAIL
+       OG_IMAGE_CDN_URL OG_IMAGE_CLIENT_REF CLOUDFLARE_API_KEY CLOUDFLARE_ZONE_ID]
+  end
+
+  def captain_config_options
+    %w[
+      CAPTAIN_OPEN_AI_API_KEY
+      CAPTAIN_OPEN_AI_MODEL
+      CAPTAIN_OPEN_AI_ENDPOINT
+      CAPTAIN_EMBEDDING_MODEL
+      CAPTAIN_FIRECRAWL_API_KEY
+    ]
   end
 end

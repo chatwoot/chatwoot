@@ -5,6 +5,18 @@
     "LOADING": "Notiek pielāgotu īpašību iegūšana",
     "DESCRIPTION": "Pielāgots atribūts ļauj izsekot papildu informāciju par jūsu kontaktpersonām vai sarunām, piemēram, abonēšanas plānu vai viņu pirmā pirkuma datumu. Varat pievienot dažāda veida pielāgotus atribūtus, piemēram, tekstu, sarakstus vai skaitļus, lai tvertu konkrētu jums nepieciešamo informāciju.",
     "LEARN_MORE": "Uzzināt vairāk par pielāgotajiem atribūtiem",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Saruna",
+      "CONTACT": "Kontaktpersona"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Teksts",
+      "NUMBER": "Numurs",
+      "LINK": "Saite",
+      "DATE": "Date",
+      "LIST": "Saraksts",
+      "CHECKBOX": "Izvēles rūtiņa"
+    },
     "ADD": {
       "TITLE": "Pievienot Pielāgotu Īpašību",
       "SUBMIT": "Izveidot",
@@ -65,7 +77,7 @@
         "ERROR_MESSAGE": "Nevarēja izdzēst pielāgoto īpašību. Mēģiniet vēlreiz."
       },
       "CONFIRM": {
-        "TITLE": "Vai tiešām vēlaties dzēst - {attributeName}",
+        "TITLE": "Vai esat pārliecināts, ka vēlaties izdzēst - {attributeName}",
         "PLACE_HOLDER": "Lai apstiprinātu, lūdzu, uzrakstiet {attributeName}",
         "MESSAGE": "Dzēšana noņems pielāgoto īpašību",
         "YES": "Dzēst ",
@@ -92,12 +104,12 @@
       "CONTACT": "Kontaktpersona"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "Tips",
-        "Atslēga"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "TYPE": "Tips",
+        "KEY": "Atslēga"
+      },
       "BUTTONS": {
         "EDIT": "Rediģēt",
         "DELETE": "Dzēst"

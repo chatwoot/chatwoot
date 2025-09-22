@@ -6,7 +6,12 @@ import { useAlert } from 'dashboard/composables';
 import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     onClose: {
       type: Function,
@@ -35,8 +40,6 @@ export default {
       regexPattern: null,
       regexCue: null,
       regexEnabled: false,
-      models: ATTRIBUTE_MODELS,
-      types: ATTRIBUTE_TYPES,
       values: [],
       options: [],
       show: true,
@@ -48,6 +51,18 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
+    models() {
+      return ATTRIBUTE_MODELS.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_MODELS.${item.key}`),
+      }));
+    },
+    types() {
+      return ATTRIBUTE_TYPES.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${item.key}`),
+      }));
+    },
     isMultiselectInvalid() {
       return this.isTouched && this.values.length === 0;
     },
@@ -241,7 +256,10 @@ export default {
               @close="onTouch"
               @tag="addTagValue"
             />
-            <label v-show="isMultiselectInvalid" class="error-message">
+            <label
+              v-show="isMultiselectInvalid"
+              class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
+            >
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
@@ -270,13 +288,18 @@ export default {
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
           />
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-            <woot-submit-button
-              :disabled="isButtonDisabled"
-              :button-text="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
+            <NextButton
+              faded
+              slate
+              type="reset"
+              :label="$t('ATTRIBUTES_MGMT.ADD.CANCEL_BUTTON_TEXT')"
+              @click.prevent="onClose"
             />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('ATTRIBUTES_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
+            <NextButton
+              type="submit"
+              :label="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
+              :disabled="isButtonDisabled"
+            />
           </div>
         </div>
       </form>
@@ -286,26 +309,12 @@ export default {
 
 <style lang="scss" scoped>
 .key-value {
-  padding: 0 var(--space-small) var(--space-small) 0;
+  padding: 0 0.5rem 0.5rem 0;
   font-family: monospace;
 }
 
 .multiselect--wrap {
-  margin-bottom: var(--space-normal);
-
-  .error-message {
-    color: var(--r-400);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-normal);
-  }
-
-  .invalid {
-    ::v-deep {
-      .multiselect__tags {
-        border: 1px solid var(--r-400);
-      }
-    }
-  }
+  margin-bottom: 1rem;
 }
 
 ::v-deep {
@@ -318,7 +327,7 @@ export default {
   }
 
   .multiselect--active .multiselect__tags {
-    border-radius: var(--border-radius-normal);
+    border-radius: 0.3125rem;
   }
 }
 </style>

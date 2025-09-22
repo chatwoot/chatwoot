@@ -27,10 +27,15 @@ export default {
 </script>
 
 <template>
-  <div
-    class="overflow-auto p-4 max-w-full my-auto flex flex-row flex-nowrap h-full bg-slate-25 dark:bg-slate-800"
-  >
-    <woot-wizard class="hidden md:block w-1/4" :items="items" />
-    <router-view />
+  <div class="mx-2 flex flex-col gap-6 mb-8">
+    <div
+      class="grid grid-cols-1 lg:grid-cols-8 lg:divide-x lg:divide-n-weak rounded-xl border border-n-weak min-h-[43rem]"
+    >
+      <woot-wizard
+        class="hidden lg:block col-span-2 h-fit py-8 px-6"
+        :items="items"
+      />
+      <router-view />
+    </div>
   </div>
 </template>

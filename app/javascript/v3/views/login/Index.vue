@@ -6,29 +6,32 @@ import { parseBoolean } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-
-// mixins
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import SessionStorage from 'shared/helpers/sessionStorage';
+import { useBranding } from 'shared/composables/useBranding';
 
 // components
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import SubmitButton from '../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
 };
 
+const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
+
 export default {
   components: {
     FormInput,
     GoogleOAuthButton,
     Spinner,
-    SubmitButton,
+    NextButton,
+    MfaVerification,
   },
-  mixins: [globalConfigMixin],
   props: {
     ssoAuthToken: { type: String, default: '' },
     ssoAccountId: { type: String, default: '' },
@@ -37,7 +40,11 @@ export default {
     authError: { type: String, default: '' },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+      v$: useVuelidate(),
+    };
   },
   data() {
     return {
@@ -53,6 +60,8 @@ export default {
         hasErrored: false,
       },
       error: '',
+      mfaRequired: false,
+      mfaToken: null,
     };
   },
   validations() {
@@ -82,8 +91,10 @@ export default {
       this.submitLogin();
     }
     if (this.authError) {
-      const message = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
-      useAlert(this.$t(message));
+      const messageKey = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
+      // Use a method to get the translated text to avoid dynamic key warning
+      const translatedMessage = this.getTranslatedMessage(messageKey);
+      useAlert(translatedMessage);
       // wait for idle state
       this.requestIdleCallbackPolyfill(() => {
         // Remove the error query param from the url
@@ -93,6 +104,18 @@ export default {
     }
   },
   methods: {
+    getTranslatedMessage(key) {
+      // Avoid dynamic key warning by handling each case explicitly
+      switch (key) {
+        case 'LOGIN.OAUTH.NO_ACCOUNT_FOUND':
+          return this.$t('LOGIN.OAUTH.NO_ACCOUNT_FOUND');
+        case 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY':
+          return this.$t('LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY');
+        case 'LOGIN.API.UNAUTH':
+        default:
+          return this.$t('LOGIN.API.UNAUTH');
+      }
+    },
     // TODO: Remove this when Safari gets wider support
     // Ref: https://caniuse.com/requestidlecallback
     //
@@ -112,6 +135,14 @@ export default {
       this.loginApi.message = message;
       useAlert(this.loginApi.message);
     },
+    handleImpersonation() {
+      // Detects impersonation mode via URL and sets a session flag to prevent user settings changes during impersonation.
+      const urlParams = new URLSearchParams(window.location.search);
+      const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
+      if (impersonation) {
+        SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
+      }
+    },
     submitLogin() {
       this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
@@ -127,7 +158,16 @@ export default {
       };
 
       login(credentials)
-        .then(() => {
+        .then(result => {
+          // Check if MFA is required
+          if (result?.mfaRequired) {
+            this.loginApi.showLoading = false;
+            this.mfaRequired = true;
+            this.mfaToken = result.mfaToken;
+            return;
+          }
+
+          this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {
@@ -149,13 +189,24 @@ export default {
 
       this.submitLogin();
     },
+    handleMfaVerified() {
+      // MFA verification successful, continue with login
+      this.handleImpersonation();
+      window.location = '/app';
+    },
+    handleMfaCancel() {
+      // User cancelled MFA, reset state
+      this.mfaRequired = false;
+      this.mfaToken = null;
+      this.credentials.password = '';
+    },
   },
 };
 </script>
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
     <section class="max-w-5xl mx-auto">
       <img
@@ -169,25 +220,30 @@ export default {
         :alt="globalConfig.installationName"
         class="hidden w-auto h-8 mx-auto dark:block"
       />
-      <h2
-        class="mt-6 text-3xl font-medium text-center text-slate-900 dark:text-woot-50"
-      >
-        {{
-          useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
-        }}
+      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
+        {{ replaceInstallationName($t('LOGIN.TITLE')) }}
       </h2>
-      <p
-        v-if="showSignupLink"
-        class="mt-3 text-sm text-center text-slate-600 dark:text-slate-400"
-      >
+      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link">
+        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
     </section>
+
+    <!-- MFA Verification Section -->
+    <section v-if="mfaRequired" class="mt-11">
+      <MfaVerification
+        :mfa-token="mfaToken"
+        @verified="handleMfaVerified"
+        @cancel="handleMfaCancel"
+      />
+    </section>
+
+    <!-- Regular Login Section -->
     <section
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      v-else
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,
@@ -230,11 +286,15 @@ export default {
               </router-link>
             </p>
           </FormInput>
-          <SubmitButton
-            :disabled="loginApi.showLoading"
+          <NextButton
+            lg
+            type="submit"
+            data-testid="submit_button"
+            class="w-full"
             :tabindex="3"
-            :button-text="$t('LOGIN.SUBMIT')"
-            :loading="loginApi.showLoading"
+            :label="$t('LOGIN.SUBMIT')"
+            :disabled="loginApi.showLoading"
+            :is-loading="loginApi.showLoading"
           />
         </form>
       </div>

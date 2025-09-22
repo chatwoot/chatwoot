@@ -20,23 +20,18 @@
         "TITLE": "Додати агентів до команди - {teamName}",
         "DESC": "Додати співробітників до новоствореної команди. Це дозволить вам співпрацювати як команда в розмовах, отримувати повідомлення про нові події в тій самій розмові."
       },
-      "WIZARD": [
-        {
-          "title": "Створити",
-          "route": "settings_teams_new",
-          "body": "Створіть нову команду агентів."
-        },
-        {
-          "title": "Додати агентів",
-          "route": "settings_teams_add_agents",
-          "body": "Додати агентів до команди."
-        },
-        {
-          "title": "Закінчити",
-          "route": "settings_teams_finish",
-          "body": "Все готово!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Створити",
+        "BODY": "Створіть нову команду агентів."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Додати агентів",
+        "BODY": "Додати агентів до команди."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Закінчити",
+        "BODY": "Все готово!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Додати агентів до команди - {teamName}",
         "DESC": "Додати агентів до щойно створеної команди. Всі додані агенти будуть повідомлені, коли буде присвоєна розмова в цій команді."
       },
-      "WIZARD": [
-        {
-          "title": "Інформація про команду",
-          "route": "settings_teams_edit",
-          "body": "Змінити ім'я, опис та інші деталі."
-        },
-        {
-          "title": "Редагувати агентів",
-          "route": "settings_teams_edit_members",
-          "body": "Редагувати агентів у вашій команді."
-        },
-        {
-          "title": "Закінчити",
-          "route": "settings_teams_edit_finish",
-          "body": "Все готово!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Інформація про команду",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Змінити ім'я, опис та інші деталі."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Редагувати агентів",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Редагувати агентів у вашій команді."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Закінчити",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Все готово!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Не вдалося зберегти деталі команди. Повторіть спробу."

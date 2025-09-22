@@ -81,6 +81,22 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       expect(Whatsapp::IncomingMessageService).not_to receive(:new)
       job.perform_now(params)
     end
+
+    it 'logs a warning when channel is inactive' do
+      channel.prompt_reauthorization!
+      allow(Rails.logger).to receive(:warn)
+
+      expect(Rails.logger).to receive(:warn).with("Inactive WhatsApp channel: #{channel.phone_number}")
+      job.perform_now(params)
+    end
+
+    it 'logs a warning with unknown phone number when channel does not exist' do
+      unknown_phone = '+1234567890'
+      allow(Rails.logger).to receive(:warn)
+
+      expect(Rails.logger).to receive(:warn).with("Inactive WhatsApp channel: unknown - #{unknown_phone}")
+      job.perform_now(phone_number: unknown_phone)
+    end
   end
 
   context 'when default provider' do

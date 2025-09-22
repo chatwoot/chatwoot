@@ -18,7 +18,8 @@ RSpec.describe Macros::ExecutionService, type: :service do
                                                        { action_name: 'assign_agent', action_params: ['self'] },
                                                        { action_name: 'add_private_note', action_params: ['Test note'] },
                                                        { action_name: 'send_message', action_params: ['Test message'] },
-                                                       { action_name: 'send_attachment', action_params: [1, 2] }
+                                                       { action_name: 'send_attachment', action_params: [1, 2] },
+                                                       { action_name: 'send_webhook_event', action_params: ['https://example.com/webhook'] }
                                                      ])
       end
 
@@ -145,6 +146,13 @@ RSpec.describe Macros::ExecutionService, type: :service do
           service.send(:send_attachment, [macro.files.first.blob_id])
         end.not_to change(Message, :count)
       end
+    end
+  end
+
+  describe '#send_webhook_event' do
+    it 'sends a webhook event' do
+      expect(WebhookJob).to receive(:perform_later)
+      service.send(:send_webhook_event, ['https://example.com/webhook'])
     end
   end
 end

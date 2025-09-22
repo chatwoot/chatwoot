@@ -52,46 +52,83 @@ RSpec.describe Integrations::Hook do
     end
   end
 
-  describe 'creating a captain hook' do
+  describe 'scopes' do
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }
-    let(:settings) { { inbox_ids: inbox.id } }
-
-    it 'raises an error if captain is not enabled' do
-      expect { create(:integrations_hook, app_id: 'captain', account: account, settings: settings) }.to raise_error('Captain is not enabled')
+    let!(:account_hook) { create(:integrations_hook, account: account, app_id: 'webhook') }
+    let!(:inbox_hook) do
+      create(:integrations_hook,
+             account: account,
+             app_id: 'dialogflow',
+             inbox: inbox,
+             settings: {
+               project_id: 'test-project',
+               credentials: { type: 'service_account' }
+             })
     end
 
-    context 'when captain is enabled' do
-      before do
-        account.enable_features('captain_integration')
-        account.save!
-        InstallationConfig.where(name: 'CAPTAIN_APP_URL').first_or_create(value: 'https://app.chatwoot.com')
-        stub_request(:post, ChatwootHub::CAPTAIN_ACCOUNTS_URL).to_return(body: {
-          account_email: 'test@example.com',
-          captain_account_id: 1,
-          access_token: 'access_token',
-          assistant_id: 1
-        }.to_json)
-      end
+    it 'returns account hooks' do
+      expect(described_class.account_hooks).to include(account_hook)
+      expect(described_class.account_hooks).not_to include(inbox_hook)
+    end
 
-      it 'populates the settings with captain settings' do
-        hook = create(:integrations_hook, app_id: 'captain', account: account, settings: settings)
-        expect(hook.settings['account_email']).to be_present
-        expect(hook.settings['assistant_id']).to be_present
-        expect(hook.settings['access_token']).to be_present
-        expect(hook.settings['assistant_id']).to be_present
-      end
+    it 'returns inbox hooks' do
+      expect(described_class.inbox_hooks).to include(inbox_hook)
+      expect(described_class.inbox_hooks).not_to include(account_hook)
+    end
+  end
 
-      it 'raises an error if the request to captain hub fails' do
-        stub_request(:post, ChatwootHub::CAPTAIN_ACCOUNTS_URL).to_return(
-          status: 500,
-          body: {
-            error: 'Failed to get captain settings'
-          }.to_json
-        )
-        expect do
-          create(:integrations_hook, app_id: 'captain', account: account, settings: settings)
-        end.to raise_error('Failed to get captain settings: {"error":"Failed to get captain settings"}')
+  describe '#crm_integration?' do
+    let(:account) { create(:account) }
+
+    before do
+      account.enable_features('crm_integration')
+    end
+
+    it 'returns true for leadsquared integration' do
+      hook = create(:integrations_hook,
+                    account: account,
+                    app_id: 'leadsquared',
+                    settings: {
+                      access_key: 'test',
+                      secret_key: 'test',
+                      endpoint_url: 'https://api.leadsquared.com'
+                    })
+      expect(hook.send(:crm_integration?)).to be true
+    end
+
+    it 'returns false for non-crm integrations' do
+      hook = create(:integrations_hook, account: account, app_id: 'slack')
+      expect(hook.send(:crm_integration?)).to be false
+    end
+  end
+
+  describe '#trigger_setup_if_crm' do
+    let(:account) { create(:account) }
+
+    before do
+      account.enable_features('crm_integration')
+      allow(Crm::SetupJob).to receive(:perform_later)
+    end
+
+    context 'when integration is a CRM' do
+      it 'enqueues setup job' do
+        create(:integrations_hook,
+               account: account,
+               app_id: 'leadsquared',
+               settings: {
+                 access_key: 'test',
+                 secret_key: 'test',
+                 endpoint_url: 'https://api.leadsquared.com'
+               })
+        expect(Crm::SetupJob).to have_received(:perform_later)
+      end
+    end
+
+    context 'when integration is not a CRM' do
+      it 'does not enqueue setup job' do
+        create(:integrations_hook, account: account, app_id: 'slack')
+        expect(Crm::SetupJob).not_to have_received(:perform_later)
       end
     end
   end

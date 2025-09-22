@@ -5,6 +5,18 @@
     "LOADING": "Benutzerdefinierte Attribute abrufen",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Konversation",
+      "CONTACT": "Kontakt"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Text",
+      "NUMBER": "Nummer",
+      "LINK": "Link",
+      "DATE": "Date",
+      "LIST": "Liste",
+      "CHECKBOX": "Checkbox"
+    },
     "ADD": {
       "TITLE": "Benutzerdefiniertes Attribut hinzufügen",
       "SUBMIT": "Erstellen",
@@ -92,12 +104,12 @@
       "CONTACT": "Kontakt"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Name",
-        "Beschreibung",
-        "Typ",
-        "Schlüssel"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Beschreibung",
+        "TYPE": "Typ",
+        "KEY": "Schlüssel"
+      },
       "BUTTONS": {
         "EDIT": "Bearbeiten",
         "DELETE": "Löschen"

@@ -1,6 +1,6 @@
 class Twilio::CallbackController < ApplicationController
   def create
-    ::Twilio::IncomingMessageService.new(params: permitted_params).perform
+    Webhooks::TwilioEventsJob.perform_later(permitted_params.to_unsafe_hash)
 
     head :no_content
   end
@@ -24,9 +24,14 @@ class Twilio::CallbackController < ApplicationController
       :Body,
       :ToCountry,
       :FromState,
-      :MediaUrl0,
-      :MediaContentType0,
-      :MessagingServiceSid
+      *Array.new(10) { |i| :"MediaUrl#{i}" },
+      *Array.new(10) { |i| :"MediaContentType#{i}" },
+      :MessagingServiceSid,
+      :NumMedia,
+      :Latitude,
+      :Longitude,
+      :MessageType,
+      :ProfileName
     )
   end
 end

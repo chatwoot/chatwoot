@@ -11,10 +11,6 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  searchValue: {
-    type: String,
-    required: true,
-  },
   searchPlaceholder: {
     type: String,
     default: '',
@@ -33,9 +29,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:searchValue', 'select']);
+const emit = defineEmits(['select', 'search']);
 
 const { t } = useI18n();
+
+const searchValue = defineModel('searchValue', {
+  type: String,
+  default: '',
+});
 
 const searchInput = ref(null);
 
@@ -44,6 +45,11 @@ const isSelected = option => {
     return props.selectedValues.includes(option.value);
   }
   return option.value === props.selectedValues;
+};
+
+const onInputSearch = event => {
+  searchValue.value = event.target.value;
+  emit('search', event.target.value);
 };
 
 defineExpose({
@@ -63,8 +69,8 @@ defineExpose({
         :value="searchValue"
         type="search"
         :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
-        class="w-full py-2 pl-10 pr-2 text-sm border-none rounded-t-md bg-n-solid-1 text-slate-900 dark:text-slate-50"
-        @input="emit('update:searchValue', $event.target.value)"
+        class="reset-base w-full py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-t-md bg-n-solid-1 text-n-slate-12"
+        @input="onInputSearch"
       />
     </div>
     <ul
@@ -96,10 +102,7 @@ defineExpose({
           class="flex-shrink-0 i-lucide-check size-4 text-n-slate-11"
         />
       </li>
-      <li
-        v-if="options.length === 0"
-        class="px-3 py-2 text-sm text-slate-600 dark:text-slate-300"
-      >
+      <li v-if="options.length === 0" class="px-3 py-2 text-sm text-n-slate-11">
         {{ emptyState || t('COMBOBOX.EMPTY_STATE') }}
       </li>
     </ul>

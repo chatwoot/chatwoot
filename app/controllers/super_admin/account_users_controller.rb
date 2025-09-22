@@ -2,6 +2,13 @@ class SuperAdmin::AccountUsersController < SuperAdmin::ApplicationController
   # Overwrite any of the RESTful controller actions to implement custom behavior
   # For example, you may want to send an email after a foo is updated.
   #
+
+  # Since account/user page - account user role attribute links to the show page
+  # Handle with a redirect to the user show page
+  def show
+    redirect_to super_admin_user_path(requested_resource.user)
+  end
+
   def create
     resource = resource_class.new(resource_params)
     authorize_resource(resource)

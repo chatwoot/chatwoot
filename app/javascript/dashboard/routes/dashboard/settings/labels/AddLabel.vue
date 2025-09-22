@@ -5,7 +5,12 @@ import validations, { getLabelTitleErrorMessage } from './validations';
 import { getRandomColor } from 'dashboard/helper/labelColor';
 import { useVuelidate } from '@vuelidate/core';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     prefillTitle: {
       type: String,
@@ -105,16 +110,20 @@ export default {
         </label>
       </div>
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
-        <woot-button
-          :is-disabled="v$.title.$invalid || uiFlags.isCreating"
-          :is-loading="uiFlags.isCreating"
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('LABEL_MGMT.FORM.CANCEL')"
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
           data-testid="label-submit"
-        >
-          {{ $t('LABEL_MGMT.FORM.CREATE') }}
-        </woot-button>
-        <woot-button class="button clear" @click.prevent="onClose">
-          {{ $t('LABEL_MGMT.FORM.CANCEL') }}
-        </woot-button>
+          :label="$t('LABEL_MGMT.FORM.CREATE')"
+          :disabled="v$.title.$invalid || uiFlags.isCreating"
+          :is-loading="uiFlags.isCreating"
+        />
       </div>
     </form>
   </div>

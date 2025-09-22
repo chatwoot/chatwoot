@@ -1,15 +1,17 @@
 <script>
-import { ref } from 'vue';
+import { ref, provide } from 'vue';
 // composable
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-import Message from './Message.vue';
+import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -33,41 +35,27 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export default {
   components: {
-    Message,
+    MessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
+    Spinner,
   },
   mixins: [inboxMixin],
-  props: {
-    isContactPanelOpen: {
-      type: Boolean,
-      default: false,
-    },
-    isInboxView: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
+    const conversationPanelRef = ref(null);
     const { isEnterprise } = useConfig();
-
-    const closePopOutReplyBox = () => {
-      isPopOutReplyBox.value = false;
-    };
-
-    const showPopOutReplyBox = () => {
-      isPopOutReplyBox.value = !isPopOutReplyBox.value;
-    };
 
     const keyboardEvents = {
       Escape: {
-        action: closePopOutReplyBox,
+        action: () => {
+          isPopOutReplyBox.value = false;
+        },
       },
     };
 
@@ -80,15 +68,16 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
+    provide('contextMenuElementTarget', conversationPanelRef);
+
     return {
       isEnterprise,
       isPopOutReplyBox,
-      closePopOutReplyBox,
-      showPopOutReplyBox,
       isAIIntegrationEnabled,
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
+      conversationPanelRef,
     };
   },
   data() {
@@ -106,6 +95,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
     }),
@@ -138,10 +128,9 @@ export default {
     },
     typingUserNames() {
       const userList = this.typingUsersList;
-
       if (this.isAnyoneTyping) {
-        const userListAsName = getTypingUsersText(userList);
-        return userListAsName;
+        const [i18nKey, params] = getTypingUsersText(userList);
+        return this.$t(i18nKey, params);
       }
 
       return '';
@@ -171,24 +160,20 @@ export default {
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
-    conversationType() {
-      const { additional_attributes: additionalAttributes } = this.currentChat;
-      const type = additionalAttributes ? additionalAttributes.type : '';
-      return type || '';
-    },
+    // Check there is a instagram inbox exists with the same instagram_id
+    hasDuplicateInstagramInbox() {
+      const instagramId = this.inbox.instagram_id;
+      const { additional_attributes: additionalAttributes = {} } = this.inbox;
+      const instagramInbox =
+        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
+          instagramId
+        );
 
-    isATweet() {
-      return this.conversationType === 'tweet';
-    },
-    isRightOrLeftIcon() {
-      if (this.isContactPanelOpen) {
-        return 'arrow-chevron-right';
-      }
-      return 'arrow-chevron-left';
-    },
-    getLastSeenAt() {
-      const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-      return contactLastSeenAt;
+      return (
+        this.inbox.channel_type === INBOX_TYPES.FB &&
+        additionalAttributes.type === 'instagram_direct_message' &&
+        instagramInbox
+      );
     },
 
     replyWindowBannerMessage() {
@@ -200,16 +185,25 @@ export default {
         if (additionalAttributes) {
           const {
             agent_reply_time_window_message: agentReplyTimeWindowMessage,
+            agent_reply_time_window: agentReplyTimeWindow,
           } = additionalAttributes;
-          return agentReplyTimeWindowMessage;
+          return (
+            agentReplyTimeWindowMessage ||
+            this.$t('CONVERSATION.API_HOURS_WINDOW', {
+              hours: agentReplyTimeWindow,
+            })
+          );
         }
         return '';
       }
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
-      if (this.isAWhatsAppChannel) {
+      if (this.isAFacebookInbox || this.isAnInstagramChannel) {
         return REPLY_POLICY.FACEBOOK;
+      }
+      if (this.isAWhatsAppCloudChannel) {
+        return REPLY_POLICY.WHATSAPP_CLOUD;
       }
       if (!this.isAPIInbox) {
         return REPLY_POLICY.TWILIO_WHATSAPP;
@@ -217,7 +211,11 @@ export default {
       return '';
     },
     replyWindowLinkText() {
-      if (this.isAWhatsAppChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isAFacebookInbox ||
+        this.isAnInstagramChannel
+      ) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
       if (!this.isAPIInbox) {
@@ -228,8 +226,14 @@ export default {
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
     },
-    isInstagramDM() {
-      return this.conversationType === 'instagram_direct_message';
+    unreadMessageLabel() {
+      const count =
+        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
+      const label =
+        this.unreadMessageCount > 1
+          ? 'CONVERSATION.UNREAD_MESSAGES'
+          : 'CONVERSATION.UNREAD_MESSAGE';
+      return `${count} ${this.$t(label)}`;
     },
     inboxSupportsReplyTo() {
       const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
@@ -383,9 +387,6 @@ export default {
         relevantMessages
       );
     },
-    onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
-    },
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;
       this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
@@ -437,18 +438,10 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-
-    getInReplyToMessage(parentMessage) {
-      if (!parentMessage) return {};
-      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
-      if (!inReplyToMessageId) return {};
-
-      return this.currentChat?.messages.find(message => {
-        if (message.id === inReplyToMessageId) {
-          return true;
-        }
-        return false;
-      });
+    async handleMessageRetry(message) {
+      if (!message) return;
+      const payload = useSnakeCase(message);
+      await this.$store.dispatch('sendMessageWithData', payload);
     },
   },
 };
@@ -459,86 +452,71 @@ export default {
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
     />
-    <div class="flex justify-end">
-      <woot-button
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
-        :class="
-          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
-        "
-        :icon="isRightOrLeftIcon"
-        @click="onToggleContactPanel"
-      />
-    </div>
-    <ul class="conversation-panel">
-      <transition name="slide-up">
-        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-        <li class="min-h-[4rem]">
-          <span v-if="shouldShowSpinner" class="spinner message" />
+    <Banner
+      v-else-if="hasDuplicateInstagramInbox"
+      color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
+    />
+    <MessageList
+      ref="conversationPanelRef"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
+      :current-user-id="currentUserId"
+      :first-unread-id="unReadMessages[0]?.id"
+      :is-an-email-channel="isAnEmailChannel"
+      :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :messages="getMessages"
+      @retry="handleMessageRetry"
+    >
+      <template #beforeAll>
+        <transition name="slide-up">
+          <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
+          <li
+            class="min-h-[4rem] flex flex-shrink-0 flex-grow-0 items-center flex-auto justify-center max-w-full mt-0 mr-0 mb-1 ml-0 relative first:mt-auto last:mb-0"
+          >
+            <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
+          </li>
+        </transition>
+      </template>
+      <template #unreadBadge>
+        <li
+          v-show="unreadMessageCount != 0"
+          class="list-none flex justify-center items-center"
+        >
+          <span
+            class="shadow-lg rounded-full bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
+          >
+            {{ unreadMessageLabel }}
+          </span>
         </li>
-      </transition>
-      <Message
-        v-for="message in readMessages"
-        :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span>
-          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-          {{
-            unreadMessageCount > 1
-              ? $t('CONVERSATION.UNREAD_MESSAGES')
-              : $t('CONVERSATION.UNREAD_MESSAGE')
-          }}
-        </span>
-      </li>
-      <Message
-        v-for="message in unReadMessages"
-        :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <ConversationLabelSuggestion
-        v-if="shouldShowLabelSuggestions"
-        :suggested-labels="labelSuggestions"
-        :chat-labels="currentChat.labels"
-        :conversation-id="currentChat.id"
-      />
-    </ul>
+      </template>
+      <template #after>
+        <ConversationLabelSuggestion
+          v-if="shouldShowLabelSuggestions"
+          :suggested-labels="labelSuggestions"
+          :chat-labels="currentChat.labels"
+          :conversation-id="currentChat.id"
+        />
+      </template>
+    </MessageList>
     <div
-      class="conversation-footer"
-      :class="{ 'modal-mask': isPopOutReplyBox }"
+      class="flex relative flex-col"
+      :class="{
+        'modal-mask': isPopOutReplyBox,
+        'bg-n-background': !isPopOutReplyBox,
+      }"
     >
       <div
         v-if="isAnyoneTyping"
         class="absolute flex items-center w-full h-0 -top-7"
       >
         <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
         >
           {{ typingUserNames }}
           <img
@@ -549,30 +527,16 @@ export default {
         </div>
       </div>
       <ReplyBox
-        v-model:popout-reply-box="isPopOutReplyBox"
-        :conversation-id="currentChat.id"
-        @toggle-popout="showPopOutReplyBox"
+        :pop-out-reply-box="isPopOutReplyBox"
+        @update:pop-out-reply-box="isPopOutReplyBox = $event"
       />
     </div>
   </div>
 </template>
 
-<style scoped>
-@tailwind components;
-@layer components {
-  .rounded-bl-calc {
-    border-bottom-left-radius: calc(1.5rem + 1px);
-  }
-
-  .rounded-tl-calc {
-    border-top-left-radius: calc(1.5rem + 1px);
-  }
-}
-</style>
-
 <style scoped lang="scss">
 .modal-mask {
-  @apply absolute;
+  @apply fixed;
 
   &::v-deep {
     .ProseMirror-woot-style {
@@ -580,7 +544,11 @@ export default {
     }
 
     .reply-box {
-      @apply border border-solid border-slate-75 dark:border-slate-600 max-w-[75rem] w-[70%];
+      @apply border border-n-weak max-w-[75rem] w-[70%];
+
+      &.is-private {
+        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
+      }
     }
 
     .reply-box .reply-box__top {
@@ -592,7 +560,7 @@ export default {
     }
 
     .emoji-dialog {
-      @apply absolute left-auto bottom-1;
+      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
     }
   }
 }

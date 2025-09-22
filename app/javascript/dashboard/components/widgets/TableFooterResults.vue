@@ -16,7 +16,7 @@ defineProps({
 </script>
 
 <template>
-  <span class="text-sm text-slate-700 dark:text-slate-200 font-medium">
+  <span class="text-sm text-n-slate-11 font-medium">
     {{
       $t('GENERAL.SHOWING_RESULTS', {
         firstIndex,

@@ -1,0 +1,40 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the portal
+  archived:
+    type: boolean
+    description: Whether the portal is archived
+  color:
+    type: string
+    description: The color code for the portal
+  config:
+    $ref: '#/components/schemas/portal_config'
+  custom_domain:
+    type: string
+    description: Custom domain for the portal
+  header_text:
+    type: string
+    description: The header text for the portal
+  homepage_link:
+    type: string
+    description: Homepage link for the portal
+  name:
+    type: string
+    description: Name of the portal
+  slug:
+    type: string
+    description: URL slug for the portal
+  page_title:
+    type: string
+    description: Page title for the portal
+  account_id:
+    type: integer
+    description: ID of the account the portal belongs to
+  inbox:
+    $ref: '#/components/schemas/inbox'
+  logo:
+    $ref: '#/components/schemas/portal_logo'
+  meta:
+    $ref: '#/components/schemas/portal_meta' 

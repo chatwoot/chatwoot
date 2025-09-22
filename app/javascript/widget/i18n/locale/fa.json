@@ -12,25 +12,36 @@
       "ERROR_MESSAGE": "ارسال نشد، دوباره امتحان کنید"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ما آنلاین هستیم",
-    "OFFLINE": "در حال حاضر دردسترس نیستیم"
+    "OFFLINE": "در حال حاضر دردسترس نیستیم",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
     "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند",
-    "BACK_IN": "دوباره آنلاین خواهیم بود"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
-  "DAY_NAMES": [
-    "یک‌شنبه",
-    "دوشنبه",
-    "سه‌شنبه",
-    "چهارشنبه",
-    "پنج‌شنبه",
-    "جمعه",
-    "شنبه"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "یک‌شنبه",
+    "MONDAY": "دوشنبه",
+    "TUESDAY": "سه‌شنبه",
+    "WEDNESDAY": "چهارشنبه",
+    "THURSDAY": "پنج‌شنبه",
+    "FRIDAY": "جمعه",
+    "SATURDAY": "شنبه"
+  },
   "START_CONVERSATION": "شروع گفتگو",
   "END_CONVERSATION": "پایان گفتگو",
   "CONTINUE_CONVERSATION": "ادامه گفتگو",
@@ -71,7 +82,7 @@
         "DIAL_CODE_VALID_ERROR": "لطفا\" یک کد کشور انتخاب کنید",
         "VALID_ERROR": "لطفا\" یک شماره موبایل معتبر وارد نمایید",
         "DROPDOWN_EMPTY": "نتیجه‌ای یافت نشد",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "جستجوی کشور"
       },
       "MESSAGE": {
         "LABEL": "پیام",
@@ -91,9 +102,9 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "جستجوی ایموجی",
-    "NOT_FOUND": "هیچ ایموجی با جستجوی شما مطابقت ندارد",
-    "ARIA_LABEL": "Emoji picker"
+    "PLACEHOLDER": "جستجوی اموجی",
+    "NOT_FOUND": "هیچ اموجی با جستجوی شما مطابقت ندارد",
+    "ARIA_LABEL": "انتخاب اموجی"
   },
   "CSAT": {
     "TITLE": "به گفتگوی خود امتیاز دهید",

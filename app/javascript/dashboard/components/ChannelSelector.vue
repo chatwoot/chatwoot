@@ -1,39 +1,57 @@
-<script>
-export default {
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    src: {
-      type: String,
-      required: true,
-    },
+<script setup>
+import Icon from 'next/icon/Icon.vue';
+
+defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-};
+  description: {
+    type: String,
+    default: '',
+  },
+  icon: {
+    type: String,
+    required: true,
+  },
+  isComingSoon: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <template>
   <button
-    class="bg-white dark:bg-slate-900 cursor-pointer flex flex-col justify-end transition-all duration-200 ease-in -m-px py-4 px-0 items-center border border-solid border-slate-25 dark:border-slate-800 hover:border-woot-500 dark:hover:border-woot-500 hover:shadow-md hover:z-50 disabled:opacity-60"
+    class="relative bg-n-solid-1 gap-6 cursor-pointer rounded-2xl flex flex-col justify-start transition-all duration-200 ease-in -m-px py-6 px-5 items-start border border-solid border-n-weak"
+    :class="{
+      'hover:enabled:border-n-blue-9 hover:enabled:shadow-md disabled:opacity-60 disabled:cursor-not-allowed':
+        !isComingSoon,
+      'cursor-not-allowed disabled:opacity-80': isComingSoon,
+    }"
   >
-    <img :src="src" :alt="title" class="w-1/2 my-4 mx-auto" />
-    <h3
-      class="text-slate-800 dark:text-slate-100 text-base text-center capitalize"
+    <div
+      class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"
     >
-      {{ title }}
-    </h3>
+      <Icon :icon="icon" class="text-n-slate-10 size-6" />
+    </div>
+
+    <div class="flex flex-col items-start gap-1.5">
+      <h3 class="text-n-slate-12 text-sm text-start font-medium capitalize">
+        {{ title }}
+      </h3>
+      <p class="text-n-slate-11 text-start text-sm">
+        {{ description }}
+      </p>
+    </div>
+
+    <div
+      v-if="isComingSoon"
+      class="absolute inset-0 flex items-center justify-center backdrop-blur-[2px] rounded-2xl bg-gradient-to-br from-n-background/90 via-n-background/70 to-n-background/95 cursor-not-allowed"
+    >
+      <span class="text-n-slate-12 font-medium text-sm">
+        {{ $t('CHANNEL_SELECTOR.COMING_SOON') }} 🚀
+      </span>
+    </div>
   </button>
 </template>
-
-<style scoped lang="scss">
-.inactive {
-  img {
-    filter: grayscale(100%);
-  }
-
-  &:hover {
-    @apply border-transparent shadow-none cursor-not-allowed;
-  }
-}
-</style>

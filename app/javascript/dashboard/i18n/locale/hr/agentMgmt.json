@@ -105,6 +105,9 @@
         "AGENT": "Select agent",
         "TEAM": "Select team"
       },
+      "LIST": {
+        "NONE": "Nijedno"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "No agents found",

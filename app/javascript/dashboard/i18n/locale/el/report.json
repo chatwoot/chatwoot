@@ -29,7 +29,7 @@
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Τελευταίο έτος",
       "CUSTOM_DATE_RANGE": "Προσαρμοσμένο εύρος ημερομηνιών"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Τελευταίες 7 ημέρες"
-      },
-      {
-        "id": 1,
-        "name": "Τελευταίες 30 ημέρες"
-      },
-      {
-        "id": 2,
-        "name": "Τελευταίοι 3 μήνες"
-      },
-      {
-        "id": 3,
-        "name": "Τελευταίοι 6 μήνες"
-      },
-      {
-        "id": 4,
-        "name": "Τελευταίο έτος"
-      },
-      {
-        "id": 5,
-        "name": "Προσαρμοσμένο εύρος ημερομηνιών"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Εφαρμογή",
       "PLACEHOLDER": "Επιλέξτε εύρος ημερομηνιών"
@@ -142,10 +117,15 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Δεν βρέθηκαν αποτελέσματα"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Επισκόπηση Πρακτόρων",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
@@ -173,7 +153,7 @@
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -213,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Επισκόπηση Ετικετών",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_LABEL_REPORTS": "Λήψη αναφορών ετικέτας",
@@ -240,7 +221,7 @@
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -280,6 +261,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Επισκόπηση Εισερχομένων",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_INBOX_REPORTS": "Λήψη αναφορών εισερχομένων",
@@ -307,7 +289,7 @@
         "NAME": "Χρόνος ανάλυσης",
         "DESC": "(Μ.Ο.)",
         "INFO_TEXT": "Συνολικός αριθμός συνομιλιών που χρησιμοποιήθηκαν για τον υπολογισμό:",
-        "TOOLTIP_TEXT": "Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
+        "TOOLTIP_TEXT": "Ο Χρόνος Ανάλυσης είναι {metricValue} (βασίζεται στις {conversationCount} συνομιλίες)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
@@ -347,6 +329,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Επισκόπηση Ομάδας",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_TEAM_REPORTS": "Λήψη αναφορών ομάδας",
@@ -490,7 +473,19 @@
       "NO_AGENTS": "Δεν υπάρχουν συνομιλίες από πράκτορες",
       "TABLE_HEADER": {
         "AGENT": "Πράκτορας",
-        "OPEN": "ΑΝΟΙΓΜΑ",
+        "OPEN": "Ανοιχτές",
+        "UNATTENDED": "Χωρίς Παρακολούθηση",
+        "STATUS": "Κατάσταση"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Ομάδα",
+        "OPEN": "Ανοιχτές",
         "UNATTENDED": "Χωρίς Παρακολούθηση",
         "STATUS": "Κατάσταση"
       }
@@ -560,5 +555,16 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Εισερχόμενα",
+    "AGENT": "Πράκτορας",
+    "TEAM": "Ομάδα",
+    "LABEL": "Ετικέτα",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Αριθμός Αναλύσεων",
+    "CONVERSATIONS": "Αριθμός συνομιλιών"
   }
 }

@@ -125,3 +125,23 @@ export const getHostNameFromURL = url => {
     return null;
   }
 };
+
+/**
+ * Extracts filename from a URL
+ * @param {string} url - The URL to extract filename from
+ * @returns {string} - The extracted filename or original URL if extraction fails
+ */
+export const extractFilenameFromUrl = url => {
+  if (!url || typeof url !== 'string') return url;
+
+  try {
+    const urlObj = new URL(url);
+    const pathname = urlObj.pathname;
+    const filename = pathname.split('/').pop();
+    return filename || url;
+  } catch (error) {
+    // If URL parsing fails, try to extract filename using regex
+    const match = url.match(/\/([^/?#]+)(?:[?#]|$)/);
+    return match ? match[1] : url;
+  }
+};

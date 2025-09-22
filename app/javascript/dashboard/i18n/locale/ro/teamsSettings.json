@@ -20,23 +20,18 @@
         "TITLE": "Adăugați agenți în echipă - {teamName}",
         "DESC": "Adăugați agenți în echipa nou creată. Acest lucru vă permite să colaborați ca echipă la conversații, să primiți notificări cu privire la evenimente noi din aceeași conversație."
       },
-      "WIZARD": [
-        {
-          "title": "Creeaza",
-          "route": "setări_echipă_nou",
-          "body": "Creați o nouă echipă de agenți."
-        },
-        {
-          "title": "Adaugă Agent",
-          "route": "setări_echipă_adaugă_agenți",
-          "body": "Adăugați agenți în echipă."
-        },
-        {
-          "title": "Finalizează",
-          "route": "setări_echipă_finalizare",
-          "body": "Toate setarile sunt facute!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Creeaza",
+        "BODY": "Creați o nouă echipă de agenți."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Adaugă Agent",
+        "BODY": "Adăugați agenți în echipă."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Finalizează",
+        "BODY": "Toate setarile sunt facute!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Adăugați agenți în echipă - {teamName}",
         "DESC": "Adăugați agenți în echipa nou creată. Toți agenții adăugați vor fi anunțați atunci când o conversație este atribuită acestei echipe."
       },
-      "WIZARD": [
-        {
-          "title": "Detalii despre echipă",
-          "route": "setări_echipă_editează",
-          "body": "Modificați numele, descrierea și alte detalii."
-        },
-        {
-          "title": "Editarea agenților",
-          "route": "setări_echipă_editează_membrii",
-          "body": "Editați agenții din echipa dvs."
-        },
-        {
-          "title": "Finalizează",
-          "route": "setări_echipă_editează_finalizare",
-          "body": "Toate setarile sunt facute!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Detalii despre echipă",
+        "ROUTE": "setări_echipă_editează",
+        "BODY": "Modificați numele, descrierea și alte detalii."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Editarea agenților",
+        "ROUTE": "setări_echipă_editează_membrii",
+        "BODY": "Editați agenții din echipa dvs."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Finalizează",
+        "ROUTE": "setări_echipă_editează_finalizare",
+        "BODY": "Toate setarile sunt facute!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Nu a putut salva detaliile echipei. Încearcă din nou."

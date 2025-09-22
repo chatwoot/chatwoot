@@ -12,25 +12,36 @@
       "ERROR_MESSAGE": "Não foi possível enviar, tente novamente"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Indisponível"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Estamos conectados",
-    "OFFLINE": "Estamos ausentes no momento"
+    "OFFLINE": "Estamos ausentes no momento",
+    "BACK_AS_SOON_AS_POSSIBLE": "Estaremos de volta em breve"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Normalmente responde em alguns minutos",
-    "IN_A_FEW_HOURS": "Responde normalmente em algumas horas",
-    "IN_A_DAY": "Responde normalmente em um dia",
-    "BACK_IN": "Estaremos de volta on-line"
+    "IN_A_FEW_HOURS": "Normalmente responde em algumas horas",
+    "IN_A_DAY": "Normalmente responde em um dia",
+    "BACK_IN_HOURS": "Estaremos de volta em {n} hora | Estaremos de volta em {n} horas",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "Estaremos disponíveis novamente em breve"
   },
-  "DAY_NAMES": [
-    "Domingo",
-    "Segunda-Feira",
-    "Terça-feira",
-    "Quarta-feira",
-    "Quinta-feira",
-    "Sexta-feira",
-    "Sábado"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Domingo",
+    "MONDAY": "Segunda-Feira",
+    "TUESDAY": "Terça-feira",
+    "WEDNESDAY": "Quarta-feira",
+    "THURSDAY": "Quinta-feira",
+    "FRIDAY": "Sexta-feira",
+    "SATURDAY": "Sábado"
+  },
   "START_CONVERSATION": "Iniciar Conversa",
   "END_CONVERSATION": "Finalizar Conversa",
   "CONTINUE_CONVERSATION": "Continuar conversa",
@@ -41,7 +52,7 @@
     "VIEW_MESSAGES_BUTTON": "Ver novas mensagens",
     "CLOSE_MESSAGES_BUTTON": "Fechar",
     "COMPANY_FROM": "De",
-    "BOT": "Bot"
+    "BOT": "Robôs"
   },
   "BUBBLE": {
     "LABEL": "Fale conosco no chat"
@@ -74,7 +85,7 @@
         "DROPDOWN_SEARCH": "Selecione o país"
       },
       "MESSAGE": {
-        "LABEL": "Messagem",
+        "LABEL": "Mensagem",
         "PLACEHOLDER": "Por favor, digite sua mensagem",
         "ERROR": "Mensagem muito curta"
       }

@@ -2,10 +2,12 @@
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useAI } from 'dashboard/composables/useAI';
 import AILoader from './AILoader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     AILoader,
+    NextButton,
   },
   props: {
     aiOption: {
@@ -68,11 +70,11 @@ export default {
       @submit.prevent="applyText"
     >
       <div v-if="draftMessage" class="w-full">
-        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
+        <h4 class="mt-1 text-base text-n-slate-12">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
         </h4>
         <p v-dompurify-html="formatMessage(draftMessage, false)" />
-        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
+        <h4 class="mt-1 text-base text-n-slate-12">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
           }}
@@ -84,16 +86,22 @@ export default {
       </div>
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <woot-button variant="clear" @click.prevent="onClose">
-          {{
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')
-          }}
-        </woot-button>
-        <woot-button :disabled="!generatedContent">
-          {{
+          "
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
+          :disabled="!generatedContent"
+          :label="
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.APPLY')
-          }}
-        </woot-button>
+          "
+        />
       </div>
     </form>
   </div>

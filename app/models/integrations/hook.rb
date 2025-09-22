@@ -18,13 +18,14 @@ class Integrations::Hook < ApplicationRecord
   include Reauthorizable
 
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
-  before_validation :ensure_captain_config_present, on: :create
   before_validation :ensure_hook_type
+  after_create :trigger_setup_if_crm
 
   validates :account_id, presence: true
   validates :app_id, presence: true
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validate :validate_settings_json_schema
+  validate :ensure_feature_enabled
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment
@@ -37,6 +38,9 @@ class Integrations::Hook < ApplicationRecord
 
   enum hook_type: { account: 0, inbox: 1 }
 
+  scope :account_hooks, -> { where(hook_type: 'account') }
+  scope :inbox_hooks, -> { where(hook_type: 'inbox') }
+
   def app
     @app ||= Integrations::App.find(id: app_id)
   end
@@ -47,6 +51,10 @@ class Integrations::Hook < ApplicationRecord
 
   def dialogflow?
     app_id == 'dialogflow'
+  end
+
+  def notion?
+    app_id == 'notion'
   end
 
   def disable
@@ -62,30 +70,19 @@ class Integrations::Hook < ApplicationRecord
     end
   end
 
+  def feature_allowed?
+    return true if app.blank?
+
+    flag = app.params[:feature_flag]
+    return true unless flag
+
+    account.feature_enabled?(flag)
+  end
+
   private
 
-  def ensure_captain_config_present
-    return if app_id != 'captain'
-    # Already configured, skip this
-    return if settings['access_token'].present?
-
-    ensure_captain_is_enabled
-    fetch_and_set_captain_settings
-  end
-
-  def ensure_captain_is_enabled
-    raise 'Captain is not enabled' unless Integrations::App.find(id: 'captain').active?(account)
-  end
-
-  def fetch_and_set_captain_settings
-    captain_response = ChatwootHub.get_captain_settings(account)
-    raise "Failed to get captain settings: #{captain_response.body}" unless captain_response.success?
-
-    captain_settings = JSON.parse(captain_response.body)
-    settings['account_email'] = captain_settings['account_email']
-    settings['account_id'] = captain_settings['captain_account_id'].to_s
-    settings['access_token'] = captain_settings['access_token']
-    settings['assistant_id'] = captain_settings['assistant_id'].to_s
+  def ensure_feature_enabled
+    errors.add(:feature_flag, 'Feature not enabled') unless feature_allowed?
   end
 
   def ensure_hook_type
@@ -96,5 +93,18 @@ class Integrations::Hook < ApplicationRecord
     return if app.blank? || app.params[:settings_json_schema].blank?
 
     errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
+  end
+
+  def trigger_setup_if_crm
+    # we need setup services to create data prerequisite to functioning of the integration
+    # in case of Leadsquared, we need to create a custom activity type for capturing conversations and transcripts
+    # https://apidocs.leadsquared.com/create-new-activity-type-api/
+    return unless crm_integration?
+
+    ::Crm::SetupJob.perform_later(id)
+  end
+
+  def crm_integration?
+    %w[leadsquared].include?(app_id)
   end
 end

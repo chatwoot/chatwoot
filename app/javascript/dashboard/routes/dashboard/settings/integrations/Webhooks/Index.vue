@@ -1,6 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useBranding } from 'shared/composables/useBranding';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
 import WebhookRow from './WebhookRow.vue';
@@ -10,10 +12,15 @@ import SettingsLayout from '../../SettingsLayout.vue';
 export default {
   components: {
     SettingsLayout,
+    NextButton,
     BaseSettingsHeader,
     NewWebhook,
     EditWebhook,
     WebhookRow,
+  },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return { replaceInstallationName };
   },
   data() {
     return {
@@ -97,36 +104,33 @@ export default {
       <BaseSettingsHeader
         v-if="integration.name"
         :title="integration.name"
-        :description="integration.description"
+        :description="replaceInstallationName(integration.description)"
         :link-text="$t('INTEGRATION_SETTINGS.WEBHOOK.LEARN_MORE')"
         feature-name="webhook"
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
         <template #actions>
-          <woot-button
-            class="button nice rounded-md"
-            icon="add-circle"
+          <NextButton
+            blue
+            icon="i-lucide-circle-plus"
+            :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
             @click="openAddPopup"
-          >
-            {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
-          </woot-button>
+          />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300 last:text-right last:pr-4"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right last:pr-4"
           >
             {{ thHeader }}
           </th>
         </thead>
-        <tbody
-          class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
-        >
+        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
           <WebhookRow
             v-for="(webHookItem, index) in records"
             :key="webHookItem.id"

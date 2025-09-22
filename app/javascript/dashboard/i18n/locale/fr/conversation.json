@@ -12,6 +12,8 @@
     "NO_INBOX_2": " pour commencer",
     "NO_INBOX_AGENT": "Oh Oh ! Il semble que vous ne faites parti d'aucune boîte de réception. Veuillez contacter votre administrateur",
     "SEARCH_MESSAGES": "Rechercher des messages dans les conversations",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "pour ouvrir le menu de commande",
       "KEYBOARD_SHORTCUTS": "pour afficher les raccourcis clavier"
@@ -30,23 +32,38 @@
     "LOADING_CONVERSATIONS": "Chargement des conversations",
     "CANNOT_REPLY": "Vous ne pouvez pas répondre en raison de",
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
+    "API_HOURS_WINDOW": "Vous ne pouvez répondre à cette conversation que dans un délai de {hours} heures",
     "NOT_ASSIGNED_TO_YOU": "Cette conversation ne vous est pas assignée. Voulez-vous vous assigner cette conversation ?",
     "ASSIGN_TO_ME": "M’assigner la conversation",
+    "BOT_HANDOFF_MESSAGE": "Vous répondez à une conversation actuellement gérée par un assistant ou un bot.",
+    "BOT_HANDOFF_ACTION": "Ouvrir et m’attribuer",
+    "BOT_HANDOFF_REOPEN_ACTION": "Marquer la conversation comme ouverte",
+    "BOT_HANDOFF_SUCCESS": "La conversation vous a été attribuée",
+    "BOT_HANDOFF_ERROR": "Impossible de reprendre la conversation. Veuillez réessayer.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Ce compte Instagram a été migré vers la nouvelle boîte de réception du canal Instagram. Tous les nouveaux messages y apparaîtront. Vous ne pourrez plus envoyer de messages depuis cette conversation.",
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
     "UNKNOWN_FILE_TYPE": "Fichier inconnu",
-    "SAVE_CONTACT": "Enregistrer",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} a démarré une réunion"
+    },
     "UPLOADING_ATTACHMENTS": "Envoi des pièces jointes...",
     "REPLIED_TO_STORY": "A répondu à votre histoire",
-    "UNSUPPORTED_MESSAGE": "Ce message n'est pas pris en charge.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ce message n'est pas pris en charge. Vous pouvez voir ce message sur l'application Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Le message a bien été supprimé",
     "FAIL_DELETE_MESSSAGE": "Impossible de supprimer le message ! Veuillez réessayez",
     "NO_RESPONSE": "Pas de réponse",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Note",
     "FEEDBACK_TITLE": "Commentaires",
     "REPLY_MESSAGE_NOT_FOUND": "Message indisponible",
@@ -54,10 +71,22 @@
       "SHOW_LABELS": "Afficher les étiquettes",
       "HIDE_LABELS": "Masquer les étiquettes"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Appel entrant",
+      "OUTGOING_CALL": "Appel sortant",
+      "CALL_IN_PROGRESS": "Appel en cours",
+      "NO_ANSWER": "Pas de réponse",
+      "MISSED_CALL": "Appel manqué",
+      "CALL_ENDED": "Appel terminé",
+      "NOT_ANSWERED_YET": "Pas encore répondu",
+      "THEY_ANSWERED": "Il a répondu",
+      "YOU_ANSWERED": "Vous avez répondu"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
       "OPEN_ACTION": "Ouvert",
+      "MORE_ACTIONS": "Plus d'actions",
       "OPEN": "Plus",
       "CLOSE": "Fermer",
       "DETAILS": "détails",
@@ -83,6 +112,10 @@
         "NEXT_WEEK": "Semaine prochaine"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agents",
+      "TEAMS": "Équipes"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Reporter jusqu'à",
       "APPLY": "Reporter",
@@ -105,10 +138,16 @@
         "FAILED": "Impossible de modifier la priorité. Veuillez réessayer."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Supprimer la conversation #{conversationId}",
+      "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer cette conversation ?",
+      "CONFIRM": "Supprimer"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marquer comme en attente",
       "RESOLVED": "Marquer comme résolu",
       "MARK_AS_UNREAD": "Marquer comme non lu",
+      "MARK_AS_READ": "Marquer comme lu",
       "REOPEN": "Reprendre la conversation",
       "SNOOZE": {
         "TITLE": "Reporter",
@@ -120,13 +159,17 @@
       "ASSIGN_LABEL": "Assigner une étiquette",
       "AGENTS_LOADING": "Chargement des agents...",
       "ASSIGN_TEAM": "Assigner une équipe",
+      "DELETE": "Supprimer la conversation",
+      "OPEN_IN_NEW_TAB": "Ouvrir dans un nouvel onglet",
+      "COPY_LINK": "Copier le lien de la conversation",
+      "COPY_LINK_SUCCESS": "Le lien de conversation a été copié dans le presse-papiers",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assignée à \"{agentName}\"",
           "FAILED": "Impossible d'assigner l'agent. Veuillez réessayer."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Étiquette assignée #{labelName} à l'id de la conversation {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Impossible d'assigner l'étiquette. Veuillez réessayer."
         },
         "TEAM_ASSIGNMENT": {
@@ -194,6 +237,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Étiquette attribuée avec succès",
     "ASSIGN_LABEL_FAILED": "Échec de l'attribution de l'étiquette",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation supprimée avec succès",
+    "FAIL_DELETE_CONVERSATION": "Impossible de supprimer la conversation ! Veuillez réessayer",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} pour les pièces jointes",
     "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
@@ -219,6 +264,10 @@
         "DELETE": "Supprimer",
         "CANCEL": "Annuler"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contact",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -278,9 +327,31 @@
       "CONVERSATION_ACTIONS": "Actions de conversation",
       "CONVERSATION_LABELS": "Étiquettes de conversation",
       "CONVERSATION_INFO": "Informations de la conversation",
+      "CONTACT_NOTES": "Notes du contact",
       "CONTACT_ATTRIBUTES": "Attributs du contact",
       "PREVIOUS_CONVERSATION": "Conversations précédentes",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "LINEAR_ISSUES": "Problèmes Linear liés",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "En attente",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +381,8 @@
     "TO": "À",
     "BCC": "Cci",
     "CC": "Cc",
-    "SUBJECT": "Objet"
+    "SUBJECT": "Objet",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participe",
@@ -335,5 +407,16 @@
     "ORIGINAL_CONTENT": "Contenu original",
     "TRANSLATED_CONTENT": "Contenu traduit",
     "NO_TRANSLATIONS_AVAILABLE": "Aucune traduction n'est disponible pour ce contenu"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

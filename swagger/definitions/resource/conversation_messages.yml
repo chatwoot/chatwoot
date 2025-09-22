@@ -1,0 +1,10 @@
+type: object
+properties:
+  meta:
+    $ref: '#/components/schemas/conversation_meta'
+    description: Meta information about the conversation
+  payload:
+    type: array
+    items:
+      $ref: '#/components/schemas/message_detailed'
+    description: List of messages in the conversation 

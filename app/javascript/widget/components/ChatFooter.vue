@@ -6,7 +6,7 @@ import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
-import routerMixin from 'widget/mixins/routerMixin';
+import { useRouter } from 'vue-router';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -17,7 +17,10 @@ export default {
     CustomButton,
     FooterReplyTo,
   },
-  mixins: [routerMixin],
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
   data() {
     return {
       inReplyTo: null,
@@ -55,15 +58,8 @@ export default {
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
   },
   methods: {
-    ...mapActions('conversation', [
-      'sendMessage',
-      'sendAttachment',
-      'clearConversations',
-    ]),
-    ...mapActions('conversationAttributes', [
-      'getAttributes',
-      'clearConversationAttributes',
-    ]),
+    ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
+    ...mapActions('conversationAttributes', ['getAttributes']),
     async handleSendMessage(content) {
       await this.sendMessage({
         content,
@@ -84,9 +80,7 @@ export default {
       this.inReplyTo = null;
     },
     startNewConversation() {
-      this.clearConversations();
-      this.clearConversationAttributes();
-      this.replaceRoute('prechat-form');
+      this.router.replace({ name: 'prechat-form' });
       IFrameHelper.sendMessage({
         event: 'onEvent',
         eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
@@ -156,23 +150,3 @@ export default {
     </CustomButton>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
-.branding {
-  align-items: center;
-  color: $color-body;
-  display: flex;
-  font-size: $font-size-default;
-  justify-content: center;
-  padding: $space-one;
-  text-align: center;
-  text-decoration: none;
-
-  img {
-    margin-right: $space-small;
-    max-width: $space-two;
-  }
-}
-</style>

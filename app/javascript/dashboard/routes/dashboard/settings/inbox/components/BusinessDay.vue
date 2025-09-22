@@ -135,7 +135,7 @@ export default {
 
 <template>
   <div
-    class="day-wrap flex py-2 px-0 min-h-[3rem] box-content border-b border-solid border-slate-50 dark:border-slate-600"
+    class="day-wrap flex py-2 gap-1 items-center px-0 min-h-[3rem] box-content border-b border-solid border-n-weak"
   >
     <div class="checkbox-wrap flex items-center">
       <input
@@ -193,14 +193,14 @@ export default {
         />
       </div>
       <div v-if="hasError" class="date-error pt-1">
-        <span class="error text-xs text-red-300 dark:text-red-500">{{
+        <span class="error text-xs text-n-ruby-9">{{
           $t('INBOX_MGMT.BUSINESS_HOURS.DAY.VALIDATION_ERROR')
         }}</span>
       </div>
     </div>
     <div
       v-else
-      class="flex items-center flex-shrink-0 flex-grow text-sm text-slate-500 dark:text-slate-300"
+      class="flex items-center flex-shrink-0 flex-grow text-sm text-n-slate-11"
     >
       <span>
         {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.UNAVAILABLE') }}
@@ -209,7 +209,7 @@ export default {
     <div>
       <span
         v-if="isDayEnabled && !hasError"
-        class="label bg-woot-50 dark:bg-woot-600 text-woot-700 dark:text-woot-100 text-xs inline-block px-2 py-1 rounded-sm cursor-default whitespace-nowrap"
+        class="label bg-n-brand/10 dark:bg-n-brand/30 text-n-blue-text text-xs inline-block px-2 py-1 rounded-lg cursor-default whitespace-nowrap"
       >
         {{ totalHours }} {{ $t('INBOX_MGMT.BUSINESS_HOURS.DAY.HOURS') }}
       </span>

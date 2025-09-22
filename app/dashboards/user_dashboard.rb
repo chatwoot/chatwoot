@@ -94,7 +94,12 @@ class UserDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    super_admin: ->(resources) { resources.where(type: 'SuperAdmin') },
+    confirmed: ->(resources) { resources.where.not(confirmed_at: nil) },
+    unconfirmed: ->(resources) { resources.where(confirmed_at: nil) },
+    recent: ->(resources) { resources.where('created_at > ?', 30.days.ago) }
+  }.freeze
 
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.

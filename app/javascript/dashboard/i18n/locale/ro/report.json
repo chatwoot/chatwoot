@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Anul trecut",
       "CUSTOM_DATE_RANGE": "Interval de date particularizat"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Ultimele 7 zile"
-      },
-      {
-        "id": 1,
-        "name": "Ultimele 30 zile"
-      },
-      {
-        "id": 2,
-        "name": "Ultimele 3 luni"
-      },
-      {
-        "id": 3,
-        "name": "Ultimele 6 luni"
-      },
-      {
-        "id": 4,
-        "name": "Anul trecut"
-      },
-      {
-        "id": 5,
-        "name": "Interval de date particularizat"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Aplică",
       "PLACEHOLDER": "Selectarea intervalului de date"
@@ -142,10 +117,15 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Niciun rezultat găsit"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Prezentare generală a agenților",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_AGENT_REPORTS": "Descărcați rapoartele agenților",
@@ -213,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Prezentare generală a etichetelor",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_LABEL_REPORTS": "Descărcarea rapoartelor de etichete",
@@ -280,6 +261,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Prezentare generală a inboxului",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_INBOX_REPORTS": "Descărcarea rapoartelor inbox",
@@ -347,6 +329,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Prezentare generală a echipei",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_TEAM_REPORTS": "Descărcați rapoartele echipei",
@@ -490,7 +473,19 @@
       "NO_AGENTS": "Nu există conversații ale agenților",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "DESCHIS",
+        "OPEN": "Deschide",
+        "UNATTENDED": "Neasistat",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Echipa",
+        "OPEN": "Deschide",
         "UNATTENDED": "Neasistat",
         "STATUS": "Status"
       }
@@ -560,5 +555,16 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Inbox",
+    "AGENT": "Agent",
+    "TEAM": "Echipa",
+    "LABEL": "Etichetă",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Număr de rezoluții",
+    "CONVERSATIONS": "Conversații"
   }
 }

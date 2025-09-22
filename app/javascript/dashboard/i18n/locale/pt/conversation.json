@@ -12,6 +12,8 @@
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Não faz parte de nenhuma caixa de entrada. Por favor, contacte o administrador",
     "SEARCH_MESSAGES": "Procurar mensagens em conversas",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "para abrir o menu de comandos",
       "KEYBOARD_SHORTCUTS": "para ver atalhos de teclado"
@@ -30,23 +32,38 @@
     "LOADING_CONVERSATIONS": "A carregar conversas",
     "CANNOT_REPLY": "Não pode responder porque",
     "24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "API_HOURS_WINDOW": "Só pode responder a esta conversa dentro de {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a si. Gostaria de atribuir esta conversa a si mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder utilizando uma mensagem modelo, porque",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal Instagram. Todas as novas mensagens aparecerão lá. Já não poderá enviar mensagens a partir desta conversa.",
     "REPLYING_TO": "Está a responder a:",
     "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "Descarregar",
     "UNKNOWN_FILE_TYPE": "Ficheiro desconhecido",
-    "SAVE_CONTACT": "Guardar",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "{sender} iniciou uma reunião"
+    },
     "UPLOADING_ATTACHMENTS": "A carregar anexos...",
     "REPLIED_TO_STORY": "Respondeu à sua história",
-    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Pode ver esta mensagem na app Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Pode ver esta mensagem na app do Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Mensagem apagada com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível apagar a mensagem! Por favor, tente novamente",
     "NO_RESPONSE": "Sem resposta",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Avaliar",
     "FEEDBACK_TITLE": "Comentários",
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem indisponível",
@@ -54,10 +71,22 @@
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar etiquetas"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
       "OPEN_ACTION": "Abertas",
+      "MORE_ACTIONS": "Mais ações",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "Detalhes",
@@ -83,6 +112,10 @@
         "NEXT_WEEK": "Próxima semana"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agentes",
+      "TEAMS": "Equipas"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Suspender até",
       "APPLY": "Adiar",
@@ -105,10 +138,16 @@
         "FAILED": "Não foi possível alterar a prioridade, por favor, tente novamente."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Apagar conversa #{conversationId}",
+      "DESCRIPTION": "Tem a certeza de que quer apagar esta conversa?",
+      "CONFIRM": "Excluir"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marcar como pendente",
       "RESOLVED": "Marcar como resolvida",
       "MARK_AS_UNREAD": "Marcar como não lida",
+      "MARK_AS_READ": "Marcar como lida",
       "REOPEN": "Reabrir conversa",
       "SNOOZE": {
         "TITLE": "Adiar",
@@ -120,13 +159,17 @@
       "ASSIGN_LABEL": "Atribuir etiqueta",
       "AGENTS_LOADING": "A carregar agentes...",
       "ASSIGN_TEAM": "Atribuir equipa",
+      "DELETE": "Apagar conversa",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversa com ID {conversationId} atribuída a \"{agentName}\"",
           "FAILED": "Não foi possível atribuir agente. Por favor, tente novamente."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Etiqueta #{labelName} atribuída a conversa de ID {conversationId}",
+          "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
         "TEAM_ASSIGNMENT": {
@@ -194,6 +237,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
     "ASSIGN_LABEL_FAILED": "Falha na atribuição de etiqueta",
     "CHANGE_TEAM": "Equipa da conversa alterada",
+    "SUCCESS_DELETE_CONVERSATION": "Conversa apagada",
+    "FAIL_DELETE_CONVERSATION": "Não foi possível apagar a conversa! Tente novamente",
     "FILE_SIZE_LIMIT": "O ficheiro excede o tamanho limite para anexos de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
@@ -219,6 +264,10 @@
         "DELETE": "Excluir",
         "CANCEL": "Cancelar"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "Contacto",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -278,9 +327,31 @@
       "CONVERSATION_ACTIONS": "Ações de conversa",
       "CONVERSATION_LABELS": "Etiquetas da conversa",
       "CONVERSATION_INFO": "Informação da conversa",
+      "CONTACT_NOTES": "Notas do contacto",
       "CONTACT_ATTRIBUTES": "Atributos do contacto",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "LINEAR_ISSUES": "Casos Linear Associados",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Pendente",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -310,7 +381,8 @@
     "TO": "Para",
     "BCC": "Bcc",
     "CC": "Cc",
-    "SUBJECT": "Assunto"
+    "SUBJECT": "Assunto",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "A participar",
@@ -335,5 +407,16 @@
     "ORIGINAL_CONTENT": "Conteúdo original",
     "TRANSLATED_CONTENT": "Conteúdo traduzido",
     "NO_TRANSLATIONS_AVAILABLE": "Nenhuma tradução está disponível para este conteúdo"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

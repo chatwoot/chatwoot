@@ -12,25 +12,36 @@
       "ERROR_MESSAGE": "Verzenden mislukt, probeer het opnieuw"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We zijn online",
-    "OFFLINE": "We zijn momenteel afwezig"
+    "OFFLINE": "We zijn momenteel afwezig",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
     "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
     "IN_A_DAY": "Reageert meestal binnen een dag",
-    "BACK_IN": "We zullen weer online zijn"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
-  "DAY_NAMES": [
-    "zondag",
-    "maandag",
-    "dinsdag",
-    "woensdag",
-    "donderdag",
-    "vrijdag",
-    "zaterdag"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "zondag",
+    "MONDAY": "maandag",
+    "TUESDAY": "dinsdag",
+    "WEDNESDAY": "woensdag",
+    "THURSDAY": "donderdag",
+    "FRIDAY": "vrijdag",
+    "SATURDAY": "zaterdag"
+  },
   "START_CONVERSATION": "Start Chat",
   "END_CONVERSATION": "Gesprek beëindigen",
   "CONTINUE_CONVERSATION": "Verdergaan met gesprek",
@@ -68,7 +79,7 @@
         "LABEL": "Telefoonnummer",
         "PLACEHOLDER": "Vul je telefoonnummer in",
         "REQUIRED_ERROR": "Telefoon nummer is vereist",
-        "DIAL_CODE_VALID_ERROR": "Selecteer a.u.b. een landcode",
+        "DIAL_CODE_VALID_ERROR": "Selecteer alstublieft een landcode",
         "VALID_ERROR": "Voer een geldig telefoonnummer in",
         "DROPDOWN_EMPTY": "Geen resultaten gevonden",
         "DROPDOWN_SEARCH": "Search country"

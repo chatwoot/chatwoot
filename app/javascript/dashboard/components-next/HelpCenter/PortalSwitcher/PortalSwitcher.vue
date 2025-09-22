@@ -6,7 +6,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import Thumbnail from 'dashboard/components-next/thumbnail/Thumbnail.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const emit = defineEmits(['close', 'createPortal']);
 
@@ -92,7 +92,7 @@ const redirectToPortalHomePage = () => {
 
 <template>
   <div
-    class="pt-5 pb-3 bg-n-alpha-3 backdrop-blur-[100px] outline outline-n-container outline-1 z-50 absolute w-[440px] rounded-xl shadow-md flex flex-col gap-4"
+    class="pt-5 pb-3 bg-n-alpha-3 backdrop-blur-[100px] outline outline-n-container outline-1 z-50 absolute w-[27.5rem] rounded-xl shadow-md flex flex-col gap-4"
   >
     <div
       class="flex items-center justify-between gap-4 px-6 pb-3 border-b border-n-alpha-2"
@@ -100,7 +100,7 @@ const redirectToPortalHomePage = () => {
       <div class="flex flex-col gap-1">
         <div class="flex items-center gap-2">
           <h2
-            class="text-base font-medium cursor-pointer text-slate-900 dark:text-slate-50 w-fit hover:underline"
+            class="text-base font-medium cursor-pointer text-n-slate-12 w-fit hover:underline"
             @click="redirectToPortalHomePage"
           >
             {{ t('HELP_CENTER.PORTAL_SWITCHER.PORTALS') }}
@@ -108,13 +108,14 @@ const redirectToPortalHomePage = () => {
           <Button
             icon="i-lucide-arrow-up-right"
             variant="ghost"
+            color="slate"
             icon-lib="lucide"
             size="sm"
             class="!w-6 !h-6 hover:bg-n-slate-2 text-n-slate-11 !p-0.5 rounded-md"
             @click="onClickPreviewPortal"
           />
         </div>
-        <p class="text-sm text-slate-600 dark:text-slate-300">
+        <p class="text-sm text-n-slate-11">
           {{ t('HELP_CENTER.PORTAL_SWITCHER.CREATE_PORTAL') }}
         </p>
       </div>
@@ -133,6 +134,7 @@ const redirectToPortalHomePage = () => {
         :key="index"
         :label="portal.name"
         variant="ghost"
+        color="slate"
         trailing-icon
         :icon="isPortalActive(portal) ? 'i-lucide-check' : ''"
         class="!justify-end !px-2 !py-2 hover:!bg-n-alpha-2 [&>.i-lucide-check]:text-n-teal-10 h-9"
@@ -148,14 +150,13 @@ const redirectToPortalHomePage = () => {
         <span class="text-sm font-medium truncate text-n-slate-12">
           {{ portal.name || '' }}
         </span>
-        <Thumbnail
+        <Avatar
           v-if="portal"
-          :author="portal"
           :name="portal.name"
-          :size="20"
           :src="getPortalThumbnailSrc(portal)"
-          :show-author-name="false"
+          :size="20"
           icon-name="i-lucide-building-2"
+          rounded-full
         />
       </Button>
     </div>

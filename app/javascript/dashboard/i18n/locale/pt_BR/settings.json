@@ -26,13 +26,38 @@
         "UPDATE_SUCCESS": "Suas configurações foram atualizadas com sucesso",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Inserir (↵)",
+            "HEADING": "Enter (↵)",
             "CONTENT": "Enviar mensagens pressionando a tecla Enter em vez de clicar no botão de enviar."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
             "CONTENT": "Pressione a tecla Cmd/Ctrl + Enter ao invés de clicar no botão enviar."
           }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Personalize a aparência do seu painel do Chatwoot.",
+        "FONT_SIZE": {
+          "TITLE": "Tamanho da fonte",
+          "NOTE": "Ajuste o tamanho do texto do painel com base na sua preferência.",
+          "UPDATE_SUCCESS": "As configurações de sua fonte foram atualizadas com sucesso",
+          "UPDATE_ERROR": "Ocorreu um erro ao atualizar as configurações de fonte, por favor, tente novamente",
+          "OPTIONS": {
+            "SMALLER": "Menor",
+            "SMALL": "Pequeno",
+            "DEFAULT": "Padrão",
+            "LARGE": "Grande",
+            "LARGER": "Maior",
+            "EXTRA_LARGE": "Muito Grande"
+          }
+        },
+        "LANGUAGE": {
+          "TITLE": "Preferred Language",
+          "NOTE": "Choose the language you want to use.",
+          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
+          "USE_ACCOUNT_DEFAULT": "Use account default"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -58,18 +83,37 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
         "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API",
-        "COPY": "Copiar"
+        "COPY": "Copiar",
+        "RESET": "Reiniciar",
+        "CONFIRM_RESET": "Você tem certeza?",
+        "CONFIRM_HINT": "Clique novamente para confirmar",
+        "RESET_SUCCESS": "Token de acesso gerado novamente com sucesso",
+        "RESET_ERROR": "Não foi possível regerar o token de acesso. Por favor, tente novamente"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificações de Áudio",
+        "TITLE": "Alertas de áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
+        "PLAY": "Reproduzir áudio",
         "ALERT_TYPES": {
           "NONE": "Nenhuma",
           "MINE": "Atribuído",
-          "ALL": "Todos"
+          "ALL": "Todos",
+          "ASSIGNED": "Conversas atribuídas a mim",
+          "UNASSIGNED": "Conversas não atribuídas",
+          "NOTME": "Conversas abertas atribuídas a outras pessoas"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "Você não selecionou nenhuma opção, você não receberá nenhum alerta de áudio.",
+          "ASSIGNED": "Você receberá alertas para conversas atribuídas a você.",
+          "UNASSIGNED": "Você receberá alertas para quaisquer conversas não atribuídas.",
+          "NOTME": "Você receberá alertas para conversas atribuídas a outras pessoas.",
+          "ASSIGNED+UNASSIGNED": "Receberá alertas de conversas atribuídas e de quaisquer conversas não atendidas.",
+          "ASSIGNED+NOTME": "Você receberá alertas para conversas atribuídas a você e a outros, mas não para conversas não atribuídas.",
+          "NOTME+UNASSIGNED": "Você receberá alertas de conversas não atendidas e aquelas atribuídas a outros.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Você receberá alertas para quaisquer conversas não atribuídas."
         },
         "ALERT_TYPE": {
-          "TITLE": "Eventos de alerta para conversas:",
+          "TITLE": "Eventos de alerta para conversas",
           "NONE": "Nenhuma",
           "ASSIGNED": "Conversas atribuídas",
           "ALL_CONVERSATIONS": "Todas as conversas"
@@ -81,7 +125,9 @@
           "TITLE": "Condições:",
           "CONDITION_ONE": "Enviar alertas de áudio apenas se a janela do navegador não estiver ativa",
           "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "A reprodução automática está desativada no seu navegador. Para ouvir alertas automaticamente, habilite a permissão de som nas configurações do seu navegador ou interaja com a página.",
+        "READ_MORE": "Saiba mais"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -92,8 +138,8 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações por e-mail quando uma nova mensagem for criada numa conversa já atribuída",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em uma conversa que você participa",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a primeira resposta SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a próxima resposta SLA",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder resolução de resolução SLA"
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder o próximo SLA de resposta",
+        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder o SLA de resolução"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferências de notificação",
@@ -105,7 +151,7 @@
           "CONVERSATION_ASSIGNED": "Uma conversa foi atribuída a você",
           "CONVERSATION_MENTION": "Você foi mencionado em uma conversa",
           "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada e atribuída",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em uma conversa participante",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em uma conversa que você participa",
           "SLA_MISSED_FIRST_RESPONSE": "Uma conversa perde o SLA de primeira resposta",
           "SLA_MISSED_NEXT_RESPONSE": "Uma conversa perde o SLA da próxima resposta",
           "SLA_MISSED_RESOLUTION": "Uma conversa perde o SLA de resolução"
@@ -145,13 +191,14 @@
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilidade",
-        "STATUSES_LIST": [
-          "Disponível",
-          "Ocupado",
-          "Desconectado"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Ocupado",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
-        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
+        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente",
+        "IMPERSONATING_ERROR": "Não é possível alterar a disponibilidade enquanto personifica um usuário"
       },
       "EMAIL": {
         "LABEL": "Seu e-mail",
@@ -177,25 +224,28 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Trocar",
-    "CHANGE_ACCOUNTS": "Trocar Conta",
+    "CHANGE_ACCOUNTS": "Alterar conta",
+    "SWITCH_ACCOUNT": "Alterar conta",
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
     "APPEARANCE": "Alterar Tema",
     "SUPER_ADMIN_CONSOLE": "Console de Super Admin",
-    "LOGOUT": "Sair"
+    "DOCS": "Ler documentação",
+    "CHANGELOG": "Notas de versão",
+    "LOGOUT": "Encerrar sessão"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
     "DELETED_USER": "Deletar Usuário",
     "EMAIL_VERIFICATION_PENDING": "Parece que você ainda não verificou seu endereço de e-mail. Por favor, verifique sua caixa de entrada pelo e-mail de verificação.",
-    "RESEND_VERIFICATION_MAIL": "Reenviar email de verificação",
+    "RESEND_VERIFICATION_MAIL": "Reenviar e-mail de verificação",
     "EMAIL_VERIFICATION_SENT": "O e-mail de verificação foi enviado. Por favor, verifique sua caixa de entrada.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
-      "MESSAGE": "Sua conta está suspensa. Por favor, entre em contato com a equipe de suporte para mais informações."
+      "MESSAGE": "Sua conta está suspensa. Entre em contato com a equipe de suporte para obter mais informações."
     }
   },
   "COMPONENTS": {
@@ -218,6 +268,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Enviar"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "Esta imagem não está mais disponível.",
+      "LOADING_FAILED": "Falha no carregamento"
     }
   },
   "CONFIRM_EMAIL": "Verificando...",
@@ -227,9 +281,10 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "Nenhum item",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
     "SWITCH": "Trocar",
-    "INBOX_VIEW": "",
+    "INBOX_VIEW": "Caixa de entrada",
     "CONVERSATIONS": "Conversas",
     "INBOX": "Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
@@ -238,20 +293,24 @@
     "UNATTENDED_CONVERSATIONS": "Não atendidas",
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
-    "CONTACTS": "Contato",
-    "CAPTAIN": "Capitain",
+    "CONTACTS": "Contatos",
+    "ACTIVE": "Ativo",
+    "CAPTAIN": "Capitão",
+    "CAPTAIN_ASSISTANTS": "Assistentes",
+    "CAPTAIN_DOCUMENTS": "Documentos",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
-    "AUDIT_LOGS": "Registros de Auditoria",
+    "AUDIT_LOGS": "Auditoria",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificações",
-    "CANNED_RESPONSES": "Atalhos",
+    "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
     "PROFILE_SETTINGS": "Configurações do Perfil",
-    "ACCOUNT_SETTINGS": "Configurações da conta",
+    "ACCOUNT_SETTINGS": "Conta",
     "APPLICATIONS": "Aplicações",
-    "LABELS": "Marcadores",
+    "LABELS": "Etiquetas",
     "CUSTOM_ATTRIBUTES": "Atributos Personalizados",
     "AUTOMATION": "Automação",
     "MACROS": "Macros",
@@ -266,47 +325,63 @@
     "NEW_INBOX": "Nova caixa de entrada",
     "REPORTS_CONVERSATION": "Conversas",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Chat ao vivo",
+    "SMS": "SMS",
+    "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
     "ONE_OFF": "Única",
-    "REPORTS_SLA": "",
-    "REPORTS_BOT": "Bot",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Robôs",
     "REPORTS_AGENT": "Agentes",
-    "REPORTS_LABEL": "Marcadores",
+    "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Caixa de Entrada",
-    "REPORTS_TEAM": "Times",
+    "REPORTS_TEAM": "Time",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
     "SET_AVAILABILITY_TITLE": "Defina como",
-    "SLA": "",
-    "CUSTOM_ROLES": "Custom Roles",
+    "SET_YOUR_AVAILABILITY": "Disponibilidade",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Funções Personalizadas",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "REAUTHORIZE": "A conexão com a sua caixa de entrada expirou. Por favor, reconecte para continuar recebendo e enviando mensagens",
     "HELP_CENTER": {
       "TITLE": "Central de Ajuda",
-      "ALL_ARTICLES": "Todos os artigos",
-      "MY_ARTICLES": "Meus Artigos",
-      "DRAFT": "Rascunho",
-      "ARCHIVED": "Arquivado",
-      "CATEGORY": "Categoria",
-      "SETTINGS": "Confirgurações",
-      "CATEGORY_EMPTY_MESSAGE": "Nenhuma categoria encontrada"
+      "ARTICLES": "Artigos",
+      "CATEGORIES": "Categorias",
+      "LOCALES": "Localidades",
+      "SETTINGS": "Configurações"
     },
+    "CHANNELS": "Canais",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar offline automaticamente",
-      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle."
+      "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle.",
+      "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
     "DOCS": "Ler documentos"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
+    "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para seu time.",
     "CURRENT_PLAN": {
       "TITLE": "Plano Atual",
-      "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças"
+      "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças",
+      "SEAT_COUNT": "Número de assentos",
+      "RENEWS_ON": "Renovações em"
     },
+    "VIEW_PRICING": "Ver Preços",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Gerencie sua assinatura",
       "DESCRIPTION": "Veja suas faturas anteriores, edite seus detalhes de cobrança, ou cancele sua assinatura.",
       "BUTTON_TXT": "Ir para o portal de cobrança"
+    },
+    "CAPTAIN": {
+      "TITLE": "Capitão",
+      "DESCRIPTION": "Gerenciar uso e créditos para o Captain AI.",
+      "BUTTON_TXT": "Comprar mais créditos",
+      "DOCUMENTS": "Documentos",
+      "RESPONSES": "Respostas",
+      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais."
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",
@@ -329,7 +404,8 @@
         "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Informe o nome da conta"
       },
-      "SUBMIT": "Enviar"
+      "SUBMIT": "Enviar",
+      "CANCEL": "Cancelar"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -349,11 +425,256 @@
       "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
     },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "Prioridade",
+          "ACTIVE": "Ativo",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "Alterar"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create assignment policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy created successfully",
+          "ERROR_MESSAGE": "Failed to create assignment policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit assignment policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Add inbox",
+          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update assignment policy"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição:",
+          "PLACEHOLDER": "Insira a descrição"
+        },
+        "STATUS": {
+          "LABEL": "Status:",
+          "PLACEHOLDER": "Selecione Status",
+          "ACTIVE": "Policy is active",
+          "INACTIVE": "Policy is inactive"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Assignment order",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assign conversations evenly among agents."
+          },
+          "BALANCED": {
+            "LABEL": "Balanced",
+            "DESCRIPTION": "Assign conversations based on available capacity."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Assignment priority",
+          "EARLIEST_CREATED": {
+            "LABEL": "Earliest created",
+            "DESCRIPTION": "The conversation that was created first gets assigned first."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Longest waiting",
+            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Fair distribution policy",
+          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "INPUT_MAX": "Assign max",
+          "DURATION": "Conversations per agent in every"
+        },
+        "INBOXES": {
+          "LABEL": "Added inboxes",
+          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "ADD_BUTTON": "Add inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "ADD_BUTTON": "Adicionar"
+          },
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Agent capacity",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "POPOVER": "Added agents",
+          "EDIT": "Alterar"
+        },
+        "NO_RECORDS_FOUND": "No agent capacity policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create agent capacity policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
+          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit agent capacity policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Add agent",
+          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agent added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição:",
+          "PLACEHOLDER": "Insira a descrição"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Inbox capacity limits",
+          "ADD_BUTTON": "Add inbox",
+          "FIELD": {
+            "SELECT_INBOX": "Select inbox",
+            "MAX_CONVERSATIONS": "Max conversations",
+            "SET_LIMIT": "Set limit"
+          },
+          "EMPTY_STATE": "No inbox limit set"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Exclusion rules",
+          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "TAGS": {
+            "LABEL": "Exclude conversations tagged with specific labels",
+            "ADD_TAG": "add tag",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+            },
+            "EMPTY_STATE": "No tags added to this policy."
+          },
+          "DURATION": {
+            "LABEL": "Exclude conversations older than a specified duration",
+            "PLACEHOLDER": "Set time"
+          }
+        },
+        "USERS": {
+          "LABEL": "Assigned agents",
+          "DESCRIPTION": "Add agents for which this policy will be applicable.",
+          "ADD_BUTTON": "Add agent",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "ADD_BUTTON": "Adicionar"
+          },
+          "EMPTY_STATE": "No agents added",
+          "API": {
+            "SUCCESS_MESSAGE": "Agent successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Delete policy",
+      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "CONFIRM_BUTTON_LABEL": "Excluir",
+      "CANCEL_BUTTON_LABEL": "Cancelar"
     }
   }
 }

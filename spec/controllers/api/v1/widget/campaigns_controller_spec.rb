@@ -9,7 +9,11 @@ RSpec.describe '/api/v1/widget/campaigns', type: :request do
   describe 'GET /api/v1/widget/campaigns' do
     let(:params) { { website_token: web_widget.website_token } }
 
-    context 'with correct website token' do
+    context 'when campaigns feature is enabled' do
+      before do
+        account.enable_features!('campaigns')
+      end
+
       it 'returns the list of enabled campaigns' do
         get '/api/v1/widget/campaigns', params: params
 
@@ -21,8 +25,22 @@ RSpec.describe '/api/v1/widget/campaigns', type: :request do
       end
     end
 
+    context 'when campaigns feature is disabled' do
+      before do
+        account.disable_features!('campaigns')
+      end
+
+      it 'returns empty array' do
+        get '/api/v1/widget/campaigns', params: params
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response).to eq []
+      end
+    end
+
     context 'with invalid website token' do
-      it 'returns the list of agents' do
+      it 'returns not found status' do
         get '/api/v1/widget/campaigns', params: { website_token: '' }
         expect(response).to have_http_status(:not_found)
       end

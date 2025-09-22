@@ -47,25 +47,31 @@ const tableData = computed(() => {
   }));
 });
 
-const defaulSpanRender = cellProps =>
-  h(
+const defaultSpanRender = cellProps => {
+  const value = cellProps.getValue() || '---';
+  return h(
     'span',
     {
-      class: cellProps.getValue() ? '' : 'text-slate-300 dark:text-slate-700',
+      class: 'line-clamp-5 break-words max-w-full text-n-slate-12',
+      title: value,
     },
-    cellProps.getValue() ? cellProps.getValue() : '---'
+    value
   );
+};
 
 const columnHelper = createColumnHelper();
 
-const columns = [
+const columns = computed(() => [
   columnHelper.accessor('contact', {
     header: t('CSAT_REPORTS.TABLE.HEADER.CONTACT_NAME'),
     width: 200,
     cell: cellProps => {
       const { contact } = cellProps.row.original;
       if (contact) {
-        return h(UserAvatarWithName, { user: contact });
+        return h(UserAvatarWithName, {
+          user: contact,
+          class: 'max-w-[200px] overflow-hidden',
+        });
       }
       return '--';
     },
@@ -76,7 +82,10 @@ const columns = [
     cell: cellProps => {
       const { assignedAgent } = cellProps.row.original;
       if (assignedAgent) {
-        return h(UserAvatarWithName, { user: assignedAgent });
+        return h(UserAvatarWithName, {
+          user: assignedAgent,
+          class: 'max-w-[200px] overflow-hidden',
+        });
       }
       return '--';
     },
@@ -96,7 +105,7 @@ const columns = [
         {
           class: ratingObject.emoji
             ? 'emoji-response text-lg'
-            : 'text-slate-300 dark:text-slate-700',
+            : 'text-n-slate-10',
         },
         ratingObject.emoji || '---'
       );
@@ -105,14 +114,14 @@ const columns = [
   columnHelper.accessor('feedbackText', {
     header: t('CSAT_REPORTS.TABLE.HEADER.FEEDBACK_TEXT'),
     width: 400,
-    cell: defaulSpanRender,
+    cell: defaultSpanRender,
   }),
   columnHelper.accessor('conversationId', {
     header: '',
     width: 100,
     cell: cellProps => h(ConversationCell, cellProps),
   }),
-];
+]);
 
 const paginationParams = computed(() => {
   return {
@@ -125,7 +134,9 @@ const table = useVueTable({
   get data() {
     return tableData.value;
   },
-  columns,
+  get columns() {
+    return columns.value;
+  },
   manualPagination: true,
   enableSorting: false,
   getCoreRowModel: getCoreRowModel(),
@@ -145,14 +156,13 @@ const table = useVueTable({
 </script>
 
 <template>
-  <div class="csat--table-container">
-    <Table
-      :table="table"
-      class="max-h-[calc(100vh-21.875rem)] border bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800"
-    />
+  <div
+    class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
+  >
+    <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
     <div
       v-show="!tableData.length"
-      class="csat--empty-records text-slate-600 dark:text-slate-200 bg-white dark:bg-slate-900 border border-t-0 border-solid border-slate-75 dark:border-slate-700"
+      class="h-48 flex items-center justify-center text-n-slate-12 text-sm"
     >
       {{ $t('CSAT_REPORTS.NO_RECORDS') }}
     </div>
@@ -161,17 +171,3 @@ const table = useVueTable({
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.csat--empty-records {
-  align-items: center;
-  // border: 1px solid var(--color-border);
-  border-top: 0;
-  display: flex;
-  font-size: var(--font-size-small);
-  height: 12.5rem;
-  justify-content: center;
-  margin-top: -1px;
-  width: 100%;
-}
-</style>

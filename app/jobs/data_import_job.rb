@@ -93,10 +93,10 @@ class DataImportJob < ApplicationJob
   end
 
   def send_import_notification_to_admin
-    AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).contact_import_complete(@data_import).deliver_later
+    AdministratorNotifications::AccountNotificationMailer.with(account: @data_import.account).contact_import_complete(@data_import).deliver_later
   end
 
   def send_import_failed_notification_to_admin
-    AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).contact_import_failed.deliver_later
+    AdministratorNotifications::AccountNotificationMailer.with(account: @data_import.account).contact_import_failed.deliver_later
   end
 end
