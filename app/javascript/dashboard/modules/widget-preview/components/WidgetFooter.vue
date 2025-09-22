@@ -37,7 +37,7 @@ const getStatusText = computed(() => {
             {{ getStatusText }}
           </div>
           <div class="mt-1 text-xs text-slate-500 dark:text-slate-100">
-            {{ config.replyTime }}
+            {{ config.replyFast }}
           </div>
         </div>
         <Thumbnail username="C" size="34px" />
