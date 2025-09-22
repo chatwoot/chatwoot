@@ -197,7 +197,7 @@ describe Line::IncomingMessageService do
   end
 
   describe '#perform' do
-    context 'when not text message params' do
+    context 'when non-text message params' do
       it 'does not create conversations, messages and contacts' do
         line_bot = double
         line_user_profile = double
