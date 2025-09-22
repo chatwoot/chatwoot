@@ -89,7 +89,7 @@ describe Contacts::FilterService do
           {
             attribute_key: 'phone_number',
             filter_operator: 'equal_to',
-            values: [cs_contact.phone_number[1..-1]],
+            values: [cs_contact.phone_number[1..]],
             query_operator: nil
           }.with_indifferent_access
         ]
