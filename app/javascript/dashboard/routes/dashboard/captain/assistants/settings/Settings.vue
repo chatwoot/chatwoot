@@ -41,7 +41,7 @@ const controlItems = computed(() => {
       description: t(
         'CAPTAIN.ASSISTANTS.SETTINGS.CONTROL_ITEMS.OPTIONS.SCENARIOS.DESCRIPTION'
       ),
-      // routeName: 'captain_assistants_scenarios_index',
+      routeName: 'captain_assistants_scenarios_index',
     },
     {
       name: t(

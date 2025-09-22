@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Ni bilo mogoče poslati, poskusite znova"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Smo na voljo",
-    "OFFLINE": "Trenutno nismo na voljo"
+    "OFFLINE": "Trenutno nismo na voljo",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Običajno odgovorimo v nekaj minutah",
     "IN_A_FEW_HOURS": "Običajno odgovorimo v nekaj urah",
     "IN_A_DAY": "Običajno odgovorimo v enem dnevu",
-    "BACK_IN": "Kmalu se vrnemo"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
     "SUNDAY": "Nedelja",
