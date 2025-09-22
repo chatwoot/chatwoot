@@ -93,11 +93,15 @@ yarn-debug.log*
 # TextEditors & AI Agents config files
 .vscode
 .claude/settings.local.json
-# .cursor
-
+.cursor
+CLAUDE.local.md
 
 # PNPM
 .pnpm-store
 
 # Docs
 /docs/ignored/*
+
+# Histoire deployment
+.netlify
+.histoire

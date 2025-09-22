@@ -113,7 +113,11 @@ const tableHeaders = computed(() => {
           <td
             class="py-4 ltr:pr-4 rtl:pl-4 overflow-hidden whitespace-nowrap text-ellipsis"
           >
-            {{ attribute.attribute_display_type }}
+            {{
+              $t(
+                `ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${attribute.attribute_display_type?.toUpperCase()}`
+              )
+            }}
           </td>
           <td
             class="py-4 ltr:pr-4 rtl:pl-4 attribute-key overflow-hidden whitespace-nowrap text-ellipsis"

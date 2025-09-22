@@ -17,6 +17,10 @@
         "TITLE": "Crear canal",
         "BODY": "Autenticar tu cuenta y crear un canal."
       },
+      "INVITE_TEAM": {
+        "TITLE": "Invitar Miembros del Equipo",
+        "BODY": "Añade personas que podrán manejar el soporte para tus canales."
+      },
       "AGENT": {
         "TITLE": "Añadir miembros",
         "BODY": "Añadir miembros al canal creado."
@@ -48,7 +52,7 @@
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Conecta tu perfil de Instagram",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
@@ -222,10 +226,19 @@
         "DESC": "Comience a apoyar a sus clientes mediante WhatsApp.",
         "WATCH_VIDEO": "Ver Video Tutorial",
         "PROVIDERS": {
-          "LABEL": "Proveedor",
+          "LABEL": "Proveedor de API",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Nube de WhatsApp",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Conecta mediante credenciales de Twilio",
+          "WHAPI": "WhatsApp Directo",
+          "WHAPI_DESC": "Máxima flexibilidad y control",
           "360_DIALOG": "360 Diálogo"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Selecciona tu proveedor de API",
+          "DESCRIPTION": "Elige tu proveedor de WhatsApp. Puedes conectar directamente a través de Meta que no requiere configuración, o conectar a través de Twilio usando las credenciales de tu cuenta."
         },
         "INBOX_NAME": {
           "LABEL": "Nombre del canal",
@@ -267,22 +280,92 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Token de verificación del Webhook"
         },
         "SUBMIT_BUTTON": "Crear canal de WhatsApp",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Configuración Rápida con Meta",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
+          "SUBMIT_BUTTON": "Conectar con WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Por favor completa la configuración del negocio en la ventana de Meta...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Cargando Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "¡Cuenta de WhatsApp Business Conectada!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+        },
         "API": {
           "ERROR_MESSAGE": "No pudimos guardar el canal de WhatsApp"
         }
       },
       "WHAPI": {
         "API_KEY": {
-          "LABEL": "Token API de WHAPI",
-          "PLACEHOLDER": "Ingrese su token API de WHAPI",
-          "HELP_TEXT": "Puede encontrar su token API en su panel de WHAPI",
-          "ERROR": "Por favor ingrese un valor válido."
+          "LABEL": "Token de API WHAPI",
+          "PLACEHOLDER": "Ingrese su token de API WHAPI",
+          "HELP_TEXT": "Puede encontrar su token de API en su panel de control de WHAPI",
+          "ERROR": "Por favor, ingrese un valor válido."
         },
-        "GENERATING_QR": "Generando código QR...",
+        "GENERANDO_QR": "Generando código QR...",
         "LOADING_QR": "Cargando código QR...",
-        "QR_HELP_TEXT": "Escanee este código QR con su aplicación móvil de WhatsApp para conectar su canal",
-        "SUCCESS_TEXT": "¡Su canal de WhatsApp se ha conectado exitosamente!",
-        "CONTINUE_BUTTON": "Continuar para Agregar Agentes"
+        "QR_HELP_TEXT": "Escanea este código QR con tu aplicación móvil de WhatsApp para conectar tu canal",
+        "SUCCESS_TEXT": "¡Tu canal de WhatsApp se ha conectado exitosamente!",
+        "SUCCESS_MESSAGE": "¡Canal de WhatsApp conectado exitosamente!",
+        "CONTINUE_BUTTON": "Continuar para Invitar Miembros del Equipo"
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integra Twilio Voice y comienza a brindar soporte a tus clientes por llamadas telefónicas.",
+        "PHONE_NUMBER": {
+          "LABEL": "Número telefónico",
+          "PLACEHOLDER": "Ingresa tu número de teléfono (ej. +1234567890)",
+          "ERROR": "Por favor proporciona un número de teléfono válido en formato E.164 (ej. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "Cuenta SID",
+            "PLACEHOLDER": "Ingresa tu Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Token de Auth",
+            "PLACEHOLDER": "Ingresa tu Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Key SID",
+            "PLACEHOLDER": "Ingresa tu Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "Clave API secreta",
+            "PLACEHOLDER": "Ingresa tu Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configura esta URL como la URL de Voz en tu número de teléfono de Twilio y la App TwiML.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configura esta URL como la URL de Callback de Estado en tu número de teléfono de Twilio."
+        },
+        "SUBMIT_BUTTON": "Crear Canal de Voz",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
+        }
+>>>>>>> origin/development
       },
       "API_CHANNEL": {
         "TITLE": "Canal API",
@@ -365,7 +448,51 @@
       },
       "AUTH": {
         "TITLE": "Elija un canal",
-        "DESC": "Chatwoot soporta widgets de Live Chat, Facebook Messenger, perfiles de Twitter, WhatsApp, correos electrónicos, etc., como canales. Si quieres construir un canal personalizado, puedes crearlo usando el canal API. Para empezar, elige uno de los canales a continuación."
+        "DESC": "Chatwoot soporta widgets de Live Chat, Facebook Messenger, perfiles de Twitter, WhatsApp, correos electrónicos, etc., como canales. Si quieres construir un canal personalizado, puedes crearlo usando el canal API. Para empezar, elige uno de los canales a continuación.",
+        "TITLE_NEXT": "Completar la configuración",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Sitio web",
+            "DESCRIPTION": "Crear un widget de chat en vivo"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook",
+            "DESCRIPTION": "Conecta tu página de Facebook"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Brinda soporte a tus clientes en WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "E-mail",
+            "DESCRIPTION": "Conecta con Gmail, Outlook u otros proveedores"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integra canal SMS con Twilio o bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Crea un canal personalizado usando nuestra API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configura canal de Telegram usando token de Bot"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integra tu canal de Line"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Conecta tu cuenta de Instagram"
+          },
+          "VOICE": {
+            "TITLE": "Voice",
+            "DESCRIPTION": "Integra con Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "Miembros",
@@ -419,7 +546,10 @@
       "MESSAGE": "Ahora puedes colaborar con tus clientes a través de tu nuevo canal. Feliz soporte",
       "BUTTON_TEXT": "Llévame allí",
       "MORE_SETTINGS": "Más ajustes",
-      "WEBSITE_SUCCESS": "Has terminado de crear un canal del sitio web. Copia el código que se muestra a continuación y pégalo en tu sitio web. La próxima vez que un cliente use el chat en vivo, la conversación aparecerá automáticamente en su canal."
+      "WEBSITE_SUCCESS": "Has terminado de crear un canal del sitio web. Copia el código que se muestra a continuación y pégalo en tu sitio web. La próxima vez que un cliente use el chat en vivo, la conversación aparecerá automáticamente en su bandeja de entrada.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Reautorizar",
     "VIEW": "Ver",
@@ -545,8 +675,27 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Actualizar Clave API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introduzca aquí la nueva Clave API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizar",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Conectar a WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Conecta esta bandeja de entrada a WhatsApp Business para funciones mejoradas y gestión más fácil.",
+      "WHATSAPP_CONNECT_BUTTON": "Conectar",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Token de verificación del Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Este token se utiliza para verificar la autenticidad del extremo del webhook.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizar configuración de Formulario de Chat"
     },
     "HELP_CENTER": {
@@ -790,9 +939,18 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "Otros proveedores"
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "Conectar con Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Conectar con Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "Otros proveedores",
+        "DESCRIPTION": "Conectar con Otros Proveedores"
+      }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
@@ -805,7 +963,8 @@
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "Canal API",
-      "INSTAGRAM": "Instagram"
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

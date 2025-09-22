@@ -921,4 +921,80 @@ RSpec.describe 'Inboxes API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/sync_templates' do
+    let(:whatsapp_channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+    end
+    let(:whatsapp_inbox) { create(:inbox, account: account, channel: whatsapp_channel) }
+    let(:non_whatsapp_inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/sync_templates"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized for agent' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/sync_templates",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      context 'with WhatsApp inbox' do
+        it 'successfully initiates template sync' do
+          expect(Channels::Whatsapp::TemplatesSyncJob).to receive(:perform_later).with(whatsapp_channel)
+
+          post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/sync_templates",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response['message']).to eq('Template sync initiated successfully')
+        end
+
+        it 'handles job errors gracefully' do
+          allow(Channels::Whatsapp::TemplatesSyncJob).to receive(:perform_later).and_raise(StandardError, 'Job failed')
+
+          post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}/sync_templates",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:internal_server_error)
+          json_response = response.parsed_body
+          expect(json_response['error']).to eq('Job failed')
+        end
+      end
+
+      context 'with non-WhatsApp inbox' do
+        it 'returns unprocessable entity error' do
+          post "/api/v1/accounts/#{account.id}/inboxes/#{non_whatsapp_inbox.id}/sync_templates",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          json_response = response.parsed_body
+          expect(json_response['error']).to eq('Template sync is only available for WhatsApp channels')
+        end
+      end
+
+      context 'with non-existent inbox' do
+        it 'returns not found error' do
+          post "/api/v1/accounts/#{account.id}/inboxes/999999/sync_templates",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+  end
 end

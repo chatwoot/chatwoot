@@ -24,6 +24,7 @@
     "ADD": {
       "TITLE": "Add member to your team",
       "DESC": "You can add people who will be able to handle support for your channels.",
+      "INVITATION_DESC": "Team members will receive email invitations and must accept them to join your account. You can always invite more team members later from the Members section.",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "NAME": {

@@ -2,13 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "AI Bots",
     "LOADING_EDITOR": "Cargando el editor...",
-    "DESCRIPTION": "Los AI Bots son los miembros más fabulosos de tu equipo. Pueden manejar las tareas repetitivas, para que puedas enfocarte en lo que realmente importa.",
-    "LEARN_MORE": "Aprende sobre AI Bots",
-    "GLOBAL_BOT": "System AI Bot",
+    "DESCRIPTION": "Los bots de agentes son como los miembros más fabulosos de tu equipo. Ellos pueden manejar las cosas pequeñas, así que usted puede centrarse en las cosas que importan. Inténtalos. Puedes administrar tus bots desde esta página o crear nuevos usando el botón 'Configurar un nuevo bot'.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "Bot del sistema",
     "GLOBAL_BOT_BADGE": "Sistema",
     "AVATAR": {
-      "SUCCESS_DELETE": "Avatar del AI Bot eliminado correctamente",
-      "ERROR_DELETE": "Error al eliminar el avatar del AI Bot, por favor inténtalo de nuevo"
+      "SUCCESS_DELETE": "Avatar del bot eliminado correctamente",
+      "ERROR_DELETE": "Error al borrar el bot, por favor intentar más tarde"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Seleccione un AI Bot",
@@ -22,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Seleccionar AI Bot"
     },
     "ADD": {
-      "TITLE": "Añadir AI Bot",
+      "TITLE": "Agregar Bot",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "AI Bot añadido correctamente.",
@@ -30,10 +30,10 @@
       }
     },
     "LIST": {
-      "404": "No se encontraron AI Bots. Puedes crear un AI Bot haciendo clic en el botón 'Añadir AI Bot'.",
-      "LOADING": "Obteniendo AI Bots...",
+      "404": "No sé encontró ningún bot. Puedes crear uno haciendo clic en 'crear un Bot'.",
+      "LOADING": "Obteniendo bots...",
       "TABLE_HEADER": {
-        "DETAILS": "Detalles del AI Bot",
+        "DETAILS": "Detalles del Bot",
         "URL": "URL de Webhook"
       }
     },
@@ -42,7 +42,7 @@
       "TITLE": "Eliminar AI Bot",
       "CONFIRM": {
         "TITLE": "Confirmar eliminación",
-        "MESSAGE": "¿Estás seguro de que quieres eliminar {name}?",
+        "MESSAGE": "¿Está seguro que desea borrar {name}?",
         "YES": "Sí, eliminar",
         "NO": "No, mantenerlo"
       },
@@ -61,19 +61,19 @@
     },
     "ACCESS_TOKEN": {
       "TITLE": "Token de acceso",
-      "DESCRIPTION": "Copia el token de acceso y guárdalo de forma segura",
-      "COPY_SUCCESSFUL": "Token de acceso copiado al portapapeles",
-      "RESET_SUCCESS": "Token de acceso regenerado correctamente",
-      "RESET_ERROR": "No se pudo regenerar el token de acceso. Por favor, inténtalo de nuevo"
+      "DESCRIPTION": "Copie el código de acceso y guardarlo seguro",
+      "COPY_SUCCESSFUL": "Código de acceso copiado en el portapapeles",
+      "RESET_SUCCESS": "Código de acceso regenerado exitosamente",
+      "RESET_ERROR": "Dirección del webhook es requerida"
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Avatar del AI Bot"
+        "LABEL": "Avatar del Bot"
       },
       "NAME": {
-        "LABEL": "Nombre del AI Bot",
-        "PLACEHOLDER": "Ingresa el nombre del AI Bot",
-        "REQUIRED": "El nombre del AI Bot es obligatorio"
+        "LABEL": "Nombre del bot",
+        "PLACEHOLDER": "Nombre del Bot",
+        "REQUIRED": "El nombre del bot es obligatorio"
       },
       "DESCRIPTION": {
         "LABEL": "Descripción",
@@ -82,19 +82,19 @@
       "WEBHOOK_URL": {
         "LABEL": "URL de Webhook",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "La URL del webhook es obligatoria"
+        "REQUIRED": "Dirección del webhook es requerida"
       },
       "ERRORS": {
-        "NAME": "El nombre del AI Bot es obligatorio",
-        "URL": "La URL del webhook es obligatoria",
-        "VALID_URL": "Por favor, ingresa una URL válida que comience con http:// o https://"
+        "NAME": "El nombre del bot es obligatorio",
+        "URL": "Dirección del webhook es requerida",
+        "VALID_URL": "Por favor, introduzca una URL válida comenzando con http:// o https://"
       },
       "CANCEL": "Cancelar",
-      "CREATE": "Crear AI Bot",
-      "UPDATE": "Actualizar AI Bot"
+      "CREATE": "Crear Bot",
+      "UPDATE": "Actualizar Bot"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configura un webhook de AI Bot para integrar con tus servicios personalizados. El AI Bot recibirá y procesará eventos de las conversaciones y puede responder a ellos."
+      "DESCRIPTION": "Configure el webhook del bot para integrarse con sus servicios personalizados. El bot recibirá y procesará eventos de conversaciones y podrá responder a ellos."
     },
     "TYPES": {
       "WEBHOOK": "Webhook de AI Bot"

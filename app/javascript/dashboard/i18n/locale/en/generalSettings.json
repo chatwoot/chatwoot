@@ -2,8 +2,8 @@
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the channel limit. Hacker plan only supports website live-chat. Additional channels like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the member limit. Hacker plan allows only 2 members.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },
     "TITLE": "Account settings",
@@ -136,6 +136,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Press enter to select",
       "ENTER_TO_REMOVE": "Press enter to remove",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Select one",
       "SELECT": "Select"
     }

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, nextTick } from 'vue';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
 
 const props = defineProps({
@@ -19,19 +19,16 @@ const mentionsListContainerRef = ref(null);
 const selectedIndex = ref(0);
 
 const adjustScroll = () => {
-  const container = mentionsListContainerRef.value;
-  const item = container.querySelector(`#mention-item-${selectedIndex.value}`);
-  if (item) {
-    const itemTop = item.offsetTop;
-    const itemBottom = itemTop + item.offsetHeight;
-    const containerTop = container.scrollTop;
-    const containerBottom = containerTop + container.offsetHeight;
-    if (itemTop < containerTop) {
-      container.scrollTop = itemTop;
-    } else if (itemBottom + 34 > containerBottom) {
-      container.scrollTop = itemBottom - container.offsetHeight + 34;
+  nextTick(() => {
+    const container = mentionsListContainerRef.value;
+    if (!container) return;
+    const selectedElement = container.querySelector(
+      `#mention-item-${selectedIndex.value}`
+    );
+    if (selectedElement) {
+      selectedElement.scrollIntoView({ block: 'nearest', behavior: 'auto' });
     }
-  }
+  });
 };
 
 const onSelect = () => {

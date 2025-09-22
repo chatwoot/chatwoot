@@ -1,15 +1,14 @@
 <script>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
-import OnboardingViewAIBackend from '../OnboardingView.AIBackend.vue';
+import { useRouter } from 'vue-router';
 import EmptyStateMessage from './EmptyStateMessage.vue';
 
 export default {
   components: {
     EmptyStateMessage,
-    OnboardingViewAIBackend,
   },
   props: {
     isOnExpandedLayout: {
@@ -20,15 +19,32 @@ export default {
   setup() {
     const { isAdmin } = useAdmin();
     const { accountScopedUrl, currentAccount } = useAccount();
+    const router = useRouter();
+
     const isOnboardingCompleted = computed(
       () =>
         currentAccount.value?.custom_attributes?.onboarding_completed || false
     );
 
+    const shouldRedirectToOnboarding = computed(
+      () => !isOnboardingCompleted.value && isAdmin.value
+    );
+
+    // Redirect to Standard Inbox flow for onboarding
+    onMounted(() => {
+      if (shouldRedirectToOnboarding.value) {
+        router.push({
+          name: 'settings_inbox_new',
+          query: { onboarding: 'true' },
+        });
+      }
+    });
+
     return {
       isAdmin,
       accountScopedUrl,
       isOnboardingCompleted,
+      shouldRedirectToOnboarding,
     };
   },
   computed: {
@@ -80,8 +96,15 @@ export default {
       v-if="!isOnboardingCompleted && !loadingChatList"
       class="clearfix mx-auto w-full flex justify-center items-center h-full"
     >
-      <OnboardingViewAIBackend v-if="isAdmin" />
-      <EmptyStateMessage v-else :message="$t('CONVERSATION.NO_INBOX_AGENT')" />
+      <!-- Show loading while redirecting to Standard Inbox flow -->
+      <woot-loading-state
+        v-if="isAdmin && shouldRedirectToOnboarding"
+        message="Starting your onboarding..."
+      />
+      <EmptyStateMessage
+        v-else-if="!isAdmin"
+        :message="$t('CONVERSATION.NO_INBOX_AGENT')"
+      />
     </div>
     <!-- Show empty state images if not loading -->
 

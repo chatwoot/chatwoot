@@ -17,6 +17,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # that will log them in
     encoded_email = ERB::Util.url_encode(@resource.email)
     redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
+    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token), allow_other_host: true
   end
 
   def sign_up_user
@@ -47,10 +48,8 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def get_resource_from_auth_hash # rubocop:disable Naming/AccessorMethodName
-    # find the user with their email instead of UID and token
-    @resource = resource_class.where(
-      email: auth_hash['info']['email']
-    ).first
+    email = auth_hash.dig('info', 'email')
+    @resource = resource_class.from_email(email)
   end
 
   def validate_signup_email_is_business_domain?
@@ -62,7 +61,9 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def create_account_for_user
     @resource, @account = AccountBuilder.new(
-      account_name: extract_domain_without_tld(auth_hash['info']['email']),
+      # Grab the account name from the auth hash, if it's not present, use the domain without the tld
+      # Specifically for Google sign in, since the account name would be gmail instead of the user's name
+      account_name: auth_hash['info']['name'] || extract_domain_without_tld(auth_hash['info']['email']),
       user_full_name: auth_hash['info']['name'],
       email: auth_hash['info']['email'],
       locale: I18n.locale,
@@ -75,3 +76,5 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     'user'
   end
 end
+
+DeviseOverrides::OmniauthCallbacksController.prepend_mod_with('DeviseOverrides::OmniauthCallbacksController')

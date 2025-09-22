@@ -36,7 +36,14 @@ const greetingMessage = computed(() => {
       >
         {{ greetingMessage }}
       </p>
-      <p class="text-n-slate-11 max-w-2xl text-base">
+      <p
+        v-if="
+          $t('ONBOARDING.DESCRIPTION', {
+            installationName: globalConfig.installationName,
+          })
+        "
+        class="text-n-slate-11 max-w-2xl text-base text-center"
+      >
         {{
           $t('ONBOARDING.DESCRIPTION', {
             installationName: globalConfig.installationName,

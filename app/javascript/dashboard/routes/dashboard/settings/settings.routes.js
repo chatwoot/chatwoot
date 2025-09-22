@@ -6,6 +6,7 @@ import {
 
 import account from './account/account.routes';
 import agent from './agents/agent.routes';
+import assignmentPolicy from './assignmentPolicy/assignmentPolicy.routes';
 import agentBot from './agentBots/agentBot.routes';
 import attributes from './attributes/attributes.routes';
 import automation from './automation/automation.routes';
@@ -23,6 +24,7 @@ import teams from './teams/teams.routes';
 import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
 import prompts from './prompts/prompts.routes';
+import security from './security/security.routes';
 
 export default {
   routes: [
@@ -45,6 +47,7 @@ export default {
     },
     ...account.routes,
     ...agent.routes,
+    ...assignmentPolicy.routes,
     ...agentBot.routes,
     ...attributes.routes,
     ...automation.routes,
@@ -61,5 +64,6 @@ export default {
     ...teams.routes,
     ...customRoles.routes,
     ...profile.routes,
+    ...security.routes,
   ],
 };

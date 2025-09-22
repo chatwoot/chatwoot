@@ -34,6 +34,7 @@ class Channel::Whatsapp < ApplicationRecord
   after_create :sync_templates
   after_destroy_commit :perform_provider_cleanup
   after_update :invalidate_provider_cache, if: -> { saved_change_to_provider_config? || saved_change_to_provider? }
+  before_destroy :teardown_webhooks
 
   def name
     'Whatsapp'
@@ -59,6 +60,13 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  def setup_webhooks
+    perform_webhook_setup
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
+    prompt_reauthorization!
+  end
+
   private
 
   def validate_provider_config
@@ -72,5 +80,16 @@ class Channel::Whatsapp < ApplicationRecord
   def invalidate_provider_cache
     @provider_config_object = nil
     @provider_service = nil
+  end
+
+  def perform_webhook_setup
+    business_account_id = provider_config['business_account_id']
+    api_key = provider_config['api_key']
+
+    Whatsapp::WebhookSetupService.new(self, business_account_id, api_key).perform
+  end
+
+  def teardown_webhooks
+    Whatsapp::WebhookTeardownService.new(self).perform
   end
 end

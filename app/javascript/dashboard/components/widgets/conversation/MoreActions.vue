@@ -9,6 +9,7 @@ import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import AIToggleButton from '../../ui/AIToggleButton.vue';
 
 import {
   CMD_MUTE_CONVERSATION,
@@ -24,6 +25,27 @@ const [showEmailActionsModal, toggleEmailModal] = useToggle(false);
 const [showActionsDropdown, toggleDropdown] = useToggle(false);
 
 const currentChat = computed(() => store.getters.getSelectedChat);
+
+// AI toggle functionality
+const currentContact = computed(() => {
+  const senderId = currentChat.value?.meta?.sender?.id;
+  return senderId ? store.getters['contacts/getContact'](senderId) : {};
+});
+
+const isAiEnabled = computed(() => {
+  return !!currentContact.value?.custom_attributes?.ai_enabled;
+});
+
+const onToggleAi = async () => {
+  const contactId = currentContact.value?.id;
+  if (!contactId) return;
+  const next = !isAiEnabled.value;
+
+  await store.dispatch('contacts/toggleAi', {
+    id: contactId,
+    aiEnabled: next,
+  });
+};
 
 const actionMenuItems = computed(() => {
   const items = [];
@@ -95,6 +117,11 @@ onUnmounted(() => {
     <ResolveAction
       :conversation-id="currentChat.id"
       :status="currentChat.status"
+    />
+    <AIToggleButton
+      v-if="currentContact.id"
+      :ai-enabled="isAiEnabled"
+      @toggle-ai="onToggleAi"
     />
     <div
       v-on-clickaway="() => toggleDropdown(false)"
