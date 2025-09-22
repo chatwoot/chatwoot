@@ -72,6 +72,10 @@ const formatType = computed(() => {
   return format ? format.charAt(0) + format.slice(1).toLowerCase() : '';
 });
 
+const isDocumentTemplate = computed(() => {
+  return headerComponent.value?.format?.toLowerCase() === 'document';
+});
+
 const hasVariables = computed(() => {
   return bodyText.value?.match(/{{([^}]+)}}/g) !== null;
 });
@@ -126,6 +130,11 @@ const updateMediaUrl = value => {
   processedParams.value.header.media_url = value;
 };
 
+const updateMediaName = value => {
+  processedParams.value.header ??= {};
+  processedParams.value.header.media_name = value;
+};
+
 const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
@@ -168,10 +177,12 @@ defineExpose({
   processedParams,
   hasVariables,
   hasMediaHeader,
+  isDocumentTemplate,
   headerComponent,
   renderedTemplate,
   v$,
   updateMediaUrl,
+  updateMediaName,
   sendMessage,
   resetTemplate,
   goBack,
@@ -223,6 +234,17 @@ defineExpose({
               })
             "
             @update:model-value="updateMediaUrl"
+          />
+        </div>
+        <div v-if="isDocumentTemplate" class="flex items-center mb-2.5">
+          <Input
+            :model-value="processedParams.header?.media_name || ''"
+            type="text"
+            class="flex-1"
+            :placeholder="
+              t('WHATSAPP_TEMPLATES.PARSER.DOCUMENT_NAME_PLACEHOLDER')
+            "
+            @update:model-value="updateMediaName"
           />
         </div>
       </div>
