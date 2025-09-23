@@ -9,11 +9,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     end
   end
 
-<<<<<<< HEAD
   def send_template(phone_number, template_info, message)
-=======
-  def send_template(phone_number, template_info, message)
->>>>>>> origin/development
     response = safe_http_request('whatsapp_360_dialog_send_template') do
       HTTParty.post(
         "#{api_base_path}/messages",

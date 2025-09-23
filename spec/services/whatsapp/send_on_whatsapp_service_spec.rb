@@ -174,9 +174,6 @@ describe Whatsapp::SendOnWhatsappService do
 
         stub_request(:post, "https://graph.facebook.com/v13.0/test_phone_id/messages")
           .with(
-<<<<<<< HEAD
-            :headers => { 'Content-Type' => 'application/json', 'Authorization' => "Bearer test_cloud_key" },
-=======
             :headers => {
               'Accept' => '*/*',
               'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
@@ -184,7 +181,6 @@ describe Whatsapp::SendOnWhatsappService do
               'Authorization' => "Bearer test_cloud_key",
               'User-Agent' => 'Ruby'
             },
->>>>>>> origin/development
             :body => named_template_body.to_json
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
         message = create(:message,

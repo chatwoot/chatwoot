@@ -219,8 +219,6 @@ RSpec.describe Channel::Whatsapp do
       end
     end
   end
-<<<<<<< HEAD
-=======
 
   describe 'webhook setup after creation' do
     let(:account) { create(:account) }
@@ -338,5 +336,4 @@ RSpec.describe Channel::Whatsapp do
       end
     end
   end
->>>>>>> origin/development
 end
