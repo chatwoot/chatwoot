@@ -48,6 +48,65 @@ en:
       email_already_exists: 'You have already signed up for an account with %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+      user_exists_login_instead: 'User already exists and is verified. Please login instead.'
+      user_created_verify_email: 'User created successfully. Please verify your email to complete registration.'
+      failed_to_create_user: 'Failed to create user'
+    otp:
+      user_not_found: 'User not found'
+      email_already_verified: 'Email already verified'
+      otp_sent_successfully: 'OTP sent successfully'
+      failed_to_generate_otp: 'Failed to generate OTP'
+      error_generating_otp: 'An error occurred while generating OTP'
+      email_verified_successfully: 'Email verified successfully'
+      email_verified_account_created: 'Email verified and account created successfully. You can now log in.'
+      email_verified_failed_account: 'Email verified but failed to create account. Please contact support.'
+      invalid_or_expired_otp: 'Invalid or expired OTP'
+      error_verifying_otp: 'An error occurred while verifying OTP'
+      wait_before_new_otp: 'Please wait before requesting a new OTP'
+      otp_resent_successfully: 'OTP resent successfully'
+      failed_to_resend_otp: 'Failed to resend OTP'
+      error_resending_otp: 'An error occurred while resending OTP'
+  mailer:
+    otp:
+      subject: 'Verify Your Email - Chatwoot'
+      title: 'Email Verification'
+      greeting: 'Hello %{name}'
+      welcome_message: 'Welcome to Chatwoot! To complete your registration and verify your email address, please enter the following verification code:'
+      expiry_notice: 'This verification code will expire in %{minutes} minutes.'
+      ignore_notice: "If you didn't request this verification code, please ignore this email. Your account will remain unverified until you complete the verification process."
+      security_title: 'For security reasons:'
+      security_never_share: 'Never share this code with anyone'
+      security_team_wont_ask: 'Our team will never ask for your verification code'
+      security_single_use: 'This code can only be used once'
+      help_notice: 'If you need help, feel free to contact our support team.'
+      button_text: 'Go to Verification Page'
+      footer_text: 'Best regards, The Chatwoot Team'
+      verification_success:
+        subject: 'Congratulations! Your Email Has Been Verified - Jangkau.ai'
+        title: 'Verification Successful'
+        success_banner: '🎉 Congratulations! Your Email Has Been Successfully Verified!'
+        greeting: 'Hello %{name}'
+        success_message: 'Congratulations! Your email (%{email}) has been successfully verified and your account is now active.'
+        what_you_can_do: 'What You Can Do Now:'
+        access_dashboard: 'Access Dashboard: Start using all our platform features'
+        manage_profile: 'Manage Profile: Complete your profile information'
+        explore_features: 'Explore Features: Discover various available services'
+        contact_support: 'Contact Support: Our team is ready to help you 24/7'
+        welcome_title: 'Welcome to Jangkau.ai!'
+        welcome_message: "We're excited to have you join us. Let's start your digital journey!"
+        dashboard_button: '🚀 Access Dashboard'
+        getting_started: '💡 Getting Started Tips:'
+        tip_1: 'Complete your profile for a more personalized experience'
+        tip_2: 'Explore the available menus and features'
+        tip_3: 'Contact our support team if you need assistance'
+        tip_4: 'Follow the onboarding guide to maximize platform usage'
+        need_help_title: '📞 Need Help?'
+        need_help_message: 'Our support team is ready to help you 24/7 through:'
+        email_support: '📧 Email: info@jangkau.ai'
+        phone_support: '📱 Phone: +62 21 20450511'
+        chat_support: '💬 Live Chat: Through platform dashboard'
+        thanks_message: 'Thank you for joining us!'
+        footer_text: 'Warm regards, Jangkau.ai Team'
     data_import:
       data_type:
         invalid: Invalid data type
@@ -304,3 +363,39 @@ en:
     seconds:
       one: '%{count} second'
       other: '%{count} seconds'
+
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Your account has not been verified. Please check your email and follow the verification instructions."
+      bad_credentials: "Invalid email or password."
+      not_supported: "Use POST /sign_in to login. GET is not supported."
+      user_not_found: "User not found or inactive."
+    registrations:
+      missing_confirm_success_url: "Missing `confirm_success_url` param."
+      redirect_url_not_allowed: "Redirect to %{redirect_url} not allowed."
+      email_already_exists: "An account with that email already exists"
+      account_update_success: "Your account has been updated successfully."
+      account_to_destroy_not_found: "Account to destroy not found."
+      account_destroy_success: "Account successfully destroyed."
+      email_required: "Email is required."
+      account_with_uid_destroyed: "Account with uid %{uid} has been destroyed."
+      account_not_destroyable: "Account cannot be destroyed."
+    passwords:
+      missing_email: "You must provide an email address."
+      missing_redirect_url: "Missing redirect url."
+      not_allowed_redirect_url: "Redirect to '%{redirect_url}' not allowed."
+      sended: "An email has been sent to '%{email}' with instructions for resetting your password (if '%{email}' is in our system)."
+      user_not_found: "Unable to find user with email '%{email}'."
+      password_not_required: "This user does not require a password. Sign in using '%{provider}'."
+      missing_passwords: "Password and password confirmation must be provided."
+      successfully_updated: "Your password has been successfully updated."
+    confirmations:
+      sended: "A confirmation email has been sent to '%{email}'."
+      success: "Your account has been successfully confirmed."
+      account_with_uid_success: "Account with uid %{uid} has been successfully confirmed."
+    token_validations:
+      invalid: "Login credentials are invalid or expired."
+
+  otp_mailer:
+    send_otp_email:
+      subject: 'Verify your email address - %{application_name}'

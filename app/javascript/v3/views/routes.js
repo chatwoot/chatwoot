@@ -6,6 +6,7 @@ import Pricing from './pricing/Index.vue';
 import ResetPassword from './auth/reset/password/Index.vue';
 import Confirmation from './auth/confirmation/Index.vue';
 import PasswordEdit from './auth/password/Edit.vue';
+import VerifyEmail from './auth/verification/Index.vue';
 
 export default [
   {
@@ -40,6 +41,15 @@ export default [
     name: 'auth_signup',
     component: Signup,
     meta: { requireSignupEnabled: true },
+  },
+  {
+    path: frontendURL('auth/verify-email'),
+    name: 'auth_verify_email',
+    component: VerifyEmail,
+    meta: { requiresAuth: false },
+    props: route => ({
+      email: route.query.email,
+    }),
   },
   {
     path: frontendURL('auth/confirmation'),

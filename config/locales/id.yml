@@ -34,6 +34,65 @@ id:
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Pendaftaran gagal
+      user_exists_login_instead: 'Pengguna sudah ada dan terverifikasi. Silakan login.'
+      user_created_verify_email: 'Pengguna berhasil dibuat. Silakan verifikasi email Anda untuk menyelesaikan pendaftaran.'
+      failed_to_create_user: 'Gagal membuat pengguna'
+    otp:
+      user_not_found: 'Pengguna tidak ditemukan'
+      email_already_verified: 'Email sudah diverifikasi'
+      otp_sent_successfully: 'OTP berhasil dikirim'
+      failed_to_generate_otp: 'Gagal menghasilkan OTP'
+      error_generating_otp: 'Terjadi kesalahan saat menghasilkan OTP'
+      email_verified_successfully: 'Email berhasil diverifikasi'
+      email_verified_account_created: 'Email diverifikasi dan akun berhasil dibuat. Anda sekarang dapat login.'
+      email_verified_failed_account: 'Email terverifikasi tapi gagal membuat akun. Silakan hubungi dukungan.'
+      invalid_or_expired_otp: 'OTP tidak valid atau kedaluwarsa'
+      error_verifying_otp: 'Terjadi kesalahan saat memverifikasi OTP'
+      wait_before_new_otp: 'Harap tunggu sebelum meminta OTP baru'
+      otp_resent_successfully: 'OTP berhasil dikirim ulang'
+      failed_to_resend_otp: 'Gagal mengirim ulang OTP'
+      error_resending_otp: 'Terjadi kesalahan saat mengirim ulang OTP'
+  mailer:
+    otp:
+      subject: 'Verifikasi Email Anda - Chatwoot'
+      title: 'Verifikasi Email'
+      greeting: 'Halo %{name}'
+      welcome_message: 'Selamat datang di Chatwoot! Untuk menyelesaikan pendaftaran dan memverifikasi alamat email Anda, silakan masukkan kode verifikasi berikut:'
+      expiry_notice: 'Kode verifikasi ini akan kedaluwarsa dalam %{minutes} menit.'
+      ignore_notice: 'Jika Anda tidak meminta kode verifikasi ini, silakan abaikan email ini. Akun Anda akan tetap tidak terverifikasi hingga Anda menyelesaikan proses verifikasi.'
+      security_title: 'Untuk alasan keamanan:'
+      security_never_share: 'Jangan pernah bagikan kode ini kepada siapa pun'
+      security_team_wont_ask: 'Tim kami tidak akan pernah meminta kode verifikasi Anda'
+      security_single_use: 'Kode ini hanya dapat digunakan sekali'
+      help_notice: 'Jika Anda memerlukan bantuan, silakan hubungi tim dukungan kami.'
+      button_text: 'Kunjungi Halaman Verifikasi'
+      footer_text: 'Salam hangat, Tim Chatwoot'
+      verification_success:
+        subject: 'Selamat! Email Anda Berhasil Diverifikasi - Jangkau.ai'
+        title: 'Verifikasi Berhasil'
+        success_banner: '🎉 Selamat! Email Anda Berhasil Diverifikasi!'
+        greeting: 'Halo %{name}'
+        success_message: 'Selamat! Email Anda (%{email}) telah berhasil diverifikasi dan akun Anda sekarang sudah aktif.'
+        what_you_can_do: 'Apa yang Bisa Anda Lakukan Sekarang:'
+        access_dashboard: 'Akses Dashboard: Mulai gunakan semua fitur platform kami'
+        manage_profile: 'Kelola Profil: Lengkapi informasi profil Anda'
+        explore_features: 'Jelajahi Fitur: Temukan berbagai layanan yang tersedia'
+        contact_support: 'Hubungi Support: Tim kami siap membantu Anda 24/7'
+        welcome_title: 'Selamat Datang di Jangkau.ai!'
+        welcome_message: 'Kami senang Anda bergabung dengan kami. Mari mulai perjalanan digital Anda!'
+        dashboard_button: '🚀 Masuk ke Dashboard'
+        getting_started: '💡 Tips untuk Memulai:'
+        tip_1: 'Lengkapi profil Anda untuk pengalaman yang lebih personal'
+        tip_2: 'Jelajahi menu dan fitur yang tersedia'
+        tip_3: 'Hubungi tim support jika memerlukan bantuan'
+        tip_4: 'Ikuti panduan onboarding untuk memaksimalkan penggunaan platform'
+        need_help_title: '📞 Butuh Bantuan?'
+        need_help_message: 'Tim support kami siap membantu Anda 24/7 melalui:'
+        email_support: '📧 Email: info@jangkau.ai'
+        phone_support: '📱 WhatsApp: +62 21 20450511'
+        chat_support: '💬 Live Chat: Melalui dashboard platform'
+        thanks_message: 'Terima kasih telah bergabung dengan kami!'
+        footer_text: 'Salam hangat, Tim Jangkau.ai'
     data_import:
       data_type:
         invalid: Jenis data tidak valid
@@ -289,3 +348,35 @@ id:
     seconds:
       one: "%{count} second"
       other: "%{count} seconds"
+  
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Akun Anda belum diverifikasi. Silakan periksa email Anda dan ikuti instruksi verifikasi."
+      bad_credentials: "Email atau password tidak valid."
+      not_supported: "Gunakan POST /sign_in untuk masuk. GET tidak didukung."
+      user_not_found: "Pengguna tidak ditemukan atau tidak aktif."
+    registrations:
+      missing_confirm_success_url: "Missing `confirm_success_url` param."
+      redirect_url_not_allowed: "Redirect to %{redirect_url} tidak diizinkan."
+      email_already_exists: "Akun dengan email tersebut sudah ada"
+      account_update_success: "Akun Anda berhasil diperbarui."
+      account_to_destroy_not_found: "Akun yang akan dihapus tidak ditemukan."
+      account_destroy_success: "Akun berhasil dihapus."
+      email_required: "Email diperlukan."
+      account_with_uid_destroyed: "Akun dengan uid %{uid} berhasil dihapus."
+      account_not_destroyable: "Akun tidak dapat dihapus."
+    passwords:
+      missing_email: "Anda harus menyediakan email."
+      missing_redirect_url: "Missing redirect url."
+      not_allowed_redirect_url: "Redirect ke '%{redirect_url}' tidak diizinkan."
+      sended: "Email dengan instruksi reset password telah dikirim ke '%{email}' jika ada di database kami."
+      user_not_found: "Tidak dapat menemukan pengguna dengan email '%{email}'."
+      password_not_required: "Pengguna ini tidak memerlukan password. Login menggunakan '%{provider}'."
+      missing_passwords: "Password dan konfirmasi password harus diisi."
+      successfully_updated: "Password berhasil diperbarui."
+    confirmations:
+      sended: "Email konfirmasi telah dikirim ke '%{email}'."
+      success: "Akun Anda berhasil dikonfirmasi."
+      account_with_uid_success: "Akun dengan uid %{uid} berhasil dikonfirmasi."
+    token_validations:
+      invalid: "Kredensial login tidak valid atau kedaluwarsa."

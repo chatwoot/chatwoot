@@ -48,6 +48,19 @@ Rails.application.routes.draw do
       # ----------------------------------
 
       # ----------------------------------
+      # start of OTP scoped api routes
+      resources :otp, only: [] do
+        collection do
+          post :generate
+          post :verify
+          post :resend
+          get :status
+        end
+      end
+      # end of OTP scoped api routes
+      # ----------------------------------
+
+      # ----------------------------------
       # start of subscription scoped api routes
       resources :subscriptions, only: [] do
         collection do

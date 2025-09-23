@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Berhasil Diverifikasi - Jangkau.ai</title>
+</head>
+<body style="background-color: #f8f9fa; padding: 2rem 0; font-family: Arial, sans-serif;">
+  <div style="max-width: 700px; margin: auto; background-color: #ffffff; padding: 2rem; box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075); border: 1px solid #dee2e6; border-radius: 0.25rem;">
+
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+      <img src="<%= "#{ENV['FRONTEND_URL']}/assets/images/logo-primary-color.png" %>" alt="Logo Jangkau.ai" style="height:40px;" />
+      <div style="text-align: right; width: 100%;">
+        <p style="margin: 0;">VERIFIKASI BERHASIL</p>
+        <p style="margin: 0;"><%= Date.current.strftime("%d %B %Y") %></p>
+      </div>
+    </div>
+
+    <!-- Success Banner -->
+    <div style="background-color: #198754; color: white; text-align: center; padding: 0.75rem; margin: 1.5rem 0; border-radius: 0.25rem;">
+      <strong>🎉 Selamat! Email Anda Berhasil Diverifikasi!</strong>
+    </div>
+
+    <!-- Body -->
+    <div style="margin-bottom: 1.5rem;">
+      <p>Halo <strong><%= @user.name %></strong>,</p>
+      
+      <p>Selamat! Email Anda (<strong><%= @user.email %></strong>) telah berhasil diverifikasi dan akun Anda sekarang sudah aktif.</p>
+
+      <!-- Success Checkmark -->
+      <div style="text-align: center; margin: 2rem 0;">
+        <div style="background: #d4edda; border-radius: 50%; width: 120px; height: 120px; display: inline-flex; align-items: center; justify-content: center; border: 3px solid #198754;">
+          <span style="font-size: 4rem; color: #198754;">✓</span>
+        </div>
+      </div>
+
+      <h3 style="color: #198754; margin: 1.5rem 0 1rem 0;">Apa yang Bisa Anda Lakukan Sekarang:</h3>
+      
+      <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 0.25rem; margin: 1rem 0;">
+        <ul style="margin: 0; padding-left: 1.5rem; color: #495057;">
+          <li style="margin-bottom: 0.5rem;"><strong>Akses Dashboard:</strong> Mulai gunakan semua fitur platform kami</li>
+          <li style="margin-bottom: 0.5rem;"><strong>Kelola Profil:</strong> Lengkapi informasi profil Anda</li>
+          <li style="margin-bottom: 0.5rem;"><strong>Jelajahi Fitur:</strong> Temukan berbagai layanan yang tersedia</li>
+          <li><strong>Hubungi Support:</strong> Tim kami siap membantu Anda 24/7</li>
+        </ul>
+      </div>
+
+      <!-- Welcome Message -->
+      <div style="background: linear-gradient(135deg, #198754 0%, #20c997 100%); color: white; padding: 1.5rem; border-radius: 0.5rem; margin: 2rem 0; text-align: center;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1.5rem;">Selamat Datang di Jangkau.ai!</h3>
+        <p style="margin: 0; font-size: 1.1rem;">Kami senang Anda bergabung dengan kami. Mari mulai perjalanan digital Anda!</p>
+      </div>
+
+      <!-- CTA Button -->
+      <div style="text-align: center; margin: 2rem 0;">
+        <a href="<%= @dashboard_url %>" style="background-color: #198754; color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 0.5rem; font-weight: bold; display: inline-block; font-size: 1.1rem; box-shadow: 0 2px 4px rgba(25,135,84,0.2);">
+          🚀 Masuk ke Dashboard
+        </a>
+      </div>
+
+      <!-- Getting Started Tips -->
+      <div style="border: 1px solid #dee2e6; border-radius: 0.5rem; padding: 1.5rem; margin: 2rem 0; background-color: #fff;">
+        <h4 style="color: #198754; margin: 0 0 1rem 0;">💡 Tips untuk Memulai:</h4>
+        <ol style="margin: 0; padding-left: 1.5rem; color: #6c757d;">
+          <li style="margin-bottom: 0.5rem;">Lengkapi profil Anda untuk pengalaman yang lebih personal</li>
+          <li style="margin-bottom: 0.5rem;">Jelajahi menu dan fitur yang tersedia</li>
+          <li style="margin-bottom: 0.5rem;">Hubungi tim support jika memerlukan bantuan</li>
+          <li>Ikuti panduan onboarding untuk memaksimalkan penggunaan platform</li>
+        </ol>
+      </div>
+
+      <p style="margin-bottom: 0;">Terima kasih telah bergabung dengan kami!<br><br>Salam hangat,<br><strong>Tim Jangkau.ai</strong></p>
+    </div>
+
+    <!-- Footer -->
+    <div style="margin-top: 3rem;">
+      <div style="background-color: #198754; color: white; text-align: center; padding: 1.5rem; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
+        <strong>PT. Radya Anugerah Digital</strong><br>
+        Jl. Sidomukti No.14, Sukaluyu,<br>
+        Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40123<br><br>
+        <strong>Layanan Support</strong><br>
+        +62 21 20450511<br>
+        <a href="mailto:info@jangkau.ai" style="color: white;">info@jangkau.ai</a>
+      </div>
+      <div style="background-color: #ffffff; text-align: center; padding: 1rem; border-top: 1px solid #dee2e6;">
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/facebook-new.png" alt="Facebook"></a>
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/instagram-new.png" alt="Instagram"></a>
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/twitter.png" alt="Twitter"></a>
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/youtube-play.png" alt="YouTube"></a>
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/internet.png" alt="Website"></a>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: #6c757d;">© 2025 PT. Radya Anugerah Digital. All Rights Reserved</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
