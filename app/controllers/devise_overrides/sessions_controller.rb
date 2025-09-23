@@ -28,7 +28,8 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def find_user_for_authentication
     return nil unless params[:email].present? && params[:password].present?
 
-    user = User.from_email(params[:email])
+    normalized_email = params[:email].strip.downcase
+    user = User.from_email(normalized_email)
     return nil unless user&.valid_password?(params[:password])
     return nil unless user.active_for_authentication?
 
