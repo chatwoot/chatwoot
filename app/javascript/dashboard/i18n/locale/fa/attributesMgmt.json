@@ -5,6 +5,18 @@
     "LOADING": "واکشی ویژگی‌های سفارشی",
     "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
     "LEARN_MORE": "Learn more about custom attributes",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "گفتگو",
+      "CONTACT": "مخاطب"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "متن",
+      "NUMBER": "شماره",
+      "LINK": "پیوند",
+      "DATE": "Date",
+      "LIST": "فهرست",
+      "CHECKBOX": "چک باکس"
+    },
     "ADD": {
       "TITLE": "اضافه کردن ویژگی سفارشی",
       "SUBMIT": "ايجاد كردن",

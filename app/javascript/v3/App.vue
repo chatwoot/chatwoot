@@ -15,8 +15,10 @@ export default {
     setColorTheme() {
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         this.theme = 'dark';
+        document.documentElement.classList.add('dark');
       } else {
-        this.theme = 'light ';
+        this.theme = 'light';
+        document.documentElement.classList.remove('dark');
       }
     },
     listenToThemeChanges() {
@@ -25,8 +27,10 @@ export default {
       mql.onchange = e => {
         if (e.matches) {
           this.theme = 'dark';
+          document.documentElement.classList.add('dark');
         } else {
           this.theme = 'light';
+          document.documentElement.classList.remove('dark');
         }
       };
     },
@@ -50,10 +54,6 @@ export default {
 @tailwind utilities;
 
 @import '../dashboard/assets/scss/next-colors';
-@import 'shared/assets/stylesheets/colors';
-@import 'shared/assets/stylesheets/spacing';
-@import 'shared/assets/stylesheets/font-size';
-@import 'shared/assets/stylesheets/border-radius';
 
 html,
 body {
@@ -68,7 +68,7 @@ body {
 }
 
 .text-link {
-  @apply text-woot-500 font-medium hover:text-woot-600;
+  @apply text-n-brand font-medium hover:text-n-blue-10;
 }
 
 .v-popper--theme-tooltip .v-popper__inner {

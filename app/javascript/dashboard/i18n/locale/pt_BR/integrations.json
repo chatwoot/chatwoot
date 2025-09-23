@@ -331,6 +331,14 @@
         "DESCRIPTION": "O espaço de trabalho do Linear não está conectado. Clique no botão abaixo para conectar seu espaço de trabalho para usar essa integração.",
         "BUTTON_TEXT": "Conectar espaço de trabalho do Linear"
       }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Você tem certeza que deseja excluir a integração com Notion?",
+        "MESSAGE": "Excluir essa integração removerá o acesso ao seu espaço de trabalho Notion e encerrará todas as funcionalidades relacionadas.",
+        "CONFIRM": "Sim, excluir",
+        "CANCEL": "Cancelar"
+      }
     }
   },
   "CAPTAIN": {
@@ -464,7 +472,8 @@
         "FEATURES": {
           "TITLE": "Funcionalidades",
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
-          "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente."
+          "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente.",
+          "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas"
         }
       },
       "EDIT": {
@@ -472,6 +481,37 @@
         "SUCCESS_MESSAGE": "O assistente foi criado com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente.",
         "NOT_FOUND": "Não foi possível encontrar o assistente. Tente novamente."
+      },
+      "SETTINGS": {
+        "BREADCRUMB": {
+          "ASSISTANT": "Assistente"
+        },
+        "BASIC_SETTINGS": {
+          "TITLE": "Configurações básicas",
+          "DESCRIPTION": "Personalize o que o assistente diz quando termina uma conversa ou transfere para um humano."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "Configurações do sistema",
+          "DESCRIPTION": "Personalize o que o assistente diz quando termina uma conversa ou transfere para um humano."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "As Coisas Divertidas",
+          "DESCRIPTION": "Adicione mais controle ao assistente. (algo mais visual como uma história: Consulta → cenários → saída) Força o usuário para realmente utilizá-los.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Proteções",
+              "DESCRIPTION": "Mantém as coisas no caminho — apenas os tipos de perguntas que você quer que seu assistente responda, nada fora de limites ou fora do tópico."
+            },
+            "SCENARIOS": {
+              "TITLE": "Cenários",
+              "DESCRIPTION": "Dê algum contexto ao seu assistente — como \"o que fazer quando um usuário estiver com problemas\", ou \"como agir durante uma solicitação de reembolso\"."
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Diretrizes de resposta",
+              "DESCRIPTION": "O jeito e a estrutura das respostas do seu assistente — tranquilo e amigável? Curto e ágil? Detalhado e formal?"
+            }
+          }
+        }
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Editar Assistente",
@@ -484,6 +524,169 @@
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
           "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Proteções",
+        "DESCRIPTION": "Mantém as coisas no caminho — apenas os tipos de perguntas que você quer que seu assistente responda, nada fora de limites ou fora do tópico.",
+        "BREADCRUMB": {
+          "TITLE": "Proteções"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
+          "SELECT_ALL": "Selecionar todos ({count})",
+          "UNSELECT_ALL": "Desmarcar todos ({count})",
+          "BULK_DELETE_BUTTON": "Excluir"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Exemplos de proteções",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "SAVE": "Adicionar e salvar (↵)",
+            "PLACEHOLDER": "Escreva outra proteção"
+          },
+          "NEW": {
+            "TITLE": "Adicionar proteção",
+            "CREATE": "Criar",
+            "CANCEL": "Cancelar",
+            "PLACEHOLDER": "Escreva outra proteção",
+            "TEST_ALL": "Testar tudo"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Pesquisar..."
+        },
+        "EMPTY_MESSAGE": "Nenhuma proteção encontrada. Crie uma ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhuma proteção encontrada para essa pesquisa.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Proteções adicionadas com sucesso",
+            "ERROR": "Ocorreu um erro ao adicionar as proteções. Por favor, tente novamente."
+          },
+          "UPDATE": {
+            "SUCCESS": "Proteções atualizados com sucesso",
+            "ERROR": "Ocorreu um erro ao atualizar as proteções. Por favor, tente novamente."
+          },
+          "DELETE": {
+            "SUCCESS": "Proteções removidas com sucesso",
+            "ERROR": "Ocorreu um erro ao excluir as proteções, por favor, tente novamente."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Diretrizes de Resposta",
+        "DESCRIPTION": "O jeito e a estrutura das respostas do seu assistente — tranquilo e amigável? Curto e ágil? Detalhado e formal?",
+        "BREADCRUMB": {
+          "TITLE": "Diretrizes de Resposta"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
+          "SELECT_ALL": "Selecionar todos ({count})",
+          "UNSELECT_ALL": "Desmarcar todos ({count})",
+          "BULK_DELETE_BUTTON": "Excluir"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Exemplos de diretrizes de resposta",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "SAVE": "Adicionar e salvar (↵)",
+            "PLACEHOLDER": "Escreva uma outra diretriz de resposta..."
+          },
+          "NEW": {
+            "TITLE": "Adicione uma diretriz de resposta",
+            "CREATE": "Criar",
+            "CANCEL": "Cancelar",
+            "PLACEHOLDER": "Escreva uma outra diretriz de resposta...",
+            "TEST_ALL": "Testar tudo"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Pesquisar..."
+        },
+        "EMPTY_MESSAGE": "Nenhuma diretriz de resposta encontrada. Crie uma ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhuma diretriz de resposta encotrada para essa pesquisa.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Diretrizes de resposta adicionadas com sucesso",
+            "ERROR": "Houve um erro ao adicionar diretrizes de resposta, por favor, tente novamente."
+          },
+          "UPDATE": {
+            "SUCCESS": "Diretrizes de Resposta atualizadas com sucesso",
+            "ERROR": "Houve um erro ao atualizar as diretrizes de resposta, por favor, tente novamente."
+          },
+          "DELETE": {
+            "SUCCESS": "Diretrizes de resposta removidas com sucesso",
+            "ERROR": "Houve um erro ao excluir as diretrizes de resposta, por favor, tente novamente."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Cenários",
+        "DESCRIPTION": "Dê algum contexto ao seu assistente — como \"o que fazer quando um usuário estiver com problemas\", ou \"como agir durante uma solicitação de reembolso\".",
+        "BREADCRUMB": {
+          "TITLE": "Cenários"
+        },
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
+          "SELECT_ALL": "Selecionar todos ({count})",
+          "UNSELECT_ALL": "Desmarcar todos ({count})",
+          "BULK_DELETE_BUTTON": "Excluir"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Exemplos de cenários",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "TOOLS_USED": "Ferramentas usadas :"
+          },
+          "NEW": {
+            "CREATE": "Adicionar um cenário",
+            "TITLE": "Criar um cenário",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "Título",
+                "PLACEHOLDER": "Digite um nome para o cenário",
+                "ERROR": "O nome do cenário é obrigatório"
+              },
+              "DESCRIPTION": {
+                "LABEL": "Descrição",
+                "PLACEHOLDER": "Descreva como e onde este cenário será utilizado",
+                "ERROR": "Descrição do cenário é obrigatória"
+              },
+              "INSTRUCTION": {
+                "LABEL": "Como lidar",
+                "PLACEHOLDER": "Descreva como e onde este cenário será utilizado",
+                "ERROR": "Conteúdo do cenário é obrigatório"
+              },
+              "CREATE": "Criar",
+              "CANCEL": "Cancelar"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "Cancelar",
+          "UPDATE": "Atualizar alterações"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "Pesquisar..."
+        },
+        "EMPTY_MESSAGE": "Nenhum cenário encontrado. Crie ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhum cenário encontrado para esta pesquisa.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Cenários adicionados com sucesso",
+            "ERROR": "Ocorreu um erro ao adicionar cenários, por favor tente novamente."
+          },
+          "UPDATE": {
+            "SUCCESS": "Cenários atualizados com sucesso",
+            "ERROR": "Ocorreu um erro ao atualizar cenários, por favor tente novamente."
+          },
+          "DELETE": {
+            "SUCCESS": "Cenários excluídos com sucesso",
+            "ERROR": "Ocorreu um erro ao excluir os cenários, por favor tente novamente."
+          }
         }
       }
     },
@@ -501,10 +704,27 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao criar o documento, por favor, tente novamente."
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "URL:",
+          "PDF": "PDF File"
+        },
         "URL": {
           "LABEL": "URL:",
           "PLACEHOLDER": "Insira a URL do documento",
           "ERROR": "Por favor forneça uma URL válida para o documento"
+        },
+        "PDF_FILE": {
+          "LABEL": "PDF File",
+          "CHOOSE_FILE": "Choose PDF file",
+          "ERROR": "Please select a PDF file",
+          "HELP_TEXT": "Maximum file size: 10MB",
+          "INVALID_TYPE": "Please select a valid PDF file",
+          "TOO_LARGE": "File size exceeds 10MB limit"
+        },
+        "NAME": {
+          "LABEL": "Document Name (Optional)",
+          "PLACEHOLDER": "Enter a name for the document"
         },
         "ASSISTANT": {
           "LABEL": "Assistente",
@@ -539,6 +759,9 @@
         "CONVERSATION": "Conversação #{id}"
       },
       "SELECTED": "{count} selecionado",
+      "SELECT_ALL": "Selecionar todos ({count})",
+      "UNSELECT_ALL": "Desmarcar todos ({count})",
+      "SEARCH_PLACEHOLDER": "Search FAQs...",
       "BULK_APPROVE_BUTTON": "Aprovar",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_APPROVE": {

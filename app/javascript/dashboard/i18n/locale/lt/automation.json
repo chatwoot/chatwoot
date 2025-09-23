@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Pokalbis sukurtas",
       "CONVERSATION_UPDATED": "Pokalbis atnaujintas",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
@@ -146,8 +147,21 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Pakeisti Prioritetą",
-      "ADD_SLA": "Add SLA"
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Atidaryti pokalbį"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nėra",
+      "LOW": "Žemas",
+      "MEDIUM": "Vidutinis",
+      "HIGH": "Aukštas",
+      "URGENT": "Skubus"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
@@ -163,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Komanda",
-      "PRIORITY": "Prioritetas"
+      "PRIORITY": "Prioritetas",
+      "LABELS": "Etiketės"
     }
   }
 }

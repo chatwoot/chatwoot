@@ -89,6 +89,25 @@ describe('#mutations', () => {
         isFetching: true,
         isUpdating: false,
         isDeleting: false,
+        isFetchingSSLStatus: false,
+      });
+    });
+  });
+
+  describe('[types.SET_SSL_SETTINGS]', () => {
+    it('merges new ssl settings into existing portal.ssl_settings', () => {
+      state.portals.byId.domain = {
+        slug: 'domain',
+        ssl_settings: { cf_status: 'pending' },
+      };
+      mutations[types.SET_SSL_SETTINGS](state, {
+        portalSlug: 'domain',
+        sslSettings: { status: 'active', verification_errors: ['error'] },
+      });
+      expect(state.portals.byId.domain.ssl_settings).toEqual({
+        cf_status: 'pending',
+        status: 'active',
+        verification_errors: ['error'],
       });
     });
   });
