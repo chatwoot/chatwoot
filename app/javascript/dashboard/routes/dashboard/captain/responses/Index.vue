@@ -6,10 +6,12 @@ import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
 import { useRouter } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { debounce } from '@chatwoot/utils';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
@@ -36,6 +38,7 @@ const bulkDeleteDialog = ref(null);
 const selectedStatus = ref('all');
 const selectedAssistant = ref('all');
 const dialogType = ref('');
+const searchQuery = ref('');
 const { t } = useI18n();
 
 const createDialog = ref(null);
@@ -137,6 +140,9 @@ const fetchResponses = (page = 1) => {
   }
   if (selectedAssistant.value !== 'all') {
     filterParams.assistantId = selectedAssistant.value;
+  }
+  if (searchQuery.value) {
+    filterParams.search = searchQuery.value;
   }
   store.dispatch('captainResponses/get', filterParams);
 };
@@ -250,6 +256,10 @@ const handleAssistantFilterChange = assistant => {
   fetchResponses();
 };
 
+const debouncedSearch = debounce(async () => {
+  fetchResponses();
+}, 500);
+
 onMounted(() => {
   store.dispatch('captainAssistants/get');
   fetchResponses();
@@ -292,34 +302,47 @@ onMounted(() => {
     <template #controls>
       <div
         v-if="shouldShowDropdown"
-        class="mb-4 -mt-3 flex justify-between items-center w-fit py-1"
+        class="mb-4 -mt-3 flex justify-between items-center py-1"
         :class="{
-          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3':
+          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 w-fit':
             bulkSelectionState.hasSelected,
         }"
       >
-        <div v-if="!bulkSelectionState.hasSelected" class="flex gap-3">
-          <OnClickOutside @trigger="isStatusFilterOpen = false">
-            <Button
-              :label="selectedStatusLabel"
-              icon="i-lucide-chevron-down"
-              size="sm"
-              color="slate"
-              trailing-icon
-              class="max-w-48"
-              @click="isStatusFilterOpen = !isStatusFilterOpen"
-            />
+        <div
+          v-if="!bulkSelectionState.hasSelected"
+          class="flex gap-3 justify-between w-full items-center"
+        >
+          <div class="flex gap-3">
+            <OnClickOutside @trigger="isStatusFilterOpen = false">
+              <Button
+                :label="selectedStatusLabel"
+                icon="i-lucide-chevron-down"
+                size="sm"
+                color="slate"
+                trailing-icon
+                class="max-w-48"
+                @click="isStatusFilterOpen = !isStatusFilterOpen"
+              />
 
-            <DropdownMenu
-              v-if="isStatusFilterOpen"
-              :menu-items="statusOptions"
-              class="mt-2"
-              @action="handleStatusFilterChange"
+              <DropdownMenu
+                v-if="isStatusFilterOpen"
+                :menu-items="statusOptions"
+                class="mt-2"
+                @action="handleStatusFilterChange"
+              />
+            </OnClickOutside>
+            <AssistantSelector
+              :assistant-id="selectedAssistant"
+              @update="handleAssistantFilterChange"
             />
-          </OnClickOutside>
-          <AssistantSelector
-            :assistant-id="selectedAssistant"
-            @update="handleAssistantFilterChange"
+          </div>
+          <Input
+            v-model="searchQuery"
+            :placeholder="$t('CAPTAIN.RESPONSES.SEARCH_PLACEHOLDER')"
+            class="w-64"
+            size="sm"
+            autofocus
+            @input="debouncedSearch"
           />
         </div>
 

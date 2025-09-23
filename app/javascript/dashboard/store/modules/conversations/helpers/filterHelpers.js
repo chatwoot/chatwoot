@@ -64,11 +64,13 @@ const getValueFromConversation = (conversation, attributeKey) => {
   switch (attributeKey) {
     case 'status':
     case 'priority':
-    case 'display_id':
     case 'labels':
     case 'created_at':
     case 'last_activity_at':
       return conversation[attributeKey];
+    case 'display_id':
+      // Frontend uses 'id' but backend expects 'display_id'
+      return conversation.display_id || conversation.id;
     case 'assignee_id':
       return conversation.meta?.assignee?.id;
     case 'inbox_id':
@@ -167,7 +169,14 @@ const contains = (filterValue, conversationValue) => {
  */
 const compareDates = (conversationValue, filterValue, compareFn) => {
   const conversationDate = coerceToDate(conversationValue);
-  const filterDate = coerceToDate(filterValue);
+
+  // In saved views, the filterValue might be returned as an Array
+  // In conversation list, when filtering, the filterValue will be returned as a string
+  const valueToCompare = Array.isArray(filterValue)
+    ? filterValue[0]
+    : filterValue;
+  const filterDate = coerceToDate(valueToCompare);
+
   if (conversationDate === null || filterDate === null) return false;
   return compareFn(conversationDate, filterDate);
 };

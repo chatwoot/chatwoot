@@ -194,4 +194,41 @@ describe Whatsapp::FacebookApiClient do
       end
     end
   end
+
+  describe '#unsubscribe_waba_webhook' do
+    let(:waba_id) { 'test_waba_id' }
+
+    context 'when successful' do
+      before do
+        stub_request(:delete, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+          .with(
+            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
+          )
+          .to_return(
+            status: 200,
+            body: { success: true }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'returns success response' do
+        result = api_client.unsubscribe_waba_webhook(waba_id)
+        expect(result['success']).to be(true)
+      end
+    end
+
+    context 'when failed' do
+      before do
+        stub_request(:delete, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+          .with(
+            headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
+          )
+          .to_return(status: 400, body: { error: 'Webhook unsubscription failed' }.to_json)
+      end
+
+      it 'raises an error' do
+        expect { api_client.unsubscribe_waba_webhook(waba_id) }.to raise_error(/Webhook unsubscription failed/)
+      end
+    end
+  end
 end

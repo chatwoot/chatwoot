@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "تعذر الإرسال! حاول مرة أخرى"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "غير متاح"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "متواجدون لخدمتك",
-    "OFFLINE": "نحن بعيدون في الوقت الحالي"
+    "OFFLINE": "نحن بعيدون في الوقت الحالي",
+    "BACK_AS_SOON_AS_POSSIBLE": "سوف نعود في أقرب وقت ممكن"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
     "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
     "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد",
-    "BACK_IN": "سوف نعود إلى الإنترنت"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "سنكون متاحين غدًا للرد على استفساراتك",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
     "SUNDAY": "Sunday",

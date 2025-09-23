@@ -21,6 +21,14 @@ class PortalsAPI extends ApiClient {
   deleteLogo(portalSlug) {
     return axios.delete(`${this.url}/${portalSlug}/logo`);
   }
+
+  sendCnameInstructions(portalSlug, email) {
+    return axios.post(`${this.url}/${portalSlug}/send_instructions`, { email });
+  }
+
+  sslStatus(portalSlug) {
+    return axios.get(`${this.url}/${portalSlug}/ssl_status`);
+  }
 }
 
 export default PortalsAPI;
