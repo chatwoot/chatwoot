@@ -9,7 +9,7 @@ describe Contacts::FilterService do
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
   let!(:en_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'uk' }) }
   let!(:el_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'gr' }) }
-  let!(:cs_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'cz' }) }
+  let!(:cs_contact) { create(:contact, :with_phone_number, account: account, additional_attributes: { 'country_code': 'cz' }) }
 
   before do
     create(:inbox_member, user: first_user, inbox: inbox)
@@ -62,6 +62,42 @@ describe Contacts::FilterService do
         expect(result[:count]).to be 1
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.name).to eq(en_contact.name)
+      end
+    end
+
+    context 'with standard attributes - phone' do
+      it 'filter contacts by name' do
+        params[:payload] = [
+          {
+            attribute_key: 'phone_number',
+            filter_operator: 'equal_to',
+            values: [cs_contact.phone_number],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].length).to be 1
+        expect(result[:contacts].first.name).to eq(cs_contact.name)
+      end
+    end
+
+    context 'with standard attributes - phone (without +)' do
+      it 'filter contacts by name' do
+        params[:payload] = [
+          {
+            attribute_key: 'phone_number',
+            filter_operator: 'equal_to',
+            values: [cs_contact.phone_number[1..]],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].length).to be 1
+        expect(result[:contacts].first.name).to eq(cs_contact.name)
       end
     end
 

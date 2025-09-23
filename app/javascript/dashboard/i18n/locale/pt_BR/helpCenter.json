@@ -741,7 +741,8 @@
         "LIVE_CHAT_WIDGET": {
           "LABEL": "Widget de chat ao vivo",
           "PLACEHOLDER": "Selecionar widget de chat ao vivo",
-          "HELP_TEXT": "Selecione um widget de chat ao vivo que aparecerá no centro de ajuda"
+          "HELP_TEXT": "Selecione um widget de chat ao vivo que aparecerá no centro de ajuda",
+          "NONE_OPTION": "No widget"
         },
         "BRAND_COLOR": {
           "LABEL": "Cor da Marca"

@@ -18,9 +18,9 @@
     "CREATED_AT_LABEL": "Створено",
     "NEW_MESSAGE": "Нове повідомлення",
     "CALL": "Дзвінок",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL_UNDER_DEVELOPMENT": "Дзвінки знаходяться на стадії розробки",
     "VOICE_INBOX_PICKER": {
-      "TITLE": "Choose a voice inbox"
+      "TITLE": "Оберіть голосову теку"
     },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Не було попередніх бесід, пов'язаних з цим контактом.",

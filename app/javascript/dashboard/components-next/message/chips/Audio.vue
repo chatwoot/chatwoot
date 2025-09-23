@@ -1,8 +1,16 @@
 <script setup>
-import { computed, onMounted, useTemplateRef, ref } from 'vue';
+import {
+  computed,
+  onMounted,
+  useTemplateRef,
+  ref,
+  getCurrentInstance,
+} from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 import { downloadFile } from '@chatwoot/utils';
+import { useEmitter } from 'dashboard/composables/emitter';
+import { emitter } from 'shared/helpers/mitt';
 
 const { attachment } = defineProps({
   attachment: {
@@ -27,6 +35,8 @@ const currentTime = ref(0);
 const duration = ref(0);
 const playbackSpeed = ref(1);
 
+const { uid } = getCurrentInstance();
+
 const onLoadedMetadata = () => {
   duration.value = audioPlayer.value?.duration;
 };
@@ -41,6 +51,18 @@ const playbackSpeedLabel = computed(() => {
 onMounted(() => {
   duration.value = audioPlayer.value?.duration;
   audioPlayer.value.playbackRate = playbackSpeed.value;
+});
+
+// Listen for global audio play events and pause if it's not this audio
+useEmitter('pause_playing_audio', currentPlayingId => {
+  if (currentPlayingId !== uid && isPlaying.value) {
+    try {
+      audioPlayer.value.pause();
+    } catch {
+      /* ignore pause errors */
+    }
+    isPlaying.value = false;
+  }
 });
 
 const formatTime = time => {
@@ -70,6 +92,8 @@ const playOrPause = () => {
     audioPlayer.value.pause();
     isPlaying.value = false;
   } else {
+    // Emit event to pause all other audio
+    emitter.emit('pause_playing_audio', uid);
     audioPlayer.value.play();
     isPlaying.value = true;
   }
@@ -101,6 +125,7 @@ const downloadAudio = async () => {
     ref="audioPlayer"
     controls
     class="hidden"
+    playsinline
     @loadedmetadata="onLoadedMetadata"
     @timeupdate="onTimeUpdate"
     @ended="onEnd"

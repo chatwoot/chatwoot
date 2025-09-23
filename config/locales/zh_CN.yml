@@ -89,6 +89,20 @@ zh_CN:
       invalid_value: 无效的值。为 %{attribute_name} 提供的值无效
     custom_attribute_definition:
       key_conflict: 提供的键不允许使用，因为它可能与默认属性冲突。
+    mfa:
+      already_enabled: MFA 已启用
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: 报告周期 %{since} 至 %{until}
     utc_warning: 生成的报表在 UTC 时区

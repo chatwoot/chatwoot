@@ -52,3 +52,5 @@ class AgentBuilder
     }.compact))
   end
 end
+
+AgentBuilder.prepend_mod_with('AgentBuilder')

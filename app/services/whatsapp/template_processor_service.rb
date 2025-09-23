@@ -60,9 +60,10 @@ class Whatsapp::TemplateProcessorService
       next if value.blank?
 
       if media_url_with_type?(key, header_data)
-        media_param = parameter_builder.build_media_parameter(value, header_data['media_type'])
+        media_name = header_data['media_name']
+        media_param = parameter_builder.build_media_parameter(value, header_data['media_type'], media_name)
         header_params << media_param if media_param
-      elsif key != 'media_type'
+      elsif key != 'media_type' && key != 'media_name'
         header_params << parameter_builder.build_parameter(value)
       end
     end

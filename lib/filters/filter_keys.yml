@@ -4,7 +4,7 @@
 # 3. Automation Filters  (app/services/automation_rules/conditions_filter_service.rb), (app/services/automation_rules/condition_validation_service.rb)
 
 
-# Format 
+# Format
 # - Parent Key (conversation, contact, messages)
 #   - Key (attribute_name)
 #     - attribute_type: "standard" : supported ["standard", "additional_attributes (only for conversations and messages)"]
@@ -138,7 +138,7 @@ contacts:
       - "does_not_contain"
   phone_number:
     attribute_type: "standard"
-    data_type: "text_case_insensitive"
+    data_type: "text" # Text is not explicity defined in filters, default filter will be used
     filter_operators:
       - "equal_to"
       - "not_equal_to"

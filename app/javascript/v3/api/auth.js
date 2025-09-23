@@ -13,6 +13,16 @@ export const login = async ({
 }) => {
   try {
     const response = await wootAPI.post('auth/sign_in', credentials);
+
+    // Check if MFA is required
+    if (response.status === 206 && response.data.mfa_required) {
+      // Return MFA data instead of throwing error
+      return {
+        mfaRequired: true,
+        mfaToken: response.data.mfa_token,
+      };
+    }
+
     setAuthCredentials(response);
     clearLocalStorageOnLogout();
     window.location = getLoginRedirectURL({
@@ -20,8 +30,17 @@ export const login = async ({
       ssoConversationId,
       user: response.data.data,
     });
+    return null;
   } catch (error) {
+    // Check if it's an MFA required response
+    if (error.response?.status === 206 && error.response?.data?.mfa_required) {
+      return {
+        mfaRequired: true,
+        mfaToken: error.response.data.mfa_token,
+      };
+    }
     throwErrorMessage(error);
+    return null;
   }
 };
 

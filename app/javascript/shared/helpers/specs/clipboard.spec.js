@@ -1,4 +1,4 @@
-import { copyTextToClipboard } from '../clipboard';
+import { copyTextToClipboard, handleOtpPaste } from '../clipboard';
 
 const mockWriteText = vi.fn();
 Object.assign(navigator, {
@@ -169,6 +169,116 @@ describe('copyTextToClipboard', () => {
 
       expect(mockWriteText).toHaveBeenCalledWith(func.toString());
       expect(mockWriteText).toHaveBeenCalledTimes(1);
+    });
+  });
+});
+
+describe('handleOtpPaste', () => {
+  // Helper function to create mock clipboard event
+  const createMockPasteEvent = text => ({
+    clipboardData: {
+      getData: vi.fn().mockReturnValue(text),
+    },
+  });
+
+  describe('valid OTP paste scenarios', () => {
+    it('extracts 6-digit OTP from clean numeric string', () => {
+      const event = createMockPasteEvent('123456');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBe('123456');
+      expect(event.clipboardData.getData).toHaveBeenCalledWith('text');
+    });
+
+    it('extracts 6-digit OTP from string with spaces', () => {
+      const event = createMockPasteEvent('1 2 3 4 5 6');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBe('123456');
+    });
+
+    it('extracts 6-digit OTP from string with dashes', () => {
+      const event = createMockPasteEvent('123-456');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBe('123456');
+    });
+
+    it('handles negative numbers by extracting digits only', () => {
+      const event = createMockPasteEvent('-123456');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBe('123456');
+    });
+
+    it('handles decimal numbers by extracting digits only', () => {
+      const event = createMockPasteEvent('123.456');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBe('123456');
+    });
+
+    it('extracts 6-digit OTP from mixed alphanumeric string', () => {
+      const event = createMockPasteEvent('Your code is: 987654');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBe('987654');
+    });
+
+    it('extracts first 6 digits when more than 6 digits present', () => {
+      const event = createMockPasteEvent('12345678901234');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBe('123456');
+    });
+
+    it('handles custom maxLength parameter', () => {
+      const event = createMockPasteEvent('12345678');
+      const result = handleOtpPaste(event, 8);
+
+      expect(result).toBe('12345678');
+    });
+
+    it('extracts 4-digit OTP with custom maxLength', () => {
+      const event = createMockPasteEvent('Your PIN: 9876');
+      const result = handleOtpPaste(event, 4);
+
+      expect(result).toBe('9876');
+    });
+  });
+
+  describe('invalid OTP paste scenarios', () => {
+    it('returns null for insufficient digits', () => {
+      const event = createMockPasteEvent('12345');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBeNull();
+    });
+
+    it('returns null for text with no digits', () => {
+      const event = createMockPasteEvent('Hello World');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBeNull();
+    });
+
+    it('returns null for empty string', () => {
+      const event = createMockPasteEvent('');
+      const result = handleOtpPaste(event);
+
+      expect(result).toBeNull();
+    });
+
+    it('returns null when event is null', () => {
+      const result = handleOtpPaste(null);
+
+      expect(result).toBeNull();
+    });
+
+    it('returns null when event is undefined', () => {
+      const result = handleOtpPaste(undefined);
+
+      expect(result).toBeNull();
     });
   });
 });
