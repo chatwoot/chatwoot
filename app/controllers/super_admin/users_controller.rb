@@ -59,7 +59,9 @@ class SuperAdmin::UsersController < SuperAdmin::ApplicationController
   def resource_params
     permitted_params = super
     permitted_params.delete(:password) if permitted_params[:password].blank?
-    permitted_params[:confirmed_at] = Time.current if permitted_params[:email].present?
+
+    permitted_params[:confirmed_at] = Time.current if permitted_params[:email].present? && permitted_params[:email] != requested_resource.email
+
     permitted_params
   end
 

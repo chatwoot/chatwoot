@@ -50,7 +50,6 @@ class UserDashboard < Administrate::BaseDashboard
     avatar_url
     name
     email
-    unconfirmed_email
     accounts
     type
   ].freeze
@@ -60,11 +59,11 @@ class UserDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = %i[
     id
     avatar_url
-    unconfirmed_email
     name
     type
     display_name
     email
+    unconfirmed_email
     created_at
     updated_at
     confirmed_at
