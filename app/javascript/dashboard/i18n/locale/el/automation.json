@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Δημιουργήθηκε Συνομιλία",
       "CONVERSATION_UPDATED": "Η Συνομιλία Ενημερώθηκε",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
@@ -176,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Ομάδα",
-      "PRIORITY": "Priority"
+      "PRIORITY": "Priority",
+      "LABELS": "Ετικέτες"
     }
   }
 }

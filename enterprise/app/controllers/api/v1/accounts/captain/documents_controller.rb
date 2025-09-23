@@ -25,6 +25,8 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     @document.save!
   rescue Captain::Document::LimitExceededError => e
     render_could_not_create_error(e.message)
+  rescue ActiveRecord::RecordInvalid => e
+    render_could_not_create_error(e.record.errors.full_messages.join(', '))
   end
 
   def destroy
@@ -55,6 +57,6 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def document_params
-    params.require(:document).permit(:name, :external_link, :assistant_id)
+    params.require(:document).permit(:name, :external_link, :assistant_id, :pdf_file)
   end
 end

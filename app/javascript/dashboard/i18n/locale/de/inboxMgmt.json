@@ -272,8 +272,8 @@
         },
         "SUBMIT_BUTTON": "WhatsApp-Kanal erstellen",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick Setup with Meta",
-          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "Quick setup with Meta",
+          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Benefits of Embedded Signup:",
             "EASY_SETUP": "No manual configuration required",
@@ -281,9 +281,8 @@
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
-            "LINK_TEXT": "this link.",
-            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "LINK_TEXT": "this link"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
           "AUTH_PROCESSING": "Authenticating with Meta",
@@ -296,7 +295,9 @@
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_LINK_TEXT": "manual setup flow"
         },
         "API": {
           "ERROR_MESSAGE": "Wir konnten den WhatsApp-Kanal nicht speichern"
@@ -330,12 +331,13 @@
             "LABEL": "API-Schlüssel-Geheimnis",
             "PLACEHOLDER": "Enter your Twilio API Key Secret",
             "REQUIRED": "API Key Secret is required"
-          },
-          "TWIML_APP_SID": {
-            "LABEL": "TwiML App SID",
-            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
-            "REQUIRED": "TwiML App SID is required"
           }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
         },
         "SUBMIT_BUTTON": "Create Voice Channel",
         "API": {
@@ -423,7 +425,51 @@
       },
       "AUTH": {
         "TITLE": "Wählen Sie einen Kanal",
-        "DESC": "Chatwoot unterstützt Live-Chat-Widgets, Facebook Messenger, Twitter-Profile, WhatsApp, E-Mails usw. als Kanäle. Wenn Sie einen benutzerdefinierten Kanal erstellen möchten, können Sie ihn mithilfe des API-Kanals erstellen. Wählen Sie zunächst einen der folgenden Kanäle aus."
+        "DESC": "Chatwoot unterstützt Live-Chat-Widgets, Facebook Messenger, Twitter-Profile, WhatsApp, E-Mails usw. als Kanäle. Wenn Sie einen benutzerdefinierten Kanal erstellen möchten, können Sie ihn mithilfe des API-Kanals erstellen. Wählen Sie zunächst einen der folgenden Kanäle aus.",
+        "TITLE_NEXT": "Complete the setup",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Webseite",
+            "DESCRIPTION": "Create a live-chat widget"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook",
+            "DESCRIPTION": "Connect your Facebook page"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "E-Mail",
+            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Make a custom channel using our API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegramm",
+            "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integrate your Line channel"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connect your instagram account"
+          },
+          "VOICE": {
+            "TITLE": "Voice",
+            "DESCRIPTION": "Integrate with Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "Agenten",
@@ -477,7 +523,10 @@
       "MESSAGE": "Sie können jetzt über Ihren neuen Kanal mit Ihren Kunden in Kontakt treten. Fröhliches Unterstützen",
       "BUTTON_TEXT": "Bring mich dahin",
       "MORE_SETTINGS": "Weitere Einstellungen",
-      "WEBSITE_SUCCESS": "Sie haben die Erstellung eines Website-Kanals erfolgreich abgeschlossen. Kopieren Sie den unten gezeigten Code und fügen Sie ihn in Ihre Website ein. Wenn ein Kunde das nächste Mal den Live-Chat verwendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt."
+      "WEBSITE_SUCCESS": "Sie haben die Erstellung eines Website-Kanals erfolgreich abgeschlossen. Kopieren Sie den unten gezeigten Code und fügen Sie ihn in Ihre Website ein. Wenn ein Kunde das nächste Mal den Live-Chat verwendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Neu autorisieren",
     "VIEW": "Aussicht",
@@ -867,9 +916,18 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "Andere Anbieter"
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "Connect with Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connect with Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "Andere Anbieter",
+        "DESCRIPTION": "Connect with Other Providers"
+      }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",

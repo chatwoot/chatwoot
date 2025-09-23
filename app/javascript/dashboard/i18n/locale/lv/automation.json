@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Saruna izveidota",
       "CONVERSATION_UPDATED": "Saruna Atjaunināta",
       "MESSAGE_CREATED": "Ziņojums Izveidots",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Saruna Atvērta"
     },
     "ACTIONS": {
@@ -176,7 +177,8 @@
       "REFERER_LINK": "Novirzītāja Saite",
       "ASSIGNEE_NAME": "Uzdevuma saņēmējs",
       "TEAM_NAME": "Komanda",
-      "PRIORITY": "Prioritāte"
+      "PRIORITY": "Prioritāte",
+      "LABELS": "Etiķetes"
     }
   }
 }
