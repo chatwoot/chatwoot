@@ -7,6 +7,11 @@ const props = defineProps({
   placeholder: { type: String, default: '' },
   label: { type: String, default: '' },
   id: { type: String, default: '' },
+  size: {
+    type: String,
+    default: 'md',
+    validator: value => ['sm', 'md'].includes(value),
+  },
   message: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
   messageType: {
@@ -69,6 +74,17 @@ const handleFocus = event => {
   isFocused.value = true;
 };
 
+const sizeClass = computed(() => {
+  switch (props.size) {
+    case 'sm':
+      return 'h-8 !px-3 !py-2';
+    case 'md':
+      return 'h-10 !px-3 !py-2.5';
+    default:
+      return 'h-10 !px-3 !py-2.5';
+  }
+});
+
 const handleBlur = event => {
   emit('blur', event);
   isFocused.value = false;
@@ -100,11 +116,13 @@ onMounted(() => {
     <slot name="prefix" />
     <input
       :id="uniqueId"
+      v-bind="$attrs"
       ref="inputRef"
       :value="modelValue"
       :class="[
         customInputClass,
         inputOutlineClass,
+        sizeClass,
         {
           error: messageType === 'error',
           focus: isFocused,
@@ -119,7 +137,7 @@ onMounted(() => {
           ? max
           : undefined
       "
-      class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+      class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"
