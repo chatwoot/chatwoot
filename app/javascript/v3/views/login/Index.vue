@@ -85,6 +85,9 @@ export default {
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
+    showSamlLogin() {
+      return this.globalConfig.isEnterprise;
+    },
   },
   created() {
     if (this.ssoAuthToken) {
@@ -302,5 +305,13 @@ export default {
         <Spinner color-scheme="primary" size="" />
       </div>
     </section>
+    <div v-if="showSamlLogin" class="mt-6 text-center">
+      <router-link
+        to="/app/login/sso"
+        class="inline-flex items-center text-sm font-medium text-n-brand hover:text-n-brand-dark"
+      >
+        {{ $t('LOGIN.SAML.LABEL') }}
+      </router-link>
+    </div>
   </main>
 </template>
