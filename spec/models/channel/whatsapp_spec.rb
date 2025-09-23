@@ -296,6 +296,7 @@ RSpec.describe Channel::Whatsapp do
                            'api_key' => 'test_access_token',
                            'phone_number_id' => '123456789'
                          },
+                         validate_provider_config: false,
                          sync_templates: false)
 
         teardown_service = instance_double(Whatsapp::WebhookTeardownService)
@@ -318,6 +319,7 @@ RSpec.describe Channel::Whatsapp do
                            'source' => 'manual',
                            'api_key' => 'test_access_token'
                          },
+                         validate_provider_config: false,
                          sync_templates: false)
 
         teardown_service = instance_double(Whatsapp::WebhookTeardownService)

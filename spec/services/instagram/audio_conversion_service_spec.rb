@@ -58,7 +58,7 @@ describe Instagram::AudioConversionService do
       before do
         allow(service).to receive(:should_convert_audio?).and_return(true)
         allow(service).to receive(:download_attachment).and_return(double('temp_file', path: '/tmp/test_file'))
-        allow(service).to receive(:convert_file_to_mp4).and_return(double('converted_file'))
+        allow(service).to receive(:convert_file_to_mp4).and_return(double('converted_file', path: '/tmp/converted_file'))
         allow(service).to receive(:upload_converted_file).and_return('http://example.com/converted.m4a')
         allow(service).to receive(:cleanup_temp_files)
       end

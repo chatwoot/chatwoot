@@ -57,7 +57,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         end
 
         it 'creates whatsapp channel successfully' do
-          whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false)
+          whatsapp_channel = create(:channel_whatsapp, account: account)
           stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook').to_return(status: 200, body: '', headers: {})
           stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates').to_return(status: 200, body: '', headers: {})
           inbox = create(:inbox, account: account, channel: whatsapp_channel)
@@ -91,7 +91,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         end
 
         it 'calls the embedded signup service with correct parameters' do
-          whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
+          whatsapp_channel = create(:channel_whatsapp, account: account, sync_templates: false)
           inbox = create(:inbox, account: account, channel: whatsapp_channel)
           embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
 
@@ -122,7 +122,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         end
 
         it 'accepts phone_number_id as optional parameter' do
-          whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
+          whatsapp_channel = create(:channel_whatsapp, account: account, sync_templates: false)
           inbox = create(:inbox, account: account, channel: whatsapp_channel)
           embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
 
@@ -241,7 +241,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
       context 'when user is an administrator' do
         it 'allows channel creation' do
           embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
-          whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
+          whatsapp_channel = create(:channel_whatsapp, account: account, sync_templates: false)
           inbox = create(:inbox, account: account, channel: whatsapp_channel)
 
           allow(Whatsapp::EmbeddedSignupService).to receive(:new).and_return(embedded_signup_service)

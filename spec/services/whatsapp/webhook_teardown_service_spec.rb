@@ -60,7 +60,6 @@ RSpec.describe Whatsapp::WebhookTeardownService do
                        provider: 'whatsapp_cloud',
                        provider_config: {
                          'source' => 'manual',
-                         'business_account_id' => 'test_waba_id',
                          'api_key' => 'test_access_token'
                        },
                        sync_templates: false)

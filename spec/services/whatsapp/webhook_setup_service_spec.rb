@@ -174,7 +174,7 @@ describe Whatsapp::WebhookSetupService do
     end
 
     context 'when used during reauthorization flow' do
-      let(:existing_channel) do
+      let(:channel) do
         create(:channel_whatsapp,
                phone_number: '+1234567890',
                provider_config: {
@@ -184,11 +184,13 @@ describe Whatsapp::WebhookSetupService do
                  'waba_id' => 'existing_waba_id'
                },
                provider: 'whatsapp_cloud',
-               sync_templates: false,
-               reauthorization_required: true)
+               sync_templates: false).tap do |chan|
+          chan.update_column(:reauthorization_required, true)
+        end
       end
-      let(:new_access_token) { 'new_access_token' }
-      let(:service_reauth) { described_class.new(existing_channel, waba_id, new_access_token) }
+      let(:new_access_token) { 'new_test_access_token' }
+      let(:new_waba_id) { 'new_test_waba_id' }
+      let(:service_reauth) { described_class.new(channel, waba_id, new_access_token) }
 
       before do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
