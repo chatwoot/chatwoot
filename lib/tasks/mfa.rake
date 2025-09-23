@@ -1,110 +1,65 @@
-namespace :mfa do # rubocop:disable Metrics/BlockLength
-  desc 'Reset MFA for a specific user by email'
-  task :reset, [:email] => :environment do |_task, args|
-    email = args[:email]
-
-    if email.blank?
-      puts 'Error: Please provide an email address'
-      puts 'Usage: rails mfa:reset[user@example.com]'
-      exit 1
-    end
-
+module MfaTasks
+  def self.find_user_or_exit(email)
+    abort 'Error: Please provide an email address' if email.blank?
     user = User.from_email(email)
+    abort "Error: User with email '#{email}' not found" unless user
+    user
+  end
 
-    if user.nil?
-      puts "Error: User with email '#{email}' not found"
-      exit 1
-    end
-
-    # Check if MFA is already disabled
-    if !user.otp_required_for_login? && user.otp_secret.nil?
-      puts "MFA is already disabled for #{email}"
-      exit 0
-    end
-
-    # Reset MFA settings
+  def self.reset_user_mfa(user)
     user.update!(
       otp_required_for_login: false,
       otp_secret: nil,
       otp_backup_codes: nil
     )
+  end
 
-    puts "✓ MFA has been successfully reset for #{email}"
-    puts '  - Two-factor authentication: Disabled'
-    puts '  - OTP secret: Removed'
-    puts '  - Backup codes: Cleared'
-    puts "\nThe user can now log in with just their password and re-enable MFA if desired."
+  def self.reset_single(args)
+    user = find_user_or_exit(args[:email])
+    abort "MFA is already disabled for #{args[:email]}" if !user.otp_required_for_login? && user.otp_secret.nil?
+    reset_user_mfa(user)
+    puts "✓ MFA has been successfully reset for #{args[:email]}"
   rescue StandardError => e
-    puts "Error resetting MFA: #{e.message}"
-    exit 1
+    abort "Error resetting MFA: #{e.message}"
+  end
+
+  def self.reset_all
+    print 'Are you sure you want to reset MFA for ALL users? This cannot be undone! (yes/no): '
+    abort 'Operation cancelled' unless $stdin.gets.chomp.downcase == 'yes'
+
+    affected_users = User.where(otp_required_for_login: true).or(User.where.not(otp_secret: nil))
+    count = affected_users.count
+    abort 'No users have MFA enabled' if count.zero?
+
+    puts "\nResetting MFA for #{count} user(s)..."
+    affected_users.find_each { |user| reset_user_mfa(user) }
+    puts "✓ MFA has been reset for #{count} user(s)"
+  end
+
+  def self.generate_backup_codes(args)
+    user = find_user_or_exit(args[:email])
+    abort "Error: MFA is not enabled for #{args[:email]}" unless user.otp_required_for_login?
+
+    service = Mfa::ManagementService.new(user: user)
+    codes = service.generate_backup_codes!
+    puts "\nNew backup codes generated for #{args[:email]}:"
+    codes.each { |code| puts code }
+  end
+end
+
+namespace :mfa do
+  desc 'Reset MFA for a specific user by email'
+  task :reset, [:email] => :environment do |_task, args|
+    MfaTasks.reset_single(args)
   end
 
   desc 'Reset MFA for all users in the system'
   task reset_all: :environment do
-    print 'Are you sure you want to reset MFA for ALL users? This cannot be undone! (yes/no): '
-    confirmation = $stdin.gets.chomp.downcase
-
-    unless confirmation == 'yes'
-      puts 'Operation cancelled'
-      exit 0
-    end
-
-    affected_users = User.where(otp_required_for_login: true).or(User.where.not(otp_secret: nil))
-    count = affected_users.count
-
-    if count.zero?
-      puts 'No users have MFA enabled'
-      exit 0
-    end
-
-    puts "\nResetting MFA for #{count} user(s)..."
-
-    affected_users.find_each do |user|
-      user.update!(
-        otp_required_for_login: false,
-        otp_secret: nil,
-        otp_backup_codes: nil
-      )
-    end
-
-    puts "✓ MFA has been reset for #{count} user(s)"
-    puts "\nAll users can now log in with just their passwords."
+    MfaTasks.reset_all
   end
 
   desc 'Generate new backup codes for a user'
   task :generate_backup_codes, [:email] => :environment do |_task, args|
-    email = args[:email]
-
-    if email.blank?
-      puts 'Error: Please provide an email address'
-      puts 'Usage: rails mfa:generate_backup_codes[user@example.com]'
-      exit 1
-    end
-
-    user = User.from_email(email)
-
-    if user.nil?
-      puts "Error: User with email '#{email}' not found"
-      exit 1
-    end
-
-    unless user.otp_required_for_login?
-      puts "Error: MFA is not enabled for #{email}"
-      puts 'The user must enable MFA first before generating backup codes'
-      exit 1
-    end
-
-    # Generate new backup codes
-    service = Mfa::ManagementService.new(user: user)
-    codes = service.generate_backup_codes!
-
-    puts "\nNew backup codes generated for #{email}:"
-    puts '━' * 40
-    codes.each_with_index do |code, index|
-      puts "#{index + 1}. #{code}"
-    end
-    puts '━' * 40
-    puts "\n⚠ Important: Share these codes securely with the user"
-    puts 'Each code can only be used once'
+    MfaTasks.generate_backup_codes(args)
   end
 end
