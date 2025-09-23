@@ -610,6 +610,15 @@
           "SEND_MESSAGE": "Sūtīt ziņojumu"
         }
       },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Izvēlieties veidni",
+        "SEARCH_PLACEHOLDER": "Meklēt veidnes",
+        "EMPTY_STATE": "Nav atrasta neviena veidne",
+        "TEMPLATE_PARSER": {
+          "BACK": "Atgriezties",
+          "SEND_MESSAGE": "Sūtīt ziņojumu"
+        }
+      },
       "ACTION_BUTTONS": {
         "DISCARD": "Izmest",
         "SEND": "Sūtīt ({keyCode})"

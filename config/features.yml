@@ -184,6 +184,7 @@
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
+  deprecated: true
 - name: whatsapp_campaign
   display_name: WhatsApp Campaign
   enabled: false
@@ -204,3 +205,7 @@
   enabled: false
   premium: true
   chatwoot_internal: true
+- name: saml
+  display_name: SAML
+  enabled: false
+  premium: true

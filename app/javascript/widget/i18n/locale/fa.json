@@ -14,24 +14,24 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "خارج از دسترس"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ما آنلاین هستیم",
     "OFFLINE": "در حال حاضر دردسترس نیستیم",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "در سریعترین زمان ممکن باز خواهیم گشت"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
     "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
     "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_IN_HOURS": "تا {n} ساعت دیگر باز خواهیم گشت | تا {n} ساعت دیگر باز خواهیم گشت",
+    "BACK_IN_MINUTES": "تا {time} دقیقه دیگر باز خواهیم گشت",
+    "BACK_AT_TIME": "در {time} باز خواهیم گشت",
+    "BACK_ON_DAY": "در روز {day} باز خواهیم گشت",
+    "BACK_TOMORROW": "فردا باز خواهیم گشت",
+    "BACK_IN_SOME_TIME": "مدتی دیگر باز خواهیم گشت"
   },
   "DAY_NAMES": {
     "SUNDAY": "یک‌شنبه",
