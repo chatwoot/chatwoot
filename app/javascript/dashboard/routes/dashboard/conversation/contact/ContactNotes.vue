@@ -117,12 +117,12 @@ watch(
     </div>
     <div
       v-else-if="notes.length"
-      class="flex flex-col gap-4 px-6 pb-2 max-h-[300px] overflow-y-auto"
+      class="flex flex-col max-h-[300px] overflow-y-auto"
     >
       <ContactNoteItem
         v-for="note in notes"
         :key="note.id"
-        class="py-4 last-of-type:border-b-0"
+        class="py-4 last-of-type:border-b-0 px-4"
         :note="note"
         :written-by="getWrittenBy(note)"
         allow-delete
