@@ -52,7 +52,9 @@ class DataImport::ContactManager
     contact.identifier = params[:identifier] if params[:identifier].present?
     contact.email = params[:email] if params[:email].present?
     contact.phone_number = format_phone_number(params[:phone_number]) if params[:phone_number].present?
+    contact.label_list = validate_tags(params[:tags])
     update_contact_attributes(params, contact)
+
     contact.save
   end
 
@@ -64,5 +66,14 @@ class DataImport::ContactManager
     contact.additional_attributes[:company] = params[:company] if params[:company].present?
     contact.additional_attributes[:city] = params[:city] if params[:city].present?
     contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+  end
+
+  def validate_tags(params)
+    return [] if params.blank?
+
+    valid_tags = Label.pluck(:title).map(&:downcase)
+    tags = params.split(',').map { |tag| tag.strip.downcase }.reject(&:empty?)
+
+    valid_tags & tags
   end
 end
