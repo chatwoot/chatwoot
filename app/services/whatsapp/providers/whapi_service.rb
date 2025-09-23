@@ -297,24 +297,6 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     10
   end
 
-  # Health check method (inspired by Python backend __check_health_wakeup)
-  def check_health
-    safe_http_request_with_retry('whapi_health_check') do
-      HTTParty.get(
-        "#{api_base_path}/health",
-        headers: api_headers,
-        query: {
-          wakeup: 'true',
-          platform: 'Chrome,Whapi,1.6.0',
-          channel_type: 'web'
-        },
-        timeout: whapi_timeout
-      )
-    end
-  rescue StandardError => e
-    Rails.logger.error "WHAPI health check failed: #{e.message}"
-    false
-  end
 
   # Check if WHAPI service is healthy (with caching to avoid excessive calls)
   def healthy?
@@ -322,14 +304,28 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     cache_key = "whapi_health_#{provider_config_object.api_key[0..8]}"
 
     Rails.cache.fetch(cache_key, expires_in: 30.seconds) do
-      response = check_health
+      response = safe_http_request_with_retry('whapi_health_check_auth') do
+        HTTParty.get(
+          "#{api_base_path}/health",
+          headers: api_headers,
+          query: {
+            wakeup: 'true',
+            platform: 'Chrome,Whapi,1.6.0',
+            channel_type: 'web'
+          },
+          timeout: whapi_timeout
+        )
+      end
+
       if response && response.success?
         parsed_response = response.parsed_response
-        if parsed_response.is_a?(Hash) && parsed_response.dig('status', 'code') == 'AUTH'
+        if parsed_response.is_a?(Hash) && parsed_response.dig('status', 'text') == 'AUTH'
           Rails.logger.debug 'WHAPI service is healthy and authenticated' if Rails.env.development?
           true
         else
-          Rails.logger.warn "WHAPI service not authenticated, status: #{parsed_response&.dig('status', 'code')}"
+          status_code = parsed_response&.dig('status', 'code')
+          status_text = parsed_response&.dig('status', 'text')
+          Rails.logger.warn "WHAPI service not authenticated, status: #{status_code}/#{status_text}"
           false
         end
       else
@@ -344,7 +340,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
 
   # Separate retry method to avoid overriding parent class (minimizes merge conflicts)
   def safe_http_request_with_retry(service_name, &)
-    max_retry_attempts = 2
+    max_retry_attempts = 3
     retry_delay_seconds = 5
 
     (0..max_retry_attempts).each do |attempt|
