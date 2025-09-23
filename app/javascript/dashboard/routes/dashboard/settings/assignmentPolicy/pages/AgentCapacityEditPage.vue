@@ -5,6 +5,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute, useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import camelcaseKeys from 'camelcase-keys';
+import { getInboxIconByType } from 'dashboard/helper/inbox';
 
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import SettingsLayout from 'dashboard/routes/dashboard/settings/SettingsLayout.vue';
@@ -58,7 +59,19 @@ const allAgents = computed(() =>
 
 const allLabels = computed(() => buildList(labelsList.value));
 
-const allInboxes = computed(() => buildList(inboxes.value));
+const allInboxes = computed(
+  () =>
+    inboxes.value
+      ?.slice()
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(({ name, id, email, phoneNumber, channelType, medium }) => ({
+        name,
+        id,
+        email,
+        phoneNumber,
+        icon: getInboxIconByType(channelType, medium, 'line'),
+      })) || []
+);
 
 const formData = computed(() => ({
   name: selectedPolicy.value?.name || '',

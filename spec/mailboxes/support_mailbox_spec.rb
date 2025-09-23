@@ -334,5 +334,19 @@ RSpec.describe SupportMailbox do
         expect(conversation.messages.last.content_attributes['email']['subject']).to eq('attachment with html')
       end
     end
+
+    describe 'when BCC processing is disabled for account' do
+      before do
+        allow(GlobalConfigService).to receive(:load).with('SKIP_INCOMING_BCC_PROCESSING', '').and_return(account.id.to_s)
+      end
+
+      it 'does not process BCC-only emails' do
+        bcc_mail = create_inbound_email_from_fixture('support.eml')
+        bcc_mail.mail['to'] = nil
+        bcc_mail.mail['bcc'] = 'care@example.com'
+
+        expect { described_class.receive bcc_mail }.to raise_error('Email channel/inbox not found')
+      end
+    end
   end
 end
