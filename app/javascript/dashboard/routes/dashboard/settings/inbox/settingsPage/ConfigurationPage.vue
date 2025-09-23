@@ -33,6 +33,8 @@ export default {
       whatsAppInboxAPIKey: '',
       isRequestingReauthorization: false,
       isSyncingTemplates: false,
+      allowedDomains: '',
+      isUpdatingAllowedDomains: false,
     };
   },
   validations: {
@@ -57,6 +59,7 @@ export default {
   methods: {
     setDefaults() {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
+      this.allowedDomains = this.inbox.allowed_domains || '';
     },
     handleHmacFlag() {
       this.updateInbox();
@@ -74,6 +77,39 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    sanitizeAllowedDomains(domains) {
+      if (!domains) {
+        return '';
+      }
+      return domains
+        .replace(/\s*\n\s*/g, ',')
+        .split(',')
+        .map(domain => domain.trim())
+        .filter(domain => domain.length)
+        .join(',');
+    },
+    async updateAllowedDomains() {
+      this.isUpdatingAllowedDomains = true;
+      const sanitizedAllowedDomains = this.sanitizeAllowedDomains(
+        this.allowedDomains
+      );
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            allowed_domains: sanitizedAllowedDomains,
+          },
+        };
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        this.allowedDomains = sanitizedAllowedDomains;
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      } finally {
+        this.isUpdatingAllowedDomains = false;
       }
     },
     async updateWhatsAppInboxAPIKey() {
@@ -178,6 +214,31 @@ export default {
           :codepen-title="`${inbox.name} - Chatwoot Widget Test`"
           enable-code-pen
         />
+      </SettingsSection>
+
+      <SettingsSection
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.TITLE')"
+        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.SUBTITLE')"
+      >
+        <div class="flex flex-col gap-4 md:w-2/3">
+          <woot-input
+            v-model="allowedDomains"
+            type="text"
+            :placeholder="
+              $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.PLACEHOLDER')
+            "
+          />
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.HELP_TEXT') }}
+          </p>
+          <div>
+            <NextButton
+              :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+              :is-loading="isUpdatingAllowedDomains"
+              @click="updateAllowedDomains"
+            />
+          </div>
+        </div>
       </SettingsSection>
 
       <SettingsSection
