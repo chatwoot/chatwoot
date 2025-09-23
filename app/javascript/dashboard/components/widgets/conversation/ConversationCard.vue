@@ -303,40 +303,6 @@ const deleteConversation = () => {
       >
         <InboxName v-if="showInboxName" :inbox="inbox" class="flex-1 min-w-0" />
         <div
-          class="flex items-center gap-2 flex-shrink-0"
-          :class="{
-            'flex-1 justify-between': !showInboxName,
-          }"
-        >
-          <Avatar
-            v-if="!hideThumbnail"
-            :name="currentContact.name"
-            :src="currentContact.thumbnail"
-            :size="32"
-            :status="currentContact.availability_status"
-            :class="!showInboxName ? 'mt-4' : 'mt-8'"
-            hide-offline-status
-            rounded-full
-          >
-            <template #overlay="{ size }">
-              <label
-                v-if="hovered || selected"
-                class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px]"
-                :style="{ width: `${size}px`, height: `${size}px` }"
-                @click.stop
-              >
-                <input
-                  :value="selected"
-                  :checked="selected"
-                  class="!m-0 cursor-pointer"
-                  type="checkbox"
-                  @change="onSelectConversation($event.target.checked)"
-                />
-              </label>
-            </template>
-          </Avatar>
-        </div>
-        <div
           class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 min-w-0"
         >
           <div
