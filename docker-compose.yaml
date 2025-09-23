@@ -1,119 +1,75 @@
 version: '3'
 
+networks:
+  integrisoft-network:
+    external: true
+
 services:
   base: &base
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      args:
-        BUNDLE_WITHOUT: ''
-        EXECJS_RUNTIME: 'Node'
-        RAILS_ENV: 'development'
-        RAILS_SERVE_STATIC_FILES: 'false'
-    tty: true
-    stdin_open: true
-    image: chatwoot:development
-    env_file: .env
+    image: chatwoot/chatwoot:latest
+    env_file: .env ## Change this file for customized env variables
+    volumes:
+      - storage_data:/app/storage
+    networks:
+      - integrisoft-network
 
   rails:
     <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/rails.Dockerfile
-    image: chatwoot-rails:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
     depends_on:
-      - postgres
-      - redis
-      - vite
-      - mailhog
-      - sidekiq
+      # - postgres
+      - redis-chatwoot
     ports:
-      - 3000:3000
-    env_file: .env
+      - '127.0.0.1:3000:3000'
     environment:
-      - VITE_DEV_SERVER_HOST=vite
-      - NODE_ENV=development
-      - RAILS_ENV=development
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
     entrypoint: docker/entrypoints/rails.sh
-    command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: always
+    networks:
+      - integrisoft-network
 
   sidekiq:
     <<: *base
-    image: chatwoot-rails:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
     depends_on:
-      - postgres
-      - redis
-      - mailhog
+      # - postgres
+      - redis-chatwoot
     environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
-    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
-
-  vite:
-    <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
-    ports:
-      - "3036:3036" # Vite dev server
-    environment:
-      - VITE_DEV_SERVER_HOST=0.0.0.0
-      - NODE_ENV=development
-      - RAILS_ENV=development
-    entrypoint: docker/entrypoints/vite.sh
-    command: bin/vite dev
-
-  postgres:
-    image: pgvector/pgvector:pg16
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
-    ports:
-      - '5432:5432'
-    volumes:
-      - postgres:/data/postgres
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+    networks:
+      - integrisoft-network
 
-  redis:
+  # postgres:
+  #   image: pgvector/pgvector:pg16
+  #   restart: always
+  #   ports:
+  #     - '127.0.0.1:5433:5432'
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=chatwoot
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=development@dev
+  #   networks:
+  #     - integrisoft-network
+
+  redis-chatwoot:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
     volumes:
-      - redis:/data/redis
+      - redis_data:/data
     ports:
-      - '6379:6379'
-
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - 1025:1025
-      - 8025:8025
+      - '127.0.0.1:6380:6379'
+    networks:
+      - integrisoft-network
 
 volumes:
-  postgres:
-  redis:
-  packs:
-  node_modules:
-  cache:
-  bundle:
+  storage_data:
+  postgres_data:
+  redis_data:
