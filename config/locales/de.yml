@@ -26,6 +26,9 @@ de:
   messages:
     reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Die Löschanfrage Ihres Posteingangs wird in Kürze bearbeitet.
   errors:
     validations:
@@ -41,6 +44,8 @@ de:
       failed: Anmeldung gescheitert
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Ungültiger Datentyp
@@ -84,6 +89,20 @@ de:
       invalid_value: Ungültiger Wert. Die Werte für %{attribute_name} sind ungültig
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Berichtszeitraum von %{since} bis %{until}
     utc_warning: Der generierte Bericht ist in UTC-Zeitzone
@@ -209,6 +228,7 @@ de:
     reply:
       email:
         header:
+          notifications: 'Push-Benachrichtigungen'
           from_with_name: '%{assignee_name} von %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} von %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} von %{business_name} <%{from_email}>'

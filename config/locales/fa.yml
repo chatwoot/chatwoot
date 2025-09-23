@@ -26,6 +26,9 @@ fa:
   messages:
     reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
     reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: درخواست حذف صندوق ورودی شما پس از مدتی پردازش خواهد شد.
   errors:
     validations:
@@ -41,6 +44,8 @@ fa:
       failed: ثبت نام ناموفق بود
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: نوع داده نامعتبر است
@@ -84,6 +89,20 @@ fa:
       invalid_value: مقدار معتبر نیست. مقادیر ارائه شده برای %{attribute_name} معتبر نیست
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: زمان گزارش از %{since} تا %{until}
     utc_warning: گزارش تولید شده در منطقه زمانی UTC است
@@ -209,6 +228,7 @@ fa:
     reply:
       email:
         header:
+          notifications: 'اعلان ها'
           from_with_name: '%{assignee_name} از %{inbox_name} «%{from_email}»'
           reply_with_name: '%{assignee_name} از %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} از %{business_name} «%{from_email}»'

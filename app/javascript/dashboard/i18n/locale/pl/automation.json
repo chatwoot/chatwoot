@@ -177,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Zespół",
-      "PRIORITY": "Priorytet"
+      "PRIORITY": "Priorytet",
+      "LABELS": "Etykiety"
     }
   }
 }

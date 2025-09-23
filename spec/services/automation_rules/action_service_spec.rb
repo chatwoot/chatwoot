@@ -118,6 +118,45 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
 
+    describe '#perform with add_label action' do
+      before do
+        rule.actions << { action_name: 'add_label', action_params: %w[bug feature] }
+        rule.save
+      end
+
+      it 'will add labels to conversation' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list).to include('bug', 'feature')
+      end
+
+      it 'will not duplicate existing labels' do
+        conversation.add_labels(['bug'])
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list.count('bug')).to eq(1)
+        expect(conversation.reload.label_list).to include('feature')
+      end
+    end
+
+    describe '#perform with remove_label action' do
+      before do
+        conversation.add_labels(%w[bug feature support])
+        rule.actions << { action_name: 'remove_label', action_params: %w[bug feature] }
+        rule.save
+      end
+
+      it 'will remove specified labels from conversation' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list).not_to include('bug', 'feature')
+        expect(conversation.reload.label_list).to include('support')
+      end
+
+      it 'will not fail if labels do not exist on conversation' do
+        conversation.update_labels(['support']) # Remove bug and feature first
+        expect { described_class.new(rule, account, conversation).perform }.not_to raise_error
+        expect(conversation.reload.label_list).to include('support')
+      end
+    end
+
     describe '#perform with add_private_note action' do
       let(:message_builder) { double }
 

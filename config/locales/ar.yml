@@ -26,6 +26,9 @@ ar:
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
     reset_password_failure: المعذرة! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: سيتم معالجة طلب حذف صندوق الوارد الخاص بك في بعض الوقت.
   errors:
     validations:
@@ -41,6 +44,8 @@ ar:
       failed: فشلت عملية التسجيل
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: نوع البيانات غير صالح
@@ -84,6 +89,20 @@ ar:
       invalid_value: قيمة غير صالحة. القيم المقدمة ل %{attribute_name} غير صالحة
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: فترة التبليغ %{since} إلى %{until}
     utc_warning: التقرير الذي تم إنشاؤه في التوقيت العالمي الموحّد
@@ -209,6 +228,7 @@ ar:
     reply:
       email:
         header:
+          notifications: 'الإشعارات'
           from_with_name: '%{assignee_name} من %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} من %{inbox_name} <%{reply_email}>'
           friendly_name: '%{sender_name} من %{business_name} <%{from_email}>'
