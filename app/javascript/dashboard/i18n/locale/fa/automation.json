@@ -177,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "مسئول",
       "TEAM_NAME": "تیم‌",
-      "PRIORITY": "اولویت"
+      "PRIORITY": "اولویت",
+      "LABELS": "برچسب‌ها"
     }
   }
 }
