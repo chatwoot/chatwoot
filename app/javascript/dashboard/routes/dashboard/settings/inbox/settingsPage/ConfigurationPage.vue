@@ -7,6 +7,7 @@ import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import TextArea from 'next/textarea/TextArea.vue';
 import WhatsappReauthorize from '../channels/whatsapp/Reauthorize.vue';
 
 export default {
@@ -15,6 +16,7 @@ export default {
     ImapSettings,
     SmtpSettings,
     NextButton,
+    TextArea,
     WhatsappReauthorize,
   },
   mixins: [inboxMixin],
@@ -220,17 +222,16 @@ export default {
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.SUBTITLE')"
       >
-        <div class="flex flex-col gap-4 md:w-2/3">
-          <woot-input
+        <div class="flex flex-col w-full max-w-3xl gap-4">
+          <TextArea
             v-model="allowedDomains"
-            type="text"
             :placeholder="
               $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.PLACEHOLDER')
             "
+            auto-height
+            min-height="8rem"
+            class="w-full"
           />
-          <p class="help-text">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.HELP_TEXT') }}
-          </p>
           <div>
             <NextButton
               :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"

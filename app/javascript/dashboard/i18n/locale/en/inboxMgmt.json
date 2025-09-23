@@ -78,11 +78,6 @@
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
-        "ALLOWED_DOMAINS": {
-          "LABEL": "Allowed Domains",
-          "PLACEHOLDER": "Enter domains separated by commas (eg: https://example.com, https://app.example.com)",
-          "HELP_TEXT": "Restrict widget embedding to the domains listed here. Leave blank to allow all domains."
-        },
         "CHANNEL_WELCOME_TITLE": {
           "LABEL": "Welcome Heading",
           "PLACEHOLDER": "Hi there !"
@@ -625,9 +620,8 @@
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Restrict where the widget can be embedded.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: https://example.com, https://app.example.com)",
-        "HELP_TEXT": "Leave blank to allow embedding on any domain."
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: https://example.com, https://app.example.com)"
       },
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",

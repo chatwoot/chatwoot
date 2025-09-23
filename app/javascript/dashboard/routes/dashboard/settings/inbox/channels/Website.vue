@@ -24,7 +24,6 @@ export default {
       channelWelcomeTagline: '',
       greetingEnabled: false,
       greetingMessage: '',
-      allowedDomains: '',
       welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
@@ -45,9 +44,6 @@ export default {
   methods: {
     async createChannel() {
       try {
-        const sanitizedAllowedDomains = this.sanitizeAllowedDomains(
-          this.allowedDomains
-        );
         const website = await this.$store.dispatch(
           'inboxes/createWebsiteChannel',
           {
@@ -60,11 +56,9 @@ export default {
               widget_color: this.channelWidgetColor,
               welcome_title: this.channelWelcomeTitle,
               welcome_tagline: this.channelWelcomeTagline,
-              allowed_domains: sanitizedAllowedDomains,
             },
           }
         );
-        this.allowedDomains = sanitizedAllowedDomains;
         router.replace({
           name: 'settings_inboxes_add_agents',
           params: {
@@ -78,17 +72,6 @@ export default {
             this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.API.ERROR_MESSAGE')
         );
       }
-    },
-    sanitizeAllowedDomains(domains) {
-      if (!domains) {
-        return '';
-      }
-      return domains
-        .replace(/\s*\n\s*/g, ',')
-        .split(',')
-        .map(domain => domain.trim())
-        .filter(domain => domain.length)
-        .join(',');
     },
   },
 };
@@ -129,22 +112,6 @@ export default {
               $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
             "
           />
-        </label>
-      </div>
-
-      <div class="w-full">
-        <label>
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.ALLOWED_DOMAINS.LABEL') }}
-          <input
-            v-model="allowedDomains"
-            type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.ALLOWED_DOMAINS.PLACEHOLDER')
-            "
-          />
-          <p class="help-text">
-            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.ALLOWED_DOMAINS.HELP_TEXT') }}
-          </p>
         </label>
       </div>
 
