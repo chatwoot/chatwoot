@@ -21,9 +21,17 @@ const onClick = (item, index) => {
 </script>
 
 <template>
-  <nav :aria-label="t('BREADCRUMB.ARIA_LABEL')" class="flex items-center h-8">
-    <ol class="flex items-center mb-0">
-      <li v-for="(item, index) in items" :key="index" class="flex items-center">
+  <nav
+    :aria-label="t('BREADCRUMB.ARIA_LABEL')"
+    class="flex items-center h-8 min-w-0"
+  >
+    <ol class="flex items-center mb-0 min-w-0">
+      <li
+        v-for="(item, index) in items"
+        :key="index"
+        class="flex items-center"
+        :class="{ 'min-w-0 flex-1': index === items.length - 1 }"
+      >
         <Icon
           v-if="index > 0"
           icon="i-lucide-chevron-right"
@@ -40,7 +48,7 @@ const onClick = (item, index) => {
         </button>
 
         <!-- The last breadcrumb item is plain text -->
-        <span v-else class="text-sm truncate text-n-slate-12 max-w-56">
+        <span v-else class="text-sm truncate text-n-slate-12 min-w-0 block">
           {{ item.emoji ? item.emoji : '' }} {{ item.label }}
         </span>
       </li>

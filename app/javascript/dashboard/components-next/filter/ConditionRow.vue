@@ -103,6 +103,12 @@ const validationError = computed(() => {
   );
 });
 
+const inputFieldType = computed(() => {
+  if (inputType.value === 'date') return 'date';
+  if (inputType.value === 'number') return 'number';
+  return 'text';
+});
+
 const resetModelOnAttributeKeyChange = newAttributeKey => {
   /**
    * Resets the filter values and operator when the attribute key changes. This ensures that
@@ -182,7 +188,7 @@ defineExpose({ validate });
         <Input
           v-else
           v-model="values"
-          :type="inputType === 'date' ? 'date' : 'text'"
+          :type="inputFieldType"
           class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
           :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
         />
@@ -192,6 +198,7 @@ defineExpose({ validate });
         solid
         slate
         icon="i-lucide-trash"
+        class="flex-shrink-0"
         @click.stop="emit('remove')"
       />
     </div>
