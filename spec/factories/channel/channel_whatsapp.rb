@@ -88,7 +88,7 @@ FactoryBot.define do
 
     transient do
       sync_templates { true }
-      validate_provider_config { true }
+      validate_provider_config { false }
     end
 
     before(:build) do |channel_whatsapp, options|

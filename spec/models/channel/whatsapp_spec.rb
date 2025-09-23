@@ -231,8 +231,7 @@ RSpec.describe Channel::Whatsapp do
 
     context 'when channel is created through embedded signup' do
       it 'does not raise error if webhook setup fails' do
-        allow(webhook_service).to receive(:perform).and_raise(StandardError, 'Webhook error')
-
+        allow(Whatsapp::WebhookSetupService).to receive(:new).and_raise(StandardError)
         expect do
           create(:channel_whatsapp,
                  account: account,
@@ -242,7 +241,6 @@ RSpec.describe Channel::Whatsapp do
                    'business_account_id' => 'test_waba_id',
                    'api_key' => 'test_access_token'
                  },
-                 validate_provider_config: false,
                  sync_templates: false)
         end.not_to raise_error
       end
@@ -251,7 +249,6 @@ RSpec.describe Channel::Whatsapp do
     context 'when channel is created through manual setup' do
       it 'does not setup webhooks' do
         expect(Whatsapp::WebhookSetupService).not_to receive(:new)
-
         create(:channel_whatsapp,
                account: account,
                provider: 'whatsapp_cloud',
@@ -259,7 +256,6 @@ RSpec.describe Channel::Whatsapp do
                  'business_account_id' => 'test_waba_id',
                  'api_key' => 'test_access_token'
                },
-               validate_provider_config: false,
                sync_templates: false)
       end
     end
@@ -300,7 +296,6 @@ RSpec.describe Channel::Whatsapp do
                            'api_key' => 'test_access_token',
                            'phone_number_id' => '123456789'
                          },
-                         validate_provider_config: false,
                          sync_templates: false)
 
         teardown_service = instance_double(Whatsapp::WebhookTeardownService)
@@ -323,7 +318,6 @@ RSpec.describe Channel::Whatsapp do
                            'source' => 'manual',
                            'api_key' => 'test_access_token'
                          },
-                         validate_provider_config: false,
                          sync_templates: false)
 
         teardown_service = instance_double(Whatsapp::WebhookTeardownService)

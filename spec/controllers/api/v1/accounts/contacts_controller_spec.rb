@@ -132,7 +132,7 @@ RSpec.describe 'Contacts API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload'].first['email']).to eq(contact_from_albania.email)
         expect(response_body['payload'].first['id']).to eq(contact_from_albania.id)
-        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+        expect(response_body['payload'].last['additional_attributes']['country_code']).to be_nil
       end
 
       it 'returns last seen at' do

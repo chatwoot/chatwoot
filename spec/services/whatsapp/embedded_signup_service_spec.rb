@@ -77,7 +77,7 @@ describe Whatsapp::EmbeddedSignupService do
       it 'prompts reauthorization when webhook setup fails' do
         # Create a real channel to test the actual webhook failure behavior
         real_channel = create(:channel_whatsapp, account: account, phone_number: '+1234567890',
-                                                 validate_provider_config: false, sync_templates: false)
+                                                 sync_templates: false)
 
         # Mock the channel creation to return our real channel
         channel_creation = instance_double(Whatsapp::ChannelCreationService)
@@ -127,7 +127,7 @@ describe Whatsapp::EmbeddedSignupService do
       it 'clears reauthorization flag' do
         inbox = create(:inbox, account: account)
         whatsapp_channel = create(:channel_whatsapp, account: account, phone_number: '+1234567890',
-                                                     validate_provider_config: false, sync_templates: false)
+                                                     sync_templates: false)
         inbox.update!(channel: whatsapp_channel)
         whatsapp_channel.prompt_reauthorization!
 

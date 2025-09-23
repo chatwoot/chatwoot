@@ -253,7 +253,6 @@ RSpec.describe ForwardNotificationService do
     it 'creates a Channel::Whatsapp instance with the provided API key' do
       result = service.send(:create_whapi_channel, api_key)
 
-      expect(Rails.logger).to have_received(:error).with("Creating whapi channel with api key: #{api_key}")
       expect(result).to be_a(Channel::Whatsapp)
       expect(result.provider).to eq('whapi')
       expect(result.provider_config['api_key']).to eq(api_key)

@@ -57,7 +57,9 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
         end
 
         it 'creates whatsapp channel successfully' do
-          whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
+          whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false)
+          stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook').to_return(status: 200, body: '', headers: {})
+          stub_request(:get, 'https://waba.360dialog.io/v1/configs/templates').to_return(status: 200, body: '', headers: {})
           inbox = create(:inbox, account: account, channel: whatsapp_channel)
           embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
 

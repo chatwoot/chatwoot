@@ -62,7 +62,7 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       context 'when provider_config' do
-        let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+        let(:inbox) { create(:channel_whatsapp, account: account, sync_templates: false).inbox }
 
         it 'returns provider config attributes for admin' do
           get "/api/v1/accounts/#{account.id}/inboxes",
@@ -924,7 +924,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/sync_templates' do
     let(:whatsapp_channel) do
-      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false)
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false)
     end
     let(:whatsapp_inbox) { create(:inbox, account: account, channel: whatsapp_channel) }
     let(:non_whatsapp_inbox) { create(:inbox, account: account) }

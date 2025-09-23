@@ -9,8 +9,7 @@ describe Whatsapp::WebhookSetupService do
              'webhook_verify_token' => 'test_verify_token'
            },
            provider: 'whatsapp_cloud',
-           sync_templates: false,
-           validate_provider_config: false)
+           sync_templates: false)
   end
   let(:waba_id) { 'test_waba_id' }
   let(:access_token) { 'test_access_token' }
@@ -186,7 +185,7 @@ describe Whatsapp::WebhookSetupService do
                },
                provider: 'whatsapp_cloud',
                sync_templates: false,
-               validate_provider_config: false)
+               reauthorization_required: true)
       end
       let(:new_access_token) { 'new_access_token' }
       let(:service_reauth) { described_class.new(existing_channel, waba_id, new_access_token) }
