@@ -66,4 +66,29 @@ RSpec.describe 'Super Admin Users API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /super_admin/users/:id' do
+    let!(:user) { create(:user) }
+    let(:request_path) { "/super_admin/users/#{user.id}" }
+
+    before { sign_in(super_admin, scope: :super_admin) }
+
+    it 'skips reconfirmation when confirmed_at is provided' do
+      expect_any_instance_of(User).to receive(:skip_reconfirmation!).and_call_original
+
+      patch request_path, params: { user: { email: 'updated@example.com', confirmed_at: Time.current } }
+
+      expect(response).to have_http_status(:redirect)
+      expect(user.reload.email).to eq('updated@example.com')
+    end
+
+    it 'does not skip reconfirmation when confirmed_at is blank' do
+      expect_any_instance_of(User).not_to receive(:skip_reconfirmation!)
+
+      patch request_path, params: { user: { email: 'updated-again@example.com' } }
+
+      expect(response).to have_http_status(:redirect)
+      expect(user.reload.unconfirmed_email).to eq('updated-again@example.com')
+    end
+  end
 end
