@@ -22,27 +22,67 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def create
-    @user, @account = AccountBuilder.new(
-      account_name: account_params[:account_name],
-      user_full_name: account_params[:user_full_name],
-      email: account_params[:email],
-      user_password: account_params[:password],
-      locale: account_params[:locale],
-      user: current_user,
-      phoneNumber:account_params[:phoneNumber]
-    ).perform
-
-    Rails.logger.info "User: #{@user.inspect}, Account: #{@account.inspect}"
-
-    if @user && @account
-      # Assign Free Trial subscription to the newly created account
-      assign_free_trial_subscription(@account)
-
-      send_auth_headers(@user)
-      render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
+    Rails.logger.info "Creating new user registration for email: #{account_params[:email]}"
+    
+    # Check if user already exists
+    existing_user = User.find_by(email: account_params[:email])
+    
+    if existing_user
+      if existing_user.confirmed?
+        return render json: { error: 'User already exists and is verified. Please login instead.' }, status: :unprocessable_entity
+      else
+        Rails.logger.info "User exists but not confirmed, allowing re-registration: #{existing_user.id}"
+        # User exists but not confirmed - update their details and allow re-registration
+        existing_user.update!(
+          name: account_params[:user_full_name],
+          phone: account_params[:phoneNumber],
+          password: account_params[:password],
+          password_confirmation: account_params[:password],
+          custom_attributes: {
+            pending_account_name: account_params[:account_name],
+            pending_locale: account_params[:locale],
+            registration_completed: false
+          }
+        )
+        
+        @user = existing_user
+        Rails.logger.info "Existing user updated for re-registration"
+      end
     else
-      render_error_response(CustomExceptions::Account::SignupFailed.new({}))
+      # Create new user only (without account) - user needs to verify email first
+      @user = User.new(
+        email: account_params[:email],
+        password: account_params[:password],
+        password_confirmation: account_params[:password],
+        name: account_params[:user_full_name],
+        phone: account_params[:phoneNumber],
+        custom_attributes: {
+          pending_account_name: account_params[:account_name],
+          pending_locale: account_params[:locale],
+          registration_completed: false
+        }
+      )
+      
+      unless @user.save
+        Rails.logger.error "User creation failed: #{@user.errors.full_messages.join(', ')}"
+        return render json: { 
+          error: 'Failed to create user',
+          details: @user.errors.full_messages
+        }, status: :unprocessable_entity
+      end
+      
+      Rails.logger.info "New user created successfully: #{@user.id}"
     end
+    
+    # Don't confirm the user - they need to verify via OTP
+    # Don't create account yet - wait for OTP verification
+    
+    render json: { 
+      message: 'User created successfully. Please verify your email to complete registration.',
+      user_id: @user.id,
+      email: @user.email,
+      requires_otp_verification: true
+    }, status: :created
   end
 
   def cache_keys

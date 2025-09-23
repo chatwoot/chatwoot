@@ -1,0 +1,32 @@
+{
+  "OTP_VERIFICATION": {
+    "TITLE": "Email Verification",
+    "SUBTITLE": "Please enter the 6-digit verification code sent to your email address.",
+    "OTP_CODE": {
+      "LABEL": "Verification Code",
+      "PLACEHOLDER": "Enter 6-digit code",
+      "ERROR": "Please enter a valid 6-digit code"
+    },
+    "BUTTONS": {
+      "VERIFY": "Verify Email",
+      "RESEND": "Resend Code",
+      "BACK_TO_SIGNUP": "Back to Sign Up"
+    },
+    "MESSAGES": {
+      "CODE_SENT": "Verification code has been sent to your email.",
+      "CODE_RESENT": "Verification code has been resent.",
+      "VERIFICATION_SUCCESS": "Email verified successfully!",
+      "ACCOUNT_CREATED": "Account created successfully! Redirecting to login...",
+      "COUNTDOWN": "Resend code in {{seconds}} seconds",
+      "EXPIRED": "Code expired. Please request a new one."
+    },
+    "ERRORS": {
+      "USER_NOT_FOUND": "User not found",
+      "EMAIL_ALREADY_VERIFIED": "Email already verified", 
+      "INVALID_CODE": "Invalid or expired verification code",
+      "FAILED_TO_GENERATE": "Failed to generate verification code",
+      "FAILED_TO_VERIFY": "Failed to verify code",
+      "WAIT_BEFORE_RESEND": "Please wait before requesting a new code"
+    }
+  }
+}
