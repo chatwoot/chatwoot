@@ -31,7 +31,7 @@ const superLongDebouncedFetchMetaData = debounce(
   fetchMetaData,
   2000,
   false,
-  5000
+  8000
 );
 
 export const actions = {
