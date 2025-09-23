@@ -25,7 +25,8 @@ class Whatsapp::PhoneNumberNormalizationService
   attr_reader :inbox
 
   def find_normalizer_for_country(waid)
-    NORMALIZERS.find { |normalizer_class| normalizer_class.new.handles_country?(waid) }&.new
+    NORMALIZERS.map { |normalizer_class| normalizer_class.new }
+               .find { |normalizer| normalizer.handles_country?(waid) }
   end
 
   def find_existing_contact_inbox(normalized_waid)
