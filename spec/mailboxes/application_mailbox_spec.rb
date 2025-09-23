@@ -66,6 +66,20 @@ RSpec.describe ApplicationMailbox do
         expect(dbl).to receive(:perform_processing).and_return(true)
         described_class.route reply_cc_mail
       end
+
+      it 'skips routing when BCC processing is disabled for account' do
+        allow(GlobalConfigService).to receive(:load).with('SKIP_INCOMING_BCC_PROCESSING', '').and_return(channel_email.account_id.to_s)
+
+        # Create a BCC-only email scenario
+        bcc_mail = create_inbound_email_from_fixture('support.eml')
+        bcc_mail.mail['to'] = nil
+        bcc_mail.mail['bcc'] = 'care@example.com'
+
+        channel_email.update(email: 'care@example.com')
+
+        expect(DefaultMailbox).to receive(:new).and_return(double.tap { |d| expect(d).to receive(:perform_processing) })
+        described_class.route bcc_mail
+      end
     end
 
     describe 'Invalid Mail To Address' do
