@@ -9,15 +9,23 @@ class ForwardNotificationService
   end
 
   def send_notification
+    # Enqueue job asynchronously following Chatwoot pattern
+    ForwardNotificationJob.perform_later(@message.id)
+  rescue StandardError => e
+    Rails.logger.error "Error enqueuing notification job: #{e.message}"
+  end
+
+  def perform_notification_sending
     # Find the notification channels and their target chats
     notification_channels = extract_notification_channels
     return if notification_channels.empty?
 
+    # Process each channel synchronously (Sidekiq worker handles concurrency)
     notification_channels.each do |channel_config|
       send_to_channel(channel_config)
     end
   rescue StandardError => e
-    Rails.logger.error "Error in ForwardNotificationService.send_notification: #{e.message}"
+    Rails.logger.error "Error in ForwardNotificationService.perform_notification_sending: #{e.message}"
   end
 
   private
@@ -58,13 +66,13 @@ class ForwardNotificationService
 
     if whatsapp_channel.nil?
       Rails.logger.info "No existing whapi channel found for account #{@account.id}, checking for default API key"
-      default_api_key = ENV['DEFAULT_WHAPI_CHANNEL_TOKEN']
+      default_api_key = ENV.fetch('DEFAULT_WHAPI_CHANNEL_TOKEN', nil)
       if default_api_key.present?
         Rails.logger.info "Creating new whapi channel for account #{@account.id} using default API Token: #{default_api_key[0..8]}..."
         whatsapp_channel = create_whapi_channel(default_api_key)
       else
         Rails.logger.error "Account #{@account.id} with no whapi channel and no default whapi channel token defined"
-      return
+        return
       end
     else
       api_key = whatsapp_channel.provider_config&.dig('api_key')
@@ -75,10 +83,10 @@ class ForwardNotificationService
     unless whatsapp_channel&.provider_config&.dig('api_key').present?
       Rails.logger.warn "WhatsApp channel missing API key for account #{@account.id}"
       return
-    end  
+    end
 
+    # Send to each chat (WhapiService will handle retry and timeout)
     target_chats.each do |chat_id|
-      # Send to the WhatsApp channel
       send_via_whatsapp_channel(whatsapp_channel, chat_id, @message.content)
     end
   end
@@ -89,14 +97,13 @@ class ForwardNotificationService
     # Create a proper message object for notification forwarding
     message_object = NotificationMessage.new(notification_message)
 
-    # Create the WhapiService instance and send the message
+    # Create the WhapiService instance and send the message (WhapiService handles retry/timeout)
     whapi_service = Whatsapp::Providers::WhapiService.new(whatsapp_channel: whatsapp_channel)
     whapi_service.send_message(target_chat, message_object)
 
   rescue StandardError => e
     Rails.logger.error "Failed to send WhatsApp notification to #{target_chat}: #{e.message}"
   end
-
 
   def create_whapi_channel(api_key)
     # Create a minimal Channel::Whatsapp instance with only the API key

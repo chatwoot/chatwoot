@@ -40,11 +40,30 @@ RSpec.describe ForwardNotificationService do
   end
 
   describe '#send_notification' do
+    it 'enqueues ForwardNotificationJob' do
+      expect(ForwardNotificationJob).to receive(:perform_later).with(message.id)
+
+      service.send_notification
+    end
+
+    context 'when an error occurs' do
+      before do
+        allow(ForwardNotificationJob).to receive(:perform_later).and_raise(StandardError, 'Test error')
+      end
+
+      it 'logs the error and does not re-raise' do
+        expect { service.send_notification }.not_to raise_error
+        expect(Rails.logger).to have_received(:error).with('Error enqueuing notification job: Test error')
+      end
+    end
+  end
+
+  describe '#perform_notification_sending' do
     context 'when notification channels are configured' do
       it 'processes notification channels successfully' do
         allow(service).to receive(:send_to_channel)
 
-        service.send_notification
+        service.perform_notification_sending
 
         expect(service).to have_received(:send_to_channel).once
       end
@@ -58,7 +77,7 @@ RSpec.describe ForwardNotificationService do
       it 'returns early without processing' do
         allow(service).to receive(:send_to_channel)
 
-        service.send_notification
+        service.perform_notification_sending
 
         expect(service).not_to have_received(:send_to_channel)
       end
@@ -70,8 +89,8 @@ RSpec.describe ForwardNotificationService do
       end
 
       it 'logs the error and does not re-raise' do
-        expect { service.send_notification }.not_to raise_error
-        expect(Rails.logger).to have_received(:error).with('Error in ForwardNotificationService.send_notification: Test error')
+        expect { service.perform_notification_sending }.not_to raise_error
+        expect(Rails.logger).to have_received(:error).with('Error in ForwardNotificationService.perform_notification_sending: Test error')
       end
     end
   end
@@ -145,23 +164,21 @@ RSpec.describe ForwardNotificationService do
     end
   end
 
-  describe '#send_whatsapp_notifications' do
-    let(:target_chats) { %w[1234567890 0987654321] }
-
+  describe 'WhatsApp notifications with environment variable' do
     context 'when DEFAULT_WHAPI_CHANNEL_TOKEN environment variable is set' do
       let(:mock_whapi_channel) { instance_double(Channel::Whatsapp) }
 
       before do
-        allow(ENV).to receive(:[]).with('DEFAULT_WHAPI_CHANNEL_TOKEN').and_return('test_api_key_123')
-        allow(service).to receive(:create_whapi_channel).with('test_api_key_123').and_return(mock_whapi_channel)
+        allow(ENV).to receive(:fetch).with('DEFAULT_WHAPI_CHANNEL_TOKEN', nil).and_return('test_api_key_123')
+        allow(service).to receive(:create_whapi_channel).and_return(mock_whapi_channel)
         allow(mock_whapi_channel).to receive(:provider_config).and_return({ 'api_key' => 'test_api_key_123' })
         allow(service).to receive(:send_via_whatsapp_channel)
       end
 
       it 'creates a WHAPI channel with the environment variable and sends notifications' do
-        service.send(:send_whatsapp_notifications, target_chats)
+        service.perform_notification_sending
 
-        expect(service).to have_received(:create_whapi_channel).with('test_api_key_123')
+        expect(service).to have_received(:create_whapi_channel)
         expect(service).to have_received(:send_via_whatsapp_channel).with(mock_whapi_channel, '1234567890', '[test]: Test notification')
         expect(service).to have_received(:send_via_whatsapp_channel).with(mock_whapi_channel, '0987654321', '[test]: Test notification')
       end
@@ -169,13 +186,13 @@ RSpec.describe ForwardNotificationService do
 
     context 'when DEFAULT_WHAPI_CHANNEL_TOKEN environment variable is not set' do
       before do
-        allow(ENV).to receive(:[]).with('DEFAULT_WHAPI_CHANNEL_TOKEN').and_return(nil)
+        allow(ENV).to receive(:fetch).with('DEFAULT_WHAPI_CHANNEL_TOKEN', nil).and_return(nil)
       end
 
       it 'logs an error and returns early' do
         allow(service).to receive(:send_via_whatsapp_channel)
 
-        service.send(:send_whatsapp_notifications, target_chats)
+        service.perform_notification_sending
 
         expect(Rails.logger).to have_received(:error).with("Account #{account.id} with no whapi channel and no default whapi channel token defined")
         expect(service).not_to have_received(:send_via_whatsapp_channel)
@@ -184,13 +201,13 @@ RSpec.describe ForwardNotificationService do
 
     context 'when DEFAULT_WHAPI_CHANNEL_TOKEN environment variable is empty' do
       before do
-        allow(ENV).to receive(:[]).with('DEFAULT_WHAPI_CHANNEL_TOKEN').and_return('')
+        allow(ENV).to receive(:fetch).with('DEFAULT_WHAPI_CHANNEL_TOKEN', nil).and_return('')
       end
 
       it 'logs an error and returns early' do
         allow(service).to receive(:send_via_whatsapp_channel)
 
-        service.send(:send_whatsapp_notifications, target_chats)
+        service.perform_notification_sending
 
         expect(Rails.logger).to have_received(:error).with("Account #{account.id} with no whapi channel and no default whapi channel token defined")
         expect(service).not_to have_received(:send_via_whatsapp_channel)

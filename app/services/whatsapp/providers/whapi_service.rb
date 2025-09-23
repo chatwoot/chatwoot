@@ -1,5 +1,16 @@
 class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
+    # Health check before sending (like Python backend pattern)
+    unless healthy?
+      Rails.logger.error 'WHAPI service is not healthy, skipping message send',
+                         extra: {
+                           service: 'WHAPI',
+                           phone_number: phone_number&.[](0..5),  # Partial phone for privacy
+                           message_type: message.attachments.present? ? 'attachment' : 'text'
+                         }
+      return nil
+    end
+
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     else
@@ -50,9 +61,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
 
   def process_response(response, message = nil)
     # Only log details in development
-    if Rails.env.development?
-      Rails.logger.debug "WHAPI Response: #{response.code} - #{response.headers['content-type']}"
-    end
+    Rails.logger.debug { "WHAPI Response: #{response.code} - #{response.headers['content-type']}" } if Rails.env.development?
 
     begin
       parsed_response = response.parsed_response
@@ -68,12 +77,12 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     if (200..299).cover?(response.code)
       if parsed_response.is_a?(Hash)
         message_id = parsed_response.dig('message', 'id')
-        
+
         if message_id.present?
           Rails.logger.info "WHAPI Message sent successfully with ID: #{message_id}"
           return message_id
         else
-          Rails.logger.warn "WHAPI No message ID found in successful response"
+          Rails.logger.warn 'WHAPI No message ID found in successful response'
         end
       else
         Rails.logger.warn "WHAPI Response is not a hash: #{parsed_response.class}"
@@ -88,10 +97,11 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   end
 
   def mark_as_read(message)
-    safe_http_request('whapi_mark_read') do
+    safe_http_request_with_retry('whapi_mark_read') do
       HTTParty.put(
         "#{api_base_path}/messages/#{message.source_id}",
-        headers: api_headers
+        headers: api_headers,
+        timeout: whapi_timeout  # Configurable timeout
       )
     end
   rescue StandardError => e
@@ -103,21 +113,21 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
 
     begin
       clean_phone = phone_number.to_s.gsub(/[@c\.us|whatpne].*$/, '').gsub(/\D/, '')
-      
-      Rails.logger.debug "WHAPI Fetching contact info" if Rails.env.development?
 
-      profile_response = safe_http_request('whapi_fetch_contact') do
+      Rails.logger.debug 'WHAPI Fetching contact info' if Rails.env.development?
+
+      profile_response = safe_http_request_with_retry('whapi_fetch_contact') do
         HTTParty.get(
           "#{api_base_path}/contacts/#{clean_phone}/profile",
           headers: api_headers,
-          timeout: 10
+          timeout: whapi_timeout
         )
       end
 
       return nil unless profile_response.success?
 
       profile_data = profile_response.parsed_response
-      
+
       result = {
         avatar_url: profile_data['icon_full'] || profile_data['icon'],
         name: profile_data['pushname'] || profile_data['name'],
@@ -126,12 +136,12 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       }
 
       if result[:avatar_url].blank? && result[:name].blank?
-        Rails.logger.debug "WHAPI No useful contact data found" if Rails.env.development?
+        Rails.logger.debug 'WHAPI No useful contact data found' if Rails.env.development?
         return nil
       end
 
       result
-      
+
     rescue StandardError => e
       Rails.logger.error "WHAPI contact fetch error: #{e.message}"
       WhapiErrorTracker.track_and_degrade('contact_fetch', e, { phone_number: phone_number })
@@ -142,17 +152,18 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   private
 
   def send_text_message(phone_number, message)
-    response = safe_http_request('whapi_send_message') do
+    response = safe_http_request_with_retry('whapi_send_message') do
       HTTParty.post(
         "#{api_base_path}/messages/text",
         headers: api_headers,
         body: {
           to: phone_number,
           body: message.outgoing_content
-        }.merge(whapi_reply_context(message)).to_json
+        }.merge(whapi_reply_context(message)).to_json,
+        timeout: whapi_timeout  # Configurable timeout to prevent hanging
       )
     end
-    
+
     process_response(response, message)
   end
 
@@ -161,10 +172,8 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     whapi_type = map_chatwoot_to_whapi_type(attachment)
 
     endpoint = "#{api_base_path}/messages/media/#{whapi_type}"
-    
-    if Rails.env.development?
-      Rails.logger.debug "WHAPI sending to dynamic endpoint: #{endpoint}"
-    end
+
+    Rails.logger.debug { "WHAPI sending to dynamic endpoint: #{endpoint}" } if Rails.env.development?
 
     # Build query parameters as required by Whapi
     query_params = build_whapi_send_params(phone_number, message, attachment, whapi_type)
@@ -174,11 +183,11 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     content_type = get_whapi_content_type(attachment, whapi_type)
 
     if Rails.env.development?
-      Rails.logger.debug "WHAPI content type: #{content_type}"
-      Rails.logger.debug "WHAPI file size: #{file_content.size} bytes"
+      Rails.logger.debug { "WHAPI content type: #{content_type}" }
+      Rails.logger.debug { "WHAPI file size: #{file_content.size} bytes" }
     end
 
-    response = safe_http_request('whapi_send_attachment') do
+    response = safe_http_request_with_retry('whapi_send_attachment') do
       HTTParty.post(
         endpoint,
         query: query_params,
@@ -186,7 +195,8 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
           'Authorization' => "Bearer #{provider_config_object.api_key}",
           'Content-Type' => content_type
         },
-        body: file_content
+        body: file_content,
+        timeout: whapi_timeout  # Configurable timeout for file uploads
       )
     end
     process_response(response, message)
@@ -238,8 +248,8 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
         attachment.file.download
       else
         # Download from external URL
-        safe_http_request('whapi_download_media') do
-          HTTParty.get(converted_url).body
+        safe_http_request_with_retry('whapi_download_media') do
+          HTTParty.get(converted_url, timeout: whapi_timeout).body  # Configurable timeout for file downloads
         end
       end
     else
@@ -285,5 +295,106 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
 
   def api_base_path
     'https://gate.whapi.cloud'
+  end
+
+  # Configurable timeout TODO: Make this configurable
+  def whapi_timeout
+    10
+  end
+
+  # Health check method (inspired by Python backend __check_health_wakeup)
+  def check_health
+    safe_http_request_with_retry('whapi_health_check') do
+      HTTParty.get(
+        "#{api_base_path}/health",
+        headers: api_headers,
+        query: {
+          wakeup: 'true',
+          platform: 'Chrome,Whapi,1.6.0',
+          channel_type: 'web'
+        },
+        timeout: whapi_timeout
+      )
+    end
+  rescue StandardError => e
+    Rails.logger.error 'WHAPI health check failed',
+                       extra: {
+                         service: 'WHAPI',
+                         operation: 'health_check',
+                         error: e.message
+                       }
+    false
+  end
+
+  # Check if WHAPI service is healthy (with caching to avoid excessive calls)
+  def healthy?
+    # Cache health status for 30 seconds to avoid excessive API calls
+    cache_key = "whapi_health_#{provider_config_object.api_key[0..8]}"
+
+    Rails.cache.fetch(cache_key, expires_in: 30.seconds) do
+      response = check_health
+      if response && response.success?
+        parsed_response = response.parsed_response
+        if parsed_response.is_a?(Hash) && parsed_response.dig('status', 'code') == 'AUTH'
+          Rails.logger.debug 'WHAPI service is healthy and authenticated' if Rails.env.development?
+          true
+        else
+          Rails.logger.warn "WHAPI service not authenticated, status: #{parsed_response&.dig('status', 'code')}"
+          false
+        end
+      else
+        Rails.logger.warn 'WHAPI service health check failed',
+                          extra: {
+                            service: 'WHAPI',
+                            status_code: response&.code
+                          }
+        false
+      end
+    end
+  rescue StandardError => e
+    Rails.logger.error "WHAPI health check error: #{e.message}"
+    false
+  end
+
+  # Separate retry method to avoid overriding parent class (minimizes merge conflicts)
+  def safe_http_request_with_retry(service_name, &)
+    max_retry_attempts = 2
+    retry_delay_seconds = 5
+
+    (0..max_retry_attempts).each do |attempt|
+      Rails.logger.debug { "WHAPI request attempt #{attempt + 1}" } if Rails.env.development?
+
+      # Use parent safe_http_request with circuit breaker
+      result = safe_http_request(service_name, &)
+
+      Rails.logger.debug 'WHAPI request successful' if Rails.env.development?
+
+      return result
+
+    rescue Net::ReadTimeout, Net::OpenTimeout => e
+      if attempt >= max_retry_attempts
+        Rails.logger.error "WHAPI timeout - final attempt failed: #{e.message}"
+        raise e
+      end
+
+      Rails.logger.warn "WHAPI timeout - attempt #{attempt + 1} failed, retrying: #{e.message}"
+
+      sleep(retry_delay_seconds)
+
+    rescue HTTParty::Error, SocketError => e
+      if attempt >= max_retry_attempts
+        Rails.logger.error "WHAPI network error - final attempt failed: #{e.message}"
+        raise e
+      end
+
+      Rails.logger.warn "WHAPI network error - attempt #{attempt + 1} failed, retrying: #{e.message}"
+
+      sleep(retry_delay_seconds)
+
+    rescue StandardError => e
+      # For other errors, don't retry - let them bubble up
+      Rails.logger.error "WHAPI non-retryable error: #{e.message}"
+      raise e
+    end
   end
 end
