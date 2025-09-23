@@ -2,12 +2,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
     # Health check before sending (like Python backend pattern)
     unless healthy?
-      Rails.logger.error 'WHAPI service is not healthy, skipping message send',
-                         extra: {
-                           service: 'WHAPI',
-                           phone_number: phone_number&.[](0..5),  # Partial phone for privacy
-                           message_type: message.attachments.present? ? 'attachment' : 'text'
-                         }
+      Rails.logger.error "WHAPI service is not healthy, skipping message send to #{phone_number&.[](0..5)}"
       return nil
     end
 
@@ -317,12 +312,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       )
     end
   rescue StandardError => e
-    Rails.logger.error 'WHAPI health check failed',
-                       extra: {
-                         service: 'WHAPI',
-                         operation: 'health_check',
-                         error: e.message
-                       }
+    Rails.logger.error "WHAPI health check failed: #{e.message}"
     false
   end
 
@@ -343,11 +333,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
           false
         end
       else
-        Rails.logger.warn 'WHAPI service health check failed',
-                          extra: {
-                            service: 'WHAPI',
-                            status_code: response&.code
-                          }
+        Rails.logger.warn "WHAPI service health check failed: #{response&.code}"
         false
       end
     end
