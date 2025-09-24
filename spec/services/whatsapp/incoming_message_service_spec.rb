@@ -367,7 +367,7 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
         expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
 
-        expect(Redis::Alfred.get(key)).to be_truthy
+        expect(Redis::Alfred.get(key)).to be_falsey
         Redis::Alfred.delete(key)
       end
     end
