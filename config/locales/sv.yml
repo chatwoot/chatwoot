@@ -23,6 +23,10 @@ sv:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Ange en giltig e-postadress'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Woot! Begäran om återställning av lösenord lyckades. Kontrollera din e-post för instruktioner.
     reset_password_failure: Oj då! Vi kunde inte hitta någon användare med den angivna e-postadressen.

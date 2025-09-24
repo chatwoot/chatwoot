@@ -23,6 +23,10 @@ zh_TW:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: '請輸入一個有效的電子信箱'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: 密碼重設成功，請確認您的信箱有收到重設信件。
     reset_password_failure: 我們找不到用戶指定的電子郵件。

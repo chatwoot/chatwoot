@@ -23,6 +23,10 @@ is:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Vinsamlegast skrifaðu gilt netfang'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Woot! Beiðni um endurstillingu lykilorðs tókst. Skoðaðu póstinn þinn til að fá leiðbeiningar.
     reset_password_failure: Uh ó! Við fundum engan notanda með tilgreint netfang.
