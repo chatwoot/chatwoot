@@ -13,11 +13,11 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Kami sedang online",
+    "ONLINE": "Bisa chat kapan saja",
     "OFFLINE": "Kami sedang tidak tersedia saat ini"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
+    "IN_A_FEW_MINUTES": "Chat kapan saja, Selalu siap bantu 24 jam",
     "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
     "IN_A_DAY": "Biasanya membalas dalam sehari",
     "BACK_IN": "Kami akan kembali online"

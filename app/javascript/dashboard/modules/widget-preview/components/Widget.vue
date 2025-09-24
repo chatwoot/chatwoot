@@ -40,6 +40,10 @@ export default {
       type: String,
       default: '',
     },
+    replyFast: {
+      type: String,
+      default: '',
+    },
     color: {
       type: String,
       default: '',
@@ -86,6 +90,7 @@ export default {
         isDefaultScreen: this.isDefaultScreen,
         isOnline: this.isOnline,
         replyTime: this.replyTimeText,
+        replyFast : this.replyFastText,
         color: this.color,
       };
     },
@@ -100,6 +105,9 @@ export default {
         default:
           return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_TIME.IN_A_FEW_HOURS');
       }
+    },
+    replyFastText() {
+      return this.$t('INBOX_MGMT.WIDGET_BUILDER.REPLY_FAST.LABEL');
     },
     getBubblePositionStyle() {
       return {

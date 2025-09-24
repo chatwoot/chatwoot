@@ -1,4 +1,6 @@
 class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts::BaseController
+  include ChannelLimitationConcern
+  
   before_action :authorize_request
 
   def create

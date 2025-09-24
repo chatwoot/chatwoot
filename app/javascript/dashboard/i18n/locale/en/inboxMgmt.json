@@ -28,11 +28,11 @@
     },
     "ADD": {
       "WHATSAPP_UNOFFICIAL_CHANNEL": {
-        "TITLE": "Add WhatsApp Unofficial Channel",
-        "DESC": "Configure your unofficial WhatsApp integration",
+        "TITLE": "Add WhatsApp Channel",
+        "DESC": "Configure your WhatsApp integration",
         "CHANNEL_NAME": {
           "LABEL": "Inbox Name",
-          "PLACEHOLDER": "e.g., CS WA Unofficial",
+          "PLACEHOLDER": "e.g., CS WA",
           "ERROR": "Inbox name is required"
         },
         "PHONE_NUMBER": {
@@ -41,7 +41,7 @@
           "ERROR": "Phone number must start with 62"
         },
         "SUBMIT_BUTTON": "Create Channel",
-        "ERROR_MESSAGE": "Failed to create WhatsApp Unofficial channel"
+        "ERROR_MESSAGE": "Failed to create WhatsApp channel"
       },
       "CHANNEL_NAME": {
         "LABEL": "Inbox Name",
@@ -364,7 +364,10 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "CHANNEL_LIMIT_REACHED": "You have reached the maximum number of channels ({current}/{max}). Please upgrade your plan to create more channels.",
+        "CHANNEL_LIMIT_INFO": "Channels used: {current}/{max}",
+        "CHANNEL_LIMIT_NO_QUOTA": "Channel creation is restricted. No quota has been set for your account."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -776,8 +779,8 @@
       "WEB_WIDGET": "Website",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
-      "WHATSAPP": "WhatsApp",
-      "WHATSAPP_UNOFFICIAL": "WhatsApp (Unofficial)",
+      "WHATSAPP": "WhatsApp Official",
+      "WHATSAPP_UNOFFICIAL": "WhatsApp",
       "SMS": "SMS",
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",

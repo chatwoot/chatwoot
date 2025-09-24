@@ -33,6 +33,10 @@ module Telegram::ParamHelpers
     telegram_params_base_object[:from][:id]
   end
 
+  def telegram_params_full_name
+    "#{telegram_params_first_name} #{telegram_params_last_name}".strip
+  end
+
   def telegram_params_first_name
     telegram_params_base_object[:from][:first_name]
   end

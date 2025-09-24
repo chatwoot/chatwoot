@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Verifikasi Email Anda - Jangkau.ai</title>
+</head>
+<body style="background-color: #f8f9fa; padding: 2rem 0; font-family: Arial, sans-serif;">
+  <div style="max-width: 700px; margin: auto; background-color: #ffffff; padding: 2rem; box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075); border: 1px solid #dee2e6; border-radius: 0.25rem;">
+
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+      <img src="<%= "#{ENV['FRONTEND_URL']}/assets/images/logo-primary-color.png" %>" alt="Logo Jangkau.ai" style="height:40px;" />
+      <div style="text-align: right; width: 100%;">
+        <p style="margin: 0;">VERIFIKASI EMAIL</p>
+        <p style="margin: 0;"><%= Date.current.strftime("%d %B %Y") %></p>
+      </div>
+    </div>
+
+    <!-- Success Banner -->
+    <div style="background-color: #198754; color: white; text-align: center; padding: 0.75rem; margin: 1.5rem 0; border-radius: 0.25rem;">
+      <strong>Selamat datang di Jangkau.ai! Verifikasi email Anda untuk melanjutkan.</strong>
+    </div>
+
+    <!-- Body -->
+    <div style="margin-bottom: 1.5rem;">
+      <p>Halo <strong><%= @user.name %></strong>,</p>
+      <p>Selamat datang di Jangkau.ai! Untuk menyelesaikan pendaftaran dan memverifikasi alamat email Anda, silakan masukkan kode verifikasi berikut:</p>
+
+      <!-- OTP Code Box -->
+      <div style="text-align: center; margin: 2rem 0;">
+        <div style="background: #F2F3F7; border-radius: 0.5rem; padding: 1.5rem; display: inline-block; font-family: 'Courier New', monospace; font-size: 2rem; font-weight: bold; letter-spacing: 0.5rem; color: #1f2937; border: 2px dashed #198754;">
+          <%= @otp.code %>
+        </div>
+      </div>
+
+      <p><strong>Penting:</strong> Kode verifikasi ini akan kedaluwarsa dalam <strong>5 menit</strong>.</p>
+
+      <p>Jika Anda tidak meminta kode verifikasi ini, silakan abaikan email ini. Akun Anda akan tetap tidak terverifikasi hingga Anda menyelesaikan proses verifikasi.</p>
+
+      <!-- Security Notice -->
+      <div style="background-color: #fef3cd; padding: 1rem; border-radius: 0.25rem; margin: 1.5rem 0;">
+        <p style="margin: 0; font-weight: bold; color: #856404;">Untuk alasan keamanan:</p>
+        <ul style="margin: 0.5rem 0 0 0; color: #856404;">
+          <li>Jangan pernah bagikan kode ini kepada siapa pun</li>
+          <li>Tim kami tidak akan pernah meminta kode verifikasi Anda</li>
+          <li>Kode ini hanya dapat digunakan sekali</li>
+        </ul>
+      </div>
+
+      <p>Jika Anda memerlukan bantuan, silakan hubungi tim dukungan kami.</p>
+
+      <!-- CTA Button -->
+      <div style="text-align: center; margin: 2rem 0;">
+        <a href="<%= @action_url %>" style="background-color: #198754; color: white; padding: 0.75rem 1.5rem; text-decoration: none; border-radius: 0.25rem; font-weight: bold; display: inline-block;">
+          Kunjungi Halaman Verifikasi
+        </a>
+      </div>
+
+      <p style="margin-bottom: 0;">Terimakasih,<br>Tim Jangkau</p>
+    </div>
+
+    <!-- Footer -->
+    <div style="margin-top: 3rem;">
+      <div style="background-color: #198754; color: white; text-align: center; padding: 1.5rem; border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
+        <strong>PT. Radya Anugerah Digital</strong><br>
+        Jl. Sidomukti No.14, Sukaluyu,<br>
+        Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40123<br><br>
+        <strong>Layanan Support</strong><br>
+        +62 21 20450511<br>
+        <a href="mailto:info@jangkau.ai" style="color: white;">info@jangkau.ai</a>
+      </div>
+      <div style="background-color: #ffffff; text-align: center; padding: 1rem; border-top: 1px solid #dee2e6;">
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/facebook-new.png" alt="Facebook"></a>
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/instagram-new.png" alt="Instagram"></a>
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/twitter.png" alt="Twitter"></a>
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/youtube-play.png" alt="YouTube"></a>
+        <a href="#" style="margin: 0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/internet.png" alt="Website"></a>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: #6c757d;">© 2025 PT. Radya Anugerah Digital. All Rights Reserved</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

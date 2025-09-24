@@ -45,7 +45,7 @@
           "ERROR": "Nomor telepon harus dimulai dengan 62"
         },
         "SUBMIT_BUTTON": "Buat Channel",
-        "ERROR_MESSAGE": "Gagal membuat channel WhatsApp Unofficial"
+        "ERROR_MESSAGE": "Gagal membuat channel WhatsApp"
       },
       "CHANNEL_NAME": {
         "LABEL": "Nama Kotak Masuk",
@@ -372,7 +372,10 @@
       },
       "AUTH": {
         "TITLE": "Pilih sebuah channel",
-        "DESC": "Jangkau mendukung berbagai saluran seperti live chat di website, Facebook Messenger, profil Twitter, WhatsApp, email, dan lainnya. Kalau kamu ingin membuat saluran sendiri, kamu bisa menggunakan API Channel. Untuk memulai, silakan pilih salah satu saluran di bawah ini."
+        "DESC": "Jangkau mendukung berbagai saluran seperti live chat di website, Facebook Messenger, profil Twitter, WhatsApp, email, dan lainnya. Kalau kamu ingin membuat saluran sendiri, kamu bisa menggunakan API Channel. Untuk memulai, silakan pilih salah satu saluran di bawah ini.",
+        "CHANNEL_LIMIT_REACHED": "Anda telah mencapai batas maksimum channel ({current}/{max}). Silakan upgrade paket Anda untuk membuat lebih banyak channel.",
+        "CHANNEL_LIMIT_INFO": "Channel yang digunakan: {current}/{max}",
+        "CHANNEL_LIMIT_NO_QUOTA": "Pembuatan channel dibatasi. Belum ada kuota yang ditetapkan untuk akun Anda."
       },
       "AGENTS": {
         "TITLE": "Agen",
@@ -760,17 +763,20 @@
         "CHAT": "Chat"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
+        "IN_A_FEW_MINUTES": "Chat kapan saja, Selalu siap bantu 24 jam",
         "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
         "IN_A_DAY": "Biasanya membalas dalam sehari"
       },
+      "REPLY_FAST": {
+        "LABEL": "Jawaban cepat dari AI Jangkau"
+      },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Mulai Percakapan",
+        "START_CONVERSATION_BUTTON_TEXT": "Mulai Chat Sekarang",
         "CHAT_INPUT_PLACEHOLDER": "Ketik pesan Anda"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "Kami sedang online",
+          "ONLINE": "Bisa chat kapan saja",
           "OFFLINE": "Kami sedang tidak tersedia saat ini"
         },
         "USER_MESSAGE": "Hi",
@@ -789,8 +795,8 @@
       "WEB_WIDGET": "Website",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
-      "WHATSAPP": "WhatsApp",
-      "WHATSAPP_UNOFFICIAL": "WhatsApp (Unofficial)",
+      "WHATSAPP": "WhatsApp Official",
+      "WHATSAPP_UNOFFICIAL": "WhatsApp",
       "SMS": "SMS",
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",

@@ -11,6 +11,10 @@ export default {
       type: Object,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['channelItemClick'],
   computed: {
@@ -18,6 +22,7 @@ export default {
       return window.chatwootConfig?.fbAppId;
     },
       isActive() {
+        if (this.disabled) return false;
         const availableChannels = (this.enabledFeatures?.available_channels || []).map(c => c.toLowerCase());
         return availableChannels.includes(this.channel.key.toLowerCase());
       }
@@ -26,9 +31,6 @@ export default {
     getChannelThumbnail() {
       if (this.channel.key === 'api' && this.channel.thumbnail) {
         return this.channel.thumbnail;
-      }
-      if (this.channel.key === 'whatsapp_unofficial') {
-        return `/assets/images/dashboard/channels/whatsapp.png`;
       }
       return `/assets/images/dashboard/channels/${this.channel.key}.png`;
     },
@@ -44,7 +46,10 @@ export default {
 
 <template>
   <ChannelSelector
-    :class="{ inactive: !isActive }"
+    :class="{ 
+      inactive: !isActive,
+      disabled: disabled 
+    }"
     :title="channel.name"
     :src="getChannelThumbnail()"
     @click="onItemClick"

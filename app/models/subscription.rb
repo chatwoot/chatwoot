@@ -12,6 +12,7 @@
 #  last_notify_expiry      :datetime
 #  max_ai_agents           :integer          default(0), not null
 #  max_ai_responses        :integer          default(0), not null
+#  max_channels            :integer          default(0)
 #  max_human_agents        :integer          default(0), not null
 #  max_mau                 :integer          default(0), not null
 #  payment_status          :string           default("pending"), not null

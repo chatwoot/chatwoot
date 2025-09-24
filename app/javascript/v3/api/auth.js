@@ -35,7 +35,8 @@ export const register = async creds => {
       phoneNumber: creds.phoneNumber,
       h_captcha_client_response: creds.hCaptchaClientResponse,
     });
-    setAuthCredentials(response);
+    // Don't set auth credentials - user needs to verify email first
+    // setAuthCredentials(response);
     return response.data;
   } catch (error) {
     throwErrorMessage(error);
@@ -73,3 +74,31 @@ export const setNewPassword = async ({
 
 export const resetPassword = async ({ email }) =>
   wootAPI.post('auth/password', { email });
+
+// OTP related functions
+export const generateOTP = async ({ email }) => {
+  try {
+    const response = await wootAPI.post('api/v1/otp/generate', { email });
+    return response.data;
+  } catch (error) {
+    throwErrorMessage(error);
+  }
+};
+
+export const verifyOTP = async ({ email, code }) => {
+  try {
+    const response = await wootAPI.post('api/v1/otp/verify', { email, code });
+    return response.data;
+  } catch (error) {
+    throwErrorMessage(error);
+  }
+};
+
+export const resendOTP = async ({ email }) => {
+  try {
+    const response = await wootAPI.post('api/v1/otp/resend', { email });
+    return response.data;
+  } catch (error) {
+    throwErrorMessage(error);
+  }
+};

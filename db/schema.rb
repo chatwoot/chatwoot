@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
+ActiveRecord::Schema[7.0].define(version: 2025_09_22_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -857,6 +857,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
     t.datetime "updated_at", null: false
     t.text "content", default: "", null: false
     t.string "ai_agent_name_id"
+    t.string "loader_ids", default: [], array: true
     t.index ["knowledge_source_id"], name: "index_knowledge_source_websites_on_knowledge_source_id"
   end
 
@@ -991,6 +992,38 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "operational_hours", force: :cascade do |t|
+    t.bigint "agent_bot_id", null: false
+    t.integer "day_of_week", null: false
+    t.integer "open_hour"
+    t.integer "open_minute"
+    t.integer "close_hour"
+    t.integer "close_minute"
+    t.boolean "open_allday", default: false
+    t.boolean "close_allday", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_bot_id"], name: "index_operational_hours_on_agent_bot_id"
+    t.index ["day_of_week", "agent_bot_id"], name: "index_operational_hours_on_day_of_week_and_agent_bot_id", unique: true
+  end
+
+  create_table "otps", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "code", limit: 6, null: false
+    t.string "purpose", default: "email_verification", null: false
+    t.boolean "verified", default: false, null: false
+    t.datetime "verified_at", precision: nil
+    t.datetime "expires_at", precision: nil, null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code", "expires_at"], name: "index_otps_on_code_and_expires_at"
+    t.index ["expires_at"], name: "index_otps_on_expires_at"
+    t.index ["user_id", "purpose"], name: "index_otps_on_user_id_and_purpose_unique", unique: true
+    t.index ["user_id"], name: "index_otps_on_user_id"
   end
 
   create_table "platform_app_permissibles", force: :cascade do |t|
@@ -1168,6 +1201,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
     t.datetime "updated_at", null: false
     t.jsonb "features", default: [], null: false
     t.text "description"
+    t.integer "max_channels", default: 0
   end
 
   create_table "subscription_plans_vouchers", id: false, force: :cascade do |t|
@@ -1229,6 +1263,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
     t.integer "additional_mau", default: 0, null: false
     t.integer "additional_ai_responses", default: 0, null: false
     t.datetime "last_notify_expiry"
+    t.integer "max_channels", default: 0
     t.index ["account_id"], name: "index_subscriptions_on_account_id"
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
   end
@@ -1435,6 +1470,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_31_092308) do
   add_foreign_key "knowledge_source_texts", "knowledge_sources"
   add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"
+  add_foreign_key "operational_hours", "agent_bots"
+  add_foreign_key "otps", "users"
   add_foreign_key "quick_replies", "accounts"
   add_foreign_key "subscription_payments", "subscriptions"
   add_foreign_key "subscription_topups", "subscriptions"

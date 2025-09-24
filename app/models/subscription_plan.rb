@@ -11,6 +11,7 @@
 #  is_active          :boolean          default(TRUE)
 #  max_ai_agents      :integer          default(0), not null
 #  max_ai_responses   :integer          default(0), not null
+#  max_channels       :integer          default(0)
 #  max_human_agents   :integer          default(0), not null
 #  max_mau            :integer          default(0), not null
 #  monthly_price      :decimal(16, 2)   not null
@@ -25,7 +26,7 @@ class SubscriptionPlan < ApplicationRecord
 
   validates :description, presence: true
   validates :name, presence: true
-  validates :max_mau, :max_ai_agents, :max_ai_responses, :max_human_agents, numericality: { greater_than_or_equal_to: 0 }
+  validates :max_mau, :max_ai_agents, :max_ai_responses, :max_human_agents, :max_channels, numericality: { greater_than_or_equal_to: 0 }
   validates :monthly_price, :annual_price, numericality: { greater_than_or_equal_to: 0 }
 
   # Method untuk mencari plan berdasarkan nama

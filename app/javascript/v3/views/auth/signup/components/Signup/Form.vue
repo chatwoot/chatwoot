@@ -113,7 +113,11 @@ export default {
       this.isSignupInProgress = true;
       try {
         await register(this.credentials);
-        window.location = DEFAULT_REDIRECT_URL;
+        // Redirect to OTP verification page instead of dashboard
+        this.$router.push({
+          name: 'auth_verify_email',
+          query: { email: this.credentials.email }
+        });
       } catch (error) {
         let errorMessage =
           error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
