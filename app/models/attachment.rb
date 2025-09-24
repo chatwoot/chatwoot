@@ -89,10 +89,11 @@ class Attachment < ApplicationRecord
     return '' unless attachment.attached? && image?
 
     begin
-      url_for(attachment.representation(format: format))
-    rescue ActiveStorage::UnrepresentableError => e
-      Rails.logger.warn "Unrepresentable image attachment: #{id} (#{attachment.filename}) - #{e.message}"
-      ''
+      ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
+      attachment.variant(format: format).processed.url
+    rescue ActiveStorage::InvariableError => e
+      Rails.logger.warn "Cannot convert image attachment: #{id} (#{attachment.filename}) - #{e.message}"
+      file_url
     end
   end
 
