@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Endereço IP",
     "CREATED_AT_LABEL": "Criado",
     "NEW_MESSAGE": "Nova Mensagem",
+    "CALL": "Chamada",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
       "TITLE": "Conversas anteriores"
@@ -549,10 +554,12 @@
         "WROTE": "escreveu",
         "YOU": "Você",
         "SAVE": "Salvar nota",
+        "ADD_NOTE": "Adicionar nota de contato",
         "EXPAND": "Expandir",
         "COLLAPSE": "Recolher",
         "NO_NOTES": "Sem notas, você pode adicionar notas a partir da página de detalhes do contato.",
-        "EMPTY_STATE": "Não existem notas associadas a este contato. Você pode adicionar uma nota digitando na caixa acima."
+        "EMPTY_STATE": "Não existem notas associadas a este contato. Você pode adicionar uma nota digitando na caixa acima.",
+        "CONVERSATION_EMPTY_STATE": "Ainda não há notas. Use o botão Adicionar nota para criar uma."
       }
     },
     "EMPTY_STATE": {
@@ -601,6 +608,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "Modelo do WhatsApp: {templateName}",
           "VARIABLES": "Variáveis",
+          "BACK": "Voltar atrás",
+          "SEND_MESSAGE": "Enviar mensagem"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Selecione o modelo",
+        "SEARCH_PLACEHOLDER": "Pesquisar modelos",
+        "EMPTY_STATE": "Nenhum modelo encontrado",
+        "TEMPLATE_PARSER": {
           "BACK": "Voltar atrás",
           "SEND_MESSAGE": "Enviar mensagem"
         }

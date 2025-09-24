@@ -40,8 +40,6 @@ export default {
       regexPattern: null,
       regexCue: null,
       regexEnabled: false,
-      models: ATTRIBUTE_MODELS,
-      types: ATTRIBUTE_TYPES,
       values: [],
       options: [],
       show: true,
@@ -53,6 +51,18 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
+    models() {
+      return ATTRIBUTE_MODELS.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_MODELS.${item.key}`),
+      }));
+    },
+    types() {
+      return ATTRIBUTE_TYPES.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${item.key}`),
+      }));
+    },
     isMultiselectInvalid() {
       return this.isTouched && this.values.length === 0;
     },

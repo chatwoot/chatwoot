@@ -11,7 +11,7 @@ module RegexHelper
   # Uses [^]]+ to match any characters except ] in display name to support emojis
   # NOTE: Still used by Slack integration (lib/integrations/slack/send_on_slack_service.rb)
   # while notifications use CommonMarker for better markdown processing
-  MENTION_REGEX = Regexp.new('\[(@[^]]+)\]\(mention://(?:user|team)/\d+/([^)]+)\)')
+  MENTION_REGEX = Regexp.new('\[(@[^\\]]+)\]\(mention://(?:user|team)/\d+/([^)]+)\)')
 
   TWILIO_CHANNEL_SMS_REGEX = Regexp.new('^\+\d{1,15}\z')
   TWILIO_CHANNEL_WHATSAPP_REGEX = Regexp.new('^whatsapp:\+\d{1,15}\z')
