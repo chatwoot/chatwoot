@@ -172,7 +172,8 @@ class SendTemplateDmJob < ApplicationJob
         sender: template_dm_conversation.assignee || account.users.first,
         message_type: :outgoing,
         source_id: response['message_id'] || nil,
-        private: false
+        private: false,
+        additional_attributes: { 'delivery_status' => "sent" }
       )
       
       # Mark template DM as sent
@@ -233,7 +234,8 @@ class SendTemplateDmJob < ApplicationJob
         sender: template_dm_conversation.assignee || account.users.first,
         message_type: :outgoing,
         source_id: response['message_id'] || nil,
-        private: false
+        private: false,
+        additional_attributes: { 'delivery_status' => "sent" }
       )
       
       # Mark template DM as sent

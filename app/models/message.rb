@@ -359,7 +359,8 @@ class Message < ApplicationRecord
   end
 
   def send_reply
-    if inbox.channel_type == 'Channel::Instagram' && conversation.additional_attributes['type'] != 'instagram_comments'
+    
+    if inbox.channel_type == 'Channel::Instagram' && conversation.additional_attributes['type'] != 'instagram_comments' && self.additional_attributes["delivery_status"] != "sent"
       mark_pending!
 
       first_pending_id = conversation.messages
