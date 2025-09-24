@@ -386,13 +386,9 @@ describe('#mutations', () => {
 
       mutations[types.SET_ALL_CONVERSATION](state, payload);
 
-      expect(state.allConversations.map(conversation => conversation.id)).toEqual([
-        1,
-        2,
-        3,
-        4,
-        5,
-      ]);
+      expect(
+        state.allConversations.map(conversation => conversation.id)
+      ).toEqual([1, 2, 3, 4, 5]);
     });
 
     it('appends subsequent pages after existing records', () => {
@@ -413,12 +409,9 @@ describe('#mutations', () => {
 
       mutations[types.SET_ALL_CONVERSATION](state, payload);
 
-      expect(state.allConversations.map(conversation => conversation.id)).toEqual([
-        1,
-        2,
-        3,
-        4,
-      ]);
+      expect(
+        state.allConversations.map(conversation => conversation.id)
+      ).toEqual([1, 2, 3, 4]);
     });
   });
 

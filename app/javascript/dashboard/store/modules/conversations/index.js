@@ -27,11 +27,10 @@ const state = {
 // mutations
 export const mutations = {
   [types.SET_ALL_CONVERSATION](_state, payload) {
-    const { records: conversationList = [], page: incomingPage = 1 } = Array.isArray(
-      payload
-    )
-      ? { records: payload, page: 1 }
-      : { records: payload?.records || [], page: payload?.page ?? 1 };
+    const { records: conversationList = [], page: incomingPage = 1 } =
+      Array.isArray(payload)
+        ? { records: payload, page: 1 }
+        : { records: payload?.records || [], page: payload?.page ?? 1 };
 
     const pageNumber = Number(incomingPage) || 1;
     const previousConversations = _state.allConversations;
