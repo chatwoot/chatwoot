@@ -7,7 +7,7 @@ class Email::ReplyToBuilder < Email::BaseBuilder
                elsif inbound_email_enabled?
                  "reply+#{conversation.uuid}@#{account.inbound_email_domain}"
                else
-                 account.support_email
+                 account_support_email
                end
 
     sender_name(reply_to)

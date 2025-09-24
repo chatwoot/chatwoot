@@ -63,6 +63,20 @@ RSpec.describe Email::ReplyToBuilder do
         end
       end
 
+      context 'when support_email has display name format and inbound emails are disabled' do
+        before do
+          account.disable_features('inbound_emails')
+          account.update!(support_email: 'Support <support@example.com>')
+        end
+
+        it 'returns account support email with display name' do
+          builder = described_class.new(inbox: inbox, message: current_message)
+          result = builder.build
+
+          expect(result).to include("#{inbox.name} <support@example.com>")
+        end
+      end
+
       context 'when feature is disabled' do
         before do
           account.disable_features('inbound_emails')
