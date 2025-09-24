@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe DataImportJob do
-  subject(:job) { described_class.perform_later(data_import) }
+  subject(:job) do
+    described_class.perform_later(data_import)
+  end
 
   let!(:data_import) { create(:data_import) }
 
@@ -32,15 +34,21 @@ RSpec.describe DataImportJob do
 
   describe 'importing data' do
     context 'when the data is valid' do
+      before do
+        create(:label, title: 'label_test', account: data_import.account)
+      end
+
       it 'imports data into the account' do
         csv_length = CSV.parse(data_import.import_file.download, headers: true).length
 
         described_class.perform_now(data_import)
+
         expect(data_import.account.contacts.count).to eq(csv_length)
         expect(data_import.reload.total_records).to eq(csv_length)
         expect(data_import.reload.processed_records).to eq(csv_length)
         contact = Contact.find_by(phone_number: '+918080808080')
         expect(contact).to be_truthy
+        expect(contact.reload.label_list).to eq(['label_test'])
         expect(contact['additional_attributes']['company']).to eq('My Company Name')
       end
     end
