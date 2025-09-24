@@ -70,7 +70,6 @@ onMounted(() => {
       }"
     >
       <form class="space-y-5" method="POST" action="/api/v1/auth/saml_login">
-        <input type="hidden" name="authenticity_token" :value="csrfToken" I />
         <FormInput
           v-model="credentials.email"
           name="email"
@@ -81,6 +80,13 @@ onMounted(() => {
           :placeholder="t('LOGIN.SAML.WORK_EMAIL.PLACEHOLDER')"
           :has-error="v$.credentials.email.$error"
           @input="v$.credentials.email.$touch"
+        />
+        <input
+          type="hidden"
+          class="h-0"
+          name="authenticity_token"
+          :value="csrfToken"
+          I
         />
         <NextButton
           lg
