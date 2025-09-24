@@ -89,7 +89,8 @@ class Waha::CallbackController < ApplicationController
     return if params[:isFromMe] == true
 
     service_params = {
-      receiver: phone_number,
+      receiver: params[:phone_number],
+      token: params[:token],
       sender: Channel::WhatsappUnofficial.extract_phone_number(params[:from]), #
       sender_name: params[:pushname],
       message: extract_message_content(params), 

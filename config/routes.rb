@@ -620,8 +620,8 @@ Rails.application.routes.draw do
   end
 
   namespace :waha do
-    post 'callback/:phone_number', to: 'callback#receive'
-    get 'callback/:phone_number', to: 'callback#receive'
+    post 'callback/:phone_number/:token', to: 'callback#receive'
+    get 'callback/:phone_number/:token', to: 'callback#receive'
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

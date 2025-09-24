@@ -20,7 +20,7 @@ class Waha::IncomingMessageService
   private
 
   def waha_channel
-    @waha_channel ||= Channel::WhatsappUnofficial.find_by(phone_number: params[:receiver])
+    @waha_channel ||= Channel::WhatsappUnofficial.find_by(phone_number: params[:receiver], token: params[:token])
   end
 
   def inbox
