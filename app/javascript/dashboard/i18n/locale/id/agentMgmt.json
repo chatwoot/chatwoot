@@ -247,7 +247,16 @@
         "STREET_LABEL_PLACEHOLDER": "Masukkan Jalan",
         "ZIP_CODE_LABEL": "Kode Pos",
         "ZIP_CODE_LABEL_PLACEHOLDER": "Masukkan Kode Pos"
-
+      },
+      "CART": {
+        "HEADER": "Konfigurasi Keranjang",
+        "HEADER_DESC": "Konfigurasi pengaturan keranjang belanja",
+        "ENABLE_TITLE": "Aktifkan Keranjang Belanja",
+        "ENABLE_DESC": "Izinkan pelanggan untuk menambahkan beberapa produk ke keranjang sebelum checkout",
+        "ENABLED_STATUS": "Keranjang belanja diaktifkan",
+        "ENABLED_DESC_DETAIL": "Pelanggan dapat menambahkan beberapa produk ke keranjang mereka dan checkout semua item bersamaan",
+        "DISABLED_STATUS": "Keranjang belanja dinonaktifkan",
+        "DISABLED_DESC_DETAIL": "Pelanggan akan membeli produk secara individual tanpa fungsi keranjang"
       }
     },
     "SEARCH": {

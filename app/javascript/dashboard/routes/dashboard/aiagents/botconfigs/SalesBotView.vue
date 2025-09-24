@@ -1246,6 +1246,114 @@
             </div>
           </div>
         </div>
+
+        <!-- Cart Configuration Tab -->
+        <div v-show="activeTabIndex === 3" class="w-full min-w-0">
+          <div class="flex flex-row gap-4">
+            <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
+              <div class="space-y-4">
+                <div>
+                  <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER') }}</label>
+
+                  <!-- Cart Toggle -->
+                  <div class="border border-gray-200 dark:border-gray-700 rounded-lg mb-4">
+                    <div class="flex items-center justify-between p-4">
+                      <div class="flex items-center">
+                        <div class="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-white lucide lucide-shopping-cart">
+                            <circle cx="8" cy="21" r="1"/>
+                            <circle cx="19" cy="21" r="1"/>
+                            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                          </svg> 
+                        </div>
+                        <div>
+                          <h3 class="font-medium">{{ $t('AGENT_MGMT.SALESBOT.CART.ENABLE_TITLE') }}</h3>
+                          <p class="text-sm text-gray-500 mt-1">{{ $t('AGENT_MGMT.SALESBOT.CART.ENABLE_DESC') }}</p>
+                        </div>
+                      </div>
+                      <label class="inline-flex items-center cursor-pointer">
+                        <input type="checkbox" v-model="cartEnabled" class="sr-only peer">
+                        <div
+                          class="border solid w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-green-500 relative after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full">
+                        </div>
+                      </label>
+                    </div>
+                    
+                    <!-- Cart Status Info -->
+                    <div class="border-t border-gray-200 dark:border-gray-700 p-4">
+                      <div v-if="cartEnabled" class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
+                        <div class="flex items-start">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-green-600 dark:stroke-green-400 mt-0.5 mr-2 flex-shrink-0">
+                            <path d="M9 12l2 2 4-4"/>
+                            <circle cx="12" cy="12" r="10"/>
+                          </svg>
+                          <div>
+                            <p class="text-sm font-medium text-green-800 dark:text-green-200">
+                              {{ $t('AGENT_MGMT.SALESBOT.CART.ENABLED_STATUS') }}
+                            </p>
+                            <p class="text-sm text-green-600 dark:text-green-300 mt-1">
+                              {{ $t('AGENT_MGMT.SALESBOT.CART.ENABLED_DESC_DETAIL') }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div v-else class="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-700 rounded-lg p-3">
+                        <div class="flex items-start">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stroke-gray-500 dark:stroke-gray-400 mt-0.5 mr-2 flex-shrink-0">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                          </svg>
+                          <div>
+                            <p class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                              {{ $t('AGENT_MGMT.SALESBOT.CART.DISABLED_STATUS') }}
+                            </p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                              {{ $t('AGENT_MGMT.SALESBOT.CART.DISABLED_DESC_DETAIL') }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="w-[240px] flex flex-col gap-3">
+              <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart w-5 h-5 text-green-600 dark:text-green-400">
+                        <circle cx="8" cy="21" r="1"/>
+                        <circle cx="19" cy="21" r="1"/>
+                        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+                      </svg>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-slate-700 dark:text-slate-300">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER') }}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">{{ $t('AGENT_MGMT.SALESBOT.CART.HEADER_DESC') }}</p>
+                  </div>
+                </div>
+                
+                <Button
+                  class="w-full"
+                  :is-loading="isSaving"
+                  :disabled="isSaving"
+                  @click="() => submitCartConfig()"
+                >
+                  <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    {{ $t('AGENT_MGMT.FORM_CREATE.SUBMIT') }}
+                  </span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1520,10 +1628,17 @@ const tabs = computed(() => [
     name: t('AGENT_MGMT.SALESBOT.PAYMENT.HEADER'),
     icon: 'i-lucide-credit-card',
   },
+  {
+    key: '3',
+    index: 3,
+    name: t('AGENT_MGMT.SALESBOT.CART.HEADER'),
+    icon: 'i-lucide-shopping-cart',
+  },
 ])
 const activeTabIndex = ref(0);
 const catalogSheet = ref('');
 const catalogDesc = ref('');
+const cartEnabled = ref(false);
 
 const shippingMethods = reactive({
   kurirToko: false,
@@ -2673,6 +2788,47 @@ async function submitPaymentConfig() {
   }
 }
 
+// Submit Cart Configuration
+async function submitCartConfig() {
+  if (isSaving.value) return;
+
+  try {
+    isSaving.value = true;
+
+    // Save to backend
+    let flowData = props.data.display_flow_data;
+    const agentIndex = flowData.enabled_agents.indexOf('sales');
+    
+    if (agentIndex === -1) {
+      useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.AGENT_NOT_FOUND'))
+      return;
+    }
+
+    // Initialize configurations if not exists
+    if (!flowData.agents_config[agentIndex].configurations) {
+      flowData.agents_config[agentIndex].configurations = {};
+    }
+    
+    // Update cart configuration
+    flowData.agents_config[agentIndex].configurations.cart_enabled = cartEnabled.value;
+
+    const payload = {
+      flow_data: flowData,
+    };
+
+    await aiAgents.updateAgent(props.data.id, payload);
+
+    // Update local props data to maintain state after update
+    updateLocalPropsData('cart_enabled', cartEnabled.value);
+
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_SUCCESS'));
+  } catch (error) {
+    useAlert(t('AGENT_MGMT.WEBSITE_SETTINGS.SAVE_ERROR'));
+  } finally {
+    isSaving.value = false;
+  }
+}
+
 // Function to load saved configuration from backend
 function loadSavedConfiguration() {
   try {
@@ -2949,6 +3105,11 @@ function loadSavedConfiguration() {
           }
         }
       });
+    }
+
+    // Load Cart Configuration
+    if (config.cart_enabled !== undefined) {
+      cartEnabled.value = config.cart_enabled;
     }
     
   } catch (error) {

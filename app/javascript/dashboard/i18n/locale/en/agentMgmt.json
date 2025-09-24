@@ -384,6 +384,16 @@
         "STREET_LABEL_PLACEHOLDER": "Enter Street",
         "ZIP_CODE_LABEL": "Zip Code",
         "ZIP_CODE_LABEL_PLACEHOLDER": "Enter Zip Code"
+      },
+      "CART": {
+        "HEADER": "Cart Configuration",
+        "HEADER_DESC": "Configure shopping cart settings",
+        "ENABLE_TITLE": "Enable Shopping Cart",
+        "ENABLE_DESC": "Allow customers to add multiple products to cart before checkout",
+        "ENABLED_STATUS": "Shopping cart is enabled",
+        "ENABLED_DESC_DETAIL": "Customers can add multiple products to their cart and checkout all items together",
+        "DISABLED_STATUS": "Shopping cart is disabled",
+        "DISABLED_DESC_DETAIL": "Customers will purchase products individually without cart functionality"
       }
     },
     "WEBSITE_SETTINGS": {
