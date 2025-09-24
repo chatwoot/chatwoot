@@ -44,6 +44,16 @@ class Api::V1::AuthController < Api::BaseController
   end
 
   def render_saml_error
-    render json: { error: I18n.t('auth.saml.authentication_failed') }, status: :unauthorized
+    redirect_to sso_login_page_url(error: 'saml-authentication-failed')
+  end
+
+  def sso_login_page_url(error: nil)
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    params = { error: error }.compact
+
+    query = params.to_query
+    query_fragment = query.present? ? "?#{query}" : ''
+
+    "#{frontend_url}/app/login/sso#{query_fragment}"
   end
 end
