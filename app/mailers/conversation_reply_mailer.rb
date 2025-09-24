@@ -50,16 +50,14 @@ class ConversationReplyMailer < ApplicationMailer
 
     @messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
 
-    mail_subject  = "[##{@conversation.display_id}] #{I18n.t('conversations.reply.transcript_subject')}"
-    Rails.logger.info("Email sent from #{email_from} to #{to_email} with subject #{mail_subject} ")
-
-    mail(
-      {
-        to: to_email,
-        from: email_from,
-        subject: mail_subject
-      }
-    )
+    Rails.logger.info("Email sent from #{from_email_with_name} \
+      to #{to_email} with subject #{@conversation.display_id} \
+      #{I18n.t('conversations.reply.transcript_subject')} ")
+    mail({
+           to: to_email,
+           from: from_email_with_name,
+           subject: "[##{@conversation.display_id}] #{I18n.t('conversations.reply.transcript_subject')}"
+         })
   end
 
   private
@@ -71,6 +69,10 @@ class ConversationReplyMailer < ApplicationMailer
     @agent = @conversation.assignee
     @inbox = @conversation.inbox
     @channel = @inbox.channel
+  end
+
+  def should_use_conversation_email_address?
+    @inbox.inbox_type == 'Email' || inbound_email_enabled?
   end
 
   def conversation_already_viewed?
@@ -85,8 +87,29 @@ class ConversationReplyMailer < ApplicationMailer
     @conversation.messages.chat.where.not(message_type: :incoming)&.last
   end
 
+  def sender_name(sender_email)
+    if @inbox.friendly?
+      I18n.t('conversations.reply.email.header.friendly_name', sender_name: custom_sender_name, business_name: business_name,
+                                                               from_email: sender_email)
+    else
+      I18n.t('conversations.reply.email.header.professional_name', business_name: business_name, from_email: sender_email)
+    end
+  end
+
   def current_message
     @message || @conversation.messages.outgoing.last
+  end
+
+  def custom_sender_name
+    current_message&.sender&.available_name || @agent&.available_name || I18n.t('conversations.reply.email.header.notifications')
+  end
+
+  def business_name
+    @inbox.business_name || @inbox.sanitized_name
+  end
+
+  def from_email
+    should_use_conversation_email_address? ? parse_email(@account.support_email) : parse_email(inbox_from_email_address)
   end
 
   def mail_subject
@@ -99,6 +122,32 @@ class ConversationReplyMailer < ApplicationMailer
     else
       subject
     end
+  end
+
+  def reply_email
+    if should_use_conversation_email_address?
+      sender_name("reply+#{@conversation.uuid}@#{@account.inbound_email_domain}")
+    else
+      @inbox.email_address || @agent&.email
+    end
+  end
+
+  def from_email_with_name
+    sender_name(from_email)
+  end
+
+  def channel_email_with_name
+    sender_name(@channel.email)
+  end
+
+  def parse_email(email_string)
+    Mail::Address.new(email_string).address
+  end
+
+  def inbox_from_email_address
+    return @inbox.email_address if @inbox.email_address
+
+    @account.support_email
   end
 
   def custom_message_id
@@ -147,6 +196,11 @@ class ConversationReplyMailer < ApplicationMailer
   def to_emails
     # if there is no to_emails from content_attributes, send it to @contact&.email
     to_emails_from_content_attributes.presence || [@contact&.email]
+  end
+
+  def inbound_email_enabled?
+    @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && @account.inbound_email_domain
+                                                                                      .present? && @account.support_email.present?
   end
 
   def choose_layout
