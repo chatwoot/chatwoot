@@ -44,7 +44,7 @@ RSpec.describe Attachment do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
       attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
       attachment.save!
-      expect(attachment.download_url_converted).to include('.jpg')
+      expect(attachment.download_url_converted).to match(/\.jpe?g/)
     end
 
     it 'returns a png formatted image when specified' do
