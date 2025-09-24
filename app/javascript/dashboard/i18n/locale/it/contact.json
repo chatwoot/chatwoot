@@ -17,6 +17,11 @@
     "IP_ADDRESS": "Indirizzo IP",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Nuovo messaggio",
+    "CALL": "Call",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Non ci sono precedenti conversazioni associate a questo contatto.",
       "TITLE": "Conversazioni precedenti"
@@ -549,10 +554,12 @@
         "WROTE": "wrote",
         "YOU": "You",
         "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Expand",
         "COLLAPSE": "Comprimi",
         "NO_NOTES": "Nessuna nota, puoi aggiungere note dalla pagina dei dettagli del contatto.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -601,6 +608,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variabili",
+          "BACK": "Torna indietro",
+          "SEND_MESSAGE": "Invia messaggio"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "Torna indietro",
           "SEND_MESSAGE": "Invia messaggio"
         }

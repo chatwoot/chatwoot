@@ -62,8 +62,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end
 
-  def media_url(media_id)
-    "#{api_base_path}/v13.0/#{media_id}"
+  def media_url(media_id, phone_number_id = nil)
+    url = "#{api_base_path}/v13.0/#{media_id}"
+    url += "?phone_number_id=#{phone_number_id}" if phone_number_id
+    url
   end
 
   def api_base_path
@@ -141,7 +143,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     # {
     #   processed_params: {
     #     body: { '1': 'John', '2': '123 Main St' },
-    #     header: { media_url: 'https://...', media_type: 'image' },
+    #     header: {
+    #       media_url: 'https://...',
+    #       media_type: 'image',
+    #       media_name: 'filename.pdf' # Optional, for document templates only
+    #     },
     #     buttons: [{ type: 'url', parameter: 'otp123456' }]
     #   }
     # }

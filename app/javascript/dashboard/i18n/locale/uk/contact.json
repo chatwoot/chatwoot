@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP-адреса",
     "CREATED_AT_LABEL": "Створено",
     "NEW_MESSAGE": "Нове повідомлення",
+    "CALL": "Дзвінок",
+    "CALL_UNDER_DEVELOPMENT": "Дзвінки знаходяться на стадії розробки",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Оберіть голосову теку"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Не було попередніх бесід, пов'язаних з цим контактом.",
       "TITLE": "Попередні бесіди"
@@ -549,10 +554,12 @@
         "WROTE": "wrote",
         "YOU": "Ви",
         "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Розширити",
         "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "NO_NOTES": "Немає нотаток, ви можете додати їх на сторінці контакту.",
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -601,6 +608,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Змінні",
+          "BACK": "Повернутися назад",
+          "SEND_MESSAGE": "Надіслати"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "Повернутися назад",
           "SEND_MESSAGE": "Надіслати"
         }

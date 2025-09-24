@@ -51,12 +51,20 @@ const originalState = reactive({ ...state });
 
 const liveChatWidgets = computed(() => {
   const inboxes = store.getters['inboxes/getInboxes'];
-  return inboxes
+  const widgetOptions = inboxes
     .filter(inbox => inbox.channel_type === 'Channel::WebWidget')
     .map(inbox => ({
       value: inbox.id,
       label: inbox.name,
     }));
+
+  return [
+    {
+      value: '',
+      label: t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.NONE_OPTION'),
+    },
+    ...widgetOptions,
+  ];
 });
 
 const rules = {
@@ -108,7 +116,7 @@ watch(
         widgetColor: newVal.color,
         homePageLink: newVal.homepage_link,
         slug: newVal.slug,
-        liveChatWidgetInboxId: newVal.inbox?.id,
+        liveChatWidgetInboxId: newVal.inbox?.id || '',
       });
       if (newVal.logo) {
         const {

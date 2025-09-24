@@ -120,7 +120,7 @@
 - name: FACEBOOK_API_VERSION
   display_title: 'Facebook API Version'
   description: 'Configure this if you want to use a different Facebook API version. Make sure its prefixed with `v`'
-  value: 'v17.0'
+  value: 'v18.0'
   locked: false
 - name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
   display_title: 'Enable human agent'
@@ -219,7 +219,7 @@
 - name: ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The June.so analytics token for Chatwoot cloud'
+  description: 'The PostHog analytics token for Chatwoot cloud'
   type: secret
 - name: CLEARBIT_API_KEY
   value:
@@ -236,6 +236,10 @@
   display_title: 'Blocked Email Domains'
   description: 'Add a domain per line to block them from signing up, accepts Regex'
   type: code
+- name: SKIP_INCOMING_BCC_PROCESSING
+  value:
+  display_title: 'Skip BCC Processing For'
+  description: 'Comma-separated list of account IDs that should be skipped from incoming BCC processing'
 - name: INACTIVE_WHATSAPP_NUMBERS
   value: ''
   display_title: 'Inactive WhatsApp Numbers'
@@ -439,3 +443,11 @@
   locked: false
   description: 'Zone ID for the Cloudflare domain'
 ## ------ End of Configs added for Cloudflare ------ ##
+
+## ------ Customizations for Customers ------ ##
+- name: WIDGET_TOKEN_EXPIRY
+  display_title: 'Widget Token Expiry'
+  value: 180
+  locked: false
+  description: 'Token expiry in days'
+## ------ End of Customizations for Customers ------ ##
