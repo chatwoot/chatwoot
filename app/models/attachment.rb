@@ -91,9 +91,9 @@ class Attachment < ApplicationRecord
     begin
       ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
       attachment.variant(format: format).processed.url
-    rescue ActiveStorage::InvariableError => e
+    rescue StandardError => e
       Rails.logger.warn "Cannot convert image attachment: #{id} (#{attachment.filename}) - #{e.message}"
-      file_url
+      download_url
     end
   end
 
