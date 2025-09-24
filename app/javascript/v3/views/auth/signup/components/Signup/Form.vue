@@ -13,6 +13,9 @@ import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue'
 import { register } from '../../../../../api/auth';
 import * as CompanyEmailValidator from 'company-email-validator';
 
+const MIN_PASSWORD_LENGTH = 6;
+const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/;
+
 export default {
   components: {
     FormInput,
@@ -60,11 +63,11 @@ export default {
         password: {
           required,
           isValidPassword,
-          minLength: minLength(6),
+          minLength: minLength(MIN_PASSWORD_LENGTH),
         },
         confirmPassword: {
           required,
-          minLength: minLength(6),
+          minLength: minLength(MIN_PASSWORD_LENGTH),
           isEqPassword(value) {
             return value === this.credentials.password;
           },
@@ -88,24 +91,9 @@ export default {
       }
       return true;
     },
-    passwordErrorText() {
-      const { password } = this.v$.credentials;
-      if (!password.$error) {
-        return '';
-      }
-      if (password.minLength.$invalid) {
-        return this.$t('REGISTER.PASSWORD.ERROR');
-      }
-      if (password.isValidPassword.$invalid) {
-        return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
-      }
-      return '';
-    },
     confirmPasswordErrorText() {
       const { confirmPassword } = this.v$.credentials;
-      if (!confirmPassword.$error) {
-        return '';
-      }
+      if (!confirmPassword.$error) return '';
       if (confirmPassword.isEqPassword.$invalid) {
         return this.$t('REGISTER.CONFIRM_PASSWORD.ERROR');
       }
@@ -118,14 +106,46 @@ export default {
       return !this.v$.$invalid && this.hasAValidCaptcha;
     },
     passwordRequirements() {
-      const password = this.credentials.password;
+      const password = this.credentials.password || '';
       return {
-        length: password.length >= 6,
+        length: password.length >= MIN_PASSWORD_LENGTH,
         uppercase: /[A-Z]/.test(password),
         lowercase: /[a-z]/.test(password),
         number: /[0-9]/.test(password),
-        special: /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/.test(password),
+        special: SPECIAL_CHAR_REGEX.test(password),
       };
+    },
+    passwordRequirementItems() {
+      const reqs = this.passwordRequirements;
+      return [
+        {
+          id: 'length',
+          met: reqs.length,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH', {
+            min: MIN_PASSWORD_LENGTH,
+          }),
+        },
+        {
+          id: 'uppercase',
+          met: reqs.uppercase,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE'),
+        },
+        {
+          id: 'lowercase',
+          met: reqs.lowercase,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE'),
+        },
+        {
+          id: 'number',
+          met: reqs.number,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER'),
+        },
+        {
+          id: 'special',
+          met: reqs.special,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL'),
+        },
+      ];
     },
     passwordRequirementsMet() {
       return Object.values(this.passwordRequirements).every(Boolean);
@@ -157,9 +177,7 @@ export default {
       this.v$.$touch();
     },
     resetCaptcha() {
-      if (!this.globalConfig.hCaptchaSiteKey) {
-        return;
-      }
+      if (!this.globalConfig.hCaptchaSiteKey) return;
       this.$refs.hCaptcha.reset();
       this.credentials.hCaptchaClientResponse = '';
       this.didCaptchaReset = true;
@@ -214,80 +232,28 @@ export default {
         :label="$t('LOGIN.PASSWORD.LABEL')"
         :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
         :has-error="v$.credentials.password.$error"
-        :error-message="passwordErrorText"
+        aria-describedby="password-requirements"
         @blur="v$.credentials.password.$touch"
       />
-      <div class="text-xs text-slate-600 dark:text-slate-400 mb-2 space-y-1">
-        <p class="font-medium">{{ $t('REGISTER.PASSWORD.REQUIREMENTS') }}</p>
-        <ul class="space-y-1">
-          <li class="flex items-center">
+      <div id="password-requirements" class="text-xs space-y-2">
+        <p class="font-medium text-n-slate-11">
+          {{ $t('REGISTER.PASSWORD.REQUIREMENTS') }}
+        </p>
+        <ul role="list" class="space-y-1">
+          <li
+            v-for="item in passwordRequirementItems"
+            :key="item.id"
+            class="flex gap-1 items-center"
+          >
             <span
-              :class="
-                passwordRequirements.length
-                  ? 'text-green-500'
-                  : 'text-slate-400'
-              "
+              class="flex-none flex-shrink-0 w-3"
+              :class="item.met ? 'text-n-teal-8' : 'text-n-slate-10'"
             >
-              {{ passwordRequirements.length ? '✓' : '○' }}
+              {{ item.met ? '✓' : '○' }}
             </span>
-            <span class="ml-2">
-              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH') }}
-            </span>
-          </li>
-          <li class="flex items-center">
-            <span
-              :class="
-                passwordRequirements.uppercase
-                  ? 'text-green-500'
-                  : 'text-slate-400'
-              "
-            >
-              {{ passwordRequirements.uppercase ? '✓' : '○' }}
-            </span>
-            <span class="ml-2">
-              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE') }}
-            </span>
-          </li>
-          <li class="flex items-center">
-            <span
-              :class="
-                passwordRequirements.lowercase
-                  ? 'text-green-500'
-                  : 'text-slate-400'
-              "
-            >
-              {{ passwordRequirements.lowercase ? '✓' : '○' }}
-            </span>
-            <span class="ml-2">
-              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE') }}
-            </span>
-          </li>
-          <li class="flex items-center">
-            <span
-              :class="
-                passwordRequirements.number
-                  ? 'text-green-500'
-                  : 'text-slate-400'
-              "
-            >
-              {{ passwordRequirements.number ? '✓' : '○' }}
-            </span>
-            <span class="ml-2">
-              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER') }}
-            </span>
-          </li>
-          <li class="flex items-center">
-            <span
-              :class="
-                passwordRequirements.special
-                  ? 'text-green-500'
-                  : 'text-slate-400'
-              "
-            >
-              {{ passwordRequirements.special ? '✓' : '○' }}
-            </span>
-            <span class="ml-2">
-              {{ $t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL') }}
+
+            <span :class="item.met ? 'text-n-slate-11' : 'text-n-slate-10'">
+              {{ item.label }}
             </span>
           </li>
         </ul>
