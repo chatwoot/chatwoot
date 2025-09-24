@@ -37,7 +37,7 @@ export default {
       }
       if (el.tag === 'h2') {
         if (this.h1Count > 0) {
-          return 'ml-2';
+          return 'ltr:ml-2 rtl:mr-2';
         }
         return '';
       }
@@ -46,7 +46,7 @@ export default {
         if (!this.h1Count && !this.h2Count) {
           return '';
         }
-        return 'ml-5';
+        return 'ltr:ml-5 rtl:mr-5';
       }
 
       return '';
@@ -94,17 +94,19 @@ export default {
 </script>
 
 <template>
-  <div class="hidden lg:block flex-1 py-6 scroll-mt-24 pl-4">
-    <div v-if="rows.length > 0" class="sticky top-24 py-2 overflow-auto">
+  <div
+    class="hidden lg:block flex-1 py-6 scroll-mt-24 ltr:pl-4 rtl:pr-4 sticky top-24"
+  >
+    <div v-if="rows.length > 0" class="py-2 overflow-auto">
       <nav class="max-w-2xl">
         <ol
           role="list"
-          class="flex flex-col gap-2 text-base border-l-2 border-solid border-slate-100 dark:border-slate-800"
+          class="flex flex-col gap-2 text-base ltr:border-l-2 rtl:border-r-2 border-solid border-slate-100 dark:border-slate-800"
         >
           <li
             v-for="element in rows"
             :key="element.slug"
-            class="leading-6 border-l-2 relative -left-0.5 border-solid"
+            class="leading-6 ltr:border-l-2 rtl:border-r-2 relative ltr:-left-0.5 rtl:-right-0.5 border-solid"
             :class="elementBorderStyles(element)"
           >
             <p class="py-1 px-3" :class="getClassName(element)">

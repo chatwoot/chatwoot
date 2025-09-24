@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   attributeType: {
@@ -79,17 +80,13 @@ const filteredCustomAttributes = computed(() =>
       customAttributes.value,
       attribute.attribute_key
     );
-    const isCheckbox = attribute.attribute_display_type === 'checkbox';
-    const defaultValue = isCheckbox ? false : '';
 
     return {
       ...attribute,
       type: 'custom_attribute',
       key: attribute.attribute_key,
-      // Set value from customAttributes if it exists, otherwise use default value
-      value: hasValue
-        ? customAttributes.value[attribute.attribute_key]
-        : defaultValue,
+      // Set value from customAttributes if it exists, otherwise use ''
+      value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
     };
   })
 );
@@ -214,7 +211,7 @@ const onUpdate = async (key, value) => {
     } else {
       store.dispatch('contacts/update', {
         id: props.contactId,
-        custom_attributes: updatedAttributes,
+        customAttributes: updatedAttributes,
       });
     }
     useAlert(t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
@@ -318,17 +315,16 @@ const evenClass = [
       {{ emptyStateMessage }}
     </p>
     <!-- Show more and show less buttons show it if the combinedElements length is greater than 5 -->
-    <div v-if="combinedElements.length > 5" class="flex px-2 py-2">
-      <woot-button
-        size="small"
-        :icon="showAllAttributes ? 'chevron-up' : 'chevron-down'"
-        variant="clear"
-        color-scheme="primary"
-        class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
+    <div v-if="combinedElements.length > 5" class="flex items-center px-2 py-2">
+      <NextButton
+        ghost
+        xs
+        :icon="
+          showAllAttributes ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
+        "
+        :label="toggleButtonText"
         @click="onClickToggle"
-      >
-        {{ toggleButtonText }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>

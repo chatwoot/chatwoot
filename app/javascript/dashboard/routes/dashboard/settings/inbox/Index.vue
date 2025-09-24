@@ -1,12 +1,16 @@
 <script setup>
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import { computed, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import {
+  useMapGetter,
+  useStoreGetters,
+  useStore,
+} from 'dashboard/composables/store';
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -19,7 +23,12 @@ const { isAdmin } = useAdmin();
 const showDeletePopup = ref(false);
 const selectedInbox = ref({});
 
-const inboxesList = computed(() => getters['inboxes/getInboxes'].value);
+const inboxes = useMapGetter('inboxes/getInboxes');
+
+const inboxesList = computed(() => {
+  return inboxes.value?.slice().sort((a, b) => a.name.localeCompare(b.name));
+});
+
 const uiFlags = computed(() => getters['inboxes/getUIFlags'].value);
 
 const deleteConfirmText = computed(
@@ -88,24 +97,26 @@ const openDelete = inbox => {
     </template>
     <template #body>
       <table class="min-w-full overflow-x-auto">
-        <tbody
-          class="divide-y divide-n-weak flex-1 text-slate-700 dark:text-slate-100"
-        >
+        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
           <tr v-for="inbox in inboxesList" :key="inbox.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center flex-row gap-4">
-                <Thumbnail
+                <div
                   v-if="inbox.avatar_url"
-                  class="bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
-                  :src="inbox.avatar_url"
-                  :username="inbox.name"
-                  size="48px"
-                />
+                  class="bg-n-alpha-3 rounded-full size-12 p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
+                >
+                  <Avatar
+                    :src="inbox.avatar_url"
+                    :name="inbox.name"
+                    :size="30"
+                    rounded-full
+                  />
+                </div>
                 <div
                   v-else
-                  class="w-[48px] h-[48px] flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
+                  class="size-12 flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
                 >
-                  <ChannelIcon class="size-5" :inbox="inbox" />
+                  <ChannelIcon class="size-5 text-n-slate-10" :inbox="inbox" />
                 </div>
                 <div>
                   <span class="block font-medium capitalize">

@@ -43,5 +43,14 @@
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "了解更多",
     "WATCH_VIDEO": "观看视频"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "分钟",
+    "HOURS": "小时",
+    "DAYS": "天",
+    "PLACEHOLDER": "输入耗时"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "即将到来！"
   }
 }

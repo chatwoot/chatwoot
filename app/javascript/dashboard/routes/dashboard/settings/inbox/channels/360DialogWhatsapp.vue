@@ -4,10 +4,14 @@ import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
 import router from '../../../../index';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 
 export default {
+  components: {
+    NextButton,
+  },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -37,7 +41,7 @@ export default {
         const whatsappChannel = await this.$store.dispatch(
           'inboxes/createChannel',
           {
-            name: this.inboxName,
+            name: this.inboxName?.trim(),
             channel: {
               type: 'whatsapp',
               phone_number: this.phoneNumber,
@@ -115,9 +119,10 @@ export default {
     </div>
 
     <div class="w-full">
-      <woot-submit-button
-        :loading="uiFlags.isCreating"
-        :button-text="$t('INBOX_MGMT.ADD.WHATSAPP.SUBMIT_BUTTON')"
+      <NextButton
+        type="submit"
+        :label="$t('INBOX_MGMT.ADD.WHATSAPP.SUBMIT_BUTTON')"
+        :is-loading="uiFlags.isCreating"
       />
     </div>
   </form>

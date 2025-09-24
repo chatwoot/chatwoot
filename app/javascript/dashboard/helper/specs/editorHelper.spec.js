@@ -8,6 +8,7 @@ import {
   insertAtCursor,
   findNodeToInsertImage,
   setURLWithQueryAndSize,
+  getContentNode,
 } from '../editorHelper';
 import { EditorState } from '@chatwoot/prosemirror-schema';
 import { EditorView } from '@chatwoot/prosemirror-schema';
@@ -18,11 +19,27 @@ const schema = new Schema({
   nodes: {
     doc: { content: 'paragraph+' },
     paragraph: {
-      content: 'text*',
+      content: 'inline*',
+      group: 'block',
       toDOM: () => ['p', 0], // Represents a paragraph as a <p> tag in the DOM.
     },
     text: {
+      group: 'inline',
       toDOM: node => node.text, // Represents text as its actual string value.
+    },
+    mention: {
+      attrs: {
+        userId: { default: '' },
+        userFullName: { default: '' },
+        mentionType: { default: 'user' },
+      },
+      inline: true,
+      group: 'inline',
+      toDOM: node => [
+        'span',
+        { class: 'mention' },
+        `@${node.attrs.userFullName}`,
+      ],
     },
   },
 });
@@ -437,5 +454,175 @@ describe('setURLWithQueryAndSize', () => {
 
     // Ensure the dispatch method wasn't called
     expect(editorView.dispatch).not.toHaveBeenCalled();
+  });
+});
+
+describe('getContentNode', () => {
+  let mockEditorView;
+
+  beforeEach(() => {
+    mockEditorView = {
+      state: {
+        schema: {
+          nodes: {
+            mention: {
+              create: vi.fn(attrs => ({
+                type: { name: 'mention' },
+                attrs,
+              })),
+            },
+          },
+          text: vi.fn(content => ({ type: { name: 'text' }, text: content })),
+        },
+      },
+    };
+  });
+
+  describe('mention node creation', () => {
+    it('creates a user mention node with correct attributes', () => {
+      const userContent = {
+        id: '123',
+        name: 'John Doe',
+        type: 'user',
+      };
+
+      const result = getContentNode(mockEditorView, 'mention', userContent, {
+        from: 0,
+        to: 5,
+      });
+
+      expect(
+        mockEditorView.state.schema.nodes.mention.create
+      ).toHaveBeenCalledWith({
+        userId: '123',
+        userFullName: 'John Doe',
+        mentionType: 'user',
+      });
+
+      expect(result).toEqual({
+        node: {
+          type: { name: 'mention' },
+          attrs: {
+            userId: '123',
+            userFullName: 'John Doe',
+            mentionType: 'user',
+          },
+        },
+        from: 0,
+        to: 5,
+      });
+    });
+
+    it('creates a team mention node with correct attributes', () => {
+      const teamContent = {
+        id: '456',
+        name: 'Support Team',
+        type: 'team',
+      };
+
+      const result = getContentNode(mockEditorView, 'mention', teamContent, {
+        from: 0,
+        to: 5,
+      });
+
+      expect(
+        mockEditorView.state.schema.nodes.mention.create
+      ).toHaveBeenCalledWith({
+        userId: '456',
+        userFullName: 'Support Team',
+        mentionType: 'team',
+      });
+
+      expect(result).toEqual({
+        node: {
+          type: { name: 'mention' },
+          attrs: {
+            userId: '456',
+            userFullName: 'Support Team',
+            mentionType: 'team',
+          },
+        },
+        from: 0,
+        to: 5,
+      });
+    });
+
+    it('defaults to user mention type when type is not specified', () => {
+      const contentWithoutType = {
+        id: '789',
+        name: 'Jane Smith',
+      };
+
+      getContentNode(mockEditorView, 'mention', contentWithoutType, {
+        from: 0,
+        to: 5,
+      });
+
+      expect(
+        mockEditorView.state.schema.nodes.mention.create
+      ).toHaveBeenCalledWith({
+        userId: '789',
+        userFullName: 'Jane Smith',
+        mentionType: 'user',
+      });
+    });
+
+    it('uses displayName over name when both are provided', () => {
+      const contentWithDisplayName = {
+        id: '101',
+        name: 'john_doe',
+        displayName: 'John Doe (Admin)',
+        type: 'user',
+      };
+
+      getContentNode(mockEditorView, 'mention', contentWithDisplayName, {
+        from: 0,
+        to: 5,
+      });
+
+      expect(
+        mockEditorView.state.schema.nodes.mention.create
+      ).toHaveBeenCalledWith({
+        userId: '101',
+        userFullName: 'John Doe (Admin)',
+        mentionType: 'user',
+      });
+    });
+
+    it('handles missing displayName by falling back to name', () => {
+      const contentWithoutDisplayName = {
+        id: '102',
+        name: 'jane_smith',
+        type: 'user',
+      };
+
+      getContentNode(mockEditorView, 'mention', contentWithoutDisplayName, {
+        from: 0,
+        to: 5,
+      });
+
+      expect(
+        mockEditorView.state.schema.nodes.mention.create
+      ).toHaveBeenCalledWith({
+        userId: '102',
+        userFullName: 'jane_smith',
+        mentionType: 'user',
+      });
+    });
+  });
+
+  describe('unsupported node types', () => {
+    it('returns null node for unsupported type', () => {
+      const result = getContentNode(mockEditorView, 'unsupported', 'content', {
+        from: 0,
+        to: 5,
+      });
+
+      expect(result).toEqual({
+        node: null,
+        from: 0,
+        to: 5,
+      });
+    });
   });
 });

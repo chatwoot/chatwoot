@@ -67,9 +67,11 @@ const hasContacts = computed(() => contacts.value.length > 0);
 const isContactIndexView = computed(
   () => route.name === 'contacts_dashboard_index' && pageNumber.value === 1
 );
+const isActiveView = computed(() => route.name === 'contacts_dashboard_active');
 const hasAppliedFilters = computed(() => {
   return appliedFilters.value.length > 0;
 });
+
 const showEmptyStateLayout = computed(() => {
   return (
     !searchQuery.value &&
@@ -89,9 +91,18 @@ const showEmptyText = computed(() => {
 
 const headerTitle = computed(() => {
   if (searchQuery.value) return t('CONTACTS_LAYOUT.HEADER.SEARCH_TITLE');
+  if (isActiveView.value) return t('CONTACTS_LAYOUT.HEADER.ACTIVE_TITLE');
   if (activeSegmentId.value) return activeSegment.value?.name;
   if (activeLabel.value) return `#${activeLabel.value}`;
   return t('CONTACTS_LAYOUT.HEADER.TITLE');
+});
+
+const emptyStateMessage = computed(() => {
+  if (isActiveView.value)
+    return t('CONTACTS_LAYOUT.EMPTY_STATE.ACTIVE_EMPTY_STATE_TITLE');
+  if (!searchQuery.value || hasAppliedFilters.value)
+    return t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE');
+  return t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE');
 });
 
 const updatePageParam = (page, search = '') => {
@@ -132,6 +143,15 @@ const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
   updatePageParam(page);
 };
 
+const fetchActiveContacts = async (page = 1) => {
+  await store.dispatch('contacts/clearContactFilters');
+  await store.dispatch('contacts/active', {
+    page,
+    sortAttr: buildSortAttr(),
+  });
+  updatePageParam(page);
+};
+
 const searchContacts = debounce(async (value, page = 1) => {
   await store.dispatch('contacts/clearContactFilters');
   searchValue.value = value;
@@ -158,6 +178,11 @@ const fetchContactsBasedOnContext = async page => {
   }
   // Reset the search value when we change the view
   searchValue.value = '';
+  // If we're on the active route, fetch active contacts
+  if (isActiveView.value) {
+    await fetchActiveContacts(page);
+    return;
+  }
   // If there are applied filters or active segment with query
   if (
     (hasAppliedFilters.value || activeSegment.value?.query) &&
@@ -181,6 +206,11 @@ const handleSort = async ({ sort, order }) => {
 
   if (searchQuery.value) {
     await searchContacts(searchValue.value);
+    return;
+  }
+
+  if (isActiveView.value) {
+    await fetchActiveContacts();
     return;
   }
 
@@ -210,7 +240,7 @@ watch(
 );
 
 watch(
-  [activeLabel, activeSegment],
+  [activeLabel, activeSegment, isActiveView],
   () => {
     fetchContactsBasedOnContext(pageNumber.value);
   },
@@ -222,6 +252,13 @@ watch(searchQuery, value => {
   searchValue.value = value || '';
   // Reset the view if there is search query when we click on the sidebar group
   if (value === undefined) {
+    if (
+      isActiveView.value ||
+      activeLabel.value ||
+      activeSegment.value ||
+      hasAppliedFilters.value
+    )
+      return;
     fetchContacts();
   }
 });
@@ -230,6 +267,10 @@ onMounted(async () => {
   if (!activeSegmentId.value) {
     if (searchQuery.value) {
       await searchContacts(searchQuery.value, pageNumber.value);
+      return;
+    }
+    if (isActiveView.value) {
+      await fetchActiveContacts(pageNumber.value);
       return;
     }
     await fetchContacts(pageNumber.value);
@@ -286,11 +327,7 @@ onMounted(async () => {
           class="flex items-center justify-center py-10"
         >
           <span class="text-base text-n-slate-11">
-            {{
-              searchQuery || !hasAppliedFilters
-                ? t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE')
-                : t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE')
-            }}
+            {{ emptyStateMessage }}
           </span>
         </div>
 

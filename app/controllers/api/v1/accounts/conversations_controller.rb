@@ -48,7 +48,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def filter
-    result = ::Conversations::FilterService.new(params.permit!, current_user).perform
+    result = ::Conversations::FilterService.new(params.permit!, current_user, current_account).perform
     @conversations = result[:conversations]
     @conversations_count = result[:count]
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
@@ -122,6 +122,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def custom_attributes
     @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
     @conversation.save!
+  end
+
+  def destroy
+    authorize @conversation, :destroy?
+    ::DeleteObjectJob.perform_later(@conversation, Current.user, request.ip)
+    head :ok
   end
 
   private

@@ -42,7 +42,7 @@ const showActionInput = computed(() => {
     actionData.value.action_name === 'send_message'
   )
     return false;
-  const type = macroActionTypes.find(
+  const type = macroActionTypes.value.find(
     action => action.key === actionData.value.action_name
   ).inputType;
   return !!type;
@@ -61,10 +61,10 @@ const dropdownValues = () => {
       sm
       slate
       icon="i-lucide-menu"
-      class="absolute cursor-move -left-10 mr-2 macros__node-drag-handle"
+      class="absolute cursor-move ltr:-left-10 rtl:-right-10 ltr:mr-2 rtl:ml-2 macros__node-drag-handle"
     />
     <div
-      class="flex-grow p-2 mr-2 rounded-md shadow-sm outline outline-1 outline-n-weak"
+      class="flex-grow p-2 ltr:mr-2 rtl:ml-2 rounded-md shadow-sm outline outline-1 outline-n-weak"
       :class="
         errorKey
           ? 'animate-shake bg-n-ruby-8/20 outline-n-ruby-5 dark:outline-n-ruby-5'

@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Không có"
+    "NONE_OPTION": "Không có",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Cuộc trò chuyện đã được tạo",
+      "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Tắt tiếng cuộc trò chuyện",
+      "SNOOZE_CONVERSATION": "Tạm dừng \bhội thoại",
+      "RESOLVE_CONVERSATION": "Giải quyết cuộc trò chuyện",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Mở cuộc trò chuyện"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Không có",
+      "LOW": "Thấp",
+      "MEDIUM": "Trung bình",
+      "HIGH": "Cao",
+      "URGENT": "Cấp bách"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "Email",
+      "INBOX": "Hộp thư đến",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Số điện thoại",
+      "STATUS": "Trạng thái",
+      "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Quốc gia",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Nhóm",
+      "PRIORITY": "Mức độ ưu tiên",
+      "LABELS": "Nhãn"
+    }
   }
 }

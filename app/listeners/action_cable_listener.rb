@@ -204,3 +204,5 @@ class ActionCableListener < BaseListener
     ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
   end
 end
+
+ActionCableListener.prepend_mod_with('ActionCableListener')

@@ -68,20 +68,8 @@ class Messages::Messenger::MessageBuilder
     message.save!
   end
 
-  def get_story_object_from_source_id(source_id)
-    k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-    k.get_object(source_id, fields: %w[story from]) || {}
-  rescue Koala::Facebook::AuthenticationError
-    @inbox.channel.authorization_error!
-    raise
-  rescue Koala::Facebook::ClientError => e
-    # The exception occurs when we are trying fetch the deleted story or blocked story.
-    @message.attachments.destroy_all
-    @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
-    Rails.logger.error e
-    {}
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+  # This is a placeholder method to be overridden by child classes
+  def get_story_object_from_source_id(_source_id)
     {}
   end
 

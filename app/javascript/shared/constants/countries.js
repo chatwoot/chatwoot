@@ -541,7 +541,7 @@ const countries = [
   },
   {
     name: 'Guyana',
-    dial_code: '+595',
+    dial_code: '+592',
     emoji: '🇬🇾',
     id: 'GY',
   },
@@ -602,7 +602,7 @@ const countries = [
   {
     name: 'Iraq',
     dial_code: '+964',
-    emoji: '🇮🇷',
+    emoji: '🇮🇶',
     id: 'IQ',
   },
   {

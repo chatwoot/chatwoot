@@ -43,22 +43,22 @@ export default {
 
 <style lang="scss" scoped>
 .radio-group-label {
-  margin-bottom: var(--space-smaller);
+  margin-bottom: 0.25rem;
 }
 .radio-group {
   display: inline-block;
-  margin-bottom: var(--space-small);
+  margin-bottom: 0.5rem;
 }
 .radio-group-item {
   float: left;
-  margin-right: var(--space-one);
+  margin-right: 0.625rem;
   .radio-group-item-label {
     display: flex;
     align-items: center;
     cursor: pointer;
 
     .radio-input {
-      margin: 0 var(--space-one) 0 0;
+      margin: 0 0.625rem 0 0;
     }
   }
 }

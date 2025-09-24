@@ -19,10 +19,10 @@ const onClick = () => {
     />
 
     <div
-      class="radar-ping-animation absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-woot-500 dark:bg-woot-500"
+      class="radar-ping-animation absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-n-brand"
     />
     <div
-      class="absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-woot-500 dark:bg-woot-500 opacity-50"
+      class="absolute top-0 right-0 -mt-1 -mr-1 rounded-full w-3 h-3 bg-n-brand opacity-50"
     />
   </div>
 </template>

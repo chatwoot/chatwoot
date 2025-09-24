@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "Ir nepieciešams vismaz viens nosacījums",
       "ATLEAST_ONE_ACTION_REQUIRED": "Ir nepieciešama vismaz viena darbība"
     },
-    "NONE_OPTION": "Nav"
+    "NONE_OPTION": "Nav",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Saruna izveidota",
+      "CONVERSATION_UPDATED": "Saruna Atjaunināta",
+      "MESSAGE_CREATED": "Ziņojums Izveidots",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Saruna Atvērta"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Piešķirt Aģentam",
+      "ASSIGN_TEAM": "Piešķirt Komandai",
+      "ADD_LABEL": "Pievienot Etiķeti",
+      "REMOVE_LABEL": "Noņemt Etiķeti",
+      "SEND_EMAIL_TO_TEAM": "Nosūtīt E-pastu Komandai",
+      "SEND_EMAIL_TRANSCRIPT": "Nosūtīt uz E-pastu Transkriptu",
+      "MUTE_CONVERSATION": "Izslēgt Sarunu",
+      "SNOOZE_CONVERSATION": "Atlikt Sarunu",
+      "RESOLVE_CONVERSATION": "Atrisināt Sarunu",
+      "SEND_WEBHOOK_EVENT": "Nosūtīt Webhook Notikumu",
+      "SEND_ATTACHMENT": "Sūtīt Pielikumu",
+      "SEND_MESSAGE": "Nosūtīt Ziņojumu",
+      "ADD_PRIVATE_NOTE": "Pievienot Privātu Piezīmi",
+      "CHANGE_PRIORITY": "Mainīt prioritāti",
+      "ADD_SLA": "Pievienot SLA",
+      "OPEN_CONVERSATION": "Atvērt sarunu"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nav",
+      "LOW": "Zema",
+      "MEDIUM": "Vidēja",
+      "HIGH": "Augsta",
+      "URGENT": "Steidzama"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Ziņojuma Tips",
+      "MESSAGE_CONTAINS": "Ziņojums Satur",
+      "EMAIL": "E-pasts",
+      "INBOX": "Iesūtne",
+      "CONVERSATION_LANGUAGE": "Sarunas Valoda",
+      "PHONE_NUMBER": "Telefona numurs",
+      "STATUS": "Statuss",
+      "BROWSER_LANGUAGE": "Pārlūkprogrammas Valoda",
+      "MAIL_SUBJECT": "E-pasta Tēma",
+      "COUNTRY_NAME": "Valsts",
+      "REFERER_LINK": "Novirzītāja Saite",
+      "ASSIGNEE_NAME": "Uzdevuma saņēmējs",
+      "TEAM_NAME": "Komanda",
+      "PRIORITY": "Prioritāte",
+      "LABELS": "Etiķetes"
+    }
   }
 }

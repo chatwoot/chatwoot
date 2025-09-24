@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Gambaran Label",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_LABEL_REPORTS": "Unduh laporan label",
@@ -559,6 +560,7 @@
     "INBOX": "Kotak masuk",
     "AGENT": "Agen",
     "TEAM": "Tim",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

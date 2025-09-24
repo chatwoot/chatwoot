@@ -15,6 +15,10 @@ export default {
       type: String,
       default: REPLY_EDITOR_MODES.REPLY,
     },
+    isReplyRestricted: {
+      type: Boolean,
+      default: false,
+    },
     isMessageLengthReachingThreshold: {
       type: Boolean,
       default: () => false,
@@ -30,6 +34,7 @@ export default {
       emit('setReplyMode', mode);
     };
     const handleReplyClick = () => {
+      if (props.isReplyRestricted) return;
       setReplyMode(REPLY_EDITOR_MODES.REPLY);
     };
     const handleNoteClick = () => {
@@ -73,7 +78,7 @@ export default {
       };
     },
     charLengthClass() {
-      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
+      return this.charactersRemaining < 0 ? 'text-n-ruby-9' : 'text-n-slate-11';
     },
     characterLengthWarning() {
       return this.charactersRemaining < 0
@@ -88,6 +93,7 @@ export default {
   <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
     <EditorModeToggle
       :mode="mode"
+      :disabled="isReplyRestricted"
       class="mt-3"
       @toggle-mode="handleModeToggle"
     />
@@ -106,43 +112,3 @@ export default {
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.button-group {
-  @apply flex border-0 p-0 m-0;
-
-  .button {
-    @apply text-sm font-medium py-2.5 px-4 m-0 relative z-10;
-
-    &.is-active {
-      @apply bg-white dark:bg-slate-900;
-    }
-  }
-
-  .button--reply {
-    @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-slate-50 dark:border-slate-700;
-
-    &:hover,
-    &:focus {
-      @apply border-r border-slate-50 dark:border-slate-700;
-    }
-  }
-
-  .button--note {
-    @apply border-l-0 rounded-none;
-
-    &.is-active {
-      @apply border-r border-b-0 bg-yellow-100 dark:bg-yellow-800 border-t-0 border-slate-50 dark:border-slate-700;
-    }
-
-    &:hover,
-    &:active {
-      @apply text-yellow-700 dark:text-yellow-700;
-    }
-  }
-}
-
-.button--note {
-  @apply text-yellow-600 dark:text-yellow-600 bg-transparent dark:bg-transparent;
-}
-</style>

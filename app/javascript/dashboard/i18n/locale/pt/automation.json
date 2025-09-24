@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é obrigatória",
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
     },
-    "NONE_OPTION": "Nenhuma"
+    "NONE_OPTION": "Nenhuma",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Conversa criada",
+      "CONVERSATION_UPDATED": "Conversa atualizada",
+      "MESSAGE_CREATED": "Mensagem criada",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversa aberta"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Atribuir ao agente",
+      "ASSIGN_TEAM": "Atribuir equipa",
+      "ADD_LABEL": "Adicionar etiqueta",
+      "REMOVE_LABEL": "Remover um rótulo",
+      "SEND_EMAIL_TO_TEAM": "Enviar um e-mail para a equipa",
+      "SEND_EMAIL_TRANSCRIPT": "Enviar transcrição por e-mail",
+      "MUTE_CONVERSATION": "Silenciar Conversa",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
+      "RESOLVE_CONVERSATION": "Resolver conversa",
+      "SEND_WEBHOOK_EVENT": "Enviar evento webhook",
+      "SEND_ATTACHMENT": "Enviar anexo",
+      "SEND_MESSAGE": "Enviar mensagem",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Privada",
+      "CHANGE_PRIORITY": "Alterar prioridade",
+      "ADD_SLA": "Adicionar SLA",
+      "OPEN_CONVERSATION": "Abrir conversa"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nenhuma",
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Elevada",
+      "URGENT": "Urgente"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Tipo de mensagem",
+      "MESSAGE_CONTAINS": "A mensagem contém",
+      "EMAIL": "E-mail",
+      "INBOX": "Caixa de entrada",
+      "CONVERSATION_LANGUAGE": "Linguagem da conversa",
+      "PHONE_NUMBER": "Número de telefone",
+      "STATUS": "Situação",
+      "BROWSER_LANGUAGE": "Idioma do navegador",
+      "MAIL_SUBJECT": "Assunto do e-mail",
+      "COUNTRY_NAME": "País",
+      "REFERER_LINK": "Link de referência",
+      "ASSIGNEE_NAME": "Atribuído",
+      "TEAM_NAME": "Equipa",
+      "PRIORITY": "Prioridade",
+      "LABELS": "Etiquetas"
+    }
   }
 }

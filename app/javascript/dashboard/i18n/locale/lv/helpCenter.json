@@ -157,6 +157,12 @@
             "DELETE_SUCCESS": "Portāls veiksmīgi izdzēsts",
             "DELETE_ERROR": "Dzēšot portālu, radās kļūda"
           }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
+            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+          }
         }
       },
       "EDIT": {
@@ -696,7 +702,8 @@
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "lietotāja rokasgrāmata",
-        "ERROR": "Nepieciešams slug"
+        "ERROR": "Nepieciešams slug",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
@@ -725,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Mājas lapas saite",
           "PLACEHOLDER": "Portāla mājaslapas saite",
-          "ERROR": "Nederīgs URL. Sākumlapas saitei jāsākas ar “http://” vai “https://”."
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -734,7 +741,8 @@
         "LIVE_CHAT_WIDGET": {
           "LABEL": "Tiešraides tērzēšanas widget",
           "PLACEHOLDER": "Izvēlieties tiešraides tērzēšanas widget",
-          "HELP_TEXT": "Izvēlieties tiešsaistes tērzēšanas widget, kas tiks parādīts jūsu palīdzības centrā"
+          "HELP_TEXT": "Izvēlieties tiešsaistes tērzēšanas widget, kas tiks parādīts jūsu palīdzības centrā",
+          "NONE_OPTION": "No widget"
         },
         "BRAND_COLOR": {
           "LABEL": "Zīmola krāsa"
@@ -746,9 +754,15 @@
           "HEADER": "Pielāgots domēns",
           "LABEL": "Pielāgots domēns:",
           "DESCRIPTION": "Jūs varat izvietot savu portālu pielāgotā domēnā. Piemēram, ja jūsu vietne ir yourdomain.com un vēlaties, lai jūsu portāls būtu pieejams vietnē docs.yourdomain.com, vienkārši ievadiet to šajā laukā.",
+          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
           "PLACEHOLDER": "Portāla pielāgots domēns",
-          "EDIT_BUTTON": "Rediģēt pielāgoto domēnu",
+          "EDIT_BUTTON": "Rediģēt",
           "ADD_BUTTON": "Pievienot pielāgoto domēnu",
+          "STATUS": {
+            "LIVE": "Tiešraide",
+            "PENDING": "Awaiting verification",
+            "ERROR": "Verification failed"
+          },
           "DIALOG": {
             "ADD_HEADER": "Pievienot pielāgoto domēnu",
             "EDIT_HEADER": "Rediģēt pielāgoto domēnu",
@@ -756,13 +770,20 @@
             "EDIT_CONFIRM_BUTTON_LABEL": "Atjaunināt domēnu",
             "LABEL": "Pielāgots domēns",
             "PLACEHOLDER": "Portāla pielāgots domēns",
-            "ERROR": "Nepieciešams pielāgots domēns"
+            "ERROR": "Nepieciešams pielāgots domēns",
+            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS konfigurācija",
             "DESCRIPTION": "Piesakieties sava DNS nodrošinātāja kontā un pievienojiet CNAME ierakstu apakšdomēnam, kas norāda uz chatwoot.help",
-            "HELP_TEXT": "Kad tas ir izdarīts, varat sazināties ar mūsu atbalsta dienestu, lai pieprasītu automātiski ģenerētu SSL sertifikātu.",
-            "CONFIRM_BUTTON_LABEL": "Sapratu!"
+            "COPY": "Successfully copied CNAME",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "Send instructions",
+              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
+              "PLACEHOLDER": "Enter their email",
+              "ERROR": "Enter a valid email address",
+              "SEND_BUTTON": "Nosūtīt"
+            }
           }
         },
         "DELETE_PORTAL": {
@@ -787,6 +808,58 @@
           "ERROR_MESSAGE": "Nevar atjaunināt portālu"
         }
       }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "Notiek Augšupielāde...",
+      "UPLOAD": "Upload & Process",
+      "CANCEL": "Atcelt",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF Documents",
+      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
+      "UPLOAD_PDF": "Upload PDF",
+      "UPLOAD_FIRST_PDF": "Upload your first PDF",
+      "UPLOADED_BY": "Uploaded by",
+      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATING": "Notiek ģenerēšana...",
+      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+      },
+      "STATUS": {
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
+        "PROCESSED": "Pabeigts",
+        "FAILED": "Failed"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Content Generation",
+      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
+      "SELECT_FILE": "Select PDF File",
+      "UPLOADING": "Processing document...",
+      "UPLOAD_SUCCESS": "Document processed successfully!",
+      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "INVALID_FILE_TYPE": "Please select a valid PDF file",
+      "FILE_TOO_LARGE": "File size must be less than 512MB",
+      "GENERATED_CONTENT": "Generated FAQ Content",
+      "PUBLISH_SELECTED": "Publish Selected",
+      "PUBLISHING": "Publishing...",
+      "FROM_DOCUMENT": "From document",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Loading generated content..."
     }
   }
 }

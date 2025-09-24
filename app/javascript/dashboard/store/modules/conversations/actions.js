@@ -327,6 +327,16 @@ const actions = {
     }
   },
 
+  deleteConversation: async ({ commit, dispatch }, conversationId) => {
+    try {
+      await ConversationApi.delete(conversationId);
+      commit(types.DELETE_CONVERSATION, conversationId);
+      dispatch('conversationStats/get', {}, { root: true });
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {

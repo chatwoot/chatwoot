@@ -89,6 +89,61 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when business connection messages' do
+      subject do
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+      end
+
+      let(:business_message_params) { message_params.merge('business_connection_id' => 'eooW3KF5WB5HxTD7T826') }
+      let(:params) do
+        {
+          'update_id' => 2_342_342_343_242,
+          'business_message' => { 'text' => 'test' }.deep_merge(business_message_params)
+        }.with_indifferent_access
+      end
+
+      it 'creates appropriate conversations, message and contacts' do
+        subject
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(telegram_channel.inbox.conversations.last.additional_attributes).to include({ 'chat_id' => 23,
+                                                                                             'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
+        contact = Contact.all.first
+        expect(contact.name).to eq('Sojan Jose')
+        expect(contact.additional_attributes['language_code']).to eq('en')
+        message = telegram_channel.inbox.messages.first
+        expect(message.content).to eq('test')
+        expect(message.message_type).to eq('incoming')
+        expect(message.sender).to eq(contact)
+      end
+
+      context 'when sender is your business account' do
+        let(:business_message_params) do
+          message_params.merge(
+            'business_connection_id' => 'eooW3KF5WB5HxTD7T826',
+            'from' => {
+              'id' => 42, 'is_bot' => false, 'first_name' => 'John', 'last_name' => 'Doe', 'username' => 'johndoe', 'language_code' => 'en'
+            }
+          )
+        end
+
+        it 'creates appropriate conversations, message and contacts' do
+          subject
+          expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+          expect(telegram_channel.inbox.conversations.last.additional_attributes).to include({ 'chat_id' => 23,
+                                                                                               'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
+          contact = Contact.all.first
+          expect(contact.name).to eq('Sojan Jose')
+          # TODO: The language code is not present when we send the first message to the client.
+          # Should we update it when the user replies?
+          expect(contact.additional_attributes['language_code']).to be_nil
+          message = telegram_channel.inbox.messages.first
+          expect(message.content).to eq('test')
+          expect(message.message_type).to eq('outgoing')
+          expect(message.sender).to be_nil
+        end
+      end
+    end
+
     context 'when valid audio messages params' do
       it 'creates appropriate conversations, message and contacts' do
         allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mp3')
@@ -169,6 +224,35 @@ describe Telegram::IncomingMessageService do
                 'file_size' => 11_462, 'width' => 180, 'height' => 320
               }, 'file_id' => 'BAACAgUAAxkBAAOGYV3e_F8-v3OoAs23SJIBolyXMMMAAqsDAAKd8fBW4X9xFmpoAlghBA', 'file_unique_id' => 'AgADqwMAAp3x8FY',
               'file_size' => 291_286
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('video')
+      end
+    end
+
+    context 'when valid video_note messages params' do
+      it 'creates appropriate conversations, message and contacts' do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mov')
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'video_note' => {
+              'duration' => 3,
+              'length' => 240,
+              'thumb' => {
+                'file_id' => 'AAMCBQADGQEAA4ZhXd78Xz6_c6gCzbdIkgGiXJcwwwACqwMAAp3x8Fbhf3EWamgCWAEAB20AAyEE',
+                'file_unique_id' => 'AQADqwMAAp3x8FZy',
+                'file_size' => 11_462,
+                'width' => 240,
+                'height' => 240
+              },
+              'file_id' => 'DQACAgUAAxkBAAIBY2FdJlhf8PC2E3IalXSvXWO5m8GBAALJAwACwqHgVhb0truM0uhwIQQ',
+              'file_unique_id' => 'AgADyQMAAsKh4FY',
+              'file_size' => 132_446
             }
           }.merge(message_params)
         }.with_indifferent_access
@@ -325,6 +409,77 @@ describe Telegram::IncomingMessageService do
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('contact')
       end
+    end
+  end
+
+  context 'when lock to single conversation is enabled' do
+    before do
+      # ensure message_params exists in this context and has from.id
+      message_params[:from] ||= {}
+      message_params[:from][:id] ||= 23
+    end
+
+    it 'reopens last conversation if last conversation is resolved' do
+      telegram_channel.inbox.update!(lock_to_single_conversation: true)
+      contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
+        ci.contact = create(:contact)
+      end
+      resolved_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :resolved)
+
+      params = {
+        'update_id' => 2_342_342_343_242,
+        'message' => { 'text' => 'test' }.merge(message_params)
+      }.with_indifferent_access
+
+      described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+      expect(telegram_channel.inbox.conversations.count).to eq(1)
+      expect(resolved_conversation.reload.messages.last.content).to eq('test')
+    end
+  end
+
+  context 'when lock to single conversation is disabled' do
+    before do
+      # ensure message_params exists in this context and has from.id
+      message_params[:from] ||= {}
+      message_params[:from][:id] ||= 23
+    end
+
+    it 'creates new conversation if last conversation is resolved' do
+      telegram_channel.inbox.update!(lock_to_single_conversation: false)
+      contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
+        ci.contact = create(:contact)
+      end
+      _resolved_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :resolved)
+
+      params = {
+        'update_id' => 2_342_342_343_242,
+        'message' => { 'text' => 'test' }.merge(message_params)
+      }.with_indifferent_access
+
+      described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+      expect(telegram_channel.inbox.conversations.count).to eq(2)
+      expect(telegram_channel.inbox.conversations.last.messages.first.content).to eq('test')
+      expect(telegram_channel.inbox.conversations.last.status).to eq('open')
+    end
+
+    it 'appends to last conversation if last conversation is not resolved' do
+      telegram_channel.inbox.update!(lock_to_single_conversation: false)
+      contact_inbox = ContactInbox.find_or_create_by(inbox: telegram_channel.inbox, source_id: message_params[:from][:id]) do |ci|
+        ci.contact = create(:contact)
+      end
+      open_conversation = create(:conversation, inbox: telegram_channel.inbox, contact_inbox: contact_inbox, status: :open)
+
+      params = {
+        'update_id' => 2_342_342_343_242,
+        'message' => { 'text' => 'test' }.merge(message_params)
+      }.with_indifferent_access
+
+      described_class.new(inbox: telegram_channel.inbox, params: params).perform
+
+      expect(telegram_channel.inbox.conversations.count).to eq(1)
+      expect(open_conversation.reload.messages.last.content).to eq('test')
     end
   end
 end

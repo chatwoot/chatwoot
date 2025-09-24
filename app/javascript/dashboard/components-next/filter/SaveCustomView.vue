@@ -6,10 +6,12 @@ import { CONTACTS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { vOnClickOutside } from '@vueuse/components';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'next/button/Button.vue';
+import NextInput from 'dashboard/components-next/input/Input.vue';
 
 export default {
   components: {
     NextButton,
+    NextInput,
   },
   directives: {
     onClickOutside: vOnClickOutside,
@@ -103,26 +105,19 @@ export default {
       {{ $t('FILTER.CUSTOM_VIEWS.ADD.TITLE') }}
     </h3>
     <form class="w-full grid gap-6" @submit.prevent="saveCustomViews">
-      <div>
-        <input
-          v-model="name"
-          class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base w-full"
-          :placeholder="$t('FILTER.CUSTOM_VIEWS.ADD.PLACEHOLDER')"
-          @blur="v$.name.$touch"
-        />
-        <span
-          v-if="v$.name.$error"
-          class="text-xs text-n-ruby-11 ml-1 rtl:mr-1"
-        >
-          {{ $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE') }}
-        </span>
-      </div>
+      <NextInput
+        v-model="name"
+        :placeholder="$t('FILTER.CUSTOM_VIEWS.ADD.PLACEHOLDER')"
+        :message="v$.name.$error && $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE')"
+        :message-type="v$.name.$error && 'error'"
+        @blur="v$.name.$touch"
+      />
       <div class="flex flex-row justify-end w-full gap-2">
-        <NextButton sm solid blue :disabled="isButtonDisabled">
-          {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
-        </NextButton>
         <NextButton faded slate sm @click.prevent="onClose">
           {{ $t('FILTER.CUSTOM_VIEWS.ADD.CANCEL_BUTTON') }}
+        </NextButton>
+        <NextButton solid blue sm :disabled="isButtonDisabled">
+          {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
         </NextButton>
       </div>
     </form>

@@ -26,6 +26,9 @@ export const getters = {
       .filter(record => record.show_on_sidebar)
       .sort((a, b) => a.title.localeCompare(b.title));
   },
+  getLabelById: _state => id => {
+    return _state.records.find(record => record.id === Number(id));
+  },
 };
 
 export const actions = {

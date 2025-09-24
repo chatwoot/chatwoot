@@ -1,7 +1,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   data() {
     return {
       helpCenterDocsURL: wootConstants.HELP_CENTER_DOCS_URL,
@@ -63,17 +68,17 @@ export default {
 
 <template>
   <div
-    class="flex flex-col gap-12 sm:gap-16 items-center justify-center py-0 px-4 md:px-0 w-full min-h-screen max-w-full overflow-auto bg-white dark:bg-slate-900"
+    class="flex flex-col gap-12 sm:gap-16 items-center justify-center py-0 px-4 w-full min-h-screen max-w-full overflow-auto bg-n-background"
   >
     <div class="flex flex-col justify-start sm:justify-center gap-6">
       <div class="flex flex-col gap-1.5 items-start sm:items-center">
         <h1
-          class="text-slate-900 dark:text-white text-left sm:text-center text-4xl sm:text-5xl mb-6 font-semibold"
+          class="text-n-slate-12 text-left sm:text-center text-4xl sm:text-5xl mb-6 font-semibold"
         >
           {{ $t('HELP_CENTER.UPGRADE_PAGE.TITLE') }}
         </h1>
         <p
-          class="max-w-2xl text-base font-normal leading-6 text-left sm:text-center text-slate-700 dark:text-slate-200"
+          class="max-w-2xl text-base font-normal leading-6 text-left sm:text-center text-n-slate-11"
         >
           {{
             isOnChatwootCloud
@@ -86,21 +91,15 @@ export default {
         v-if="isOnChatwootCloud"
         class="flex flex-row gap-3 justify-start items-center sm:justify-center"
       >
-        <woot-button
-          size="medium"
-          variant="hollow"
-          color-scheme="primary"
+        <NextButton
+          outline
+          :label="$t('HELP_CENTER.UPGRADE_PAGE.BUTTON.LEARN_MORE')"
           @click="openHelpCenterDocs"
-        >
-          {{ $t('HELP_CENTER.UPGRADE_PAGE.BUTTON.LEARN_MORE') }}
-        </woot-button>
-        <woot-button
-          size="medium"
-          color-scheme="primary"
+        />
+        <NextButton
+          :label="$t('HELP_CENTER.UPGRADE_PAGE.BUTTON.UPGRADE')"
           @click="openBillingPage"
-        >
-          {{ $t('HELP_CENTER.UPGRADE_PAGE.BUTTON.UPGRADE') }}
-        </woot-button>
+        />
       </div>
     </div>
     <div
@@ -117,14 +116,14 @@ export default {
               :icon="feature.icon"
               icon-lib="lucide"
               :size="26"
-              class="mt-px text-slate-800 dark:text-slate-25"
+              class="mt-px text-n-slate-12"
             />
           </div>
           <div>
-            <h5 class="font-semibold text-lg text-slate-800 dark:text-slate-25">
+            <h5 class="font-semibold text-lg text-n-slate-12">
               {{ feature.title }}
             </h5>
-            <p class="text-sm leading-6 text-slate-700 dark:text-slate-100">
+            <p class="text-sm leading-6 text-n-slate-12">
               {{ feature.description }}
             </p>
           </div>
