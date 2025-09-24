@@ -115,9 +115,9 @@ RSpec.describe Email::FromBuilder do
         end
       end
 
-      context 'with IMAP enabled and Chatwoot SMTP and channel is verified' do
+      context 'with IMAP enabled and Chatwoot SMTP and channel is verified_for_sending' do
         before do
-          channel.update!(verified: true, imap_enabled: true, smtp_enabled: false)
+          channel.update!(verified_for_sending: true, imap_enabled: true, smtp_enabled: false)
         end
 
         it 'returns channel email with sender name formatting' do
@@ -128,9 +128,9 @@ RSpec.describe Email::FromBuilder do
         end
       end
 
-      context 'with IMAP enabled and Chatwoot SMTP and channel is not verified' do
+      context 'with IMAP enabled and Chatwoot SMTP and channel is not verified_for_sending' do
         before do
-          channel.update!(verified: false, imap_enabled: true, smtp_enabled: false)
+          channel.update!(verified_for_sending: false, imap_enabled: true, smtp_enabled: false)
         end
 
         it 'returns account support email with sender name formatting' do
@@ -141,9 +141,9 @@ RSpec.describe Email::FromBuilder do
         end
       end
 
-      context 'with forwarding and Chatwoot SMTP and channel is verified' do
+      context 'with forwarding and Chatwoot SMTP and channel is verified_for_sending' do
         before do
-          channel.update!(verified: true, imap_enabled: false, smtp_enabled: false)
+          channel.update!(verified_for_sending: true, imap_enabled: false, smtp_enabled: false)
         end
 
         it 'returns channel email with sender name formatting' do
@@ -154,8 +154,8 @@ RSpec.describe Email::FromBuilder do
         end
       end
 
-      context 'with forwarding and Chatwoot SMTP and channel is not verified' do
-        before { channel.update!(verified: false, imap_enabled: false, smtp_enabled: false) }
+      context 'with forwarding and Chatwoot SMTP and channel is not verified_for_sending' do
+        before { channel.update!(verified_for_sending: false, imap_enabled: false, smtp_enabled: false) }
 
         it 'returns account support email with sender name formatting' do
           builder = described_class.new(inbox: inbox, message: current_message)
