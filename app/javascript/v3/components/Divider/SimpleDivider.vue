@@ -5,6 +5,10 @@ export default {
       type: String,
       default: '',
     },
+    bg: {
+      type: String,
+      default: 'bg-white dark:bg-n-solid-2',
+    },
   },
 };
 </script>
@@ -15,7 +19,7 @@ export default {
       <div class="w-full border-t border-n-strong" />
     </div>
     <div v-if="label" class="relative flex justify-center text-sm">
-      <span class="bg-white dark:bg-n-solid-2 px-2 text-n-slate-10">
+      <span class="px-2 text-n-slate-10" :class="bg">
         {{ label }}
       </span>
     </div>
