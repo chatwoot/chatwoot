@@ -1,35 +1,43 @@
-'/api/v1/accounts/{account_id}':
-  patch:
-    tags:
-      - Account
-    operationId: updateAccountDetails
-    summary: Update Account
-    description: Update account details
-    parameters:
-      - $ref: '#/parameters/account_id'
-      - name: data
-        in: body
-        required: true
+tags:
+  - Account
+operationId: update-account
+summary: Update account
+description: Update account details, settings, and custom attributes
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/account_id'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/account_update_payload'
+    application/x-www-form-urlencoded:
+      schema:
+        $ref: '#/components/schemas/account_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
         schema:
-          $ref: '#/definitions/account_update_payload'
-    responses:
-      200:
-        description: Success
+          $ref: '#/components/schemas/account_detail'
+  '401':
+    description: Unauthorized (requires administrator role)
+    content:
+      application/json:
         schema:
-          $ref: '#/definitions/account'
-      401:
-        description: Unauthorized
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Account not found
+    content:
+      application/json:
         schema:
-          $ref: '#/definitions/generic_error_response'
-      403:
-        description: Access denied
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Validation error
+    content:
+      application/json:
         schema:
-          $ref: '#/definitions/generic_error_response'
-      404:
-        description: The account does not exist on the instance
-        schema:
-          $ref: '#/definitions/generic_error_response'
-      422:
-        description: Account update failed
-        schema:
-          $ref: '#/definitions/generic_error_response'
+          $ref: '#/components/schemas/bad_request_error'

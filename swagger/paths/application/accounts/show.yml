@@ -1,22 +1,28 @@
-'/api/v1/accounts/{account_id}':
-  get:
-    tags:
-      - Account
-    operationId: getAccountDetails
-    summary: Get Account Details
-    description: Get the details of the account
-    parameters:
-      - $ref: '#/parameters/account_id'
-    responses:
-      200:
-        description: Success
+tags:
+  - Account
+operationId: get-account-details
+summary: Get account details
+description: Get the details of the current account
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/account_id'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
         schema:
-          $ref: '#/definitions/account'
-      401:
-        description: Unauthorized
+          $ref: '#/components/schemas/account_show_response'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
         schema:
-          $ref: '#/definitions/generic_error_response'
-      404:
-        description: The account does not exist on the instance
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Account not found
+    content:
+      application/json:
         schema:
-          $ref: '#/definitions/generic_error_response'
+          $ref: '#/components/schemas/bad_request_error'
