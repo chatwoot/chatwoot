@@ -191,7 +191,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   private
 
   def convert_attachment_format_if_needed(attachment)
-    if attachment.file_type == 'image' && %w[image/jpeg image/png].exclude?(attachment.file.content_type)
+    if attachment.file.content_type.start_with?('image/') && %w[image/jpeg image/png].exclude?(attachment.file.content_type)
       attachment.download_url_converted
     else
       attachment.download_url
