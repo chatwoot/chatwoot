@@ -378,9 +378,7 @@ describe WebhookListener do
 
   describe '#conversation_deleted' do
     let(:event_name) { :'conversation.deleted' }
-    let!(:conversation_deleted_event) do
-      Events::Base.new(event_name, :'conversation.deleted', Time.zone.now, conversation: conversation, account: account)
-    end
+    let!(:conversation_deleted_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, account: account) }
 
     context 'when webhook is not configured' do
       it 'does not trigger webhook' do
