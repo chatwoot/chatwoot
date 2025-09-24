@@ -75,7 +75,9 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
       it 'formats images to an accepted format if provided filetype not supported by the API' do
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
-        attachment.file.attach(io: Rails.root.join('spec/assets/sample.webp').open, filename: 'sample.webp', content_type: 'image/webp')
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/sample.webp')), filename: 'sample.webp', content_type: 'image/webp')
+        attachment.save!
+        attachment.file.blob.reload
 
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
