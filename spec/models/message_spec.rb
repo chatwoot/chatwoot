@@ -621,7 +621,7 @@ RSpec.describe Message do
 
     before do
       allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
-      account.enable_features('advanced_search')
+      account.enable_features('advanced_search_indexing')
     end
 
     context 'when advanced search is not allowed globally' do
@@ -634,13 +634,25 @@ RSpec.describe Message do
       end
     end
 
-    context 'when advanced search feature is not enabled for account' do
+    context 'when advanced search feature is not enabled for account on chatwoot cloud' do
       before do
-        account.disable_features('advanced_search')
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features('advanced_search_indexing')
       end
 
       it 'returns false' do
         expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when advanced search feature is not enabled for account on self-hosted' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        account.disable_features('advanced_search_indexing')
+      end
+
+      it 'returns true' do
+        expect(message.should_index?).to be true
       end
     end
 

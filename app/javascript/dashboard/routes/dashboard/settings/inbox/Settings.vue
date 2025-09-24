@@ -206,7 +206,8 @@ export default {
         this.isASmsInbox ||
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isATelegramChannel
       );
     },
     inboxNameLabel() {
@@ -341,7 +342,7 @@ export default {
       try {
         const payload = {
           id: this.currentInboxId,
-          name: this.selectedInboxName,
+          name: this.selectedInboxName?.trim(),
           enable_email_collect: this.emailCollectEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
