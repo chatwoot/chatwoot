@@ -92,8 +92,26 @@ const rebuildTabPagesWithConversation = (_state, tabKey, conversationId) => {
         .map(id => _state.conversationsById[id])
         .filter(Boolean);
 
+      const totalPagesNeeded = Math.max(
+        Math.ceil(conversations.length / DEFAULT_PAGE_SIZE),
+        1
+      );
+
+      const basePageNumbers = pageNumbers.length
+        ? [...pageNumbers]
+        : [DEFAULT_PAGE];
+
+      while (basePageNumbers.length < totalPagesNeeded) {
+        const lastPage = basePageNumbers[basePageNumbers.length - 1];
+        basePageNumbers.push(lastPage + 1);
+      }
+
+      if (basePageNumbers.length > totalPagesNeeded) {
+        basePageNumbers.length = totalPagesNeeded;
+      }
+
       if (!conversations.length) {
-        return pageNumbers.reduce((acc, pageNumber) => {
+        return basePageNumbers.reduce((acc, pageNumber) => {
           acc[String(pageNumber)] = [];
           return acc;
         }, {});
@@ -106,7 +124,7 @@ const rebuildTabPagesWithConversation = (_state, tabKey, conversationId) => {
       const sortedIds = sorted.map(item => item.id);
 
       const nextPages = {};
-      pageNumbers.forEach((pageNumber, index) => {
+      basePageNumbers.forEach((pageNumber, index) => {
         const startIndex = index * DEFAULT_PAGE_SIZE;
         nextPages[String(pageNumber)] = sortedIds.slice(
           startIndex,
