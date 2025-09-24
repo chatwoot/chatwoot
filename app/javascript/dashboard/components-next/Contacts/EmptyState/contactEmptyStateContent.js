@@ -4,8 +4,8 @@ export default [
       city: 'Los Angeles',
       country: 'United States',
       description:
-        "I'm Candice, a developer focusing on building web solutions. Currently, I’m working as a Product Developer at Chatwoot.",
-      companyName: 'Chatwoot',
+        "I'm Candice, a developer focusing on building web solutions. Currently, I’m working as a Product Developer at Lumora.",
+      companyName: 'Lumora',
       countryCode: 'US',
       socialProfiles: {
         github: 'candice-dev',

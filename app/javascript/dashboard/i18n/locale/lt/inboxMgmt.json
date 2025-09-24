@@ -280,6 +280,11 @@
             "SECURE_AUTH": "Secure OAuth based authentication",
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
+            "LINK_TEXT": "this link.",
+            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+          },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
@@ -325,12 +330,13 @@
             "LABEL": "API Key Secret",
             "PLACEHOLDER": "Enter your Twilio API Key Secret",
             "REQUIRED": "API Key Secret is required"
-          },
-          "TWIML_APP_SID": {
-            "LABEL": "TwiML App SID",
-            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
-            "REQUIRED": "TwiML App SID is required"
           }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
         },
         "SUBMIT_BUTTON": "Create Voice Channel",
         "API": {
@@ -418,7 +424,51 @@
       },
       "AUTH": {
         "TITLE": "Pasirinkti Kanalą",
-        "DESC": "Chatwoot palaiko tiesioginio pokalbio valdiklius, Facebook Messenger, Twitter profilius, WhatsApp, el. laiškus ir kt. kaip kanalus. Jei norite sukurti personalizuotą kanalą, galite jį sukurti naudodami API kanalą. Norėdami pradėti, pasirinkite vieną iš toliau pateiktų kanalų."
+        "DESC": "Chatwoot palaiko tiesioginio pokalbio valdiklius, Facebook Messenger, Twitter profilius, WhatsApp, el. laiškus ir kt. kaip kanalus. Jei norite sukurti personalizuotą kanalą, galite jį sukurti naudodami API kanalą. Norėdami pradėti, pasirinkite vieną iš toliau pateiktų kanalų.",
+        "TITLE_NEXT": "Complete the setup",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Internetinis puslapis",
+            "DESCRIPTION": "Create a live-chat widget"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook",
+            "DESCRIPTION": "Connect your Facebook page"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "El. paštas",
+            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Make a custom channel using our API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integrate your Line channel"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connect your instagram account"
+          },
+          "VOICE": {
+            "TITLE": "Voice",
+            "DESCRIPTION": "Integrate with Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "Agentai",
@@ -472,7 +522,10 @@
       "MESSAGE": "Dabar galite bendrauti su klientais naudodami naująjį kanalą. Gero naudojimo",
       "BUTTON_TEXT": "Nuvesk mane ten",
       "MORE_SETTINGS": "Daugiau nustatymų",
-      "WEBSITE_SUCCESS": "Sėkmingai baigėte kurti svetainės kanalą. Nukopijuokite toliau pateiktą kodą ir įdėkite jį į savo svetainę. Kai kitą kartą klientas naudosis tiesioginiu pokalbiu, pokalbis bus automatiškai rodomas jūsų gautų pranešimų aplanke."
+      "WEBSITE_SUCCESS": "Sėkmingai baigėte kurti svetainės kanalą. Nukopijuokite toliau pateiktą kodą ir įdėkite jį į savo svetainę. Kai kitą kartą klientas naudosis tiesioginiu pokalbiu, pokalbis bus automatiškai rodomas jūsų gautų pranešimų aplanke.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "Pakartotinai autorizuoti",
     "VIEW": "Paržiūra",
@@ -598,6 +651,21 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atnaujinti API raktą",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Įveskite naują API Raktą čia",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atnaujinti",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "Sujungti",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Patikros Prieigos Raktas",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis prieigos raktas naudojamas „webhook“ galutinio taško autentiškumui patikrinti.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
@@ -847,9 +915,18 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "Kiti Tiekėjai"
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "Connect with Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connect with Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "Kiti Tiekėjai",
+        "DESCRIPTION": "Connect with Other Providers"
+      }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
