@@ -219,7 +219,6 @@ class SendTemplateDmJob < ApplicationJob
 
 
     if response.code != 200 || response['error'].present?
-      message
       Rails.logger.error "❌ Instagram DM Template API error: #{response['error'] || response.body}"
       return
     end
