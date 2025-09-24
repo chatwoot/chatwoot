@@ -172,7 +172,8 @@ class SendTemplateDmJob < ApplicationJob
         sender: template_dm_conversation.assignee || account.users.first,
         message_type: :outgoing,
         source_id: response['message_id'] || nil,
-        private: false
+        private: false,
+        additional_attributes: { 'delivery_status' => "sent" }
       )
       
       # Mark template DM as sent
@@ -218,6 +219,7 @@ class SendTemplateDmJob < ApplicationJob
 
 
     if response.code != 200 || response['error'].present?
+      message
       Rails.logger.error "❌ Instagram DM Template API error: #{response['error'] || response.body}"
       return
     end
@@ -233,7 +235,8 @@ class SendTemplateDmJob < ApplicationJob
         sender: template_dm_conversation.assignee || account.users.first,
         message_type: :outgoing,
         source_id: response['message_id'] || nil,
-        private: false
+        private: false,
+        additional_attributes: { 'delivery_status' => "sent" }
       )
       
       # Mark template DM as sent
