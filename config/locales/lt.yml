@@ -23,6 +23,10 @@ lt:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Prašau įveskite teisingą el. pašto adresą'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Kietai! Slaptažodžio nustatymo iš naujo užklausa įvykdyta. Instrukcijų ieškokite savo pašte.
     reset_password_failure: Oho! Nepavyko rasti vartotojo su nurodytu el. pašto adresu.
