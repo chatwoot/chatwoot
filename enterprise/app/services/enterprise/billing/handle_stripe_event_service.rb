@@ -15,6 +15,7 @@ class Enterprise::Billing::HandleStripeEventService
     channel_email
     channel_instagram
     captain_integration
+    advanced_search_indexing
   ].freeze
 
   # Additional features available starting with the Business plan
