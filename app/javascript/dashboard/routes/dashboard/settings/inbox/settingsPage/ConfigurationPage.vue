@@ -9,6 +9,7 @@ import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import WhatsappReauthorize from '../channels/whatsapp/Reauthorize.vue';
+import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 
 export default {
   components: {
@@ -81,20 +82,9 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
-    sanitizeAllowedDomains(domains) {
-      if (!domains) {
-        return '';
-      }
-      return domains
-        .replace(/\s*\n\s*/g, ',')
-        .split(',')
-        .map(domain => domain.trim())
-        .filter(domain => domain.length)
-        .join(',');
-    },
     async updateAllowedDomains() {
       this.isUpdatingAllowedDomains = true;
-      const sanitizedAllowedDomains = this.sanitizeAllowedDomains(
+      const sanitizedAllowedDomains = sanitizeAllowedDomains(
         this.allowedDomains
       );
       try {
