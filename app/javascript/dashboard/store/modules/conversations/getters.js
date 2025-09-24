@@ -8,22 +8,80 @@ import {
 } from '../../../helper/permissionsHelper';
 import camelcaseKeys from 'camelcase-keys';
 
+const DEFAULT_TAB = 'all';
+
+const normalizeTabKey = tabKey => tabKey || DEFAULT_TAB;
+
+const buildOrderedIdListForTab = (state, tabKey) => {
+  const tabPages = state.conversationPagesByTab[normalizeTabKey(tabKey)];
+  if (!tabPages) {
+    return [];
+  }
+  const seen = new Set();
+  const orderedIds = [];
+  Object.keys(tabPages)
+    .map(page => Number(page))
+    .sort((a, b) => a - b)
+    .forEach(pageNumber => {
+      const ids = tabPages[String(pageNumber)] || [];
+      ids.forEach(id => {
+        if (!seen.has(id)) {
+          seen.add(id);
+          orderedIds.push(id);
+        }
+      });
+    });
+  return orderedIds;
+};
+
+const conversationsFromIds = (state, ids) =>
+  ids.map(id => state.conversationsById[id]).filter(Boolean);
+
+const buildTabList = (state, tabKey) => {
+  const orderedIds = buildOrderedIdListForTab(state, tabKey);
+  return conversationsFromIds(state, orderedIds);
+};
+
+const buildAllConversationList = state => {
+  const flattenIds = Object.values(state.conversationPagesByTab).reduce(
+    (acc, tabPages) => {
+      Object.values(tabPages).forEach(pageIds => {
+        pageIds.forEach(id => {
+          if (!acc.set.has(id)) {
+            acc.set.add(id);
+            acc.ids.push(id);
+          }
+        });
+      });
+      return acc;
+    },
+    { set: new Set(), ids: [] }
+  );
+
+  if (!flattenIds.ids.length) {
+    return Object.values(state.conversationsById);
+  }
+
+  return conversationsFromIds(state, flattenIds.ids);
+};
+
 export const getSelectedChatConversation = ({
-  allConversations,
+  conversationsById,
   selectedChatId,
-}) =>
-  allConversations.filter(conversation => conversation.id === selectedChatId);
+}) => {
+  const chat = conversationsById[selectedChatId];
+  return chat ? [chat] : [];
+};
 
 const getters = {
-  getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
-    return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
+  getAllConversations: state => {
+    const list = buildTabList(state, DEFAULT_TAB);
+    if (!list.length) {
+      return buildAllConversationList(state);
+    }
+    return [...list].sort((a, b) => sortComparator(a, b, state.chatSortFilter));
   },
-  getFilteredConversations: (
-    { allConversations, chatSortFilter, appliedFilters },
-    _,
-    __,
-    rootGetters
-  ) => {
+  getFilteredConversations: (state, _, __, rootGetters) => {
     const currentUser = rootGetters.getCurrentUser;
     const currentUserId = rootGetters.getCurrentUser.id;
     const currentAccountId = rootGetters.getCurrentAccountId;
@@ -31,11 +89,15 @@ const getters = {
     const permissions = getUserPermissions(currentUser, currentAccountId);
     const userRole = getUserRole(currentUser, currentAccountId);
 
-    return allConversations
+    const baseList = buildTabList(state, 'appliedFilters').length
+      ? buildTabList(state, 'appliedFilters')
+      : buildAllConversationList(state);
+
+    return baseList
       .filter(conversation => {
         const matchesFilterResult = matchesFilters(
           conversation,
-          appliedFilters
+          state.appliedFilters
         );
         const allowedForRole = applyRoleFilter(
           conversation,
@@ -46,13 +108,10 @@ const getters = {
 
         return matchesFilterResult && allowedForRole;
       })
-      .sort((a, b) => sortComparator(a, b, chatSortFilter));
+      .sort((a, b) => sortComparator(a, b, state.chatSortFilter));
   },
-  getSelectedChat: ({ selectedChatId, allConversations }) => {
-    const selectedChat = allConversations.find(
-      conversation => conversation.id === selectedChatId
-    );
-    return selectedChat || {};
+  getSelectedChat: ({ selectedChatId, conversationsById }) => {
+    return conversationsById[selectedChatId] || {};
   },
   getSelectedChatAttachments: ({ selectedChatId, attachments }) => {
     return attachments[selectedChatId] || [];
@@ -72,10 +131,13 @@ const getters = {
 
     return lastEmail;
   },
-  getMineChats: (_state, _, __, rootGetters) => activeFilters => {
+  getMineChats: (state, _, __, rootGetters) => activeFilters => {
     const currentUserID = rootGetters.getCurrentUser?.id;
+    const sourceList = buildTabList(state, 'me').length
+      ? buildTabList(state, 'me')
+      : buildAllConversationList(state);
 
-    return _state.allConversations.filter(conversation => {
+    return sourceList.filter(conversation => {
       const { assignee } = conversation.meta;
       const isAssignedToMe = assignee && assignee.id === currentUserID;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
@@ -95,22 +157,29 @@ const getters = {
     const hasAppliedFilters = _state.appliedFilters.length !== 0;
     return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
   },
-  getUnAssignedChats: _state => activeFilters => {
-    return _state.allConversations.filter(conversation => {
+  getUnAssignedChats: state => activeFilters => {
+    const sourceList = buildTabList(state, 'unassigned').length
+      ? buildTabList(state, 'unassigned')
+      : buildAllConversationList(state);
+
+    return sourceList.filter(conversation => {
       const isUnAssigned = !conversation.meta.assignee;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       return isUnAssigned && shouldFilter;
     });
   },
-  getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
+  getAllStatusChats: (state, _, __, rootGetters) => activeFilters => {
     const currentUser = rootGetters.getCurrentUser;
     const currentUserId = rootGetters.getCurrentUser.id;
     const currentAccountId = rootGetters.getCurrentAccountId;
 
     const permissions = getUserPermissions(currentUser, currentAccountId);
     const userRole = getUserRole(currentUser, currentAccountId);
+    const sourceList = buildTabList(state, DEFAULT_TAB).length
+      ? buildTabList(state, DEFAULT_TAB)
+      : buildAllConversationList(state);
 
-    return _state.allConversations.filter(conversation => {
+    return sourceList.filter(conversation => {
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       const allowedForRole = applyRoleFilter(
         conversation,
@@ -142,10 +211,8 @@ const getters = {
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getChatSortFilter: ({ chatSortFilter }) => chatSortFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
-  getConversationById: _state => conversationId => {
-    return _state.allConversations.find(
-      value => value.id === Number(conversationId)
-    );
+  getConversationById: state => conversationId => {
+    return state.conversationsById[Number(conversationId)] || null;
   },
   getConversationParticipants: _state => {
     return _state.conversationParticipants;

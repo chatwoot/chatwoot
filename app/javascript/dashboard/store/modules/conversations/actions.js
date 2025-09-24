@@ -12,6 +12,62 @@ import {
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import * as Sentry from '@sentry/vue';
+import { applyPageFilters } from './helpers';
+import { matchesFilters } from './helpers/filterHelpers';
+
+const DEFAULT_TAB = 'all';
+
+const deriveTabKeys = (conversation, state, rootGetters) => {
+  const tabKeys = new Set([DEFAULT_TAB]);
+  const filtersByTab = state.filtersByTab || {};
+  const currentUserId = rootGetters.getCurrentUser?.id;
+
+  Object.entries(filtersByTab).forEach(([rawTabKey, filters = {}]) => {
+    const tabKey = rawTabKey || DEFAULT_TAB;
+
+    if (tabKey === 'appliedFilters') {
+      if (
+        state.appliedFilters?.length &&
+        matchesFilters(conversation, state.appliedFilters)
+      ) {
+        tabKeys.add(tabKey);
+      }
+      return;
+    }
+
+    const { inboxId, status, labels = [], teamId, conversationType } = filters;
+
+    const matchesFilter = applyPageFilters(conversation, {
+      inboxId,
+      status,
+      labels,
+      teamId,
+      conversationType,
+    });
+
+    if (!matchesFilter) {
+      return;
+    }
+
+    if (tabKey === 'me') {
+      if (conversation.meta?.assignee?.id === currentUserId) {
+        tabKeys.add(tabKey);
+      }
+      return;
+    }
+
+    if (tabKey === 'unassigned') {
+      if (!conversation.meta?.assignee) {
+        tabKeys.add(tabKey);
+      }
+      return;
+    }
+
+    tabKeys.add(tabKey);
+  });
+
+  return Array.from(tabKeys);
+};
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -27,10 +83,14 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
 
 // actions
 const actions = {
-  getConversation: async ({ commit }, conversationId) => {
+  getConversation: async ({ commit, state, rootGetters }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
-      commit(types.UPDATE_CONVERSATION, response.data);
+      const tabKeys = deriveTabKeys(response.data, state, rootGetters);
+      commit(types.UPDATE_CONVERSATION, {
+        conversation: response.data,
+        tabKeys,
+      });
       commit(`contacts/${types.SET_CONTACT_ITEM}`, response.data.meta.sender);
     } catch (error) {
       // Ignore error
@@ -125,11 +185,9 @@ const actions = {
     { commit, state, dispatch },
     { conversationId }
   ) => {
-    const { allConversations, syncConversationsMessages } = state;
+    const { conversationsById, syncConversationsMessages } = state;
     const lastMessageId = syncConversationsMessages[conversationId];
-    const selectedChat = allConversations.find(
-      conversation => conversation.id === conversationId
-    );
+    const selectedChat = conversationsById[conversationId];
     if (!selectedChat) return;
     try {
       const { messages } = selectedChat;
@@ -171,10 +229,8 @@ const actions = {
     { commit, state },
     { conversationId }
   ) => {
-    const { allConversations } = state;
-    const selectedChat = allConversations.find(
-      conversation => conversation.id === conversationId
-    );
+    const { conversationsById } = state;
+    const selectedChat = conversationsById[conversationId];
     if (!selectedChat) return;
     const { messages } = selectedChat;
     const lastMessage = messages.last();
@@ -337,7 +393,10 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch, rootState }, conversation) {
+  addConversation(
+    { commit, state, dispatch, rootState, rootGetters },
+    conversation
+  ) {
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
@@ -353,7 +412,8 @@ const actions = {
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter
     ) {
-      commit(types.ADD_CONVERSATION, conversation);
+      const tabKeys = deriveTabKeys(conversation, state, rootGetters);
+      commit(types.ADD_CONVERSATION, { conversation, tabKeys });
       dispatch('contacts/setContact', sender);
     }
   },
@@ -370,11 +430,12 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch }, conversation) {
+  updateConversation({ commit, dispatch, state, rootGetters }, conversation) {
     const {
       meta: { sender },
     } = conversation;
-    commit(types.UPDATE_CONVERSATION, conversation);
+    const tabKeys = deriveTabKeys(conversation, state, rootGetters);
+    commit(types.UPDATE_CONVERSATION, { conversation, tabKeys });
 
     dispatch('conversationLabels/setConversationLabel', {
       id: conversation.id,

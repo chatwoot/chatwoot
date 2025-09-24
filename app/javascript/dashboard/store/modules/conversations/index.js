@@ -1,14 +1,151 @@
 import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
-import { findPendingMessageIndex } from './helpers';
+import { findPendingMessageIndex, sortComparator } from './helpers';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 
+const DEFAULT_TAB = 'all';
+const DEFAULT_PAGE = 1;
+const DEFAULT_PAGE_SIZE = 25;
+
+const normalizeTabKey = tab => tab || DEFAULT_TAB;
+
+const clonePagesWithUpdate = (pagesByTab, tabKey, updater) => {
+  const normalizedTab = normalizeTabKey(tabKey);
+  const existingTabPages = pagesByTab[normalizedTab] || {};
+  const nextTabPages = updater(existingTabPages);
+  if (nextTabPages === existingTabPages) {
+    return pagesByTab;
+  }
+  return {
+    ...pagesByTab,
+    [normalizedTab]: nextTabPages,
+  };
+};
+
+const removeIdFromTabPages = (tabPages, conversationId) => {
+  let mutated = false;
+  const nextPages = Object.entries(tabPages).reduce((acc, [pageKey, ids]) => {
+    const filteredIds = ids.filter(id => id !== conversationId);
+    if (filteredIds.length !== ids.length) {
+      mutated = true;
+      acc[pageKey] = filteredIds;
+    } else {
+      acc[pageKey] = ids;
+    }
+    return acc;
+  }, {});
+  return mutated ? nextPages : tabPages;
+};
+
+const removeIdFromAllTabs = (pagesByTab, conversationId) => {
+  let mutated = false;
+  const nextPagesByTab = Object.entries(pagesByTab).reduce(
+    (acc, [tabKey, tabPages]) => {
+      const updatedTabPages = removeIdFromTabPages(tabPages, conversationId);
+      if (updatedTabPages !== tabPages) {
+        mutated = true;
+      }
+      acc[tabKey] = updatedTabPages;
+      return acc;
+    },
+    {}
+  );
+  return mutated ? nextPagesByTab : pagesByTab;
+};
+
+const rebuildTabPagesWithConversation = (_state, tabKey, conversationId) => {
+  _state.conversationPagesByTab = clonePagesWithUpdate(
+    _state.conversationPagesByTab,
+    tabKey,
+    tabPages => {
+      const existingTabPages = Object.keys(tabPages).length
+        ? tabPages
+        : { [String(DEFAULT_PAGE)]: [] };
+
+      const pageNumbers = Object.keys(existingTabPages)
+        .map(key => Number(key))
+        .sort((a, b) => a - b);
+
+      const collectedIds = [];
+      const seen = new Set();
+
+      pageNumbers.forEach(pageNumber => {
+        const ids = existingTabPages[String(pageNumber)] || [];
+        ids.forEach(id => {
+          if (id === conversationId) {
+            return;
+          }
+          if (!seen.has(id)) {
+            seen.add(id);
+            collectedIds.push(id);
+          }
+        });
+      });
+
+      collectedIds.push(conversationId);
+
+      const conversations = collectedIds
+        .map(id => _state.conversationsById[id])
+        .filter(Boolean);
+
+      if (!conversations.length) {
+        return pageNumbers.reduce((acc, pageNumber) => {
+          acc[String(pageNumber)] = [];
+          return acc;
+        }, {});
+      }
+
+      const sorted = conversations
+        .slice()
+        .sort((a, b) => sortComparator(a, b, _state.chatSortFilter));
+
+      const sortedIds = sorted.map(item => item.id);
+
+      const nextPages = {};
+      pageNumbers.forEach((pageNumber, index) => {
+        const startIndex = index * DEFAULT_PAGE_SIZE;
+        nextPages[String(pageNumber)] = sortedIds.slice(
+          startIndex,
+          startIndex + DEFAULT_PAGE_SIZE
+        );
+      });
+
+      return nextPages;
+    }
+  );
+};
+
+const upsertConversationEntity = (_state, conversation) => {
+  const existing = _state.conversationsById[conversation.id];
+  let updatedConversation = conversation;
+
+  if (existing) {
+    if (conversation.id === _state.selectedChatId) {
+      updatedConversation = {
+        ...conversation,
+        allMessagesLoaded: existing.allMessagesLoaded,
+        messages: existing.messages,
+        dataFetched: existing.dataFetched,
+      };
+    } else {
+      updatedConversation = { ...existing, ...conversation };
+    }
+  }
+
+  _state.conversationsById = {
+    ..._state.conversationsById,
+    [conversation.id]: updatedConversation,
+  };
+};
+
 const state = {
-  allConversations: [],
+  conversationsById: {},
+  conversationPagesByTab: {},
+  filtersByTab: {},
   attachments: {},
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
@@ -26,36 +163,27 @@ const state = {
 
 // mutations
 export const mutations = {
-  [types.SET_ALL_CONVERSATION](_state, conversationList) {
-    const newAllConversations = [..._state.allConversations];
-    conversationList.forEach(conversation => {
-      const indexInCurrentList = newAllConversations.findIndex(
-        c => c.id === conversation.id
-      );
-      if (indexInCurrentList < 0) {
-        newAllConversations.push(conversation);
-      } else if (conversation.id !== _state.selectedChatId) {
-        // If the conversation is already in the list, replace it
-        // Added this to fix the issue of the conversation not being updated
-        // When reconnecting to the websocket. If the selectedChatId is not the same as
-        // the conversation.id in the store, replace the existing conversation with the new one
-        newAllConversations[indexInCurrentList] = conversation;
-      } else {
-        // If the conversation is already in the list and selectedChatId is the same,
-        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
-        const existingConversation = newAllConversations[indexInCurrentList];
-        newAllConversations[indexInCurrentList] = {
-          ...conversation,
-          allMessagesLoaded: existingConversation.allMessagesLoaded,
-          messages: existingConversation.messages,
-          dataFetched: existingConversation.dataFetched,
-        };
-      }
+  [types.SET_ALL_CONVERSATION](_state, { tab, page, conversations }) {
+    const pageNumber = page || DEFAULT_PAGE;
+    const tabKey = normalizeTabKey(tab);
+    const conversationIds = conversations.map(conversation => {
+      upsertConversationEntity(_state, conversation);
+      return conversation.id;
     });
-    _state.allConversations = newAllConversations;
+
+    _state.conversationPagesByTab = clonePagesWithUpdate(
+      _state.conversationPagesByTab,
+      tabKey,
+      tabPages => ({
+        ...tabPages,
+        [String(pageNumber)]: conversationIds,
+      })
+    );
   },
   [types.EMPTY_ALL_CONVERSATION](_state) {
-    _state.allConversations = [];
+    _state.conversationsById = {};
+    _state.conversationPagesByTab = {};
+    _state.filtersByTab = {};
     _state.selectedChatId = null;
   },
   [types.SET_ALL_MESSAGES_LOADED](_state) {
@@ -72,17 +200,25 @@ export const mutations = {
   },
 
   [types.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
-    if (data.length) {
-      const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages.unshift(...data);
+    if (!data.length) {
+      return;
     }
+
+    const chat = _state.conversationsById[id];
+    if (!chat) {
+      return;
+    }
+
+    chat.messages = [...data, ...(chat.messages || [])];
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
     _state.attachments[id] = [...data];
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
-    const [chat] = _state.allConversations.filter(c => c.id === id);
-    if (!chat) return;
+    const chat = _state.conversationsById[id];
+    if (!chat) {
+      return;
+    }
     chat.messages = data;
   },
 
@@ -98,22 +234,27 @@ export const mutations = {
   },
 
   [types.ASSIGN_TEAM](_state, { team, conversationId }) {
-    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
-    chat.meta.team = team;
+    const chat = _state.conversationsById[conversationId];
+    if (chat) {
+      chat.meta.team = team;
+    }
   },
 
   [types.UPDATE_CONVERSATION_LAST_ACTIVITY](
     _state,
     { lastActivityAt, conversationId }
   ) {
-    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
-    if (chat) {
-      chat.last_activity_at = lastActivityAt;
+    const chat = _state.conversationsById[conversationId];
+    if (!chat) {
+      return;
     }
+    chat.last_activity_at = lastActivityAt;
   },
   [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
-    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
-    chat.priority = priority;
+    const chat = _state.conversationsById[conversationId];
+    if (chat) {
+      chat.priority = priority;
+    }
   },
 
   [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
@@ -177,59 +318,89 @@ export const mutations = {
     });
   },
 
-  [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
+  [types.ADD_MESSAGE](_state, message) {
     const { conversation_id: conversationId } = message;
-    const [chat] = getSelectedChatConversation({
-      allConversations,
-      selectedChatId: conversationId,
-    });
-    if (!chat) return;
+    const chat = _state.conversationsById[conversationId];
+    if (!chat) {
+      return;
+    }
 
     const pendingMessageIndex = findPendingMessageIndex(chat, message);
     if (pendingMessageIndex !== -1) {
       chat.messages[pendingMessageIndex] = message;
-    } else {
-      chat.messages.push(message);
-      chat.timestamp = message.created_at;
-      const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
-      chat.unread_count = unreadCount;
-      if (selectedChatId === conversationId) {
-        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
-        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-      }
+      return;
+    }
+
+    chat.messages.push(message);
+    chat.timestamp = message.created_at;
+    const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
+    chat.unread_count = unreadCount;
+    if (_state.selectedChatId === conversationId) {
+      emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+      emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
     }
   },
 
-  [types.ADD_CONVERSATION](_state, conversation) {
-    _state.allConversations.push(conversation);
+  [types.ADD_CONVERSATION](_state, { conversation, tabKeys = [DEFAULT_TAB] }) {
+    upsertConversationEntity(_state, conversation);
+
+    tabKeys.forEach(tabKey => {
+      rebuildTabPagesWithConversation(_state, tabKey, conversation.id);
+    });
   },
 
   [types.DELETE_CONVERSATION](_state, conversationId) {
-    _state.allConversations = _state.allConversations.filter(
-      c => c.id !== conversationId
+    const { [conversationId]: removed, ...rest } = _state.conversationsById;
+    if (!removed) {
+      return;
+    }
+    _state.conversationsById = rest;
+    _state.conversationPagesByTab = removeIdFromAllTabs(
+      _state.conversationPagesByTab,
+      conversationId
     );
   },
 
-  [types.UPDATE_CONVERSATION](_state, conversation) {
-    const { allConversations } = _state;
-    const index = allConversations.findIndex(c => c.id === conversation.id);
+  [types.UPDATE_CONVERSATION](
+    _state,
+    { conversation, tabKeys = [DEFAULT_TAB] }
+  ) {
+    const existingConversation = _state.conversationsById[conversation.id];
 
-    if (index > -1) {
-      const selectedConversation = allConversations[index];
-
-      // ignore out of order events
-      if (conversation.updated_at < selectedConversation.updated_at) {
+    if (existingConversation) {
+      if (
+        conversation.updated_at &&
+        existingConversation.updated_at &&
+        conversation.updated_at < existingConversation.updated_at
+      ) {
         return;
       }
 
       const { messages, ...updates } = conversation;
-      allConversations[index] = { ...selectedConversation, ...updates };
-      if (_state.selectedChatId === conversation.id) {
-        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
-        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-      }
+      const mergedConversation = {
+        ...existingConversation,
+        ...updates,
+      };
+      _state.conversationsById = {
+        ..._state.conversationsById,
+        [conversation.id]: mergedConversation,
+      };
     } else {
-      _state.allConversations.push(conversation);
+      upsertConversationEntity(_state, conversation);
+    }
+
+    _state.conversationPagesByTab = removeIdFromAllTabs(
+      _state.conversationPagesByTab,
+      conversation.id
+    );
+
+    tabKeys.forEach(tabKey => {
+      rebuildTabPagesWithConversation(_state, tabKey, conversation.id);
+    });
+
+    if (_state.selectedChatId === conversation.id) {
+      emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+      emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
     }
   },
 
@@ -245,7 +416,7 @@ export const mutations = {
     _state,
     { id, lastSeen, unreadCount = 0 }
   ) {
-    const [chat] = _state.allConversations.filter(c => c.id === id);
+    const chat = _state.conversationsById[id];
     if (chat) {
       chat.agent_last_seen_at = lastSeen;
       chat.unread_count = unreadCount;
@@ -261,12 +432,14 @@ export const mutations = {
 
   // Update assignee on action cable message
   [types.UPDATE_ASSIGNEE](_state, payload) {
-    const [chat] = _state.allConversations.filter(c => c.id === payload.id);
-    chat.meta.assignee = payload.assignee;
+    const chat = _state.conversationsById[payload.id];
+    if (chat) {
+      chat.meta.assignee = payload.assignee;
+    }
   },
 
   [types.UPDATE_CONVERSATION_CONTACT](_state, { conversationId, ...payload }) {
-    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    const chat = _state.conversationsById[conversationId];
     if (chat) {
       chat.meta.sender = payload;
     }
@@ -277,21 +450,47 @@ export const mutations = {
   },
 
   [types.SET_CONVERSATION_CAN_REPLY](_state, { conversationId, canReply }) {
-    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    const chat = _state.conversationsById[conversationId];
     if (chat) {
       chat.can_reply = canReply;
     }
   },
 
   [types.CLEAR_CONTACT_CONVERSATIONS](_state, contactId) {
-    const chats = _state.allConversations.filter(
-      c => c.meta.sender.id !== contactId
-    );
-    _state.allConversations = chats;
+    const remaining = {};
+    const removedIds = [];
+    Object.values(_state.conversationsById).forEach(conversation => {
+      if (conversation.meta?.sender?.id === contactId) {
+        removedIds.push(conversation.id);
+      } else {
+        remaining[conversation.id] = conversation;
+      }
+    });
+
+    if (!removedIds.length) {
+      return;
+    }
+
+    _state.conversationsById = remaining;
+    removedIds.forEach(conversationId => {
+      _state.conversationPagesByTab = removeIdFromAllTabs(
+        _state.conversationPagesByTab,
+        conversationId
+      );
+    });
   },
 
   [types.SET_CONVERSATION_FILTERS](_state, data) {
     _state.appliedFilters = data;
+  },
+
+  [types.SET_CONVERSATION_TAB_FILTERS](_state, { tab, filters }) {
+    const normalizedTab = normalizeTabKey(tab);
+    const { page, ...rest } = filters || {};
+    _state.filtersByTab = {
+      ..._state.filtersByTab,
+      [normalizedTab]: rest,
+    };
   },
 
   [types.CLEAR_CONVERSATION_FILTERS](_state) {

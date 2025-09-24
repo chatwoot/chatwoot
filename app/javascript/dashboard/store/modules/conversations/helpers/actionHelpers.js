@@ -45,7 +45,11 @@ export const buildConversationList = (
   filterType
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  context.commit(types.SET_ALL_CONVERSATION, {
+    tab: filterType,
+    page: requestPayload.page || 1,
+    conversations: conversationList,
+  });
   context.dispatch('conversationStats/set', metaData);
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',
@@ -53,10 +57,14 @@ export const buildConversationList = (
   );
   context.commit(types.CLEAR_LIST_LOADING_STATUS);
   setContacts(context.commit, conversationList);
+  context.commit(types.SET_CONVERSATION_TAB_FILTERS, {
+    tab: filterType,
+    filters: requestPayload || {},
+  });
   setPageFilter({
     dispatch: context.dispatch,
     filter: filterType,
-    page: requestPayload.page,
+    page: requestPayload.page || 1,
     markEndReached: !conversationList.length,
   });
 };
