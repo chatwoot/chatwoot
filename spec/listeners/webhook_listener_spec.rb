@@ -375,4 +375,26 @@ describe WebhookListener do
       end
     end
   end
+
+  describe '#conversation_deleted' do
+    let(:event_name) { :'conversation.deleted' }
+    let!(:conversation_deleted_event) do
+      Events::Base.new(event_name, :'conversation.deleted', Time.zone.now, conversation: conversation, account: account)
+    end
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_deleted(conversation_deleted_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, inbox: inbox, account: account)
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, conversation.webhook_data.merge(event: 'conversation_deleted')).once
+        listener.conversation_deleted(conversation_deleted_event)
+      end
+    end
+  end
 end
