@@ -1,16 +1,5 @@
 <script>
-import SimpleDivider from '../Divider/SimpleDivider.vue';
-
 export default {
-  components: {
-    SimpleDivider,
-  },
-  props: {
-    showSeparator: {
-      type: Boolean,
-      default: true,
-    },
-  },
   methods: {
     getGoogleAuthUrl() {
       // Ideally a request to /auth/google_oauth2 should be made
@@ -52,11 +41,5 @@ export default {
         {{ $t('LOGIN.OAUTH.GOOGLE_LOGIN') }}
       </span>
     </a>
-    <SimpleDivider
-      v-if="showSeparator"
-      ref="divider"
-      :label="$t('COMMON.OR')"
-      class="uppercase"
-    />
   </div>
 </template>
