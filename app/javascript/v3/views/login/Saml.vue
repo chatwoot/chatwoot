@@ -1,13 +1,21 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, nextTick, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 
 // components
 import FormInput from '../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+
+const props = defineProps({
+  authError: {
+    type: String,
+    default: '',
+  },
+});
 
 const store = useStore();
 const { t } = useI18n();
@@ -20,6 +28,16 @@ const loginApi = ref({
   showLoading: false,
   hasErrored: false,
 });
+
+const handleAuthError = () => {
+  if (!props.authError) {
+    return;
+  }
+
+  const translatedMessage = t('LOGIN.SAML.API.ERROR_MESSAGE');
+  useAlert(translatedMessage);
+  loginApi.value.hasErrored = true;
+};
 
 const validations = {
   credentials: {
@@ -35,11 +53,13 @@ const v$ = useVuelidate(validations, { credentials });
 const globalConfig = computed(() => store.getters['globalConfig/get']);
 const csrfToken = ref('');
 
-onMounted(() => {
+onMounted(async () => {
   csrfToken.value =
     document
       .querySelector('meta[name="csrf-token"]')
       ?.getAttribute('content') || '';
+
+  await nextTick(handleAuthError);
 });
 </script>
 
@@ -70,7 +90,6 @@ onMounted(() => {
       }"
     >
       <form class="space-y-5" method="POST" action="/api/v1/auth/saml_login">
-        <input type="hidden" name="authenticity_token" :value="csrfToken" I />
         <FormInput
           v-model="credentials.email"
           name="email"
@@ -81,6 +100,12 @@ onMounted(() => {
           :placeholder="t('LOGIN.SAML.WORK_EMAIL.PLACEHOLDER')"
           :has-error="v$.credentials.email.$error"
           @input="v$.credentials.email.$touch"
+        />
+        <input
+          type="hidden"
+          class="h-0"
+          name="authenticity_token"
+          :value="csrfToken"
         />
         <NextButton
           lg
