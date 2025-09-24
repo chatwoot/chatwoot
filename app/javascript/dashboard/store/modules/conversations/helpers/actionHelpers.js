@@ -45,7 +45,11 @@ export const buildConversationList = (
   filterType
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  const pageNumber = Number(requestPayload?.page) || 1;
+  context.commit(types.SET_ALL_CONVERSATION, {
+    records: conversationList,
+    page: pageNumber,
+  });
   context.dispatch('conversationStats/set', metaData);
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',
