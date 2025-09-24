@@ -85,7 +85,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def live_chat_widget_params
     permitted_params = params.permit(:inbox_id)
-    return {} if permitted_params[:inbox_id].blank?
+    return {} unless permitted_params.key?(:inbox_id)
+    return { channel_web_widget_id: nil } if permitted_params[:inbox_id].blank?
 
     inbox = Inbox.find(permitted_params[:inbox_id])
     return {} unless inbox.web_widget?

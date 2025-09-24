@@ -15,7 +15,7 @@ import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
-import Banner from 'dashboard/components/ui/Banner.vue';
+import ReplyBoxBanner from './ReplyBoxBanner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
@@ -53,8 +53,8 @@ export default {
     ArticleSearchPopover,
     AttachmentPreview,
     AudioRecorder,
-    Banner,
     CannedResponse,
+    ReplyBoxBanner,
     EmojiInput,
     MessageSignatureMissingAlert,
     ReplyBottomPanel,
@@ -158,35 +158,6 @@ export default {
 
       return false;
     },
-    assignedAgent: {
-      get() {
-        return this.currentChat.meta.assignee;
-      },
-      set(agent) {
-        const agentId = agent ? agent.id : 0;
-        this.$store.dispatch('setCurrentChatAssignee', agent);
-        this.$store
-          .dispatch('assignAgent', {
-            conversationId: this.currentChat.id,
-            agentId,
-          })
-          .then(() => {
-            useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
-          });
-      },
-    },
-    showSelfAssignBanner() {
-      if (this.message !== '' && !this.isOnPrivateNote) {
-        if (!this.assignedAgent) {
-          return true;
-        }
-        if (this.assignedAgent.id !== this.currentUser.id) {
-          return true;
-        }
-      }
-
-      return false;
-    },
     showWhatsappTemplates() {
       return this.isAWhatsAppCloudChannel && !this.isPrivate;
     },
@@ -198,6 +169,9 @@ export default {
         return this.isOnPrivateNote;
       }
       return true;
+    },
+    isReplyRestricted() {
+      return !this.currentChat?.can_reply && !this.isAWhatsAppChannel;
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -671,29 +645,6 @@ export default {
     hideContentTemplatesModal() {
       this.showContentTemplatesModal = false;
     },
-    onClickSelfAssign() {
-      const {
-        account_id,
-        availability_status,
-        available_name,
-        email,
-        id,
-        name,
-        role,
-        avatar_url,
-      } = this.currentUser;
-      const selfAssign = {
-        account_id,
-        availability_status,
-        available_name,
-        email,
-        id,
-        name,
-        role,
-        thumbnail: avatar_url,
-      };
-      this.assignedAgent = selfAssign;
-    },
     confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
         return;
@@ -1118,19 +1069,11 @@ export default {
 </script>
 
 <template>
-  <Banner
-    v-if="showSelfAssignBanner"
-    action-button-variant="ghost"
-    color-scheme="secondary"
-    class="mx-2 mb-2 rounded-lg banner--self-assign"
-    :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
-    has-action-button
-    :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-    @primary-action="onClickSelfAssign"
-  />
+  <ReplyBoxBanner :message="message" :is-on-private-note="isOnPrivateNote" />
   <div ref="replyEditor" class="reply-box" :class="replyBoxClass">
     <ReplyTopPanel
       :mode="replyType"
+      :is-reply-restricted="isReplyRestricted"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popOutReplyBox"
@@ -1241,7 +1184,7 @@ export default {
       :is-on-private-note="isOnPrivateNote"
       :is-recording-audio="isRecordingAudio"
       :is-send-disabled="isReplyButtonDisabled"
-      :mode="replyType"
+      :is-note="isPrivate"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
       :conversation-type="conversationType"
@@ -1291,10 +1234,6 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   @apply mb-0;
-}
-
-.banner--self-assign {
-  @apply py-2;
 }
 
 .attachment-preview-box {
