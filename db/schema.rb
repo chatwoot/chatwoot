@@ -424,7 +424,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_17_012759) do
     t.boolean "smtp_enable_ssl_tls", default: false
     t.jsonb "provider_config", default: {}
     t.string "provider"
-    t.boolean "verified", default: false, null: false
+    t.boolean "verified_for_sending", default: false, null: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
