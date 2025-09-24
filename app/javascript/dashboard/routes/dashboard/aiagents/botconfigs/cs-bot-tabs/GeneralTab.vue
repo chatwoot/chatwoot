@@ -1,6 +1,6 @@
 <!-- eslint-disable no-console -->
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -9,7 +9,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import googleSheetsExportAPI from '../../../../../api/googleSheetsExport';
 // ✅ Add this line to fix the "aiAgents is not defined" error
 import aiAgents from '../../../../../api/aiAgents';
-import { watch, computed } from 'vue';
+import { watch } from 'vue';
 
 const props = defineProps({
   data: {
@@ -17,6 +17,10 @@ const props = defineProps({
     required: true,
   },
   config: {
+    type: Object,
+    required: true,
+  },
+  googleSheetsAuth: {
     type: Object,
     required: true,
   },
@@ -67,19 +71,8 @@ watch(
 
 const isSaving = ref(false);
 
-// Google Sheets Integration State
-const ticketStep = ref('auth'); // 'auth', 'connected', 'sheetConfig'
-const ticketLoading = ref(false);
-const ticketAccount = ref(null); // { email: '...', name: '...' }
-const ticketSheets = reactive({ output: '' });
+// Local notification state (separate from parent's Google Sheets auth)
 const notification = ref(null);
-
-// Check auth status on mount
-onMounted(async () => {
-  // eslint-disable-next-line no-use-before-define
-  await checkAuthStatus();
-});
-
 
 // Helper function to get agent ID by type
 function getAgentIdByType(type) {
@@ -94,6 +87,30 @@ const agentId = computed(() => {
   return getAgentIdByType('customer_service');
 });
 
+// Computed properties based on parent's Google Sheets auth state
+const ticketStep = computed(() => props.googleSheetsAuth.step);
+const ticketLoading = computed(() => props.googleSheetsAuth.loading);
+const ticketAccount = computed(() => props.googleSheetsAuth.account);
+const ticketSheets = computed(() => ({
+  output: props.googleSheetsAuth.spreadsheetUrls.customer_service.output || ''
+}));
+const ticketAuthError = computed(() => props.googleSheetsAuth.error);
+
+watch(ticketAuthError, (newError) => {
+  if (newError) {
+    notification.value = { message: t('AGENT_MGMT.AUTH_ERROR'), type: 'error' };
+  }
+  else {
+    notification.value = null;
+  }
+}, { immediate: true });
+
+
+function retryAuthentication() {
+  connectGoogle();
+  ticketAuthError.value = null;
+}
+
 function showNotification(message, type = 'success') {
   notification.value = { message, type }
   setTimeout(() => {
@@ -103,7 +120,8 @@ function showNotification(message, type = 'success') {
 
 async function connectGoogle() {
   try {
-    ticketLoading.value = true;
+    // Use parent's loading state
+    props.googleSheetsAuth.loading = true;
     const response = await googleSheetsExportAPI.getAuthorizationUrl();
     if (response.data.authorization_url) {
       showNotification('Opening Google authentication in a new tab...', 'info');
@@ -116,100 +134,44 @@ async function connectGoogle() {
       );
     }
   } catch (error) {
-    showNotification('Authentication failed. Please try again.', 'error');
     console.error('Google auth error:', error)
   } finally {
-    ticketLoading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
 }
 
-async function checkAuthStatus() {
-  console.log('checking auth status...');
-  try {
-    ticketLoading.value = true;
-    const response = await googleSheetsExportAPI.getStatus();
-    console.log(JSON.stringify(response.data));
-    if (response.data.authorized) {
-      ticketStep.value = 'connected';
-      ticketAccount.value = {
-        email: response.data.email,
-        name: 'Connected Account',
-      };
-      try {
-        const flowData = props.data.display_flow_data;
-        const payload = {
-          account_id: parseInt(flowData.account_id, 10),
-          agent_id: agentId.value,
-          type: 'tickets',
-        };
-        console.log(JSON.stringify(payload));
-        console.log('payload:', payload);
-        const spreadsheet_url_response =
-          await googleSheetsExportAPI.getSpreadsheetUrl(payload);
-        console.log(JSON.stringify(payload));
-        console.log(JSON.stringify(spreadsheet_url_response));
-
-        console.log(
-          'spreadsheet_url_response.data:',
-          spreadsheet_url_response.data
-        );
-        if (spreadsheet_url_response.data.spreadsheet_url) {
-          ticketSheets.output = spreadsheet_url_response.data.spreadsheet_url;
-          ticketStep.value = 'sheetConfig';
-        } else {
-          ticketSheets.output = '';
-        }
-      } catch (error) {
-        console.error(
-          'Failed to check authorization status while retrieving spreadsheet data:',
-          error
-        );
-        ticketStep.value = 'connected';
-      }
-    } else {
-      ticketStep.value = 'auth';
-    }
-    console.log('ticketStep:', ticketStep);
-    console.log('ticketAccount:', ticketAccount);
-  } catch (error) {
-    console.error('Failed to check authorization status:', error)
-    ticketStep.value = 'auth';
-  } finally {
-    ticketLoading.value = false;
-  }
-  console.log('ticketStep.value:', ticketStep.value);
-  console.log('checking auth status DONE');
+function disconnectGoogle() {
+  // TODO: Implement disconnect logic
+  console.log('Disconnect Google account clicked');
 }
 
 async function createTicketSheet() {
-  ticketLoading.value = true;
   try {
-    // TODO: Call backend to create ticket output sheet
-    // For now, simulate sheet creation
-    // await new Promise(resolve => setTimeout(resolve, 1200))
+    props.googleSheetsAuth.loading = true;
     console.log(JSON.stringify(props.data));
-    // eslint-disable-next-line no-console
+    
     const flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
       agent_id: agentId.value,
       type: 'tickets',
     };
-    // console.log(payload);
+    
     const response = await googleSheetsExportAPI.createSpreadsheet(payload);
-    // console.log(response)
-    ticketSheets.output = response.data.spreadsheet_url;
-    ticketStep.value = 'sheetConfig';
+    
+    // Update parent's auth state
+    props.googleSheetsAuth.spreadsheetUrls.customer_service.output = response.data.spreadsheet_url;
+    props.googleSheetsAuth.step = 'sheetConfig';
+    
     showNotification('Ticket output sheet created successfully!', 'success')
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Failed to create ticket sheet:', error)
     showNotification(
       'Failed to create ticket sheet. Please try again.',
       'error'
     );
   } finally {
-    ticketLoading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
 }
 
@@ -299,9 +261,9 @@ async function save() {
 
         <!-- Google Sheets Integration -->
         <div v-if="config.ticketSystemActive" class="mb-6">
-          <h4 class="text-md font-medium text-slate-900 dark:text-slate-25 mb-3">Ticket Output Integration</h4>
-          <p class="text-sm text-gray-500 mb-4">Connect to Google Sheets to automatically save tickets data</p>
-          
+          <h4 class="text-md font-medium text-slate-900 dark:text-slate-25 mb-3">{{ $t('AGENT_MGMT.CSBOT.COMMON.GOOGLE_SHEETS_TITLE') }}</h4>
+          <p class="text-sm text-gray-500 mb-4">{{ $t('AGENT_MGMT.CSBOT.COMMON.CONNECT_SHEETS_DESC') }}</p>
+
           <!-- Google Sheets Auth Flow -->
           <div v-if="ticketStep === 'auth'" class="mb-6">
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800">
@@ -312,8 +274,8 @@ async function save() {
                     </svg>
                   </div>
                 <div>
-                  <h5 class="text-sm font-medium text-blue-900 dark:text-blue-100">Google Sheets Connection</h5>
-                  <p class="text-xs text-blue-700 dark:text-blue-300">Authorize access to create ticket output sheets</p>
+                  <h5 class="text-sm font-medium text-blue-900 dark:text-blue-100">{{ $t('AGENT_MGMT.CSBOT.COMMON.GOOGLE_SHEETS_AUTH_TITLE') }}</h5>
+                  <p class="text-xs text-blue-700 dark:text-blue-300">{{ $t('AGENT_MGMT.CSBOT.COMMON.GOOGLE_SHEETS_AUTH_DESC') }}</p>
                 </div>
               </div>
               
@@ -352,14 +314,42 @@ async function save() {
                     <p class="text-xs text-green-700 dark:text-green-300">{{ ticketAccount?.email || 'Connected successfully' }}</p>
                   </div>
                 </div>
-                <button
-                  class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                  @click="createTicketSheet"
-                  :disabled="loading"
-                >
-                  <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
-                  <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
-                </button>
+                
+                <div class="flex gap-2 align-center content-center">
+                  <template v-if="!ticketAuthError">
+                    <button
+                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                      @click="createTicketSheet"
+                      :disabled="ticketLoading"
+                    >
+                      <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
+                      <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
+                    </button>
+                  </template>
+                  <template v-else>
+                    <div class="text-red-600 text-sm flex items-center gap-2 content-center">
+                      <button
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                        @click="retryAuthentication"
+                        :disabled="ticketLoading"
+                      >
+                        <span v-if="ticketLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                        <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                      </button>
+                    </div>
+                  </template>
+                  <div class="gap-2 items-center">
+
+                    <button
+                    @click="disconnectGoogle"
+                    class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20"
+                    :disabled="ticketLoading"
+                    >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                    <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                  </button>
+                </div>
+                </div>
               </div>
             </div>
           </div>
@@ -375,22 +365,41 @@ async function save() {
                     </svg>
                   </div>
                   <div>
-                    <h5 class="text-sm font-medium text-slate-900 dark:text-slate-100">Ticket Output Sheet</h5>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">Tickets will be automatically saved here</p>
+                    <h5 class="text-sm font-medium text-slate-900 dark:text-slate-100">Google Account Connected</h5>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">{{ ticketAccount?.email || 'Connected successfully' }}</p>
                   </div>
                 </div>
                   <div class="space-y-3">
                     <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded-lg">
-                      <a 
-                        :href="ticketSheets.output" 
-                        target="_blank" 
-                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                      <div v-if="!ticketAuthError">
+                        <a 
+                          :href="ticketSheets.output" 
+                          target="_blank" 
+                          class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
+                        >
+                          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                          </svg>
+                          {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
+                        </a>
+                      </div>
+                      <div v-if="ticketAuthError" class="text-red-600 text-sm flex items-center gap-2">
+                        <button
+                          @click="retryAuthentication"
+                          class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20 ml-3"
+                          :disabled="ticketLoading"
+                          >
+                          <span>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                        </button>
+                      </div>
+                      <button
+                        @click="disconnectGoogle"
+                        class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
+                        :disabled="ticketLoading"
                       >
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                        </svg>
-                        {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
-                      </a>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                        <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                      </button>
                     </div>
                   </div>
               </div>

@@ -74,14 +74,30 @@
                 <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-25 mb-2">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_HEADER') }}</h3>
                 <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_DESC') }}</p>
                 <p class="mt-2 text-sm text-gray-500">{{ catalogAccount?.email }}</p>
-                <button
-                  class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
-                  @click="createSheets"
-                  :disabled="catalogLoading"
-                >
-                  <span v-if="catalogLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
-                  <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
-                </button>
+                <div class="flex gap-2 center justify-center mt-4">
+                  <template v-if="!authError">
+                    <button
+                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                      @click="createSheets"
+                      :disabled="catalogLoading"
+                    >
+                      <span v-if="catalogLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_LOADING') }}</span>
+                      <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.CREATE_SHEETS_BTN') }}</span>
+                    </button>
+                    </template>
+                    <template v-else>
+                      <div class="mt-3 text-red-600 text-sm flex items-center gap-2">
+                        <button
+                          class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                          @click="retryAuthentication"
+                          :disabled="catalogLoading"
+                        >
+                          <span v-if="catalogLoading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                          <span v-else>{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                        </button>
+                      </div>
+                    </template>
+                </div>
               </div>
             </div>
             <div v-else-if="catalogStep === 'sheetConfig'">
@@ -105,7 +121,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-col gap-2">
+                  <div v-if="!authError" class="flex flex-col gap-2">
                     <a 
                       :href="catalogSheets.input" 
                       target="_blank" 
@@ -121,20 +137,42 @@
 
                 <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
                   <div class="flex justify-start">
-                    <button
-                      @click="syncProductColumns"
-                      :disabled="syncingColumns"
-                      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
-                    >
-                      <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
-                        <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
-                      </svg>
-                      <svg v-else class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                      </svg>
-                      {{ syncingColumns ? $t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_BUTTON_LOADING') : $t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_BUTTON') }}
-                    </button>
+                    <div v-if="!authError">
+                      <button
+                        @click="syncProductColumns"
+                        :disabled="syncingColumns"
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+                      >
+                        <svg v-if="syncingColumns" class="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+                          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" class="opacity-25"/>
+                          <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" class="opacity-75"/>
+                        </svg>
+                        <svg v-else class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        {{ syncingColumns ? $t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_BUTTON_LOADING') : $t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_BUTTON') }}
+                      </button>
+                    </div>
+                    <div v-else class="text-red-600 text-sm flex items-center gap-2">
+                      <button
+                        @click="retryAuthentication"
+                        class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 pr-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20"
+                        :disabled="loading"
+                      >
+                        <span v-if="loading">{{ $t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_LOADING') }}</span>
+                        <span>{{ t('AGENT_MGMT.BOOKING_BOT.RETRY_AUTH_BTN') }}</span>
+                      </button>
+                    </div>
+                    <div class="gap-2 items-center">
+                      <button
+                        @click="disconnectGoogle"
+                        class="inline-flex items-center space-x-2 border-2 border-red-600 hover:border-red-700 dark:border-red-400 dark:hover:border-red-500 text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 ml-3"
+                        :disabled="loading"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban-icon lucide-ban"><path d="M4.929 4.929 19.07 19.071"/><circle cx="12" cy="12" r="10"/></svg>
+                        <span>{{ $t('AGENT_MGMT.BOOKING_BOT.DISC_BTN') }}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1235,6 +1273,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  googleSheetsAuth: {
+    type: Object,
+    required: true,
+  },
 });
 
 // Helper function to get agent ID by type
@@ -1258,7 +1300,6 @@ onMounted(async () => {
   
   // Load provinces for address selection
   loadProvinsi();
-  await checkAuthStatus();
   // Pre-load Google Maps API but don't initialize map yet
   try {
     await loadGoogleMaps();
@@ -1290,13 +1331,32 @@ watch(
   { immediate: true, deep: true }
 );
 
-const catalogStep = ref('connected'); // 'auth', 'connected', 'sheetConfig'
-const catalogLoading = ref(false);
-const catalogAccount = ref(null); // { email: '...', name: '...' }
-const catalogSheets = reactive({ input: '', output: '' });
+const catalogStep = computed(() => props.googleSheetsAuth.step);
+const catalogLoading = computed(() => props.googleSheetsAuth.loading);
+const catalogAccount = computed(() => props.googleSheetsAuth.account);
+const catalogSheets = computed(() => props.googleSheetsAuth.spreadsheetUrls.sales);
 const notification = ref(null);
 const productColumns = ref('sku,name,unit_price,quantity,deskripsi');
 const syncingColumns = ref(false);
+const authError = computed(() => props.googleSheetsAuth.error);
+watch(authError, (newError) => {
+  if (newError) {
+    notification.value = { message: t('AGENT_MGMT.AUTH_ERROR'), type: 'error' };
+  }
+  else {
+    notification.value = null;
+  }
+}, { immediate: true });
+
+function retryAuthentication() {
+  connectGoogle();
+  authError.value = null;
+}
+
+function disconnectGoogle() {
+  // TODO: Implement disconnect logic
+  console.log('Disconnect Google account clicked');
+}
 
 function showNotification(message, type = 'success') {
   notification.value = { message, type };
@@ -1309,7 +1369,7 @@ function showNotification(message, type = 'success') {
 
 async function connectGoogle() {
   try {
-    catalogLoading.value = true;
+    props.googleSheetsAuth.loading = true;
     const response = await googleSheetsExportAPI.getAuthorizationUrl();
     if (response.data.authorization_url) {
       showNotification('Opening Google authentication in a new tab...', 'info');
@@ -1324,67 +1384,12 @@ async function connectGoogle() {
   } catch (error) {
     showNotification('Authentication failed. Please try again.', 'error');
   } finally {
-    catalogLoading.value = false;
-  }
-}
-// async function connectGoogle() {
-//   try {
-//     catalogLoading.value = true;
-//     const response = await googleSheetsExportAPI.getAuthorizationUrl();
-//     if (response.data.authorization_url) {
-//       showNotification('Redirecting to Google for authentication...', 'info');
-//       window.location.href = response.data.authorization_url;
-//     } else {
-//       showNotification('Failed to get authorization URL. Please check backend logs.', 'error');
-//     }
-//   } catch (error) {
-//     showNotification('Authentication failed. Please try again.', 'error');
-//   } finally {
-//     catalogLoading.value = false;
-//   }
-// }
-
-async function checkAuthStatus() {
-  try {
-    catalogLoading.value = true;
-    const response = await googleSheetsExportAPI.getStatus();
-    if (response.data.authorized) {
-      catalogStep.value = 'connected';
-      catalogAccount.value = {
-        email: response.data.email,
-        name: 'Connected Account',
-      };
-      try {
-        const flowData = props.data.display_flow_data;
-        const payload = {
-          account_id: parseInt(flowData.account_id, 10),
-          agent_id: salesAgentId.value,
-          type: 'sales',
-        };
-        const spreadsheet_url_response = await googleSheetsExportAPI.getSpreadsheetUrl(payload);
-
-        if (spreadsheet_url_response.data.input_spreadsheet_url && spreadsheet_url_response.data.output_spreadsheet_url) {
-          catalogSheets.input = spreadsheet_url_response.data.input_spreadsheet_url;
-          catalogSheets.output = spreadsheet_url_response.data.output_spreadsheet_url;
-          catalogStep.value = 'sheetConfig';
-        } else {
-          catalogSheets.output = '';
-        }
-      } catch (error) {
-        catalogStep.value = 'connected';
-      }
-    } else {
-      catalogStep.value = 'auth';
-    }
-  } catch (error) {
-    catalogStep.value = 'auth';
-  } finally {
-    catalogLoading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
 }
 
 async function createSheets() {
-  catalogLoading.value = true;
+  props.googleSheetsAuth.loading = true;
   try {
     const flowData = props.data.display_flow_data;
     const payload = {
@@ -1395,19 +1400,19 @@ async function createSheets() {
     // console.log(payload);
     const response = await googleSheetsExportAPI.createSpreadsheet(payload);
     // console.log(response)
-    catalogSheets.input = response.data.input_spreadsheet_url;
-    catalogSheets.output = response.data.output_spreadsheet_url;
-    catalogStep.value = 'sheetConfig';
+    props.googleSheetsAuth.spreadsheetUrls.sales.input = response.data.input_spreadsheet_url;
+    props.googleSheetsAuth.spreadsheetUrls.sales.output = response.data.output_spreadsheet_url;
+    props.googleSheetsAuth.step = 'sheetConfig';
     showNotification('catalog output sheet created successfully!', 'success')
   } catch (error) {
     // eslint-disable-next-line no-console
-    catalogLoading.value = false;
+    props.googleSheetsAuth.loading = false;
     showNotification(
       'Failed to create catalog sheet. Please try again.',
       'error'
     );
   } finally {
-    catalogLoading.value = false;
+    props.googleSheetsAuth.loading = false;
   }
 }
 

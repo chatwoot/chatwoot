@@ -40,7 +40,7 @@
         </div>
 
         <div v-show="activeIndex === 0" class="w-full min-w-0">
-          <GeneralTab :config="config" :data="data"/>
+          <GeneralTab :config="config" :data="data" :google-sheets-auth="googleSheetsAuth"/>
         </div>
         <div v-show="activeIndex === 1" class="w-full min-w-0">
           <FileKnowledgeSources :data="data" />
@@ -86,6 +86,10 @@ const { t } = useI18n()
 
 const props = defineProps({
   data: {
+    type: Object,
+    required: true,
+  },
+  googleSheetsAuth: {
     type: Object,
     required: true,
   },
