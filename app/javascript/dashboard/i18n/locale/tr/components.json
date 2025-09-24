@@ -49,5 +49,8 @@
     "HOURS": "Saat",
     "DAYS": "Gün",
     "PLACEHOLDER": "Süre girin"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "Coming Soon!"
   }
 }

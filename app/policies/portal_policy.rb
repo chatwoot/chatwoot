@@ -26,6 +26,14 @@ class PortalPolicy < ApplicationPolicy
   def logo?
     @account_user.administrator?
   end
+
+  def send_instructions?
+    @account_user.administrator?
+  end
+
+  def ssl_status?
+    @account.users.include?(@user)
+  end
 end
 
 PortalPolicy.prepend_mod_with('PortalPolicy')

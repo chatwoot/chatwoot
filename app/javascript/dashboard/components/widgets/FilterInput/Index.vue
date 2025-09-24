@@ -203,7 +203,7 @@ export default {
               v-model="values"
               track-by="id"
               label="name"
-              placeholder="Select"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
               multiple
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
@@ -211,7 +211,11 @@ export default {
               :max-height="160"
               :options="dropdownValues"
               :allow-empty="false"
-            />
+            >
+              <template #noOptions>
+                {{ $t('FORMS.MULTISELECT.NO_OPTIONS') }}
+              </template>
+            </multiselect>
           </div>
           <div
             v-else-if="inputType === 'search_select'"
@@ -221,7 +225,7 @@ export default {
               v-model="values"
               track-by="id"
               label="name"
-              placeholder="Select"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               deselect-label=""
@@ -229,7 +233,11 @@ export default {
               :options="dropdownValues"
               :allow-empty="false"
               :option-height="104"
-            />
+            >
+              <template #noOptions>
+                {{ $t('FORMS.MULTISELECT.NO_OPTIONS') }}
+              </template>
+            </multiselect>
           </div>
           <div v-else-if="inputType === 'date'" class="multiselect-wrap--small">
             <input

@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP адрес",
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
+    "CALL": "Вызов",
+    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
       "TITLE": "Предыдущие диалоги"
@@ -285,7 +290,7 @@
     "HEADER": {
       "TITLE": "Контакты",
       "SEARCH_TITLE": "Поиск контактов",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "Активные контакты",
       "SEARCH_PLACEHOLDER": "Поиск...",
       "MESSAGE_BUTTON": "Сообщение",
       "SEND_MESSAGE": "Отправить сообщение",
@@ -460,8 +465,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "Это действие необратимо.",
+        "BUTTON": "Удалить"
       }
     },
     "DETAILS": {
@@ -549,10 +554,12 @@
         "WROTE": "написал",
         "YOU": "Вы",
         "SAVE": "Сохранить заметку",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Развернуть",
-        "COLLAPSE": "Collapse",
+        "COLLAPSE": "Свернуть",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "Нет заметок, связанных с этим контактом. Вы можете добавить заметку в поле выше."
+        "EMPTY_STATE": "Нет заметок, связанных с этим контактом. Вы можете добавить заметку в поле выше.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -601,6 +608,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "Шаблон WhatsApp: {templateName}",
           "VARIABLES": "Переменные",
+          "BACK": "Вернуться",
+          "SEND_MESSAGE": "Отправить сообщение"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Выбрать шаблон",
+        "SEARCH_PLACEHOLDER": "Поиск шаблонов",
+        "EMPTY_STATE": "Шаблоны не найдены",
+        "TEMPLATE_PARSER": {
           "BACK": "Вернуться",
           "SEND_MESSAGE": "Отправить сообщение"
         }
