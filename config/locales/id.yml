@@ -23,6 +23,10 @@ id:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Harap masukkan alamat email yang valid'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
     reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
