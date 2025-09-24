@@ -1,8 +1,10 @@
 <script setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, reactive } from 'vue';
 import Message from './Message.vue';
 import { MESSAGE_TYPES } from './constants.js';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
+import { useMapGetter } from 'dashboard/composables/store.js';
+import MessageApi from 'dashboard/api/inbox/message.js';
 
 /**
  * Props definition for the component
@@ -37,9 +39,53 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['retry']);
+
 const allMessages = computed(() => {
   return useCamelCase(props.messages, { deep: true });
 });
+
+const currentChat = useMapGetter('getSelectedChat');
+
+// Cache for fetched reply messages to avoid duplicate API calls
+const fetchedReplyMessages = reactive(new Map());
+
+/**
+ * Fetches a specific message from the API by trying to get messages around it
+ * @param {number} messageId - The ID of the message to fetch
+ * @param {number} conversationId - The ID of the conversation
+ * @returns {Promise<Object|null>} - The fetched message or null if not found/error
+ */
+const fetchReplyMessage = async (messageId, conversationId) => {
+  // Return cached result if already fetched
+  if (fetchedReplyMessages.has(messageId)) {
+    return fetchedReplyMessages.get(messageId);
+  }
+
+  try {
+    const response = await MessageApi.getPreviousMessages({
+      conversationId,
+      before: messageId + 100,
+      after: messageId - 100,
+    });
+
+    const messages = response.data?.payload || [];
+    const targetMessage = messages.find(msg => msg.id === messageId);
+
+    if (targetMessage) {
+      const camelCaseMessage = useCamelCase(targetMessage);
+      fetchedReplyMessages.set(messageId, camelCaseMessage);
+      return camelCaseMessage;
+    }
+
+    // Cache null result to avoid repeated API calls
+    fetchedReplyMessages.set(messageId, null);
+    return null;
+  } catch (error) {
+    fetchedReplyMessages.set(messageId, null);
+    return null;
+  }
+};
 
 /**
  * Determines if a message should be grouped with the next message
@@ -88,10 +134,26 @@ const getInReplyToMessage = parentMessage => {
 
   if (!inReplyToMessageId) return null;
 
-  // Find in-reply-to message in the messages prop
-  const replyMessage = props.messages?.find(
-    message => message.id === inReplyToMessageId
-  );
+  // Try to find in current messages first
+  let replyMessage = props.messages?.find(msg => msg.id === inReplyToMessageId);
+
+  // Then try store messages
+  if (!replyMessage && currentChat.value?.messages) {
+    replyMessage = currentChat.value.messages.find(
+      msg => msg.id === inReplyToMessageId
+    );
+  }
+
+  // Then check fetch cache
+  if (!replyMessage && fetchedReplyMessages.has(inReplyToMessageId)) {
+    replyMessage = fetchedReplyMessages.get(inReplyToMessageId);
+  }
+
+  // If still not found and we have conversation context, fetch it
+  if (!replyMessage && currentChat.value?.id) {
+    fetchReplyMessage(inReplyToMessageId, currentChat.value.id);
+    return null; // Let UI handle loading state
+  }
 
   return replyMessage ? useCamelCase(replyMessage) : null;
 };
@@ -113,6 +175,7 @@ const getInReplyToMessage = parentMessage => {
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
+        @retry="emit('retry', message)"
       />
     </template>
     <slot name="after" />

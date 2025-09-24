@@ -1,4 +1,5 @@
 module PortalHelper
+  include UrlHelper
   def set_og_image_url(portal_name, title)
     cdn_url = GlobalConfig.get('OG_IMAGE_CDN_URL')['OG_IMAGE_CDN_URL']
     return if cdn_url.blank?
@@ -79,7 +80,7 @@ module PortalHelper
     query_params = Rack::Utils.parse_query(url.query)
     query_params['utm_medium'] = 'helpcenter'
     query_params['utm_campaign'] = 'branding'
-    query_params['utm_source'] = URI.parse(referer).host if referer.present? && referer.match?(URI::DEFAULT_PARSER.make_regexp)
+    query_params['utm_source'] = URI.parse(referer).host if url_valid?(referer)
 
     url.query = query_params.to_query
     url.to_s

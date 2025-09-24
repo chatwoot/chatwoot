@@ -1,9 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import GoogleOAuthButton from './Button.vue';
 
-function getWrapper(showSeparator) {
+function getWrapper() {
   return shallowMount(GoogleOAuthButton, {
-    propsData: { showSeparator: showSeparator },
     mocks: { $t: text => text },
   });
 }
@@ -20,16 +19,6 @@ describe('GoogleOAuthButton.vue', () => {
     window.chatwootConfig = {};
   });
 
-  it('renders the OR separator if showSeparator is true', () => {
-    const wrapper = getWrapper(true);
-    expect(wrapper.findComponent({ ref: 'divider' }).exists()).toBe(true);
-  });
-
-  it('does not render the OR separator if showSeparator is false', () => {
-    const wrapper = getWrapper(false);
-    expect(wrapper.findComponent({ ref: 'divider' }).exists()).toBe(false);
-  });
-
   it('generates the correct Google Auth URL', () => {
     const wrapper = getWrapper();
     const googleAuthUrl = new URL(wrapper.vm.getGoogleAuthUrl());
@@ -42,7 +31,5 @@ describe('GoogleOAuthButton.vue', () => {
     );
     expect(params.get('response_type')).toBe('code');
     expect(params.get('scope')).toBe('email profile');
-
-    expect(wrapper.findComponent({ ref: 'divider' }).exists()).toBe(true);
   });
 });

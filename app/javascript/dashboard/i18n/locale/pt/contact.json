@@ -554,10 +554,12 @@
         "WROTE": "escreveu",
         "YOU": "Você",
         "SAVE": "Salvar nota",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Expandir",
         "COLLAPSE": "Recolher",
         "NO_NOTES": "Sem notas, pode adicionar notas na página de detalhes do contacto.",
-        "EMPTY_STATE": "Não existem notas associadas a este contacto. Pode adicionar uma nota escrevendo na caixa acima."
+        "EMPTY_STATE": "Não existem notas associadas a este contacto. Pode adicionar uma nota escrevendo na caixa acima.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -606,6 +608,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variáveis",
+          "BACK": "Voltar",
+          "SEND_MESSAGE": "Enviar mensagem"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "Voltar",
           "SEND_MESSAGE": "Enviar mensagem"
         }

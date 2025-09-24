@@ -704,10 +704,27 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao criar o documento, por favor, tente novamente."
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Tipo do documento",
+          "URL": "URL:",
+          "PDF": "Arquivo PDF"
+        },
         "URL": {
           "LABEL": "URL:",
           "PLACEHOLDER": "Insira a URL do documento",
           "ERROR": "Por favor forneça uma URL válida para o documento"
+        },
+        "PDF_FILE": {
+          "LABEL": "Arquivo PDF",
+          "CHOOSE_FILE": "Escolher arquivo PDF",
+          "ERROR": "Por favor, selecione um arquivo PDF",
+          "HELP_TEXT": "Tamanho máximo do arquivo: 10 MB",
+          "INVALID_TYPE": "Por favor, selecione um arquivo PDF válido",
+          "TOO_LARGE": "O tamanho do arquivo excede o limite de 10 MB"
+        },
+        "NAME": {
+          "LABEL": "Nome do documento (opcional)",
+          "PLACEHOLDER": "Insira um nome para o documento"
         },
         "ASSISTANT": {
           "LABEL": "Assistente",
@@ -744,6 +761,7 @@
       "SELECTED": "{count} selecionado",
       "SELECT_ALL": "Selecionar todos ({count})",
       "UNSELECT_ALL": "Desmarcar todos ({count})",
+      "SEARCH_PLACEHOLDER": "Pesquisar FAQs...",
       "BULK_APPROVE_BUTTON": "Aprovar",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_APPROVE": {
