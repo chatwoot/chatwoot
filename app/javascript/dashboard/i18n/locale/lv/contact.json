@@ -554,10 +554,12 @@
         "WROTE": "rakstīja",
         "YOU": "Jūs",
         "SAVE": "Saglabāt piezīmi",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Izvērst",
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā."
+        "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
