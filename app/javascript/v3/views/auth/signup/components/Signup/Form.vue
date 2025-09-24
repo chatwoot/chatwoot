@@ -1,6 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, email } from '@vuelidate/validators';
+import { required, minLength, email, sameAs } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
@@ -68,9 +68,7 @@ export default {
         confirmPassword: {
           required,
           minLength: minLength(MIN_PASSWORD_LENGTH),
-          isEqPassword(value) {
-            return value === this.credentials.password;
-          },
+          sameAsPassword: sameAs(this.credentials.password),
         },
       },
     };
@@ -94,7 +92,7 @@ export default {
     confirmPasswordErrorText() {
       const { confirmPassword } = this.v$.credentials;
       if (!confirmPassword.$error) return '';
-      if (confirmPassword.isEqPassword.$invalid) {
+      if (confirmPassword.sameAsPassword.$invalid) {
         return this.$t('REGISTER.CONFIRM_PASSWORD.ERROR');
       }
       return '';
