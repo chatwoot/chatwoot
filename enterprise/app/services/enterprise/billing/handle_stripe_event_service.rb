@@ -21,7 +21,7 @@ class Enterprise::Billing::HandleStripeEventService
   BUSINESS_PLAN_FEATURES = %w[sla custom_roles].freeze
 
   # Additional features available only in the Enterprise plan
-  ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding].freeze
+  ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
 
   def perform(event:)
     @event = event
