@@ -325,6 +325,9 @@ Rails.application.routes.draw do
         resources :webhooks, only: [:create]
       end
 
+      # Frontend API endpoint to trigger SAML authentication flow
+      post 'auth/saml_login', to: 'auth#saml_login'
+
       resource :profile, only: [:show, :update] do
         delete :avatar, on: :collection
         member do
@@ -333,6 +336,14 @@ Rails.application.routes.draw do
           put :set_active_account
           post :resend_confirmation
           post :reset_access_token
+        end
+
+        # MFA routes
+        scope module: 'profile' do
+          resource :mfa, controller: 'mfa', only: [:show, :create, :destroy] do
+            post :verify
+            post :backup_codes
+          end
         end
       end
 
@@ -524,6 +535,15 @@ Rails.application.routes.draw do
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
+
+    if ChatwootApp.enterprise?
+      resource :voice, only: [], controller: 'voice' do
+        collection do
+          post 'call/:phone', action: :call_twiml
+          post 'status/:phone', action: :status
+        end
+      end
+    end
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

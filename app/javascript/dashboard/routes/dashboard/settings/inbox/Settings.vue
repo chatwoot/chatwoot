@@ -329,7 +329,7 @@ export default {
         this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
-        this.channelWelcomeTagline = this.inbox.welcome_tagline;
+        this.channelWelcomeTagline = this.inbox.welcome_tagline || '';
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
@@ -342,7 +342,7 @@ export default {
       try {
         const payload = {
           id: this.currentInboxId,
-          name: this.selectedInboxName,
+          name: this.selectedInboxName?.trim(),
           enable_email_collect: this.emailCollectEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,

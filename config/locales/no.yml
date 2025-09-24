@@ -23,9 +23,16 @@
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Vennligst skriv inn en gyldig e-postadresse'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Woot! Forespørsel om tilbakestilling av passord er vellykket. Sjekk innboksen for instruksjoner.
     reset_password_failure: Uff da! Vi fant ingen bruker med den angitte eposten.
+    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
+    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
+    saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Innboksen din slettingsforespørsel vil bli behandlet i løpet av en periode.
   errors:
     validations:
@@ -41,6 +48,8 @@
       failed: Registrering mislyktes
     assignment_policy:
       not_found: Assignment policy not found
+    saml:
+      feature_not_enabled: SAML feature not enabled for this account
     data_import:
       data_type:
         invalid: Ugyldig datatype
@@ -84,6 +93,20 @@
       invalid_value: Ugyldig verdi. Verdiene angitt for %{attribute_name} er ugyldige
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Rapporteringsperiode %{since} til %{until}
     utc_warning: Rapporten generert er i UTC tidssone
@@ -209,6 +232,7 @@
     reply:
       email:
         header:
+          notifications: 'Varsler'
           from_with_name: '%{assignee_name} from %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} from %{inbox_name} <reply+%{reply_email}>'
           friendly_name: '%{sender_name} from %{business_name} <%{from_email}>'
