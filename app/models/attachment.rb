@@ -61,7 +61,7 @@ class Attachment < ApplicationRecord
 
   def download_url_converted(format: :jpeg)
     if file.attached? && image?
-      Rails.logger.info("[Attachment:#{id}] Converting image from #{file.content_type} to image/png")
+      Rails.logger.info("[Attachment:#{id}] Converting image from #{file.content_type} to image/#{format}")
       convert_image_and_generate_download_url(file, format)
     else
       file_url
