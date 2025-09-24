@@ -414,7 +414,7 @@ describe Telegram::IncomingMessageService do
 
   context 'when lock to single conversation is enabled' do
     before do
-      # garanta que message_params exista neste contexto e tenha from.id
+      # ensure message_params exists in this context and has from.id
       message_params[:from] ||= {}
       message_params[:from][:id] ||= 23
     end
@@ -440,7 +440,7 @@ describe Telegram::IncomingMessageService do
 
   context 'when lock to single conversation is disabled' do
     before do
-      # garanta que message_params exista neste contexto e tenha from.id
+      # ensure message_params exists in this context and has from.id
       message_params[:from] ||= {}
       message_params[:from][:id] ||= 23
     end
