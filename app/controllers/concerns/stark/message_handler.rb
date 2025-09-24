@@ -14,8 +14,73 @@ module Stark
     end
 
     def create_bot_response_message(conversation, content, attachments = nil, metadata = [])
-      create_text_message(conversation, content, metadata) if content.present?
-      create_attachment_messages(conversation, attachments) if attachments.is_a?(Array)
+      if instagram_channel?(conversation) && attachments.is_a?(Array) && attachments.any?
+        puts '=================== Instagram with attachments ================='
+
+        # 1. Send main content only once
+        if content.present?
+          conversation.messages.create!(
+            content: content,
+            message_type: :outgoing,
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id,
+            sender: agent_bot,
+            metadata: metadata
+          )
+        end
+
+        # 2. For each attachment: image then title
+        attachments.each do |attachment|
+          url = attachment.is_a?(Hash) ? (attachment['url'] || attachment[:url]) : attachment
+          title = attachment.is_a?(Hash) ? (attachment['content'] || attachment[:content]) : nil
+          next if url.blank?
+
+          file = URI.open(url)
+          filename = File.basename(URI.parse(url).path)
+
+          blob = ActiveStorage::Blob.create_and_upload!(
+            io: file,
+            filename: filename,
+            content_type: file.content_type
+          )
+
+          # (a) Image message (no content)
+          image_message = conversation.messages.create!(
+            content: nil,
+            message_type: :outgoing,
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id,
+            sender: agent_bot,
+            additional_attributes: { 'sent_image': true } # Custom attribute to indicate image message
+          )
+          image_message.attachments.create!(
+            account_id: image_message.account_id,
+            external_url: url,
+            file: blob
+          )
+          image_message.save!
+
+          # sleep 1 # Ensure image is sent before title
+
+          # (b) Title message (text only), after a small delay
+          next unless title.present?
+
+          conversation.messages.create!(
+            content: title,
+            message_type: :outgoing,
+            account_id: conversation.account_id,
+            inbox_id: conversation.inbox_id,
+            sender: agent_bot
+          )
+          # sleep 1 # Ensure title is sent before next image
+        end
+
+      else
+        puts '=================== Non-Instagram or no attachments ================='
+        # Non-Instagram: default behavior
+        create_text_message(conversation, content, metadata) if content.present?
+        create_attachment_messages(conversation, attachments) if attachments.is_a?(Array)
+      end
     end
 
     def response_valid?(response)
@@ -67,6 +132,10 @@ module Stark
 
         message.save!
       end
+    end
+
+    def instagram_channel?(conversation)
+      conversation.inbox.platform_name == 'Instagram'
     end
   end
 end

@@ -48,8 +48,6 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def send_to_instagram_page(message_content)
-    puts "=================== send_to_instagram_page START ==1111================="
-    puts "=======================channel==================#{channel.inspect}==================="
     access_token = channel.access_token
     query = { access_token: access_token }
 
@@ -76,7 +74,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def send_message_to_instagram(query, message_content)
-    url = "https://graph.instagram.com/v23.0/me/messages"
+    url = 'https://graph.instagram.com/v23.0/me/messages'
     response = HTTParty.post(
       url,
       body: message_content,
@@ -90,11 +88,25 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     if response['error'].present?
       Rails.logger.error("Instagram response: #{response['error']} : #{message.content}")
       message.status = :failed
-      message.external_error = external_error(response)
+      message.mark_failed!(external_error(response))
     else
       message.source_id = response['id'] || response['message_id'] if response['id'].present? || response['message_id'].present?
+
+      message.mark_sent!
+      enqueue_next_message
     end
-    message.save!
+  end
+
+  def enqueue_next_message
+    next_msg = conversation.messages
+                           .where('id > ?', message.id)
+                           .where("additional_attributes ->> 'delivery_status' = ?", 'pending')
+                           .order(:id)
+                           .first
+
+    return unless next_msg.present?
+
+    SendReplyJob.perform_later(next_msg.id)
   end
 
   def external_error(response)
@@ -114,6 +126,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   def attachment_type(attachment)
     return attachment.file_type if %w[image audio video file].include?(attachment.file_type)
+
     'file'
   end
 
@@ -122,6 +135,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
       conv = message.conversation
       raise "❌ Conversation not found for message ID #{message.id}" unless conv
       raise "❌ Contact not found for conversation ID #{conv.id}" unless conv.contact
+
       conv.contact
     end
   end
@@ -129,6 +143,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   def inbox
     @inbox ||= begin
       raise "❌ Inbox not found for message ID #{message.id}" unless message.inbox
+
       message.inbox
     end
   end
@@ -140,6 +155,7 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   def conversation
     @conversation ||= begin
       raise "❌ Conversation not found for message ID #{message.id}" unless message.conversation
+
       message.conversation
     end
   end
