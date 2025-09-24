@@ -209,3 +209,8 @@
   display_name: SAML
   enabled: false
   premium: true
+- name: advanced_search_indexing
+  display_name: Advanced Search Indexing
+  enabled: false
+  premium: true
+  chatwoot_internal: true
