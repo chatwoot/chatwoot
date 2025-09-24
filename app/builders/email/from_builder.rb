@@ -12,7 +12,7 @@ class Email::FromBuilder < Email::BaseBuilder
                    channel.email
                  when :imap_chatwoot_smtp,
                       :forwarding_chatwoot_smtp
-                   channel.verified ? channel.email : account_support_email
+                   channel.verified_for_sending ? channel.email : account_support_email
                  else
                    account_support_email
                  end
