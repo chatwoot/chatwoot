@@ -525,6 +525,19 @@
         "STATUS": "Status"
       }
     },
+    "CHAT_SUMMARY": {
+      "HEADER": "Chat Summary",
+      "CHAT_IN": "Total incoming chats",
+      "CHAT_ANSWERED_BY_AI": "Chats resolved by AI",
+      "RESOLVED_PERCENTAGE": "Resolved by AI percentage",
+      "CHAT_HANDOVERED": "Chats handovered to agent"
+    },
+    "CONVERSATION_TRENDS_LINE_CHART": {
+      "HEADER": "Conversation Trends",
+      "TOTAL_CHATS": "Total incoming chats",
+      "BOT_CHATS": "Chats resolved by AI",
+      "AGENT_CHATS": "Chats handovered to agent"
+    },
     "AGENT_STATUS": {
       "HEADER": "Agent status",
       "ONLINE": "Online",
@@ -571,6 +584,7 @@
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
+        
         "TOOLTIP": "Percentage of SLAs created were completed successfully"
       },
       "NO_OF_MISSES": {

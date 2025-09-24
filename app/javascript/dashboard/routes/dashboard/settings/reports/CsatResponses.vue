@@ -245,25 +245,65 @@ export default {
 </script>
 
 <template>
-  <ReportHeader :header-title="$t('CSAT_REPORTS.HEADER')">
-    <V4Button
-      :label="$t('CSAT_REPORTS.DOWNLOAD')"
-      icon="i-ph-download-simple"
-      size="sm"
-      @click="downloadReports"
-    />
-  </ReportHeader>
+  <div class="flex flex-col gap-4 pb-6">
+    <ReportHeader :header-title="$t('CSAT_REPORTS.HEADER')">
+      <div class="flex items-center gap-4">
+        <!-- Filter on the left -->
+        <div class="flex-grow">
+          <ReportFilterSelector
+            show-agents-filter
+            show-inbox-filter
+            :show-business-hours-switch="false"
+            @filter-change="onFilterChange"
+          />
+        </div>
+        <!-- Export dropdown on the right -->
+        <div v-if="userTier === 'pertamax' || userTier === 'pertamax_turbo'" class="relative inline-block text-left z-40" ref="dropdownContainer">
+          <button
+            @click="toggleDropdown"
+            class="inline-flex justify-center w-full rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 text-white hover:opacity-90 transition-opacity"
+            style="background-color: #389947"
+          >
+            {{ $t('OVERVIEW_REPORTS.DOWNLOAD') }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="-mr-1 ml-2 h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <div
+            v-if="dropdownOpen"
+            class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-n-solid-2 dark:bg-gray-800 ring-1 ring-black dark:ring-gray-600 ring-opacity-5 focus:outline-none"
+          >
+            <div class="py-1">
+              <a
+                v-for="option in availableExportOptions"
+                :key="option.key"
+                href="#"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-gray-700"
+                @click="exportData(option.key)"
+              >
+                {{ $t(option.label) }}
+              </a>
+              
+            </div>
+          </div>
+        </div>
+        <!-- <div v-else-if="userTier && userTier !== 'pertamax_turbo' && userTier !== 'pertamax'" 
+             class="text-sm text-gray-500 dark:text-gray-400">
+          {{ $t('OVERVIEW_REPORTS.UPGRADE_FOR_EXPORT') }}
+        </div> -->
+      </div>
+    </ReportHeader>
 
-  <div class="flex flex-col gap-4">
-    <ReportFilterSelector
-      show-agents-filter
-      show-inbox-filter
-      show-rating-filter
-      :show-team-filter="isTeamsEnabled"
-      :show-business-hours-switch="false"
-      @filter-change="onFilterChange"
-    />
-
+    <div class="flex flex-col gap-4">
       <CsatMetrics v-if="userTier === 'pertalite' || userTier === 'pertamax' || userTier === 'pertamax_turbo'" :filters="requestPayload" />
 
       <!-- CSAT Trends Line Chart -->

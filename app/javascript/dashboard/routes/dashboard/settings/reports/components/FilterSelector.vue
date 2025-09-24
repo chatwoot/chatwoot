@@ -7,6 +7,7 @@ import ReportsFiltersLabels from './Filters/Labels.vue';
 import ReportsFiltersInboxes from './Filters/Inboxes.vue';
 import ReportsFiltersTeams from './Filters/Teams.vue';
 import ReportsFiltersRatings from './Filters/Ratings.vue';
+import ReportsFiltersBots from './Filters/Bots.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -21,6 +22,7 @@ export default {
     ReportsFiltersInboxes,
     ReportsFiltersTeams,
     ReportsFiltersRatings,
+    ReportsFiltersBots,
   },
   props: {
     showGroupByFilter: {
@@ -51,6 +53,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    showBotFilter: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['filterChange'],
   data() {
@@ -62,6 +68,7 @@ export default {
       selectedInbox: null,
       selectedTeam: null,
       selectedRating: null,
+      selectedBot: null,
       selectedAgents: [],
       customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
@@ -126,6 +133,7 @@ export default {
         selectedInbox,
         selectedTeam,
         selectedRating,
+        selectedBot,
       } = this;
       this.$emit('filterChange', {
         from,
@@ -137,6 +145,7 @@ export default {
         selectedInbox,
         selectedTeam,
         selectedRating,
+        selectedBot,
       });
     },
     onDateRangeChange(selectedRange) {
@@ -173,6 +182,10 @@ export default {
       this.selectedRating = selectedRating;
       this.emitChange();
     },
+    handleBotFilterSelection(selectedBot) {
+      this.selectedBot = selectedBot;
+      this.emitChange();
+    },
   },
 };
 </script>
@@ -180,7 +193,7 @@ export default {
 <template>
   <div class="flex flex-col justify-between gap-3 md:flex-row">
     <div
-      class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
+      class="flex-grow flex gap-4"
     >
       <ReportsFiltersDateRange @on-range-change="onDateRangeChange" />
       <WootDateRangePicker
@@ -217,6 +230,10 @@ export default {
       <ReportsFiltersRatings
         v-if="showRatingFilter"
         @rating-filter-selection="handleRatingFilterSelection"
+      />
+      <ReportsFiltersBots
+        v-if="showBotFilter"
+        @bot-filter-selection="handleBotFilterSelection"
       />
     </div>
     <div v-if="showBusinessHoursSwitch" class="flex items-center">
