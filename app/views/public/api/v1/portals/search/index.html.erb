@@ -1,0 +1,184 @@
+<% content_for :head do %>
+  <title><%= I18n.t('public_portal.search.results_for', query: @query) %> | <%= @portal.name %></title>
+<% end %>
+
+<% if !@is_plain_layout_enabled %>
+<div id="portal-bg" class="bg-white dark:bg-slate-900 shadow-inner">
+  <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6">
+    <div class="max-w-5xl px-4 md:px-8 mx-auto flex flex-col">
+      <div class="flex flex-row items-center gap-px mb-6">
+        <a class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:cursor-pointer hover:underline leading-8 font-semibold"
+           href="<%= generate_home_link(@portal.slug, params[:locale], @theme_from_params, @is_plain_layout_enabled) %>">
+          <%= I18n.t('public_portal.common.home') %>
+        </a>
+        <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300">
+          <%= render partial: 'icons/chevron-right' %>
+        </span>
+        <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+          <%= I18n.t('public_portal.search.results') %>
+        </span>
+      </div>
+
+      <h1 class="text-3xl font-semibold leading-normal md:tracking-normal md:text-4xl text-slate-900 dark:text-white">
+        <%= I18n.t('public_portal.search.results_for', query: @query) %>
+      </h1>
+
+      <!-- Search form for the results page -->
+      <form class="w-full my-4" action="<%= request.path %>" method="GET" data-search-form>
+        <input type="hidden" name="locale" value="<%= params[:locale] %>">
+        <input type="text"
+               name="query"
+               value="<%= @query %>"
+               placeholder="<%= I18n.t('public_portal.search.search_placeholder') %>"
+               data-search-input
+               autofocus
+               class="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        <button type="submit" class="sr-only">
+          <%= I18n.t('public_portal.search.submit') %>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<% else %>
+<div class="max-w-5xl mx-auto space-y-4 w-full px-4 md:px-8 py-4">
+  <div class="flex items-center flex-row">
+    <a class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:underline hover:cursor-pointer leading-8 font-semibold"
+       href="<%= generate_home_link(@portal.slug, params[:locale], @theme_from_params, @is_plain_layout_enabled) %>">
+      <%= I18n.t('public_portal.common.home') %>
+    </a>
+    <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300">
+      <%= render partial: 'icons/chevron-right' %>
+    </span>
+    <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+      <%= I18n.t('public_portal.search.results') %>
+    </span>
+  </div>
+
+  <h1 class="text-3xl font-semibold leading-normal md:tracking-normal md:text-4xl text-slate-900 dark:text-white">
+    <%= I18n.t('public_portal.search.results_for', query: @query) %>
+  </h1>
+
+  <!-- Search form for the results page -->
+  <form class="w-full my-4" action="<%= request.path %>" method="GET" data-search-form>
+    <input type="hidden" name="locale" value="<%= params[:locale] %>">
+    <input type="text"
+           name="query"
+           value="<%= @query %>"
+           placeholder="<%= I18n.t('public_portal.search.search_placeholder') %>"
+           data-search-input
+           autofocus
+           class="w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+    <button type="submit" class="sr-only">
+      <%= I18n.t('public_portal.search.submit') %>
+    </button>
+  </form>
+</div>
+<% end %>
+
+<script>
+document.addEventListener('turbo:load', function() {
+  const searchInputs = document.querySelectorAll('[data-search-input]');
+
+  searchInputs.forEach(function(input) {
+    let debounceTimer;
+
+    // Move cursor to end of input text after autofocus
+    if (input.value.length > 0) {
+      setTimeout(function() {
+        input.setSelectionRange(input.value.length, input.value.length);
+      }, 0);
+    }
+
+    input.addEventListener('input', function() {
+      const form = input.closest('[data-search-form]');
+      const query = input.value.trim();
+
+      // Clear existing timer
+      clearTimeout(debounceTimer);
+
+      // Only search if there's a query and it's different from current
+      if (query.length > 0) {
+        debounceTimer = setTimeout(function() {
+          // Check if the query has actually changed
+          const currentQuery = new URLSearchParams(window.location.search).get('query') || '';
+          if (query !== currentQuery) {
+            // Use Turbo.visit for SPA-like navigation
+            const formData = new FormData(form);
+            const searchParams = new URLSearchParams(formData);
+            const url = form.action + '?' + searchParams.toString();
+            Turbo.visit(url);
+          }
+        }, 500); // 500ms debounce
+      }
+    });
+
+    // Handle manual form submission
+    input.closest('[data-search-form]').addEventListener('submit', function(e) {
+      clearTimeout(debounceTimer);
+    });
+  });
+});
+</script>
+
+<div class="max-w-5xl w-full mx-auto px-4 md:px-8 py-6 flex flex-col items-center justify-center flex-grow">
+  <div class="w-full flex flex-col gap-6 flex-grow">
+    <% if @articles.empty? %>
+      <div class="h-full flex items-center justify-center bg-slate-50 dark:bg-slate-800 rounded-xl py-6">
+        <p class="text-sm text-slate-500"><%= I18n.t('public_portal.search.no_results', query: @query) %></p>
+      </div>
+    <% else %>
+      <p class="text-sm text-slate-600 dark:text-slate-400">
+        <%= I18n.t('public_portal.search.found_results', count: @articles.size) %>
+      </p>
+
+      <% @articles.each do |article| %>
+        <div class="border border-solid border-slate-100 dark:border-slate-800 rounded-lg">
+          <a class="p-4 text-slate-800 dark:text-slate-50 flex justify-between content-center hover:cursor-pointer"
+             href="<%= generate_article_link(@portal.slug, article.slug, @theme_from_params, @is_plain_layout_enabled) %>">
+            <div class="flex flex-col gap-5">
+              <div class="flex flex-col gap-1">
+                <h3 class="text-lg text-slate-900 tracking-[0.28px] dark:text-slate-50 font-semibold">
+                  <%= article.title %>
+                </h3>
+                <p class="text-base font-normal text-slate-600 dark:text-slate-200 line-clamp-2 break-all">
+                  <%= render_category_content(article.content) %>
+                </p>
+              </div>
+              <div class="flex flex-row items-center gap-2">
+                <% if article.category.present? %>
+                  <span class="text-sm text-slate-600 dark:text-slate-400 font-medium">
+                    <%= article.category.name %>
+                  </span>
+                  <span class="text-slate-600 dark:text-slate-400">•</span>
+                <% end %>
+                <span class="text-sm text-slate-600 dark:text-slate-400 font-medium">
+                  <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %>
+                </span>
+              </div>
+            </div>
+          </a>
+        </div>
+      <% end %>
+
+      <!-- Pagination -->
+      <% if @articles.respond_to?(:total_pages) && @articles.total_pages > 1 %>
+        <div class="flex justify-center mt-6">
+          <nav class="inline-flex">
+            <% if @articles.prev_page %>
+              <a href="<%= url_for(params.permit(:query, :locale).merge(page: @articles.prev_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-l-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+                <%= I18n.t('public_portal.common.previous') %>
+              </a>
+            <% end %>
+
+            <% if @articles.next_page %>
+              <a href="<%= url_for(params.permit(:query, :locale).merge(page: @articles.next_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-r-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+                <%= I18n.t('public_portal.common.next') %>
+              </a>
+            <% end %>
+          </nav>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
