@@ -222,15 +222,15 @@
         "DESC": "开始通过WhatsApp支持您的客户",
         "PROVIDERS": {
           "LABEL": "API提供商",
-          "WHATSAPP_EMBEDDED": "WhatsApp Business",
+          "WHATSAPP_EMBEDDED": "WhatsApp 商务版",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp 云服务",
-          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
-          "TWILIO_DESC": "Connect via Twilio credentials",
+          "WHATSAPP_CLOUD_DESC": "通过 Meta 快速完成设置",
+          "TWILIO_DESC": "通过 Twilio 凭据连接",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
+          "TITLE": "选择您的 API 提供商",
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
@@ -272,8 +272,8 @@
         },
         "SUBMIT_BUTTON": "创建WhatsApp频道",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick Setup with Meta",
-          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "Quick setup with Meta",
+          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Benefits of Embedded Signup:",
             "EASY_SETUP": "No manual configuration required",
@@ -281,29 +281,30 @@
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
-            "LINK_TEXT": "this link.",
-            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "LINK_TEXT": "this link"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "LOADING_SDK": "Loading Facebook SDK...",
-          "CANCELLED": "WhatsApp Signup was cancelled",
+          "LOADING_SDK": "加载 Facebook SDK...",
+          "CANCELLED": "WhatsApp 注册已取消",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
-          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "WAITING_FOR_AUTH": "正在等待认证...",
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Signup error occurred",
+          "SIGNUP_ERROR": "注册时发生错误",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_LINK_TEXT": "手动设置流程"
         },
         "API": {
           "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道"
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
+        "TITLE": "语音频道",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
           "LABEL": "电话号码",
@@ -323,8 +324,8 @@
           },
           "API_KEY_SID": {
             "LABEL": "API 密钥 SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "PLACEHOLDER": "输入您的 Twilio API 密钥的 SID",
+            "REQUIRED": "API 密钥 SID 未填写"
           },
           "API_KEY_SECRET": {
             "LABEL": "API 密钥密码",
@@ -338,9 +339,9 @@
           "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
           "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "创建语音频道",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "我们无法创建语音频道"
         }
       },
       "API_CHANNEL": {
@@ -425,48 +426,48 @@
       "AUTH": {
         "TITLE": "选择一个通道",
         "DESC": "Chatwoot支持实时聊天小部件、Facebook Messenger、Twitter个人资料、WhatsApp、电子邮件等作为通道。如果您想构建自定义通道，可以使用API通道创建。要开始，请从下面的通道中选择一个。",
-        "TITLE_NEXT": "Complete the setup",
+        "TITLE_NEXT": "完成设置",
         "TITLE_FINISH": "搞定！",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "网站",
-            "DESCRIPTION": "Create a live-chat widget"
+            "DESCRIPTION": "创建在线聊天小部件"
           },
           "FACEBOOK": {
             "TITLE": "Facebook",
-            "DESCRIPTION": "Connect your Facebook page"
+            "DESCRIPTION": "连接您的 Facebook 页面"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "DESCRIPTION": "在 WhatsApp 上回应您的客户"
           },
           "EMAIL": {
             "TITLE": "Email",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "DESCRIPTION": "连接到 Gmail、Outlook，或其他提供商"
           },
           "SMS": {
             "TITLE": "短信",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "DESCRIPTION": "将短信频道与Twilio 或 Bandwidth 集成"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "使用我们的 API 创建一个自定义频道"
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "使用 Bot 令牌配置 Telegram 频道"
           },
           "LINE": {
             "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "DESCRIPTION": "集成 Line"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "DESCRIPTION": "连接您的 instagram 帐户"
           },
           "VOICE": {
-            "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "TITLE": "语音",
+            "DESCRIPTION": "与 Twilio 语音集成"
           }
         }
       },
@@ -523,9 +524,9 @@
       "BUTTON_TEXT": "带我到这里",
       "MORE_SETTINGS": "更多设置",
       "WEBSITE_SUCCESS": "您已成功完成创建网站频道。复制下面显示的代码并将其粘贴在您的网站上。下次客户使用实时聊天时，对话将自动出现在您的收件箱中。",
-      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
-      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
+      "WHATSAPP_QR_INSTRUCTION": "扫描上面的二维码以快速测试您的 WhatsApp 收件箱",
+      "MESSENGER_QR_INSTRUCTION": "扫描上面的二维码以快速测试您的 Facebook Messenger 收件箱",
+      "TELEGRAM_QR_INSTRUCTION": "扫描以上二维码以快速测试您的 Telegram 收件箱"
     },
     "REAUTH": "重新授权",
     "VIEW": "查看",
@@ -651,11 +652,11 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "更新API密钥",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "在此处输入新的API密钥",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
-      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
-      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp 嵌入注册",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "此收件箱已通过嵌入注册的 WhatsApp 连接。",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "您可以重新配置此收件箱来更新您的 WhatsApp Business 设置。",
+      "WHATSAPP_RECONFIGURE_BUTTON": "重新配置",
+      "WHATSAPP_CONNECT_TITLE": "连接到 WhatsApp Business",
       "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
       "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
       "WHATSAPP_CONNECT_BUTTON": "连接",
@@ -663,14 +664,14 @@
       "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
       "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
       "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp ID未配置。请联系您的管理员。",
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook 验证令牌",
       "WHATSAPP_WEBHOOK_SUBHEADER": "此令牌用于验证webhook端点的真实性。",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "同步模板",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "更新预聊天表单设置"
     },
@@ -917,15 +918,15 @@
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Connect with Microsoft"
+        "DESCRIPTION": "与 Microsoft 关联"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Connect with Google"
+        "DESCRIPTION": "与 Google 关联"
       },
       "OTHER_PROVIDERS": {
         "TITLE": "其他提供商",
-        "DESCRIPTION": "Connect with Other Providers"
+        "DESCRIPTION": "与其他提供商关联"
       }
     },
     "CHANNELS": {
@@ -940,7 +941,7 @@
       "LINE": "Line",
       "API": "API 频道",
       "INSTAGRAM": "Instagram",
-      "VOICE": "Voice"
+      "VOICE": "语音"
     }
   }
 }

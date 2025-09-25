@@ -110,53 +110,67 @@ const getInboxName = inboxId => {
       <div
         v-for="(limit, index) in inboxCapacityLimits"
         :key="limit.id || `temp-${index}`"
-        class="flex items-center gap-3"
+        class="flex flex-col xs:flex-row items-stretch gap-3"
       >
         <div
-          class="flex items-start rounded-lg outline-1 outline cursor-not-allowed text-n-slate-11 outline-n-weak py-2.5 px-3 text-sm w-full"
+          class="flex items-center rounded-lg outline-1 outline cursor-not-allowed text-n-slate-11 outline-n-weak py-2.5 px-3 text-sm w-full min-w-0"
+          :title="getInboxName(limit.inboxId)"
         >
-          {{ getInboxName(limit.inboxId) }}
+          <span class="truncate min-w-0">
+            {{ getInboxName(limit.inboxId) }}
+          </span>
         </div>
 
-        <div
-          class="py-2.5 px-3 rounded-lg gap-2 outline outline-1 flex-shrink-0 flex items-center"
-          :class="[
-            !isLimitValid(limit) ? 'outline-n-ruby-8' : 'outline-n-weak',
-          ]"
-        >
-          <label class="text-sm text-n-slate-12 ltr:pr-2 rtl:pl-2">
-            {{
-              t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.MAX_CONVERSATIONS`)
-            }}
-          </label>
-
-          <div class="h-5 w-px bg-n-weak" />
-
-          <input
-            v-model.number="limit.conversationLimit"
-            type="number"
-            :min="MIN_CONVERSATION_LIMIT"
-            :max="MAX_CONVERSATION_LIMIT"
-            class="reset-base bg-transparent focus:outline-none max-w-20 text-sm"
+        <div class="flex items-center gap-3 w-full xs:w-auto">
+          <div
+            class="py-2.5 px-3 rounded-lg gap-2 outline outline-1 flex-1 xs:flex-shrink-0 flex items-center min-w-0"
             :class="[
-              !isLimitValid(limit)
-                ? 'placeholder:text-n-ruby-9 !text-n-ruby-9'
-                : 'placeholder:text-n-slate-10 text-n-slate-12',
+              !isLimitValid(limit) ? 'outline-n-ruby-8' : 'outline-n-weak',
             ]"
-            :placeholder="
-              t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.SET_LIMIT`)
-            "
-            @blur="handleLimitChange(limit)"
+          >
+            <label
+              class="text-sm text-n-slate-12 ltr:pr-2 rtl:pl-2 truncate min-w-0 flex-shrink"
+              :title="
+                t(
+                  `${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.MAX_CONVERSATIONS`
+                )
+              "
+            >
+              {{
+                t(
+                  `${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.MAX_CONVERSATIONS`
+                )
+              }}
+            </label>
+
+            <div class="h-5 w-px bg-n-weak" />
+
+            <input
+              v-model.number="limit.conversationLimit"
+              type="number"
+              :min="MIN_CONVERSATION_LIMIT"
+              :max="MAX_CONVERSATION_LIMIT"
+              class="reset-base bg-transparent focus:outline-none min-w-16 w-24 text-sm flex-shrink-0"
+              :class="[
+                !isLimitValid(limit)
+                  ? 'placeholder:text-n-ruby-9 !text-n-ruby-9'
+                  : 'placeholder:text-n-slate-10 text-n-slate-12',
+              ]"
+              :placeholder="
+                t(`${BASE_KEY}.FORM.INBOX_CAPACITY_LIMIT.FIELD.SET_LIMIT`)
+              "
+              @blur="handleLimitChange(limit)"
+            />
+          </div>
+
+          <Button
+            type="button"
+            slate
+            icon="i-lucide-trash"
+            class="flex-shrink-0"
+            @click="handleRemoveLimit(limit.id)"
           />
         </div>
-
-        <Button
-          type="button"
-          slate
-          icon="i-lucide-trash"
-          class="flex-shrink-0"
-          @click="handleRemoveLimit(limit.id)"
-        />
       </div>
     </div>
   </div>

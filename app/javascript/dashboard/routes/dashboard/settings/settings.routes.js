@@ -24,6 +24,7 @@ import teams from './teams/teams.routes';
 import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
 import templates from './templates/templates.routes';
+import security from './security/security.routes';
 
 export default {
   routes: [
@@ -63,5 +64,6 @@ export default {
     ...customRoles.routes,
     ...profile.routes,
     ...templates.routes,
+    ...security.routes,
   ],
 };
