@@ -119,7 +119,12 @@ describe Contacts::FilterService do
 
     context 'with standard attributes - blocked' do
       it 'filter contacts by blocked' do
-        blocked_contact = create(:contact, account: account, blocked: true)
+        blocked_contact = create(
+          :contact,
+          account: account,
+          blocked: true,
+          email: Faker::Internet.unique.email
+        )
         params = { payload: [{ attribute_key: 'blocked', filter_operator: 'equal_to', values: ['true'],
                                query_operator: nil }.with_indifferent_access] }
         result = filter_service.new(account, first_user, params).perform
