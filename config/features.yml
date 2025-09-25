@@ -214,3 +214,9 @@
   enabled: false
   premium: true
   chatwoot_internal: true
+- name: reply_mailer_migration
+  # This feature is temporary only to migrate reply mailer to new email builder
+  # Once the migration is done, this feature can be removed
+  display_name: Reply Mailer Migration
+  enabled: false
+  chatwoot_internal: true
