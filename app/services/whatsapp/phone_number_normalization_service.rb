@@ -1,23 +1,40 @@
 # Service to handle phone number normalization for WhatsApp messages
-# Currently supports Brazil phone number format variations
+# Currently supports Brazil and Argentina phone number format variations
+# Supports both WhatsApp Cloud API and Twilio WhatsApp providers
 # Designed to be extensible for additional countries in future PRs
 #
-# Usage: Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact(waid)
+# Usage:
+#   Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(number, :cloud)
+#   Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(number, :twilio)
 class Whatsapp::PhoneNumberNormalizationService
   def initialize(inbox)
     @inbox = inbox
   end
 
-  # Main entry point for phone number normalization
-  # Returns the source_id of an existing contact if found, otherwise returns original waid
-  def normalize_and_find_contact(waid)
-    normalizer = find_normalizer_for_country(waid)
-    return waid unless normalizer
+  # Generic method to handle both WhatsApp Cloud and Twilio formats
+  # Extracts clean number, normalizes it, and returns appropriate format for provider
+  #
+  # @param raw_number [String] The phone number in provider-specific format
+  #   - Cloud: "919745786257" (clean number)
+  #   - Twilio: "whatsapp:+919745786257" (prefixed format)
+  # @param provider [Symbol] :cloud or :twilio
+  # @return [String] Normalized source_id in provider format or original if not found
+  def normalize_and_find_contact_by_provider(raw_number, provider)
+    # Extract clean number based on provider format
+    clean_number = extract_clean_number(raw_number, provider)
 
-    normalized_waid = normalizer.normalize(waid)
-    existing_contact_inbox = find_existing_contact_inbox(normalized_waid)
+    # Find appropriate normalizer for the country
+    normalizer = find_normalizer_for_country(clean_number)
+    return raw_number unless normalizer
 
-    existing_contact_inbox&.source_id || waid
+    # Normalize the clean number
+    normalized_clean_number = normalizer.normalize(clean_number)
+
+    # Format for provider and check for existing contact
+    provider_format = format_for_provider(normalized_clean_number, provider)
+    existing_contact_inbox = find_existing_contact_inbox(provider_format)
+
+    existing_contact_inbox&.source_id || raw_number
   end
 
   private
@@ -33,7 +50,32 @@ class Whatsapp::PhoneNumberNormalizationService
     inbox.contact_inboxes.find_by(source_id: normalized_waid)
   end
 
+  # Extract clean number from provider-specific format
+  def extract_clean_number(raw_number, provider)
+    case provider
+    when :cloud
+      raw_number # Already clean: "919745786257"
+    when :twilio
+      raw_number.gsub(/^whatsapp:\+/, '') # Remove prefix: "whatsapp:+919745786257" → "919745786257"
+    else
+      raise ArgumentError, "Unsupported provider: #{provider}. Use :cloud or :twilio"
+    end
+  end
+
+  # Format normalized number for provider-specific storage
+  def format_for_provider(clean_number, provider)
+    case provider
+    when :cloud
+      clean_number # Keep clean: "919745786257"
+    when :twilio
+      "whatsapp:+#{clean_number}" # Add prefix: "919745786257" → "whatsapp:+919745786257"
+    else
+      raise ArgumentError, "Unsupported provider: #{provider}. Use :cloud or :twilio"
+    end
+  end
+
   NORMALIZERS = [
-    Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer
+    Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer,
+    Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer
   ].freeze
 end
