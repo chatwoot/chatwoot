@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skrypt Messengera",
       "MESSENGER_SUB_HEAD": "Umieść ten przycisk wewnątrz znacznika ciała",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Agenci",
       "INBOX_AGENTS_SUB_TEXT": "Dodaj lub usuń agentów z tej skrzynki odbiorczej",
       "AGENT_ASSIGNMENT": "Zadanie konwersacji",
