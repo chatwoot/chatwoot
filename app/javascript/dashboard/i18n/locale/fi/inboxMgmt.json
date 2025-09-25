@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger-skripti",
       "MESSENGER_SUB_HEAD": "Aseta tämä painike body-tagiisi",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Edustajat",
       "INBOX_AGENTS_SUB_TEXT": "Lisää tai poista edustajia tästä saapuneet-kansiosta",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
