@@ -86,8 +86,8 @@ const handleLabelAction = async ({ value }) => {
   }
 };
 
-const handleRemoveLabel = labelId => {
-  return handleLabelAction({ value: labelId });
+const handleRemoveLabel = label => {
+  return handleLabelAction({ value: label.id });
 };
 
 watch(

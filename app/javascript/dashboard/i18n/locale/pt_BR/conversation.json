@@ -35,11 +35,11 @@
     "API_HOURS_WINDOW": "Você só pode responder a esta conversa em {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a você. Gostaria de atribuir esta conversa a você mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "Você está respondendo a uma conversa que é atualmente tratada por um assistente ou um robô.",
+    "BOT_HANDOFF_ACTION": "Marcar como aberta e atribuir a você",
+    "BOT_HANDOFF_REOPEN_ACTION": "Marcar conversa como aberta",
+    "BOT_HANDOFF_SUCCESS": "Uma conversa foi atribuída a você",
+    "BOT_HANDOFF_ERROR": "Falha ao resolver conversas. Por favor, tente novamente.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal do Instagram. Todas as novas mensagens serão mostradas lá. Você não poderá mais enviar mensagens desta conversa.",
@@ -70,6 +70,17 @@
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar as etiquetas"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Chamada recebida",
+      "OUTGOING_CALL": "Chamada realizada",
+      "CALL_IN_PROGRESS": "Chamada em andamento",
+      "NO_ANSWER": "Sem resposta",
+      "MISSED_CALL": "Chamada perdida",
+      "CALL_ENDED": "Chamada encerrada",
+      "NOT_ANSWERED_YET": "Ainda não respondido",
+      "THEY_ANSWERED": "Eles responderam",
+      "YOU_ANSWERED": "Você respondeu"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",

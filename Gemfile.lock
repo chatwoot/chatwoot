@@ -212,6 +212,11 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-two-factor (6.1.0)
+      activesupport (>= 7.0, < 8.1)
+      devise (~> 4.0)
+      railties (>= 7.0, < 8.1)
+      rotp (~> 6.0)
     devise_token_auth (1.2.5)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
@@ -287,7 +292,7 @@ GEM
       logger
     faraday-follow_redirects (0.3.0)
       faraday (>= 1, < 3)
-    faraday-mashify (0.1.1)
+    faraday-mashify (1.0.0)
       faraday (~> 2.0)
       hashie
     faraday-multipart (1.0.4)
@@ -589,8 +594,9 @@ GEM
     oj (3.16.10)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
-    omniauth (2.1.2)
+    omniauth (2.1.3)
       hashie (>= 3.4.6)
+      logger
       rack (>= 2.2.3)
       rack-protection
     omniauth-google-oauth2 (1.1.3)
@@ -604,6 +610,9 @@ GEM
     omniauth-rails_csrf_protection (1.0.2)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
+    omniauth-saml (2.2.4)
+      omniauth (~> 2.1)
+      ruby-saml (~> 1.18)
     opensearch-ruby (3.4.0)
       faraday (>= 1.0, < 3)
       multi_json (>= 1.0)
@@ -718,7 +727,8 @@ GEM
     retriable (3.1.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.4.1)
+    rexml (3.4.4)
+    rotp (6.3.0)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.2)
@@ -773,6 +783,9 @@ GEM
       faraday (>= 1)
       faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
+    ruby-saml (1.18.1)
+      nokogiri (>= 1.13.10)
+      rexml
     ruby-vips (2.1.4)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
@@ -863,8 +876,8 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.2)
     simplecov_json_formatter (0.1.4)
-    slack-ruby-client (2.5.2)
-      faraday (>= 2.0)
+    slack-ruby-client (2.7.0)
+      faraday (>= 2.0.1)
       faraday-mashify
       faraday-multipart
       gli
@@ -998,6 +1011,7 @@ DEPENDENCIES
   debug (~> 1.8)
   devise (>= 4.9.4)
   devise-secure_password!
+  devise-two-factor (>= 5.0.0)
   devise_token_auth (>= 1.2.3)
   dotenv-rails (>= 3.0.0)
   down
@@ -1047,6 +1061,7 @@ DEPENDENCIES
   omniauth-google-oauth2 (>= 1.1.3)
   omniauth-oauth2
   omniauth-rails_csrf_protection (~> 1.0, >= 1.0.2)
+  omniauth-saml
   opensearch-ruby
   pg
   pg_search
@@ -1088,7 +1103,7 @@ DEPENDENCIES
   sidekiq_alive
   simplecov (>= 0.21)
   simplecov_json_formatter
-  slack-ruby-client (~> 2.5.2)
+  slack-ruby-client (~> 2.7.0)
   spring
   spring-watcher-listen
   squasher

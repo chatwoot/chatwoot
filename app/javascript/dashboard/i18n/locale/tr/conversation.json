@@ -71,6 +71,17 @@
       "SHOW_LABELS": "Etiketleri Göster",
       "HIDE_LABELS": "Etiketleri Gizle"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
       "REOPEN_ACTION": "Yeniden aç",
