@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messengerスクリプト",
       "MESSENGER_SUB_HEAD": "このボタンをbodyタグの中に配置してください。",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "担当者",
       "INBOX_AGENTS_SUB_TEXT": "この受信トレイから担当者を追加または削除する",
       "AGENT_ASSIGNMENT": "会話の割り当て",
