@@ -554,10 +554,12 @@
         "WROTE": "escribió",
         "YOU": "Tú",
         "SAVE": "Guardar nota",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Expandir",
         "COLLAPSE": "Contraer",
         "NO_NOTES": "No hay notas, puede agregar notas desde la página de detalles de contacto.",
-        "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior."
+        "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {

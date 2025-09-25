@@ -206,7 +206,8 @@ export default {
         this.isASmsInbox ||
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isATelegramChannel
       );
     },
     inboxNameLabel() {

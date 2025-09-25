@@ -5,6 +5,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
+import SimpleDivider from '../../../../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
@@ -17,6 +18,7 @@ export default {
     FormInput,
     GoogleOAuthButton,
     NextButton,
+    SimpleDivider,
     VueHcaptcha,
   },
   setup() {
@@ -210,9 +212,17 @@ export default {
         :is-loading="isSignupInProgress"
       />
     </form>
-    <GoogleOAuthButton v-if="showGoogleOAuth" class="flex-col-reverse">
-      {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
-    </GoogleOAuthButton>
+    <div class="flex flex-col">
+      <SimpleDivider
+        v-if="showGoogleOAuth || showSamlLogin"
+        :label="$t('COMMON.OR')"
+        bg="bg-n-background"
+        class="uppercase"
+      />
+      <GoogleOAuthButton v-if="showGoogleOAuth">
+        {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
+      </GoogleOAuthButton>
+    </div>
     <p
       class="text-sm mb-1 mt-5 text-n-slate-12 [&>a]:text-n-brand [&>a]:font-medium [&>a]:hover:brightness-110"
       v-html="termsLink"

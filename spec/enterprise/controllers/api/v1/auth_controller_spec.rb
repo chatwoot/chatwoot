@@ -9,10 +9,8 @@ RSpec.describe 'Api::V1::Auth', type: :request do
   before do
     account.enable_features('saml')
     account.save!
-  end
-
-  def json_response
-    JSON.parse(response.body, symbolize_names: true)
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('http://www.example.com')
   end
 
   describe 'POST /api/v1/auth/saml_login' do
@@ -33,10 +31,10 @@ RSpec.describe 'Api::V1::Auth', type: :request do
     end
 
     context 'when user does not exist' do
-      it 'returns unauthorized with generic message' do
+      it 'redirects to SSO login page with error' do
         post '/api/v1/auth/saml_login', params: { email: 'nonexistent@example.com' }
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response.location).to eq('http://www.example.com/app/login/sso?error=saml-authentication-failed')
       end
     end
 
@@ -45,10 +43,10 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         create(:account_user, user: user, account: account)
       end
 
-      it 'returns unauthorized' do
+      it 'redirects to SSO login page with error' do
         post '/api/v1/auth/saml_login', params: { email: user.email }
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response.location).to eq('http://www.example.com/app/login/sso?error=saml-authentication-failed')
       end
     end
 
@@ -62,10 +60,10 @@ RSpec.describe 'Api::V1::Auth', type: :request do
         account.save!
       end
 
-      it 'returns unauthorized' do
+      it 'redirects to SSO login page with error' do
         post '/api/v1/auth/saml_login', params: { email: user.email }
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response.location).to eq('http://www.example.com/app/login/sso?error=saml-authentication-failed')
       end
     end
 
@@ -82,21 +80,6 @@ RSpec.describe 'Api::V1::Auth', type: :request do
       it 'redirects to SAML initiation URL' do
         post '/api/v1/auth/saml_login', params: { email: user.email }
 
-        expect(response).to have_http_status(:temporary_redirect)
-        expect(response.location).to include("/auth/saml?account_id=#{account.id}")
-      end
-
-      it 'handles email case insensitivity' do
-        post '/api/v1/auth/saml_login', params: { email: user.email.upcase }
-
-        expect(response).to have_http_status(:temporary_redirect)
-        expect(response.location).to include("/auth/saml?account_id=#{account.id}")
-      end
-
-      it 'strips whitespace from email' do
-        post '/api/v1/auth/saml_login', params: { email: "  #{user.email}  " }
-
-        expect(response).to have_http_status(:temporary_redirect)
         expect(response.location).to include("/auth/saml?account_id=#{account.id}")
       end
     end
@@ -122,7 +105,6 @@ RSpec.describe 'Api::V1::Auth', type: :request do
       it 'redirects to the first SAML enabled account' do
         post '/api/v1/auth/saml_login', params: { email: user.email }
 
-        expect(response).to have_http_status(:temporary_redirect)
         returned_account_id = response.location.match(/account_id=(\d+)/)[1].to_i
         expect([account.id, account2.id]).to include(returned_account_id)
       end

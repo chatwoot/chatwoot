@@ -23,6 +23,10 @@ nl:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Voer een geldig e-mailadres in'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Woot! Verzoek om wachtwoord te resetten is gelukt. Controleer je e-mail voor instructies.
     reset_password_failure: Oh ho! We konden geen gebruiker vinden met het opgegeven e-mailadres.

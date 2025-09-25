@@ -23,6 +23,10 @@ hi:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Please enter a valid email address'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
     reset_password_failure: Uh ho! We could not find any user with the specified email.
@@ -90,7 +94,7 @@ hi:
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
     mfa:
-      already_enabled: MFA is already enabled
+      already_enabled: MFA पहले से ही सक्षम है
       not_enabled: MFA is not enabled
       invalid_code: Invalid verification code
       invalid_backup_code: Invalid backup code
