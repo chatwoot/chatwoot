@@ -80,5 +80,64 @@ describe ConversationBuilder do
         expect(conversation.id).to eq(existing_conversation.id)
       end
     end
+
+    context 'when status is provided in params' do
+      it 'sets the status to the provided value' do
+        conversation = described_class.new(
+          contact_inbox: contact_api_inbox,
+          params: { status: 'open' }
+        ).perform
+
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'overrides bot status when status is explicitly provided' do
+        # Create a bot for the inbox
+        create(:agent_bot, account: account)
+        create(:agent_bot_inbox, inbox: api_inbox, account: account)
+
+        conversation = described_class.new(
+          contact_inbox: contact_api_inbox,
+          params: { status: 'open' }
+        ).perform
+
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'sets status to resolved when explicitly provided' do
+        conversation = described_class.new(
+          contact_inbox: contact_api_inbox,
+          params: { status: 'resolved' }
+        ).perform
+
+        expect(conversation.status).to eq('resolved')
+      end
+    end
+
+    context 'when no status is provided and bot is active' do
+      it 'sets status to pending for bot conversations' do
+        # Create a bot for the inbox
+        create(:agent_bot, account: account)
+        create(:agent_bot_inbox, inbox: api_inbox, account: account)
+
+        conversation = described_class.new(
+          contact_inbox: contact_api_inbox,
+          params: {}
+        ).perform
+
+        expect(conversation.status).to eq('pending')
+      end
+    end
+
+    context 'when no status is provided and no bot is active' do
+      it 'uses default status from model' do
+        conversation = described_class.new(
+          contact_inbox: contact_api_inbox,
+          params: {}
+        ).perform
+
+        expect(conversation.status).to eq('open')
+      end
+    end
   end
 end
