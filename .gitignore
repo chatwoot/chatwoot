@@ -99,3 +99,6 @@ CLAUDE.local.md
 # Histoire deployment
 .netlify
 .histoire
+
+# Apple Messages development files
+_apple/
