@@ -10,6 +10,12 @@ class Contacts::SyncAttributes
     set_contact_type
   end
 
+  def perform_with_migration
+    update_contact_location_and_country_code
+    migrate_social_attributes
+    set_contact_type
+  end
+
   private
 
   def update_contact_location_and_country_code
@@ -24,7 +30,7 @@ class Contacts::SyncAttributes
     return unless @contact.contact_type == 'visitor'
     # If the contact has an email or phone number or social details( facebook_user_id, instagram_user_id, etc) then it is a lead
     # If contact is from external channel like facebook, instagram, whatsapp, etc then it is a lead
-    return unless @contact.email.present? || @contact.phone_number.present? || social_details_present?
+    return unless @contact.email.present? || @contact.phone_number.present? || @contact.identifier.present? || social_details_present?
 
     @contact.contact_type = 'lead'
   end
@@ -33,5 +39,72 @@ class Contacts::SyncAttributes
     @contact.additional_attributes.keys.any? do |key|
       key.start_with?('social_') && @contact.additional_attributes[key].present?
     end
+  end
+
+  def migrate_social_attributes
+    return if @contact.additional_attributes.blank?
+
+    attrs = @contact.additional_attributes
+    social_profiles = attrs['social_profiles'] || {}
+
+    return if social_profiles.blank?
+
+    # Migrate Telegram - check both social_profiles and legacy username field
+    migrate_telegram_attributes(attrs, social_profiles)
+
+    # Migrate Facebook
+    migrate_facebook_attributes(attrs, social_profiles)
+
+    # Migrate LINE
+    migrate_line_attributes(attrs, social_profiles)
+  end
+
+  def migrate_telegram_attributes(attrs, profiles)
+    # Previous format
+    # {
+    #   "social_profiles": {
+    #     "telegram": "gilpadraocruz"
+    #   }
+    # }
+    # New format
+    # {
+    #   "social_telegram_user_name": "gilpadraocruz"
+    # }
+    telegram_username = profiles['telegram'].presence || attrs['username'].presence
+    return if telegram_username.blank?
+
+    attrs['social_telegram_user_name'] ||= telegram_username
+  end
+
+  def migrate_facebook_attributes(attrs, profiles)
+    # Previous format
+    # {
+    #   "social_profiles": {
+    #     "facebook": "gilpadraocruz"
+    #   }
+    # }
+    # New format
+    # {
+    #   "social_facebook_user_name": "gilpadraocruz"
+    # }
+    return if profiles['facebook'].blank?
+
+    attrs['social_facebook_user_name'] ||= profiles['facebook']
+  end
+
+  def migrate_line_attributes(attrs, profiles)
+    # Previous format
+    # {
+    #   "social_profiles": {
+    #     "line": "gilpadraocruz"
+    #   }
+    # }
+    # New format
+    # {
+    #   "social_line_user_id": "gilpadraocruz"
+    # }
+    return if profiles['line'].blank?
+
+    attrs['social_line_user_id'] ||= profiles['line']
   end
 end
