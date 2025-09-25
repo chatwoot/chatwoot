@@ -35,9 +35,8 @@ class Whatsapp::IncomingMessageBaseService
     ActiveRecord::Base.transaction do
       set_conversation
       create_messages
+      clear_message_source_id_from_redis
     end
-  ensure
-    clear_message_source_id_from_redis
   end
 
   def process_statuses
