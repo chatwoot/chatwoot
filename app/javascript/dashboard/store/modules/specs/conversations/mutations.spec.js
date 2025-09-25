@@ -363,6 +363,56 @@ describe('#mutations', () => {
       mutations[types.SET_ALL_CONVERSATION](state, data);
       expect(state.allConversations).toEqual(data);
     });
+
+    it('preserves server order when merging first page results', () => {
+      const state = {
+        allConversations: [
+          { id: 1, name: 'mine-1' },
+          { id: 3, name: 'mine-3' },
+          { id: 5, name: 'mine-5' },
+        ],
+        selectedChatId: null,
+      };
+      const payload = {
+        records: [
+          { id: 1, name: 'all-1' },
+          { id: 2, name: 'all-2' },
+          { id: 3, name: 'all-3' },
+          { id: 4, name: 'all-4' },
+          { id: 5, name: 'all-5' },
+        ],
+        page: 1,
+      };
+
+      mutations[types.SET_ALL_CONVERSATION](state, payload);
+
+      expect(
+        state.allConversations.map(conversation => conversation.id)
+      ).toEqual([1, 2, 3, 4, 5]);
+    });
+
+    it('appends subsequent pages after existing records', () => {
+      const state = {
+        allConversations: [
+          { id: 1, name: 'first-page-1' },
+          { id: 2, name: 'first-page-2' },
+        ],
+        selectedChatId: null,
+      };
+      const payload = {
+        records: [
+          { id: 3, name: 'second-page-3' },
+          { id: 4, name: 'second-page-4' },
+        ],
+        page: 2,
+      };
+
+      mutations[types.SET_ALL_CONVERSATION](state, payload);
+
+      expect(
+        state.allConversations.map(conversation => conversation.id)
+      ).toEqual([1, 2, 3, 4]);
+    });
   });
 
   describe('#SET_ALL_ATTACHMENTS', () => {
