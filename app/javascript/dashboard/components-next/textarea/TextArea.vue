@@ -32,7 +32,7 @@ const props = defineProps({
   allowSignature: { type: Boolean, default: false }, // allowSignature is a kill switch, ensuring no signature methods are triggered except when this flag is true
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'blur']);
 
 const textareaRef = ref(null);
 const isFocused = ref(false);
@@ -106,6 +106,7 @@ const handleBlur = () => {
   if (!props.disabled) {
     isFocused.value = false;
   }
+  emit('blur');
 };
 
 // Watch for changes in modelValue to adjust height
