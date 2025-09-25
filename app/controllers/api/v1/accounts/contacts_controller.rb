@@ -17,8 +17,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
   def index
-    @contacts_count = resolved_contacts.count
     @contacts = fetch_contacts(resolved_contacts)
+    @contacts_count = @contacts.total_count
   end
 
   def search
@@ -29,8 +29,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
         OR contacts.additional_attributes->>\'company_name\' ILIKE :search',
       search: "%#{params[:q].strip}%"
     )
-    @contacts_count = contacts.count
     @contacts = fetch_contacts(contacts)
+    @contacts_count = @contacts.total_count
   end
 
   def import
@@ -55,8 +55,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def active
     contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
                   .get_available_contact_ids(Current.account.id))
-    @contacts_count = contacts.count
     @contacts = fetch_contacts(contacts)
+    @contacts_count = @contacts.total_count
   end
 
   def show; end
@@ -133,13 +133,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contacts(contacts)
-    contacts_with_avatar = filtrate(contacts)
-                           .includes([{ avatar_attachment: [:blob] }])
-                           .page(@current_page).per(RESULTS_PER_PAGE)
+    # Build includes hash to avoid separate query when contact_inboxes are needed
+    includes_hash = { avatar_attachment: [:blob] }
+    includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
-    return contacts_with_avatar.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
-
-    contacts_with_avatar
+    filtrate(contacts)
+      .includes(includes_hash)
+      .page(@current_page)
+      .per(RESULTS_PER_PAGE)
   end
 
   def build_contact_inbox
