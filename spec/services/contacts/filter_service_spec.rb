@@ -7,9 +7,25 @@ describe Contacts::FilterService do
   let!(:first_user) { create(:user, account: account) }
   let!(:second_user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
-  let!(:en_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'uk' }) }
-  let!(:el_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'gr' }) }
-  let!(:cs_contact) { create(:contact, :with_phone_number, account: account, additional_attributes: { 'country_code': 'cz' }) }
+  let!(:en_contact) do
+    create(:contact,
+           account: account,
+           email: Faker::Internet.unique.email,
+           additional_attributes: { 'country_code': 'uk' })
+  end
+  let!(:el_contact) do
+    create(:contact,
+           account: account,
+           email: Faker::Internet.unique.email,
+           additional_attributes: { 'country_code': 'gr' })
+  end
+  let!(:cs_contact) do
+    create(:contact,
+           :with_phone_number,
+           account: account,
+           email: Faker::Internet.unique.email,
+           additional_attributes: { 'country_code': 'cz' })
+  end
 
   before do
     create(:inbox_member, user: first_user, inbox: inbox)
