@@ -171,6 +171,7 @@ onMounted(() => {
   <SectionLayout
     :title="t('SECURITY_SETTINGS.SAML.TITLE')"
     :description="t('SECURITY_SETTINGS.SAML.NOTE')"
+    beta
     :hide-content="!hasFeature || !isEnabled || isLoading"
   >
     <template #headerActions>
