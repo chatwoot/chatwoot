@@ -161,7 +161,7 @@ class Inbox < ApplicationRecord
     when 'Channel::Whatsapp'
       "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{channel.phone_number}"
     when 'Channel::WhatsappUnofficial'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/waha/callback/#{channel.phone_number}"
+      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/waha/#{channel.phone_number}"
     end
   end
 

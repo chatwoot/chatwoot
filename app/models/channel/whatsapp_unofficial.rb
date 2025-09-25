@@ -85,16 +85,16 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
     begin
       Rails.logger.info "Requesting QR code from WAHA for phone #{phone_number}"
-      
+
       waha_service = Waha::WahaService.instance
       result = waha_service.get_qr_code_base64(api_key: token)
-      
+
       Rails.logger.info "WAHA response for phone #{phone_number}: #{result}"
-      
+
       # WAHA service mengembalikan QR code dalam format:
       # { "success": true, "data": { "qr_base64": "base64_string" } }
       qr_base64 = result.dig('data', 'qr_base64')
-      
+
       if qr_base64.present?
         Rails.logger.info "QR code successfully retrieved for phone #{phone_number}"
         qr_base64
@@ -128,7 +128,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       begin
         create_device_with_retry
         reload
-        Rails.logger.info "Device session re-created successfully. New token is present."
+        Rails.logger.info 'Device session re-created successfully. New token is present.'
       rescue StandardError => e
         error_msg = "Failed to re-create device session to get new QR code: #{e.message}"
         Rails.logger.error error_msg
@@ -176,12 +176,12 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     key = rescan_attempts_cache_key
     current_value = ::Redis::Alfred.get(key).to_i
     Rails.logger.info "REDIS: Current rescan attempts before increment: #{current_value} for #{phone_number}"
-    
+
     new_attempts = ::Redis::Alfred.incr(key)
-    
+
     # Set expiry only on first increment (24 hours)
     ::Redis::Alfred.expire(key, 24.hours.to_i) if new_attempts == 1
-    
+
     Rails.logger.info "REDIS: Incremented rescan attempts to #{new_attempts} for #{phone_number}"
     new_attempts
   end
@@ -196,7 +196,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     lock_key = "increment_lock_#{phone_number}"
     last_increment_key = "last_increment_#{phone_number}"
     lock_value = "lock_#{Time.current.to_f}_#{SecureRandom.hex(4)}"
-    
+
     # Check if there was a recent increment (within 3 seconds) to prevent rapid increments
     last_increment_time = ::Redis::Alfred.get(last_increment_key)
     if last_increment_time
@@ -206,37 +206,36 @@ class Channel::WhatsappUnofficial < ApplicationRecord
         return ::Redis::Alfred.get(key).to_i
       end
     end
-    
+
     # Try to acquire increment lock to prevent race conditions
     acquired_lock = ::Redis::Alfred.set(lock_key, lock_value, nx: true, ex: 5)
-    
+
     unless acquired_lock
       Rails.logger.warn "🔒 Increment locked for #{phone_number}. Returning current value to prevent duplicate."
       return ::Redis::Alfred.get(key).to_i
     end
-    
+
     begin
       # Get current value and increment atomically
       current_value = ::Redis::Alfred.get(key).to_i
       Rails.logger.info "REDIS: Current attempts before increment: #{current_value} for #{phone_number}"
-      
+
       new_attempts = ::Redis::Alfred.incr(key)
-      
+
       # Set expiry only on first increment
       ::Redis::Alfred.expire(key, 1.hour.to_i) if new_attempts == 1
-      
+
       # Record the time of this increment to prevent rapid increments
       ::Redis::Alfred.setex(last_increment_key, Time.current.to_f.to_s, 10)
-      
+
       Rails.logger.info "REDIS: Incremented mismatch attempts to #{new_attempts} for #{phone_number}"
-      
+
       # If there's a suspicious jump, log it for debugging
       if current_value.positive? && new_attempts > current_value + 1
         Rails.logger.warn "⚠️ SUSPICIOUS: Attempts jumped from #{current_value} to #{new_attempts} for #{phone_number}"
       end
-      
+
       new_attempts
-      
     ensure
       # Always release the lock if we own it
       if ::Redis::Alfred.get(lock_key) == lock_value
@@ -266,9 +265,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     Rails.logger.info "🔍 Checking session status for #{phone_number} using cache"
 
     # Jika tidak ada token, sudah pasti tidak terhubung
-    unless token.present?
-      return { 'data' => { 'connected' => false, 'status' => 'not_logged_in' } }
-    end
+    return { 'data' => { 'connected' => false, 'status' => 'not_logged_in' } } if token.blank?
 
     # Baca status dari cache
     cached_status = read_session_status_from_cache
@@ -293,9 +290,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     Rails.logger.info "🔍 Checking real-time status for #{phone_number} from WAHA API"
 
     # Jika tidak ada token, sudah pasti tidak terhubung
-    unless token.present?
-      return { 'data' => { 'connected' => false, 'status' => 'not_logged_in' } }
-    end
+    return { 'data' => { 'connected' => false, 'status' => 'not_logged_in' } } if token.blank?
 
     # Get previous status for comparison
     previous_status = read_session_status_from_cache
@@ -303,30 +298,30 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     begin
       waha_service = Waha::WahaService.instance
       result = waha_service.get_session_status(api_key: token)
-      
+
       Rails.logger.info "WAHA real-time status response for #{phone_number}: #{result}"
-      
+
       # Parse WAHA response - using new session/info endpoint with logged_in/not_logged_in
       waha_status = result.dig('data', 'status') || 'not_logged_in'
       connected = waha_status.downcase == 'logged_in'
-      
+
       # Determine current status
       current_status = connected ? 'connected' : 'disconnected'
-      
+
       # Detect status change and handle disconnect
       if previous_status != current_status
         Rails.logger.info "🔄 Status changed for #{phone_number}: #{previous_status} → #{current_status}"
-        
+
         if current_status == 'disconnected'
           handle_auto_disconnect
         elsif current_status == 'connected'
           handle_auto_reconnect
         end
-        
+
         # Update cache with new status
         write_session_status_to_cache(current_status)
       end
-      
+
       # Format response sesuai dengan format yang diharapkan frontend
       {
         'data' => {
@@ -336,14 +331,14 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       }
     rescue StandardError => e
       Rails.logger.error "Failed to get real-time status for #{phone_number}: #{e.message}"
-      
+
       # If API fails, assume disconnected and handle it
       if previous_status == 'connected'
         Rails.logger.warn "API failed, assuming #{phone_number} is disconnected"
         handle_auto_disconnect
         write_session_status_to_cache('disconnected')
       end
-      
+
       # Return disconnected status on error
       {
         'data' => {
@@ -356,15 +351,15 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   def set_webhook_url
     base_url = current_application_url
-    webhook = "#{base_url}/waha/callback/#{phone_number}"
-    
+    webhook = "#{base_url}/webhooks/waha/#{phone_number}"
+
     update!(webhook_url: webhook)
     Rails.logger.info "Webhook URL set for phone #{phone_number}: #{webhook}"
     webhook
   rescue StandardError => e
     Rails.logger.error "Failed to set webhook URL for phone #{phone_number}: #{e.message}"
     # Set default webhook URL sebagai fallback
-    fallback_webhook = "#{current_application_url}/waha/callback/#{phone_number}"
+    fallback_webhook = "#{current_application_url}/webhooks/waha/#{phone_number}"
     update!(webhook_url: fallback_webhook)
     fallback_webhook
   end
@@ -373,42 +368,42 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   def process_waha_callback_response(callback_params)
     Rails.logger.info '🔍 Processing WAHA callback for #{phone_number}'
     Rails.logger.info '🔍 Callback params: #{callback_params.inspect}'
-    
+
     # Determine event type berdasarkan struktur callback WAHA yang sebenarnya
     event_type = self.class.determine_event_type(callback_params)
     Rails.logger.info '🎯 Event type determined: #{event_type}'
-    
+
     case event_type
     when 'receipt'
       # Callback #1: Receipt untuk read/delivered status
       Rails.logger.info '📬 Receipt callback - updating message status only'
-      return { type: 'receipt', action: 'update_message_status' }
-      
+      { type: 'receipt', action: 'update_message_status' }
+
     when 'message'
       # Callback #2 dan #3: Regular messages (ada pushname)
       Rails.logger.info '� Regular message callback - no phone validation needed'
-      return { type: 'regular_message', action: 'process_normally' }
-      
+      { type: 'regular_message', action: 'process_normally' }
+
     when 'initial_scan'
       # Callback #4: Initial scan result (TIDAK ada pushname) - PERLU VALIDASI!
       Rails.logger.info '🎯 Initial scan callback detected - validating phone number'
-      
+
       # Extract phone number dari field "from"
       connected_phone = self.class.extract_phone_from_from_field(callback_params[:from])
       Rails.logger.info "📋 Connected phone from callback: #{connected_phone}"
       Rails.logger.info "📋 Expected device phone: #{phone_number}"
-      
+
       # ✅ GUNAKAN VALIDASI BARU YANG COMPREHENSIVE
-      Rails.logger.info "🔄 Calling validate_callback_phone_number method..."
+      Rails.logger.info '🔄 Calling validate_callback_phone_number method...'
       validation_result = validate_callback_phone_number(connected_phone)
       Rails.logger.info "🔍 Validation result: #{validation_result.inspect}"
-      
+
       if validation_result[:success]
-        Rails.logger.info "✅ Phone validation SUCCESS via new method"
+        Rails.logger.info '✅ Phone validation SUCCESS via new method'
         session_id = callback_params[:sessionID]
-        return { 
-          type: 'initial_scan', 
-          action: 'validate_success', 
+        {
+          type: 'initial_scan',
+          action: 'validate_success',
           data: {
             session_id: session_id,
             phone_number: phone_number,
@@ -417,33 +412,33 @@ class Channel::WhatsappUnofficial < ApplicationRecord
           }
         }
       else
-        Rails.logger.error "❌ Phone validation FAILED via new method"
-        
+        Rails.logger.error '❌ Phone validation FAILED via new method'
+
         # Check if auto-deletion occurred
         if validation_result[:auto_deleted]
-          return { 
-            type: 'initial_scan', 
-            action: 'validate_failure_auto_deleted', 
+          {
+            type: 'initial_scan',
+            action: 'validate_failure_auto_deleted',
             data: validation_result.merge({
-              session_id: callback_params[:sessionID],
-              auto_deleted: true
-            })
+                                            session_id: callback_params[:sessionID],
+                                            auto_deleted: true
+                                          })
           }
         else
-          return { 
-            type: 'initial_scan', 
-            action: 'validate_failure', 
+          {
+            type: 'initial_scan',
+            action: 'validate_failure',
             data: validation_result.merge({
-              session_id: callback_params[:sessionID]
-            })
+                                            session_id: callback_params[:sessionID]
+                                          })
           }
         end
       end
-      
+
     else
       # Unknown callback type
       Rails.logger.info '� Unknown callback type: #{event_type} - processing normally'
-      return { type: 'unknown', action: 'process_normally' }
+      { type: 'unknown', action: 'process_normally' }
     end
   end
 
@@ -454,51 +449,51 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     # DON'T clear mismatch attempts - keep tracking for rescan schema
     # Only clear session status cache
     clear_session_status_cache
-    
+
     # Increment rescan attempts for tracking
     rescan_attempts = increment_rescan_attempts
     Rails.logger.info "📊 This is rescan attempt ##{rescan_attempts} for #{phone_number}"
-    
+
     # Check if max rescan attempts reached
     if rescan_attempts > 3
       Rails.logger.error "❌ Maximum rescan attempts (3) reached for #{phone_number}"
       return handle_failed_rescan_attempts
     end
-    
+
     begin
       old_token = token
-      
+
       if old_token.present?
         waha_service = Waha::WahaService.instance
-        
+
         # Step 1: Logout old session
         Rails.logger.info "🚪 Logging out old session for: #{phone_number}"
         begin
           logout_result = waha_service.logout_session(api_key: old_token)
           Rails.logger.info "Logout result: #{logout_result}"
-        rescue => e
+        rescue StandardError => e
           Rails.logger.warn "Logout failed (acceptable): #{e.message}"
         end
-        
+
         # Step 2: Delete old device from WAHA server
         Rails.logger.info "🗑️ Deleting old device from WAHA: #{old_token}"
         begin
           delete_result = waha_service.delete_session(api_key: old_token)
           Rails.logger.info "Delete device result: #{delete_result}"
-        rescue => e
+        rescue StandardError => e
           Rails.logger.warn "Delete device failed (acceptable): #{e.message}"
         end
-        
+
         # Step 3: Clear old token from database
-        Rails.logger.info "🔄 Clearing old token from database"
+        Rails.logger.info '🔄 Clearing old token from database'
         update!(token: nil)
       end
-      
+
       # Step 4: Create completely new device with new token
       Rails.logger.info "🆕 Creating new device session for #{phone_number}"
       create_device_with_retry
       reload # Get the new token
-      
+
       # Step 5: Initialize new session with new token
       if token.present?
         Rails.logger.info "🔄 Initializing new session with token: #{token[0..8]}..."
@@ -506,16 +501,16 @@ class Channel::WhatsappUnofficial < ApplicationRecord
         initialize_result = waha_service.initialize_whatsapp_session(api_key: token)
         Rails.logger.info "Initialize new session result: #{initialize_result}"
       end
-      
+
       # Step 6: Set status for QR generation
       write_session_status_to_cache('waiting')
-      
+
       # Step 7: Clear QR cache to force new QR generation
       qr_cache_key = "whatsapp_qr_#{phone_number}"
       ::Redis::Alfred.delete(qr_cache_key)
       Rails.logger.info "🗑️ Cleared QR cache for #{phone_number}"
-      
-      return {
+
+      {
         success: true,
         message: 'New device session created. Ready for QR scanning.',
         status: 'waiting',
@@ -523,16 +518,15 @@ class Channel::WhatsappUnofficial < ApplicationRecord
         old_token: old_token.present? ? "#{old_token[0..8]}..." : 'none',
         new_token: token.present? ? "#{token[0..8]}..." : 'none'
       }
-      
     rescue StandardError => e
       Rails.logger.error "Failed to complete restart for #{phone_number}: #{e.message}"
       Rails.logger.error "Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
-      
+
       # Force reset even on error
       write_session_status_to_cache('waiting')
-      
-      return {
-        success: true,  # Return success to allow retry
+
+      {
+        success: true, # Return success to allow retry
         message: 'Session reset forced. Ready for QR scanning.',
         status: 'waiting',
         method: 'force_reset',
@@ -550,16 +544,16 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
     if current_attempts >= max_attempts
       Rails.logger.error "❌ Maximum attempts reached for #{phone_number}. Auto-deleting inbox..."
-      
+
       # Mark as failed and delete the inbox
       write_session_status_to_cache('failed', expires_in: 1.hour)
-      
+
       # Disconnect WAHA session
       disconnect_waha_session
-      
+
       # Schedule inbox deletion
       delete_inbox_after_failed_attempts
-      
+
       {
         success: false,
         auto_deleted: true,
@@ -589,16 +583,16 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
     if current_attempts >= max_attempts
       Rails.logger.error "❌ Maximum rescan attempts reached for #{phone_number}. Auto-deleting inbox..."
-      
+
       # Mark as failed and delete the inbox
       write_session_status_to_cache('failed', expires_in: 1.hour)
-      
+
       # Disconnect WAHA session
       disconnect_waha_session
-      
+
       # Schedule inbox deletion
       delete_inbox_after_failed_attempts
-      
+
       {
         success: false,
         auto_deleted: true,
@@ -621,24 +615,24 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   def delete_inbox_after_failed_attempts
     Rails.logger.error "🗑️ Auto-deleting inbox due to failed validation attempts for #{phone_number}"
-    
+
     begin
       # Disconnect WAHA session first
       disconnect_waha_session if token.present?
-      
+
       # Clear all cache
       clear_session_status_cache
       clear_mismatch_attempts
-      
+
       # Delete the inbox (this will also delete the channel due to dependent: :destroy)
       if inbox.present?
         inbox_name = inbox.name
         inbox.destroy!
         Rails.logger.info "✅ Inbox '#{inbox_name}' auto-deleted successfully"
-        
+
         # Optionally send notification to admin
         # AdminNotificationMailer.whatsapp_inbox_auto_deleted(self, inbox_name).deliver_later
-        
+
         true
       else
         Rails.logger.warn "⚠️ No inbox found to delete for channel #{phone_number}"
@@ -655,104 +649,100 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   # Handle auto-detected disconnect (tanpa webhook)
   def handle_auto_disconnect
     Rails.logger.warn "🔌 Auto-detected disconnect for #{phone_number}"
-    
+
     # Clear mismatch attempts karena ini disconnect beneran
     clear_mismatch_attempts
-    
+
     # Broadcast disconnect event via WebSocket
     broadcast_disconnect_event
   end
 
   # Handle auto-detected reconnect
-  def handle_auto_reconnect  
+  def handle_auto_reconnect
     Rails.logger.info "🔌 Auto-detected reconnect for #{phone_number}"
-    
+
     # Clear any failure cache
     clear_mismatch_attempts
-    
+
     # Broadcast reconnect event via WebSocket
     broadcast_reconnect_event
   end
 
   # Broadcast disconnect event to frontend
   def broadcast_disconnect_event
-    begin
-      # Broadcast to inbox-specific token (for specific monitoring)
-      inbox_pubsub_token = "#{account_id}_inbox_#{inbox.id}"
-      
-      Rails.logger.info "🔊 Broadcasting auto-detected disconnect for #{phone_number}"
-      Rails.logger.info "🔊 Inbox PubSub Token: #{inbox_pubsub_token}"
-      Rails.logger.info "🔊 Account ID: #{account_id}, Inbox ID: #{inbox.id}"
-      
-      broadcast_data = {
-        event: 'whatsapp_status_changed',
-        type: 'auto_disconnect',
-        status: 'disconnected',
-        connected: false,
-        phone_number: phone_number,
-        inbox_id: inbox.id,
-        account_id: account_id,
-        timestamp: Time.current.iso8601
-      }
-      
-      Rails.logger.info "🔊 Broadcast data: #{broadcast_data.inspect}"
-      
-      # Broadcast to inbox-specific token
-      ActionCable.server.broadcast(inbox_pubsub_token, broadcast_data)
-      
-      # Also broadcast to all users in this account for real-time updates in list views
-      account = Account.find(account_id)
-      account.users.each do |user|
-        user_pubsub_token = user.pubsub_token
-        Rails.logger.info "🔊 Also broadcasting to user #{user.id} with token: #{user_pubsub_token}"
-        ActionCable.server.broadcast(user_pubsub_token, broadcast_data)
-      end
-      
-      Rails.logger.info "✅ Disconnect event broadcasted successfully"
-    rescue StandardError => e
-      Rails.logger.error "❌ Failed to broadcast disconnect event: #{e.message}"
-      Rails.logger.error "❌ Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
+    # Broadcast to inbox-specific token (for specific monitoring)
+    inbox_pubsub_token = "#{account_id}_inbox_#{inbox.id}"
+
+    Rails.logger.info "🔊 Broadcasting auto-detected disconnect for #{phone_number}"
+    Rails.logger.info "🔊 Inbox PubSub Token: #{inbox_pubsub_token}"
+    Rails.logger.info "🔊 Account ID: #{account_id}, Inbox ID: #{inbox.id}"
+
+    broadcast_data = {
+      event: 'whatsapp_status_changed',
+      type: 'auto_disconnect',
+      status: 'disconnected',
+      connected: false,
+      phone_number: phone_number,
+      inbox_id: inbox.id,
+      account_id: account_id,
+      timestamp: Time.current.iso8601
+    }
+
+    Rails.logger.info "🔊 Broadcast data: #{broadcast_data.inspect}"
+
+    # Broadcast to inbox-specific token
+    ActionCable.server.broadcast(inbox_pubsub_token, broadcast_data)
+
+    # Also broadcast to all users in this account for real-time updates in list views
+    account = Account.find(account_id)
+    account.users.each do |user|
+      user_pubsub_token = user.pubsub_token
+      Rails.logger.info "🔊 Also broadcasting to user #{user.id} with token: #{user_pubsub_token}"
+      ActionCable.server.broadcast(user_pubsub_token, broadcast_data)
     end
+
+    Rails.logger.info '✅ Disconnect event broadcasted successfully'
+  rescue StandardError => e
+    Rails.logger.error "❌ Failed to broadcast disconnect event: #{e.message}"
+    Rails.logger.error "❌ Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
   end
 
-  # Broadcast reconnect event to frontend  
+  # Broadcast reconnect event to frontend
   def broadcast_reconnect_event
-    begin
-      # Broadcast to inbox-specific token (for specific monitoring)
-      inbox_pubsub_token = "#{account_id}_inbox_#{inbox.id}"
-      
-      Rails.logger.info "🔊 Broadcasting auto-detected reconnect for #{phone_number}"
-      Rails.logger.info "🔊 Inbox PubSub Token: #{inbox_pubsub_token}"
-      
-      broadcast_data = {
-        event: 'whatsapp_status_changed',
-        type: 'auto_reconnect', 
-        status: 'connected',
-        connected: true,
-        phone_number: phone_number,
-        inbox_id: inbox.id,
-        account_id: account_id,
-        timestamp: Time.current.iso8601
-      }
-      
-      Rails.logger.info "🔊 Broadcast data: #{broadcast_data.inspect}"
-      
-      # Broadcast to inbox-specific token
-      ActionCable.server.broadcast(inbox_pubsub_token, broadcast_data)
-      
-      # Also broadcast to all users in this account for real-time updates in list views
-      account = Account.find(account_id)
-      account.users.each do |user|
-        user_pubsub_token = user.pubsub_token
-        Rails.logger.info "🔊 Also broadcasting to user #{user.id} with token: #{user_pubsub_token}"
-        ActionCable.server.broadcast(user_pubsub_token, broadcast_data)
-      end
-      
-      Rails.logger.info "✅ Reconnect event broadcasted successfully"
-    rescue StandardError => e
-      Rails.logger.error "❌ Failed to broadcast reconnect event: #{e.message}"
-      Rails.logger.error "❌ Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
+    # Broadcast to inbox-specific token (for specific monitoring)
+    inbox_pubsub_token = "#{account_id}_inbox_#{inbox.id}"
+
+    Rails.logger.info "🔊 Broadcasting auto-detected reconnect for #{phone_number}"
+    Rails.logger.info "🔊 Inbox PubSub Token: #{inbox_pubsub_token}"
+
+    broadcast_data = {
+      event: 'whatsapp_status_changed',
+      type: 'auto_reconnect',
+      status: 'connected',
+      connected: true,
+      phone_number: phone_number,
+      inbox_id: inbox.id,
+      account_id: account_id,
+      timestamp: Time.current.iso8601
+    }
+
+    Rails.logger.info "🔊 Broadcast data: #{broadcast_data.inspect}"
+
+    # Broadcast to inbox-specific token
+    ActionCable.server.broadcast(inbox_pubsub_token, broadcast_data)
+
+    # Also broadcast to all users in this account for real-time updates in list views
+    account = Account.find(account_id)
+    account.users.each do |user|
+      user_pubsub_token = user.pubsub_token
+      Rails.logger.info "🔊 Also broadcasting to user #{user.id} with token: #{user_pubsub_token}"
+      ActionCable.server.broadcast(user_pubsub_token, broadcast_data)
     end
+
+    Rails.logger.info '✅ Reconnect event broadcasted successfully'
+  rescue StandardError => e
+    Rails.logger.error "❌ Failed to broadcast reconnect event: #{e.message}"
+    Rails.logger.error "❌ Error backtrace: #{e.backtrace&.first(3)&.join("\n")}"
   end
 
   def validate_callback_phone_number(callback_phone)
@@ -762,22 +752,22 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
     lock_key = "validation_lock_#{phone_number}"
     lock_value = "#{Time.current.to_f}_#{SecureRandom.hex(4)}" # Unique lock value
-    
+
     # Try to acquire lock with unique value (10 seconds duration to handle multiple WAHA callbacks)
     is_locked = !::Redis::Alfred.set(lock_key, lock_value, nx: true, ex: 10)
 
     if is_locked
       existing_lock_value = ::Redis::Alfred.get(lock_key)
       Rails.logger.warn "🔒 Validation for #{phone_number} is currently locked by #{existing_lock_value}. Current attempt: #{lock_value}"
-      
+
       # Check if this is a legitimate retry (after 5+ seconds) or a race condition callback
       if existing_lock_value
         begin
           lock_time = existing_lock_value.split('_')[0].to_f
           time_held = Time.current.to_f - lock_time
-          
+
           Rails.logger.info "🕐 Lock has been held for #{time_held.round(2)} seconds"
-          
+
           if time_held > 5.0 # If lock is older than 5 seconds, this might be a legitimate retry
             Rails.logger.warn "🔓 Breaking stale lock (held for #{time_held.round(2)}s) - potential legitimate retry"
             if ::Redis::Alfred.get(lock_key) == existing_lock_value
@@ -792,48 +782,48 @@ class Channel::WhatsappUnofficial < ApplicationRecord
           Rails.logger.error "Error checking lock time: #{e.message}"
         end
       end
-      
+
       if is_locked
-        Rails.logger.warn "🔒 Still locked. Skipping duplicate/race condition callback."
+        Rails.logger.warn '🔒 Still locked. Skipping duplicate/race condition callback.'
         return { success: false, status: 'locked', message: 'Validation in progress or duplicate callback' }
       else
-        Rails.logger.info "🔓 Lock acquired after breaking stale lock"
+        Rails.logger.info '🔓 Lock acquired after breaking stale lock'
       end
     else
-      Rails.logger.info "🔓 Lock acquired immediately"
+      Rails.logger.info '🔓 Lock acquired immediately'
     end
 
     begin
       expected_clean = normalize_phone_number(phone_number)
       callback_clean = normalize_phone_number(self.class.sanitize_phone_number(callback_phone))
-      
+
       Rails.logger.info "🔍 Normalized expected: #{expected_clean}"
       Rails.logger.info "🔍 Normalized callback: #{callback_clean}"
 
       if expected_clean == callback_clean
-        Rails.logger.info "✅ Phone validation SUCCESS - numbers match!"
+        Rails.logger.info '✅ Phone validation SUCCESS - numbers match!'
         clear_mismatch_attempts
         clear_rescan_attempts # Also clear rescan attempts on success
         write_session_status_to_cache('validated')
 
-        return {
+        {
           success: true,
           status: 'validated',
           message: 'Phone number validation successful'
         }
       else
-        Rails.logger.error "❌ Phone validation FAILED - phone mismatch detected"
+        Rails.logger.error '❌ Phone validation FAILED - phone mismatch detected'
         Rails.logger.error "❌ Expected: #{expected_clean}, Got: #{callback_clean}"
-        
+
         # Check if this is a rescan attempt (rescan attempts exist)
         current_rescan_attempts = read_rescan_attempts_from_cache
         is_rescan = current_rescan_attempts > 0
-        
+
         Rails.logger.info "📊 Mismatch context - is_rescan: #{is_rescan}, rescan_attempts: #{current_rescan_attempts}"
-        
+
         current_attempts = increment_mismatch_attempts
         max_attempts = 3
-        
+
         if is_rescan
           Rails.logger.error "❌ Rescan mismatch attempt #{current_attempts}/#{max_attempts} (rescan session ##{current_rescan_attempts})"
         else
@@ -842,17 +832,17 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
         if current_attempts >= max_attempts
           Rails.logger.error "❌ Maximum mismatch attempts (#{max_attempts}) reached for #{phone_number}"
-          Rails.logger.error "❌ Initiating auto-deletion process..."
-          
+          Rails.logger.error '❌ Initiating auto-deletion process...'
+
           write_session_status_to_cache('failed', expires_in: 1.hour)
-          
+
           disconnect_result = disconnect_waha_session
           Rails.logger.error "❌ Disconnect result: #{disconnect_result}"
-          
+
           controller = Waha::CallbackController.new
           controller.send(:broadcast_session_failed, self, callback_phone, current_attempts)
 
-          return {
+          {
             success: false,
             status: 'failed',
             attempts: current_attempts,
@@ -862,7 +852,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
             rescan_context: is_rescan
           }
         else
-          Rails.logger.error "❌ Setting mismatch status and disconnecting session"
+          Rails.logger.error '❌ Setting mismatch status and disconnecting session'
           write_session_status_to_cache('mismatch', expires_in: 10.minutes)
           logout_result = disconnect_waha_session
           Rails.logger.error "❌ Logout result: #{logout_result}"
@@ -870,7 +860,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
           controller = Waha::CallbackController.new
           controller.send(:broadcast_session_mismatch, self, callback_phone, current_attempts, max_attempts)
 
-          return {
+          {
             success: false,
             status: 'mismatch',
             attempts: current_attempts,
@@ -883,11 +873,11 @@ class Channel::WhatsappUnofficial < ApplicationRecord
           }
         end
       end
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "🔥 Error during validation: #{e.message}"
       Rails.logger.error "🔥 Backtrace: #{e.backtrace.first(5).join('\n')}"
-      
-      return {
+
+      {
         success: false,
         status: 'error',
         message: 'Validation error occurred'
@@ -905,17 +895,17 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   def create_device_with_retry(max_retries: 1)
     retries = 0
-    
+
     begin
       result = create_device_on_waha
       process_device_creation_result(result)
-      
+
       # Initialize WhatsApp session after device creation
       initialize_whatsapp_session
     rescue StandardError => e
       retries += 1
       Rails.logger.error "Attempt #{retries} failed to create device for phone #{phone_number}: #{e.message}"
-      
+
       if retries < max_retries
         sleep(2**retries) # Exponential backoff
         retry
@@ -928,7 +918,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   def initialize_whatsapp_session
     return if token.blank?
-    
+
     begin
       waha_service = Waha::WahaService.instance
       result = waha_service.initialize_whatsapp_session(api_key: token)
@@ -950,11 +940,11 @@ class Channel::WhatsappUnofficial < ApplicationRecord
       response = waha_service.logout_session(api_key: token)
 
       Rails.logger.info "WAHA session logout response for #{phone_number}: #{response}"
-      
+
       # ✅ PENTING: Hapus token dan bersihkan cache setelah logout
       update!(token: nil)
       clear_session_status_cache
-      
+
       response
     rescue StandardError => e
       Rails.logger.error "Failed to logout WAHA session for #{phone_number}: #{e.message}"
@@ -968,21 +958,21 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   # Method untuk validasi phone number consistency (digunakan oleh callback controller)
   def validate_phone_number_consistency(connected_phone)
     return true if connected_phone.blank?
-    
+
     # Sanitize kedua nomor menggunakan method yang sama
     expected_clean = normalize_phone_number(phone_number)
     connected_clean = normalize_phone_number(self.class.sanitize_phone_number(connected_phone))
-    
+
     Rails.logger.info 'PHONE VALIDATION:'
     Rails.logger.info "  Expected (registered): #{phone_number} -> #{expected_clean}"
     Rails.logger.info "  Connected (from callback): #{connected_phone} -> #{connected_clean}"
     Rails.logger.info "  Match result: #{expected_clean == connected_clean}"
-    
+
     expected_clean == connected_clean
   end
 
   # Method untuk handle phone validation failure TANPA cache
-  def handle_phone_validation_failure(actual_phone, session_id = nil)
+  def handle_phone_validation_failure(actual_phone, _session_id = nil)
     Rails.logger.error 'CRITICAL: Phone validation failed!'
     Rails.logger.error "  Expected: #{phone_number}"
     Rails.logger.error "  Connected: #{actual_phone}"
@@ -1000,12 +990,12 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   end
 
   # Method untuk handle successful phone validation TANPA cache
-  def handle_phone_validation_success(session_id = nil, connected_phone = nil)
+  def handle_phone_validation_success(_session_id = nil, _connected_phone = nil)
     Rails.logger.info "Phone validation successful for #{phone_number}"
-    
+
     # ✅ Tulis status 'validated' ke cache
     write_session_status_to_cache('validated')
-    
+
     {
       phone_number: phone_number,
       status: 'logged_in',
@@ -1016,7 +1006,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   # Method helper untuk extract phone number dari chat ID WhatsApp
   def self.extract_phone_number(chat_id)
     return nil if chat_id.blank?
-    
+
     # Handle format seperti "6282164497019@s.whatsapp.net" atau group format
     phone = chat_id.split.first
     phone&.gsub(/@.*$/, '')
@@ -1025,10 +1015,10 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   # Method helper untuk normalize phone number
   def normalize_phone_number(phone)
     return nil if phone.blank?
-    
+
     # Remove all non-numeric characters
     normalized = phone.gsub(/\D/, '')
-    
+
     # Handle different Indonesian phone number formats
     case normalized
     when /^62/
@@ -1046,40 +1036,40 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   def self.initial_scan_message?(params)
     # Initial scan message characteristics (callback #4 dari contoh):
     # ✅ "from": "6281281631785@s.whatsapp.net" (tanpa " in " group format)
-    # ✅ "isFromMe": true (self message)  
+    # ✅ "isFromMe": true (self message)
     # ✅ "isGroup": false
     # ✅ "message": { "id": "..." } (HANYA id, TIDAK ada text/caption)
     # ❌ "pushname": TIDAK ADA (ini kunci utama pembeda!)
-    
+
     # 1. Harus isFromMe = true
     return false unless params[:isFromMe] == true
-    
+
     # 2. TIDAK boleh ada pushname (ini pembeda utama dari message biasa)
     return false if params[:pushname].present?
-    
+
     # 3. Format from harus simple (bukan group chat)
     # Group chat format: "6285842516470:31@s.whatsapp.net in 6281281631785@s.whatsapp.net"
     # Initial scan format: "6281281631785@s.whatsapp.net"
     return false if params[:from].to_s.include?(' in ')
-    
+
     # 4. Message hanya boleh punya id, TIDAK boleh ada text/body/caption
     message = params[:message] || {}
     return false if message[:text].present?
     return false if message[:body].present?
     return false if message[:caption].present?
     return false unless message[:id].present?
-    
+
     # 5. Harus bukan group
     return false if params[:isGroup] == true
-    
+
     # Jika semua kondisi terpenuhi, ini adalah initial scan message
-    Rails.logger.info "🎯 DETECTED INITIAL SCAN MESSAGE:"
+    Rails.logger.info '🎯 DETECTED INITIAL SCAN MESSAGE:'
     Rails.logger.info "  - From: #{params[:from]}"
     Rails.logger.info "  - IsFromMe: #{params[:isFromMe]}"
     Rails.logger.info "  - Pushname: #{params[:pushname] || 'NONE (correct for initial scan)'}"
     Rails.logger.info "  - Message ID: #{message[:id]}"
     Rails.logger.info "  - Has text/body: #{message[:text].present? || message[:body].present?}"
-    
+
     true
   end
 
@@ -1088,14 +1078,14 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     # WAHA mengirim nomor terhubung dalam format berbeda tergantung event
     # Untuk message event: payload[:from] = "628xxx@s.whatsapp.net" atau "6285842516470:31@s.whatsapp.net in 6281281631785@s.whatsapp.net"
     # Untuk session event: payload[:phone_number] atau payload[:jid]
-    
+
     connected_phone = payload[:phone_number] ||
                       payload[:phone] ||
                       extract_phone_from_from_field(payload[:from]) ||
                       payload[:jid]&.gsub(/@.*$/, '') ||
                       payload.dig(:info, :phone_number) ||
                       payload.dig(:session, :phone_number)
-    
+
     # Final cleanup - remove any WhatsApp suffixes
     sanitize_phone_number(connected_phone)
   end
@@ -1103,19 +1093,19 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   # Method khusus untuk extract phone dari field "from" yang complex
   def self.extract_phone_from_from_field(from_field)
     return nil if from_field.blank?
-    
+
     # Handle different "from" formats:
-    # 1. Simple: "6281281631785@s.whatsapp.net" 
+    # 1. Simple: "6281281631785@s.whatsapp.net"
     # 2. Group chat: "6285842516470:31@s.whatsapp.net in 6281281631785@s.whatsapp.net"
     # 3. Business: "628xxx@c.us"
-    
+
     case from_field.to_s
     when /^(\d+):?\d*@.*\sin\s(\d+)@/
       # Group chat format - ambil nomor yang kedua (recipient)
-      $2
+      ::Regexp.last_match(2)
     when /^(\d+):?\d*@/
       # Simple format - ambil nomor pertama
-      $1
+      ::Regexp.last_match(1)
     else
       # Fallback: ambil semua digit sebelum @
       from_field.to_s.split('@').first&.gsub(/\D/, '')
@@ -1125,43 +1115,41 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   # Method untuk sanitize phone number dari format WhatsApp
   def self.sanitize_phone_number(phone)
     return nil if phone.blank?
-    
+
     # Remove WhatsApp suffixes and non-numeric characters
     sanitized = phone.to_s
                      .gsub(/@(s\.whatsapp\.net|c\.us)$/, '') # Remove WhatsApp domain
                      .gsub(/:\d+$/, '') # Remove device ID (e.g., :31)
                      .gsub(/\D/, '') # Keep only digits
-    
-    sanitized.present? ? sanitized : nil
+
+    sanitized.presence
   end
 
   # Method untuk determine event type dari callback payload WAHA yang sebenarnya
   def self.determine_event_type(params)
     if params[:event] == 'receipt'
-      Rails.logger.info "📬 Detected RECEIPT callback"
+      Rails.logger.info '📬 Detected RECEIPT callback'
       return 'receipt'
     end
 
     if params.key?(:from) && params.key?(:isFromMe) && params.key?(:message)
 
       if params[:pushname].present?
-        Rails.logger.info "📝 Detected a REGULAR MESSAGE (incoming, outgoing, with reply, etc.)"
+        Rails.logger.info '📝 Detected a REGULAR MESSAGE (incoming, outgoing, with reply, etc.)'
         return 'message'
-      
+
       elsif params[:isFromMe] == true && params[:pushname].blank?
-        Rails.logger.info "🎯 Detected INITIAL SCAN callback"
+        Rails.logger.info '🎯 Detected INITIAL SCAN callback'
         return 'initial_scan'
       end
     end
-    Rails.logger.info "❓ Unknown callback structure"
+    Rails.logger.info '❓ Unknown callback structure'
     'unknown'
   end
 
-  private
-
   def create_device_on_waha
     return { error: 'Webhook URL required' } if webhook_url.blank?
-    
+
     waha_service = Waha::WahaService.instance
     waha_service.create_device(phone_number: phone_number, webhook_url: webhook_url)
   end
@@ -1170,7 +1158,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     # WAHA API returns "token" not "api_key"
     token_value = result&.dig('data', 'token')
     raise StandardError, "No token in response: #{result}" unless token_value
-    
+
     update!(token: token_value)
     Rails.logger.info "Device created successfully for phone #{phone_number}, token saved: #{token_value[0..10]}..."
     result
@@ -1180,7 +1168,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     # Sekarang status session dikirim otomatis via WAHA callback
     # Tidak perlu memanggil API lagi, karena status sudah diupdate real-time
     # Return status default yang akan diupdate oleh callback
-    Rails.logger.info "⚠️  No cached status available, returning fallback status"
+    Rails.logger.info '⚠️  No cached status available, returning fallback status'
     {
       'data' => {
         'connected' => false,
@@ -1202,10 +1190,10 @@ class Channel::WhatsappUnofficial < ApplicationRecord
                        else
                          result.dig('data', 'status') || result['status'] || default_status
                        end
-      
+
       # Status connected jika session_status adalah 'logged_in'
       connected = session_status == 'logged_in'
-      
+
       {
         'data' => {
           'connected' => connected,
@@ -1242,7 +1230,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   def current_application_url
     # Priority: FRONTEND_URL env var, then Rails URL helpers, then fallback
     return ENV['FRONTEND_URL'] if ENV['FRONTEND_URL'].present?
-    
+
     # Fallback to generating URL from Rails
     if defined?(Rails.application.routes.url_helpers)
       begin
@@ -1258,10 +1246,10 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   def detect_current_url_from_request
     # Try to get URL from current request context if available
     return nil unless defined?(Current) && Current.respond_to?(:request)
-    
+
     request = Current.request
     return nil unless request&.respond_to?(:base_url)
-    
+
     request.base_url
   rescue StandardError
     nil
