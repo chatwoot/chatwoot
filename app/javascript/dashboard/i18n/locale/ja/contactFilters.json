@@ -48,7 +48,8 @@
       "CREATED_AT": "作成日",
       "LAST_ACTIVITY": "最終アクティビティ",
       "REFERER_LINK": "リファラーリンク",
-      "BLOCKED": "ブロック済み"
+      "BLOCKED": "ブロック済み",
+      "LABELS": "ラベル"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "標準フィルター",

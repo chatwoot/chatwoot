@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Диалог создан",
       "CONVERSATION_UPDATED": "Диалог обновлён",
       "MESSAGE_CREATED": "Сообщение создано",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
@@ -176,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Назначено",
       "TEAM_NAME": "Команда",
-      "PRIORITY": "Приоритет"
+      "PRIORITY": "Приоритет",
+      "LABELS": "Категории"
     }
   }
 }

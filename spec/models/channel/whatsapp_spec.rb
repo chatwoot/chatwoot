@@ -122,4 +122,60 @@ RSpec.describe Channel::Whatsapp do
       end
     end
   end
+
+  describe '#teardown_webhooks' do
+    let(:account) { create(:account) }
+
+    context 'when channel is whatsapp_cloud with embedded_signup' do
+      it 'calls WebhookTeardownService on destroy' do
+        # Mock the setup service to prevent HTTP calls during creation
+        setup_service = instance_double(Whatsapp::WebhookSetupService)
+        allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(setup_service)
+        allow(setup_service).to receive(:perform)
+
+        channel = create(:channel_whatsapp,
+                         account: account,
+                         provider: 'whatsapp_cloud',
+                         provider_config: {
+                           'source' => 'embedded_signup',
+                           'business_account_id' => 'test_waba_id',
+                           'api_key' => 'test_access_token',
+                           'phone_number_id' => '123456789'
+                         },
+                         validate_provider_config: false,
+                         sync_templates: false)
+
+        teardown_service = instance_double(Whatsapp::WebhookTeardownService)
+        allow(Whatsapp::WebhookTeardownService).to receive(:new).with(channel).and_return(teardown_service)
+        allow(teardown_service).to receive(:perform)
+
+        channel.destroy
+
+        expect(Whatsapp::WebhookTeardownService).to have_received(:new).with(channel)
+        expect(teardown_service).to have_received(:perform)
+      end
+    end
+
+    context 'when channel is not embedded_signup' do
+      it 'does not call WebhookTeardownService on destroy' do
+        channel = create(:channel_whatsapp,
+                         account: account,
+                         provider: 'whatsapp_cloud',
+                         provider_config: {
+                           'source' => 'manual',
+                           'api_key' => 'test_access_token'
+                         },
+                         validate_provider_config: false,
+                         sync_templates: false)
+
+        teardown_service = instance_double(Whatsapp::WebhookTeardownService)
+        allow(Whatsapp::WebhookTeardownService).to receive(:new).with(channel).and_return(teardown_service)
+        allow(teardown_service).to receive(:perform)
+
+        channel.destroy
+
+        expect(teardown_service).to have_received(:perform)
+      end
+    end
+  end
 end

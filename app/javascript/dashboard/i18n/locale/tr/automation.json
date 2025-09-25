@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Görüşme Oluşturuldu",
       "CONVERSATION_UPDATED": "Görüşme Güncellendi",
       "MESSAGE_CREATED": "Mesaj Oluşturuldu",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Sohbet Açıldı"
     },
     "ACTIONS": {
@@ -176,7 +177,8 @@
       "REFERER_LINK": "Yönlendiren Bağlantı",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Ekip",
-      "PRIORITY": "Öncelik"
+      "PRIORITY": "Öncelik",
+      "LABELS": "Etiketler"
     }
   }
 }

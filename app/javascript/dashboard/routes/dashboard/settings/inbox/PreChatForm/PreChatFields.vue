@@ -1,8 +1,9 @@
 <script>
 import Draggable from 'vuedraggable';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 export default {
-  components: { Draggable },
+  components: { Draggable, ToggleSwitch },
   props: {
     preChatFields: {
       type: Array,
@@ -45,9 +46,9 @@ export default {
       <tr class="border-b border-n-weak">
         <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
         <td class="pre-chat-field">
-          <woot-switch
+          <ToggleSwitch
             :model-value="item['enabled']"
-            @input="handlePreChatFieldOptions($event, 'enabled', item)"
+            @change="handlePreChatFieldOptions($event, 'enabled', item)"
           />
         </td>
         <td

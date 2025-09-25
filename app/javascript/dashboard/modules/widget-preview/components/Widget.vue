@@ -3,7 +3,7 @@ import WidgetHead from './WidgetHead.vue';
 import WidgetBody from './WidgetBody.vue';
 import WidgetFooter from './WidgetFooter.vue';
 import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -14,7 +14,6 @@ export default {
     WidgetFooter,
     InputRadioGroup,
   },
-  mixins: [globalConfigMixin],
   props: {
     welcomeHeading: {
       type: String,
@@ -56,6 +55,12 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+    };
   },
   data() {
     return {
@@ -159,9 +164,8 @@ export default {
             />
             <span>
               {{
-                useInstallationName(
-                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT'),
-                  globalConfig.installationName
+                replaceInstallationName(
+                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT')
                 )
               }}
             </span>
