@@ -195,7 +195,9 @@ RSpec.describe Contact do
         expect(resolved_new).not_to include(visitor_contact, customer_contact)
       end
     end
+  end
 
+  context 'when broadcasting webhook_data' do
     describe '#webhook_data' do
       let!(:account) { create(:account, name: 'Test Account') }
       let!(:contact) { create(:contact, account: account, name: 'Test Contact', email: 'test@example.com') }

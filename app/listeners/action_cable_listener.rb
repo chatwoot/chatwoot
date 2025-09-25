@@ -83,6 +83,7 @@ class ActionCableListener < BaseListener
   end
 
   def conversation_deleted(event)
+    # capturing the data before the data is destroyed
     conversation_data = event.data[:conversation]
     account = event.data[:account]
     inbox_id = conversation_data[:inbox_id]
@@ -161,6 +162,7 @@ class ActionCableListener < BaseListener
   end
 
   def contact_deleted(event)
+    # capturing the data before the data is destroyed
     contact_data = event.data[:contact]
     account_data = event.data[:account]
     broadcast(account_data, [account_token(account_data)], CONTACT_DELETED, contact_data)

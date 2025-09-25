@@ -162,7 +162,7 @@ class Contact < ApplicationRecord
 
   def webhook_data
     {
-      account: account.webhook_data,
+      account: account&.webhook_data,
       additional_attributes: additional_attributes,
       avatar: avatar_url,
       custom_attributes: custom_attributes,
