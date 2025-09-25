@@ -178,5 +178,38 @@ RSpec.describe AutomationRules::ActionService do
         described_class.new(rule, account, conversation).perform
       end
     end
+
+    describe '#perform with assign_agent action' do
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        rule.actions << { action_name: 'assign_agent', action_params: ['last_responding_agent'] }
+      end
+
+      context 'when last outgoing message is from an agent' do
+        before do
+          create(:message, message_type: :outgoing, account: account,
+                           inbox: conversation.inbox, conversation: conversation, sender: agent)
+        end
+
+        it 'assigns the conversation to the last responding agent' do
+          described_class.new(rule, account, conversation).perform
+          expect(conversation.reload.assignee).to eq(agent)
+        end
+      end
+
+      context 'when last outgoing message is from an agent bot' do
+        let(:agent_bot) { create(:agent_bot, account: account) }
+
+        before do
+          create(:message, message_type: :outgoing, account: account,
+                           inbox: conversation.inbox, conversation: conversation, sender: agent_bot)
+        end
+
+        it 'does not assign the conversation' do
+          described_class.new(rule, account, conversation).perform
+          expect(conversation.reload.assignee).to be_nil
+        end
+      end
+    end
   end
 end
