@@ -45,7 +45,7 @@ const typingUserNames = computed(() => {
   <div v-show="isAnyoneTyping">
     <div
       v-if="isAnyoneTyping"
-      class="flex py-1.5 pr-2 pl-3 rtl:pl-2 rtl:pr-3 rounded-full shadow-sm border border-n-weak bg-n-solid-2 text-xs font-semibold my-2.5 mx-auto"
+      class="flex py-1.5 ltr:pr-2 ltr:pl-3 rtl:pl-2 rtl:pr-3 rounded-full shadow-sm border border-n-weak bg-n-solid-2 text-xs font-semibold my-2.5 mx-auto"
     >
       {{ typingUserNames }}
       <img
