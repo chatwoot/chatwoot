@@ -95,3 +95,6 @@ yarn-debug.log*
 .claude/settings.local.json
 .cursor
 CLAUDE.local.md
+
+# Apple Messages development files
+_apple/
