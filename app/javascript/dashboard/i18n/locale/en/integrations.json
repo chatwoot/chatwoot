@@ -15,6 +15,20 @@
       },
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
+    "GITHUB": {
+      "TITLE": "Connect Github",
+      "LABEL": "Github Client ID",
+      "PLACEHOLDER": "Enter your Github Client ID",
+      "HELP": "Enter your Github Client ID",
+      "CANCEL": "Cancel",
+      "SUBMIT": "Connect",
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "Yes, delete",
+        "CANCEL": "Cancel"
+      }
+    },
     "HEADER": "Integrations",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
@@ -338,6 +352,7 @@
       }
     }
   },
+
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",

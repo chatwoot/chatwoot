@@ -1,5 +1,6 @@
 class Integrations::App
   include Linear::IntegrationHelper
+  include Github::IntegrationHelper
   attr_accessor :params
 
   def initialize(params)
@@ -30,10 +31,15 @@ class Integrations::App
     params[:fields]
   end
 
-  # There is no way to get the account_id from the linear callback
-  # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
+  # There is no way to get the account_id from the linear/github callback
+  # so we are using the generate token method to generate a token and encode it in the state parameter
   def encode_state
-    generate_linear_token(Current.account.id)
+    case params[:id]
+    when 'linear'
+      generate_linear_token(Current.account.id)
+    when 'github'
+      generate_github_token(Current.account.id)
+    end
   end
 
   def action
@@ -43,6 +49,8 @@ class Integrations::App
       "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
       build_linear_action
+    when 'github'
+      build_github_action
     else
       params[:action]
     end
@@ -54,6 +62,8 @@ class Integrations::App
       GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
     when 'linear'
       GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+    when 'github'
+      github_enabled?
     when 'shopify'
       shopify_enabled?(account)
     when 'leadsquared'
@@ -76,6 +86,17 @@ class Integrations::App
       'prompt=consent',
       'actor=app'
     ].join('&')
+  end
+
+  def build_github_action
+    GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
+
+    # For GitHub Apps, redirect to installation page
+    # The standard /installations/new URL should show org/user selection if the app is properly configured
+    # Include state parameter with signed account ID for account context
+    github_app_name = GlobalConfigService.load('GITHUB_APP_NAME', 'chatwoot-qa')
+    state = Current.account.to_signed_global_id(expires_in: 1.hour)
+    "https://github.com/apps/#{github_app_name}/installations/new?state=#{state}"
   end
 
   def enabled?(account)
@@ -101,6 +122,10 @@ class Integrations::App
     "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback"
   end
 
+  def self.github_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/github/callback"
+  end
+
   class << self
     def apps
       Hashie::Mash.new(APPS_CONFIG)
@@ -118,6 +143,10 @@ class Integrations::App
   end
 
   private
+
+  def github_enabled?
+    GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present? && GlobalConfigService.load('GITHUB_CLIENT_SECRET', nil).present?
+  end
 
   def shopify_enabled?(account)
     account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?

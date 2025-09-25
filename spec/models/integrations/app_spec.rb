@@ -38,6 +38,25 @@ RSpec.describe Integrations::App do
         end
       end
     end
+
+    context 'when the app is github' do
+      let(:app_name) { 'github' }
+
+      it 'returns the GitHub App installation URL with state parameter' do
+        with_modified_env GITHUB_CLIENT_ID: 'dummy_client_id', GITHUB_APP_NAME: 'test-app' do
+          expect(app.action).to include('https://github.com/apps/test-app/installations/new')
+          expect(app.action).to include('state=')
+        end
+      end
+
+      it 'uses default app name when GITHUB_APP_NAME is not set' do
+        with_modified_env GITHUB_CLIENT_ID: 'dummy_client_id' do
+          allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_ID', nil).and_return('dummy_client_id')
+          allow(GlobalConfigService).to receive(:load).with('GITHUB_APP_NAME', 'chatwoot-qa').and_return('chatwoot-qa')
+          expect(app.action).to include('https://github.com/apps/chatwoot-qa/installations/new')
+        end
+      end
+    end
   end
 
   describe '#active?' do
@@ -83,6 +102,34 @@ RSpec.describe Integrations::App do
         account.enable_features('linear_integration')
         account.save!
         allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_ID', nil).and_return('client_id')
+        expect(app.active?(account)).to be true
+      end
+    end
+
+    context 'when the app is github' do
+      let(:app_name) { 'github' }
+
+      it 'returns false if github credentials are not present' do
+        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_ID', nil).and_return(nil)
+        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_SECRET', nil).and_return(nil)
+        expect(app.active?(account)).to be false
+      end
+
+      it 'returns false if only client_id is present' do
+        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_ID', nil).and_return('client_id')
+        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_SECRET', nil).and_return(nil)
+        expect(app.active?(account)).to be false
+      end
+
+      it 'returns false if only client_secret is present' do
+        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_ID', nil).and_return(nil)
+        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_SECRET', nil).and_return('client_secret')
+        expect(app.active?(account)).to be false
+      end
+
+      it 'returns true if both client_id and client_secret are present' do
+        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_ID', nil).and_return('client_id')
+        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_SECRET', nil).and_return('client_secret')
         expect(app.active?(account)).to be true
       end
     end
