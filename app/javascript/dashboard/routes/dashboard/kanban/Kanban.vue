@@ -1,8 +1,10 @@
 <script>
 import ColumnModal from './ColumnModal.vue'
+import ConversationApi from '../../../api/inbox/conversation';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { toRaw } from 'vue'
-import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import {mapGetters, mapActions} from 'vuex'
+import conversation from '../../../api/inbox/conversation';
 
 export default {
   components: {
@@ -22,7 +24,10 @@ export default {
 
   emits: ['update:columns', 'moved', 'columnDeleted'],
 
-  mounted() {
+  async mounted() {
+    
+    //await this.fetchAllConversations()
+    //await this.fetchFilteredConversations(payload)
     this.fetchLabels()
     this.fetchColumns()
   },
@@ -181,13 +186,37 @@ export default {
       this.showColumnModal =  true
     },
 
-    addNewColumn(columnData) {
+    async addNewColumn(columnData) {
+      // Pega as conversations que tem as labels da coluna
+      console.log("Labels da coluna")
+      console.log(columnData.labels)
+      // Extrai apenas os títulos das labels
+      const labelTitles = columnData.labels.map(label => label.title)
+      console.log("Labels para filtrar = ", labelTitles)
+      const filters = [
+        {
+          "attribute_key": "labels",
+          "attribute_model": "standard", 
+          "filter_operator": "equal_to",
+          "values": labelTitles,
+          "custom_attribute_type": ""
+        }
+      ]
+      const payload = {
+          queryData: {
+            payload: filters
+          }
+      };
+      
+      console.log("Payload do filtro = ", payload)
+      const {data} = await ConversationApi.filter(payload)
+      const filteredConversations = data.payload
+      console.log("Conversas filtradas = ", filteredConversations)
       const newCol = {
         title: columnData.title,
-        items: [
-          {content: 'Fulano'},
-          {content: 'Sicrano'}
-        ],
+        items: filteredConversations.map(conv => ({
+          content: conv.meta.sender.name,
+        })),
         labels: columnData.labels,
         label_to_add: columnData.label_to_add
       }
@@ -326,12 +355,12 @@ export default {
         <button class="kanban-button" @click="exportKanban">Exportar Kanban</button>
       </div>
     </header>
-        <div class="debug-section">
+        <div class="debug-section" v-if="getAllConversations && getAllConversations.length">
+          <h3 class="debug-title">Debug Info</h3>
           <div class="debug-item">
             <strong>Labels:</strong> 
             {{ labels }}
           </div>
-          {{ accountLabels }}
         </div>
     <div class="kanban-board">
       <div v-if="localColumns.length === 0" class="empty-state">
@@ -536,6 +565,15 @@ export default {
   padding: 15px;
   margin: 10px 0;
   border-radius: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.debug-title {
+  color: #fff;
+  margin: 0 0 15px 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #666;
 }
 
 .debug-item {
@@ -548,6 +586,32 @@ export default {
 .debug-item strong {
   color: #4CAF50;
   margin-right: 10px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.conversation-item {
+  padding: 8px;
+  margin: 8px 0;
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+.conversation-index {
+  color: #4CAF50;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.conversation-data {
+  margin: 8px 0 0 0;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 12px;
+  background: rgba(0,0,0,0.3);
+  padding: 8px;
+  border-radius: 4px;
+  overflow-x: auto;
 }
 
 </style>
