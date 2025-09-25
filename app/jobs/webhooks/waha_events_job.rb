@@ -14,6 +14,10 @@ class Webhooks::WahaEventsJob < ApplicationJob
   private
 
   def process_event_params(channel, params)
-    Waha::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
+    if params[:edited_text].present?
+      Waha::UpdateMessageService.new(inbox: channel.inbox, params: params).perform
+    else
+      Waha::IncomingMessageService.new(inbox: channel.inbox, params: params).perform
+    end
   end
 end
