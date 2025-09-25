@@ -170,6 +170,9 @@ export default {
       }
       return true;
     },
+    isReplyRestricted() {
+      return !this.currentChat?.can_reply && !this.isAWhatsAppChannel;
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
@@ -1070,6 +1073,7 @@ export default {
   <div ref="replyEditor" class="reply-box" :class="replyBoxClass">
     <ReplyTopPanel
       :mode="replyType"
+      :is-reply-restricted="isReplyRestricted"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popOutReplyBox"
@@ -1180,7 +1184,7 @@ export default {
       :is-on-private-note="isOnPrivateNote"
       :is-recording-audio="isRecordingAudio"
       :is-send-disabled="isReplyButtonDisabled"
-      :mode="replyType"
+      :is-note="isPrivate"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
       :conversation-type="conversationType"

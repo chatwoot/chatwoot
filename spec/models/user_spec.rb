@@ -110,4 +110,148 @@ RSpec.describe User do
       expect(new_user.email).to eq('test123@test.com')
     end
   end
+
+  describe '2FA/MFA functionality' do
+    before do
+      skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+    end
+
+    let(:user) { create(:user, password: 'Test@123456') }
+
+    describe '#enable_two_factor!' do
+      it 'generates OTP secret for 2FA setup' do
+        expect(user.otp_secret).to be_nil
+        expect(user.otp_required_for_login).to be_falsey
+
+        user.enable_two_factor!
+
+        expect(user.otp_secret).not_to be_nil
+        # otp_required_for_login is false until verification is complete
+        expect(user.otp_required_for_login).to be_falsey
+      end
+    end
+
+    describe '#disable_two_factor!' do
+      before do
+        user.enable_two_factor!
+        user.update!(otp_required_for_login: true) # Simulate verified 2FA
+        user.generate_backup_codes!
+      end
+
+      it 'disables 2FA and clears OTP secret' do
+        user.disable_two_factor!
+
+        expect(user.otp_secret).to be_nil
+        expect(user.otp_required_for_login).to be_falsey
+        expect(user.otp_backup_codes).to be_blank # Can be nil or empty array
+      end
+    end
+
+    describe '#generate_backup_codes!' do
+      before do
+        user.enable_two_factor!
+      end
+
+      it 'generates 10 backup codes' do
+        codes = user.generate_backup_codes!
+
+        expect(codes).to be_an(Array)
+        expect(codes.length).to eq(10)
+        expect(codes.first).to match(/\A[A-F0-9]{8}\z/) # 8-character hex codes
+        expect(user.otp_backup_codes).not_to be_nil
+      end
+    end
+
+    describe '#two_factor_provisioning_uri' do
+      before do
+        user.enable_two_factor!
+      end
+
+      it 'generates a valid provisioning URI for QR code' do
+        uri = user.two_factor_provisioning_uri
+
+        expect(uri).to include('otpauth://totp/')
+        expect(uri).to include(CGI.escape(user.email))
+        expect(uri).to include('Chatwoot')
+      end
+    end
+
+    describe '#validate_backup_code!' do
+      let(:backup_codes) { user.generate_backup_codes! }
+
+      before do
+        user.enable_two_factor!
+        backup_codes
+      end
+
+      it 'validates and invalidates correct backup code' do
+        code = backup_codes.first
+        result = user.validate_backup_code!(code)
+        expect(result).to be_truthy
+
+        # Verify it's marked as used
+        user.reload
+        expect(user.otp_backup_codes).to include('XXXXXXXX')
+      end
+
+      it 'rejects invalid backup code' do
+        result = user.validate_backup_code!('invalid')
+        expect(result).to be_falsey
+      end
+
+      it 'rejects already used backup code' do
+        code = backup_codes.first
+        user.validate_backup_code!(code)
+
+        # Try to use the same code again
+        result = user.validate_backup_code!(code)
+        expect(result).to be_falsey
+      end
+
+      it 'handles blank code' do
+        result = user.validate_backup_code!(nil)
+        expect(result).to be_falsey
+
+        result = user.validate_backup_code!('')
+        expect(result).to be_falsey
+      end
+    end
+  end
+
+  describe '#active_account_user' do
+    let(:user) { create(:user) }
+    let(:account1) { create(:account) }
+    let(:account2) { create(:account) }
+    let(:account3) { create(:account) }
+
+    before do
+      # Create account_users with different active_at values
+      create(:account_user, user: user, account: account1, active_at: 2.days.ago)
+      create(:account_user, user: user, account: account2, active_at: 1.day.ago)
+      create(:account_user, user: user, account: account3, active_at: nil) # New account with NULL active_at
+    end
+
+    it 'returns the account_user with the most recent active_at, prioritizing timestamps over NULL values' do
+      # Should return account2 (most recent timestamp) even though account3 was created last with NULL active_at
+      expect(user.active_account_user.account_id).to eq(account2.id)
+    end
+
+    it 'returns NULL active_at account only when no other accounts have active_at' do
+      # Remove active_at from all accounts
+      user.account_users.each { |au| au.update!(active_at: nil) }
+
+      # Should return one of the accounts (behavior is undefined but consistent)
+      expect(user.active_account_user).to be_present
+    end
+
+    context 'when multiple accounts have NULL active_at' do
+      before do
+        create(:account_user, user: user, account: create(:account), active_at: nil)
+      end
+
+      it 'still prioritizes accounts with timestamps' do
+        expect(user.active_account_user.account_id).to eq(account2.id)
+      end
+    end
+  end
 end

@@ -47,7 +47,7 @@ export default {
         const website = await this.$store.dispatch(
           'inboxes/createWebsiteChannel',
           {
-            name: this.inboxName,
+            name: this.inboxName?.trim(),
             greeting_enabled: this.greetingEnabled,
             greeting_message: this.greetingMessage,
             channel: {

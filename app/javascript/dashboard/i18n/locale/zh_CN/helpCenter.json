@@ -741,7 +741,8 @@
         "LIVE_CHAT_WIDGET": {
           "LABEL": "在线聊天小部件",
           "PLACEHOLDER": "选择在线聊天小部件",
-          "HELP_TEXT": "选择将显示在您的帮助中心上的在线聊天小部件"
+          "HELP_TEXT": "选择将显示在您的帮助中心上的在线聊天小部件",
+          "NONE_OPTION": "没有小部件"
         },
         "BRAND_COLOR": {
           "LABEL": "品牌颜色"
@@ -812,51 +813,51 @@
       "TITLE": "Upload PDF Document",
       "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
       "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
+      "SELECT_FILE": "选择 PDF 文件",
       "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
       "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
       "UPLOADING": "上传中...",
-      "UPLOAD": "Upload & Process",
+      "UPLOAD": "上传和进度",
       "CANCEL": "取消",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "ERROR_INVALID_TYPE": "请选择一个有效的 PDF 文件",
+      "ERROR_FILE_TOO_LARGE": "文件大小必须小于 512MB",
+      "ERROR_UPLOAD_FAILED": "上传 PDF 失败。请重试。"
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
+      "TITLE": "PDF 文档",
+      "DESCRIPTION": "管理上传的 PDF 文档并从它们生成常见问题",
+      "UPLOAD_PDF": "上传 PDF",
+      "UPLOAD_FIRST_PDF": "上传您的第一个PDF",
+      "UPLOADED_BY": "上传者",
+      "GENERATE_FAQS": "生成常见问题",
       "GENERATING": "生成中...",
       "CONFIRM_DELETE": "您确定要删除 {filename}？",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "尚无PDF文档",
+        "DESCRIPTION": "上传 PDF 文档以使用 AI 自动生成常见问题内容"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
+        "UPLOADED": "已就绪",
+        "PROCESSING": "处理中",
         "PROCESSED": "已完成",
-        "FAILED": "Failed"
+        "FAILED": "失败"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
+      "TITLE": "内容生成",
+      "DESCRIPTION": "上传 PDF 文档以使用 AI 自动生成常见问题内容",
+      "UPLOAD_TITLE": "上传 PDF 文档",
+      "DRAG_DROP": "拖放您的 PDF 文件到此处，或单击以选择",
+      "SELECT_FILE": "选择 PDF 文件",
+      "UPLOADING": "正在处理文档...",
+      "UPLOAD_SUCCESS": "文档处理成功！",
+      "UPLOAD_ERROR": "上传文档失败。请重试。",
+      "INVALID_FILE_TYPE": "请选择一个有效的 PDF 文件",
+      "FILE_TOO_LARGE": "文件大小必须小于 512MB",
+      "GENERATED_CONTENT": "生成常见问题",
+      "PUBLISH_SELECTED": "发布所选内容",
+      "PUBLISHING": "发布中...",
+      "FROM_DOCUMENT": "来自文档",
       "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
       "LOADING": "Loading generated content..."
     }
