@@ -1,0 +1,17 @@
+# Contact Information
+- Contact ID: {{ contact.id }}
+- Name: {{ contact.name || "Unknown" }}
+- Email: {{ contact.email || "None" }}
+- Phone: {{ contact.phone_number || "None" }}
+- Identifier: {{ contact.identifier || "None" }}
+- Type: {{ contact.contact_type || "visitor" }}
+{% if contact.custom_attributes -%}
+  {% for attribute in contact.custom_attributes -%}
+- {{ attribute[0] }}: {{ attribute[1] }}
+  {% endfor -%}
+{% endif -%}
+{% if contact.additional_attributes -%}
+  {% for attribute in contact.additional_attributes -%}
+- {{ attribute[0] }}: {{ attribute[1] }}
+  {% endfor -%}
+{% endif -%}

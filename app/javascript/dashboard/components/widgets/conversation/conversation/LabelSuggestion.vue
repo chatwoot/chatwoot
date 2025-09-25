@@ -1,7 +1,7 @@
 <script>
 // components
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Avatar from '../../Avatar.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 // composables
 import { useAI } from 'dashboard/composables/useAI';
@@ -226,18 +226,16 @@ export default {
         </div>
       </div>
       <div class="sender--info has-tooltip" data-original-title="null">
-        <woot-thumbnail
+        <Avatar
           v-tooltip.top="{
             content: $t('LABEL_MGMT.SUGGESTIONS.POWERED_BY'),
             delay: { show: 600, hide: 0 },
             hideOnClick: true,
           }"
-          size="16px"
-        >
-          <Avatar class="user-thumbnail thumbnail-rounded">
-            <fluent-icon class="chatwoot-ai-icon" icon="chatwoot-ai" />
-          </Avatar>
-        </woot-thumbnail>
+          :size="16"
+          name="chatwoot-ai"
+          icon-name="i-lucide-sparkles"
+        />
       </div>
     </div>
   </li>
@@ -266,11 +264,6 @@ export default {
         margin-bottom: 0;
       }
     }
-  }
-
-  .chatwoot-ai-icon {
-    height: 0.75rem;
-    width: 0.75rem;
   }
 
   .label-suggestion--title {

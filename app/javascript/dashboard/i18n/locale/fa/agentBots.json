@@ -2,13 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "ربات‌ها",
     "LOADING_EDITOR": "در حال بارگیری ویرایشگر...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "DESCRIPTION": "ربات‌های عامل مانند شگفت‌انگیزترین اعضای تیم شما هستند. آن‌ها می‌توانند کارهای کوچک را انجام دهند، بنابراین شما می‌توانید روی چیزهای مهم تمرکز کنید. آن‌ها را امتحان کنید. می‌توانید ربات‌های خود را از این صفحه مدیریت کنید یا با استفاده از دکمه «افزودن ربات»، ربات‌های جدیدی ایجاد کنید.",
     "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT": "ربات سیستمی",
     "GLOBAL_BOT_BADGE": "سیستم",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "آواتار ربات با موفقیت حذف شد",
+      "ERROR_DELETE": "خطا هنگام حذف آواتار ربات، لطفا مجدد امتحان کنید"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "انتخاب یک ربات عامل",
@@ -22,7 +22,7 @@
       "SELECT_PLACEHOLDER": "انتخاب ربات"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "افزودن ربات",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "API": {
         "SUCCESS_MESSAGE": "ربات با موفقیت اضافه شد.",
@@ -30,10 +30,10 @@
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "404": "هیچ رباتی یافت نشد. شما می‌توانید با کلیک روی دکمه «افزودن ربات» یک ربات ایجاد کنید.",
       "LOADING": "در حال گرفتن ربات‌ها...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "جزئیات ربات",
         "URL": "آدرس URL وب هوک"
       }
     },
@@ -42,7 +42,7 @@
       "TITLE": "حذف ربات",
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
-        "MESSAGE": "Are you sure you want to delete {name}?",
+        "MESSAGE": "آیا مطمئنید که می‌خواهید {name} را حذف کنید؟",
         "YES": "بله، حذف شود",
         "NO": "نه، بماند"
       },
@@ -61,18 +61,18 @@
     },
     "ACCESS_TOKEN": {
       "TITLE": "توکن دسترسی",
-      "DESCRIPTION": "Copy the access token and save it securely",
-      "COPY_SUCCESSFUL": "Access token copied to clipboard",
-      "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      "DESCRIPTION": "توکن دسترسی را کپی کرده و در جای امن ذخیره کنید",
+      "COPY_SUCCESSFUL": "توکن دسترسی در کلیپبورد کپی شد",
+      "RESET_SUCCESS": "توکن دسترسی با موفقیت بازسازی شد",
+      "RESET_ERROR": "خطا در بازسازی توکن دسترسی. لطفا مجدد امتحان کنید"
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Bot avatar"
+        "LABEL": "آواتار ربات"
       },
       "NAME": {
         "LABEL": "نام ربات",
-        "PLACEHOLDER": "Enter bot name",
+        "PLACEHOLDER": "نام ربات را وارد کنید",
         "REQUIRED": "نام ربات الزامی است"
       },
       "DESCRIPTION": {
@@ -82,19 +82,19 @@
       "WEBHOOK_URL": {
         "LABEL": "آدرس URL وب هوک",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Webhook URL is required"
+        "REQUIRED": "URL وب‌هوک الزامی است"
       },
       "ERRORS": {
         "NAME": "نام ربات الزامی است",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "URL": "URL وب‌هوک الزامی است",
+        "VALID_URL": "لطفا یک URL معتبر که با http:// یا https:// شروع می‌شود وارد کنید"
       },
       "CANCEL": "انصراف",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "ایجاد ربات",
+      "UPDATE": "به‌روزرسانی ربات"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "یک ربات وب‌هوک برای ادغام با سرویس‌های سفارشی‌تان پیکربندی کنید. این ربات رویدادها را از مکالمات دریافت کرده و پردازش می‌کند و می‌تواند به آن‌ها پاسخ دهد."
     },
     "TYPES": {
       "WEBHOOK": "وب‌هوک ربات"

@@ -14,21 +14,10 @@ class Cloudflare::CheckCustomHostnameService < Cloudflare::BaseCloudflareZoneSer
     data = response.parsed_response['result']
 
     if data.present?
-      update_portal_ssl_settings(data.first)
+      update_portal_ssl_settings(@portal, data.first)
       return { data: data }
     end
 
     { errors: ['Hostname is missing in Cloudflare'] }
-  end
-
-  private
-
-  def update_portal_ssl_settings(data)
-    verification_record = data['ownership_verification_http']
-    ssl_settings = {
-      'cf_verification_id': verification_record['http_url'].split('/').last,
-      'cf_verification_body': verification_record['http_body']
-    }
-    @portal.update(ssl_settings: ssl_settings)
   end
 end

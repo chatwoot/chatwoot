@@ -53,9 +53,15 @@
                 </svg>
               </button>
             </div>
-          <% else %>
-            <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
-          <% end %>
+          <% elsif @installation_configs[key]&.dig('type') == 'select' && @installation_configs[key]&.dig('options').present? %>
+            <%= form.select "app_config[#{key}]",
+              @installation_configs[key]['options'].map { |val, label| [label, val] },
+              { selected: @app_config[key] },
+              class: "mt-2 border border-slate-100 p-1 rounded-md"
+            %>
+        <% else %>
+          <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
+        <% end %>
           <%if @installation_configs[key]&.dig('description').present? %>
             <p class="pt-2 text-xs italic text-slate-400">
               <%= @installation_configs[key]&.dig('description') %>

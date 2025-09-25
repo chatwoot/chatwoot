@@ -6,7 +6,7 @@ import { useElementSize } from '@vueuse/core';
 import BackButton from '../BackButton.vue';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
-import Thumbnail from '../Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
@@ -105,12 +105,13 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
         :back-url="backButtonUrl"
         class="ltr:mr-2 rtl:ml-2"
       />
-      <Thumbnail
+      <Avatar
+        :name="currentContact.name"
         :src="currentContact.thumbnail"
-        :username="currentContact.name"
+        :size="32"
         :status="currentContact.availability_status"
-        size="32px"
-        class="flex-shrink-0"
+        hide-offline-status
+        rounded-full
       />
       <div
         class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
