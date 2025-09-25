@@ -4,6 +4,7 @@ class Webhooks::WahaEventsJob < ApplicationJob
   def perform(params = {})
     return if params[:isGroup] == true
     return if params[:isFromMe] == true
+    return if params[:event] == 'receipt' # Ignore read receipts and delivery reports
 
     channel = Channel::WhatsappUnofficial.find_by(phone_number: params[:phone_number])
     return unless channel
