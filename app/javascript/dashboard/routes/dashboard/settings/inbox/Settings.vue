@@ -464,7 +464,7 @@ export default {
           :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
           :show-border="false"
         >
-          <div class="flex flex-col mb-4 items-start gap-1">
+          <div class="flex flex-col gap-1 items-start mb-4">
             <label class="mb-0.5 text-sm font-medium text-n-slate-12">
               {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL') }}
             </label>
@@ -810,8 +810,8 @@ export default {
             $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT')
           "
           :show-border="false"
-           >
-          <div class="w-3/4 pb-4">
+        >
+          <div class="pb-4 w-3/4">
             <LockToSingleConversationPreview
               :lock-to-single-conversation="locktoSingleConversation"
               @update="toggleLockToSingleConversation"
