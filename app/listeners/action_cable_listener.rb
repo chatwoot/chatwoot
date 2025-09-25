@@ -82,6 +82,16 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_UPDATED, conversation.push_event_data)
   end
 
+  def conversation_deleted(event)
+    conversation_data = event.data[:conversation]
+    account = event.data[:account]
+    inbox_id = conversation_data[:inbox_id]
+    inbox = Inbox.find(inbox_id)
+    tokens = user_tokens(account, inbox.members)
+
+    broadcast(account, tokens, CONVERSATION_DELETED, conversation_data)
+  end
+
   def conversation_typing_on(event)
     conversation = event.data[:conversation]
     account = conversation.account
@@ -152,7 +162,8 @@ class ActionCableListener < BaseListener
 
   def contact_deleted(event)
     contact_data = event.data[:contact]
-    broadcast(event.data[:account], [account_token(event.data[:account])], CONTACT_DELETED, contact_data)
+    account_data = event.data[:account]
+    broadcast(account_data, [account_token(account_data)], CONTACT_DELETED, contact_data)
   end
 
   def conversation_mentioned(event)
