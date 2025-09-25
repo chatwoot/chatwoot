@@ -84,10 +84,6 @@ export default {
       FEATURE_FLAGS.CHAT_PRESERVE_USER_SCROLL
     );
 
-    const showNextBubbles = isFeatureEnabledonAccount.value(
-      currentAccountId.value,
-      FEATURE_FLAGS.CHATWOOT_V4
-    );
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
@@ -98,7 +94,6 @@ export default {
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
       useNewScrollBehavior,
-      showNextBubbles,
       conversationPanelRef,
     };
   },
