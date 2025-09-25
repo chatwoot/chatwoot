@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useMemoize } from '@vueuse/core';
 
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
@@ -8,6 +9,8 @@ import { getQuantileIntervals } from '@chatwoot/utils';
 
 import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
 import { useI18n } from 'vue-i18n';
+import { useHeatmapTooltip } from './composables/useHeatmapTooltip';
+import HeatmapTooltip from './HeatmapTooltip.vue';
 
 const props = defineProps({
   heatmapData: {
@@ -22,10 +25,26 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  colorScheme: {
+    type: String,
+    default: 'blue',
+    validator: value => ['blue', 'green'].includes(value),
+  },
 });
 const { t } = useI18n();
 const processedData = computed(() => {
   return groupHeatmapByDay(props.heatmapData);
+});
+
+const dataRows = computed(() => {
+  return Array.from(processedData.value.keys()).map(dateKey => {
+    const rowData = processedData.value.get(dateKey);
+    return {
+      dateKey,
+      data: rowData,
+      dataHash: rowData.map(d => d.value).join(','),
+    };
+  });
 });
 
 const quantileRange = computed(() => {
@@ -33,65 +52,72 @@ const quantileRange = computed(() => {
   return getQuantileIntervals(flattendedData, [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]);
 });
 
-function getCountTooltip(value) {
-  if (!value) {
-    return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS');
-  }
-
-  if (value === 1) {
-    return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', {
-      count: value,
-    });
-  }
-
-  return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
-    count: value,
-  });
-}
-
 function formatDate(dateString) {
   return format(new Date(dateString), 'MMM d, yyyy');
 }
 
+const DAYS_OF_WEEK = [
+  t('DAYS_OF_WEEK.SUNDAY'),
+  t('DAYS_OF_WEEK.MONDAY'),
+  t('DAYS_OF_WEEK.TUESDAY'),
+  t('DAYS_OF_WEEK.WEDNESDAY'),
+  t('DAYS_OF_WEEK.THURSDAY'),
+  t('DAYS_OF_WEEK.FRIDAY'),
+  t('DAYS_OF_WEEK.SATURDAY'),
+];
+
 function getDayOfTheWeek(date) {
   const dayIndex = getDay(date);
-  const days = [
-    t('DAYS_OF_WEEK.SUNDAY'),
-    t('DAYS_OF_WEEK.MONDAY'),
-    t('DAYS_OF_WEEK.TUESDAY'),
-    t('DAYS_OF_WEEK.WEDNESDAY'),
-    t('DAYS_OF_WEEK.THURSDAY'),
-    t('DAYS_OF_WEEK.FRIDAY'),
-    t('DAYS_OF_WEEK.SATURDAY'),
-  ];
-  return days[dayIndex];
+
+  return DAYS_OF_WEEK[dayIndex];
 }
-function getHeatmapLevelClass(value) {
-  if (!value) return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
 
-  let level = [...quantileRange.value, Infinity].findIndex(
-    range => value <= range && value > 0
-  );
-
-  if (level > 6) level = 5;
-
-  if (level === 0) {
-    return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
-  }
-
-  const classes = [
+const COLOR_SCHEMES = {
+  blue: [
     'bg-n-blue-3 dark:outline-n-blue-4',
     'bg-n-blue-5 dark:outline-n-blue-6',
     'bg-n-blue-7 dark:outline-n-blue-8',
     'bg-n-blue-8 dark:outline-n-blue-9',
     'bg-n-blue-10 dark:outline-n-blue-8',
     'bg-n-blue-11 dark:outline-n-blue-10',
-  ];
+  ],
+  green: [
+    'bg-n-teal-3 dark:outline-n-teal-4',
+    'bg-n-teal-5 dark:outline-n-teal-6',
+    'bg-n-teal-7 dark:outline-n-teal-8',
+    'bg-n-teal-8 dark:outline-n-teal-9',
+    'bg-n-teal-10 dark:outline-n-teal-8',
+    'bg-n-teal-11 dark:outline-n-teal-10',
+  ],
+};
 
-  return classes[level - 1];
+// Memoized function to calculate CSS class for heatmap cell intensity levels
+const getHeatmapLevelClass = useMemoize(
+  (value, quantileRangeArray, colorScheme) => {
+    if (!value) return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+    let level = [...quantileRangeArray, Infinity].findIndex(
+      range => value <= range && value > 0
+    );
+
+    if (level > 6) level = 5;
+
+    if (level === 0) {
+      return 'outline-n-container bg-n-slate-2 dark:bg-n-slate-5/50';
+    }
+
+    return COLOR_SCHEMES[colorScheme][level - 1];
+  }
+);
+
+function getHeatmapClass(value) {
+  return getHeatmapLevelClass(value, quantileRange.value, props.colorScheme);
 }
+
+// Tooltip composable
+const tooltip = useHeatmapTooltip();
 </script>
 
+<!-- eslint-disable vue/no-static-inline-styles -->
 <template>
   <div
     class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[80px_1fr] min-h-72"
@@ -126,35 +152,42 @@ function getHeatmapLevelClass(value) {
           :key="ii"
           class="flex items-center justify-center"
         >
-          {{ ii - 1 }} – {{ ii }}
+          {{ ii - 1 }}
         </div>
       </div>
     </template>
     <template v-else>
       <div class="grid gap-[5px] flex-shrink-0">
         <div
-          v-for="dateKey in processedData.keys()"
-          :key="dateKey"
+          v-for="row in dataRows"
+          :key="row.dateKey"
+          v-memo="[row.dateKey]"
           class="h-8 min-w-[70px] text-n-slate-12 text-[10px] font-semibold flex flex-col items-end justify-center"
         >
-          {{ getDayOfTheWeek(new Date(dateKey)) }}
+          {{ getDayOfTheWeek(new Date(row.dateKey)) }}
           <time class="font-normal text-n-slate-11">
-            {{ formatDate(dateKey) }}
+            {{ formatDate(row.dateKey) }}
           </time>
         </div>
       </div>
-      <div class="grid gap-[5px] w-full min-w-[700px]">
+      <div
+        class="grid gap-[5px] w-full min-w-[700px]"
+        style="content-visibility: auto"
+      >
         <div
-          v-for="dateKey in processedData.keys()"
-          :key="dateKey"
+          v-for="row in dataRows"
+          :key="row.dateKey"
+          v-memo="[row.dataHash, colorScheme]"
           class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
+          style="content-visibility: auto; contain-intrinsic-size: auto 32px"
         >
           <div
-            v-for="data in processedData.get(dateKey)"
+            v-for="data in row.data"
             :key="data.timestamp"
-            v-tooltip.top="getCountTooltip(data.value)"
-            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1"
-            :class="getHeatmapLevelClass(data.value)"
+            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 cursor-pointer"
+            :class="getHeatmapClass(data.value)"
+            @mouseenter="tooltip.show($event, data.value)"
+            @mouseleave="tooltip.hide"
           />
         </div>
       </div>
@@ -167,9 +200,16 @@ function getHeatmapLevelClass(value) {
           :key="ii"
           class="flex items-center justify-center"
         >
-          {{ ii - 1 }} – {{ ii }}
+          {{ ii - 1 }}
         </div>
       </div>
     </template>
+
+    <HeatmapTooltip
+      :visible="tooltip.visible.value"
+      :x="tooltip.x.value"
+      :y="tooltip.y.value"
+      :value="tooltip.value.value"
+    />
   </div>
 </template>
