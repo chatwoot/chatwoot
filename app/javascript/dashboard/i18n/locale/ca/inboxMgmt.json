@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script del missatger",
       "MESSENGER_SUB_HEAD": "Col·loca aquest botó dins de l'etiqueta body",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Afegir o eliminar agents d'aquesta safata d'entrada",
       "AGENT_ASSIGNMENT": "Conversació Assignada",
