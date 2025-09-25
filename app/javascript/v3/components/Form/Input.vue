@@ -96,9 +96,9 @@ const currentInputType = computed(() => {
       link
       :icon="isPasswordVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
       class="absolute inset-y-0 right-0 pr-3"
-      @click="togglePasswordVisibility()"
       :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
       :aria-pressed="isPasswordVisible"
+      @click="togglePasswordVisibility()"
     />
   </WithLabel>
 </template>
