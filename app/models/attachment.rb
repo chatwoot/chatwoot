@@ -59,6 +59,15 @@ class Attachment < ApplicationRecord
     file.attached? ? file.blob.url : ''
   end
 
+  def download_url_converted(format: :jpeg)
+    if file.attached? && image?
+      Rails.logger.info("[Attachment:#{id}] Converting image from #{file.content_type} to image/#{format}")
+      convert_image_and_generate_download_url(file, format)
+    else
+      file_url
+    end
+  end
+
   def thumb_url
     return '' unless file.attached? && image?
 
@@ -75,6 +84,18 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def convert_image_and_generate_download_url(attachment, format)
+    return '' unless attachment.attached? && image?
+
+    begin
+      ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
+      attachment.variant(format: format).processed.url
+    rescue StandardError => e
+      Rails.logger.warn "Cannot convert image attachment: #{id} (#{attachment.filename}) - #{e.message}"
+      download_url
+    end
+  end
 
   def metadata_for_file_type
     case file_type.to_sym

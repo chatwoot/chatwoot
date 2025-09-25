@@ -101,7 +101,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
     type_content = {
-      'link': attachment.download_url
+      'link': convert_attachment_format_if_needed(attachment)
     }
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
@@ -186,5 +186,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
+  end
+
+  private
+
+  def convert_attachment_format_if_needed(attachment)
+    if attachment.file.content_type.start_with?('image/') && %w[image/jpeg image/png].exclude?(attachment.file.content_type)
+      attachment.download_url_converted
+    else
+      attachment.download_url
+    end
   end
 end
