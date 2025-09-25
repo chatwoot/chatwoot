@@ -94,7 +94,7 @@ hi:
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
     mfa:
-      already_enabled: MFA is already enabled
+      already_enabled: MFA पहले से ही सक्षम है
       not_enabled: MFA is not enabled
       invalid_code: Invalid verification code
       invalid_backup_code: Invalid backup code
