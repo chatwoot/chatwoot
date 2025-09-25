@@ -554,10 +554,12 @@
         "WROTE": "נכתב",
         "YOU": "You",
         "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Expand",
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -606,6 +608,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "משתנים",
+          "BACK": "חזור",
+          "SEND_MESSAGE": "שלח הודעה"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "חזור",
           "SEND_MESSAGE": "שלח הודעה"
         }

@@ -19,6 +19,26 @@ RSpec.describe 'Agent Capacity Policy Users API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.parsed_body.first['id']).to eq(user.id)
       end
+
+      it 'returns each user only once without duplicates' do
+        # Assign multiple users to the same policy
+        user.account_users.first.update!(agent_capacity_policy: agent_capacity_policy)
+        agent.account_users.first.update!(agent_capacity_policy: agent_capacity_policy)
+
+        get "/api/v1/accounts/#{account.id}/agent_capacity_policies/#{agent_capacity_policy.id}/users",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        # Check that we have exactly 2 users
+        expect(response.parsed_body.length).to eq(2)
+
+        # Check that each user appears only once
+        user_ids = response.parsed_body.map { |u| u['id'] }
+        expect(user_ids).to contain_exactly(user.id, agent.id)
+        expect(user_ids.uniq).to eq(user_ids) # No duplicates
+      end
     end
   end
 

@@ -4,8 +4,8 @@ class Api::V1::Accounts::AgentCapacityPolicies::UsersController < Api::V1::Accou
   before_action :fetch_user, only: [:destroy]
 
   def index
-    @users = Current.account.users.joins(:account_users)
-                    .where(account_users: { agent_capacity_policy_id: @agent_capacity_policy.id })
+    @users = User.joins(:account_users)
+                 .where(account_users: { account_id: Current.account.id, agent_capacity_policy_id: @agent_capacity_policy.id })
   end
 
   def create

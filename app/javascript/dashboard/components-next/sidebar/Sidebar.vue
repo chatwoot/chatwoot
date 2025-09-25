@@ -128,7 +128,7 @@ const menuItems = computed(() => {
       to: accountScopedRoute('inbox_view'),
       activeOn: ['inbox_view', 'inbox_view_conversation'],
       getterKeys: {
-        badge: 'notifications/getHasUnreadNotifications',
+        count: 'notifications/getUnreadCount',
       },
     },
     {
@@ -423,6 +423,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('settings_teams_list'),
         },
         {
+          name: 'Settings Agent Assignment',
+          label: t('SIDEBAR.AGENT_ASSIGNMENT'),
+          icon: 'i-lucide-user-cog',
+          to: accountScopedRoute('assignment_policy_index'),
+        },
+        {
           name: 'Settings Inboxes',
           label: t('SIDEBAR.INBOXES'),
           icon: 'i-lucide-inbox',
@@ -487,6 +493,12 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.SLA'),
           icon: 'i-lucide-clock-alert',
           to: accountScopedRoute('sla_list'),
+        },
+        {
+          name: 'Settings Security',
+          label: t('SIDEBAR.SECURITY'),
+          icon: 'i-lucide-shield',
+          to: accountScopedRoute('security_settings_index'),
         },
         {
           name: 'Settings Billing',

@@ -11,10 +11,12 @@ import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
 
 // components
+import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -29,6 +31,8 @@ export default {
     GoogleOAuthButton,
     Spinner,
     NextButton,
+    SimpleDivider,
+    MfaVerification,
   },
   props: {
     ssoAuthToken: { type: String, default: '' },
@@ -58,6 +62,8 @@ export default {
         hasErrored: false,
       },
       error: '',
+      mfaRequired: false,
+      mfaToken: null,
     };
   },
   validations() {
@@ -81,14 +87,19 @@ export default {
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
+    showSamlLogin() {
+      return this.globalConfig.isEnterprise;
+    },
   },
   created() {
     if (this.ssoAuthToken) {
       this.submitLogin();
     }
     if (this.authError) {
-      const message = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
-      useAlert(this.$t(message));
+      const messageKey = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
+      // Use a method to get the translated text to avoid dynamic key warning
+      const translatedMessage = this.getTranslatedMessage(messageKey);
+      useAlert(translatedMessage);
       // wait for idle state
       this.requestIdleCallbackPolyfill(() => {
         // Remove the error query param from the url
@@ -98,6 +109,18 @@ export default {
     }
   },
   methods: {
+    getTranslatedMessage(key) {
+      // Avoid dynamic key warning by handling each case explicitly
+      switch (key) {
+        case 'LOGIN.OAUTH.NO_ACCOUNT_FOUND':
+          return this.$t('LOGIN.OAUTH.NO_ACCOUNT_FOUND');
+        case 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY':
+          return this.$t('LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY');
+        case 'LOGIN.API.UNAUTH':
+        default:
+          return this.$t('LOGIN.API.UNAUTH');
+      }
+    },
     // TODO: Remove this when Safari gets wider support
     // Ref: https://caniuse.com/requestidlecallback
     //
@@ -140,7 +163,15 @@ export default {
       };
 
       login(credentials)
-        .then(() => {
+        .then(result => {
+          // Check if MFA is required
+          if (result?.mfaRequired) {
+            this.loginApi.showLoading = false;
+            this.mfaRequired = true;
+            this.mfaToken = result.mfaToken;
+            return;
+          }
+
           this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
@@ -162,6 +193,17 @@ export default {
       }
 
       this.submitLogin();
+    },
+    handleMfaVerified() {
+      // MFA verification successful, continue with login
+      this.handleImpersonation();
+      window.location = '/app';
+    },
+    handleMfaCancel() {
+      // User cancelled MFA, reset state
+      this.mfaRequired = false;
+      this.mfaToken = null;
+      this.credentials.password = '';
     },
   },
 };
@@ -193,7 +235,19 @@ export default {
         </router-link>
       </p>
     </section>
+
+    <!-- MFA Verification Section -->
+    <section v-if="mfaRequired" class="mt-11">
+      <MfaVerification
+        :mfa-token="mfaToken"
+        @verified="handleMfaVerified"
+        @cancel="handleMfaCancel"
+      />
+    </section>
+
+    <!-- Regular Login Section -->
     <section
+      v-else
       class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
@@ -201,7 +255,25 @@ export default {
       }"
     >
       <div v-if="!email">
-        <GoogleOAuthButton v-if="showGoogleOAuth" />
+        <div class="flex flex-col">
+          <GoogleOAuthButton v-if="showGoogleOAuth" />
+          <div v-if="showSamlLogin" class="mt-4 text-center">
+            <router-link
+              to="/app/login/sso"
+              class="inline-flex justify-center w-full px-4 py-3 bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+            >
+              <span class="i-lucide-key h-6 text-n-slate-11" />
+              <span class="ml-2 text-base font-medium text-n-slate-12">
+                {{ $t('LOGIN.SAML.LABEL') }}
+              </span>
+            </router-link>
+          </div>
+          <SimpleDivider
+            v-if="showGoogleOAuth || showSamlLogin"
+            :label="$t('COMMON.OR')"
+            class="uppercase"
+          />
+        </div>
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
             v-model="credentials.email"

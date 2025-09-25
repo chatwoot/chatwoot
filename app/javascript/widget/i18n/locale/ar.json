@@ -14,13 +14,13 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "غير متاح"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "متواجدون لخدمتك",
     "OFFLINE": "نحن بعيدون في الوقت الحالي",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "سوف نعود في أقرب وقت ممكن"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
@@ -30,7 +30,7 @@
     "BACK_IN_MINUTES": "We will be back online in {time} minutes",
     "BACK_AT_TIME": "We will be back online at {time}",
     "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_TOMORROW": "سنكون متاحين غدًا للرد على استفساراتك",
     "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {

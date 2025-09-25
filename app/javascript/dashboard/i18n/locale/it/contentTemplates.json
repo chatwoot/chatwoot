@@ -1,0 +1,51 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Templates",
+      "SUBTITLE": "Select the Twilio template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Cerca modelli",
+      "NO_TEMPLATES_FOUND": "Nessun modello trovato per",
+      "NO_CONTENT": "No content",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Categoria",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Lingua",
+        "TEMPLATE_BODY": "Corpo modello",
+        "CATEGORY": "Categoria"
+      },
+      "TYPES": {
+        "MEDIA": "Media",
+        "QUICK_REPLY": "Quick Reply",
+        "TEXT": "Testo"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Variabili",
+      "LANGUAGE": "Lingua",
+      "CATEGORY": "Categoria",
+      "VARIABLE_PLACEHOLDER": "Inserisci il valore di {variable}",
+      "GO_BACK_LABEL": "Torna indietro",
+      "SEND_MESSAGE_LABEL": "Invia messaggio",
+      "FORM_ERROR_MESSAGE": "Si prega di compilare tutte le variabili prima di inviare",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Indietro",
+      "SEND_MESSAGE_BUTTON": "Invia messaggio"
+    }
+  }
+}

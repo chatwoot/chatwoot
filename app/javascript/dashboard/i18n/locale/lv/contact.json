@@ -554,10 +554,12 @@
         "WROTE": "rakstīja",
         "YOU": "Jūs",
         "SAVE": "Saglabāt piezīmi",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Izvērst",
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā."
+        "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -606,6 +608,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp veidne: {templateName}",
           "VARIABLES": "Mainīgie",
+          "BACK": "Atgriezties",
+          "SEND_MESSAGE": "Sūtīt ziņojumu"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Izvēlieties veidni",
+        "SEARCH_PLACEHOLDER": "Meklēt veidnes",
+        "EMPTY_STATE": "Nav atrasta neviena veidne",
+        "TEMPLATE_PARSER": {
           "BACK": "Atgriezties",
           "SEND_MESSAGE": "Sūtīt ziņojumu"
         }

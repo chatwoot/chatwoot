@@ -120,8 +120,38 @@ describe V2::ReportBuilder do
           builder = described_class.new(account, params)
           metrics = builder.timeseries
 
-          # 4 conversations are resolved
-          expect(metrics[Time.zone.today]).to be 4
+          # 5 resolution events occurred (even though 1 was later reopened)
+          expect(metrics[Time.zone.today]).to be 5
+          expect(metrics[Time.zone.today - 2.days]).to be 0
+        end
+      end
+
+      it 'return resolutions count with multiple resolutions of same conversation' do
+        travel_to(Time.zone.today) do
+          params = {
+            metric: 'resolutions_count',
+            type: :account,
+            since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+            until: Time.zone.today.end_of_day.to_time.to_i.to_s
+          }
+
+          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+          perform_enqueued_jobs do
+            # Resolve all 5 conversations (first round)
+            conversations.each(&:resolved!)
+
+            # Reopen 2 conversations and resolve them again
+            conversations.first(2).each do |conversation|
+              conversation.open!
+              conversation.resolved!
+            end
+          end
+
+          builder = described_class.new(account, params)
+          metrics = builder.timeseries
+
+          # 7 total resolution events: 5 initial + 2 re-resolutions
+          expect(metrics[Time.zone.today]).to be 7
           expect(metrics[Time.zone.today - 2.days]).to be 0
         end
       end
@@ -153,10 +183,10 @@ describe V2::ReportBuilder do
           metrics = builder.timeseries
           summary = builder.bot_summary
 
-          # 4 conversations are resolved
-          expect(metrics[Time.zone.today]).to be 4
+          # 5 bot resolution events occurred (even though 1 was later reopened)
+          expect(metrics[Time.zone.today]).to be 5
           expect(metrics[Time.zone.today - 2.days]).to be 0
-          expect(summary[:bot_resolutions_count]).to be 4
+          expect(summary[:bot_resolutions_count]).to be 5
         end
       end
 
@@ -339,8 +369,40 @@ describe V2::ReportBuilder do
           builder = described_class.new(account, params)
           metrics = builder.timeseries
 
-          # this should count only 4 since the last conversation was reopened
-          expect(metrics[Time.zone.today]).to be 4
+          # this should count all 5 resolution events (even though 1 was later reopened)
+          expect(metrics[Time.zone.today]).to be 5
+          expect(metrics[Time.zone.today - 2.days]).to be 0
+        end
+      end
+
+      it 'return resolutions count with multiple resolutions of same conversation' do
+        travel_to(Time.zone.today) do
+          params = {
+            metric: 'resolutions_count',
+            type: :label,
+            id: label_2.id,
+            since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+            until: (Time.zone.today + 1.day).to_time.to_i.to_s
+          }
+
+          conversations = account.conversations.where('created_at < ?', 1.day.ago)
+
+          perform_enqueued_jobs do
+            # Resolve all 5 conversations (first round)
+            conversations.each(&:resolved!)
+
+            # Reopen 3 conversations and resolve them again
+            conversations.first(3).each do |conversation|
+              conversation.open!
+              conversation.resolved!
+            end
+          end
+
+          builder = described_class.new(account, params)
+          metrics = builder.timeseries
+
+          # 8 total resolution events: 5 initial + 3 re-resolutions
+          expect(metrics[Time.zone.today]).to be 8
           expect(metrics[Time.zone.today - 2.days]).to be 0
         end
       end

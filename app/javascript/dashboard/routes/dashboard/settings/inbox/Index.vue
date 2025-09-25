@@ -116,7 +116,7 @@ const openDelete = inbox => {
                   v-else
                   class="size-12 flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
                 >
-                  <ChannelIcon class="size-5" :inbox="inbox" />
+                  <ChannelIcon class="size-5 text-n-slate-10" :inbox="inbox" />
                 </div>
                 <div>
                   <span class="block font-medium capitalize">

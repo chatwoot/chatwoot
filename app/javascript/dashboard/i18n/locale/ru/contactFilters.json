@@ -48,7 +48,8 @@
       "CREATED_AT": "Дата создания",
       "LAST_ACTIVITY": "Последние действия",
       "REFERER_LINK": "Реферальная ссылка",
-      "BLOCKED": "Заблокирован"
+      "BLOCKED": "Заблокирован",
+      "LABELS": "Категории"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартные фильтры",

@@ -34,6 +34,7 @@ const {
   isAWhatsAppChannel,
   isAFacebookInbox,
   isATelegramChannel,
+  isATwilioWhatsAppChannel,
 } = useInbox(route.params.inbox_id);
 
 const hasDuplicateInstagramInbox = computed(() => {
@@ -168,9 +169,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
-  >
+  <div class="overflow-auto col-span-6 p-6 w-full h-full">
     <DuplicateInboxBanner
       v-if="hasDuplicateInstagramInbox"
       :content="$t('INBOX_MGMT.ADD.INSTAGRAM.NEW_INBOX_SUGGESTION')"
@@ -189,7 +188,7 @@ onMounted(() => {
         </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">
           <woot-code
-            v-if="isATwilioChannel"
+            v-if="isATwilioWhatsAppChannel"
             lang="html"
             :script="currentInbox.callback_webhook_url"
           />
