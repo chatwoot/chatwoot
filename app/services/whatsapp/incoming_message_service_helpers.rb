@@ -46,15 +46,14 @@ module Whatsapp::IncomingMessageServiceHelpers
   def unprocessable_message_type?(message_type)
     %w[reaction ephemeral unsupported request_welcome].include?(message_type)
   end
-  
+
   def argentina_phone_number?(phone_number)
     phone_number.match(/^54/)
   end
 
   def normalised_argentina_mobil_number(phone_number)
     # Remove 9 before country code
-    normalised_number = phone_number.sub(/^549/, '54')
-    normalised_number
+    phone_number.sub(/^549/, '54')
   end
 
   def processed_waid(waid)
