@@ -9,13 +9,13 @@ import {
   verifyServiceWorkerExistence,
 } from 'dashboard/helper/pushHelper.js';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import FormSwitch from 'v3/components/Form/Switch.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 import { NOTIFICATION_TYPES } from './constants';
 
 export default {
   components: {
     TableHeaderCell,
-    FormSwitch,
+    ToggleSwitch,
     CheckBox,
   },
   data() {
@@ -284,9 +284,9 @@ export default {
           {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
         </span>
       </div>
-      <FormSwitch
-        :model-value="hasEnabledPushPermissions"
-        @update:model-value="onRequestPermissions"
+      <ToggleSwitch
+        v-model="hasEnabledPushPermissions"
+        @change="onRequestPermissions"
       />
     </div>
   </div>

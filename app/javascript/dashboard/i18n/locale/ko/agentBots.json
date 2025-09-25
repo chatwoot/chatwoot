@@ -22,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Select bot"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "Agregar Bot",
       "CANCEL_BUTTON_TEXT": "취소",
       "API": {
         "SUCCESS_MESSAGE": "Bot added successfully.",
@@ -30,10 +30,10 @@
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "404": "Bot no encontrado. Puedes crear uno haciendo click en el botón 'Agregar Bot'.",
       "LOADING": "Fetching bots...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "Detalles del Bot",
         "URL": "웹훅 URL"
       }
     },

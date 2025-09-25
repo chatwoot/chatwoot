@@ -55,6 +55,7 @@ const model = defineModel({
     <input
       v-bind="$attrs"
       v-model="model"
+      :name="name"
       :type="type"
       class="block w-full border-none rounded-md shadow-sm bg-n-alpha-black2 appearance-none outline outline-1 focus:outline focus:outline-1 text-n-slate-12 placeholder:text-n-slate-10 sm:text-sm sm:leading-6 px-3 py-3"
       :class="{

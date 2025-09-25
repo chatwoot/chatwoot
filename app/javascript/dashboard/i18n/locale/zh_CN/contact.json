@@ -17,6 +17,11 @@
     "IP_ADDRESS": "IP 地址",
     "CREATED_AT_LABEL": "创建时间",
     "NEW_MESSAGE": "新消息",
+    "CALL": "呼叫",
+    "CALL_UNDER_DEVELOPMENT": "呼叫功能正在开发中",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "选择一个语音收件箱"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
       "TITLE": "上一次对话"
@@ -549,10 +554,12 @@
         "WROTE": "写道",
         "YOU": "您",
         "SAVE": "保存备注",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "扩展",
         "COLLAPSE": "收起",
         "NO_NOTES": "没有备注，您可以从联系人详细信息页面添加备注。",
-        "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。"
+        "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -601,6 +608,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp 模板: {templateName}",
           "VARIABLES": "参数",
+          "BACK": "返回",
+          "SEND_MESSAGE": "发送消息"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "选择模板",
+        "SEARCH_PLACEHOLDER": "搜索模板",
+        "EMPTY_STATE": "未找到模板",
+        "TEMPLATE_PARSER": {
           "BACK": "返回",
           "SEND_MESSAGE": "发送消息"
         }

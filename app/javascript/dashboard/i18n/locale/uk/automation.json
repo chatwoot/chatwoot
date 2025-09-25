@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Розмову створено",
       "CONVERSATION_UPDATED": "Розмову оновлено",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
@@ -146,6 +147,7 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Змінити пріоритет",
       "ADD_SLA": "Додати SLA",
       "OPEN_CONVERSATION": "Відкрити розмову"
@@ -175,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Команда",
-      "PRIORITY": "Пріоритет"
+      "PRIORITY": "Пріоритет",
+      "LABELS": "Мітки"
     }
   }
 }
