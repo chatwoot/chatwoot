@@ -8,8 +8,8 @@ class Whatsapp::WebhookSetupService
 
   def perform
     validate_parameters!
-    # Since coexistence method does not need to register, we check it
-    register_phone_number unless phone_number_verified?
+    # Skip registration for business app onboarding or if phone number is already verified
+    register_phone_number unless @channel.provider_config['is_business_app_onboarding'] || phone_number_verified?
     setup_webhook
   end
 
