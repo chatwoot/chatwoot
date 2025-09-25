@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger-Skript",
       "MESSENGER_SUB_HEAD": "Platzieren Sie diese Schaltfläche in Ihrem Body-Tag",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Agenten",
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
       "AGENT_ASSIGNMENT": "Konversationssauftrag",
