@@ -333,20 +333,11 @@ RSpec.describe Message do
         expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
       end
 
-      it 'calls EmailReply worker if the channel is email' do
-        message.inbox = create(:inbox, account: message.account, channel: build(:channel_email, account: message.account))
-        allow(EmailReplyWorker).to receive(:perform_in).and_return(true)
+      it 'calls SendReplyJob for all channels' do
+        allow(SendReplyJob).to receive(:perform_later).and_return(true)
         message.message_type = 'outgoing'
-        message.content_attributes = { email: { text_content: { quoted: 'quoted text' } } }
         message.save!
-        expect(EmailReplyWorker).to have_received(:perform_in).with(1.second, message.id)
-      end
-
-      it 'wont call notify email method unless its website or email channel' do
-        message.inbox = create(:inbox, account: message.account, channel: build(:channel_api, account: message.account))
-        allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
-        message.save!
-        expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+        expect(SendReplyJob).to have_received(:perform_later).with(message.id)
       end
     end
   end
