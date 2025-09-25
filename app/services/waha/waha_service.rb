@@ -138,7 +138,7 @@ class Waha::WahaService
         message: message
       }.to_json
     )
-    handle_response(response, "send text")
+    handle_response(response, 'send text')
   end
 
   def send_location(api_key:, phone_number:, latitude:, longitude:, name:, address:)
@@ -153,7 +153,7 @@ class Waha::WahaService
         location_address: address
       }.to_json
     )
-    handle_response(response, "send location")
+    handle_response(response, 'send location')
   end
 
   def send_image(api_key:, phone_number:, image_path:, caption:)
@@ -169,7 +169,7 @@ class Waha::WahaService
       body: body,
       multipart: true
     )
-    handle_response(response, "send image")
+    handle_response(response, 'send image')
   end
 
   def get_session_status(api_key:)
@@ -181,9 +181,7 @@ class Waha::WahaService
       }
     )
 
-    if response.success?
-      return response.parsed_response
-    end
+    return response.parsed_response if response.success?
 
     raise "Failed to get session status: #{response.body}"
   end
@@ -191,10 +189,8 @@ class Waha::WahaService
   private
 
   def handle_response(response, action_name)
-    if response.success?
-      return response.parsed_response
-    end
-    # Jika gagal, lemparkan error dengan pesan yang jelas
+    return response.parsed_response if response.success?
+
     raise "Failed to #{action_name}: #{response.body}"
   end
 
@@ -204,8 +200,8 @@ class Waha::WahaService
 
   def webhook_url_for(phone_number)
     Rails.application.routes.url_helpers.url_for(
-      controller: 'waha/callback',
-      action: 'receive',
+      controller: 'webhooks/waha',
+      action: 'process_payload',
       phone_number: phone_number,
       host: current_application_url,
       only_path: false
@@ -228,10 +224,10 @@ class Waha::WahaService
   def detect_current_url
     # Try to get URL from current request context if available
     return nil unless defined?(Current) && Current.respond_to?(:request)
-    
+
     request = Current.request
     return nil unless request.respond_to?(:base_url)
-    
+
     request.base_url
   rescue StandardError
     nil
