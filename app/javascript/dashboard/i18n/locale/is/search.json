@@ -4,12 +4,14 @@
       "ALL": "Allt",
       "CONTACTS": "Tengiliðir",
       "CONVERSATIONS": "Samtöl",
-      "MESSAGES": "Skilaboð"
+      "MESSAGES": "Skilaboð",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Tengiliðir",
       "CONVERSATIONS": "Samtöl",
-      "MESSAGES": "Skilaboð"
+      "MESSAGES": "Skilaboð",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

@@ -4,12 +4,14 @@
       "ALL": "הכל",
       "CONTACTS": "איש קשר",
       "CONVERSATIONS": "שיחות",
-      "MESSAGES": "הודעות"
+      "MESSAGES": "הודעות",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "איש קשר",
       "CONVERSATIONS": "שיחות",
-      "MESSAGES": "הודעות"
+      "MESSAGES": "הודעות",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

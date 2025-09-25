@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Načítanie grafu...",
     "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
@@ -559,6 +560,7 @@
     "INBOX": "Schránka",
     "AGENT": "Agent",
     "TEAM": "Team",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

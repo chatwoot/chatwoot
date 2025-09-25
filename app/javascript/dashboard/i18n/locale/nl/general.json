@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Zoeken",
       "EMPTY_STATE": "Geen resultaten gevonden"
-    }
+    },
+    "CLOSE": "Sluiten"
   }
 }

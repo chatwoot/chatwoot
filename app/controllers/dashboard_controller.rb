@@ -15,7 +15,7 @@ class DashboardController < ActionController::Base
   private
 
   def ensure_html_format
-    head :not_acceptable unless request.format.html?
+    render json: { error: 'Please use API routes instead of dashboard routes for JSON requests' }, status: :not_acceptable if request.format.json?
   end
 
   def set_global_config
@@ -66,7 +66,9 @@ class DashboardController < ActionController::Base
       ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
       INSTAGRAM_APP_ID: GlobalConfigService.load('INSTAGRAM_APP_ID', ''),
-      FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v17.0'),
+      FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v18.0'),
+      WHATSAPP_APP_ID: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
+      WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH

@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "סקירת תוויות",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_LABEL_REPORTS": "הורד דוחות תווית",
@@ -559,6 +560,7 @@
     "INBOX": "תיבת הדואר הנכנס",
     "AGENT": "סוכן",
     "TEAM": "צוות",
+    "LABEL": "תווית",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

@@ -4,7 +4,7 @@ require 'rails_helper'
 class TestTool < Captain::Tools::BaseService
   attr_accessor :tool_active
 
-  def initialize(*args)
+  def initialize(assistant, user: nil)
     super
     @tool_active = true
   end
@@ -106,6 +106,48 @@ RSpec.describe Captain::ToolRegistryService do
     context 'when method does not correspond to a registered tool' do
       it 'raises NoMethodError' do
         expect { service.unknown_tool }.to raise_error(NoMethodError)
+      end
+    end
+  end
+
+  describe '#tools_summary' do
+    let(:tool_class) { TestTool }
+
+    before do
+      service.register_tool(tool_class)
+    end
+
+    it 'returns formatted summary of registered tools' do
+      expect(service.tools_summary).to eq('- test_tool: A test tool for specs')
+    end
+
+    context 'when multiple tools are registered' do
+      let(:another_tool_class) do
+        Class.new(Captain::Tools::BaseService) do
+          def name
+            'another_tool'
+          end
+
+          def description
+            'Another test tool'
+          end
+
+          def parameters
+            {
+              type: 'object',
+              properties: {}
+            }
+          end
+
+          def active?
+            true
+          end
+        end
+      end
+
+      it 'includes all tools in the summary' do
+        service.register_tool(another_tool_class)
+        expect(service.tools_summary).to eq("- test_tool: A test tool for specs\n- another_tool: Another test tool")
       end
     end
   end

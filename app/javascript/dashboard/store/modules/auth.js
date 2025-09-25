@@ -135,6 +135,16 @@ export const actions = {
     }
   },
 
+  updatePassword: async ({ commit }, params) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const response = await authAPI.profilePasswordUpdate(params);
+      commit(types.SET_CURRENT_USER, response.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+
   deleteAvatar: async ({ commit }) => {
     try {
       const response = await authAPI.deleteAvatar();
@@ -210,6 +220,16 @@ export const actions = {
       await authAPI.setActiveAccount({ accountId });
     } catch (error) {
       // Ignore error
+    }
+  },
+
+  resetAccessToken: async ({ commit }) => {
+    try {
+      const response = await authAPI.resetAccessToken();
+      commit(types.SET_CURRENT_USER, response.data);
+      return true;
+    } catch (error) {
+      return false;
     }
   },
 

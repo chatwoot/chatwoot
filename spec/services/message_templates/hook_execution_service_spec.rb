@@ -111,66 +111,32 @@ describe MessageTemplates::HookExecutionService do
     end
   end
 
-  context 'when CSAT Survey' do
-    let(:csat_survey) { double }
-    let(:conversation) { create(:conversation) }
+  context 'when message is an auto reply email' do
+    it 'does not call any template hooks' do
+      contact = create(:contact)
+      conversation = create(:conversation, contact: contact)
+      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true, greeting_message: 'Hi, this is a greeting message')
 
-    before do
-      allow(MessageTemplates::Template::CsatSurvey).to receive(:new).and_return(csat_survey)
-      allow(csat_survey).to receive(:perform).and_return(true)
-      create(:message, conversation: conversation, message_type: 'incoming')
-    end
+      message = create(:message, conversation: conversation, content_type: :incoming_email)
+      message.content_attributes = { email: { auto_reply: true } }
+      message.save!
 
-    it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled' do
-      conversation.inbox.update(csat_survey_enabled: true)
+      greeting_service = double
+      email_collect_service = double
+      out_of_office_service = double
 
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
+      allow(MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
+      allow(greeting_service).to receive(:perform).and_return(true)
+      allow(MessageTemplates::Template::EmailCollect).to receive(:new).and_return(email_collect_service)
+      allow(email_collect_service).to receive(:perform).and_return(true)
+      allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+      allow(out_of_office_service).to receive(:perform).and_return(true)
 
-      expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).to have_received(:perform)
-    end
+      described_class.new(message: message).perform
 
-    it 'will not call ::MessageTemplates::Template::CsatSurvey when Csat is not enabled' do
-      conversation.inbox.update(csat_survey_enabled: false)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if its a tweet conversation' do
-      twitter_channel = create(:channel_twitter_profile)
-      twitter_inbox = create(:inbox, channel: twitter_channel)
-      conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
-      conversation.inbox.update(csat_survey_enabled: true)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
-    end
-
-    it 'will not call ::MessageTemplates::Template::CsatSurvey if another Csat was already sent' do
-      conversation.inbox.update(csat_survey_enabled: true)
-      conversation.messages.create!(message_type: 'outgoing', content_type: :input_csat, account: conversation.account, inbox: conversation.inbox)
-
-      conversation.resolved!
-      Conversations::ActivityMessageJob.perform_now(conversation,
-                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                                                      content: 'Conversation marked resolved!!' })
-
-      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
-      expect(csat_survey).not_to have_received(:perform)
+      expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
+      expect(MessageTemplates::Template::EmailCollect).not_to have_received(:new)
+      expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
     end
   end
 
@@ -194,23 +160,44 @@ describe MessageTemplates::HookExecutionService do
       expect(out_of_office_service).to have_received(:perform)
     end
 
-    it 'does not call ::MessageTemplates::Template::OutOfOffice when there are recent outgoing messages' do
-      contact = create(:contact)
-      conversation = create(:conversation, contact: contact)
+    context 'with recent outgoing messages' do
+      it 'does not call ::MessageTemplates::Template::OutOfOffice when there are recent outgoing messages' do
+        contact = create(:contact)
+        conversation = create(:conversation, contact: contact)
 
-      conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
-      conversation.inbox.working_hours.today.update!(closed_all_day: true)
+        conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+        conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
-      create(:message, conversation: conversation, message_type: :outgoing, created_at: 2.minutes.ago)
+        create(:message, conversation: conversation, message_type: :outgoing, created_at: 2.minutes.ago)
 
-      out_of_office_service = double
-      allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
-      allow(out_of_office_service).to receive(:perform).and_return(true)
+        out_of_office_service = double
+        allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+        allow(out_of_office_service).to receive(:perform).and_return(true)
 
-      create(:message, conversation: conversation)
+        create(:message, conversation: conversation)
 
-      expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
-      expect(out_of_office_service).not_to have_received(:perform)
+        expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
+        expect(out_of_office_service).not_to have_received(:perform)
+      end
+
+      it 'ignores private note and calls ::MessageTemplates::Template::OutOfOffice' do
+        contact = create(:contact)
+        conversation = create(:conversation, contact: contact)
+
+        conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+        conversation.inbox.working_hours.today.update!(closed_all_day: true)
+
+        create(:message, conversation: conversation, private: true, message_type: :outgoing, created_at: 2.minutes.ago)
+
+        out_of_office_service = double
+        allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+        allow(out_of_office_service).to receive(:perform).and_return(true)
+
+        create(:message, conversation: conversation)
+
+        expect(MessageTemplates::Template::OutOfOffice).to have_received(:new).with(conversation: conversation)
+        expect(out_of_office_service).to have_received(:perform)
+      end
     end
 
     it 'will not calls ::MessageTemplates::Template::OutOfOffice when outgoing message' do

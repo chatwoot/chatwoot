@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },
     "TITLE": "Настройки аккаунта",
@@ -45,8 +45,32 @@
         "NOTE": "Этот ID требуется для построения интеграции, основанной на API"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period. Set the duration and customize the message to the user below."
+        "TITLE": "Автоматически завершать диалоги",
+        "NOTE": "Эта опция позволит вам завершать диалоги после определенного периода бездействия.",
+        "DURATION": {
+          "LABEL": "Время бездействия",
+          "HELP": "Время бездействия, после которого диалог будет завершен",
+          "PLACEHOLDER": "30",
+          "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Сообщение об автозавершении диалога",
+          "PLACEHOLDER": "Диалог помечен завершенным автоматически из-за бездействия в течение 15 дней",
+          "HELP": "Сообщение будет отправлено после автозавершения диалога"
+        },
+        "PREFERENCES": "Настройки",
+        "LABEL": {
+          "LABEL": "Добавить метку после автозавершения",
+          "PLACEHOLDER": "Выбрать метку"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Пропустить диалоги ожидающие ответа агента"
+        },
+        "UPDATE_BUTTON": "Сохранить"
       },
       "NAME": {
         "LABEL": "Имя аккаунта",
@@ -70,20 +94,28 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "Время автозавершения должно быть между 10 минутами и 999 днями",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
+          "SUCCESS": "Настройки автозавершения сохранены",
           "ERROR": "Failed to update auto resolve settings"
         },
         "UPDATE_BUTTON": "Обновить",
         "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_PLACEHOLDER": "Диалог помечен завершенным автоматически из-за бездействия в течение 15 дней",
         "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
@@ -102,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Нажмите Enter для выбора",
       "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Выберите один",
       "SELECT": "Выбрать"
     }

@@ -118,13 +118,13 @@ export default {
 <style lang="scss" scoped>
 .banner {
   &.primary {
-    @apply bg-woot-500 dark:bg-woot-500;
+    @apply bg-n-brand;
   }
 
   &.secondary {
     @apply bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-12;
     a {
-      @apply text-slate-800 dark:text-slate-800;
+      @apply text-n-slate-12;
     }
   }
 
@@ -137,18 +137,18 @@ export default {
   }
 
   &.warning {
-    @apply bg-yellow-500 dark:bg-yellow-500 text-yellow-500 dark:text-yellow-500;
+    @apply bg-n-amber-5 text-n-amber-12;
     a {
-      @apply text-yellow-500 dark:text-yellow-500;
+      @apply text-n-amber-12;
     }
   }
 
   &.gray {
-    @apply text-black-500 dark:text-black-500;
+    @apply text-n-gray-10 dark:text-n-gray-10;
   }
 
   a {
-    @apply ml-1 underline text-white dark:text-white text-xs;
+    @apply ml-1 underline text-n-amber-12 text-xs;
   }
 
   .banner-message {

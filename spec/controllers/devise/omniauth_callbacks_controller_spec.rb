@@ -23,6 +23,10 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
   end
 
   describe '#omniauth_sucess' do
+    before do
+      GlobalConfig.clear_cache
+    end
+
     it 'allows signup' do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true', FRONTEND_URL: 'http://www.example.com' do
         set_omniauth_config('test_not_preset@example.com')

@@ -3,7 +3,7 @@ import WidgetHead from './WidgetHead.vue';
 import WidgetBody from './WidgetBody.vue';
 import WidgetFooter from './WidgetFooter.vue';
 import InputRadioGroup from 'dashboard/routes/dashboard/settings/inbox/components/InputRadioGroup.vue';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -14,7 +14,6 @@ export default {
     WidgetFooter,
     InputRadioGroup,
   },
-  mixins: [globalConfigMixin],
   props: {
     welcomeHeading: {
       type: String,
@@ -56,6 +55,12 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+    };
   },
   data() {
     return {
@@ -140,7 +145,7 @@ export default {
     </div>
     <div
       v-if="isWidgetVisible"
-      class="widget-wrapper flex flex-col justify-between rounded-lg shadow-md bg-slate-25 dark:bg-slate-800 h-[31.25rem] w-80"
+      class="widget-wrapper flex flex-col justify-between rounded-lg shadow-md bg-n-slate-2 dark:bg-n-solid-1 h-[31.25rem] w-80"
     >
       <WidgetHead :config="getWidgetConfig" />
       <div>
@@ -151,7 +156,7 @@ export default {
         <WidgetFooter :config="getWidgetConfig" />
         <div class="py-2.5 flex justify-center">
           <a
-            class="items-center gap-0.5 text-slate-500 dark:text-slate-400 cursor-pointer flex filter grayscale opacity-90 hover:grayscale-0 hover:opacity-100 text-xxs"
+            class="items-center gap-0.5 text-n-slate-11 cursor-pointer flex filter grayscale opacity-90 hover:grayscale-0 hover:opacity-100 text-xxs"
           >
             <img
               class="max-w-2.5 max-h-2.5"
@@ -159,9 +164,8 @@ export default {
             />
             <span>
               {{
-                useInstallationName(
-                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT'),
-                  globalConfig.installationName
+                replaceInstallationName(
+                  $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT')
                 )
               }}
             </span>

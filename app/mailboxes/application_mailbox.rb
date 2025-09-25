@@ -31,7 +31,7 @@ class ApplicationMailbox < ActionMailbox::Base
     end
 
     def in_reply_to_matches?(in_reply_to)
-      Array.wrap(in_reply_to).any? { _1.match?(CONVERSATION_MESSAGE_ID_PATTERN) }
+      Array.wrap(in_reply_to).any? { it.match?(CONVERSATION_MESSAGE_ID_PATTERN) }
     end
 
     # checks if follow this pattern  send it to reply_mailbox

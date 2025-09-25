@@ -36,6 +36,7 @@ import DyteBubble from './bubbles/Dyte.vue';
 import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
+import VoiceCallBubble from './bubbles/VoiceCall.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -129,6 +130,8 @@ const props = defineProps({
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
+
+const emit = defineEmits(['retry']);
 
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
@@ -280,6 +283,10 @@ const componentToRender = computed(() => {
     return FormBubble;
   }
 
+  if (props.contentType === CONTENT_TYPES.VOICE_CALL) {
+    return VoiceCallBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return EmailBubble;
   }
@@ -315,11 +322,7 @@ const componentToRender = computed(() => {
 });
 
 const shouldShowContextMenu = computed(() => {
-  return !(
-    props.status === MESSAGE_STATUS.FAILED ||
-    props.status === MESSAGE_STATUS.PROGRESS ||
-    props.contentAttributes?.isUnsupported
-  );
+  return !props.contentAttributes?.isUnsupported;
 });
 
 const isBubble = computed(() => {
@@ -344,12 +347,23 @@ const contextMenuEnabledOptions = computed(() => {
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
 
   const isOutgoing = props.messageType === MESSAGE_TYPES.OUTGOING;
+  const isFailedOrProcessing =
+    props.status === MESSAGE_STATUS.FAILED ||
+    props.status === MESSAGE_STATUS.PROGRESS;
 
   return {
     copy: hasText,
-    delete: hasText || hasAttachments,
-    cannedResponse: isOutgoing && hasText,
-    replyTo: !props.private && props.inboxSupportsReplyTo.outgoing,
+    delete:
+      (hasText || hasAttachments) &&
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value,
+    cannedResponse: isOutgoing && hasText && !isMessageDeleted.value,
+    copyLink: !isFailedOrProcessing,
+    translate: !isFailedOrProcessing && !isMessageDeleted.value && hasText,
+    replyTo:
+      !props.private &&
+      props.inboxSupportsReplyTo.outgoing &&
+      !isFailedOrProcessing,
   };
 });
 
@@ -372,7 +386,7 @@ const shouldRenderMessage = computed(() => {
 function openContextMenu(e) {
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
-    e.target?.tagName.toLowerCase() === 'a';
+    ['a', 'img'].includes(e.target?.tagName.toLowerCase());
   if (shouldSkipContextMenu || getSelection().toString()) {
     return;
   }
@@ -499,8 +513,8 @@ provideMessageContext({
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'ltr:pl-8 rtl:pr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:pr-8 rtl:pl-8': orientation === ORIENTATION.LEFT,
+          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
@@ -512,11 +526,12 @@ provideMessageContext({
         class="[grid-area:meta]"
         :class="flexOrientationClass"
         :error="contentAttributes.externalError"
+        @retry="emit('retry')"
       />
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <ContextMenu
-        v-if="isBubble && !isMessageDeleted"
+        v-if="isBubble"
         :context-menu-position="contextMenuPosition"
         :is-open="showContextMenu"
         :enabled-options="contextMenuEnabledOptions"

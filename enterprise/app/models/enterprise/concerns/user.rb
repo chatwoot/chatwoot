@@ -6,7 +6,6 @@ module Enterprise::Concerns::User
 
     has_many :captain_responses, class_name: 'Captain::AssistantResponse', dependent: :nullify, as: :documentable
     has_many :copilot_threads, dependent: :destroy_async
-    has_many :copilot_messages, dependent: :destroy_async
   end
 
   def ensure_installation_pricing_plan_quantity

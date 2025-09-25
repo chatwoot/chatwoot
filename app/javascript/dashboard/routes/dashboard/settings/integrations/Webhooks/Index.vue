@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useBranding } from 'shared/composables/useBranding';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
@@ -16,6 +17,10 @@ export default {
     NewWebhook,
     EditWebhook,
     WebhookRow,
+  },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return { replaceInstallationName };
   },
   data() {
     return {
@@ -99,7 +104,7 @@ export default {
       <BaseSettingsHeader
         v-if="integration.name"
         :title="integration.name"
-        :description="integration.description"
+        :description="replaceInstallationName(integration.description)"
         :link-text="$t('INTEGRATION_SETTINGS.WEBHOOK.LEARN_MORE')"
         feature-name="webhook"
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
@@ -115,7 +120,7 @@ export default {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-slate-75 dark:divide-slate-700">
+      <table class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
@@ -125,9 +130,7 @@ export default {
             {{ thHeader }}
           </th>
         </thead>
-        <tbody
-          class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
-        >
+        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
           <WebhookRow
             v-for="(webHookItem, index) in records"
             :key="webHookItem.id"

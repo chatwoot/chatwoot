@@ -3,6 +3,6 @@ FactoryBot.define do
     account
     user
     title { Faker::Lorem.sentence }
-    uuid { SecureRandom.uuid }
+    assistant { create(:captain_assistant, account: account) }
   end
 end

@@ -1,6 +1,5 @@
 <script>
-// [TODO] The popout events are needlessly complex and should be simplified
-import { defineAsyncComponent, defineModel, useTemplateRef } from 'vue';
+import { defineAsyncComponent, useTemplateRef } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -16,7 +15,7 @@ import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
-import Banner from 'dashboard/components/ui/Banner.vue';
+import ReplyBoxBanner from './ReplyBoxBanner.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
@@ -28,6 +27,7 @@ import {
   replaceVariablesInMessage,
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
+import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
@@ -53,8 +53,8 @@ export default {
     ArticleSearchPopover,
     AttachmentPreview,
     AudioRecorder,
-    Banner,
     CannedResponse,
+    ReplyBoxBanner,
     EmojiInput,
     MessageSignatureMissingAlert,
     ReplyBottomPanel,
@@ -62,11 +62,18 @@ export default {
     ReplyToMessage,
     ReplyTopPanel,
     ResizableTextArea,
+    ContentTemplates,
     WhatsappTemplates,
     WootMessageEditor,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
-  emits: ['update:popoutReplyBox', 'togglePopout'],
+  props: {
+    popOutReplyBox: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['update:popOutReplyBox'],
   setup() {
     const {
       uiSettings,
@@ -75,16 +82,10 @@ export default {
       fetchSignatureFlagFromUISettings,
     } = useUISettings();
 
-    const popoutReplyBox = defineModel('popoutReplyBox', {
-      type: Boolean,
-      default: false,
-    });
-
     const replyEditor = useTemplateRef('replyEditor');
 
     return {
       uiSettings,
-      popoutReplyBox,
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
@@ -110,6 +111,7 @@ export default {
       toEmails: '',
       doAutoSaveDraft: () => {},
       showWhatsAppTemplatesModal: false,
+      showContentTemplatesModal: false,
       updateEditorSelectionWith: '',
       undefinedVariableMessage: '',
       showMentions: false,
@@ -123,7 +125,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isRTL: 'accounts/isRTL',
       currentChat: 'getSelectedChat',
       messageSignature: 'getMessageSignature',
       currentUser: 'getCurrentUser',
@@ -157,44 +158,20 @@ export default {
 
       return false;
     },
-    assignedAgent: {
-      get() {
-        return this.currentChat.meta.assignee;
-      },
-      set(agent) {
-        const agentId = agent ? agent.id : 0;
-        this.$store.dispatch('setCurrentChatAssignee', agent);
-        this.$store
-          .dispatch('assignAgent', {
-            conversationId: this.currentChat.id,
-            agentId,
-          })
-          .then(() => {
-            useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
-          });
-      },
+    showWhatsappTemplates() {
+      return this.isAWhatsAppCloudChannel && !this.isPrivate;
     },
-    showSelfAssignBanner() {
-      if (this.message !== '' && !this.isOnPrivateNote) {
-        if (!this.assignedAgent) {
-          return true;
-        }
-        if (this.assignedAgent.id !== this.currentUser.id) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-    hasWhatsappTemplates() {
-      return !!this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
-        .length;
+    showContentTemplates() {
+      return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     isPrivate() {
       if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
         return this.isOnPrivateNote;
       }
       return true;
+    },
+    isReplyRestricted() {
+      return !this.currentChat?.can_reply && !this.isAWhatsAppChannel;
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -316,15 +293,6 @@ export default {
         this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
-    emojiDialogClassOnExpandedLayoutAndRTLView() {
-      if (this.isOnExpandedLayout || this.popoutReplyBox) {
-        return 'emoji-dialog--expanded';
-      }
-      if (this.isRTL) {
-        return 'emoji-dialog--rtl';
-      }
-      return '';
-    },
     isMessageEmpty() {
       if (!this.message) {
         return true;
@@ -384,6 +352,7 @@ export default {
       const variables = getMessageVariables({
         conversation: this.currentChat,
         contact: this.currentContact,
+        inbox: this.inbox,
       });
       return variables;
     },
@@ -670,28 +639,11 @@ export default {
     hideWhatsappTemplatesModal() {
       this.showWhatsAppTemplatesModal = false;
     },
-    onClickSelfAssign() {
-      const {
-        account_id,
-        availability_status,
-        available_name,
-        email,
-        id,
-        name,
-        role,
-        avatar_url,
-      } = this.currentUser;
-      const selfAssign = {
-        account_id,
-        availability_status,
-        available_name,
-        email,
-        id,
-        name,
-        role,
-        thumbnail: avatar_url,
-      };
-      this.assignedAgent = selfAssign;
+    openContentTemplateModal() {
+      this.showContentTemplatesModal = true;
+    },
+    hideContentTemplatesModal() {
+      this.showContentTemplatesModal = false;
     },
     confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
@@ -719,7 +671,7 @@ export default {
 
         this.clearMessage();
         this.hideEmojiPicker();
-        this.$emit('update:popoutReplyBox', false);
+        this.$emit('update:popOutReplyBox', false);
       }
     },
     sendMessageAsMultipleMessages(message) {
@@ -785,6 +737,13 @@ export default {
       });
       this.hideWhatsappTemplatesModal();
     },
+    async onSendContentTemplateReply(messagePayload) {
+      this.sendMessage({
+        conversationId: this.currentChat.id,
+        ...messagePayload,
+      });
+      this.hideContentTemplatesModal();
+    },
     replaceText(message) {
       if (this.sendWithSignature && !this.private) {
         // if signature is enabled, append it to the message
@@ -804,6 +763,10 @@ export default {
       }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
+      // Clear attachments when switching between private note and reply modes
+      // This is to prevent from breaking the upload rules
+      if (this.attachedFiles.length > 0) this.attachedFiles = [];
+
       const { can_reply: canReply } = this.currentChat;
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
@@ -1098,29 +1061,24 @@ export default {
         file => !file?.isRecordedAudio
       );
     },
+    togglePopout() {
+      this.$emit('update:popOutReplyBox', !this.popOutReplyBox);
+    },
   },
 };
 </script>
 
 <template>
-  <Banner
-    v-if="showSelfAssignBanner"
-    action-button-variant="ghost"
-    color-scheme="secondary"
-    class="mx-2 mb-2 rounded-lg banner--self-assign"
-    :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
-    has-action-button
-    :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-    @primary-action="onClickSelfAssign"
-  />
+  <ReplyBoxBanner :message="message" :is-on-private-note="isOnPrivateNote" />
   <div ref="replyEditor" class="reply-box" :class="replyBoxClass">
     <ReplyTopPanel
       :mode="replyType"
+      :is-reply-restricted="isReplyRestricted"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
-      :popout-reply-box="popoutReplyBox"
+      :popout-reply-box="popOutReplyBox"
       @set-reply-mode="setReplyMode"
-      @toggle-popout="$emit('togglePopout')"
+      @toggle-popout="togglePopout"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"
@@ -1144,7 +1102,9 @@ export default {
       <EmojiInput
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
-        :class="emojiDialogClassOnExpandedLayoutAndRTLView"
+        :class="{
+          'emoji-dialog--expanded': isOnExpandedLayout || popOutReplyBox,
+        }"
         :on-click="addIntoEditor"
       />
       <ReplyEmailHead
@@ -1218,12 +1178,13 @@ export default {
     <ReplyBottomPanel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
-      :has-whatsapp-templates="hasWhatsappTemplates"
+      :enable-whats-app-templates="showWhatsappTemplates"
+      :enable-content-templates="showContentTemplates"
       :inbox="inbox"
       :is-on-private-note="isOnPrivateNote"
       :is-recording-audio="isRecordingAudio"
       :is-send-disabled="isReplyButtonDisabled"
-      :mode="replyType"
+      :is-note="isPrivate"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
       :conversation-type="conversationType"
@@ -1241,6 +1202,7 @@ export default {
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
       @select-whatsapp-template="openWhatsappTemplateModal"
+      @select-content-template="openContentTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
@@ -1251,6 +1213,14 @@ export default {
       @close="hideWhatsappTemplatesModal"
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
+    />
+
+    <ContentTemplates
+      :inbox-id="inbox.id"
+      :show="showContentTemplatesModal"
+      @close="hideContentTemplatesModal"
+      @on-send="onSendContentTemplateReply"
+      @cancel="hideContentTemplatesModal"
     />
 
     <woot-confirm-modal
@@ -1264,10 +1234,6 @@ export default {
 <style lang="scss" scoped>
 .send-button {
   @apply mb-0;
-}
-
-.banner--self-assign {
-  @apply py-2;
 }
 
 .attachment-preview-box {
@@ -1297,21 +1263,11 @@ export default {
 }
 
 .emoji-dialog {
-  @apply top-[unset] -bottom-10 -left-80 right-[unset];
+  @apply top-[unset] -bottom-10 ltr:-left-80 ltr:right-[unset] rtl:left-[unset] rtl:-right-80;
 
   &::before {
-    transform: rotate(270deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
-    @apply -right-4 bottom-2 rtl:right-0 rtl:-left-4;
-  }
-}
-
-.emoji-dialog--rtl {
-  @apply left-[unset] -right-80;
-
-  &::before {
-    transform: rotate(90deg);
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+    @apply ltr:-right-4 bottom-2 rtl:-left-4 ltr:rotate-[270deg] rtl:rotate-[90deg];
   }
 }
 
@@ -1320,12 +1276,12 @@ export default {
 
   &::before {
     transform: rotate(0deg);
-    @apply left-1 -bottom-2;
+    @apply ltr:left-1 rtl:right-1 -bottom-2;
   }
 }
 
 .normal-editor__canned-box {
-  width: calc(100% - 2 * var(--space-normal));
-  left: var(--space-normal);
+  width: calc(100% - 2 * 1rem);
+  left: 1rem;
 }
 </style>

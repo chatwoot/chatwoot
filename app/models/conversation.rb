@@ -128,6 +128,12 @@ class Conversation < ApplicationRecord
     additional_attributes&.dig('conversation_language')
   end
 
+  # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.
+  # Our DB column (see schema) stores timestamps with second-level precision (no microseconds), so
+  # if you assign a Ruby Time with microseconds, the DB will truncate it. This may cause subtle differences
+  # if you compare or copy these values in Ruby, also in our specs
+  # So in specs rely on to be_with(1.second) instead of to eq()
+  # TODO: Migrate to use a timestamp with microsecond precision
   def last_activity_at
     self[:last_activity_at] || created_at
   end
@@ -192,9 +198,19 @@ class Conversation < ApplicationRecord
   private
 
   def execute_after_update_commit_callbacks
+    handle_resolved_status_change
     notify_status_change
     create_activity
     notify_conversation_updation
+  end
+
+  def handle_resolved_status_change
+    # When conversation is resolved, clear waiting_since using update_column to avoid callbacks
+    return unless saved_change_to_status? && status == 'resolved'
+
+    # rubocop:disable Rails/SkipsModelValidations
+    update_column(:waiting_since, nil)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def ensure_snooze_until_reset
@@ -281,8 +297,6 @@ class Conversation < ApplicationRecord
     previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
 
-    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
-
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)
   end
@@ -299,5 +313,6 @@ class Conversation < ApplicationRecord
   end
 end
 
+Conversation.include_mod_with('Audit::Conversation')
 Conversation.include_mod_with('Concerns::Conversation')
 Conversation.prepend_mod_with('Conversation')

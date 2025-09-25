@@ -51,10 +51,10 @@ watch(
       }"
     >
       <CopilotThinkingBlock
-        v-for="message in messages"
-        :key="message.id"
-        :content="message.content"
-        :reasoning="message.reasoning"
+        v-for="copilotMessage in messages"
+        :key="copilotMessage.id"
+        :content="copilotMessage.message.content"
+        :reasoning="copilotMessage.message.reasoning"
       />
     </div>
   </div>

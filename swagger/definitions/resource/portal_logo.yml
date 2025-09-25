@@ -1,0 +1,23 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: ID of the logo file
+  portal_id:
+    type: integer
+    description: ID of the portal this logo belongs to
+  file_type:
+    type: string
+    description: MIME type of the file
+  account_id:
+    type: integer
+    description: ID of the account
+  file_url:
+    type: string
+    description: URL to access the logo file
+  blob_id:
+    type: integer
+    description: ID of the blob
+  filename:
+    type: string
+    description: Name of the file 

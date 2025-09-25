@@ -4,6 +4,7 @@ RSpec.describe Conversations::ResolutionJob do
   subject(:job) { described_class.perform_later(account: account) }
 
   let!(:account) { create(:account) }
+  let(:label) { create(:label, title: 'auto-resolved', account: account) }
   let!(:conversation) { create(:conversation, account: account) }
 
   it 'enqueues the job' do
@@ -45,6 +46,16 @@ RSpec.describe Conversations::ResolutionJob do
       expect(waiting_conversation.reload.status).to eq('resolved')
       expect(non_waiting_conversation.reload.status).to eq('resolved')
     end
+  end
+
+  it 'adds a label after resolution' do
+    account.update(auto_resolve_label: 'auto-resolved', auto_resolve_after: 14_400)
+    conversation = create(:conversation, account: account, last_activity_at: 13.days.ago, waiting_since: 13.days.ago)
+
+    described_class.perform_now(account: account)
+
+    expect(conversation.reload.status).to eq('resolved')
+    expect(conversation.reload.label_list).to include('auto-resolved')
   end
 
   it 'resolves only a limited number of conversations in a single execution' do

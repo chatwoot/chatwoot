@@ -172,6 +172,17 @@ export const actions = {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isDisconnecting: false });
     }
   },
+
+  resetAccessToken: async ({ commit }, botId) => {
+    try {
+      const response = await AgentBotsAPI.resetAccessToken(botId);
+      commit(types.EDIT_AGENT_BOT, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
+    }
+  },
 };
 
 export const mutations = {

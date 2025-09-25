@@ -1,8 +1,16 @@
 <script setup>
-import { computed, onMounted, useTemplateRef, ref } from 'vue';
+import {
+  computed,
+  onMounted,
+  useTemplateRef,
+  ref,
+  getCurrentInstance,
+} from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
 import { downloadFile } from '@chatwoot/utils';
+import { useEmitter } from 'dashboard/composables/emitter';
+import { emitter } from 'shared/helpers/mitt';
 
 const { attachment } = defineProps({
   attachment: {
@@ -27,6 +35,8 @@ const currentTime = ref(0);
 const duration = ref(0);
 const playbackSpeed = ref(1);
 
+const { uid } = getCurrentInstance();
+
 const onLoadedMetadata = () => {
   duration.value = audioPlayer.value?.duration;
 };
@@ -41,6 +51,18 @@ const playbackSpeedLabel = computed(() => {
 onMounted(() => {
   duration.value = audioPlayer.value?.duration;
   audioPlayer.value.playbackRate = playbackSpeed.value;
+});
+
+// Listen for global audio play events and pause if it's not this audio
+useEmitter('pause_playing_audio', currentPlayingId => {
+  if (currentPlayingId !== uid && isPlaying.value) {
+    try {
+      audioPlayer.value.pause();
+    } catch {
+      /* ignore pause errors */
+    }
+    isPlaying.value = false;
+  }
 });
 
 const formatTime = time => {
@@ -70,6 +92,8 @@ const playOrPause = () => {
     audioPlayer.value.pause();
     isPlaying.value = false;
   } else {
+    // Emit event to pause all other audio
+    emitter.emit('pause_playing_audio', uid);
     audioPlayer.value.play();
     isPlaying.value = true;
   }
@@ -101,6 +125,7 @@ const downloadAudio = async () => {
     ref="audioPlayer"
     controls
     class="hidden"
+    playsinline
     @loadedmetadata="onLoadedMetadata"
     @timeupdate="onTimeUpdate"
     @ended="onEnd"
@@ -109,49 +134,58 @@ const downloadAudio = async () => {
   </audio>
   <div
     v-bind="$attrs"
-    class="rounded-xl w-full gap-1 p-1.5 bg-n-alpha-white flex items-center border border-n-container shadow-[0px_2px_8px_0px_rgba(94,94,94,0.06)]"
+    class="rounded-xl w-full gap-2 p-1.5 bg-n-alpha-white flex flex-col items-center border border-n-container shadow-[0px_2px_8px_0px_rgba(94,94,94,0.06)]"
   >
-    <button class="p-0 border-0 size-8" @click="playOrPause">
-      <Icon
-        v-if="isPlaying"
-        class="size-8"
-        icon="i-teenyicons-pause-small-solid"
-      />
-      <Icon v-else class="size-8" icon="i-teenyicons-play-small-solid" />
-    </button>
-    <div class="tabular-nums text-xs">
-      {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
+    <div class="flex gap-1 w-full flex-1 items-center justify-start">
+      <button class="p-0 border-0 size-8" @click="playOrPause">
+        <Icon
+          v-if="isPlaying"
+          class="size-8"
+          icon="i-teenyicons-pause-small-solid"
+        />
+        <Icon v-else class="size-8" icon="i-teenyicons-play-small-solid" />
+      </button>
+      <div class="tabular-nums text-xs">
+        {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
+      </div>
+      <div class="flex-1 items-center flex px-2">
+        <input
+          type="range"
+          min="0"
+          :max="duration"
+          :value="currentTime"
+          class="w-full h-1 bg-n-slate-12/40 rounded-lg appearance-none cursor-pointer accent-current"
+          @input="seek"
+        />
+      </div>
+      <button
+        class="border-0 w-10 h-6 grid place-content-center bg-n-alpha-2 hover:bg-alpha-3 rounded-2xl"
+        @click="changePlaybackSpeed"
+      >
+        <span class="text-xs text-n-slate-11 font-medium">
+          {{ playbackSpeedLabel }}
+        </span>
+      </button>
+      <button
+        class="p-0 border-0 size-8 grid place-content-center"
+        @click="toggleMute"
+      >
+        <Icon v-if="isMuted" class="size-4" icon="i-lucide-volume-off" />
+        <Icon v-else class="size-4" icon="i-lucide-volume-2" />
+      </button>
+      <button
+        class="p-0 border-0 size-8 grid place-content-center"
+        @click="downloadAudio"
+      >
+        <Icon class="size-4" icon="i-lucide-download" />
+      </button>
     </div>
-    <div class="flex-1 items-center flex px-2">
-      <input
-        type="range"
-        min="0"
-        :max="duration"
-        :value="currentTime"
-        class="w-full h-1 bg-n-slate-12/40 rounded-lg appearance-none cursor-pointer accent-current"
-        @input="seek"
-      />
+
+    <div
+      v-if="attachment.transcribedText"
+      class="text-n-slate-12 p-3 text-sm bg-n-alpha-1 rounded-lg w-full break-words"
+    >
+      {{ attachment.transcribedText }}
     </div>
-    <button
-      class="border-0 w-10 h-6 grid place-content-center bg-n-alpha-2 hover:bg-alpha-3 rounded-2xl"
-      @click="changePlaybackSpeed"
-    >
-      <span class="text-xs text-n-slate-11 font-medium">
-        {{ playbackSpeedLabel }}
-      </span>
-    </button>
-    <button
-      class="p-0 border-0 size-8 grid place-content-center"
-      @click="toggleMute"
-    >
-      <Icon v-if="isMuted" class="size-4" icon="i-lucide-volume-off" />
-      <Icon v-else class="size-4" icon="i-lucide-volume-2" />
-    </button>
-    <button
-      class="p-0 border-0 size-8 grid place-content-center"
-      @click="downloadAudio"
-    >
-      <Icon class="size-4" icon="i-lucide-download" />
-    </button>
   </div>
 </template>

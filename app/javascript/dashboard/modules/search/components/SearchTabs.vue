@@ -41,6 +41,7 @@ const onTabChange = index => {
         :name="item.name"
         :count="item.count"
         :show-badge="item.showBadge"
+        is-compact
       />
     </woot-tabs>
   </div>

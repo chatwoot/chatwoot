@@ -1,0 +1,84 @@
+type: object
+properties:
+  id:
+    type: number
+    description: Account ID
+  name:
+    type: string
+    description: Name of the account
+  locale:
+    type: string
+    description: The locale of the account
+  domain:
+    type: string
+    description: The domain of the account
+  support_email:
+    type: string
+    description: The support email of the account
+  status:
+    type: string
+    description: The status of the account
+  created_at:
+    type: string
+    format: date-time
+    description: The creation date of the account
+  cache_keys:
+    type: object
+    description: Cache keys for the account
+  features:
+    type: array
+    items:
+      type: string
+    description: Enabled features for the account
+  settings:
+    type: object
+    description: Account settings
+    properties:
+      auto_resolve_after:
+        type: number
+        description: Auto resolve conversations after specified minutes
+      auto_resolve_message:
+        type: string
+        description: Message to send when auto resolving
+      auto_resolve_ignore_waiting:
+        type: boolean
+        description: Whether to ignore waiting conversations for auto resolve
+  custom_attributes:
+    type: object
+    description: Custom attributes of the account
+    properties:
+      plan_name:
+        type: string
+        description: Subscription plan name
+      subscribed_quantity:
+        type: number
+        description: Subscribed quantity
+      subscription_status:
+        type: string
+        description: Subscription status
+      subscription_ends_on:
+        type: string
+        format: date
+        description: Subscription end date
+      industry:
+        type: string
+        description: Industry type
+      company_size:
+        type: string
+        description: Company size
+      timezone:
+        type: string
+        description: Account timezone
+      logo:
+        type: string
+        description: Account logo URL
+      onboarding_step:
+        type: string
+        description: Current onboarding step
+      marked_for_deletion_at:
+        type: string
+        format: date-time
+        description: When account was marked for deletion
+      marked_for_deletion_reason:
+        type: string
+        description: Reason for account deletion

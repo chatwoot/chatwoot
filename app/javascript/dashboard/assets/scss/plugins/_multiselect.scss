@@ -17,6 +17,10 @@
     @apply mb-4;
   }
 
+  &.invalid .multiselect__tags {
+    @apply border-0 outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8;
+  }
+
   &.multiselect--disabled {
     @apply opacity-50  rounded-lg cursor-not-allowed pointer-events-auto;
 
@@ -47,7 +51,7 @@
     @apply max-w-full;
 
     .multiselect__option {
-      @apply text-sm font-normal;
+      @apply text-sm font-normal flex justify-between items-center;
 
       span {
         @apply inline-block overflow-hidden text-ellipsis whitespace-nowrap w-fit;
@@ -58,7 +62,7 @@
       }
 
       &::after {
-        @apply bottom-0 flex items-center justify-center text-center;
+        @apply bottom-0 flex items-center justify-center text-center relative px-1 leading-tight;
       }
 
       &.multiselect__option--highlight {
@@ -74,7 +78,7 @@
       }
 
       &.multiselect__option--highlight::after {
-        @apply bg-transparent;
+        @apply bg-transparent text-n-slate-12;
       }
 
       &.multiselect__option--selected {
@@ -124,8 +128,7 @@
   }
 
   .multiselect__input {
-    @include ghost-input;
-    @apply text-sm h-[2.875rem] mb-0 p-0;
+    @apply text-sm h-[2.875rem] mb-0 p-0 shadow-none border-transparent hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none active:border-transparent active:shadow-none;
   }
 
   .multiselect__single {
