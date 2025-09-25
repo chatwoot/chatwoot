@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Κώδικας (Script)",
       "MESSENGER_SUB_HEAD": "Τοποθετήσετε αυτόν τον κώδικα μέσα στο body tag της ιστοσελίδας σας",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Πράκτορες",
       "INBOX_AGENTS_SUB_TEXT": "Προσθέστε ή αφαιρέστε πράκτορες σε αυτό το κιβώτιο",
       "AGENT_ASSIGNMENT": "Ανάθεση Συνομιλίας",
