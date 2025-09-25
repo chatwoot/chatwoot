@@ -39,6 +39,7 @@ export const FEATURE_FLAGS = {
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   CAPTAIN_V2: 'captain_integration_v2',
+  CHAT_PRESERVE_USER_SCROLL: 'chat_preserve_user_scroll',
   SAML: 'saml',
 };
 

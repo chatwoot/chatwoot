@@ -220,3 +220,6 @@
   display_name: Reply Mailer Migration
   enabled: false
   chatwoot_internal: true
+- name: chat_preserve_user_scroll
+  display_name: Preserve User Scroll on Chat
+  enabled: false

@@ -1,6 +1,7 @@
 <script>
 import { ref, provide } from 'vue';
 // composable
+import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
@@ -8,6 +9,8 @@ import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 // components
 import ReplyBox from './ReplyBox.vue';
+import TypingIndicator from 'next/Conversation/Chips/TypingIndicator.vue';
+import UnreadIndicator from 'next/Conversation/Chips/UnreadIndicator.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
@@ -21,7 +24,6 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 
 // utils
 import { emitter } from 'shared/helpers/mitt';
-import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
@@ -29,6 +31,7 @@ import {
   getReadMessages,
   getUnreadMessages,
 } from 'dashboard/helper/conversationHelper';
+import { debounce } from '@chatwoot/utils';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -36,11 +39,14 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
     MessageList,
     ReplyBox,
+    TypingIndicator,
+    UnreadIndicator,
     Banner,
     ConversationLabelSuggestion,
     Spinner,
@@ -68,6 +74,16 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
+    const currentAccountId = useMapGetter('getCurrentAccountId');
+    const isFeatureEnabledonAccount = useMapGetter(
+      'accounts/isFeatureEnabledonAccount'
+    );
+
+    const useNewScrollBehavior = isFeatureEnabledonAccount.value(
+      currentAccountId.value,
+      FEATURE_FLAGS.CHAT_PRESERVE_USER_SCROLL
+    );
+
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
@@ -77,12 +93,16 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
+      useNewScrollBehavior,
       conversationPanelRef,
     };
   },
   data() {
     return {
       isLoadingPrevious: true,
+      // this is only used to show a chip if the user has scrolled far enough
+      // we will hide this the moment the user reaches the start of the unread messages
+      showFloatingUnreadIndicator: false,
       heightBeforeLoad: null,
       conversationPanel: null,
       hasUserScrolled: false,
@@ -115,25 +135,6 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
-    },
-    typingUsersList() {
-      const userList = this.$store.getters[
-        'conversationTypingStatus/getUserList'
-      ](this.currentChat.id);
-      return userList;
-    },
-    isAnyoneTyping() {
-      const userList = this.typingUsersList;
-      return userList.length !== 0;
-    },
-    typingUserNames() {
-      const userList = this.typingUsersList;
-      if (this.isAnyoneTyping) {
-        const [i18nKey, params] = getTypingUsersText(userList);
-        return this.$t(i18nKey, params);
-      }
-
-      return '';
     },
     getMessages() {
       const messages = this.currentChat.messages || [];
@@ -227,13 +228,19 @@ export default {
       return this.currentChat.unread_count || 0;
     },
     unreadMessageLabel() {
-      const count =
-        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
-      const label =
-        this.unreadMessageCount > 1
-          ? 'CONVERSATION.UNREAD_MESSAGES'
-          : 'CONVERSATION.UNREAD_MESSAGE';
-      return `${count} ${this.$t(label)}`;
+      if (this.unreadMessageCount <= 1) {
+        return this.$t('CONVERSATION.SINGLE_UNREAD_MESSAGE');
+      }
+
+      if (this.unreadMessageCount > 9) {
+        return this.$t('CONVERSATION.UNREAD_COUNT_OVERFLOW');
+      }
+
+      const formatter = new Intl.NumberFormat(navigator.language);
+
+      return this.$t('CONVERSATION.UNREAD_COUNT', {
+        count: formatter.format(this.unreadMessageCount),
+      });
     },
     inboxSupportsReplyTo() {
       const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
@@ -271,6 +278,7 @@ export default {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
     this.fetchSuggestions();
+    this.debouncedMarkReadIfRequired = debounce(this.markReadIfRequired, 100);
   },
 
   unmounted() {
@@ -339,10 +347,20 @@ export default {
           messageElement.scrollIntoView({ behavior: 'smooth' });
           this.fetchPreviousMessages();
         } else {
-          this.scrollToBottom();
+          // if there is not message id, that means, we are meant to scroll to bottom
+          // this is done when we get a new unread message
+          // however if the user has scrolled away to a certain degree
+          // we should preserve the scroll position
+          this.scrollToBottomIfNotScrolled();
         }
       });
-      this.makeMessagesRead();
+
+      // when new scroll behavior is activated
+      // we don't mark the message as read automatically
+      // since we preserve the user scroll position
+      if (!this.useNewScrollBehavior) {
+        this.makeMessagesRead();
+      }
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -354,7 +372,39 @@ export default {
     removeScrollListener() {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
+    isNearBottom(offset = 200) {
+      // In case the user has already scrolled to a point in the message, we should
+      // not scroll to the bottom against the intent of the user.
+      const clientHeight = this.conversationPanel.clientHeight;
+      const scrollHeight = this.conversationPanel.scrollHeight;
+      const scrollTop = this.conversationPanel.scrollTop;
+
+      // when scrolled at the bottom completely for any element
+      // scrollHeight = clientHeight + scrollTop
+      // so if we wanna see if the user has scrolled but not significantly
+      // we need to see if scrollTop > scrollHeight - clientHeight
+
+      // if the user is at the bottom or close to the bottom, we can skip scrolling
+      // we add a 200px margin, this has enough space to accomodate new messages
+      // while also resetting position to the bottom if the user has scrolled but not significantly
+      return scrollTop > scrollHeight - clientHeight - offset;
+    },
+    scrollToBottomIfNotScrolled() {
+      // we disable this behavior with a feature flag
+      // once the feature has been stable for a while, we can remove this guard
+      if (this.useNewScrollBehavior) {
+        const isNearBottom = this.isNearBottom();
+
+        if (this.hasUserScrolled && !isNearBottom) {
+          this.showFloatingUnreadIndicator = true;
+          return;
+        }
+      }
+
+      this.scrollToBottom();
+    },
     scrollToBottom() {
+      this.showFloatingUnreadIndicator = false;
       this.isProgrammaticScroll = true;
       let relevantMessages = [];
 
@@ -379,6 +429,10 @@ export default {
         relevantMessages = Array.from(
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
+      }
+
+      if (this.unreadMessageCount !== 0 && this.useNewScrollBehavior) {
+        this.makeMessagesRead();
       }
 
       this.conversationPanel.scrollTop = calculateScrollTop(
@@ -431,12 +485,49 @@ export default {
       } else {
         this.hasUserScrolled = true;
       }
+
+      // in case the user has scrolled to the bottom manually
+      // we trigger the makeMessagesRead method if there are unread messages
+      //
+      // for now this is activated by a feature flag only
+      if (this.useNewScrollBehavior) {
+        this.debouncedMarkReadIfRequired();
+      }
+
       emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
+    markReadIfRequired() {
+      if (this.isNearBottom(50) && this.unreadMessageCount !== 0) {
+        this.makeMessagesRead();
+      }
+    },
+
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
+    },
+    onUnreadBadgeIntersect(visible) {
+      if (!this.useNewScrollBehavior) return;
+
+      if (visible) {
+        // when the fixed unread badge is visible
+        // we trigger the makeMessagesRead method
+        this.showFloatingUnreadIndicator = false;
+        this.makeMessagesRead();
+      }
+    },
+    getInReplyToMessage(parentMessage) {
+      if (!parentMessage) return {};
+      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
+      if (!inReplyToMessageId) return {};
+
+      return this.currentChat?.messages.find(message => {
+        if (message.id === inReplyToMessageId) {
+          return true;
+        }
+        return false;
+      });
     },
     async handleMessageRetry(message) {
       if (!message) return;
@@ -486,13 +577,13 @@ export default {
       <template #unreadBadge>
         <li
           v-show="unreadMessageCount != 0"
-          class="list-none flex justify-center items-center"
+          class="list-none flex justify-center"
         >
-          <span
-            class="shadow-lg rounded-full bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
-          >
-            {{ unreadMessageLabel }}
-          </span>
+          <UnreadIndicator
+            :label="unreadMessageLabel"
+            variant="primary"
+            @intersect="onUnreadBadgeIntersect"
+          />
         </li>
       </template>
       <template #after>
@@ -512,19 +603,16 @@ export default {
       }"
     >
       <div
-        v-if="isAnyoneTyping"
-        class="absolute flex items-center w-full h-0 -top-7"
+        class="flex items-center justify-center gap-1 absolute w-full -top-7 h-0"
       >
-        <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
-        >
-          {{ typingUserNames }}
-          <img
-            class="w-6 ltr:ml-2 rtl:mr-2"
-            src="assets/images/typing.gif"
-            alt="Someone is typing"
-          />
-        </div>
+        <TypingIndicator />
+        <UnreadIndicator
+          v-if="showFloatingUnreadIndicator && unreadMessageCount > 0"
+          variant="secondary"
+          class="cursor-pointer"
+          :label="unreadMessageLabel"
+          @click="scrollToBottom"
+        />
       </div>
       <ReplyBox
         :pop-out-reply-box="isPopOutReplyBox"

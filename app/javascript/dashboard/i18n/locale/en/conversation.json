@@ -25,8 +25,9 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "No results found."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_COUNT": "{count} Unread Messages",
+    "UNREAD_COUNT_OVERFLOW": "9+ Unread Messages",
+    "SINGLE_UNREAD_MESSAGE": "1 Unread Message",
     "CLICK_HERE": "Click here",
     "LOADING_INBOXES": "Loading inboxes",
     "LOADING_CONVERSATIONS": "Loading Conversations",
