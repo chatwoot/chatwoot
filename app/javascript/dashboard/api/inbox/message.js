@@ -6,6 +6,7 @@ export const buildCreatePayload = ({
   message,
   isPrivate,
   contentAttributes,
+  contentType,
   echoId,
   files,
   ccEmails = '',
@@ -31,7 +32,23 @@ export const buildCreatePayload = ({
       payload.append('to_emails', toEmails);
     }
     if (contentAttributes) {
-      payload.append('content_attributes', JSON.stringify(contentAttributes));
+      console.log(
+        '🔥 buildCreatePayload: Serializing content_attributes for FormData:',
+        contentAttributes
+      );
+      console.log(
+        '🔥 buildCreatePayload: Images in content_attributes:',
+        contentAttributes.images?.length || 'NO IMAGES'
+      );
+      const serializedContentAttributes = JSON.stringify(contentAttributes);
+      console.log(
+        '🔥 buildCreatePayload: Serialized content_attributes length:',
+        serializedContentAttributes.length
+      );
+      payload.append('content_attributes', serializedContentAttributes);
+    }
+    if (contentType) {
+      payload.append('content_type', contentType);
     }
   } else {
     payload = {
@@ -39,6 +56,7 @@ export const buildCreatePayload = ({
       private: isPrivate,
       echo_id: echoId,
       content_attributes: contentAttributes,
+      content_type: contentType,
       cc_emails: ccEmails,
       bcc_emails: bccEmails,
       to_emails: toEmails,
@@ -53,32 +71,75 @@ class MessageApi extends ApiClient {
     super('conversations', { accountScoped: true });
   }
 
-  create({
-    conversationId,
-    message,
-    private: isPrivate,
-    contentAttributes,
-    echo_id: echoId,
-    files,
-    ccEmails = '',
-    bccEmails = '',
-    toEmails = '',
-    templateParams,
-  }) {
+  create(params) {
+    console.log('🔥 MessageApi.create called with params:', params);
+
+    // Handle both camelCase and snake_case property names
+    const {
+      conversationId,
+      message,
+      private: isPrivate,
+      contentAttributes,
+      content_attributes,
+      content_type,
+      echo_id: echoId,
+      files,
+      ccEmails = '',
+      bccEmails = '',
+      toEmails = '',
+      templateParams,
+    } = params;
+
+    console.log(
+      '🔥 MessageApi extracted content_attributes:',
+      content_attributes
+    );
+    console.log(
+      '🔥 MessageApi extracted contentAttributes:',
+      contentAttributes
+    );
+
+    // Use content_attributes if contentAttributes is not provided (for Vuex compatibility)
+    const finalContentAttributes = contentAttributes || content_attributes;
+    const finalContentType = content_type;
+    const finalEchoId = echoId || params.echo_id;
+
+    console.log(
+      '🔥 MessageApi finalContentAttributes:',
+      finalContentAttributes
+    );
+    console.log(
+      '🔥 MessageApi finalContentAttributes images:',
+      finalContentAttributes?.images?.length || 'NO IMAGES'
+    );
+
+    const payload = buildCreatePayload({
+      message,
+      isPrivate,
+      contentAttributes: finalContentAttributes,
+      contentType: finalContentType,
+      echoId: finalEchoId,
+      files,
+      ccEmails,
+      bccEmails,
+      toEmails,
+      templateParams,
+    });
+
+    console.log('🔥 MessageApi final payload:', payload);
+    console.log(
+      '🔥 MessageApi payload content_attributes:',
+      payload.content_attributes
+    );
+    console.log(
+      '🔥 MessageApi payload images:',
+      payload.content_attributes?.images?.length || 'NO IMAGES'
+    );
+
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,
-      data: buildCreatePayload({
-        message,
-        isPrivate,
-        contentAttributes,
-        echoId,
-        files,
-        ccEmails,
-        bccEmails,
-        toEmails,
-        templateParams,
-      }),
+      data: payload,
     });
   }
 

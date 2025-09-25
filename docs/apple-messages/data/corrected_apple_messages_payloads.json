@@ -1,0 +1,195 @@
+{
+  "apple_quick_reply": {
+    "message_id": 110,
+    "content_type": "apple_quick_reply",
+    "content": "Quick Reply Test",
+    "chatwoot_format": {
+      "summary_text": "Would you like to schedule an appointment?",
+      "items": [
+        {
+          "title": "Yes, please",
+          "identifier": "reply_45ade1faad579f93"
+        },
+        {
+          "title": "No, thanks",
+          "identifier": "reply_c44ce49683bc48a6"
+        },
+        {
+          "title": "Maybe later",
+          "identifier": "reply_5c36262f625483c9"
+        }
+      ]
+    },
+    "correct_apple_msp_payload": {
+      "v": 1,
+      "id": "8397fc20-c993-4c4b-85ee-9d1bc626c351",
+      "sourceId": "business-chat-account",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "version": "1.0",
+          "requestIdentifier": "96b0d660-25d0-4c3b-899e-861fdd42fe16",
+          "quick-reply": {
+            "summaryText": "Would you like to schedule an appointment?",
+            "items": [
+              {
+                "identifier": "reply_45ade1faad579f93",
+                "title": "Yes, please"
+              },
+              {
+                "identifier": "reply_c44ce49683bc48a6",
+                "title": "No, thanks"
+              },
+              {
+                "identifier": "reply_5c36262f625483c9",
+                "title": "Maybe later"
+              }
+            ]
+          }
+        },
+        "useLiveLayout": true
+      }
+    }
+  },
+  "apple_list_picker": {
+    "message_id": 111,
+    "content_type": "apple_list_picker",
+    "content": "List Picker Test",
+    "chatwoot_format": {
+      "sections": [
+        {
+          "title": "Services",
+          "multiple_selection": false,
+          "items": [
+            {
+              "title": "Consultation",
+              "subtitle": "30 minutes",
+              "identifier": "item_4ab9cb0037bba6fa"
+            },
+            {
+              "title": "Full Service",
+              "subtitle": "60 minutes",
+              "identifier": "item_6a9b5daeceaec8f2"
+            }
+          ]
+        }
+      ],
+      "received_title": "Please select a service"
+    },
+    "correct_apple_msp_payload": {
+      "v": 1,
+      "id": "5e67d58d-c4a8-47a0-a6df-170566b90e96",
+      "sourceId": "business-chat-account",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "version": "1.0",
+          "requestIdentifier": "1d8e17ab-dfd7-43ff-a920-90b0da7d359b",
+          "listPicker": {
+            "sections": [
+              {
+                "title": "Services",
+                "multipleSelection": false,
+                "items": [
+                  {
+                    "identifier": "item_4ab9cb0037bba6fa",
+                    "title": "Consultation",
+                    "subtitle": "30 minutes"
+                  },
+                  {
+                    "identifier": "item_6a9b5daeceaec8f2",
+                    "title": "Full Service",
+                    "subtitle": "60 minutes"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "receivedMessage": {
+          "title": "Please select a service",
+          "subtitle": "",
+          "style": "icon"
+        },
+        "replyMessage": {
+          "title": "Selected",
+          "subtitle": "Your selection",
+          "style": "icon"
+        },
+        "useLiveLayout": true
+      }
+    }
+  },
+  "apple_time_picker": {
+    "message_id": 112,
+    "content_type": "apple_time_picker",
+    "content": "Time Picker Test",
+    "chatwoot_format": {
+      "event": {
+        "title": "Appointment Booking",
+        "description": "Select your preferred time"
+      },
+      "timezone_offset": -480,
+      "timeslots": [
+        {
+          "startTime": "2025-09-16T15:50:32+02:00",
+          "duration": 60,
+          "identifier": "slot_8f3a430c367e78d2"
+        },
+        {
+          "startTime": "2025-09-17T15:50:32+02:00",
+          "duration": 30,
+          "identifier": "slot_cf9ccbd3c67bf00a"
+        }
+      ]
+    },
+    "correct_apple_msp_payload": {
+      "v": 1,
+      "id": "ac9b3613-abb2-4fd4-9f1d-139c80046fb7",
+      "sourceId": "business-chat-account",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "version": "1.0",
+          "requestIdentifier": "46c219c7-cdf2-4ca3-a155-bd2ce0515802",
+          "timePicker": {
+            "event": {
+              "title": "Appointment Booking",
+              "description": "Select your preferred time",
+              "timezoneOffset": -480,
+              "timeslots": [
+                {
+                  "identifier": "slot_8f3a430c367e78d2",
+                  "startTime": "2025-09-16T15:50:32+02:00",
+                  "duration": 60
+                },
+                {
+                  "identifier": "slot_cf9ccbd3c67bf00a",
+                  "startTime": "2025-09-17T15:50:32+02:00",
+                  "duration": 30
+                }
+              ]
+            }
+          }
+        },
+        "receivedMessage": {
+          "title": "Appointment Booking",
+          "subtitle": "Select your preferred time",
+          "style": "icon"
+        },
+        "replyMessage": {
+          "title": "Appointment Scheduled",
+          "subtitle": "Your appointment time",
+          "style": "icon"
+        },
+        "useLiveLayout": true
+      }
+    }
+  }
+}

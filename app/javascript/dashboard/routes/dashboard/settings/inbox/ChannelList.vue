@@ -42,6 +42,10 @@ export default {
         { key: 'line', name: 'Line' },
         { key: 'instagram', name: 'Instagram' },
         { key: 'voice', name: 'Voice' },
+        {
+          key: 'apple_messages_for_business',
+          name: 'Apple Messages for Business',
+        },
       ];
     },
     ...mapGetters({

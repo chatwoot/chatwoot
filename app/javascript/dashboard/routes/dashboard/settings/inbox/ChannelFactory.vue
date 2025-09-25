@@ -11,6 +11,7 @@ import Line from './channels/Line.vue';
 import Telegram from './channels/Telegram.vue';
 import Instagram from './channels/Instagram.vue';
 import Voice from './channels/Voice.vue';
+import AppleMessagesForBusiness from './channels/AppleMessagesForBusiness.vue';
 
 const channelViewList = {
   facebook: Facebook,
@@ -24,6 +25,7 @@ const channelViewList = {
   telegram: Telegram,
   instagram: Instagram,
   voice: Voice,
+  apple_messages_for_business: AppleMessagesForBusiness,
 };
 
 export default defineComponent({

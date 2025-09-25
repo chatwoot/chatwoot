@@ -6,6 +6,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 export const INBOX_FEATURES = {
   REPLY_TO: 'replyTo',
   REPLY_TO_OUTGOING: 'replyToOutgoing',
+  INTERACTIVE_MESSAGES: 'interactiveMessages',
 };
 
 // This is a single source of truth for inbox features
@@ -18,6 +19,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.API,
+    INBOX_TYPES.APPLE_MESSAGES_FOR_BUSINESS,
   ],
   [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
     INBOX_TYPES.WEB,
@@ -25,6 +27,10 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.API,
+    INBOX_TYPES.APPLE_MESSAGES_FOR_BUSINESS,
+  ],
+  [INBOX_FEATURES.INTERACTIVE_MESSAGES]: [
+    INBOX_TYPES.APPLE_MESSAGES_FOR_BUSINESS,
   ],
 };
 
@@ -129,6 +135,10 @@ export const useInbox = () => {
     return channelType.value === INBOX_TYPES.VOICE;
   });
 
+  const isAnAppleMessagesForBusinessChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.APPLE_MESSAGES_FOR_BUSINESS;
+  });
+
   return {
     inbox,
     isAFacebookInbox,
@@ -147,5 +157,6 @@ export const useInbox = () => {
     isAnEmailChannel,
     isAnInstagramChannel,
     isAVoiceChannel,
+    isAnAppleMessagesForBusinessChannel,
   };
 };

@@ -14,13 +14,20 @@ import {
 } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
+import AppleMessagesButton from '../AppleMessagesButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
+  components: {
+    NextButton,
+    FileUpload,
+    VideoCallButton,
+    AIAssistanceButton,
+    AppleMessagesButton,
+  },
   mixins: [inboxMixin],
   props: {
     mode: {
@@ -256,6 +263,14 @@ export default {
     toggleInsertArticle() {
       this.$emit('toggleInsertArticle');
     },
+    handleSendAppleMessage(messageData) {
+      console.log(
+        '🔥 ReplyBottomPanel: handleSendAppleMessage called with:',
+        messageData
+      );
+      this.$emit('send-apple-message', messageData);
+      console.log('🔥 ReplyBottomPanel: emitted send-apple-message event');
+    },
   },
 };
 </script>
@@ -340,6 +355,18 @@ export default {
         faded
         sm
         @click="$emit('selectWhatsappTemplate')"
+      />
+      <AppleMessagesButton
+        :inbox="inbox"
+        @send-apple-message="
+          data => {
+            console.log(
+              '🔥 ReplyBottomPanel: received send-apple-message from AppleMessagesButton:',
+              data
+            );
+            handleSendAppleMessage(data);
+          }
+        "
       />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"

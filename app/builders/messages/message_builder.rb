@@ -20,6 +20,18 @@ class Messages::MessageBuilder
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
+    
+    # 🔥 DEBUG: Log validation attempt for Apple Messages
+    if @message.content_type&.start_with?('apple_')
+      Rails.logger.info "🔥 MessageBuilder - Attempting to save Apple message:"
+      Rails.logger.info "🔥 Content Type: #{@message.content_type}"
+      Rails.logger.info "🔥 Content Attributes: #{@message.content_attributes.inspect}"
+      Rails.logger.info "🔥 Valid?: #{@message.valid?}"
+      unless @message.valid?
+        Rails.logger.error "🔥 Validation Errors: #{@message.errors.full_messages}"
+      end
+    end
+    
     @message.save!
     @message
   end
@@ -33,11 +45,38 @@ class Messages::MessageBuilder
   def content_attributes
     params = convert_to_hash(@params)
     content_attributes = params.fetch(:content_attributes, {})
+    
+    # 🔥 DEBUG: Log what we're receiving
+    if @params[:content_type]&.start_with?('apple_')
+      Rails.logger.info "🔥 MessageBuilder content_attributes - Raw params keys: #{params.keys}"
+      Rails.logger.info "🔥 MessageBuilder content_attributes - Images in params: #{params.key?(:images) ? 'YES' : 'NO'}"
+      Rails.logger.info "🔥 MessageBuilder content_attributes - Images data: #{params[:images].inspect}" if params.key?(:images)
+      Rails.logger.info "🔥 MessageBuilder content_attributes - Content attributes: #{content_attributes.inspect}"
+    end
 
-    return parse_json(content_attributes) if content_attributes.is_a?(String)
-    return content_attributes if content_attributes.is_a?(Hash)
+    parsed_content_attributes = if content_attributes.is_a?(String)
+                                  parse_json(content_attributes)
+                                elsif content_attributes.is_a?(Hash)
+                                  content_attributes
+                                else
+                                  {}
+                                end
 
-    {}
+    # 🔥 FIX: Include images in content_attributes for Apple Messages
+    # Check both separate images parameter AND images nested in content_attributes
+    if @params[:content_type]&.start_with?('apple_')
+      if params.key?(:images)
+        parsed_content_attributes[:images] = params[:images]
+        Rails.logger.info "🔥 MessageBuilder content_attributes - Added images from separate parameter"
+      elsif parsed_content_attributes.key?(:images) || parsed_content_attributes.key?('images')
+        # Images are already in content_attributes, keep them there
+        Rails.logger.info "🔥 MessageBuilder content_attributes - Images already in content_attributes: #{parsed_content_attributes[:images] || parsed_content_attributes['images']}"
+      else
+        Rails.logger.info "🔥 MessageBuilder content_attributes - No images found anywhere"
+      end
+    end
+
+    parsed_content_attributes
   end
 
   # Converts the given object to a hash.
@@ -146,7 +185,8 @@ class Messages::MessageBuilder
       content: @params[:content],
       private: @private,
       sender: sender,
-      content_type: @params[:content_type],
+      content_type: @params[:content_type] || 'text',
+      content_attributes: content_attributes,
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],

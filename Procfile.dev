@@ -1,4 +1,4 @@
-backend: bin/rails s -p 3000
+backend: PATH="/opt/homebrew/opt/ruby@3.3/bin:/opt/homebrew/opt/postgresql@15/bin:$PATH" bin/rails s -p 3000
 # https://github.com/mperham/sidekiq/issues/3090#issuecomment-389748695
-worker: dotenv bundle exec sidekiq -C config/sidekiq.yml
+worker: PATH="/opt/homebrew/opt/ruby@3.3/bin:/opt/homebrew/opt/postgresql@15/bin:$PATH" bundle exec sidekiq -C config/sidekiq.yml
 vite: bin/vite dev

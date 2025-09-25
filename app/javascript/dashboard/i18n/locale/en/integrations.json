@@ -182,6 +182,59 @@
       },
       "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
     },
+    "PERPLEXITY": {
+      "AI_ASSIST": "AI Assist",
+      "WITH_AI": " {option} with AI ",
+      "OPTIONS": {
+        "REPLY_SUGGESTION": "Reply Suggestion",
+        "SUMMARIZE": "Summarize",
+        "REPHRASE": "Improve Writing",
+        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
+        "SHORTEN": "Shorten",
+        "EXPAND": "Expand",
+        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FORMAL": "Use formal tone",
+        "SIMPLIFY": "Simplify"
+      },
+      "ASSISTANCE_MODAL": {
+        "DRAFT_TITLE": "Draft content",
+        "GENERATED_TITLE": "Generated content",
+        "AI_WRITING": "AI is writing",
+        "BUTTONS": {
+          "APPLY": "Use this suggestion",
+          "CANCEL": "Cancel"
+        }
+      },
+      "CTA_MODAL": {
+        "TITLE": "Integrate with Perplexity",
+        "DESC": "Bring advanced AI features to your dashboard with Perplexity's LLM models. To begin, enter the API key from your Perplexity account.",
+        "KEY_PLACEHOLDER": "Enter your Perplexity API key",
+        "BUTTONS": {
+          "NEED_HELP": "Need help?",
+          "DISMISS": "Dismiss",
+          "FINISH": "Finish Setup"
+        },
+        "DISMISS_MESSAGE": "You can setup Perplexity integration later Whenever you want.",
+        "SUCCESS_MESSAGE": "Perplexity integration setup successfully"
+      },
+      "TITLE": "Improve With AI",
+      "SUMMARY_TITLE": "Summary with AI",
+      "REPLY_TITLE": "Reply suggestion with AI",
+      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TONE": {
+        "TITLE": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly"
+        }
+      },
+      "BUTTONS": {
+        "GENERATE": "Generate",
+        "GENERATING": "Generating...",
+        "CANCEL": "Cancel"
+      },
+      "GENERATE_ERROR": "There was an error processing the content, please verify your Perplexity API key and try again"
+    },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "API": {

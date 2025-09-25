@@ -5,7 +5,7 @@
 #  id                :bigint           not null, primary key
 #  answer            :text             not null
 #  documentable_type :string
-#  embedding         :vector(1536)
+#  embedding         :text
 #  question          :string           not null
 #  status            :integer          default("approved"), not null
 #  created_at        :datetime         not null
@@ -20,7 +20,6 @@
 #  index_captain_assistant_responses_on_account_id    (account_id)
 #  index_captain_assistant_responses_on_assistant_id  (assistant_id)
 #  index_captain_assistant_responses_on_status        (status)
-#  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
 #
 class Captain::AssistantResponse < ApplicationRecord
   self.table_name = 'captain_assistant_responses'

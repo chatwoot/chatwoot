@@ -55,6 +55,7 @@ export default {
         'line',
         'instagram',
         'voice',
+        'apple_messages_for_business',
       ].includes(key);
     },
     isComingSoon() {
@@ -68,6 +69,9 @@ export default {
     getChannelThumbnail() {
       if (this.channel.key === 'api' && this.channel.thumbnail) {
         return this.channel.thumbnail;
+      }
+      if (this.channel.key === 'apple_messages_for_business') {
+        return `/assets/images/dashboard/channels/${this.channel.key}.svg`;
       }
       return `/assets/images/dashboard/channels/${this.channel.key}.png`;
     },

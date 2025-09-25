@@ -421,6 +421,91 @@
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
       },
+      "APPLE_MESSAGES_FOR_BUSINESS": {
+        "TITLE": "Apple Messages for Business",
+        "DESC": "Integrate with Apple Messages for Business and start supporting your customers via Apple's native messaging platform.",
+        "SETUP_GUIDE": {
+          "TITLE": "Setup Requirements",
+          "DESC": "Before creating this channel, ensure you have the following from Apple:",
+          "STEP_1": "Register your business with Apple Messages for Business",
+          "STEP_2": "Obtain your MSP ID and Business ID from Apple",
+          "STEP_3": "Generate a shared secret for webhook authentication",
+          "STEP_4": "Configure your Apple Pay merchant details (optional)"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Enter your inbox name (eg: Apple Messages Support)",
+          "ERROR": "Please enter a valid inbox name"
+        },
+        "MSP_ID": {
+          "LABEL": "MSP ID",
+          "PLACEHOLDER": "Enter your MSP ID from Apple",
+          "ERROR": "Please enter a valid MSP ID"
+        },
+        "BUSINESS_ID": {
+          "LABEL": "Business ID",
+          "PLACEHOLDER": "Enter your Business ID from Apple",
+          "ERROR": "Please enter a valid Business ID"
+        },
+        "SECRET": {
+          "LABEL": "Shared Secret",
+          "PLACEHOLDER": "Enter your shared secret for webhook authentication",
+          "ERROR": "Please enter a valid shared secret"
+        },
+        "MERCHANT_ID": {
+          "LABEL": "Apple Pay Merchant ID (Optional)",
+          "PLACEHOLDER": "merchant.com.yourcompany.app",
+          "HELP": "Required only if you plan to use Apple Pay functionality"
+        },
+        "APPLE_PAY_CERT": {
+          "LABEL": "Apple Pay Merchant Certificate (Optional)",
+          "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----",
+          "HELP": "Upload your Apple Pay merchant certificate for payment processing"
+        },
+        "IMESSAGE_BID": {
+          "LABEL": "iMessage Extension Bundle ID",
+          "PLACEHOLDER": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+          "ERROR": "Please enter a valid bundle ID",
+          "HELP": "Use the default Apple Messages for Business extension ID unless you have a custom extension"
+        },
+        "SUBMIT_BUTTON": "Create Apple Messages for Business Channel",
+        "OAUTH2": {
+          "TITLE": "OAuth2 Authentication Settings",
+          "DESC": "Configure OAuth2 providers to enable user authentication in Apple Messages. Customers can authenticate using their preferred social accounts.",
+          "GOOGLE_ENABLED": "Enable Google Authentication",
+          "LINKEDIN_ENABLED": "Enable LinkedIn Authentication",
+          "FACEBOOK_ENABLED": "Enable Facebook Authentication",
+          "CLIENT_ID": "Client ID",
+          "CLIENT_SECRET": "Client Secret"
+        },
+        "APPLE_PAY": {
+          "TITLE": "Apple Pay Configuration",
+          "DESC": "Configure Apple Pay settings to enable secure payment processing within Apple Messages conversations.",
+          "ENABLED": "Enable Apple Pay",
+          "MERCHANT_IDENTIFIER": "Merchant Identifier",
+          "MERCHANT_DOMAIN": "Merchant Domain",
+          "COUNTRY_CODE": "Country Code",
+          "CURRENCY_CODE": "Currency Code",
+          "SUPPORTED_NETWORKS": "Supported Payment Networks"
+        },
+        "PAYMENT_PROCESSORS": {
+          "TITLE": "Payment Processors",
+          "DESC": "Configure payment gateway integrations to process Apple Pay transactions. At least one processor must be enabled when Apple Pay is active.",
+          "STRIPE_ENABLED": "Enable Stripe",
+          "SQUARE_ENABLED": "Enable Square",
+          "BRAINTREE_ENABLED": "Enable Braintree",
+          "PUBLISHABLE_KEY": "Publishable Key",
+          "SECRET_KEY": "Secret Key",
+          "APPLICATION_ID": "Application ID",
+          "ACCESS_TOKEN": "Access Token",
+          "MERCHANT_ID": "Merchant ID",
+          "PUBLIC_KEY": "Public Key",
+          "PRIVATE_KEY": "Private Key"
+        },
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the Apple Messages for Business channel"
+        }
+      },
       "AUTH": {
         "TITLE": "Choose a channel",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
@@ -624,7 +709,15 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings",
+      "APPLE_MESSAGES_MSP_TITLE": "MSP ID",
+      "APPLE_MESSAGES_MSP_SUBTITLE": "Your unique Messaging Service Provider ID for Apple Messages for Business.",
+      "APPLE_MESSAGES_BUSINESS_ID_TITLE": "Business ID",
+      "APPLE_MESSAGES_BUSINESS_ID_SUBTITLE": "Your Apple Business ID used for messaging services.",
+      "APPLE_MESSAGES_WEBHOOK_TITLE": "Webhook URL",
+      "APPLE_MESSAGES_WEBHOOK_SUBTITLE": "Configure this URL in Apple Business Register to receive messages from customers.",
+      "APPLE_MESSAGES_SECRET_TITLE": "Shared Secret",
+      "APPLE_MESSAGES_SECRET_SUBTITLE": "Secret key used to verify webhook requests from Apple Messages for Business."
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",
@@ -883,7 +976,8 @@
       "LINE": "Line",
       "API": "API Channel",
       "INSTAGRAM": "Instagram",
-      "VOICE": "Voice"
+      "VOICE": "Voice",
+      "APPLE_MESSAGES_FOR_BUSINESS": "Apple Messages for Business"
     }
   }
 }

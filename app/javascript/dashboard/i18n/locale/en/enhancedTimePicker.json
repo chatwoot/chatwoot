@@ -1,0 +1,70 @@
+{
+  "ENHANCED_TIME_PICKER": {
+    "TITLE": "Enhanced Time Picker",
+    "DESCRIPTION": "Create advanced scheduling options with granular time slot control",
+    "EVENT_DETAILS": {
+      "TITLE": "Event Details",
+      "EVENT_TITLE": "Event Title",
+      "EVENT_TITLE_PLACEHOLDER": "Schedule Appointment",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Select your preferred time slot"
+    },
+    "TIME_SETTINGS": {
+      "TITLE": "Time Settings",
+      "TIME_INTERVAL": "Time Interval",
+      "USE_BUSINESS_HOURS": "Use Business Hours",
+      "START_TIME": "Start Time",
+      "END_TIME": "End Time",
+      "ALLOW_MULTIPLE_SELECTION": "Allow Multiple Time Slots",
+      "MAXIMUM_SLOTS": "Maximum Slots"
+    },
+    "MESSAGE_SETTINGS": {
+      "TITLE": "Message Settings",
+      "RECEIVED_TITLE": "Received Message Title",
+      "RECEIVED_TITLE_PLACEHOLDER": "Please pick a time",
+      "RECEIVED_SUBTITLE": "Received Message Subtitle",
+      "RECEIVED_SUBTITLE_PLACEHOLDER": "Select your preferred time slot",
+      "REPLY_TITLE": "Reply Message Title",
+      "REPLY_TITLE_PLACEHOLDER": "Thank you!",
+      "REPLY_SUBTITLE": "Reply Message Subtitle",
+      "REPLY_SUBTITLE_PLACEHOLDER": "We'll see you then!"
+    },
+    "DATE_SELECTION": {
+      "TITLE": "Select Date",
+      "NO_SLOTS_MESSAGE": "No available time slots for this date",
+      "NO_SLOTS_HELP": "Try selecting a different date or adjusting business hours"
+    },
+    "SLOT_SELECTION": {
+      "TITLE": "Available Slots",
+      "SELECTED_SLOTS": "Selected Time Slots",
+      "AVAILABLE_INDICATOR": "Available",
+      "UNAVAILABLE_INDICATOR": "Unavailable",
+      "SELECTED_INDICATOR": "Selected",
+      "SLOT_ARIA_LABEL": "Time slot {startTime} to {endTime}, {status}",
+      "REMOVE_SLOT": "Remove time slot"
+    },
+    "QUICK_ACTIONS": {
+      "TITLE": "Quick Actions",
+      "CLEAR_ALL": "Clear All",
+      "CLEAR_ALL_DESCRIPTION": "Remove all selections",
+      "PREVIEW": "Preview",
+      "PREVIEW_DESCRIPTION": "See how it looks"
+    },
+    "INTERVALS": {
+      "15_MINUTES": "15 minutes",
+      "30_MINUTES": "30 minutes",
+      "1_HOUR": "1 hour",
+      "2_HOURS": "2 hours"
+    },
+    "ACTIONS": {
+      "CANCEL": "Cancel",
+      "CREATE": "Create Time Picker",
+      "OPEN_ENHANCED": "Open Enhanced Picker"
+    },
+    "TIMEZONE_INFO": "Timezone: {timezone} ({offset}h)",
+    "VALIDATION": {
+      "REQUIRED_FIELDS": "Please fill in all required fields",
+      "SELECT_SLOTS": "Please select at least one time slot"
+    }
+  }
+}

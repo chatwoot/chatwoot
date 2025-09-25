@@ -64,6 +64,11 @@ export const CONTENT_TYPES = {
   INPUT_CSAT: 'input_csat',
   INTEGRATIONS: 'integrations',
   STICKER: 'sticker',
+  APPLE_LIST_PICKER: 'apple_list_picker',
+  APPLE_TIME_PICKER: 'apple_time_picker',
+  APPLE_QUICK_REPLY: 'apple_quick_reply',
+  APPLE_PAY: 'apple_pay',
+  APPLE_RICH_LINK: 'apple_rich_link',
 };
 
 export const MEDIA_TYPES = [

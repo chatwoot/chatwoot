@@ -314,6 +314,17 @@
       "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
+      "APPLE_MESSAGES_CAPABILITIES": "Apple Messages Capabilities",
+      "APPLE_MESSAGES": {
+        "SEND_MESSAGE": "Send Message",
+        "CANCEL": "Cancel",
+        "RICH_LINK_PREVIEW": "Rich Link Preview",
+        "DISMISS_PREVIEW": "Dismiss preview",
+        "LOADING_PREVIEW": "Loading preview...",
+        "PREVIEW_ERROR": "Unable to load preview",
+        "SEND_AS_TEXT": "Send as Text",
+        "SEND_AS_RICH_LINK": "Send as Rich Link"
+      },
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
@@ -380,6 +391,10 @@
     "NO_PARTICIPANTS_TEXT": "No one is participating!.",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
+    "APPLE_MESSAGES": {
+      "CANCEL": "Cancel",
+      "SEND_MESSAGE": "Send Message"
+    },
     "API": {
       "ERROR_MESSAGE": "Could not update, try again!",
       "SUCCESS_MESSAGE": "Participants updated!"
