@@ -4,7 +4,6 @@ import { required, minLength, email } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
@@ -147,7 +146,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 px-1 overflow-auto">
+  <div class="overflow-auto bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-emerald-200 dark:border-slate-700 p-6">
     <form class="space-y-3" @submit.prevent="submit">
       <div class="grid grid-cols-1 gap-2">
         <FormInput

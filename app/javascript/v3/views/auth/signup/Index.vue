@@ -4,14 +4,12 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import AuthBackround from '../../../components/AuthBackground/AuthBackground.vue';
 
 export default {
   components: {
     SignupForm,
     Spinner,
     Testimonials,
-    AuthBackround,
   },
   mixins: [globalConfigMixin],
   data() {
@@ -35,41 +33,48 @@ export default {
 </script>
 
 <template>
-  <div class="w-full h-full dark:bg-slate-900">
-    <div v-show="!isLoading" class="flex h-full min-h-screen">
-      <div class="flex flex-col md:flex-row *:md:flex-1 w-full">
-        <AuthBackround />
-        <div class="p-5 md:p-8 w-full overflow-auto flex items-center">
-          <div class="w-full mx-auto">
-            <div class="mb-4">
-              <h2
-                class="mt-6 text-3xl font-medium text-center mb-7 text-slate-900 dark:text-woot-50"
-              >
-                {{ $t('REGISTER.TRY_WOOT') }}
-              </h2>
-            </div>
-            <SignupForm />
-            <div class="px-1 text-sm text-slate-800 dark:text-woot-50">
-              <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
-              <router-link class="text-link" to="/app/login">
-                {{ ' ' }}
-                {{
-                  useInstallationName(
-                    $t('LOGIN.SUBMIT'),
-                    globalConfig.installationName
-                  )
-                }}
-              </router-link>
-            </div>
+  <div class="w-full min-h-screen bg-background">
+    <img src="v3/assets/images/Mascot-Laptop.png" alt="Mascot" class="z-50 absolute items-center top-1/3 right-2/3 h-[500px]"/>
+    <div v-show="!isLoading" class="flex w-full">
+      <div
+        class="flex flex-col w-full p-5 md:p-8 overflow-x-hidden items-center justify-center"
+      >
+        <div class="w-full max-w-md mx-auto">
+          <img
+            src="v3/assets/images/logo.svg"
+            alt="logo"
+            class="block w-auto h-16 mx-auto mb-6"
+          />
+
+          <div class="mb-4">
+            <h2
+              class="text-3xl font-medium text-center mb-7 text-slate-900 dark:text-woot-50"
+            >
+              {{ $t('REGISTER.TRY_WOOT') }}
+            </h2>
+          </div>
+
+          <SignupForm />
+
+          <div
+            class="px-1 mt-4 text-sm text-slate-800 dark:text-woot-50 text-center"
+          >
+            <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
+            <router-link class="text-link" to="/app/login">
+              {{ ' ' }}
+              {{
+                useInstallationName(
+                  $t('LOGIN.SUBMIT'),
+                  globalConfig.installationName
+                )
+              }}
+            </router-link>
           </div>
         </div>
       </div>
-      <Testimonials
-        v-if="isAChatwootInstance"
-        class="flex-1"
-        @resize-containers="resizeContainers"
-      />
+      
     </div>
+
     <div
       v-show="isLoading"
       class="flex items-center justify-center w-full h-full"
@@ -78,3 +83,26 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.bg-background {
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 250, 199, 0.4),       
+    rgba(217, 255, 228, 0.3),      
+    rgba(34, 197, 94, 0.1)  
+  );
+  min-height: 100vh;
+  height: auto;
+}
+
+.dark .bg-background {
+  background: linear-gradient(
+    to bottom right,
+    rgba(15, 23, 42, 0.95),
+    rgba(30, 41, 59, 0.9)
+  );
+  min-height: 100vh;
+  height: auto;
+}
+</style>
