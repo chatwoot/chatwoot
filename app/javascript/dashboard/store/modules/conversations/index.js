@@ -6,6 +6,7 @@ import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
 const state = {
   allConversations: [],
@@ -269,6 +270,42 @@ export const mutations = {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     if (chat) {
       chat.meta.sender = payload;
+    }
+  },
+
+  [types.UPDATE_CONVERSATION_CALL_STATUS](
+    _state,
+    { conversationId, callStatus }
+  ) {
+    if (!conversationId || !callStatus) return;
+
+    const [chat] = _state.allConversations.filter(
+      c => c && c.id === conversationId
+    );
+    if (chat) {
+      if (!chat.additional_attributes) {
+        chat.additional_attributes = {};
+      }
+      chat.additional_attributes.call_status = callStatus;
+
+      // Also update the latest voice call message status if present
+      const messages = chat.messages || [];
+      const lastCallIndex = [...messages].reverse().findIndex(m => {
+        const ct = m.content_type || m.contentType;
+        return ct === CONTENT_TYPES.VOICE_CALL;
+      });
+      if (lastCallIndex !== -1) {
+        const idx = messages.length - 1 - lastCallIndex;
+        const msg = messages[idx];
+        const key = msg.content_attributes
+          ? 'content_attributes'
+          : 'contentAttributes';
+        const container = msg[key] || {};
+        container.data = container.data || {};
+        // Use Twilio-native status directly
+        container.data.status = callStatus;
+        msg[key] = container;
+      }
     }
   },
 

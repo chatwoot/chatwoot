@@ -136,6 +136,11 @@ export const getters = {
         (item.channel_type === INBOX_TYPES.TWILIO && item.medium === 'sms')
     );
   },
+  getVoiceInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.VOICE
+    );
+  },
   getWhatsAppInboxes($state) {
     return $state.records.filter(
       item => item.channel_type === INBOX_TYPES.WHATSAPP
@@ -225,6 +230,33 @@ export const actions = {
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
       sendAnalyticsEvent('twilio');
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      throw error;
+    }
+  },
+  createVoiceChannel: async ({ commit }, params) => {
+    try {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
+
+      // Create a formatted payload for the voice channel
+      const inboxParams = {
+        name: params.voice.name || `Voice (${params.voice.phone_number})`,
+        channel: {
+          type: 'voice',
+          phone_number: params.voice.phone_number,
+          provider: params.voice.provider,
+          provider_config: params.voice.provider_config,
+        },
+      };
+
+      // Use InboxesAPI to create the channel which handles authentication properly
+      const response = await InboxesAPI.create(inboxParams);
+
+      commit(types.default.ADD_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      sendAnalyticsEvent('voice');
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });

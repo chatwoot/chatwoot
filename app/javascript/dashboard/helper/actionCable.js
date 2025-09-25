@@ -1,9 +1,14 @@
 import AuthAPI from '../api/auth';
+import VoiceAPI from 'dashboard/api/channels/voice';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
+import {
+  handleVoiceMessageCreated,
+  handleVoiceMessageUpdated,
+} from './voiceRealtime';
 
 const { isImpersonating } = useImpersonation();
 
@@ -53,6 +58,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onMessageUpdated = data => {
     this.app.$store.dispatch('updateMessage', data);
+    handleVoiceMessageUpdated(this.app, data);
   };
 
   onPresenceUpdate = data => {
@@ -91,7 +97,15 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   // eslint-disable-next-line class-methods-use-this
-  onLogout = () => AuthAPI.logout();
+  onLogout = () => {
+    try {
+      VoiceAPI.endClientCall();
+      VoiceAPI.destroyDevice();
+    } catch (_) {
+      // Ignore cleanup errors while logging out
+    }
+    AuthAPI.logout();
+  };
 
   onMessageCreated = data => {
     const {
@@ -104,6 +118,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       lastActivityAt,
       conversationId,
     });
+
+    handleVoiceMessageCreated(this.app, data);
   };
 
   // eslint-disable-next-line class-methods-use-this
