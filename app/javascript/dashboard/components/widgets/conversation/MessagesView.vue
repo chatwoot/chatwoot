@@ -580,11 +580,13 @@ export default {
         </transition>
       </template>
       <template #unreadBadge>
-        <li v-show="unreadMessageCount != 0" class="unread--toast">
+        <li
+          v-show="unreadMessageCount != 0"
+          class="list-none flex justify-center"
+        >
           <UnreadIndicator
             :label="unreadMessageLabel"
             variant="primary"
-            class="mx-auto"
             @intersect="onUnreadBadgeIntersect"
           />
         </li>
