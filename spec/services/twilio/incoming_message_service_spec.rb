@@ -403,231 +403,227 @@ describe Twilio::IncomingMessageService do
         expect(existing_contact.name).to eq('Alice Johnson')
       end
 
-      context 'when handling Brazilian WhatsApp numbers' do
+      describe 'When the incoming number is a Brazilian number in new format with 9 included' do
         let!(:whatsapp_twilio_channel) do
           create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
                                                  inbox: create(:inbox, account: account, greeting_enabled: false))
         end
 
-        describe 'When the incoming number is a Brazilian number in new format with 9 included' do
-          it 'creates appropriate conversations, message and contacts if contact does not exist' do
-            params = {
-              SmsSid: 'SMxx',
-              From: 'whatsapp:+5541988887777',
-              AccountSid: 'ACxxx',
-              MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-              Body: 'Test message from Brazil',
-              ProfileName: 'João Silva'
-            }
+        it 'creates appropriate conversations, message and contacts if contact does not exist' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5541988887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil',
+            ProfileName: 'João Silva'
+          }
 
-            described_class.new(params: params).perform
+          described_class.new(params: params).perform
 
-            expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
-            expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('João Silva')
-            expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Brazil')
-            expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5541988887777')
-          end
-
-          it 'appends to existing contact if contact inbox exists' do
-            # Create existing contact with same format
-            normalized_contact = create(:contact, account: account, phone_number: '+5541988887777')
-            contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+5541988887777', contact: normalized_contact,
-                                                   inbox: whatsapp_twilio_channel.inbox)
-            last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
-
-            params = {
-              SmsSid: 'SMxx',
-              From: 'whatsapp:+5541988887777',
-              AccountSid: 'ACxxx',
-              MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-              Body: 'Another message from Brazil',
-              ProfileName: 'João Silva'
-            }
-
-            described_class.new(params: params).perform
-
-            # No new conversation should be created
-            expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
-            # Message appended to the last conversation
-            expect(last_conversation.messages.last.content).to eq('Another message from Brazil')
-          end
+          expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('João Silva')
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Brazil')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5541988887777')
         end
 
-        describe 'When incoming number is a Brazilian number in old format without the 9 included' do
-          context 'when a contact inbox exists in the old format without 9 included' do
-            it 'appends to existing contact' do
-              # Create existing contact with old format (12 digits)
-              old_contact = create(:contact, account: account, phone_number: '+554188887777')
-              contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+554188887777', contact: old_contact, inbox: whatsapp_twilio_channel.inbox)
-              last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
+        it 'appends to existing contact if contact inbox exists' do
+          # Create existing contact with same format
+          normalized_contact = create(:contact, account: account, phone_number: '+5541988887777')
+          contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+5541988887777', contact: normalized_contact,
+                                                 inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
 
-              params = {
-                SmsSid: 'SMxx',
-                From: 'whatsapp:+554188887777',
-                AccountSid: 'ACxxx',
-                MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-                Body: 'Test message from Brazil old format',
-                ProfileName: 'Maria Silva'
-              }
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5541988887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Another message from Brazil',
+            ProfileName: 'João Silva'
+          }
 
-              described_class.new(params: params).perform
+          described_class.new(params: params).perform
 
-              # No new conversation should be created
-              expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
-              # Message appended to the last conversation
-              expect(last_conversation.messages.last.content).to eq('Test message from Brazil old format')
-            end
-          end
-
-          context 'when a contact inbox exists in the new format with 9 included' do
-            it 'appends to existing contact' do
-              # Create existing contact with new format (13 digits)
-              normalized_contact = create(:contact, account: account, phone_number: '+5541988887777')
-              contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+5541988887777', contact: normalized_contact,
-                                                     inbox: whatsapp_twilio_channel.inbox)
-              last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
-
-              # Incoming message with old format (12 digits)
-              params = {
-                SmsSid: 'SMxx',
-                From: 'whatsapp:+554188887777',
-                AccountSid: 'ACxxx',
-                MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-                Body: 'Test message from Brazil',
-                ProfileName: 'João Silva'
-              }
-
-              described_class.new(params: params).perform
-
-              # Should find and use existing contact, not create duplicate
-              expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
-              # Message appended to the existing conversation
-              expect(last_conversation.messages.last.content).to eq('Test message from Brazil')
-              # Should use the existing contact's source_id (normalized format)
-              expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5541988887777')
-            end
-          end
-
-          context 'when a contact inbox does not exist in the new format with 9 included' do
-            it 'creates contact inbox with the incoming number' do
-              params = {
-                SmsSid: 'SMxx',
-                From: 'whatsapp:+554188887777',
-                AccountSid: 'ACxxx',
-                MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-                Body: 'Test message from Brazil',
-                ProfileName: 'Carlos Silva'
-              }
-
-              described_class.new(params: params).perform
-
-              expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
-              expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Carlos Silva')
-              expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Brazil')
-              expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+554188887777')
-            end
-          end
+          # No new conversation should be created
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          # Message appended to the last conversation
+          expect(last_conversation.messages.last.content).to eq('Another message from Brazil')
         end
       end
 
-      context 'when handling Argentine WhatsApp numbers' do
+      describe 'When incoming number is a Brazilian number in old format without the 9 included' do
         let!(:whatsapp_twilio_channel) do
           create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
                                                  inbox: create(:inbox, account: account, greeting_enabled: false))
         end
 
-        describe 'When the incoming number is an Argentine number with 9 after country code' do
-          it 'creates appropriate conversations, message and contacts if contact does not exist' do
-            params = {
-              SmsSid: 'SMxx',
-              From: 'whatsapp:+5491123456789',
-              AccountSid: 'ACxxx',
-              MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-              Body: 'Test message from Argentina',
-              ProfileName: 'Carlos Mendoza'
-            }
+        it 'appends to existing contact when contact inbox exists in old format' do
+          # Create existing contact with old format (12 digits)
+          old_contact = create(:contact, account: account, phone_number: '+554188887777')
+          contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+554188887777', contact: old_contact, inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
 
-            described_class.new(params: params).perform
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+554188887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil old format',
+            ProfileName: 'Maria Silva'
+          }
 
-            expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
-            expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Carlos Mendoza')
-            expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Argentina')
-            expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5491123456789')
-          end
+          described_class.new(params: params).perform
 
-          it 'appends to existing contact if contact inbox exists with normalized format' do
-            # Create existing contact with normalized format (without 9 after country code)
-            normalized_contact = create(:contact, account: account, phone_number: '+541123456789')
-            contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+541123456789', contact: normalized_contact,
-                                                   inbox: whatsapp_twilio_channel.inbox)
-            last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
-
-            # Incoming message with 9 after country code
-            params = {
-              SmsSid: 'SMxx',
-              From: 'whatsapp:+5491123456789',
-              AccountSid: 'ACxxx',
-              MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-              Body: 'Test message from Argentina',
-              ProfileName: 'Carlos Mendoza'
-            }
-
-            described_class.new(params: params).perform
-
-            # Should find and use existing contact, not create duplicate
-            expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
-            # Message appended to the existing conversation
-            expect(last_conversation.messages.last.content).to eq('Test message from Argentina')
-            # Should use the normalized source_id from existing contact
-            expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+541123456789')
-          end
+          # No new conversation should be created
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          # Message appended to the last conversation
+          expect(last_conversation.messages.last.content).to eq('Test message from Brazil old format')
         end
 
-        describe 'When incoming number is an Argentine number without 9 after country code' do
-          context 'when a contact inbox exists with the same format' do
-            it 'appends to existing contact' do
-              # Create existing contact with same format (without 9)
-              contact = create(:contact, account: account, phone_number: '+541123456789')
-              contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+541123456789', contact: contact, inbox: whatsapp_twilio_channel.inbox)
-              last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
+        it 'appends to existing contact when contact inbox exists in new format' do
+          # Create existing contact with new format (13 digits)
+          normalized_contact = create(:contact, account: account, phone_number: '+5541988887777')
+          contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+5541988887777', contact: normalized_contact,
+                                                 inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
 
-              params = {
-                SmsSid: 'SMxx',
-                From: 'whatsapp:+541123456789',
-                AccountSid: 'ACxxx',
-                MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-                Body: 'Test message from Argentina',
-                ProfileName: 'Ana García'
-              }
+          # Incoming message with old format (12 digits)
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+554188887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil',
+            ProfileName: 'João Silva'
+          }
 
-              described_class.new(params: params).perform
+          described_class.new(params: params).perform
 
-              # No new conversation should be created
-              expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
-              # Message appended to the last conversation
-              expect(last_conversation.messages.last.content).to eq('Test message from Argentina')
-            end
-          end
+          # Should find and use existing contact, not create duplicate
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          # Message appended to the existing conversation
+          expect(last_conversation.messages.last.content).to eq('Test message from Brazil')
+          # Should use the existing contact's source_id (normalized format)
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5541988887777')
+        end
 
-          context 'when a contact inbox does not exist' do
-            it 'creates contact inbox with the incoming number' do
-              params = {
-                SmsSid: 'SMxx',
-                From: 'whatsapp:+541123456789',
-                AccountSid: 'ACxxx',
-                MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
-                Body: 'Test message from Argentina',
-                ProfileName: 'Diego López'
-              }
+        it 'creates contact inbox with incoming number when no existing contact' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+554188887777',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Brazil',
+            ProfileName: 'Carlos Silva'
+          }
 
-              described_class.new(params: params).perform
+          described_class.new(params: params).perform
 
-              expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
-              expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Diego López')
-              expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Argentina')
-              expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+541123456789')
-            end
-          end
+          expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Carlos Silva')
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Brazil')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+554188887777')
+        end
+      end
+
+      describe 'When the incoming number is an Argentine number with 9 after country code' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'creates appropriate conversations, message and contacts if contact does not exist' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5491123456789',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Argentina',
+            ProfileName: 'Carlos Mendoza'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Carlos Mendoza')
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Argentina')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+5491123456789')
+        end
+
+        it 'appends to existing contact if contact inbox exists with normalized format' do
+          # Create existing contact with normalized format (without 9 after country code)
+          normalized_contact = create(:contact, account: account, phone_number: '+541123456789')
+          contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+541123456789', contact: normalized_contact,
+                                                 inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
+
+          # Incoming message with 9 after country code
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+5491123456789',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Argentina',
+            ProfileName: 'Carlos Mendoza'
+          }
+
+          described_class.new(params: params).perform
+
+          # Should find and use existing contact, not create duplicate
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          # Message appended to the existing conversation
+          expect(last_conversation.messages.last.content).to eq('Test message from Argentina')
+          # Should use the normalized source_id from existing contact
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+541123456789')
+        end
+      end
+
+      describe 'When incoming number is an Argentine number without 9 after country code' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'appends to existing contact when contact inbox exists with same format' do
+          # Create existing contact with same format (without 9)
+          contact = create(:contact, account: account, phone_number: '+541123456789')
+          contact_inbox = create(:contact_inbox, source_id: 'whatsapp:+541123456789', contact: contact, inbox: whatsapp_twilio_channel.inbox)
+          last_conversation = create(:conversation, inbox: whatsapp_twilio_channel.inbox, contact_inbox: contact_inbox)
+
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+541123456789',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Argentina',
+            ProfileName: 'Ana García'
+          }
+
+          described_class.new(params: params).perform
+
+          # No new conversation should be created
+          expect(whatsapp_twilio_channel.inbox.conversations.count).to eq(1)
+          # Message appended to the last conversation
+          expect(last_conversation.messages.last.content).to eq('Test message from Argentina')
+        end
+
+        it 'creates contact inbox with incoming number when no existing contact' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+541123456789',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Test message from Argentina',
+            ProfileName: 'Diego López'
+          }
+
+          described_class.new(params: params).perform
+
+          expect(whatsapp_twilio_channel.inbox.conversations.count).not_to eq(0)
+          expect(whatsapp_twilio_channel.inbox.contacts.first.name).to eq('Diego López')
+          expect(whatsapp_twilio_channel.inbox.messages.first.content).to eq('Test message from Argentina')
+          expect(whatsapp_twilio_channel.inbox.contact_inboxes.first.source_id).to eq('whatsapp:+541123456789')
         end
       end
     end
