@@ -12,10 +12,13 @@ module Waha::ParamHelpers
   def phone_number
     return nil if params[:from].blank?
 
-    params[:from]&.split('@')&.first
+    first_item = params[:from].split.first
+    first_item.split(':').first.split('@').first
   end
 
   def formatted_phone_number
+    return nil if phone_number.blank?
+
     phone_number.start_with?('+') ? phone_number : "+#{phone_number}"
   end
 
