@@ -202,7 +202,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     response = HTTParty.post(
       "#{api_base_path}/v18.0/#{whatsapp_channel.provider_config['business_account_id']}/message_templates",
       headers: api_headers,
-      body: template_params.slice(:name, :language, :category, :components).to_json
+      body: template_params.to_json
     )
     parsed_response = response.parsed_response
 
