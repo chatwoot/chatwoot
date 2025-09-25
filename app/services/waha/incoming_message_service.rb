@@ -1,42 +1,37 @@
 class Waha::IncomingMessageService
-  pattr_initialize [:params!]
+  include Waha::ParamHelpers
+
+  pattr_initialize [:inbox!, :params!]
 
   def perform
-    return if waha_channel.blank?
+    set_contact
+    set_conversation
 
-    begin
-      set_contact
-      set_conversation
-      create_message
-    rescue ActiveRecord::RecordInvalid => e
-      Rails.logger.error "WAHA VALIDATION FAILED: #{e.record.errors.full_messages.to_sentence}"
-      Rails.logger.error e.backtrace.join("\n")
-    rescue StandardError => e
-      Rails.logger.error "WAHA IncomingMessageService error: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
-    end
+    @message = @conversation.messages.build(
+      content: message_content,
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      message_type: :incoming,
+      sender: @contact,
+      source_id: message_id.to_s,
+      additional_attributes: {
+        name: sender_full_name,
+        phone_number: formatted_phone_number,
+        channel: 'WhatsappUnofficial'
+      }
+    )
+
+    @message.save!
   end
 
   private
 
-  def waha_channel
-    @waha_channel ||= Channel::WhatsappUnofficial.find_by(phone_number: params[:receiver], token: params[:token])
-  end
-
-  def inbox
-    @inbox ||= waha_channel.inbox
-  end
-
   def set_contact
-    # sender_phone = params[:sender].to_s
-    # cleaned_source_id = sender_phone.split(':').first.split('@').first
-    # formatted_phone_number = cleaned_source_id.start_with?('+') ? cleaned_source_id : "+#{cleaned_source_id}"
-
     contact_inbox = ContactInboxWithContactBuilder.new(
-      source_id: cleaned_source_id,
+      source_id: phone_number,
       inbox: inbox,
       contact_attributes: {
-        name: params[:sender_name],
+        name: sender_full_name,
         phone_number: formatted_phone_number
       }
     ).perform
@@ -56,32 +51,5 @@ class Waha::IncomingMessageService
       contact: @contact,
       contact_inbox: @contact_inbox
     )
-  end
-
-  def create_message
-    message = @conversation.messages.build(
-      content: params[:message],
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      message_type: :incoming,
-      sender: @contact,
-      source_id: params[:message_id],
-      additional_attributes: {
-        name: params[:sender_name],
-        phone_number: formatted_phone_number,
-        channel: 'WhatsappUnofficial'
-      }
-    )
-
-    message.save!
-  end
-
-  def cleaned_source_id
-    sender_phone = params[:sender].to_s
-    @cleaned_source_id ||= sender_phone.split(':').first.split('@').first
-  end
-
-  def formatted_phone_number
-    @formatted_phone_number ||= @cleaned_source_id.start_with?('+') ? @cleaned_source_id : "+#{@cleaned_source_id}"
   end
 end
