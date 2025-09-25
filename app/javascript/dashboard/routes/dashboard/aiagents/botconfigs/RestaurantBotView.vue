@@ -46,7 +46,30 @@ const menuBookLink = ref('');
 const syncingColumns = ref(false);
 const authError = computed(() => props.googleSheetsAuth.error);
 
-watch(authError, (newError) => {
+// Restaurant-specific computed properties for better template logic
+const restaurantStep = computed(() => {
+  // If we have restaurant sheets configured but no URLs, show 'connected' to display Create Sheets button
+  if (props.googleSheetsAuth.step === 'sheetConfig' && 
+      (!sheets.value.input || !sheets.value.output)) {
+    return 'connected';
+  }
+  return props.googleSheetsAuth.step;
+});
+
+const restaurantAuthError = computed(() => {
+  const error = props.googleSheetsAuth.error;
+  if (!error) return null;
+  
+  // Only show auth-related errors for restaurant agent
+  const authKeywords = ['authentication', 'expired', 'invalid', 'unauthorized', 'token', 'permission'];
+  const isAuthError = authKeywords.some(keyword => 
+    error.toLowerCase().includes(keyword)
+  );
+  
+  return isAuthError ? 'Your Google authentication has expired. Please re-authenticate to continue.' : null;
+});
+
+watch(restaurantAuthError, (newError) => {
   if (newError) {
     notification.value = { message: t('AGENT_MGMT.AUTH_ERROR'), type: 'error' };
   }
@@ -57,7 +80,6 @@ watch(authError, (newError) => {
 
 function retryAuthentication() {
   connectGoogle();
-  authError.value = null;
 }
 
 
@@ -86,6 +108,7 @@ function showNotification(message, type = 'success') {
 }
 async function connectGoogle() {
   try {
+
     props.googleSheetsAuth.loading = true;
     const response = await googleSheetsExportAPI.getAuthorizationUrl();
     if (response.data.authorization_url) {
@@ -95,41 +118,62 @@ async function connectGoogle() {
       showNotification('Failed to get authorization URL. Please check backend logs.', 'error');
     }
   } catch (error) {
+    console.error('🚨 Google auth error:', error);
     showNotification('Authentication failed. Please try again.', 'error');
   } finally {
     props.googleSheetsAuth.loading = false;
   }
 }
 
+// Helper function to get agent ID by type (consistent with SalesBotView)
+function getAgentIdByType(type) {
+  const flowData = props.data?.display_flow_data;
+  if (!flowData?.agents_config) {
+    console.warn('⚠️ No agents_config found in flow data');
+    return null;
+  }
+  
+  const agent = flowData.agents_config.find(config => config.type === type);
+  if (!agent) {
+    console.warn(`⚠️ No agent found for type: ${type}`);
+    return null;
+  }
+  
+  return agent.agent_id || null;
+}
+
+const agentId = computed(() => {
+  return getAgentIdByType('restaurant');
+});
+
 async function createSheets() {
-  props.googleSheetsAuth.loading = true;
   try {
-    // TODO: Call backend to create output sheet
-    // For now, simulate sheet creation
-    // await new Promise(resolve => setTimeout(resolve, 1200))
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(props.data));
-    // eslint-disable-next-line no-console
+
+    props.googleSheetsAuth.loading = true;
+    
     const flowData = props.data.display_flow_data;
     const payload = {
       account_id: parseInt(flowData.account_id, 10),
-      agent_id: String(props.data.id),
+      agent_id: agentId.value,
       type: 'restaurant',
     };
-    // console.log(payload);
+    
+
     const response = await googleSheetsExportAPI.createSpreadsheet(payload);
-    // console.log(response)
-    props.googleSheetsAuth.spreadsheetUrls.restaurant.input = response.data.input_spreadsheet_url;
-    props.googleSheetsAuth.spreadsheetUrls.restaurant.output = response.data.output_spreadsheet_url;
-    props.googleSheetsAuth.step = 'sheetConfig';
-    showNotification('Output sheet created successfully!', 'success');
+    
+    if (response.data.input_spreadsheet_url && response.data.output_spreadsheet_url) {
+      props.googleSheetsAuth.spreadsheetUrls.restaurant.input = response.data.input_spreadsheet_url;
+      props.googleSheetsAuth.spreadsheetUrls.restaurant.output = response.data.output_spreadsheet_url;
+      props.googleSheetsAuth.step = 'sheetConfig';
+      
+      showNotification('Restaurant spreadsheets created successfully!', 'success');
+
+    } else {
+      throw new Error('Missing spreadsheet URLs in response');
+    }
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Failed to create sheet:', error);
-    showNotification(
-      'Failed to create sheet. Please try again.',
-      'error'
-    );
+    console.error('🚨 Failed to create restaurant sheets:', error);
+    showNotification('Failed to create restaurant sheets. Please try again.', 'error');
   } finally {
     props.googleSheetsAuth.loading = false;
   }
@@ -152,7 +196,6 @@ async function save() {
     isSaving.value = true;
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
-    // console.log(flowData)
     // const agentsConfig = flowData.agents_config;
     // const agent_index = agentsConfig.findIndex(agent => agent.type === "restaurant");
     // const agent_index = 0;
@@ -162,16 +205,15 @@ async function save() {
     flowData.agents_config[agent_index].configurations.tax = tax;
     flowData.agents_config[agent_index].configurations.service_charge = serviceCharge;
     flowData.agents_config[agent_index].configurations.url_menu = configData.menuBookLink;
-    // console.log(flowData);
-    // console.log(props.config);
+
     const payload = {
       flow_data: flowData,
     };
-    console.log("payload:", payload);
+
     // ✅ Properly await the API call
     await aiAgents.updateAgent(props.data.id, payload);
 
-    // ✅ Show success console.log after success
+
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
   } catch (e) {
     console.error('Save error:', e);
@@ -263,7 +305,7 @@ function saveOrderSettings() {
         <!-- General Tab Content -->
         <div v-show="activeIndex === 0" class="w-full">
           <!-- Step 1: Google Auth -->
-          <div v-if="step === 'auth'" class="w-full mx-auto">
+          <div v-if="restaurantStep === 'auth'" class="w-full mx-auto">
             <div>
               <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.RESTAURANT_BOT.AUTH_LABEL') }}</label>
               <p class="text-gray-600 dark:text-gray-400 mb-4">
@@ -279,7 +321,7 @@ function saveOrderSettings() {
           </div>
 
           <!-- Step 2: Connected Confirmation -->
-          <div v-else-if="step === 'connected'" class="py-8">
+          <div v-else-if="restaurantStep === 'connected'" class="py-8">
             <div class="text-center mb-8">
               <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
@@ -317,7 +359,7 @@ function saveOrderSettings() {
           </div>
 
           <!-- Step 3: Sheet Configuration -->
-          <div v-else-if="step === 'sheetConfig'">
+          <div v-else-if="restaurantStep === 'sheetConfig' && sheets.input && sheets.output">
             <div class="space-y-6">
               <!-- Input Sheet Section - Restaurant Data -->
               <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">

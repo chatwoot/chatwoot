@@ -75,7 +75,7 @@
                 <p class="text-gray-600 dark:text-gray-400">{{ $t('AGENT_MGMT.BOOKING_BOT.CONNECTED_DESC') }}</p>
                 <p class="mt-2 text-sm text-gray-500">{{ catalogAccount?.email }}</p>
                 <div class="flex gap-2 center justify-center mt-4">
-                  <template v-if="!authError">
+                  <template v-if="!salesAuthError">
                     <button
                       class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                       @click="createSheets"
@@ -87,6 +87,7 @@
                     </template>
                     <template v-else>
                       <div class="mt-3 text-red-600 text-sm flex items-center gap-2">
+                        <p class="text-sm">{{ salesAuthError }}</p>
                         <button
                           class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                           @click="retryAuthentication"
@@ -121,7 +122,7 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="!authError" class="flex flex-col gap-2">
+                  <div v-if="catalogSheets.input && !salesAuthError" class="flex flex-col gap-2">
                     <a 
                       :href="catalogSheets.input" 
                       target="_blank" 
@@ -137,7 +138,7 @@
 
                 <div class="border-t border-blue-200 dark:border-blue-700 pt-6">
                   <div class="flex justify-start">
-                    <div v-if="!authError">
+                    <div v-if="catalogSheets.input && !salesAuthError">
                       <button
                         @click="syncProductColumns"
                         :disabled="syncingColumns"
@@ -192,6 +193,7 @@
                     </div>
                   </div>
                   <a 
+                    v-if="catalogSheets.output && !salesAuthError"
                     :href="catalogSheets.output" 
                     target="_blank" 
                     class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shadow-sm"
@@ -1439,15 +1441,46 @@ watch(
   { immediate: true, deep: true }
 );
 
-const catalogStep = computed(() => props.googleSheetsAuth.step);
+const catalogStep = computed(() => {
+  // If authenticated but no sales spreadsheets yet, show 'connected' step to allow creating sheets
+  if (props.googleSheetsAuth.step === 'sheetConfig') {
+    const salesSheets = props.googleSheetsAuth.spreadsheetUrls.sales;
+    if (!salesSheets?.input && !salesSheets?.output) {
+
+      return 'connected';
+    }
+  }
+  return props.googleSheetsAuth.step;
+});
+
 const catalogLoading = computed(() => props.googleSheetsAuth.loading);
 const catalogAccount = computed(() => props.googleSheetsAuth.account);
 const catalogSheets = computed(() => props.googleSheetsAuth.spreadsheetUrls.sales);
+
+// Computed property to determine if we should show auth error for sales specifically
+const salesAuthError = computed(() => {
+  // Only show auth error if it's really an auth problem, not just missing spreadsheets
+  const error = props.googleSheetsAuth.error;
+  if (!error) return null;
+  
+  // Don't show error if it's just about missing spreadsheets for new agents
+  if (error.includes('not found') || error.includes('404')) {
+    return null;
+  }
+  
+  // Show error for actual auth/permission issues
+  if (error.includes('authentication') || error.includes('permission') || error.includes('unauthorized')) {
+    return error;
+  }
+  
+  return null; // Don't show other types of errors in the UI
+});
+
 const notification = ref(null);
 const productColumns = ref('sku,name,unit_price,quantity,deskripsi');
 const syncingColumns = ref(false);
 const authError = computed(() => props.googleSheetsAuth.error);
-watch(authError, (newError) => {
+watch(salesAuthError, (newError) => {
   if (newError) {
     notification.value = { message: t('AGENT_MGMT.AUTH_ERROR'), type: 'error' };
   }
@@ -1458,7 +1491,7 @@ watch(authError, (newError) => {
 
 function retryAuthentication() {
   connectGoogle();
-  authError.value = null;
+  // Note: salesAuthError is computed, so error will clear automatically when auth succeeds
 }
 
 function disconnectGoogle() {
@@ -1505,9 +1538,9 @@ async function createSheets() {
       agent_id: salesAgentId.value,
       type: 'sales',
     };
-    // console.log(payload);
+
     const response = await googleSheetsExportAPI.createSpreadsheet(payload);
-    // console.log(response)
+
     props.googleSheetsAuth.spreadsheetUrls.sales.input = response.data.input_spreadsheet_url;
     props.googleSheetsAuth.spreadsheetUrls.sales.output = response.data.output_spreadsheet_url;
     props.googleSheetsAuth.step = 'sheetConfig';
@@ -1583,7 +1616,7 @@ async function syncProductColumns() {
     
     // If no existing knowledge source, create one first
     if (!knowledgeId) {
-      console.log('Creating new knowledge source for tab 4');
+
       const createRequest = {
         id: null,
         tab: 4,
@@ -1593,7 +1626,7 @@ async function syncProductColumns() {
     }
     // Update the knowledge source with new data
     else {
-      console.log('Updating existing knowledge source ID:', knowledgeId);
+
       await aiAgents.updateKnowledgeText(props.data.id, {
         id: knowledgeId,
         tab: 4,
@@ -1945,7 +1978,7 @@ function onKecamatanChange() {
   if (kurirBiasa.kecamatan) {
     loadKelurahan(kurirBiasa.provinsi, kurirBiasa.kota, kurirBiasa.kecamatan);
   }
-  console.log('Kecamatan changed:', kurirBiasa.kecamatan);
+
 }
 
 // Search dropdown functions

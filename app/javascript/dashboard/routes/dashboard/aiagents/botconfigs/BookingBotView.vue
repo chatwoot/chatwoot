@@ -45,7 +45,30 @@ const sheets = computed(() => props.googleSheetsAuth.spreadsheetUrls.booking);
 const notification = ref(null);
 const authError = computed(() => props.googleSheetsAuth.error);
 
-watch(authError, (newError) => {
+// Booking-specific computed properties for better template logic
+const bookingStep = computed(() => {
+  // If we have booking sheets configured but no URLs, show 'connected' to display Create Sheets button
+  if (props.googleSheetsAuth.step === 'sheetConfig' && 
+      (!sheets.value.input || !sheets.value.output)) {
+    return 'connected';
+  }
+  return props.googleSheetsAuth.step;
+});
+
+const bookingAuthError = computed(() => {
+  const error = props.googleSheetsAuth.error;
+  if (!error) return null;
+  
+  // Only show auth-related errors for booking agent
+  const authKeywords = ['authentication', 'expired', 'invalid', 'unauthorized', 'token', 'permission'];
+  const isAuthError = authKeywords.some(keyword => 
+    error.toLowerCase().includes(keyword)
+  );
+  
+  return isAuthError ? 'Your Google authentication has expired. Please re-authenticate to continue.' : null;
+});
+
+watch(bookingAuthError, (newError) => {
   if (newError) {
     notification.value = { message: t('AGENT_MGMT.AUTH_ERROR'), type: 'error' };
   } else {
@@ -55,12 +78,45 @@ watch(authError, (newError) => {
 
 function retryAuthentication() {
   connectGoogle();
-  authError.value = null;
 }
 
 function disconnectGoogle() {
   // TODO: Implement disconnect logic
   console.log('Disconnect Google account clicked');
+}
+
+async function createSheets() {
+  try {
+
+    props.googleSheetsAuth.loading = true;
+    
+    const flowData = props.data.display_flow_data;
+    const payload = {
+      account_id: parseInt(flowData.account_id, 10),
+      agent_id: agentId.value,
+      type: 'booking',
+    };
+    
+
+    const response = await googleSheetsExportAPI.createSpreadsheet(payload);
+    
+    if (response.data.input_spreadsheet_url && response.data.output_spreadsheet_url) {
+      // Update parent's auth state
+      props.googleSheetsAuth.spreadsheetUrls.booking.input = response.data.input_spreadsheet_url;
+      props.googleSheetsAuth.spreadsheetUrls.booking.output = response.data.output_spreadsheet_url;
+      props.googleSheetsAuth.step = 'sheetConfig';
+      
+      showNotification('Booking spreadsheets created successfully!', 'success');
+
+    } else {
+      throw new Error('Missing spreadsheet URLs in response');
+    }
+  } catch (error) {
+    console.error('🚨 Failed to create booking sheets:', error);
+    showNotification('Failed to create booking sheets. Please try again.', 'error');
+  } finally {
+    props.googleSheetsAuth.loading = false;
+  }
 }
 
 // Save state
@@ -135,10 +191,10 @@ async function syncScheduleColumns() {
     }
 
     const result = await googleSheetsExportAPI.syncSpreadsheet(payload);
-    console.log('flowData:', flowData);
-    console.log('result:', result);
+
+
     const agent_index = flowData.enabled_agents.indexOf('booking');
-    console.log('agent_index:', agent_index);
+
     flowData.agents_config[agent_index].configurations.resource_names =
       result.data.data.unique_resource_names;
     flowData.agents_config[agent_index].configurations.location_names =
@@ -149,7 +205,7 @@ async function syncScheduleColumns() {
     const updatePayload = {
       flow_data: flowData,
     };
-    console.log('payload:', updatePayload);
+
     await aiAgents.updateAgent(props.data.id, updatePayload);
   } catch (error) {
     console.error('Failed to sync schedule columns:', error);
@@ -184,7 +240,7 @@ async function save() {
     const payload = {
       flow_data: flowData,
     };
-    console.log("payload:", payload);
+
     await aiAgents.updateAgent(props.data.id, payload);
 
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
@@ -297,7 +353,7 @@ onMounted(async () => {
           <div class="flex flex-row gap-4">
             <div class="flex-1 min-w-0 flex flex-col justify-stretch gap-6">
               <!-- Step 1: Google Auth -->
-              <div v-if="step === 'auth'" class="w-full mx-auto">
+              <div v-if="bookingStep === 'auth'" class="w-full mx-auto">
                 <div>
                   <label class="block font-medium mb-1">{{ $t('AGENT_MGMT.BOOKING_BOT.AUTH_LABEL') }}</label>
                   <p class="text-gray-600 dark:text-gray-400 mb-4">
@@ -313,7 +369,7 @@ onMounted(async () => {
               </div>
 
               <!-- Step 2: Connected Confirmation -->
-              <div v-else-if="step === 'connected'" class="py-8">
+              <div v-else-if="bookingStep === 'connected'" class="py-8">
                 <div class="text-center mb-8">
                   <div class="w-16 h-16 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
@@ -335,7 +391,7 @@ onMounted(async () => {
               </div>
 
               <!-- Step 3: Sheet Configuration -->
-              <div v-else-if="step === 'sheetConfig'">
+              <div v-else-if="bookingStep === 'sheetConfig' && sheets.input && sheets.output">
                 <div class="space-y-6">
                   <!-- Input Sheet Section - Schedule Data -->
                   <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-6 mb-6 border border-blue-200 dark:border-blue-800">
@@ -405,7 +461,7 @@ onMounted(async () => {
 
                       <!-- Sync Button for Resource and Location Lists -->
                       <div class="flex justify-start">
-                        <div v-if="!authError">
+                        <div v-if="!bookingAuthError && sheets.input && sheets.output">
                           <button
                             @click="syncScheduleColumns"
                             :disabled="syncingColumns"
@@ -474,7 +530,7 @@ onMounted(async () => {
               </div>
             </div>
             
-            <div v-if="step === 'sheetConfig'" class="w-[240px] flex flex-col gap-3">
+            <div v-if="bookingStep === 'sheetConfig'" class="w-[240px] flex flex-col gap-3">
               <div class="sticky top-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
                 <div class="flex items-center gap-3 mb-4">
                   <div class="w-10 h-10 flex-shrink-0 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">                    <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

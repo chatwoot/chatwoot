@@ -131,7 +131,7 @@ async function save() {
     });
     const agent_index = flowData.enabled_agents.indexOf('customer_service');
     flowData.agents_config[agent_index].configurations.priority = priorityItems;
-    console.log(JSON.stringify(flowData));
+
 
     const payload = {
       flow_data: flowData,
@@ -140,7 +140,7 @@ async function save() {
     await aiAgents.updateAgent(props.data.id, payload);
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'))
   } catch (e) {
-    console.log(e)
+
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_ERROR'))
   } finally {
     isSaving.value = false

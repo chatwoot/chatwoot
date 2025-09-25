@@ -20,9 +20,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
   def status
     # Send GET request to check authorization status
     api_endpoint = GlobalConfigService.load('EXTERNAL_TOKEN_API_URL', nil)
-    # Rails.logger.info "Checking authorization status from external service: #{api_endpoint}"
     status_url = "#{api_endpoint}/#{Current.account.id}/status"
-    # Rails.logger.info "Authorization status URL: #{status_url}"
 
     begin
       response = HTTParty.get(status_url)
@@ -43,7 +41,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
           authorized: false,
           authorization_url: build_google_auth_url,
           error: 'Failed to check status from external service'
-        }, status: :bad_gateway
+        }, status: :service_unavailable
       end
     rescue StandardError => e
       render json: {
@@ -73,7 +71,6 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     # Replace the base path and append `/create`
     # Example: http://0.0.0.0:8080/v2/oauth/google/credentials → http://0.0.0.0:8080/v2/oauth/google/spreadsheet/create
     target_url = base_api_url.gsub(%r{/v2/oauth/google/.*}, '/v2/oauth/google/spreadsheet/create')
-    Rails.logger.info "[generate_response] Request will be sent to: #{target_url}"
 
     begin
       response = HTTParty.post(
@@ -99,7 +96,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
             render json: { error: 'Spreadsheet URL not returned', response: json_response }, status: :unprocessable_entity
           end
 
-        when 'booking', 'sales'
+        when 'booking', 'restaurant', 'sales'
           input_url = json_response['input_spreadsheet_url']
           output_url = json_response['output_spreadsheet_url']
 
@@ -117,18 +114,38 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
           end
 
         else
-          render json: { error: 'Unsupported spreadsheet type' }, status: :bad_request
+          render json: { error: 'Unsupported spreadsheet type. Supported types: tickets, booking, restaurant, sales' }, status: :bad_request
         end
       else
-        Rails.logger.error "External API error: #{response.body}"
+        # Map external API errors to appropriate status codes
+        error_status = case response.code
+        when 400
+          :bad_request
+        when 401
+          :unauthorized
+        when 403
+          :forbidden
+        when 404
+          :not_found
+        when 409
+          :conflict
+        when 422
+          :unprocessable_entity
+        when 429
+          :too_many_requests
+        when 500, 501, 502, 503, 504
+          :service_unavailable
+        else
+          :service_unavailable
+        end
+        
         render json: {
           error: 'Failed to create spreadsheet',
           status: response.code,
           message: response.parsed_response
-        }, status: :bad_gateway
+        }, status: error_status
       end
     rescue StandardError => e
-      Rails.logger.error "Exception during external API call: #{e.message}"
       render json: {
         error: 'Failed to connect to external service',
         message: e.message
@@ -149,14 +166,21 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       return render json: { error: 'Missing required parameters: account_id, agent_id, or type', payload: payload }, status: :bad_request
     end
 
+    # Validate supported types
+    supported_types = %w[tickets booking restaurant sales]
+    unless supported_types.include?(payload[:type])
+      return render json: { error: "Unsupported spreadsheet type '#{payload[:type]}'. Supported types: #{supported_types.join(', ')}", payload: payload }, status: :bad_request
+    end
+
     # Build external API URL
     base_api_url = GlobalConfigService.load('EXTERNAL_TOKEN_API_URL', nil)
-    return render json: { error: 'EXTERNAL_TOKEN_API_URL not configured' }, status: :service_unavailable unless base_api_url
+    unless base_api_url
+      return render json: { error: 'EXTERNAL_TOKEN_API_URL not configured' }, status: :service_unavailable
+    end
 
-    # Replace the base path and append `/create`
-    # Example: http://0.0.0.0:8080/v2/oauth/google/credentials → http://0.0.0.0:8080/v2/oauth/google/spreadsheet/create
+    # Replace the base path and append `/spreadsheet`
+    # Example: http://0.0.0.0:8080/v2/oauth/google/credentials → http://0.0.0.0:8080/v2/oauth/google/spreadsheet
     target_url = base_api_url.gsub(%r{/v2/oauth/google/.*}, '/v2/oauth/google/spreadsheet')
-    Rails.logger.info "[generate_response] Request will be sent to: #{target_url}"
 
     begin
       response = HTTParty.post(
@@ -175,45 +199,107 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
           spreadsheet_url = json_response['spreadsheet_url']
           if spreadsheet_url
             render json: {
+              status: 200,
               message: 'success',
               spreadsheet_url: spreadsheet_url
             }, status: :ok
           else
-            render json: { error: 'Spreadsheet URL not returned', response: json_response }, status: :unprocessable_entity
+            render json: { 
+              status: 422,
+              error: 'Spreadsheet URL not returned', 
+              response: json_response,
+              payload: payload
+            }, status: :unprocessable_entity
           end
-        when 'booking', 'sales'
+          
+        when 'booking', 'restaurant', 'sales'
           input_url = json_response['input_spreadsheet_url']
           output_url = json_response['output_spreadsheet_url']
 
           if input_url && output_url
             render json: {
+              status: 200,
               message: 'success',
               input_spreadsheet_url: input_url,
               output_spreadsheet_url: output_url
             }, status: :ok
           else
             render json: {
+              status: 422,
               error: 'Missing input or output spreadsheet URL',
-              response: json_response
+              response: json_response,
+              payload: payload
             }, status: :unprocessable_entity
           end
 
         else
-          render json: { error: 'Unsupported spreadsheet type' }, status: :bad_request
+          render json: { 
+            status: 400,
+            error: 'Unsupported spreadsheet type. Supported types: tickets, booking, restaurant, sales',
+            payload: payload
+          }, status: :bad_request
         end
       else
-        Rails.logger.error "External API error: #{response.body}"
+        # Enhanced error handling based on HTTP status
+        error_message = case response.code
+        when 400
+          'Bad request to external service'
+        when 401
+          'Authentication required for Google Sheets'
+        when 403
+          'Permission denied - check Google Sheets access'
+        when 404
+          'Spreadsheet not found'
+        when 429
+          'Too many requests - please try again later'
+        when 500
+          'Internal server error in external service'
+        else
+          'Failed to retrieve spreadsheet URLs'
+        end
+        
+        # Map external API errors to appropriate status codes
+        error_status = case response.code
+        when 400
+          :bad_request
+        when 401
+          :unauthorized
+        when 403
+          :forbidden
+        when 404
+          :not_found
+        when 409
+          :conflict
+        when 422
+          :unprocessable_entity
+        when 429
+          :too_many_requests
+        when 500, 501, 502, 503, 504
+          :service_unavailable
+        else
+          :service_unavailable
+        end
+        
         render json: {
-          error: 'Failed to create spreadsheet',
           status: response.code,
-          message: response.parsed_response
-        }, status: :bad_gateway
+          error: error_message,
+          message: response.parsed_response,
+          payload: payload
+        }, status: error_status
       end
-    rescue StandardError => e
-      Rails.logger.error "Exception during external API call: #{e.message}"
+    rescue Net::TimeoutError => e
       render json: {
+        status: 408,
+        error: 'Request timeout - external service took too long to respond',
+        message: e.message,
+        payload: payload
+      }, status: :request_timeout
+    rescue StandardError => e
+      render json: {
+        status: 503,
         error: 'Failed to connect to external service',
-        message: e.message
+        message: e.message,
+        payload: payload
       }, status: :service_unavailable
     end
   end
@@ -238,7 +324,6 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     # Replace the base path and append `/create`
     # Example: http://0.0.0.0:8080/v2/oauth/google/credentials → http://0.0.0.0:8080/v2/oauth/google/spreadsheet/create
     target_url = base_api_url.gsub(%r{/v2/oauth/google/.*}, '/v2/oauth/google/spreadsheet/sync')
-    Rails.logger.info "[generate_response] Request will be sent to: #{target_url}"
 
     begin
       response = HTTParty.post(
@@ -260,14 +345,35 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
         }, status: :ok
 
       else
+        # Map external API errors to appropriate status codes
+        error_status = case response.code
+        when 400
+          :bad_request
+        when 401
+          :unauthorized
+        when 403
+          :forbidden
+        when 404
+          :not_found
+        when 409
+          :conflict
+        when 422
+          :unprocessable_entity
+        when 429
+          :too_many_requests
+        when 500, 501, 502, 503, 504
+          :service_unavailable
+        else
+          :service_unavailable
+        end
+        
         render json: {
           error: 'Failed to sync spreadsheet',
           status: response.code,
           message: response.parsed_response
-        }, status: :bad_gateway
+        }, status: error_status
       end
     rescue StandardError => e
-      Rails.logger.error "Exception during external API call: #{e.message}"
       render json: {
         error: 'Failed to connect to external service',
         message: e.message

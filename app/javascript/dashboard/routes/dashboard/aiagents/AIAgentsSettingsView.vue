@@ -119,7 +119,9 @@ const googleSheetsAuth = reactive({
 // Helper function to get agent ID by type
 function getAgentIdByType(type) {
   const flowData = data.value?.display_flow_data;
-  if (!flowData?.agents_config) return null;
+  if (!flowData?.agents_config || !Array.isArray(flowData.agents_config)) {
+    return null;
+  }
   
   const agent = flowData.agents_config.find(config => config.type === type);
   return agent?.agent_id || null;
@@ -127,32 +129,71 @@ function getAgentIdByType(type) {
 
 // Centralized Google Sheets authentication check
 async function checkGoogleSheetsAuth() {
-  if (googleSheetsAuth.loading) return;
+  if (googleSheetsAuth.loading) {
+    return;
+  }
   
   try {
     googleSheetsAuth.loading = true;
+    
     const response = await googleSheetsExportAPI.getStatus();
+    
+    if (!response || !response.data) {
+      googleSheetsAuth.authorized = false;
+      googleSheetsAuth.step = 'auth';
+      googleSheetsAuth.error = 'Invalid response from authorization service';
+      return;
+    }
     
     if (response.data.authorized) {
       googleSheetsAuth.authorized = true;
       googleSheetsAuth.email = response.data.email;
       googleSheetsAuth.account = {
-        email: response.data.email,
+        email: response.data.email || 'Connected Account',
         name: 'Connected Account',
       };
       googleSheetsAuth.step = 'connected';
+      googleSheetsAuth.error = null;
       
-      // Load spreadsheet URLs for all enabled agents
       await loadSpreadsheetUrls();
     } else {
       googleSheetsAuth.authorized = false;
       googleSheetsAuth.step = 'auth';
+      googleSheetsAuth.error = null;
     }
   } catch (error) {
-    console.error('Failed to check Google Sheets authorization status:', error);
+    if (error.response) {
+      const { status, data } = error.response;
+      switch (status) {
+        case 400:
+          googleSheetsAuth.error = 'Invalid request to authorization service';
+          break;
+        case 401:
+          googleSheetsAuth.error = 'Unauthorized - please re-authenticate';
+          break;
+        case 403:
+          googleSheetsAuth.error = 'Access forbidden - check permissions';
+          break;
+        case 500:
+          googleSheetsAuth.error = `Server error: ${data?.message || 'Internal server error'}`;
+          break;
+        case 502:
+          googleSheetsAuth.error = 'Authorization service unavailable';
+          break;
+        case 503:
+          googleSheetsAuth.error = 'Service temporarily unavailable';
+          break;
+        default:
+          googleSheetsAuth.error = `HTTP ${status}: ${data?.message || 'Unknown server error'}`;
+      }
+    } else if (error.request) {
+      googleSheetsAuth.error = 'Network error - please check your connection';
+    } else {
+      googleSheetsAuth.error = `Connection error: ${error.message}`;
+    }
+    
     googleSheetsAuth.authorized = false;
     googleSheetsAuth.step = 'auth';
-    googleSheetsAuth.error = 'Failed to connect to Google Sheets. Please try again.';
   } finally {
     googleSheetsAuth.loading = false;
   }
@@ -160,15 +201,31 @@ async function checkGoogleSheetsAuth() {
 
 // Load spreadsheet URLs for all enabled agent types
 async function loadSpreadsheetUrls() {
-  if (!data.value?.display_flow_data) return;
+  if (!data.value?.display_flow_data) {
+    return;
+  }
   
   const flowData = data.value.display_flow_data;
   const enabledAgents = flowData.enabled_agents || [];
   
+  if (enabledAgents.length === 0) {
+    return;
+  }
+  
+  let successCount = 0;
+  let errorCount = 0;
+  
   for (const agentType of enabledAgents) {
     try {
       const agentId = getAgentIdByType(agentType);
-      if (!agentId) continue;
+      if (!agentId) {
+        continue;
+      }
+      
+      if (!flowData.account_id) {
+        errorCount++;
+        continue;
+      }
       
       const payload = {
         account_id: parseInt(flowData.account_id, 10),
@@ -178,28 +235,92 @@ async function loadSpreadsheetUrls() {
       
       const response = await googleSheetsExportAPI.getSpreadsheetUrl(payload);
       
-      if (response.data) {
-        console.log(`Loaded spreadsheet URLs for ${agentType}:`, response.data);
-        googleSheetsAuth.error = null;
-        // Store spreadsheet URLs based on agent type
-        if (agentType === 'booking') {
-          googleSheetsAuth.spreadsheetUrls.booking.input = response.data.input_spreadsheet_url || '';
-          googleSheetsAuth.spreadsheetUrls.booking.output = response.data.output_spreadsheet_url || '';
-        } else if (agentType === 'customer_service') {
-          googleSheetsAuth.spreadsheetUrls.customer_service.output = response.data.spreadsheet_url || '';
-        } else if (agentType === 'restaurant') {
-          googleSheetsAuth.spreadsheetUrls.restaurant.input = response.data.input_spreadsheet_url || '';
-          googleSheetsAuth.spreadsheetUrls.restaurant.output = response.data.output_spreadsheet_url || '';
-        } else if (agentType === 'sales') {
-          googleSheetsAuth.spreadsheetUrls.sales.input = response.data.input_spreadsheet_url || '';
-          googleSheetsAuth.spreadsheetUrls.sales.output = response.data.output_spreadsheet_url || '';
+      if (!response || !response.data) {
+        errorCount++;
+        continue;
+      }
+      
+      const { status, message, data: responseData } = response.data;
+      
+      if (status === 404) {
+        continue;
+      }
+      
+      if (status === 400) {
+        errorCount++;
+        continue;
+      }
+      
+      if (status === 401) {
+        googleSheetsAuth.error = 'Google Sheets authentication required';
+        errorCount++;
+        continue;
+      }
+      
+      if (status && status !== 200) {
+        errorCount++;
+        continue;
+      }
+      
+      if (agentType === 'booking') {
+        if (response.data.input_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.booking.input = response.data.input_spreadsheet_url;
+        }
+        if (response.data.output_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.booking.output = response.data.output_spreadsheet_url;
+        }
+      } else if (agentType === 'customer_service') {
+        if (response.data.spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.customer_service.output = response.data.spreadsheet_url;
+        }
+      } else if (agentType === 'restaurant') {
+        if (response.data.input_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.restaurant.input = response.data.input_spreadsheet_url;
+        }
+        if (response.data.output_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.restaurant.output = response.data.output_spreadsheet_url;
+        }
+      } else if (agentType === 'sales') {
+        if (response.data.input_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.sales.input = response.data.input_spreadsheet_url;
+        }
+        if (response.data.output_spreadsheet_url) {
+          googleSheetsAuth.spreadsheetUrls.sales.output = response.data.output_spreadsheet_url;
         }
       }
+      
+      successCount++;
+      
     } catch (error) {
-      googleSheetsAuth.error = 'Failed to connect to Google Sheets. Please try again.';
-      console.error(`Failed to load spreadsheet URLs for ${agentType}:`, error);
+      errorCount++;
+      
+      if (error.response) {
+        const { status, data } = error.response;
+        
+        switch (status) {
+          case 404:
+            break;
+          case 401:
+            googleSheetsAuth.error = 'Google Sheets authentication required';
+            break;
+          case 403:
+            googleSheetsAuth.error = 'Permission denied - check Google Sheets access';
+            break;
+          case 500:
+            googleSheetsAuth.error = `Server error: ${data?.message || 'Internal server error'}`;
+            break;
+          default:
+            googleSheetsAuth.error = `HTTP ${status}: ${data?.message || 'Unknown server error'}`;
+        }
+      } else if (error.request) {
+        googleSheetsAuth.error = 'Network error - please check your connection';
+      } else {
+        googleSheetsAuth.error = `Request error: ${error.message}`;
+      }
     }
   }
+  
+
   
   // Check if we have any spreadsheet URLs configured, if so set step to 'sheetConfig'
   const hasAnySpreadsheets = Object.values(googleSheetsAuth.spreadsheetUrls).some(urls => {
@@ -217,6 +338,8 @@ const showData = async () => {
     data.value = await aiAgents
       .detailAgent(route.params.aiAgentId)
       .then(v => v?.data);
+  } catch (error) {
+    console.error('Error loading agent data:', error);
   } finally {
     loadingData.value = false;
   }

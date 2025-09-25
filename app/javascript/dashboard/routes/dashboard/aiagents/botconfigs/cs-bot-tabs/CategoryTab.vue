@@ -129,7 +129,7 @@ async function save() {
     const agent_index = flowData.enabled_agents.indexOf('customer_service');
     flowData.agents_config[agent_index].configurations.category = categoryItems;
     // eslint-disable-next-line no-console
-    console.log(JSON.stringify(flowData));
+
 
     const payload = {
       flow_data: flowData,

@@ -142,13 +142,13 @@ async function connectGoogle() {
 
 function disconnectGoogle() {
   // TODO: Implement disconnect logic
-  console.log('Disconnect Google account clicked');
+
 }
 
 async function createTicketSheet() {
   try {
     props.googleSheetsAuth.loading = true;
-    console.log(JSON.stringify(props.data));
+
     
     const flowData = props.data.display_flow_data;
     const payload = {
@@ -189,19 +189,16 @@ async function save() {
     isSaving.value = true;
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
-    // console.log(flowData)
     const agent_index = flowData.enabled_agents.indexOf('customer_service');
     flowData.agents_config[agent_index].configurations.ticket_system =
       ticketSystem;
-    // console.log(flowData);
-    // console.log(props.config);
     const payload = {
       flow_data: flowData,
     };
     // ✅ Properly await the API call
     await aiAgents.updateAgent(props.data.id, payload);
 
-    // ✅ Show success console.log after success
+
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
   } catch (e) {
     console.error('Save error:', e);
