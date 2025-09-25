@@ -18,6 +18,7 @@ export default {
     rejectText: { type: String, default: '' },
     confirmValue: { type: String, default: '' },
     confirmPlaceHolderText: { type: String, default: '' },
+    isLoading: { type: Boolean, default: false },
   },
   emits: ['onClose', 'onConfirm', 'update:show'],
   setup() {
@@ -70,6 +71,7 @@ export default {
         type="text"
         :class="{ error: v$.value.$error }"
         :placeholder="confirmPlaceHolderText"
+        :disabled="isLoading"
         @blur="v$.value.$touch"
       />
       <div class="flex items-center justify-end gap-2">
@@ -78,13 +80,15 @@ export default {
           slate
           type="reset"
           :label="rejectText"
+          :disabled="isLoading"
           @click.prevent="closeModal"
         />
         <NextButton
           ruby
           type="submit"
           :label="confirmText"
-          :disabled="v$.value.$invalid"
+          :disabled="v$.value.$invalid || isLoading"
+          :is-loading="isLoading"
         />
       </div>
     </form>
