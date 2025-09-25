@@ -1026,7 +1026,7 @@ DEPENDENCIES
   bundle-audit
   byebug
   climate_control
-  commonmarker (>= 2.3.2)
+  commonmarker
   csv-safe
   database_cleaner
   datadog (~> 2.0)
