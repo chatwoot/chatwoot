@@ -1,0 +1,55 @@
+type: object
+properties:
+  labels:
+    type: array
+    items:
+      type: string
+    description: Labels associated with the conversation
+  additional_attributes:
+    type: object
+    properties:
+      browser:
+        type: object
+        properties:
+          device_name:
+            type: string
+            description: Name of the device
+          browser_name:
+            type: string
+            description: Name of the browser
+          platform_name:
+            type: string
+            description: Name of the platform
+          browser_version:
+            type: string
+            description: Version of the browser
+          platform_version:
+            type: string
+            description: Version of the platform
+      referer:
+        type: string
+        description: Referrer URL
+      initiated_at:
+        type: object
+        properties:
+          timestamp:
+            type: string
+            description: Timestamp when the conversation was initiated
+      browser_language:
+        type: string
+        description: Browser language setting
+      conversation_language:
+        type: string
+        description: Conversation language
+    description: Additional attributes of the conversation
+  contact:
+    $ref: '#/components/schemas/contact_detail'
+    description: Contact details
+  agent_last_seen_at:
+    type: string
+    description: Timestamp when the agent last saw the conversation
+    nullable: true
+  assignee_last_seen_at:
+    type: string
+    description: Timestamp when the assignee last saw the conversation
+    nullable: true 

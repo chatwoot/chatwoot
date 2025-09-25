@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Aucun"
+    "NONE_OPTION": "Aucun",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Conversation créée",
+      "CONVERSATION_UPDATED": "Conversation mise à jour",
+      "MESSAGE_CREATED": "Message créé",
+      "CONVERSATION_RESOLVED": "Conversation terminée",
+      "CONVERSATION_OPENED": "Conversation ouverte"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assigner à un agent",
+      "ASSIGN_TEAM": "Assigner une équipe",
+      "ADD_LABEL": "Ajouter une étiquette",
+      "REMOVE_LABEL": "Supprimer une étiquette",
+      "SEND_EMAIL_TO_TEAM": "Envoyer un e-mail à l'équipe",
+      "SEND_EMAIL_TRANSCRIPT": "Envoyer une transcription par e-mail",
+      "MUTE_CONVERSATION": "Mettre la conversation en sourdine",
+      "SNOOZE_CONVERSATION": "Clôturer la conversation",
+      "RESOLVE_CONVERSATION": "Résoudre la conversation",
+      "SEND_WEBHOOK_EVENT": "Envoyer un événement Webhook",
+      "SEND_ATTACHMENT": "Envoyer la pièce jointe",
+      "SEND_MESSAGE": "Envoyer un message",
+      "ADD_PRIVATE_NOTE": "Ajouter une note privée",
+      "CHANGE_PRIORITY": "Modifier la priorité",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Ouvrir la conversation"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Boite de réception",
+      "OUTGOING": "Message envoyé"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Aucun",
+      "LOW": "Faible",
+      "MEDIUM": "Moyenne",
+      "HIGH": "Élevé",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Type de message",
+      "MESSAGE_CONTAINS": "Le message contient",
+      "EMAIL": "Courriel",
+      "INBOX": "Boîte de réception",
+      "CONVERSATION_LANGUAGE": "Langue de la conversation",
+      "PHONE_NUMBER": "Numéro de téléphone",
+      "STATUS": "État",
+      "BROWSER_LANGUAGE": "Langue du navigateur",
+      "MAIL_SUBJECT": "Objet de l'email",
+      "COUNTRY_NAME": "Pays",
+      "REFERER_LINK": "Lien de référence",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Équipes",
+      "PRIORITY": "Priorité",
+      "LABELS": "Étiquettes"
+    }
   }
 }

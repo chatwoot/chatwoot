@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "Botovi",
     "LOADING_EDITOR": "Otvaranje Editora...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Learn about agent bots",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "Naziv Bota",
-        "PLACEHOLDER": "Naziv Bota.",
-        "ERROR": "Potrebno je unijeti ime Bota."
-      },
-      "DESCRIPTION": {
-        "LABEL": "Opis Bota",
-        "PLACEHOLDER": "Što ovaj Bot radi?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "Unesi iznad svoju CSML bot konfiguraciju.",
-        "API_ERROR": "Unesena CSML konfiguracija nije ispravna, molimo ispravite i ponovno unesite."
-      },
-      "SUBMIT": "Validacija i pohrana"
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "System",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Izaberi agentskog bota",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Izaberi Bota"
     },
     "ADD": {
-      "TITLE": "Konfiguriraj novog bota",
+      "TITLE": "Add Bot",
       "CANCEL_BUTTON_TEXT": "Odustani",
       "API": {
         "SUCCESS_MESSAGE": "Uspješno dodan Bot.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "Nije pronađen nijedan Bot, možeš kreirati Bota koristeći gumb 'Konfiguriraj novog bota' ↗",
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
       "LOADING": "Dohvat Botova...",
-      "TYPE": "Vrsta Bota"
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "Webhook URL"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "Izbriši",
       "TITLE": "Izbriši Bota",
-      "SUBMIT": "Izbriši",
-      "CANCEL_BUTTON_TEXT": "Odustani",
-      "DESCRIPTION": "Jeste li sigurni da želite izbrisati ovog bota? Akciju nije moguće poništiti.",
+      "CONFIRM": {
+        "TITLE": "Potvrdi brisanje",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Yes, Delete",
+        "NO": "No, Keep"
+      },
       "API": {
         "SUCCESS_MESSAGE": "Bot uspješno izbrisan.",
         "ERROR_MESSAGE": "Nije moguće izbrisati bota, molimo pokušajte ponovno."
@@ -57,17 +53,51 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "Uredi",
-      "LOADING": "Dohvat Botova...",
       "TITLE": "Uredi Bota",
-      "CANCEL_BUTTON_TEXT": "Odustani",
       "API": {
         "SUCCESS_MESSAGE": "Bot uspješno izbrisan.",
         "ERROR_MESSAGE": "Nije moguće ažurirati bota, molimo pokušajte ponovno."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Pristupni token",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Naziv Bota",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "Potrebno je unijeti ime Bota"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Što ovaj Bot radi?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook URL",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "Potrebno je unijeti ime Bota",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Odustani",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "Webhook Bot"
     }
   }
 }

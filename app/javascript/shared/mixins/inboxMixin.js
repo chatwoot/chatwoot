@@ -57,6 +57,9 @@ export default {
     isALineChannel() {
       return this.channelType === INBOX_TYPES.LINE;
     },
+    isAVoiceChannel() {
+      return this.channelType === INBOX_TYPES.VOICE;
+    },
     isAnEmailChannel() {
       return this.channelType === INBOX_TYPES.EMAIL;
     },
@@ -120,6 +123,9 @@ export default {
         this.channelType === INBOX_TYPES.WHATSAPP ||
         this.isATwilioWhatsAppChannel
       );
+    },
+    isAnInstagramChannel() {
+      return this.channelType === INBOX_TYPES.INSTAGRAM;
     },
   },
   methods: {

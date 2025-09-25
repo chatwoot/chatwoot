@@ -26,6 +26,12 @@ const showAccountSwitcher = computed(
   () => userAccounts.value.length > 1 && currentAccount.value.name
 );
 
+const sortedCurrentUserAccounts = computed(() => {
+  return [...(currentUser.value.accounts || [])].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+});
+
 const onChangeAccount = newId => {
   const accountUrl = `/app/accounts/${newId}/dashboard`;
   window.location.href = accountUrl;
@@ -70,7 +76,7 @@ const emitNewAccount = () => {
     <DropdownBody v-if="showAccountSwitcher" class="min-w-80 z-50">
       <DropdownSection :title="t('SIDEBAR_ITEMS.SWITCH_ACCOUNT')">
         <DropdownItem
-          v-for="account in currentUser.accounts"
+          v-for="account in sortedCurrentUserAccounts"
           :id="`account-${account.id}`"
           :key="account.id"
           class="cursor-pointer"

@@ -7,8 +7,8 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
-import { shouldBeUrl } from 'shared/helpers/Validators';
+import { required, minLength, helpers, url } from '@vuelidate/validators';
+import { isValidSlug } from 'shared/helpers/Validators';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -51,18 +51,35 @@ const originalState = reactive({ ...state });
 
 const liveChatWidgets = computed(() => {
   const inboxes = store.getters['inboxes/getInboxes'];
-  return inboxes
+  const widgetOptions = inboxes
     .filter(inbox => inbox.channel_type === 'Channel::WebWidget')
     .map(inbox => ({
       value: inbox.id,
       label: inbox.name,
     }));
+
+  return [
+    {
+      value: '',
+      label: t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.NONE_OPTION'),
+    },
+    ...widgetOptions,
+  ];
 });
 
 const rules = {
   name: { required, minLength: minLength(2) },
-  slug: { required },
-  homePageLink: { shouldBeUrl },
+  slug: {
+    required: helpers.withMessage(
+      () => t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.ERROR'),
+      required
+    ),
+    isValidSlug: helpers.withMessage(
+      () => t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.FORMAT_ERROR'),
+      isValidSlug
+    ),
+  },
+  homePageLink: { url },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -71,9 +88,9 @@ const nameError = computed(() =>
   v$.value.name.$error ? t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.ERROR') : ''
 );
 
-const slugError = computed(() =>
-  v$.value.slug.$error ? t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.ERROR') : ''
-);
+const slugError = computed(() => {
+  return v$.value.slug.$errors[0]?.$message || '';
+});
 
 const homePageLinkError = computed(() =>
   v$.value.homePageLink.$error
@@ -99,7 +116,7 @@ watch(
         widgetColor: newVal.color,
         homePageLink: newVal.homepage_link,
         slug: newVal.slug,
-        liveChatWidgetInboxId: newVal.inbox?.id,
+        liveChatWidgetInboxId: newVal.inbox?.id || '',
       });
       if (newVal.logo) {
         const {
@@ -202,7 +219,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.NAME.LABEL') }}
         </label>
@@ -220,7 +237,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HEADER_TEXT.LABEL') }}
         </label>
@@ -236,7 +253,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap text-slate-900 py-2.5 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap text-n-slate-12 py-2.5"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.PAGE_TITLE.LABEL') }}
         </label>
@@ -252,7 +269,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap text-slate-900 py-2.5 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap text-n-slate-12 py-2.5"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.HOME_PAGE_LINK.LABEL') }}
         </label>
@@ -272,7 +289,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.SLUG.LABEL') }}
         </label>
@@ -290,7 +307,7 @@ const handleAvatarDelete = () => {
         class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
       >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.LABEL') }}
         </label>
@@ -306,9 +323,11 @@ const handleAvatarDelete = () => {
           class="[&>div>button:not(.focused)]:!outline-n-weak"
         />
       </div>
-      <div class="flex items-start justify-between w-full gap-2">
+      <div
+        class="grid items-start justify-between w-full gap-2 grid-cols-[200px,1fr]"
+      >
         <label
-          class="text-sm font-medium whitespace-nowrap py-2.5 text-slate-900 dark:text-slate-50"
+          class="text-sm font-medium whitespace-nowrap py-2.5 text-n-slate-12"
         >
           {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.BRAND_COLOR.LABEL') }}
         </label>

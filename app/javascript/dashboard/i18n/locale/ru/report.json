@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Обзор меток",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_LABEL_REPORTS": "Скачать отчет по меткам",
@@ -559,6 +560,7 @@
     "INBOX": "Электронная почта",
     "AGENT": "Оператор",
     "TEAM": "Команда",
+    "LABEL": "Метка",
     "AVG_RESOLUTION_TIME": "Среднее время решения",
     "AVG_FIRST_RESPONSE_TIME": "Среднее время первого ответа",
     "AVG_REPLY_TIME": "Среднее время ожидания клиента",

@@ -9,11 +9,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portals = Current.account.portals
   end
 
-  def add_members
-    agents = Current.account.agents.where(id: portal_member_params[:member_ids])
-    @portal.members << agents
-  end
-
   def show
     @all_articles = @portal.articles
     @articles = @all_articles.search(locale: params[:locale])
@@ -31,9 +26,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
       @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
-    rescue StandardError => e
-      Rails.logger.error e
-      render json: { error: @portal.errors.messages }.to_json, status: :unprocessable_entity
+    rescue ActiveRecord::RecordInvalid => e
+      render_record_invalid(e)
     end
   end
 
@@ -52,6 +46,20 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def send_instructions
+    email = permitted_params[:email]
+    return render_could_not_create_error(I18n.t('portals.send_instructions.email_required')) if email.blank?
+    return render_could_not_create_error(I18n.t('portals.send_instructions.invalid_email_format')) unless valid_email?(email)
+    return render_could_not_create_error(I18n.t('portals.send_instructions.custom_domain_not_configured')) if @portal.custom_domain.blank?
+
+    PortalInstructionsMailer.send_cname_instructions(
+      portal: @portal,
+      recipient_email: email
+    ).deliver_later
+
+    render json: { message: I18n.t('portals.send_instructions.instructions_sent_successfully') }, status: :ok
+  end
+
   def process_attached_logo
     blob_id = params[:blob_id]
     blob = ActiveStorage::Blob.find_by(id: blob_id)
@@ -65,28 +73,25 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:id)
+    params.permit(:id, :email)
   end
 
   def portal_params
     params.require(:portal).permit(
-      :account_id, :color, :custom_domain, :header_text, :homepage_link,
+      :id, :account_id, :color, :custom_domain, :header_text, :homepage_link,
       :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }] }
     )
   end
 
   def live_chat_widget_params
     permitted_params = params.permit(:inbox_id)
-    return {} if permitted_params[:inbox_id].blank?
+    return {} unless permitted_params.key?(:inbox_id)
+    return { channel_web_widget_id: nil } if permitted_params[:inbox_id].blank?
 
     inbox = Inbox.find(permitted_params[:inbox_id])
     return {} unless inbox.web_widget?
 
     { channel_web_widget_id: inbox.channel.id }
-  end
-
-  def portal_member_params
-    params.require(:portal).permit(:account_id, member_ids: [])
   end
 
   def set_current_page
@@ -97,4 +102,10 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     domain = URI.parse(@portal.custom_domain)
     domain.is_a?(URI::HTTP) ? domain.host : @portal.custom_domain
   end
+
+  def valid_email?(email)
+    ValidEmail2::Address.new(email).valid?
+  end
 end
+
+Api::V1::Accounts::PortalsController.prepend_mod_with('Api::V1::Accounts::PortalsController')

@@ -38,27 +38,34 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   end
 
   def scope_for_resolutions_count
-    scope.reporting_events.joins(:conversation).select(:conversation_id).where(
+    scope.reporting_events.where(
       name: :conversation_resolved,
-      conversations: { status: :resolved }, created_at: range
-    ).distinct
+      account_id: account.id,
+      created_at: range
+    )
   end
 
   def scope_for_bot_resolutions_count
-    scope.reporting_events.joins(:conversation).select(:conversation_id).where(
+    scope.reporting_events.where(
       name: :conversation_bot_resolved,
-      conversations: { status: :resolved }, created_at: range
-    ).distinct
+      account_id: account.id,
+      created_at: range
+    )
   end
 
   def scope_for_bot_handoffs_count
     scope.reporting_events.joins(:conversation).select(:conversation_id).where(
       name: :conversation_bot_handoff,
+      account_id: account.id,
       created_at: range
     ).distinct
   end
 
   def grouped_count
+    # IMPORTANT: time_zone parameter affects both data grouping AND output timestamps
+    # It converts timestamps to the target timezone before grouping, which means
+    # the same event can fall into different day buckets depending on timezone
+    # Example: 2024-01-15 00:00 UTC becomes 2024-01-14 16:00 PST (falls on different day)
     @grouped_values = object_scope.group_by_period(
       group_by,
       :created_at,

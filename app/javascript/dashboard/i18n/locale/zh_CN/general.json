@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "搜索",
       "EMPTY_STATE": "没有检索到相关信息"
-    }
+    },
+    "CLOSE": "关闭"
   }
 }

@@ -8,7 +8,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { vOnClickOutside } from '@vueuse/components';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -18,10 +18,18 @@ import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
+const props = defineProps({
+  isMobileSidebarOpen: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const emit = defineEmits([
   'closeKeyShortcutModal',
   'openKeyShortcutModal',
   'showCreateAccountModal',
+  'closeMobileSidebar',
 ]);
 
 const { accountScopedRoute } = useAccount();
@@ -36,18 +44,6 @@ const toggleShortcutModalFn = show => {
     emit('closeKeyShortcutModal');
   }
 };
-
-const currentAccountId = useMapGetter('getCurrentAccountId');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-
-const showV4Routes = computed(() => {
-  return isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.REPORT_V4
-  );
-});
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 
@@ -90,6 +86,11 @@ const sortedInboxes = computed(() =>
   inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
 );
 
+const closeMobileSidebar = () => {
+  if (!props.isMobileSidebarOpen) return;
+  emit('closeMobileSidebar');
+};
+
 const newReportRoutes = () => [
   {
     name: 'Reports Agent',
@@ -100,7 +101,7 @@ const newReportRoutes = () => [
   {
     name: 'Reports Label',
     label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports'),
+    to: accountScopedRoute('label_reports_index'),
   },
   {
     name: 'Reports Inbox',
@@ -116,32 +117,7 @@ const newReportRoutes = () => [
   },
 ];
 
-const oldReportRoutes = () => [
-  {
-    name: 'Reports Agent',
-    label: t('SIDEBAR.REPORTS_AGENT'),
-    to: accountScopedRoute('agent_reports'),
-  },
-  {
-    name: 'Reports Label',
-    label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports'),
-  },
-  {
-    name: 'Reports Inbox',
-    label: t('SIDEBAR.REPORTS_INBOX'),
-    to: accountScopedRoute('inbox_reports'),
-  },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports'),
-  },
-];
-
-const reportRoutes = computed(() =>
-  showV4Routes.value ? newReportRoutes() : oldReportRoutes()
-);
+const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
@@ -152,7 +128,7 @@ const menuItems = computed(() => {
       to: accountScopedRoute('inbox_view'),
       activeOn: ['inbox_view', 'inbox_view_conversation'],
       getterKeys: {
-        badge: 'notifications/getHasUnreadNotifications',
+        count: 'notifications/getUnreadCount',
       },
     },
     {
@@ -274,6 +250,12 @@ const menuItems = computed(() => {
           activeOn: ['contacts_dashboard_index', 'contacts_edit'],
         },
         {
+          name: 'Active',
+          label: t('SIDEBAR.ACTIVE'),
+          to: accountScopedRoute('contacts_dashboard_active'),
+          activeOn: ['contacts_dashboard_active'],
+        },
+        {
           name: 'Segments',
           icon: 'i-lucide-group',
           label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
@@ -363,6 +345,11 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.SMS'),
           to: accountScopedRoute('campaigns_sms_index'),
         },
+        {
+          name: 'WhatsApp',
+          label: t('SIDEBAR.WHATSAPP'),
+          to: accountScopedRoute('campaigns_whatsapp_index'),
+        },
       ],
     },
     {
@@ -436,6 +423,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('settings_teams_list'),
         },
         {
+          name: 'Settings Agent Assignment',
+          label: t('SIDEBAR.AGENT_ASSIGNMENT'),
+          icon: 'i-lucide-user-cog',
+          to: accountScopedRoute('assignment_policy_index'),
+        },
+        {
           name: 'Settings Inboxes',
           label: t('SIDEBAR.INBOXES'),
           icon: 'i-lucide-inbox',
@@ -502,6 +495,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('sla_list'),
         },
         {
+          name: 'Settings Security',
+          label: t('SIDEBAR.SECURITY'),
+          icon: 'i-lucide-shield',
+          to: accountScopedRoute('security_settings_index'),
+        },
+        {
           name: 'Settings Billing',
           label: t('SIDEBAR.BILLING'),
           icon: 'i-lucide-credit-card',
@@ -515,7 +514,17 @@ const menuItems = computed(() => {
 
 <template>
   <aside
-    class="w-[12.5rem] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
+    v-on-click-outside="[
+      closeMobileSidebar,
+      { ignore: ['#mobile-sidebar-launcher'] },
+    ]"
+    class="bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak flex flex-col text-sm pb-1 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 transition-transform duration-200 ease-in-out md:static w-[200px] basis-[200px] md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:-translate-x-0"
+    :class="[
+      {
+        'shadow-lg md:shadow-none': isMobileSidebarOpen,
+        'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
+      },
+    ]"
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
@@ -557,7 +566,7 @@ const menuItems = computed(() => {
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
-      <ul class="flex flex-col gap-2 m-0 list-none">
+      <ul class="flex flex-col gap-1.5 m-0 list-none">
         <SidebarGroup
           v-for="item in menuItems"
           :key="item.name"

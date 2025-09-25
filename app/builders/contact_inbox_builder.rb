@@ -59,11 +59,13 @@ class ContactInboxBuilder
   end
 
   def create_contact_inbox
-    ::ContactInbox.create_with(hmac_verified: hmac_verified || false).find_or_create_by!(
+    attrs = {
       contact_id: @contact.id,
       inbox_id: @inbox.id,
       source_id: @source_id
-    )
+    }
+
+    ::ContactInbox.where(attrs).first_or_create!(hmac_verified: hmac_verified || false)
   rescue ActiveRecord::RecordNotUnique
     Rails.logger.info("[ContactInboxBuilder] RecordNotUnique #{@source_id} #{@contact.id} #{@inbox.id}")
     update_old_contact_inbox

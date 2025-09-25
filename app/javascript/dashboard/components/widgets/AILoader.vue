@@ -22,23 +22,15 @@
     gap: 4px;
 
     .ai-typing--icon {
-      color: var(--v-500);
+      @apply text-n-iris-11;
     }
   }
   label {
-    display: inline-block;
-    margin-right: var(--space-smaller);
-    color: var(--v-400);
+    @apply text-n-iris-11 ltr:mr-1 rtl:ml-1 inline-block;
   }
   .loader {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    margin-right: var(--space-smaller);
-    margin-top: var(--space-slab);
-    background-color: var(--v-300);
-    border-radius: 50%;
     animation: bubble-scale 1.2s infinite;
+    @apply bg-n-iris-11 inline-block size-1.5 ltr:mr-1 rtl:ml-1 mt-3 rounded-full;
   }
 
   .loader:nth-child(2) {

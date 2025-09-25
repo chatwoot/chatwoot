@@ -6,7 +6,6 @@ import { getContrastingTextColor } from '@chatwoot/utils';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { getRegexp } from 'shared/helpers/Validators';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
 import { FormKit, createInput } from '@formkit/vue';
 import PhoneInput from 'widget/components/Form/PhoneInput.vue';
@@ -17,7 +16,7 @@ export default {
     Spinner,
     FormKit,
   },
-  mixins: [routerMixin, configMixin],
+  mixins: [configMixin],
   props: {
     options: {
       type: Object,
@@ -264,7 +263,7 @@ export default {
     <div
       v-if="shouldShowHeaderMessage"
       v-dompurify-html="formatMessage(headerMessage, false)"
-      class="mb-4 text-base leading-5 pre-chat-header-message text-n-slate-12"
+      class="mb-4 text-base leading-5 text-n-slate-12 [&>p>.link]:text-n-blue-text [&>p>.link]:hover:underline"
     />
     <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
     If we just pass the options as is even with null or undefined or false,
@@ -353,13 +352,5 @@ export default {
 
 .formkit-messages {
   @apply list-none m-0 p-0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .pre-chat-header-message {
-    .link {
-      @apply text-woot-500 underline;
-    }
-  }
 }
 </style>

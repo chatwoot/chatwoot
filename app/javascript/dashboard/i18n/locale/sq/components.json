@@ -43,5 +43,14 @@
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Learn more",
     "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minuta",
+    "HOURS": "Orë",
+    "DAYS": "Ditë",
+    "PLACEHOLDER": "Shkruani kohëzgjatjen"
+  },
+  "CHANNEL_SELECTOR": {
+    "COMING_SOON": "Së shpejti!"
   }
 }

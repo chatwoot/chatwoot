@@ -32,10 +32,17 @@
     "LOADING_CONVERSATIONS": "Sohbetler Yükleniyor\n",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
+    "API_HOURS_WINDOW": "Bu sohbete yalnızca {hours} saat içinde yanıt verebilirsiniz",
     "NOT_ASSIGNED_TO_YOU": "Bu görüşme size atanmamış. Bu konuşmayı kendinize atamak ister misiniz?",
     "ASSIGN_TO_ME": "Bana ata",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bu konuşmaya yalnızca şablon mesaj kullanarak yanıt verebilirsiniz, çünkü",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Tüm yeni mesajlar orada görünecek. Bu sohbetten artık mesaj gönderemezsiniz.",
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
@@ -64,10 +71,22 @@
       "SHOW_LABELS": "Etiketleri Göster",
       "HIDE_LABELS": "Etiketleri Gizle"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
       "REOPEN_ACTION": "Yeniden aç",
       "OPEN_ACTION": "Açık",
+      "MORE_ACTIONS": "Daha fazla işlem",
       "OPEN": "Devamı",
       "CLOSE": "Kapat",
       "DETAILS": "detaylar",
@@ -93,6 +112,10 @@
         "NEXT_WEEK": "Sonraki hafta"
       }
     },
+    "MENTION": {
+      "AGENTS": "Kullanıcılar",
+      "TEAMS": "Ekipler"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Şu tarihe kadar ertele",
       "APPLY": "Sustur",
@@ -115,6 +138,11 @@
         "FAILED": "Öncelik değiştirilemedi. Lütfen tekrar deneyin."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "#{conversationId} numaralı sohbeti sil",
+      "DESCRIPTION": "Bu sohbeti silmek istediğinizden emin misiniz?",
+      "CONFIRM": "Sil"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Beklemede olarak işaretle",
       "RESOLVED": "Çözüldü olarak işaretle",
@@ -131,6 +159,10 @@
       "ASSIGN_LABEL": "Etiket ata",
       "AGENTS_LOADING": "Temsilciler Yükleniyor...",
       "ASSIGN_TEAM": "Takım ata",
+      "DELETE": "Sohbeti sil",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Sohbet kimliği {conversationId} \"{agentName}\" tarafından atanmış",
@@ -205,6 +237,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiket başarıyla atandı",
     "ASSIGN_LABEL_FAILED": "Etiket ataması yapılamadı",
     "CHANGE_TEAM": "Takım değişti",
+    "SUCCESS_DELETE_CONVERSATION": "Sohbet başarıyla silindi",
+    "FAIL_DELETE_CONVERSATION": "Sohbet silinemedi! Tekrar deneyin",
     "FILE_SIZE_LIMIT": "Dosya, {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB ek dosya sınırını aşıyor",
     "MESSAGE_ERROR": "Bu mesaj gönderilemiyor, lütfen daha sonra tekrar deneyin",
     "SENT_BY": "Tarafından gönderildi:",
@@ -293,9 +327,11 @@
       "CONVERSATION_ACTIONS": "Konuşma Eylemleri",
       "CONVERSATION_LABELS": "Konuşma Etiketleri",
       "CONVERSATION_INFO": "Konuşma Bilgisi",
+      "CONTACT_NOTES": "Kişi Notları",
       "CONTACT_ATTRIBUTES": "İletişim Nitelikleri",
       "PREVIOUS_CONVERSATION": "Önceki Konuşmalar",
       "MACROS": "Kısayollar",
+      "LINEAR_ISSUES": "Bağlantılı Linear Sorunları",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "Roboti",
     "LOADING_EDITOR": "Notiek redaktora ielāde...",
-    "DESCRIPTION": "Aģenti Roboti ir kā pasakainākie jūsu komandas locekļi. Viņi var tikt galā ar sīkumiem, lai jūs varētu koncentrēties uz svarīgām lietām. Jūs varat pārvaldīt savus robotus šajā lapā vai izveidot jaunus, izmantojot pogu 'Konfigurēt jaunu robotu'.",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Uzzināt vairāk par aģentiem robotiem",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "Robota nosaukums",
-        "PLACEHOLDER": "Piešķiriet robotam nosaukumu.",
-        "ERROR": "Jānorāda robota nosaukums."
-      },
-      "DESCRIPTION": {
-        "LABEL": "Robota apraksts",
-        "PLACEHOLDER": "Ko dara šis robots?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "Lūdzu, ievadiet sava robota CSML konfigurāciju.",
-        "API_ERROR": "Jūsu CSML konfigurācija nav derīga. Lūdzu, izlabojiet to un mēģiniet vēlreiz."
-      },
-      "SUBMIT": "Apstiprināt un saglabāt"
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "Sistēma",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Izvēlieties aģentu robotu",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Izvēlieties robotu"
     },
     "ADD": {
-      "TITLE": "Konfigurēt jaunu robotu",
+      "TITLE": "Add Bot",
       "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
         "SUCCESS_MESSAGE": "Robots ir veiksmīgi pievienots.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "Roboti nav atrasti. Jūs varat izveidot robotu, noklikšķinot uz 'Konfigurēt jaunu robotu' pogas ↗",
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
       "LOADING": "Notiek robotu iegūšana...",
-      "TYPE": "Robota tips"
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "Webhook URL"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "Dzēst",
       "TITLE": "Dzēst robotu",
-      "SUBMIT": "Dzēst",
-      "CANCEL_BUTTON_TEXT": "Atcelt",
-      "DESCRIPTION": "Vai tiešām vēlaties dzēst šo robotu? Šī darbība ir neatgriezeniska.",
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Jā, Dzēst",
+        "NO": "Nē, Paturēt"
+      },
       "API": {
         "SUCCESS_MESSAGE": "Robots ir veiksmīgi izdzēsts.",
         "ERROR_MESSAGE": "Nevarēja izdzēst robotu. Lūdzu mēģiniet vēlreiz."
@@ -57,17 +53,51 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "Rediģēt",
-      "LOADING": "Notiek robotu iegūšana...",
       "TITLE": "Rediģēt robotu",
-      "CANCEL_BUTTON_TEXT": "Atcelt",
       "API": {
         "SUCCESS_MESSAGE": "Robots ir veiksmīgi atjaunināts.",
         "ERROR_MESSAGE": "Nevarēja atjaunināt robotu. Lūdzu mēģiniet vēlreiz."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Piekļuves Token",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Robota nosaukums",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "Jānorāda robota nosaukums"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Apraksts",
+        "PLACEHOLDER": "Ko dara šis robots?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook URL",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "Jānorāda robota nosaukums",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Atcelt",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook robots",
-      "CSML": "CSML robots"
+      "WEBHOOK": "Webhook robots"
     }
   }
 }

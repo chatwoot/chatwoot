@@ -1,0 +1,69 @@
+type: object
+properties:
+  id:
+    type: integer
+    description: The ID of the automation rule
+  account_id:
+    type: integer
+    description: Account Id
+  name:
+    type: string
+    description: The name of the rule
+    example: Add label on message create event
+  description:
+    type: string
+    description: Description to give more context about the rule
+    example: Add label support and sales on message create event if incoming message content contains text help
+  event_name:
+    type: string
+    description: Automation Rule event, on which we call the actions(conversation_created, conversation_updated, message_created)
+    enum:
+      - conversation_created
+      - conversation_updated
+      - message_created
+    example: message_created
+  conditions:
+    type: array
+    description: Array of conditions on which conversation/message filter would work
+    items:
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: string
+        attribute_key:
+          type: string
+        query_operator:
+          type: string
+        filter_operator:
+          type: string
+      example:
+        attribute_key: content
+        filter_operator: contains
+        values:
+          - help
+        query_operator: and
+  actions:
+    type: array
+    description: Array of actions which we perform when condition matches
+    items:
+      type: object
+      properties:
+        action_name:
+          type: string
+        action_params:
+          type: array
+          items:
+            type: string
+      example:
+        action_name: add_label
+        action_params:
+          - support
+          - sales
+  created_on:
+    type: integer
+    description: The timestamp when the rule was created
+  active:
+    type: boolean
+    description: Enable/disable automation rule 

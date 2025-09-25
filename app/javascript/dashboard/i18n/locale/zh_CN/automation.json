@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "至少需要一个条件",
       "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一个动作"
     },
-    "NONE_OPTION": "无"
+    "NONE_OPTION": "无",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "对话创建",
+      "CONVERSATION_UPDATED": "对话已更新",
+      "MESSAGE_CREATED": "消息已创建",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "对话已打开"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "分配客服",
+      "ASSIGN_TEAM": "分配团队",
+      "ADD_LABEL": "添加标签",
+      "REMOVE_LABEL": "移除标签",
+      "SEND_EMAIL_TO_TEAM": "发送电子邮件给团队",
+      "SEND_EMAIL_TRANSCRIPT": "通过邮件发送聊天记录",
+      "MUTE_CONVERSATION": "开始会话",
+      "SNOOZE_CONVERSATION": "暂停对话",
+      "RESOLVE_CONVERSATION": "解决对话",
+      "SEND_WEBHOOK_EVENT": "发送 Webhook 事件",
+      "SEND_ATTACHMENT": "发送附件",
+      "SEND_MESSAGE": "发送消息",
+      "ADD_PRIVATE_NOTE": "添加私密注释",
+      "CHANGE_PRIORITY": "更改优先级",
+      "ADD_SLA": "添加SLA",
+      "OPEN_CONVERSATION": "打开对话"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "啥都没有",
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "紧急的"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "消息类型",
+      "MESSAGE_CONTAINS": "消息包含",
+      "EMAIL": "Email",
+      "INBOX": "收件箱",
+      "CONVERSATION_LANGUAGE": "对话语言",
+      "PHONE_NUMBER": "电话号码",
+      "STATUS": "状态",
+      "BROWSER_LANGUAGE": "浏览器语言",
+      "MAIL_SUBJECT": "电子邮件主题",
+      "COUNTRY_NAME": "国家",
+      "REFERER_LINK": "引荐链接",
+      "ASSIGNEE_NAME": "负责人",
+      "TEAM_NAME": "团队",
+      "PRIORITY": "优先级",
+      "LABELS": "标签"
+    }
   }
 }

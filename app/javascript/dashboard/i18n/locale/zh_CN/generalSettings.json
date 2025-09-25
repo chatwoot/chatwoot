@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "您已经超过对话限制。黑客计划只允许500次对话。",
+      "INBOXES": "您已超过收件箱限制。Hacker 计划只支持网站在线聊天。其他收件箱如电子邮件、WhatsApp 等需要付费计划。",
+      "AGENTS": "您已超过席位限制。当前计划只允许 {allowedAgents} 个席位。",
+      "NON_ADMIN": "请联系您的管理员升级计划并继续使用所有功能。"
+    },
     "TITLE": "帐户设置",
     "SUBMIT": "更新设置",
     "BACK": "后退",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "无法更新设置，请重试！",
       "SUCCESS": "已成功更新账户设置"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "删除您的帐户",
+      "NOTE": "一旦您删除您的账户，您的所有数据将被删除。",
+      "BUTTON_TEXT": "删除您的账户",
+      "CONFIRM": {
+        "TITLE": "删除账户",
+        "MESSAGE": "删除您的账户是不可逆的。请在下面输入您的账户名称以确认您想要永久删除它。",
+        "BUTTON_TEXT": "删除",
+        "DISMISS": "取消",
+        "PLACE_HOLDER": "请输入 {accountName} 以确认"
+      },
+      "SUCCESS": "账户已标记为删除",
+      "FAILURE": "无法删除账户，请重试！",
+      "SCHEDULED_DELETION": {
+        "TITLE": "已计划删除的账户",
+        "MESSAGE_MANUAL": "此账户已计划在 {deletionDate} 删除。该操作由管理员请求。你可以在该日期前取消删除。",
+        "MESSAGE_INACTIVITY": "此账户由于不活跃已计划在 {deletionDate} 删除。你可以在该日期前取消删除。",
+        "CLEAR_BUTTON": "取消已计划的删除"
+      }
     },
     "FORM": {
       "ERROR": "请修正表单错误",
@@ -17,6 +43,34 @@
       "ACCOUNT_ID": {
         "TITLE": "账号 ID",
         "NOTE": "如果您正在构建基于 API 的集成，那么此 ID 是必需的"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "自动解决对话",
+        "NOTE": "通过此项设置，系统可在对话静默一段时间后自动将其解决。",
+        "DURATION": {
+          "LABEL": "无活动持续时间",
+          "HELP": "在无活动后自动结束对话的时间段",
+          "PLACEHOLDER": "30",
+          "ERROR": "自动解决时长应在 10 分钟到 999 天之间",
+          "API": {
+            "SUCCESS": "自动解决设置已成功更新",
+            "ERROR": "更新自动解决设置失败"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "自定义自动解决消息",
+          "PLACEHOLDER": "由于闲置 15 天，对话被系统标记已解决",
+          "HELP": "会话自动解决之后发送给客户的消息"
+        },
+        "PREFERENCES": "偏好设置",
+        "LABEL": {
+          "LABEL": "自动解决后添加标签",
+          "PLACEHOLDER": "选择一个标签"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "跳过等待客服回复的会话"
+        },
+        "UPDATE_BUTTON": "保存修改"
       },
       "NAME": {
         "LABEL": "帐户名称",
@@ -38,10 +92,31 @@
         "PLACEHOLDER": "您公司的支持邮件",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "排除未参加的对话",
+        "HELP": "启用后，系统将跳过解决仍在等待客服回复的对话。"
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "转录语音消息",
+        "NOTE": "自动转录对话中的语音消息。当发送或收到语音消息时生成转录的文本，并将其显示在消息旁边。",
+        "API": {
+          "SUCCESS": "语音转录设置更新成功",
+          "ERROR": "更新语音转录设置失败"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "非活跃工单的自动结单的天数",
+        "LABEL": "自动解决前的无活动市场",
+        "HELP": "对话无活动时自动解决时长",
         "PLACEHOLDER": "30",
-        "ERROR": "请输入一个有效的自动解决时间 (至少 1 天，最多999 天)。"
+        "ERROR": "自动解决时长应在 10 分钟到 999 天之间",
+        "API": {
+          "SUCCESS": "自动解决设置已成功更新",
+          "ERROR": "更新自动解决设置失败"
+        },
+        "UPDATE_BUTTON": "更新",
+        "MESSAGE_LABEL": "自定义解决消息",
+        "MESSAGE_PLACEHOLDER": "由于闲置 15 天，对话被系统标记已解决",
+        "MESSAGE_HELP": "当系统因为不活动而自动解决某个对话时，此消息将发送给客户。"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",
@@ -51,6 +126,7 @@
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新{latestChatwootVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
     "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
+    "UPGRADE": "升级以继续使用 Chatwoot",
     "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Chatwoot",
     "OPEN_BILLING": "查看计费"
   },
@@ -58,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "按回车键选择",
       "ENTER_TO_REMOVE": "按回车键删除",
+      "NO_OPTIONS": "列表为空",
       "SELECT_ONE": "请选择一个",
       "SELECT": "选择"
     }

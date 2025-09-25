@@ -83,6 +83,29 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Cakto një ekip",
+      "ASSIGN_AGENT": "Cakto një agjent",
+      "ADD_LABEL": "Shto një etiketë",
+      "REMOVE_LABEL": "Hiq një etiketë",
+      "REMOVE_ASSIGNED_TEAM": "Hiq ekipin e caktuar",
+      "SEND_EMAIL_TRANSCRIPT": "Dërgo një transkript me email",
+      "MUTE_CONVERSATION": "Heshto bisedën",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "SEND_ATTACHMENT": "Dërgo një bashkëngjitje",
+      "SEND_MESSAGE": "Dërgo një mesazh",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_PRIVATE_NOTE": "Shto një shënim privat",
+      "SEND_WEBHOOK_EVENT": "Dërgo një ngjarje webhook"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "None",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
     }
   }
 }

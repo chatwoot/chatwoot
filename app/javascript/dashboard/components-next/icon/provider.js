@@ -2,31 +2,39 @@ import { computed } from 'vue';
 
 export function useChannelIcon(inbox) {
   const channelTypeIconMap = {
-    'Channel::Api': 'i-ri-cloudy-fill',
-    'Channel::Email': 'i-ri-mail-fill',
-    'Channel::FacebookPage': 'i-ri-messenger-fill',
-    'Channel::Line': 'i-ri-line-fill',
-    'Channel::Sms': 'i-ri-chat-1-fill',
-    'Channel::Telegram': 'i-ri-telegram-fill',
-    'Channel::TwilioSms': 'i-ri-chat-1-fill',
+    'Channel::Api': 'i-woot-api',
+    'Channel::Email': 'i-woot-mail',
+    'Channel::FacebookPage': 'i-woot-messenger',
+    'Channel::Line': 'i-woot-line',
+    'Channel::Sms': 'i-woot-sms',
+    'Channel::Telegram': 'i-woot-telegram',
+    'Channel::TwilioSms': 'i-woot-sms',
     'Channel::TwitterProfile': 'i-ri-twitter-x-fill',
-    'Channel::WebWidget': 'i-ri-global-fill',
-    'Channel::Whatsapp': 'i-ri-whatsapp-fill',
+    'Channel::WebWidget': 'i-woot-website',
+    'Channel::Whatsapp': 'i-woot-whatsapp',
+    'Channel::Instagram': 'i-woot-instagram',
+    'Channel::Voice': 'i-ri-phone-fill',
   };
 
   const providerIconMap = {
-    microsoft: 'i-ri-microsoft-fill',
-    google: 'i-ri-google-fill',
+    microsoft: 'i-woot-outlook',
+    google: 'i-woot-gmail',
   };
 
   const channelIcon = computed(() => {
-    const type = inbox.channel_type;
+    const inboxDetails = inbox.value || inbox;
+    const type = inboxDetails.channel_type;
     let icon = channelTypeIconMap[type];
 
-    if (type === 'Channel::Email' && inbox.provider) {
-      if (Object.keys(providerIconMap).includes(inbox.provider)) {
-        icon = providerIconMap[inbox.provider];
+    if (type === 'Channel::Email' && inboxDetails.provider) {
+      if (Object.keys(providerIconMap).includes(inboxDetails.provider)) {
+        icon = providerIconMap[inboxDetails.provider];
       }
+    }
+
+    // Special case for Twilio whatsapp
+    if (type === 'Channel::TwilioSms' && inboxDetails.medium === 'whatsapp') {
+      icon = 'i-woot-whatsapp';
     }
 
     return icon ?? 'i-ri-global-fill';

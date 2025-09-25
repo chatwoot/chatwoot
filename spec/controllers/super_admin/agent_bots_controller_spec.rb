@@ -43,4 +43,25 @@ RSpec.describe 'Super Admin agent-bots API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /super_admin/agent_bots/:id' do
+    let!(:agent_bot) { create(:agent_bot) }
+
+    context 'when it is an unauthenticated super admin' do
+      it 'returns unauthorized' do
+        delete "/super_admin/agent_bots/#{agent_bot.id}"
+        expect(response).to have_http_status(:redirect)
+        expect(AgentBot.find_by(id: agent_bot.id)).to be_present
+      end
+    end
+
+    context 'when it is an authenticated super admin' do
+      it 'deletes the agent bot' do
+        sign_in(super_admin, scope: :super_admin)
+        delete "/super_admin/agent_bots/#{agent_bot.id}"
+        expect(response).to have_http_status(:redirect)
+        expect(AgentBot.find_by(id: agent_bot.id)).to be_nil
+      end
+    end
+  end
 end

@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Nic"
+    "NONE_OPTION": "Nic",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Conversation Created",
+      "CONVERSATION_UPDATED": "Conversation Updated",
+      "MESSAGE_CREATED": "Zpráva vytvořena",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Konverzace otevřena"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Přiřadit agentovi",
+      "ASSIGN_TEAM": "Přiřadit tým",
+      "ADD_LABEL": "Přidat štítek",
+      "REMOVE_LABEL": "Odebrat štítek",
+      "SEND_EMAIL_TO_TEAM": "Poslat e-mail týmu",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Ztlumit konverzaci",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Odeslat přílohu",
+      "SEND_MESSAGE": "Odeslat zprávu",
+      "ADD_PRIVATE_NOTE": "Přidat soukromou poznámku",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Open conversation"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nic",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Typ zprávy",
+      "MESSAGE_CONTAINS": "Zpráva obsahuje",
+      "EMAIL": "E-mailová adresa",
+      "INBOX": "Inbox",
+      "CONVERSATION_LANGUAGE": "Jazyk konverzace",
+      "PHONE_NUMBER": "Telefonní číslo",
+      "STATUS": "Stav",
+      "BROWSER_LANGUAGE": "Browser Language",
+      "MAIL_SUBJECT": "Předmět e-mailu",
+      "COUNTRY_NAME": "Země",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Team",
+      "PRIORITY": "Priority",
+      "LABELS": "Štítky"
+    }
   }
 }

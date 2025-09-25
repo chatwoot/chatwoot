@@ -6,14 +6,11 @@ import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import {
-  ALLOWED_FILE_TYPES,
-  ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
-  ALLOWED_FILE_TYPES_FOR_LINE,
-} from 'shared/constants/messages';
+import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
-import { REPLY_EDITOR_MODES } from './constants';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -22,9 +19,9 @@ export default {
   components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [inboxMixin],
   props: {
-    mode: {
-      type: String,
-      default: REPLY_EDITOR_MODES.REPLY,
+    isNote: {
+      type: Boolean,
+      default: false,
     },
     onSend: {
       type: Function,
@@ -93,7 +90,11 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasWhatsappTemplates: {
+    enableWhatsAppTemplates: {
+      type: Boolean,
+      default: false,
+    },
+    enableContentTemplates: {
       type: Boolean,
       default: false,
     },
@@ -113,12 +114,17 @@ export default {
       type: String,
       required: true,
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
   emits: [
     'replaceText',
     'toggleInsertArticle',
     'toggleEditor',
     'selectWhatsappTemplate',
+    'selectContentTemplate',
   ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -150,15 +156,17 @@ export default {
       uploadRef,
     };
   },
+  data() {
+    return {
+      ALLOWED_FILE_TYPES,
+    };
+  },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'integrations/getUIFlags',
     }),
-    isNote() {
-      return this.mode === REPLY_EDITOR_MODES.NOTE;
-    },
     wrapClass() {
       return {
         'is-note-mode': this.isNote,
@@ -187,14 +195,25 @@ export default {
     showAudioPlayStopButton() {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
     allowedFileTypes() {
-      if (this.isATwilioWhatsAppChannel) {
-        return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
+      // Use default file types for private notes
+      if (this.isOnPrivateNote) {
+        return this.ALLOWED_FILE_TYPES;
       }
-      if (this.isALineChannel) {
-        return ALLOWED_FILE_TYPES_FOR_LINE;
+
+      let channelType = this.channelType || this.inbox?.channel_type;
+
+      if (this.isAnInstagramChannel || this.isInstagramDM) {
+        channelType = INBOX_TYPES.INSTAGRAM;
       }
-      return ALLOWED_FILE_TYPES;
+
+      return getAllowedFileTypesByChannel({
+        channelType,
+        medium: this.inbox?.medium,
+      });
     },
     enableDragAndDrop() {
       return !this.newConversationModalActive;
@@ -321,13 +340,22 @@ export default {
         @click="toggleMessageSignature"
       />
       <NextButton
-        v-if="hasWhatsappTemplates"
+        v-if="enableWhatsAppTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         icon="i-ph-whatsapp-logo"
         slate
         faded
         sm
         @click="$emit('selectWhatsappTemplate')"
+      />
+      <NextButton
+        v-if="enableContentTemplates"
+        v-tooltip.top-end="'Content Templates'"
+        icon="i-ph-whatsapp-logo"
+        slate
+        faded
+        sm
+        @click="$emit('selectContentTemplate')"
       />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
@@ -343,10 +371,10 @@ export default {
       <transition name="modal-fade">
         <div
           v-show="uploadRef && uploadRef.dropActive"
-          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
+          class="flex fixed top-0 right-0 bottom-0 left-0 z-20 flex-col gap-2 justify-center items-center w-full h-full text-n-slate-12 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
           <fluent-icon icon="cloud-backup" size="40" />
-          <h4 class="text-2xl break-words text-slate-900 dark:text-slate-50">
+          <h4 class="text-2xl break-words text-n-slate-12">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
         </div>
@@ -390,7 +418,7 @@ export default {
   }
 
   &:hover button {
-    @apply dark:bg-slate-800 bg-slate-100;
+    @apply enabled:bg-n-slate-9/20;
   }
 }
 </style>

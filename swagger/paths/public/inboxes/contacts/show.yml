@@ -5,11 +5,21 @@ summary: Get a contact
 description: Get the details of a contact
 security: []
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      $ref: '#/definitions/public_contact'
-  401:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/public_contact'
+  '401':
     description: Unauthorized
-  404:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
     description: The given contact does not exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

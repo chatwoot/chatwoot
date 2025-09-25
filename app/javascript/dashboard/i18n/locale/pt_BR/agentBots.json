@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "Robôs",
     "LOADING_EDITOR": "Carregando Editor...",
-    "DESCRIPTION": "Robôs agentes são como os membros mais fabulosos da sua equipe. Eles podem lidar com as pequenas coisas, assim você pode focar nas coisas que importam. Dê uma oportunidade a eles. Você pode gerenciar seus robôs a partir desta página ou criar novos usando o botão 'Configurar novo robô'.",
+    "DESCRIPTION": "Robôs agentes são como os membros mais fabulosos de seu time. Eles podem lidar com as pequenas coisas, assim você pode focar nas coisas que importam. Dê uma chance a eles. Você pode gerenciar seus robôs a partir desta página ou criar novos usando o botão 'Criar Robô'.",
     "LEARN_MORE": "Aprenda sobre os robôs agentes",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "Nome do Robô",
-        "PLACEHOLDER": "Nomeie seu Robô.",
-        "ERROR": "O nome do Robô é obrigatório."
-      },
-      "DESCRIPTION": {
-        "LABEL": "Descrição do Robô",
-        "PLACEHOLDER": "O que esse robô faz?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "Por favor, insira a configuração CSML do Robô acima.",
-        "API_ERROR": "Sua configuração CSML é inválida. Por favor, corrija e tente novamente."
-      },
-      "SUBMIT": "Validar e salvar"
+    "GLOBAL_BOT": "Robô do sistema",
+    "GLOBAL_BOT_BADGE": "Sistema",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Avatar do robô excluído com sucesso",
+      "ERROR_DELETE": "Erro ao excluir o avatar do robô, tente novamente"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Selecione um robô de agente",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Selecionar Robô"
     },
     "ADD": {
-      "TITLE": "Configurar novo robô",
+      "TITLE": "Criar Robô",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Bot adicionado com sucesso.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "Nenhum robô encontrado. Você pode criar um robô clicando no botão 'Configurar novo robô' ↗",
+      "404": "Nenhum robô encontrado. Você pode criar um robô clicando no botão 'Criar Robô'.",
       "LOADING": "Buscando robôs...",
-      "TYPE": "Tipo de Robô"
+      "TABLE_HEADER": {
+        "DETAILS": "Detalhe do Robô",
+        "URL": "URL do Webhook"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "TITLE": "Deletar robô",
-      "SUBMIT": "Excluir",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
-      "DESCRIPTION": "Tem certeza que deseja excluir este bot? Esta ação é irreversível.",
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir {name}?",
+        "YES": "Sim, excluir",
+        "NO": "Não, Mantenha"
+      },
       "API": {
         "SUCCESS_MESSAGE": "Bot excluído com sucesso.",
         "ERROR_MESSAGE": "Não foi possível excluir o robô. Por favor, tente novamente."
@@ -57,17 +53,51 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "Alterar",
-      "LOADING": "Buscando robôs...",
       "TITLE": "Alterar Robô",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Robô atualizado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível atualizar o robô. Por favor, tente novamente mais tarde."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Token de acesso",
+      "DESCRIPTION": "Copie o token de acesso e salve-o de forma segura",
+      "COPY_SUCCESSFUL": "Token de acesso copiado para área de transferência",
+      "RESET_SUCCESS": "Token de acesso gerado novamente com sucesso",
+      "RESET_ERROR": "Não foi possível regerar o token de acesso. Por favor, tente novamente"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Avatar do robô"
+      },
+      "NAME": {
+        "LABEL": "Nome do Robô",
+        "PLACEHOLDER": "Insira o nome do robô",
+        "REQUIRED": "O nome do Robô é obrigatório"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "O que esse robô faz?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "URL do Webhook",
+        "PLACEHOLDER": "https://exemplo.com.br/webhook",
+        "REQUIRED": "URL Webhook é necessária"
+      },
+      "ERRORS": {
+        "NAME": "O nome do Robô é obrigatório",
+        "URL": "URL Webhook é necessária",
+        "VALID_URL": "Digite uma URL válida começando com http:// ou https://"
+      },
+      "CANCEL": "Cancelar",
+      "CREATE": "Criar um Robô",
+      "UPDATE": "Atualizar o Robô"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure um robô de Webhook para integrar com seus serviços personalizados. O robô receberá e processará eventos de conversas e pode respondê-los."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook robô",
-      "CSML": "CSML robô"
+      "WEBHOOK": "Webhook robô"
     }
   }
 }

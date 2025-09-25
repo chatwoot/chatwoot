@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Cercar",
       "EMPTY_STATE": "No s'ha trobat agents"
-    }
+    },
+    "CLOSE": "Tanca"
   }
 }

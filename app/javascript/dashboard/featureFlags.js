@@ -1,9 +1,11 @@
 export const FEATURE_FLAGS = {
   AGENT_BOTS: 'agent_bots',
   AGENT_MANAGEMENT: 'agent_management',
+  ASSIGNMENT_V2: 'assignment_v2',
   AUTO_RESOLVE_CONVERSATIONS: 'auto_resolve_conversations',
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
+  WHATSAPP_CAMPAIGNS: 'whatsapp_campaign',
   CANNED_RESPONSES: 'canned_responses',
   CRM: 'crm',
   CUSTOM_ATTRIBUTES: 'custom_attributes',
@@ -34,7 +36,10 @@ export const FEATURE_FLAGS = {
   CUSTOM_ROLES: 'custom_roles',
   CHATWOOT_V4: 'chatwoot_v4',
   REPORT_V4: 'report_v4',
+  CHANNEL_INSTAGRAM: 'channel_instagram',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
+  CAPTAIN_V2: 'captain_integration_v2',
+  SAML: 'saml',
 };
 
 export const PREMIUM_FEATURES = [
@@ -43,4 +48,6 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.CUSTOM_ROLES,
   FEATURE_FLAGS.AUDIT_LOGS,
   FEATURE_FLAGS.HELP_CENTER,
+  FEATURE_FLAGS.CAPTAIN_V2,
+  FEATURE_FLAGS.SAML,
 ];

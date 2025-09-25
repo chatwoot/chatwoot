@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "جستجو",
       "EMPTY_STATE": "نتیجه‌ای یافت نشد"
-    }
+    },
+    "CLOSE": "بستن"
   }
 }

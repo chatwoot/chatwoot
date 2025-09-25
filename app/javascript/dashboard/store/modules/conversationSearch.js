@@ -5,12 +5,14 @@ export const initialState = {
   contactRecords: [],
   conversationRecords: [],
   messageRecords: [],
+  articleRecords: [],
   uiFlags: {
     isFetching: false,
     isSearchCompleted: false,
     contact: { isFetching: false },
     conversation: { isFetching: false },
     message: { isFetching: false },
+    article: { isFetching: false },
   },
 };
 
@@ -26,6 +28,9 @@ export const getters = {
   },
   getMessageRecords(state) {
     return state.messageRecords;
+  },
+  getArticleRecords(state) {
+    return state.articleRecords;
   },
   getUIFlags(state) {
     return state.uiFlags;
@@ -65,6 +70,7 @@ export const actions = {
         dispatch('contactSearch', { q }),
         dispatch('conversationSearch', { q }),
         dispatch('messageSearch', { q }),
+        dispatch('articleSearch', { q }),
       ]);
     } catch (error) {
       // Ignore error
@@ -108,6 +114,17 @@ export const actions = {
       commit(types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
+  async articleSearch({ commit }, { q, page = 1 }) {
+    commit(types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: true });
+    try {
+      const { data } = await SearchAPI.articles({ q, page });
+      commit(types.ARTICLE_SEARCH_SET, data.payload.articles);
+    } catch (error) {
+      // Ignore error
+    } finally {
+      commit(types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: false });
+    }
+  },
   async clearSearchResults({ commit }) {
     commit(types.CLEAR_SEARCH_RESULTS);
   },
@@ -126,6 +143,9 @@ export const mutations = {
   [types.MESSAGE_SEARCH_SET](state, records) {
     state.messageRecords = [...state.messageRecords, ...records];
   },
+  [types.ARTICLE_SEARCH_SET](state, records) {
+    state.articleRecords = [...state.articleRecords, ...records];
+  },
   [types.SEARCH_CONVERSATIONS_SET_UI_FLAG](state, uiFlags) {
     state.uiFlags = { ...state.uiFlags, ...uiFlags };
   },
@@ -141,10 +161,14 @@ export const mutations = {
   [types.MESSAGE_SEARCH_SET_UI_FLAG](state, uiFlags) {
     state.uiFlags.message = { ...state.uiFlags.message, ...uiFlags };
   },
+  [types.ARTICLE_SEARCH_SET_UI_FLAG](state, uiFlags) {
+    state.uiFlags.article = { ...state.uiFlags.article, ...uiFlags };
+  },
   [types.CLEAR_SEARCH_RESULTS](state) {
     state.contactRecords = [];
     state.conversationRecords = [];
     state.messageRecords = [];
+    state.articleRecords = [];
   },
 };
 

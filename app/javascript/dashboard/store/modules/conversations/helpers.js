@@ -62,6 +62,51 @@ export const applyPageFilters = (conversation, filters) => {
   return shouldFilter;
 };
 
+/**
+ * Filters conversations based on user role and permissions
+ *
+ * @param {Object} conversation - The conversation object to check permissions for
+ * @param {string} role - The user's role (administrator, agent, etc.)
+ * @param {Array<string>} permissions - List of permission strings the user has
+ * @param {number|string} currentUserId - The ID of the current user
+ * @returns {boolean} - Whether the user has permissions to access this conversation
+ */
+export const applyRoleFilter = (
+  conversation,
+  role,
+  permissions,
+  currentUserId
+) => {
+  // the role === "agent" check is typically not correct on it's own
+  // the backend handles this by checking the custom_role_id at the user model
+  // here however, the `getUserRole` returns "custom_role" if the id is present,
+  // so we can check the role === "agent" directly
+  if (['administrator', 'agent'].includes(role)) {
+    return true;
+  }
+
+  // Check for full conversation management permission
+  if (permissions.includes('conversation_manage')) {
+    return true;
+  }
+
+  const conversationAssignee = conversation.meta.assignee;
+  const isUnassigned = !conversationAssignee;
+  const isAssignedToUser = conversationAssignee?.id === currentUserId;
+
+  // Check unassigned management permission
+  if (permissions.includes('conversation_unassigned_manage')) {
+    return isUnassigned || isAssignedToUser;
+  }
+
+  // Check participating conversation management permission
+  if (permissions.includes('conversation_participating_manage')) {
+    return isAssignedToUser;
+  }
+
+  return false;
+};
+
 const SORT_OPTIONS = {
   last_activity_at_asc: ['sortOnLastActivityAt', 'asc'],
   last_activity_at_desc: ['sortOnLastActivityAt', 'desc'],

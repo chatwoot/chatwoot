@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "None"
+    "NONE_OPTION": "None",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Conversation Created",
+      "CONVERSATION_UPDATED": "Conversation Updated",
+      "MESSAGE_CREATED": "Mesazhi u krijua",
+      "CONVERSATION_RESOLVED": "Biseda u zgjidh",
+      "CONVERSATION_OPENED": "Biseda u hap"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Cakto te një agjent",
+      "ASSIGN_TEAM": "Cakto një ekip",
+      "ADD_LABEL": "Shto një etiketë",
+      "REMOVE_LABEL": "Hiq një etiketë",
+      "SEND_EMAIL_TO_TEAM": "Dërgo një email ekipit",
+      "SEND_EMAIL_TRANSCRIPT": "Dërgo një transkript me email",
+      "MUTE_CONVERSATION": "Heshto bisedën",
+      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "RESOLVE_CONVERSATION": "Resolve Conversation",
+      "SEND_WEBHOOK_EVENT": "Dërgo një ngjarje webhook",
+      "SEND_ATTACHMENT": "Dërgo një bashkëngjitje",
+      "SEND_MESSAGE": "Dërgo një mesazh",
+      "ADD_PRIVATE_NOTE": "Shto një shënim privat",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Open conversation"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Mesazh hyrës",
+      "OUTGOING": "Mesazh dalës"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "None",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Lloji i mesazhit",
+      "MESSAGE_CONTAINS": "Mesazhi përmban",
+      "EMAIL": "Email",
+      "INBOX": "Inbox",
+      "CONVERSATION_LANGUAGE": "Gjuha e bisedës",
+      "PHONE_NUMBER": "Phone Number",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Browser Language",
+      "MAIL_SUBJECT": "Subjekti i emailit",
+      "COUNTRY_NAME": "Country",
+      "REFERER_LINK": "Lidhja e referuesit",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Team",
+      "PRIORITY": "Priority",
+      "LABELS": "Labels"
+    }
   }
 }

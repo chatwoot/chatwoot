@@ -36,6 +36,7 @@ import DyteBubble from './bubbles/Dyte.vue';
 import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
+import VoiceCallBubble from './bubbles/VoiceCall.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -117,7 +118,7 @@ const props = defineProps({
   },
   conversationId: { type: Number, required: true },
   createdAt: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
-  currentUserId: { type: Number, required: true },
+  currentUserId: { type: Number, required: true }, // eslint-disable-line vue/no-unused-properties
   groupWithNext: { type: Boolean, default: false },
   inboxId: { type: Number, default: null }, // eslint-disable-line vue/no-unused-properties
   inboxSupportsReplyTo: { type: Object, default: () => ({}) },
@@ -129,6 +130,8 @@ const props = defineProps({
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
+
+const emit = defineEmits(['retry']);
 
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
@@ -173,7 +176,10 @@ const variant = computed(() => {
   return variants[props.messageType] || MESSAGE_VARIANTS.USER;
 });
 
-const isMyMessage = computed(() => {
+const isBotOrAgentMessage = computed(() => {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) {
+    return false;
+  }
   // if an outgoing message is still processing, then it's definitely a
   // message sent by the current user
   if (
@@ -183,16 +189,21 @@ const isMyMessage = computed(() => {
     return true;
   }
   const senderId = props.senderId ?? props.sender?.id;
-  const senderType = props.senderType ?? props.sender?.type;
+  const senderType = props.sender?.type ?? props.senderType;
 
   if (!senderType || !senderId) {
-    return false;
+    return true;
   }
 
-  return (
-    senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase() &&
-    props.currentUserId === senderId
-  );
+  if (
+    [SENDER_TYPES.AGENT_BOT, SENDER_TYPES.CAPTAIN_ASSISTANT].includes(
+      senderType
+    )
+  ) {
+    return true;
+  }
+
+  return senderType.toLowerCase() === SENDER_TYPES.USER.toLowerCase();
 });
 
 /**
@@ -200,7 +211,7 @@ const isMyMessage = computed(() => {
  * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
  */
 const orientation = computed(() => {
-  if (isMyMessage.value) {
+  if (isBotOrAgentMessage.value) {
     return ORIENTATION.RIGHT;
   }
 
@@ -221,8 +232,8 @@ const flexOrientationClass = computed(() => {
 
 const gridClass = computed(() => {
   const map = {
-    [ORIENTATION.LEFT]: 'grid grid-cols-[24px_1fr]',
-    [ORIENTATION.RIGHT]: 'grid grid-cols-1fr',
+    [ORIENTATION.LEFT]: 'grid grid-cols-1fr',
+    [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
   };
 
   return map[orientation.value];
@@ -231,12 +242,12 @@ const gridClass = computed(() => {
 const gridTemplate = computed(() => {
   const map = {
     [ORIENTATION.LEFT]: `
-      "avatar bubble"
-      "spacer meta"
-    `,
-    [ORIENTATION.RIGHT]: `
       "bubble"
       "meta"
+    `,
+    [ORIENTATION.RIGHT]: `
+      "bubble avatar"
+      "meta spacer"
     `,
   };
 
@@ -251,7 +262,7 @@ const shouldGroupWithNext = computed(() => {
 
 const shouldShowAvatar = computed(() => {
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
-  if (orientation.value === ORIENTATION.RIGHT) return false;
+  if (orientation.value === ORIENTATION.LEFT) return false;
 
   return true;
 });
@@ -270,6 +281,10 @@ const componentToRender = computed(() => {
     [CONTENT_TYPES.INPUT_SELECT, CONTENT_TYPES.FORM].includes(props.contentType)
   ) {
     return FormBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.VOICE_CALL) {
+    return VoiceCallBubble;
   }
 
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
@@ -307,11 +322,7 @@ const componentToRender = computed(() => {
 });
 
 const shouldShowContextMenu = computed(() => {
-  return !(
-    props.status === MESSAGE_STATUS.FAILED ||
-    props.status === MESSAGE_STATUS.PROGRESS ||
-    props.contentAttributes?.isUnsupported
-  );
+  return !props.contentAttributes?.isUnsupported;
 });
 
 const isBubble = computed(() => {
@@ -336,12 +347,23 @@ const contextMenuEnabledOptions = computed(() => {
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
 
   const isOutgoing = props.messageType === MESSAGE_TYPES.OUTGOING;
+  const isFailedOrProcessing =
+    props.status === MESSAGE_STATUS.FAILED ||
+    props.status === MESSAGE_STATUS.PROGRESS;
 
   return {
     copy: hasText,
-    delete: hasText || hasAttachments,
-    cannedResponse: isOutgoing && hasText,
-    replyTo: !props.private && props.inboxSupportsReplyTo.outgoing,
+    delete:
+      (hasText || hasAttachments) &&
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value,
+    cannedResponse: isOutgoing && hasText && !isMessageDeleted.value,
+    copyLink: !isFailedOrProcessing,
+    translate: !isFailedOrProcessing && !isMessageDeleted.value && hasText,
+    replyTo:
+      !props.private &&
+      props.inboxSupportsReplyTo.outgoing &&
+      !isFailedOrProcessing,
   };
 });
 
@@ -364,7 +386,7 @@ const shouldRenderMessage = computed(() => {
 function openContextMenu(e) {
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
-    e.target?.tagName.toLowerCase() === 'a';
+    ['a', 'img'].includes(e.target?.tagName.toLowerCase());
   if (shouldSkipContextMenu || getSelection().toString()) {
     return;
   }
@@ -394,23 +416,29 @@ function handleReplyTo() {
 }
 
 const avatarInfo = computed(() => {
-  if (!props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT) {
+  // If no sender, return bot info
+  if (!props.sender) {
     return {
       name: t('CONVERSATION.BOT'),
       src: '',
     };
   }
 
-  if (props.sender) {
+  const { sender } = props;
+  const { name, type, avatarUrl, thumbnail } = sender || {};
+
+  // If sender type is agent bot, use avatarUrl
+  if ([SENDER_TYPES.AGENT_BOT, SENDER_TYPES.CAPTAIN_ASSISTANT].includes(type)) {
     return {
-      name: props.sender.name,
-      src: props.sender?.thumbnail,
+      name: name ?? '',
+      src: avatarUrl ?? '',
     };
   }
 
+  // For all other senders, use thumbnail
   return {
-    name: '',
-    src: '',
+    name: name ?? '',
+    src: thumbnail ?? '',
   };
 });
 
@@ -438,7 +466,7 @@ provideMessageContext({
   isPrivate: computed(() => props.private),
   variant,
   orientation,
-  isMyMessage,
+  isBotOrAgentMessage,
   shouldGroupWithNext,
 });
 </script>
@@ -470,14 +498,14 @@ provideMessageContext({
           'w-full': variant === MESSAGE_VARIANTS.EMAIL,
         },
       ]"
-      class="gap-x-3"
+      class="gap-x-2"
       :style="{
         gridTemplateAreas: gridTemplate,
       }"
     >
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
-        v-tooltip.right-end="avatarTooltip"
+        v-tooltip.left-end="avatarTooltip"
         class="[grid-area:avatar] flex items-end"
       >
         <Avatar v-bind="avatarInfo" :size="24" />
@@ -485,7 +513,8 @@ provideMessageContext({
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'ltr:pl-9 rtl:pl-0 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
@@ -497,11 +526,12 @@ provideMessageContext({
         class="[grid-area:meta]"
         :class="flexOrientationClass"
         :error="contentAttributes.externalError"
+        @retry="emit('retry')"
       />
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <ContextMenu
-        v-if="isBubble && !isMessageDeleted"
+        v-if="isBubble"
         :context-menu-position="contextMenuPosition"
         :is-open="showContextMenu"
         :enabled-options="contextMenuEnabledOptions"

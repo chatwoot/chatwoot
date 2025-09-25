@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "هیچکدام"
+    "NONE_OPTION": "هیچکدام",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "گفتگو ایجاد شد",
+      "CONVERSATION_UPDATED": "گفتگو به روز شد",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "بی‌صدا کردن گفتگو",
+      "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
+      "RESOLVE_CONVERSATION": "حل مکالمه",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "تغییر اولویت",
+      "ADD_SLA": "اضافه کردن SLA",
+      "OPEN_CONVERSATION": "باز کردن گفتگو"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "هیچکدام",
+      "LOW": "پایین",
+      "MEDIUM": "متوسط",
+      "HIGH": "بالا",
+      "URGENT": "فوری"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "ایمیل",
+      "INBOX": "صندوق ورودی",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "شماره تلفن",
+      "STATUS": "وضعیت",
+      "BROWSER_LANGUAGE": "مرور زبان",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "کشور",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "مسئول",
+      "TEAM_NAME": "تیم‌",
+      "PRIORITY": "اولویت",
+      "LABELS": "برچسب‌ها"
+    }
   }
 }

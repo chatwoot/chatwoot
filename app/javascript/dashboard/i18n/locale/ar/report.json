@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "نظرة عامة على التسميات",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_LABEL_REPORTS": "تحميل تقارير التسمية",
@@ -559,6 +560,7 @@
     "INBOX": "صندوق الوارد",
     "AGENT": "وكيل الدعم",
     "TEAM": "الفريق",
+    "LABEL": "الوسم",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

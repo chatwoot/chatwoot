@@ -78,7 +78,7 @@ const shouldShowEmptyState = computed(() => {
 
 <template>
   <div
-    class="absolute z-20 w-40 bg-white border shadow dark:bg-slate-800 rounded-xl border-slate-50 dark:border-slate-700/50 max-h-[400px]"
+    class="absolute z-20 w-40 bg-n-solid-2 border-0 outline outline-1 outline-n-weak shadow rounded-xl max-h-[400px]"
     @click.stop
   >
     <slot name="search">

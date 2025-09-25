@@ -513,6 +513,28 @@ describe('#deleteMessage', () => {
     expect(commit.mock.calls).toEqual([]);
   });
 
+  describe('#deleteConversation', () => {
+    it('send correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue({
+        data: { id: 1 },
+      });
+      await actions.deleteConversation({ commit, dispatch }, 1);
+      expect(commit.mock.calls).toEqual([[types.DELETE_CONVERSATION, 1]]);
+      expect(dispatch.mock.calls).toEqual([
+        ['conversationStats/get', {}, { root: true }],
+      ]);
+    });
+
+    it('send no actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.deleteConversation({ commit, dispatch }, 1)
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+  });
+
   describe('#updateCustomAttributes', () => {
     it('update conversation custom attributes', async () => {
       axios.post.mockResolvedValue({

@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -14,7 +13,6 @@ export default {
     DashboardAppsRow,
     NextButton,
   },
-  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -102,7 +100,7 @@ export default {
         />
       </template>
     </BaseSettingsHeader>
-    <div class="w-full overflow-x-auto text-slate-700 dark:text-slate-200">
+    <div class="w-full overflow-x-auto text-n-slate-11">
       <p
         v-if="!uiFlags.isFetching && !records.length"
         class="flex flex-col items-center justify-center h-full"
@@ -115,18 +113,18 @@ export default {
       />
       <table
         v-if="!uiFlags.isFetching && records.length"
-        class="min-w-full divide-y divide-slate-75 dark:divide-slate-700"
+        class="min-w-full divide-y divide-n-weak"
       >
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-n-slate-11"
           >
             {{ thHeader }}
           </th>
         </thead>
-        <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
+        <tbody class="divide-y divide-n-weak">
           <DashboardAppsRow
             v-for="(dashboardAppItem, index) in records"
             :key="dashboardAppItem.id"

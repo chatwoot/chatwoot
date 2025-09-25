@@ -5,7 +5,10 @@ import Spinner from 'shared/components/Spinner.vue';
 import Rating from 'survey/components/Rating.vue';
 import Feedback from 'survey/components/Feedback.vue';
 import Banner from 'survey/components/Banner.vue';
+import StarRating from 'shared/components/StarRating.vue';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
+
+import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 
 export default {
   name: 'Response',
@@ -15,6 +18,7 @@ export default {
     Spinner,
     Banner,
     Feedback,
+    StarRating,
   },
   data() {
     return {
@@ -26,6 +30,8 @@ export default {
       isUpdating: false,
       logo: '',
       inboxName: '',
+      displayType: CSAT_DISPLAY_TYPES.EMOJI,
+      messageContent: '',
     };
   },
   computed: {
@@ -42,16 +48,22 @@ export default {
     isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
     },
+    isEmojiType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.EMOJI;
+    },
+    isStarType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.STAR;
+    },
     shouldShowBanner() {
       return this.isRatingSubmitted || this.errorMessage;
     },
     enableFeedbackForm() {
       return !this.isFeedbackSubmitted && this.isRatingSubmitted;
     },
-    shouldShowErrorMesage() {
+    shouldShowErrorMessage() {
       return !!this.errorMessage;
     },
-    shouldShowSuccessMesage() {
+    shouldShowSuccessMessage() {
       return !!this.isRatingSubmitted;
     },
     message() {
@@ -82,6 +94,10 @@ export default {
         this.surveyDetails = result?.data?.csat_survey_response;
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
+        this.displayType = result.data.display_type || CSAT_DISPLAY_TYPES.EMOJI;
+        this.messageContent =
+          result.data.content ||
+          this.$t('SURVEY.DESCRIPTION', { inboxName: this.inboxName });
         this.setLocale(result.data.locale);
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
@@ -129,39 +145,47 @@ export default {
 <template>
   <div
     v-if="isLoading"
-    class="flex items-center justify-center flex-1 h-full min-h-screen bg-black-25"
+    class="flex items-center justify-center flex-1 h-full min-h-screen bg-n-background"
   >
     <Spinner size="" />
   </div>
   <div
     v-else
-    class="flex items-center justify-center w-full h-full min-h-screen overflow-auto bg-slate-50"
+    class="flex items-center justify-center w-full h-full min-h-screen overflow-auto bg-n-background"
   >
     <div
-      class="flex flex-col w-full h-full bg-white rounded-lg shadow-lg lg:w-2/5 lg:h-auto"
+      class="flex flex-col w-full h-full bg-n-solid-1 rounded-lg border border-solid border-n-weak shadow-md lg:w-2/5 lg:h-auto"
     >
       <div class="w-full px-12 pt-12 pb-6 m-auto my-0">
         <img v-if="logo" :src="logo" alt="Chatwoot logo" class="mb-6 logo" />
         <p
           v-if="!isRatingSubmitted"
-          class="mb-8 text-lg leading-relaxed text-black-700"
+          class="mb-8 text-lg leading-relaxed text-n-slate-12"
         >
-          {{ $t('SURVEY.DESCRIPTION', { inboxName }) }}
+          {{ messageContent }}
         </p>
         <Banner
           v-if="shouldShowBanner"
-          :show-success="shouldShowSuccessMesage"
-          :show-error="shouldShowErrorMesage"
+          :show-success="shouldShowSuccessMessage"
+          :show-error="shouldShowErrorMessage"
           :message="message"
         />
         <label
           v-if="!isRatingSubmitted"
-          class="mb-4 text-base font-medium text-black-800"
+          class="mb-4 text-base font-medium text-n-slate-11"
         >
           {{ $t('SURVEY.RATING.LABEL') }}
         </label>
         <Rating
+          v-if="isEmojiType"
           :selected-rating="selectedRating"
+          @select-rating="selectRating"
+        />
+        <StarRating
+          v-if="isStarType"
+          :selected-rating="selectedRating"
+          :is-disabled="isRatingSubmitted"
+          class="[&>button>span]:text-4xl !justify-start !px-0"
           @select-rating="selectRating"
         />
         <Feedback

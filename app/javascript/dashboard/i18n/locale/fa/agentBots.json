@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "ربات‌ها",
     "LOADING_EDITOR": "در حال بارگیری ویرایشگر...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "DESCRIPTION": "ربات‌های عامل مانند شگفت‌انگیزترین اعضای تیم شما هستند. آن‌ها می‌توانند کارهای کوچک را انجام دهند، بنابراین شما می‌توانید روی چیزهای مهم تمرکز کنید. آن‌ها را امتحان کنید. می‌توانید ربات‌های خود را از این صفحه مدیریت کنید یا با استفاده از دکمه «افزودن ربات»، ربات‌های جدیدی ایجاد کنید.",
     "LEARN_MORE": "Learn about agent bots",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "نام ربات",
-        "PLACEHOLDER": "برای ربات خود نامی انتخاب کنید.",
-        "ERROR": "نام ربات الزامی است."
-      },
-      "DESCRIPTION": {
-        "LABEL": "توضیحات ربات",
-        "PLACEHOLDER": "این ربات چه کاری انجام می‌دهد؟"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "لطفا پیکربندی ربات CSML خود را در بالا وارد کنید.",
-        "API_ERROR": "پیکربندی CSML شما نامعتبر است، لطفا آن را اصلاح کنید و دوباره امتحان کنید."
-      },
-      "SUBMIT": "اعتبارسنجی و ذخیره کنید"
+    "GLOBAL_BOT": "ربات سیستمی",
+    "GLOBAL_BOT_BADGE": "سیستم",
+    "AVATAR": {
+      "SUCCESS_DELETE": "آواتار ربات با موفقیت حذف شد",
+      "ERROR_DELETE": "خطا هنگام حذف آواتار ربات، لطفا مجدد امتحان کنید"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "انتخاب یک ربات عامل",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "انتخاب ربات"
     },
     "ADD": {
-      "TITLE": "پیکربندی ربات جدید",
+      "TITLE": "افزودن ربات",
       "CANCEL_BUTTON_TEXT": "انصراف",
       "API": {
         "SUCCESS_MESSAGE": "ربات با موفقیت اضافه شد.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "هیچ رباتی یافت نشد، می‌توانید با کلیک کردن روی دکمه «پیکربندی ربات جدید» یک ربات ایجاد کنید ↗",
+      "404": "هیچ رباتی یافت نشد. شما می‌توانید با کلیک روی دکمه «افزودن ربات» یک ربات ایجاد کنید.",
       "LOADING": "در حال گرفتن ربات‌ها...",
-      "TYPE": "نوع ربات"
+      "TABLE_HEADER": {
+        "DETAILS": "جزئیات ربات",
+        "URL": "آدرس URL وب هوک"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "TITLE": "حذف ربات",
-      "SUBMIT": "حذف",
-      "CANCEL_BUTTON_TEXT": "انصراف",
-      "DESCRIPTION": "آیا مطمئن هستید که می‌خواهید این ربات را حذف کنید؟ این عمل برگشت‌ناپذیر است.",
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "آیا مطمئنید که می‌خواهید {name} را حذف کنید؟",
+        "YES": "بله، حذف شود",
+        "NO": "نه، بماند"
+      },
       "API": {
         "SUCCESS_MESSAGE": "ربات با موفقیت حذف شد.",
         "ERROR_MESSAGE": "ربات حذف نشد، لطفا دوباره امتحان کنید."
@@ -57,17 +53,51 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "ویرایش",
-      "LOADING": "در حال گرفتن ربات‌ها...",
       "TITLE": "ویرایش ربات",
-      "CANCEL_BUTTON_TEXT": "انصراف",
       "API": {
         "SUCCESS_MESSAGE": "ربات با موفقیت به‌روز شد.",
         "ERROR_MESSAGE": "ربات بروز رسانی نشد، لطفا دوباره امتحان کنید."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "توکن دسترسی",
+      "DESCRIPTION": "توکن دسترسی را کپی کرده و در جای امن ذخیره کنید",
+      "COPY_SUCCESSFUL": "توکن دسترسی در کلیپبورد کپی شد",
+      "RESET_SUCCESS": "توکن دسترسی با موفقیت بازسازی شد",
+      "RESET_ERROR": "خطا در بازسازی توکن دسترسی. لطفا مجدد امتحان کنید"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "آواتار ربات"
+      },
+      "NAME": {
+        "LABEL": "نام ربات",
+        "PLACEHOLDER": "نام ربات را وارد کنید",
+        "REQUIRED": "نام ربات الزامی است"
+      },
+      "DESCRIPTION": {
+        "LABEL": "توضیحات",
+        "PLACEHOLDER": "این ربات چه کاری انجام می‌دهد؟"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "آدرس URL وب هوک",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "URL وب‌هوک الزامی است"
+      },
+      "ERRORS": {
+        "NAME": "نام ربات الزامی است",
+        "URL": "URL وب‌هوک الزامی است",
+        "VALID_URL": "لطفا یک URL معتبر که با http:// یا https:// شروع می‌شود وارد کنید"
+      },
+      "CANCEL": "انصراف",
+      "CREATE": "ایجاد ربات",
+      "UPDATE": "به‌روزرسانی ربات"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "یک ربات وب‌هوک برای ادغام با سرویس‌های سفارشی‌تان پیکربندی کنید. این ربات رویدادها را از مکالمات دریافت کرده و پردازش می‌کند و می‌تواند به آن‌ها پاسخ دهد."
+    },
     "TYPES": {
-      "WEBHOOK": "وب‌هوک ربات",
-      "CSML": "ربات CSML"
+      "WEBHOOK": "وب‌هوک ربات"
     }
   }
 }

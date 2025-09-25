@@ -126,6 +126,59 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Nimic"
+    "NONE_OPTION": "Nimic",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Conversație creată",
+      "CONVERSATION_UPDATED": "Conversație actualizată",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Silențios conversația",
+      "SNOOZE_CONVERSATION": "Snooze conversație",
+      "RESOLVE_CONVERSATION": "Detalii conversație",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Modificarea priorității",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Deschiderea conversației"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nimic",
+      "LOW": "Scăzut",
+      "MEDIUM": "Mediu",
+      "HIGH": "Mare",
+      "URGENT": "Urgent"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Inbox",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Număr de telefon",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Limba browserului",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Țară",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Echipa",
+      "PRIORITY": "Prioritate",
+      "LABELS": "Etichete"
+    }
   }
 }

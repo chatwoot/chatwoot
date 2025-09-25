@@ -3,7 +3,7 @@
     "HEADER": "Auditoria",
     "HEADER_BTN_TXT": "Adicionar Logs de Auditoria",
     "LOADING": "Buscando Logs de Auditoria",
-    "DESCRIPTION": "Logs de Auditoria mantêm um registro de atividades em sua conta, permitindo que você acompanhe e auditore sua conta, equipe ou serviços.",
+    "DESCRIPTION": "Logs de Auditoria mantêm um registro de atividades em sua conta, permitindo que você acompanhe e auditore sua conta, time ou serviços.",
     "LEARN_MORE": "Saiba mais sobre os logs de auditoria",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
     "SIDEBAR_TXT": "<p><b>Logs de Auditoria</b> </p><p> Os Logs de Auditoria são rastros para eventos e ações em um Sistema Chatwoot. </p>",
@@ -50,9 +50,9 @@
       "SIGN_OUT": "{agentName} Se desconectou"
     },
     "TEAM": {
-      "ADD": "{agentName} criou uma equipe (#{id})",
-      "EDIT": "{agentName} atualizou uma equipe (#{id})",
-      "DELETE": "{agentName} excluiu uma equipe (#{id})"
+      "ADD": "{agentName} criou um time (#{id})",
+      "EDIT": "{agentName} atualizou um time (#{id})",
+      "DELETE": "{agentName} excluiu um time (#{id})"
     },
     "MACRO": {
       "ADD": "{agentName} criou uma nova macro (#{id})",
@@ -64,11 +64,14 @@
       "REMOVE": "{agentName} removeu {user} da caixa de entrada (#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} adicionou {user} à equipe (#{team_id})",
-      "REMOVE": "{agentName} removeu {user} da equipe (#{team_id})"
+      "ADD": "{agentName} adicionou {user} ao time (#{team_id})",
+      "REMOVE": "{agentName} removeu {user} do time (#{team_id})"
     },
     "ACCOUNT": {
       "EDIT": "O {agentName} atualizou a configuração da conta (#{id})"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} excluiu a conversa #{id}"
     }
   }
 }

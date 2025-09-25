@@ -4,12 +4,14 @@
       "ALL": "Все",
       "CONTACTS": "Контакты",
       "CONVERSATIONS": "Диалоги",
-      "MESSAGES": "Сообщения"
+      "MESSAGES": "Сообщения",
+      "ARTICLES": "Статьи"
     },
     "SECTION": {
       "CONTACTS": "Контакты",
       "CONVERSATIONS": "Диалоги",
-      "MESSAGES": "Сообщения"
+      "MESSAGES": "Сообщения",
+      "ARTICLES": "Статьи"
     },
     "VIEW_MORE": "Посмотреть больше",
     "LOAD_MORE": "Загрузить ещё",

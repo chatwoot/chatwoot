@@ -250,12 +250,81 @@ describe PortalHelper do
   describe '#thumbnail_bg_color' do
     it 'returns the correct color based on username length' do
       expect(helper.thumbnail_bg_color('')).to be_in(['#6D95BA', '#A4C3C3', '#E19191'])
-      expect(helper.thumbnail_bg_color('Joe')).to eq('#6D95BA') # Length 3, so index is 0
-      expect(helper.thumbnail_bg_color('John')).to eq('#A4C3C3') # Length 4, so index is 1
-      expect(helper.thumbnail_bg_color('Jane james')).to eq('#A4C3C3') # Length 10, so index is 1
-      expect(helper.thumbnail_bg_color('Jane_123')).to eq('#E19191') # Length 8, so index is 2
-      expect(helper.thumbnail_bg_color('AlexanderTheGreat')).to eq('#E19191') # Length 17, so index is 2
-      expect(helper.thumbnail_bg_color('Reginald John Sans')).to eq('#6D95BA') # Length 18, so index is 0
+      expect(helper.thumbnail_bg_color('Joe')).to eq('#6D95BA')
+      expect(helper.thumbnail_bg_color('John')).to eq('#A4C3C3')
+      expect(helper.thumbnail_bg_color('Jane james')).to eq('#A4C3C3')
+      expect(helper.thumbnail_bg_color('Jane_123')).to eq('#E19191')
+      expect(helper.thumbnail_bg_color('AlexanderTheGreat')).to eq('#E19191')
+      expect(helper.thumbnail_bg_color('Reginald John Sans')).to eq('#6D95BA')
+    end
+  end
+
+  describe '#set_og_image_url' do
+    let(:portal_name) { 'Chatwoot Portal' }
+    let(:title) { 'Welcome to Chatwoot' }
+
+    context 'when CDN URL is present' do
+      before do
+        InstallationConfig.create!(name: 'OG_IMAGE_CDN_URL', value: 'https://cdn.example.com')
+        InstallationConfig.create!(name: 'OG_IMAGE_CLIENT_REF', value: 'client-123')
+      end
+
+      it 'returns the composed OG image URL with correct params' do
+        result = helper.set_og_image_url(portal_name, title)
+        uri = URI.parse(result)
+        expect(uri.path).to eq('/og')
+        params = Rack::Utils.parse_query(uri.query)
+        expect(params['clientRef']).to eq('client-123')
+        expect(params['title']).to eq(title)
+        expect(params['portalName']).to eq(portal_name)
+      end
+    end
+
+    context 'when CDN URL is blank' do
+      before do
+        InstallationConfig.create!(name: 'OG_IMAGE_CDN_URL', value: '')
+        InstallationConfig.create!(name: 'OG_IMAGE_CLIENT_REF', value: 'client-123')
+      end
+
+      it 'returns nil' do
+        expect(helper.set_og_image_url(portal_name, title)).to be_nil
+      end
+    end
+  end
+
+  describe '#generate_portal_brand_url' do
+    it 'builds URL with UTM params and referer host as source (happy path)' do
+      result = helper.generate_portal_brand_url('https://brand.example.com', 'https://app.chatwoot.com/some/page')
+      uri = URI.parse(result)
+      params = Rack::Utils.parse_query(uri.query)
+      expect(uri.scheme).to eq('https')
+      expect(uri.host).to eq('brand.example.com')
+      expect(params['utm_medium']).to eq('helpcenter')
+      expect(params['utm_campaign']).to eq('branding')
+      expect(params['utm_source']).to eq('app.chatwoot.com')
+    end
+
+    it 'returns utm string when brand_url is nil or empty' do
+      expect(helper.generate_portal_brand_url(nil,
+                                              'https://app.chatwoot.com')).to eq(
+                                                '?utm_campaign=branding&utm_medium=helpcenter&utm_source=app.chatwoot.com'
+                                              )
+      expect(helper.generate_portal_brand_url('',
+                                              'https://app.chatwoot.com')).to eq(
+                                                '?utm_campaign=branding&utm_medium=helpcenter&utm_source=app.chatwoot.com'
+                                              )
+    end
+
+    it 'omits utm_source when referer is nil or invalid' do
+      r1 = helper.generate_portal_brand_url('https://brand.example.com', nil)
+      p1 = Rack::Utils.parse_query(URI.parse(r1).query)
+      expect(p1.key?('utm_source')).to be(false)
+
+      r2 = helper.generate_portal_brand_url('https://brand.example.com', '::not-a-valid-url')
+      p2 = Rack::Utils.parse_query(URI.parse(r2).query)
+      expect(p2.key?('utm_source')).to be(false)
+      expect(p2['utm_medium']).to eq('helpcenter')
+      expect(p2['utm_campaign']).to eq('branding')
     end
   end
 end

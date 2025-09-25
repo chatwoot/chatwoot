@@ -64,10 +64,10 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
+  <div class="flex w-full h-full min-h-0">
     <section
       v-if="isHelpCenterEnabled"
-      class="flex flex-1 h-full px-0 overflow-hidden bg-white dark:bg-slate-900"
+      class="flex flex-1 h-full px-0 overflow-hidden bg-n-background"
     >
       <router-view />
     </section>

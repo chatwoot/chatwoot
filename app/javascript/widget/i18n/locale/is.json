@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Tókst ekki að senda skilaboðin, reyndu aftur"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Við erum tengd",
-    "OFFLINE": "Það er enginn við í augnablikinu"
+    "OFFLINE": "Það er enginn við í augnablikinu",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarar iðulega innan nokkura mínútna",
     "IN_A_FEW_HOURS": "Svarar iðulega innan nokkura klukkustunda",
     "IN_A_DAY": "Svarar iðulega samdægurs",
-    "BACK_IN": "We will be back online"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
     "SUNDAY": "Sunday",

@@ -20,17 +20,23 @@ const articleById = useMapGetter('articles/articleById');
 
 const article = computed(() => articleById.value(articleSlug));
 
+const portalBySlug = useMapGetter('portals/portalBySlug');
+
+const portal = computed(() => portalBySlug.value(portalSlug));
+
 const isUpdating = ref(false);
 const isSaved = ref(false);
 
-const portalLink = computed(() => {
+const articleLink = computed(() => {
   const { slug: categorySlug, locale: categoryLocale } = article.value.category;
   const { slug: articleSlugValue } = article.value;
+  const portalCustomDomain = portal.value?.custom_domain;
   return buildPortalArticleURL(
     portalSlug,
     categorySlug,
     categoryLocale,
-    articleSlugValue
+    articleSlugValue,
+    portalCustomDomain
   );
 });
 
@@ -91,7 +97,7 @@ const fetchArticleDetails = () => {
 };
 
 const previewArticle = () => {
-  window.open(portalLink.value, '_blank');
+  window.open(articleLink.value, '_blank');
   useTrack(PORTALS_EVENTS.PREVIEW_ARTICLE, {
     status: article.value?.status,
   });

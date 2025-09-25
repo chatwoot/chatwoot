@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "Keni tejkaluar kufirin e bisedave. Plani Hacker lejon vetëm 500 biseda.",
+      "INBOXES": "Keni tejkaluar kufirin e inbox-it. Plani Hacker mbështet vetëm bisedën e drejtpërdrejtë në ueb. Inboxe shtesë si email, WhatsApp etj. kërkojnë një plan me pagesë.",
+      "AGENTS": "Keni tejkaluar kufirin e agjentëve. Plani juaj lejon vetëm {allowedAgents} agjentë.",
+      "NON_ADMIN": "Ju lutemi kontaktoni administratorin tuaj për të përmirësuar planin dhe për të vazhduar përdorimin e të gjitha veçorive."
+    },
     "TITLE": "Account settings",
     "SUBMIT": "Update settings",
     "BACK": "Back",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "Could not update settings, try again!",
       "SUCCESS": "Successfully updated account settings"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Fshini llogarinë tuaj",
+      "NOTE": "Pasi ta fshini llogarinë tuaj, të dhënat tuaja do të fshihen.",
+      "BUTTON_TEXT": "Fshi llogarinë tuaj",
+      "CONFIRM": {
+        "TITLE": "Fshi llogarinë",
+        "MESSAGE": "Fshirja e llogarisë tuaj është e pakthyeshme. Shkruani më poshtë emrin e llogarisë për të konfirmuar se dëshironi ta fshini përgjithmonë.",
+        "BUTTON_TEXT": "Delete",
+        "DISMISS": "Cancel",
+        "PLACE_HOLDER": "Please type {accountName} to confirm"
+      },
+      "SUCCESS": "Llogaria u shënua për fshirje",
+      "FAILURE": "Nuk u arrit të fshihej llogaria, provoni përsëri!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Llogaria e planifikuar për fshirje",
+        "MESSAGE_MANUAL": "Kjo llogari është planifikuar të fshihet më {deletionDate}. Kjo u kërkua nga një administrator. Mund ta anuloni fshirjen para kësaj date.",
+        "MESSAGE_INACTIVITY": "Kjo llogari është planifikuar të fshihet më {deletionDate} për shkak të pasivitetit të llogarisë. Mund ta anuloni fshirjen para kësaj date.",
+        "CLEAR_BUTTON": "Anulo fshirjen e planifikuar"
+      }
     },
     "FORM": {
       "ERROR": "Please fix form errors",
@@ -17,6 +43,34 @@
       "ACCOUNT_ID": {
         "TITLE": "Account ID",
         "NOTE": "This ID is required if you are building an API based integration"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Zgjidhje automatike e bisedave",
+        "NOTE": "Ky konfigurim ju lejon ta zgjidhni automatikisht bisedën pas një periudhe të caktuar pasiviteti.",
+        "DURATION": {
+          "LABEL": "Kohëzgjatja e pasivitetit",
+          "HELP": "Periudha e pasivitetit pas së cilës biseda zgjidhet automatikisht",
+          "PLACEHOLDER": "30",
+          "ERROR": "Kohëzgjatja e zgjidhjes automatike duhet të jetë ndërmjet 10 minutave dhe 999 ditëve",
+          "API": {
+            "SUCCESS": "Cilësimet e zgjidhjes automatike u përditësuan me sukses",
+            "ERROR": "Dështoi përditësimi i cilësimeve të zgjidhjes automatike"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Mesazh i personalizuar për zgjidhjen automatike",
+          "PLACEHOLDER": "Biseda u shënua si e zgjidhur nga sistemi për shkak të 15 ditëve pasiviteti",
+          "HELP": "Mesazh i dërguar klientit pasi biseda të jetë zgjidhur automatikisht"
+        },
+        "PREFERENCES": "Preferencat",
+        "LABEL": {
+          "LABEL": "Shto etiketë pas zgjidhjes automatike",
+          "PLACEHOLDER": "Zgjidhni një etiketë"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Anashkalo bisedat që presin përgjigjen e agjentit"
+        },
+        "UPDATE_BUTTON": "Ruaj ndryshimet"
       },
       "NAME": {
         "LABEL": "Account name",
@@ -38,10 +92,31 @@
         "PLACEHOLDER": "Your company's support email",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Përjashto bisedat e patrajtuara",
+        "HELP": "Kur të aktivizohet, sistemi do të anashkalojë zgjidhjen e bisedave që ende po presin përgjigjen e një agjenti."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transkripto mesazhet audio",
+        "NOTE": "Transkriptoni automatikisht mesazhet audio në biseda. Gjeneroni një transkript në tekst sa herë që dërgohet ose merret një mesazh audio dhe shfaqeni pranë mesazhit.",
+        "API": {
+          "SUCCESS": "Cilësimi i transkriptimit audio u përditësua me sukses",
+          "ERROR": "Dështoi përditësimi i cilësimit të transkriptimit audio"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Kohëzgjatja e pasivitetit për zgjidhje",
+        "HELP": "Kohëzgjatja pas së cilës një bisedë duhet të zgjidhet automatikisht nëse nuk ka aktivitet",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "Kohëzgjatja e zgjidhjes automatike duhet të jetë ndërmjet 10 minutave dhe 999 ditëve",
+        "API": {
+          "SUCCESS": "Cilësimet e zgjidhjes automatike u përditësuan me sukses",
+          "ERROR": "Dështoi përditësimi i cilësimeve të zgjidhjes automatike"
+        },
+        "UPDATE_BUTTON": "Update",
+        "MESSAGE_LABEL": "Mesazh i personalizuar për zgjidhje",
+        "MESSAGE_PLACEHOLDER": "Biseda u shënua si e zgjidhur nga sistemi për shkak të 15 ditëve pasiviteti",
+        "MESSAGE_HELP": "Ky mesazh i dërgohet klientit kur një bisedë zgjidhet automatikisht nga sistemi për shkak të pasivitetit"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
@@ -51,6 +126,7 @@
     "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Chatwoot is available. Please update your instance.",
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "UPGRADE": "Përmirësoni planin për të vazhduar përdorimin e Chatwoot.",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
   },
@@ -58,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Press enter to select",
       "ENTER_TO_REMOVE": "Press enter to remove",
+      "NO_OPTIONS": "Lista është bosh",
       "SELECT_ONE": "Select one",
       "SELECT": "Select"
     }

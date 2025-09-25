@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "ലേബലുകൾ അവലോകനം",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
     "DOWNLOAD_LABEL_REPORTS": "ലേബൽ റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
@@ -559,6 +560,7 @@
     "INBOX": "ഇൻബോക്സ്",
     "AGENT": "ഏജന്റ്",
     "TEAM": "Team",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
