@@ -415,17 +415,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Pagination Info -->
-    <div v-if="filteredTemplates.length" class="mt-6 text-sm text-n-slate-11">
-      {{
-        t('SETTINGS.TEMPLATES.LIST.PAGINATION', {
-          start: 1,
-          end: filteredTemplates.length,
-          total: filteredTemplates.length,
-        })
-      }}
-    </div>
-
     <!-- Backdrop for mobile/overlay when popover is open -->
     <div v-if="showAddPopup" class="fixed inset-0 z-40" @click="hideAddPopup" />
 

@@ -15,11 +15,9 @@ import {
 
 const { t } = useI18n();
 
-const parameterType = ref('positional'); // 'positional' or 'named'
-const isParameterTypeDropdownOpen = ref(false);
+const DEFAULT_PARAMETER_TYPE = 'positional';
 
-// TODO: For type constants use COMPONENT_TYPES from templateHelper
-const templateData = ref({
+const getDefaultTemplateData = () => ({
   header: {
     enabled: false,
     type: 'HEADER',
@@ -49,6 +47,12 @@ const templateData = ref({
   buttons: [],
 });
 
+const parameterType = ref(DEFAULT_PARAMETER_TYPE); // 'positional' or 'named'
+const isParameterTypeDropdownOpen = ref(false);
+
+// TODO: For type constants use COMPONENT_TYPES from templateHelper
+const templateData = ref(getDefaultTemplateData());
+
 const isValidTemplate = computed(() => {
   return validateTemplateData(templateData.value);
 });
@@ -57,10 +61,16 @@ const generateComponents = () => {
   return generateTemplateComponents(templateData.value, parameterType.value);
 };
 
+const resetBuilderState = () => {
+  parameterType.value = DEFAULT_PARAMETER_TYPE;
+  templateData.value = getDefaultTemplateData();
+};
+
 defineExpose({
   generateComponents,
   isValidTemplate,
   parameterType,
+  resetBuilderState,
 });
 
 const parameterTypesOptions = computed(() => [

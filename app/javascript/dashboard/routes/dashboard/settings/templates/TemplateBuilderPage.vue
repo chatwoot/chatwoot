@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, onDeactivated, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -19,7 +19,7 @@ const isTemplateBuilderValid = computed(() => {
 
 const isEditMode = computed(() => {
   const config = store.getters['messageTemplates/getBuilderConfig'];
-  return !!config.id;
+  return !!config?.templateId;
 });
 
 const isLoading = computed(() => {
@@ -29,6 +29,11 @@ const isLoading = computed(() => {
 
 const goBack = () => {
   router.push({ name: 'templates_list' });
+};
+
+const resetBuilderState = () => {
+  templateBuilderRef.value?.resetBuilderState();
+  store.dispatch('messageTemplates/resetBuilderConfig');
 };
 
 const handleSave = async () => {
@@ -53,15 +58,6 @@ const handleSave = async () => {
     await store.dispatch('messageTemplates/create', templateData);
     useAlert(t('SETTINGS.TEMPLATES.API.SUCCESS_MESSAGE'));
 
-    // if (templateConfig.id) {
-    //   await store.dispatch('messageTemplates/update', {
-    //     id: templateConfig.id,
-    //     ...templateData,
-    //   });
-    //   useAlert(t('SETTINGS.TEMPLATES.API.UPDATE_SUCCESS'));
-    // } else {
-    // }
-
     goBack();
   } catch (error) {
     useAlert(t('SETTINGS.TEMPLATES.API.ERROR_MESSAGE'));
@@ -75,10 +71,8 @@ onMounted(() => {
   }
 });
 
-onUnmounted(() => {
-  // reset the state
-  store.dispatch('messageTemplates/resetBuilderConfig');
-});
+onDeactivated(resetBuilderState);
+onUnmounted(resetBuilderState);
 </script>
 
 <template>
