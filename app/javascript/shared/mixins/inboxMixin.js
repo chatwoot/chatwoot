@@ -127,6 +127,9 @@ export default {
     isAnInstagramChannel() {
       return this.channelType === INBOX_TYPES.INSTAGRAM;
     },
+    isAnAppleMessagesForBusinessChannel() {
+      return this.channelType === INBOX_TYPES.APPLE_MESSAGES_FOR_BUSINESS;
+    },
   },
   methods: {
     inboxHasFeature(feature) {

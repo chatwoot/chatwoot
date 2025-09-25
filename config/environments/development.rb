@@ -34,7 +34,19 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :sidekiq
 
-  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+  # Use environment variable, or check for active dev server URL, or fallback to localhost
+  custom_host = ENV['FRONTEND_URL'] || detect_active_public_url || 'localhost:10750'
+  Rails.application.routes.default_url_options = { host: custom_host, protocol: 'https' }
+  
+  # Configure Active Storage to use the correct host for URL generation
+  config.active_storage.variant_processor = :mini_magick
+  
+  # Set Active Storage URL options explicitly
+  config.after_initialize do
+    Rails.application.routes.default_url_options[:host] = custom_host
+    Rails.application.routes.default_url_options[:protocol] = 'https'
+    Rails.logger.info "[Config] After initialize - setting URL host to: #{custom_host}" if Rails.logger
+  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -60,8 +72,10 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # Disable host check during development
+  # Disable host check during development and allow Tailscale domain
   config.hosts = nil
+  config.hosts << "liquid-m3-pro.tail367da4.ts.net" if config.hosts
+  config.force_ssl = false
   
   # GitHub Codespaces configuration
   if ENV['CODESPACES']
@@ -85,4 +99,47 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
+end
+
+# Helper method to detect the active public URL by checking what the dev server is using
+def detect_active_public_url
+  begin
+    # Check if Tailscale URL is saved (from dev-server.sh)
+    tailscale_url_file = Rails.root.join('tmp', 'pids', 'tailscale_url.txt')
+    if File.exist?(tailscale_url_file)
+      tailscale_url = File.read(tailscale_url_file).strip
+      Rails.logger.info "[Config] Using saved Tailscale URL: #{tailscale_url}" if Rails.logger && tailscale_url.present?
+      return tailscale_url if tailscale_url.present?
+    end
+
+    # Check if ngrok is running by trying to fetch tunnel info
+    require 'net/http'
+    uri = URI('http://localhost:4040/api/tunnels')
+    response = Net::HTTP.get_response(uri)
+    if response.is_a?(Net::HTTPSuccess)
+      require 'json'
+      tunnels = JSON.parse(response.body)
+      public_url = tunnels.dig('tunnels', 0, 'public_url')
+      if public_url&.include?('https')
+        ngrok_host = public_url.sub(/^https?:\/\//, '')
+        Rails.logger.info "[Config] Detected ngrok URL: #{ngrok_host}" if Rails.logger
+        return ngrok_host
+      end
+    end
+  rescue => e
+    Rails.logger.debug "[Config] Could not detect active public URL: #{e.message}" if Rails.logger
+  end
+
+  # Check if custom domain mode is being used (nginx running on port 443)
+  begin
+    require 'socket'
+    TCPSocket.new('localhost', 443).close
+    Rails.logger.info "[Config] Using custom domain: dev.rhaps.net" if Rails.logger
+    return 'dev.rhaps.net'  # Custom domain is available
+  rescue Errno::ECONNREFUSED
+    # Custom domain not available
+  end
+
+  Rails.logger.info "[Config] No public URL detected, using localhost" if Rails.logger
+  nil
 end

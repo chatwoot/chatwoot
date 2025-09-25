@@ -6,7 +6,7 @@ import { useMessageContext } from '../provider.js';
 
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 
-defineProps({
+const props = defineProps({
   attachment: {
     type: Object,
     required: true,
@@ -17,7 +17,12 @@ const showGallery = ref(false);
 
 const { filteredCurrentChatAttachments } = useMessageContext();
 
-const handleError = () => {
+const handleError = event => {
+  console.error('Image loading failed:', {
+    src: event.target?.src,
+    error: event,
+    attachment: props.attachment,
+  });
   hasError.value = true;
 };
 </script>
@@ -37,14 +42,18 @@ const handleError = () => {
     <img
       v-else
       class="object-cover w-full h-full skip-context-menu"
-      :src="attachment.dataUrl"
+      :src="props.attachment.dataUrl"
       @error="handleError"
+      @load="
+        () =>
+          console.log('Image loaded successfully:', props.attachment.dataUrl)
+      "
     />
   </div>
   <GalleryView
     v-if="showGallery"
     v-model:show="showGallery"
-    :attachment="useSnakeCase(attachment)"
+    :attachment="useSnakeCase(props.attachment)"
     :all-attachments="filteredCurrentChatAttachments"
     @error="handleError"
     @close="() => (showGallery = false)"

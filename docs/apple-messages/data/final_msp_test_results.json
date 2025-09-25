@@ -1,0 +1,156 @@
+{
+  "quick_reply": {
+    "success": true,
+    "message_id": 137,
+    "payload": {
+      "v": 1,
+      "id": "e191aedc-2bcf-4b8b-8c72-06b6bb293464",
+      "sourceId": "b0566171-3c85-4eff-b0fb-dcab6bc5cdc6",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "mspVersion": "1.0",
+          "requestIdentifier": "cd885fb9-2f90-4ce5-8f08-0317b881ea27",
+          "quick-reply": {
+            "summaryText": "What can I help you with?",
+            "items": [
+              {
+                "identifier": "reply_1",
+                "title": "Watch our video"
+              },
+              {
+                "identifier": "reply_2",
+                "title": "Ask for office hours"
+              },
+              {
+                "identifier": "reply_3",
+                "title": "Find more about pet adoption"
+              },
+              {
+                "identifier": "reply_4",
+                "title": "Talk to an agent"
+              }
+            ]
+          }
+        },
+        "useLiveLayout": true
+      }
+    }
+  },
+  "list_picker": {
+    "success": true,
+    "message_id": 138,
+    "payload": {
+      "v": 1,
+      "id": "2b361f00-4be3-4e5b-9062-39d35f8761e4",
+      "sourceId": "b0566171-3c85-4eff-b0fb-dcab6bc5cdc6",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "mspVersion": "1.0",
+          "requestIdentifier": "6c3231ab-e942-403c-a861-7040adde2c58",
+          "listPicker": {
+            "sections": [
+              {
+                "title": "Fruit",
+                "items": [
+                  {
+                    "identifier": "item_1",
+                    "title": "Apple",
+                    "subtitle": "Red and delicious",
+                    "order": 0,
+                    "style": "default"
+                  },
+                  {
+                    "identifier": "item_2",
+                    "title": "Orange",
+                    "subtitle": "Vitamin C boost",
+                    "order": 1,
+                    "style": "default"
+                  }
+                ],
+                "multipleSelection": true,
+                "order": 0
+              },
+              {
+                "title": "Veggies",
+                "items": [
+                  {
+                    "identifier": "item_3",
+                    "title": "Lettuce",
+                    "subtitle": "Crispy greens",
+                    "order": 0,
+                    "style": "default"
+                  },
+                  {
+                    "identifier": "item_4",
+                    "title": "Cucumber",
+                    "subtitle": "Not just for your eye lids",
+                    "order": 1,
+                    "style": "default"
+                  }
+                ],
+                "multipleSelection": false,
+                "order": 1
+              }
+            ]
+          }
+        },
+        "useLiveLayout": true,
+        "receivedMessage": {
+          "title": "Select Produce",
+          "style": "icon",
+          "subtitle": "Farm fresh to you"
+        },
+        "replyMessage": {
+          "title": "Selected Produce",
+          "style": "icon",
+          "subtitle": "Selected Produce"
+        }
+      }
+    }
+  },
+  "time_picker": {
+    "success": true,
+    "message_id": 139,
+    "payload": {
+      "v": 1,
+      "id": "56fc16a5-1e25-44e3-a045-4bd4e28ab7f1",
+      "sourceId": "b0566171-3c85-4eff-b0fb-dcab6bc5cdc6",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "mspVersion": "1.0",
+          "requestIdentifier": "561e5730-c733-4e1e-9aab-20a0912703fe",
+          "event": {
+            "identifier": "1",
+            "title": "",
+            "timeslots": [
+              {
+                "duration": 3600,
+                "startTime": "2025-12-15T14:00+0000",
+                "identifier": "0"
+              }
+            ]
+          }
+        },
+        "useLiveLayout": true,
+        "receivedMessage": {
+          "title": "Please pick a time",
+          "style": "icon",
+          "subtitle": "This should be 10:00am for GMT-7h users"
+        },
+        "replyMessage": {
+          "title": "Thank you!",
+          "style": "icon"
+        }
+      }
+    }
+  }
+}

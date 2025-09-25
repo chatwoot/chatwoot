@@ -1,0 +1,143 @@
+{
+  "apple_quick_reply": {
+    "message_id": 110,
+    "content_type": "apple_quick_reply",
+    "content": "Quick Reply Test",
+    "content_attributes": {
+      "summary_text": "Would you like to schedule an appointment?",
+      "items": [
+        {
+          "title": "Yes, please",
+          "identifier": "reply_45ade1faad579f93"
+        },
+        {
+          "title": "No, thanks",
+          "identifier": "reply_c44ce49683bc48a6"
+        },
+        {
+          "title": "Maybe later",
+          "identifier": "reply_5c36262f625483c9"
+        }
+      ]
+    },
+    "apple_payload": {
+      "type": "interactive",
+      "interactive_type": "quick_reply",
+      "interactive_data": {
+        "summary_text": "Would you like to schedule an appointment?",
+        "items": [
+          {
+            "title": "Yes, please",
+            "identifier": "reply_45ade1faad579f93"
+          },
+          {
+            "title": "No, thanks",
+            "identifier": "reply_c44ce49683bc48a6"
+          },
+          {
+            "title": "Maybe later",
+            "identifier": "reply_5c36262f625483c9"
+          }
+        ]
+      }
+    }
+  },
+  "apple_list_picker": {
+    "message_id": 111,
+    "content_type": "apple_list_picker",
+    "content": "List Picker Test",
+    "content_attributes": {
+      "sections": [
+        {
+          "title": "Services",
+          "multiple_selection": false,
+          "items": [
+            {
+              "title": "Consultation",
+              "subtitle": "30 minutes",
+              "identifier": "item_4ab9cb0037bba6fa"
+            },
+            {
+              "title": "Full Service",
+              "subtitle": "60 minutes",
+              "identifier": "item_6a9b5daeceaec8f2"
+            }
+          ]
+        }
+      ],
+      "received_title": "Please select a service"
+    },
+    "apple_payload": {
+      "type": "interactive",
+      "interactive_type": "list_picker",
+      "interactive_data": {
+        "sections": [
+          {
+            "title": "Services",
+            "multiple_selection": false,
+            "items": [
+              {
+                "title": "Consultation",
+                "subtitle": "30 minutes",
+                "identifier": "item_4ab9cb0037bba6fa"
+              },
+              {
+                "title": "Full Service",
+                "subtitle": "60 minutes",
+                "identifier": "item_6a9b5daeceaec8f2"
+              }
+            ]
+          }
+        ],
+        "received_title": "Please select a service"
+      }
+    }
+  },
+  "apple_time_picker": {
+    "message_id": 112,
+    "content_type": "apple_time_picker",
+    "content": "Time Picker Test",
+    "content_attributes": {
+      "event": {
+        "title": "Appointment Booking",
+        "description": "Select your preferred time"
+      },
+      "timezone_offset": -480,
+      "timeslots": [
+        {
+          "startTime": "2025-09-16T15:50:32+02:00",
+          "duration": 60,
+          "identifier": "slot_8f3a430c367e78d2"
+        },
+        {
+          "startTime": "2025-09-17T15:50:32+02:00",
+          "duration": 30,
+          "identifier": "slot_cf9ccbd3c67bf00a"
+        }
+      ]
+    },
+    "apple_payload": {
+      "type": "interactive",
+      "interactive_type": "time_picker",
+      "interactive_data": {
+        "event": {
+          "title": "Appointment Booking",
+          "description": "Select your preferred time"
+        },
+        "timezone_offset": -480,
+        "timeslots": [
+          {
+            "startTime": "2025-09-16T15:50:32+02:00",
+            "duration": 60,
+            "identifier": "slot_8f3a430c367e78d2"
+          },
+          {
+            "startTime": "2025-09-17T15:50:32+02:00",
+            "duration": 30,
+            "identifier": "slot_cf9ccbd3c67bf00a"
+          }
+        ]
+      }
+    }
+  }
+}

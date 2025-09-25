@@ -7,8 +7,21 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def create
     user = Current.user || @resource
-    mb = Messages::MessageBuilder.new(user, @conversation, params)
-    @message = mb.perform
+    
+    # Use Apple Messages processor for automatic URL-to-Rich Link conversion
+    if @conversation.inbox.channel_type == 'Channel::AppleMessagesForBusiness'
+      processor = AppleMessagesForBusiness::MessageProcessorService.new(@conversation, create_params, user)
+      @message = processor.process_and_send
+      
+      # Handle multiple messages case
+      if @message.is_a?(Array)
+        @message = @message.last # Return the last message for response
+      end
+    else
+      # Regular message creation for non-Apple Messages conversations
+      mb = Messages::MessageBuilder.new(user, @conversation, create_params)
+      @message = mb.perform
+    end
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -66,6 +79,38 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def permitted_params
     params.permit(:id, :target_language, :status, :external_error)
+  end
+
+  def create_params
+    Rails.logger.info "🔥 MessagesController create_params called with: #{params.inspect}"
+    Rails.logger.info "🔥 MessagesController content_attributes: #{params[:content_attributes]}"
+    Rails.logger.info "🔥 MessagesController images in content_attributes: #{params.dig(:content_attributes, :images)}"
+    
+    permitted = params.permit(:content, :private, :message_type, :content_type, :echo_id, :sender_type, :sender_id, :external_created_at,
+                  :attachments => [],
+                  :content_attributes => [
+                    # Apple Quick Reply
+                    :summary_text, { :items => [:title, :identifier, :description] },
+                    # Apple List Picker
+                    { :sections => [:title, :multiple_selection, { :items => [:title, :subtitle, :identifier, :imageIdentifier] }] },
+                    { :images => [:identifier, :data, :description] },  # Fixed: Allow nested image structure
+                    # Apple Time Picker
+                    { :event => [:title, :description, :identifier, { :timeslots => [:startTime, :duration] }] },
+                    :timezone_offset,
+                    # Apple Rich Link
+                    :url, :title, :description, :image_url, :site_name,
+                    # Common Apple Messages fields
+                    :received_title, :received_subtitle, :received_image_identifier, :received_style,
+                    :reply_title, :reply_subtitle, :reply_style,
+                    :reply_image_title, :reply_image_subtitle,
+                    :reply_secondary_subtitle, :reply_tertiary_subtitle
+                  ])
+    
+    Rails.logger.info "🔥 MessagesController permitted params: #{permitted.inspect}"
+    Rails.logger.info "🔥 MessagesController permitted content_attributes: #{permitted[:content_attributes]}"
+    Rails.logger.info "🔥 MessagesController permitted images: #{permitted.dig(:content_attributes, :images)}"
+    
+    permitted
   end
 
   def already_translated_content_available?

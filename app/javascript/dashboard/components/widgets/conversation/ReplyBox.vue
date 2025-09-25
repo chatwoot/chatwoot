@@ -40,6 +40,14 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
+import AppleRichLinkPreview from './AppleRichLinkPreview.vue';
+import {
+  URL_REGEX,
+  normalizeURL,
+  detectURLsInText,
+  splitMessageByURLs,
+  processMessageForAppleMessages,
+} from 'dashboard/helper/appleMessagesRichLink';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -50,6 +58,7 @@ const EmojiInput = defineAsyncComponent(
 
 export default {
   components: {
+    AppleRichLinkPreview,
     ArticleSearchPopover,
     AttachmentPreview,
     AudioRecorder,
@@ -121,6 +130,10 @@ export default {
       newConversationModalActive: false,
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
+      // Rich Link preview
+      richLinkPreviewUrl: '',
+      showRichLinkPreview: false,
+      richLinkDetectionTimeout: null,
     };
   },
   computed: {
@@ -178,6 +191,9 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
+    },
+    isAppleMessagesConversation() {
+      return this.inbox?.channel_type === 'Channel::AppleMessagesForBusiness';
     },
     messagePlaceHolder() {
       return this.isPrivate
@@ -251,7 +267,8 @@ export default {
         this.isASmsInbox ||
         this.isATelegramChannel ||
         this.isALineChannel ||
-        this.isAnInstagramChannel
+        this.isAnInstagramChannel ||
+        this.isAnAppleMessagesForBusinessChannel
       );
     },
     replyButtonLabel() {
@@ -427,6 +444,9 @@ export default {
       this.mentionSearchKey = this.hasSlashCommand
         ? bodyWithoutSignature.substring(1)
         : '';
+
+      // Check for URLs in Apple Messages conversations
+      this.checkForURLsInMessage(updatedMessage);
 
       // Autosave the current message draft.
       this.doAutoSaveDraft();
@@ -965,9 +985,27 @@ export default {
       return multipleMessagePayload;
     },
     getMessagePayload(message) {
+      // Normalize URLs in message for Apple Messages conversations
+      let processedMessage = message;
+      if (this.isAppleMessagesConversation) {
+        const detectedURLs = detectURLsInText(message);
+        if (detectedURLs.length > 0) {
+          // Replace URLs in the message with normalized versions
+          const originalUrls = message.match(URL_REGEX) || [];
+          detectedURLs.forEach((normalizedUrl, index) => {
+            if (originalUrls[index]) {
+              processedMessage = processedMessage.replace(
+                originalUrls[index],
+                normalizedUrl
+              );
+            }
+          });
+        }
+      }
+
       let messagePayload = {
         conversationId: this.currentChat.id,
-        message,
+        message: processedMessage,
         private: this.isPrivate,
         sender: this.sender,
       };
@@ -1064,6 +1102,175 @@ export default {
     togglePopout() {
       this.$emit('update:popOutReplyBox', !this.popOutReplyBox);
     },
+    async sendAppleMessage(messageData) {
+      console.log('🔥 ReplyBox: sendAppleMessage called with:', messageData);
+      try {
+        const messagePayload = {
+          conversationId: this.currentChat.id,
+          message:
+            messageData.content || messageData.summary_text || 'Apple Message',
+          content_type: messageData.content_type,
+          content_attributes: messageData.content_attributes,
+          private: false,
+        };
+
+        console.log('🔥 ReplyBox: messagePayload prepared:', messagePayload);
+        console.log('🔥 ReplyBox: about to call createPendingMessageAndSend');
+
+        // Use createPendingMessageAndSend directly to ensure proper message creation
+        await this.$store.dispatch(
+          'createPendingMessageAndSend',
+          messagePayload
+        );
+
+        console.log(
+          '🔥 ReplyBox: createPendingMessageAndSend dispatched successfully'
+        );
+        this.clearMessage();
+        this.hideEmojiPicker();
+
+        // Note: Tracking removed to avoid $track dependency issues
+
+        console.log('🔥 ReplyBox: Apple message sent successfully');
+      } catch (error) {
+        console.error('🔥 ReplyBox: Error sending Apple message:', error);
+        const errorMessage =
+          error?.message || this.$t('CONVERSATION.MESSAGE_ERROR');
+        this.$store.dispatch('alerts/show', {
+          message: errorMessage,
+          type: 'error',
+        });
+      }
+    },
+
+    // Rich Link URL detection methods
+    checkForURLsInMessage(message) {
+      if (!this.isAppleMessagesConversation || !message) {
+        this.hideRichLinkPreview();
+        return;
+      }
+
+      // Clear existing timeout
+      if (this.richLinkDetectionTimeout) {
+        clearTimeout(this.richLinkDetectionTimeout);
+      }
+
+      // Debounce URL detection
+      this.richLinkDetectionTimeout = setTimeout(() => {
+        // Use the enhanced URL detection from appleMessagesRichLink helper
+        const detectedURLs = detectURLsInText(message);
+
+        if (detectedURLs.length > 0) {
+          const url = detectedURLs[0]; // Use first detected URL (already normalized)
+          // Check if URL should trigger Rich Link preview
+          const urlRatio = url.length / message.length;
+          if (urlRatio > 0.3) {
+            // Show preview if URL is significant part of message
+            this.showRichLinkPreviewForUrl(url);
+          } else {
+            this.hideRichLinkPreview();
+          }
+        } else {
+          this.hideRichLinkPreview();
+        }
+      }, 500);
+    },
+
+    showRichLinkPreviewForUrl(url) {
+      this.richLinkPreviewUrl = url;
+      this.showRichLinkPreview = true;
+    },
+
+    hideRichLinkPreview() {
+      this.showRichLinkPreview = false;
+      this.richLinkPreviewUrl = '';
+    },
+
+    onRichLinkSendAsText(message) {
+      // Send as regular text message
+      this.message = message;
+      this.onSendReply();
+    },
+
+    async onRichLinkSendAsRichLink(data) {
+      try {
+        // ✅ FIX: Process the message to split text and URLs properly
+        const messageContent = data.originalMessage;
+        const conversation = this.currentChat;
+
+        // Use the processMessageForAppleMessages function to split the message
+        const processedMessages = await processMessageForAppleMessages(
+          messageContent,
+          conversation
+        );
+
+        console.log('🔗 Processing message with URL:', messageContent);
+        console.log('📝 Split into parts:', processedMessages.length);
+
+        // ✅ CRITICAL FIX: Send messages sequentially with delay per Apple MSP docs
+        console.log('📝 Processing', processedMessages.length, 'message(s)');
+
+        if (processedMessages.length === 1) {
+          // Single message (likely combined rich link) - send directly
+          const messagePayload = {
+            conversationId: this.currentChat.id,
+            message: processedMessages[0].content,
+            private: false,
+            content_type: processedMessages[0].content_type,
+            content_attributes: processedMessages[0].content_attributes || {},
+          };
+
+          console.log('📤 Sending single combined message:', messagePayload);
+
+          await this.$store.dispatch(
+            'createPendingMessageAndSend',
+            messagePayload
+          );
+        } else {
+          // Multiple messages - send sequentially with delays
+          for (let i = 0; i < processedMessages.length; i++) {
+            const messagePart = processedMessages[i];
+            const messagePayload = {
+              conversationId: this.currentChat.id,
+              message: messagePart.content,
+              private: false,
+              content_type: messagePart.content_type,
+              content_attributes: messagePart.content_attributes || {},
+            };
+
+            console.log(
+              `📤 Sending message part ${i + 1}/${processedMessages.length}:`,
+              messagePayload
+            );
+
+            await this.$store.dispatch(
+              'createPendingMessageAndSend',
+              messagePayload
+            );
+
+            if (i < processedMessages.length - 1) {
+              console.log('⏳ Brief delay between messages...');
+              await new Promise(resolve => setTimeout(resolve, 1500));
+            }
+          }
+        }
+
+        this.clearMessage();
+        this.hideRichLinkPreview();
+      } catch (error) {
+        console.error('Rich Link send error:', error);
+        const errorMessage =
+          error?.message || this.$t('CONVERSATION.MESSAGE_ERROR');
+        this.$store.dispatch('alerts/show', {
+          message: errorMessage,
+          type: 'error',
+        });
+      }
+    },
+
+    onRichLinkDismiss() {
+      this.hideRichLinkPreview();
+    },
   },
 };
 </script>
@@ -1091,6 +1298,15 @@ export default {
         v-if="shouldShowReplyToMessage"
         :message="inReplyTo"
         @dismiss="resetReplyToMessage"
+      />
+      <AppleRichLinkPreview
+        v-if="showRichLinkPreview"
+        :url="richLinkPreviewUrl"
+        :conversation="currentChat"
+        :original-message="message"
+        @send-as-text="onRichLinkSendAsText"
+        @send-as-rich-link="onRichLinkSendAsRichLink"
+        @dismiss="onRichLinkDismiss"
       />
       <CannedResponse
         v-if="showMentions && hasSlashCommand"
@@ -1206,6 +1422,15 @@ export default {
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
+      @send-apple-message="
+        data => {
+          console.log(
+            '🔥 ReplyBox: received send-apple-message from ReplyBottomPanel:',
+            data
+          );
+          sendAppleMessage(data);
+        }
+      "
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"

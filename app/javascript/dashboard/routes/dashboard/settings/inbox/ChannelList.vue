@@ -79,6 +79,12 @@ const channelList = computed(() => {
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.DESCRIPTION'),
       icon: 'i-ri-phone-fill',
     },
+    {
+      key: 'apple_messages_for_business',
+      title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.APPLE_MESSAGES_FOR_BUSINESS.TITLE'),
+      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.APPLE_MESSAGES_FOR_BUSINESS.DESCRIPTION'),
+      icon: 'i-woot-apple-messages',
+    },
   ];
 });
 
@@ -100,17 +106,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full p-8 overflow-auto">
-    <div
-      class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3"
-    >
-      <ChannelItem
-        v-for="channel in channelList"
-        :key="channel.key"
-        :channel="channel"
-        :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
-      />
-    </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    <ChannelItem
+      v-for="channel in channelList"
+      :key="channel.key"
+      :channel="channel"
+      :enabled-features="enabledFeatures"
+      @channel-item-click="initChannelAuth"
+    />
   </div>
 </template>

@@ -37,6 +37,10 @@ import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
+import AppleListPickerBubble from './bubbles/AppleListPicker.vue';
+import AppleTimePickerBubble from './bubbles/AppleTimePicker.vue';
+import AppleQuickReplyBubble from './bubbles/AppleQuickReply.vue';
+import AppleRichLinkBubble from './bubbles/AppleRichLink.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -289,6 +293,23 @@ const componentToRender = computed(() => {
 
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return EmailBubble;
+  }
+
+  // Apple Messages for Business content types
+  if (props.contentType === CONTENT_TYPES.APPLE_LIST_PICKER) {
+    return AppleListPickerBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.APPLE_TIME_PICKER) {
+    return AppleTimePickerBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.APPLE_QUICK_REPLY) {
+    return AppleQuickReplyBubble;
+  }
+
+  if (props.contentType === CONTENT_TYPES.APPLE_RICH_LINK) {
+    return AppleRichLinkBubble;
   }
 
   if (props.contentAttributes?.isUnsupported) {

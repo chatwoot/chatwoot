@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import BaseBubble from './Base.vue';
@@ -23,6 +23,8 @@ const attachment = computed(() => {
 const hasError = ref(false);
 const showGallery = ref(false);
 const isDownloading = ref(false);
+const imageDataUrl = ref(null);
+const isLoading = ref(true);
 
 const handleError = () => {
   hasError.value = true;
@@ -40,6 +42,62 @@ const downloadAttachment = async () => {
     isDownloading.value = false;
   }
 };
+
+// Check if URL is from ngrok (Apple Messages for Business)
+const isNgrokUrl = computed(() => {
+  return (
+    attachment.value?.dataUrl?.includes('.ngrok-free.app') ||
+    attachment.value?.dataUrl?.includes('.ngrok.io')
+  );
+});
+
+// Load image with proper headers to bypass ngrok browser warning
+const loadImageWithHeaders = async url => {
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'ngrok-skip-browser-warning': 'true',
+        'User-Agent': 'Chatwoot-Apple-Messages-For-Business',
+        Accept: 'image/*,*/*;q=0.8',
+      },
+      mode: 'cors',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  } catch (error) {
+    console.error('Failed to load image with headers:', error);
+    throw error;
+  }
+};
+
+// Load image on mount
+onMounted(async () => {
+  if (!attachment.value?.dataUrl) {
+    handleError();
+    return;
+  }
+
+  try {
+    if (isNgrokUrl.value) {
+      // For ngrok URLs, use fetch with proper headers
+      imageDataUrl.value = await loadImageWithHeaders(attachment.value.dataUrl);
+    } else {
+      // For regular URLs, use direct URL
+      imageDataUrl.value = attachment.value.dataUrl;
+    }
+  } catch (error) {
+    console.error('Image loading failed:', error);
+    handleError();
+  } finally {
+    isLoading.value = false;
+  }
+});
 </script>
 
 <template>
@@ -54,10 +112,16 @@ const downloadAttachment = async () => {
         {{ $t('COMPONENTS.MEDIA.IMAGE_UNAVAILABLE') }}
       </p>
     </div>
+    <div
+      v-else-if="isLoading"
+      class="flex items-center justify-center p-8 rounded-lg"
+    >
+      <Icon icon="i-lucide-loader-2" class="animate-spin text-n-slate-11" />
+    </div>
     <div v-else class="relative group rounded-lg overflow-hidden">
       <img
         class="skip-context-menu"
-        :src="attachment.dataUrl"
+        :src="imageDataUrl"
         :width="attachment.width"
         :height="attachment.height"
         @click="onClick"

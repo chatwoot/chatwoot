@@ -382,6 +382,9 @@ GEM
       gapic-common (>= 0.20.0, < 2.a)
       google-cloud-errors (~> 1.0)
     google-protobuf (3.25.7)
+    google-protobuf (3.25.7-arm64-darwin)
+    google-protobuf (3.25.7-x86_64-darwin)
+    google-protobuf (3.25.7-x86_64-linux)
     googleapis-common-protos (1.6.0)
       google-protobuf (>= 3.18, < 5.a)
       googleapis-common-protos-types (~> 1.7)
@@ -1126,7 +1129,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.4.4p34
+   ruby 3.3.9p170
 
 BUNDLED WITH
    2.5.16

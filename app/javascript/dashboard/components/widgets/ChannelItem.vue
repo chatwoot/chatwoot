@@ -23,6 +23,16 @@ const hasInstagramConfigured = computed(() => {
   return window.chatwootConfig?.instagramAppId;
 });
 
+const getChannelThumbnail = () => {
+  if (props.channel.key === 'api' && props.channel.thumbnail) {
+    return props.channel.thumbnail;
+  }
+  if (props.channel.key === 'apple_messages_for_business') {
+    return `/assets/images/dashboard/channels/${props.channel.key}.svg`;
+  }
+  return `/assets/images/dashboard/channels/${props.channel.key}.png`;
+};
+
 const isActive = computed(() => {
   const { key } = props.channel;
   if (Object.keys(props.enabledFeatures).length === 0) {
@@ -58,6 +68,7 @@ const isActive = computed(() => {
     'line',
     'instagram',
     'voice',
+    'apple_messages_for_business',
   ].includes(key);
 });
 
@@ -80,6 +91,7 @@ const onItemClick = () => {
     :title="channel.title"
     :description="channel.description"
     :icon="channel.icon"
+    :thumbnail="getChannelThumbnail()"
     :is-coming-soon="isComingSoon"
     :disabled="!isActive"
     @click="onItemClick"

@@ -96,7 +96,15 @@ class Message < ApplicationRecord
     input_csat: 9,
     integrations: 10,
     sticker: 11,
-    voice_call: 12
+    voice_call: 12,
+    apple_list_picker: 13,
+    apple_time_picker: 14,
+    apple_quick_reply: 15,
+    apple_pay: 16,
+    apple_rich_link: 17,
+    apple_authentication: 18,
+    apple_form: 19,
+    apple_custom_app: 20
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -108,7 +116,11 @@ class Message < ApplicationRecord
   # [:data] : Used for structured content types such as voice_call
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: JSON
+<<<<<<< HEAD
+                                         :translations, :in_reply_to_external_id, :is_unsupported, :data, :sections, :event, :summary_text,
+                                         :images, :timezone_offset, :received_title, :received_subtitle, :received_style,
+                                         :reply_title, :reply_subtitle, :reply_style, :reply_image_title, :reply_image_subtitle,
+                                         :reply_secondary_subtitle, :reply_tertiary_subtitle], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -285,6 +297,24 @@ class Message < ApplicationRecord
   end
 
   def ensure_content_type
+    # Don't override content_type if it's already set to an Apple Messages type
+    return if content_type.present? && content_type.start_with?('apple_')
+    
+    # For Apple Messages, try to infer content_type from content_attributes
+    if content_type.blank? && content_attributes.present?
+      if content_attributes.key?('items') && content_attributes.key?('summary_text')
+        self.content_type = 'apple_quick_reply'
+        return
+      elsif content_attributes.key?('sections')
+        self.content_type = 'apple_list_picker'
+        return
+      elsif content_attributes.key?('event')
+        self.content_type = 'apple_time_picker'
+        return
+      end
+    end
+    
+    # Default fallback
     self.content_type ||= Message.content_types[:text]
   end
 

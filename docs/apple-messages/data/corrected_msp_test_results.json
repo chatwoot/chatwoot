@@ -1,0 +1,135 @@
+{
+  "quick_reply": {
+    "success": true,
+    "message_id": 115,
+    "payload": {
+      "v": 1,
+      "id": "cbf6aa66-e48a-422e-99d1-a25ba9476ba8",
+      "sourceId": "b0566171-3c85-4eff-b0fb-dcab6bc5cdc6",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "version": "1.0",
+          "requestIdentifier": "8073f932-bdf1-496f-ad0c-c2fd68e82aab",
+          "quick-reply": {
+            "summaryText": "Would you like to schedule an appointment?",
+            "items": [
+              {
+                "title": "Yes, please",
+                "identifier": "reply_8d6e22ec8a8fb42b"
+              },
+              {
+                "title": "No, thanks",
+                "identifier": "reply_208f1b60f9581420"
+              },
+              {
+                "title": "Maybe later",
+                "identifier": "reply_d3f667c1fd6a690c"
+              }
+            ]
+          }
+        },
+        "useLiveLayout": true
+      }
+    }
+  },
+  "list_picker": {
+    "success": true,
+    "message_id": 116,
+    "payload": {
+      "v": 1,
+      "id": "64a9c44f-babf-4d97-ae8d-72afe675dc76",
+      "sourceId": "b0566171-3c85-4eff-b0fb-dcab6bc5cdc6",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "version": "1.0",
+          "requestIdentifier": "b5a4d23f-f600-4e63-8f25-d981c743ca82",
+          "listPicker": {
+            "sections": [
+              {
+                "title": "Services",
+                "items": [
+                  {
+                    "title": "Consultation",
+                    "subtitle": "30 minutes",
+                    "identifier": "item_74f9679b69823599"
+                  },
+                  {
+                    "title": "Full Service",
+                    "subtitle": "60 minutes",
+                    "identifier": "item_1a1798302b02591a"
+                  }
+                ],
+                "multipleSelection": false
+              }
+            ]
+          }
+        },
+        "useLiveLayout": true,
+        "receivedMessage": {
+          "title": "Please select a service",
+          "subtitle": "",
+          "style": "icon"
+        },
+        "replyMessage": {
+          "title": "Selection Made",
+          "subtitle": "Your selection",
+          "style": "icon"
+        }
+      }
+    }
+  },
+  "time_picker": {
+    "success": true,
+    "message_id": 117,
+    "payload": {
+      "v": 1,
+      "id": "4e0d673e-c5dd-4c79-bbf7-e6e938884e1e",
+      "sourceId": "b0566171-3c85-4eff-b0fb-dcab6bc5cdc6",
+      "destinationId": "tel:+1234567890",
+      "type": "interactive",
+      "interactiveData": {
+        "bid": "com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension",
+        "data": {
+          "version": "1.0",
+          "requestIdentifier": "efd1977e-3db3-4487-bdec-e083797f2aae",
+          "timePicker": {
+            "event": {
+              "title": "Appointment Booking",
+              "description": "Select your preferred time",
+              "timeslots": [
+                {
+                  "startTime": "2025-09-16T15:57:55+02:00",
+                  "duration": 60,
+                  "identifier": "slot_a77860f43a1a1623"
+                },
+                {
+                  "startTime": "2025-09-17T15:57:55+02:00",
+                  "duration": 30,
+                  "identifier": "slot_167cdb2ed61d7583"
+                }
+              ],
+              "timezoneOffset": -480
+            }
+          }
+        },
+        "useLiveLayout": true,
+        "receivedMessage": {
+          "title": "Appointment Booking",
+          "subtitle": "Select your preferred time",
+          "style": "icon"
+        },
+        "replyMessage": {
+          "title": "Appointment Scheduled",
+          "subtitle": "Your appointment time",
+          "style": "icon"
+        }
+      }
+    }
+  }
+}

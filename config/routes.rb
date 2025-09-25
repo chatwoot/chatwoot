@@ -109,6 +109,11 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
+          resources :apple_messages, only: [] do
+            collection do
+              post :parse_url
+            end
+          end
           resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do
               get :meta
@@ -516,6 +521,36 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+  post 'webhooks/apple_messages_for_business/:msp_id', to: 'webhooks/apple_messages_for_business#process_payload'
+  post 'webhooks/apple_messages_for_business/:msp_id/message', to: 'webhooks/apple_messages_for_business#process_payload'
+  
+  # Apple Messages for Business routes
+  namespace :apple_messages_for_business do
+    resources :attachments, only: [:show] do
+      member do
+        get :download
+      end
+    end
+
+    # OAuth2 Authentication routes
+    get 'oauth/callback/:provider', to: 'oauth_callback#callback'
+    get 'landing/:session_id', to: 'landing_page#show'
+
+    # Apple Pay routes
+    scope ':msp_id' do
+      namespace :payment_gateway do
+        post 'process_payment', to: 'payment_gateway#process_payment'
+        post 'method_update', to: 'payment_gateway#payment_method_update'
+        post 'merchant_session', to: 'payment_gateway#create_merchant_session'
+        get 'validate_session/:session_id', to: 'payment_gateway#validate_merchant_session'
+        post 'webhook', to: 'payment_gateway#webhook'
+        get 'status/:transaction_id', to: 'payment_gateway#payment_status'
+      end
+    end
+
+    # Encrypted download routes
+    get 'encrypted_download/:token', to: 'encrypted_download#show'
+  end
 
   namespace :twitter do
     resource :callback, only: [:show]

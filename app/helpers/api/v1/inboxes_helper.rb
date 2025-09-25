@@ -103,6 +103,7 @@ module Api::V1::InboxesHelper
     {
       'web_widget' => Current.account.web_widgets,
       'api' => Current.account.api_channels,
+      'apple_messages_for_business' => Current.account.apple_messages_for_business_channels,
       'email' => Current.account.email_channels,
       'line' => Current.account.line_channels,
       'telegram' => Current.account.telegram_channels,

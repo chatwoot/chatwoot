@@ -30,6 +30,7 @@ const i18nMap = {
   'Channel::Api': 'API',
   'Channel::Instagram': 'INSTAGRAM',
   'Channel::Voice': 'VOICE',
+  'Channel::AppleMessagesForBusiness': 'APPLE_MESSAGES_FOR_BUSINESS',
 };
 
 const twilioChannelName = () => {

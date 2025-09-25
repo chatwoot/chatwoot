@@ -23,7 +23,12 @@ export default {
   setup(props, { emit }) {
     const { uiSettings, updateUISettings } = useUISettings();
 
-    const { isAIIntegrationEnabled, draftMessage, recordAnalytics } = useAI();
+    const {
+      isAIIntegrationEnabled,
+      draftMessage,
+      recordAnalytics,
+      aiIntegrationType,
+    } = useAI();
 
     const { isAdmin } = useAdmin();
 
@@ -54,6 +59,7 @@ export default {
       recordAnalytics,
       isAIIntegrationEnabled,
       draftMessage,
+      aiIntegrationType,
     };
   },
   data: () => ({
@@ -67,6 +73,11 @@ export default {
     }),
     isAICTAModalDismissed() {
       return this.uiSettings.is_open_ai_cta_modal_dismissed;
+    },
+    aiAssistTooltip() {
+      const integrationKey =
+        this.aiIntegrationType === 'perplexity' ? 'PERPLEXITY' : 'OPEN_AI';
+      return this.$t(`INTEGRATION_SETTINGS.${integrationKey}.AI_ASSIST`);
     },
     // Display a AI CTA button for admins if the AI integration has not been added yet and the AI assistance modal has not been dismissed.
     shouldShowAIAssistCTAButtonForAdmin() {
@@ -132,7 +143,7 @@ export default {
       />
       <NextButton
         v-else
-        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
+        v-tooltip.top-end="aiAssistTooltip"
         icon="i-ph-magic-wand"
         slate
         faded

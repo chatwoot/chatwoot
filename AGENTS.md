@@ -3,13 +3,15 @@
 ## Build / Test / Lint
 
 - **Setup**: `bundle install && pnpm install`
-- **Run Dev**: `pnpm dev` or `overmind start -f ./Procfile.dev`
+- **Run Dev**: `./dev-server.sh start` (localhost only) or `./dev-server.sh start-public` (with public access)
+- **Server Management**: `./dev-server.sh {start|start-public|stop|restart|status|help}`
+- **Public Access Options**: Custom domain, Tailscale Funnel, or ngrok (configured in dev-server.sh)
 - **Lint JS/Vue**: `pnpm eslint` / `pnpm eslint:fix`
 - **Lint Ruby**: `bundle exec rubocop -a`
 - **Test JS**: `pnpm test` or `pnpm test:watch`
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
-- **Run Project**: `overmind start -f Procfile.dev`
+- **Legacy Run**: `overmind start -f Procfile.dev` (use dev-server.sh instead)
 
 ## Code Style
 
@@ -73,3 +75,4 @@ Practical checklist for any change impacting core logic or public APIs
 - Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
 - When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
 - Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
+- Remember that any tailscale command as privilege Claude cannot use, please ask me diretly to execute them
