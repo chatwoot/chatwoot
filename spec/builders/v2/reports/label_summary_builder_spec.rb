@@ -313,5 +313,61 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
         expect(label_1_report[:avg_first_response_time]).to eq(1800.0)
       end
     end
+
+    context 'with resolution count with multiple resolutions of same conversation' do
+      let(:business_hours) { false }
+      let(:account2) { create(:account) }
+      let(:unique_label_name) { SecureRandom.uuid }
+      let(:test_label) { create(:label, title: unique_label_name, account: account2) }
+      let(:test_date) { Date.new(2025, 6, 15) }
+      let(:account2_builder) do
+        described_class.new(account: account2, params: {
+                              business_hours: false,
+                              since: test_date.to_time.to_i.to_s,
+                              until: test_date.end_of_day.to_time.to_i.to_s,
+                              timezone_offset: 0
+                            })
+      end
+
+      before do
+        # Ensure test_label is created
+        test_label
+
+        travel_to(test_date) do
+          user = create(:user, account: account2)
+          inbox = create(:inbox, account: account2)
+          create(:inbox_member, user: user, inbox: inbox)
+
+          gravatar_url = 'https://www.gravatar.com'
+          stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+
+          perform_enqueued_jobs do
+            conversation = create(:conversation, account: account2,
+                                                 inbox: inbox, assignee: user,
+                                                 created_at: test_date)
+            conversation.update_labels(unique_label_name)
+            conversation.label_list
+            conversation.save!
+
+            # First resolution
+            conversation.resolved!
+
+            # Reopen conversation
+            conversation.open!
+
+            # Second resolution
+            conversation.resolved!
+          end
+        end
+      end
+
+      it 'counts multiple resolution events for same conversation' do
+        report = account2_builder.build
+
+        test_label_report = report.find { |r| r[:name] == unique_label_name }
+        expect(test_label_report).not_to be_nil
+        expect(test_label_report[:resolved_conversations_count]).to eq(2)
+      end
+    end
   end
 end

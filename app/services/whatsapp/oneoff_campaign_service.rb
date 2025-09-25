@@ -84,11 +84,12 @@ class Whatsapp::OneoffCampaignService
                             namespace: namespace,
                             lang_code: lang_code,
                             parameters: processed_parameters
-                          })
+                          }, nil)
 
   rescue StandardError => e
     Rails.logger.error "Failed to send WhatsApp template message to #{to}: #{e.message}"
     Rails.logger.error "Backtrace: #{e.backtrace.first(5).join('\n')}"
-    raise e
+    # continue processing remaining contacts
+    nil
   end
 end

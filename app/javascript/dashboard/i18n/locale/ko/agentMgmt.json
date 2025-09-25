@@ -78,7 +78,7 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "유용성",
-          "PLACEHOLDER": "",
+          "PLACEHOLDER": "가용성 상태를 선택하세요",
           "ERROR": "Availability is required"
         },
         "SUBMIT": "에이전트 수정"

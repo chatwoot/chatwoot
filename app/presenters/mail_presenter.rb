@@ -103,7 +103,8 @@ class MailPresenter < SimpleDelegator
       references: references,
       subject: subject,
       text_content: text_content,
-      to: to
+      to: to,
+      auto_reply: auto_reply?
     }
   end
 
@@ -155,6 +156,10 @@ class MailPresenter < SimpleDelegator
 
   def auto_reply?
     auto_submitted? || x_auto_reply?
+  end
+
+  def bounced?
+    @mail.bounced? || @mail['X-Failed-Recipients'].try(:value).present?
   end
 
   def notification_email_from_chatwoot?

@@ -1,23 +1,13 @@
 <script>
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import BackButton from '../../../components/widgets/BackButton.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     BackButton,
-    NextButton,
   },
   props: {
     headerTitle: {
-      default: '',
-      type: String,
-    },
-    buttonRoute: {
-      default: '',
-      type: String,
-    },
-    buttonText: {
       default: '',
       type: String,
     },
@@ -26,7 +16,6 @@ export default {
       type: String,
     },
     showBackButton: { type: Boolean, default: false },
-    showNewButton: { type: Boolean, default: false },
     backUrl: {
       type: [String, Object],
       default: '',
@@ -67,14 +56,5 @@ export default {
         {{ headerTitle }}
       </span>
     </h1>
-    <!-- TODO: Remove this when we are not using this -->
-    <router-link v-if="showNewButton && isAdmin" :to="buttonRoute">
-      <NextButton
-        teal
-        icon="i-lucide-circle-plus"
-        class="button--fixed-top"
-        :label="buttonText"
-      />
-    </router-link>
   </div>
 </template>

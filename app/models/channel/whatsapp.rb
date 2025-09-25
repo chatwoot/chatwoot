@@ -33,7 +33,6 @@ class Channel::Whatsapp < ApplicationRecord
   validate :validate_provider_config
 
   after_create :sync_templates
-  after_create_commit :setup_webhooks
   before_destroy :teardown_webhooks
 
   def name
@@ -60,6 +59,13 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  def setup_webhooks
+    perform_webhook_setup
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
+    prompt_reauthorization!
+  end
+
   private
 
   def ensure_webhook_verify_token
@@ -70,41 +76,11 @@ class Channel::Whatsapp < ApplicationRecord
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
   end
 
-  def setup_webhooks
-    return unless should_setup_webhooks?
-
-    perform_webhook_setup
-  rescue StandardError => e
-    handle_webhook_setup_error(e)
-  end
-
-  def should_setup_webhooks?
-    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present?
-  end
-
-  def whatsapp_cloud_provider?
-    provider == 'whatsapp_cloud'
-  end
-
-  def embedded_signup_source?
-    provider_config['source'] == 'embedded_signup'
-  end
-
-  def webhook_config_present?
-    provider_config['business_account_id'].present? && provider_config['api_key'].present?
-  end
-
   def perform_webhook_setup
     business_account_id = provider_config['business_account_id']
     api_key = provider_config['api_key']
 
     Whatsapp::WebhookSetupService.new(self, business_account_id, api_key).perform
-  end
-
-  def handle_webhook_setup_error(error)
-    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{error.message}"
-    # Don't raise the error to prevent channel creation from failing
-    # Webhooks can be retried later
   end
 
   def teardown_webhooks
