@@ -615,6 +615,29 @@ describe('#mutations', () => {
       mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
       expect(state.allConversations[0].messages).toEqual([{ id: 'msg2' }]);
     });
+
+    it('should filter out duplicate messages', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 'msg2' }] }],
+      };
+      const payload = { id: 1, data: [{ id: 'msg1' }, { id: 'msg2' }] };
+
+      mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
+      expect(state.allConversations[0].messages).toEqual([
+        { id: 'msg1' },
+        { id: 'msg2' },
+      ]);
+    });
+
+    it('should do nothing if conversation is not found', () => {
+      const state = {
+        allConversations: [{ id: 2, messages: [{ id: 'msg2' }] }],
+      };
+      const payload = { id: 1, data: [{ id: 'msg1' }] };
+
+      mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
+      expect(state.allConversations[0].messages).toEqual([{ id: 'msg2' }]);
+    });
   });
 
   describe('#SET_MISSING_MESSAGES', () => {
