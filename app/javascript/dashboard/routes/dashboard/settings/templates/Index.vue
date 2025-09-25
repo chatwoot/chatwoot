@@ -16,7 +16,6 @@ const { t } = useI18n();
 const store = useStore();
 
 const showAddPopup = ref(false);
-const newTemplateButtonRef = ref(null);
 
 // Filter states
 const selectedStatus = ref('');
@@ -97,18 +96,22 @@ const selectedChannelLabel = computed(() => {
 });
 
 const filteredTemplates = computed(() => {
-  return templates.value;
+  return templates.value.filter(template => {
+    const matchesStatus =
+      !selectedStatus.value || template.status === selectedStatus.value;
+    const matchesLanguage =
+      !selectedLanguage.value || template.language === selectedLanguage.value;
+    const matchesChannel =
+      !selectedChannelType.value ||
+      template.channel_type === selectedChannelType.value;
+
+    return matchesStatus && matchesLanguage && matchesChannel;
+  });
 });
 
 const fetchTemplates = async () => {
   try {
-    const filters = {};
-    if (selectedStatus.value) filters.status = selectedStatus.value;
-    if (selectedLanguage.value) filters.language = selectedLanguage.value;
-    if (selectedChannelType.value)
-      filters.channel_type = selectedChannelType.value;
-
-    await store.dispatch('messageTemplates/get', filters);
+    await store.dispatch('messageTemplates/get');
   } catch (error) {
     useAlert(t('SETTINGS.TEMPLATES.API.FETCH_ERROR'));
   }
@@ -122,26 +125,14 @@ const hideAddPopup = () => {
   showAddPopup.value = false;
 };
 
-// Filter change handlers
-const applyFilters = () => {
-  fetchTemplates();
-};
-
 const handleStatusAction = ({ value }) => {
   selectedStatus.value = value;
   isStatusDropdownOpen.value = false;
-  applyFilters();
 };
 
 const handleChannelAction = ({ value }) => {
   selectedChannelType.value = value;
   isChannelDropdownOpen.value = false;
-  applyFilters();
-};
-
-const handleLanguageChange = value => {
-  selectedLanguage.value = value;
-  applyFilters();
 };
 
 const toggleStatusDropdown = () => {
@@ -173,7 +164,6 @@ const getStatusColor = status => {
   }
 };
 
-// TODO: fix me
 const formatCategory = category => {
   return category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 };
@@ -218,7 +208,6 @@ const confirmDeletion = async () => {
   try {
     await store.dispatch('messageTemplates/delete', selectedTemplate.value.id);
     useAlert(t('SETTINGS.TEMPLATES.DELETE.API.SUCCESS_MESSAGE'));
-    await fetchTemplates();
   } catch (error) {
     useAlert(t('SETTINGS.TEMPLATES.DELETE.API.ERROR_MESSAGE'));
   } finally {
@@ -263,7 +252,6 @@ onMounted(() => {
       </div>
       <div class="relative">
         <Button
-          ref="newTemplateButtonRef"
           icon="i-lucide-plus"
           blue
           :label="t('SETTINGS.TEMPLATES.ACTIONS.NEW_TEMPLATE')"
@@ -335,7 +323,6 @@ onMounted(() => {
           size="md"
           variant="outline"
           show-search
-          @update:model-value="handleLanguageChange"
         />
       </div>
     </div>
