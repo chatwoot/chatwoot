@@ -15,7 +15,6 @@ import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import SubmitButton from '../../components/Button/SubmitButton.vue';
-import AuthBackround from '../../components/AuthBackground/AuthBackground.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -28,7 +27,6 @@ export default {
     GoogleOAuthButton,
     Spinner,
     SubmitButton,
-    AuthBackround,
   },
   mixins: [globalConfigMixin],
   props: {
@@ -157,57 +155,69 @@ export default {
     },
   },
 };
+
 </script>
 
 <template>
-  <main
-    class="flex flex-col md:flex-row *:md:flex-1 w-full min-h-screen bg-woot-25 dark:bg-slate-900"
-  >
-    <AuthBackround />
-    <div class="p-5 md:p-8 flex flex-col min-h-0 min-w-0 md:justify-center">
-      <div class="w-full mx-auto">
-        <section class="text-center">
-          <h1
-            class="my-6 text-5xl font-medium text-slate-800 dark:text-woot-50"
-          >
-            {{
-              useInstallationName(
-                $t('LOGIN.TITLE'),
-                globalConfig.installationName
-              )
-            }}
-          </h1>
-          <p class="whitespace-break-spaces">
-            {{
-              useInstallationName(
-                $t('LOGIN.SUBTITLE'),
-                globalConfig.installationName
-              )
-            }}
-          </p>
-        </section>
+  <main class="bg-background flex items-center justify-center p-4">
+    <img src="v3/assets/images/Mascot-Laptop.png" alt="Mascot" class="z-50 absolute bottom-0 right-2/3 h-[500px]"/>
+    <div class="w-full max-w-md">
+      <div class="text-center mb-4">
+        <div class="inline-flex items-center justify-center w-16 h-16">
+          <img
+            :src="globalConfig.logo"
+            :alt="globalConfig.installationName"
+            class="block w-auto h-46 mx-auto"
+          />
+        </div>
+        
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+          {{
+            useInstallationName(
+              $t('LOGIN.TITLE'),
+              globalConfig.installationName
+            )
+          }}
+        </h1>
+        
+        <p class="text-slate-600 dark:text-slate-400 text-sm">
+          {{
+            useInstallationName(
+              $t('LOGIN.SUBTITLE'),
+              globalConfig.installationName
+            )
+          }}
+        </p>
+      </div>
+
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-emerald-200 dark:border-slate-700 p-6">
         <section
-          class="mt-5"
           :class="{
-            'mb-8 mt-15': !showGoogleOAuth,
             'animate-wiggle': loginApi.hasErrored,
           }"
         >
           <div v-if="!email">
-            <GoogleOAuthButton v-if="showGoogleOAuth" />
-            <form class="space-y-5" @submit.prevent="submitFormLogin">
-              <FormInput
-                v-model="credentials.email"
-                name="email_address"
-                type="text"
-                data-testid="email_input"
-                :tabindex="1"
-                required
-                :label="$t('LOGIN.EMAIL.LABEL')"
-                :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
-                :has-error="v$.credentials.email.$error"
-                @input="v$.credentials.email.$touch"
-              />
+            <div v-if="showGoogleOAuth">
+              <GoogleOAuthButton/>
+            </div>
+            
+            <form class="space-y-4" @submit.prevent="submitFormLogin">
+              <div>
+                <FormInput
+                  v-model="credentials.email"
+                  name="email_address"
+                  type="text"
+                  data-testid="email_input"
+                  :tabindex="1"
+                  required
+                  :label="$t('LOGIN.EMAIL.LABEL')"
+                  :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
+                  :has-error="v$.credentials.email.$error"
+                  @input="v$.credentials.email.$touch"
+                  class="text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500"
+                />
+              </div>
+              
               <div class="relative">
                 <FormInput
                   v-model="credentials.password"
@@ -220,7 +230,9 @@ export default {
                   :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
                   :has-error="v$.credentials.password.$error"
                   @input="v$.credentials.password.$touch"
+                  class="text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 focus:border-emerald-500 focus:ring-emerald-500"
                 />
+                
                 <button
                   type="button"
                   class="w-8 h-12 absolute bottom-0 right-0"
@@ -236,45 +248,76 @@ export default {
                     v-if="showPassword"
                     icon="eye-show"
                     size="18"
-                    class="text-slate-900 dark:text-slate-50"
+                    class="text-slate-500 dark:text-slate-400"
                   />
                 </button>
               </div>
-
-              <p
+              
+              <div
                 v-if="!globalConfig.disableUserProfileUpdate"
                 class="text-right"
               >
                 <router-link
                   to="auth/reset/password"
-                  class="text-sm text-link"
+                  class="text-sm text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium transition-colors"
                   tabindex="4"
                 >
                   {{ $t('LOGIN.FORGOT_PASSWORD') }}
                 </router-link>
-              </p>
-              <SubmitButton
-                :disabled="loginApi.showLoading"
-                :tabindex="3"
-                :button-text="$t('LOGIN.SUBMIT')"
-                :loading="loginApi.showLoading"
-              />
+              </div>
+              
+              <div class="pt-2">
+                <SubmitButton
+                  :disabled="loginApi.showLoading"
+                  :tabindex="3"
+                  :button-text="$t('LOGIN.SUBMIT')"
+                  :loading="loginApi.showLoading"
+                  class="w-full bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 text-white font-medium py-3 px-4 rounded-xl transition-colors"
+                />
+              </div>
             </form>
           </div>
-          <div v-else class="flex items-center justify-center">
+          
+          <div v-else class="flex items-center justify-center py-8">
             <Spinner color-scheme="primary" size="" />
           </div>
         </section>
-        <p
+        
+        <div
           v-if="showSignupLink"
-          class="mt-3 text-sm text-center text-slate-600 dark:text-slate-400"
+          class="mt-6 pt-6 border-t border-slate-600 dark:border-slate-400 text-center"
         >
-          {{ $t('LOGIN.DONT_HAVE_ACCOUNT') }}
-          <router-link to="auth/signup" class="text-link">
-            {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
-          </router-link>
-        </p>
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            {{ $t('LOGIN.DONT_HAVE_ACCOUNT') }}
+            <router-link 
+              to="auth/signup" 
+              class="text-woot-500 dark:hover:text-emerald-300 font-medium transition-colors ml-1"
+            >
+              {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
+            </router-link>
+          </p>
+        </div>
       </div>
     </div>
   </main>
 </template>
+
+<style scoped>
+.bg-background {
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 250, 199, 0.4),       
+    rgba(217, 255, 228, 0.3),      
+    rgba(34, 197, 94, 0.1)  
+  );
+}
+
+.dark .bg-background {
+  background: linear-gradient(
+    to bottom right,
+    rgba(15, 23, 42, 0.95),
+    rgba(30, 41, 59, 0.9)
+  );
+}
+</style>
+
