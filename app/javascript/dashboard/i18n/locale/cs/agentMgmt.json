@@ -18,7 +18,8 @@
       "STATUS": "Stav",
       "ACTIONS": "Akce",
       "VERIFIED": "Ověřeno",
-      "VERIFICATION_PENDING": "Probíhá ověření"
+      "VERIFICATION_PENDING": "Probíhá ověření",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Přidat agenta do vašeho týmu",
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "Vybrat agenta",
         "TEAM": "Vybrat tým"
+      },
+      "LIST": {
+        "NONE": "Nic"
       },
       "SEARCH": {
         "NO_RESULTS": {

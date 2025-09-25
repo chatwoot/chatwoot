@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { formatBytes } from 'shared/helpers/FileHelper';
 
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   attachments: {
     type: Array,
@@ -48,7 +50,7 @@ const fileName = file => {
     <div
       v-for="(attachment, index) in nonRecordedAudioAttachments"
       :key="attachment.id"
-      class="preview-item flex items-center p-1 bg-slate-50 dark:bg-slate-800 gap-1 rounded-md w-[15rem] mb-1"
+      class="flex items-center p-1 bg-n-slate-3 gap-1 rounded-md w-[15rem] mb-1"
     >
       <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img
@@ -73,9 +75,11 @@ const fileName = file => {
         </span>
       </div>
       <div class="flex items-center justify-center">
-        <woot-button
-          class="!w-6 !h-6 text-sm rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 clear secondary"
-          icon="dismiss"
+        <Button
+          ghost
+          slate
+          xs
+          icon="i-lucide-x"
           @click="onRemoveAttachment(index)"
         />
       </div>

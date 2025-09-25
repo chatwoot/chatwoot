@@ -1,34 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "תיבות דואר נכנס",
-    "SIDEBAR_TXT": "<p><b>תיבת דואר נכנס</b></p> <p> כאשר אתה מחבר אתר אינטרנט או דף פייסבוק ל-Chatwoot, זה נקרא <b>תיבת דואר נכנס</b>. אתה יכול לקבל תיבות דואר נכנס בלתי מוגבלות בחשבון Chatwoot שלך. </p><p> לחץ על <b>הוסף תיבת דואר נכנס</b> כדי לחבר אתר או דף פייסבוק. </p><p> בלוח המחוונים, תוכל לראות את כל השיחות מכל תיבות הדואר הנכנס שלך במקום אחד ולהגיב להן בכרטיסייה 'שיחות'. </p><p> תוכל גם לראות שיחות ספציפיות לתיבת דואר נכנס על ידי לחיצה על שם תיבת הדואר הנכנס בחלונית השמאלית של לוח המחוונים. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "אין תיבות דואר נכנס מצורפות לחשבון זה."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "בחר ערוץ",
-        "route": "settings_inbox_new",
-        "body": "בחר את הספק שברצונך לשלב עם Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "בחר ערוץ",
+        "BODY": "בחר את הספק שברצונך לשלב עם Chatwoot."
       },
-      {
-        "title": "צור תיבת דואר נכנס",
-        "route": "settings_inboxes_page_channel",
-        "body": "אמת את חשבונך וצור תיבת דואר נכנס."
+      "INBOX": {
+        "TITLE": "צור תיבת דואר נכנס",
+        "BODY": "אמת את חשבונך וצור תיבת דואר נכנס."
       },
-      {
-        "title": "הוסף נציג",
-        "route": "settings_inboxes_add_agents",
-        "body": "הוסף נציגים לתיבת הדואר הנכנס שנוצרה."
+      "AGENT": {
+        "TITLE": "הוסף נציג",
+        "BODY": "הוסף נציגים לתיבת הדואר הנכנס שנוצרה."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "אתם מוכנים לצאת לדרך!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "אתם מוכנים לצאת לדרך!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "שם תיבת הדואר הנכנס",
@@ -46,7 +43,17 @@
         "INBOX_NAME": "שם תיבת הדואר הנכנס",
         "ADD_NAME": "הוסף שם לתיבת הדואר הנכנס שלך",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "בחר ערך"
+        "PICK_A_VALUE": "בחר ערך",
+        "CREATE_INBOX": "צור תיבת דואר נכנס"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "כדי להוסיף את פרופיל הטוויטר שלך כערוץ, עליך לאמת את פרופיל הטוויטר שלך על ידי לחיצה על 'היכנס באמצעות טוויטר' ",
@@ -215,9 +222,16 @@
         "DESC": "התחל לתמוך בלקוחות שלך באמצעות וואטסאפ.",
         "PROVIDERS": {
           "LABEL": "ספק API",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "טוויליו",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "שם תיבת הדואר הנכנס",
@@ -257,8 +271,77 @@
           "WEBHOOK_VERIFICATION_TOKEN": "אסימון אימות Webhook"
         },
         "SUBMIT_BUTTON": "צור ערוץ וואטסאפ",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick setup with Meta",
+          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "LINK_TEXT": "this link"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp Signup was cancelled",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "Waiting for authentication...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "Signup error occurred",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_LINK_TEXT": "manual setup flow"
+        },
         "API": {
           "ERROR_MESSAGE": "לא הצלחנו לשמור את ערוץ הוואטסאפ"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Channel",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "מספר טלפון",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "חשבון SID",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "Auth Token",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API Key SID",
+            "PLACEHOLDER": "Enter your Twilio API Key SID",
+            "REQUIRED": "API Key SID is required"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API Key Secret",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+        },
+        "SUBMIT_BUTTON": "Create Voice Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to create the voice channel"
         }
       },
       "API_CHANNEL": {
@@ -342,7 +425,51 @@
       },
       "AUTH": {
         "TITLE": "בחר ערוץ",
-        "DESC": "אנו תומכים בווידג'ט של צ'אט חי, עמוד פייסבוק, פרופיל טוויטר, WhatsApp, דוא\"ל וכו', כערוצי תקשורת. אם אתה רוצה לבנות ערוץ מותאם אישית, אתה יכול ליצור אותו באמצעות ערוץ ה-API. בחר ערוץ אחד מהאפשרויות מטה כדי להמשיך."
+        "DESC": "אנו תומכים בווידג'ט של צ'אט חי, עמוד פייסבוק, פרופיל טוויטר, WhatsApp, דוא\"ל וכו', כערוצי תקשורת. אם אתה רוצה לבנות ערוץ מותאם אישית, אתה יכול ליצור אותו באמצעות ערוץ ה-API. בחר ערוץ אחד מהאפשרויות מטה כדי להמשיך.",
+        "TITLE_NEXT": "Complete the setup",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "Website",
+            "DESCRIPTION": "Create a live-chat widget"
+          },
+          "FACEBOOK": {
+            "TITLE": "פייסבוק",
+            "DESCRIPTION": "Connect your Facebook page"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "אימייל",
+            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Make a custom channel using our API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integrate your Line channel"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connect your instagram account"
+          },
+          "VOICE": {
+            "TITLE": "Voice",
+            "DESCRIPTION": "Integrate with Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "סוכנים",
@@ -367,12 +494,19 @@
         "DESCRIPTION": "לחץ על Sign in with Microsoft בכדי להתחיל. אתה תופנה למסך ההתחברות של Microsoft. ברגע שתאשר את בקשת ההרשאות, תופנה חזרה להגדרות תיבת הדואר.",
         "EMAIL_PLACEHOLDER": "הכנס כתובת דוא\"ל",
         "SIGN_IN": "Sign in with Microsoft",
-        "HELP": "בכדי להוסיף חשבון Microsoft כערוץ, עליך להתחבר לחשבונך ע\"י לחיצה על 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "אירעה שגיאה בהתחברות ל- Microsoft, אנא נסה שנית"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "הכנס כתובת דוא\"ל",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "מאמת אותך עם פייסבוק...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "משהו השתבש, אנא רענן את הדף...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -389,7 +523,10 @@
       "MESSAGE": "כעת תוכל ליצור קשר עם הלקוחות שלך דרך הערוץ החדש שלך. תמיכה שמחה",
       "BUTTON_TEXT": "קח אותי לשם",
       "MORE_SETTINGS": "הגדרות נוספות",
-      "WEBSITE_SUCCESS": "סיימת בהצלחה ליצור ערוץ אתר אינטרנט. העתק את הקוד המוצג למטה והדבק אותו באתר שלך. בפעם הבאה שלקוח ישתמש בצ'אט החי, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך."
+      "WEBSITE_SUCCESS": "סיימת בהצלחה ליצור ערוץ אתר אינטרנט. העתק את הקוד המוצג למטה והדבק אותו באתר שלך. בפעם הבאה שלקוח ישתמש בצ'אט החי, השיחה תופיע אוטומטית בתיבת הדואר הנכנס שלך.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "הרשאה מחדש",
     "VIEW": "צפה",
@@ -467,7 +604,8 @@
       "PRE_CHAT_FORM": "טופס צ'אט מקדים",
       "BUSINESS_HOURS": "שעות פעילות",
       "WIDGET_BUILDER": "בונה יישומונים",
-      "BOT_CONFIGURATION": "הגדרות בוט"
+      "BOT_CONFIGURATION": "הגדרות בוט",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "הגדרות",
     "FEATURES": {
@@ -480,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "סקריפט מסנג'ר",
       "MESSENGER_SUB_HEAD": "מקם את הכפתור הזה בתוך תג הגוף שלך",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "סוכנים",
       "INBOX_AGENTS_SUB_TEXT": "הוסף או הסר נציגים מתיבת הדואר הנכנס הזו",
       "AGENT_ASSIGNMENT": "שיוך שיחה",
@@ -488,9 +631,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "אפשר תיבת איסוף דוא\"ל",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "הפעל או השבת את תיבת איסוף הדוא\"ל בשיחה חדשה",
       "AUTO_ASSIGNMENT": "אפשר הקצאה אוטומטית",
-      "ENABLE_CSAT": "אפשר CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "הפעל/השבת סקר CSAT (שביעות רצון לקוחות) לאחר פתרון שיחה",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "אפשר המשך שיחה באמצעות הדוא\"ל",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "שיחות ימשיכו באמצעות הדוא\"ל אם לאיש הקשר קיימת כתובת דוא\"ל תקנית.",
@@ -516,8 +657,27 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "עדכון מפתח API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "הזן את מפתח ה-API החדש כאן",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "עדכן",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure",
+      "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "התחבר",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "אסימון אימות Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "עדכון הגדרות טופס טרום צ'אט"
     },
     "HELP_CENTER": {
@@ -562,6 +722,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "המבקרים צריכים לספק את שמם וכתובת האימייל שלהם לפני תחילת הצ'אט"
+      }
+    },
+    "CSAT": {
+      "TITLE": "אפשר CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "הודעה",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "מכיל",
+          "DOES_NOT_CONTAINS": "לא מכיל"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -735,8 +921,32 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "מיקרוסופט",
-      "OTHER_PROVIDERS": "ספקים אחרים"
+      "MICROSOFT": {
+        "TITLE": "מיקרוסופט",
+        "DESCRIPTION": "Connect with Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connect with Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "ספקים אחרים",
+        "DESCRIPTION": "Connect with Other Providers"
+      }
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "טוויטר",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "אימייל",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "ערוץ API",
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

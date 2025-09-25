@@ -47,14 +47,43 @@ describe('#mutations', () => {
   });
 
   describe('#ARTICLES_META', () => {
+    beforeEach(() => {
+      state.meta = {};
+    });
+
     it('add meta to state', () => {
       mutations[types.SET_ARTICLES_META](state, {
         articles_count: 3,
         current_page: 1,
       });
       expect(state.meta).toEqual({
-        count: 3,
-        currentPage: 1,
+        articles_count: 3,
+        current_page: 1,
+      });
+    });
+
+    it('preserves existing meta values and updates only provided keys', () => {
+      state.meta = {
+        all_articles_count: 56,
+        archived_articles_count: 5,
+        articles_count: 56,
+        current_page: '1',
+        draft_articles_count: 26,
+        published_count: 25,
+      };
+
+      mutations[types.SET_ARTICLES_META](state, {
+        articles_count: 3,
+        draft_articles_count: 27,
+      });
+
+      expect(state.meta).toEqual({
+        all_articles_count: 56,
+        archived_articles_count: 5,
+        current_page: '1',
+        articles_count: 3,
+        draft_articles_count: 27,
+        published_count: 25,
       });
     });
   });
@@ -71,22 +100,36 @@ describe('#mutations', () => {
   });
 
   describe('#UPDATE_ARTICLE', () => {
-    it('does not updates if empty object is passed', () => {
+    it('does not update if empty object is passed', () => {
       mutations[types.UPDATE_ARTICLE](state, {});
       expect(state).toEqual(article);
     });
-    it('does not updates if object id is not present ', () => {
+
+    it('does not update if object id is not present in the state', () => {
       mutations[types.UPDATE_ARTICLE](state, { id: 5 });
       expect(state).toEqual(article);
     });
-    it(' updates if object with id already present in the state', () => {
-      mutations[types.UPDATE_ARTICLE](state, {
+
+    it('updates if object with id is already present in the state', () => {
+      const updatedArticle = {
         id: 2,
-        title: 'How do I change my registered email address',
-      });
-      expect(state.articles.byId[2].title).toEqual(
-        'How do I change my registered email address'
-      );
+        title: 'Updated Title',
+        content: 'Updated Content',
+      };
+      mutations[types.UPDATE_ARTICLE](state, updatedArticle);
+      expect(state.articles.byId[2].title).toEqual('Updated Title');
+      expect(state.articles.byId[2].content).toEqual('Updated Content');
+    });
+
+    it('preserves the original position when updating an article', () => {
+      const originalPosition = state.articles.byId[2].position;
+      const updatedArticle = {
+        id: 2,
+        title: 'Updated Title',
+        content: 'Updated Content',
+      };
+      mutations[types.UPDATE_ARTICLE](state, updatedArticle);
+      expect(state.articles.byId[2].position).toEqual(originalPosition);
     });
   });
 
@@ -107,9 +150,7 @@ describe('#mutations', () => {
       expect(state.articles.allIds).toEqual([]);
       expect(state.articles.byId).toEqual({});
       expect(state.articles.uiFlags).toEqual({
-        byId: {
-          1: { isFetching: false, isUpdating: true, isDeleting: false },
-        },
+        byId: {},
       });
     });
   });

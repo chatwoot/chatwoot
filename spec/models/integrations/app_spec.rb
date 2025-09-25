@@ -51,17 +51,38 @@ RSpec.describe Integrations::App do
       end
     end
 
-    context 'when the app is linear' do
-      let(:app_name) { 'linear' }
+    context 'when the app is shopify' do
+      let(:app_name) { 'shopify' }
 
-      it 'returns true if the linear integration feature is disabled' do
+      it 'returns true if the shopify integration feature is enabled' do
+        account.enable_features('shopify_integration')
+        allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return('client_id')
+        expect(app.active?(account)).to be true
+      end
+
+      it 'returns false if the shopify integration feature is disabled' do
+        allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return('client_id')
         expect(app.active?(account)).to be false
       end
 
-      it 'returns false if the linear integration feature is enabled' do
+      it 'returns false if SHOPIFY_CLIENT_ID is not present, even if feature is enabled' do
+        account.enable_features('shopify_integration')
+        allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return(nil)
+        expect(app.active?(account)).to be false
+      end
+    end
+
+    context 'when the app is linear' do
+      let(:app_name) { 'linear' }
+
+      it 'returns false if the linear integration feature is disabled' do
+        expect(app.active?(account)).to be false
+      end
+
+      it 'returns true if the linear integration feature is enabled' do
         account.enable_features('linear_integration')
         account.save!
-
+        allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_ID', nil).and_return('client_id')
         expect(app.active?(account)).to be true
       end
     end

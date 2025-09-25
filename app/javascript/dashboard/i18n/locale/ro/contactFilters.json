@@ -30,6 +30,9 @@
       "is_lesser_than": "Este mai mică decât",
       "days_before": "Este x zile înainte"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Este necesară o valoare validă"
+    },
     "ATTRIBUTES": {
       "NAME": "Nume",
       "EMAIL": "Email",
@@ -45,7 +48,8 @@
       "CREATED_AT": "Creat la",
       "LAST_ACTIVITY": "Ultima activitate",
       "REFERER_LINK": "Link de referință",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Etichete"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtre standard",

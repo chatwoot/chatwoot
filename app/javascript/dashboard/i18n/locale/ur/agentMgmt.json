@@ -18,7 +18,8 @@
       "STATUS": "اسٹیٹس",
       "ACTIONS": "عمل",
       "VERIFIED": "تصدیق شدہ",
-      "VERIFICATION_PENDING": "تصدیق زیر التواء"
+      "VERIFICATION_PENDING": "تصدیق زیر التواء",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "اپنی ٹیم میں ایجنٹ شامل کریں۔",
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "ایجنٹ منتخب کریں۔",
         "TEAM": "ٹیم منتخب کریں۔"
+      },
+      "LIST": {
+        "NONE": "کوئی نہیں۔"
       },
       "SEARCH": {
         "NO_RESULTS": {

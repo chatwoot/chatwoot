@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import types from '../mutation-types';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
@@ -76,7 +75,10 @@ export const mutations = {
   },
 
   [types.SET_CONVERSATION_PARTICIPANTS]($state, { data, conversationId }) {
-    Vue.set($state.records, conversationId, data);
+    $state.records = {
+      ...$state.records,
+      [conversationId]: data,
+    };
   },
 };
 

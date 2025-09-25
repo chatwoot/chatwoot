@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, defineComponent } from 'vue';
+import { ref, computed, defineOptions } from 'vue';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
@@ -14,7 +14,7 @@ const props = defineProps({
 
 const emit = defineEmits(['change']);
 
-defineComponent({
+defineOptions({
   name: 'SearchableDropdown',
 });
 
@@ -50,9 +50,10 @@ const selectedItemId = computed(() => selectedItem.value?.id || null);
     <label class="w-full" :class="{ error: hasError }">
       {{ label }}
       <FilterButton
-        right-icon="chevron-down"
+        trailing-icon
+        icon="i-lucide-chevron-down"
         :button-text="selectedItemName"
-        class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
+        class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6"
         @click="toggleDropdown"
       >
         <template v-if="shouldShowDropdown" #dropdown>
@@ -64,7 +65,7 @@ const selectedItemId = computed(() => selectedItem.value?.id || null);
             :input-placeholder="placeholder"
             enable-search
             class="left-0 flex flex-col w-full overflow-y-auto h-fit !max-h-[160px] md:left-auto md:right-0 top-10"
-            @click="onSelect"
+            @select="onSelect"
           />
         </template>
       </FilterButton>

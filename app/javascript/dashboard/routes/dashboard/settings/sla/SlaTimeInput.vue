@@ -21,6 +21,7 @@ export default {
       default: '',
     },
   },
+  emits: ['unit', 'isInValid', 'updateThreshold'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -73,7 +74,10 @@ export default {
       this.v$.thresholdTime.$touch();
       const isInvalid = this.v$.thresholdTime.$invalid;
       this.$emit('isInValid', isInvalid);
-      this.$emit('input', Number(this.thresholdTime));
+      this.$emit(
+        'updateThreshold',
+        this.thresholdTime ? Number(this.thresholdTime) : null
+      );
     },
   },
 };
@@ -83,23 +87,24 @@ export default {
   <div class="flex items-center w-full gap-3">
     <woot-input
       v-model="thresholdTime"
+      type="number"
       :class="{ error: v$.thresholdTime.$error }"
       class="flex-grow"
       :styles="{
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
+        borderRadius: '0.75rem',
+        padding: '0.375rem 0.75rem',
+        fontSize: '0.875rem',
       }"
       :label="label"
       :placeholder="placeholder"
       :error="thresholdTimeErrorMessage"
-      @input="onThresholdTimeChange"
+      @update:model-value="onThresholdTimeChange"
     />
     <!-- the mt-7 handles the label offset -->
     <div class="mt-7">
       <select
         v-model="thresholdUnitValue"
-        class="px-4 py-1.5 min-w-[6.5rem] h-10 text-sm font-medium border-0 bg-slate-50 rounded-xl hover:cursor-pointer pr-7 text-slate-800 dark:text-slate-300"
+        class="px-4 py-1.5 min-w-[6.5rem] h-10 text-sm font-medium border-0 rounded-xl hover:cursor-pointer pr-7"
         @change="onThresholdUnitChange"
       >
         <option

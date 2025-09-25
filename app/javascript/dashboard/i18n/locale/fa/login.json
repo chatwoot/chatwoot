@@ -3,7 +3,7 @@
     "TITLE": "ورود به چت ووت",
     "EMAIL": {
       "LABEL": "ایمیل",
-      "PLACEHOLDER": "ایمیل به عنوان مثال: someone@example.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
     },
     "PASSWORD": {
@@ -22,6 +22,20 @@
     },
     "FORGOT_PASSWORD": "رمز عبورتان را فراموش کردید؟",
     "CREATE_NEW_ACCOUNT": "حساب جدید بسازید",
-    "SUBMIT": "ورود"
+    "SUBMIT": "ورود",
+    "SAML": {
+      "LABEL": "Log in via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
   }
 }

@@ -1,22 +1,38 @@
 <script>
+import { mapActions } from 'vuex';
+import { useRouter } from 'vue-router';
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
-import routerMixin from '../mixins/routerMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
     PreChatForm,
   },
-  mixins: [configMixin, routerMixin],
+  mixins: [configMixin],
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
   mounted() {
-    this.$emitter.on(ON_CONVERSATION_CREATED, () => {
-      // Redirect to messages page after conversation is created
-      this.replaceRoute('messages');
-    });
+    // Register event listener for conversation creation
+    emitter.on(ON_CONVERSATION_CREATED, this.handleConversationCreated);
+  },
+  beforeUnmount() {
+    emitter.off(ON_CONVERSATION_CREATED, this.handleConversationCreated);
   },
   methods: {
+    ...mapActions('conversation', ['clearConversations']),
+    ...mapActions('conversationAttributes', ['clearConversationAttributes']),
+    handleConversationCreated() {
+      // Redirect to messages page after conversation is created
+      this.router.replace({ name: 'messages' });
+      // Only after successful navigation, reset the isUpdatingRoute UIflag in app/javascript/widget/router.js
+      // See issue: https://github.com/chatwoot/chatwoot/issues/10736
+    },
+
     onSubmit({
       fullName,
       emailAddress,
@@ -27,7 +43,7 @@ export default {
       conversationCustomAttributes,
     }) {
       if (activeCampaignId) {
-        this.$emitter.emit('execute-campaign', {
+        emitter.emit('execute-campaign', {
           campaignId: activeCampaignId,
           customAttributes: conversationCustomAttributes,
         });
@@ -39,6 +55,8 @@ export default {
           },
         });
       } else {
+        this.clearConversations();
+        this.clearConversationAttributes();
         this.$store.dispatch('conversation/createConversation', {
           fullName: fullName,
           emailAddress: emailAddress,
@@ -60,6 +78,6 @@ export default {
 
 <template>
   <div class="flex flex-1 overflow-auto">
-    <PreChatForm :options="preChatFormOptions" @submit="onSubmit" />
+    <PreChatForm :options="preChatFormOptions" @submit-pre-chat="onSubmit" />
   </div>
 </template>

@@ -10,11 +10,11 @@
       "404": "Er zijn geen labels beschikbaar in dit account.",
       "TITLE": "Beheer labels",
       "DESC": "Labels laten je gesprekken groeperen.",
-      "TABLE_HEADER": [
-        "Naam",
-        "Beschrijving",
-        "Kleur"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Naam",
+        "DESCRIPTION": "Beschrijving",
+        "COLOR": "Kleur"
+      }
     },
     "FORM": {
       "NAME": {

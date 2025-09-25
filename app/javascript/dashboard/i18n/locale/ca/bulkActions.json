@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} converses seleccionades",
+    "CONVERSATIONS_SELECTED": "{conversationCount} converses seleccionades",
     "AGENT_SELECT_LABEL": "Seleccionar Agent",
-    "ASSIGN_CONFIRMATION_LABEL": "Estas segur d'assignar %{conversationCount} %{conversationLabel} a",
-    "UNASSIGN_CONFIRMATION_LABEL": "Estàs segur de desassignar %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Estas segur d'assignar {conversationCount} {conversationLabel} a",
+    "UNASSIGN_CONFIRMATION_LABEL": "Estàs segur de desassignar {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Torna",
     "ASSIGN_LABEL": "Assignar",
     "YES": "Si",

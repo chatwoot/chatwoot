@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "已选择 %{conversationCount} 个对话",
+    "CONVERSATIONS_SELECTED": "已选择 {conversationCount} 个对话",
     "AGENT_SELECT_LABEL": "选择客服代表",
-    "ASSIGN_CONFIRMATION_LABEL": "您确定要将 %{conversationCount} 个 %{conversationLabel} 分配给",
-    "UNASSIGN_CONFIRMATION_LABEL": "您确定要取消分配 %{conversationCount} 个 %{conversationLabel} 吗？",
+    "ASSIGN_CONFIRMATION_LABEL": "您确定要将 {conversationCount} 个 {conversationLabel} 分配给",
+    "UNASSIGN_CONFIRMATION_LABEL": "您确定要取消分配 {conversationCount} 个 {conversationLabel} 吗？",
     "GO_BACK_LABEL": "返回",
     "ASSIGN_LABEL": "分配",
     "YES": "是",

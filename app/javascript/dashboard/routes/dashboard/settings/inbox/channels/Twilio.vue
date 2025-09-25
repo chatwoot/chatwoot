@@ -5,9 +5,14 @@ import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
 import router from '../../../../index';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     type: {
       type: String,
@@ -80,7 +85,7 @@ export default {
           'inboxes/createTwilioChannel',
           {
             twilio_channel: {
-              name: this.channelName,
+              name: this.channelName?.trim(),
               medium: this.medium,
               account_sid: this.accountSID,
               api_key_sid: this.apiKeySID,
@@ -101,7 +106,10 @@ export default {
           },
         });
       } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.ADD.TWILIO.API.ERROR_MESSAGE'));
+        const errorMessage =
+          parseAPIErrorResponse(error) ||
+          this.$t('INBOX_MGMT.ADD.TWILIO.API.ERROR_MESSAGE');
+        useAlert(errorMessage);
       }
     },
   },
@@ -109,12 +117,12 @@ export default {
 </script>
 
 <template>
-  <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+  <form class="flex flex-wrap flex-col mx-0" @submit.prevent="createChannel()">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.channelName.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.LABEL') }}
         <input
-          v-model.trim="channelName"
+          v-model="channelName"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.TWILIO.CHANNEL_NAME.PLACEHOLDER')"
           @blur="v$.channelName.$touch"
@@ -125,14 +133,14 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label
         v-if="useMessagingService"
         :class="{ error: v$.messagingServiceSID.$error }"
       >
         {{ $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.LABEL') }}
         <input
-          v-model.trim="messagingServiceSID"
+          v-model="messagingServiceSID"
           type="text"
           :placeholder="
             $t('INBOX_MGMT.ADD.TWILIO.MESSAGING_SERVICE_SID.PLACEHOLDER')
@@ -145,14 +153,11 @@ export default {
       </label>
     </div>
 
-    <div
-      v-if="!useMessagingService"
-      class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]"
-    >
+    <div v-if="!useMessagingService" class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.LABEL') }}
         <input
-          v-model.trim="phoneNumber"
+          v-model="phoneNumber"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.TWILIO.PHONE_NUMBER.PLACEHOLDER')"
           @blur="v$.phoneNumber.$touch"
@@ -179,11 +184,11 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.accountSID.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.LABEL') }}
         <input
-          v-model.trim="accountSID"
+          v-model="accountSID"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
           @blur="v$.accountSID.$touch"
@@ -204,11 +209,11 @@ export default {
         {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.USE_API_KEY') }}
       </label>
     </div>
-    <div v-if="useAPIKey" class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div v-if="useAPIKey" class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.apiKeySID.$error }">
         {{ $t('INBOX_MGMT.ADD.TWILIO.API_KEY.LABEL') }}
         <input
-          v-model.trim="apiKeySID"
+          v-model="apiKeySID"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.TWILIO.API_KEY.PLACEHOLDER')"
           @blur="v$.apiKeySID.$touch"
@@ -218,11 +223,11 @@ export default {
         }}</span>
       </label>
     </div>
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.authToken.$error }">
         {{ $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.LABEL`) }}
         <input
-          v-model.trim="authToken"
+          v-model="authToken"
           type="text"
           :placeholder="
             $t(`INBOX_MGMT.ADD.TWILIO.${authTokeni18nKey}.PLACEHOLDER`)
@@ -235,10 +240,13 @@ export default {
       </label>
     </div>
 
-    <div class="w-full">
-      <woot-submit-button
-        :loading="uiFlags.isCreating"
-        :button-text="$t('INBOX_MGMT.ADD.TWILIO.SUBMIT_BUTTON')"
+    <div class="w-full mt-4">
+      <NextButton
+        :is-loading="uiFlags.isCreating"
+        type="submit"
+        solid
+        blue
+        :label="$t('INBOX_MGMT.ADD.TWILIO.SUBMIT_BUTTON')"
       />
     </div>
   </form>

@@ -1,18 +1,27 @@
 <script>
+import { mapGetters } from 'vuex';
+import { useReportMetrics } from 'dashboard/composables/useReportMetrics';
 import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { formatTime } from '@chatwoot/utils';
-import reportMixin from 'dashboard/mixins/reportMixin';
 import ChartStats from './components/ChartElements/ChartStats.vue';
+import BarChart from 'shared/components/charts/BarChart.vue';
 
 export default {
-  components: { ChartStats },
-  mixins: [reportMixin],
+  components: { ChartStats, BarChart },
   props: {
     groupBy: {
       type: Object,
       default: () => ({}),
+    },
+    accountSummaryKey: {
+      type: String,
+      default: 'getAccountSummary',
+    },
+    summaryFetchingKey: {
+      type: String,
+      default: 'getAccountSummaryFetchingStatus',
     },
     reportKeys: {
       type: Object,
@@ -27,7 +36,16 @@ export default {
       }),
     },
   },
+  setup(props) {
+    const { calculateTrend, isAverageMetricType } = useReportMetrics(
+      props.accountSummaryKey
+    );
+    return { calculateTrend, isAverageMetricType };
+  },
   computed: {
+    ...mapGetters({
+      accountReport: 'getAccountReports',
+    }),
     metrics() {
       const reportKeys = Object.keys(this.reportKeys);
       const infoText = {
@@ -77,14 +95,14 @@ export default {
           case 'bar':
             return {
               ...dataset,
-              yAxisID: 'y-left',
+              yAxisID: 'y',
               label: metric.NAME,
               data: data.map(element => element.value),
             };
           case 'line':
             return {
               ...dataset,
-              yAxisID: 'y-right',
+              yAxisID: 'y',
               label: this.metrics[0].NAME,
               data: data.map(element => element.count),
             };
@@ -98,22 +116,28 @@ export default {
       };
     },
     getChartOptions(metric) {
-      let tooltips = {};
+      const options = {
+        scales: METRIC_CHART[metric.KEY].scales,
+      };
+
+      // Only add tooltip configuration for time-based metrics
       if (this.isAverageMetricType(metric.KEY)) {
-        tooltips.callbacks = {
-          label: tooltipItem => {
-            return this.$t(metric.TOOLTIP_TEXT, {
-              metricValue: formatTime(tooltipItem.yLabel),
-              conversationCount:
-                this.accountReport.data[metric.KEY][tooltipItem.index].count,
-            });
+        options.plugins = {
+          tooltip: {
+            callbacks: {
+              label: ({ raw, dataIndex }) => {
+                return this.$t(metric.TOOLTIP_TEXT, {
+                  metricValue: formatTime(raw || 0),
+                  conversationCount:
+                    this.accountReport.data[metric.KEY][dataIndex]?.count || 0,
+                });
+              },
+            },
           },
         };
       }
-      return {
-        scales: METRIC_CHART[metric.KEY].scales,
-        tooltips: tooltips,
-      };
+
+      return options;
     },
   },
 };
@@ -121,28 +145,31 @@ export default {
 
 <template>
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-white dark:bg-slate-800 p-2 border border-slate-100 dark:border-slate-700 rounded-md"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 px-6 py-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
     <div
       v-for="metric in metrics"
       :key="metric.KEY"
-      class="p-4 rounded-md mb-3"
+      class="p-4 mb-3 rounded-md"
     >
-      <ChartStats :metric="metric" :account-summary-key="accountSummaryKey" />
+      <ChartStats
+        :metric="metric"
+        :account-summary-key="accountSummaryKey"
+        :summary-fetching-key="summaryFetchingKey"
+      />
       <div class="mt-4 h-72">
         <woot-loading-state
           v-if="accountReport.isFetching[metric.KEY]"
           class="text-xs"
           :message="$t('REPORT.LOADING_CHART')"
         />
-        <div v-else class="h-72 flex items-center justify-center">
-          <woot-bar
+        <div v-else class="flex items-center justify-center h-72">
+          <BarChart
             v-if="accountReport.data[metric.KEY].length"
             :collection="getCollection(metric)"
             :chart-options="getChartOptions(metric)"
-            class="h-72 w-full"
           />
-          <span v-else class="text-sm text-slate-600">
+          <span v-else class="text-sm text-n-slate-10">
             {{ $t('REPORT.NO_ENOUGH_DATA') }}
           </span>
         </div>

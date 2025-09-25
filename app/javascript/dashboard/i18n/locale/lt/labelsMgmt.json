@@ -10,11 +10,11 @@
       "404": "Šioje paskyroje nėra galimų etikečių.",
       "TITLE": "Tvarkyti etiketes",
       "DESC": "Etiketės leidžia grupuoti pokalbius kartu.",
-      "TABLE_HEADER": [
-        "Vardas",
-        "Aprašymas",
-        "Spalva"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Vardas",
+        "DESCRIPTION": "Aprašymas",
+        "COLOR": "Spalva"
+      }
     },
     "FORM": {
       "NAME": {

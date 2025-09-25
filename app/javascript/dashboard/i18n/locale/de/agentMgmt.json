@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Aktionen",
       "VERIFIED": "Verifiziert",
-      "VERIFICATION_PENDING": "Überprüfung ausstehend"
+      "VERIFICATION_PENDING": "Überprüfung ausstehend",
+      "AVAILABLE_CUSTOM_ROLE": "Verfügbare Berechtigungen der benutzerdefinierten Rolle"
     },
     "ADD": {
       "TITLE": "Fügen Sie Ihrem Team einen Agenten hinzu",
@@ -77,7 +78,7 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Verfügbarkeit",
-          "PLACEHOLDER": "Bitte wählen Sie den Online Status",
+          "PLACEHOLDER": "Bitte wählen Sie Ihre Verfügbarkeit aus",
           "ERROR": "Verfügbarkeit ist erforderlich"
         },
         "SUBMIT": "Agent bearbeiten"
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "Agent auswählen",
         "TEAM": "Team auswählen"
+      },
+      "LIST": {
+        "NONE": "Keine"
       },
       "SEARCH": {
         "NO_RESULTS": {

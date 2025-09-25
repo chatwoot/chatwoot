@@ -10,11 +10,11 @@
       "404": "Nincs megfelelő mentett válasz ebben a fiókban.",
       "TITLE": "Mentett válaszok kezelése",
       "DESC": "A sablon válaszok előre definiáltak, amelyek segítségével gyorsan küldhet válaszokat a beszélgetésekre.",
-      "TABLE_HEADER": [
-        "Rövid kód",
-        "Tartalom",
-        "Műveletek"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Rövid kód",
+        "CONTENT": "Tartalom",
+        "ACTIONS": "Műveletek"
+      }
     },
     "ADD": {
       "TITLE": "Sablon válasz hozzáadása",

@@ -1,9 +1,14 @@
 class Instagram::WebhooksBaseService
+  attr_reader :channel
+
+  def initialize(channel)
+    @channel = channel
+  end
+
   private
 
-  def inbox_channel(instagram_id)
-    messenger_channel = Channel::FacebookPage.where(instagram_id: instagram_id)
-    @inbox = ::Inbox.find_by(channel: messenger_channel)
+  def inbox_channel(_instagram_id)
+    @inbox = ::Inbox.find_by(channel: @channel)
   end
 
   def find_or_create_contact(user)
@@ -24,9 +29,31 @@ class Instagram::WebhooksBaseService
   def update_instagram_profile_link(user)
     return unless user['username']
 
-    # TODO: Remove this once we show the social_instagram_user_name in the UI instead of the username
-    @contact.additional_attributes = @contact.additional_attributes.merge({ 'social_profiles': { 'instagram': user['username'] } })
-    @contact.additional_attributes = @contact.additional_attributes.merge({ 'social_instagram_user_name': user['username'] })
-    @contact.save
+    instagram_attributes = build_instagram_attributes(user)
+    @contact.update!(additional_attributes: @contact.additional_attributes.merge(instagram_attributes))
+  end
+
+  def build_instagram_attributes(user)
+    attributes = {
+      # TODO: Remove this once we show the social_instagram_user_name in the UI instead of the username
+      'social_profiles': { 'instagram': user['username'] },
+      'social_instagram_user_name': user['username']
+    }
+
+    # Add optional attributes if present
+    optional_fields = %w[
+      follower_count
+      is_user_follow_business
+      is_business_follow_user
+      is_verified_user
+    ]
+
+    optional_fields.each do |field|
+      next if user[field].nil?
+
+      attributes["social_instagram_#{field}"] = user[field]
+    end
+
+    attributes
   end
 end

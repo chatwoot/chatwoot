@@ -2,13 +2,18 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import router from '../../../../index';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
     PageHeader,
     GreetingsEditor,
+    NextButton,
+    Editor,
   },
   data() {
     return {
@@ -19,6 +24,7 @@ export default {
       channelWelcomeTagline: '',
       greetingEnabled: false,
       greetingMessage: '',
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -41,7 +47,7 @@ export default {
         const website = await this.$store.dispatch(
           'inboxes/createWebsiteChannel',
           {
-            name: this.inboxName,
+            name: this.inboxName?.trim(),
             greeting_enabled: this.greetingEnabled,
             greeting_message: this.greetingMessage,
             channel: {
@@ -72,9 +78,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
-  >
+  <div class="h-full w-full p-6 col-span-6">
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DESC')"
@@ -85,14 +89,14 @@ export default {
     />
     <form
       v-if="!uiFlags.isCreating"
-      class="flex flex-wrap mx-0"
+      class="flex flex-wrap flex-col mx-0"
       @submit.prevent="createChannel"
     >
       <div class="w-full">
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL') }}
           <input
-            v-model.trim="inboxName"
+            v-model="inboxName"
             type="text"
             :placeholder="$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER')"
           />
@@ -102,7 +106,7 @@ export default {
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL') }}
           <input
-            v-model.trim="channelWebsiteUrl"
+            v-model="channelWebsiteUrl"
             type="text"
             :placeholder="
               $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
@@ -122,7 +126,7 @@ export default {
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL') }}
           <input
-            v-model.trim="channelWelcomeTitle"
+            v-model="channelWelcomeTitle"
             type="text"
             :placeholder="
               $t(
@@ -132,22 +136,21 @@ export default {
           />
         </label>
       </div>
-      <div class="w-full">
-        <label>
-          {{
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
-          }}
-          <input
-            v-model.trim="channelWelcomeTagline"
-            type="text"
-            :placeholder="
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
-              )
-            "
-          />
-        </label>
-      </div>
+      <Editor
+        v-model="channelWelcomeTagline"
+        :label="
+          $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
+        "
+        :placeholder="
+          $t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+          )
+        "
+        :max-length="255"
+        :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+        class="mb-4"
+      />
+
       <label class="w-full">
         {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL') }}
         <select v-model="greetingEnabled">
@@ -176,7 +179,7 @@ export default {
       </label>
       <GreetingsEditor
         v-if="greetingEnabled"
-        v-model.trim="greetingMessage"
+        v-model="greetingMessage"
         class="w-full"
         :label="
           $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
@@ -188,12 +191,15 @@ export default {
         "
         :richtext="!textAreaChannels"
       />
-      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2 mt-4">
         <div class="w-full">
-          <woot-submit-button
-            :loading="uiFlags.isCreating"
+          <NextButton
+            type="submit"
+            :is-loading="uiFlags.isCreating"
             :disabled="!channelWebsiteUrl || !inboxName"
-            :button-text="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
+            solid
+            blue
+            :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
           />
         </div>
       </div>

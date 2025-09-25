@@ -13,6 +13,7 @@ export default {
       default: () => GROUP_BY_OPTIONS.DAY,
     },
   },
+  emits: ['onGroupingChange'],
   data() {
     return {
       currentSelectedFilter: null,
@@ -47,7 +48,7 @@ export default {
 
 <template>
   <div class="multiselect-wrap--small">
-    <p aria-hidden="true" class="hide">
+    <p aria-hidden="true" class="hidden">
       {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
     </p>
     <multiselect

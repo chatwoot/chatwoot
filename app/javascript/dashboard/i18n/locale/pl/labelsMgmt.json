@@ -10,11 +10,11 @@
       "404": "Brak etykiet na tym koncie.",
       "TITLE": "Zarządzaj etykietami",
       "DESC": "Etykiety pozwalają na grupowanie rozmów razem.",
-      "TABLE_HEADER": [
-        "Nazwa",
-        "Opis",
-        "Kolor"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "DESCRIPTION": "Opis",
+        "COLOR": "Kolor"
+      }
     },
     "FORM": {
       "NAME": {

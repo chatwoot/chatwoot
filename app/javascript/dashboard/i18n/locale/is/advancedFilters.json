@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "Equal to",
       "not_equal_to": "Not equal to",
-      "contains": "Contains",
       "does_not_contain": "Does not contain",
       "is_present": "Is present",
       "is_not_present": "Is not present",
       "is_greater_than": "Is greater than",
       "is_less_than": "Is lesser than",
       "days_before": "Is x days before",
-      "starts_with": "Starts with"
+      "starts_with": "Starts with",
+      "equalTo": "Equal to",
+      "notEqualTo": "Not equal to",
+      "contains": "Contains",
+      "doesNotContain": "Does not contain",
+      "isPresent": "Is present",
+      "isNotPresent": "Is not present",
+      "isGreaterThan": "Is greater than",
+      "isLessThan": "Is lesser than",
+      "daysBefore": "Is x days before",
+      "startsWith": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -54,6 +63,12 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created at",
       "LAST_ACTIVITY": "Last activity"
+    },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Value is required",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

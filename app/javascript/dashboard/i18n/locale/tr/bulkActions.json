@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} konuşma seçildi",
+    "CONVERSATIONS_SELECTED": "{conversationCount} konuşma seçildi",
     "AGENT_SELECT_LABEL": "Temsilci seçin",
-    "ASSIGN_CONFIRMATION_LABEL": "%{conversationCount} %{conversationLabel} atanacak. Emin misiniz?",
-    "UNASSIGN_CONFIRMATION_LABEL": "%{conversationCount} %{conversationLabel} atanmamış yapılacak. Emin misiniz?",
+    "ASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanacak. Emin misiniz?",
+    "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanmamış yapılacak. Emin misiniz?",
     "GO_BACK_LABEL": "Geri git",
     "ASSIGN_LABEL": "Atama yap",
     "YES": "Evet",

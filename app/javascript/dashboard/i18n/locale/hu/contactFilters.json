@@ -30,6 +30,9 @@
       "is_lesser_than": "Kisebb mint",
       "days_before": "x nappal előtte"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Kötelező megadni"
+    },
     "ATTRIBUTES": {
       "NAME": "Név",
       "EMAIL": "E-mail",
@@ -45,7 +48,8 @@
       "CREATED_AT": "Létrehozva",
       "LAST_ACTIVITY": "Utolsó aktivitás",
       "REFERER_LINK": "Hivatkozás link",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Cimkék"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Alap szűrők",

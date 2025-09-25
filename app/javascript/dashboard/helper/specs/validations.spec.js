@@ -1,46 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  validateConversationOrContactFilters,
-  validateAutomation,
-} from '../validations';
-
-describe('validateConversationOrContactFilters', () => {
-  it('should return no errors for valid filters', () => {
-    const validFilters = [
-      { attribute_key: 'name', filter_operator: 'contains', values: 'John' },
-      { attribute_key: 'email', filter_operator: 'is_present' },
-    ];
-    const errors = validateConversationOrContactFilters(validFilters);
-    expect(errors).toEqual({});
-  });
-
-  it('should return errors for invalid filters', () => {
-    const invalidFilters = [
-      { attribute_key: '', filter_operator: 'contains', values: 'John' },
-      { attribute_key: 'email', filter_operator: '' },
-      { attribute_key: 'age', filter_operator: 'equals' },
-    ];
-    const errors = validateConversationOrContactFilters(invalidFilters);
-    expect(errors).toEqual({
-      filter_0: 'ATTRIBUTE_KEY_REQUIRED',
-      filter_1: 'FILTER_OPERATOR_REQUIRED',
-      filter_2: 'VALUE_REQUIRED',
-    });
-  });
-
-  it('should validate days_before operator correctly', () => {
-    const filters = [
-      { attribute_key: 'date', filter_operator: 'days_before', values: '0' },
-      { attribute_key: 'date', filter_operator: 'days_before', values: '999' },
-      { attribute_key: 'date', filter_operator: 'days_before', values: '500' },
-    ];
-    const errors = validateConversationOrContactFilters(filters);
-    expect(errors).toEqual({
-      filter_0: 'VALUE_MUST_BE_BETWEEN_1_AND_998',
-      filter_1: 'VALUE_MUST_BE_BETWEEN_1_AND_998',
-    });
-  });
-});
+import { validateAutomation } from '../validations';
 
 describe('validateAutomation', () => {
   it('should return no errors for a valid automation', () => {

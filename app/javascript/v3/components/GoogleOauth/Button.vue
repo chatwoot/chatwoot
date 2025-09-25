@@ -1,16 +1,5 @@
 <script>
-import SimpleDivider from '../Divider/SimpleDivider.vue';
-
 export default {
-  components: {
-    SimpleDivider,
-  },
-  props: {
-    showSeparator: {
-      type: Boolean,
-      default: true,
-    },
-  },
   methods: {
     getGoogleAuthUrl() {
       // Ideally a request to /auth/google_oauth2 should be made
@@ -45,18 +34,12 @@ export default {
   <div class="flex flex-col">
     <a
       :href="getGoogleAuthUrl()"
-      class="inline-flex justify-center w-full px-4 py-3 bg-white rounded-md shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-slate-600 hover:bg-slate-50 focus:outline-offset-0 dark:bg-slate-700 dark:hover:bg-slate-700"
+      class="inline-flex justify-center w-full px-4 py-3 bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
     >
-      <img src="/assets/images/auth/google.svg" alt="Google Logo" class="h-6" />
-      <span class="ml-2 text-base font-medium text-slate-600 dark:text-white">
+      <span class="i-logos-google-icon h-6" />
+      <span class="ml-2 text-base font-medium text-n-slate-12">
         {{ $t('LOGIN.OAUTH.GOOGLE_LOGIN') }}
       </span>
     </a>
-    <SimpleDivider
-      v-if="showSeparator"
-      ref="divider"
-      :label="$t('COMMON.OR')"
-      class="uppercase"
-    />
   </div>
 </template>

@@ -12,6 +12,8 @@
     "NO_INBOX_2": " للبدء",
     "NO_INBOX_AGENT": "يبدو أنه لم يتم إسنادك لأي قنوات تواصل بعد. الرجاء التواصل مع المدير لإضافتك لصناديق الوارد الخاصة بقنوات التواصل",
     "SEARCH_MESSAGES": "ابحث عن رسائل في المحادثات",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "لفتح قائمة الأوامر",
       "KEYBOARD_SHORTCUTS": "لعرض اختصارات لوحة المفاتيح"
@@ -30,23 +32,38 @@
     "LOADING_CONVERSATIONS": "جاري جلب المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "لم يتم تعيين هذه المحادثة لك. هل ترغب في تعيين هذه المحادثة لنفسك؟",
     "ASSIGN_TO_ME": "إسناد لي",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "يمكنك فقط الرد على هذه المحادثة باستخدام رسالة قالب بسبب",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تحميل",
     "UNKNOWN_FILE_TYPE": "ملف غير معروف",
-    "SAVE_CONTACT": "حفظ",
+    "SAVE_CONTACT": "Save Contact",
+    "NO_CONTENT": "No content to display",
+    "SHARED_ATTACHMENT": {
+      "CONTACT": "{sender} has shared a contact",
+      "LOCATION": "{sender} has shared a location",
+      "FILE": "{sender} has shared a file",
+      "MEETING": "بدأ {sender} اجتماعاً"
+    },
     "UPLOADING_ATTACHMENTS": "جاري رفع المرفقات...",
     "REPLIED_TO_STORY": "رد على قصتك",
-    "UNSUPPORTED_MESSAGE": "هذه الرسالة غير مدعومة.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "هذه الرسالة غير مدعومة، يمكنك مشاهدة هذه الرسالة على تطبيق فيسبوك (Messenger).",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "هذه الرسالة غير مدعومة، يمكنك عرض هذه الرسالة على تطبيق Instagram.",
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
+    "RESPONSE": "Response",
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
     "REPLY_MESSAGE_NOT_FOUND": "الرسالة غير متوفرة",
@@ -54,10 +71,22 @@
       "SHOW_LABELS": "إظهار السمات",
       "HIDE_LABELS": "إخفاء السمات"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "حل المحادثة",
       "REOPEN_ACTION": "إعادة فتح",
       "OPEN_ACTION": "فتح",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
       "DETAILS": "التفاصيل",
@@ -83,6 +112,10 @@
         "NEXT_WEEK": "الأسبوع القادم"
       }
     },
+    "MENTION": {
+      "AGENTS": "الوكلاء",
+      "TEAMS": "الفرق"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "تأجيل حتى",
       "APPLY": "تأجيل",
@@ -101,14 +134,20 @@
         "SELECT_PLACEHOLDER": "لا يوجد",
         "INPUT_PLACEHOLDER": "تحديد الأولوية",
         "NO_RESULTS": "لم يتم العثور على النتائج",
-        "SUCCESSFUL": "تغيير أولوية معرف المحادثة %{conversationId} إلى %{priority}",
+        "SUCCESSFUL": "تغيير أولوية معرف المحادثة {conversationId} إلى {priority}",
         "FAILED": "تعذر تغيير الأولوية، الرجاء المحاولة مرة أخرى."
       }
+    },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "حذف"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "تحديد كمعلق",
       "RESOLVED": "تحديد كمحلولة",
       "MARK_AS_UNREAD": "وضع علامة كغير مقروء",
+      "MARK_AS_READ": "تحديد كمقروء",
       "REOPEN": "إعادة فتح المحادثة",
       "SNOOZE": {
         "TITLE": "تأجيل",
@@ -120,17 +159,21 @@
       "ASSIGN_LABEL": "إضافة وسم",
       "AGENTS_LOADING": "جاري جلب الوكلاء...",
       "ASSIGN_TEAM": "تعيين فريق",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "معرف المحادثة %{conversationId} تم تعيينه لـ \"%{agentName}\"",
+          "SUCCESFUL": "معرف المحادثة {conversationId} تم تعيينه لـ \"{agentName}\"",
           "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "تعيين تسمية #%{labelName} لمعرف المحادثة %{conversationId}",
+          "SUCCESFUL": "تعيين تسمية ##{labelName} لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "الفريق المعين \"%{team}\" لمعرف المحادثة %{conversationId}",
+          "SUCCESFUL": "الفريق المعين \"{team}\" لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين الفريق. الرجاء المحاولة مرة أخرى."
         }
       }
@@ -143,7 +186,7 @@
       "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للوكلاء فقط",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
       "CLICK_HERE": "انقر هنا للتحديث",
-      "WHATSAPP_TEMPLATES": "قوالب Whatsapp"
+      "WHATSAPP_TEMPLATES": "قوالب الواتساب"
     },
     "REPLYBOX": {
       "REPLY": "إضافة رد",
@@ -194,6 +237,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "تم تعيين الوسم بنجاح",
     "ASSIGN_LABEL_FAILED": "فشل تعيين الوسم",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
@@ -219,6 +264,10 @@
         "DELETE": "حذف",
         "CANCEL": "إلغاء"
       }
+    },
+    "SIDEBAR": {
+      "CONTACT": "جهات الاتصال",
+      "COPILOT": "Copilot"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -239,11 +288,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "اهلاً 👋، مرحباً بك في %{installationName}!",
-    "DESCRIPTION": "شكرا للتسجيل. نريدك أن تحصل على أقصى استفادة من %{installationName}. إليك بعض الأشياء التي يمكنك القيام بها في %{installationName} لجعل التجربة رائعة.",
-    "GREETING_MORNING": "👋 Good morning, %{name}. Welcome to %{installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, %{name}. Welcome to %{installationName}.",
-    "GREETING_EVENING": "👋 Good evening, %{name}. Welcome to %{installationName}.",
+    "TITLE": "اهلاً 👋، مرحباً بك في {installationName}!",
+    "DESCRIPTION": "شكرا للتسجيل. نريدك أن تحصل على أقصى استفادة من {installationName}. إليك بعض الأشياء التي يمكنك القيام بها في {installationName} لجعل التجربة رائعة.",
+    "GREETING_MORNING": "👋 صباح الخير، {name}. مرحبا بك في {installationName}.",
+    "GREETING_AFTERNOON": "👋 مساء الخير، {name}. مرحبا بك في {installationName}.",
+    "GREETING_EVENING": "👋 مساء الخير، {name}. مرحبا بك في {installationName}.",
     "READ_LATEST_UPDATES": "اطلع على آخر التحديثات",
     "ALL_CONVERSATION": {
       "TITLE": "جميع محادثاتك في مكان واحد",
@@ -261,14 +310,14 @@
       "NEW_LINK": "انقر هنا لإنشاء وسوم"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
-      "NEW_LINK": "Click here to create a canned response"
+      "TITLE": "إدارة الردود الجاهزة",
+      "DESCRIPTION": "الردود المسبقة هي قوالب رد مكتوبة مسبقاً تساعدك على الرد بسرعة على محادثة. يمكن للوكلاء كتابة حرف '/' يتبعه الرمز المختصر لإدراج رد مسبق أثناء محادثة.",
+      "NEW_LINK": "انقر هنا لإنشاء استجابة مسبقة"
     }
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "الوكيل المكلف",
-    "SELF_ASSIGN": "إسناد لي",
+    "SELF_ASSIGN": "إسناد إلي",
     "TEAM_LABEL": "الفريق المكلف",
     "SELECT": {
       "PLACEHOLDER": "لا شيء"
@@ -278,9 +327,31 @@
       "CONVERSATION_ACTIONS": "إجراءات المحادثة",
       "CONVERSATION_LABELS": "وسوم المحادثة",
       "CONVERSATION_INFO": "معلومات المحادثة",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "سمات جهة الاتصال",
       "PREVIOUS_CONVERSATION": "المحادثات السابقة",
-      "MACROS": "ماكروس"
+      "MACROS": "ماكروس",
+      "LINEAR_ISSUES": "Linked Linear Issues",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "معلق",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -308,19 +379,20 @@
   "EMAIL_HEADER": {
     "FROM": "من",
     "TO": "إلى",
-    "BCC": "Bcc",
-    "CC": "Cc",
-    "SUBJECT": "الموضوع"
+    "BCC": "نسخة خفية من البريد",
+    "CC": "نسخة من البريد",
+    "SUBJECT": "الموضوع",
+    "EXPAND": "Expand email"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "شارك",
+    "SIDEBAR_MENU_TITLE": "المشاركة",
     "SIDEBAR_TITLE": "المشاركون في المحادثة",
     "NO_RECORDS_FOUND": "لم يتم العثور على النتائج",
     "ADD_PARTICIPANTS": "اختر المشاركين",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} أخرى",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} أخرى",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} شخص مشارك.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} شخص مشارك.",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} آخرون",
+    "REMANING_PARTICIPANT_TEXT": "+{count} أخرى",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} شخص مشارك.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} شخص مشارك.",
     "NO_PARTICIPANTS_TEXT": "لا أحد يشارك!",
     "WATCH_CONVERSATION": "الانضمام إلى المحادثة",
     "YOU_ARE_WATCHING": "أنت مشترك",
@@ -335,5 +407,16 @@
     "ORIGINAL_CONTENT": "المحتوى الأصلي",
     "TRANSLATED_CONTENT": "المحتوى المترجم",
     "NO_TRANSLATIONS_AVAILABLE": "لا توجد ترجمات لهذا المحتوى"
+  },
+  "TYPING": {
+    "ONE": "{user} is typing",
+    "TWO": "{user} and {secondUser} are typing",
+    "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

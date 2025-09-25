@@ -6,11 +6,22 @@ import { useAlert } from 'dashboard/composables';
 import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     onClose: {
       type: Function,
       default: () => {},
+    },
+    // Passes 0 or 1 based on the selected AttributeModel tab selected in the UI
+    // Needs a better data type, todo: refactor this component later
+    selectedAttributeModelTab: {
+      type: Number,
+      default: 0,
     },
   },
   setup() {
@@ -20,14 +31,15 @@ export default {
     return {
       displayName: '',
       description: '',
-      attributeModel: 0,
+      // Using the prop as default. There is no side effect here as the component
+      // is destroyed completely when the modal is closed. The prop doesn't change
+      // dynamically when the modal is active.
+      attributeModel: this.selectedAttributeModelTab || 0,
       attributeType: 0,
       attributeKey: '',
       regexPattern: null,
       regexCue: null,
       regexEnabled: false,
-      models: ATTRIBUTE_MODELS,
-      types: ATTRIBUTE_TYPES,
       values: [],
       options: [],
       show: true,
@@ -39,6 +51,18 @@ export default {
     ...mapGetters({
       uiFlags: 'getUIFlags',
     }),
+    models() {
+      return ATTRIBUTE_MODELS.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_MODELS.${item.key}`),
+      }));
+    },
+    types() {
+      return ATTRIBUTE_TYPES.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${item.key}`),
+      }));
+    },
     isMultiselectInvalid() {
       return this.isTouched && this.values.length === 0;
     },
@@ -149,7 +173,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="$t('ATTRIBUTES_MGMT.ADD.TITLE')" />
 
@@ -177,7 +201,7 @@ export default {
                 : ''
             "
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-            @input="onDisplayNameChange"
+            @update:model-value="onDisplayNameChange"
             @blur="v$.displayName.$touch"
           />
           <woot-input
@@ -232,7 +256,10 @@ export default {
               @close="onTouch"
               @tag="addTagValue"
             />
-            <label v-show="isMultiselectInvalid" class="error-message">
+            <label
+              v-show="isMultiselectInvalid"
+              class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
+            >
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
@@ -261,13 +288,18 @@ export default {
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
           />
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-            <woot-submit-button
-              :disabled="isButtonDisabled"
-              :button-text="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
+            <NextButton
+              faded
+              slate
+              type="reset"
+              :label="$t('ATTRIBUTES_MGMT.ADD.CANCEL_BUTTON_TEXT')"
+              @click.prevent="onClose"
             />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('ATTRIBUTES_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
+            <NextButton
+              type="submit"
+              :label="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
+              :disabled="isButtonDisabled"
+            />
           </div>
         </div>
       </form>
@@ -277,33 +309,25 @@ export default {
 
 <style lang="scss" scoped>
 .key-value {
-  padding: 0 var(--space-small) var(--space-small) 0;
+  padding: 0 0.5rem 0.5rem 0;
   font-family: monospace;
 }
+
 .multiselect--wrap {
-  margin-bottom: var(--space-normal);
-  .error-message {
-    color: var(--r-400);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-normal);
-  }
-  .invalid {
-    ::v-deep {
-      .multiselect__tags {
-        border: 1px solid var(--r-400);
-      }
-    }
-  }
+  margin-bottom: 1rem;
 }
+
 ::v-deep {
   .multiselect {
     margin-bottom: 0;
   }
+
   .multiselect__content-wrapper {
     display: none;
   }
+
   .multiselect--active .multiselect__tags {
-    border-radius: var(--border-radius-normal);
+    border-radius: 0.3125rem;
   }
 }
 </style>

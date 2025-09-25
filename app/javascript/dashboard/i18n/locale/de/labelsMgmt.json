@@ -3,18 +3,18 @@
     "HEADER": "Labels",
     "HEADER_BTN_TXT": "Label hinzufügen",
     "LOADING": "Label werden abgerufen",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
+    "DESCRIPTION": "Labels helfen Ihnen, Konversationen und Leads zu kategorisieren und zu priorisieren. Sie können einer Konversation oder einem Kontakt über das Seitenpanel ein Label zuweisen.",
+    "LEARN_MORE": "Mehr über Labels erfahren",
     "SEARCH_404": "Es existieren keine Elemente, die dieser Abfrage entsprechen",
     "LIST": {
       "404": "In diesem Konto sind keine Labels verfügbar.",
       "TITLE": "Labels verwalten",
       "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
-      "TABLE_HEADER": [
-        "Name",
-        "Beschreibung",
-        "Farbe"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Beschreibung",
+        "COLOR": "Farbe"
+      }
     },
     "FORM": {
       "NAME": {
@@ -41,17 +41,17 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Label zur Konversation hinzufügen",
+        "MULTIPLE_SUGGESTION": "Dieses Label auswählen",
+        "DESELECT": "Label abwählen",
+        "DISMISS": "Vorschlag verwerfen"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "Verwerfen",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "ADD_SELECTED_LABELS": "Ausgewählte Labels hinzufügen",
+      "ADD_SELECTED_LABEL": "Ausgewähltes Label hinzufügen",
+      "ADD_ALL_LABELS": "Alle Labels hinzufügen",
+      "SUGGESTED_LABELS": "Vorgeschlagene Labels"
     },
     "ADD": {
       "TITLE": "Label hinzufügen",

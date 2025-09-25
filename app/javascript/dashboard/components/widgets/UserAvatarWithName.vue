@@ -1,40 +1,34 @@
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+<script setup>
+import Avatar from 'next/avatar/Avatar.vue';
 
-export default {
-  components: {
-    Thumbnail,
+defineProps({
+  user: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    user: {
-      type: Object,
-      default: () => {},
-    },
-    size: {
-      type: String,
-      default: '20px',
-    },
-    textClass: {
-      type: String,
-      default: 'text-xs text-slate-600',
-    },
+  size: {
+    type: Number,
+    default: 20,
   },
-};
+  textClass: {
+    type: String,
+    default: 'text-sm text-n-slate-12',
+  },
+});
 </script>
 
 <template>
   <div class="flex items-center gap-1.5 text-left">
-    <Thumbnail
+    <Avatar
       :src="user.thumbnail"
       :size="size"
-      :username="user.name"
+      :name="user.name"
       :status="user.availability_status"
+      hide-offline-status
+      rounded-full
     />
-    <h6
-      class="my-0 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
-      :class="textClass"
-    >
+    <span class="my-0 truncate text-capitalize" :class="textClass">
       {{ user.name }}
-    </h6>
+    </span>
   </div>
 </template>

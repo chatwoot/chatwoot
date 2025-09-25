@@ -1,16 +1,17 @@
 <script>
-import { Chrome } from 'vue-color';
+import { Chrome } from '@lk77/vue3-color';
 
 export default {
   components: {
     Chrome,
   },
   props: {
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       isPickerOpen: false,
@@ -26,7 +27,7 @@ export default {
       this.isPickerOpen = !this.isPickerOpen;
     },
     updateColor(e) {
-      this.$emit('input', e.hex);
+      this.$emit('update:modelValue', e.hex);
     },
   },
 };
@@ -36,34 +37,31 @@ export default {
   <div class="colorpicker">
     <div
       class="colorpicker--selected"
-      :style="`background-color: ${value}`"
+      :style="`background-color: ${modelValue}`"
       @click.prevent="toggleColorPicker"
     />
     <Chrome
       v-if="isPickerOpen"
       v-on-clickaway="closeTogglePicker"
       disable-alpha
-      :value="value"
+      :model-value="modelValue"
       class="colorpicker--chrome"
-      @input="updateColor"
+      @update:model-value="updateColor"
     />
   </div>
 </template>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
 .colorpicker {
   position: relative;
 }
 
 .colorpicker--selected {
-  @apply border border-solid border-slate-50 dark:border-slate-600 rounded cursor-pointer h-8 w-8 mb-4;
+  @apply border border-solid border-n-weak rounded cursor-pointer h-8 w-8 mb-4;
 }
 
 .colorpicker--chrome.vc-chrome {
-  @apply shadow-lg -mt-2.5 absolute z-[9999] border border-solid border-slate-75 dark:border-slate-600 rounded;
+  @apply shadow-lg -mt-2.5 absolute z-[9999] border border-solid border-n-weak rounded;
 
   ::v-deep {
     input {

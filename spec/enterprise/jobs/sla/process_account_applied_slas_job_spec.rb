@@ -10,8 +10,9 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
     let!(:active_with_misses_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'active_with_misses') }
 
     it 'enqueues the job' do
-      expect { described_class.perform_later }.to have_enqueued_job(described_class)
+      expect { described_class.perform_later(account) }.to have_enqueued_job(described_class)
         .on_queue('medium')
+        .with(account)
     end
 
     it 'calls the ProcessAppliedSlaJob for both active and active_with_misses' do

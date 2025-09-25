@@ -9,6 +9,7 @@ const FEATURE_HELP_URLS = {
   custom_attributes: 'https://chwt.app/hc/custom-attributes',
   dashboard_apps: 'https://chwt.app/hc/dashboard-apps',
   help_center: 'https://chwt.app/hc/help-center',
+  inboxes: 'https://chwt.app/hc/inboxes',
   integrations: 'https://chwt.app/hc/integrations',
   labels: 'https://chwt.app/hc/labels',
   macros: 'https://chwt.app/hc/macros',
@@ -16,6 +17,9 @@ const FEATURE_HELP_URLS = {
   reports: 'https://chwt.app/hc/reports',
   sla: 'https://chwt.app/hc/sla',
   team_management: 'https://chwt.app/hc/teams',
+  webhook: 'https://chwt.app/hc/webhooks',
+  billing: 'https://chwt.app/pricing',
+  saml: 'https://chwt.app/hc/saml',
 };
 
 export function getHelpUrlForFeature(featureName) {

@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Šajā grupā nav aktīvu sarunu."
     },
+    "FAILED_TO_SEND": "Neizdevās nosūtīt",
     "TAB_HEADING": "Sarunas",
     "MENTION_HEADING": "Pieminēšanas",
     "UNATTENDED_HEADING": "Bez uzraudzības",
@@ -93,8 +94,14 @@
       "location": {
         "CONTENT": "Atrašanās vieta"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Spole"
+      },
       "fallback": {
         "CONTENT": "ir kopīgojis URL"
+      },
+      "contact": {
+        "CONTENT": "Koplietota kontaktpersona"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -126,6 +133,7 @@
     "NO_CONTENT": "Saturs nav pieejams",
     "HIDE_QUOTED_TEXT": "Paslēpt Citēto Tekstu",
     "SHOW_QUOTED_TEXT": "Rādīt Citēto Tekstu",
-    "MESSAGE_READ": "Lasīt"
+    "MESSAGE_READ": "Lasīt",
+    "SENDING": "Sūtīšana"
   }
 }

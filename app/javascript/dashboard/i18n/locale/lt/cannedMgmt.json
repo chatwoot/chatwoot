@@ -10,11 +10,11 @@
       "404": "Šioje paskyroje nėra galimų atsakymų ruošinių.",
       "TITLE": "Tvarkyti atsakymų ruošinius",
       "DESC": "Atsakymų ruošiniai yra iš anksto nustatyti atsakymų šablonai, kuriuos galima naudoti norint greitai išsiųsti atsakymus į pokalbius.",
-      "TABLE_HEADER": [
-        "Trumpasis kodas",
-        "Turinys",
-        "Veiksmai"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Trumpasis kodas",
+        "CONTENT": "Turinys",
+        "ACTIONS": "Veiksmai"
+      }
     },
     "ADD": {
       "TITLE": "Pridėti atsakymo ruošinį",

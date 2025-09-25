@@ -9,8 +9,8 @@ import {
   generateLogActionKey,
 } from 'dashboard/helper/auditlogHelper';
 import { computed, onMounted, watch } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
-import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -35,13 +35,19 @@ const fetchAuditLogs = page => {
 };
 
 const generateLogText = auditLogItem => {
-  const translationPayload = generateTranslationPayload(
-    auditLogItem,
-    agentList.value
-  );
+  const payload = generateTranslationPayload(auditLogItem, agentList.value);
   const translationKey = generateLogActionKey(auditLogItem);
 
-  return t(translationKey, translationPayload);
+  const joinIfArray = value => {
+    return Array.isArray(value) ? value.join(', ') : value;
+  };
+
+  const mergedPayload = {
+    ...payload,
+    attributes: joinIfArray(payload.attributes),
+    values: joinIfArray(payload.values),
+  };
+  return t(translationKey, mergedPayload);
 };
 
 const onPageChange = page => {
@@ -58,6 +64,14 @@ watch(routerPage, (newPage, oldPage) => {
     fetchAuditLogs(newPage);
   }
 });
+
+const tableHeaders = computed(() => {
+  return [
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.ACTIVITY'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.TIME'),
+    t('AUDIT_LOGS.LIST.TABLE_HEADER.IP_ADDRESS'),
+  ];
+});
 </script>
 
 <template>
@@ -69,7 +83,7 @@ watch(routerPage, (newPage, oldPage) => {
       feature-name="audit_logs"
     />
 
-    <div class="mt-6 flex-1 text-slate-700 dark:text-slate-300">
+    <div class="mt-6 flex-1 text-n-slate-11">
       <woot-loading-state
         v-if="uiFlags.fetchingList"
         :message="$t('AUDIT_LOGS.LOADING')"
@@ -81,24 +95,22 @@ watch(routerPage, (newPage, oldPage) => {
         {{ $t('AUDIT_LOGS.LIST.404') }}
       </p>
       <div v-else class="min-w-full overflow-x-auto">
-        <table class="divide-y divide-slate-75 dark:divide-slate-700">
+        <table class="divide-y divide-n-weak">
           <thead>
             <th
-              v-for="thHeader in $t('AUDIT_LOGS.LIST.TABLE_HEADER')"
+              v-for="thHeader in tableHeaders"
               :key="thHeader"
-              class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+              class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11"
             >
               {{ thHeader }}
             </th>
           </thead>
-          <tbody
-            class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-          >
+          <tbody class="divide-y divide-n-weak text-n-slate-11">
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <td class="py-4 pr-4 break-all whitespace-nowrap">
+              <td class="py-4 ltr:pr-4 rtl:pl-4 break-all whitespace-nowrap">
                 {{ generateLogText(auditLogItem) }}
               </td>
-              <td class="py-4 pr-4 break-all whitespace-nowrap">
+              <td class="py-4 ltr:pr-4 rtl:pl-4 break-all whitespace-nowrap">
                 {{
                   messageTimestamp(
                     auditLogItem.created_at,
@@ -116,8 +128,8 @@ watch(routerPage, (newPage, oldPage) => {
           :current-page="Number(meta.currentPage)"
           :total-count="meta.totalEntries"
           :page-size="meta.perPage"
-          class="border-slate-50 dark:border-slate-800 border-t !px-0 py-4"
-          @pageChange="onPageChange"
+          class="border-n-weak border-t !px-0 py-4"
+          @page-change="onPageChange"
         />
       </div>
     </div>

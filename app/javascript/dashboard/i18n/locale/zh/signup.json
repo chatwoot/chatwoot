@@ -10,7 +10,7 @@
     },
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
+      "PLACEHOLDER": "bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "电子邮件无效"
     },
     "PASSWORD": {

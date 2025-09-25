@@ -3,11 +3,11 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import FormButton from 'v3/components/Form/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    FormButton,
+    NextButton,
   },
   setup() {
     return { v$: useVuelidate() };
@@ -20,10 +20,10 @@ export default {
       isPasswordChanging: false,
       errorMessage: '',
       inputStyles: {
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
-        marginBottom: '2px',
+        borderRadius: '0.75rem',
+        padding: '0.375rem 0.75rem',
+        fontSize: '0.875rem',
+        marginBottom: '0.125rem',
       },
     };
   },
@@ -62,10 +62,10 @@ export default {
       }
       let alertMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       try {
-        await this.$store.dispatch('updateProfile', {
+        await this.$store.dispatch('updatePassword', {
           password: this.password,
-          password_confirmation: this.passwordConfirmation,
-          current_password: this.currentPassword,
+          passwordConfirmation: this.passwordConfirmation,
+          currentPassword: this.currentPassword,
         });
       } catch (error) {
         alertMessage =
@@ -95,6 +95,7 @@ export default {
             : ''
         }`"
         @input="v$.currentPassword.$touch"
+        @blur="v$.currentPassword.$touch"
       />
 
       <woot-input
@@ -108,6 +109,7 @@ export default {
           v$.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
         }`"
         @input="v$.password.$touch"
+        @blur="v$.password.$touch"
       />
 
       <woot-input
@@ -125,17 +127,16 @@ export default {
             : ''
         }`"
         @input="v$.passwordConfirmation.$touch"
+        @blur="v$.passwordConfirmation.$touch"
       />
 
-      <FormButton
-        type="submit"
-        color-scheme="primary"
-        variant="solid"
-        size="large"
-        :disabled="isButtonDisabled"
-      >
-        {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
-      </FormButton>
+      <div>
+        <NextButton
+          type="submit"
+          :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT')"
+          :disabled="isButtonDisabled"
+        />
+      </div>
     </div>
   </form>
 </template>

@@ -3,25 +3,26 @@
     "HEADER": "Agentes",
     "HEADER_BTN_TXT": "Adicionar Agente",
     "LOADING": "Buscando lista de agente",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "Um agente é um membro de seu time de atendimento ao cliente que pode visualizar e responder às mensagens de usuários. A lista abaixo mostra todos os agentes de sua conta.",
+    "LEARN_MORE": "Saiba mais sobre as funções do usuário",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador",
       "AGENT": "Agente"
     },
     "LIST": {
       "404": "Não existem agentes associados a esta conta",
-      "TITLE": "Gerenciar agentes da sua equipe",
+      "TITLE": "Gerenciar agentes de seu time",
       "DESC": "Você pode adicionar e/ou remover agentes de um time.",
       "NAME": "Nome",
       "EMAIL": "E-mail",
-      "STATUS": "SItuação",
+      "STATUS": "Status",
       "ACTIONS": "Ações",
       "VERIFIED": "Verificado",
-      "VERIFICATION_PENDING": "Verificação Pendente"
+      "VERIFICATION_PENDING": "Verificação Pendente",
+      "AVAILABLE_CUSTOM_ROLE": "Permissões de função personalizada disponíveis"
     },
     "ADD": {
-      "TITLE": "Adicionar agente ao seu time",
+      "TITLE": "Adicionar agente a seu time",
       "DESC": "Você pode adicionar pessoas que poderão acompanhar o suporte de suas caixas de entrada.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
@@ -30,9 +31,9 @@
           "PLACEHOLDER": "Por favor, insira o nome do agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de Agente",
-          "PLACEHOLDER": "Selecione um tipo",
-          "ERROR": "É necessário o tipo de agente"
+          "LABEL": "Função",
+          "PLACEHOLDER": "Selecione uma função",
+          "ERROR": "É necessária uma função"
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
@@ -67,9 +68,9 @@
           "PLACEHOLDER": "Por favor, insira um nome do agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de Agente",
-          "PLACEHOLDER": "Selecione um tipo",
-          "ERROR": "É necessário o tipo de agente"
+          "LABEL": "Função",
+          "PLACEHOLDER": "Selecione uma função",
+          "ERROR": "É necessária uma função"
         },
         "EMAIL": {
           "LABEL": "Endereço de email",
@@ -99,10 +100,13 @@
       "NO_RESULTS": "Nenhum resultado encontrado."
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "Nenhuma",
+      "PLACEHOLDER": "Nenhum",
       "TITLE": {
         "AGENT": "Selecionar agente",
         "TEAM": "Selecionar time"
+      },
+      "LIST": {
+        "NONE": "Nenhum"
       },
       "SEARCH": {
         "NO_RESULTS": {

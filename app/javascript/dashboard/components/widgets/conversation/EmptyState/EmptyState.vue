@@ -56,7 +56,7 @@ export default {
         !this.loadingChatList &&
         this.isAdmin
       ) {
-        return 'h-full overflow-auto';
+        return 'h-full overflow-auto w-full';
       }
       return 'flex-1 min-w-0 px-0 flex flex-col items-center justify-center h-full';
     },
@@ -73,7 +73,7 @@ export default {
     <!-- No inboxes attached -->
     <div
       v-if="!inboxesList.length && !uiFlags.isFetching && !loadingChatList"
-      class="clearfix"
+      class="clearfix mx-auto"
     >
       <OnboardingView v-if="isAdmin" />
       <EmptyStateMessage v-else :message="$t('CONVERSATION.NO_INBOX_AGENT')" />

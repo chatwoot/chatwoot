@@ -6,12 +6,14 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import InputRadioGroup from './components/InputRadioGroup.vue';
 import SingleSelectDropdown from './components/SingleSelectDropdown.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     SettingsSection,
     InputRadioGroup,
     SingleSelectDropdown,
+    NextButton,
   },
   props: {
     inbox: {
@@ -170,7 +172,7 @@ export default {
         <p>{{ $t('INBOX_MGMT.SMTP.TOGGLE_HELP') }}</p>
         <div v-if="isSMTPEnabled" class="mb-6">
           <woot-input
-            v-model.trim="address"
+            v-model="address"
             :class="{ error: v$.address.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.ADDRESS.LABEL')"
@@ -204,7 +206,7 @@ export default {
             @blur="v$.password.$touch"
           />
           <woot-input
-            v-model.trim="domain"
+            v-model="domain"
             :class="{ error: v$.domain.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.DOMAIN.LABEL')"
@@ -231,9 +233,10 @@ export default {
             :action="handleAuthMechanismChange"
           />
         </div>
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.SMTP.UPDATE')"
-          :loading="uiFlags.isUpdatingSMTP"
+        <NextButton
+          type="submit"
+          :label="$t('INBOX_MGMT.SMTP.UPDATE')"
+          :is-loading="uiFlags.isUpdatingSMTP"
           :disabled="(v$.$invalid && isSMTPEnabled) || uiFlags.isUpdatingSMTP"
         />
       </form>

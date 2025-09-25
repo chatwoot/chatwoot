@@ -4,9 +4,37 @@ import {
   getCurrentAccount,
 } from './permissionsHelper';
 
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+  CONTACT_PERMISSIONS,
+  REPORTS_PERMISSIONS,
+  PORTAL_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
+
 export const routeIsAccessibleFor = (route, userPermissions = []) => {
   const { meta: { permissions: routePermissions = [] } = {} } = route;
   return hasPermissions(routePermissions, userPermissions);
+};
+
+export const defaultRedirectPage = (to, permissions) => {
+  const { accountId } = to.params;
+
+  const permissionRoutes = [
+    {
+      permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      path: 'dashboard',
+    },
+    { permissions: [CONTACT_PERMISSIONS], path: 'contacts' },
+    { permissions: [REPORTS_PERMISSIONS], path: 'reports/overview' },
+    { permissions: [PORTAL_PERMISSIONS], path: 'portals' },
+  ];
+
+  const route = permissionRoutes.find(({ permissions: routePermissions }) =>
+    hasPermissions(routePermissions, permissions)
+  );
+
+  return `accounts/${accountId}/${route ? route.path : 'dashboard'}`;
 };
 
 const validateActiveAccountRoutes = (to, user) => {
@@ -22,7 +50,7 @@ const validateActiveAccountRoutes = (to, user) => {
 
   const isAccessible = routeIsAccessibleFor(to, userPermissions);
   // If the route is not accessible for the user, return to dashboard screen
-  return isAccessible ? null : accountDashboardURL;
+  return isAccessible ? null : defaultRedirectPage(to, userPermissions);
 };
 
 export const validateLoggedInRoutes = (to, user) => {

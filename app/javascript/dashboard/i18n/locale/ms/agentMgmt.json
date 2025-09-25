@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Tindakan-tindakan",
       "VERIFIED": "Disahkan",
-      "VERIFICATION_PENDING": "Pengesahan belum lagi selesai"
+      "VERIFICATION_PENDING": "Pengesahan belum lagi selesai",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Tambahkan ejen ke pasukan anda",
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "Pilih ejen",
         "TEAM": "Pilih pasukan"
+      },
+      "LIST": {
+        "NONE": "Tiada"
       },
       "SEARCH": {
         "NO_RESULTS": {

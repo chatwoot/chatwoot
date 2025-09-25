@@ -9,7 +9,7 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       required: true,
     },
@@ -18,9 +18,15 @@ export default {
       default: '',
     },
   },
-  methods: {
-    onChange(event) {
-      this.$emit('input', event.target.value);
+  emits: ['update:modelValue'],
+  computed: {
+    computedModel: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit('update:modelValue', value);
+      },
     },
   },
 };
@@ -32,24 +38,22 @@ export default {
       v-if="label"
       class="mb-2 text-xs font-medium"
       :class="{
-        'text-black-800': !error,
-        'text-red-400': error,
+        'text-n-gray-12': !error,
+        'text-n-ruby-9': error,
       }"
     >
       {{ label }}
     </div>
     <textarea
-      class="w-full px-3 py-2 leading-tight border rounded outline-none resize-none text-slate-700"
+      v-model="computedModel"
+      class="w-full px-3 py-2 leading-tight border rounded outline-none resize-none text-n-gray-12"
       :class="{
-        'border-black-200 hover:border-black-300 focus:border-black-300':
-          !error,
-        'border-red-200 hover:border-red-300 focus:border-red-300': error,
+        'border-n-weak hover:border-n-weak focus:border-n-weak': !error,
+        'border-n-ruby-9 hover:border-n-ruby-9 focus:border-n-ruby-9': error,
       }"
       :placeholder="placeholder"
-      :value="value"
-      @change="onChange"
     />
-    <div v-if="error" class="mt-2 text-xs font-medium text-red-400">
+    <div v-if="error" class="mt-2 text-xs font-medium text-n-ruby-9">
       {{ error }}
     </div>
   </label>

@@ -11,6 +11,7 @@ export default {
       default: '',
     },
   },
+  emits: ['update:modelValue'],
   data() {
     return {
       uploadState: 'idle',
@@ -33,7 +34,7 @@ export default {
           'automations/uploadAttachment',
           file
         );
-        this.$emit('input', [id]);
+        this.$emit('update:modelValue', [id]);
         this.uploadState = 'uploaded';
         this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOADED');
       } catch (error) {
@@ -78,13 +79,13 @@ input[type='file'] {
   @apply hidden;
 }
 .input-wrapper {
-  @apply flex h-9 bg-white dark:bg-slate-900 py-1 px-2 items-center text-xs cursor-pointer rounded-sm border border-dashed border-woot-100 dark:border-woot-500;
+  @apply flex h-9 bg-n-background py-1 px-2 items-center text-xs cursor-pointer rounded-sm border border-dashed border-n-strong;
 }
 .success-icon {
-  @apply text-green-500 dark:text-green-600 mr-2;
+  @apply text-n-teal-9 mr-2;
 }
 .error-icon {
-  @apply text-red-500 dark:text-red-600 mr-2;
+  @apply text-n-ruby-9 mr-2;
 }
 
 .processing {

@@ -8,7 +8,6 @@ module.exports = {
       stage: 3,
     }),
     require('postcss-import'),
-    require('postcss-flexbugs-fixes'),
     require('tailwindcss'),
     require('autoprefixer'),
   ],

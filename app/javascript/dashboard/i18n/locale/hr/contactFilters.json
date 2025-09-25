@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "Je x dana prije"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Vrijednost je obavezna"
+    },
     "ATTRIBUTES": {
       "NAME": "Ime",
       "EMAIL": "Email",
@@ -45,7 +48,8 @@
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Last Activity",
       "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Labels"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

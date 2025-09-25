@@ -33,8 +33,10 @@ class IntegrationsAPI extends ApiClient {
     return axios.delete(`${this.baseUrl()}/integrations/hooks/${hookId}`);
   }
 
-  fetchCaptainURL() {
-    return axios.get(`${this.baseUrl()}/integrations/captain/sso_url`);
+  connectShopify({ shopDomain }) {
+    return axios.post(`${this.baseUrl()}/integrations/shopify/auth`, {
+      shop_domain: shopDomain,
+    });
   }
 }
 

@@ -3,7 +3,7 @@
     "TITLE": "Увійти до Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "Будь ласка, введіть коректну адресу електронної пошти"
     },
     "PASSWORD": {
@@ -22,6 +22,20 @@
     },
     "FORGOT_PASSWORD": "Забули пароль?",
     "CREATE_NEW_ACCOUNT": "Створити новий обліковий запис",
-    "SUBMIT": "Увійти"
+    "SUBMIT": "Увійти",
+    "SAML": {
+      "LABEL": "Log in via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
   }
 }

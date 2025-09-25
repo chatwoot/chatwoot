@@ -1,46 +1,47 @@
-<script>
-import MenuItem from './MenuItem.vue';
-export default {
-  components: {
-    MenuItem,
+<script setup>
+import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import MenuItem from 'dashboard/components/widgets/conversation/contextMenu/menuItem.vue';
+
+defineProps({
+  contextMenuPosition: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    contextMenuPosition: {
-      type: Object,
-      default: () => ({}),
-    },
-    menuItems: {
-      type: Array,
-      default: () => [],
-    },
+  menuItems: {
+    type: Array,
+    default: () => [],
   },
-  methods: {
-    handleClose() {
-      this.$emit('close');
-    },
-    onMenuItemClick(key) {
-      this.$emit('click', key);
-      this.handleClose();
-    },
-  },
+});
+
+const emit = defineEmits(['close', 'selectAction']);
+
+const handleClose = () => {
+  emit('close');
+};
+
+const onMenuItemClick = key => {
+  emit('selectAction', key);
+  handleClose();
 };
 </script>
 
 <template>
-  <woot-context-menu
+  <ContextMenu
     :x="contextMenuPosition.x"
     :y="contextMenuPosition.y"
     @close="handleClose"
   >
     <div
-      class="bg-white dark:bg-slate-900 w-40 py-1 border shadow-md border-slate-100 dark:border-slate-700/50 rounded-xl"
+      class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px] outline-1 outline outline-n-weak/50"
     >
       <MenuItem
         v-for="item in menuItems"
         :key="item.key"
-        :label="item.label"
-        @click="onMenuItemClick(item.key)"
+        :option="item"
+        variant="icon"
+        class="!w-48"
+        @click.stop="onMenuItemClick(item.key)"
       />
     </div>
-  </woot-context-menu>
+  </ContextMenu>
 </template>

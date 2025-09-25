@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Åtgärder",
       "VERIFIED": "Verifierad",
-      "VERIFICATION_PENDING": "Verifiering väntar"
+      "VERIFICATION_PENDING": "Verifiering väntar",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Lägg till agent till ditt team",
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "Välj agent",
         "TEAM": "Välj team"
+      },
+      "LIST": {
+        "NONE": "Inget"
       },
       "SEARCH": {
         "NO_RESULTS": {

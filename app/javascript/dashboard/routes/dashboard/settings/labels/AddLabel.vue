@@ -5,13 +5,19 @@ import validations, { getLabelTitleErrorMessage } from './validations';
 import { getRandomColor } from 'dashboard/helper/labelColor';
 import { useVuelidate } from '@vuelidate/core';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     prefillTitle: {
       type: String,
       default: '',
     },
   },
+  emits: ['close'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -69,7 +75,7 @@ export default {
     />
     <form class="flex flex-wrap mx-0" @submit.prevent="addLabel">
       <woot-input
-        v-model.trim="title"
+        v-model="title"
         :class="{ error: v$.title.$error }"
         class="w-full label-name--input"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
@@ -77,16 +83,18 @@ export default {
         :error="labelTitleErrorMessage"
         data-testid="label-title"
         @input="v$.title.$touch"
+        @blur="v$.title.$touch"
       />
 
       <woot-input
-        v-model.trim="description"
+        v-model="description"
         :class="{ error: v$.description.$error }"
         class="w-full"
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
         data-testid="label-description"
         @input="v$.description.$touch"
+        @blur="v$.description.$touch"
       />
 
       <div class="w-full">
@@ -102,16 +110,20 @@ export default {
         </label>
       </div>
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
-        <woot-button
-          :is-disabled="v$.title.$invalid || uiFlags.isCreating"
-          :is-loading="uiFlags.isCreating"
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('LABEL_MGMT.FORM.CANCEL')"
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
           data-testid="label-submit"
-        >
-          {{ $t('LABEL_MGMT.FORM.CREATE') }}
-        </woot-button>
-        <woot-button class="button clear" @click.prevent="onClose">
-          {{ $t('LABEL_MGMT.FORM.CANCEL') }}
-        </woot-button>
+          :label="$t('LABEL_MGMT.FORM.CREATE')"
+          :disabled="v$.title.$invalid || uiFlags.isCreating"
+          :is-loading="uiFlags.isCreating"
+        />
       </div>
     </form>
   </div>

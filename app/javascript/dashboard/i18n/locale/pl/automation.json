@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
     "HEADER": "Automatyzacja",
+    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Dodaj regułę automatyzacji",
     "LOADING": "Pobieranie reguł automatyzacji",
-    "SIDEBAR_TXT": "<p><b>Reguły automatyzacji</b> <p>Automatyzacja może zastąpić i zautomatyzować istniejące procesy, które wymagają ręcznego wysiłku. Możesz zrobić wiele rzeczy za pomocą automatyzacji, w tym dodać etykiety i przypisać konwersację do najlepszego agenta. W efekcie zespół skupia się na tym, co robią najlepiej i może poświęcić więcej czasu na zadania wymagające ręcznej obsługi.</p>",
     "ADD": {
       "TITLE": "Dodaj regułę automatyzacji",
       "SUBMIT": "Stwórz",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nazwa",
-        "Opis",
-        "Aktywna",
-        "Utworzona dnia"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "DESCRIPTION": "Opis",
+        "ACTIVE": "Aktywne",
+        "CREATED_ON": "Utworzona dnia"
+      },
       "404": "Nie znaleziono reguł automatyzacji"
     },
     "DELETE": {
@@ -124,6 +125,60 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "NONE_OPTION": "Brak",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Rozpoczęcie rozmowy",
+      "CONVERSATION_UPDATED": "Aktualizacja rozmowy",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Wycisz kontakt",
+      "SNOOZE_CONVERSATION": "Zatrzymaj rozmowę",
+      "RESOLVE_CONVERSATION": "Zamknij rozmowę",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "CHANGE_PRIORITY": "Zmień priorytet",
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Otwórz rozmowę"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Brak",
+      "LOW": "Niski",
+      "MEDIUM": "Średni",
+      "HIGH": "Wysoki",
+      "URGENT": "Pilne"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Skrzynka odbiorcza",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Numer telefonu",
+      "STATUS": "Status",
+      "BROWSER_LANGUAGE": "Język przeglądarki",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Kraj",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Zespół",
+      "PRIORITY": "Priorytet",
+      "LABELS": "Etykiety"
     }
   }
 }

@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} المحادثات المحددة",
+    "CONVERSATIONS_SELECTED": "{conversationCount} المحادثات المحددة",
     "AGENT_SELECT_LABEL": "اختر وكيل",
-    "ASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من أنك تريد تعيين %{conversationCount} %{conversationLabel} إلى",
-    "UNASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من إلغاء تعيين %{conversationCount} %{conversationLabel}؟",
+    "ASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من أنك تريد تعيين {conversationCount} {conversationLabel} إلى",
+    "UNASSIGN_CONFIRMATION_LABEL": "هل أنت متأكد من إلغاء تعيين {conversationCount} {conversationLabel}؟",
     "GO_BACK_LABEL": "العودة للخلف",
     "ASSIGN_LABEL": "تكليف",
     "YES": "نعم",

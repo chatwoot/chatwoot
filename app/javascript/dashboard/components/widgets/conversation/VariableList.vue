@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { MESSAGE_VARIABLES } from 'shared/constants/messages';
+import { sanitizeVariableSearchKey } from 'dashboard/helper/commons';
 import MentionBox from '../mentions/MentionBox.vue';
 
 export default {
@@ -11,10 +12,14 @@ export default {
       default: '',
     },
   },
+  emits: ['selectVariable'],
   computed: {
     ...mapGetters({
       customAttributes: 'attributes/getAttributes',
     }),
+    sanitizedSearchKey() {
+      return sanitizeVariableSearchKey(this.searchKey);
+    },
     items() {
       return [
         ...this.standardAttributeVariables,
@@ -24,8 +29,8 @@ export default {
     standardAttributeVariables() {
       return MESSAGE_VARIABLES.filter(variable => {
         return (
-          variable.label.includes(this.searchKey) ||
-          variable.key.includes(this.searchKey)
+          variable.label.includes(this.sanitizedSearchKey) ||
+          variable.key.includes(this.sanitizedSearchKey)
         );
       }).map(variable => ({
         label: variable.key,
@@ -50,30 +55,24 @@ export default {
   },
   methods: {
     handleVariableClick(item = {}) {
-      this.$emit('click', item.key);
+      this.$emit('selectVariable', item.key);
     },
   },
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <MentionBox
     v-if="items.length"
     type="variable"
     :items="items"
-    @mentionSelect="handleVariableClick"
-  >
-    <template slot-scope="{ item }">
-      <span class="text-capitalize variable--list-label">
-        {{ item.description }}
-      </span>
-      ({{ item.label }})
-    </template>
-  </MentionBox>
+    @mention-select="handleVariableClick"
+  />
 </template>
 
 <style scoped>
 .variable--list-label {
-  font-weight: var(--font-weight-bold);
+  font-weight: 600;
 }
 </style>

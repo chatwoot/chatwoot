@@ -11,8 +11,8 @@ Bundler.require(*Rails.groups)
 ## Load the specific APM agent
 # We rely on DOTENV to load the environment variables
 # We need these environment variables to load the specific APM agent
-Dotenv::Railtie.load
-require 'ddtrace' if ENV.fetch('DD_TRACE_AGENT_URL', false).present?
+Dotenv::Rails.load
+require 'datadog' if ENV.fetch('DD_TRACE_AGENT_URL', false).present?
 require 'elastic-apm' if ENV.fetch('ELASTIC_APM_SECRET_TOKEN', false).present?
 require 'scout_apm' if ENV.fetch('SCOUT_KEY', false).present?
 
@@ -27,6 +27,12 @@ if ENV.fetch('SENTRY_DSN', false).present?
   require 'sentry-sidekiq'
 end
 
+# heroku autoscaling
+if ENV.fetch('JUDOSCALE_URL', false).present?
+  require 'judoscale-rails'
+  require 'judoscale-sidekiq'
+end
+
 module Chatwoot
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -34,9 +40,16 @@ module Chatwoot
 
     config.eager_load_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('enterprise/lib')
+    config.eager_load_paths << Rails.root.join('enterprise/listeners')
     # rubocop:disable Rails/FilePath
     config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
     # rubocop:enable Rails/FilePath
+    # Add enterprise views to the view paths
+    config.paths['app/views'].unshift('enterprise/app/views')
+
+    # Load enterprise initializers alongside standard initializers
+    enterprise_initializers = Rails.root.join('enterprise/config/initializers')
+    Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -52,6 +65,19 @@ module Chatwoot
     # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
     # FIX ME : fixes breakage of installation config. we need to migrate.
     config.active_record.yaml_column_permitted_classes = [ActiveSupport::HashWithIndifferentAccess]
+
+    # Disable PDF/video preview generation as we don't use them
+    config.active_storage.previewers = []
+
+    # Active Record Encryption configuration
+    # Required for MFA/2FA features - skip if not using encryption
+    if ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'].present?
+      config.active_record.encryption.primary_key = ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY']
+      config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', nil)
+      config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', nil)
+      config.active_record.encryption.support_unencrypted_data = true
+      config.active_record.encryption.store_key_references = true
+    end
   end
 
   def self.config
@@ -65,5 +91,17 @@ module Chatwoot
     # unless the redis verify mode is explicitly specified as none, we will fall back to the default 'verify peer'
     # ref: https://www.rubydoc.info/stdlib/openssl/OpenSSL/SSL/SSLContext#DEFAULT_PARAMS-constant
     ENV['REDIS_OPENSSL_VERIFY_MODE'] == 'none' ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER
+  end
+
+  def self.encryption_configured?
+    # Check if proper encryption keys are configured
+    # MFA/2FA features should only be enabled when proper keys are set
+    ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'].present? &&
+      ENV['ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY'].present? &&
+      ENV['ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT'].present?
+  end
+
+  def self.mfa_enabled?
+    encryption_configured?
   end
 end

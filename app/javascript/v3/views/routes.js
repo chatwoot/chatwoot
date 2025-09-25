@@ -1,10 +1,11 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
-const Login = () => import('./login/Index.vue');
-const Signup = () => import('./auth/signup/Index.vue');
-const ResetPassword = () => import('./auth/reset/password/Index.vue');
-const Confirmation = () => import('./auth/confirmation/Index.vue');
-const PasswordEdit = () => import('./auth/password/Edit.vue');
+import Login from './login/Index.vue';
+import SamlLogin from './login/Saml.vue';
+import Signup from './auth/signup/Index.vue';
+import ResetPassword from './auth/reset/password/Index.vue';
+import Confirmation from './auth/confirmation/Index.vue';
+import PasswordEdit from './auth/password/Edit.vue';
 
 export default [
   {
@@ -17,6 +18,15 @@ export default [
       ssoAuthToken: route.query.sso_auth_token,
       ssoAccountId: route.query.sso_account_id,
       ssoConversationId: route.query.sso_conversation_id,
+      authError: route.query.error,
+    }),
+  },
+  {
+    path: frontendURL('login/sso'),
+    name: 'sso_login',
+    component: SamlLogin,
+    meta: { requireEnterprise: true },
+    props: route => ({
       authError: route.query.error,
     }),
   },

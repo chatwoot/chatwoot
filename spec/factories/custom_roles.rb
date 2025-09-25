@@ -3,6 +3,6 @@ FactoryBot.define do
     account
     name { Faker::Name.name }
     description { Faker::Lorem.sentence }
-    permissions { CustomRole::PERMISSIONS.sample(SecureRandom.random_number(4)) }
+    permissions { CustomRole::PERMISSIONS.sample(SecureRandom.random_number(1..4)) }
   end
 end

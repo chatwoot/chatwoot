@@ -33,10 +33,6 @@ class Channel::Api < ApplicationRecord
     'API'
   end
 
-  def messaging_window_enabled?
-    additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
-  end
-
   private
 
   def ensure_valid_agent_reply_time_window

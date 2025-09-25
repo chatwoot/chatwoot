@@ -25,16 +25,29 @@ module Linear::Mutations
           issue {
             id
             title
+            identifier
           }
         }
       }
     GRAPHQL
   end
 
-  def self.issue_link(issue_id, link, title)
+  def self.issue_link(params)
+    issue_id = params[:issue_id]
+    link = params[:link]
+    title = params[:title]
+    user_name = params[:user_name]
+    user_avatar_url = params[:user_avatar_url]
+
+    user_params = []
+    user_params << "createAsUser: #{graphql_value(user_name)}" if user_name.present?
+    user_params << "displayIconUrl: #{graphql_value(user_avatar_url)}" if user_avatar_url.present?
+
+    user_params_str = user_params.any? ? ", #{user_params.join(', ')}" : ''
+
     <<~GRAPHQL
       mutation {
-        attachmentLinkURL(url: "#{link}", issueId: "#{issue_id}", title: "#{title}") {
+        attachmentLinkURL(url: "#{link}", issueId: "#{issue_id}", title: "#{title}"#{user_params_str}) {
           success
           attachment {
             id

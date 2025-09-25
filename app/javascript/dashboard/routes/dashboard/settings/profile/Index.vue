@@ -2,40 +2,57 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useBranding } from 'shared/composables/useBranding';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import { parseBoolean } from '@chatwoot/utils';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
+import FontSize from './FontSize.vue';
+import UserLanguageSelect from './UserLanguageSelect.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
+import MfaSettingsCard from './MfaSettingsCard.vue';
+import Policy from 'dashboard/components/policy.vue';
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
 
 export default {
   components: {
     MessageSignature,
     FormSection,
+    FontSize,
+    UserLanguageSelect,
     UserProfilePicture,
+    Policy,
     UserBasicDetails,
     HotKeyCard,
     ChangePassword,
     NotificationPreferences,
     AudioNotifications,
     AccessToken,
+    MfaSettingsCard,
   },
-  mixins: [globalConfigMixin],
   setup() {
-    const { uiSettings, updateUISettings, isEditorHotKeyEnabled } =
-      useUISettings();
+    const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
+    const { currentFontSize, updateFontSize } = useFontSize();
+    const { replaceInstallationName } = useBranding();
 
     return {
-      uiSettings,
-      updateUISettings,
+      currentFontSize,
+      updateFontSize,
       isEditorHotKeyEnabled,
+      updateUISettings,
+      replaceInstallationName,
     };
   },
   data() {
@@ -71,6 +88,8 @@ export default {
             '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
         },
       ],
+      notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      audioNotificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
     };
   },
   computed: {
@@ -79,6 +98,9 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
+    isMfaEnabled() {
+      return parseBoolean(window.chatwootConfig?.isMfaEnabled);
+    },
   },
   mounted() {
     if (this.currentUserId) {
@@ -101,9 +123,7 @@ export default {
 
         return true; // return the value so that the status can be known
       } catch (error) {
-        alertMessage = error?.response?.data?.error
-          ? error.response.data.error
-          : errorMessage;
+        alertMessage = parseAPIErrorResponse(error) || errorMessage;
 
         return false; // return the value so that the status can be known
       } finally {
@@ -170,20 +190,27 @@ export default {
       await copyTextToClipboard(value);
       useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
+    async resetAccessToken() {
+      const success = await this.$store.dispatch('resetAccessToken');
+      if (success) {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS'));
+      } else {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR'));
+      }
+    },
   },
 };
 </script>
 
 <template>
-  <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-[720px]">
+  <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
     <div class="flex flex-col gap-6">
-      <h2 class="text-2xl font-medium text-ash-900">
+      <h2 class="text-2xl font-medium text-n-slate-12">
         {{ $t('PROFILE_SETTINGS.TITLE') }}
       </h2>
       <UserProfilePicture
         :src="avatarUrl"
         :name="name"
-        size="72px"
         @change="updateProfilePicture"
         @delete="deleteProfilePicture"
       />
@@ -192,17 +219,39 @@ export default {
         :display-name="displayName"
         :email="email"
         :email-enabled="!globalConfig.disableUserProfileUpdate"
-        @updateUser="updateProfile"
+        @update-user="updateProfile"
       />
     </div>
-
+    <FormSection
+      :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
+      :description="
+        replaceInstallationName(
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.NOTE')
+        )
+      "
+    >
+      <FontSize
+        :value="currentFontSize"
+        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
+        "
+        @change="updateFontSize"
+      />
+      <UserLanguageSelect
+        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
+        "
+      />
+    </FormSection>
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')"
     >
       <MessageSignature
         :message-signature="messageSignature"
-        @updateSignature="updateSignature"
+        @update-signature="updateSignature"
       />
     </FormSection>
     <FormSection
@@ -215,7 +264,12 @@ export default {
         <button
           v-for="hotKey in hotKeys"
           :key="hotKey.key"
-          class="px-0 reset-base"
+          class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
+          :class="
+            isEditorHotKeyEnabled(hotKey.key)
+              ? 'outline-n-brand/30'
+              : 'outline-n-weak'
+          "
         >
           <HotKeyCard
             :key="hotKey.title"
@@ -236,26 +290,38 @@ export default {
       <ChangePassword />
     </FormSection>
     <FormSection
-      :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
-      :description="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
-      "
+      v-if="isMfaEnabled"
+      :title="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.TITLE')"
+      :description="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE')"
     >
-      <AudioNotifications />
+      <MfaSettingsCard />
     </FormSection>
-    <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
-      <NotificationPreferences />
-    </FormSection>
+    <Policy :permissions="audioNotificationPermissions">
+      <FormSection
+        :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
+        "
+      >
+        <AudioNotifications />
+      </FormSection>
+    </Policy>
+    <Policy :permissions="notificationPermissions">
+      <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+        <NotificationPreferences />
+      </FormSection>
+    </Policy>
     <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
       :description="
-        useInstallationName(
-          $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
-          globalConfig.installationName
-        )
+        replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
       "
     >
-      <AccessToken :value="currentUser.access_token" @onCopy="onCopyToken" />
+      <AccessToken
+        :value="currentUser.access_token"
+        @on-copy="onCopyToken"
+        @on-reset="resetAccessToken"
+      />
     </FormSection>
   </div>
 </template>

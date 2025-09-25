@@ -30,6 +30,9 @@
       "is_lesser_than": "Ist kleiner als",
       "days_before": "Ist x Tage her"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Wert ist erforderlich"
+    },
     "ATTRIBUTES": {
       "NAME": "Name",
       "EMAIL": "E-Mail",
@@ -45,7 +48,8 @@
       "CREATED_AT": "Erstellt am",
       "LAST_ACTIVITY": "Letzte Aktivität",
       "REFERER_LINK": "Verweis-Link",
-      "BLOCKED": "Blockiert"
+      "BLOCKED": "Blockiert",
+      "LABELS": "Labels"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardfilter",

@@ -60,11 +60,10 @@ RSpec.describe 'Platform Accounts API', type: :request do
         } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         json_response = response.parsed_body
+        created_account = Account.find(json_response['id'])
+        expect(created_account.enabled_features.keys).to match_array(%w[inbox_management ip_lookup help_center])
         expect(json_response['name']).to include('Test Account')
-        expect(json_response['features']['inbox_management']).to be(true)
-        expect(json_response['features']['ip_lookup']).to be(true)
-        expect(json_response['features']['help_center']).to be(true)
-        expect(json_response['features']['disable_branding']).to be_nil
+        expect(json_response['features'].keys).to match_array(%w[inbox_management ip_lookup help_center])
       end
 
       it 'creates an account with limits settings' do
@@ -75,6 +74,42 @@ RSpec.describe 'Platform Accounts API', type: :request do
         expect(response.body).to include('Test Account')
         expect(response.body).to include('5')
         expect(response.body).to include('10')
+      end
+    end
+  end
+
+  describe 'GET /platform/api/v1/accounts' do
+    context 'when it is an unauthenticated platform app' do
+      it 'returns unauthorized' do
+        get '/platform/api/v1/accounts'
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an invalid platform app token' do
+      it 'returns unauthorized' do
+        get '/platform/api/v1/accounts', headers: { api_access_token: 'invalid' }, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated platform app' do
+      let(:platform_app) { create(:platform_app) }
+      let!(:account1) { create(:account, name: 'Account A') }
+      let!(:account2) { create(:account, name: 'Account B') }
+
+      before do
+        create(:platform_app_permissible, platform_app: platform_app, permissible: account1)
+        create(:platform_app_permissible, platform_app: platform_app, permissible: account2)
+      end
+
+      it 'returns all permissible accounts' do
+        get '/platform/api/v1/accounts', headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response.size).to eq(2)
+        expect(json_response.map { |acc| acc['name'] }).to include('Account A', 'Account B')
       end
     end
   end

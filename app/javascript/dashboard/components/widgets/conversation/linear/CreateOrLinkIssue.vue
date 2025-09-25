@@ -1,5 +1,5 @@
 <script setup>
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { computed, ref } from 'vue';
 import LinkIssue from './LinkIssue.vue';
 import CreateIssue from './CreateIssue.vue';
@@ -58,17 +58,19 @@ const onClickTabChange = index => {
     />
 
     <div class="flex flex-col h-auto overflow-auto">
-      <div class="flex flex-col px-8 pb-4">
+      <div class="flex flex-col px-8 pb-4 mt-1">
         <woot-tabs
           class="ltr:[&>ul]:pl-0 rtl:[&>ul]:pr-0"
           :index="selectedTabIndex"
           @change="onClickTabChange"
         >
           <woot-tabs-item
-            v-for="tab in tabs"
+            v-for="(tab, index) in tabs"
             :key="tab.key"
+            :index="index"
             :name="tab.name"
             :show-badge="false"
+            is-compact
           />
         </woot-tabs>
       </div>

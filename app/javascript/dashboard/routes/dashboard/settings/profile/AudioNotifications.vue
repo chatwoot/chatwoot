@@ -1,98 +1,91 @@
-<script>
+<script setup>
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import AudioAlertTone from './AudioAlertTone.vue';
 import AudioAlertEvent from './AudioAlertEvent.vue';
 import AudioAlertCondition from './AudioAlertCondition.vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import { useStore } from 'dashboard/composables/store';
+const store = useStore();
+import { useI18n } from 'vue-i18n';
+import camelcaseKeys from 'camelcase-keys';
+import { initializeAudioAlerts } from 'dashboard/helper/scriptHelpers';
+import { useStoreGetters } from 'dashboard/composables/store';
 
-export default {
-  components: {
-    AudioAlertEvent,
-    AudioAlertTone,
-    AudioAlertCondition,
-  },
-  setup() {
-    const { uiSettings, updateUISettings } = useUISettings();
+const getters = useStoreGetters();
+const currentUser = computed(() => getters.getCurrentUser.value);
 
-    return {
-      uiSettings,
-      updateUISettings,
-    };
-  },
-  data() {
-    return {
-      audioAlert: '',
-      playAudioWhenTabIsInactive: false,
-      alertIfUnreadConversationExist: false,
-      alertTone: 'ding',
-      audioAlertConditions: [],
-    };
-  },
-  watch: {
-    uiSettings(value) {
-      this.notificationUISettings(value);
+const { uiSettings, updateUISettings } = useUISettings();
+
+const { t } = useI18n();
+const audioAlert = ref('');
+const playAudioWhenTabIsInactive = ref(false);
+const alertIfUnreadConversationExist = ref(false);
+const alertTone = ref('ding');
+const audioAlertConditions = ref([]);
+const i18nKeyPrefix = 'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION';
+
+const initializeNotificationUISettings = newUISettings => {
+  const updatedUISettings = camelcaseKeys(newUISettings);
+
+  audioAlert.value = updatedUISettings.enableAudioAlerts;
+  playAudioWhenTabIsInactive.value = !updatedUISettings.alwaysPlayAudioAlert;
+  alertIfUnreadConversationExist.value =
+    updatedUISettings.alertIfUnreadAssignedConversationExist;
+  audioAlertConditions.value = [
+    {
+      id: 'audio1',
+      label: t(`${i18nKeyPrefix}.CONDITIONS.CONDITION_ONE`),
+      model: playAudioWhenTabIsInactive.value,
+      value: 'tab_is_inactive',
     },
+    {
+      id: 'audio2',
+      label: t(`${i18nKeyPrefix}.CONDITIONS.CONDITION_TWO`),
+      model: alertIfUnreadConversationExist.value,
+      value: 'conversations_are_read',
+    },
+  ];
+  alertTone.value = updatedUISettings.notificationTone || 'ding';
+};
+
+watch(
+  uiSettings,
+  value => {
+    initializeNotificationUISettings(value);
   },
-  mounted() {
-    this.notificationUISettings(this.uiSettings);
-    this.$store.dispatch('userNotificationSettings/get');
-  },
-  methods: {
-    notificationUISettings(uiSettings) {
-      const {
-        enable_audio_alerts: audioAlert = '',
-        always_play_audio_alert: alwaysPlayAudioAlert,
-        alert_if_unread_assigned_conversation_exist:
-          alertIfUnreadConversationExist,
-        notification_tone: alertTone,
-      } = uiSettings;
-      this.audioAlert = audioAlert;
-      this.playAudioWhenTabIsInactive = !alwaysPlayAudioAlert;
-      this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
-      this.audioAlertConditions = [
-        {
-          id: 'audio1',
-          label: this.$t(
-            'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_ONE'
-          ),
-          model: this.playAudioWhenTabIsInactive,
-          value: 'tab_is_inactive',
-        },
-        {
-          id: 'audio2',
-          label: this.$t(
-            'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_TWO'
-          ),
-          model: this.alertIfUnreadConversationExist,
-          value: 'conversations_are_read',
-        },
-      ];
-      this.alertTone = alertTone || 'ding';
-    },
-    handAudioAlertChange(value) {
-      this.audioAlert = value;
-      this.updateUISettings({
-        enable_audio_alerts: this.audioAlert,
-      });
-      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
-    },
-    handleAudioAlertConditions(id, value) {
-      if (id === 'tab_is_inactive') {
-        this.updateUISettings({
-          always_play_audio_alert: !value,
-        });
-      } else if (id === 'conversations_are_read') {
-        this.updateUISettings({
-          alert_if_unread_assigned_conversation_exist: value,
-        });
-      }
-      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
-    },
-    handleAudioToneChange(value) {
-      this.updateUISettings({ notification_tone: value });
-      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
-    },
-  },
+  { immediate: true }
+);
+
+const handleAudioConfigChange = value => {
+  updateUISettings(value);
+  initializeAudioAlerts(currentUser.value);
+  useAlert(t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+};
+
+onMounted(() => {
+  store.dispatch('userNotificationSettings/get');
+});
+
+const handAudioAlertChange = value => {
+  audioAlert.value = value;
+  handleAudioConfigChange({
+    enable_audio_alerts: value,
+  });
+};
+const handleAudioAlertConditions = (id, value) => {
+  if (id === 'tab_is_inactive') {
+    handleAudioConfigChange({
+      always_play_audio_alert: !value,
+    });
+  } else if (id === 'conversations_are_read') {
+    handleAudioConfigChange({
+      alert_if_unread_assigned_conversation_exist: value,
+    });
+  }
+};
+const handleAudioToneChange = value => {
+  handleAudioConfigChange({ notification_tone: value });
 };
 </script>
 
@@ -100,27 +93,19 @@ export default {
   <div id="profile-settings-notifications" class="flex flex-col gap-6">
     <AudioAlertTone
       :value="alertTone"
-      :label="
-        $t(
-          'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
-        )
-      "
+      :label="$t(`${i18nKeyPrefix}.DEFAULT_TONE.TITLE`)"
       @change="handleAudioToneChange"
     />
 
     <AudioAlertEvent
-      :label="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE')
-      "
+      :label="$t(`${i18nKeyPrefix}.ALERT_TYPE.TITLE`)"
       :value="audioAlert"
       @update="handAudioAlertChange"
     />
 
     <AudioAlertCondition
       :items="audioAlertConditions"
-      :label="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE')
-      "
+      :label="$t(`${i18nKeyPrefix}.CONDITIONS.TITLE`)"
       @change="handleAudioAlertConditions"
     />
   </div>

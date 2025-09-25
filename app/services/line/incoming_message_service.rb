@@ -4,17 +4,12 @@
 class Line::IncomingMessageService
   include ::FileTypeHelper
   pattr_initialize [:inbox!, :params!]
-  LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/iphone/sticker.png'.freeze
+  LINE_STICKER_IMAGE_URL = 'https://stickershop.line-scdn.net/stickershop/v1/sticker/%s/android/sticker.png'.freeze
 
   def perform
     # probably test events
     return if params[:events].blank?
 
-    line_contact_info
-    return if line_contact_info['userId'].blank?
-
-    set_contact
-    set_conversation
     parse_events
   end
 
@@ -22,16 +17,23 @@ class Line::IncomingMessageService
 
   def parse_events
     params[:events].each do |event|
+      next unless event_type_message?(event)
+
+      get_line_contact_info(event)
+      next if @line_contact_info['userId'].blank?
+
+      set_contact
+      set_conversation
+
       next unless message_created? event
 
       attach_files event['message']
+      @message.save!
     end
   end
 
   def message_created?(event)
-    return unless event_type_message?(event)
-
-    @message = @conversation.messages.create!(
+    @message = @conversation.messages.build(
       content: message_content(event),
       account_id: @inbox.account_id,
       content_type: message_content_type(event),
@@ -75,7 +77,8 @@ class Line::IncomingMessageService
 
     response = inbox.channel.client.get_message_content(message['id'])
 
-    file_name = "media-#{message['id']}.#{response.content_type.split('/')[1]}"
+    extension = get_file_extension(response)
+    file_name = message['fileName'] || "media-#{message['id']}.#{extension}"
     temp_file = Tempfile.new(file_name)
     temp_file.binmode
     temp_file << response.body
@@ -90,7 +93,14 @@ class Line::IncomingMessageService
         content_type: response.content_type
       }
     )
-    @message.save!
+  end
+
+  def get_file_extension(response)
+    if response.content_type&.include?('/')
+      response.content_type.split('/')[1]
+    else
+      'bin'
+    end
   end
 
   def event_type_message?(event)
@@ -98,20 +108,25 @@ class Line::IncomingMessageService
   end
 
   def message_type_non_text?(type)
-    [Line::Bot::Event::MessageType::Video, Line::Bot::Event::MessageType::Audio, Line::Bot::Event::MessageType::Image].include?(type)
+    [
+      Line::Bot::Event::MessageType::Video,
+      Line::Bot::Event::MessageType::Audio,
+      Line::Bot::Event::MessageType::Image,
+      Line::Bot::Event::MessageType::File
+    ].include?(type)
   end
 
   def account
     @account ||= inbox.account
   end
 
-  def line_contact_info
-    @line_contact_info ||= JSON.parse(inbox.channel.client.get_profile(params[:events].first['source']['userId']).body)
+  def get_line_contact_info(event)
+    @line_contact_info = JSON.parse(inbox.channel.client.get_profile(event['source']['userId']).body)
   end
 
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: line_contact_info['userId'],
+      source_id: @line_contact_info['userId'],
       inbox: inbox,
       contact_attributes: contact_attributes
     ).perform
@@ -138,15 +153,15 @@ class Line::IncomingMessageService
 
   def contact_attributes
     {
-      name: line_contact_info['displayName'],
-      avatar_url: line_contact_info['pictureUrl'],
+      name: @line_contact_info['displayName'],
+      avatar_url: @line_contact_info['pictureUrl'],
       additional_attributes: additional_attributes
     }
   end
 
   def additional_attributes
     {
-      social_line_user_id: line_contact_info['userId']
+      social_line_user_id: @line_contact_info['userId']
     }
   end
 

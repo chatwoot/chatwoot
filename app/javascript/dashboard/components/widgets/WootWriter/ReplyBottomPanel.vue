@@ -1,28 +1,27 @@
 <script>
+import { ref } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import {
-  ALLOWED_FILE_TYPES,
-  ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
-  ALLOWED_FILE_TYPES_FOR_LINE,
-} from 'shared/constants/messages';
+import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
-import { REPLY_EDITOR_MODES } from './constants';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload, VideoCallButton, AIAssistanceButton },
+  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [inboxMixin],
   props: {
-    mode: {
-      type: String,
-      default: REPLY_EDITOR_MODES.REPLY,
+    isNote: {
+      type: Boolean,
+      default: false,
     },
     onSend: {
       type: Function,
@@ -34,7 +33,7 @@ export default {
     },
     recordingAudioDurationText: {
       type: String,
-      default: '',
+      default: '00:00',
     },
     // inbox prop is used in /mixins/inboxMixin,
     // remove this props when refactoring to composable if not needed
@@ -91,7 +90,11 @@ export default {
       type: Boolean,
       default: true,
     },
-    hasWhatsappTemplates: {
+    enableWhatsAppTemplates: {
+      type: Boolean,
+      default: false,
+    },
+    enableContentTemplates: {
       type: Boolean,
       default: false,
     },
@@ -111,13 +114,26 @@ export default {
       type: String,
       required: true,
     },
+    conversationType: {
+      type: String,
+      default: '',
+    },
   },
+  emits: [
+    'replaceText',
+    'toggleInsertArticle',
+    'toggleEditor',
+    'selectWhatsappTemplate',
+    'selectContentTemplate',
+  ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();
 
+    const uploadRef = ref(false);
+
     const keyboardEvents = {
-      'Alt+KeyA': {
+      '$mod+Alt+KeyA': {
         action: () => {
           // TODO: This is really hacky, we need to replace the file picker component with
           // a custom one, where the logic and the component markup is isolated.
@@ -137,6 +153,12 @@ export default {
     return {
       setSignatureFlagForInbox,
       fetchSignatureFlagFromUISettings,
+      uploadRef,
+    };
+  },
+  data() {
+    return {
+      ALLOWED_FILE_TYPES,
     };
   },
   computed: {
@@ -145,17 +167,9 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'integrations/getUIFlags',
     }),
-    isNote() {
-      return this.mode === REPLY_EDITOR_MODES.NOTE;
-    },
     wrapClass() {
       return {
         'is-note-mode': this.isNote,
-      };
-    },
-    buttonClass() {
-      return {
-        warning: this.isNote,
       };
     },
     showAttachButton() {
@@ -166,30 +180,40 @@ export default {
         return false;
       }
       // Disable audio recorder for safari browser as recording is not supported
-      const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
-        navigator.userAgent
-      );
+      // const isSafari = /^((?!chrome|android|crios|fxios).)*safari/i.test(
+      //   navigator.userAgent
+      // );
 
       return (
         this.isFeatureEnabledonAccount(
           this.accountId,
           FEATURE_FLAGS.VOICE_RECORDER
-        ) &&
-        this.showAudioRecorder &&
-        !isSafari
+        ) && this.showAudioRecorder
+        // !isSafari
       );
     },
     showAudioPlayStopButton() {
       return this.showAudioRecorder && this.isRecordingAudio;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
     allowedFileTypes() {
-      if (this.isATwilioWhatsAppChannel) {
-        return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
+      // Use default file types for private notes
+      if (this.isOnPrivateNote) {
+        return this.ALLOWED_FILE_TYPES;
       }
-      if (this.isALineChannel) {
-        return ALLOWED_FILE_TYPES_FOR_LINE;
+
+      let channelType = this.channelType || this.inbox?.channel_type;
+
+      if (this.isAnInstagramChannel || this.isInstagramDM) {
+        channelType = INBOX_TYPES.INSTAGRAM;
       }
-      return ALLOWED_FILE_TYPES;
+
+      return getAllowedFileTypesByChannel({
+        channelType,
+        medium: this.inbox?.medium,
+      });
     },
     enableDragAndDrop() {
       return !this.newConversationModalActive;
@@ -198,13 +222,13 @@ export default {
       switch (this.recordingAudioState) {
         // playing paused recording stopped inactive destroyed
         case 'playing':
-          return 'microphone-pause';
+          return 'i-ph-pause';
         case 'paused':
-          return 'microphone-play';
+          return 'i-ph-play';
         case 'stopped':
-          return 'microphone-play';
+          return 'i-ph-play';
         default:
-          return 'microphone-stop';
+          return 'i-ph-stop';
       }
     },
     showMessageSignatureButton() {
@@ -220,11 +244,7 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     enableInsertArticleInReply() {
-      const isFeatEnabled = this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
-      );
-      return isFeatEnabled && this.portalSlug;
+      return this.portalSlug;
     },
     isFetchingAppIntegrations() {
       return this.uiFlags.isFetching;
@@ -248,19 +268,18 @@ export default {
 </script>
 
 <template>
-  <div class="bottom-box" :class="wrapClass">
+  <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
-      <woot-button
+      <NextButton
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        icon="emoji"
-        emoji="😊"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        icon="i-ph-smiley-sticker"
+        slate
+        faded
+        sm
         @click="toggleEmojiPicker"
       />
       <FileUpload
+        ref="uploadRef"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         input-id="conversationAttachment"
         :size="4096 * 4096"
@@ -274,67 +293,69 @@ export default {
         }"
         @input-file="onFileUpload"
       >
-        <woot-button
+        <NextButton
           v-if="showAttachButton"
-          class-names="button--upload"
-          :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
-          icon="attach"
-          emoji="📎"
-          color-scheme="secondary"
-          variant="smooth"
-          size="small"
+          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+          icon="i-ph-paperclip"
+          slate
+          faded
+          sm
         />
       </FileUpload>
-      <woot-button
+      <NextButton
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
-        emoji="🎤"
-        :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
-        variant="smooth"
-        size="small"
+        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
+        slate
+        faded
+        sm
         @click="toggleAudioRecorder"
       />
-      <woot-button
+      <NextButton
         v-if="showEditorToggle"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        icon="quote"
-        emoji="🖊️"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        icon="i-ph-quotes"
+        slate
+        faded
+        sm
         @click="$emit('toggleEditor')"
       />
-      <woot-button
+      <NextButton
         v-if="showAudioPlayStopButton"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         :icon="audioRecorderPlayStopIcon"
-        emoji="🎤"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
+        slate
+        faded
+        sm
+        :label="recordingAudioDurationText"
         @click="toggleAudioRecorderPlayPause"
-      >
-        <span>{{ recordingAudioDurationText }}</span>
-      </woot-button>
-      <woot-button
+      />
+      <NextButton
         v-if="showMessageSignatureButton"
         v-tooltip.top-end="signatureToggleTooltip"
-        icon="signature"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="signatureToggleTooltip"
+        icon="i-ph-signature"
+        slate
+        faded
+        sm
         @click="toggleMessageSignature"
       />
-      <woot-button
-        v-if="hasWhatsappTemplates"
+      <NextButton
+        v-if="enableWhatsAppTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
-        icon="whatsapp"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
+        icon="i-ph-whatsapp-logo"
+        slate
+        faded
+        sm
         @click="$emit('selectWhatsappTemplate')"
+      />
+      <NextButton
+        v-if="enableContentTemplates"
+        v-tooltip.top-end="'Content Templates'"
+        icon="i-ph-whatsapp-logo"
+        slate
+        faded
+        sm
+        @click="$emit('selectContentTemplate')"
       />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
@@ -345,52 +366,44 @@ export default {
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
-        @replaceText="replaceText"
+        @replace-text="replaceText"
       />
       <transition name="modal-fade">
         <div
-          v-show="$refs.uploadRef && $refs.uploadRef.dropActive"
-          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
+          v-show="uploadRef && uploadRef.dropActive"
+          class="flex fixed top-0 right-0 bottom-0 left-0 z-20 flex-col gap-2 justify-center items-center w-full h-full text-n-slate-12 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
           <fluent-icon icon="cloud-backup" size="40" />
-          <h4 class="text-2xl break-words text-slate-900 dark:text-slate-50">
+          <h4 class="text-2xl break-words text-n-slate-12">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
         </div>
       </transition>
-      <woot-button
+      <NextButton
         v-if="enableInsertArticleInReply"
         v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
-        icon="document-text-link"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        icon="i-ph-article-ny-times"
+        slate
+        faded
+        sm
         @click="toggleInsertArticle"
       />
     </div>
     <div class="right-wrap">
-      <woot-button
-        size="small"
-        :class-names="buttonClass"
-        :is-disabled="isSendDisabled"
+      <NextButton
+        :label="sendButtonText"
+        type="submit"
+        sm
+        :color="isNote ? 'amber' : 'blue'"
+        :disabled="isSendDisabled"
+        class="flex-shrink-0"
         @click="onSend"
-      >
-        {{ sendButtonText }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.bottom-box {
-  @apply flex justify-between py-3 px-4;
-
-  &.is-note-mode {
-    @apply bg-yellow-100 dark:bg-yellow-800;
-  }
-}
-
 .left-wrap {
   @apply items-center flex gap-2;
 }
@@ -403,8 +416,9 @@ export default {
   label {
     @apply cursor-pointer;
   }
+
   &:hover button {
-    @apply dark:bg-slate-800 bg-slate-100;
+    @apply enabled:bg-n-slate-9/20;
   }
 }
 </style>

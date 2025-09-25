@@ -2,8 +2,6 @@ import {
   getAgentsByAvailability,
   getSortedAgentsByAvailability,
   getAgentsByUpdatedPresence,
-  getCombinedAgents,
-  createNoneAgent,
 } from '../agentHelper';
 import {
   allAgentsData,
@@ -91,41 +89,6 @@ describe('agentHelper', () => {
       expect(
         getAgentsByUpdatedPresence([], currentUser, currentAccountId)
       ).toEqual([]);
-    });
-  });
-
-  describe('getCombinedAgents', () => {
-    it('includes None agent when includeNoneAgent is true and isAgentSelected is true', () => {
-      const result = getCombinedAgents(sortedByAvailability, true, true);
-      expect(result).toEqual([createNoneAgent, ...sortedByAvailability]);
-      expect(result.length).toBe(sortedByAvailability.length + 1);
-      expect(result[0]).toEqual(createNoneAgent);
-    });
-
-    it('excludes None agent when includeNoneAgent is false', () => {
-      const result = getCombinedAgents(sortedByAvailability, false, true);
-      expect(result).toEqual(sortedByAvailability);
-      expect(result.length).toBe(sortedByAvailability.length);
-      expect(result[0]).not.toEqual(createNoneAgent);
-    });
-
-    it('excludes None agent when isAgentSelected is false', () => {
-      const result = getCombinedAgents(sortedByAvailability, true, false);
-      expect(result).toEqual(sortedByAvailability);
-      expect(result.length).toBe(sortedByAvailability.length);
-      expect(result[0]).not.toEqual(createNoneAgent);
-    });
-
-    it('returns only filtered agents when both includeNoneAgent and isAgentSelected are false', () => {
-      const result = getCombinedAgents(sortedByAvailability, false, false);
-      expect(result).toEqual(sortedByAvailability);
-      expect(result.length).toBe(sortedByAvailability.length);
-    });
-
-    it('handles empty filteredAgentsByAvailability array', () => {
-      const result = getCombinedAgents([], true, true);
-      expect(result).toEqual([createNoneAgent]);
-      expect(result.length).toBe(1);
     });
   });
 });

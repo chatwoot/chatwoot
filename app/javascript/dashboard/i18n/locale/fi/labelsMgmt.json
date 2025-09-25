@@ -10,11 +10,11 @@
       "404": "Tällä tilillä ei ole tunnisteita.",
       "TITLE": "Hallitse tunnisteita",
       "DESC": "Tunnisteiden avulla voit ryhmitellä keskustelut yhteen.",
-      "TABLE_HEADER": [
-        "Nimi",
-        "Kuvaus",
-        "Väri"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nimi",
+        "DESCRIPTION": "Kuvaus",
+        "COLOR": "Väri"
+      }
     },
     "FORM": {
       "NAME": {

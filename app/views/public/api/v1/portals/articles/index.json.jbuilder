@@ -4,5 +4,5 @@ json.payload do
 end
 
 json.meta do
-  json.articles_count @articles.published.size
+  json.articles_count @articles_count
 end

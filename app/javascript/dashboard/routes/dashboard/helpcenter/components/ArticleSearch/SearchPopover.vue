@@ -1,13 +1,14 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
+import { mapGetters } from 'vuex';
+import allLocales from 'shared/constants/locales.js';
 
 import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
 import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
-import portalMixin from '../../mixins/portalMixin';
 
 export default {
   name: 'ArticleSearchPopover',
@@ -16,13 +17,13 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [portalMixin],
   props: {
     selectedPortalSlug: {
       type: String,
       required: true,
     },
   },
+  emits: ['close', 'insert'],
   data() {
     return {
       searchQuery: '',
@@ -33,6 +34,15 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      portalBySlug: 'portals/portalBySlug',
+    }),
+    portal() {
+      return this.portalBySlug(this.selectedPortalSlug);
+    },
+    portalCustomDomain() {
+      return this.portal?.custom_domain;
+    },
     articleViewerUrl() {
       const article = this.activeArticle(this.activeId);
       if (!article) return '';
@@ -47,6 +57,7 @@ export default {
 
       return `${url}`;
     },
+
     searchResultsWithUrl() {
       return this.searchResults.map(article => ({
         ...article,
@@ -65,8 +76,12 @@ export default {
         this.selectedPortalSlug,
         '',
         '',
-        article.slug
+        article.slug,
+        this.portalCustomDomain
       );
+    },
+    localeName(code) {
+      return allLocales[code];
     },
     activeArticle(id) {
       return this.searchResultsWithUrl.find(article => article.id === id);
@@ -108,7 +123,6 @@ export default {
     },
     onInsert(id) {
       const article = this.activeArticle(id || this.activeId);
-
       this.$emit('insert', article);
       useAlert(this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED'));
       this.onClose();
@@ -123,7 +137,7 @@ export default {
   >
     <div
       v-on-clickaway="onClose"
-      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-900 z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem]"
+      class="flex flex-col px-4 pb-4 rounded-md shadow-md border border-solid border-n-weak bg-n-background z-[1000] max-w-[720px] md:w-[20rem] lg:w-[24rem] xl:w-[28rem] 2xl:w-[32rem] h-[calc(100vh-20rem)] max-h-[40rem]"
     >
       <SearchHeader
         :title="$t('HELP_CENTER.ARTICLE_SEARCH.TITLE')"

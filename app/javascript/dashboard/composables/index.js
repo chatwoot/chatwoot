@@ -1,15 +1,17 @@
-import { getCurrentInstance } from 'vue';
 import { emitter } from 'shared/helpers/mitt';
+import analyticsHelper from 'dashboard/helper/AnalyticsHelper/index';
 
 /**
  * Custom hook to track events
- * @returns {Function} The track function
  */
-export const useTrack = () => {
-  const vm = getCurrentInstance();
-  if (!vm) throw new Error('must be called in setup');
+export const useTrack = (...args) => {
+  try {
+    return analyticsHelper.track(...args);
+  } catch (error) {
+    // Ignore this, tracking is not mission critical
+  }
 
-  return vm.proxy.$track;
+  return null;
 };
 
 /**

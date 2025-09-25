@@ -66,3 +66,32 @@ export const snoozedReopenTime = snoozedUntil => {
   }
   return snoozedUntil ? format(date, 'd MMM, h.mmaaa') : null;
 };
+
+export const snoozedReopenTimeToTimestamp = snoozedUntil => {
+  return snoozedUntil ? getUnixTime(new Date(snoozedUntil)) : null;
+};
+export const shortenSnoozeTime = snoozedUntil => {
+  if (!snoozedUntil) {
+    return null;
+  }
+  const unitMap = {
+    minutes: 'm',
+    minute: 'm',
+    hours: 'h',
+    hour: 'h',
+    days: 'd',
+    day: 'd',
+    months: 'mo',
+    month: 'mo',
+    years: 'y',
+    year: 'y',
+  };
+  const shortenTime = snoozedUntil
+    .replace(/^in\s+/i, '')
+    .replace(
+      /\s(minute|hour|day|month|year)s?\b/gi,
+      (match, unit) => unitMap[unit.toLowerCase()] || match
+    );
+
+  return shortenTime;
+};

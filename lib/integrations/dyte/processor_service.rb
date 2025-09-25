@@ -7,7 +7,7 @@ class Integrations::Dyte::ProcessorService
 
     return response if response[:error].present?
 
-    meeting = response['meeting']
+    meeting = response
     message = create_a_dyte_integration_message(meeting, title, agent)
     message.push_event_data
   end
@@ -29,8 +29,7 @@ class Integrations::Dyte::ProcessorService
         content_attributes: {
           type: 'dyte',
           data: {
-            meeting_id: meeting['id'],
-            room_name: meeting['roomName']
+            meeting_id: meeting['id']
           }
         },
         sender: agent
