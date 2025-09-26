@@ -9,6 +9,7 @@ require 'httparty'
 # rubocop:disable Metrics/PerceivedComplexity
 class Webhooks::CallController < ActionController::API
   include CallHelper
+  include CommonCallHelper
   def handle_call_callback
     payload = request.body.read
     parsed_body = JSON.parse(payload)

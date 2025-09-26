@@ -6,6 +6,7 @@ require 'httparty'
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/PerceivedComplexity
 class Webhooks::CallIvrsolutionsIncomingController < ActionController::API
+  include CommonCallHelper
   def welcome_message
     Rails.logger.info "Welcome Message Requested: #{params.inspect}"
 
@@ -75,7 +76,18 @@ class Webhooks::CallIvrsolutionsIncomingController < ActionController::API
     conversation = handle_conversation_creation(latest_conversation, contact, wa_api_inbox)
 
     unless working_hours?(call_settings)
-      render json: { error: 'Account is not in working hours' }, status: :bad_request
+      # Handle out of office scenario - provide out of office message instead of error
+      out_of_office_msg = ooo_message(call_settings)
+      out_of_office_msg = 'We are currently closed. Please call during business hours.' if out_of_office_msg.blank?
+
+      response = {
+        message: out_of_office_msg,
+        status: false
+      }
+
+      Rails.logger.info "Out of office response: #{response.inspect}"
+
+      render json: response
       return
     end
 
