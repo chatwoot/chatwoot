@@ -237,11 +237,8 @@ export default {
       />
       <div
         id="password-requirements"
-        class="text-xs space-y-2 rounded-md p-4 outline outline-1 outline-n-weak bg-n-alpha-black2"
+        class="text-xs space-y-2 rounded-md px-4 py-3 outline outline-1 outline-n-weak bg-n-alpha-black2"
       >
-        <p class="font-medium text-xs text-n-slate-11">
-          {{ $t('REGISTER.PASSWORD.REQUIREMENTS') }}
-        </p>
         <ul role="list" class="space-y-1 grid grid-cols-2">
           <li
             v-for="item in passwordRequirementItems"
