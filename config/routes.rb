@@ -598,6 +598,16 @@ Rails.application.routes.draw do
   get '/swagger/*path', to: 'swagger#respond'
   get '/swagger', to: 'swagger#respond'
 
+  # Serve SDK file from dist directory
+  get '/packs/js/sdk.js', to: proc { |env|
+    file_path = Rails.root.join('dist', 'js', 'sdk.js')
+    if File.exist?(file_path)
+      [200, { 'Content-Type' => 'application/javascript' }, [File.read(file_path)]]
+    else
+      [404, {}, ['SDK file not found']]
+    end
+  }
+
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?

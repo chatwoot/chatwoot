@@ -44,6 +44,7 @@ if (isLibraryMode) {
 
 export default defineConfig({
   plugins: plugins,
+  publicDir: isLibraryMode ? false : 'public', // Disable public dir copying for library mode
   build: {
     rollupOptions: {
       output: {
@@ -51,7 +52,7 @@ export default defineConfig({
         // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
         ...(isLibraryMode
           ? {
-              dir: 'public/packs',
+              dir: 'dist',
               entryFileNames: chunkInfo => {
                 if (chunkInfo.name === 'sdk') {
                   return 'js/sdk.js';

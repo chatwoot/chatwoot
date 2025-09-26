@@ -244,15 +244,14 @@ docker-compose -f docker-compose.dev.yaml down -v
 # 1. Запустите базовые сервисы
 docker-compose up -d postgres redis mailhog
 
-# 2. Запустите основные сервисы  
-docker-compose up -d rails sidekiq
-
-# 3. (Опционально) Запустите Vite dev server
-docker-compose up -d vite
+# 2. Запустите все сервисы  
+docker-compose up -d rails sidekiq vite
 
 # Проверьте статус всех сервисов
 docker-compose ps
 ```
+Тестовые учетные данные для входа в админку:
+(name: 'John', email: 'john@acme.inc', password: 'Password1!', type: 'SuperAdmin')
 
 **Что было исправлено для полного Docker запуска:**
 - ✅ Настроены правильные environment переменные для связи между контейнерами
