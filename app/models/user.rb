@@ -57,7 +57,7 @@ class User < ApplicationRecord
          :rememberable,
          :trackable,
          :validatable,
-         :confirmable,
+         :confirmable, # NOTE: Still needed for tracking email verification status, but now using OTP system
          :password_has_required_content,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
@@ -117,6 +117,9 @@ class User < ApplicationRecord
   end
 
   def send_devise_notification(notification, *args)
+    # Skip sending confirmation_instructions - now using OTP verification system
+    return if notification == :confirmation_instructions
+    
     devise_mailer.with(account: Current.account).send(notification, self, *args).deliver_later
   end
 
@@ -167,7 +170,7 @@ class User < ApplicationRecord
   has_many :otps, dependent: :destroy
 
   # OTP Methods
-  def generate_otp(purpose = 'email_verification', expires_in_minutes = 5, request = nil)
+  def generate_otp(purpose = 'email_verification', expires_in_minutes = OtpConfig.expiry_minutes, request = nil)
     Rails.logger.info "Generating OTP for user #{id} with purpose: #{purpose}"
     begin
       otp = Otp.generate_for_user(self, purpose, expires_in_minutes, request)
