@@ -3,5 +3,14 @@
         "chatwoot",
         "dompurify"
     ],
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "files.exclude": {
+        "**/.pnpm-store": true
+    },
+    "files.watcherExclude": {
+        "**/.pnpm-store/**": true
+    },
+    "search.exclude": {
+        "**/.pnpm-store": true
+    }
 }
