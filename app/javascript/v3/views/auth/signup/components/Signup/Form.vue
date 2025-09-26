@@ -8,6 +8,7 @@ import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import SimpleDivider from '../../../../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
@@ -22,6 +23,7 @@ export default {
     GoogleOAuthButton,
     NextButton,
     SimpleDivider,
+    Icon,
     VueHcaptcha,
   },
   setup() {
@@ -233,22 +235,24 @@ export default {
         aria-describedby="password-requirements"
         @blur="v$.credentials.password.$touch"
       />
-      <div id="password-requirements" class="text-xs space-y-2">
-        <p class="font-medium text-n-slate-11">
+      <div
+        id="password-requirements"
+        class="text-xs space-y-2 rounded-md p-4 outline outline-1 outline-n-weak bg-n-alpha-black2"
+      >
+        <p class="font-medium text-xs text-n-slate-11">
           {{ $t('REGISTER.PASSWORD.REQUIREMENTS') }}
         </p>
-        <ul role="list" class="space-y-1">
+        <ul role="list" class="space-y-1 grid grid-cols-2">
           <li
             v-for="item in passwordRequirementItems"
             :key="item.id"
             class="flex gap-1 items-center"
           >
-            <span
+            <Icon
               class="flex-none flex-shrink-0 w-3"
-              :class="item.met ? 'text-n-teal-8' : 'text-n-slate-10'"
-            >
-              {{ item.met ? '✓' : '○' }}
-            </span>
+              :icon="item.met ? 'i-lucide-circle-check-big' : 'i-lucide-circle'"
+              :class="item.met ? 'text-n-teal-10' : 'text-n-slate-10'"
+            />
 
             <span :class="item.met ? 'text-n-slate-11' : 'text-n-slate-10'">
               {{ item.label }}
