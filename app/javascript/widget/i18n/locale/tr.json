@@ -14,13 +14,13 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Şu anda müsait değil"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Çevrimiçi",
     "OFFLINE": "Şu an operatörlerimiz müsait değil",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "En kısa sürede geri döneceğiz"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
