@@ -23,6 +23,10 @@ fr:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Veuillez saisir une adresse de courriel valide'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Super ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.
     reset_password_failure: Oh oh ! Nous n'avons trouvé aucun utilisateur avec le courriel spécifié.

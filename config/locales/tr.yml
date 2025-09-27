@@ -23,6 +23,10 @@ tr:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Lütfen geçerli bir e-posta adresi girin'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.

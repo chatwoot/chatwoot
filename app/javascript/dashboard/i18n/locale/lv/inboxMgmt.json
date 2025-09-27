@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Skripts",
       "MESSENGER_SUB_HEAD": "Ievietojiet šo pogu savā body tagā",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Aģenti",
       "INBOX_AGENTS_SUB_TEXT": "Pievienot vai noņemt aģentus no šīs iesūtnes",
       "AGENT_ASSIGNMENT": "Sarunas Piešķiršana",
