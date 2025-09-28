@@ -1189,22 +1189,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_09_22_000002) do
     t.integer "max_channels", default: 0
   end
 
-  create_table "subscription_plans_copy1", id: :bigint, default: -> { "nextval('subscription_plans_id_seq'::regclass)" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "max_mau", default: 0, null: false
-    t.integer "max_ai_agents", default: 0, null: false
-    t.integer "max_ai_responses", default: 0, null: false
-    t.integer "max_human_agents", default: 0, null: false
-    t.text "available_channels", default: [], array: true
-    t.string "support_level"
-    t.integer "duration_days"
-    t.decimal "monthly_price", precision: 16, scale: 2, null: false
-    t.decimal "annual_price", precision: 16, scale: 2, null: false
-    t.boolean "is_active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "subscription_plans_vouchers", id: false, force: :cascade do |t|
     t.bigint "subscription_plan_id", null: false
     t.bigint "voucher_id", null: false
