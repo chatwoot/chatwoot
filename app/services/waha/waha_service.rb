@@ -64,6 +64,22 @@ class Waha::WahaService
     { error: e.message }
   end
 
+  def delete_device(device_id:)
+    return unless waha_configured?
+
+    ensure_authenticated
+
+    response = HTTParty.delete(
+      "#{API_BASE}/devices/#{device_id}",
+      headers: auth_headers
+    )
+
+    raise "Failed to delete device: #{response.body}" unless response.success?
+
+    Rails.logger.info "Device #{phone_number} deleted successfully from WAHA"
+    response.parsed_response
+  end
+
   def initialize_whatsapp_session(api_key:)
     response = HTTParty.post(
       "#{API_BASE}/whatsapp/session",
