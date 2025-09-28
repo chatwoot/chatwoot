@@ -6,13 +6,8 @@
 
 name: Publish Chatwoot EE docker images
 
+# DISABLED - Using Railway deployment instead
 on:
-  push:
-    branches:
-      - develop
-      - master
-    tags:
-      - v*
   workflow_dispatch:
 
 env:

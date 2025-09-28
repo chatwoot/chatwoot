@@ -1,0 +1,32 @@
+name: Deploy to Railway (Simple)
+
+on:
+  push:
+    branches:
+      - overlay/main  # Tu rama principal
+      - main
+  workflow_dispatch:  # Para ejecutar manualmente
+
+env:
+  RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+  RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+jobs:
+  deploy:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Railway
+        uses: railwayapp/railway-deploy@v1
+        with:
+          railway-token: ${{ secrets.RAILWAY_TOKEN }}
+          service: ${{ secrets.RAILWAY_SERVICE_NAME || 'chatwoot' }}
+
+      - name: Deployment status
+        run: |
+          echo "✅ Deployment completed!"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
