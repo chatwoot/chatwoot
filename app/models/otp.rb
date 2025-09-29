@@ -106,7 +106,7 @@ class Otp < ApplicationRecord
   end
 
   # Generate OTP for user using upsert pattern
-  def self.generate_for_user(user, purpose = 'email_verification', expires_in_minutes = 5, request = nil)
+  def self.generate_for_user(user, purpose = 'email_verification', expires_in_minutes = OtpConfig.expiry_minutes, request = nil)
     Rails.logger.info "Generating OTP for user #{user.id}, purpose: #{purpose}"
     
     # Generate new OTP code

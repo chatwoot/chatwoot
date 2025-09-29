@@ -33,10 +33,8 @@ class Api::V1::ProfilesController < Api::BaseController
     head :ok
   end
 
-  def resend_confirmation
-    @user.send_confirmation_instructions unless @user.confirmed?
-    head :ok
-  end
+  # NOTE: resend_confirmation method removed - now using OTP verification system
+  # Users are redirected to OTP verification page instead
 
   private
 

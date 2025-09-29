@@ -204,13 +204,8 @@ export const actions = {
     }
   },
 
-  resendConfirmation: async () => {
-    try {
-      await authAPI.resendConfirmation();
-    } catch (error) {
-      // Ignore error
-    }
-  },
+  // resendConfirmation: Removed - now using OTP verification system
+  // Users are redirected to OTP verification page instead
 };
 
 // mutations

@@ -59,9 +59,15 @@ export default {
         const response = await generateOTP({ email: this.email });
         this.expiresAt = new Date(response.expires_at);
         this.startCountdown();
-        useAlert('OTP sent to your email address');
+        
+        // Check if this is an existing active OTP or new OTP
+        if (response.status === 'otp_already_active') {
+          useAlert(this.$t('OTP_VERIFICATION.MESSAGES.CODE_ALREADY_ACTIVE'));
+        } else {
+          useAlert(this.$t('OTP_VERIFICATION.MESSAGES.CODE_SENT'));
+        }
       } catch (error) {
-        this.error = 'Failed to generate OTP. Please try again.';
+        this.error = this.$t('OTP_VERIFICATION.ERRORS.FAILED_TO_GENERATE');
       }
     },
     
@@ -77,10 +83,10 @@ export default {
           email: this.email, 
           code: this.otpCode.trim() 
         });
-        useAlert('Email verified successfully!');
+        useAlert(this.$t('OTP_VERIFICATION.MESSAGES.VERIFICATION_SUCCESS'));
         this.$router.push('/auth/login?verified=true');
       } catch (error) {
-        this.error = error.response?.data?.error || 'Invalid or expired OTP code';
+        this.error = error.response?.data?.error || this.$t('OTP_VERIFICATION.ERRORS.INVALID_CODE');
       } finally {
         this.isVerificationInProgress = false;
       }
@@ -96,10 +102,10 @@ export default {
         const response = await resendOTP({ email: this.email });
         this.expiresAt = new Date(response.expires_at);
         this.startCountdown();
-        useAlert('OTP has been resent to your email');
+        useAlert(this.$t('OTP_VERIFICATION.MESSAGES.CODE_RESENT'));
         this.otpCode = ''; // Clear previous code
       } catch (error) {
-        this.error = error.response?.data?.error || 'Failed to resend OTP';
+        this.error = error.response?.data?.error || this.$t('OTP_VERIFICATION.ERRORS.FAILED_TO_RESEND');
       } finally {
         this.isResendingOTP = false;
       }
@@ -152,10 +158,10 @@ export default {
           <div class="w-full mx-auto max-w-md">
             <div class="mb-8">
               <h2 class="mt-6 text-3xl font-medium text-center text-slate-900 dark:text-woot-50">
-                Verify Your Email
+                {{ $t('OTP_VERIFICATION.TITLE') }}
               </h2>
               <p class="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
-                We've sent a verification code to
+                {{ $t('OTP_VERIFICATION.SUBTITLE') }}
               </p>
               <p class="text-center text-sm font-medium text-slate-900 dark:text-woot-50">
                 {{ email }}
@@ -173,8 +179,8 @@ export default {
                 <FormInput
                   v-model.trim="otpCode"
                   :class="{ error: v$.otpCode.$error }"
-                  :error="v$.otpCode.$error ? 'Please enter a valid 6-digit code' : ''"
-                  :placeholder="'Enter 6-digit code'"
+                  :error="v$.otpCode.$error ? $t('OTP_VERIFICATION.OTP_CODE.ERROR') : ''"
+                  :placeholder="$t('OTP_VERIFICATION.OTP_CODE.PLACEHOLDER')"
                   data-testid="otp-code-input"
                   type="text"
                   maxlength="6"
@@ -187,7 +193,7 @@ export default {
                 <SubmitButton
                   :disabled="v$.otpCode.$invalid"
                   :loading="isVerificationInProgress"
-                  button-text="Verify Email"
+                  :button-text="$t('OTP_VERIFICATION.BUTTONS.VERIFY')"
                   class="w-full"
                   data-testid="verify-email-button"
                 />
@@ -195,11 +201,11 @@ export default {
 
               <div class="text-center space-y-3">
                 <div class="text-sm text-slate-600 dark:text-slate-400">
-                  Didn't receive the code?
+                  {{ $t('OTP_VERIFICATION.MESSAGES.DIDNT_RECEIVE') }}
                 </div>
                 
                 <div v-if="countdown > 0" class="text-sm text-slate-500 dark:text-slate-500">
-                  Resend available in {{ formatTime(countdown) }}
+                  {{ $t('OTP_VERIFICATION.MESSAGES.COUNTDOWN') }} {{ formatTime(countdown) }}
                 </div>
                 
                 <button
@@ -209,8 +215,8 @@ export default {
                   type="button"
                   @click="resendCode"
                 >
-                  <span v-if="isResendingOTP">Sending...</span>
-                  <span v-else>Resend Code</span>
+                  <span v-if="isResendingOTP">{{ $t('OTP_VERIFICATION.BUTTONS.RESENDING') }}</span>
+                  <span v-else>{{ $t('OTP_VERIFICATION.BUTTONS.RESEND') }}</span>
                 </button>
               </div>
 
@@ -220,7 +226,7 @@ export default {
                   type="button"
                   @click="goToSignup"
                 >
-                  ← Back to Sign Up
+                  {{ $t('OTP_VERIFICATION.BUTTONS.BACK_TO_SIGNUP') }}
                 </button>
               </div>
             </form>

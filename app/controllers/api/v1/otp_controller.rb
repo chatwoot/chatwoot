@@ -1,4 +1,6 @@
 class Api::V1::OtpController < Api::BaseController
+  include AuthHelper
+  
   skip_before_action :authenticate_access_token!, only: [:generate, :verify, :resend, :status]
   skip_before_action :authenticate_user!, only: [:generate, :verify, :resend, :status]
   skip_before_action :validate_bot_access_token!, only: [:generate, :verify, :resend, :status]
@@ -46,7 +48,7 @@ class Api::V1::OtpController < Api::BaseController
 
   def generate
     Rails.logger.info "OTP Generate request for email: #{params[:email]}"
-    
+
     user = User.find_by(email: params[:email])
 
     if user.blank?
@@ -69,16 +71,17 @@ class Api::V1::OtpController < Api::BaseController
     if existing_otp.present?
       Rails.logger.info "Active OTP already exists for user: #{user.id}, expires at: #{existing_otp.expires_at}"
       return render json: { 
-        message: 'OTP already sent and still active',
+        message: 'You already have an active verification code. Please check your email or wait for it to expire before requesting a new one.',
         expires_at: existing_otp.expires_at,
         expires_in: ((existing_otp.expires_at - Time.current) / 60).round(0),
-        resend_available: false
+        resend_available: false,
+        status: 'otp_already_active'
       }, status: :ok
     end
 
     # Generate OTP for email verification
-    Rails.logger.info "Generating OTP for user: #{user.id}"
-    otp = user.generate_otp('email_verification', 5, request)
+    Rails.logger.info "Generating OTP for user: #{user.id} with expiry: #{OtpConfig.expiry_minutes} minutes"
+    otp = user.generate_otp('email_verification', OtpConfig.expiry_minutes, request)
     Rails.logger.info "OTP generated: #{otp.present? ? 'success' : 'failed'}"
 
     if otp
@@ -160,6 +163,9 @@ class Api::V1::OtpController < Api::BaseController
             Rails.logger.error "Failed to send verification success email: #{email_error.message}"
           end
           
+          # Set auth headers
+          send_auth_headers(user)
+          
           render json: { 
             message: 'Email verified and account created successfully. You can now log in.',
             verified: true,
@@ -231,7 +237,7 @@ class Api::V1::OtpController < Api::BaseController
     end
 
     # Generate new OTP (this will invalidate old ones)
-    otp = user.generate_otp('email_verification', 5, request)
+    otp = user.generate_otp('email_verification', OtpConfig.expiry_minutes, request)
 
     if otp
       # Send OTP email

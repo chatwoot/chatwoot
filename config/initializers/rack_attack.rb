@@ -94,10 +94,7 @@ class Rack::Attack
     end
   end
 
-  ## Resend confirmation throttling
-  throttle('resend_confirmation/ip', limit: 5, period: 30.minutes) do |req|
-    req.ip if req.path_without_extentions == '/api/v1/profile/resend_confirmation' && req.post?
-  end
+  ## Resend confirmation throttling - Removed, now using OTP verification system
 
   ## Prevent Brute-Force Signup Attacks ###
   throttle('accounts/ip', limit: 5, period: 30.minutes) do |req|

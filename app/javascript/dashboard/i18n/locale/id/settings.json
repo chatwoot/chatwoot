@@ -208,9 +208,9 @@
     "TRIAL_MESSAGE": "hari percobaan tersisa.",
     "TRAIL_BUTTON": "Beli Sekarang",
     "DELETED_USER": "Pengguna Dihapus",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "EMAIL_VERIFICATION_PENDING": "Sepertinya Anda belum memverifikasi alamat email Anda. Silakan verifikasi email untuk melanjutkan.",
+    "VERIFY_EMAIL_NOW": "Verifikasi Email Sekarang",
+    "EMAIL_VERIFICATION_SENT": "Email verifikasi telah dikirim. Silakan periksa kotak masuk Anda.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Akun Ditangguhkan",
       "MESSAGE": "Akun Anda ditangguhkan. Silakan hubungi tim dukungan untuk informasi lebih lanjut."

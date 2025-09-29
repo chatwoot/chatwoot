@@ -98,8 +98,5 @@ export default {
       },
     });
   },
-  resendConfirmation() {
-    const urlData = endPoints('resendConfirmation');
-    return axios.post(urlData.url);
-  },
+  // resendConfirmation: Removed - now using OTP verification system
 };

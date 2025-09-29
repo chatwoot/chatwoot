@@ -1,7 +1,7 @@
 {
   "OTP_VERIFICATION": {
-    "TITLE": "Email Verification",
-    "SUBTITLE": "Please enter the 6-digit verification code sent to your email address.",
+    "TITLE": "Verify Your Email",
+    "SUBTITLE": "We've sent a verification code to",
     "OTP_CODE": {
       "LABEL": "Verification Code",
       "PLACEHOLDER": "Enter 6-digit code",
@@ -10,22 +10,26 @@
     "BUTTONS": {
       "VERIFY": "Verify Email",
       "RESEND": "Resend Code",
-      "BACK_TO_SIGNUP": "Back to Sign Up"
+      "RESENDING": "Sending...",
+      "BACK_TO_SIGNUP": "← Back to Sign Up"
     },
     "MESSAGES": {
-      "CODE_SENT": "Verification code has been sent to your email.",
-      "CODE_RESENT": "Verification code has been resent.",
+      "CODE_SENT": "OTP sent to your email address",
+      "CODE_ALREADY_ACTIVE": "You already have an active verification code. Please check your email.",
+      "CODE_RESENT": "OTP has been resent to your email",
       "VERIFICATION_SUCCESS": "Email verified successfully!",
       "ACCOUNT_CREATED": "Account created successfully! Redirecting to login...",
-      "COUNTDOWN": "Resend code in {{seconds}} seconds",
+      "COUNTDOWN": "Resend available in",
+      "DIDNT_RECEIVE": "Didn't receive the code?",
       "EXPIRED": "Code expired. Please request a new one."
     },
     "ERRORS": {
       "USER_NOT_FOUND": "User not found",
       "EMAIL_ALREADY_VERIFIED": "Email already verified", 
-      "INVALID_CODE": "Invalid or expired verification code",
-      "FAILED_TO_GENERATE": "Failed to generate verification code",
+      "INVALID_CODE": "Invalid or expired OTP code",
+      "FAILED_TO_GENERATE": "Failed to generate OTP. Please try again.",
       "FAILED_TO_VERIFY": "Failed to verify code",
+      "FAILED_TO_RESEND": "Failed to resend OTP",
       "WAIT_BEFORE_RESEND": "Please wait before requesting a new code"
     }
   }

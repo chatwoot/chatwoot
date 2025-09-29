@@ -48,9 +48,7 @@ const endPoints = {
     url: '/api/v1/profile/set_active_account',
   },
 
-  resendConfirmation: {
-    url: '/api/v1/profile/resend_confirmation',
-  },
+  // resendConfirmation: Removed - now using OTP verification system
 };
 
 export default page => {

@@ -13,7 +13,7 @@ export default {
       return this.$t('APP_GLOBAL.EMAIL_VERIFICATION_PENDING');
     },
     actionButtonMessage() {
-      return this.$t('APP_GLOBAL.RESEND_VERIFICATION_MAIL');
+      return this.$t('APP_GLOBAL.VERIFY_EMAIL_NOW');
     },
     shouldShowBanner() {
       return !this.currentUser.confirmed;
@@ -21,8 +21,9 @@ export default {
   },
   methods: {
     resendVerificationEmail() {
-      this.$store.dispatch('resendConfirmation');
-      useAlert(this.$t('APP_GLOBAL.EMAIL_VERIFICATION_SENT'));
+      // Redirect to OTP verification page instead of sending confirmation email
+      const email = this.currentUser.email;
+      window.location.href = `/auth/verification?email=${encodeURIComponent(email)}`;
     },
   },
 };
