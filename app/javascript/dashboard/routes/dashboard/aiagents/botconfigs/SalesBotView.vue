@@ -1497,6 +1497,18 @@ function retryAuthentication() {
 function disconnectGoogle() {
   // TODO: Implement disconnect logic
   console.log('Disconnect Google account clicked');
+  googleSheetsExportAPI.disconnectAccount()
+    .then(() => {
+      props.googleSheetsAuth.step = 'auth';
+      props.googleSheetsAuth.account = null;
+      props.googleSheetsAuth.spreadsheetUrls.booking = { input: null, output: null };
+      props.googleSheetsAuth.error = null;
+      showNotification('Disconnected from Google successfully.', 'success');
+    })
+    .catch((error) => {
+      console.error('Failed to disconnect Google account:', error);
+      showNotification('Failed to disconnect Google account. Please try again.', 'error');
+    });
 }
 
 function showNotification(message, type = 'success') {

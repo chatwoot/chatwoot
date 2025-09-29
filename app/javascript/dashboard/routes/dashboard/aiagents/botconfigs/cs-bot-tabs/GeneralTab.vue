@@ -26,6 +26,7 @@ const props = defineProps({
   },
 });
 
+console.log('=== googleSheetsAuth in GeneralTab.vue', props.googleSheetsAuth);
 const { t } = useI18n();
 // Watch for props.data and extract ticket system settings
 watch(
@@ -142,13 +143,29 @@ async function connectGoogle() {
 
 function disconnectGoogle() {
   // TODO: Implement disconnect logic
-
+  console.log('Disconnect Google account clicked');
+  googleSheetsExportAPI.disconnectAccount()
+    .then(() => {
+      // Clear parent's auth state
+      props.googleSheetsAuth.account = null;
+      props.googleSheetsAuth.step = 'auth';
+      props.googleSheetsAuth.spreadsheetUrls.customer_service.output = '';
+      props.googleSheetsAuth.error = null;
+      showNotification('Google account disconnected successfully.', 'success');
+    })
+    .catch(error => {
+      console.error('Failed to disconnect Google account:', error);
+      showNotification(
+        'Failed to disconnect Google account. Please try again.',
+        'error'
+      );
+    });
 }
 
 async function createTicketSheet() {
   try {
     props.googleSheetsAuth.loading = true;
-
+    console.log(JSON.stringify(props.data));
     
     const flowData = props.data.display_flow_data;
     const payload = {
@@ -189,16 +206,19 @@ async function save() {
     isSaving.value = true;
     // Hardcoded payload, exactly as you had it
     let flowData = props.data.display_flow_data;
+    // console.log(flowData)
     const agent_index = flowData.enabled_agents.indexOf('customer_service');
     flowData.agents_config[agent_index].configurations.ticket_system =
       ticketSystem;
+    // console.log(flowData);
+    // console.log(props.config);
     const payload = {
       flow_data: flowData,
     };
     // ✅ Properly await the API call
     await aiAgents.updateAgent(props.data.id, payload);
 
-
+    // ✅ Show success console.log after success
     useAlert(t('AGENT_MGMT.CSBOT.TICKET.SAVE_SUCCESS'));
   } catch (e) {
     console.error('Save error:', e);
@@ -207,6 +227,11 @@ async function save() {
     isSaving.value = false;
   }
 }
+
+console.log("ticketAuthError inside GeneralTab.vue:", ticketAuthError)
+console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError)
+console.log("is ticketAuthError value inside GeneralTab.vue:", ticketAuthError.value)
+console.log("is ticketAuthError value inside GeneralTab.vue:", !ticketAuthError.value)
 </script>
 
 <template>
@@ -313,7 +338,7 @@ async function save() {
                 </div>
                 
                 <div class="flex gap-2 align-center content-center">
-                  <template v-if="!ticketAuthError">
+                  <template v-if="true">
                     <button
                       class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                       @click="createTicketSheet"
@@ -368,7 +393,7 @@ async function save() {
                 </div>
                   <div class="space-y-3">
                     <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded-lg">
-                      <div v-if="!ticketAuthError">
+                      <div v-if="ticketAuthError === null || !ticketAuthError.value">
                         <a 
                           :href="ticketSheets.output" 
                           target="_blank" 
@@ -380,7 +405,7 @@ async function save() {
                           {{ $t('AGENT_MGMT.BOOKING_BOT.OPEN_SHEET_BTN') }}
                         </a>
                       </div>
-                      <div v-if="ticketAuthError" class="text-red-600 text-sm flex items-center gap-2">
+                      <div v-if="ticketAuthError.value" class="text-red-600 text-sm flex items-center gap-2">
                         <button
                           @click="retryAuthentication"
                           class="inline-flex items-center space-x-2 border-2 border-green-700 hover:border-green-700 dark:border-green-700 text-green-600 hover:text-green-700 dark:text-grey-400 dark:hover:text-grey-500 px-4 py-2 rounded-md font-medium transition-colors bg-transparent hover:bg-grey-50 dark:hover:bg-grey-900/20 ml-3"

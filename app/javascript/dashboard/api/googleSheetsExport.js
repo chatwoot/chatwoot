@@ -8,11 +8,16 @@ class GoogleSheetsExportAPI extends ApiClient {
   }
 
   getStatus() {
+    console.log("Calling getStatus API...");
     return this.get("status")
   }
 
   getAuthorizationUrl() {
     return this.get("authorize")
+  }
+
+  disconnectAccount() {
+    return this.delete('disconnect');
   }
 
   createSpreadsheet(payload) {

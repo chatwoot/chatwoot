@@ -494,6 +494,7 @@ Rails.application.routes.draw do
               post :generate
               post :spreadsheet_url
               post :sync
+              delete :disconnect
             end
           end
         end

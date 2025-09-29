@@ -119,26 +119,26 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       else
         # Map external API errors to appropriate status codes
         error_status = case response.code
-        when 400
-          :bad_request
-        when 401
-          :unauthorized
-        when 403
-          :forbidden
-        when 404
-          :not_found
-        when 409
-          :conflict
-        when 422
-          :unprocessable_entity
-        when 429
-          :too_many_requests
-        when 500, 501, 502, 503, 504
-          :service_unavailable
-        else
-          :service_unavailable
-        end
-        
+                       when 400
+                         :bad_request
+                       when 401
+                         :unauthorized
+                       when 403
+                         :forbidden
+                       when 404
+                         :not_found
+                       when 409
+                         :conflict
+                       when 422
+                         :unprocessable_entity
+                       when 429
+                         :too_many_requests
+                       when 500, 501, 502, 503, 504
+                         :service_unavailable
+                       else
+                         :service_unavailable
+                       end
+
         render json: {
           error: 'Failed to create spreadsheet',
           status: response.code,
@@ -149,6 +149,58 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       render json: {
         error: 'Failed to connect to external service',
         message: e.message
+      }, status: :service_unavailable
+    end
+  end
+
+  def disconnect
+    account_id = params[:account_id]
+    return render json: { error: 'Missing required parameter: account_id' }, status: :bad_request unless account_id
+
+    base_api_url = GlobalConfigService.load('EXTERNAL_TOKEN_API_URL', nil)
+    return render json: { error: 'EXTERNAL_TOKEN_API_URL not configured' }, status: :service_unavailable unless base_api_url
+
+    # Replace base path and append `/disconnect`
+    # Example: http://0.0.0.0:8080/v2/oauth/google/credentials
+    # → http://0.0.0.0:8080/v2/oauth/google/credentials/{account_id}/disconnect
+    target_url = base_api_url.gsub(%r{/v2/oauth/google/.*}, "/v2/oauth/google/credentials/#{account_id}/disconnect")
+
+    begin
+      response = HTTParty.delete(
+        target_url,
+        headers: { 'Content-Type' => 'application/json' },
+        timeout: 15
+      )
+
+      if response.success?
+        render json: {
+          message: 'Account disconnected successfully',
+          response: response.parsed_response
+        }, status: :ok
+      else
+        error_status = case response.code
+                       when 400 then :bad_request
+                       when 401 then :unauthorized
+                       when 403 then :forbidden
+                       when 404 then :not_found
+                       when 409 then :conflict
+                       when 422 then :unprocessable_entity
+                       when 429 then :too_many_requests
+                       when 500, 501, 502, 503, 504 then :service_unavailable
+                       else :service_unavailable
+                       end
+
+        render json: {
+          error: 'Failed to disconnect account',
+          status: response.code,
+          message: response.parsed_response
+        }, status: error_status
+      end
+    rescue StandardError => e
+      render json: {
+        error: 'Failed to connect to external service',
+        message: e.message,
+        target_url: target_url
       }, status: :service_unavailable
     end
   end
@@ -169,14 +221,13 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
     # Validate supported types
     supported_types = %w[tickets booking restaurant sales]
     unless supported_types.include?(payload[:type])
-      return render json: { error: "Unsupported spreadsheet type '#{payload[:type]}'. Supported types: #{supported_types.join(', ')}", payload: payload }, status: :bad_request
+      return render json: { error: "Unsupported spreadsheet type '#{payload[:type]}'. Supported types: #{supported_types.join(', ')}", payload: payload },
+                    status: :bad_request
     end
 
     # Build external API URL
     base_api_url = GlobalConfigService.load('EXTERNAL_TOKEN_API_URL', nil)
-    unless base_api_url
-      return render json: { error: 'EXTERNAL_TOKEN_API_URL not configured' }, status: :service_unavailable
-    end
+    return render json: { error: 'EXTERNAL_TOKEN_API_URL not configured' }, status: :service_unavailable unless base_api_url
 
     # Replace the base path and append `/spreadsheet`
     # Example: http://0.0.0.0:8080/v2/oauth/google/credentials → http://0.0.0.0:8080/v2/oauth/google/spreadsheet
@@ -204,14 +255,14 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
               spreadsheet_url: spreadsheet_url
             }, status: :ok
           else
-            render json: { 
+            render json: {
               status: 422,
-              error: 'Spreadsheet URL not returned', 
+              error: 'Spreadsheet URL not returned',
               response: json_response,
               payload: payload
             }, status: :unprocessable_entity
           end
-          
+
         when 'booking', 'restaurant', 'sales'
           input_url = json_response['input_spreadsheet_url']
           output_url = json_response['output_spreadsheet_url']
@@ -233,7 +284,7 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
           end
 
         else
-          render json: { 
+          render json: {
             status: 400,
             error: 'Unsupported spreadsheet type. Supported types: tickets, booking, restaurant, sales',
             payload: payload
@@ -242,44 +293,44 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       else
         # Enhanced error handling based on HTTP status
         error_message = case response.code
-        when 400
-          'Bad request to external service'
-        when 401
-          'Authentication required for Google Sheets'
-        when 403
-          'Permission denied - check Google Sheets access'
-        when 404
-          'Spreadsheet not found'
-        when 429
-          'Too many requests - please try again later'
-        when 500
-          'Internal server error in external service'
-        else
-          'Failed to retrieve spreadsheet URLs'
-        end
-        
+                        when 400
+                          'Bad request to external service'
+                        when 401
+                          'Authentication required for Google Sheets'
+                        when 403
+                          'Permission denied - check Google Sheets access'
+                        when 404
+                          'Spreadsheet not found'
+                        when 429
+                          'Too many requests - please try again later'
+                        when 500
+                          'Internal server error in external service'
+                        else
+                          'Failed to retrieve spreadsheet URLs'
+                        end
+
         # Map external API errors to appropriate status codes
         error_status = case response.code
-        when 400
-          :bad_request
-        when 401
-          :unauthorized
-        when 403
-          :forbidden
-        when 404
-          :not_found
-        when 409
-          :conflict
-        when 422
-          :unprocessable_entity
-        when 429
-          :too_many_requests
-        when 500, 501, 502, 503, 504
-          :service_unavailable
-        else
-          :service_unavailable
-        end
-        
+                       when 400
+                         :bad_request
+                       when 401
+                         :unauthorized
+                       when 403
+                         :forbidden
+                       when 404
+                         :not_found
+                       when 409
+                         :conflict
+                       when 422
+                         :unprocessable_entity
+                       when 429
+                         :too_many_requests
+                       when 500, 501, 502, 503, 504
+                         :service_unavailable
+                       else
+                         :service_unavailable
+                       end
+
         render json: {
           status: response.code,
           error: error_message,
@@ -347,26 +398,26 @@ class Api::V2::Accounts::GoogleSheetsExportController < Api::V1::Accounts::BaseC
       else
         # Map external API errors to appropriate status codes
         error_status = case response.code
-        when 400
-          :bad_request
-        when 401
-          :unauthorized
-        when 403
-          :forbidden
-        when 404
-          :not_found
-        when 409
-          :conflict
-        when 422
-          :unprocessable_entity
-        when 429
-          :too_many_requests
-        when 500, 501, 502, 503, 504
-          :service_unavailable
-        else
-          :service_unavailable
-        end
-        
+                       when 400
+                         :bad_request
+                       when 401
+                         :unauthorized
+                       when 403
+                         :forbidden
+                       when 404
+                         :not_found
+                       when 409
+                         :conflict
+                       when 422
+                         :unprocessable_entity
+                       when 429
+                         :too_many_requests
+                       when 500, 501, 502, 503, 504
+                         :service_unavailable
+                       else
+                         :service_unavailable
+                       end
+
         render json: {
           error: 'Failed to sync spreadsheet',
           status: response.code,
