@@ -13,10 +13,12 @@ properties:
           'conversation_created',
           'conversation_status_changed',
           'conversation_updated',
+          'conversation_deleted',
           'message_created',
           'message_updated',
           'contact_created',
           'contact_updated',
+          'contact_deleted',
           'webwidget_triggered',
         ]
     description: The events you want to subscribe to.
