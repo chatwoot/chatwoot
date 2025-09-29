@@ -24,6 +24,10 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def channels
+    # Split channel fetching into separate API calls to avoid rate limiting issues.
+    # Slack's API handles single-type requests (public OR private) much more efficiently
+    # than mixed-type requests (public AND private). This approach eliminates rate limits
+    # that occur when requesting both channel types simultaneously.
     channel_list = []
 
     # Step 1: Fetch all private channels in one call (expect very few)
