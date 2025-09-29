@@ -80,6 +80,8 @@ export default {
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
+      setQuotedReplyFlagForInbox,
+      fetchQuotedReplyFlagFromUISettings,
     } = useUISettings();
 
     const replyEditor = useTemplateRef('replyEditor');
@@ -89,6 +91,8 @@ export default {
       updateUISettings,
       isEditorHotKeyEnabled,
       fetchSignatureFlagFromUISettings,
+      setQuotedReplyFlagForInbox,
+      fetchQuotedReplyFlagFromUISettings,
       replyEditor,
     };
   },
@@ -121,6 +125,9 @@ export default {
       newConversationModalActive: false,
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
+      quotedReplyForDraft: false,
+      quotedReplyExpanded: false,
+      hasTemporarilyDisabledQuotedReply: false,
     };
   },
   computed: {
@@ -367,6 +374,101 @@ export default {
       const { slug = '' } = portal;
       return slug;
     },
+    quotedReplyPreference() {
+      if (!this.isAnEmailChannel) {
+        return false;
+      }
+
+      return !!this.fetchQuotedReplyFlagFromUISettings(this.channelType);
+    },
+    lastEmailWithQuotedContent() {
+      if (!this.isAnEmailChannel) {
+        return null;
+      }
+
+      const messages = this.currentChat?.messages || [];
+      for (let index = messages.length - 1; index >= 0; index -= 1) {
+        const message = messages[index];
+        if (!message || message.private) {
+          continue;
+        }
+
+        const contentAttributes =
+          message.contentAttributes || message.content_attributes || {};
+        const emailContent = contentAttributes.email;
+        if (!emailContent) {
+          continue;
+        }
+
+        const textContent =
+          emailContent.textContent || emailContent.text_content;
+        const htmlContent =
+          emailContent.htmlContent || emailContent.html_content;
+        const hasTextReply = !!(textContent?.reply || textContent?.full);
+        const hasHtmlReply = !!(htmlContent?.reply || htmlContent?.full);
+
+        if (hasTextReply || hasHtmlReply) {
+          return message;
+        }
+      }
+
+      return null;
+    },
+    quotedEmailText() {
+      if (!this.lastEmailWithQuotedContent) {
+        return '';
+      }
+
+      const contentAttributes =
+        this.lastEmailWithQuotedContent.contentAttributes ||
+        this.lastEmailWithQuotedContent.content_attributes ||
+        {};
+      const emailContent = contentAttributes.email || {};
+      const textContent = emailContent.textContent || emailContent.text_content;
+      if (textContent?.reply) {
+        return textContent.reply;
+      }
+      if (textContent?.full) {
+        return textContent.full;
+      }
+
+      const htmlContent = emailContent.htmlContent || emailContent.html_content;
+      if (htmlContent?.reply) {
+        return this.extractPlainTextFromHtml(htmlContent.reply);
+      }
+      if (htmlContent?.full) {
+        return this.extractPlainTextFromHtml(htmlContent.full);
+      }
+
+      const fallbackContent =
+        this.lastEmailWithQuotedContent.content ||
+        this.lastEmailWithQuotedContent.processed_message_content ||
+        '';
+
+      return fallbackContent;
+    },
+    quotedEmailPreviewText() {
+      const preview = this.quotedEmailText.trim().replace(/\s+/g, ' ');
+      if (!preview) {
+        return '';
+      }
+
+      const maxLength = 80;
+      if (preview.length <= maxLength) {
+        return preview;
+      }
+      return `${preview.slice(0, maxLength - 3)}...`;
+    },
+    shouldShowQuotedReplyToggle() {
+      return this.isAnEmailChannel && !this.isOnPrivateNote;
+    },
+    shouldShowQuotedPreview() {
+      return (
+        this.shouldShowQuotedReplyToggle &&
+        this.quotedReplyForDraft &&
+        !!this.quotedEmailText
+      );
+    },
   },
   watch: {
     currentChat(conversation, oldConversation) {
@@ -389,6 +491,7 @@ export default {
       }
 
       this.fetchAndSetReplyTo();
+      this.initializeQuotedReplyState();
     },
     // When moving from one conversation to another, the store may not have the
     // list of all the messages. A fetch is subsequently made to get the messages.
@@ -407,6 +510,7 @@ export default {
         this.setToDraft(oldConversationId, this.replyType);
         this.getFromDraft();
         this.resetRecorderAndClearAttachments();
+        this.initializeQuotedReplyState();
       }
     },
     message(updatedMessage) {
@@ -435,6 +539,53 @@ export default {
       this.setToDraft(this.conversationIdByRoute, oldReplyType);
       this.getFromDraft();
     },
+    quotedReplyPreference(newValue, oldValue) {
+      if (newValue === oldValue) {
+        return;
+      }
+
+      if (!this.shouldShowQuotedReplyToggle || !newValue) {
+        this.clearQuotedReplyState();
+        this.hasTemporarilyDisabledQuotedReply = false;
+        return;
+      }
+
+      if (!this.hasTemporarilyDisabledQuotedReply) {
+        this.quotedReplyForDraft = !!this.quotedEmailText;
+        this.quotedReplyExpanded = false;
+      }
+    },
+    quotedEmailText(newValue, oldValue) {
+      if (newValue === oldValue) {
+        return;
+      }
+
+      if (!newValue) {
+        this.clearQuotedReplyState();
+        return;
+      }
+
+      if (
+        this.quotedReplyPreference &&
+        !this.hasTemporarilyDisabledQuotedReply
+      ) {
+        this.quotedReplyForDraft = true;
+      }
+    },
+    channelType(newType, oldType) {
+      if (newType === oldType) {
+        return;
+      }
+      this.initializeQuotedReplyState();
+    },
+    isOnPrivateNote(isPrivate) {
+      if (isPrivate) {
+        this.clearQuotedReplyState();
+        this.hasTemporarilyDisabledQuotedReply = false;
+      } else {
+        this.initializeQuotedReplyState();
+      }
+    },
   },
 
   mounted() {
@@ -454,6 +605,8 @@ export default {
 
     this.fetchAndSetReplyTo();
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
+
+    this.initializeQuotedReplyState();
 
     // A hacky fix to solve the drag and drop
     // Is showing on top of new conversation modal drag and drop
@@ -515,6 +668,66 @@ export default {
           this.messageSignature
         );
       }
+    },
+    initializeQuotedReplyState() {
+      if (!this.shouldShowQuotedReplyToggle || !this.quotedEmailText) {
+        this.clearQuotedReplyState();
+        this.hasTemporarilyDisabledQuotedReply = false;
+        return;
+      }
+
+      this.hasTemporarilyDisabledQuotedReply = false;
+      this.quotedReplyForDraft =
+        this.quotedReplyPreference && !!this.quotedEmailText;
+      this.quotedReplyExpanded = false;
+    },
+    clearQuotedReplyState() {
+      this.quotedReplyForDraft = false;
+      this.quotedReplyExpanded = false;
+    },
+    toggleQuotedReply() {
+      if (!this.isAnEmailChannel) {
+        return;
+      }
+
+      const nextValue = !this.quotedReplyPreference;
+      this.setQuotedReplyFlagForInbox(this.channelType, nextValue);
+      this.hasTemporarilyDisabledQuotedReply = false;
+
+      if (nextValue && this.quotedEmailText) {
+        this.quotedReplyForDraft = true;
+        this.quotedReplyExpanded = false;
+      } else {
+        this.clearQuotedReplyState();
+      }
+    },
+    dismissQuotedPreview() {
+      this.clearQuotedReplyState();
+      this.hasTemporarilyDisabledQuotedReply = true;
+    },
+    expandQuotedPreview() {
+      if (this.quotedReplyExpanded || !this.quotedEmailText) {
+        return;
+      }
+      this.quotedReplyExpanded = true;
+    },
+    shouldIncludeQuotedEmail() {
+      return (
+        this.quotedReplyForDraft &&
+        this.shouldShowQuotedReplyToggle &&
+        !!this.quotedEmailText
+      );
+    },
+    extractPlainTextFromHtml(html) {
+      if (!html) {
+        return '';
+      }
+      if (typeof document === 'undefined') {
+        return html.replace(/<[^>]*>/g, ' ');
+      }
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      return tempDiv.textContent || tempDiv.innerText || '';
     },
     resetRecorderAndClearAttachments() {
       // Reset audio recorder UI state
@@ -716,6 +929,7 @@ export default {
     },
     async sendMessage(messagePayload) {
       try {
+        console.log(messagePayload);
         await this.$store.dispatch(
           'createPendingMessageAndSend',
           messagePayload
@@ -811,6 +1025,7 @@ export default {
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
       this.resetAudioRecorderInput();
+      this.initializeQuotedReplyState();
     },
     clearEmailField() {
       this.ccEmails = '';
@@ -996,6 +1211,10 @@ export default {
         messagePayload.toEmails = this.toEmails;
       }
 
+      if (this.shouldIncludeQuotedEmail()) {
+        messagePayload.quotedEmailText = this.quotedEmailText;
+      }
+
       return messagePayload;
     },
     setCcEmails(value) {
@@ -1160,6 +1379,50 @@ export default {
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
       />
+      <div v-if="shouldShowQuotedPreview" class="mt-2">
+        <div
+          v-if="!quotedReplyExpanded"
+          class="flex max-w-full cursor-pointer items-center gap-2 rounded-full bg-n-slate-3 px-3 py-1 text-xs text-n-slate-12 dark:bg-n-solid-3"
+          @click="expandQuotedPreview"
+        >
+          <span class="truncate" :title="quotedEmailPreviewText">
+            {{ quotedEmailPreviewText }}
+          </span>
+          <button
+            type="button"
+            class="flex-shrink-0 rounded-full p-1 hover:bg-n-slate-5"
+            :aria-label="
+              $t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')
+            "
+            @click.stop="dismissQuotedPreview"
+          >
+            <i class="i-ph-x text-sm" />
+          </button>
+        </div>
+        <div
+          v-else
+          class="rounded-md border border-dashed border-n-weak bg-n-slate-1 px-3 py-2 text-xs text-n-slate-12 dark:bg-n-solid-2"
+        >
+          <div class="mb-2 flex items-start justify-between gap-2">
+            <span class="font-medium">
+              {{ $t('CONVERSATION.REPLYBOX.QUOTED_REPLY.PREVIEW_TITLE') }}
+            </span>
+            <button
+              type="button"
+              class="flex-shrink-0 rounded-full p-1 hover:bg-n-slate-4"
+              :aria-label="
+                $t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')
+              "
+              @click="dismissQuotedPreview"
+            >
+              <i class="i-ph-x text-sm" />
+            </button>
+          </div>
+          <pre
+            class="max-h-60 overflow-y-auto whitespace-pre-wrap break-words"
+            >{{ quotedEmailText }}</pre>
+        </div>
+      </div>
     </div>
     <div
       v-if="hasAttachments && !showAudioRecorderEditor"
@@ -1195,6 +1458,8 @@ export default {
       :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
       :show-emoji-picker="showEmojiPicker"
       :show-file-upload="showFileUpload"
+      :show-quoted-reply-toggle="shouldShowQuotedReplyToggle"
+      :quoted-reply-enabled="quotedReplyPreference"
       :toggle-audio-recorder-play-pause="toggleAudioRecorderPlayPause"
       :toggle-audio-recorder="toggleAudioRecorder"
       :toggle-emoji-picker="toggleEmojiPicker"
@@ -1206,6 +1471,7 @@ export default {
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
+      @toggle-quoted-reply="toggleQuotedReply"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"
