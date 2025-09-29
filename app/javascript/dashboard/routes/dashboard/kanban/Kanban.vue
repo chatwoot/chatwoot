@@ -73,8 +73,32 @@ export default {
   },
 
   methods: {
-    
+    async handleItemDrop(item, labelToRemove, labelToAdd) {
+      // Pega as labels autais do item
+      const itemLabels = [...item.labels]
+      // Se labelToRemove faz parte das labels do item, remover
+      const labelToRemoveIndex = itemLabels.findIndex(label => label === labelToRemove.title)
+      if (labelToRemoveIndex > -1) {
+        itemLabels.splice(labelToRemove, 1)
+      }
+      // Se labelToAdd não faz parte das labels do item, adicionar
+      const labelToAddIndex = itemLabels.findIndex(label => label === labelToAdd.title)
+      if (labelToAddIndex < 0) {
+        itemLabels.push(labelToAdd.title)
+      }
+      // Chamar a API e adicionar as labels as convs
+      try {
+        await this.$store.dispatch('conversationLabels/update', {
+          conversationId: item.id,
+          labels: itemLabels
+        })
+      } catch (error) {
+        console.error("Erro ao atualizar labels: ", error)
+      }
+    },
+
     onDragStart(event, columnIndex, itemIndex) {
+      console.log("Arrastando item da coluna ", this.localColumns[columnIndex])
       this.draggedItem = this.localColumns[columnIndex].items[itemIndex]
       this.sourceColumnIndex = columnIndex
       this.sourceItemIndex = itemIndex
@@ -112,12 +136,15 @@ export default {
     },
 
     onDrop(_event, targetColumnIndex) {
+      console.log("Soltando item na coluna ", this.localColumns[targetColumnIndex])
       if (this.draggedItem && this.sourceColumnIndex !== null && this.sourceItemIndex !== null) {
         // Remove from source
         const [removed] = this.localColumns[this.sourceColumnIndex].items.splice(this.sourceItemIndex, 1)
+        console.log("Item arrastado = ", removed)
+        // Troca as labels
+        this.handleItemDrop(removed, this.localColumns[this.sourceColumnIndex].label_to_add, this.localColumns[targetColumnIndex].label_to_add)
         // Add to target
         this.localColumns[targetColumnIndex].items.push(removed)
-
         // Mirror to v-model
         this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
         this.$emit('moved', { 
@@ -218,6 +245,7 @@ export default {
         items: filteredConversations.map(conv => ({
           id: conv.id,
           content: conv.meta.sender.name,
+          labels: conv.labels
         })),
         labels: columnData.labels,
         label_to_add: columnData.label_to_add
@@ -270,7 +298,8 @@ export default {
         label_to_add: columnData.label_to_add,
         items: data.payload.map(conv => ({
           id: conv.id,
-          content: conv.meta.sender.name
+          content: conv.meta.sender.name,
+          labels: conv.labels
         }))
       };
 
