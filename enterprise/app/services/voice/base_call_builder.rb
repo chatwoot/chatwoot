@@ -41,7 +41,7 @@ class Voice::BaseCallBuilder
     attrs = conversation.additional_attributes || {}
     return if attrs['conference_sid'].present?
 
-    attrs['conference_sid'] = Voice::ConferenceSid.friendly_name(conversation)
+    attrs['conference_sid'] = Voice::Conference::Name.for(conversation)
     conversation.update!(additional_attributes: attrs)
   end
 

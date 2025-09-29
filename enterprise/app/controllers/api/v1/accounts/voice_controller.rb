@@ -31,7 +31,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     end
     conference_sid = conversation.additional_attributes&.dig('conference_sid')
     if conference_sid.blank?
-      conference_sid = Voice::ConferenceSid.friendly_name(conversation)
+      conference_sid = Voice::Conference::Name.for(conversation)
       conversation.update!(
         additional_attributes:
           (conversation.additional_attributes || {}).merge('conference_sid' => conference_sid)
@@ -59,7 +59,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   def conference_leave
     conversation = fetch_conversation_by_display_id
     # End the conference when an agent leaves from the app
-    Voice::ConferenceEndService.new(conversation: conversation).perform
+    Voice::Conference::EndService.new(conversation: conversation).perform
     render json: { status: 'success', conversation_id: conversation.display_id }
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: 'conversation_not_found', code: 'not_found', details: e.message }, status: :not_found

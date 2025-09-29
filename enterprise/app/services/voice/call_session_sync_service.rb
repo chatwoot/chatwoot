@@ -29,7 +29,7 @@ class Voice::CallSessionSyncService
     # We always persist the human-readable conference friendly name. Twilio's
     # opaque ConferenceSid is stored separately (see controller callbacks) and
     # is only used to correlate webhook payloads.
-    attrs['conference_sid'] = Voice::ConferenceSid.friendly_name(conversation)
+    attrs['conference_sid'] = Voice::Conference::Name.for(conversation)
     conversation.update!(additional_attributes: attrs)
   end
 
@@ -59,7 +59,7 @@ class Voice::CallSessionSyncService
       conversation: conversation,
       direction: current_direction,
       call_sid: message_call_sid,
-      conference_sid: attrs['conference_sid'] || Voice::ConferenceSid.friendly_name(conversation),
+      conference_sid: attrs['conference_sid'] || Voice::Conference::Name.for(conversation),
       from_number: origin_number_for(current_direction),
       to_number: target_number_for(current_direction),
       user: agent_for(attrs)

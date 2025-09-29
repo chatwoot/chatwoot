@@ -56,7 +56,7 @@ class Twilio::VoiceController < ApplicationController
       return render xml: fallback.to_s
     end
 
-    conference_sid = Voice::ConferenceSid.friendly_name(conversation)
+    conference_sid = Voice::Conference::Name.for(conversation)
     Rails.logger.info("TWILIO_VOICE_TWIML_CONFERENCE account=#{account.id} conference_sid=#{conference_sid}")
 
     response = Twilio::TwiML::VoiceResponse.new
@@ -129,7 +129,7 @@ class Twilio::VoiceController < ApplicationController
           end
         end
 
-        Voice::ConferenceManagerService.new(
+        Voice::Conference::Manager.new(
           conversation: conversation,
           event: mapped,
           call_sid: call_sid,
