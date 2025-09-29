@@ -15,6 +15,8 @@ export default {
     assignToAgent,
     productIdForMoreInfo,
     preChatFormResponse,
+    shouldShowMessageOnChat,
+    isAiNudge,
   }) => {
     const urlData = authEndPoint.updateMessage(messageId);
     return API.patch(urlData.url, {
@@ -30,6 +32,8 @@ export default {
         assign_to_agent: assignToAgent,
         product_id_for_more_info: productIdForMoreInfo,
         pre_chat_form_response: preChatFormResponse,
+        should_show_message_on_chat: shouldShowMessageOnChat,
+        is_ai_nudge: isAiNudge,
       },
     });
   },

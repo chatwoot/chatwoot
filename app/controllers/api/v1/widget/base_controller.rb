@@ -83,6 +83,22 @@ class Api::V1::Widget::BaseController < ApplicationController
     { timestamp: permitted_params[:message][:timestamp] }
   end
 
+  def process_items_param(items)
+    return items if items.blank?
+
+    # If items is already an array of hashes with string keys, return as is
+    return items if items.is_a?(Array) && items.all?(Hash)
+
+    # Handle ActionController::Parameters objects
+    if items.is_a?(Array)
+      items.map do |item|
+        item.respond_to?(:to_h) ? item.to_h : item
+      end
+    else
+      items
+    end
+  end
+
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
   def message_params
@@ -92,6 +108,7 @@ class Api::V1::Widget::BaseController < ApplicationController
       content: permitted_params[:message][:content],
       inbox_id: conversation.inbox_id,
       private: permitted_params[:message][:private],
+      content_type: permitted_params[:message][:content_type],
       content_attributes: {
         in_reply_to: permitted_params[:message][:reply_to],
         selected_reply: permitted_params[:message][:selected_reply],
@@ -103,10 +120,14 @@ class Api::V1::Widget::BaseController < ApplicationController
         conversation_resolved: permitted_params[:message][:conversation_resolved],
         phone_number: permitted_params[:message][:phone_number],
         order_id: permitted_params[:message][:order_id],
-        product_id: permitted_params[:message][:product_id]
+        product_id: permitted_params[:message][:product_id],
+        should_show_message_on_chat: permitted_params[:message][:should_show_message_on_chat],
+        is_ai_nudge: permitted_params[:message][:is_ai_nudge],
+        external_created_at: permitted_params[:message][:external_created_at],
+        items: process_items_param(permitted_params[:message][:items])
       },
       echo_id: permitted_params[:message][:echo_id],
-      message_type: :incoming
+      message_type: permitted_params[:message][:message_type] || :incoming
     }
   end
   # rubocop:enable Metrics/AbcSize

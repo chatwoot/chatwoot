@@ -188,7 +188,7 @@ export default {
       availableAgents: 'agent/availableAgents',
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
-      unreadMessageCount: 'conversation/getUnreadMessageCount',
+      unreadMessageCount: 'conversation/getTotalUnreadCount',
       popularArticles: 'article/popularArticles',
       articleUiFlags: 'article/uiFlags',
       widgetColor: 'appConfig/getWidgetColor',

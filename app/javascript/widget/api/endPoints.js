@@ -50,7 +50,9 @@ const sendMessage = (
   conversationResolved,
   assignToAgent,
   productIdForMoreInfo,
-  preChatFormResponse
+  preChatFormResponse,
+  shouldShowMessageOnChat,
+  isAiNudge
 ) => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
@@ -73,6 +75,8 @@ const sendMessage = (
         product_id_for_more_info: productIdForMoreInfo,
         pre_chat_form_response: preChatFormResponse,
         product_page: referrerURL,
+        should_show_message_on_chat: shouldShowMessageOnChat,
+        is_ai_nudge: isAiNudge,
       },
     },
   };

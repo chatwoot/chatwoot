@@ -16,6 +16,8 @@ export const createTemporaryMessage = ({
   assignToAgent,
   productIdForMoreInfo,
   preChatFormResponse,
+  shouldShowMessageOnChat,
+  isAiNudge,
 }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
@@ -36,6 +38,8 @@ export const createTemporaryMessage = ({
     assignToAgent,
     productIdForMoreInfo,
     preChatFormResponse,
+    shouldShowMessageOnChat,
+    isAiNudge,
   };
 };
 

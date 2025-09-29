@@ -26,7 +26,7 @@ export default {
   computed: {
     ...mapGetters({
       conversationAttributes: 'conversationAttributes/getConversationParams',
-      groupedMessages: 'conversation/getGroupedConversation',
+      groupedMessages: 'conversation/getFilteredGroupedConversation',
       widgetColor: 'appConfig/getWidgetColor',
     }),
     hideReplyBox() {

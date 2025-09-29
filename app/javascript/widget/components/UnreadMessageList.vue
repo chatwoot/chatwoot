@@ -67,7 +67,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      unreadMessageCount: 'conversation/getUnreadMessageCount',
+      unreadMessageCount: 'conversation/getTotalUnreadCount',
       widgetColor: 'appConfig/getWidgetColor',
     }),
     sender() {

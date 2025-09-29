@@ -1,4 +1,4 @@
-class Messages::MessageBuilder
+class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
   include ::FileTypeHelper
   attr_reader :message
 
@@ -23,6 +23,8 @@ class Messages::MessageBuilder
     @reply_to_comment_id = content_attributes&.dig(:reply_to_comment_id)
     @should_prompt_resolution = content_attributes&.dig(:should_prompt_resolution)
     @skip_conversation_reopen = content_attributes&.dig(:skip_conversation_reopen)
+    @is_ai_nudge = content_attributes&.dig(:is_ai_nudge)
+    @should_show_message_on_chat = content_attributes&.dig(:should_show_message_on_chat)
     return unless params.instance_of?(ActionController::Parameters)
 
     @in_reply_to = content_attributes&.dig(:in_reply_to)
@@ -238,7 +240,9 @@ class Messages::MessageBuilder
       echo_id: @params[:echo_id],
       source_id: @params[:source_id],
       reply_to_comment_id: @reply_to_comment_id,
-      is_dm_conversation_created: @is_dm_conversation_created
+      is_dm_conversation_created: @is_dm_conversation_created,
+      should_show_message_on_chat: @should_show_message_on_chat,
+      is_ai_nudge: @is_ai_nudge
     }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified).merge(comment_id).merge(should_prompt_resolution).merge(skip_conversation_reopen)
   end
   # rubocop:enable Layout/LineLength

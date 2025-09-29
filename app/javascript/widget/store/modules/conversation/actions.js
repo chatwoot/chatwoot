@@ -45,6 +45,8 @@ export const actions = {
       assignToAgent,
       productIdForMoreInfo,
       preChatFormResponse,
+      shouldShowMessageOnChat,
+      isAiNudge,
     } = params;
     const message = createTemporaryMessage({
       content,
@@ -59,6 +61,8 @@ export const actions = {
       assignToAgent,
       productIdForMoreInfo,
       preChatFormResponse,
+      shouldShowMessageOnChat,
+      isAiNudge,
     });
     dispatch('sendMessageWithData', message);
   },
@@ -78,6 +82,8 @@ export const actions = {
       assignToAgent,
       productIdForMoreInfo,
       preChatFormResponse,
+      shouldShowMessageOnChat,
+      isAiNudge,
     } = message;
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -94,7 +100,9 @@ export const actions = {
         conversationResolved,
         assignToAgent,
         productIdForMoreInfo,
-        preChatFormResponse
+        preChatFormResponse,
+        shouldShowMessageOnChat,
+        isAiNudge
       );
 
       commit('deleteMessage', message.id);

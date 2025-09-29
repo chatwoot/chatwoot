@@ -23,7 +23,9 @@ const sendMessageAPI = async (
   conversationResolved = false,
   assignToAgent = false,
   productIdForMoreInfo = null,
-  preChatFormResponse = {}
+  preChatFormResponse = {},
+  shouldShowMessageOnChat = null,
+  isAiNudge = null
 ) => {
   const urlData = endPoints.sendMessage(
     content,
@@ -37,7 +39,9 @@ const sendMessageAPI = async (
     conversationResolved,
     assignToAgent,
     productIdForMoreInfo,
-    preChatFormResponse
+    preChatFormResponse,
+    shouldShowMessageOnChat,
+    isAiNudge
   );
   return API.post(urlData.url, urlData.params);
 };

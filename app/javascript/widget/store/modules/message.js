@@ -26,6 +26,8 @@ export const actions = {
       assignToAgent,
       productIdForMoreInfo,
       preChatFormResponse,
+      shouldShowMessageOnChat,
+      isAiNudge,
     }
   ) => {
     if (uiFlags.isUpdating) {
@@ -46,6 +48,8 @@ export const actions = {
         assignToAgent,
         productIdForMoreInfo,
         preChatFormResponse,
+        shouldShowMessageOnChat,
+        isAiNudge,
       });
       commit(
         'conversation/updateMessage',
@@ -63,6 +67,8 @@ export const actions = {
             assign_to_agent: assignToAgent,
             product_id_for_more_info: productIdForMoreInfo,
             pre_chat_form_response: preChatFormResponse,
+            should_show_message_on_chat: shouldShowMessageOnChat,
+            is_ai_nudge: isAiNudge,
           },
         },
         { root: true }
