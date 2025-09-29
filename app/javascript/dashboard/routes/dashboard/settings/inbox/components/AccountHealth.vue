@@ -1,51 +1,54 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ButtonV4 from 'next/button/Button.vue';
+
+const { t } = useI18n();
 
 const healthItems = computed(() => [
   {
     key: 'DISPLAY_PHONE_NUMBER',
-    label: 'Display phone number',
+    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_PHONE_NUMBER.LABEL'),
     value: '+16503185215',
-    tooltip: 'Display phone number',
+    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_PHONE_NUMBER.TOOLTIP'),
     show: true,
   },
   {
     key: 'VERIFIED_NAME',
-    label: 'Verified name',
+    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.LABEL'),
     value: 'Saharidya AI',
-    tooltip: 'Verified business name',
+    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.TOOLTIP'),
     show: true,
   },
   {
     key: 'DISPLAY_NAME_STATUS',
-    label: 'Display name status',
+    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.LABEL'),
     value: 'APPROVED',
-    tooltip: 'Status of display name verification',
+    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.TOOLTIP'),
     show: true,
     type: 'status',
   },
   {
     key: 'QUALITY_RATING',
-    label: 'Quality rating',
+    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.QUALITY_RATING.LABEL'),
     value: 'GREEN',
-    tooltip: 'Account quality rating',
+    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.QUALITY_RATING.TOOLTIP'),
     show: true,
     type: 'quality',
   },
   {
     key: 'MESSAGING_LIMIT_TIER',
-    label: 'Messaging limit tier',
+    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.LABEL'),
     value: 'TIER_1K',
-    tooltip: 'Daily messaging limit tier',
+    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.TOOLTIP'),
     show: true,
     type: 'tier',
   },
   {
     key: 'ACCOUNT_MODE',
-    label: 'Account mode',
+    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.ACCOUNT_MODE.LABEL'),
     value: 'LIVE',
-    tooltip: 'Account operating mode',
+    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.ACCOUNT_MODE.TOOLTIP'),
     show: true,
     type: 'mode',
   },
@@ -113,31 +116,34 @@ const getStatusTextColor = status => {
       <div class="grid grid-cols-[1fr_auto] gap-5">
         <div>
           <span class="text-base font-medium text-n-slate-12">
-            Manage your WhatsApp account
+            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.TITLE') }}
           </span>
           <p class="mt-1 text-sm text-n-slate-11">
-            Review your WhatsApp account status, messaging limits, and quality.
-            Update settings or resolve issues if needed
+            {{ t('INBOX_MGMT.ACCOUNT_HEALTH.DESCRIPTION') }}
           </p>
         </div>
-        <ButtonV4 sm solid blue> Go to the settings </ButtonV4>
+        <ButtonV4 sm solid blue>
+          {{ t('INBOX_MGMT.ACCOUNT_HEALTH.GO_TO_SETTINGS') }}
+        </ButtonV4>
       </div>
 
       <div class="pt-8 space-y-4">
-        <section
-          class="w-full text-sm rounded-xl border divide-y border-n-weak bg-n-solid-1 text-n-slate-12 divide-n-weak"
-        >
+        <div class="grid grid-cols-2 gap-6">
           <div
             v-for="item in healthItems"
             :key="item.key"
-            class="flex justify-between items-center px-6 py-4 transition-colors hover:bg-n-alpha-1"
+            class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
           >
-            <div class="flex flex-1 items-center min-w-0">
-              <span class="text-sm font-medium text-n-slate-11 min-w-48">
+            <div class="flex gap-2 items-center">
+              <span class="text-sm font-medium text-n-slate-11">
                 {{ item.label }}
               </span>
+              <i
+                v-tooltip.top="item.tooltip"
+                class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
+              />
             </div>
-            <div class="flex items-center gap-2 flex-shrink-0">
+            <div class="flex items-center">
               <span
                 v-if="item.type === 'quality'"
                 class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
@@ -168,13 +174,9 @@ const getStatusTextColor = status => {
               <span v-else class="text-sm font-medium text-n-slate-12">{{
                 item.value
               }}</span>
-              <i
-                v-tooltip.top="item.tooltip"
-                class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
-              />
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   </div>
