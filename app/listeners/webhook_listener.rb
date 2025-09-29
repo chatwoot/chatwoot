@@ -24,9 +24,11 @@ class WebhookListener < BaseListener
 
   def conversation_deleted(event)
     conversation_data = event.data[:conversation]
-
     inbox_id = conversation_data[:inbox_id]
-    inbox = Inbox.find(inbox_id)
+
+    inbox = Inbox.find(id: inbox_id)
+    return unless inbox
+
     payload = conversation_data.merge(event: __method__.to_s)
     deliver_webhook_payloads(payload, inbox)
   end
@@ -77,8 +79,12 @@ class WebhookListener < BaseListener
 
   def contact_deleted(event)
     contact_data = event.data[:contact]
+    account = event.data[:account]
+
+    return unless account
+
     payload = contact_data.merge(event: __method__.to_s)
-    deliver_account_webhooks(payload, event.data[:account])
+    deliver_account_webhooks(payload, account)
   end
 
   def inbox_created(event)
