@@ -101,21 +101,11 @@ class Messages::MessageBuilder
     @message.content_attributes ||= {}
     email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
     html_content = ensure_indifferent_access(email_attributes[:html_content] || {})
-    text_content = ensure_indifferent_access(email_attributes[:text_content] || {})
 
     normalized_content = normalize_email_body(@message.content)
-    html_full_content = render_email_html(normalized_content)
-    body_without_quote = extract_body_without_quote(normalized_content)
 
     text_content[:full] = normalized_content
-    text_content[:reply] = normalized_content
-    text_content[:quoted] = body_without_quote
 
-    html_content[:full] = html_full_content
-    html_content[:reply] = normalized_content
-    html_content[:quoted] = body_without_quote
-
-    email_attributes[:text_content] = text_content
     email_attributes[:html_content] = html_content
     @message.content_attributes[:email] = email_attributes
   end
@@ -200,21 +190,5 @@ class Messages::MessageBuilder
     return '' if content.blank?
 
     ChatwootMarkdownRenderer.new(content).render_message.to_s
-  end
-
-  def extract_body_without_quote(content)
-    return '' if content.blank?
-
-    lines = content.split("\n")
-    quote_start_index = lines.find_index { |line| line.lstrip.start_with?('>') }
-
-    return content.strip if quote_start_index.nil?
-
-    body_lines = lines[0...quote_start_index]
-
-    body_lines.pop while body_lines.any? && body_lines.last.strip.empty?
-
-    body = body_lines.join("\n").strip
-    (body.presence || content.strip)
   end
 end
