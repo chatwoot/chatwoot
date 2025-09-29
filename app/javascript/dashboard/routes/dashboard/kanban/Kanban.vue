@@ -3,8 +3,8 @@ import ColumnModal from './ColumnModal.vue'
 import ConversationApi from '../../../api/inbox/conversation';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { toRaw } from 'vue'
-import {mapGetters, mapActions} from 'vuex'
-import conversation from '../../../api/inbox/conversation';
+import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
+
 
 export default {
   components: {
@@ -25,9 +25,6 @@ export default {
   emits: ['update:columns', 'moved', 'columnDeleted'],
 
   async mounted() {
-    
-    //await this.fetchAllConversations()
-    //await this.fetchFilteredConversations(payload)
     this.fetchLabels()
     this.fetchColumns()
   },
@@ -137,6 +134,15 @@ export default {
       }
     },
 
+    handleCardClick(item) {
+      const conversationPath = conversationUrl({
+        accountId: this.$route.params.accountId,
+        id: item.id
+      })
+      const fullPath = frontendURL(conversationPath)
+      this.$router.push(fullPath)
+    },
+
     openColumnModal() {
       this.showColumnModal = true
       this.isEditing = false
@@ -175,24 +181,21 @@ export default {
     },
 
     editColumn(columnIndex) {
-      console.log("Editando coluna")
-      
-      const editedColumn = this.localColumns[columnIndex]
-      console.log(editedColumn)
-      this.isEditing =  true
-      const labelsToAdd = editedColumn.labels
-      this.labels = [...this.labels, ...labelsToAdd]
-      this.editedColumn = editedColumn
-      this.showColumnModal =  true
+      const columnToEdit = this.localColumns[columnIndex];
+      this.isEditing = true;
+      // Adiciona as labels da coluna de volta ao pool temporariamente
+      const columnLabels = columnToEdit.labels || []
+      this.labels = [...this.labels, ...columnLabels]
+      this.editedColumn = {
+        ...columnToEdit,
+        originalIndex: columnIndex
+      };
+      this.showColumnModal = true;
     },
 
     async addNewColumn(columnData) {
-      // Pega as conversations que tem as labels da coluna
-      console.log("Labels da coluna")
-      console.log(columnData.labels)
       // Extrai apenas os títulos das labels
       const labelTitles = columnData.labels.map(label => label.title)
-      console.log("Labels para filtrar = ", labelTitles)
       const filters = [
         {
           "attribute_key": "labels",
@@ -207,14 +210,13 @@ export default {
             payload: filters
           }
       };
-      
-      console.log("Payload do filtro = ", payload)
       const {data} = await ConversationApi.filter(payload)
       const filteredConversations = data.payload
-      console.log("Conversas filtradas = ", filteredConversations)
+      console.log("O que vem em conversations => ", filteredConversations)
       const newCol = {
         title: columnData.title,
         items: filteredConversations.map(conv => ({
+          id: conv.id,
           content: conv.meta.sender.name,
         })),
         labels: columnData.labels,
@@ -233,21 +235,53 @@ export default {
       localStorage.setItem('localColumns', JSON.stringify(this.localColumns))
     },
 
-    updateColumn(columnData) {
-      if (this.editedColumn) {
-        const index = this.localColumns.findIndex(col => col === this.editedColumn)
-        if (index !== -1) {
-          // update the column
-          this.localColumns[index] = {
-            ...this.localColumns[index],
-            ...columnData
-          }
-          this.closeColumnModal(this.localColumns[index])
-          this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
-          localStorage.setItem('localColumns',  JSON.stringify(this.localColumns))
-        }
-      }
-      //this.closeColumnModal()
+    async updateColumn(columnData) {
+      if (!this.editedColumn) return;
+      
+      const originalIndex = this.editedColumn.originalIndex;
+
+      // Remove todas as labels do pool temporariamente
+      const allLabels = [...this.labels];
+      
+      // Filtra as labels, mantendo apenas as que não foram selecionadas
+      this.labels = allLabels.filter(label => 
+        !columnData.labels.some(newLabel => label.title === newLabel.title)
+      );
+          
+      // Filtrar conversas baseado nas novas labels
+      const labelTitles = columnData.labels.map(label => label.title);
+      const filters = [{
+        attribute_key: "labels",
+        attribute_model: "standard",
+        filter_operator: "equal_to", 
+        values: labelTitles,
+        custom_attribute_type: ""
+      }];
+
+      const {data} = await ConversationApi.filter({
+        queryData: { payload: filters }
+      });
+
+      // Atualizar coluna mantendo posição original
+      const updatedColumn = {
+        ...this.localColumns[originalIndex],
+        title: columnData.title,
+        labels: columnData.labels,
+        label_to_add: columnData.label_to_add,
+        items: data.payload.map(conv => ({
+          id: conv.id,
+          content: conv.meta.sender.name
+        }))
+      };
+
+      // Atualizar coluna na posição original
+      this.localColumns.splice(originalIndex, 1, updatedColumn);
+
+      // Atualizar storage e emitir eventos
+      this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)));
+      localStorage.setItem('localColumns', JSON.stringify(this.localColumns));
+      
+      this.closeColumnModal(updatedColumn);
     },
 
     async fetchLabels() {
@@ -355,13 +389,13 @@ export default {
         <button class="kanban-button" @click="exportKanban">Exportar Kanban</button>
       </div>
     </header>
-        <div class="debug-section" v-if="getAllConversations && getAllConversations.length">
+      
           <h3 class="debug-title">Debug Info</h3>
           <div class="debug-item">
             <strong>Labels:</strong> 
             {{ labels }}
           </div>
-        </div>
+  
     <div class="kanban-board">
       <div v-if="localColumns.length === 0" class="empty-state">
         <h2>Nenhuma coluna criada</h2>
@@ -396,8 +430,9 @@ export default {
           draggable="true"
           @dragstart="onDragStart($event, columnIndex, itemIndex)"
           @dragend="onDragEnd"
+          @click="handleCardClick(item)"
         >
-          <slot name="card" :item="item" :column="column">{{ item.content }}</slot>
+          <slot name="card" :item="item" :column="column">{{ item.content }} / {{ item.id }}</slot>
         </div>
       </div>
     </div>

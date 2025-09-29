@@ -23,7 +23,7 @@ export default {
     return {
       localColumnTitle: '',
       localSelectedLabels: [],
-      label_to_add: {}
+      label_to_add: ''
     }
   },
 
@@ -31,17 +31,14 @@ export default {
     editedColumn: {
       handler(newVal) {
         if (this.isEditing && newVal) {
-          console.log("Editando coluna = ", newVal)
-          console.log("labels da coluna = ", newVal.labels)
-          if (newVal.labels) {
-            // Se estamos editando, adicionar as labels já existentes na coluna as labels 
-          }
-          this.localColumnTitle = newVal.title
-          this.localSelectedLabels = [...newVal.labels]
-          this.label_to_add = newVal.label_to_add || {}
+          this.localColumnTitle = newVal.title || '';
+          this.localSelectedLabels = Array.isArray(newVal.labels) ? 
+            [...newVal.labels] : [];
+          this.label_to_add = newVal.label_to_add || '';
         }
       },
-      immediate: true
+      immediate: true,
+      deep: true
     },
     show: {
       handler(newVal) {
@@ -53,15 +50,12 @@ export default {
   },
 
   methods: {
-    closeModal() {
-      console.log("fechando modal no filho")
-      
+    closeModal() {      
       const columnData = {
           title: this.localColumnTitle,
           labels: this.localSelectedLabels,
           label_to_add: this.label_to_add
       }
-      console.log("Passando pro evento = ", columnData)
       this.$emit('close', columnData)
       this.resetForm()
     },
@@ -73,8 +67,6 @@ export default {
           labels: this.localSelectedLabels,
           label_to_add: this.label_to_add
         }
-        console.log("Emitindo evento de edit/add do modal pro kanban")
-        console.log("coluna = ", columnData)
         this.$emit(this.isEditing ? 'update' : 'add', columnData)
         this.closeModal()
       }
@@ -83,7 +75,7 @@ export default {
     resetForm() {
       this.localColumnTitle = ''
       this.localSelectedLabels = []
-      this.label_to_add = {}
+      this.label_to_add = ''
     },
 
 
@@ -125,10 +117,10 @@ export default {
         <option value="">Selecione uma label</option>
         <option
          v-for="labelValue in localSelectedLabels"
-         :key="labelValue.title"
+         :key="labelValue"
          :value="labelValue"
          >
-         {{ labelValue.description }}
+         {{ labelValue }}
         </option>
       </select>
       <div class="modal-actions">
