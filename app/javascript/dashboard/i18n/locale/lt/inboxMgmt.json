@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger scenarijus",
       "MESSENGER_SUB_HEAD": "Įdėkite šį mygtuką savo <body> žymos viduje",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Agentai",
       "INBOX_AGENTS_SUB_TEXT": "Pridėti ar pašalinti agentus iš gautų laiškų aplanko",
       "AGENT_ASSIGNMENT": "Pokalbio paskirstymas",

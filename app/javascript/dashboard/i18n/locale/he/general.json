@@ -5,6 +5,8 @@
       "PLACEHOLDER": "חפש",
       "EMPTY_STATE": "לא נמצאו תוצאות"
     },
-    "CLOSE": "סגור"
+    "CLOSE": "סגור",
+    "BETA": "בטא",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

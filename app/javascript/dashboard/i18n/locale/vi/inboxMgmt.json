@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Tập lệnh Messenger",
       "MESSENGER_SUB_HEAD": "Đặt nút này bên trong thẻ body của bạn",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Nhà cung cấp",
       "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa tác nhân khỏi hộp thư đến này",
       "AGENT_ASSIGNMENT": "Phân công cuộc trò chuyện",

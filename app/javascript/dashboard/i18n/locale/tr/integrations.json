@@ -487,12 +487,12 @@
           "ASSISTANT": "Assistant"
         },
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Temel ayarlar",
+          "DESCRIPTION": "Konuşmayı sonlandırırken veya bir operatöre aktarırken asistanın söyleyeceği sözleri özelleştirin."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Sistem ayarları",
+          "DESCRIPTION": "Konuşmayı sonlandırırken veya bir operatöre aktarırken asistanın söyleyeceği sözleri özelleştirin."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -534,16 +534,16 @@
         },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECT_ALL": "Tümünü seç ({count})",
+          "UNSELECT_ALL": "Tümünü kaldır ({count})",
           "BULK_DELETE_BUTTON": "Sil"
         },
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
+            "ADD": "Tümünü ekle",
+            "ADD_SINGLE": "Bunu ekle",
+            "SAVE": "Ekle ve kaydet (↵)",
             "PLACEHOLDER": "Type in another guardrail..."
           },
           "NEW": {
@@ -551,11 +551,11 @@
             "CREATE": "Yarat",
             "CANCEL": "İptal Et",
             "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "Tümünü test et"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Ara..."
         },
         "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
         "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
@@ -581,17 +581,17 @@
           "TITLE": "Response Guidelines"
         },
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
+          "SELECT_ALL": "Tümünü seç ({count})",
+          "UNSELECT_ALL": "Tümünü kaldır ({count})",
           "BULK_DELETE_BUTTON": "Sil"
         },
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
+            "ADD": "Tümünü ekle",
+            "ADD_SINGLE": "Bunu ekle",
+            "SAVE": "Ekle ve kaydet (↵)",
             "PLACEHOLDER": "Type in another response guideline..."
           },
           "NEW": {
@@ -599,11 +599,11 @@
             "CREATE": "Yarat",
             "CANCEL": "İptal Et",
             "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "Tümünü test et"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Ara..."
         },
         "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
         "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
@@ -630,15 +630,15 @@
         },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECT_ALL": "Tümünü seç ({count})",
+          "UNSELECT_ALL": "Tümünü kaldır ({count})",
           "BULK_DELETE_BUTTON": "Sil"
         },
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
+            "ADD": "Tümünü ekle",
+            "ADD_SINGLE": "Bunu ekle",
             "TOOLS_USED": "Tools used :"
           },
           "NEW": {
@@ -667,10 +667,10 @@
         },
         "UPDATE": {
           "CANCEL": "İptal Et",
-          "UPDATE": "Update changes"
+          "UPDATE": "Değişiklikleri güncelle"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "Ara..."
         },
         "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
         "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
@@ -705,9 +705,9 @@
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "Belge Türü",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "PDF Dosya"
         },
         "URL": {
           "LABEL": "URL",
@@ -715,16 +715,16 @@
           "ERROR": "Please provide a valid URL for the document"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "PDF Dosya",
+          "CHOOSE_FILE": "PDF dosyasını seçin",
+          "ERROR": "Lütfen bir PDF dosyası seçin",
+          "HELP_TEXT": "Maksimum dosya boyutu: 10 MB",
+          "INVALID_TYPE": "Lütfen geçerli bir PDF dosyası seçin",
+          "TOO_LARGE": "Dosya boyutu 10 MB sınırını aşıyor"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "Belge Adı (İsteğe Bağlı)",
+          "PLACEHOLDER": "Belgeye bir ad girin"
         },
         "ASSISTANT": {
           "LABEL": "Assistant",
@@ -759,9 +759,9 @@
         "CONVERSATION": "Conversation #{id}"
       },
       "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
+      "SELECT_ALL": "Tümünü seç ({count})",
+      "UNSELECT_ALL": "Tümünü kaldır ({count})",
+      "SEARCH_PLACEHOLDER": "Sıkça Sorulan Soruları Ara...",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Sil",
       "BULK_APPROVE": {

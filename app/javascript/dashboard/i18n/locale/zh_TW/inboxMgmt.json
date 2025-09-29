@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
       "MESSENGER_SUB_HEAD": "將此按鈕放置在視窗標籤中",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "客服",
       "INBOX_AGENTS_SUB_TEXT": "新增或刪除此收件匣中的客服",
       "AGENT_ASSIGNMENT": "Conversation Assignment",

@@ -23,6 +23,10 @@ ta:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'சரியான ஈமெயில் முகவரியை பதிவிடவும்'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: வூட்! பாஸ்வேர்டை மீட்டமைப்பிற்கான கோரிக்கை வெற்றிகரமாக அனுப்பப்பட்டுள்ளது. வழிமுறைகளுக்கு உங்கள் ஈ-மெயிலைப் பார்க்கவும்.
     reset_password_failure: மன்னிக்கவும்! குறிப்பிட்ட ஈ-மெயிலுடன் எந்த பயனரையும் எங்களால் கண்டுபிடிக்க முடியவில்லை.

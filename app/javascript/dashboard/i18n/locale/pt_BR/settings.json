@@ -53,11 +53,11 @@
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "Idioma preferido",
+          "NOTE": "Escolha o idioma que deseja usar.",
+          "UPDATE_SUCCESS": "Suas configurações de idioma foram atualizadas com sucesso",
+          "UPDATE_ERROR": "Ocorreu um erro ao atualizar as configurações de idioma, por favor, tente novamente",
+          "USE_ACCOUNT_DEFAULT": "Usar padrão da conta"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -81,9 +81,9 @@
         "BTN_TEXT": "Mudar Senha"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
+        "TITLE": "Segurança",
         "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "MFA_BUTTON": "Gerenciar autenticação de dois fatores "
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
@@ -364,7 +364,7 @@
       "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
     "DOCS": "Ler documentos",
-    "SECURITY": "Security"
+    "SECURITY": "Segurança"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
@@ -397,9 +397,9 @@
     "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente."
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
+    "TITLE": "Segurança",
+    "DESCRIPTION": "Gerencie as configurações de segurança da sua conta.",
+    "LINK_TEXT": "Saiba mais sobre o SAML SSO",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
@@ -442,7 +442,7 @@
       "VALIDATION": {
         "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
         "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
+        "CERTIFICATE_ERROR": "O certificado é necessário",
         "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
       },
       "ENTERPRISE_PAYWALL": {

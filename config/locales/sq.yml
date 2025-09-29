@@ -23,6 +23,10 @@ sq:
       success: 'Kanali u riautorizua me sukses'
       not_required: 'Riautorizimi nuk kërkohet për këtë kuti hyrëse'
       invalid_channel: 'Lloj i pavlefshëm kanali për riautorizim'
+  auth:
+    saml:
+      invalid_email: 'Please enter a valid email address'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
     reset_password_failure: Uh ho! We could not find any user with the specified email.

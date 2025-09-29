@@ -23,6 +23,10 @@ fa:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'لطفا ایمیل خود را به شکل صحیح وارد کنید'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: سوت! درخواست ریست شدن رمز عبور با موفقیت ارسال شد. ایمیل خود را چک کنید
     reset_password_failure: اوه نه! کاربری با چنین ایمیلی وجود ندارد

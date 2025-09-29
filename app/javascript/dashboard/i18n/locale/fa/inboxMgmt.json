@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "اسکریپت ویجت",
       "MESSENGER_SUB_HEAD": "این دکمه را در تگ body قرار دهید",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "ایجنت ها",
       "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی ایجنت به صندوق ورودی",
       "AGENT_ASSIGNMENT": "اختصاص گفتگو",

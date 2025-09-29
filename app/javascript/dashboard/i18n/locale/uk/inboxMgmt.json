@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Скрипт месенджера",
       "MESSENGER_SUB_HEAD": "Добавте кнопку на сторінки вашого сайту",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "Агенти",
       "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
       "AGENT_ASSIGNMENT": "Призначення до розмови",

@@ -14,24 +14,24 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Şu anda müsait değil"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Çevrimiçi",
     "OFFLINE": "Şu an operatörlerimiz müsait değil",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "En kısa sürede geri döneceğiz"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
     "IN_A_FEW_HOURS": "Genellikle birkaç saat içinde yanıt verir",
     "IN_A_DAY": "Genellikle bir gün içinde yanıtlar",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_IN_HOURS": "{n} saat içinde çevrimiçi olacağız  | {n} saat içinde çevrimiçi olacağız",
+    "BACK_IN_MINUTES": "{time} dakika içinde çevrimiçi olacağız",
+    "BACK_AT_TIME": "{time} saatinde çevrimiçi olacağız",
+    "BACK_ON_DAY": "{day} günü çevrimiçi olacağız",
+    "BACK_TOMORROW": "Yarın çevrimiçi olacağız",
+    "BACK_IN_SOME_TIME": "Bir süre sonra çevrimiçi olacağız"
   },
   "DAY_NAMES": {
     "SUNDAY": "Pazar",

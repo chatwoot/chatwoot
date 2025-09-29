@@ -618,6 +618,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",
       "MESSENGER_SUB_HEAD": "ضع هذا الكود داخل وسم الـ body في موقعك",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "وكيل الدعم",
       "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة وكلاء من صندوق الوارد هذا",
       "AGENT_ASSIGNMENT": "تعيين المحادثة",
