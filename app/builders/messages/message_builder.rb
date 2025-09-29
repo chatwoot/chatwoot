@@ -18,8 +18,6 @@ class Messages::MessageBuilder
 
   def perform
     @message = @conversation.messages.build(message_params)
-    @message.content_attributes ||= {}
-    process_quoted_email_text
     process_attachments
     process_emails
     @message.save!
@@ -92,15 +90,6 @@ class Messages::MessageBuilder
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
     @message.content_attributes[:to_emails] = to_emails
-  end
-
-  def process_quoted_email_text
-    return unless @conversation.inbox&.inbox_type == 'Email'
-
-    quoted_email_text = @params[:quoted_email_text].to_s
-    return if quoted_email_text.blank?
-
-    @message.content_attributes[:html_content][:quoted] = quoted_email_text
   end
 
   def process_email_string(email_string)

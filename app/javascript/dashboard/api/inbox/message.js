@@ -12,7 +12,6 @@ export const buildCreatePayload = ({
   bccEmails = '',
   toEmails = '',
   templateParams,
-  quotedEmailText = '',
 }) => {
   let payload;
   if (files && files.length !== 0) {
@@ -34,9 +33,6 @@ export const buildCreatePayload = ({
     if (contentAttributes) {
       payload.append('content_attributes', JSON.stringify(contentAttributes));
     }
-    if (quotedEmailText) {
-      payload.append('quoted_email_text', quotedEmailText);
-    }
   } else {
     payload = {
       content: message,
@@ -48,9 +44,6 @@ export const buildCreatePayload = ({
       to_emails: toEmails,
       template_params: templateParams,
     };
-    if (quotedEmailText) {
-      payload.quoted_email_text = quotedEmailText;
-    }
   }
   return payload;
 };
@@ -71,7 +64,6 @@ class MessageApi extends ApiClient {
     bccEmails = '',
     toEmails = '',
     templateParams,
-    quotedEmailText,
   }) {
     return axios({
       method: 'post',
@@ -86,7 +78,6 @@ class MessageApi extends ApiClient {
         bccEmails,
         toEmails,
         templateParams,
-        quotedEmailText,
       }),
     });
   }

@@ -386,33 +386,12 @@ export default {
         return null;
       }
 
-      const messages = this.currentChat?.messages || [];
-      for (let index = messages.length - 1; index >= 0; index -= 1) {
-        const message = messages[index];
-        if (!message || message.private) {
-          continue;
-        }
-
-        const contentAttributes =
-          message.contentAttributes || message.content_attributes || {};
-        const emailContent = contentAttributes.email;
-        if (!emailContent) {
-          continue;
-        }
-
-        const textContent =
-          emailContent.textContent || emailContent.text_content;
-        const htmlContent =
-          emailContent.htmlContent || emailContent.html_content;
-        const hasTextReply = !!(textContent?.reply || textContent?.full);
-        const hasHtmlReply = !!(htmlContent?.reply || htmlContent?.full);
-
-        if (hasTextReply || hasHtmlReply) {
-          return message;
-        }
+      const lastEmail = this.lastEmail;
+      if (!lastEmail || lastEmail.private) {
+        return null;
       }
 
-      return null;
+      return lastEmail;
     },
     quotedEmailText() {
       if (!this.lastEmailWithQuotedContent) {
@@ -717,6 +696,41 @@ export default {
         this.shouldShowQuotedReplyToggle &&
         !!this.quotedEmailText
       );
+    },
+    getMessageWithQuotedEmailText(message) {
+      if (!this.shouldIncludeQuotedEmail()) {
+        return message;
+      }
+
+      const baseMessage = message ? String(message) : '';
+      const quotedText = this.quotedEmailText || '';
+      const quotedBlock = this.formatQuotedTextAsBlockquote(quotedText);
+
+      if (!baseMessage) {
+        return quotedBlock;
+      }
+
+      let separator = '\n\n';
+      if (baseMessage.endsWith('\n\n')) {
+        separator = '';
+      } else if (baseMessage.endsWith('\n')) {
+        separator = '\n';
+      }
+
+      return `${baseMessage}${separator}${quotedBlock}`;
+    },
+    formatQuotedTextAsBlockquote(text) {
+      if (!text) {
+        return '';
+      }
+
+      const normalized = String(text).replace(/\r\n/g, '\n').split('\n');
+      const quotedLines = normalized.map(line => {
+        const trimmedLine = line.trimEnd();
+        return trimmedLine ? `> ${trimmedLine}` : '>';
+      });
+
+      return quotedLines.join('\n');
     },
     extractPlainTextFromHtml(html) {
       if (!html) {
@@ -1180,9 +1194,11 @@ export default {
       return multipleMessagePayload;
     },
     getMessagePayload(message) {
+      const messageWithQuote = this.getMessageWithQuotedEmailText(message);
+
       let messagePayload = {
         conversationId: this.currentChat.id,
-        message,
+        message: messageWithQuote,
         private: this.isPrivate,
         sender: this.sender,
       };
@@ -1210,11 +1226,6 @@ export default {
       if (this.toEmails && !this.isOnPrivateNote) {
         messagePayload.toEmails = this.toEmails;
       }
-
-      if (this.shouldIncludeQuotedEmail()) {
-        messagePayload.quotedEmailText = this.quotedEmailText;
-      }
-
       return messagePayload;
     },
     setCcEmails(value) {
