@@ -27,13 +27,13 @@ class Company < ApplicationRecord
   validates :account_id, presence: true
   validates :name, presence: true, length: { maximum: 100 }
   validates :domain, allow_blank: true, format: {
-    with: /\A[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?)+\z/,
-    message: 'must be a valid domain name'
+    with: /\A[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)+\z/,
+    message: I18n.t('errors.companies.domain.invalid')
   }
   validates :description, length: { maximum: 1000 }
   validates :avatar, allow_blank: true, format: {
     with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
-    message: 'must be a valid URL'
+    message: I18n.t('errors.companies.avatar.invalid')
   }
   belongs_to :account
   has_many :contacts, dependent: :nullify
