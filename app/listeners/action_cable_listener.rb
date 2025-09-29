@@ -87,9 +87,11 @@ class ActionCableListener < BaseListener
     conversation_data = event.data[:conversation]
     account = event.data[:account]
     inbox_id = conversation_data[:inbox_id]
-    inbox = Inbox.find(inbox_id)
-    tokens = user_tokens(account, inbox.members)
 
+    inbox = Inbox.find(inbox_id)
+    return unless inbox
+
+    tokens = user_tokens(account, inbox.members)
     broadcast(account, tokens, CONVERSATION_DELETED, conversation_data)
   end
 
