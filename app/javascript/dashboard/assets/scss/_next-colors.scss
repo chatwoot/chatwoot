@@ -114,6 +114,22 @@
     --black-alpha-2: 0, 0, 0, 0.04;
     --border-blue: 39, 129, 246, 0.5;
     --white-alpha: 255, 255, 255, 0.8;
+
+    // Sidebar gradient
+    --sidebar-light-start: 255 128 171;
+    --sidebar-light-mid-1: 229 115 115;
+    --sidebar-light-mid-2: 206 147 216;
+    --sidebar-light-end: 255 183 77;
+
+    // Bubble gradients - Light mode (placeholders)
+    --incoming-gradient-start: 249 249 251;
+    --incoming-gradient-end: 232 232 236;
+    --outgoing-gradient-start: 245 249 255;
+    --outgoing-gradient-end: 218 236 255;
+
+    // Brand gradient for buttons
+    --brand-gradient-start: 255 0 110;
+    --brand-gradient-end: 255 78 0;
   }
 
   .dark {
@@ -229,6 +245,18 @@
     --border-blue: 39, 129, 246, 0.5;
     --border-container: 236, 236, 236, 0;
     --white-alpha: 255, 255, 255, 0.1;
+
+    // Sidebar gradient
+    --sidebar-dark-start: 40 10 60;
+    --sidebar-dark-mid-1: 106 27 154;
+    --sidebar-dark-mid-2: 255 60 140;
+    --sidebar-dark-end: 255 81 47;
+
+    // Bubble gradients - Dark mode
+    --incoming-gradient-start: 255 60 140;
+    --incoming-gradient-end: 106 27 154;
+    --outgoing-gradient-start: 255 81 47;
+    --outgoing-gradient-end: 255 106 61;
   }
 }
 // NEXT COLORS END

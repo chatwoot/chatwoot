@@ -46,13 +46,13 @@ export default {
             <img
               :src="globalConfig.logo"
               :alt="globalConfig.installationName"
-              class="block w-auto h-8 dark:hidden"
+              class="block w-auto h-[250px]. dark:hidden"
             />
             <img
               v-if="globalConfig.logoDark"
               :src="globalConfig.logoDark"
               :alt="globalConfig.installationName"
-              class="hidden w-auto h-8 dark:block"
+              class="hidden w-auto h-[250px]. dark:block"
             />
             <h2
               class="mt-6 text-3xl font-medium text-left mb-7 text-n-slate-12"

@@ -206,23 +206,23 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="relative flex flex-col w-full min-h-screen pb-20 py-16 sm:px-6 lg:px-8 bg-[url('/assets/background-login.png')] bg-cover bg-center bg-no-repeat"
   >
-    <section class="max-w-5xl mx-auto">
+    <!-- Overlay shadow -->
+    <div class="absolute top-0 left-0 w-full h-full bg-[#0000004f] z-0"></div>
+    
+    <section class="relative z-10 max-w-5xl mx-auto">
       <img
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
+        class="block w-auto h-[150px] mx-auto dark:hidden"
       />
       <img
         v-if="globalConfig.logoDark"
         :src="globalConfig.logoDark"
         :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
+        class="hidden w-auto h-[150px] mx-auto dark:block filter drop-shadow-[0_0_10px_rgba(255,255,255,0.7)"
       />
-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
-        {{ replaceInstallationName($t('LOGIN.TITLE')) }}
-      </h2>
       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
         <router-link to="auth/signup" class="lowercase text-link text-n-brand">
@@ -232,7 +232,7 @@ export default {
     </section>
 
     <!-- MFA Verification Section -->
-    <section v-if="mfaRequired" class="mt-11">
+    <section v-if="mfaRequired" class="relative z-10 mt-11">
       <MfaVerification
         :mfa-token="mfaToken"
         @verified="handleMfaVerified"
@@ -243,7 +243,7 @@ export default {
     <!-- Regular Login Section -->
     <section
       v-else
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
+      class="relative z-10 bg-n-solid-2 shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,
@@ -279,7 +279,7 @@ export default {
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link
                 to="auth/reset/password"
-                class="text-sm text-link"
+                class="text-sm text-[#ff5f9e]"
                 tabindex="4"
               >
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
@@ -287,10 +287,9 @@ export default {
             </p>
           </FormInput>
           <NextButton
-            lg
             type="submit"
             data-testid="submit_button"
-            class="w-full"
+            class="w-full border-none rounded-lg py-3 px-6 font-semibold text-white cursor-pointer transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:opacity-95 active:translate-y-0 active:opacity-90 bg-brand-gradient"
             :tabindex="3"
             :label="$t('LOGIN.SUBMIT')"
             :disabled="loginApi.showLoading"

@@ -33,6 +33,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
   def allowed_configs
     mapping = {
+      'custom_branding' => %w[LOGO_THUMBNAIL LOGO LOGO_DARK BRAND_NAME INSTALLATION_NAME BRAND_URL WIDGET_BRAND_URL TERMS_URL PRIVACY_URL DISPLAY_MANIFEST],
       'facebook' => %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT],
       'shopify' => %w[SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET],
       'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
