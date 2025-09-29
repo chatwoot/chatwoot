@@ -51,14 +51,14 @@ const healthItems = computed(() => [
   },
 ]);
 
-const getQualityRatingClass = rating => {
-  const classes = {
-    GREEN: 'bg-green-50 text-green-700 border-green-200',
-    YELLOW: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-    RED: 'bg-red-50 text-red-700 border-red-200',
-    UNKNOWN: 'bg-gray-50 text-gray-700 border-gray-200',
+const getQualityRatingTextColor = rating => {
+  const colors = {
+    GREEN: 'text-n-teal-11',
+    YELLOW: 'text-n-yellow-11',
+    RED: 'text-n-red-11',
+    UNKNOWN: 'text-n-slate-12',
   };
-  return classes[rating] || classes.UNKNOWN;
+  return colors[rating] || colors.UNKNOWN;
 };
 
 const formatTierDisplay = tier => {
@@ -90,20 +90,18 @@ const formatModeDisplay = mode => {
   return modeMap[mode] || mode;
 };
 
-const getModeStatusClass = mode => {
-  return mode === 'LIVE'
-    ? 'bg-teal-50 text-teal-700'
-    : 'bg-gray-50 text-gray-700';
+const getModeStatusTextColor = mode => {
+  return mode === 'LIVE' ? 'text-n-teal-11' : 'text-n-slate-12';
 };
 
-const getStatusBadgeClass = status => {
-  const classes = {
-    APPROVED: 'bg-green-50 text-green-700 border-green-200',
-    PENDING_REVIEW: 'bg-yellow-50 text-yellow-700 border-yellow-200',
-    AVAILABLE_WITHOUT_REVIEW: 'bg-blue-50 text-blue-700 border-blue-200',
-    REJECTED: 'bg-red-50 text-red-700 border-red-200',
+const getStatusTextColor = status => {
+  const colors = {
+    APPROVED: 'text-n-teal-11',
+    PENDING_REVIEW: 'text-n-yellow-11',
+    AVAILABLE_WITHOUT_REVIEW: 'text-n-blue-11',
+    REJECTED: 'text-n-red-11',
   };
-  return classes[status] || 'bg-gray-50 text-gray-700 border-gray-200';
+  return colors[status] || 'text-n-slate-12';
 };
 </script>
 
@@ -118,8 +116,8 @@ const getStatusBadgeClass = status => {
             Manage your WhatsApp account
           </span>
           <p class="mt-1 text-sm text-n-slate-11">
-            Check your display name, messaging limits, and quality rating.
-            Update your settings or fix issues if needed.
+            Review your WhatsApp account status, messaging limits, and quality.
+            Update settings or resolve issues if needed
           </p>
         </div>
         <ButtonV4 sm solid blue> Go to the settings </ButtonV4>
@@ -134,34 +132,30 @@ const getStatusBadgeClass = status => {
             :key="item.key"
             class="flex justify-between items-center px-6 py-4 transition-colors hover:bg-n-alpha-1"
           >
-            <div class="flex flex-1 gap-2 items-center min-w-0">
+            <div class="flex flex-1 items-center min-w-0">
               <span class="text-sm font-medium text-n-slate-11 min-w-48">
                 {{ item.label }}
               </span>
-              <i
-                v-tooltip.top="item.tooltip"
-                class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
-              />
             </div>
-            <div class="flex-shrink-0">
+            <div class="flex items-center gap-2 flex-shrink-0">
               <span
                 v-if="item.type === 'quality'"
-                class="inline-flex px-3 py-1.5 text-xs font-semibold rounded-full border"
-                :class="getQualityRatingClass(item.value)"
+                class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+                :class="getQualityRatingTextColor(item.value)"
               >
                 {{ item.value }}
               </span>
               <span
                 v-else-if="item.type === 'status'"
-                class="inline-flex px-3 py-1.5 text-xs font-semibold rounded-full border"
-                :class="getStatusBadgeClass(item.value)"
+                class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+                :class="getStatusTextColor(item.value)"
               >
                 {{ formatStatusDisplay(item.value) }}
               </span>
               <span
                 v-else-if="item.type === 'mode'"
-                class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-full"
-                :class="getModeStatusClass(item.value)"
+                class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+                :class="getModeStatusTextColor(item.value)"
               >
                 {{ formatModeDisplay(item.value) }}
               </span>
@@ -174,6 +168,10 @@ const getStatusBadgeClass = status => {
               <span v-else class="text-sm font-medium text-n-slate-12">{{
                 item.value
               }}</span>
+              <i
+                v-tooltip.top="item.tooltip"
+                class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
+              />
             </div>
           </div>
         </section>
