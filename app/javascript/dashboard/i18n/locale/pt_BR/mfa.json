@@ -26,7 +26,7 @@
       "VERIFY_BUTTON": "Verify & Continue",
       "CANCEL": "Cancelar",
       "ERROR_STARTING": "MFA not enabled. Please contact administrator.",
-      "INVALID_CODE": "Invalid verification code",
+      "INVALID_CODE": "Código de verificação inválido",
       "SECRET_COPIED": "Secret key copied to clipboard",
       "SUCCESS": "Two-factor authentication has been enabled successfully"
     },

@@ -123,7 +123,7 @@ const toggleOption = option => {
       </Button>
     </template>
     <DropdownBody class="top-0 min-w-48 z-50" strong>
-      <DropdownSection class="max-h-80 overflow-scroll">
+      <DropdownSection class="[&>ul]:max-h-80">
         <DropdownItem
           v-for="option in options"
           :key="option.id"
