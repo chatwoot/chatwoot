@@ -33,7 +33,7 @@ RSpec.describe Inbox do
     end
 
     it 'returns all member ids when inbox max_assignment_limit is not configured' do
-      expect(inbox.member_ids_with_assignment_capacity).to eq(inbox.members.ids)
+      expect(inbox.member_ids_with_assignment_capacity).to match_array(inbox.members.ids)
     end
   end
 

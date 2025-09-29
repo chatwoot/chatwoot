@@ -23,6 +23,10 @@ ca:
       success: 'Channel reauthorized successfully'
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
+  auth:
+    saml:
+      invalid_email: 'Introduïu una adreça de correu electrònic vàlida'
+      authentication_failed: 'Authentication failed. Please check your credentials and try again.'
   messages:
     reset_password_success: Woot! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
     reset_password_failure: Uh ho! No s'ha trobat cap compte amb aquest correu electrònic.
@@ -89,6 +93,20 @@ ca:
       invalid_value: Valor no vàlid. Els valors proporcionats per a %{attribute_name} no són vàlids
     custom_attribute_definition:
       key_conflict: The provided key is not allowed as it might conflict with default attributes.
+    mfa:
+      already_enabled: MFA is already enabled
+      not_enabled: MFA is not enabled
+      invalid_code: Invalid verification code
+      invalid_backup_code: Invalid backup code
+      invalid_token: Invalid or expired MFA token
+      invalid_credentials: Invalid credentials or verification code
+      feature_unavailable: MFA feature is not available. Please configure encryption keys.
+  profile:
+    mfa:
+      enabled: MFA enabled successfully
+      disabled: MFA disabled successfully
+    account_saml_settings:
+      invalid_certificate: must be a valid X.509 certificate in PEM format
   reports:
     period: Període d'informes %{since} a %{until}
     utc_warning: L'informe generat es troba a la zona horària UTC

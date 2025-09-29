@@ -761,6 +761,7 @@
       "SELECTED": "Выбрано {count}",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
+      "SEARCH_PLACEHOLDER": "Search FAQs...",
       "BULK_APPROVE_BUTTON": "Одобрить",
       "BULK_DELETE_BUTTON": "Удалить",
       "BULK_APPROVE": {

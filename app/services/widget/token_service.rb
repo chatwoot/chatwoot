@@ -1,24 +1,14 @@
-class Widget::TokenService
+class Widget::TokenService < BaseTokenService
   DEFAULT_EXPIRY_DAYS = 180
 
-  pattr_initialize [:payload, :token]
-
   def generate_token
-    JWT.encode payload_with_expiry, secret_key, 'HS256'
-  end
-
-  def decode_token
-    JWT.decode(
-      token, secret_key, true, algorithm: 'HS256'
-    ).first.symbolize_keys
-  rescue StandardError
-    {}
+    JWT.encode(token_payload, secret_key, algorithm)
   end
 
   private
 
-  def payload_with_expiry
-    payload.merge(exp: exp, iat: iat)
+  def token_payload
+    (payload || {}).merge(exp: exp, iat: iat)
   end
 
   def iat
@@ -33,9 +23,5 @@ class Widget::TokenService
     # Value is stored in days, defaulting to 6 months (180 days)
     token_expiry_value = InstallationConfig.find_by(name: 'WIDGET_TOKEN_EXPIRY')&.value
     (token_expiry_value.presence || DEFAULT_EXPIRY_DAYS).to_i
-  end
-
-  def secret_key
-    Rails.application.secret_key_base
   end
 end

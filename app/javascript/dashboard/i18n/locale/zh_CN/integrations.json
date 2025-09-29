@@ -326,10 +326,10 @@
         "CANCEL": "取消"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "TITLE": "连接到 Linear",
+        "AGENT_DESCRIPTION": "Linear 工作区未集成。请通知您的管理员连接一个工作区来使用这个集成。",
         "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "BUTTON_TEXT": "链接 Linear 工作空间"
       }
     },
     "NOTION": {
@@ -487,11 +487,11 @@
           "ASSISTANT": "助手"
         },
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
+          "TITLE": "基本设置",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
+          "TITLE": "系统设置",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
         },
         "CONTROL_ITEMS": {
@@ -534,16 +534,16 @@
         },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECT_ALL": "全选 ({count})",
+          "UNSELECT_ALL": "取消全选({count})",
           "BULK_DELETE_BUTTON": "删除"
         },
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example guardrails",
-            "ADD": "Add all",
+            "ADD": "添加全部",
             "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
+            "SAVE": "添加并保存",
             "PLACEHOLDER": "Type in another guardrail..."
           },
           "NEW": {
@@ -551,7 +551,7 @@
             "CREATE": "创建",
             "CANCEL": "取消",
             "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "测试全部"
           }
         },
         "LIST": {
@@ -582,16 +582,16 @@
         },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECT_ALL": "全选 ({count})",
+          "UNSELECT_ALL": "取消全选({count})",
           "BULK_DELETE_BUTTON": "删除"
         },
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example response guidelines",
-            "ADD": "Add all",
+            "ADD": "添加全部",
             "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
+            "SAVE": "添加并保存",
             "PLACEHOLDER": "Type in another response guideline..."
           },
           "NEW": {
@@ -599,7 +599,7 @@
             "CREATE": "创建",
             "CANCEL": "取消",
             "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TEST_ALL": "测试全部"
           }
         },
         "LIST": {
@@ -630,14 +630,14 @@
         },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECT_ALL": "全选 ({count})",
+          "UNSELECT_ALL": "取消全选({count})",
           "BULK_DELETE_BUTTON": "删除"
         },
         "ADD": {
           "SUGGESTED": {
             "TITLE": "Example scenarios",
-            "ADD": "Add all",
+            "ADD": "添加全部",
             "ADD_SINGLE": "Add this",
             "TOOLS_USED": "Tools used :"
           },
@@ -707,7 +707,7 @@
         "TYPE": {
           "LABEL": "Document Type",
           "URL": "网址",
-          "PDF": "PDF File"
+          "PDF": "PDF 文件"
         },
         "URL": {
           "LABEL": "网址",
@@ -715,16 +715,16 @@
           "ERROR": "请提供有效的文档 URL"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "PDF 文件",
+          "CHOOSE_FILE": "选择 PDF 文件",
+          "ERROR": "请选择一个 PDF 文件",
+          "HELP_TEXT": "最大文件大小: 10MB",
+          "INVALID_TYPE": "请选择一个有效的 PDF 文件",
+          "TOO_LARGE": "文件大小超过 10MB 限制"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "文档名称(可选)",
+          "PLACEHOLDER": "输入文档的名称"
         },
         "ASSISTANT": {
           "LABEL": "助手",
@@ -759,8 +759,9 @@
         "CONVERSATION": "对话 #{id}"
       },
       "SELECTED": "{count} 已选择",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
+      "SELECT_ALL": "全选 ({count})",
+      "UNSELECT_ALL": "取消全选({count})",
+      "SEARCH_PLACEHOLDER": "搜索常见问题...",
       "BULK_APPROVE_BUTTON": "批准",
       "BULK_DELETE_BUTTON": "删除",
       "BULK_APPROVE": {
