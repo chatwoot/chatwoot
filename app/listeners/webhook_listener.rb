@@ -81,6 +81,8 @@ class WebhookListener < BaseListener
     contact_data = event.data[:contact]
     account = event.data[:account]
 
+    return if account.blank? || contact_data.blank?
+
     payload = contact_data.merge(event: __method__.to_s)
     deliver_account_webhooks(payload, account)
   end
