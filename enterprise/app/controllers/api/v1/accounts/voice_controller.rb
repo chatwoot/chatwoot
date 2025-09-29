@@ -31,7 +31,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     end
     conference_sid = conversation.additional_attributes&.dig('conference_sid')
     if conference_sid.blank?
-      conference_sid = "conf_account_#{Current.account.id}_conv_#{conversation.display_id}"
+      conference_sid = Voice::ConferenceSid.friendly_name(conversation)
       conversation.update!(
         additional_attributes:
           (conversation.additional_attributes || {}).merge('conference_sid' => conference_sid)

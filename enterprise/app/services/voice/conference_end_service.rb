@@ -2,9 +2,9 @@ module Voice
   class ConferenceEndService
     pattr_initialize [:conversation!]
 
-    def perform
-      # Compute conference friendly name from readable conversation ID
-      name = "conf_account_#{conversation.account_id}_conv_#{conversation.display_id}"
+  def perform
+    # Compute conference friendly name from readable conversation ID
+    name = Voice::ConferenceSid.friendly_name(conversation)
 
       cfg = conversation.inbox.channel.provider_config_hash
       client = ::Twilio::REST::Client.new(cfg['account_sid'], cfg['auth_token'])

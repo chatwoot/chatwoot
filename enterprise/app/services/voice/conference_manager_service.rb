@@ -14,7 +14,6 @@ module Voice
         handle_any_participant_leave
       end
 
-      conversation.save!
     end
 
     private

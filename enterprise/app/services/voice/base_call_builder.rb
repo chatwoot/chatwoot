@@ -41,12 +41,8 @@ class Voice::BaseCallBuilder
     attrs = conversation.additional_attributes || {}
     return if attrs['conference_sid'].present?
 
-    attrs['conference_sid'] = conference_sid_for(conversation)
+    attrs['conference_sid'] = Voice::ConferenceSid.friendly_name(conversation)
     conversation.update!(additional_attributes: attrs)
-  end
-
-  def conference_sid_for(conversation)
-    "conf_account_#{conversation.account_id}_conv_#{conversation.display_id}"
   end
 
   def refresh_call_metadata!
