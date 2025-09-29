@@ -206,7 +206,7 @@ export default {
 
 <template>
   <main
-    class="relative flex flex-col w-full min-h-screen pb-20 py-16 sm:px-6 lg:px-8 bg-[url('/assets/background-login.png')] bg-cover bg-center bg-no-repeat"
+    class="relative flex flex-col w-full min-h-screen pb-20 py-16 sm:px-6 lg:px-8 bg-[url('/assets/images/background-login.png')] bg-cover bg-center bg-no-repeat"
   >
     <!-- Overlay shadow -->
     <div class="absolute top-0 left-0 w-full h-full bg-[#0000004f] z-0"></div>
