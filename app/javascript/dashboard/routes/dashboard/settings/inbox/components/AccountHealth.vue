@@ -115,68 +115,69 @@ const getStatusBadgeClass = status => {
       <div class="grid grid-cols-[1fr_auto] gap-5">
         <div>
           <span class="text-base font-medium text-n-slate-12">
-            Manage your business portfolio
+            Manage your WhatsApp account
           </span>
           <p class="mt-1 text-sm text-n-slate-11">
-            View your previous invoices, edit your billing details, or cancel
-            your subscription.
+            Check your display name, messaging limits, and quality rating.
+            Update your settings or fix issues if needed.
           </p>
         </div>
         <ButtonV4 sm solid blue> Go to the settings </ButtonV4>
       </div>
-    </div>
-    <div class="pt-8 space-y-4">
-      <section
-        class="w-full text-sm rounded-xl border divide-y border-n-weak bg-n-solid-1 text-n-slate-12 divide-n-weak"
-      >
-        <div
-          v-for="item in healthItems"
-          :key="item.key"
-          class="flex justify-between items-center px-6 py-4 transition-colors hover:bg-n-alpha-1"
+
+      <div class="pt-8 space-y-4">
+        <section
+          class="w-full text-sm rounded-xl border divide-y border-n-weak bg-n-solid-1 text-n-slate-12 divide-n-weak"
         >
-          <div class="flex flex-1 gap-2 items-center min-w-0">
-            <span class="text-sm font-medium text-n-slate-11 min-w-48">
-              {{ item.label }}
-            </span>
-            <i
-              v-tooltip.top="item.tooltip"
-              class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
-            />
+          <div
+            v-for="item in healthItems"
+            :key="item.key"
+            class="flex justify-between items-center px-6 py-4 transition-colors hover:bg-n-alpha-1"
+          >
+            <div class="flex flex-1 gap-2 items-center min-w-0">
+              <span class="text-sm font-medium text-n-slate-11 min-w-48">
+                {{ item.label }}
+              </span>
+              <i
+                v-tooltip.top="item.tooltip"
+                class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
+              />
+            </div>
+            <div class="flex-shrink-0">
+              <span
+                v-if="item.type === 'quality'"
+                class="inline-flex px-3 py-1.5 text-xs font-semibold rounded-full border"
+                :class="getQualityRatingClass(item.value)"
+              >
+                {{ item.value }}
+              </span>
+              <span
+                v-else-if="item.type === 'status'"
+                class="inline-flex px-3 py-1.5 text-xs font-semibold rounded-full border"
+                :class="getStatusBadgeClass(item.value)"
+              >
+                {{ formatStatusDisplay(item.value) }}
+              </span>
+              <span
+                v-else-if="item.type === 'mode'"
+                class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-full"
+                :class="getModeStatusClass(item.value)"
+              >
+                {{ formatModeDisplay(item.value) }}
+              </span>
+              <span
+                v-else-if="item.type === 'tier'"
+                class="text-sm font-medium text-n-slate-12"
+              >
+                {{ formatTierDisplay(item.value) }}
+              </span>
+              <span v-else class="text-sm font-medium text-n-slate-12">{{
+                item.value
+              }}</span>
+            </div>
           </div>
-          <div class="flex-shrink-0">
-            <span
-              v-if="item.type === 'quality'"
-              class="inline-flex px-3 py-1.5 text-xs font-semibold rounded-full border"
-              :class="getQualityRatingClass(item.value)"
-            >
-              {{ item.value }}
-            </span>
-            <span
-              v-else-if="item.type === 'status'"
-              class="inline-flex px-3 py-1.5 text-xs font-semibold rounded-full border"
-              :class="getStatusBadgeClass(item.value)"
-            >
-              {{ formatStatusDisplay(item.value) }}
-            </span>
-            <span
-              v-else-if="item.type === 'mode'"
-              class="inline-flex items-center px-3 py-1.5 text-xs font-semibold rounded-full"
-              :class="getModeStatusClass(item.value)"
-            >
-              {{ formatModeDisplay(item.value) }}
-            </span>
-            <span
-              v-else-if="item.type === 'tier'"
-              class="text-sm font-medium text-n-slate-12"
-            >
-              {{ formatTierDisplay(item.value) }}
-            </span>
-            <span v-else class="text-sm font-medium text-n-slate-12">{{
-              item.value
-            }}</span>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   </div>
 </template>
