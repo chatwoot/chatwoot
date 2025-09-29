@@ -1,0 +1,44 @@
+# Development files
+log/
+tmp/
+coverage/
+node_modules/.cache/
+.sass-cache/
+
+# Test files
+spec/
+test/
+__tests__/
+
+# Documentation
+docs/
+*.md
+README*
+
+# Git
+.git/
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Development databases
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Coverage reports
+coverage/
+
+# Temporary files
+tmp/
+temp/
