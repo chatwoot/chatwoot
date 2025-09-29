@@ -8,6 +8,7 @@ const QUOTE_INDICATORS = [
   '.quote',
   '[class*="quote"]',
   '[class*="Quote"]',
+  'blockquote',
 ];
 
 // Regex patterns for quote identification
