@@ -46,12 +46,11 @@ module Stark
 
           # (a) Image message (no content)
           image_message = conversation.messages.create!(
-            content: nil,
             message_type: :outgoing,
             account_id: conversation.account_id,
             inbox_id: conversation.inbox_id,
             sender: agent_bot,
-            additional_attributes: { 'sent_image': true } # Custom attribute to indicate image message
+            additional_attributes: { 'sent_image': true }
           )
           image_message.attachments.create!(
             account_id: image_message.account_id,
@@ -59,8 +58,6 @@ module Stark
             file: blob
           )
           image_message.save!
-
-          # sleep 1 # Ensure image is sent before title
 
           # (b) Title message (text only), after a small delay
           next unless title.present?
@@ -72,7 +69,6 @@ module Stark
             inbox_id: conversation.inbox_id,
             sender: agent_bot
           )
-          # sleep 1 # Ensure title is sent before next image
         end
 
       else
