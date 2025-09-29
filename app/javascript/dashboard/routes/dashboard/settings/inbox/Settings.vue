@@ -21,6 +21,7 @@ import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vu
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
+import AccountHealth from './components/AccountHealth.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -51,6 +52,7 @@ export default {
     DuplicateInboxBanner,
     Editor,
     Avatar,
+    AccountHealth,
   },
   mixins: [inboxMixin],
   setup() {
@@ -175,6 +177,16 @@ export default {
           },
         ];
       }
+      if (this.shouldShowWhatsAppConfiguration) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'whatsappHealth',
+            name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
+          },
+        ];
+      }
+
       return visibleToAllChannelTabs;
     },
     currentInboxId() {
@@ -458,7 +470,7 @@ export default {
           :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
           :show-border="false"
         >
-          <div class="flex flex-col mb-4 items-start gap-1">
+          <div class="flex flex-col gap-1 items-start mb-4">
             <label class="mb-0.5 text-sm font-medium text-n-slate-12">
               {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL') }}
             </label>
@@ -855,6 +867,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'botConfiguration'">
         <BotConfiguration :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'whatsappHealth'">
+        <AccountHealth :inbox="inbox" />
       </div>
     </section>
   </div>
