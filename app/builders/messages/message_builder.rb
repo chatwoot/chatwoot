@@ -20,6 +20,7 @@ class Messages::MessageBuilder
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
+    process_email_content
     @message.save!
     @message
   end
@@ -92,6 +93,33 @@ class Messages::MessageBuilder
     @message.content_attributes[:to_emails] = to_emails
   end
 
+  def process_email_content
+    return unless email_inbox?
+    return if @private
+    return if @message.content.blank?
+
+    @message.content_attributes ||= {}
+    email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
+    html_content = ensure_indifferent_access(email_attributes[:html_content] || {})
+    text_content = ensure_indifferent_access(email_attributes[:text_content] || {})
+
+    normalized_content = normalize_email_body(@message.content)
+    html_full_content = render_email_html(normalized_content)
+    body_without_quote = extract_body_without_quote(normalized_content)
+
+    text_content[:full] = normalized_content
+    text_content[:reply] = normalized_content
+    text_content[:quoted] = body_without_quote
+
+    html_content[:full] = html_full_content
+    html_content[:reply] = normalized_content
+    html_content[:quoted] = body_without_quote
+
+    email_attributes[:text_content] = text_content
+    email_attributes[:html_content] = html_content
+    @message.content_attributes[:email] = email_attributes
+  end
+
   def process_email_string(email_string)
     return [] if email_string.blank?
 
@@ -152,5 +180,41 @@ class Messages::MessageBuilder
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
     }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
+  end
+
+  def email_inbox?
+    @conversation.inbox&.inbox_type == 'Email'
+  end
+
+  def ensure_indifferent_access(hash)
+    return {} if hash.blank?
+
+    hash.respond_to?(:with_indifferent_access) ? hash.with_indifferent_access : hash
+  end
+
+  def normalize_email_body(content)
+    content.to_s.gsub("\r\n", "\n")
+  end
+
+  def render_email_html(content)
+    return '' if content.blank?
+
+    ChatwootMarkdownRenderer.new(content).render_message.to_s
+  end
+
+  def extract_body_without_quote(content)
+    return '' if content.blank?
+
+    lines = content.split("\n")
+    quote_start_index = lines.find_index { |line| line.lstrip.start_with?('>') }
+
+    return content.strip if quote_start_index.nil?
+
+    body_lines = lines[0...quote_start_index]
+
+    body_lines.pop while body_lines.any? && body_lines.last.strip.empty?
+
+    body = body_lines.join("\n").strip
+    (body.presence || content.strip)
   end
 end
