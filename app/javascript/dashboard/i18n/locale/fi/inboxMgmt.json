@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
       },
       "FB": {
-        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Chatwoot ei koskaan näe yksityisviestejäsi.",
+        "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Flow ei koskaan näe yksityisviestejäsi.",
         "CHOOSE_PAGE": "Valitse sivu",
         "CHOOSE_PLACEHOLDER": "Valitse sivu listasta",
         "INBOX_NAME": "Kansion nimi",
@@ -424,7 +424,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot tukee live-chat-widgetejä, Facebook Messenger, WhatsApp, sähköpostit jne. kanavina. Jos haluat rakentaa mukautetun kanavan, voit luoda sen API-kanavalla. Päästäksesi alkuun, valitse jokin kanava alta.",
+        "DESC": "Flow tukee live-chat-widgetejä, Facebook Messenger, WhatsApp, sähköpostit jne. kanavina. Jos haluat rakentaa mukautetun kanavan, voit luoda sen API-kanavalla. Päästäksesi alkuun, valitse jokin kanava alta.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -911,8 +911,8 @@
         "USER_MESSAGE": "Hei",
         "AGENT_MESSAGE": "Moi"
       },
-      "BRANDING_TEXT": "Palvelun tarjoaa Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Palvelun tarjoaa Flow",
+      "SCRIPT_SETTINGS": "\n      window.flowSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {

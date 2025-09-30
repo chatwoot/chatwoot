@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "Login to Flow",
     "EMAIL": {
       "LABEL": "Tölvupóstfang",
       "PLACEHOLDER": "example{'@'}companyname.com",

@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interfeiss",
-        "NOTE": "Pielāgot sava Chatwoot informācijas paneļa izskatu un darbību.",
+        "NOTE": "Pielāgot sava Flow informācijas paneļa izskatu un darbību.",
         "FONT_SIZE": {
           "TITLE": "Fonta lielums",
           "NOTE": "Pielāgot teksta lielumu informācijas panelī, atbilstoši savām vēlmēm.",
@@ -391,7 +391,7 @@
     "NO_BILLING_USER": "Jūsu norēķinu konts tiek konfigurēts. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Ak, vai! Mēs nevarējām atrast nevienu chatwoot kontu. Lūdzu, izveidojiet jaunu kontu, lai turpinātu.",
+    "NO_ACCOUNT_WARNING": "Ak, vai! Mēs nevarējām atrast nevienu flow kontu. Lūdzu, izveidojiet jaunu kontu, lai turpinātu.",
     "NEW_ACCOUNT": "Jauns Konts",
     "SELECTOR_SUBTITLE": "Izveidot jaunu kontu",
     "API": {

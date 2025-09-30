@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "สร้าง",
       "NAME": {
         "LABEL": "ชื่อ",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | Flow",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "โปรดระบุชื่อ"
       },
@@ -774,7 +774,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to flow.help",
             "COPY": "Successfully copied CNAME",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Send instructions",
