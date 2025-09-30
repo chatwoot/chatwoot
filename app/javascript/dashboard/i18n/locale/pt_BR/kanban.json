@@ -1,0 +1,25 @@
+{
+    "KANBAN": {
+        "HEADER": {
+            "DRAG_MODE": {
+                "ACTIVE": "Modo arrasto ativo",
+                "INACTIVE": "Ativar modo arrasto"
+            },
+            "BUTTONS": {
+                "NEW_COLUMN": "Nova coluna",
+                "IMPORT": "Importar Kanban",
+                "EXPORT": "Exportar Kanban"
+            }
+        },
+        "COLUMN": {
+            "ACTIONS": {
+                "DELETE": "Deletar",
+                "EDIT": "Editar"
+            }
+        },
+        "EMPTY_STATE": {
+            "TITLE": "Nenhuma coluna criada",
+            "DESCRIPTION": "Clique em \"Nova coluna\" para começar seu quadro Kanban"
+        }
+    }
+}

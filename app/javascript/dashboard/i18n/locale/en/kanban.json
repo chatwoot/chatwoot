@@ -1,0 +1,25 @@
+{
+    "KANBAN": {
+        "HEADER": {
+            "DRAG_MODE": {
+                "ACTIVE": "Drag mode active",
+                "INACTIVE": "Activate drag mode"
+            },
+            "BUTTONS": {
+                "NEW_COLUMN": "New Column",
+                "IMPORT": "Import Kanban",
+                "EXPORT": "Export Kanban"
+            }
+        },
+        "COLUMN": {
+            "ACTIONS": {
+                "DELETE": "Delete",
+                "EDIT": "Edit"
+            }
+        },
+        "EMPTY_STATE": {
+            "TITLE": "No columns created",
+            "DESCRIPTION": "Click the \"New Column\" to start your kanban board"
+        }
+    }
+}

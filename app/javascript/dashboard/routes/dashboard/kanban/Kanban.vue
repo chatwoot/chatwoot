@@ -2,6 +2,7 @@
 import ColumnModal from './ColumnModal.vue'
 import ConversationApi from '../../../api/inbox/conversation';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
+import { useI18n } from 'vue-i18n';
 import { toRaw } from 'vue'
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 
@@ -30,6 +31,7 @@ export default {
   },
 
   setup() {
+      const { t } = useI18n();
       const {
       savedLabels,
       activeLabels,
@@ -37,8 +39,9 @@ export default {
       addLabelToConversation,
       removeLabelFromConversation,
       } = useConversationLabels();
-      
+
       return {
+        t,
         savedLabels,
         activeLabels,
         accountLabels,
@@ -200,6 +203,10 @@ export default {
 
       // Remover a coluna
       this.localColumns.splice(columnIndex, 1)
+
+      // Limpar o editedColumn
+      this.editedColumn = null
+      this.isEditing = false
       
       // Emitir eventos e atualizar localStorage
       this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
@@ -314,19 +321,7 @@ export default {
     },
 
     async fetchLabels() {
-      // Simulando delay de API
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      // Simulando resposta da API
-      const apiLabels = [
-        {text: 'Etapa 1', value: 'etapa_1'}, 
-        {text: 'Etapa 2', value: 'etapa_2'}, 
-        {text: 'Etapa 3', value: 'etapa_3'},
-        {text: 'Urgente', value: 'urgente'},
-        {text: 'Pode Esperar', value: 'esperar'}
-      ]
-      
       this.labels = this.accountLabels
-
     },
 
     async fetchColumns() {
@@ -409,26 +404,20 @@ export default {
           :class="{ active: dragColumnsMode }"
           @click="dragColumnsMode = !dragColumnsMode"
         >
-          {{ dragColumnsMode ? 'Modo Arrasto Ativo' : 'Modo Arrasto' }}
+          {{ dragColumnsMode ? t('KANBAN.HEADER.DRAG_MODE.ACTIVE') : t('KANBAN.HEADER.DRAG_MODE.INACTIVE') }}
         </button>
       </div>
       <div class="kanban-header-right">
-        <button class="kanban-button" @click="openColumnModal">Nova coluna</button>
-        <button class="kanban-button" @click="importKanban">Importar Kanban</button>
-        <button class="kanban-button" @click="exportKanban">Exportar Kanban</button>
+        <button class="kanban-button" @click="openColumnModal">{{ t('KANBAN.HEADER.BUTTONS.NEW_COLUMN') }}</button>
+        <button class="kanban-button" @click="importKanban">{{ t('KANBAN.HEADER.BUTTONS.IMPORT') }}</button>
+        <button class="kanban-button" @click="exportKanban">{{ t('KANBAN.HEADER.BUTTONS.EXPORT') }}</button>
       </div>
     </header>
-      
-          <h3 class="debug-title">Debug Info</h3>
-          <div class="debug-item">
-            <strong>Labels:</strong> 
-            {{ labels }}
-          </div>
-  
+
     <div class="kanban-board">
       <div v-if="localColumns.length === 0" class="empty-state">
-        <h2>Nenhuma coluna criada</h2>
-        <p>Clique em "Nova coluna" para começar seu quadro Kanban</p>
+        <h2>{{ t('KANBAN.EMPTY_STATE.TITLE') }}</h2>
+        <p>{{ t('KANBAN.EMPTY_STATE.DESCRIPTION') }}</p>
       </div>
       <div
         v-else
@@ -445,10 +434,10 @@ export default {
         <div class="column-header">
           <h2>{{ column.title }}</h2>
           <button class="delete-column-btn" @click="deleteColumn(columnIndex)">
-            Deletar
+            {{ t('KANBAN.COLUMN.ACTIONS.DELETE') }}
           </button>
           <button class="delete-column-btn" @click="editColumn(columnIndex)">
-            Editar
+            {{ t('KANBAN.COLUMN.ACTIONS.EDIT') }}
           </button>
         </div>
         
@@ -461,7 +450,7 @@ export default {
           @dragend="onDragEnd"
           @click="handleCardClick(item)"
         >
-          <slot name="card" :item="item" :column="column">{{ item.content }} / {{ item.id }}</slot>
+          <slot name="card" :item="item" :column="column">{{ item.content }}</slot>
         </div>
       </div>
     </div>
@@ -481,19 +470,34 @@ export default {
 <style scoped>
 .kanban-root {
   font-family: Arial, sans-serif;
-  padding: 20px;
+  padding: 10px;
   background-color: #292525;
   height: 100vh;
   width: 100vw;
   box-sizing: border-box;
+  overflow-x: auto;
+}
+
+@media (max-width: 768px) {
+  .kanban-root {
+    padding: 5px;
+  }
 }
 
 .kanban-board {
   display: flex;
   gap: 20px;
-  width: 100%;
-  height: 100%;
+  height: calc(100vh - 100px);
   margin: 0 auto;
+  overflow-x: auto;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .kanban-board {
+    padding-bottom: 10px;
+    gap: 10px;
+  }
 }
 
 .column {
@@ -501,8 +505,17 @@ export default {
   border-radius: 8px;
   padding: 12px;
   width: 300px;
-  height: calc(100vh - 40px); /* 40px to account for the root padding */
+  min-width: 300px;
+  height: 100%;
   overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .column {
+    width: 280px;
+    min-width: 280px;
+    padding: 8px;
+  }
 }
 
 .column-header {
@@ -586,6 +599,26 @@ export default {
   top: 0;
   z-index: 100;
   margin-bottom: 1.5%;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .kanban-header {
+    padding: 10px;
+    gap: 5px;
+  }
+  
+  .kanban-header-left,
+  .kanban-header-right {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .kanban-button {
+    width: calc(50% - 5px);
+    font-size: 14px;
+    padding: 6px 12px;
+  }
 }
 
 .kanban-header-left,

@@ -86,15 +86,14 @@ export default {
 <template>
   <div v-if="show" class="modal-overlay">
     <div class="modal">
-      <h3 v-text="this.isEditing ? 'Editar Coluna' : 'Nova Coluna'"></h3>
+      <h3 v-text="this.isEditing ? $t('COLUMN_MODAL.EDIT_COLUMN') : $t('COLUMN_MODAL.ADD_COLUMN')"></h3>
       <input 
         v-model="localColumnTitle"
         type="text"
-        placeholder="Nome da coluna"
+        :placeholder="$t('COLUMN_MODAL.COLUMN_NAME')"
         @keyup.enter="addColumn"
       >
-      <label for="labels">Etiquetas: (para escolher mais de uma, mantenha ctrl pressionado ao escolher)</label>
-      {{ localSelectedLabels }}
+      <label for="labels">{{$t('COLUMN_MODAL.LABELS')}}</label>
       <select 
         name="labels" 
         id="column-labels" 
@@ -106,26 +105,25 @@ export default {
           {{ label.description }}
         </option>
       </select>
-      <label for="label_to_add">Adicionar etiqueta</label>
-      {{ label_to_add }}
+      <label for="label_to_add">{{ $t('COLUMN_MODAL.LABEL_TO_ADD') }}</label>
       <select
       name="label_to_add"
       id="label-to-add"
       v-model="label_to_add"
       class="single-select"
       >
-        <option value="">Selecione uma label</option>
+        <option value="">{{$t('COLUMN_MODAL.SELECT_LABEL_TO_ADD_TEXT')}}</option>
         <option
          v-for="labelValue in localSelectedLabels"
          :key="labelValue"
          :value="labelValue"
          >
-         {{ labelValue }}
+         {{ labelValue.title }}
         </option>
       </select>
       <div class="modal-actions">
-        <button @click="closeModal" class="cancel-btn">Cancelar</button>
-        <button @click="addColumn" class="confirm-btn" v-text="this.isEditing ? 'Alterar' : 'Adicionar'"></button>
+        <button @click="closeModal" class="cancel-btn">{{$t('COLUMN_MODAL.CANCEL_BUTTON')}}</button>
+        <button @click="addColumn" class="confirm-btn" v-text="this.isEditing ? $t('COLUMN_MODAL.CONFIRM_UPDATE') : $t('COLUMN_MODAL.CONFIRM_ADD')"></button>
       </div>
     </div>
   </div>
@@ -149,7 +147,17 @@ export default {
   background-color: #464343;
   padding: 20px;
   border-radius: 8px;
-  min-width: 300px;
+  width: 90%;
+  max-width: 500px;
+  margin: 20px;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    padding: 15px;
+    margin: 10px;
+  }
 }
 
 .modal h3 {
@@ -171,6 +179,18 @@ export default {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .modal-actions {
+    justify-content: center;
+  }
+  
+  .cancel-btn, .confirm-btn {
+    width: 100%;
+    margin: 5px 0;
+  }
 }
 
 .cancel-btn, .confirm-btn {
@@ -223,14 +243,21 @@ export default {
 .single-select {
   width: 100%;
   padding: 8px;
-  margin-bottom: 15px;
+  margin: 8px 0 15px;
   border: none;
   border-radius: 4px;
   background-color: rgb(46, 42, 42);
   color: white;
+  display: block;
 }
 
 .single-select option {
   padding: 8px;
-} 
+}
+
+label {
+  display: block;
+  color: #fff;
+  margin: 10px 0 5px;
+}
 </style>
