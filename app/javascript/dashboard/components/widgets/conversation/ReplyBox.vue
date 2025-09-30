@@ -128,7 +128,6 @@ export default {
       hasRecordedAudio: false,
       quotedReplyForDraft: false,
       quotedReplyExpanded: false,
-      hasTemporarilyDisabledQuotedReply: false,
     };
   },
   computed: {
@@ -526,14 +525,11 @@ export default {
 
       if (!this.shouldShowQuotedReplyToggle || !newValue) {
         this.clearQuotedReplyState();
-        this.hasTemporarilyDisabledQuotedReply = false;
         return;
       }
 
-      if (!this.hasTemporarilyDisabledQuotedReply) {
-        this.quotedReplyForDraft = !!this.quotedEmailText;
-        this.quotedReplyExpanded = false;
-      }
+      this.quotedReplyForDraft = !!this.quotedEmailText;
+      this.quotedReplyExpanded = false;
     },
     quotedEmailText(newValue, oldValue) {
       if (newValue === oldValue) {
@@ -545,10 +541,7 @@ export default {
         return;
       }
 
-      if (
-        this.quotedReplyPreference &&
-        !this.hasTemporarilyDisabledQuotedReply
-      ) {
+      if (this.quotedReplyPreference) {
         this.quotedReplyForDraft = true;
       }
     },
@@ -561,7 +554,6 @@ export default {
     isOnPrivateNote(isPrivate) {
       if (isPrivate) {
         this.clearQuotedReplyState();
-        this.hasTemporarilyDisabledQuotedReply = false;
       } else {
         this.initializeQuotedReplyState();
       }
@@ -652,11 +644,9 @@ export default {
     initializeQuotedReplyState() {
       if (!this.shouldShowQuotedReplyToggle || !this.quotedEmailText) {
         this.clearQuotedReplyState();
-        this.hasTemporarilyDisabledQuotedReply = false;
         return;
       }
 
-      this.hasTemporarilyDisabledQuotedReply = false;
       this.quotedReplyForDraft =
         this.quotedReplyPreference && !!this.quotedEmailText;
       this.quotedReplyExpanded = false;
@@ -672,7 +662,6 @@ export default {
 
       const nextValue = !this.quotedReplyPreference;
       this.setQuotedReplyFlagForInbox(this.channelType, nextValue);
-      this.hasTemporarilyDisabledQuotedReply = false;
 
       if (nextValue && this.quotedEmailText) {
         this.quotedReplyForDraft = true;
@@ -680,10 +669,6 @@ export default {
       } else {
         this.clearQuotedReplyState();
       }
-    },
-    dismissQuotedPreview() {
-      this.clearQuotedReplyState();
-      this.hasTemporarilyDisabledQuotedReply = true;
     },
     expandQuotedPreview() {
       if (this.quotedReplyExpanded || !this.quotedEmailText) {
@@ -1500,7 +1485,7 @@ export default {
       <div v-if="shouldShowQuotedPreview" class="mt-2">
         <div
           v-if="!quotedReplyExpanded"
-          class="flex max-w-full cursor-pointer items-center gap-2 rounded-full bg-n-slate-3 px-3 py-1 text-xs text-n-slate-12 dark:bg-n-solid-3"
+          class="flex max-w-full justify-between cursor-pointer items-center gap-2 rounded-md bg-n-slate-3 ps-3 p-1 text-xs text-n-slate-12 dark:bg-n-solid-3"
           @click="expandQuotedPreview"
         >
           <span class="truncate" :title="quotedEmailPreviewText">
@@ -1508,11 +1493,11 @@ export default {
           </span>
           <button
             type="button"
-            class="flex-shrink-0 rounded-full p-1 hover:bg-n-slate-5"
+            class="flex-shrink-0 flex items-center justify-center rounded-full hover:bg-n-slate-5"
             :aria-label="
               $t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')
             "
-            @click.stop="dismissQuotedPreview"
+            @click.stop="toggleQuotedReply"
           >
             <i class="i-ph-x text-sm" />
           </button>
@@ -1531,7 +1516,7 @@ export default {
               :aria-label="
                 $t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')
               "
-              @click="dismissQuotedPreview"
+              @click="toggleQuotedReply"
             >
               <i class="i-ph-x text-sm" />
             </button>
