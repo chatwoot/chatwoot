@@ -145,5 +145,6 @@ if resource.apple_messages_for_business?
     json.oauth2_providers resource.channel.try(:oauth2_providers)
     json.payment_settings resource.channel.try(:payment_settings)
     json.payment_processors resource.channel.try(:payment_processors)
+    json.imessage_apps resource.channel.try(:imessage_apps)
   end
 end

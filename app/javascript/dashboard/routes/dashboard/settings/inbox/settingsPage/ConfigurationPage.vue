@@ -166,8 +166,8 @@ export default {
 
         // Initialize iMessage apps with safe defaults
         const imessageAppsData = this.inbox.imessage_apps || [];
-        // Only update if we don't have any apps yet or if the data has actually changed
-        if (this.imessageApps.length === 0 || JSON.stringify(this.imessageApps) !== JSON.stringify(imessageAppsData)) {
+        // Only initialize if we don't have any data yet (first load)
+        if (this.imessageApps.length === 0) {
           this.imessageApps = imessageAppsData.length > 0 ? imessageAppsData : [
             {
               id: 'app_1',
@@ -183,6 +183,9 @@ export default {
               images: []
             }
           ];
+        } else if (imessageAppsData.length > 0) {
+          // If we have saved data and current data, use the saved data from server
+          this.imessageApps = imessageAppsData;
         }
       }
     },
