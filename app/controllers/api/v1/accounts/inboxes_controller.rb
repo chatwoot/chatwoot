@@ -107,6 +107,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     channel_attributes = get_channel_attributes(@inbox.channel_type)
     return if permitted_params(channel_attributes)[:channel].blank?
 
+    # Debug logging for iMessage apps
+    if @inbox.apple_messages_for_business?
+      Rails.logger.info "[AMB CONTROLLER DEBUG] Received channel params: #{permitted_params(channel_attributes)[:channel].inspect}"
+      Rails.logger.info "[AMB CONTROLLER DEBUG] imessage_apps in params: #{permitted_params(channel_attributes)[:channel][:imessage_apps].inspect}"
+    end
+
     validate_and_update_email_channel(channel_attributes) if @inbox.inbox_type == 'Email'
 
     reauthorize_and_update_channel(channel_attributes)

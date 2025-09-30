@@ -51,6 +51,10 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
   # validate :validate_oauth2_settings
   # validate :validate_payment_settings
 
+  # Debug logging for imessage_apps
+  before_save :debug_imessage_apps_save
+  after_save :debug_imessage_apps_after_save
+
   before_save :setup_webhook_url
   after_create :register_webhook
 
@@ -238,5 +242,17 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
     if config['privateKey'].blank?
       errors.add(:payment_processors, 'Braintree Private Key is required')
     end
+  end
+
+  # Debug methods for iMessage apps saving issue
+  def debug_imessage_apps_save
+    Rails.logger.info "[AMB DEBUG] Before save - imessage_apps: #{imessage_apps.inspect}"
+    Rails.logger.info "[AMB DEBUG] Before save - imessage_apps changed: #{imessage_apps_changed?}"
+    Rails.logger.info "[AMB DEBUG] Before save - imessage_apps was: #{imessage_apps_was.inspect}" if imessage_apps_changed?
+  end
+
+  def debug_imessage_apps_after_save
+    Rails.logger.info "[AMB DEBUG] After save - imessage_apps: #{imessage_apps.inspect}"
+    Rails.logger.info "[AMB DEBUG] After save - persisted: #{persisted?}"
   end
 end
