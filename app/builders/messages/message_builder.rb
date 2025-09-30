@@ -102,9 +102,7 @@ class Messages::MessageBuilder
     email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
     html_content = ensure_indifferent_access(email_attributes[:html_content] || {})
 
-    normalized_content = normalize_email_body(@message.content)
-
-    text_content[:full] = normalized_content
+    normalize_email_body(@message.content)
 
     email_attributes[:html_content] = html_content
     @message.content_attributes[:email] = email_attributes
