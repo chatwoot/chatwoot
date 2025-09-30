@@ -920,7 +920,7 @@ export default {
         <BotConfiguration :inbox="inbox" />
       </div>
       <div v-if="selectedTabKey === 'whatsappHealth'">
-        <AccountHealth :inbox="inbox" :health-data="healthData" />
+        <AccountHealth :health-data="healthData" />
       </div>
     </section>
   </div>
