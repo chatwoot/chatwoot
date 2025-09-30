@@ -297,8 +297,7 @@ export default {
 
       return (
         this.healthData.platform_type === 'NOT_APPLICABLE' ||
-        this.healthData.throughput?.level === 'NOT_APPLICABLE' ||
-        this.healthData.messaging_limit_tier === null
+        this.healthData.throughput?.level === 'NOT_APPLICABLE'
       );
     },
   },
@@ -327,10 +326,7 @@ export default {
     async fetchHealthData() {
       if (!this.inbox) return;
 
-      if (
-        !this.isAWhatsAppChannel ||
-        this.inbox.provider !== 'whatsapp_cloud'
-      ) {
+      if (!this.isAWhatsAppCloudChannel) {
         return;
       }
 
