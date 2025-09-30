@@ -5,6 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import CannedResponse from './CannedResponse.vue';
 import ReplyToMessage from './ReplyToMessage.vue';
@@ -143,6 +144,8 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -380,8 +383,14 @@ export default {
       const { slug = '' } = portal;
       return slug;
     },
+    isQuotedEmailReplyEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.QUOTED_EMAIL_REPLY
+      );
+    },
     quotedReplyPreference() {
-      if (!this.isAnEmailChannel) {
+      if (!this.isAnEmailChannel || !this.isQuotedEmailReplyEnabled) {
         return false;
       }
 
@@ -406,7 +415,11 @@ export default {
       return truncatePreviewText(this.quotedEmailText, 80);
     },
     shouldShowQuotedReplyToggle() {
-      return this.isAnEmailChannel && !this.isOnPrivateNote;
+      return (
+        this.isAnEmailChannel &&
+        !this.isOnPrivateNote &&
+        this.isQuotedEmailReplyEnabled
+      );
     },
     shouldShowQuotedPreview() {
       return (
@@ -635,6 +648,7 @@ export default {
     },
     shouldIncludeQuotedEmail() {
       return (
+        this.isQuotedEmailReplyEnabled &&
         this.quotedReplyForDraft &&
         this.shouldShowQuotedReplyToggle &&
         !!this.quotedEmailText
