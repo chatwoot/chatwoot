@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 import { useMessageContext } from '../provider.js';
 import BaseBubble from './Base.vue';
 

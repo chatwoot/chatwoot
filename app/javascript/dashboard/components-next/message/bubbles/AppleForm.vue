@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref } from 'vue';
 import { useMessageContext } from '../provider.js';
 import BaseBubble from './Base.vue';
 
@@ -79,13 +79,13 @@ const toggleExpanded = () => {
 
 const nextPage = () => {
   if (!isLastPage.value) {
-    selectedPage.value++;
+    selectedPage.value += 1;
   }
 };
 
 const previousPage = () => {
   if (!isFirstPage.value) {
-    selectedPage.value--;
+    selectedPage.value -= 1;
   }
 };
 
@@ -134,31 +134,6 @@ const cancelForm = () => {
   selectedPage.value = 0;
   hasErrors.value = false;
   errorMessage.value = '';
-};
-
-// Format field value for display
-const formatFieldValue = (item, value) => {
-  if (!value) return '';
-
-  switch (item.item_type) {
-    case 'singleSelect':
-    case 'multiSelect':
-      if (Array.isArray(value)) {
-        return value.map(v => {
-          const option = item.options?.find(opt => opt.value === v);
-          return option?.title || v;
-        }).join(', ');
-      } else {
-        const option = item.options?.find(opt => opt.value === value);
-        return option?.title || value;
-      }
-    case 'toggle':
-      return value ? 'Yes' : 'No';
-    case 'dateTime':
-      return new Date(value).toLocaleDateString();
-    default:
-      return value.toString();
-  }
 };
 
 // Get field input type
