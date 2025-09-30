@@ -20,6 +20,7 @@ class Messages::MessageBuilder
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
+    process_email_content
     @message.save!
     @message
   end
@@ -92,6 +93,14 @@ class Messages::MessageBuilder
     @message.content_attributes[:to_emails] = to_emails
   end
 
+  def process_email_content
+    return unless should_process_email_content?
+
+    @message.content_attributes ||= {}
+    email_attributes = build_email_attributes
+    @message.content_attributes[:email] = email_attributes
+  end
+
   def process_email_string(email_string)
     return [] if email_string.blank?
 
@@ -152,5 +161,53 @@ class Messages::MessageBuilder
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
     }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
+  end
+
+  def email_inbox?
+    @conversation.inbox&.inbox_type == 'Email'
+  end
+
+  def should_process_email_content?
+    email_inbox? && !@private && @message.content.present?
+  end
+
+  def build_email_attributes
+    email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
+    normalized_content = normalize_email_body(@message.content)
+
+    email_attributes[:html_content] = build_html_content(normalized_content)
+    email_attributes[:text_content] = build_text_content(normalized_content)
+    email_attributes
+  end
+
+  def build_html_content(normalized_content)
+    html_content = ensure_indifferent_access(@message.content_attributes.dig(:email, :html_content) || {})
+    rendered_html = render_email_html(normalized_content)
+    html_content[:full] = rendered_html
+    html_content[:reply] = rendered_html
+    html_content
+  end
+
+  def build_text_content(normalized_content)
+    text_content = ensure_indifferent_access(@message.content_attributes.dig(:email, :text_content) || {})
+    text_content[:full] = normalized_content
+    text_content[:reply] = normalized_content
+    text_content
+  end
+
+  def ensure_indifferent_access(hash)
+    return {} if hash.blank?
+
+    hash.respond_to?(:with_indifferent_access) ? hash.with_indifferent_access : hash
+  end
+
+  def normalize_email_body(content)
+    content.to_s.gsub("\r\n", "\n")
+  end
+
+  def render_email_html(content)
+    return '' if content.blank?
+
+    ChatwootMarkdownRenderer.new(content).render_message.to_s
   end
 end
