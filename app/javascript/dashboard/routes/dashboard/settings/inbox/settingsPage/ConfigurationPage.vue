@@ -162,6 +162,15 @@ export default {
 
         // Initialize iMessage apps with safe defaults (mimic payment processors pattern)
         const imessageAppsData = this.inbox.imessage_apps || [];
+
+        // Debug logging to see what we're loading
+        console.log('🔥 Loading iMessage Apps data:', {
+          inboxImessageApps: this.inbox.imessage_apps,
+          imessageAppsData: imessageAppsData,
+          imessageAppsDataLength: imessageAppsData.length,
+          inboxFull: this.inbox
+        });
+
         this.imessageApps = imessageAppsData.length > 0 ? imessageAppsData : [
           {
             id: 'app_1',
@@ -246,9 +255,19 @@ export default {
             imessage_apps: this.imessageApps,
           },
         };
+
+        // Debug logging to see what's being sent
+        console.log('🔥 Sending iMessage Apps payload:', {
+          imessageApps: this.imessageApps,
+          imessageAppsLength: this.imessageApps.length,
+          firstApp: this.imessageApps[0],
+          payloadImessageApps: payload.channel.imessage_apps
+        });
+
         await this.$store.dispatch('inboxes/updateInbox', payload);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
+        console.error('🔥 iMessage Apps save error:', error);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
