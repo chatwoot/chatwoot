@@ -298,7 +298,7 @@ export default {
       return (
         this.healthData.platform_type === 'NOT_APPLICABLE' ||
         this.healthData.throughput?.level === 'NOT_APPLICABLE' ||
-        this.healthData.messaging_limit_tier == null
+        this.healthData.messaging_limit_tier === null
       );
     },
   },
