@@ -24,10 +24,10 @@
     "CREATE_NEW_ACCOUNT": "Yeni hesap oluştur",
     "SUBMIT": "Oturum aç",
     "SAML": {
-      "LABEL": "Log in via SSO",
+      "LABEL": "SSO ile giriş yapın",
       "TITLE": "Initiate Single Sign-on (SSO)",
       "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "BACK_TO_LOGIN": "Şifre ile giriş yap",
       "WORK_EMAIL": {
         "LABEL": "Work Email",
         "PLACEHOLDER": "Enter your work email"

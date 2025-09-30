@@ -53,11 +53,11 @@
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "Tercih Edilen Dil",
+          "NOTE": "Kullanmak istediğiniz dili seçin.",
+          "UPDATE_SUCCESS": "Dil ayarlarınız başarıyla güncellendi",
+          "UPDATE_ERROR": "Dil ayarlarını güncellerken bir hata oluştu, lütfen tekrar deneyin",
+          "USE_ACCOUNT_DEFAULT": "Hesap varsayılanını kullan"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -81,9 +81,9 @@
         "BTN_TEXT": "Şifre değiştir"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "Güvenlik",
+        "NOTE": "Hesabınız için ek güvenlik özelliklerini yönetin.",
+        "MFA_BUTTON": "İki Faktörlü Kimlik Doğrulamayı Yönet"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
@@ -238,7 +238,7 @@
     "APPEARANCE": "Change appearance",
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
+    "CHANGELOG": "Değişiklik Günlüğü",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
@@ -342,7 +342,7 @@
     "REPORTS_LABEL": "Etiketler",
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "AGENT_ASSIGNMENT": "Temsilci Atama",
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
     "SET_YOUR_AVAILABILITY": "Uygunluk Durumunuzu Ayarlayın",
     "SLA": "SLA",
@@ -364,7 +364,7 @@
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Dokümantasyonu oku",
-    "SECURITY": "Security"
+    "SECURITY": "Güvenlik"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatura",
@@ -397,8 +397,8 @@
     "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin."
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
+    "TITLE": "Güvenlik",
+    "DESCRIPTION": "Hesap güvenlik ayarlarınızı yönetin.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML": {
       "TITLE": "SAML SSO",
@@ -442,7 +442,7 @@
       "VALIDATION": {
         "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
         "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
+        "CERTIFICATE_ERROR": "Sertifika gereklidir",
         "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
       },
       "ENTERPRISE_PAYWALL": {
@@ -454,7 +454,7 @@
         "TITLE": "Upgrade to enable SAML SSO",
         "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
         "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
+        "UPGRADE_NOW": "Şimdi yükselt",
         "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       },
       "ATTRIBUTE_MAPPING": {
@@ -563,7 +563,7 @@
         "CONFIRM_ADD_INBOX_DIALOG": {
           "TITLE": "Add inbox",
           "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CONFIRM_BUTTON_LABEL": "Devam et",
           "CANCEL_BUTTON_LABEL": "İptal Et"
         },
         "API": {
@@ -620,7 +620,7 @@
         },
         "FAIR_DISTRIBUTION": {
           "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "DESCRIPTION": "Belirli bir zaman diliminde her bir temsilciye atanabilecek maksimum konuşma sayısını ayarlayarak herhangi bir temsilcinin aşırı yüklenmesini önleyin. Bu zorunlu alanın varsayılan değeri saat başına 100 konuşmadır.",
           "INPUT_MAX": "Assign max",
           "DURATION": "Conversations per agent in every"
         },
@@ -674,7 +674,7 @@
         "CONFIRM_ADD_AGENT_DIALOG": {
           "TITLE": "Add agent",
           "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CONFIRM_BUTTON_LABEL": "Devam et",
           "CANCEL_BUTTON_LABEL": "İptal Et"
         },
         "API": {
@@ -706,19 +706,19 @@
           "ADD_BUTTON": "Add inbox",
           "FIELD": {
             "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "MAX_CONVERSATIONS": "Maksimum Konuşma",
+            "SET_LIMIT": "Sınır belirle"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "Gelen kutusu sınırı belirlenmemiş"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
+          "LABEL": "Hariç tutma kuralları",
           "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
           "TAGS": {
             "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "ADD_TAG": "etiket ekle",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "Eklemek için etiketleri arayın ve seçin"
             },
             "EMPTY_STATE": "No tags added to this policy."
           },
