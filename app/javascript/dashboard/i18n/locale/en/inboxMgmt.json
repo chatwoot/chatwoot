@@ -640,6 +640,26 @@
           "LABEL": "Account mode",
           "TOOLTIP": "Current operating mode of your account"
         }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 customers per 24h",
+          "TIER_1000": "1K customers per 24h",
+          "TIER_1K": "1K customers per 24h",
+          "TIER_10K": "10K customers per 24h",
+          "TIER_100K": "100K customers per 24h",
+          "TIER_UNLIMITED": "Unlimited customers per 24h"
+        },
+        "STATUSES": {
+          "APPROVED": "Approved",
+          "PENDING_REVIEW": "Pending Review",
+          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
+          "REJECTED": "Rejected"
+        },
+        "MODES": {
+          "SANDBOX": "Sandbox",
+          "LIVE": "Live"
+        }
       }
     },
     "SETTINGS": "Settings",

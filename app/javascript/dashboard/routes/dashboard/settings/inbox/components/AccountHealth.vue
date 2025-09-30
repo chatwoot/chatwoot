@@ -13,27 +13,6 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const TIER_LABELS = {
-  TIER_250: '250 customers per 24h',
-  TIER_1000: '1K customers per 24h', // Added missing TIER_1000
-  TIER_1K: '1K customers per 24h',
-  TIER_10K: '10K customers per 24h',
-  TIER_100K: '100K customers per 24h',
-  TIER_UNLIMITED: 'Unlimited customers per 24h',
-};
-
-const STATUS_LABELS = {
-  APPROVED: 'Approved',
-  PENDING_REVIEW: 'Pending Review',
-  AVAILABLE_WITHOUT_REVIEW: 'Available Without Review',
-  REJECTED: 'Rejected',
-};
-
-const MODE_LABELS = {
-  SANDBOX: 'Sandbox',
-  LIVE: 'Live',
-};
-
 const QUALITY_COLORS = {
   GREEN: 'text-n-teal-11',
   YELLOW: 'text-n-yellow-11',
@@ -140,11 +119,14 @@ const handleGoToSettings = () => {
 const getQualityRatingTextColor = rating =>
   QUALITY_COLORS[rating] || QUALITY_COLORS.UNKNOWN;
 
-const formatTierDisplay = tier => TIER_LABELS[tier] || tier;
+const formatTierDisplay = tier =>
+  t(`INBOX_MGMT.ACCOUNT_HEALTH.VALUES.TIERS.${tier}`) || tier;
 
-const formatStatusDisplay = status => STATUS_LABELS[status] || status;
+const formatStatusDisplay = status =>
+  t(`INBOX_MGMT.ACCOUNT_HEALTH.VALUES.STATUSES.${status}`) || status;
 
-const formatModeDisplay = mode => MODE_LABELS[mode] || mode;
+const formatModeDisplay = mode =>
+  t(`INBOX_MGMT.ACCOUNT_HEALTH.VALUES.MODES.${mode}`) || mode;
 
 const getModeStatusTextColor = mode => MODE_COLORS[mode] || 'text-n-slate-12';
 
