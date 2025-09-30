@@ -32,6 +32,10 @@ spec:
                     values:
                       - chatwoot
       serviceAccountName: SERVICE_ACCOUNT
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+        claimName: chatwoot-efs-claim
       containers:
         - name: APP_NAME
           image: DOCKER_IMAGE_NAME
@@ -54,6 +58,9 @@ spec:
               memory: 'REQUEST_MEMORY'
           ports:
             - containerPort: 3000
+          volumeMounts:
+          - name: persistent-storage
+            mountPath: /app/storage
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
