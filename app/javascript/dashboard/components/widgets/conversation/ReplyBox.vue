@@ -134,7 +134,6 @@ export default {
       newConversationModalActive: false,
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
-      quotedReplyForDraft: false,
     };
   },
   computed: {
@@ -424,7 +423,7 @@ export default {
     shouldShowQuotedPreview() {
       return (
         this.shouldShowQuotedReplyToggle &&
-        this.quotedReplyForDraft &&
+        this.quotedReplyPreference &&
         !!this.quotedEmailText
       );
     },
@@ -450,7 +449,6 @@ export default {
       }
 
       this.fetchAndSetReplyTo();
-      this.initializeQuotedReplyState();
     },
     // When moving from one conversation to another, the store may not have the
     // list of all the messages. A fetch is subsequently made to get the messages.
@@ -469,7 +467,6 @@ export default {
         this.setToDraft(oldConversationId, this.replyType);
         this.getFromDraft();
         this.resetRecorderAndClearAttachments();
-        this.initializeQuotedReplyState();
       }
     },
     message(updatedMessage) {
@@ -498,45 +495,6 @@ export default {
       this.setToDraft(this.conversationIdByRoute, oldReplyType);
       this.getFromDraft();
     },
-    quotedReplyPreference(newValue, oldValue) {
-      if (newValue === oldValue) {
-        return;
-      }
-
-      if (!this.shouldShowQuotedReplyToggle || !newValue) {
-        this.clearQuotedReplyState();
-        return;
-      }
-
-      this.quotedReplyForDraft = !!this.quotedEmailText;
-    },
-    quotedEmailText(newValue, oldValue) {
-      if (newValue === oldValue) {
-        return;
-      }
-
-      if (!newValue) {
-        this.clearQuotedReplyState();
-        return;
-      }
-
-      if (this.quotedReplyPreference) {
-        this.quotedReplyForDraft = true;
-      }
-    },
-    channelType(newType, oldType) {
-      if (newType === oldType) {
-        return;
-      }
-      this.initializeQuotedReplyState();
-    },
-    isOnPrivateNote(isPrivate) {
-      if (isPrivate) {
-        this.clearQuotedReplyState();
-      } else {
-        this.initializeQuotedReplyState();
-      }
-    },
   },
 
   mounted() {
@@ -556,8 +514,6 @@ export default {
 
     this.fetchAndSetReplyTo();
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.fetchAndSetReplyTo);
-
-    this.initializeQuotedReplyState();
 
     // A hacky fix to solve the drag and drop
     // Is showing on top of new conversation modal drag and drop
@@ -620,18 +576,6 @@ export default {
         );
       }
     },
-    initializeQuotedReplyState() {
-      if (!this.shouldShowQuotedReplyToggle || !this.quotedEmailText) {
-        this.clearQuotedReplyState();
-        return;
-      }
-
-      this.quotedReplyForDraft =
-        this.quotedReplyPreference && !!this.quotedEmailText;
-    },
-    clearQuotedReplyState() {
-      this.quotedReplyForDraft = false;
-    },
     toggleQuotedReply() {
       if (!this.isAnEmailChannel) {
         return;
@@ -639,17 +583,11 @@ export default {
 
       const nextValue = !this.quotedReplyPreference;
       this.setQuotedReplyFlagForInbox(this.channelType, nextValue);
-
-      if (nextValue && this.quotedEmailText) {
-        this.quotedReplyForDraft = true;
-      } else {
-        this.clearQuotedReplyState();
-      }
     },
     shouldIncludeQuotedEmail() {
       return (
         this.isQuotedEmailReplyEnabled &&
-        this.quotedReplyForDraft &&
+        this.quotedReplyPreference &&
         this.shouldShowQuotedReplyToggle &&
         !!this.quotedEmailText
       );
@@ -962,7 +900,6 @@ export default {
       this.isRecordingAudio = false;
       this.resetReplyToMessage();
       this.resetAudioRecorderInput();
-      this.initializeQuotedReplyState();
     },
     clearEmailField() {
       this.ccEmails = '';
