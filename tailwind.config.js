@@ -37,6 +37,18 @@ const tailwindConfig = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'sidebar-light':
+          'linear-gradient(200deg, rgb(var(--sidebar-light-start)) 0%, rgb(var(--sidebar-light-mid-1)) 25%, rgb(var(--sidebar-light-mid-2)) 60%, rgb(var(--sidebar-light-end)) 100%)',
+        'sidebar-dark':
+          'linear-gradient(200deg, rgb(var(--sidebar-dark-start)) 5%, rgb(var(--sidebar-dark-mid-1)) 40%, rgb(var(--sidebar-dark-mid-2)) 75%, rgb(var(--sidebar-dark-end)) 100%)',
+        'incoming-gradient':
+          'linear-gradient(180deg, rgb(var(--incoming-gradient-start)), rgb(var(--incoming-gradient-end)))',
+        'outgoing-gradient':
+          'linear-gradient(180deg, rgb(var(--outgoing-gradient-start)), rgb(var(--outgoing-gradient-end)))',
+        'brand-gradient':
+          'linear-gradient(90deg, rgb(var(--brand-gradient-start)), rgb(var(--brand-gradient-end)))',
+      },
       fontFamily: {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],

@@ -1,0 +1,24 @@
+[phases.setup]
+nixPkgs = ["nodejs-18_x", "pnpm"]
+
+[phases.install]
+cmds = [
+  "mkdir -p log",
+  "bundle install --without development test",
+  "pnpm install --frozen-lockfile --prod --ignore-scripts"
+]
+
+[phases.build]
+cmds = [
+  "bundle exec rails assets:precompile RAILS_ENV=production"
+]
+
+# Disable automatic Rails detection
+[phases.start]
+cmds = [
+  "bundle exec rails server -p $PORT -e production"
+]
+
+# Override Railway's automatic Rails commands
+[phases.release]
+cmds = []

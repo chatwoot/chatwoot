@@ -1,0 +1,29 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "name": "chatwoot",
+  "plugins": [
+    {
+      "name": "PostgreSQL",
+      "serviceId": "postgresql"
+    },
+    {
+      "name": "Redis", 
+      "serviceId": "redis"
+    }
+  ],
+  "variables": {
+    "RAILS_ENV": "production",
+    "NODE_ENV": "production",
+    "CW_EDITION": "ce",
+    "REDIS_OPENSSL_VERIFY_MODE": "none",
+    "REDIS_URL": "redis://redis:6379",
+    "REDIS_PASSWORD": ""
+  },
+  "build": {
+    "builder": "Nixpacks",
+    "buildCommand": "mkdir -p log && bundle install --without development test && pnpm install --frozen-lockfile --prod --ignore-scripts && bundle exec rails assets:precompile RAILS_ENV=production"
+  },
+  "deploy": {
+    "startCommand": "bundle exec rails db:prepare && bundle exec rails server -p $PORT -e production"
+  }
+}

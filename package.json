@@ -14,6 +14,7 @@
     "ruby:prettier": "bundle exec rubocop -a",
     "build:sdk": "BUILD_MODE=library vite build",
     "prepare": "husky install",
+    "prepare:skip": "echo 'Skipping husky install in production'",
     "size": "size-limit",
     "story:dev": "histoire dev",
     "story:build": "histoire build",
