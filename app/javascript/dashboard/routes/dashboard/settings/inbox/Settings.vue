@@ -13,7 +13,6 @@ import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue'
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
-import WhatsappFinishRegistration from './channels/whatsapp/FinishRegistration.vue';
 import InboxHealthAPI from 'dashboard/api/inboxHealth';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
@@ -51,7 +50,6 @@ export default {
     NextButton,
     InstagramReauthorize,
     WhatsappReauthorize,
-    WhatsappFinishRegistration,
     DuplicateInboxBanner,
     Editor,
     Avatar,
@@ -508,8 +506,10 @@ export default {
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
       <WhatsappReauthorize v-if="whatsappUnauthorized" :inbox="inbox" />
-      <WhatsappFinishRegistration
+      <WhatsappReauthorize
         v-if="whatsappRegistrationIncomplete"
+        :action-label="$t('INBOX_MGMT.COMPLETE_REGISTRATION')"
+        :description="$t('INBOX_MGMT.WHATSAPP_REGISTRATION_INCOMPLETE')"
         :inbox="inbox"
       />
       <DuplicateInboxBanner

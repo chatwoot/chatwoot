@@ -16,6 +16,14 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  actionLabel: {
+    type: String,
+    default: null,
+  },
+  description: {
+    type: String,
+    default: null,
+  },
 });
 
 const { t } = useI18n();
@@ -185,6 +193,8 @@ defineExpose({
   <InboxReconnectionRequired
     class="mx-8 mt-5"
     :is-loading="isRequestingAuthorization"
+    :action-label="props.actionLabel"
+    :description="props.description"
     @reauthorize="requestAuthorization"
   />
 </template>
