@@ -231,7 +231,6 @@
       "QUOTED_REPLY": {
         "ENABLE_TOOLTIP": "Include quoted email thread",
         "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "PREVIEW_TITLE": "Quoted email thread",
         "REMOVE_PREVIEW": "Remove quoted email thread"
       }
     },

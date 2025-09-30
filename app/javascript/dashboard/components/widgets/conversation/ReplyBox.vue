@@ -16,6 +16,7 @@ import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBotto
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
+import QuotedEmailPreview from './QuotedEmailPreview.vue';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
@@ -66,6 +67,7 @@ export default {
     ContentTemplates,
     WhatsappTemplates,
     WootMessageEditor,
+    QuotedEmailPreview,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
@@ -1482,50 +1484,14 @@ export default {
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
       />
-      <div v-if="shouldShowQuotedPreview" class="mt-2">
-        <div
-          v-if="!quotedReplyExpanded"
-          class="flex max-w-full justify-between cursor-pointer items-center gap-2 rounded-md bg-n-slate-3 ps-3 p-1 text-xs text-n-slate-12 dark:bg-n-solid-3"
-          @click="expandQuotedPreview"
-        >
-          <span class="truncate" :title="quotedEmailPreviewText">
-            {{ quotedEmailPreviewText }}
-          </span>
-          <button
-            type="button"
-            class="flex-shrink-0 flex items-center justify-center rounded-full hover:bg-n-slate-5"
-            :aria-label="
-              $t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')
-            "
-            @click.stop="toggleQuotedReply"
-          >
-            <i class="i-ph-x text-sm" />
-          </button>
-        </div>
-        <div
-          v-else
-          class="rounded-md border border-dashed border-n-weak bg-n-slate-1 px-3 py-2 text-xs text-n-slate-12 dark:bg-n-solid-2"
-        >
-          <div class="mb-2 flex items-start justify-between gap-2">
-            <span class="font-medium">
-              {{ $t('CONVERSATION.REPLYBOX.QUOTED_REPLY.PREVIEW_TITLE') }}
-            </span>
-            <button
-              type="button"
-              class="flex-shrink-0 rounded-full p-1 hover:bg-n-slate-4"
-              :aria-label="
-                $t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')
-              "
-              @click="toggleQuotedReply"
-            >
-              <i class="i-ph-x text-sm" />
-            </button>
-          </div>
-          <pre class="max-h-60 overflow-y-auto whitespace-pre-wrap break-words">
-            {{ quotedEmailText }}
-          </pre>
-        </div>
-      </div>
+      <QuotedEmailPreview
+        v-if="shouldShowQuotedPreview"
+        :quoted-email-text="quotedEmailText"
+        :is-expanded="quotedReplyExpanded"
+        :preview-text="quotedEmailPreviewText"
+        @expand="expandQuotedPreview"
+        @toggle="toggleQuotedReply"
+      />
     </div>
     <div
       v-if="hasAttachments && !showAudioRecorderEditor"
