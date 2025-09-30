@@ -134,7 +134,6 @@ export default {
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
       quotedReplyForDraft: false,
-      quotedReplyExpanded: false,
     };
   },
   computed: {
@@ -497,7 +496,6 @@ export default {
       }
 
       this.quotedReplyForDraft = !!this.quotedEmailText;
-      this.quotedReplyExpanded = false;
     },
     quotedEmailText(newValue, oldValue) {
       if (newValue === oldValue) {
@@ -617,11 +615,9 @@ export default {
 
       this.quotedReplyForDraft =
         this.quotedReplyPreference && !!this.quotedEmailText;
-      this.quotedReplyExpanded = false;
     },
     clearQuotedReplyState() {
       this.quotedReplyForDraft = false;
-      this.quotedReplyExpanded = false;
     },
     toggleQuotedReply() {
       if (!this.isAnEmailChannel) {
@@ -633,16 +629,9 @@ export default {
 
       if (nextValue && this.quotedEmailText) {
         this.quotedReplyForDraft = true;
-        this.quotedReplyExpanded = false;
       } else {
         this.clearQuotedReplyState();
       }
-    },
-    expandQuotedPreview() {
-      if (this.quotedReplyExpanded || !this.quotedEmailText) {
-        return;
-      }
-      this.quotedReplyExpanded = true;
     },
     shouldIncludeQuotedEmail() {
       return (
@@ -1313,9 +1302,7 @@ export default {
       <QuotedEmailPreview
         v-if="shouldShowQuotedPreview"
         :quoted-email-text="quotedEmailText"
-        :is-expanded="quotedReplyExpanded"
         :preview-text="quotedEmailPreviewText"
-        @expand="expandQuotedPreview"
         @toggle="toggleQuotedReply"
       />
     </div>

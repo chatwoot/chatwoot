@@ -1,16 +1,13 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   quotedEmailText: {
     type: String,
     required: true,
-  },
-  isExpanded: {
-    type: Boolean,
-    default: false,
   },
   previewText: {
     type: String,
@@ -18,10 +15,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['expand', 'toggle']);
+const emit = defineEmits(['toggle']);
 
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
+
+const isExpanded = ref(false);
 
 const formattedQuotedEmailText = computed(() => {
   if (!props.quotedEmailText) {
@@ -29,44 +28,45 @@ const formattedQuotedEmailText = computed(() => {
   }
   return formatMessage(props.quotedEmailText, false, false, true);
 });
+
+const toggleExpand = () => {
+  isExpanded.value = !isExpanded.value;
+};
 </script>
 
 <template>
   <div class="mt-2">
     <div
-      v-if="!isExpanded"
-      class="flex max-w-full justify-between cursor-pointer items-center gap-2 rounded-md bg-n-slate-3 ps-3 p-1 text-xs text-n-slate-12 dark:bg-n-solid-3"
-      @click="emit('expand')"
+      class="relative rounded-md px-3 py-2 text-xs text-n-slate-12 bg-n-slate-3 dark:bg-n-solid-3"
     >
-      <span class="truncate" :title="previewText">
-        {{ previewText }}
-      </span>
-      <button
-        type="button"
-        class="flex-shrink-0 flex items-center justify-center rounded-full hover:bg-n-slate-5"
-        :aria-label="t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')"
-        @click.stop="emit('toggle')"
-      >
-        <i class="i-ph-x text-sm" />
-      </button>
-    </div>
-    <div
-      v-else
-      class="rounded-md border border-dashed border-n-weak bg-n-slate-1 px-3 py-2 text-xs text-n-slate-12 dark:bg-n-solid-2"
-    >
-      <div class="mb-2 flex items-start justify-end gap-2">
-        <button
-          type="button"
-          class="flex-shrink-0 rounded-full p-1 hover:bg-n-slate-4"
-          :aria-label="t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')"
+      <div class="absolute top-2 right-2 z-10 flex items-center gap-1">
+        <NextButton
+          v-if="isExpanded"
+          v-tooltip="t('CONVERSATION.REPLYBOX.QUOTED_REPLY.COLLAPSE')"
+          ghost
+          slate
+          xs
+          icon="i-lucide-minimize"
+          @click="toggleExpand"
+        />
+        <NextButton
+          v-tooltip="t('CONVERSATION.REPLYBOX.QUOTED_REPLY.REMOVE_PREVIEW')"
+          ghost
+          slate
+          xs
+          icon="i-lucide-x"
           @click="emit('toggle')"
-        >
-          <i class="i-ph-x text-sm" />
-        </button>
+        />
       </div>
       <div
         v-dompurify-html="formattedQuotedEmailText"
-        class="max-h-60 overflow-y-auto w-full max-w-none break-words prose prose-sm dark:prose-invert"
+        class="w-full max-w-none break-words prose prose-sm dark:prose-invert cursor-pointer pr-8"
+        :class="{
+          'line-clamp-1': !isExpanded,
+          'max-h-60 overflow-y-auto': isExpanded,
+        }"
+        :title="previewText"
+        @click="toggleExpand"
       />
     </div>
   </div>
