@@ -1,3 +1,4 @@
+import accountSettings from './accountSettings.json';
 import advancedFilters from './advancedFilters.json';
 import agentBots from './agentBots.json';
 import agentMgmt from './agentMgmt.json';
@@ -37,6 +38,7 @@ import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 
 export default {
+  ...accountSettings,
   ...advancedFilters,
   ...agentBots,
   ...agentMgmt,

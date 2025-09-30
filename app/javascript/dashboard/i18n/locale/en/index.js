@@ -1,3 +1,4 @@
+import accountSettings from './accountSettings.json';
 import advancedFilters from './advancedFilters.json';
 import agentBots from './agentBots.json';
 import agentMgmt from './agentMgmt.json';
@@ -39,6 +40,7 @@ import contentTemplates from './contentTemplates.json';
 import mfa from './mfa.json';
 
 export default {
+  ...accountSettings,
   ...advancedFilters,
   ...agentBots,
   ...agentMgmt,
