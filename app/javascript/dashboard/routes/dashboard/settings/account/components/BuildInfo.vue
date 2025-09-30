@@ -35,22 +35,53 @@ const copyGitSha = () => {
 
 <template>
   <div class="p-4 text-sm text-center">
-    <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
+    <h3 class="text-lg font-medium text-n-dark-rock">
+      {{ t('ACCOUNT_SETTINGS.BUILD_INFO.ABOUT_FLOW') }}
+    </h3>
+    <div
+      v-if="hasAnUpdateAvailable && globalConfig.displayManifest"
+      class="my-2"
+    >
       {{
         t('GENERAL_SETTINGS.UPDATE_CHATWOOT', {
           latestChatwootVersion: latestChatwootVersion,
         })
       }}
     </div>
-    <div class="divide-x divide-n-slate-9">
-      <span class="px-2">{{ `v${globalConfig.appVersion}` }}</span>
+    <div class="divide-x divide-n-slate-9 my-2">
+      <span class="px-2">{{
+        t('ACCOUNT_SETTINGS.BUILD_INFO.VERSION', { version: '4.4.0' })
+      }}</span>
+
       <span
         v-tooltip="t('COMPONENTS.CODE.BUTTON_TEXT')"
         class="px-2 build-id cursor-pointer"
         @click="copyGitSha"
       >
-        {{ `Build ${gitSha}` }}
+        {{ t('ACCOUNT_SETTINGS.BUILD_INFO.BUILD_ID', { gitSha }) }}
       </span>
+    </div>
+    <div class="mt-4">
+      <p class="text-n-solid-slate">
+        {{ t('ACCOUNT_SETTINGS.BUILD_INFO.BUILT_ON') }}
+        <a
+          href="https://www.chatwoot.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-woot-500"
+        >
+          {{ t('ACCOUNT_SETTINGS.BUILD_INFO.COMMUNITY_EDITION') }}
+        </a>
+        {{ t('ACCOUNT_SETTINGS.BUILD_INFO.MIT_LICENSE') }}
+      </p>
+    </div>
+    <div class="mt-2 text-n-solid-slate divide-x divide-n-slate-9">
+      <a href="#" class="px-2 hover:underline">{{
+        t('ACCOUNT_SETTINGS.BUILD_INFO.PRIVACY_POLICY')
+      }}</a>
+      <a href="#" class="px-2 hover:underline">{{
+        t('ACCOUNT_SETTINGS.BUILD_INFO.TERMS_OF_SERVICE')
+      }}</a>
     </div>
   </div>
 </template>

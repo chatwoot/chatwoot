@@ -1,0 +1,14 @@
+{
+  "ACCOUNT_SETTINGS": {
+    "BUILD_INFO": {
+      "ABOUT_FLOW": "Acerca de Flow by DesarrollAndo",
+      "BUILD_ID": "Compilación {gitSha}",
+      "BUILT_ON": "Construido sobre",
+      "MIT_LICENSE": "(Licencia MIT).",
+      "PRIVACY_POLICY": "Políticas de Privacidad",
+      "TERMS_OF_SERVICE": "Términos de Servicio",
+      "VERSION": "v{version}",
+      "COMMUNITY_EDITION": "Chatwoot Community Edition"
+    }
+  }
+}
