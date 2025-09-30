@@ -325,6 +325,8 @@ export default {
       this.$store.dispatch('portals/index');
     },
     async fetchHealthData() {
+      if (!this.inbox) return;
+
       if (
         !this.isAWhatsAppChannel ||
         this.inbox.provider !== 'whatsapp_cloud'
