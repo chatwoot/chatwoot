@@ -68,7 +68,7 @@ const copyGitSha = () => {
           href="https://www.chatwoot.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-woot-500"
+          class="text-brand-primary"
         >
           {{ t('ACCOUNT_SETTINGS.BUILD_INFO.COMMUNITY_EDITION') }}
         </a>

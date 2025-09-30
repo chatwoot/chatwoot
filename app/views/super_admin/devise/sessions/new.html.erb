@@ -7,12 +7,12 @@
   </head>
   <body>
     <div class="h-full w-full antialiased">
-      <main class="flex flex-col bg-woot-25 min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900">
+      <main class="flex flex-col min-h-screen w-full py-20 sm:px-6 lg:px-8" style="background-image: url(<%= image_path 'background-login.png' %>); background-size: cover; background-position: center;">
         <section class="max-w-5xl mx-auto">
-          <img src="/brand-assets/logo.svg" alt="Flow" class="mx-auto h-8 w-auto block dark:hidden">
-          <img src="/brand-assets/logo_dark.svg" alt="Flow" class="mx-auto h-8 w-auto hidden dark:block">
-          <h2 class="mt-6 text-center text-3xl font-medium text-slate-900 dark:text-woot-50">
-            Howdy, admin 👋
+          <img src="/brand-assets/logo.svg" alt="Flow" class="mx-auto h-40 w-auto block dark:hidden">
+          <img src="/brand-assets/logo_dark.svg" alt="Flow" class="mx-auto h-40 w-auto hidden dark:block filter drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]">
+          <h2 class="mt-6 text-center text-3xl font-medium text-slate-100 dark:text-slate-100 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)] drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">
+            Welcome to Flow Admin 👋
           </h2>
         </section>
         <section class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg mb-8 mt-15">
@@ -22,22 +22,22 @@
                 <div data-alert class="rounded-md bg-red-500 p-4 text-white text-sm mb-5"><%= flash[:error] %></div>
               <% end %>
               <div class="mb-5">
-                <label for="email_address" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
+                <label for="email_address" class="flex justify-between text-sm font-medium leading-6 text-slate-700 dark:text-slate-200">
                 Email Address
                 </label>
                 <div class="mt-1">
-                  <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email eg: someone@example.com", class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200" %>
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email eg: someone@example.com", class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-slate-300 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-slate-300 ring-slate-200" %>
                 </div>
               </div>
               <div class="mb-5">
-                <label for="password" class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white">
+                <label for="password" class="flex justify-between text-sm font-medium leading-6 text-slate-700 dark:text-slate-200">
                   Password
                 </label>
                 <div class="mt-1">
-                  <%= f.password_field :password, autocomplete: "current-password",  placeholder: "Password", class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200" %>
+                  <%= f.password_field :password, autocomplete: "current-password",  placeholder: "Password", class: "block w-full rounded-md border-0 px-3 py-3 appearance-none shadow-sm ring-1 ring-inset text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-slate-300 sm:text-sm sm:leading-6 outline-none dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-slate-300 ring-slate-200" %>
                 </div>
               </div>
-              <button type="submit" class="flex items-center w-full justify-center rounded-md bg-woot-500 py-3 px-3 text-base font-medium text-white shadow-sm hover:bg-woot-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-woot-500 cursor-pointer">
+              <button type="submit" class="flex items-center w-full justify-center rounded-lg border-none py-3 px-6 font-semibold text-white cursor-pointer transition-all duration-200 ease-in-out hover:-translate-y-0.5 hover:opacity-95 active:translate-y-0 active:opacity-90 bg-brand-gradient">
                 <span>Login</span>
               </button>
             <% end %>
