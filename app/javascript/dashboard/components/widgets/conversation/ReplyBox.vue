@@ -32,8 +32,13 @@ import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
-import { format, parseISO, isValid as isValidDate } from 'date-fns';
 import wootConstants from 'dashboard/constants/globals';
+import {
+  extractQuotedEmailText,
+  buildQuotedEmailHeader,
+  truncatePreviewText,
+  appendQuotedTextToMessage,
+} from 'dashboard/helper/quotedEmailHelper';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
@@ -396,49 +401,10 @@ export default {
       return lastEmail;
     },
     quotedEmailText() {
-      if (!this.lastEmailWithQuotedContent) {
-        return '';
-      }
-
-      const contentAttributes =
-        this.lastEmailWithQuotedContent.contentAttributes ||
-        this.lastEmailWithQuotedContent.content_attributes ||
-        {};
-      const emailContent = contentAttributes.email || {};
-      const textContent = emailContent.textContent || emailContent.text_content;
-      if (textContent?.reply) {
-        return textContent.reply;
-      }
-      if (textContent?.full) {
-        return textContent.full;
-      }
-
-      const htmlContent = emailContent.htmlContent || emailContent.html_content;
-      if (htmlContent?.reply) {
-        return this.extractPlainTextFromHtml(htmlContent.reply);
-      }
-      if (htmlContent?.full) {
-        return this.extractPlainTextFromHtml(htmlContent.full);
-      }
-
-      const fallbackContent =
-        this.lastEmailWithQuotedContent.content ||
-        this.lastEmailWithQuotedContent.processed_message_content ||
-        '';
-
-      return fallbackContent;
+      return extractQuotedEmailText(this.lastEmailWithQuotedContent);
     },
     quotedEmailPreviewText() {
-      const preview = this.quotedEmailText.trim().replace(/\s+/g, ' ');
-      if (!preview) {
-        return '';
-      }
-
-      const maxLength = 80;
-      if (preview.length <= maxLength) {
-        return preview;
-      }
-      return `${preview.slice(0, maxLength - 3)}...`;
+      return truncatePreviewText(this.quotedEmailText, 80);
     },
     shouldShowQuotedReplyToggle() {
       return this.isAnEmailChannel && !this.isOnPrivateNote;
@@ -690,153 +656,13 @@ export default {
         return message;
       }
 
-      const baseMessage = message ? String(message) : '';
       const quotedText = this.quotedEmailText || '';
-      const header = this.buildQuotedEmailHeader();
-      const quotedBlock = this.formatQuotedTextAsBlockquote(quotedText, header);
-      const quotedSection = quotedBlock;
+      const header = buildQuotedEmailHeader(
+        this.lastEmailWithQuotedContent,
+        this.currentContact
+      );
 
-      if (!baseMessage) {
-        return quotedSection;
-      }
-
-      let separator = '\n\n';
-      if (baseMessage.endsWith('\n\n')) {
-        separator = '';
-      } else if (baseMessage.endsWith('\n')) {
-        separator = '\n';
-      }
-
-      return `${baseMessage}${separator}${quotedSection}`;
-    },
-    formatQuotedTextAsBlockquote(text, header = '') {
-      const normalizedLines = text
-        ? String(text).replace(/\r\n/g, '\n').split('\n')
-        : [];
-
-      if (!header && !normalizedLines.length) {
-        return '';
-      }
-
-      const quotedLines = [];
-
-      if (header) {
-        quotedLines.push(`> ${header}`);
-        quotedLines.push('>');
-      }
-
-      normalizedLines.forEach(line => {
-        const trimmedLine = line.trimEnd();
-        quotedLines.push(trimmedLine ? `> ${trimmedLine}` : '>');
-      });
-
-      return quotedLines.join('\n');
-    },
-    buildQuotedEmailHeader() {
-      if (!this.lastEmailWithQuotedContent) {
-        return '';
-      }
-
-      const quotedDate = this.getLastEmailDate();
-      const senderEmail = this.getLastEmailSenderEmail();
-
-      if (!quotedDate || !senderEmail) {
-        return '';
-      }
-
-      const formattedDate = this.formatQuotedEmailDate(quotedDate);
-      if (!formattedDate) {
-        return '';
-      }
-      const senderName = this.getLastEmailSenderName();
-      const hasName = !!senderName;
-      const contactLabel = hasName
-        ? `${senderName} <${senderEmail}>`
-        : `<${senderEmail}>`;
-
-      return `On ${formattedDate} ${contactLabel} wrote:`;
-    },
-    getLastEmailSenderName() {
-      const senderName = this.lastEmailWithQuotedContent?.sender?.name;
-      if (senderName && senderName.trim()) {
-        return senderName.trim();
-      }
-
-      const contactName = this.currentContact?.name;
-      return contactName && contactName.trim() ? contactName.trim() : '';
-    },
-    getLastEmailSenderEmail() {
-      const senderEmail = this.lastEmailWithQuotedContent?.sender?.email;
-      if (senderEmail && senderEmail.trim()) {
-        return senderEmail.trim();
-      }
-
-      const contentAttributes =
-        this.lastEmailWithQuotedContent?.contentAttributes ||
-        this.lastEmailWithQuotedContent?.content_attributes ||
-        {};
-      const emailMeta = contentAttributes.email || {};
-
-      if (Array.isArray(emailMeta.from) && emailMeta.from.length > 0) {
-        const fromAddress = emailMeta.from[0];
-        if (fromAddress && fromAddress.trim()) {
-          return fromAddress.trim();
-        }
-      }
-
-      const contactEmail = this.currentContact?.email;
-      return contactEmail && contactEmail.trim() ? contactEmail.trim() : '';
-    },
-    getLastEmailDate() {
-      const contentAttributes =
-        this.lastEmailWithQuotedContent?.contentAttributes ||
-        this.lastEmailWithQuotedContent?.content_attributes ||
-        {};
-      const emailMeta = contentAttributes.email || {};
-
-      if (emailMeta.date) {
-        const parsedDate = parseISO(emailMeta.date);
-        if (isValidDate(parsedDate)) {
-          return parsedDate;
-        }
-      }
-
-      const createdAt = this.lastEmailWithQuotedContent?.created_at;
-      if (createdAt) {
-        const timestamp = Number(createdAt);
-        if (!Number.isNaN(timestamp)) {
-          const milliseconds = timestamp > 1e12 ? timestamp : timestamp * 1000;
-          const derivedDate = new Date(milliseconds);
-          if (!Number.isNaN(derivedDate.getTime())) {
-            return derivedDate;
-          }
-        }
-      }
-
-      return null;
-    },
-    formatQuotedEmailDate(date) {
-      try {
-        return format(date, "EEE, MMM d, yyyy 'at' p");
-      } catch (error) {
-        const fallbackDate = new Date(date);
-        if (!Number.isNaN(fallbackDate.getTime())) {
-          return format(fallbackDate, "EEE, MMM d, yyyy 'at' p");
-        }
-      }
-
-      return '';
-    },
-    extractPlainTextFromHtml(html) {
-      if (!html) {
-        return '';
-      }
-      if (typeof document === 'undefined') {
-        return html.replace(/<[^>]*>/g, ' ');
-      }
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = html;
-      return tempDiv.textContent || tempDiv.innerText || '';
+      return appendQuotedTextToMessage(message, quotedText, header);
     },
     resetRecorderAndClearAttachments() {
       // Reset audio recorder UI state
