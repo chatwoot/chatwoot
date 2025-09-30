@@ -111,12 +111,34 @@ export const formatQuotedEmailDate = date => {
 };
 
 /**
- * Builds quoted email header ("On [date] [sender] wrote:")
+ * Extracts inbox email address from last email message
+ * @param {Object} lastEmail - Last email message object
+ * @param {Object} inbox - Inbox object
+ * @returns {string} Inbox email address
+ */
+export const getInboxEmail = (lastEmail, inbox) => {
+  const contentAttributes =
+    lastEmail?.contentAttributes || lastEmail?.content_attributes || {};
+  const emailMeta = contentAttributes.email || {};
+
+  if (Array.isArray(emailMeta.to) && emailMeta.to.length > 0) {
+    const toAddress = emailMeta.to[0];
+    if (toAddress && toAddress.trim()) {
+      return toAddress.trim();
+    }
+  }
+
+  const inboxEmail = inbox?.email;
+  return inboxEmail && inboxEmail.trim() ? inboxEmail.trim() : '';
+};
+
+/**
+ * Builds quoted email header from contact (for incoming messages)
  * @param {Object} lastEmail - Last email message object
  * @param {Object} contact - Contact object
  * @returns {string} Formatted header string
  */
-export const buildQuotedEmailHeader = (lastEmail, contact) => {
+export const buildQuotedEmailHeaderFromContact = (lastEmail, contact) => {
   if (!lastEmail) {
     return '';
   }
@@ -140,6 +162,60 @@ export const buildQuotedEmailHeader = (lastEmail, contact) => {
     : `<${senderEmail}>`;
 
   return `On ${formattedDate} ${contactLabel} wrote:`;
+};
+
+/**
+ * Builds quoted email header from inbox (for outgoing messages)
+ * @param {Object} lastEmail - Last email message object
+ * @param {Object} inbox - Inbox object
+ * @returns {string} Formatted header string
+ */
+export const buildQuotedEmailHeaderFromInbox = (lastEmail, inbox) => {
+  if (!lastEmail) {
+    return '';
+  }
+
+  const quotedDate = getEmailDate(lastEmail);
+  const inboxEmail = getInboxEmail(lastEmail, inbox);
+
+  if (!quotedDate || !inboxEmail) {
+    return '';
+  }
+
+  const formattedDate = formatQuotedEmailDate(quotedDate);
+  if (!formattedDate) {
+    return '';
+  }
+
+  const inboxName = inbox?.name;
+  const hasName = !!inboxName;
+  const inboxLabel = hasName
+    ? `${inboxName} <${inboxEmail}>`
+    : `<${inboxEmail}>`;
+
+  return `On ${formattedDate} ${inboxLabel} wrote:`;
+};
+
+/**
+ * Builds quoted email header based on message type
+ * @param {Object} lastEmail - Last email message object
+ * @param {Object} contact - Contact object
+ * @param {Object} inbox - Inbox object
+ * @returns {string} Formatted header string
+ */
+export const buildQuotedEmailHeader = (lastEmail, contact, inbox) => {
+  if (!lastEmail) {
+    return '';
+  }
+
+  // MESSAGE_TYPE.OUTGOING = 1, MESSAGE_TYPE.INCOMING = 0
+  const isOutgoing = lastEmail.message_type === 1;
+
+  if (isOutgoing) {
+    return buildQuotedEmailHeaderFromInbox(lastEmail, inbox);
+  }
+
+  return buildQuotedEmailHeaderFromContact(lastEmail, contact);
 };
 
 /**

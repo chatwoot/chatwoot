@@ -600,7 +600,8 @@ export default {
       const quotedText = this.quotedEmailText || '';
       const header = buildQuotedEmailHeader(
         this.lastEmailWithQuotedContent,
-        this.currentContact
+        this.currentContact,
+        this.inbox
       );
 
       return appendQuotedTextToMessage(message, quotedText, header);
