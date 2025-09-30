@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Izveidot",
       "NAME": {
         "LABEL": "Nosaukums",
-        "PLACEHOLDER": "Lietotāja Rokasgrāmata | Chatwoot",
+        "PLACEHOLDER": "Lietotāja Rokasgrāmata | Flow",
         "MESSAGE": "Izvēlieties savam portālam nosaukumu.",
         "ERROR": "Nepieciešams nosaukums"
       },
@@ -774,7 +774,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS konfigurācija",
-            "DESCRIPTION": "Piesakieties sava DNS nodrošinātāja kontā un pievienojiet CNAME ierakstu apakšdomēnam, kas norāda uz chatwoot.help",
+            "DESCRIPTION": "Piesakieties sava DNS nodrošinātāja kontā un pievienojiet CNAME ierakstu apakšdomēnam, kas norāda uz flow.help",
             "COPY": "Successfully copied CNAME",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Send instructions",

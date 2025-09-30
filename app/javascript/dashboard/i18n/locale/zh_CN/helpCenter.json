@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "创建",
       "NAME": {
         "LABEL": "姓名",
-        "PLACEHOLDER": "用户指南 | Chatwoot",
+        "PLACEHOLDER": "用户指南 | Flow",
         "MESSAGE": "为您的门户选择一个名称。",
         "ERROR": "名字必填"
       },
@@ -774,7 +774,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS配置",
-            "DESCRIPTION": "登录您的 DNS 提供商账户，并添加一个指向 chatwoot.help 的子域名的 CNAME 记录",
+            "DESCRIPTION": "登录您的 DNS 提供商账户，并添加一个指向 flow.help 的子域名的 CNAME 记录",
             "COPY": "Successfully copied CNAME",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Send instructions",
