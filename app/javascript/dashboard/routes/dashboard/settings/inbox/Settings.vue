@@ -116,15 +116,21 @@ export default {
           key: 'collaborators',
           name: this.$t('INBOX_MGMT.TABS.COLLABORATORS'),
         },
-        {
-          key: 'businesshours',
-          name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
-        },
-        {
-          key: 'csat',
-          name: this.$t('INBOX_MGMT.TABS.CSAT'),
-        },
       ];
+
+      if (!this.isAVoiceChannel) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'businesshours',
+            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+          },
+          {
+            key: 'csat',
+            name: this.$t('INBOX_MGMT.TABS.CSAT'),
+          },
+        ];
+      }
 
       if (this.isAWebWidgetInbox) {
         visibleToAllChannelTabs = [
@@ -144,6 +150,7 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
+        this.isAVoiceChannel ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
         this.shouldShowWhatsAppConfiguration ||
         this.isAWebWidgetInbox
@@ -199,7 +206,8 @@ export default {
         this.isASmsInbox ||
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
-        this.isAPIInbox
+        this.isAPIInbox ||
+        this.isATelegramChannel
       );
     },
     inboxNameLabel() {
@@ -321,7 +329,7 @@ export default {
         this.continuityViaEmail = this.inbox.continuity_via_email;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
-        this.channelWelcomeTagline = this.inbox.welcome_tagline;
+        this.channelWelcomeTagline = this.inbox.welcome_tagline || '';
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
@@ -334,7 +342,7 @@ export default {
       try {
         const payload = {
           id: this.currentInboxId,
-          name: this.selectedInboxName,
+          name: this.selectedInboxName?.trim(),
           enable_email_collect: this.emailCollectEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
@@ -676,7 +684,7 @@ export default {
               }}
             </p>
           </label>
-          <div class="pb-4">
+          <div v-if="!isAVoiceChannel" class="pb-4">
             <label>
               {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
             </label>

@@ -62,6 +62,7 @@ const segmentsQuery = ref({});
 
 const appliedFilters = useMapGetter('contacts/getAppliedContactFiltersV4');
 const contactAttributes = useMapGetter('attributes/getContactAttributes');
+const labels = useMapGetter('labels/getLabels');
 const hasActiveSegments = computed(
   () => props.activeSegment && props.segmentsId !== 0
 );
@@ -215,6 +216,7 @@ const setParamsForEditSegmentModal = () => {
     countries,
     filterTypes: contactFilterItems,
     allCustomAttributes: useSnakeCase(contactAttributes.value),
+    labels: labels.value || [],
   };
 };
 
@@ -291,17 +293,20 @@ defineExpose({
     @delete-segment="openDeleteSegmentDialog"
   >
     <template #filter>
-      <ContactsFilter
-        v-if="showFiltersModal"
-        v-model="appliedFilter"
-        :segment-name="activeSegmentName"
-        :is-segment-view="hasActiveSegments"
-        class="absolute mt-1 ltr:right-0 rtl:left-0 top-full"
-        @apply-filter="onApplyFilter"
-        @update-segment="onUpdateSegment"
-        @close="closeAdvanceFiltersModal"
-        @clear-filters="clearFilters"
-      />
+      <div
+        class="absolute mt-1 ltr:-right-52 rtl:-left-52 sm:ltr:right-0 sm:rtl:left-0 top-full"
+      >
+        <ContactsFilter
+          v-if="showFiltersModal"
+          v-model="appliedFilter"
+          :segment-name="activeSegmentName"
+          :is-segment-view="hasActiveSegments"
+          @apply-filter="onApplyFilter"
+          @update-segment="onUpdateSegment"
+          @close="closeAdvanceFiltersModal"
+          @clear-filters="clearFilters"
+        />
+      </div>
     </template>
   </ContactsHeader>
 

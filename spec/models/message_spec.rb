@@ -613,4 +613,69 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe '#should_index?' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:message) { create(:message, conversation: conversation, account: account) }
+
+    before do
+      allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+      account.enable_features('advanced_search_indexing')
+    end
+
+    context 'when advanced search is not allowed globally' do
+      before do
+        allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when advanced search feature is not enabled for account on chatwoot cloud' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features('advanced_search_indexing')
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when advanced search feature is not enabled for account on self-hosted' do
+      before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        account.disable_features('advanced_search_indexing')
+      end
+
+      it 'returns true' do
+        expect(message.should_index?).to be true
+      end
+    end
+
+    context 'when message type is not incoming or outgoing' do
+      before do
+        message.message_type = 'activity'
+      end
+
+      it 'returns false' do
+        expect(message.should_index?).to be false
+      end
+    end
+
+    context 'when all conditions are met' do
+      it 'returns true for incoming message' do
+        message.message_type = 'incoming'
+        expect(message.should_index?).to be true
+      end
+
+      it 'returns true for outgoing message' do
+        message.message_type = 'outgoing'
+        expect(message.should_index?).to be true
+      end
+    end
+  end
 end
