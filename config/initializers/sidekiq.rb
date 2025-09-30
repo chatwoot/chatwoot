@@ -17,17 +17,15 @@ Sidekiq.configure_server do |config|
   end
 
   # Configure Sidekiq CloudWatch metrics in the server process
-  if defined?(Sidekiq::CloudWatchMetrics) && ENV['ENABLE_SIDEKIQ_CLOUDWATCH'].present?
+  if ENV['ENABLE_SIDEKIQ_CLOUDWATCH'].present?
     require 'sidekiq/cloudwatchmetrics'
 
-    if ENV['ENABLE_SIDEKIQ_CLOUDWATCH'].present?
-      Rails.logger.info '================================================'
-      Rails.logger.info 'Sidekiq::CloudWatchMetrics defined (Server Process)'
-      Rails.logger.info "ENV['ENABLE_SIDEKIQ_CLOUDWATCH'] #{ENV.fetch('ENABLE_SIDEKIQ_CLOUDWATCH', nil)}"
-      Rails.logger.info "ENV['SIDEKIQ_CLOUDWATCH_NAMESPACE'] #{ENV.fetch('SIDEKIQ_CLOUDWATCH_NAMESPACE', nil)}"
-      Rails.logger.info "ENV['SIDEKIQ_CLOUDWATCH_INTERVAL'] #{ENV.fetch('SIDEKIQ_CLOUDWATCH_INTERVAL', nil)}"
-      Rails.logger.info '================================================'
-    end
+    Rails.logger.info '================================================'
+    Rails.logger.info 'Sidekiq::CloudWatchMetrics defined (Server Process)'
+    Rails.logger.info "ENV['ENABLE_SIDEKIQ_CLOUDWATCH'] #{ENV.fetch('ENABLE_SIDEKIQ_CLOUDWATCH', nil)}"
+    Rails.logger.info "ENV['SIDEKIQ_CLOUDWATCH_NAMESPACE'] #{ENV.fetch('SIDEKIQ_CLOUDWATCH_NAMESPACE', nil)}"
+    Rails.logger.info "ENV['SIDEKIQ_CLOUDWATCH_INTERVAL'] #{ENV.fetch('SIDEKIQ_CLOUDWATCH_INTERVAL', nil)}"
+    Rails.logger.info '================================================'
 
     # Configure AWS CloudWatch client with explicit instance role credentials
     cloudwatch_client = Aws::CloudWatch::Client.new(
