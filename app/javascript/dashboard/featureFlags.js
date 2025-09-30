@@ -40,6 +40,7 @@ export const FEATURE_FLAGS = {
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   CAPTAIN_V2: 'captain_integration_v2',
   SAML: 'saml',
+  QUOTED_EMAIL_REPLY: 'quoted_email_reply',
 };
 
 export const PREMIUM_FEATURES = [
