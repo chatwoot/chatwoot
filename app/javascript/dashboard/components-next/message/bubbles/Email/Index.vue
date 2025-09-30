@@ -5,7 +5,7 @@ import { sanitizeTextForRender } from '@chatwoot/utils';
 import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
-import { EmailQuoteExtractor } from './removeReply.js';
+import { EmailQuoteExtractor } from 'dashboard/helper/emailQuoteExtractor.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
