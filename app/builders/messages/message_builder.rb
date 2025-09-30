@@ -94,27 +94,10 @@ class Messages::MessageBuilder
   end
 
   def process_email_content
-    return unless email_inbox?
-    return if @private
-    return if @message.content.blank?
+    return unless should_process_email_content?
 
     @message.content_attributes ||= {}
-    email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
-    html_content = ensure_indifferent_access(email_attributes[:html_content] || {})
-    text_content = ensure_indifferent_access(email_attributes[:text_content] || {})
-
-    normalized_content = normalize_email_body(@message.content)
-
-    # Convert markdown to HTML for email rendering
-    html_content[:full] = render_email_html(normalized_content)
-    html_content[:reply] = html_content[:full]
-
-    # Store plain text version
-    text_content[:full] = normalized_content
-    text_content[:reply] = normalized_content
-
-    email_attributes[:html_content] = html_content
-    email_attributes[:text_content] = text_content
+    email_attributes = build_email_attributes
     @message.content_attributes[:email] = email_attributes
   end
 
@@ -182,6 +165,34 @@ class Messages::MessageBuilder
 
   def email_inbox?
     @conversation.inbox&.inbox_type == 'Email'
+  end
+
+  def should_process_email_content?
+    email_inbox? && !@private && @message.content.present?
+  end
+
+  def build_email_attributes
+    email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
+    normalized_content = normalize_email_body(@message.content)
+
+    email_attributes[:html_content] = build_html_content(normalized_content)
+    email_attributes[:text_content] = build_text_content(normalized_content)
+    email_attributes
+  end
+
+  def build_html_content(normalized_content)
+    html_content = ensure_indifferent_access(@message.content_attributes.dig(:email, :html_content) || {})
+    rendered_html = render_email_html(normalized_content)
+    html_content[:full] = rendered_html
+    html_content[:reply] = rendered_html
+    html_content
+  end
+
+  def build_text_content(normalized_content)
+    text_content = ensure_indifferent_access(@message.content_attributes.dig(:email, :text_content) || {})
+    text_content[:full] = normalized_content
+    text_content[:reply] = normalized_content
+    text_content
   end
 
   def ensure_indifferent_access(hash)
