@@ -74,7 +74,6 @@ export default {
         }
       ],
       updateTimeout: null,
-      hasUnsavedChanges: false,
     };
   },
   validations: {
@@ -97,10 +96,7 @@ export default {
     this.setDefaults();
   },
   beforeUnmount() {
-    // Auto-save on component unmount (when navigating away)
-    if (this.isAnAppleMessagesForBusinessChannel) {
-      this.updateAppleMessagesSettings();
-    }
+    // No longer needed - auto-saving on every change
   },
   methods: {
     setDefaults() {
@@ -164,29 +160,23 @@ export default {
           },
         };
 
-        // Initialize iMessage apps with safe defaults
+        // Initialize iMessage apps with safe defaults (mimic payment processors pattern)
         const imessageAppsData = this.inbox.imessage_apps || [];
-        // Only initialize if we don't have any data yet (first load)
-        if (this.imessageApps.length === 0) {
-          this.imessageApps = imessageAppsData.length > 0 ? imessageAppsData : [
-            {
-              id: 'app_1',
-              name: 'Custom Business App',
-              app_id: 'com.example.businessapp',
-              bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:com.example.businessapp:extension',
-              version: '1.0',
-              url: '',
-              description: 'Default business integration app',
-              enabled: false,
-              use_live_layout: true,
-              app_data: {},
-              images: []
-            }
-          ];
-        } else if (imessageAppsData.length > 0) {
-          // If we have saved data and current data, use the saved data from server
-          this.imessageApps = imessageAppsData;
-        }
+        this.imessageApps = imessageAppsData.length > 0 ? imessageAppsData : [
+          {
+            id: 'app_1',
+            name: 'Custom Business App',
+            app_id: 'com.example.businessapp',
+            bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:com.example.businessapp:extension',
+            version: '1.0',
+            url: '',
+            description: 'Default business integration app',
+            enabled: false,
+            use_live_layout: true,
+            app_data: {},
+            images: []
+          }
+        ];
       }
     },
     handleHmacFlag() {
@@ -257,16 +247,10 @@ export default {
           },
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
-        this.hasUnsavedChanges = false;
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
-    },
-
-    // Track changes without auto-saving
-    debouncedUpdate() {
-      this.hasUnsavedChanges = true;
     },
 
     // iMessage Apps Management
@@ -285,6 +269,7 @@ export default {
         images: []
       };
       this.imessageApps.push(newApp);
+      this.updateAppleMessagesSettings();
     },
 
     removeImessageApp(index) {
@@ -1149,7 +1134,7 @@ export default {
                   v-model="app.enabled"
                   type="checkbox"
                   class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                  @input="debouncedUpdate"
+                  @change="updateAppleMessagesSettings"
                 />
                 <h4 class="font-medium text-gray-900">
                   {{ app.name || `iMessage App ${index + 1}` }}
@@ -1176,7 +1161,7 @@ export default {
                   type="text"
                   placeholder="My Custom App"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  @input="debouncedUpdate"
+                  @blur="updateAppleMessagesSettings"
                 />
               </div>
 
@@ -1189,7 +1174,7 @@ export default {
                   type="text"
                   placeholder="com.example.myapp"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  @input="debouncedUpdate"
+                  @blur="updateAppleMessagesSettings"
                 />
               </div>
 
@@ -1202,7 +1187,7 @@ export default {
                   type="text"
                   placeholder="com.apple.messages.MSMessageExtensionBalloonPlugin:bundleId:extension"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  @input="debouncedUpdate"
+                  @blur="updateAppleMessagesSettings"
                 />
               </div>
 
@@ -1215,7 +1200,7 @@ export default {
                   type="text"
                   placeholder="1.0"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  @input="debouncedUpdate"
+                  @blur="updateAppleMessagesSettings"
                 />
               </div>
 
@@ -1228,7 +1213,7 @@ export default {
                   type="url"
                   placeholder="https://example.com/app"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  @input="debouncedUpdate"
+                  @blur="updateAppleMessagesSettings"
                 />
               </div>
 
@@ -1241,7 +1226,7 @@ export default {
                   rows="2"
                   placeholder="Brief description of what this app does"
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  @input="debouncedUpdate"
+                  @blur="updateAppleMessagesSettings"
                 />
               </div>
 
@@ -1251,7 +1236,7 @@ export default {
                     v-model="app.use_live_layout"
                     type="checkbox"
                     class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                    @input="debouncedUpdate"
+                    @blur="updateAppleMessagesSettings"
                   />
                   <label class="text-sm text-gray-700">
                     Use Live Layout (recommended)
@@ -1273,20 +1258,6 @@ export default {
         >
           + Add iMessage App Configuration
         </button>
-
-        <!-- Save Configuration Button -->
-        <div class="flex justify-end mt-4">
-          <button
-            @click="updateAppleMessagesSettings"
-            type="button"
-            class="px-6 py-2 rounded-md transition-colors"
-            :class="hasUnsavedChanges
-              ? 'bg-orange-600 text-white hover:bg-orange-700'
-              : 'bg-blue-600 text-white hover:bg-blue-700'"
-          >
-            {{ hasUnsavedChanges ? 'Save Pending Changes...' : 'Save iMessage Apps Configuration' }}
-          </button>
-        </div>
       </div>
     </SettingsSection>
   </div>
