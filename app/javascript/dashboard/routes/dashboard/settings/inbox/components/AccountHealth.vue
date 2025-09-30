@@ -136,7 +136,7 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
 <template>
   <div class="gap-4 pt-8 mx-8">
     <div
-      class="px-5 py-5 space-y-5 rounded-xl border shadow-sm border-n-weak bg-n-solid-2"
+      class="px-5 py-5 space-y-6 rounded-xl border shadow-sm border-n-weak bg-n-solid-2"
     >
       <div class="grid grid-cols-[1fr_auto] gap-5">
         <div>
@@ -152,57 +152,56 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
         </ButtonV4>
       </div>
 
-      <div v-if="healthData" class="pt-8 space-y-4">
-        <div class="grid grid-cols-2 gap-6">
-          <div
-            v-for="item in healthItems"
-            :key="item.key"
-            class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
-          >
-            <div class="flex gap-2 items-center">
-              <span class="text-sm font-medium text-n-slate-11">
-                {{ item.label }}
-              </span>
-              <i
-                v-tooltip.top="item.tooltip"
-                class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
-              />
-            </div>
-            <div class="flex items-center">
-              <span
-                v-if="item.type === 'quality'"
-                class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
-                :class="getQualityRatingTextColor(item.value)"
-              >
-                {{ item.value }}
-              </span>
-              <span
-                v-else-if="item.type === 'status'"
-                class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
-                :class="getStatusTextColor(item.value)"
-              >
-                {{ formatStatusDisplay(item.value) }}
-              </span>
-              <span
-                v-else-if="item.type === 'mode'"
-                class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
-                :class="getModeStatusTextColor(item.value)"
-              >
-                {{ formatModeDisplay(item.value) }}
-              </span>
-              <span
-                v-else-if="item.type === 'tier'"
-                class="text-sm font-medium text-n-slate-12"
-              >
-                {{ formatTierDisplay(item.value) }}
-              </span>
-              <span v-else class="text-sm font-medium text-n-slate-12">{{
-                item.value
-              }}</span>
-            </div>
+      <div v-if="healthData" class="grid grid-cols-2 gap-4">
+        <div
+          v-for="item in healthItems"
+          :key="item.key"
+          class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
+        >
+          <div class="flex gap-2 items-center">
+            <span class="text-sm font-medium text-n-slate-11">
+              {{ item.label }}
+            </span>
+            <i
+              v-tooltip.top="item.tooltip"
+              class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
+            />
+          </div>
+          <div class="flex items-center">
+            <span
+              v-if="item.type === 'quality'"
+              class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+              :class="getQualityRatingTextColor(item.value)"
+            >
+              {{ item.value }}
+            </span>
+            <span
+              v-else-if="item.type === 'status'"
+              class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+              :class="getStatusTextColor(item.value)"
+            >
+              {{ formatStatusDisplay(item.value) }}
+            </span>
+            <span
+              v-else-if="item.type === 'mode'"
+              class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+              :class="getModeStatusTextColor(item.value)"
+            >
+              {{ formatModeDisplay(item.value) }}
+            </span>
+            <span
+              v-else-if="item.type === 'tier'"
+              class="text-sm font-medium text-n-slate-12"
+            >
+              {{ formatTierDisplay(item.value) }}
+            </span>
+            <span v-else class="text-sm font-medium text-n-slate-12">{{
+              item.value
+            }}</span>
           </div>
         </div>
       </div>
+
       <div v-else class="pt-8">
         <div
           class="flex justify-center items-center p-8 text-center text-n-slate-11"
