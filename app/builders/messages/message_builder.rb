@@ -101,10 +101,20 @@ class Messages::MessageBuilder
     @message.content_attributes ||= {}
     email_attributes = ensure_indifferent_access(@message.content_attributes[:email] || {})
     html_content = ensure_indifferent_access(email_attributes[:html_content] || {})
+    text_content = ensure_indifferent_access(email_attributes[:text_content] || {})
 
-    normalize_email_body(@message.content)
+    normalized_content = normalize_email_body(@message.content)
+
+    # Convert markdown to HTML for email rendering
+    html_content[:full] = render_email_html(normalized_content)
+    html_content[:reply] = html_content[:full]
+
+    # Store plain text version
+    text_content[:full] = normalized_content
+    text_content[:reply] = normalized_content
 
     email_attributes[:html_content] = html_content
+    email_attributes[:text_content] = text_content
     @message.content_attributes[:email] = email_attributes
   end
 
