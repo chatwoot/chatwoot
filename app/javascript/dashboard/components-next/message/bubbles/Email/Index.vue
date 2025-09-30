@@ -5,9 +5,8 @@ import { sanitizeTextForRender } from '@chatwoot/utils';
 import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
-import { EmailQuoteExtractor } from './removeReply.js';
+import { EmailQuoteExtractor } from 'dashboard/helper/emailQuoteExtractor.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
-import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
@@ -46,15 +45,6 @@ const originalEmailHtml = computed(
     contentAttributes?.value?.email?.htmlContent?.full ||
     originalEmailText.value
 );
-
-const messageContent = computed(() => {
-  // If translations exist and we're showing translations (not original)
-  if (hasTranslations.value && !renderOriginal.value) {
-    return translationContent.value;
-  }
-  // Otherwise show original content
-  return content.value;
-});
 
 const textToShow = computed(() => {
   // If translations exist and we're showing translations (not original)
@@ -136,37 +126,30 @@ const handleSeeOriginal = () => {
             {{ $t('EMAIL_HEADER.EXPAND') }}
           </button>
         </div>
-        <FormattedContent
-          v-if="isOutgoing && content"
-          class="text-n-slate-12"
-          :content="messageContent"
+        <Letter
+          v-if="showQuotedMessage"
+          :key="`letter-quoted-${translationKeySuffix}`"
+          class-name="prose prose-bubble !max-w-none letter-render"
+          :allowed-css-properties="[
+            ...allowedCssProperties,
+            'transform',
+            'transform-origin',
+          ]"
+          :html="fullHTML"
+          :text="textToShow"
         />
-        <template v-else>
-          <Letter
-            v-if="showQuotedMessage"
-            :key="`letter-quoted-${translationKeySuffix}`"
-            class-name="prose prose-bubble !max-w-none letter-render"
-            :allowed-css-properties="[
-              ...allowedCssProperties,
-              'transform',
-              'transform-origin',
-            ]"
-            :html="fullHTML"
-            :text="textToShow"
-          />
-          <Letter
-            v-else
-            :key="`letter-unquoted-${translationKeySuffix}`"
-            class-name="prose prose-bubble !max-w-none letter-render"
-            :html="unquotedHTML"
-            :allowed-css-properties="[
-              ...allowedCssProperties,
-              'transform',
-              'transform-origin',
-            ]"
-            :text="textToShow"
-          />
-        </template>
+        <Letter
+          v-else
+          :key="`letter-unquoted-${translationKeySuffix}`"
+          class-name="prose prose-bubble !max-w-none letter-render"
+          :html="unquotedHTML"
+          :allowed-css-properties="[
+            ...allowedCssProperties,
+            'transform',
+            'transform-origin',
+          ]"
+          :text="textToShow"
+        />
         <button
           v-if="hasQuotedMessage"
           class="text-n-slate-11 px-1 leading-none text-sm bg-n-alpha-black2 text-center flex items-center gap-1 mt-2"
