@@ -209,6 +209,7 @@ const tailwindConfig = {
       'modal-backdrop-light': 'rgba(0, 0, 0, 0.4)',
       'modal-backdrop-dark': 'rgba(0, 0, 0, 0.6)',
       current: 'currentColor',
+      'brand-primary': 'rgb(var(--brand-primary))',
       ...colors,
       body: slateDark.slate7,
     },

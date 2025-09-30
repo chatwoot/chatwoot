@@ -109,6 +109,10 @@ body {
     --black-alpha-2: 0, 0, 0, 0.04;
     --border-blue: 39, 129, 246, 0.5;
     --white-alpha: 255, 255, 255, 0.8;
+
+    // Brand gradient for buttons
+    --brand-gradient-start: 255 0 110;
+    --brand-gradient-end: 255 78 0;
   }
 
   .dark {
