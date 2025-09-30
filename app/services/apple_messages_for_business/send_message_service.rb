@@ -1,5 +1,5 @@
 class AppleMessagesForBusiness::SendMessageService
-  AMB_SERVER = 'https://mspgw.push.apple.com/v1'
+  AMB_SERVER = 'https://mspgw.push.apple.com/v1'.freeze
 
   def initialize(channel:, destination_id:, message:)
     @channel = channel
@@ -31,16 +31,14 @@ class AppleMessagesForBusiness::SendMessageService
 
   def send_text_message
     message_id = SecureRandom.uuid
-    
+
     # All messages must be type "text" according to Apple MSP spec
     # The body field is required for type "text"
     has_text = @message.content.present?
     has_attachments = @message.attachments.present?
-    
-    if !has_text && !has_attachments
-      return { success: false, error: "Message has no content or attachments" }
-    end
-    
+
+    return { success: false, error: 'Message has no content or attachments' } if !has_text && !has_attachments
+
     # Build message body with Unicode Object Replacement Characters for attachments
     body_text = @message.content || ''
     if has_attachments
@@ -48,7 +46,7 @@ class AppleMessagesForBusiness::SendMessageService
       attachment_placeholders = "\uFFFC" * @message.attachments.count
       body_text = has_text ? "#{body_text} #{attachment_placeholders}" : attachment_placeholders
     end
-    
+
     payload = {
       id: message_id,
       type: 'text',
@@ -63,11 +61,12 @@ class AppleMessagesForBusiness::SendMessageService
     if has_attachments
       attachments_result = process_attachments
       return attachments_result unless attachments_result[:success]
+
       payload[:attachments] = attachments_result[:attachments]
     end
 
     response = send_to_apple_gateway(payload, message_id)
-    
+
     if response.success?
       { success: true, message_id: message_id }
     else
@@ -77,11 +76,11 @@ class AppleMessagesForBusiness::SendMessageService
 
   def send_interactive_message
     message_id = SecureRandom.uuid
-    
+
     payload = build_apple_msp_payload(message_id)
-    
+
     response = send_to_apple_gateway(payload, message_id)
-    
+
     if response.success?
       { success: true, message_id: message_id }
     else
@@ -106,7 +105,7 @@ class AppleMessagesForBusiness::SendMessageService
     base_data = {
       bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension',
       data: {
-        mspVersion: '1.0',
+        version: '1.0',
         requestIdentifier: SecureRandom.uuid
       },
       useLiveLayout: true
@@ -114,9 +113,7 @@ class AppleMessagesForBusiness::SendMessageService
 
     # Add images array if present
     images = content_attributes['images']
-    if images.present?
-      base_data[:data][:images] = images
-    end
+    base_data[:data][:images] = images if images.present?
 
     # Add the specific interactive content based on message type
     case @message.content_type
@@ -146,19 +143,19 @@ class AppleMessagesForBusiness::SendMessageService
 
   def build_list_picker_data
     sections = content_attributes['sections'] || []
-    
+
     # Add missing order and style fields according to Apple MSP spec
     sections.each_with_index do |section, section_index|
       section['order'] = section_index unless section.key?('order')
-      
-      if section['items']
-        section['items'].each_with_index do |item, item_index|
-          item['order'] = item_index unless item.key?('order')
-          item['style'] = 'icon' unless item.key?('style')
-        end
+
+      next unless section['items']
+
+      section['items'].each_with_index do |item, item_index|
+        item['order'] = item_index unless item.key?('order')
+        item['style'] = 'icon' unless item.key?('style')
       end
     end
-    
+
     {
       sections: sections
     }
@@ -167,18 +164,54 @@ class AppleMessagesForBusiness::SendMessageService
   def build_time_picker_data
     # Return event structure directly (not nested under timePicker)
     event_data = content_attributes['event'] || {}
-    
+
     # Add timezone offset if present at top level (for backward compatibility)
-    if content_attributes['timezone_offset'] && !event_data['timezoneOffset']
-      event_data['timezoneOffset'] = content_attributes['timezone_offset']
-    end
-    
+    event_data['timezoneOffset'] = content_attributes['timezone_offset'] if content_attributes['timezone_offset'] && !event_data['timezoneOffset']
+
     # Add timeslots if present at top level (for backward compatibility)
-    if content_attributes['timeslots'] && !event_data['timeslots']
-      event_data['timeslots'] = content_attributes['timeslots']
+    event_data['timeslots'] = content_attributes['timeslots'] if content_attributes['timeslots'] && !event_data['timeslots']
+
+    # Fix timeslot format for Apple's requirements
+    if event_data['timeslots'].present?
+      has_timezone_in_times = event_data['timeslots'].any? { |slot| slot['startTime']&.include?('+') || slot['startTime']&.include?('Z') }
+
+      event_data['timeslots'] = event_data['timeslots'].map do |slot|
+        start_time = slot['startTime']
+
+        # Convert local time to GMT if it contains timezone info
+        if start_time&.include?('+') || start_time&.include?('Z')
+          begin
+            parsed_time = Time.parse(start_time)
+            start_time = parsed_time.utc.strftime('%Y-%m-%dT%H:%M+0000')
+          rescue StandardError
+            # If parsing fails, keep original format
+          end
+        end
+
+        {
+          'identifier' => slot['identifier'],  # Apple expects identifier first
+          'startTime' => start_time,
+          'duration' => convert_duration_if_needed(slot['duration'])
+        }
+      end
+
+      # Use Apple's "User timezone approach": If we converted times to GMT, remove timezoneOffset
+      # This lets Apple display times in the user's local timezone automatically
+      if has_timezone_in_times
+        event_data.delete('timezoneOffset')
+      end
     end
-    
+
     event_data
+  end
+
+  private
+
+  def convert_duration_if_needed(duration)
+    # Apple working sample uses seconds (3600), but ensure consistency
+    # If duration is less than 300, assume it's already in minutes and convert to seconds
+    duration_int = duration.to_i
+    duration_int < 300 ? (duration_int * 60) : duration_int
   end
 
   def build_received_message
@@ -186,17 +219,13 @@ class AppleMessagesForBusiness::SendMessageService
       title: content_attributes['received_title'] || @message.content || 'Interactive Message',
       style: content_attributes['received_style'] || 'icon'
     }
-    
+
     # Only add subtitle if explicitly provided
-    if content_attributes['received_subtitle'].present?
-      msg[:subtitle] = content_attributes['received_subtitle']
-    end
-    
+    msg[:subtitle] = content_attributes['received_subtitle'] if content_attributes['received_subtitle'].present?
+
     # Add imageIdentifier if provided
-    if content_attributes['received_image_identifier'].present?
-      msg[:imageIdentifier] = content_attributes['received_image_identifier']
-    end
-    
+    msg[:imageIdentifier] = content_attributes['received_image_identifier'] if content_attributes['received_image_identifier'].present?
+
     msg
   end
 
@@ -205,34 +234,22 @@ class AppleMessagesForBusiness::SendMessageService
       title: content_attributes['reply_title'] || 'Selection Made',
       style: content_attributes['reply_style'] || 'icon'
     }
-    
+
     # Only add subtitle if explicitly provided (Apple samples for time picker don't include subtitle)
-    if content_attributes['reply_subtitle'].present?
-      msg[:subtitle] = content_attributes['reply_subtitle']
-    end
-    
+    msg[:subtitle] = content_attributes['reply_subtitle'] if content_attributes['reply_subtitle'].present?
+
     # Add enriched replyMessage fields according to Apple MSP specification
-    if content_attributes['reply_image_title'].present?
-      msg[:imageTitle] = content_attributes['reply_image_title']
-    end
-    
-    if content_attributes['reply_image_subtitle'].present?
-      msg[:imageSubtitle] = content_attributes['reply_image_subtitle']
-    end
-    
-    if content_attributes['reply_secondary_subtitle'].present?
-      msg[:secondarySubtitle] = content_attributes['reply_secondary_subtitle']
-    end
-    
-    if content_attributes['reply_tertiary_subtitle'].present?
-      msg[:tertiarySubtitle] = content_attributes['reply_tertiary_subtitle']
-    end
-    
+    msg[:imageTitle] = content_attributes['reply_image_title'] if content_attributes['reply_image_title'].present?
+
+    msg[:imageSubtitle] = content_attributes['reply_image_subtitle'] if content_attributes['reply_image_subtitle'].present?
+
+    msg[:secondarySubtitle] = content_attributes['reply_secondary_subtitle'] if content_attributes['reply_secondary_subtitle'].present?
+
+    msg[:tertiarySubtitle] = content_attributes['reply_tertiary_subtitle'] if content_attributes['reply_tertiary_subtitle'].present?
+
     # Add imageIdentifier if provided
-    if content_attributes['reply_image_identifier'].present?
-      msg[:imageIdentifier] = content_attributes['reply_image_identifier']
-    end
-    
+    msg[:imageIdentifier] = content_attributes['reply_image_identifier'] if content_attributes['reply_image_identifier'].present?
+
     msg
   end
 
@@ -245,17 +262,7 @@ class AppleMessagesForBusiness::SendMessageService
     @channel.business_id
   end
 
-  def destination_id
-    @destination_id
-  end
-
-  def channel
-    @channel
-  end
-
-  def message
-    @message
-  end
+  attr_reader :destination_id, :channel, :message
 
   def content_attributes
     @message.content_attributes || {}
@@ -268,19 +275,18 @@ class AppleMessagesForBusiness::SendMessageService
       destination_id: @destination_id,
       message: @message
     )
-    
+
     service.perform
   end
 
   def process_attachments
     attachments = []
-    
+
     @message.attachments.each do |attachment|
       if attachment.file.attached?
         result = upload_attachment(attachment)
-        if result.nil?
-          return { success: false, error: "Failed to upload attachment #{attachment.file.filename}" }
-        end
+        return { success: false, error: "Failed to upload attachment #{attachment.file.filename}" } if result.nil?
+
         attachments << result
       else
         # Handle external attachments
@@ -291,32 +297,32 @@ class AppleMessagesForBusiness::SendMessageService
         }
       end
     end
-    
+
     { success: true, attachments: attachments }
   end
 
   def upload_attachment(attachment)
     file_data = attachment.file.download
     encrypted_data, decryption_key = AppleMessagesForBusiness::AttachmentCipherService.encrypt(file_data)
-    
+
     Rails.logger.info "Uploading attachment: #{attachment.file.filename} (#{file_data.size} bytes -> #{encrypted_data.size} bytes encrypted)"
-    
+
     # Pre-upload to get upload URL
     upload_info = pre_upload_attachment(encrypted_data.size)
-    
+
     # Upload encrypted data
     upload_response = upload_to_mmcs(upload_info[:upload_url], encrypted_data)
-    
+
     attachment_data = {
-      name: attachment.file.filename.to_s,
-      mimeType: attachment.file.content_type,
-      size: file_data.size.to_s, # Use original file size, not encrypted size
+      :name => attachment.file.filename.to_s,
+      :mimeType => attachment.file.content_type,
+      :size => file_data.size.to_s, # Use original file size, not encrypted size
       'signature-base64' => upload_response[:signature],
-      url: upload_info[:mmcs_url],
-      owner: upload_info[:mmcs_owner],
-      key: decryption_key
+      :url => upload_info[:mmcs_url],
+      :owner => upload_info[:mmcs_owner],
+      :key => decryption_key
     }
-    
+
     Rails.logger.info "Attachment upload successful: #{attachment_data}"
     attachment_data
   rescue StandardError => e
@@ -333,7 +339,7 @@ class AppleMessagesForBusiness::SendMessageService
     }
 
     Rails.logger.info "Pre-upload request: #{AMB_SERVER}/preUpload with size: #{size}"
-    
+
     response = HTTParty.get(
       "#{AMB_SERVER}/preUpload",
       headers: headers,
@@ -342,16 +348,14 @@ class AppleMessagesForBusiness::SendMessageService
 
     Rails.logger.info "Pre-upload response: #{response.code} - #{response.body}"
 
-    if response.success?
-      parsed = response.parsed_response
-      {
-        upload_url: parsed['upload-url'],
-        mmcs_url: parsed['mmcs-url'],
-        mmcs_owner: parsed['mmcs-owner']
-      }
-    else
-      raise "Pre-upload failed: #{response.code} #{response.body}"
-    end
+    raise "Pre-upload failed: #{response.code} #{response.body}" unless response.success?
+
+    parsed = response.parsed_response
+    {
+      upload_url: parsed['upload-url'],
+      mmcs_url: parsed['mmcs-url'],
+      mmcs_owner: parsed['mmcs-owner']
+    }
   end
 
   def upload_to_mmcs(upload_url, encrypted_data)
@@ -371,21 +375,19 @@ class AppleMessagesForBusiness::SendMessageService
 
     Rails.logger.info "MMCS upload response: #{response.code} - #{response.body}"
 
-    if response.success?
-      parsed = response.parsed_response
-      signature = parsed.dig('singleFile', 'fileChecksum')
-      
-      if signature.nil?
-        Rails.logger.error "No fileChecksum in MMCS response: #{parsed}"
-        raise "MMCS upload failed: No fileChecksum in response"
-      end
-      
-      {
-        signature: signature
-      }
-    else
-      raise "MMCS upload failed: #{response.code} #{response.body}"
+    raise "MMCS upload failed: #{response.code} #{response.body}" unless response.success?
+
+    parsed = response.parsed_response
+    signature = parsed.dig('singleFile', 'fileChecksum')
+
+    if signature.nil?
+      Rails.logger.error "No fileChecksum in MMCS response: #{parsed}"
+      raise 'MMCS upload failed: No fileChecksum in response'
     end
+
+    {
+      signature: signature
+    }
   end
 
   def send_to_apple_gateway(payload, message_id)

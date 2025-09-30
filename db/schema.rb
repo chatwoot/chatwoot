@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_25_120002) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_29_120003) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -420,6 +420,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_25_120002) do
     t.jsonb "payment_processors", default: {}
     t.text "merchant_certificates"
     t.jsonb "payment_settings", default: {}
+    t.jsonb "imessage_apps", default: []
     t.index ["account_id"], name: "index_channel_apple_messages_for_business_on_account_id"
     t.index ["business_id"], name: "index_channel_apple_messages_for_business_on_business_id", unique: true
     t.index ["msp_id"], name: "index_channel_apple_messages_for_business_on_msp_id", unique: true
@@ -1207,7 +1208,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_25_120002) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"

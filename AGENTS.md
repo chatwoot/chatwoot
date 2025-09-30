@@ -76,3 +76,4 @@ Practical checklist for any change impacting core logic or public APIs
 - When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
 - Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
 - Remember that any tailscale command as privilege Claude cannot use, please ask me diretly to execute them
+- keep in memory the Vue configuration requirement

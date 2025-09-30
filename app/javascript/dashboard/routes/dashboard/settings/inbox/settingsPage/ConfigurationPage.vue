@@ -50,8 +50,31 @@ export default {
       paymentProcessors: {
         stripe: { enabled: false, publishableKey: '', secretKey: '' },
         square: { enabled: false, applicationId: '', accessToken: '' },
-        braintree: { enabled: false, merchantId: '', publicKey: '', privateKey: '' },
+        braintree: {
+          enabled: false,
+          merchantId: '',
+          publicKey: '',
+          privateKey: '',
+        },
       },
+      // iMessage Apps configuration
+      imessageApps: [
+        {
+          id: 'app_1',
+          name: 'Custom Business App',
+          app_id: 'com.example.businessapp',
+          bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:com.example.businessapp:extension',
+          version: '1.0',
+          url: '',
+          description: 'Default business integration app',
+          enabled: false,
+          use_live_layout: true,
+          app_data: {},
+          images: []
+        }
+      ],
+      updateTimeout: null,
+      hasUnsavedChanges: false,
     };
   },
   validations: {
@@ -72,6 +95,12 @@ export default {
   },
   mounted() {
     this.setDefaults();
+  },
+  beforeUnmount() {
+    // Auto-save on component unmount (when navigating away)
+    if (this.isAnAppleMessagesForBusinessChannel) {
+      this.updateAppleMessagesSettings();
+    }
   },
   methods: {
     setDefaults() {
@@ -105,7 +134,11 @@ export default {
           applePayEnabled: paymentData.applePayEnabled || false,
           merchantIdentifier: paymentData.merchantIdentifier || '',
           merchantDomain: paymentData.merchantDomain || '',
-          supportedNetworks: paymentData.supportedNetworks || ['visa', 'masterCard', 'amex'],
+          supportedNetworks: paymentData.supportedNetworks || [
+            'visa',
+            'masterCard',
+            'amex',
+          ],
           countryCode: paymentData.countryCode || 'US',
           currencyCode: paymentData.currencyCode || 'USD',
         };
@@ -130,6 +163,27 @@ export default {
             privateKey: processorsData.braintree?.privateKey || '',
           },
         };
+
+        // Initialize iMessage apps with safe defaults
+        const imessageAppsData = this.inbox.imessage_apps || [];
+        // Only update if we don't have any apps yet or if the data has actually changed
+        if (this.imessageApps.length === 0 || JSON.stringify(this.imessageApps) !== JSON.stringify(imessageAppsData)) {
+          this.imessageApps = imessageAppsData.length > 0 ? imessageAppsData : [
+            {
+              id: 'app_1',
+              name: 'Custom Business App',
+              app_id: 'com.example.businessapp',
+              bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:com.example.businessapp:extension',
+              version: '1.0',
+              url: '',
+              description: 'Default business integration app',
+              enabled: false,
+              use_live_layout: true,
+              app_data: {},
+              images: []
+            }
+          ];
+        }
       }
     },
     handleHmacFlag() {
@@ -196,12 +250,44 @@ export default {
             oauth2_providers: this.oauth2Providers,
             payment_settings: this.paymentSettings,
             payment_processors: this.paymentProcessors,
+            imessage_apps: this.imessageApps,
           },
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
+        this.hasUnsavedChanges = false;
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+
+    // Track changes without auto-saving
+    debouncedUpdate() {
+      this.hasUnsavedChanges = true;
+    },
+
+    // iMessage Apps Management
+    addImessageApp() {
+      const newApp = {
+        id: `app_${Date.now()}`,
+        name: '',
+        app_id: '',
+        bid: '',
+        version: '1.0',
+        url: '',
+        description: '',
+        enabled: false,
+        use_live_layout: true,
+        app_data: {},
+        images: []
+      };
+      this.imessageApps.push(newApp);
+    },
+
+    removeImessageApp(index) {
+      if (this.imessageApps.length > 1) {
+        this.imessageApps.splice(index, 1);
+        this.updateAppleMessagesSettings();
       }
     },
   },
@@ -494,14 +580,28 @@ export default {
               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               @change="updateAppleMessagesSettings"
             />
-            <label for="google-oauth-enabled" class="text-sm font-medium text-gray-900">
-              {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.GOOGLE_ENABLED') }}
+            <label
+              for="google-oauth-enabled"
+              class="text-sm font-medium text-gray-900"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.GOOGLE_ENABLED'
+                )
+              }}
             </label>
           </div>
-          <div v-if="oauth2Providers.google?.enabled" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            v-if="oauth2Providers.google?.enabled"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_ID') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_ID'
+                  )
+                }}
               </label>
               <input
                 v-model="oauth2Providers.google.clientId"
@@ -513,7 +613,11 @@ export default {
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_SECRET') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_SECRET'
+                  )
+                }}
               </label>
               <input
                 v-model="oauth2Providers.google.clientSecret"
@@ -536,14 +640,28 @@ export default {
               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               @change="updateAppleMessagesSettings"
             />
-            <label for="linkedin-oauth-enabled" class="text-sm font-medium text-gray-900">
-              {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.LINKEDIN_ENABLED') }}
+            <label
+              for="linkedin-oauth-enabled"
+              class="text-sm font-medium text-gray-900"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.LINKEDIN_ENABLED'
+                )
+              }}
             </label>
           </div>
-          <div v-if="oauth2Providers.linkedin?.enabled" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            v-if="oauth2Providers.linkedin?.enabled"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_ID') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_ID'
+                  )
+                }}
               </label>
               <input
                 v-model="oauth2Providers.linkedin.clientId"
@@ -555,7 +673,11 @@ export default {
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_SECRET') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_SECRET'
+                  )
+                }}
               </label>
               <input
                 v-model="oauth2Providers.linkedin.clientSecret"
@@ -578,14 +700,28 @@ export default {
               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               @change="updateAppleMessagesSettings"
             />
-            <label for="facebook-oauth-enabled" class="text-sm font-medium text-gray-900">
-              {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.FACEBOOK_ENABLED') }}
+            <label
+              for="facebook-oauth-enabled"
+              class="text-sm font-medium text-gray-900"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.FACEBOOK_ENABLED'
+                )
+              }}
             </label>
           </div>
-          <div v-if="oauth2Providers.facebook?.enabled" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            v-if="oauth2Providers.facebook?.enabled"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_ID') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_ID'
+                  )
+                }}
               </label>
               <input
                 v-model="oauth2Providers.facebook.clientId"
@@ -597,7 +733,11 @@ export default {
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_SECRET') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.OAUTH2.CLIENT_SECRET'
+                  )
+                }}
               </label>
               <input
                 v-model="oauth2Providers.facebook.clientSecret"
@@ -615,7 +755,9 @@ export default {
     <!-- Apple Pay Settings -->
     <SettingsSection
       :title="$t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.TITLE')"
-      :sub-title="$t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.DESC')"
+      :sub-title="
+        $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.DESC')
+      "
     >
       <div class="space-y-6">
         <div class="bg-green-50 p-4 rounded-lg">
@@ -627,8 +769,15 @@ export default {
               class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
               @change="updateAppleMessagesSettings"
             />
-            <label for="apple-pay-enabled" class="text-sm font-medium text-gray-900">
-              {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.ENABLED') }}
+            <label
+              for="apple-pay-enabled"
+              class="text-sm font-medium text-gray-900"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.ENABLED'
+                )
+              }}
             </label>
           </div>
 
@@ -636,7 +785,11 @@ export default {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.MERCHANT_IDENTIFIER') }}
+                  {{
+                    $t(
+                      'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.MERCHANT_IDENTIFIER'
+                    )
+                  }}
                 </label>
                 <input
                   v-model="paymentSettings.merchantIdentifier"
@@ -648,7 +801,11 @@ export default {
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.MERCHANT_DOMAIN') }}
+                  {{
+                    $t(
+                      'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.MERCHANT_DOMAIN'
+                    )
+                  }}
                 </label>
                 <input
                   v-model="paymentSettings.merchantDomain"
@@ -663,7 +820,11 @@ export default {
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.COUNTRY_CODE') }}
+                  {{
+                    $t(
+                      'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.COUNTRY_CODE'
+                    )
+                  }}
                 </label>
                 <select
                   v-model="paymentSettings.countryCode"
@@ -679,7 +840,11 @@ export default {
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.CURRENCY_CODE') }}
+                  {{
+                    $t(
+                      'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.CURRENCY_CODE'
+                    )
+                  }}
                 </label>
                 <select
                   v-model="paymentSettings.currencyCode"
@@ -697,7 +862,11 @@ export default {
 
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.SUPPORTED_NETWORKS') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.APPLE_PAY.SUPPORTED_NETWORKS'
+                  )
+                }}
               </label>
               <div class="flex flex-wrap gap-3">
                 <label class="flex items-center">
@@ -750,8 +919,14 @@ export default {
     <!-- Payment Processors -->
     <SettingsSection
       v-if="paymentSettings.applePayEnabled"
-      :title="$t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.TITLE')"
-      :sub-title="$t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.DESC')"
+      :title="
+        $t(
+          'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.TITLE'
+        )
+      "
+      :sub-title="
+        $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.DESC')
+      "
     >
       <div class="space-y-6">
         <!-- Stripe -->
@@ -764,14 +939,28 @@ export default {
               class="h-4 w-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
               @change="updateAppleMessagesSettings"
             />
-            <label for="stripe-enabled" class="text-sm font-medium text-gray-900">
-              {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.STRIPE_ENABLED') }}
+            <label
+              for="stripe-enabled"
+              class="text-sm font-medium text-gray-900"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.STRIPE_ENABLED'
+                )
+              }}
             </label>
           </div>
-          <div v-if="paymentProcessors.stripe?.enabled" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            v-if="paymentProcessors.stripe?.enabled"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.PUBLISHABLE_KEY') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.PUBLISHABLE_KEY'
+                  )
+                }}
               </label>
               <input
                 v-model="paymentProcessors.stripe.publishableKey"
@@ -783,7 +972,11 @@ export default {
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.SECRET_KEY') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.SECRET_KEY'
+                  )
+                }}
               </label>
               <input
                 v-model="paymentProcessors.stripe.secretKey"
@@ -806,14 +999,28 @@ export default {
               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               @change="updateAppleMessagesSettings"
             />
-            <label for="square-enabled" class="text-sm font-medium text-gray-900">
-              {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.SQUARE_ENABLED') }}
+            <label
+              for="square-enabled"
+              class="text-sm font-medium text-gray-900"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.SQUARE_ENABLED'
+                )
+              }}
             </label>
           </div>
-          <div v-if="paymentProcessors.square?.enabled" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            v-if="paymentProcessors.square?.enabled"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+          >
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.APPLICATION_ID') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.APPLICATION_ID'
+                  )
+                }}
               </label>
               <input
                 v-model="paymentProcessors.square.applicationId"
@@ -825,7 +1032,11 @@ export default {
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.ACCESS_TOKEN') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.ACCESS_TOKEN'
+                  )
+                }}
               </label>
               <input
                 v-model="paymentProcessors.square.accessToken"
@@ -848,14 +1059,28 @@ export default {
               class="h-4 w-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
               @change="updateAppleMessagesSettings"
             />
-            <label for="braintree-enabled" class="text-sm font-medium text-gray-900">
-              {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.BRAINTREE_ENABLED') }}
+            <label
+              for="braintree-enabled"
+              class="text-sm font-medium text-gray-900"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.BRAINTREE_ENABLED'
+                )
+              }}
             </label>
           </div>
-          <div v-if="paymentProcessors.braintree?.enabled" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div
+            v-if="paymentProcessors.braintree?.enabled"
+            class="grid grid-cols-1 md:grid-cols-3 gap-4"
+          >
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.MERCHANT_ID') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.MERCHANT_ID'
+                  )
+                }}
               </label>
               <input
                 v-model="paymentProcessors.braintree.merchantId"
@@ -867,7 +1092,11 @@ export default {
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.PUBLIC_KEY') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.PUBLIC_KEY'
+                  )
+                }}
               </label>
               <input
                 v-model="paymentProcessors.braintree.publicKey"
@@ -879,7 +1108,11 @@ export default {
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
-                {{ $t('INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.PRIVATE_KEY') }}
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.APPLE_MESSAGES_FOR_BUSINESS.PAYMENT_PROCESSORS.PRIVATE_KEY'
+                  )
+                }}
               </label>
               <input
                 v-model="paymentProcessors.braintree.privateKey"
@@ -890,6 +1123,166 @@ export default {
               />
             </div>
           </div>
+        </div>
+      </div>
+    </SettingsSection>
+
+    <!-- iMessage Apps Configuration -->
+    <SettingsSection
+      :title="'📱 iMessage Apps Configuration'"
+      :sub-title="'Configure custom iMessage apps that agents can invoke in conversations. These apps must be installed on customer devices.'"
+    >
+      <div class="space-y-6">
+        <!-- Apps List -->
+        <div class="space-y-4">
+          <div
+            v-for="(app, index) in imessageApps"
+            :key="app.id"
+            class="bg-slate-50 p-4 rounded-lg border"
+          >
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center space-x-3">
+                <input
+                  v-model="app.enabled"
+                  type="checkbox"
+                  class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  @input="debouncedUpdate"
+                />
+                <h4 class="font-medium text-gray-900">
+                  {{ app.name || `iMessage App ${index + 1}` }}
+                </h4>
+              </div>
+              <button
+                v-if="imessageApps.length > 1"
+                @click="removeImessageApp(index)"
+                class="text-red-500 hover:text-red-700 transition-colors"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                </svg>
+              </button>
+            </div>
+
+            <div v-if="app.enabled" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  App Name *
+                </label>
+                <input
+                  v-model="app.name"
+                  type="text"
+                  placeholder="My Custom App"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  @input="debouncedUpdate"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  App ID *
+                </label>
+                <input
+                  v-model="app.app_id"
+                  type="text"
+                  placeholder="com.example.myapp"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  @input="debouncedUpdate"
+                />
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  Bundle Identifier (BID) *
+                </label>
+                <input
+                  v-model="app.bid"
+                  type="text"
+                  placeholder="com.apple.messages.MSMessageExtensionBalloonPlugin:bundleId:extension"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  @input="debouncedUpdate"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  Version
+                </label>
+                <input
+                  v-model="app.version"
+                  type="text"
+                  placeholder="1.0"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  @input="debouncedUpdate"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  App URL (Optional)
+                </label>
+                <input
+                  v-model="app.url"
+                  type="url"
+                  placeholder="https://example.com/app"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  @input="debouncedUpdate"
+                />
+              </div>
+
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  Description
+                </label>
+                <textarea
+                  v-model="app.description"
+                  rows="2"
+                  placeholder="Brief description of what this app does"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  @input="debouncedUpdate"
+                />
+              </div>
+
+              <div class="md:col-span-2">
+                <div class="flex items-center space-x-3">
+                  <input
+                    v-model="app.use_live_layout"
+                    type="checkbox"
+                    class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    @input="debouncedUpdate"
+                  />
+                  <label class="text-sm text-gray-700">
+                    Use Live Layout (recommended)
+                  </label>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">
+                  Enables dynamic layout updates and better user experience
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add New App Button -->
+        <button
+          @click="addImessageApp"
+          type="button"
+          class="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-gray-400 hover:text-gray-600 transition-colors"
+        >
+          + Add iMessage App Configuration
+        </button>
+
+        <!-- Save Configuration Button -->
+        <div class="flex justify-end mt-4">
+          <button
+            @click="updateAppleMessagesSettings"
+            type="button"
+            class="px-6 py-2 rounded-md transition-colors"
+            :class="hasUnsavedChanges
+              ? 'bg-orange-600 text-white hover:bg-orange-700'
+              : 'bg-blue-600 text-white hover:bg-blue-700'"
+          >
+            {{ hasUnsavedChanges ? 'Save Pending Changes...' : 'Save iMessage Apps Configuration' }}
+          </button>
         </div>
       </div>
     </SettingsSection>

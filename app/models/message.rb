@@ -116,7 +116,6 @@ class Message < ApplicationRecord
   # [:data] : Used for structured content types such as voice_call
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-<<<<<<< HEAD
                                          :translations, :in_reply_to_external_id, :is_unsupported, :data, :sections, :event, :summary_text,
                                          :images, :timezone_offset, :received_title, :received_subtitle, :received_style,
                                          :reply_title, :reply_subtitle, :reply_style, :reply_image_title, :reply_image_subtitle,

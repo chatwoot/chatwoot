@@ -336,8 +336,8 @@ importers:
         specifier: 5.4.20
         version: 5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0)
       vite-plugin-ruby:
-        specifier: ^5.0.0
-        version: 5.0.0(vite@5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0))
+        specifier: ^5.1.1
+        version: 5.1.1(vite@5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0))
       vitest:
         specifier: 3.0.5
         version: 3.0.5(@types/node@22.7.0)(jsdom@24.1.3)(sass@1.79.3)(terser@5.33.0)
@@ -4371,8 +4371,8 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
-  vite-plugin-ruby@5.0.0:
-    resolution: {integrity: sha512-c8PjTp21Ah/ttgnNUyu0qvCXZI08Jr9I24oUKg3TRIRhF5GcOZ++6wtlTCrNFd9COEQbpXHxlRIXd/MEg0iZJw==}
+  vite-plugin-ruby@5.1.1:
+    resolution: {integrity: sha512-I1dXJq2ywdvTD2Cz5LYNcYLujqQ3eUxPoCjruRdfm2QBtHBY15NEeb6x5HuPM3T5S+y8S3p9fwRsieQQCjk0gg==}
     peerDependencies:
       vite: 5.4.20
 
@@ -9297,9 +9297,9 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-ruby@5.0.0(vite@5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0)):
+  vite-plugin-ruby@5.1.1(vite@5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0)):
     dependencies:
-      debug: 4.3.5
+      debug: 4.4.0
       fast-glob: 3.3.2
       vite: 5.4.20(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0)
     transitivePeerDependencies:

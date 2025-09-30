@@ -1,143 +1,3 @@
-<template>
-  <woot-modal :show="show" :on-close="onClose">
-    <div class="apple-auth-modal">
-      <div class="modal-header">
-        <h2 class="modal-title">
-          {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.TITLE') }}
-        </h2>
-        <p class="modal-description">
-          {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.DESCRIPTION') }}
-        </p>
-      </div>
-
-      <div class="modal-content">
-        <div class="provider-selection" v-if="!selectedProvider">
-          <h3 class="section-title">
-            {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.SELECT_PROVIDER') }}
-          </h3>
-
-          <div class="provider-grid">
-            <button
-              v-for="provider in availableProviders"
-              :key="provider.id"
-              class="provider-button"
-              @click="selectProvider(provider)"
-            >
-              <div class="provider-icon">
-                <i :class="provider.icon"></i>
-              </div>
-              <div class="provider-info">
-                <h4 class="provider-name">{{ provider.name }}</h4>
-                <p class="provider-description">{{ provider.description }}</p>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        <div class="auth-configuration" v-if="selectedProvider">
-          <div class="selected-provider">
-            <div class="provider-header">
-              <div class="provider-icon large">
-                <i :class="selectedProvider.icon"></i>
-              </div>
-              <div class="provider-details">
-                <h3 class="provider-name">{{ selectedProvider.name }}</h3>
-                <button class="change-provider" @click="changeProvider">
-                  {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CHANGE_PROVIDER') }}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <form @submit.prevent="createAuthenticationMessage" class="auth-form">
-            <div class="form-group">
-              <label class="form-label">
-                {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.MESSAGE_TEXT') }}
-              </label>
-              <textarea
-                v-model="authMessage"
-                class="form-input"
-                rows="3"
-                :placeholder="$t('APPLE_MESSAGES.AUTHENTICATION.MODAL.MESSAGE_PLACEHOLDER')"
-              ></textarea>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.SUCCESS_URL') }}
-              </label>
-              <input
-                v-model="successUrl"
-                type="url"
-                class="form-input"
-                :placeholder="$t('APPLE_MESSAGES.AUTHENTICATION.MODAL.SUCCESS_URL_PLACEHOLDER')"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">
-                {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CANCEL_URL') }}
-              </label>
-              <input
-                v-model="cancelUrl"
-                type="url"
-                class="form-input"
-                :placeholder="$t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CANCEL_URL_PLACEHOLDER')"
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="checkbox-label">
-                <input
-                  v-model="requireEncryption"
-                  type="checkbox"
-                  class="checkbox"
-                >
-                <span class="checkmark"></span>
-                {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.REQUIRE_ENCRYPTION') }}
-              </label>
-            </div>
-          </form>
-        </div>
-
-        <div class="preview-section" v-if="selectedProvider">
-          <h3 class="section-title">
-            {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.PREVIEW') }}
-          </h3>
-
-          <div class="message-preview">
-            <AppleAuthentication
-              :oauth2-provider="selectedProvider.id"
-              :redirect-uri="previewRedirectUri"
-              :msp-id="mspId"
-              :allow-cancel="!!cancelUrl"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          @click="onClose"
-        >
-          {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CANCEL') }}
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          :disabled="!canCreateMessage"
-          @click="createAuthenticationMessage"
-        >
-          {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CREATE_MESSAGE') }}
-        </button>
-      </div>
-    </div>
-  </woot-modal>
-</template>
-
 <script>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -175,32 +35,41 @@ export default {
       {
         id: 'google',
         name: 'Google',
-        description: t('APPLE_MESSAGES.AUTHENTICATION.PROVIDERS.GOOGLE.DESCRIPTION'),
+        description: t(
+          'APPLE_MESSAGES.AUTHENTICATION.PROVIDERS.GOOGLE.DESCRIPTION'
+        ),
         icon: 'i-logos-google-icon',
       },
       {
         id: 'linkedin',
         name: 'LinkedIn',
-        description: t('APPLE_MESSAGES.AUTHENTICATION.PROVIDERS.LINKEDIN.DESCRIPTION'),
+        description: t(
+          'APPLE_MESSAGES.AUTHENTICATION.PROVIDERS.LINKEDIN.DESCRIPTION'
+        ),
         icon: 'i-logos-linkedin-icon',
       },
       {
         id: 'facebook',
         name: 'Facebook',
-        description: t('APPLE_MESSAGES.AUTHENTICATION.PROVIDERS.FACEBOOK.DESCRIPTION'),
+        description: t(
+          'APPLE_MESSAGES.AUTHENTICATION.PROVIDERS.FACEBOOK.DESCRIPTION'
+        ),
         icon: 'i-logos-facebook',
       },
     ]);
 
     const previewRedirectUri = computed(() => {
-      return successUrl.value || `${window.location.origin}/apple_messages_for_business/${props.mspId}/oauth/callback`;
+      return (
+        successUrl.value ||
+        `${window.location.origin}/apple_messages_for_business/${props.mspId}/oauth/callback`
+      );
     });
 
     const canCreateMessage = computed(() => {
       return selectedProvider.value && authMessage.value.trim().length > 0;
     });
 
-    const selectProvider = (provider) => {
+    const selectProvider = provider => {
       selectedProvider.value = provider;
 
       // Set default message if empty
@@ -238,7 +107,7 @@ export default {
       onClose();
     };
 
-    const getProviderScopes = (providerId) => {
+    const getProviderScopes = providerId => {
       const scopes = {
         google: ['openid', 'profile', 'email'],
         linkedin: ['r_liteprofile', 'r_emailaddress'],
@@ -260,18 +129,21 @@ export default {
     };
 
     // Watch for show prop changes to reset form
-    watch(() => props.show, (newShow) => {
-      if (!newShow) {
-        // Reset form when modal is closed
-        setTimeout(() => {
-          selectedProvider.value = null;
-          authMessage.value = '';
-          successUrl.value = '';
-          cancelUrl.value = '';
-          requireEncryption.value = true;
-        }, 300);
+    watch(
+      () => props.show,
+      newShow => {
+        if (!newShow) {
+          // Reset form when modal is closed
+          setTimeout(() => {
+            selectedProvider.value = null;
+            authMessage.value = '';
+            successUrl.value = '';
+            cancelUrl.value = '';
+            requireEncryption.value = true;
+          }, 300);
+        }
       }
-    });
+    );
 
     return {
       selectedProvider,
@@ -290,6 +162,156 @@ export default {
   },
 };
 </script>
+
+<template>
+  <woot-modal :show="show" :on-close="onClose">
+    <div class="apple-auth-modal">
+      <div class="modal-header">
+        <h2 class="modal-title">
+          {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.TITLE') }}
+        </h2>
+        <p class="modal-description">
+          {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.DESCRIPTION') }}
+        </p>
+      </div>
+
+      <div class="modal-content">
+        <div v-if="!selectedProvider" class="provider-selection">
+          <h3 class="section-title">
+            {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.SELECT_PROVIDER') }}
+          </h3>
+
+          <div class="provider-grid">
+            <button
+              v-for="provider in availableProviders"
+              :key="provider.id"
+              class="provider-button"
+              @click="selectProvider(provider)"
+            >
+              <div class="provider-icon">
+                <i :class="provider.icon" />
+              </div>
+              <div class="provider-info">
+                <h4 class="provider-name">{{ provider.name }}</h4>
+                <p class="provider-description">{{ provider.description }}</p>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div v-if="selectedProvider" class="auth-configuration">
+          <div class="selected-provider">
+            <div class="provider-header">
+              <div class="provider-icon large">
+                <i :class="selectedProvider.icon" />
+              </div>
+              <div class="provider-details">
+                <h3 class="provider-name">{{ selectedProvider.name }}</h3>
+                <button class="change-provider" @click="changeProvider">
+                  {{
+                    $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CHANGE_PROVIDER')
+                  }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <form class="auth-form" @submit.prevent="createAuthenticationMessage">
+            <div class="form-group">
+              <label class="form-label">
+                {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.MESSAGE_TEXT') }}
+              </label>
+              <textarea
+                v-model="authMessage"
+                class="form-input"
+                rows="3"
+                :placeholder="
+                  $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.MESSAGE_PLACEHOLDER')
+                "
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.SUCCESS_URL') }}
+              </label>
+              <input
+                v-model="successUrl"
+                type="url"
+                class="form-input"
+                :placeholder="
+                  $t(
+                    'APPLE_MESSAGES.AUTHENTICATION.MODAL.SUCCESS_URL_PLACEHOLDER'
+                  )
+                "
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">
+                {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CANCEL_URL') }}
+              </label>
+              <input
+                v-model="cancelUrl"
+                type="url"
+                class="form-input"
+                :placeholder="
+                  $t(
+                    'APPLE_MESSAGES.AUTHENTICATION.MODAL.CANCEL_URL_PLACEHOLDER'
+                  )
+                "
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input
+                  v-model="requireEncryption"
+                  type="checkbox"
+                  class="checkbox"
+                />
+                <span class="checkmark" />
+                {{
+                  $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.REQUIRE_ENCRYPTION')
+                }}
+              </label>
+            </div>
+          </form>
+        </div>
+
+        <div v-if="selectedProvider" class="preview-section">
+          <h3 class="section-title">
+            {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.PREVIEW') }}
+          </h3>
+
+          <div class="message-preview">
+            <AppleAuthentication
+              :oauth2-provider="selectedProvider.id"
+              :redirect-uri="previewRedirectUri"
+              :msp-id="mspId"
+              :allow-cancel="!!cancelUrl"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="onClose">
+          {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CANCEL') }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          :disabled="!canCreateMessage"
+          @click="createAuthenticationMessage"
+        >
+          {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.CREATE_MESSAGE') }}
+        </button>
+      </div>
+    </div>
+  </woot-modal>
+</template>
 
 <style scoped>
 .apple-auth-modal {

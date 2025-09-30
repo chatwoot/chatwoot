@@ -5,6 +5,7 @@
 #  id                      :bigint           not null, primary key
 #  apple_pay_merchant_cert :text
 #  auth_sessions           :jsonb
+#  imessage_apps           :jsonb
 #  imessage_extension_bid  :string           default("com.apple.messages.MSMessageExtensionBalloonPlugin:0000000000:com.apple.icloud.apps.messages.business.extension")
 #  merchant_certificates   :text
 #  oauth2_providers        :jsonb
@@ -38,7 +39,8 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
     :msp_id, :business_id, :secret, :merchant_id,
     :apple_pay_merchant_cert, :webhook_url, :imessage_extension_bid,
     { provider_config: {} }, { oauth2_providers: {} },
-    { payment_settings: {} }, { payment_processors: {} }
+    { payment_settings: {} }, { payment_processors: {} },
+    { imessage_apps: [] }
   ].freeze
 
   validates :msp_id, presence: true, uniqueness: true
@@ -95,6 +97,22 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
     return [] unless payment_processors.present?
 
     payment_processors.select { |_processor, config| config['enabled'] == true }.keys
+  end
+
+  def configured_imessage_apps
+    return [] unless imessage_apps.present?
+
+    imessage_apps.select { |app| app['enabled'] == true }
+  end
+
+  def imessage_app_by_id(app_id)
+    return nil unless imessage_apps.present?
+
+    imessage_apps.find { |app| app['id'] == app_id && app['enabled'] == true }
+  end
+
+  def has_imessage_apps?
+    configured_imessage_apps.any?
   end
 
   def apple_pay_settings

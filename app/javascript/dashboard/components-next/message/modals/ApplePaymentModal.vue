@@ -1,293 +1,3 @@
-<template>
-  <woot-modal :show="show" :on-close="onClose" size="large">
-    <div class="apple-payment-modal">
-      <div class="modal-header">
-        <h2 class="modal-title">
-          {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.TITLE') }}
-        </h2>
-        <p class="modal-description">
-          {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.DESCRIPTION') }}
-        </p>
-      </div>
-
-      <div class="modal-content">
-        <div class="payment-setup">
-          <form @submit.prevent="createPaymentMessage" class="payment-form">
-            <div class="form-section">
-              <h3 class="section-title">
-                {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.BASIC_INFO') }}
-              </h3>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">
-                    {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.MERCHANT_NAME') }}
-                  </label>
-                  <input
-                    v-model="paymentData.merchantName"
-                    type="text"
-                    class="form-input"
-                    required
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">
-                    {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CURRENCY') }}
-                  </label>
-                  <select v-model="paymentData.currencyCode" class="form-select" required>
-                    <option value="USD">USD - US Dollar</option>
-                    <option value="EUR">EUR - Euro</option>
-                    <option value="GBP">GBP - British Pound</option>
-                    <option value="CAD">CAD - Canadian Dollar</option>
-                    <option value="JPY">JPY - Japanese Yen</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">
-                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.COUNTRY') }}
-                </label>
-                <select v-model="paymentData.countryCode" class="form-select" required>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="GB">United Kingdom</option>
-                  <option value="DE">Germany</option>
-                  <option value="FR">France</option>
-                  <option value="JP">Japan</option>
-                  <option value="AU">Australia</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <h3 class="section-title">
-                {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.LINE_ITEMS') }}
-              </h3>
-
-              <div class="line-items-container">
-                <div
-                  v-for="(item, index) in paymentData.lineItems"
-                  :key="index"
-                  class="line-item"
-                >
-                  <div class="form-row">
-                    <div class="form-group flex-2">
-                      <input
-                        v-model="item.label"
-                        type="text"
-                        class="form-input"
-                        :placeholder="$t('APPLE_MESSAGES.PAYMENT.MODAL.ITEM_NAME')"
-                        required
-                      />
-                    </div>
-                    <div class="form-group flex-1">
-                      <div class="input-group">
-                        <span class="input-prefix">{{ getCurrencySymbol(paymentData.currencyCode) }}</span>
-                        <input
-                          v-model="item.amount"
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          class="form-input"
-                          :placeholder="$t('APPLE_MESSAGES.PAYMENT.MODAL.AMOUNT')"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      class="remove-item-btn"
-                      @click="removeLineItem(index)"
-                    >
-                      <i class="i-ph-x"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  class="add-item-btn"
-                  @click="addLineItem"
-                >
-                  <i class="i-ph-plus mr-2"></i>
-                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.ADD_ITEM') }}
-                </button>
-              </div>
-
-              <div class="total-section">
-                <div class="total-row">
-                  <span class="total-label">{{ $t('APPLE_MESSAGES.PAYMENT.MODAL.TOTAL') }}</span>
-                  <span class="total-amount">
-                    {{ formatCurrency(calculateTotal(), paymentData.currencyCode) }}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <h3 class="section-title">
-                {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.SHIPPING_OPTIONS') }}
-              </h3>
-
-              <div class="checkbox-group">
-                <label class="checkbox-label">
-                  <input
-                    v-model="paymentData.requiresShipping"
-                    type="checkbox"
-                    class="checkbox"
-                  >
-                  <span class="checkmark"></span>
-                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRES_SHIPPING') }}
-                </label>
-              </div>
-
-              <div v-if="paymentData.requiresShipping" class="shipping-methods">
-                <div
-                  v-for="(method, index) in paymentData.shippingMethods"
-                  :key="index"
-                  class="shipping-method"
-                >
-                  <div class="form-row">
-                    <div class="form-group flex-2">
-                      <input
-                        v-model="method.label"
-                        type="text"
-                        class="form-input"
-                        :placeholder="$t('APPLE_MESSAGES.PAYMENT.MODAL.SHIPPING_LABEL')"
-                      />
-                    </div>
-                    <div class="form-group flex-1">
-                      <input
-                        v-model="method.detail"
-                        type="text"
-                        class="form-input"
-                        :placeholder="$t('APPLE_MESSAGES.PAYMENT.MODAL.SHIPPING_DETAIL')"
-                      />
-                    </div>
-                    <div class="form-group flex-1">
-                      <div class="input-group">
-                        <span class="input-prefix">{{ getCurrencySymbol(paymentData.currencyCode) }}</span>
-                        <input
-                          v-model="method.amount"
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          class="form-input"
-                          :placeholder="$t('APPLE_MESSAGES.PAYMENT.MODAL.SHIPPING_COST')"
-                        />
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      class="remove-item-btn"
-                      @click="removeShippingMethod(index)"
-                    >
-                      <i class="i-ph-x"></i>
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  class="add-item-btn"
-                  @click="addShippingMethod"
-                >
-                  <i class="i-ph-plus mr-2"></i>
-                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.ADD_SHIPPING_METHOD') }}
-                </button>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <h3 class="section-title">
-                {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CONTACT_REQUIREMENTS') }}
-              </h3>
-
-              <div class="checkbox-grid">
-                <label class="checkbox-label">
-                  <input
-                    v-model="paymentData.requiresBilling"
-                    type="checkbox"
-                    class="checkbox"
-                  >
-                  <span class="checkmark"></span>
-                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRE_BILLING') }}
-                </label>
-
-                <label class="checkbox-label">
-                  <input
-                    v-model="paymentData.requiresShipping"
-                    type="checkbox"
-                    class="checkbox"
-                  >
-                  <span class="checkmark"></span>
-                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRE_SHIPPING_ADDRESS') }}
-                </label>
-
-                <label class="checkbox-label">
-                  <input
-                    v-model="paymentData.requiresEmail"
-                    type="checkbox"
-                    class="checkbox"
-                  >
-                  <span class="checkmark"></span>
-                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRE_EMAIL') }}
-                </label>
-
-                <label class="checkbox-label">
-                  <input
-                    v-model="paymentData.requiresPhone"
-                    type="checkbox"
-                    class="checkbox"
-                  >
-                  <span class="checkmark"></span>
-                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRE_PHONE') }}
-                </label>
-              </div>
-            </div>
-          </form>
-
-          <div class="preview-section">
-            <h3 class="section-title">
-              {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.PREVIEW') }}
-            </h3>
-
-            <div class="payment-preview">
-              <ApplePayment
-                :payment-request="previewPaymentRequest"
-                :merchant-session="demoMerchantSession"
-                :msp-id="mspId"
-                :endpoints="demoEndpoints"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          @click="onClose"
-        >
-          {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CANCEL') }}
-        </button>
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          :disabled="!canCreateMessage"
-          @click="createPaymentMessage"
-        >
-          {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CREATE_MESSAGE') }}
-        </button>
-      </div>
-    </div>
-  </woot-modal>
-</template>
-
 <script>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -319,9 +29,7 @@ export default {
       merchantName: '',
       currencyCode: 'USD',
       countryCode: 'US',
-      lineItems: [
-        { label: '', amount: '', type: 'final' }
-      ],
+      lineItems: [{ label: '', amount: '', type: 'final' }],
       shippingMethods: [],
       requiresShipping: false,
       requiresBilling: true,
@@ -334,15 +42,25 @@ export default {
         country_code: paymentData.value.countryCode,
         currency_code: paymentData.value.currencyCode,
         supported_networks: ['visa', 'masterCard', 'amex'],
-        merchant_capabilities: ['supports3DS', 'supportsDebit', 'supportsCredit'],
-        line_items: paymentData.value.lineItems.filter(item => item.label && item.amount),
+        merchant_capabilities: [
+          'supports3DS',
+          'supportsDebit',
+          'supportsCredit',
+        ],
+        line_items: paymentData.value.lineItems.filter(
+          item => item.label && item.amount
+        ),
         total: {
           label: paymentData.value.merchantName || 'Total',
           amount: calculateTotal().toString(),
         },
         shipping_methods: paymentData.value.shippingMethods,
-        required_billing_contact_fields: paymentData.value.requiresBilling ? ['postalAddress'] : [],
-        required_shipping_contact_fields: paymentData.value.requiresShipping ? ['postalAddress', 'name'] : [],
+        required_billing_contact_fields: paymentData.value.requiresBilling
+          ? ['postalAddress']
+          : [],
+        required_shipping_contact_fields: paymentData.value.requiresShipping
+          ? ['postalAddress', 'name']
+          : [],
       };
     });
 
@@ -358,9 +76,13 @@ export default {
     }));
 
     const canCreateMessage = computed(() => {
-      return paymentData.value.merchantName.trim().length > 0 &&
-             paymentData.value.lineItems.some(item => item.label && item.amount > 0) &&
-             calculateTotal() > 0;
+      return (
+        paymentData.value.merchantName.trim().length > 0 &&
+        paymentData.value.lineItems.some(
+          item => item.label && item.amount > 0
+        ) &&
+        calculateTotal() > 0
+      );
     });
 
     const calculateTotal = () => {
@@ -376,7 +98,7 @@ export default {
       }).format(parseFloat(amount || 0));
     };
 
-    const getCurrencySymbol = (currency) => {
+    const getCurrencySymbol = currency => {
       const symbols = {
         USD: '$',
         EUR: '€',
@@ -391,11 +113,11 @@ export default {
       paymentData.value.lineItems.push({
         label: '',
         amount: '',
-        type: 'final'
+        type: 'final',
       });
     };
 
-    const removeLineItem = (index) => {
+    const removeLineItem = index => {
       if (paymentData.value.lineItems.length > 1) {
         paymentData.value.lineItems.splice(index, 1);
       }
@@ -406,11 +128,11 @@ export default {
         identifier: `shipping_${Date.now()}`,
         label: '',
         detail: '',
-        amount: ''
+        amount: '',
       });
     };
 
-    const removeShippingMethod = (index) => {
+    const removeShippingMethod = index => {
       paymentData.value.shippingMethods.splice(index, 1);
     };
 
@@ -425,18 +147,22 @@ export default {
             currency_code: paymentData.value.currencyCode,
             supported_networks: ['visa', 'masterCard', 'amex', 'discover'],
             merchant_identifier: `merchant.${paymentData.value.merchantName.toLowerCase().replace(/\s+/g, '.')}`,
-            merchant_capabilities: ['supports3DS', 'supportsDebit', 'supportsCredit'],
+            merchant_capabilities: [
+              'supports3DS',
+              'supportsDebit',
+              'supportsCredit',
+            ],
             line_items: paymentData.value.lineItems
               .filter(item => item.label && item.amount)
               .map(item => ({
                 label: item.label,
                 amount: parseFloat(item.amount).toFixed(2),
-                type: 'final'
+                type: 'final',
               })),
             total: {
               label: paymentData.value.merchantName,
               amount: calculateTotal().toFixed(2),
-              type: 'final'
+              type: 'final',
             },
             shipping_methods: paymentData.value.shippingMethods
               .filter(method => method.label && method.amount)
@@ -444,7 +170,7 @@ export default {
                 identifier: method.identifier,
                 label: method.label,
                 detail: method.detail,
-                amount: parseFloat(method.amount).toFixed(2)
+                amount: parseFloat(method.amount).toFixed(2),
               })),
             required_billing_contact_fields: buildContactFields('billing'),
             required_shipping_contact_fields: buildContactFields('shipping'),
@@ -453,7 +179,7 @@ export default {
             payment_gateway: `/apple_messages_for_business/${props.mspId}/payment_gateway/process_payment`,
             method_update: `/apple_messages_for_business/${props.mspId}/payment_gateway/method_update`,
             fallback_url: `${window.location.origin}/payment-fallback`,
-          }
+          },
         },
       };
 
@@ -461,7 +187,7 @@ export default {
       onClose();
     };
 
-    const buildContactFields = (type) => {
+    const buildContactFields = type => {
       const fields = ['postalAddress'];
 
       if (type === 'billing' && paymentData.value.requiresBilling) {
@@ -495,11 +221,14 @@ export default {
     };
 
     // Watch for show prop changes to reset form
-    watch(() => props.show, (newShow) => {
-      if (!newShow) {
-        setTimeout(onClose, 300);
+    watch(
+      () => props.show,
+      newShow => {
+        if (!newShow) {
+          setTimeout(onClose, 300);
+        }
       }
-    });
+    );
 
     return {
       paymentData,
@@ -520,6 +249,316 @@ export default {
   },
 };
 </script>
+
+<template>
+  <woot-modal :show="show" :on-close="onClose" size="large">
+    <div class="apple-payment-modal">
+      <div class="modal-header">
+        <h2 class="modal-title">
+          {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.TITLE') }}
+        </h2>
+        <p class="modal-description">
+          {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.DESCRIPTION') }}
+        </p>
+      </div>
+
+      <div class="modal-content">
+        <div class="payment-setup">
+          <form class="payment-form" @submit.prevent="createPaymentMessage">
+            <div class="form-section">
+              <h3 class="section-title">
+                {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.BASIC_INFO') }}
+              </h3>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.MERCHANT_NAME') }}
+                  </label>
+                  <input
+                    v-model="paymentData.merchantName"
+                    type="text"
+                    class="form-input"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CURRENCY') }}
+                  </label>
+                  <select
+                    v-model="paymentData.currencyCode"
+                    class="form-select"
+                    required
+                  >
+                    <option value="USD">USD - US Dollar</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="GBP">GBP - British Pound</option>
+                    <option value="CAD">CAD - Canadian Dollar</option>
+                    <option value="JPY">JPY - Japanese Yen</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">
+                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.COUNTRY') }}
+                </label>
+                <select
+                  v-model="paymentData.countryCode"
+                  class="form-select"
+                  required
+                >
+                  <option value="US">United States</option>
+                  <option value="CA">Canada</option>
+                  <option value="GB">United Kingdom</option>
+                  <option value="DE">Germany</option>
+                  <option value="FR">France</option>
+                  <option value="JP">Japan</option>
+                  <option value="AU">Australia</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3 class="section-title">
+                {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.LINE_ITEMS') }}
+              </h3>
+
+              <div class="line-items-container">
+                <div
+                  v-for="(item, index) in paymentData.lineItems"
+                  :key="index"
+                  class="line-item"
+                >
+                  <div class="form-row">
+                    <div class="form-group flex-2">
+                      <input
+                        v-model="item.label"
+                        type="text"
+                        class="form-input"
+                        :placeholder="
+                          $t('APPLE_MESSAGES.PAYMENT.MODAL.ITEM_NAME')
+                        "
+                        required
+                      />
+                    </div>
+                    <div class="form-group flex-1">
+                      <div class="input-group">
+                        <span class="input-prefix">{{
+                          getCurrencySymbol(paymentData.currencyCode)
+                        }}</span>
+                        <input
+                          v-model="item.amount"
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          class="form-input"
+                          :placeholder="
+                            $t('APPLE_MESSAGES.PAYMENT.MODAL.AMOUNT')
+                          "
+                          required
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="remove-item-btn"
+                      @click="removeLineItem(index)"
+                    >
+                      <i class="i-ph-x" />
+                    </button>
+                  </div>
+                </div>
+
+                <button type="button" class="add-item-btn" @click="addLineItem">
+                  <i class="i-ph-plus mr-2" />
+                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.ADD_ITEM') }}
+                </button>
+              </div>
+
+              <div class="total-section">
+                <div class="total-row">
+                  <span class="total-label">{{
+                    $t('APPLE_MESSAGES.PAYMENT.MODAL.TOTAL')
+                  }}</span>
+                  <span class="total-amount">
+                    {{
+                      formatCurrency(calculateTotal(), paymentData.currencyCode)
+                    }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3 class="section-title">
+                {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.SHIPPING_OPTIONS') }}
+              </h3>
+
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input
+                    v-model="paymentData.requiresShipping"
+                    type="checkbox"
+                    class="checkbox"
+                  />
+                  <span class="checkmark" />
+                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRES_SHIPPING') }}
+                </label>
+              </div>
+
+              <div v-if="paymentData.requiresShipping" class="shipping-methods">
+                <div
+                  v-for="(method, index) in paymentData.shippingMethods"
+                  :key="index"
+                  class="shipping-method"
+                >
+                  <div class="form-row">
+                    <div class="form-group flex-2">
+                      <input
+                        v-model="method.label"
+                        type="text"
+                        class="form-input"
+                        :placeholder="
+                          $t('APPLE_MESSAGES.PAYMENT.MODAL.SHIPPING_LABEL')
+                        "
+                      />
+                    </div>
+                    <div class="form-group flex-1">
+                      <input
+                        v-model="method.detail"
+                        type="text"
+                        class="form-input"
+                        :placeholder="
+                          $t('APPLE_MESSAGES.PAYMENT.MODAL.SHIPPING_DETAIL')
+                        "
+                      />
+                    </div>
+                    <div class="form-group flex-1">
+                      <div class="input-group">
+                        <span class="input-prefix">{{
+                          getCurrencySymbol(paymentData.currencyCode)
+                        }}</span>
+                        <input
+                          v-model="method.amount"
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          class="form-input"
+                          :placeholder="
+                            $t('APPLE_MESSAGES.PAYMENT.MODAL.SHIPPING_COST')
+                          "
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      class="remove-item-btn"
+                      @click="removeShippingMethod(index)"
+                    >
+                      <i class="i-ph-x" />
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  class="add-item-btn"
+                  @click="addShippingMethod"
+                >
+                  <i class="i-ph-plus mr-2" />
+                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.ADD_SHIPPING_METHOD') }}
+                </button>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3 class="section-title">
+                {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CONTACT_REQUIREMENTS') }}
+              </h3>
+
+              <div class="checkbox-grid">
+                <label class="checkbox-label">
+                  <input
+                    v-model="paymentData.requiresBilling"
+                    type="checkbox"
+                    class="checkbox"
+                  />
+                  <span class="checkmark" />
+                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRE_BILLING') }}
+                </label>
+
+                <label class="checkbox-label">
+                  <input
+                    v-model="paymentData.requiresShipping"
+                    type="checkbox"
+                    class="checkbox"
+                  />
+                  <span class="checkmark" />
+                  {{
+                    $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRE_SHIPPING_ADDRESS')
+                  }}
+                </label>
+
+                <label class="checkbox-label">
+                  <input
+                    v-model="paymentData.requiresEmail"
+                    type="checkbox"
+                    class="checkbox"
+                  />
+                  <span class="checkmark" />
+                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRE_EMAIL') }}
+                </label>
+
+                <label class="checkbox-label">
+                  <input
+                    v-model="paymentData.requiresPhone"
+                    type="checkbox"
+                    class="checkbox"
+                  />
+                  <span class="checkmark" />
+                  {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.REQUIRE_PHONE') }}
+                </label>
+              </div>
+            </div>
+          </form>
+
+          <div class="preview-section">
+            <h3 class="section-title">
+              {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.PREVIEW') }}
+            </h3>
+
+            <div class="payment-preview">
+              <ApplePayment
+                :payment-request="previewPaymentRequest"
+                :merchant-session="demoMerchantSession"
+                :msp-id="mspId"
+                :endpoints="demoEndpoints"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" @click="onClose">
+          {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CANCEL') }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          :disabled="!canCreateMessage"
+          @click="createPaymentMessage"
+        >
+          {{ $t('APPLE_MESSAGES.PAYMENT.MODAL.CREATE_MESSAGE') }}
+        </button>
+      </div>
+    </div>
+  </woot-modal>
+</template>
 
 <style scoped>
 .apple-payment-modal {

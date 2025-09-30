@@ -6,9 +6,19 @@ import BaseBubble from './Base.vue';
 const { contentAttributes } = useMessageContext();
 
 const event = computed(() => contentAttributes.value?.event || {});
-const timeslots = computed(() => contentAttributes.value?.timeslots || []);
+const timeslots = computed(() => {
+  // Try event.timeslots first (current format), then fall back to top-level timeslots (legacy)
+  return (
+    contentAttributes.value?.event?.timeslots ||
+    contentAttributes.value?.timeslots ||
+    []
+  );
+});
 const timezoneOffset = computed(
-  () => contentAttributes.value?.timezone_offset || 0
+  () =>
+    contentAttributes.value?.event?.timezoneOffset ||
+    contentAttributes.value?.timezone_offset ||
+    0
 );
 
 const formatDateTime = dateTimeString => {
@@ -27,7 +37,11 @@ const formatDateTime = dateTimeString => {
   };
 };
 
-const formatDuration = minutes => {
+const formatDuration = durationValue => {
+  // Handle both seconds and minutes - if > 300, assume it's seconds
+  const minutes =
+    durationValue > 300 ? Math.floor(durationValue / 60) : durationValue;
+
   if (minutes < 60) {
     return `${minutes}m`;
   }

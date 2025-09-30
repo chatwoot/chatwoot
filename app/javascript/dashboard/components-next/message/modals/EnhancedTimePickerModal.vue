@@ -72,7 +72,7 @@ const formData = ref({
   receivedTitle: 'Please pick a time',
   receivedSubtitle: 'Select your preferred time slot',
   replyTitle: 'Thank you!',
-  replySubtitle: 'We\'ll see you then!',
+  replySubtitle: "We'll see you then!",
   timezoneOffset: 0,
   selectedInterval: 30, // minutes
   customStartTime: '09:00',
@@ -94,7 +94,7 @@ const intervalOptions = [
 ];
 
 // Current view state
-const currentView = ref('setup'); // setup, slots, preview
+const currentView = ref('slots'); // Start directly with slots view instead of setup
 const selectedSlotIds = ref(new Set());
 const hoveredSlot = ref(null);
 const focusedSlotIndex = ref(-1);
@@ -116,13 +116,13 @@ const availableSlots = computed(() => {
 
   const date = new Date(formData.value.selectedDate);
   const dayName = format(date, 'EEEE').toLowerCase();
-  
+
   // Check if the selected date is in the past
   const today = new Date();
   const selectedDate = new Date(formData.value.selectedDate);
   const isToday = selectedDate.toDateString() === today.toDateString();
   const isPastDate = selectedDate < today && !isToday;
-  
+
   if (isPastDate) return []; // Don't generate slots for past dates
 
   let startTime;
@@ -144,13 +144,15 @@ const availableSlots = computed(() => {
       `${formData.value.selectedDate}T${formData.value.customEndTime}:00`
     );
   }
-  
+
   // If it's today, ensure we only show future time slots
   if (isToday) {
     const now = new Date();
     if (startTime <= now) {
       // Round up to the next available slot
-      const minutesToAdd = formData.value.selectedInterval - (now.getMinutes() % formData.value.selectedInterval);
+      const minutesToAdd =
+        formData.value.selectedInterval -
+        (now.getMinutes() % formData.value.selectedInterval);
       startTime = new Date(now.getTime() + minutesToAdd * 60000);
       startTime.setSeconds(0, 0); // Reset seconds and milliseconds
     }
@@ -180,7 +182,10 @@ const availableSlots = computed(() => {
         selected: isSelected,
         displayTime: format(currentSlot, 'HH:mm'),
         displayEndTime: format(slotEnd, 'HH:mm'),
-        utcTime: formatISO(zonedTimeToUtc(currentSlot, props.timezone)).replace('Z', '+0000'),
+        utcTime: formatISO(zonedTimeToUtc(currentSlot, props.timezone)).replace(
+          'Z',
+          '+0000'
+        ),
         localTime: format(currentSlot, "yyyy-MM-dd'T'HH:mm:ss"),
       });
     }
@@ -362,14 +367,14 @@ const updateSelectedSlots = () => {
     startTime: slot.utcTime,
     duration: slot.duration * 60, // Convert to seconds for Apple MSP
   }));
-  
+
   formData.value.selectedSlots = slots;
-  
+
   // Debug logging
   console.log('🔥 Enhanced Time Picker - updateSelectedSlots:', {
     globalSelectedSlots: globalSelectedSlots.value.size,
     formattedSlots: slots,
-    sampleSlot: slots[0]
+    sampleSlot: slots[0],
   });
 };
 
@@ -490,7 +495,10 @@ const generateQuickSlots = () => {
 const handleKeyNavigation = event => {
   // Don't intercept keys when user is typing in input fields
   const activeElement = document.activeElement;
-  if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+  if (
+    activeElement &&
+    (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')
+  ) {
     return;
   }
 
@@ -580,7 +588,7 @@ const saveTimePickerData = () => {
     timePickerData,
     selectedSlots: formData.value.selectedSlots,
     timeslotsCount: formData.value.selectedSlots.length,
-    sampleTimeslot: formData.value.selectedSlots[0]
+    sampleTimeslot: formData.value.selectedSlots[0],
   });
 
   emit('save', timePickerData);
@@ -610,7 +618,7 @@ const saveAndSendTimePickerData = () => {
     timePickerData,
     selectedSlots: formData.value.selectedSlots,
     timeslotsCount: formData.value.selectedSlots.length,
-    sampleTimeslot: formData.value.selectedSlots[0]
+    sampleTimeslot: formData.value.selectedSlots[0],
   });
 
   emit('saveAndSend', timePickerData);

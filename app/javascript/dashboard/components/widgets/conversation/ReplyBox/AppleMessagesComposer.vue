@@ -1,7 +1,25 @@
- <script setup>
-import { ref, computed } from 'vue';
+<script setup>
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import {
+  format,
+  addMinutes,
+  startOfDay,
+  addDays,
+  startOfWeek,
+  addWeeks,
+  subWeeks,
+} from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import EnhancedTimePickerModal from 'dashboard/components-next/message/modals/EnhancedTimePickerModal.vue';
+import AppleFormBuilder from 'dashboard/components-next/message/modals/AppleFormBuilder.vue';
+
+const props = defineProps({
+  conversation: {
+    type: Object,
+    default: () => ({})
+  }
+});
 
 const emit = defineEmits(['send', 'cancel']);
 
@@ -9,8 +27,362 @@ const { t } = useI18n();
 
 const activeTab = ref('list_picker');
 
+// Form Builder State
+const showFormBuilder = ref(false);
+
+// iMessage App State
+const selectedAppId = ref('');
+const selectedAppData = ref({});
+
+// Computed properties
+const availableApps = computed(() => {
+  const channel = props.conversation?.inbox?.channel;
+  if (!channel || !channel.imessage_apps) {
+    return [];
+  }
+
+  return channel.imessage_apps.filter(app => app.enabled);
+});
+
+const selectedApp = computed(() => {
+  if (!selectedAppId.value) return null;
+  return availableApps.value.find(app => app.id === selectedAppId.value);
+});
+
 // Enhanced Time Picker State
 const showEnhancedTimePicker = ref(false);
+
+// Inline Time Picker State
+const inlineTimePickerData = ref({
+  selectedDate: format(addDays(new Date(), 1), 'yyyy-MM-dd'), // Default to tomorrow
+  selectedInterval: 30, // minutes
+  useBusinessHours: true,
+  customStartTime: '09:00',
+  customEndTime: '17:00',
+  serviceDuration: 60, // minutes
+  maxSlots: 10,
+  selectedSlots: [],
+});
+
+const selectedSlotIds = ref(new Set());
+const currentWeekStart = ref(startOfWeek(new Date()));
+
+// Multi-day selection storage: Map of date -> Set of slot IDs
+const multiDaySelections = ref(new Map());
+
+// Global selected slots across all dates with unique keys
+const globalSelectedSlots = ref(new Map()); // Map of unique slot key -> slot data
+
+// Business hours configuration - Make sure Friday is enabled
+const businessHours = ref({
+  monday: { start: '09:00', end: '17:00', enabled: true },
+  tuesday: { start: '09:00', end: '17:00', enabled: true },
+  wednesday: { start: '09:00', end: '17:00', enabled: true },
+  thursday: { start: '09:00', end: '17:00', enabled: true },
+  friday: { start: '09:00', end: '17:00', enabled: true }, // Enable Friday
+  saturday: { start: '10:00', end: '16:00', enabled: false },
+  sunday: { start: '10:00', end: '16:00', enabled: false },
+});
+
+// Time interval options
+const intervalOptions = [
+  { value: 15, label: '15 min', icon: '⏱️' },
+  { value: 30, label: '30 min', icon: '🕐' },
+  { value: 60, label: '1 hour', icon: '🕑' },
+];
+
+// Computed properties for inline time picker
+const availableSlots = computed(() => {
+  try {
+    if (!inlineTimePickerData.value.selectedDate) return [];
+
+    const date = new Date(inlineTimePickerData.value.selectedDate + 'T00:00:00');
+    const dayName = format(date, 'EEEE').toLowerCase();
+
+    console.log('Generating slots for:', {
+      selectedDate: inlineTimePickerData.value.selectedDate,
+      dayName,
+      useBusinessHours: inlineTimePickerData.value.useBusinessHours
+    });
+
+    // Check if the selected date is in the past
+    const today = new Date();
+    const selectedDate = new Date(inlineTimePickerData.value.selectedDate + 'T00:00:00');
+    const isToday = selectedDate.toDateString() === today.toDateString();
+    const isPastDate = selectedDate < today && !isToday;
+
+    if (isPastDate) {
+      console.log('Date is in the past, no slots generated');
+      return [];
+    }
+
+    let startTime;
+    let endTime;
+
+    if (inlineTimePickerData.value.useBusinessHours) {
+      const businessHour = businessHours.value[dayName];
+      console.log('Business hour for', dayName, ':', businessHour);
+
+      if (!businessHour?.enabled) {
+        console.log('Business day not enabled for', dayName);
+        return [];
+      }
+
+      // Ensure we have valid start and end times
+      const startStr = businessHour.start || '09:00';
+      const endStr = businessHour.end || '17:00';
+
+      startTime = new Date(`${inlineTimePickerData.value.selectedDate}T${startStr}:00`);
+      endTime = new Date(`${inlineTimePickerData.value.selectedDate}T${endStr}:00`);
+
+      console.log('Using business hours:', { start: startStr, end: endStr });
+    } else {
+      const startStr = inlineTimePickerData.value.customStartTime || '09:00';
+      const endStr = inlineTimePickerData.value.customEndTime || '17:00';
+
+      startTime = new Date(`${inlineTimePickerData.value.selectedDate}T${startStr}:00`);
+      endTime = new Date(`${inlineTimePickerData.value.selectedDate}T${endStr}:00`);
+
+      console.log('Using custom hours:', { start: startStr, end: endStr });
+    }
+
+    console.log('Time range:', { startTime, endTime });
+
+    // If it's today, ensure we only show future time slots
+    if (isToday) {
+      const now = new Date();
+      if (startTime <= now) {
+        const minutesToAdd = inlineTimePickerData.value.selectedInterval - (now.getMinutes() % inlineTimePickerData.value.selectedInterval);
+        startTime = new Date(now.getTime() + minutesToAdd * 60000);
+        startTime.setSeconds(0, 0);
+      }
+    }
+
+    const slots = [];
+    let currentSlot = new Date(startTime);
+    let slotId = 0;
+
+    while (currentSlot < endTime) {
+      const slotEnd = addMinutes(currentSlot, inlineTimePickerData.value.serviceDuration);
+
+      if (slotEnd <= endTime) {
+        const slotKey = `${inlineTimePickerData.value.selectedDate}_${slotId}`;
+        const isSelected = globalSelectedSlots.value.has(slotKey);
+
+        slots.push({
+          id: slotId.toString(),
+          key: slotKey,
+          date: inlineTimePickerData.value.selectedDate,
+          startTime: new Date(currentSlot),
+          endTime: new Date(slotEnd),
+          duration: inlineTimePickerData.value.serviceDuration,
+          available: true,
+          selected: isSelected,
+          displayTime: format(currentSlot, 'HH:mm'),
+          displayEndTime: format(slotEnd, 'HH:mm'),
+          utcTime: zonedTimeToUtc(currentSlot, Intl.DateTimeFormat().resolvedOptions().timeZone).toISOString().replace('Z', '+0000'),
+          localTime: format(currentSlot, "yyyy-MM-dd'T'HH:mm:ss"),
+        });
+      }
+
+      currentSlot = addMinutes(currentSlot, inlineTimePickerData.value.selectedInterval);
+      slotId++;
+    }
+
+    console.log('Generated slots:', slots.length);
+    return slots;
+  } catch (error) {
+    console.error('Error generating slots:', error);
+    return [];
+  }
+});
+
+const weekDays = computed(() => {
+  const startDate = currentWeekStart.value;
+  const days = [];
+
+  for (let i = 0; i < 7; i++) {
+    const date = addDays(startDate, i);
+    const dayName = format(date, 'EEEE').toLowerCase();
+    const businessHour = businessHours.value[dayName];
+
+    days.push({
+      date: format(date, 'yyyy-MM-dd'),
+      displayDate: format(date, 'MMM d'),
+      dayName: format(date, 'EEE'),
+      isToday: format(date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd'),
+      isSelected: format(date, 'yyyy-MM-dd') === inlineTimePickerData.value.selectedDate,
+      isBusinessDay: businessHour?.enabled || false,
+      hasSlots: !!businessHour?.enabled,
+      isPast: date < startOfDay(new Date()),
+    });
+  }
+
+  return days;
+});
+
+const selectedSlotsData = computed(() => {
+  // Return all selected slots across all dates, sorted by date and time
+  const allSelectedSlots = Array.from(globalSelectedSlots.value.values());
+  return allSelectedSlots.sort((a, b) => {
+    const dateCompare = a.date.localeCompare(b.date);
+    if (dateCompare !== 0) return dateCompare;
+    // Use the startTime Date object directly
+    return a.startTime.getTime() - b.startTime.getTime();
+  });
+});
+
+// Methods for inline time picker
+const toggleSlot = (slot) => {
+  if (!slot.available) return;
+
+  const slotKey = slot.key;
+  const isCurrentlySelected = globalSelectedSlots.value.has(slotKey);
+
+  if (isCurrentlySelected) {
+    // Remove slot
+    globalSelectedSlots.value.delete(slotKey);
+    selectedSlotIds.value.delete(slot.id);
+
+    // Update multi-day selections map
+    const dateSelections = multiDaySelections.value.get(slot.date) || new Set();
+    dateSelections.delete(slot.id);
+    if (dateSelections.size === 0) {
+      multiDaySelections.value.delete(slot.date);
+    } else {
+      multiDaySelections.value.set(slot.date, dateSelections);
+    }
+  } else {
+    // Check max slots limit
+    if (globalSelectedSlots.value.size < inlineTimePickerData.value.maxSlots) {
+      // Add slot - store the complete slot data for UI display with static date
+      const staticSlot = {
+        ...slot,
+        key: slotKey,
+        date: String(slot.date), // Convert to static string to prevent reactivity issues
+        startTime: new Date(slot.startTime), // Create new Date object
+        endTime: new Date(slot.endTime), // Create new Date object
+        displayTime: slot.displayTime,
+        displayEndTime: slot.displayEndTime,
+        duration: slot.duration,
+        utcTime: slot.utcTime,
+        localTime: slot.localTime,
+        available: slot.available,
+        selected: slot.selected,
+        id: slot.id,
+      };
+
+      globalSelectedSlots.value.set(slotKey, staticSlot);
+      selectedSlotIds.value.add(slot.id);
+
+      // Update multi-day selections map
+      const dateSelections = multiDaySelections.value.get(slot.date) || new Set();
+      dateSelections.add(slot.id);
+      multiDaySelections.value.set(slot.date, dateSelections);
+    }
+  }
+
+  updateTimePickerData();
+};
+
+const selectDate = (dateString) => {
+  // Save current date selections before switching
+  if (inlineTimePickerData.value.selectedDate && selectedSlotIds.value.size > 0) {
+    multiDaySelections.value.set(
+      inlineTimePickerData.value.selectedDate,
+      new Set(selectedSlotIds.value)
+    );
+  }
+
+  // Switch to new date
+  inlineTimePickerData.value.selectedDate = dateString;
+
+  // Load selections for the new date
+  const dateSelections = multiDaySelections.value.get(dateString) || new Set();
+  selectedSlotIds.value = new Set(dateSelections);
+
+  updateTimePickerData();
+};
+
+const navigateWeek = (direction) => {
+  if (direction === 'prev') {
+    currentWeekStart.value = subWeeks(currentWeekStart.value, 1);
+  } else {
+    currentWeekStart.value = addWeeks(currentWeekStart.value, 1);
+  }
+};
+
+const updateTimePickerData = () => {
+  // Update formData with all selected slots across all dates for Apple MSP format
+  const slots = Array.from(globalSelectedSlots.value.values()).map(slot => ({
+    identifier: slot.key,
+    startTime: slot.utcTime,
+    duration: slot.duration * 60, // Convert to seconds for Apple MSP
+  }));
+
+  timePickerData.value.event.timeslots = slots;
+
+  // Debug logging
+  console.log('🔥 Inline Time Picker - updateTimePickerData:', {
+    globalSelectedSlots: globalSelectedSlots.value.size,
+    formattedSlots: slots,
+    sampleSlot: slots[0],
+  });
+};
+
+// Find next available business day
+const findNextBusinessDay = () => {
+  try {
+    let date = new Date();
+    date.setDate(date.getDate() + 1); // Start from tomorrow
+
+    for (let i = 0; i < 7; i++) { // Check up to 7 days ahead
+      const dayName = format(date, 'EEEE').toLowerCase();
+      const businessHour = businessHours.value[dayName];
+
+      if (businessHour?.enabled) {
+        return format(date, 'yyyy-MM-dd');
+      }
+
+      date.setDate(date.getDate() + 1);
+    }
+
+    // Fallback to tomorrow if no business days found
+    return format(addDays(new Date(), 1), 'yyyy-MM-dd');
+  } catch (error) {
+    console.error('Error finding next business day:', error);
+    // Fallback to tomorrow
+    return format(addDays(new Date(), 1), 'yyyy-MM-dd');
+  }
+};
+
+// Initialize with next business day
+const initializeTimePickerDate = () => {
+  try {
+    // Use the findNextBusinessDay function to get a proper business day
+    const nextBusinessDay = findNextBusinessDay();
+    inlineTimePickerData.value.selectedDate = nextBusinessDay;
+
+    console.log('Initialized with business day:', nextBusinessDay);
+    console.log('Day of week:', new Date(nextBusinessDay + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long' }));
+    console.log('Business hours:', businessHours.value);
+    console.log('Use business hours:', inlineTimePickerData.value.useBusinessHours);
+
+    // Force update after a tick to ensure reactive values are set
+    setTimeout(() => {
+      console.log('Available slots after init:', availableSlots.value.length);
+    }, 100);
+  } catch (error) {
+    console.error('Error initializing time picker date:', error);
+    // Fallback to tomorrow
+    inlineTimePickerData.value.selectedDate = format(addDays(new Date(), 1), 'yyyy-MM-dd');
+  }
+};
+
+// Initialize on component mount
+onMounted(() => {
+  initializeTimePickerDate();
+});
 
 // List Picker State
 const listPickerData = ref({
@@ -162,14 +534,14 @@ const handleEnhancedTimePickerSave = timePickerData => {
   // Update the existing timePickerData with enhanced data
   Object.assign(timePickerData.value, timePickerData);
   showEnhancedTimePicker.value = false;
-  
+
   // Debug logging
   console.log('🔥 AppleMessagesComposer - handleEnhancedTimePickerSave:', {
     timePickerData,
     timeslotsCount: timePickerData.event?.timeslots?.length,
-    updatedTimePickerData: timePickerData.value
+    updatedTimePickerData: timePickerData.value,
   });
-  
+
   // Don't auto-send, just save the configuration
 };
 
@@ -179,11 +551,14 @@ const handleEnhancedTimePickerSaveAndSend = enhancedData => {
   showEnhancedTimePicker.value = false;
 
   // Debug logging
-  console.log('🔥 AppleMessagesComposer - handleEnhancedTimePickerSaveAndSend:', {
-    enhancedData,
-    timeslotsCount: enhancedData.event?.timeslots?.length,
-    updatedTimePickerData: timePickerData.value
-  });
+  console.log(
+    '🔥 AppleMessagesComposer - handleEnhancedTimePickerSaveAndSend:',
+    {
+      enhancedData,
+      timeslotsCount: enhancedData.event?.timeslots?.length,
+      updatedTimePickerData: timePickerData.value,
+    }
+  );
 
   // Automatically send the message
   sendAppleMessage();
@@ -192,12 +567,12 @@ const handleEnhancedTimePickerSaveAndSend = enhancedData => {
 const handleEnhancedTimePickerPreview = enhancedData => {
   // Update the existing timePickerData for preview
   Object.assign(timePickerData.value, enhancedData);
-  
+
   // Debug logging for preview
   console.log('🔥 AppleMessagesComposer - Preview Data:', {
     enhancedData,
     timeslotsCount: enhancedData.event?.timeslots?.length,
-    updatedTimePickerData: timePickerData.value
+    updatedTimePickerData: timePickerData.value,
   });
 };
 
@@ -290,6 +665,29 @@ const sendAppleMessage = () => {
       content_attributes = timePickerData.value;
       content = timePickerData.value.event?.title || 'Time Picker Message';
       break;
+    case 'forms':
+      // Forms are created through the modal, this shouldn't be reached
+      console.log('🔥 Forms should be sent through AppleFormBuilder modal');
+      return;
+    case 'imessage_apps':
+      if (!selectedApp.value) {
+        console.log('🔥 No app selected');
+        return;
+      }
+      content_type = 'apple_custom_app';
+      content_attributes = {
+        app_id: selectedApp.value.app_id,
+        bid: selectedApp.value.bid,
+        version: selectedApp.value.version,
+        url: selectedApp.value.url,
+        use_live_layout: selectedApp.value.use_live_layout,
+        app_data: selectedAppData.value || {},
+        images: selectedApp.value.images || [],
+        received_message: selectedApp.value.received_message,
+        reply_message: selectedApp.value.reply_message
+      };
+      content = `${selectedApp.value.name}: ${selectedApp.value.description || 'App invocation'}`;
+      break;
   }
 
   console.log('🔥 Sending Apple Message:', {
@@ -319,6 +717,40 @@ const sendAppleMessage = () => {
 const cancelComposer = () => {
   emit('cancel');
 };
+
+// Form Builder Handlers
+const openFormBuilder = () => {
+  showFormBuilder.value = true;
+};
+
+const handleFormCreated = (formData) => {
+  console.log('🔥 Form created:', formData);
+  emit('send', formData);
+  showFormBuilder.value = false;
+};
+
+const closeFormBuilder = () => {
+  showFormBuilder.value = false;
+};
+
+// iMessage App Handlers
+const selectApp = (appId) => {
+  selectedAppId.value = appId;
+  selectedAppData.value = {};
+};
+
+const updateAppData = (key, value) => {
+  selectedAppData.value[key] = value;
+};
+
+const sendSelectedApp = () => {
+  if (!selectedApp.value) {
+    alert('Please select an iMessage app to send');
+    return;
+  }
+
+  sendMessage();
+};
 </script>
 
 <template>
@@ -326,7 +758,7 @@ const cancelComposer = () => {
     <!-- Tabs -->
     <div class="flex space-x-2 mb-4 border-b border-n-weak">
       <button
-        v-for="tab in ['list_picker', 'quick_reply', 'time_picker']"
+        v-for="tab in ['list_picker', 'quick_reply', 'time_picker', 'forms', 'imessage_apps']"
         :key="tab"
         class="px-4 py-2 text-sm font-medium border-b-2 transition-colors"
         :class="
@@ -724,43 +1156,154 @@ const cancelComposer = () => {
 
     <!-- Time Picker Tab -->
     <div v-if="activeTab === 'time_picker'" class="space-y-6">
-      <!-- Enhanced Time Picker Interface -->
-      <div
-        class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-alpha-6"
-      >
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <h4
-              class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11"
+      <!-- Inline Time Picker Interface -->
+      <div class="space-y-4">
+        <!-- Quick Settings -->
+        <div class="flex items-center justify-between">
+          <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11">
+            Schedule Appointment - {{ selectedSlotsData.length }} slot(s) configured
+          </h4>
+          <div class="flex items-center space-x-4">
+            <!-- Time Interval Selector -->
+            <div class="flex space-x-1">
+              <button
+                v-for="interval in intervalOptions"
+                :key="interval.value"
+                class="px-2 py-1 text-xs rounded transition-colors"
+                :class="
+                  inlineTimePickerData.selectedInterval === interval.value
+                    ? 'bg-n-blue-9 text-white dark:bg-n-blue-10'
+                    : 'bg-n-alpha-2 text-n-slate-11 hover:bg-n-alpha-3 dark:bg-n-alpha-3 dark:text-n-slate-10'
+                "
+                @click="inlineTimePickerData.selectedInterval = interval.value"
+              >
+                {{ interval.icon }} {{ interval.label }}
+              </button>
+            </div>
+            <!-- Advanced Settings Button -->
+            <button
+              class="px-3 py-1 text-xs bg-n-alpha-2 dark:bg-n-alpha-3 text-n-slate-11 dark:text-n-slate-10 rounded hover:bg-n-alpha-3 dark:hover:bg-n-alpha-4 transition-colors"
+              @click="showEnhancedTimePicker = true"
             >
-              Time Picker Configuration
-            </h4>
-            <p class="text-xs text-n-slate-11 dark:text-n-slate-3 mt-1">
-              Configure your appointment scheduling with advanced time slot
-              management
-            </p>
+              Advanced
+            </button>
           </div>
-          <button
-            class="px-4 py-2 bg-n-blue-9 dark:bg-n-blue-10 text-white dark:text-n-slate-12 rounded-lg hover:bg-n-blue-10 dark:hover:bg-n-blue-11 transition-colors"
-            @click="showEnhancedTimePicker = true"
-          >
-            Configure Time Slots
-          </button>
         </div>
 
-        <!-- Quick Preview -->
-        <div
-          v-if="timePickerData.event?.timeslots?.length > 0"
-          class="mt-4 p-3 bg-n-green-1 dark:bg-n-green-2 border border-n-green-6 dark:border-n-green-8 rounded-lg"
-        >
-          <div
-            class="text-sm font-medium text-n-green-11 dark:text-n-green-10 mb-2"
-          >
-            {{ timePickerData.event.title || 'Time Picker' }} -
-            {{ timePickerData.event.timeslots.length }} slot(s) configured
+        <!-- Date Navigation -->
+        <div class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6">
+          <div class="flex items-center justify-between mb-3">
+            <button
+              class="flex items-center px-2 py-1 text-sm text-n-slate-11 hover:text-n-slate-12 dark:text-n-slate-10 dark:hover:text-n-slate-9 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-3 rounded transition-colors"
+              @click="navigateWeek('prev')"
+            >
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Previous
+            </button>
+
+            <div class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11">
+              {{ format(currentWeekStart, 'MMM d') }} - {{ format(addDays(currentWeekStart, 6), 'MMM d, yyyy') }}
+            </div>
+
+            <button
+              class="flex items-center px-2 py-1 text-sm text-n-slate-11 hover:text-n-slate-12 dark:text-n-slate-10 dark:hover:text-n-slate-9 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-3 rounded transition-colors"
+              @click="navigateWeek('next')"
+            >
+              Next
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
-          <div class="text-xs text-n-green-10 dark:text-n-green-9">
-            Ready to send to customers
+
+          <!-- Week View -->
+          <div class="grid grid-cols-7 gap-1">
+            <button
+              v-for="day in weekDays"
+              :key="day.date"
+              class="p-2 text-center rounded transition-colors"
+              :class="[
+                day.isSelected
+                  ? 'bg-n-blue-9 text-white dark:bg-n-blue-10'
+                  : day.isToday
+                    ? 'bg-n-blue-2 text-n-blue-11 dark:bg-n-blue-3 dark:text-n-blue-10 border border-n-blue-6'
+                    : day.hasSlots && !day.isPast
+                      ? 'bg-n-alpha-1 text-n-slate-11 hover:bg-n-alpha-2 dark:bg-n-alpha-2 dark:text-n-slate-10 dark:hover:bg-n-alpha-3'
+                      : 'bg-n-alpha-1 text-n-slate-9 cursor-not-allowed dark:bg-n-alpha-2 dark:text-n-slate-8 opacity-50',
+              ]"
+              :disabled="!day.hasSlots || day.isPast"
+              @click="selectDate(day.date)"
+            >
+              <div class="text-xs font-medium">{{ day.dayName }}</div>
+              <div class="text-sm">{{ day.displayDate }}</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Available Time Slots -->
+        <div class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak dark:border-n-slate-6">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="text-sm font-medium text-n-slate-12 dark:text-n-slate-11">
+              Available Slots for {{ format(new Date(inlineTimePickerData.selectedDate), 'MMM d, yyyy') }}
+            </h4>
+            <div class="text-xs text-n-slate-11 dark:text-n-slate-10">
+              {{ selectedSlotsData.length }} / {{ inlineTimePickerData.maxSlots }} selected
+            </div>
+          </div>
+
+          <div v-if="availableSlots.length === 0" class="text-center py-4">
+            <div class="text-sm text-n-slate-11 dark:text-n-slate-10">
+              No available time slots for this date
+            </div>
+          </div>
+
+          <div v-else class="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto">
+            <button
+              v-for="slot in availableSlots"
+              :key="slot.id"
+              class="flex items-center justify-between p-2 rounded border transition-colors"
+              :class="[
+                slot.selected
+                  ? 'border-n-green-8 bg-n-green-2 text-n-green-11 dark:border-n-green-9 dark:bg-n-green-3 dark:text-n-green-10'
+                  : 'border-n-weak bg-white hover:border-n-strong hover:bg-n-alpha-1 text-n-slate-11 dark:border-n-slate-6 dark:bg-n-alpha-2 dark:hover:bg-n-alpha-3 dark:text-n-slate-10'
+              ]"
+              @click="toggleSlot(slot)"
+            >
+              <div class="text-xs">
+                <div class="font-medium">{{ slot.displayTime }}</div>
+                <div class="opacity-75">{{ slot.duration }}min</div>
+              </div>
+              <div
+                class="w-2 h-2 rounded-full"
+                :class="slot.selected ? 'bg-n-green-9' : 'bg-n-blue-8'"
+              />
+            </button>
+          </div>
+        </div>
+
+        <!-- Selected Slots Summary -->
+        <div v-if="selectedSlotsData.length > 0" class="bg-n-green-1 dark:bg-n-green-2 p-3 rounded-lg border border-n-green-6 dark:border-n-green-7">
+          <h4 class="text-sm font-medium text-n-green-11 dark:text-n-green-10 mb-2">
+            Selected Time Slots
+          </h4>
+          <div class="space-y-1">
+            <div
+              v-for="slot in selectedSlotsData"
+              :key="slot.key"
+              class="flex items-center justify-between text-xs text-n-green-10 dark:text-n-green-9"
+            >
+              <span>{{ format(new Date(slot.date), 'MMM d') }} at {{ slot.displayTime }} - {{ slot.displayEndTime }}</span>
+              <button
+                class="p-1 hover:bg-n-green-3 dark:hover:bg-n-green-4 rounded transition-colors"
+                @click="toggleSlot(slot)"
+              >
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -788,6 +1331,149 @@ const cancelComposer = () => {
       </button>
     </div>
 
+    <!-- Forms Tab -->
+    <div v-if="activeTab === 'forms'" class="space-y-6">
+      <div class="text-center py-12">
+        <div class="mb-6">
+          <div class="w-16 h-16 bg-woot-100 dark:bg-woot-900 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-woot-600 dark:text-woot-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11 mb-2">
+            Create Interactive Forms
+          </h3>
+          <p class="text-sm text-n-slate-10 dark:text-n-slate-9 max-w-md mx-auto">
+            Build dynamic forms with multiple field types, validation, and templates. Perfect for surveys, contact forms, and data collection.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3 justify-center mb-6">
+          <span class="px-3 py-1 bg-woot-50 dark:bg-woot-900 text-woot-700 dark:text-woot-300 text-xs rounded-full">
+            📝 Text Fields
+          </span>
+          <span class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs rounded-full">
+            🔘 Single Choice
+          </span>
+          <span class="px-3 py-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs rounded-full">
+            ☑️ Multiple Choice
+          </span>
+          <span class="px-3 py-1 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs rounded-full">
+            📅 Date & Time
+          </span>
+          <span class="px-3 py-1 bg-pink-50 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs rounded-full">
+            🔢 Number Stepper
+          </span>
+        </div>
+
+        <button
+          @click="openFormBuilder"
+          class="px-6 py-3 bg-woot-600 hover:bg-woot-700 text-white font-medium rounded-lg transition-colors"
+        >
+          🛠️ Open Form Builder
+        </button>
+      </div>
+    </div>
+
+    <!-- iMessage Apps Tab -->
+    <div v-if="activeTab === 'imessage_apps'" class="space-y-6">
+      <!-- No Apps Configured Message -->
+      <div v-if="availableApps.length === 0" class="text-center py-12">
+        <div class="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-n-slate-12 dark:text-n-slate-11 mb-2">
+          No iMessage Apps Configured
+        </h3>
+        <p class="text-sm text-n-slate-10 dark:text-n-slate-9 max-w-md mx-auto mb-4">
+          Configure iMessage apps in your inbox settings to enable custom app invocations.
+        </p>
+        <p class="text-xs text-n-slate-9 dark:text-n-slate-8">
+          Go to Settings → Inboxes → Your Apple Messages Channel → iMessage Apps Configuration
+        </p>
+      </div>
+
+      <!-- App Selection -->
+      <div v-else>
+        <div class="mb-6">
+          <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3">
+            Select iMessage App
+          </h4>
+          <div class="space-y-2">
+            <label
+              v-for="app in availableApps"
+              :key="app.id"
+              class="flex items-center space-x-3 p-3 border border-n-weak rounded-lg cursor-pointer hover:bg-n-alpha-2 transition-colors"
+              :class="selectedAppId === app.id ? 'border-n-woot-8 bg-n-woot-1' : ''"
+            >
+              <input
+                v-model="selectedAppId"
+                type="radio"
+                :value="app.id"
+                class="rounded-full border-n-weak text-n-woot-8 focus:ring-n-woot-8"
+              />
+              <div class="flex-1">
+                <div class="font-medium text-n-slate-12 dark:text-n-slate-11">{{ app.name }}</div>
+                <div class="text-sm text-n-slate-10 dark:text-n-slate-9">{{ app.description }}</div>
+                <div class="text-xs text-n-slate-8 dark:text-n-slate-7 font-mono mt-1">{{ app.app_id }}</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- App Parameters (if selected) -->
+        <div v-if="selectedApp" class="mb-6">
+          <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3">
+            App Parameters (Optional)
+          </h4>
+          <div class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak">
+            <div class="mb-4">
+              <label class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1">
+                Custom Data (JSON)
+              </label>
+              <textarea
+                :value="JSON.stringify(selectedAppData, null, 2)"
+                @input="selectedAppData = JSON.parse($event.target.value || '{}')"
+                rows="4"
+                placeholder='{"key": "value", "parameter": "data"}'
+                class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-woot-8 dark:focus:border-n-woot-9 font-mono text-sm"
+              />
+              <p class="text-xs text-n-slate-9 dark:text-n-slate-8 mt-1">
+                Optional JSON data to pass to the app. Leave empty if no parameters are needed.
+              </p>
+            </div>
+
+            <div class="bg-woot-50 dark:bg-woot-900 border border-woot-200 dark:border-woot-800 rounded-lg p-3">
+              <div class="flex items-start space-x-2">
+                <svg class="w-4 h-4 text-woot-600 dark:text-woot-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,14H13V16H11V14M11,6H13V12H11V6Z" />
+                </svg>
+                <div>
+                  <p class="text-xs font-medium text-woot-700 dark:text-woot-300">
+                    Selected: {{ selectedApp.name }}
+                  </p>
+                  <p class="text-xs text-woot-600 dark:text-woot-400">
+                    {{ selectedApp.app_id }} (v{{ selectedApp.version }})
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Send Button -->
+        <button
+          @click="sendSelectedApp"
+          :disabled="!selectedApp"
+          class="w-full px-4 py-3 bg-n-woot-8 hover:bg-n-woot-9 disabled:bg-n-slate-6 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
+        >
+          📱 Send {{ selectedApp?.name || 'iMessage App' }}
+        </button>
+      </div>
+    </div>
+
     <!-- Enhanced Time Picker Modal -->
     <EnhancedTimePickerModal
       :show="showEnhancedTimePicker"
@@ -807,7 +1493,16 @@ const cancelComposer = () => {
       @close="showEnhancedTimePicker = false"
       @save="handleEnhancedTimePickerSave"
       @preview="handleEnhancedTimePickerPreview"
-      @saveAndSend="handleEnhancedTimePickerSaveAndSend"
+      @save-and-send="handleEnhancedTimePickerSaveAndSend"
+    />
+
+    <!-- Apple Form Builder Modal -->
+    <AppleFormBuilder
+      :show="showFormBuilder"
+      :msp-id="conversation?.inbox?.channel?.business_id || ''"
+      :conversation-id="conversation?.id?.toString() || ''"
+      @close="closeFormBuilder"
+      @create="handleFormCreated"
     />
   </div>
 </template>

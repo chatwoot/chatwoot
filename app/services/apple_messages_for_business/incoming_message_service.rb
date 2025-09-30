@@ -8,32 +8,32 @@ class AppleMessagesForBusiness::IncomingMessageService
   end
 
   def perform
-    Rails.logger.info "[AMB IncomingMessage] Starting message processing"
+    Rails.logger.info '[AMB IncomingMessage] Starting message processing'
     Rails.logger.info "[AMB IncomingMessage] Params: #{@params.inspect}"
     Rails.logger.info "[AMB IncomingMessage] Headers: #{@headers.inspect}"
-    
+
     unless valid_message?
-      Rails.logger.error "[AMB IncomingMessage] Invalid message - validation failed"
+      Rails.logger.error '[AMB IncomingMessage] Invalid message - validation failed'
       return
     end
-    
-    Rails.logger.info "[AMB IncomingMessage] Message validation passed"
+
+    Rails.logger.info '[AMB IncomingMessage] Message validation passed'
 
     set_contact
     set_conversation
     create_message
     process_attachments if attachments_present?
     process_interactive_data if interactive_message?
-    
+
     # Re-broadcast message after attachments are processed to update UI
     if attachments_present? && @message.attachments.any?
-      Rails.logger.info "[AMB IncomingMessage] Re-broadcasting message with attachments for UI update"
+      Rails.logger.info '[AMB IncomingMessage] Re-broadcasting message with attachments for UI update'
       @message.reload # Ensure we have the latest attachment data
       # Use the built-in message update event method
       @message.send_update_event
     end
-    
-    Rails.logger.info "[AMB IncomingMessage] Message processing completed successfully"
+
+    Rails.logger.info '[AMB IncomingMessage] Message processing completed successfully'
   end
 
   private
@@ -43,18 +43,18 @@ class AppleMessagesForBusiness::IncomingMessageService
     has_body = @params['body'].present?
     has_attachments = @params['attachments'].present?
     has_interactive = @params['interactiveData'].present?
-    
+
     Rails.logger.info "[AMB IncomingMessage] Validation - ID: #{has_id}, Body: #{has_body}, Attachments: #{has_attachments}, Interactive: #{has_interactive}"
-    
+
     valid = has_id && (has_body || has_attachments || has_interactive)
     Rails.logger.info "[AMB IncomingMessage] Message validation result: #{valid}"
-    
+
     valid
   end
 
   def set_contact
     Rails.logger.info "[AMB IncomingMessage] Setting contact with source_id: #{source_id}"
-    
+
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: source_id,
       inbox: @inbox,
@@ -63,16 +63,16 @@ class AppleMessagesForBusiness::IncomingMessageService
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
-    
+
     # Update contact with latest capability information
     update_contact_capabilities
-    
+
     Rails.logger.info "[AMB IncomingMessage] Contact set - ID: #{@contact.id}, Name: #{@contact.name}"
   end
 
   def set_conversation
     @conversation = @contact_inbox.conversations.first
-    
+
     if @conversation
       Rails.logger.info "[AMB IncomingMessage] Using existing conversation ID: #{@conversation.id}"
       # Update existing conversation with latest capability information
@@ -80,7 +80,7 @@ class AppleMessagesForBusiness::IncomingMessageService
       return
     end
 
-    Rails.logger.info "[AMB IncomingMessage] Creating new conversation"
+    Rails.logger.info '[AMB IncomingMessage] Creating new conversation'
     @conversation = ::Conversation.create!(conversation_params)
     Rails.logger.info "[AMB IncomingMessage] Created conversation ID: #{@conversation.id}"
   end
@@ -88,7 +88,7 @@ class AppleMessagesForBusiness::IncomingMessageService
   def create_message
     Rails.logger.info "[AMB IncomingMessage] Creating message with content: #{message_content}"
     Rails.logger.info "[AMB IncomingMessage] Message type: #{message_type}"
-    
+
     @message = @conversation.messages.build(
       content: message_content,
       account_id: @inbox.account_id,
@@ -133,14 +133,10 @@ class AppleMessagesForBusiness::IncomingMessageService
 
   def content_attributes
     attributes = {}
-    
-    if interactive_message?
-      attributes.merge!(extract_interactive_attributes)
-    end
 
-    if @params['replyToMessageId'].present?
-      attributes[:in_reply_to_external_id] = @params['replyToMessageId']
-    end
+    attributes.merge!(extract_interactive_attributes) if interactive_message?
+
+    attributes[:in_reply_to_external_id] = @params['replyToMessageId'] if @params['replyToMessageId'].present?
 
     attributes
   end
@@ -189,58 +185,64 @@ class AppleMessagesForBusiness::IncomingMessageService
     # First, try to extract the actual user selection from replyMessage
     if interactive_data['data'] && interactive_data['data']['replyMessage']
       reply_message = interactive_data['data']['replyMessage']
-      
+
       # Use the title as the main content, with subtitle as additional context
       content_parts = []
       content_parts << reply_message['title'] if reply_message['title'].present?
       content_parts << reply_message['subtitle'] if reply_message['subtitle'].present?
-      
+
       return content_parts.join(' - ') if content_parts.any?
     end
 
     # Fallback: Extract meaningful content from interactive data structure
-    if interactive_data['data']
-      data_keys = interactive_data['data'].keys
-      
-      # Check for specific interactive response types and extract relevant info
-      if data_keys.include?('event') && interactive_data['data']['event']['timeslots']
-        # Time picker response - extract selected time slot
-        timeslots = interactive_data['data']['event']['timeslots']
-        if timeslots.any?
-          selected_time = timeslots.first['startTime']
-          return "Selected appointment: #{format_time_slot(selected_time)}"
-        end
-        return 'Time Picker Response'
-      elsif data_keys.include?('listPicker')
-        # List picker response - try to extract selected item from replyMessage or sections
-        list_picker = interactive_data['data']['listPicker']
-        if list_picker && list_picker['sections']
-          # Look for selected items in the "You Selected" section or similar
-          selected_section = list_picker['sections'].find { |s| s['title']&.include?('Selected') }
-          if selected_section && selected_section['items']&.any?
-            selected_item = selected_section['items'].first
-            return selected_item['title'] if selected_item['title'].present?
-          end
-        end
-        return 'List Picker Response'
-      elsif data_keys.include?('authenticate')
-        return 'Authentication Response'
-      elsif data_keys.include?('payment')
-        return 'Payment Response'
-      elsif data_keys.include?('quick-reply')
-        # Quick reply response - extract the selected option
-        quick_reply = interactive_data['data']['quick-reply']
-        if quick_reply && quick_reply['items'] && quick_reply['selectedIndex']
-          selected_index = quick_reply['selectedIndex']
-          selected_item = quick_reply['items'][selected_index]
-          return selected_item['title'] if selected_item && selected_item['title'].present?
-        end
-        return 'Quick Reply Response'
-      else
-        return 'Interactive Message Response'
+    return 'Interactive Message' unless interactive_data['data']
+
+    data_keys = interactive_data['data'].keys
+
+    # Check for specific interactive response types and extract relevant info
+    if data_keys.include?('event') && interactive_data['data']['event']['timeslots']
+      # Time picker response - extract selected time slot (new format: data.event)
+      timeslots = interactive_data['data']['event']['timeslots']
+      if timeslots.any?
+        selected_time = timeslots.first['startTime']
+        return "Selected appointment: #{format_time_slot(selected_time)}"
       end
+      return 'Time Picker Response'
+    elsif data_keys.include?('timePicker') && interactive_data['data']['timePicker']['event'] && interactive_data['data']['timePicker']['event']['timeslots']
+      # Time picker response - extract selected time slot (legacy format: data.timePicker.event)
+      timeslots = interactive_data['data']['timePicker']['event']['timeslots']
+      if timeslots.any?
+        selected_time = timeslots.first['startTime']
+        return "Selected appointment: #{format_time_slot(selected_time)}"
+      end
+      return 'Time Picker Response'
+    elsif data_keys.include?('listPicker')
+      # List picker response - try to extract selected item from replyMessage or sections
+      list_picker = interactive_data['data']['listPicker']
+      if list_picker && list_picker['sections']
+        # Look for selected items in the "You Selected" section or similar
+        selected_section = list_picker['sections'].find { |s| s['title']&.include?('Selected') }
+        if selected_section && selected_section['items']&.any?
+          selected_item = selected_section['items'].first
+          return selected_item['title'] if selected_item['title'].present?
+        end
+      end
+      return 'List Picker Response'
+    elsif data_keys.include?('authenticate')
+      return 'Authentication Response'
+    elsif data_keys.include?('payment')
+      return 'Payment Response'
+    elsif data_keys.include?('quick-reply')
+      # Quick reply response - extract the selected option
+      quick_reply = interactive_data['data']['quick-reply']
+      if quick_reply && quick_reply['items'] && quick_reply['selectedIndex']
+        selected_index = quick_reply['selectedIndex']
+        selected_item = quick_reply['items'][selected_index]
+        return selected_item['title'] if selected_item && selected_item['title'].present?
+      end
+      return 'Quick Reply Response'
     else
-      return 'Interactive Message'
+      return 'Interactive Message Response'
     end
   end
 
@@ -259,10 +261,13 @@ class AppleMessagesForBusiness::IncomingMessageService
     return 'unknown' unless interactive_data['data']
 
     data_keys = interactive_data['data'].keys
-    
+
     if data_keys.include?('listPicker')
       'list_picker'
     elsif data_keys.include?('timePicker')
+      'time_picker'
+    elsif data_keys.include?('event') && interactive_data['data']['event']['timeslots']
+      # New format: time picker data directly under event
       'time_picker'
     elsif data_keys.include?('authenticate')
       'authentication'
@@ -277,13 +282,11 @@ class AppleMessagesForBusiness::IncomingMessageService
 
   def process_attachments
     @params['attachments'].each do |attachment_params|
-      begin
-        process_attachment(attachment_params)
-      rescue => e
-        Rails.logger.error "Attachment processing failed for #{attachment_params['name']}: #{e.message}"
-        Rails.logger.info "Skipping attachment and continuing with message processing"
-        # Continue processing other attachments or complete the message without this attachment
-      end
+      process_attachment(attachment_params)
+    rescue StandardError => e
+      Rails.logger.error "Attachment processing failed for #{attachment_params['name']}: #{e.message}"
+      Rails.logger.info 'Skipping attachment and continuing with message processing'
+      # Continue processing other attachments or complete the message without this attachment
     end
   end
 
@@ -320,13 +323,13 @@ class AppleMessagesForBusiness::IncomingMessageService
   def process_encrypted_attachment(attachment, attachment_params)
     Rails.logger.info '[AMB] Starting encrypted attachment processing.'
     decryption_key = attachment_params['decryption-key'] || attachment_params['key']
-    
+
     # Step 1: Get temporary download URL using /preDownload endpoint
     download_info = pre_download_attachment(attachment_params)
     return unless download_info
-    
+
     Rails.logger.info "[AMB] Downloading encrypted attachment from URL: #{download_info[:download_url]}"
-    
+
     # Step 2: Download encrypted file with proper headers
     begin
       response = HTTParty.get(
@@ -339,13 +342,13 @@ class AppleMessagesForBusiness::IncomingMessageService
 
       encrypted_data = response.body
       Rails.logger.info "[AMB] Successfully downloaded #{encrypted_data.bytesize} bytes."
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "[AMB] Download failed: #{e.class.name}: #{e.message}"
       Rails.logger.error "[AMB] URL: #{download_info[:download_url]}"
       Rails.logger.error "[AMB] Headers: #{download_info[:headers].inspect}"
       raise e
     end
-    
+
     # Step 3: Decrypt the file
     Rails.logger.info '[AMB] Decrypting file...'
     decrypted_data = AppleMessagesForBusiness::AttachmentCipherService.decrypt(
@@ -353,48 +356,48 @@ class AppleMessagesForBusiness::IncomingMessageService
       decryption_key
     )
     Rails.logger.info "[AMB] Decrypted data size: #{decrypted_data.bytesize} bytes."
-    
+
     # Step 4: Create a temporary file with decrypted data
     file_name = ["apple_attachment_#{Time.current.to_i}", get_file_extension(attachment_params)]
     temp_file = Tempfile.new(file_name, binmode: true)
     temp_file.write(decrypted_data)
     temp_file.rewind
     Rails.logger.info "[AMB] Temp file created at: #{temp_file.path}"
-    
+
     # Attach file to the record
-    Rails.logger.info "[AMB] Attaching decrypted file to ActiveStorage..."
+    Rails.logger.info '[AMB] Attaching decrypted file to ActiveStorage...'
     attachment.file.attach(
       io: temp_file,
       filename: attachment_params['name'] || "apple_attachment_#{Time.current.to_i}#{get_file_extension(attachment_params)}",
       content_type: attachment_params['mimeType'] || attachment_params['mime-type']
     )
-    
+
     # Ensure the attachment is saved
     attachment.save!
     attachment.file.blob.update!(analyzed: true)
     Rails.logger.info "[AMB] Attachment saved successfully. ID: #{attachment.id}, File attached: #{attachment.file.attached?}"
-    
+
   ensure
     if temp_file
       temp_file.close
       temp_file.unlink
-      Rails.logger.info "[AMB] Temp file closed and unlinked."
+      Rails.logger.info '[AMB] Temp file closed and unlinked.'
     end
   end
 
   def pre_download_attachment(attachment_params)
     Rails.logger.info '[AMB] Preparing to pre-download attachment.'
     # Use Apple MSP /preDownload endpoint to get the actual download URL
-    
+
     hex_signature = attachment_params['mmcs-signature-hex'] || attachment_params['signature']
     unless hex_signature
       Rails.logger.error '[AMB] Pre-download failed: Missing signature.'
       return nil
     end
-    
+
     # Convert hex signature to base64 as required by Apple MSP
     base64_signature = Base64.strict_encode64([hex_signature].pack('H*'))
-    
+
     # Prepare headers for /preDownload request
     headers = {
       'Authorization' => "Bearer #{@inbox.channel.generate_jwt_token}",
@@ -416,7 +419,7 @@ class AppleMessagesForBusiness::IncomingMessageService
     if response.success?
       download_data = JSON.parse(response.body)
       Rails.logger.info "[AMB] Pre-download successful. Response: #{download_data.inspect}"
-      
+
       {
         download_url: download_data['download-url'],
         headers: {} # No additional headers needed for the actual download
@@ -430,7 +433,7 @@ class AppleMessagesForBusiness::IncomingMessageService
 
   def process_direct_attachment(attachment, attachment_params, url)
     Rails.logger.info "Downloading direct attachment from: #{url}"
-    
+
     attachment_file = Down.download(url, max_size: 15.megabytes)
 
     attachment.file.attach(
@@ -438,7 +441,7 @@ class AppleMessagesForBusiness::IncomingMessageService
       filename: attachment_params['name'] || "apple_attachment_#{Time.current.to_i}",
       content_type: attachment_params['mimeType'] || attachment_params['mime-type']
     )
-    
+
     # Ensure the attachment is saved
     attachment.save!
     Rails.logger.info "Direct attachment saved successfully: #{attachment.id}, file attached: #{attachment.file.attached?}"
@@ -467,18 +470,26 @@ class AppleMessagesForBusiness::IncomingMessageService
   end
 
   def determine_content_type
-    if attachments_present?
-      return 'input_email'
-    end
+    return 'input_email' if attachments_present?
 
     interactive_data = @params['interactiveData']
     return 'text' unless interactive_data&.dig('data')
 
-    case interactive_data['data'].keys.first
+    data_keys = interactive_data['data'].keys
+    first_key = data_keys.first
+
+    case first_key
     when 'listPicker'
       'apple_list_picker'
     when 'timePicker'
       'apple_time_picker'
+    when 'event'
+      # Check if it's a time picker event response
+      if interactive_data['data']['event']['timeslots']
+        'apple_time_picker'
+      else
+        'text'
+      end
     when 'authenticate'
       'apple_auth'
     when 'payment'
@@ -495,7 +506,7 @@ class AppleMessagesForBusiness::IncomingMessageService
     updated_attributes = current_attributes.merge(
       'apple_messages_capabilities' => @headers[:capability_list]
     )
-    
+
     @contact.update!(additional_attributes: updated_attributes)
     Rails.logger.info "[AMB IncomingMessage] Updated contact capabilities: #{@headers[:capability_list]}"
   end
@@ -507,19 +518,17 @@ class AppleMessagesForBusiness::IncomingMessageService
     updated_attributes = current_attributes.merge(
       'apple_messages_capabilities' => @headers[:capability_list]
     )
-    
+
     @conversation.update!(additional_attributes: updated_attributes)
     Rails.logger.info "[AMB IncomingMessage] Updated conversation capabilities: #{@headers[:capability_list]}"
   end
 
   def format_time_slot(time_string)
-    begin
-      # Parse the ISO 8601 time string
-      time = Time.parse(time_string)
-      # Format it into a more readable string
-      time.strftime('%B %d, %Y at %I:%M %p %Z')
-    rescue ArgumentError
-      time_string # Return original string if parsing fails
-    end
+    # Parse the ISO 8601 time string
+    time = Time.parse(time_string)
+    # Format it into a more readable string
+    time.strftime('%B %d, %Y at %I:%M %p %Z')
+  rescue ArgumentError
+    time_string # Return original string if parsing fails
   end
 end

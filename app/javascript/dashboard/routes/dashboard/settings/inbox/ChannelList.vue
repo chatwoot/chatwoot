@@ -82,7 +82,9 @@ const channelList = computed(() => {
     {
       key: 'apple_messages_for_business',
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.APPLE_MESSAGES_FOR_BUSINESS.TITLE'),
-      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.APPLE_MESSAGES_FOR_BUSINESS.DESCRIPTION'),
+      description: t(
+        'INBOX_MGMT.ADD.AUTH.CHANNEL.APPLE_MESSAGES_FOR_BUSINESS.DESCRIPTION'
+      ),
       icon: 'i-woot-apple-messages',
     },
   ];
@@ -106,7 +108,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+  >
     <ChannelItem
       v-for="channel in channelList"
       :key="channel.key"
