@@ -13,6 +13,8 @@ import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue'
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
+import WhatsappFinishRegistration from './channels/whatsapp/FinishRegistration.vue';
+import InboxHealthAPI from 'dashboard/api/inboxHealth';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
@@ -49,6 +51,7 @@ export default {
     NextButton,
     InstagramReauthorize,
     WhatsappReauthorize,
+    WhatsappFinishRegistration,
     DuplicateInboxBanner,
     Editor,
     Avatar,
@@ -81,6 +84,9 @@ export default {
       selectedPortalSlug: '',
       showBusinessNameInput: false,
       welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
+      healthData: null,
+      isLoadingHealth: false,
+      healthError: null,
     };
   },
   computed: {
@@ -272,12 +278,29 @@ export default {
         this.inbox.reauthorization_required
       );
     },
+    isEmbeddedSignupWhatsApp() {
+      return this.inbox.provider_config?.source === 'embedded_signup';
+    },
     whatsappUnauthorized() {
       return (
-        this.isAWhatsAppChannel &&
-        this.inbox.provider === 'whatsapp_cloud' &&
-        this.inbox.provider_config?.source === 'embedded_signup' &&
+        this.isAWhatsAppCloudChannel &&
+        this.isEmbeddedSignupWhatsApp &&
         this.inbox.reauthorization_required
+      );
+    },
+    whatsappRegistrationIncomplete() {
+      if (
+        !this.healthData ||
+        !this.isAWhatsAppCloudChannel ||
+        !this.isEmbeddedSignupWhatsApp
+      ) {
+        return false;
+      }
+
+      return (
+        this.healthData.platform_type === 'NOT_APPLICABLE' ||
+        this.healthData.throughput?.level === 'NOT_APPLICABLE' ||
+        this.healthData.messaging_limit_tier == null
       );
     },
   },
@@ -287,14 +310,40 @@ export default {
         this.fetchInboxSettings();
       }
     },
+    inbox: {
+      handler() {
+        this.fetchHealthData();
+      },
+      immediate: false,
+    },
   },
   mounted() {
     this.fetchInboxSettings();
     this.fetchPortals();
+    this.fetchHealthData();
   },
   methods: {
     fetchPortals() {
       this.$store.dispatch('portals/index');
+    },
+    async fetchHealthData() {
+      if (
+        !this.isAWhatsAppChannel ||
+        this.inbox.provider !== 'whatsapp_cloud'
+      ) {
+        return;
+      }
+
+      try {
+        this.isLoadingHealth = true;
+        this.healthError = null;
+        const response = await InboxHealthAPI.getHealthStatus(this.inbox.id);
+        this.healthData = response.data;
+      } catch (error) {
+        this.healthError = error.message || 'Failed to fetch health data';
+      } finally {
+        this.isLoadingHealth = false;
+      }
     },
     handleFeatureFlag(e) {
       this.selectedFeatureFlags = this.toggleInput(
@@ -459,6 +508,10 @@ export default {
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
       <WhatsappReauthorize v-if="whatsappUnauthorized" :inbox="inbox" />
+      <WhatsappFinishRegistration
+        v-if="whatsappRegistrationIncomplete"
+        :inbox="inbox"
+      />
       <DuplicateInboxBanner
         v-if="hasDuplicateInstagramInbox"
         :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
@@ -869,7 +922,7 @@ export default {
         <BotConfiguration :inbox="inbox" />
       </div>
       <div v-if="selectedTabKey === 'whatsappHealth'">
-        <AccountHealth :inbox="inbox" />
+        <AccountHealth :inbox="inbox" :health-data="healthData" />
       </div>
     </section>
   </div>

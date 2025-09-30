@@ -1,58 +1,90 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import ButtonV4 from 'next/button/Button.vue';
+
+const props = defineProps({
+  healthData: {
+    type: Object,
+    default: null,
+  },
+});
 
 const { t } = useI18n();
 
-const healthItems = computed(() => [
-  {
-    key: 'DISPLAY_PHONE_NUMBER',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_PHONE_NUMBER.LABEL'),
-    value: '+16503185215',
-    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_PHONE_NUMBER.TOOLTIP'),
-    show: true,
-  },
-  {
-    key: 'VERIFIED_NAME',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.LABEL'),
-    value: 'Saharidya AI',
-    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.TOOLTIP'),
-    show: true,
-  },
-  {
-    key: 'DISPLAY_NAME_STATUS',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.LABEL'),
-    value: 'APPROVED',
-    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.TOOLTIP'),
-    show: true,
-    type: 'status',
-  },
-  {
-    key: 'QUALITY_RATING',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.QUALITY_RATING.LABEL'),
-    value: 'GREEN',
-    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.QUALITY_RATING.TOOLTIP'),
-    show: true,
-    type: 'quality',
-  },
-  {
-    key: 'MESSAGING_LIMIT_TIER',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.LABEL'),
-    value: 'TIER_1K',
-    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.TOOLTIP'),
-    show: true,
-    type: 'tier',
-  },
-  {
-    key: 'ACCOUNT_MODE',
-    label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.ACCOUNT_MODE.LABEL'),
-    value: 'LIVE',
-    tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.ACCOUNT_MODE.TOOLTIP'),
-    show: true,
-    type: 'mode',
-  },
-]);
+const healthItems = computed(() => {
+  if (!props.healthData) {
+    return [];
+  }
+
+  return [
+    {
+      key: 'DISPLAY_PHONE_NUMBER',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_PHONE_NUMBER.LABEL'),
+      value: props.healthData.display_phone_number || 'N/A',
+      tooltip: t(
+        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_PHONE_NUMBER.TOOLTIP'
+      ),
+      show: true,
+    },
+    {
+      key: 'VERIFIED_NAME',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.LABEL'),
+      value: props.healthData.verified_name || 'N/A',
+      tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.TOOLTIP'),
+      show: true,
+    },
+    {
+      key: 'DISPLAY_NAME_STATUS',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.LABEL'),
+      value: props.healthData.name_status || 'UNKNOWN',
+      tooltip: t(
+        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.TOOLTIP'
+      ),
+      show: true,
+      type: 'status',
+    },
+    {
+      key: 'QUALITY_RATING',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.QUALITY_RATING.LABEL'),
+      value: props.healthData.quality_rating || 'UNKNOWN',
+      tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.QUALITY_RATING.TOOLTIP'),
+      show: true,
+      type: 'quality',
+    },
+    {
+      key: 'MESSAGING_LIMIT_TIER',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.LABEL'),
+      value: props.healthData.messaging_limit_tier || 'UNKNOWN',
+      tooltip: t(
+        'INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.TOOLTIP'
+      ),
+      show: true,
+      type: 'tier',
+    },
+    {
+      key: 'ACCOUNT_MODE',
+      label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.ACCOUNT_MODE.LABEL'),
+      value: props.healthData.account_mode || 'UNKNOWN',
+      tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.ACCOUNT_MODE.TOOLTIP'),
+      show: true,
+      type: 'mode',
+    },
+  ];
+});
+
+const handleGoToSettings = () => {
+  if (props.healthData?.business_id) {
+    // WhatsApp Business Manager URL with specific business ID and phone numbers tab
+    const whatsappBusinessUrl = `https://business.facebook.com/latest/whatsapp_manager/phone_numbers/?business_id=${props.healthData.business_id}&tab=phone-numbers`;
+    window.open(whatsappBusinessUrl, '_blank');
+  } else {
+    // Fallback to general WhatsApp Business Manager if business_id is not available
+    const fallbackUrl = 'https://business.facebook.com/';
+    window.open(fallbackUrl, '_blank');
+  }
+};
 
 const getQualityRatingTextColor = rating => {
   const colors = {
@@ -122,12 +154,12 @@ const getStatusTextColor = status => {
             {{ t('INBOX_MGMT.ACCOUNT_HEALTH.DESCRIPTION') }}
           </p>
         </div>
-        <ButtonV4 sm solid blue>
+        <ButtonV4 sm solid blue @click="handleGoToSettings">
           {{ t('INBOX_MGMT.ACCOUNT_HEALTH.GO_TO_SETTINGS') }}
         </ButtonV4>
       </div>
 
-      <div class="pt-8 space-y-4">
+      <div v-if="props.healthData" class="pt-8 space-y-4">
         <div class="grid grid-cols-2 gap-6">
           <div
             v-for="item in healthItems"

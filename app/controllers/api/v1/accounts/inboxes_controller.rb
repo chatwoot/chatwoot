@@ -4,7 +4,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :validate_limit, only: [:create]
   # we are already handling the authorization in fetch inbox
-  before_action :check_authorization, except: [:show]
+  before_action :check_authorization, except: [:show, :health]
 
   def index
     @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, { avatar_attachment: [:blob] }))
@@ -76,6 +76,24 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     render status: :ok, json: { message: 'Template sync initiated successfully' }
   rescue StandardError => e
     render status: :internal_server_error, json: { error: e.message }
+  end
+
+  def health
+    unless @inbox.channel.is_a?(Channel::Whatsapp)
+      render json: { error: 'Health data only available for WhatsApp channels' }, status: :bad_request
+      return
+    end
+
+    unless @inbox.channel.provider == 'whatsapp_cloud'
+      render json: { error: 'Health data only available for WhatsApp Cloud API' }, status: :bad_request
+      return
+    end
+
+    health_data = Whatsapp::HealthService.new(@inbox.channel).fetch_health_status
+    render json: health_data
+  rescue StandardError => e
+    Rails.logger.error "[INBOX HEALTH] Error fetching health data: #{e.message}"
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private

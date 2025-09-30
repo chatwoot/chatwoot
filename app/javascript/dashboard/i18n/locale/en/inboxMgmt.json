@@ -5,6 +5,8 @@
     "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration is not complete. Complete the setup to start receiving messages.",
+    "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
       "404": "There are no inboxes attached to this account."
     },
