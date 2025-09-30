@@ -1,8 +1,6 @@
 <script>
 import ColumnModal from './ColumnModal.vue'
 import ConversationApi from '../../../api/inbox/conversation';
-import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
-import { useI18n } from 'vue-i18n';
 import { toRaw } from 'vue'
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
 
@@ -26,28 +24,10 @@ export default {
   emits: ['update:columns', 'moved', 'columnDeleted'],
 
   async mounted() {
-    this.fetchLabels()
+    await this.$store.dispatch('labels/get')
+    const labelsFromStore = this.$store.getters['labels/getLabels']
+    this.labels = [...labelsFromStore]
     this.fetchColumns()
-  },
-
-  setup() {
-      const { t } = useI18n();
-      const {
-      savedLabels,
-      activeLabels,
-      accountLabels,
-      addLabelToConversation,
-      removeLabelFromConversation,
-      } = useConversationLabels();
-
-      return {
-        t,
-        savedLabels,
-        activeLabels,
-        accountLabels,
-        addLabelToConversation,
-        removeLabelFromConversation
-      }
   },
 
   data() {
@@ -320,10 +300,6 @@ export default {
       this.closeColumnModal(updatedColumn);
     },
 
-    async fetchLabels() {
-      this.labels = this.accountLabels
-    },
-
     async fetchColumns() {
       await new Promise(resolve => setTimeout(resolve, 1000))
       // Verificar se tem localColumns no localStorage e setar o this.localColumns
@@ -404,20 +380,20 @@ export default {
           :class="{ active: dragColumnsMode }"
           @click="dragColumnsMode = !dragColumnsMode"
         >
-          {{ dragColumnsMode ? t('KANBAN.HEADER.DRAG_MODE.ACTIVE') : t('KANBAN.HEADER.DRAG_MODE.INACTIVE') }}
+          {{ dragColumnsMode ? $t('KANBAN.HEADER.DRAG_MODE.ACTIVE') : $t('KANBAN.HEADER.DRAG_MODE.INACTIVE') }}
         </button>
       </div>
       <div class="kanban-header-right">
-        <button class="kanban-button" @click="openColumnModal">{{ t('KANBAN.HEADER.BUTTONS.NEW_COLUMN') }}</button>
-        <button class="kanban-button" @click="importKanban">{{ t('KANBAN.HEADER.BUTTONS.IMPORT') }}</button>
-        <button class="kanban-button" @click="exportKanban">{{ t('KANBAN.HEADER.BUTTONS.EXPORT') }}</button>
+        <button class="kanban-button" @click="openColumnModal">{{ $t('KANBAN.HEADER.BUTTONS.NEW_COLUMN') }}</button>
+        <button class="kanban-button" @click="importKanban">{{ $t('KANBAN.HEADER.BUTTONS.IMPORT') }}</button>
+        <button class="kanban-button" @click="exportKanban">{{ $t('KANBAN.HEADER.BUTTONS.EXPORT') }}</button>
       </div>
     </header>
 
     <div class="kanban-board">
       <div v-if="localColumns.length === 0" class="empty-state">
-        <h2>{{ t('KANBAN.EMPTY_STATE.TITLE') }}</h2>
-        <p>{{ t('KANBAN.EMPTY_STATE.DESCRIPTION') }}</p>
+        <h2>{{ $t('KANBAN.EMPTY_STATE.TITLE') }}</h2>
+        <p>{{ $t('KANBAN.EMPTY_STATE.DESCRIPTION') }}</p>
       </div>
       <div
         v-else
@@ -434,10 +410,10 @@ export default {
         <div class="column-header">
           <h2>{{ column.title }}</h2>
           <button class="delete-column-btn" @click="deleteColumn(columnIndex)">
-            {{ t('KANBAN.COLUMN.ACTIONS.DELETE') }}
+            {{ $t('KANBAN.COLUMN.ACTIONS.DELETE') }}
           </button>
           <button class="delete-column-btn" @click="editColumn(columnIndex)">
-            {{ t('KANBAN.COLUMN.ACTIONS.EDIT') }}
+            {{ $t('KANBAN.COLUMN.ACTIONS.EDIT') }}
           </button>
         </div>
         
