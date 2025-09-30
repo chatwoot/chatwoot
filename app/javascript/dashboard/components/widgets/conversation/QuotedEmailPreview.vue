@@ -41,12 +41,15 @@ const toggleExpand = () => {
     >
       <div class="absolute top-2 right-2 z-10 flex items-center gap-1">
         <NextButton
-          v-if="isExpanded"
-          v-tooltip="t('CONVERSATION.REPLYBOX.QUOTED_REPLY.COLLAPSE')"
+          v-tooltip="
+            isExpanded
+              ? t('CONVERSATION.REPLYBOX.QUOTED_REPLY.COLLAPSE')
+              : t('CONVERSATION.REPLYBOX.QUOTED_REPLY.EXPAND')
+          "
           ghost
           slate
           xs
-          icon="i-lucide-minimize"
+          :icon="isExpanded ? 'i-lucide-minimize' : 'i-lucide-maximize'"
           @click="toggleExpand"
         />
         <NextButton
