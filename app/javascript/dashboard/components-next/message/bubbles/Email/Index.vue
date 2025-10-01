@@ -47,6 +47,13 @@ const originalEmailHtml = computed(
     originalEmailText.value
 );
 
+const hasEmailContent = computed(() => {
+  return (
+    contentAttributes?.value?.email?.textContent?.full ||
+    contentAttributes?.value?.email?.htmlContent?.full
+  );
+});
+
 const messageContent = computed(() => {
   // If translations exist and we're showing translations (not original)
   if (hasTranslations.value && !renderOriginal.value) {
@@ -137,7 +144,7 @@ const handleSeeOriginal = () => {
           </button>
         </div>
         <FormattedContent
-          v-if="isOutgoing && content && !hasQuotedMessage"
+          v-if="isOutgoing && content && !hasEmailContent"
           class="text-n-slate-12"
           :content="messageContent"
         />
