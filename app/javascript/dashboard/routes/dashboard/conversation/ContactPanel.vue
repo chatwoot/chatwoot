@@ -23,6 +23,8 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import ConversationSumary from './ConversationSumary.vue';
 
 const props = defineProps({
   conversationId: {
@@ -142,17 +144,6 @@ onMounted(() => {
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
 
-    <div
-      class="rounded-lg bg-n-slate-2 outline outline-1 outline-n-weak cursor-grab py-2 px-4 drag-handle mb-3 mx-2"
-    >
-      <h5 class="text-n-slate-12 text-sm mb-1">
-        {{ $t('CONVERSATION_SIDEBAR.SUMMARY.TITLE') }}
-      </h5>
-      <p class="flex items-center select-none justify-between">
-        {{ conversationSummary }}
-      </p>
-    </div>
-
     <div class="pb-8 list-group px-2">
       <Draggable
         :list="conversationSidebarItems"
@@ -180,6 +171,20 @@ onMounted(() => {
                 :conversation-id="conversationId"
                 :inbox-id="inboxId"
               />
+            </AccordionItem>
+          </div>
+          <div
+            v-else-if="element.name === 'sumary'"
+            class="conversation--actions"
+          >
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.SUMMARY.TITLE')"
+              :is-open="isContactSidebarItemOpen('is_conv_sumary_open')"
+              @toggle="
+                value => toggleSidebarUIState('is_conv_sumary_open', value)
+              "
+            >
+              <ConversationSumary :raw-sumary="conversationSummary" />
             </AccordionItem>
           </div>
           <div
