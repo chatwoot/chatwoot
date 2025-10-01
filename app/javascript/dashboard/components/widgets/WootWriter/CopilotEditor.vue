@@ -1,0 +1,235 @@
+<script setup>
+import { ref, computed, watch, onMounted, useTemplateRef } from 'vue';
+
+import {
+  messageSchema,
+  buildEditor,
+  EditorView,
+  MessageMarkdownTransformer,
+  MessageMarkdownSerializer,
+  EditorState,
+  Selection,
+} from '@chatwoot/prosemirror-schema';
+
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
+const props = defineProps({
+  modelValue: { type: String, default: '' },
+  editorId: { type: String, default: '' },
+  placeholder: {
+    type: String,
+    default: 'Give copilot additional prompts, or ask anything else...',
+  },
+  enabledMenuOptions: { type: Array, default: () => [] },
+  generatedContent: { type: String, default: '' },
+  autofocus: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const emit = defineEmits([
+  'blur',
+  'input',
+  'update:modelValue',
+  'keyup',
+  'focus',
+  'keydown',
+  'send',
+]);
+
+const { formatMessage } = useMessageFormatter();
+
+const createState = (
+  content,
+  placeholder,
+  plugins = [],
+  methods = {},
+  enabledMenuOptions = []
+) => {
+  return EditorState.create({
+    doc: new MessageMarkdownTransformer(messageSchema).parse(content),
+    plugins: buildEditor({
+      schema: messageSchema,
+      placeholder,
+      methods,
+      plugins,
+      enabledMenuOptions,
+    }),
+  });
+};
+
+// we don't need them to be reactive
+// It cases weird issues where the objects are proxied
+// and then the editor doesn't work as expected
+let editorView = null;
+let state = null;
+
+// reactive data
+const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
+
+// element refs
+const editor = useTemplateRef('editor');
+
+function contentFromEditor() {
+  if (editorView) {
+    return MessageMarkdownSerializer.serialize(editorView.state.doc);
+  }
+  return '';
+}
+
+function focusEditorInputField() {
+  const { tr } = editorView.state;
+  const selection = Selection.atEnd(tr.doc);
+
+  editorView.dispatch(tr.setSelection(selection));
+  editorView.focus();
+}
+
+function emitOnChange() {
+  emit('update:modelValue', contentFromEditor());
+  emit('input', contentFromEditor());
+}
+
+function onKeyup() {
+  emit('keyup');
+}
+
+function onKeydown() {
+  emit('keydown');
+}
+
+function onBlur() {
+  emit('blur');
+}
+
+function onFocus() {
+  emit('focus');
+}
+
+function checkSelection(editorState) {
+  const hasSelection = editorState.selection.from !== editorState.selection.to;
+  if (hasSelection === isTextSelected.value) return;
+  isTextSelected.value = hasSelection;
+}
+
+// computed properties
+const plugins = computed(() => {
+  return [];
+});
+
+function reloadState() {
+  state = createState(
+    props.modelValue,
+    props.placeholder,
+    plugins.value,
+    props.enabledMenuOptions
+  );
+  editorView.updateState(state);
+  focusEditorInputField();
+}
+
+function createEditorView() {
+  editorView = new EditorView(editor.value, {
+    state: state,
+    dispatchTransaction: tx => {
+      state = state.apply(tx);
+      editorView.updateState(state);
+      if (tx.docChanged) {
+        emitOnChange();
+      }
+      checkSelection(state);
+    },
+    handleDOMEvents: {
+      keyup: onKeyup,
+      focus: onFocus,
+      blur: onBlur,
+      keydown: onKeydown,
+    },
+  });
+}
+
+function handleSubmit() {
+  emit('send');
+}
+
+// watchers
+watch(
+  computed(() => props.modelValue),
+  (newValue = '') => {
+    if (newValue !== contentFromEditor()) {
+      reloadState();
+    }
+  }
+);
+
+watch(
+  computed(() => props.editorId),
+  () => {
+    reloadState();
+  }
+);
+
+// lifecycle
+onMounted(() => {
+  state = createState(
+    props.modelValue,
+    props.placeholder,
+    plugins.value,
+    props.enabledMenuOptions
+  );
+
+  createEditorView();
+  editorView.updateState(state);
+
+  if (props.autofocus) {
+    focusEditorInputField();
+  }
+});
+</script>
+
+<template>
+  <div class="space-y-2">
+    <div class="editor-root relative editor--copilot space-x-2">
+      <div ref="editor" />
+      <div class="flex items-center justify-end absolute right-2 bottom-2">
+        <NextButton
+          class="bg-n-iris-9 text-white !rounded-full"
+          icon="i-lucide-arrow-up"
+          solid
+          sm
+          @click="handleSubmit"
+        />
+      </div>
+    </div>
+    <div class="max-h-72 overflow-y-auto">
+      <p
+        v-dompurify-html="formatMessage(generatedContent, false)"
+        class="text-n-iris-12 text-sm prose-sm font-normal !mb-4 underline decoration-n-iris-8 underline-offset-auto decoration-solid decoration-[10%]"
+      />
+    </div>
+  </div>
+</template>
+
+<style lang="scss">
+@import '@chatwoot/prosemirror-schema/src/styles/base.scss';
+
+.editor--copilot {
+  @apply bg-n-iris-5 rounded;
+
+  .ProseMirror-woot-style {
+    min-height: 5rem;
+    max-height: 7.5rem;
+    overflow: auto;
+    @apply px-2 !important;
+
+    .empty-node {
+      &::before {
+        @apply text-n-iris-9;
+      }
+    }
+  }
+}
+</style>

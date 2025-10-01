@@ -33,7 +33,7 @@
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
-    "@chatwoot/prosemirror-schema": "1.2.1",
+    "@chatwoot/prosemirror-schema": "1.2.2",
     "@chatwoot/utils": "^0.0.51",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
@@ -109,6 +109,7 @@
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@histoire/plugin-vue": "0.17.15",
+    "@iconify-json/fluent": "^1.2.32",
     "@iconify-json/logos": "^1.2.3",
     "@iconify-json/lucide": "^1.2.11",
     "@iconify-json/ph": "^1.2.1",

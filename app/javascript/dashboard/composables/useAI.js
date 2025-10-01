@@ -158,14 +158,15 @@ export function useAI() {
   /**
    * Processes an AI event, such as rephrasing content.
    * @param {string} [type='rephrase'] - The type of AI event to process.
+   * @param {string} [content=''] - The content to process (for full message) or selected text (for selection-based).
    * @returns {Promise<string>} The generated message or an empty string if an error occurs.
    */
-  const processEvent = async (type = 'rephrase') => {
+  const processEvent = async (type = 'rephrase', content = '') => {
     try {
       const result = await OpenAPI.processEvent({
         hookId: hookId.value,
         type,
-        content: draftMessage.value,
+        content: content || draftMessage.value,
         conversationId: conversationId.value,
       });
       const {

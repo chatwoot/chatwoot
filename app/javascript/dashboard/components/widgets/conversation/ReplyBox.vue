@@ -14,7 +14,9 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.v
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel.vue';
 import ReplyEmailHead from './ReplyEmailHead.vue';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
+import CopilotReplyBottomPanel from 'dashboard/components/widgets/WootWriter/CopilotReplyBottomPanel.vue';
 import ArticleSearchPopover from 'dashboard/routes/dashboard/helpcenter/components/ArticleSearch/SearchPopover.vue';
+import CopilotEditorSection from './CopilotEditorSection.vue';
 import MessageSignatureMissingAlert from './MessageSignatureMissingAlert.vue';
 import ReplyBoxBanner from './ReplyBoxBanner.vue';
 import QuotedEmailPreview from './QuotedEmailPreview.vue';
@@ -48,7 +50,9 @@ import {
   replaceSignature,
   extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
-
+import { MESSAGE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { useAI } from 'dashboard/composables/useAI';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
@@ -74,6 +78,8 @@ export default {
     WhatsappTemplates,
     WootMessageEditor,
     QuotedEmailPreview,
+    CopilotEditorSection,
+    CopilotReplyBottomPanel,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   props: {
@@ -95,6 +101,9 @@ export default {
 
     const replyEditor = useTemplateRef('replyEditor');
 
+    const { formatMessage } = useMessageFormatter();
+    const { draftMessage, processEvent, recordAnalytics } = useAI();
+
     return {
       uiSettings,
       updateUISettings,
@@ -103,6 +112,10 @@ export default {
       setQuotedReplyFlagForInbox,
       fetchQuotedReplyFlagFromUISettings,
       replyEditor,
+      draftMessage,
+      processEvent,
+      recordAnalytics,
+      formatMessage,
     };
   },
   data() {
@@ -134,6 +147,11 @@ export default {
       newConversationModalActive: false,
       showArticleSearchPopover: false,
       hasRecordedAudio: false,
+      editorMenuOptions: MESSAGE_EDITOR_MENU_OPTIONS,
+      showCopilotEditor: false,
+      isGeneratingContent: false,
+      copilotEditorContent: '',
+      generatedContent: '',
     };
   },
   computed: {
@@ -891,6 +909,21 @@ export default {
         this.insertIntoTextEditor(content, selectionStart, selectionEnd);
       }
     },
+    async executeAIAction(action, data) {
+      if (action === 'ask_copilot') {
+        this.updateUISettings({
+          is_contact_sidebar_open: false,
+          is_copilot_panel_open: true,
+        });
+      } else {
+        this.isGeneratingContent = true;
+        // For full message operations
+        const content = await this.processEvent(action, data);
+        this.generatedContent = content;
+        if (content) this.toggleCopilotEditor();
+        this.isGeneratingContent = false;
+      }
+    },
     clearMessage() {
       this.message = '';
       if (this.sendWithSignature && !this.isPrivate) {
@@ -1155,6 +1188,13 @@ export default {
     togglePopout() {
       this.$emit('update:popOutReplyBox', !this.popOutReplyBox);
     },
+    onSubmitCopilotReply() {
+      this.message = this.generatedContent;
+      this.showCopilotEditor = false;
+    },
+    toggleCopilotEditor() {
+      this.showCopilotEditor = !this.showCopilotEditor;
+    },
   },
 };
 </script>
@@ -1170,6 +1210,8 @@ export default {
       :popout-reply-box="popOutReplyBox"
       @set-reply-mode="setReplyMode"
       @toggle-popout="togglePopout"
+      @toggle-copilot="toggleCopilotEditor"
+      @execute-action="executeAIAction"
     />
     <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"
@@ -1228,11 +1270,22 @@ export default {
         @focus="onFocus"
         @blur="onBlur"
       />
+      <CopilotEditorSection
+        v-else-if="showCopilotEditor || isGeneratingContent"
+        v-model:copilot-editor-content="copilotEditorContent"
+        :show-copilot-editor="showCopilotEditor"
+        :is-generating-content="isGeneratingContent"
+        :generated-content="generatedContent"
+        :update-editor-selection-with="updateEditorSelectionWith"
+        @focus="onFocus"
+        @blur="onBlur"
+        @clear-selection="clearEditorSelection"
+      />
       <WootMessageEditor
         v-else
         v-model="message"
         :editor-id="editorStateId"
-        class="input"
+        class="input reply-editor"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
@@ -1242,6 +1295,7 @@ export default {
         :signature="signatureToApply"
         allow-signature
         :channel-type="channelType"
+        :enabled-menu-options="editorMenuOptions"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -1250,6 +1304,7 @@ export default {
         @toggle-canned-menu="toggleCannedMenu"
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
+        @execute-action="executeAIAction"
       />
       <QuotedEmailPreview
         v-if="shouldShowQuotedPreview"
@@ -1272,7 +1327,13 @@ export default {
     <MessageSignatureMissingAlert
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
     />
+    <CopilotReplyBottomPanel
+      v-if="showCopilotEditor"
+      @submit="onSubmitCopilotReply"
+      @cancel="toggleCopilotEditor"
+    />
     <ReplyBottomPanel
+      v-else
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :enable-whats-app-templates="showWhatsappTemplates"
@@ -1331,7 +1392,7 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .send-button {
   @apply mb-0;
 }
@@ -1383,5 +1444,55 @@ export default {
 .normal-editor__canned-box {
   width: calc(100% - 2 * 1rem);
   left: 1rem;
+}
+
+.reply-editor {
+  position: relative;
+
+  .ProseMirror p:first-child {
+    margin-top: 0 !important;
+  }
+
+  .ProseMirror p:last-child {
+    margin-bottom: 10px !important;
+  }
+
+  // Editor Menu
+  .ProseMirror-menubar {
+    display: none; // Hide by default
+  }
+
+  &.has-selection {
+    .ProseMirror-menubar {
+      @apply rounded-lg !px-3 !py-2 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+      display: flex;
+      left: var(--selection-left);
+      top: var(--selection-top);
+      transform: translateX(-50%);
+      width: fit-content !important;
+      position: absolute !important;
+
+      .ProseMirror-menuitem {
+        @apply mr-0 size-3.5 flex items-center;
+
+        .ProseMirror-icon {
+          @apply p-0 flex-shrink-0;
+
+          svg {
+            width: 14px !important;
+            height: 14px !important;
+          }
+        }
+
+        .ProseMirror-copilot svg {
+          fill: #6e56cf;
+        }
+      }
+
+      .ProseMirror-menu-active {
+        @apply bg-n-slate-3;
+      }
+    }
+  }
 }
 </style>

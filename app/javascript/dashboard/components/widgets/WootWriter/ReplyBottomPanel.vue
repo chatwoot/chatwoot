@@ -282,7 +282,10 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between p-3" :class="wrapClass">
+  <div
+    class="flex justify-between items-center p-3 border-t border-n-weak"
+    :class="wrapClass"
+  >
     <div class="left-wrap">
       <NextButton
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
