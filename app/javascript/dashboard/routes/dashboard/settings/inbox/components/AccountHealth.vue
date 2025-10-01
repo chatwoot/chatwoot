@@ -186,7 +186,7 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
             </span>
             <span
               v-else-if="item.type === 'status'"
-              class="inline-flex items-center px-2 py-0.5 h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+              class="inline-flex items-center px-2 py-0.5 min-h-6 text-xs font-medium rounded-md bg-n-alpha-2"
               :class="getStatusTextColor(item.value)"
             >
               {{ formatStatusDisplay(item.value) }}
