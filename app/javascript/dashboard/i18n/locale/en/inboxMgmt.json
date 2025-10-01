@@ -621,7 +621,7 @@
           "TOOLTIP": "Phone number displayed to customers"
         },
         "VERIFIED_NAME": {
-          "LABEL": "Verified name", 
+          "LABEL": "Verified name",
           "TOOLTIP": "Business name verified by WhatsApp"
         },
         "DISPLAY_NAME_STATUS": {
@@ -633,7 +633,7 @@
           "TOOLTIP": "WhatsApp quality rating for your account"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Messaging limit tier", 
+          "LABEL": "Messaging limit tier",
           "TOOLTIP": "Daily messaging limit for your account"
         },
         "ACCOUNT_MODE": {
@@ -654,7 +654,8 @@
           "APPROVED": "Approved",
           "PENDING_REVIEW": "Pending Review",
           "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
-          "REJECTED": "Rejected"
+          "REJECTED": "Rejected",
+          "DECLINED": "Declined"
         },
         "MODES": {
           "SANDBOX": "Sandbox",

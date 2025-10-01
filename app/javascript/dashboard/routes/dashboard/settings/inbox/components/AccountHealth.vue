@@ -16,7 +16,7 @@ const { t } = useI18n();
 const QUALITY_COLORS = {
   GREEN: 'text-n-teal-11',
   YELLOW: 'text-n-yellow-11',
-  RED: 'text-n-red-11',
+  RED: 'text-n-ruby-11',
   UNKNOWN: 'text-n-slate-12',
 };
 
@@ -24,7 +24,8 @@ const STATUS_COLORS = {
   APPROVED: 'text-n-teal-11',
   PENDING_REVIEW: 'text-n-yellow-11',
   AVAILABLE_WITHOUT_REVIEW: 'text-n-teal-11',
-  REJECTED: 'text-n-red-11',
+  REJECTED: 'text-n-ruby-9',
+  DECLINED: 'text-n-ruby-9',
 };
 
 const MODE_COLORS = {
