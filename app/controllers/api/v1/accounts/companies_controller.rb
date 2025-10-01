@@ -33,8 +33,4 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::BaseController
   def company_params
     params.require(:company).permit(:name, :domain, :description, :avatar)
   end
-
-  def check_authorization
-    authorize(Company)
-  end
 end
