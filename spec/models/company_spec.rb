@@ -17,16 +17,6 @@ RSpec.describe Company do
       it { is_expected.not_to allow_value('invalid-domain').for(:domain) }
       it { is_expected.not_to allow_value('.example.com').for(:domain) }
     end
-
-    describe 'avatar validation' do
-      it { is_expected.to allow_value('https://example.com/avatar.png').for(:avatar) }
-      it { is_expected.to allow_value('http://example.com/avatar.png').for(:avatar) }
-      it { is_expected.to allow_value('').for(:avatar) }
-      it { is_expected.to allow_value(nil).for(:avatar) }
-      it { is_expected.not_to allow_value('invalid-url').for(:avatar) }
-      it { is_expected.not_to allow_value('ftp://example.com/avatar.png').for(:avatar) }
-      it { is_expected.not_to allow_value('/home/user/downloads/avatar.png').for(:avatar) }
-    end
   end
 
   context 'with associations' do

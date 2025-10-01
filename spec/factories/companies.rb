@@ -1,19 +1,16 @@
-# frozen_string_literal: true
-
 FactoryBot.define do
   factory :company do
     sequence(:name) { |n| "Company #{n}" }
     sequence(:domain) { |n| "company#{n}.com" }
     description { 'A sample company description' }
-    avatar { 'https://example.com/avatar.png' }
     account
 
     trait :without_domain do
       domain { nil }
     end
 
-    trait :without_avatar do
-      avatar { nil }
+    trait :with_avatar do
+      avatar { fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
     end
 
     trait :with_long_description do

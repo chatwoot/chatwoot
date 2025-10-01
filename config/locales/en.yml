@@ -79,8 +79,6 @@ en:
     companies:
       domain:
         invalid: must be a valid domain name
-      avatar:
-        invalid: must be a valid URL
     categories:
       locale:
         unique: should be unique in the category and portal

@@ -55,8 +55,7 @@ RSpec.describe 'Companies API', type: :request do
           company: {
             name: 'New Company',
             domain: 'newcompany.com',
-            description: 'A new company',
-            avatar: 'https://example.com/company-avatar.png'
+            description: 'A new company'
           }
         }
       end
@@ -73,27 +72,11 @@ RSpec.describe 'Companies API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload']['name']).to eq('New Company')
         expect(response_body['payload']['domain']).to eq('newcompany.com')
-        expect(response_body['payload']['avatar']).to eq('https://example.com/company-avatar.png')
       end
 
       it 'returns error for invalid params' do
         invalid_params = { company: { name: '' } }
 
-        post "/api/v1/accounts/#{account.id}/companies",
-             params: invalid_params,
-             headers: admin.create_new_auth_token,
-             as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'returns error for invalid avatar param' do
-        invalid_params = {
-          company: {
-            name: 'Acme Corp',
-            domain: 'acme.com',
-            avatar: '/home/local.png'
-          }
-        }
         post "/api/v1/accounts/#{account.id}/companies",
              params: invalid_params,
              headers: admin.create_new_auth_token,

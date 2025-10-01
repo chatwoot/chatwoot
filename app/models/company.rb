@@ -24,6 +24,7 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Company < ApplicationRecord
+  include Avatarable
   validates :account_id, presence: true
   validates :name, presence: true, length: { maximum: 100 }
   validates :domain, allow_blank: true, format: {
@@ -31,10 +32,7 @@ class Company < ApplicationRecord
     message: I18n.t('errors.companies.domain.invalid')
   }
   validates :description, length: { maximum: 1000 }
-  validates :avatar, allow_blank: true, format: {
-    with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
-    message: I18n.t('errors.companies.avatar.invalid')
-  }
+
   belongs_to :account
   has_many :contacts, dependent: :nullify
 
