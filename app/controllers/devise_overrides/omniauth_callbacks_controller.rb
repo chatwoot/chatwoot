@@ -16,7 +16,10 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     # we can just send them to the login page again with the SSO params
     # that will log them in
     encoded_email = ERB::Util.url_encode(@resource.email)
-    redirect_to login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
+    redirect_url = login_page_url(email: encoded_email, sso_auth_token: @resource.generate_sso_auth_token)
+
+    # Allow redirect to mobile app custom scheme
+    redirect_to redirect_url, allow_other_host: true
   end
 
   def sign_up_user
@@ -30,11 +33,14 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil)
-    frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    params = { email: email, sso_auth_token: sso_auth_token }.compact
+    # Hardcoded mobile redirect URL for testing
+    params = {}
+    params[:email] = email if email.present?
+    params[:sso_auth_token] = sso_auth_token if sso_auth_token.present?
     params[:error] = error if error.present?
 
-    "#{frontend_url}/app/login?#{params.to_query}"
+    query_string = params.map { |k, v| "#{k}=#{ERB::Util.url_encode(v.to_s)}" }.join('&')
+    "chatwootapp://sso/callback?#{query_string}"
   end
 
   def account_signup_allowed?
