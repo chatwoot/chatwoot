@@ -1085,7 +1085,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
         end
 
         it 'returns bad request error for agent' do
@@ -1097,7 +1097,24 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+        end
+      end
+
+      context 'with WhatsApp non-cloud inbox' do
+        let(:whatsapp_default_channel) do
+          create(:channel_whatsapp, account: account, provider: 'default', sync_templates: false, validate_provider_config: false)
+        end
+        let(:whatsapp_default_inbox) { create(:inbox, account: account, channel: whatsapp_default_channel) }
+
+        it 'returns bad request error for non-cloud provider' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_default_inbox.id}/health",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:bad_request)
+          json_response = response.parsed_body
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
         end
       end
 

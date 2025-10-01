@@ -3,6 +3,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :validate_limit, only: [:create]
+  before_action :validate_whatsapp_cloud_channel, only: [:health]
   # we are already handling the authorization in fetch inbox
   before_action :check_authorization, except: [:show, :health]
 
@@ -79,16 +80,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def health
-    unless @inbox.channel.is_a?(Channel::Whatsapp)
-      render json: { error: 'Health data only available for WhatsApp channels' }, status: :bad_request
-      return
-    end
-
-    unless @inbox.channel.provider == 'whatsapp_cloud'
-      render json: { error: 'Health data only available for WhatsApp Cloud API' }, status: :bad_request
-      return
-    end
-
     health_data = Whatsapp::HealthService.new(@inbox.channel).fetch_health_status
     render json: health_data
   rescue StandardError => e
@@ -105,6 +96,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def fetch_agent_bot
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
+  end
+
+  def validate_whatsapp_cloud_channel
+    return if @inbox.channel.is_a?(Channel::Whatsapp) && @inbox.channel.provider == 'whatsapp_cloud'
+
+    render json: { error: 'Health data only available for WhatsApp Cloud API channels' }, status: :bad_request
   end
 
   def create_channel

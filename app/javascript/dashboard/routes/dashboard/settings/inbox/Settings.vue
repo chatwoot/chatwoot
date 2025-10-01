@@ -503,11 +503,8 @@ export default {
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
-      <WhatsappReauthorize v-if="whatsappUnauthorized" :inbox="inbox" />
       <WhatsappReauthorize
-        v-if="whatsappRegistrationIncomplete"
-        :action-label="$t('INBOX_MGMT.COMPLETE_REGISTRATION')"
-        :description="$t('INBOX_MGMT.WHATSAPP_REGISTRATION_INCOMPLETE')"
+        :whatsapp-registration-incomplete="whatsappRegistrationIncomplete"
         :inbox="inbox"
       />
       <DuplicateInboxBanner
