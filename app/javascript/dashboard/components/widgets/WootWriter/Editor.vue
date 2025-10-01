@@ -448,11 +448,13 @@ function setMenubarPosition(editorState) {
     Math.min(selCenterX, editorLeft + editorWidth - menubarWidth / 4)
   );
 
-  // Set CSS custom properties for editor menubar
-  wrapper.style.setProperty(
-    '--selection-left',
-    `${clampedCenterX - editorLeft}px`
-  );
+  // Calculate position from both left and right edges for RTL support
+  const leftPosition = clampedCenterX - editorLeft;
+  const rightPosition = editorLeft + editorWidth - clampedCenterX;
+
+  // Set CSS custom properties for editor menubar (CSS will choose based on dir attribute)
+  wrapper.style.setProperty('--selection-left', `${leftPosition}px`);
+  wrapper.style.setProperty('--selection-right', `${rightPosition}px`);
   wrapper.style.setProperty('--selection-top', `${selTop - editorTop - 50}px`);
 }
 

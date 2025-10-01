@@ -149,9 +149,11 @@
         "CHANGE_TONE": {
           "TITLE": "Change tone",
           "OPTIONS": {
-            "FRIENDLY": "Friendly",
-            "FORMAL": "Formal",
-            "SIMPLIFY": "Simplify"
+            "PROFESSIONAL": "Professional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Friendly"
           }
         },
         "GRAMMAR": "Fix grammar & spelling",

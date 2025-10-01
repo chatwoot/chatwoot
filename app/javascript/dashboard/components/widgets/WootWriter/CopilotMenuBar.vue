@@ -1,7 +1,7 @@
 <script setup>
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useElementSize } from '@vueuse/core';
+import { useElementSize, useWindowSize } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import { useAI } from 'dashboard/composables/useAI';
@@ -58,24 +58,33 @@ const menuItems = computed(() => {
         subMenuItems: [
           {
             label: t(
+              'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.PROFESSIONAL'
+            ),
+            key: 'make_professional',
+          },
+          {
+            label: t(
+              'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.CASUAL'
+            ),
+            key: 'make_casual',
+          },
+          {
+            label: t(
+              'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.STRAIGHTFORWARD'
+            ),
+            key: 'make_straightforward',
+          },
+          {
+            label: t(
+              'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.CONFIDENT'
+            ),
+            key: 'make_confident',
+          },
+          {
+            label: t(
               'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.FRIENDLY'
             ),
             key: 'make_friendly',
-            icon: 'i-fluent-person-voice-16-regular',
-          },
-          {
-            label: t(
-              'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.FORMAL'
-            ),
-            key: 'make_formal',
-            icon: 'i-fluent-person-voice-16-regular',
-          },
-          {
-            label: t(
-              'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.CHANGE_TONE.OPTIONS.SIMPLIFY'
-            ),
-            key: 'simplify',
-            icon: 'i-fluent-person-voice-16-regular',
           },
         ],
       },
@@ -116,17 +125,41 @@ const generalMenuItems = computed(() => {
 });
 
 const menuRef = useTemplateRef('menuRef');
-
-// Track expanded submenu items
-const expandedItems = ref(new Set());
-
 const { height: menuHeight } = useElementSize(menuRef);
+const { width: windowWidth } = useWindowSize();
+
+// Smart submenu positioning based on available space
+const submenuPosition = computed(() => {
+  const el = menuRef.value?.$el;
+  if (!el) return 'ltr:right-full rtl:left-full';
+
+  const { left, right } = el.getBoundingClientRect();
+  const SUBMENU_WIDTH = 200;
+  const spaceRight = (windowWidth.value ?? window.innerWidth) - right;
+  const spaceLeft = left;
+
+  // Prefer right, fallback to side with more space
+  const showRight = spaceRight >= SUBMENU_WIDTH || spaceRight >= spaceLeft;
+
+  return showRight ? 'left-full' : 'right-full';
+});
 
 // Computed style for selection menu positioning
 const selectionMenuStyle = computed(() => {
   // Use the same CSS custom properties as the editor menubar
   // Dynamically calculate offset based on actual menu height + 10px gap
   const dynamicOffset = menuHeight.value > 0 ? menuHeight.value + 10 : 60;
+
+  // Check if document is in RTL mode
+  const isRTL = document.documentElement.dir === 'rtl';
+
+  if (isRTL) {
+    return {
+      right: 'var(--selection-right)',
+      top: `calc(var(--selection-top) - ${dynamicOffset}px)`,
+      transform: 'translateX(62%)',
+    };
+  }
 
   return {
     left: 'var(--selection-left)',
@@ -136,14 +169,8 @@ const selectionMenuStyle = computed(() => {
 });
 
 const handleMenuItemClick = item => {
-  if (item.subMenuItems) {
-    // Toggle submenu expansion
-    if (expandedItems.value.has(item.key)) {
-      expandedItems.value.delete(item.key);
-    } else {
-      expandedItems.value.add(item.key);
-    }
-  } else {
+  // For items with submenus, do nothing on click (hover will show submenu)
+  if (!item.subMenuItems) {
     emit('executeAction', item.key);
   }
 };
@@ -163,7 +190,11 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
     :style="hasSelection ? selectionMenuStyle : {}"
   >
     <div v-if="menuItems.length > 0" class="flex flex-col items-start gap-2.5">
-      <div v-for="item in menuItems" :key="item.key" class="w-full">
+      <div
+        v-for="item in menuItems"
+        :key="item.key"
+        class="w-full relative group/submenu"
+      >
         <Button
           :label="item.label"
           :icon="item.icon"
@@ -177,40 +208,30 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
             <div class="flex items-center gap-1 justify-between w-full">
               <span class="min-w-0 truncate">{{ item.label }}</span>
               <Icon
-                :icon="
-                  expandedItems.has(item.key)
-                    ? 'i-lucide-chevron-up'
-                    : 'i-lucide-chevron-down'
-                "
-                class="text-n-slate-10 size-3 transition-all duration-300 ease-in-out"
+                icon="i-lucide-chevron-right"
+                class="text-n-slate-10 size-3"
               />
             </div>
           </template>
         </Button>
 
-        <!-- Sliding Submenu -->
-        <div
+        <!-- Hover Submenu -->
+        <DropdownBody
           v-if="item.subMenuItems"
-          class="overflow-hidden transition-all duration-300 ease-in-out"
-          :class="
-            expandedItems.has(item.key)
-              ? 'max-h-96 opacity-100'
-              : 'max-h-0 opacity-0'
-          "
+          class="group-hover/submenu:block hidden [&>ul]:gap-2 [&>ul]:px-3 [&>ul]:py-2.5 max-h-[15rem] min-w-40 z-10 top-0"
+          :class="submenuPosition"
         >
-          <div class="ltr:pl-5 rtl:pr-5 pt-2 flex flex-col items-start gap-2">
-            <Button
-              v-for="subItem in item.subMenuItems"
-              :key="subItem.key + subItem.label"
-              :label="subItem.label"
-              slate
-              link
-              sm
-              class="hover:!no-underline text-n-slate-12 font-normal text-xs"
-              @click="handleSubMenuItemClick(item, subItem)"
-            />
-          </div>
-        </div>
+          <Button
+            v-for="subItem in item.subMenuItems"
+            :key="subItem.key + subItem.label"
+            :label="subItem.label"
+            slate
+            link
+            sm
+            class="hover:!no-underline text-n-slate-12 font-normal text-xs w-full !justify-start mb-1"
+            @click="handleSubMenuItemClick(item, subItem)"
+          />
+        </DropdownBody>
       </div>
     </div>
 

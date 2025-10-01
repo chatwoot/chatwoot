@@ -1472,6 +1472,13 @@ export default {
       width: fit-content !important;
       position: absolute !important;
 
+      // RTL support: use right positioning and flip transform
+      [dir='rtl'] & {
+        left: unset;
+        right: var(--selection-right);
+        transform: translateX(50%);
+      }
+
       .ProseMirror-menuitem {
         @apply mr-0 size-3.5 flex items-center;
 
