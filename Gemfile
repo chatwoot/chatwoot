@@ -6,7 +6,7 @@ ruby '3.4.4'
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
 gem 'rails', '~> 7.1'
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.18.4', require: false
+gem 'bootsnap', require: false
 
 ##-- rails application helper gems --##
 gem 'acts-as-taggable-on'
@@ -51,7 +51,7 @@ gem 'aws-sdk-s3', require: false
 # original gem isn't maintained actively
 # we wanted updated version of faraday which is a dependency for slack-ruby-client
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
-gem 'google-cloud-storage', '>= 1.52.0', require: false
+gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
 ##-- gems for database --#
@@ -105,7 +105,7 @@ gem 'koala'
 # slack client
 gem 'slack-ruby-client', '~> 2.7.0'
 # for dialogflow integrations
-gem 'google-cloud-dialogflow-v2', '>= 1.11.0'
+gem 'google-cloud-dialogflow-v2', '>= 0.24.0'
 gem 'grpc'
 # Translate integrations
 # 'google-cloud-translate' gem depends on faraday 2.0 version
@@ -119,7 +119,7 @@ gem 'datadog', '~> 2.0', require: false
 gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
-gem 'scout_apm', '>= 5.7.1', require: false
+gem 'scout_apm', require: false
 gem 'sentry-rails', '>= 5.19.0', require: false
 gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', '>= 5.19.0', require: false
