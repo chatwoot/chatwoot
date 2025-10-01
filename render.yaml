@@ -15,8 +15,9 @@ services:
   - type: web
     name: gp-bikes-web
     runtime: ruby
-    plan: standard  # $25/month per instance - 2GB RAM, 1 vCPU
-    numInstances: 2  # High availability (load balanced)
+    plan: pro  # $85/month per instance - 4GB RAM (needed for Vite build)
+    # NOTE: Can downgrade to 'standard' ($25) after successful build if needed
+    numInstances: 1  # Start with 1, scale to 2 after confirming stability
     region: oregon  # Closest available to Colombia
     
     # Build configuration

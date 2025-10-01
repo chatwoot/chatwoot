@@ -68,13 +68,24 @@ echo ""
 echo "🎨 Step 3/4: Compiling frontend assets with Vite..."
 echo ""
 
-# Increase Node.js heap size for Vite build (prevents OOM errors)
-# Render's Standard plan has 2GB RAM, allocate 1.5GB to Node.js
-export NODE_OPTIONS="--max-old-space-size=1536"
+# CRITICAL: Increase Node.js heap size for Vite build (prevents OOM errors)
+# Render's Standard plan has 2GB RAM total
+# Allocate 1.75GB to Node.js (maximum safe amount)
+export NODE_OPTIONS="--max-old-space-size=1792"
+
+# ALTERNATIVE: If Rails doesn't pass NODE_OPTIONS correctly, use direct vite build
+echo "   Attempting direct Vite build (bypasses Rails for better memory control)..."
+
+# Try direct vite build first (more control over memory)
+if command -v vite &> /dev/null; then
+  NODE_ENV=production NODE_OPTIONS="--max-old-space-size=1792" pnpm run build 2>/dev/null || {
+    echo "   Direct vite build not available, falling back to Rails..."
+  }
+fi
 
 # Precompile assets (Vite builds Vue.js frontend)
 # Sets NODE_ENV=production for optimizations (minification, tree-shaking)
-NODE_ENV=production bundle exec rails assets:precompile
+NODE_ENV=production NODE_OPTIONS="--max-old-space-size=1792" bundle exec rails assets:precompile
 
 echo "✅ Assets compiled successfully"
 echo ""
