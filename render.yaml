@@ -38,7 +38,7 @@ services:
     
     # Auto-deploy on git push
     autoDeploy: true
-    branch: production  # Deploy from 'production' branch
+    branch: develop  # Deploy from 'develop' branch
     
     # Environment variables
     envVars:
@@ -246,9 +246,9 @@ services:
     
     buildCommand: ./bin/render-build.sh
     startCommand: bundle exec rails ip_lookup:setup && bundle exec sidekiq -C config/sidekiq.yml
-    
+
     autoDeploy: true
-    branch: production
+    branch: develop  # Deploy from 'develop' branch (worker)
     
     envVars:
       # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
