@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import ButtonV4 from 'next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   healthData: {
@@ -171,9 +172,10 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
             <span class="text-sm font-medium text-n-slate-11">
               {{ item.label }}
             </span>
-            <i
+            <Icon
               v-tooltip.top="item.tooltip"
-              class="flex-shrink-0 w-4 h-4 cursor-help i-lucide-info text-n-slate-9"
+              icon="i-lucide-info"
+              class="flex-shrink-0 w-4 h-4 cursor-help text-n-slate-9"
             />
           </div>
           <div class="flex items-center">
@@ -216,7 +218,7 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
           class="flex justify-center items-center p-8 text-center text-n-slate-11"
         >
           <div>
-            <i class="mb-2 w-8 h-8 i-lucide-activity" />
+            <Icon icon="i-lucide-activity" class="mb-2 w-8 h-8" />
             <p class="text-sm">{{ t('INBOX_MGMT.ACCOUNT_HEALTH.NO_DATA') }}</p>
           </div>
         </div>
