@@ -104,7 +104,8 @@ class Message < ApplicationRecord
     apple_rich_link: 17,
     apple_authentication: 18,
     apple_form: 19,
-    apple_custom_app: 20
+    apple_custom_app: 20,
+    apple_form_response: 21
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -298,7 +299,7 @@ class Message < ApplicationRecord
   def ensure_content_type
     # Don't override content_type if it's already set to an Apple Messages type
     return if content_type.present? && content_type.start_with?('apple_')
-    
+
     # For Apple Messages, try to infer content_type from content_attributes
     if content_type.blank? && content_attributes.present?
       if content_attributes.key?('items') && content_attributes.key?('summary_text')
@@ -312,7 +313,7 @@ class Message < ApplicationRecord
         return
       end
     end
-    
+
     # Default fallback
     self.content_type ||= Message.content_types[:text]
   end
