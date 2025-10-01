@@ -56,7 +56,8 @@ echo ""
 # Install Node.js dependencies
 # --frozen-lockfile: Don't update pnpm-lock.yaml (reproducible builds)
 # --prod: Skip devDependencies (reduces install time and image size)
-pnpm install --frozen-lockfile --prod
+# --ignore-scripts: Skip prepare/postinstall scripts (husky, etc.)
+pnpm install --frozen-lockfile --prod --ignore-scripts
 
 echo "✅ Node.js packages installed successfully"
 echo ""
