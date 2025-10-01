@@ -1,0 +1,434 @@
+# GP Bikes AI Assistant - Render Blueprint
+# Version: 1.0.0
+# Last Updated: 2025-10-01
+#
+# This file defines all infrastructure as code for Render.com deployment.
+# Deploy via: https://dashboard.render.com/select-repo?type=blueprint
+#
+# Documentation: https://render.com/docs/blueprint-spec
+
+services:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # WEB SERVICE (Rails Application)
+  # Handles HTTP requests, WhatsApp webhooks, Vue.js dashboard
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  - type: web
+    name: gp-bikes-web
+    runtime: ruby
+    plan: standard  # $25/month per instance - 2GB RAM, 1 vCPU
+    numInstances: 2  # High availability (load balanced)
+    region: oregon  # Closest available to Colombia
+    
+    # Build configuration
+    buildCommand: ./bin/render-build.sh
+    startCommand: bundle exec rails ip_lookup:setup && bin/rails server -p $PORT -e $RAILS_ENV
+    
+    # Health check (Render pings this every 30s)
+    healthCheckPath: /api/v1/health
+    
+    # Auto-deploy on git push
+    autoDeploy: true
+    branch: production  # Deploy from 'production' branch
+    
+    # Environment variables
+    envVars:
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # RAILS CORE
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: RAILS_ENV
+        value: production
+      
+      - key: RACK_ENV
+        value: production
+      
+      - key: NODE_ENV
+        value: production
+      
+      - key: RAILS_SERVE_STATIC_FILES
+        value: true
+      
+      - key: RAILS_LOG_TO_STDOUT
+        value: true
+      
+      - key: RAILS_LOG_LEVEL
+        value: info  # Use 'warn' to reduce log volume
+      
+      - key: RAILS_MAX_THREADS
+        value: 5
+      
+      - key: WEB_CONCURRENCY
+        value: 2  # Puma workers (2 workers × 5 threads = 10 concurrent requests)
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # FRONTEND
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: FRONTEND_URL
+        value: https://gp-bikes.onrender.com  # Update with custom domain if needed
+      
+      - key: FORCE_SSL
+        value: true
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # INSTALLATION
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: INSTALLATION_ENV
+        value: render
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # DATABASE (auto-populated by Render)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gp-bikes-postgres
+          property: connectionString
+      
+      - key: POSTGRES_HOST
+        fromDatabase:
+          name: gp-bikes-postgres
+          property: host
+      
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: gp-bikes-postgres
+          property: port
+      
+      - key: POSTGRES_DATABASE
+        fromDatabase:
+          name: gp-bikes-postgres
+          property: database
+      
+      - key: POSTGRES_USERNAME
+        fromDatabase:
+          name: gp-bikes-postgres
+          property: user
+      
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: gp-bikes-postgres
+          property: password
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # REDIS (auto-populated by Render)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: REDIS_URL
+        fromDatabase:
+          name: gp-bikes-redis
+          property: connectionString
+      
+      - key: REDIS_HOST
+        fromDatabase:
+          name: gp-bikes-redis
+          property: host
+      
+      - key: REDIS_PORT
+        fromDatabase:
+          name: gp-bikes-redis
+          property: port
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # SECRETS (MUST SET MANUALLY IN RENDER DASHBOARD)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: SECRET_KEY_BASE
+        generateValue: true  # Auto-generate on first deploy
+      
+      - key: RAILS_MASTER_KEY
+        sync: false  # Get from config/master.key - DO NOT COMMIT TO GIT
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # OPENAI (REQUIRED FOR AI WORKERS)
+      # Set in Render Dashboard → Environment → Secret Files
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: OPENAI_API_KEY
+        sync: false  # sk-proj-xxxxxxxxxxxxx
+      
+      - key: OPENAI_MODEL
+        value: gpt-4-turbo-preview
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # WHATSAPP BUSINESS API (REQUIRED)
+      # Get from Meta Business Manager
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      
+      - key: WHATSAPP_ACCESS_TOKEN
+        sync: false
+      
+      - key: WHATSAPP_WEBHOOK_VERIFY_TOKEN
+        sync: false  # Generate random: openssl rand -hex 32
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # ACTIVE STORAGE (S3 RECOMMENDED)
+      # Create S3 bucket first (see docs/setup/render-deployment-architecture.md)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: ACTIVE_STORAGE_SERVICE
+        value: amazon
+      
+      - key: AWS_ACCESS_KEY_ID
+        sync: false  # IAM user with S3 access
+      
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      
+      - key: AWS_REGION
+        value: us-west-2
+      
+      - key: S3_BUCKET_NAME
+        value: gp-bikes-production-uploads
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # GP BIKES CONFIGURATION
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: GP_BIKES_ACCOUNT_ID
+        value: 1  # Chatwoot account ID (get from database after first setup)
+      
+      - key: GP_BIKES_INBOX_ID
+        value: 1  # WhatsApp inbox ID (get from Chatwoot dashboard)
+      
+      - key: GP_BIKES_TEAM_ID
+        value: 1  # Team ID (get from Chatwoot dashboard)
+      
+      - key: GP_BIKES_WHATSAPP_NUMBER
+        sync: false  # +57XXXXXXXXXX (Colombian format)
+      
+      - key: GP_BIKES_DEALERSHIP_NAME
+        value: "GP Bikes Yamaha"
+      
+      - key: GP_BIKES_DEALERSHIP_ADDRESS
+        value: "Calle 123 No 45-67, Bogotá, Colombia"
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # ERROR TRACKING (OPTIONAL BUT RECOMMENDED)
+      # Create free Sentry project at sentry.io
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: SENTRY_DSN
+        sync: false  # https://xxxxx@sentry.io/xxxxx
+      
+      - key: SENTRY_ENVIRONMENT
+        value: production
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # PERFORMANCE TUNING
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: POSTGRES_STATEMENT_TIMEOUT
+        value: 14s  # Kill queries running longer than 14s
+      
+      - key: DB_POOL_REAPING_FREQUENCY
+        value: 30  # Clean up dead connections every 30s
+    
+    # Auto-scaling configuration (Pro plan and above)
+    # scalingConfig:
+    #   minInstances: 2
+    #   maxInstances: 4
+    #   targetCPUPercent: 70
+    #   targetMemoryPercent: 80
+
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # BACKGROUND WORKER (Sidekiq)
+  # Processes AI worker jobs, scheduled tasks, async operations
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  - type: worker
+    name: gp-bikes-worker
+    runtime: ruby
+    plan: standard  # $25/month - 2GB RAM, 1 vCPU
+    numInstances: 1
+    region: oregon
+    
+    buildCommand: ./bin/render-build.sh
+    startCommand: bundle exec rails ip_lookup:setup && bundle exec sidekiq -C config/sidekiq.yml
+    
+    autoDeploy: true
+    branch: production
+    
+    envVars:
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # RAILS CORE (same as web service)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: RAILS_ENV
+        value: production
+      
+      - key: RACK_ENV
+        value: production
+      
+      - key: RAILS_LOG_TO_STDOUT
+        value: true
+      
+      - key: RAILS_LOG_LEVEL
+        value: info
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # SIDEKIQ CONFIGURATION
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: SIDEKIQ_CONCURRENCY
+        value: 10  # Process 10 jobs concurrently
+      
+      - key: SIDEKIQ_TIMEOUT
+        value: 25  # Job timeout (seconds)
+      
+      - key: SIDEKIQ_MAX_RETRIES
+        value: 3  # Retry failed jobs 3 times
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # DATABASE (same as web service)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gp-bikes-postgres
+          property: connectionString
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # REDIS (same as web service)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: REDIS_URL
+        fromDatabase:
+          name: gp-bikes-redis
+          property: connectionString
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # SECRETS (synced from web service)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: SECRET_KEY_BASE
+        sync: false  # Same value as web service
+      
+      - key: RAILS_MASTER_KEY
+        sync: false
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # OPENAI (required for AI workers)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: OPENAI_API_KEY
+        sync: false
+      
+      - key: OPENAI_MODEL
+        value: gpt-4-turbo-preview
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # WHATSAPP (needed for sending messages from jobs)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      
+      - key: WHATSAPP_ACCESS_TOKEN
+        sync: false
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # GP BIKES CONFIGURATION
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: GP_BIKES_ACCOUNT_ID
+        value: 1
+      
+      - key: GP_BIKES_INBOX_ID
+        value: 1
+      
+      - key: GP_BIKES_TEAM_ID
+        value: 1
+      
+      - key: GP_BIKES_WHATSAPP_NUMBER
+        sync: false
+      
+      - key: GP_BIKES_DEALERSHIP_NAME
+        value: "GP Bikes Yamaha"
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # ACTIVE STORAGE (needed if jobs create uploads)
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: ACTIVE_STORAGE_SERVICE
+        value: amazon
+      
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      
+      - key: AWS_REGION
+        value: us-west-2
+      
+      - key: S3_BUCKET_NAME
+        value: gp-bikes-production-uploads
+      
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      # ERROR TRACKING
+      # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      - key: SENTRY_DSN
+        sync: false
+      
+      - key: SENTRY_ENVIRONMENT
+        value: production
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DATABASES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+databases:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # POSTGRESQL with pgvector extension
+  # Primary data store, conversation history, AI embeddings
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  - name: gp-bikes-postgres
+    databaseName: chatwoot_production
+    user: chatwoot_prod
+    plan: pro  # $90/month - 16GB RAM, 4 vCPU, 100GB SSD
+    region: oregon
+    version: "16"  # PostgreSQL 16 (required for pgvector)
+    ipAllowList: []  # Empty = private network only (secure)
+    
+    # CRITICAL: Enable pgvector extension for AI embeddings
+    postgreSQLExtensions:
+      - pgvector   # Vector similarity search for AI
+      - pg_trgm    # Trigram indexes for full-text search
+      - pgcrypto   # Encryption functions
+      - uuid-ossp  # UUID generation
+  
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # REDIS
+  # Session store, Rails cache, Sidekiq queue backend
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  - name: gp-bikes-redis
+    plan: starter  # $10/month - 256MB RAM
+    region: oregon
+    maxmemoryPolicy: allkeys-lru  # Evict least recently used keys when full
+    version: "7"
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DEPLOYMENT NOTES
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#
+# BEFORE DEPLOYING:
+# 1. Create S3 bucket (see docs/setup/render-deployment-architecture.md)
+# 2. Get OpenAI API key (https://platform.openai.com/api-keys)
+# 3. Set up WhatsApp Business API (https://business.facebook.com)
+# 4. Copy config/master.key to Render secret (NEVER commit to Git)
+# 5. Generate WHATSAPP_WEBHOOK_VERIFY_TOKEN: openssl rand -hex 32
+#
+# DEPLOYMENT STEPS:
+# 1. Push to GitHub: git push origin production
+# 2. Render Dashboard → New → Blueprint → Select Repository
+# 3. Render creates all services automatically (~10 minutes)
+# 4. Set missing secrets in Dashboard → Services → Environment
+# 5. Verify health checks: https://gp-bikes.onrender.com/api/v1/health
+#
+# COST ESTIMATE (PRODUCTION):
+# - Web Service (2 instances): $50/month
+# - Worker Service: $25/month
+# - PostgreSQL Pro: $90/month
+# - Redis Starter: $10/month
+# - S3 Storage: ~$5/month
+# TOTAL: ~$180/month for 1000 MAU
+#
+# SCALING:
+# - Horizontal: Add more web instances via Dashboard
+# - Vertical: Upgrade plan (Standard → Pro)
+# - Database: Upgrade plan (Pro → Pro Plus for 32GB RAM)
+# - Redis: Upgrade when memory > 80% (Starter → Standard)
+#
+# MONITORING:
+# - Render Dashboard: CPU, memory, request rate, error rate
+# - Sentry: Real-time error tracking (recommended)
+# - Logs: render logs gp-bikes-web --tail
+#
+# SUPPORT:
+# - Documentation: docs/setup/render-deployment-architecture.md
+# - Render Docs: https://render.com/docs
+# - Community: https://community.render.com
+
+
