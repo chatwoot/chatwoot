@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 json.id company.id
 json.name company.name
 json.domain company.domain

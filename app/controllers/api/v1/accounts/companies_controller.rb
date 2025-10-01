@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :fetch_company, only: [:show, :update, :destroy]
