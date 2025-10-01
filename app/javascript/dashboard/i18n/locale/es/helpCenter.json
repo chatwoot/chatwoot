@@ -397,7 +397,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug de categoría para urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/es-es-ES/categories/my-slug",
+          "HELP_TEXT": "app.gpbikes.com/hc/my-portal/es-es-ES/categories/my-slug",
           "ERROR": "Slug es requerido"
         },
         "DESCRIPTION": {
@@ -428,7 +428,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug de categoría para urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/es-ES/categories/my-slug",
+          "HELP_TEXT": "app.gpbikes.com/hc/my-portal/es-ES/categories/my-slug",
           "ERROR": "Slug es requerido"
         },
         "DESCRIPTION": {
@@ -612,7 +612,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Slug de categoría para urls",
             "ERROR": "Slug es requerido",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.gpbikes.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Descripción",
@@ -695,7 +695,7 @@
       "CONFIRM_BUTTON_LABEL": "Crear",
       "NAME": {
         "LABEL": "Nombre",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "Guía de Usuario | GP Bikes",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "El nombre es requerido"
       },
