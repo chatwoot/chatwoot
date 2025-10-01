@@ -70,8 +70,8 @@ export default {
           enabled: false,
           use_live_layout: true,
           app_data: {},
-          images: []
-        }
+          images: [],
+        },
       ],
       updateTimeout: null,
     };
@@ -163,29 +163,24 @@ export default {
         // Initialize iMessage apps with safe defaults (mimic payment processors pattern)
         const imessageAppsData = this.inbox.imessage_apps || [];
 
-        // Debug logging to see what we're loading
-        console.log('🔥 Loading iMessage Apps data:', {
-          inboxImessageApps: this.inbox.imessage_apps,
-          imessageAppsData: imessageAppsData,
-          imessageAppsDataLength: imessageAppsData.length,
-          inboxFull: this.inbox
-        });
-
-        this.imessageApps = imessageAppsData.length > 0 ? imessageAppsData : [
-          {
-            id: 'app_1',
-            name: 'Custom Business App',
-            app_id: 'com.example.businessapp',
-            bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:com.example.businessapp:extension',
-            version: '1.0',
-            url: '',
-            description: 'Default business integration app',
-            enabled: false,
-            use_live_layout: true,
-            app_data: {},
-            images: []
-          }
-        ];
+        this.imessageApps =
+          imessageAppsData.length > 0
+            ? imessageAppsData
+            : [
+                {
+                  id: 'app_1',
+                  name: 'Custom Business App',
+                  app_id: 'com.example.businessapp',
+                  bid: 'com.apple.messages.MSMessageExtensionBalloonPlugin:com.example.businessapp:extension',
+                  version: '1.0',
+                  url: '',
+                  description: 'Default business integration app',
+                  enabled: false,
+                  use_live_layout: true,
+                  app_data: {},
+                  images: [],
+                },
+              ];
       }
     },
     handleHmacFlag() {
@@ -256,18 +251,9 @@ export default {
           },
         };
 
-        // Debug logging to see what's being sent
-        console.log('🔥 Sending iMessage Apps payload:', {
-          imessageApps: this.imessageApps,
-          imessageAppsLength: this.imessageApps.length,
-          firstApp: this.imessageApps[0],
-          payloadImessageApps: payload.channel.imessage_apps
-        });
-
         await this.$store.dispatch('inboxes/updateInbox', payload);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        console.error('🔥 iMessage Apps save error:', error);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
@@ -285,7 +271,7 @@ export default {
         enabled: false,
         use_live_layout: true,
         app_data: {},
-        images: []
+        images: [],
       };
       this.imessageApps.push(newApp);
       this.updateAppleMessagesSettings();
@@ -613,7 +599,9 @@ export default {
               <input
                 v-model="oauth2Providers.google.clientId"
                 type="text"
-                placeholder="Google OAuth2 Client ID"
+                :placeholder="
+                  $t('INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.GOOGLE_CLIENT_ID')
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -629,7 +617,11 @@ export default {
               <input
                 v-model="oauth2Providers.google.clientSecret"
                 type="password"
-                placeholder="Google OAuth2 Client Secret"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.GOOGLE_CLIENT_SECRET'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -673,7 +665,11 @@ export default {
               <input
                 v-model="oauth2Providers.linkedin.clientId"
                 type="text"
-                placeholder="LinkedIn OAuth2 Client ID"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.LINKEDIN_CLIENT_ID'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -689,7 +685,11 @@ export default {
               <input
                 v-model="oauth2Providers.linkedin.clientSecret"
                 type="password"
-                placeholder="LinkedIn OAuth2 Client Secret"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.LINKEDIN_CLIENT_SECRET'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -733,7 +733,9 @@ export default {
               <input
                 v-model="oauth2Providers.facebook.clientId"
                 type="text"
-                placeholder="Facebook App ID"
+                :placeholder="
+                  $t('INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.FACEBOOK_APP_ID')
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -749,7 +751,11 @@ export default {
               <input
                 v-model="oauth2Providers.facebook.clientSecret"
                 type="password"
-                placeholder="Facebook App Secret"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.FACEBOOK_APP_SECRET'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -801,7 +807,11 @@ export default {
                 <input
                   v-model="paymentSettings.merchantIdentifier"
                   type="text"
-                  placeholder="merchant.com.yourcompany"
+                  :placeholder="
+                    $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.MERCHANT_IDENTIFIER'
+                    )
+                  "
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                   @blur="updateAppleMessagesSettings"
                 />
@@ -817,7 +827,9 @@ export default {
                 <input
                   v-model="paymentSettings.merchantDomain"
                   type="text"
-                  placeholder="yourcompany.com"
+                  :placeholder="
+                    $t('INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.MERCHANT_DOMAIN')
+                  "
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                   @blur="updateAppleMessagesSettings"
                 />
@@ -838,11 +850,21 @@ export default {
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                   @change="updateAppleMessagesSettings"
                 >
-                  <option value="US">United States (US)</option>
-                  <option value="CA">Canada (CA)</option>
-                  <option value="GB">United Kingdom (GB)</option>
-                  <option value="AU">Australia (AU)</option>
-                  <option value="JP">Japan (JP)</option>
+                  <option value="US">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.COUNTRIES.US') }}
+                  </option>
+                  <option value="CA">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.COUNTRIES.CA') }}
+                  </option>
+                  <option value="GB">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.COUNTRIES.GB') }}
+                  </option>
+                  <option value="AU">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.COUNTRIES.AU') }}
+                  </option>
+                  <option value="JP">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.COUNTRIES.JP') }}
+                  </option>
                 </select>
               </div>
               <div>
@@ -858,11 +880,21 @@ export default {
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                   @change="updateAppleMessagesSettings"
                 >
-                  <option value="USD">US Dollar (USD)</option>
-                  <option value="CAD">Canadian Dollar (CAD)</option>
-                  <option value="GBP">British Pound (GBP)</option>
-                  <option value="AUD">Australian Dollar (AUD)</option>
-                  <option value="JPY">Japanese Yen (JPY)</option>
+                  <option value="USD">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.CURRENCIES.USD') }}
+                  </option>
+                  <option value="CAD">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.CURRENCIES.CAD') }}
+                  </option>
+                  <option value="GBP">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.CURRENCIES.GBP') }}
+                  </option>
+                  <option value="AUD">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.CURRENCIES.AUD') }}
+                  </option>
+                  <option value="JPY">
+                    {{ $t('INBOX_MGMT.SETTINGS_POPUP.CURRENCIES.JPY') }}
+                  </option>
                 </select>
               </div>
             </div>
@@ -884,7 +916,7 @@ export default {
                     class="mr-2 h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
                     @change="updateAppleMessagesSettings"
                   />
-                  Visa
+                  {{ $t('INBOX_MGMT.SETTINGS_POPUP.PAYMENT_NETWORKS.VISA') }}
                 </label>
                 <label class="flex items-center">
                   <input
@@ -894,7 +926,9 @@ export default {
                     class="mr-2 h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
                     @change="updateAppleMessagesSettings"
                   />
-                  Mastercard
+                  {{
+                    $t('INBOX_MGMT.SETTINGS_POPUP.PAYMENT_NETWORKS.MASTERCARD')
+                  }}
                 </label>
                 <label class="flex items-center">
                   <input
@@ -904,7 +938,7 @@ export default {
                     class="mr-2 h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
                     @change="updateAppleMessagesSettings"
                   />
-                  American Express
+                  {{ $t('INBOX_MGMT.SETTINGS_POPUP.PAYMENT_NETWORKS.AMEX') }}
                 </label>
                 <label class="flex items-center">
                   <input
@@ -914,7 +948,9 @@ export default {
                     class="mr-2 h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
                     @change="updateAppleMessagesSettings"
                   />
-                  Discover
+                  {{
+                    $t('INBOX_MGMT.SETTINGS_POPUP.PAYMENT_NETWORKS.DISCOVER')
+                  }}
                 </label>
               </div>
             </div>
@@ -972,7 +1008,11 @@ export default {
               <input
                 v-model="paymentProcessors.stripe.publishableKey"
                 type="text"
-                placeholder="pk_..."
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.STRIPE_PUBLISHABLE_KEY'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -988,7 +1028,9 @@ export default {
               <input
                 v-model="paymentProcessors.stripe.secretKey"
                 type="password"
-                placeholder="sk_..."
+                :placeholder="
+                  $t('INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.STRIPE_SECRET_KEY')
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -1032,7 +1074,11 @@ export default {
               <input
                 v-model="paymentProcessors.square.applicationId"
                 type="text"
-                placeholder="Square Application ID"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.SQUARE_APPLICATION_ID'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -1048,7 +1094,11 @@ export default {
               <input
                 v-model="paymentProcessors.square.accessToken"
                 type="password"
-                placeholder="Square Access Token"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.SQUARE_ACCESS_TOKEN'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -1092,7 +1142,11 @@ export default {
               <input
                 v-model="paymentProcessors.braintree.merchantId"
                 type="text"
-                placeholder="Braintree Merchant ID"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.BRAINTREE_MERCHANT_ID'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -1108,7 +1162,11 @@ export default {
               <input
                 v-model="paymentProcessors.braintree.publicKey"
                 type="text"
-                placeholder="Braintree Public Key"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.BRAINTREE_PUBLIC_KEY'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -1124,7 +1182,11 @@ export default {
               <input
                 v-model="paymentProcessors.braintree.privateKey"
                 type="password"
-                placeholder="Braintree Private Key"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.PLACEHOLDERS.BRAINTREE_PRIVATE_KEY'
+                  )
+                "
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 @blur="updateAppleMessagesSettings"
               />
@@ -1136,8 +1198,8 @@ export default {
 
     <!-- iMessage Apps Configuration -->
     <SettingsSection
-      :title="'📱 iMessage Apps Configuration'"
-      :sub-title="'Configure custom iMessage apps that agents can invoke in conversations. These apps must be installed on customer devices.'"
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.TITLE')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.SUBTITLE')"
     >
       <div class="space-y-6">
         <!-- Apps List -->
@@ -1161,24 +1223,33 @@ export default {
               </div>
               <button
                 v-if="imessageApps.length > 1"
-                @click="removeImessageApp(index)"
                 class="text-red-500 hover:text-red-700 transition-colors"
+                @click="removeImessageApp(index)"
               >
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                  <path
+                    d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                  />
                 </svg>
               </button>
             </div>
 
-            <div v-if="app.enabled" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              v-if="app.enabled"
+              class="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  App Name *
+                  {{ $t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.APP_NAME') }}
                 </label>
                 <input
                   v-model="app.name"
                   type="text"
-                  placeholder="My Custom App"
+                  :placeholder="
+                    $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.PLACEHOLDER.APP_NAME'
+                    )
+                  "
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   @blur="updateAppleMessagesSettings"
                 />
@@ -1186,12 +1257,16 @@ export default {
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  App ID *
+                  {{ $t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.APP_ID') }}
                 </label>
                 <input
                   v-model="app.app_id"
                   type="text"
-                  placeholder="com.example.myapp"
+                  :placeholder="
+                    $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.PLACEHOLDER.APP_ID'
+                    )
+                  "
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   @blur="updateAppleMessagesSettings"
                 />
@@ -1199,12 +1274,16 @@ export default {
 
               <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  Bundle Identifier (BID) *
+                  {{ $t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.BUNDLE_ID') }}
                 </label>
                 <input
                   v-model="app.bid"
                   type="text"
-                  placeholder="com.apple.messages.MSMessageExtensionBalloonPlugin:bundleId:extension"
+                  :placeholder="
+                    $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.PLACEHOLDER.BUNDLE_ID'
+                    )
+                  "
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   @blur="updateAppleMessagesSettings"
                 />
@@ -1212,12 +1291,16 @@ export default {
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  Version
+                  {{ $t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.VERSION') }}
                 </label>
                 <input
                   v-model="app.version"
                   type="text"
-                  placeholder="1.0"
+                  :placeholder="
+                    $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.PLACEHOLDER.VERSION'
+                    )
+                  "
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   @blur="updateAppleMessagesSettings"
                 />
@@ -1225,12 +1308,16 @@ export default {
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  App URL (Optional)
+                  {{ $t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.APP_URL') }}
                 </label>
                 <input
                   v-model="app.url"
                   type="url"
-                  placeholder="https://example.com/app"
+                  :placeholder="
+                    $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.PLACEHOLDER.APP_URL'
+                    )
+                  "
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   @blur="updateAppleMessagesSettings"
                 />
@@ -1238,12 +1325,18 @@ export default {
 
               <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">
-                  Description
+                  {{
+                    $t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.DESCRIPTION')
+                  }}
                 </label>
                 <textarea
                   v-model="app.description"
                   rows="2"
-                  placeholder="Brief description of what this app does"
+                  :placeholder="
+                    $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.PLACEHOLDER.DESCRIPTION'
+                    )
+                  "
                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   @blur="updateAppleMessagesSettings"
                 />
@@ -1258,11 +1351,19 @@ export default {
                     @blur="updateAppleMessagesSettings"
                   />
                   <label class="text-sm text-gray-700">
-                    Use Live Layout (recommended)
+                    {{
+                      $t(
+                        'INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.USE_LIVE_LAYOUT'
+                      )
+                    }}
                   </label>
                 </div>
                 <p class="text-xs text-gray-500 mt-1">
-                  Enables dynamic layout updates and better user experience
+                  {{
+                    $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.USE_LIVE_LAYOUT_HELP'
+                    )
+                  }}
                 </p>
               </div>
             </div>
@@ -1271,11 +1372,11 @@ export default {
 
         <!-- Add New App Button -->
         <button
-          @click="addImessageApp"
           type="button"
           class="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-gray-400 hover:text-gray-600 transition-colors"
+          @click="addImessageApp"
         >
-          + Add iMessage App Configuration
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.IMESSAGE_APPS.ADD_APP') }}
         </button>
       </div>
     </SettingsSection>

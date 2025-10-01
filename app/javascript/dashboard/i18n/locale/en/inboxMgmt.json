@@ -766,7 +766,65 @@
       "APPLE_MESSAGES_WEBHOOK_TITLE": "Webhook URL",
       "APPLE_MESSAGES_WEBHOOK_SUBTITLE": "Configure this URL in Apple Business Register to receive messages from customers.",
       "APPLE_MESSAGES_SECRET_TITLE": "Shared Secret",
-      "APPLE_MESSAGES_SECRET_SUBTITLE": "Secret key used to verify webhook requests from Apple Messages for Business."
+      "APPLE_MESSAGES_SECRET_SUBTITLE": "Secret key used to verify webhook requests from Apple Messages for Business.",
+      "IMESSAGE_APPS": {
+        "TITLE": "iMessage Apps Configuration",
+        "SUBTITLE": "Configure custom iMessage apps that agents can invoke in conversations. These apps must be installed on customer devices.",
+        "APP_NAME": "App Name *",
+        "APP_ID": "App ID *",
+        "BUNDLE_ID": "Bundle Identifier (BID) *",
+        "VERSION": "Version",
+        "APP_URL": "App URL (Optional)",
+        "DESCRIPTION": "Description",
+        "USE_LIVE_LAYOUT": "Use Live Layout (recommended)",
+        "USE_LIVE_LAYOUT_HELP": "Enables dynamic layout updates and better user experience",
+        "ADD_APP": "Add iMessage App Configuration",
+        "PLACEHOLDER": {
+          "APP_NAME": "My Custom App",
+          "APP_ID": "com.example.myapp",
+          "BUNDLE_ID": "com.apple.messages.MSMessageExtensionBalloonPlugin:bundleId:extension",
+          "VERSION": "1.0",
+          "APP_URL": "https://example.com/app",
+          "DESCRIPTION": "Brief description of what this app does"
+        }
+      },
+      "COUNTRIES": {
+        "US": "United States (US)",
+        "CA": "Canada (CA)",
+        "GB": "United Kingdom (GB)",
+        "AU": "Australia (AU)",
+        "JP": "Japan (JP)"
+      },
+      "CURRENCIES": {
+        "USD": "US Dollar (USD)",
+        "CAD": "Canadian Dollar (CAD)",
+        "GBP": "British Pound (GBP)",
+        "AUD": "Australian Dollar (AUD)",
+        "JPY": "Japanese Yen (JPY)"
+      },
+      "PAYMENT_NETWORKS": {
+        "VISA": "Visa",
+        "MASTERCARD": "Mastercard",
+        "AMEX": "American Express",
+        "DISCOVER": "Discover"
+      },
+      "PLACEHOLDERS": {
+        "GOOGLE_CLIENT_ID": "Google OAuth2 Client ID",
+        "GOOGLE_CLIENT_SECRET": "Google OAuth2 Client Secret",
+        "LINKEDIN_CLIENT_ID": "LinkedIn OAuth2 Client ID",
+        "LINKEDIN_CLIENT_SECRET": "LinkedIn OAuth2 Client Secret",
+        "FACEBOOK_APP_ID": "Facebook App ID",
+        "FACEBOOK_APP_SECRET": "Facebook App Secret",
+        "MERCHANT_IDENTIFIER": "merchant.com.yourcompany",
+        "MERCHANT_DOMAIN": "yourcompany.com",
+        "STRIPE_PUBLISHABLE_KEY": "pk_...",
+        "STRIPE_SECRET_KEY": "sk_...",
+        "SQUARE_APPLICATION_ID": "Square Application ID",
+        "SQUARE_ACCESS_TOKEN": "Square Access Token",
+        "BRAINTREE_MERCHANT_ID": "Braintree Merchant ID",
+        "BRAINTREE_PUBLIC_KEY": "Braintree Public Key",
+        "BRAINTREE_PRIVATE_KEY": "Braintree Private Key"
+      }
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",

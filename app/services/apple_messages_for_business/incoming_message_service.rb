@@ -43,10 +43,11 @@ class AppleMessagesForBusiness::IncomingMessageService
     has_body = @params['body'].present?
     has_attachments = @params['attachments'].present?
     has_interactive = @params['interactiveData'].present?
+    has_idr = @params['interactiveDataRef'].present?
 
-    Rails.logger.info "[AMB IncomingMessage] Validation - ID: #{has_id}, Body: #{has_body}, Attachments: #{has_attachments}, Interactive: #{has_interactive}"
+    Rails.logger.info "[AMB IncomingMessage] Validation - ID: #{has_id}, Body: #{has_body}, Attachments: #{has_attachments}, Interactive: #{has_interactive}, IDR: #{has_idr}"
 
-    valid = has_id && (has_body || has_attachments || has_interactive)
+    valid = has_id && (has_body || has_attachments || has_interactive || has_idr)
     Rails.logger.info "[AMB IncomingMessage] Message validation result: #{valid}"
 
     valid
@@ -54,6 +55,12 @@ class AppleMessagesForBusiness::IncomingMessageService
 
   def set_contact
     Rails.logger.info "[AMB IncomingMessage] Setting contact with source_id: #{source_id}"
+
+    # If this user was previously blocked, unblock them (Apple MSP spec: user can re-initiate)
+    AppleMessagesForBusiness::ConversationReopenService.new(
+      inbox: @inbox,
+      source_id: source_id
+    ).perform
 
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: source_id,
@@ -71,10 +78,34 @@ class AppleMessagesForBusiness::IncomingMessageService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.first
+    # Get the most recent conversation (resolved or open)
+    @conversation = @contact_inbox.conversations.order(updated_at: :desc).first
 
     if @conversation
-      Rails.logger.info "[AMB IncomingMessage] Using existing conversation ID: #{@conversation.id}"
+      Rails.logger.info "[AMB IncomingMessage] Found existing conversation ID: #{@conversation.id}, Status: #{@conversation.status}"
+
+      # If conversation was resolved due to AMB close event, reopen it for this new message
+      # This properly handles the case where user sends a message after opting out and then back in
+      if @conversation.status == 'resolved' && conversation_closed_by_amb?(@conversation)
+        Rails.logger.info "[AMB IncomingMessage] Reopening AMB-closed conversation ID: #{@conversation.id}"
+        @conversation.update!(status: 'open', resolved_at: nil)
+
+        # Add a system message about conversation reopening
+        @conversation.messages.create!(
+          content: 'Customer resumed conversation by sending a new message.',
+          account_id: @inbox.account_id,
+          inbox_id: @inbox.id,
+          message_type: :activity,
+          sender: nil,
+          content_type: 'text',
+          content_attributes: {
+            automation_rule_id: nil,
+            system_generated: true,
+            reopened_by: 'customer_message'
+          }
+        )
+      end
+
       # Update existing conversation with latest capability information
       update_conversation_capabilities
       return
@@ -171,7 +202,7 @@ class AppleMessagesForBusiness::IncomingMessageService
   end
 
   def interactive_message?
-    @params['type'] == 'interactive'
+    @params['type'] == 'interactive' || @params['interactiveDataRef'].present?
   end
 
   def attachments_present?
@@ -179,9 +210,20 @@ class AppleMessagesForBusiness::IncomingMessageService
   end
 
   def extract_interactive_content
+    # Check if this is an IDR response first
+    if @params['interactiveDataRef'].present?
+      # For IDR responses, we'll extract content after processing
+      # For now, return a placeholder that will be updated after IDR processing
+      return 'Processing Interactive Data Reference...'
+    end
+
     interactive_data = @params['interactiveData']
     return '' unless interactive_data
 
+    extract_content_from_interactive_data(interactive_data)
+  end
+
+  def extract_content_from_interactive_data(interactive_data)
     # First, try to extract the actual user selection from replyMessage
     if interactive_data['data'] && interactive_data['data']['replyMessage']
       reply_message = interactive_data['data']['replyMessage']
@@ -200,7 +242,13 @@ class AppleMessagesForBusiness::IncomingMessageService
     data_keys = interactive_data['data'].keys
 
     # Check for specific interactive response types and extract relevant info
-    if data_keys.include?('event') && interactive_data['data']['event']['timeslots']
+    if data_keys.include?('dynamic') && interactive_data['data']['dynamic']['template'] == 'messageForms'
+      # Apple MSP Form response - extract form submissions
+      dynamic_data = interactive_data['data']['dynamic']
+      return process_form_response(dynamic_data) if dynamic_data['selections']&.any?
+
+      return 'Form Response'
+    elsif data_keys.include?('event') && interactive_data['data']['event']['timeslots']
       # Time picker response - extract selected time slot (new format: data.event)
       timeslots = interactive_data['data']['event']['timeslots']
       if timeslots.any?
@@ -250,11 +298,50 @@ class AppleMessagesForBusiness::IncomingMessageService
     interactive_data = @params['interactiveData']
     return {} unless interactive_data
 
-    {
+    attributes = {
       interactive_type: determine_interactive_type(interactive_data),
       interactive_data: interactive_data,
       bid: interactive_data['bid']
     }
+
+    # For form responses, extract and store the detailed form data
+    if interactive_data['data'] && interactive_data['data']['dynamic'] &&
+       interactive_data['data']['dynamic']['template'] == 'messageForms'
+
+      dynamic_data = interactive_data['data']['dynamic']
+      attributes[:form_response] = {
+        template: dynamic_data['template'],
+        version: dynamic_data['version'],
+        selections: dynamic_data['selections'] || [],
+        submitted_at: Time.current.iso8601
+      }
+      attributes[:interactive_type] = 'apple_form_response'
+    end
+
+    attributes
+  end
+
+  def determine_interactive_type_from_data(interactive_data)
+    return 'unknown' unless interactive_data['data']
+
+    data_keys = interactive_data['data'].keys
+
+    if data_keys.include?('listPicker')
+      'list_picker'
+    elsif data_keys.include?('timePicker')
+      'time_picker'
+    elsif data_keys.include?('event') && interactive_data['data']['event']['timeslots']
+      # New format: time picker data directly under event
+      'time_picker'
+    elsif data_keys.include?('authenticate')
+      'authentication'
+    elsif data_keys.include?('payment')
+      'payment'
+    elsif data_keys.include?('quick-reply')
+      'quick_reply'
+    else
+      'custom'
+    end
   end
 
   def determine_interactive_type(interactive_data)
@@ -262,7 +349,10 @@ class AppleMessagesForBusiness::IncomingMessageService
 
     data_keys = interactive_data['data'].keys
 
-    if data_keys.include?('listPicker')
+    # Check for Apple MSP form response first
+    if data_keys.include?('dynamic') && interactive_data['data']['dynamic']['template'] == 'messageForms'
+      return 'apple_form_response'
+    elsif data_keys.include?('listPicker')
       'list_picker'
     elsif data_keys.include?('timePicker')
       'time_picker'
@@ -460,6 +550,65 @@ class AppleMessagesForBusiness::IncomingMessageService
   end
 
   def process_interactive_data
+    Rails.logger.info '[AMB IncomingMessage] Processing interactive data'
+
+    # Check if this is an IDR (Interactive Data Reference) response
+    if @params['interactiveDataRef'].present?
+      Rails.logger.info '[AMB IncomingMessage] Detected Interactive Data Reference, processing IDR'
+      process_interactive_data_reference
+    elsif @params['interactiveData'].present?
+      Rails.logger.info '[AMB IncomingMessage] Processing direct interactive data'
+      process_direct_interactive_data
+    end
+  end
+
+  def process_interactive_data_reference
+    idr_data = @params['interactiveDataRef']
+    Rails.logger.info "[AMB IncomingMessage] IDR data: #{idr_data.inspect}"
+
+    begin
+      # Use the IDR service to download and decrypt the full interactive data
+      full_interactive_data = AppleMessagesForBusiness::InteractiveDataReferenceService.process_idr_response(
+        idr_data,
+        @inbox.channel
+      )
+
+      Rails.logger.info '[AMB IncomingMessage] Successfully processed IDR, storing full interactive data'
+
+      # Extract content from the decrypted interactive data
+      extracted_content = extract_content_from_interactive_data(full_interactive_data)
+
+      # Store the full interactive data for response handling and update message content
+      @message.update!(
+        content: (extracted_content.presence || 'Interactive Data Reference Response'),
+        content_type: determine_content_type_from_data(full_interactive_data),
+        content_attributes: @message.content_attributes.merge(
+          interactive_response: full_interactive_data,
+          idr_processed: true,
+          original_idr: idr_data,
+          interactive_type: determine_interactive_type_from_data(full_interactive_data),
+          bid: full_interactive_data['bid']
+        )
+      )
+
+      Rails.logger.info '[AMB IncomingMessage] IDR processing completed successfully'
+    rescue StandardError => e
+      Rails.logger.error "[AMB IncomingMessage] IDR processing failed: #{e.message}"
+
+      # Fallback: store the IDR reference for manual processing
+      @message.update!(
+        content: 'Interactive Data Reference (Processing Failed)',
+        content_type: 'text',
+        content_attributes: @message.content_attributes.merge(
+          interactive_response: { error: 'IDR processing failed', details: e.message },
+          idr_failed: true,
+          original_idr: idr_data
+        )
+      )
+    end
+  end
+
+  def process_direct_interactive_data
     # Store interactive data for potential response handling
     @message.update!(
       content_type: determine_content_type,
@@ -469,11 +618,41 @@ class AppleMessagesForBusiness::IncomingMessageService
     )
   end
 
+  def determine_content_type_from_data(interactive_data)
+    return 'text' unless interactive_data&.dig('data')
+
+    data_keys = interactive_data['data'].keys
+    first_key = data_keys.first
+
+    case first_key
+    when 'listPicker'
+      'apple_list_picker'
+    when 'timePicker'
+      'apple_time_picker'
+    when 'event'
+      # Check if it's a time picker event response
+      if interactive_data['data']['event']['timeslots']
+        'apple_time_picker'
+      else
+        'text'
+      end
+    when 'authenticate'
+      'apple_auth'
+    when 'payment'
+      'apple_pay'
+    else
+      'text'
+    end
+  end
+
   def determine_content_type
     return 'input_email' if attachments_present?
 
     interactive_data = @params['interactiveData']
     return 'text' unless interactive_data&.dig('data')
+
+    # Check for Apple MSP form response first
+    return 'apple_form_response' if interactive_data['data']['dynamic']&.dig('template') == 'messageForms'
 
     data_keys = interactive_data['data'].keys
     first_key = data_keys.first
@@ -523,6 +702,33 @@ class AppleMessagesForBusiness::IncomingMessageService
     Rails.logger.info "[AMB IncomingMessage] Updated conversation capabilities: #{@headers[:capability_list]}"
   end
 
+  def process_form_response(dynamic_data)
+    # Extract form response data from Apple MSP format
+    form_title = dynamic_data['data']&.dig('title') || 'Form'
+    selections = dynamic_data['selections'] || []
+
+    # Build human-readable response summary
+    return "#{form_title} - Submitted (no responses)" if selections.empty?
+
+    response_summary = ["#{form_title} - Response:"]
+
+    selections.each do |selection|
+      page_title = selection['title'] || selection['pageIdentifier'] || 'Question'
+      items = selection['items'] || []
+
+      if items.any?
+        # Multiple items selected (or single item)
+        item_titles = items.map { |item| item['title'] || item['value'] }.compact
+        response_summary << "#{page_title}: #{item_titles.join(', ')}" if item_titles.any?
+      else
+        # Handle case where there might be a direct value
+        response_summary << "#{page_title}: [Response provided]"
+      end
+    end
+
+    response_summary.join("\n")
+  end
+
   def format_time_slot(time_string)
     # Parse the ISO 8601 time string
     time = Time.parse(time_string)
@@ -530,5 +736,10 @@ class AppleMessagesForBusiness::IncomingMessageService
     time.strftime('%B %d, %Y at %I:%M %p %Z')
   rescue ArgumentError
     time_string # Return original string if parsing fails
+  end
+
+  # Check if a conversation was closed by AMB close event
+  def conversation_closed_by_amb?(conversation)
+    conversation.additional_attributes&.dig('closed_by') == 'apple_messages_for_business'
   end
 end

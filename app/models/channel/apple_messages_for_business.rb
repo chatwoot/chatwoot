@@ -40,7 +40,7 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
     :apple_pay_merchant_cert, :webhook_url, :imessage_extension_bid,
     { provider_config: {} }, { oauth2_providers: {} },
     { payment_settings: {} }, { payment_processors: {} },
-    { imessage_apps: [] }
+    { imessage_apps: [:id, :name, :app_id, :bid, :version, :url, :description, :enabled, :use_live_layout, { app_data: {} }, { images: [] }] }
   ].freeze
 
   validates :msp_id, presence: true, uniqueness: true
@@ -50,10 +50,6 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
   # Temporarily disable strict validations to debug 422 error
   # validate :validate_oauth2_settings
   # validate :validate_payment_settings
-
-  # Debug logging for imessage_apps
-  before_save :debug_imessage_apps_save
-  after_save :debug_imessage_apps_after_save
 
   before_save :setup_webhook_url
   after_create :register_webhook
@@ -125,8 +121,8 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
     {
       merchant_identifier: payment_settings['merchantIdentifier'],
       merchant_domain: payment_settings['merchantDomain'],
-      supported_networks: payment_settings['supportedNetworks'] || ['visa', 'masterCard', 'amex'],
-      merchant_capabilities: payment_settings['merchantCapabilities'] || ['supports3DS', 'supportsDebit', 'supportsCredit'],
+      supported_networks: payment_settings['supportedNetworks'] || %w[visa masterCard amex],
+      merchant_capabilities: payment_settings['merchantCapabilities'] || %w[supports3DS supportsDebit supportsCredit],
       country_code: payment_settings['countryCode'] || 'US',
       currency_code: payment_settings['currencyCode'] || 'USD'
     }
@@ -147,11 +143,11 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
 
   def setup_webhook_url
     return if webhook_url.present?
-    
+
     base_url = ENV.fetch('FRONTEND_URL', nil).to_s
     base_url = "https://#{base_url}" unless base_url.start_with?('http://', 'https://')
-    base_url = base_url.sub(/^https?:\/\/https?:\/\//, 'https://') # Fix double protocol
-    
+    base_url = base_url.sub(%r{^https?://https?://}, 'https://') # Fix double protocol
+
     self.webhook_url = "#{base_url}/webhooks/apple_messages_for_business/#{msp_id}/message"
   end
 
@@ -167,35 +163,25 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
     oauth2_providers.each do |provider, config|
       next unless config['enabled'] == true
 
-      if config['clientId'].blank?
-        errors.add(:oauth2_providers, "#{provider.capitalize} OAuth2 Client ID is required when enabled")
-      end
+      errors.add(:oauth2_providers, "#{provider.capitalize} OAuth2 Client ID is required when enabled") if config['clientId'].blank?
 
-      if config['clientSecret'].blank?
-        errors.add(:oauth2_providers, "#{provider.capitalize} OAuth2 Client Secret is required when enabled")
-      end
+      errors.add(:oauth2_providers, "#{provider.capitalize} OAuth2 Client Secret is required when enabled") if config['clientSecret'].blank?
     end
   end
 
   def validate_payment_settings
     return unless payment_settings.present? && payment_settings['applePayEnabled'] == true
 
-    if payment_settings['merchantIdentifier'].blank?
-      errors.add(:payment_settings, 'Merchant Identifier is required when Apple Pay is enabled')
-    end
+    errors.add(:payment_settings, 'Merchant Identifier is required when Apple Pay is enabled') if payment_settings['merchantIdentifier'].blank?
 
-    if payment_settings['merchantDomain'].blank?
-      errors.add(:payment_settings, 'Merchant Domain is required when Apple Pay is enabled')
-    end
+    errors.add(:payment_settings, 'Merchant Domain is required when Apple Pay is enabled') if payment_settings['merchantDomain'].blank?
 
     # Validate at least one payment processor is configured
     return unless payment_processors.present?
 
     enabled_processors = payment_processors.select { |_processor, config| config['enabled'] == true }
 
-    if enabled_processors.empty?
-      errors.add(:payment_processors, 'At least one payment processor must be enabled when Apple Pay is enabled')
-    end
+    errors.add(:payment_processors, 'At least one payment processor must be enabled when Apple Pay is enabled') if enabled_processors.empty?
 
     # Validate payment processor credentials
     enabled_processors.each do |processor, config|
@@ -211,48 +197,28 @@ class Channel::AppleMessagesForBusiness < ApplicationRecord
   end
 
   def validate_stripe_credentials(config)
-    if config['publishableKey'].blank?
-      errors.add(:payment_processors, 'Stripe Publishable Key is required')
-    end
+    errors.add(:payment_processors, 'Stripe Publishable Key is required') if config['publishableKey'].blank?
 
-    if config['secretKey'].blank?
-      errors.add(:payment_processors, 'Stripe Secret Key is required')
-    end
+    return if config['secretKey'].present?
+
+    errors.add(:payment_processors, 'Stripe Secret Key is required')
   end
 
   def validate_square_credentials(config)
-    if config['applicationId'].blank?
-      errors.add(:payment_processors, 'Square Application ID is required')
-    end
+    errors.add(:payment_processors, 'Square Application ID is required') if config['applicationId'].blank?
 
-    if config['accessToken'].blank?
-      errors.add(:payment_processors, 'Square Access Token is required')
-    end
+    return if config['accessToken'].present?
+
+    errors.add(:payment_processors, 'Square Access Token is required')
   end
 
   def validate_braintree_credentials(config)
-    if config['merchantId'].blank?
-      errors.add(:payment_processors, 'Braintree Merchant ID is required')
-    end
+    errors.add(:payment_processors, 'Braintree Merchant ID is required') if config['merchantId'].blank?
 
-    if config['publicKey'].blank?
-      errors.add(:payment_processors, 'Braintree Public Key is required')
-    end
+    errors.add(:payment_processors, 'Braintree Public Key is required') if config['publicKey'].blank?
 
-    if config['privateKey'].blank?
-      errors.add(:payment_processors, 'Braintree Private Key is required')
-    end
-  end
+    return if config['privateKey'].present?
 
-  # Debug methods for iMessage apps saving issue
-  def debug_imessage_apps_save
-    Rails.logger.info "[AMB DEBUG] Before save - imessage_apps: #{imessage_apps.inspect}"
-    Rails.logger.info "[AMB DEBUG] Before save - imessage_apps changed: #{imessage_apps_changed?}"
-    Rails.logger.info "[AMB DEBUG] Before save - imessage_apps was: #{imessage_apps_was.inspect}" if imessage_apps_changed?
-  end
-
-  def debug_imessage_apps_after_save
-    Rails.logger.info "[AMB DEBUG] After save - imessage_apps: #{imessage_apps.inspect}"
-    Rails.logger.info "[AMB DEBUG] After save - persisted: #{persisted?}"
+    errors.add(:payment_processors, 'Braintree Private Key is required')
   end
 end

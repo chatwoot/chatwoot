@@ -8,6 +8,12 @@ class AppleMessagesForBusiness::SendMessageService
   end
 
   def perform
+    # CRITICAL: Check if user has opted out (Apple MSP requirement)
+    if user_opted_out?
+      Rails.logger.warn "[AMB Send] Cannot send message - user #{@destination_id} has opted out"
+      return { success: false, error: 'User has opted out of receiving messages', error_code: 'USER_OPTED_OUT' }
+    end
+
     case @message.content_type
     when 'text'
       send_text_message
@@ -16,6 +22,10 @@ class AppleMessagesForBusiness::SendMessageService
     when 'apple_time_picker'
       send_interactive_message
     when 'apple_quick_reply'
+      send_interactive_message
+    when 'apple_form'
+      send_interactive_message
+    when 'apple_custom_app'
       send_interactive_message
     when 'apple_rich_link'
       send_rich_link_message
@@ -79,10 +89,28 @@ class AppleMessagesForBusiness::SendMessageService
 
     payload = build_apple_msp_payload(message_id)
 
-    response = send_to_apple_gateway(payload, message_id)
+    # Check if this message should request IDR for large responses
+    request_idr = should_request_idr?(payload)
+
+    response = send_to_apple_gateway(payload, message_id, request_idr: request_idr)
 
     if response.success?
-      { success: true, message_id: message_id }
+      result = { success: true, message_id: message_id }
+
+      # If we requested IDR and got a dataRef back, store it
+      if request_idr && response.body.present?
+        begin
+          response_data = JSON.parse(response.body)
+          if response_data['dataRef'].present?
+            Rails.logger.info "[AMB Send] Received dataRef for message #{message_id}"
+            result[:data_ref] = response_data['dataRef']
+          end
+        rescue JSON::ParserError => e
+          Rails.logger.warn "[AMB Send] Failed to parse response body for dataRef: #{e.message}"
+        end
+      end
+
+      result
     else
       { success: false, error: "HTTP #{response.code}: #{response.body}" }
     end
@@ -126,6 +154,11 @@ class AppleMessagesForBusiness::SendMessageService
     when 'apple_time_picker'
       # Time picker should have event directly in data, not nested under timePicker
       base_data[:data][:event] = build_time_picker_data
+      base_data[:receivedMessage] = build_received_message
+      base_data[:replyMessage] = build_reply_message
+    when 'apple_form'
+      # Apple MSP Form requires dynamic structure with messageForms template
+      base_data[:data][:dynamic] = build_form_dynamic_data
       base_data[:receivedMessage] = build_received_message
       base_data[:replyMessage] = build_reply_message
     end
@@ -197,15 +230,11 @@ class AppleMessagesForBusiness::SendMessageService
 
       # Use Apple's "User timezone approach": If we converted times to GMT, remove timezoneOffset
       # This lets Apple display times in the user's local timezone automatically
-      if has_timezone_in_times
-        event_data.delete('timezoneOffset')
-      end
+      event_data.delete('timezoneOffset') if has_timezone_in_times
     end
 
     event_data
   end
-
-  private
 
   def convert_duration_if_needed(duration)
     # Apple working sample uses seconds (3600), but ensure consistency
@@ -215,8 +244,15 @@ class AppleMessagesForBusiness::SendMessageService
   end
 
   def build_received_message
+    # For Apple forms, use the form title if available
+    default_title = if @message.content_type == 'apple_form' && content_attributes['title'].present?
+                      content_attributes['title']
+                    else
+                      @message.content || 'Interactive Message'
+                    end
+
     msg = {
-      title: content_attributes['received_title'] || @message.content || 'Interactive Message',
+      title: content_attributes['received_title'] || default_title,
       style: content_attributes['received_style'] || 'icon'
     }
 
@@ -230,8 +266,15 @@ class AppleMessagesForBusiness::SendMessageService
   end
 
   def build_reply_message
+    # For Apple forms, use a form-specific reply title if no custom title is set
+    default_reply_title = if @message.content_type == 'apple_form' && content_attributes['title'].present? && !content_attributes['reply_title'].present?
+                            "#{content_attributes['title']} - Submitted"
+                          else
+                            'Selection Made'
+                          end
+
     msg = {
-      title: content_attributes['reply_title'] || 'Selection Made',
+      title: content_attributes['reply_title'] || default_reply_title,
       style: content_attributes['reply_style'] || 'icon'
     }
 
@@ -251,6 +294,113 @@ class AppleMessagesForBusiness::SendMessageService
     msg[:imageIdentifier] = content_attributes['reply_image_identifier'] if content_attributes['reply_image_identifier'].present?
 
     msg
+  end
+
+  def build_form_dynamic_data
+    # Apple MSP Form specification requires specific dynamic structure
+    form_data = content_attributes || {}
+
+    # Convert our form structure to Apple MSP format
+    pages = convert_form_pages_to_msp_format(form_data['fields'] || [])
+
+    {
+      version: '1.2',
+      template: 'messageForms',
+      data: {
+        startPageIdentifier: '0',
+        showSummary: form_data['show_summary'] || false,
+        pages: pages
+      }
+    }
+  end
+
+  def convert_form_pages_to_msp_format(fields)
+    return [] if fields.empty?
+
+    # Create separate pages for each field (Apple MSP forms are page-based)
+    pages = []
+
+    fields.each_with_index do |field, index|
+      page_id = index.to_s
+      next_page_id = index + 1 < fields.length ? (index + 1).to_s : nil
+
+      case field['type']
+      when 'text', 'email'
+        pages << {
+          pageIdentifier: page_id,
+          type: 'input',
+          title: field['label'] || field['name'] || "Field #{index + 1}",
+          subtitle: field['placeholder'] || 'Please enter your response',
+          nextPageIdentifier: next_page_id,
+          submitForm: next_page_id.nil?, # Last field submits form
+          options: {
+            required: field['required'] || false,
+            inputType: 'singleline',
+            keyboardType: field['type'] == 'email' ? 'emailAddress' : 'default',
+            placeholder: field['placeholder'] || '',
+            maximumCharacterCount: 300
+          }.compact
+        }
+      when 'singleSelect', 'multiSelect'
+        multiple_selection = field['type'] == 'multiSelect'
+        items = (field['options'] || []).map.with_index do |option, opt_index|
+          item_data = {
+            title: option['title'] || option['label'] || option['value'],
+            value: option['value'] || option['title'],
+            identifier: "#{page_id}_#{opt_index}"
+          }
+          # For single select, each item can specify next page
+          item_data[:nextPageIdentifier] = next_page_id if !multiple_selection && next_page_id
+          item_data
+        end
+
+        page_data = {
+          pageIdentifier: page_id,
+          type: 'select',
+          title: field['label'] || field['name'] || "Field #{index + 1}",
+          subtitle: field['placeholder'] || 'Please select an option',
+          multipleSelection: multiple_selection,
+          items: items,
+          submitForm: next_page_id.nil? # Last field submits form
+        }
+
+        # For multiple selection, set nextPageIdentifier on page level
+        page_data[:nextPageIdentifier] = next_page_id if multiple_selection && next_page_id
+
+        pages << page_data
+      when 'date', 'dateTime'
+        pages << {
+          pageIdentifier: page_id,
+          type: 'datePicker',
+          title: field['label'] || field['name'] || "Field #{index + 1}",
+          subtitle: field['placeholder'] || 'Please select a date',
+          nextPageIdentifier: next_page_id,
+          submitForm: next_page_id.nil?, # Last field submits form
+          options: {
+            dateFormat: 'MM/dd/yyyy',
+            startDate: Date.current.strftime('%m/%d/%Y')
+          }
+        }
+      else
+        # Default to input field for unknown types
+        pages << {
+          pageIdentifier: page_id,
+          type: 'input',
+          title: field['label'] || field['name'] || "Field #{index + 1}",
+          subtitle: field['placeholder'] || 'Please enter your response',
+          nextPageIdentifier: next_page_id,
+          submitForm: next_page_id.nil?, # Last field submits form
+          options: {
+            required: field['required'] || false,
+            inputType: 'singleline',
+            placeholder: field['placeholder'] || '',
+            maximumCharacterCount: 300
+          }.compact
+        }
+      end
+    end
+
+    pages
   end
 
   # Legacy method for backward compatibility - now delegates to build_apple_msp_payload
@@ -390,7 +540,7 @@ class AppleMessagesForBusiness::SendMessageService
     }
   end
 
-  def send_to_apple_gateway(payload, message_id)
+  def send_to_apple_gateway(payload, message_id, request_idr: false)
     headers = {
       'Content-Type' => 'application/json',
       'Authorization' => "Bearer #{@channel.generate_jwt_token}",
@@ -399,11 +549,66 @@ class AppleMessagesForBusiness::SendMessageService
       'Destination-Id' => @destination_id
     }
 
+    # Add include-data-ref header if requesting IDR for large responses
+    if request_idr
+      headers['include-data-ref'] = 'true'
+      Rails.logger.info "[AMB Send] Requesting IDR for message #{message_id} (payload size: #{payload.to_json.bytesize} bytes)"
+    end
+
     HTTParty.post(
       "#{AMB_SERVER}/message",
       body: payload.to_json,
       headers: headers,
       timeout: 30
     )
+  end
+
+  def should_request_idr?(payload)
+    # Request IDR when the payload is likely to result in a large response
+    # This is especially important for list pickers with images
+
+    payload_size = payload.to_json.bytesize
+
+    # Always request IDR for payloads > 8KB, as responses may exceed 10KB
+    return true if payload_size > 8192
+
+    # Request IDR for list pickers and time pickers with images
+    if payload[:interactiveData] && payload[:interactiveData][:data]
+      interactive_data = payload[:interactiveData][:data]
+
+      # List picker with images is likely to produce large responses
+      if interactive_data[:listPicker] && interactive_data[:images]&.any?
+        Rails.logger.info '[AMB Send] Requesting IDR for list picker with images'
+        return true
+      end
+
+      # Time picker with multiple time slots may also produce large responses
+      if interactive_data[:timePicker] && interactive_data[:images]&.any?
+        Rails.logger.info '[AMB Send] Requesting IDR for time picker with images'
+        return true
+      end
+    end
+
+    # For other cases, let Apple decide based on actual response size
+    false
+  end
+
+  def user_opted_out?
+    # Check if this user has opted out of receiving messages
+    # as per Apple MSP specification requirement
+
+    # Find contact by Apple Messages source ID (destination_id is the user's opaque ID)
+    contact = Contact.joins(:contact_inboxes)
+                     .where(contact_inboxes: { inbox: @channel.inbox })
+                     .where("additional_attributes->>'apple_messages_source_id' = ?", @destination_id)
+                     .where("additional_attributes->>'apple_messages_blocked' = ?", 'true')
+                     .first
+
+    if contact
+      Rails.logger.info "[AMB Send] User #{@destination_id} is blocked - opted out at #{contact.additional_attributes['apple_messages_blocked_at']}"
+      return true
+    end
+
+    false
   end
 end
