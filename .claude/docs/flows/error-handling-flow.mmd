@@ -1,0 +1,66 @@
+```mermaid
+graph TD
+    A[Worker procesando] --> B{OpenAI API call}
+
+    B -->|Success| C[Procesa respuesta]
+    B -->|Timeout| D[Retry 1 - Backoff 2s]
+    B -->|Rate Limit| E[Retry 1 - Backoff 5s]
+    B -->|Auth Error| F[Log Error + Alert]
+
+    D --> D1{Success?}
+    D1 -->|No| G[Retry 2 - Backoff 4s]
+    D1 -->|Sí| C
+
+    E --> E1{Success?}
+    E1 -->|No| H[Retry 2 - Backoff 10s]
+    E1 -->|Sí| C
+
+    G --> G1{Success?}
+    G1 -->|No| I[Retry 3 - Backoff 8s]
+    G1 -->|Sí| C
+
+    H --> H1{Success?}
+    H1 -->|No| J[Retry 3 - Backoff 20s]
+    H1 -->|Sí| C
+
+    I --> I1{Success?}
+    I1 -->|No| K[Fallback a Claude API]
+    I1 -->|Sí| C
+
+    J --> J1{Success?}
+    J1 -->|No| K
+    J1 -->|Sí| C
+
+    K --> K1{Claude Success?}
+    K1 -->|Sí| C
+    K1 -->|No| L[HANDOFF a Agente]
+
+    F --> L
+
+    C --> M{Respuesta coherente?}
+    M -->|Sí| N[Envía mensaje a cliente]
+    M -->|No| O[Reintenta con prompt mejorado]
+
+    O --> O1{Intento < 2?}
+    O1 -->|Sí| B
+    O1 -->|No| L
+
+    L --> L1[Mensaje: Te conectamos con un asesor]
+    L1 --> L2[Asigna a agente disponible]
+    L2 --> L3[Log en Sentry]
+    L3 --> L4[Alert en PagerDuty si rate > 10%]
+
+    N --> P{Cliente satisfecho?}
+    P -->|Sí| Q[Continúa conversación]
+    P -->|No - Frustración| R[Detecta frustración]
+
+    R --> R1[Score frustración > 7?]
+    R1 -->|Sí| L
+    R1 -->|No| Q
+
+    Q --> S[Fin]
+
+    style L fill:#ff6b6b,stroke:#c92a2a,color:#fff
+    style N fill:#95e1d3,stroke:#38b000
+    style K fill:#ffe66d,stroke:#f4a261
+```

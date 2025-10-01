@@ -1,0 +1,67 @@
+```mermaid
+graph TD
+    A[ProductCatalogWorker activado] --> B{Presupuesto ya capturado?}
+
+    B -->|No| C[Pregunta: ¿Cuál es tu presupuesto?]
+    C --> C1[Captura: presupuesto_cop]
+    C1 --> D
+
+    B -->|Sí| D[Pregunta: ¿Para qué usarás la moto?]
+
+    D --> D1{Respuesta}
+    D1 -->|Ciudad| E[Filtra: naked, scooter]
+    D1 -->|Ruta| F[Filtra: touring, adventure]
+    D1 -->|Mixto| G[Filtra: dual-sport, enduro]
+    D1 -->|Deporte| H[Filtra: sport, naked_sport]
+
+    E & F & G & H --> I[Consulta Inventory API]
+
+    I --> I1{Stock disponible?}
+    I1 -->|Sí| J[Calcula Match Score por modelo]
+    I1 -->|No| J1[Sugiere modelos similares]
+
+    J --> K[Ordena por Match Score DESC]
+    K --> L[Selecciona Top 3]
+
+    L --> M[Presenta Opción 1]
+    M --> M1[Nombre + Precio + Specs + Foto]
+    M1 --> M2[Por qué la recomiendo]
+
+    M2 --> N{Cliente interesado en Opción 1?}
+
+    N -->|Sí| O[Pregunta: ¿Quieres financiamiento?]
+    N -->|No| P[Presenta Opción 2]
+
+    P --> P1{Cliente interesado en Opción 2?}
+    P1 -->|Sí| O
+    P1 -->|No| Q[Presenta Opción 3]
+
+    Q --> Q1{Cliente interesado en Opción 3?}
+    Q1 -->|Sí| O
+    Q1 -->|No| R[Ninguna opción encaja]
+
+    R --> R1{Presupuesto es el problema?}
+    R1 -->|Sí| S[Sugiere financiamiento]
+    R1 -->|No| T[Sugiere hablar con asesor]
+
+    O --> O1{Respuesta}
+    O1 -->|Sí| U[FinancingWorker]
+    O1 -->|No| V[Pregunta: ¿Agendar test ride?]
+
+    V --> V1{Respuesta}
+    V1 -->|Sí| W[ServiceSchedulingWorker - Test Ride]
+    V1 -->|No| X[Handoff a Agente]
+
+    S --> U
+    T --> X
+
+    U --> Y[Calcula cuotas]
+    Y --> Z{Aprobado?}
+    Z -->|Sí| AA[Agenda visita para firma]
+    Z -->|No| AB[Sugiere aumentar cuota inicial]
+
+    style O fill:#4ecdc4,stroke:#0a9396
+    style U fill:#ffe66d,stroke:#f4a261
+    style AA fill:#95e1d3,stroke:#38b000
+    style X fill:#ff6b6b,stroke:#c92a2a,color:#fff
+```

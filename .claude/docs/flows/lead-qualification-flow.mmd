@@ -1,0 +1,45 @@
+```mermaid
+graph TD
+    A[Cliente envía mensaje WhatsApp] --> B{Primera interacción?}
+    B -->|Sí| C[GreetingWorker]
+    B -->|No| D[ConversationRouter]
+
+    C --> C1[Saluda + Captura nombre]
+    C1 --> D
+
+    D --> E{Tipo de consulta?}
+
+    E -->|Compra moto| F[LeadQualificationWorker]
+    E -->|Servicio/Taller| G[ServiceSchedulingWorker]
+    E -->|Duda general| H[ProductCatalogWorker]
+
+    F --> F1[Pregunta: ¿Qué presupuesto tienes?]
+    F1 --> F2[Captura: presupuesto_cop]
+    F2 --> F3[Pregunta: ¿Para cuándo la necesitas?]
+    F3 --> F4[Captura: urgencia]
+    F4 --> F5[Pregunta: ¿Has conducido moto antes?]
+    F5 --> F6[Captura: experiencia]
+
+    F6 --> F7[Calcula Lead Score]
+    F7 --> F8{Score >= 8?}
+
+    F8 -->|Sí - Lead HOT| I[Handoff a Agente Humano]
+    F8 -->|No| J[Continúa con ProductCatalogWorker]
+
+    I --> I1[Mensaje: Un asesor te contactará en 5 min]
+    I1 --> I2[Asigna a agente disponible]
+    I2 --> I3[Notifica agente vía dashboard]
+
+    J --> J1[Recomienda 3 motos según perfil]
+    J1 --> K{Cliente interesado?}
+
+    K -->|Sí| L[FinancingWorker o ServiceScheduling]
+    K -->|No| M[Agradece + Follow-up programado]
+
+    L --> N[Cierra venta o agenda test ride]
+    M --> M1[FollowUpWorker en 24h]
+
+    style I fill:#ff6b6b,stroke:#c92a2a,color:#fff
+    style F7 fill:#4ecdc4,stroke:#0a9396
+    style N fill:#95e1d3,stroke:#38b000
+```

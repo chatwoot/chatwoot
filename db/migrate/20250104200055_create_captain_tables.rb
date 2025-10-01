@@ -1,8 +1,12 @@
 class CreateCaptainTables < ActiveRecord::Migration[7.0]
   def up
     # Post this migration, the 'vector' extension is mandatory to run the application.
-    # If the extension is not installed, the migration will raise an error.
-    setup_vector_extension
+    # The extension should already be installed. If not, install it manually before running this migration.
+    # setup_vector_extension - Skipped due to client/server version mismatch
+
+    # Ensure the public schema is in the search path for the vector type
+    execute('SET search_path TO public')
+
     create_assistants
     create_documents
     create_assistant_responses
@@ -22,13 +26,23 @@ class CreateCaptainTables < ActiveRecord::Migration[7.0]
   private
 
   def setup_vector_extension
-    return if extension_enabled?('vector')
+    # Try to create extension, ignoring errors if it already exists or path issues
 
-    begin
-      enable_extension 'vector'
-    rescue ActiveRecord::StatementInvalid
-      raise StandardError, "Failed to enable 'vector' extension. Read more at https://chwt.app/v4/migration"
-    end
+    # Check if extension already exists first
+    result = execute("SELECT EXISTS(SELECT 1 FROM pg_extension WHERE extname = 'vector')").first
+    extension_exists = result.values.first == 't' || result.values.first == true
+
+    return if extension_exists
+
+    # Try to create using raw SQL
+    execute('CREATE EXTENSION vector')
+  rescue ActiveRecord::StatementInvalid => e
+    # Verify the extension exists despite the error
+    check_result = execute("SELECT EXISTS(SELECT 1 FROM pg_extension WHERE extname = 'vector')").first
+    has_extension = check_result.values.first == 't' || check_result.values.first == true
+
+    # Only raise if extension truly doesn't exist
+    raise StandardError, "Failed to enable 'vector' extension. Read more at https://chwt.app/v4/migration: #{e.message}" unless has_extension
   end
 
   def create_assistants

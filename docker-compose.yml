@@ -1,0 +1,143 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: gp-bikes-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chatwoot_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-chatwoot_dev}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init-extensions.sql:/docker-entrypoint-initdb.d/01-init-extensions.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - gp-bikes-network
+    platform: linux/amd64
+
+  redis:
+    image: redis:7-alpine
+    container_name: gp-bikes-redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - gp-bikes-network
+    platform: linux/amd64
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gp-bikes-app
+    command: bundle exec rails server -b 0.0.0.0 -p 3000
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+      RACK_ENV: ${RACK_ENV:-development}
+      NODE_ENV: ${NODE_ENV:-development}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USERNAME: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chatwoot_dev_password}
+      POSTGRES_DATABASE: ${POSTGRES_DB:-chatwoot_dev}
+      REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      FORCE_SSL: ${FORCE_SSL:-false}
+      RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-true}
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-5}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4-turbo-preview}
+      WHATSAPP_PHONE_NUMBER: ${WHATSAPP_PHONE_NUMBER}
+      WHATSAPP_ACCESS_TOKEN: ${WHATSAPP_ACCESS_TOKEN}
+      WHATSAPP_VERIFY_TOKEN: ${WHATSAPP_VERIFY_TOKEN}
+      GP_BIKES_ACCOUNT_ID: ${GP_BIKES_ACCOUNT_ID:-1}
+      GP_BIKES_INBOX_ID: ${GP_BIKES_INBOX_ID:-1}
+      GP_BIKES_TEAM_ID: ${GP_BIKES_TEAM_ID:-1}
+      GP_BIKES_WHATSAPP_NUMBER: ${GP_BIKES_WHATSAPP_NUMBER}
+      GP_BIKES_DEALERSHIP_NAME: ${GP_BIKES_DEALERSHIP_NAME:-GP Bikes Yamaha}
+      GP_BIKES_DEALERSHIP_ADDRESS: "${GP_BIKES_DEALERSHIP_ADDRESS:-Calle 123 No 45-67, Bogotá}"
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+      - node_modules:/app/node_modules
+      - rails_cache:/app/tmp/cache
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - gp-bikes-network
+    stdin_open: true
+    tty: true
+
+  sidekiq:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gp-bikes-sidekiq
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-development}
+      RACK_ENV: ${RACK_ENV:-development}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USERNAME: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chatwoot_dev_password}
+      POSTGRES_DATABASE: ${POSTGRES_DB:-chatwoot_dev}
+      REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4-turbo-preview}
+      GP_BIKES_ACCOUNT_ID: ${GP_BIKES_ACCOUNT_ID:-1}
+      GP_BIKES_INBOX_ID: ${GP_BIKES_INBOX_ID:-1}
+      GP_BIKES_TEAM_ID: ${GP_BIKES_TEAM_ID:-1}
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - gp-bikes-network
+
+volumes:
+  postgres_data:
+    name: gp-bikes-postgres-data
+  redis_data:
+    name: gp-bikes-redis-data
+  bundle_cache:
+    name: gp-bikes-bundle-cache
+  node_modules:
+    name: gp-bikes-node-modules
+  rails_cache:
+    name: gp-bikes-rails-cache
+
+networks:
+  gp-bikes-network:
+    name: gp-bikes-network
+    driver: bridge

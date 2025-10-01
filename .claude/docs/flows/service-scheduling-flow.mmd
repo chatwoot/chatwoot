@@ -1,0 +1,71 @@
+```mermaid
+graph TD
+    A[ServiceSchedulingWorker] --> B{Tipo de cita?}
+
+    B -->|Mantenimiento| C[Pregunta: ¿Cada cuántos km la usas?]
+    B -->|Reparación| D[Pregunta: ¿Qué síntoma tiene?]
+    B -->|Test Ride| E[Pregunta: ¿Qué modelo quieres probar?]
+    B -->|Diagnóstico| F[Pregunta: ¿Qué problema notas?]
+
+    C --> C1[Captura: km_mensuales]
+    C1 --> C2{km_totales >= 10000?}
+    C2 -->|Sí| G[Mantenimiento 10k]
+    C2 -->|No| H[Mantenimiento general]
+
+    D --> D1[Captura: descripcion_problema]
+    D1 --> I[Cita: Reparación]
+
+    E --> E1[Captura: modelo_interes]
+    E1 --> J[Cita: Test Ride]
+
+    F --> F1[Captura: sintomas]
+    F1 --> K[Cita: Diagnóstico]
+
+    G & H & I & J & K --> L[Consulta Calendar API]
+
+    L --> M{Slots disponibles próximos 7 días?}
+
+    M -->|Sí| N[Presenta 3 opciones]
+    M -->|No| O[Presenta opciones 8-14 días]
+
+    N --> N1[Opción 1: Mañana 10am]
+    N1 --> N2[Opción 2: Pasado mañana 2pm]
+    N2 --> N3[Opción 3: En 3 días 4pm]
+
+    O --> O1[Primera fecha disponible]
+
+    N3 & O1 --> P[Pregunta: ¿Cuál prefieres?]
+
+    P --> Q{Cliente elige}
+    Q -->|Opción válida| R[Confirma datos]
+    Q -->|Ninguna sirve| S[Pregunta: ¿Qué fecha te sirve?]
+
+    S --> S1[Captura fecha preferida]
+    S1 --> T{Fecha válida y disponible?}
+    T -->|Sí| R
+    T -->|No| U[Handoff a agente]
+
+    R --> R1[Nombre: XXX]
+    R1 --> R2[Placa moto: XXX]
+    R2 --> R3[Fecha: XXX]
+    R3 --> R4[Hora: XXX]
+
+    R4 --> V[Pregunta: ¿Todo correcto?]
+
+    V --> W{Confirmación}
+    W -->|Sí| X[Crea ServiceAppointment]
+    W -->|No| Y[Pregunta: ¿Qué corregir?]
+
+    Y --> Z{Campo a corregir}
+    Z --> R1
+
+    X --> X1[Envía WhatsApp Template]
+    X1 --> X2[Genera PDF confirmación]
+    X2 --> X3[Programa Sidekiq Job recordatorio 24h antes]
+
+    X3 --> AA[Cita confirmada ✓]
+
+    style AA fill:#95e1d3,stroke:#38b000
+    style U fill:#ff6b6b,stroke:#c92a2a,color:#fff
+    style X3 fill:#4ecdc4,stroke:#0a9396
+```
