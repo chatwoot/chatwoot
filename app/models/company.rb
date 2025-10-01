@@ -5,7 +5,6 @@
 # Table name: companies
 #
 #  id          :bigint           not null, primary key
-#  avatar      :string
 #  description :text
 #  domain      :string
 #  name        :string           not null
@@ -18,10 +17,6 @@
 #  index_companies_on_account_id             (account_id)
 #  index_companies_on_domain_and_account_id  (domain,account_id)
 #  index_companies_on_name_and_account_id    (name,account_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (account_id => accounts.id)
 #
 class Company < ApplicationRecord
   include Avatarable

@@ -6,7 +6,7 @@ class CreateCompanies < ActiveRecord::Migration[7.1]
       t.string :name, null: false
       t.string :domain
       t.text :description
-      t.references :account, null: false, foreign_key: true
+      t.references :account, null: false
 
       t.timestamps
     end

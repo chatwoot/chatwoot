@@ -118,7 +118,7 @@ RSpec.describe 'Companies API', type: :request do
       let(:company) { create(:company, account: account) }
 
       it 'deletes the company' do
-        company # create the company
+        company
         expect do
           delete "/api/v1/accounts/#{account.id}/companies/#{company.id}",
                  headers: admin.create_new_auth_token,
