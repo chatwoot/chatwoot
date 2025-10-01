@@ -66,7 +66,7 @@ export default defineConfig({
     minify: 'esbuild', // Faster and MUCH less memory than terser
     sourcemap: false, // Disable source maps in production to save memory
     reportCompressedSize: false, // Skip gzip size reporting (saves memory)
-    cssCodeSplit: false, // Bundle all CSS in one file (reduces complexity)
+    cssCodeSplit: true, // Bundle all CSS in one file (reduces complexity)
     rollupOptions: {
       // Reduce memory usage by limiting concurrent operations
       maxParallelFileOps: 1, // CRITICAL: Only 1 file at a time
