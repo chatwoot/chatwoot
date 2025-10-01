@@ -61,7 +61,13 @@ export default defineConfig({
     },
   },
   build: {
+    // Optimize for lower memory usage during build (prevents OOM on Render)
+    chunkSizeWarningLimit: 1000, // Increase to reduce warnings
+    minify: 'esbuild', // Faster and less memory than terser
+    sourcemap: false, // Disable source maps in production to save memory
     rollupOptions: {
+      // Reduce memory usage by limiting concurrent chunk processing
+      maxParallelFileOps: 2,
       output: {
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
         // setting dir: isLibraryMode ? 'public/packs' : undefined will not work

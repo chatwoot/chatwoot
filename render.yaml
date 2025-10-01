@@ -23,6 +23,14 @@ services:
     buildCommand: ./bin/render-build.sh
     startCommand: bundle exec rails ip_lookup:setup && bin/rails server -p $PORT -e $RAILS_ENV
     
+    # Build environment (more memory for asset compilation)
+    buildFilter:
+      paths:
+        - app/javascript/**
+        - vite.config.ts
+        - package.json
+        - pnpm-lock.yaml
+    
     # Health check (Render pings this every 30s)
     healthCheckPath: /api/v1/health
     
