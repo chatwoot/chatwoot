@@ -2,6 +2,24 @@
 
 <p>Time to save the world. A new conversation has been assigned to you</p>
 
+
+<pre>{{ conversation.recent_messages | json }}</pre>
+<pre>{{ conversation | json }}</pre>
+
+
+<pre>{{ conversation.recent_messages | inspect }}</pre>
+<pre>{{ conversation | inspect }}</pre>
+
+
+{% for msg in conversation.recent_messages %}
+  <pre>
+  {% for field in msg %}
+    {{ field[0] }}: {{ field[1] }}
+  {% endfor %}
+  </pre>
+{% endfor %}
+
+
 {% for chat_message in conversation.recent_messages %}
   <div>
     <h4 style="margin: 0;">
