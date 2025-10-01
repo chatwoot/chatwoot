@@ -61,14 +61,18 @@ export default defineConfig({
     },
   },
   build: {
-    // Optimize for lower memory usage during build (prevents OOM on Render)
-    chunkSizeWarningLimit: 1000, // Increase to reduce warnings
-    minify: 'esbuild', // Faster and less memory than terser
+    // AGGRESSIVE optimization for lower memory usage during build (prevents OOM on Render)
+    chunkSizeWarningLimit: 5000, // Increase to reduce warnings and processing
+    minify: 'esbuild', // Faster and MUCH less memory than terser
     sourcemap: false, // Disable source maps in production to save memory
+    reportCompressedSize: false, // Skip gzip size reporting (saves memory)
+    cssCodeSplit: false, // Bundle all CSS in one file (reduces complexity)
     rollupOptions: {
-      // Reduce memory usage by limiting concurrent chunk processing
-      maxParallelFileOps: 2,
+      // Reduce memory usage by limiting concurrent operations
+      maxParallelFileOps: 1, // CRITICAL: Only 1 file at a time
       output: {
+        // Simplify chunk strategy - less memory intensive
+        compact: true,
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
         // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
         ...(isLibraryMode
@@ -81,7 +85,10 @@ export default defineConfig({
                 return '[name].js';
               },
             }
-          : {}),
+          : {
+              // Reduce chunk count to minimize memory usage
+              manualChunks: undefined, // Disable automatic chunking
+            }),
         inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
       },
     },

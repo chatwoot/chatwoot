@@ -13,6 +13,15 @@ set -o nounset
 # Pipelines fail on first error
 set -o pipefail
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# CRITICAL: Set Node.js memory BEFORE any Node process starts
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Pro plan has 4GB RAM, allocate 3GB to Node.js heap
+# This MUST be set early to affect all child processes
+export NODE_OPTIONS="--max-old-space-size=3072"
+echo "🧠 Node.js heap size set to 3GB (3072MB)"
+echo ""
+
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "🔨 GP Bikes AI Assistant - Render Build Process"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -66,26 +75,13 @@ echo ""
 # 3. ASSET COMPILATION
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 echo "🎨 Step 3/4: Compiling frontend assets with Vite..."
+echo "   NODE_OPTIONS already set to: $NODE_OPTIONS"
 echo ""
 
-# CRITICAL: Increase Node.js heap size for Vite build (prevents OOM errors)
-# Render's Standard plan has 2GB RAM total
-# Allocate 1.75GB to Node.js (maximum safe amount)
-export NODE_OPTIONS="--max-old-space-size=1792"
-
-# ALTERNATIVE: If Rails doesn't pass NODE_OPTIONS correctly, use direct vite build
-echo "   Attempting direct Vite build (bypasses Rails for better memory control)..."
-
-# Try direct vite build first (more control over memory)
-if command -v vite &> /dev/null; then
-  NODE_ENV=production NODE_OPTIONS="--max-old-space-size=1792" pnpm run build 2>/dev/null || {
-    echo "   Direct vite build not available, falling back to Rails..."
-  }
-fi
-
 # Precompile assets (Vite builds Vue.js frontend)
+# NODE_OPTIONS is already exported globally at top of script
 # Sets NODE_ENV=production for optimizations (minification, tree-shaking)
-NODE_ENV=production NODE_OPTIONS="--max-old-space-size=1792" bundle exec rails assets:precompile
+NODE_ENV=production bundle exec rails assets:precompile
 
 echo "✅ Assets compiled successfully"
 echo ""
