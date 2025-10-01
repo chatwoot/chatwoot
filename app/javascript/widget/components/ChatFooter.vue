@@ -40,7 +40,8 @@ export default {
       return !allowMessagesAfterResolved && status === 'resolved';
     },
     showEmailTranscriptButton() {
-      return this.hasEmail;
+      // return this.hasEmail;
+      return false; // Disable email transcript button as no smtp configured
     },
     hasEmail() {
       return this.currentUser && this.currentUser.has_email;

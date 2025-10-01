@@ -13,6 +13,8 @@ amazon:
   secret_access_key: <%= ENV.fetch('AWS_SECRET_ACCESS_KEY', '') %>
   region: <%= ENV.fetch('AWS_REGION', '') %>
   bucket: <%= ENV.fetch('S3_BUCKET_NAME', '') %>
+  upload:
+    cache_control: <%= ENV.fetch('ACTIVE_STORAGE_CACHE_CONTROL', 'public, max-age=3600') %>
 
 # Remember not to checkin your GCS keyfile to a repository
 google:
