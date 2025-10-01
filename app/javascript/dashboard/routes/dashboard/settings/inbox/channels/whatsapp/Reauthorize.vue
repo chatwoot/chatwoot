@@ -46,8 +46,6 @@ const description = computed(() => {
   return '';
 });
 
-// WHATSAPP_REGISTRATION_INCOMPLETE
-
 const reauthorizeWhatsApp = async params => {
   isRequestingAuthorization.value = true;
 
