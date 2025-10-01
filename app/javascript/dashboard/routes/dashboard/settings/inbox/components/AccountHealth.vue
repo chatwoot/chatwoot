@@ -50,7 +50,7 @@ const healthItems = computed(() => {
 
   return [
     {
-      key: 'DISPLAY_PHONE_NUMBER',
+      key: 'displayPhoneNumber',
       label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_PHONE_NUMBER.LABEL'),
       value: displayPhoneNumber || 'N/A',
       tooltip: t(
@@ -59,14 +59,14 @@ const healthItems = computed(() => {
       show: true,
     },
     {
-      key: 'VERIFIED_NAME',
+      key: 'verifiedName',
       label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.LABEL'),
       value: verifiedName || 'N/A',
       tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.VERIFIED_NAME.TOOLTIP'),
       show: true,
     },
     {
-      key: 'DISPLAY_NAME_STATUS',
+      key: 'displayNameStatus',
       label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.DISPLAY_NAME_STATUS.LABEL'),
       value: nameStatus || 'UNKNOWN',
       tooltip: t(
@@ -76,7 +76,7 @@ const healthItems = computed(() => {
       type: 'status',
     },
     {
-      key: 'QUALITY_RATING',
+      key: 'qualityRating',
       label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.QUALITY_RATING.LABEL'),
       value: qualityRating || 'UNKNOWN',
       tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.QUALITY_RATING.TOOLTIP'),
@@ -84,7 +84,7 @@ const healthItems = computed(() => {
       type: 'quality',
     },
     {
-      key: 'MESSAGING_LIMIT_TIER',
+      key: 'messagingLimitTier',
       label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.MESSAGING_LIMIT_TIER.LABEL'),
       value: messagingLimitTier || 'UNKNOWN',
       tooltip: t(
@@ -94,7 +94,7 @@ const healthItems = computed(() => {
       type: 'tier',
     },
     {
-      key: 'ACCOUNT_MODE',
+      key: 'accountMode',
       label: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.ACCOUNT_MODE.LABEL'),
       value: accountMode || 'UNKNOWN',
       tooltip: t('INBOX_MGMT.ACCOUNT_HEALTH.FIELDS.ACCOUNT_MODE.TOOLTIP'),
