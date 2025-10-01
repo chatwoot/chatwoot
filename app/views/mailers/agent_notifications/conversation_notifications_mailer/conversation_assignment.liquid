@@ -2,13 +2,14 @@
 
 <p>Time to save the world. A new conversation has been assigned to you</p>
 
+<p>Total recent messages: {{ conversation.recent_messages.size }}</p>
+
 {% for msg in conversation.recent_messages %}
   <pre>
-  {% for field in msg %}
-    {{ field[0] }}: {{ field[1] }}
-  {% endfor %}
+  sender: {{ msg.sender }}
+  content: {{ msg.content }}
+  attachments: {{ msg.attachments }}
   </pre>
-  <p>TESTING</p>
 {% endfor %}
 
 
