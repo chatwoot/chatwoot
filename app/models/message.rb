@@ -138,6 +138,8 @@ class Message < ApplicationRecord
 
   after_create :cancel_follow_up_job, if: :incoming?
 
+  store_accessor :additional_attributes, :delivery_status
+
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
   end
@@ -153,6 +155,27 @@ class Message < ApplicationRecord
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data[:metadata] = metadata if metadata.present?
     merge_sender_attributes(data)
+  end
+
+  def mark_pending!
+    update!(additional_attributes: (additional_attributes || {}).merge('delivery_status' => 'pending'))
+  end
+
+  def mark_sent!
+    update!(additional_attributes: (additional_attributes || {}).merge('delivery_status' => 'sent'))
+  end
+
+  def mark_failed!(error = nil)
+    update!(
+      additional_attributes: (additional_attributes || {}).merge(
+        'delivery_status' => 'failed',
+        'error_message' => error
+      )
+    )
+  end
+
+  def delivery_status
+    additional_attributes&.dig('delivery_status') || 'pending'
   end
 
   def conversation_push_event_data
@@ -242,11 +265,9 @@ class Message < ApplicationRecord
   def metadata_must_be_array_of_objects
     return if metadata.blank?
 
-    unless metadata.is_a?(Array) && metadata.all? { |m| m.is_a?(Hash) }
-      errors.add(:metadata, 'must be an array of JSON objects')
-    end
+    errors.add(:metadata, 'must be an array of JSON objects') unless metadata.is_a?(Array) && metadata.all? { |m| m.is_a?(Hash) }
   end
-  
+
   def prevent_message_flooding
     # Added this to cover the validation specs in messages
     # We can revisit and see if we can remove this later
@@ -338,9 +359,24 @@ class Message < ApplicationRecord
   end
 
   def send_reply
-    # FIXME: Giving it few seconds for the attachment to be uploaded to the service
-    # active storage attaches the file only after commit
-    attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
+    if inbox.channel_type == 'Channel::Instagram' && conversation.additional_attributes['type'] != 'instagram_comments' && additional_attributes['delivery_status'] != 'sent' && message_type == 'outgoing'
+      mark_pending!
+
+      first_pending_id = conversation.messages
+                                     .where("additional_attributes ->> 'delivery_status' = ?", 'pending')
+                                     .where(message_type: 'outgoing')
+                                     .first.id
+
+      if first_pending_id == id
+        if attachments.blank?
+          ::SendReplyJob.perform_later(id)
+        else
+          ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
+        end
+      end
+    else
+      attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
+    end
   end
 
   def reopen_conversation
@@ -434,6 +470,9 @@ class Message < ApplicationRecord
     conversation.cancel_existing_follow_up_job
 
     return if conversation.stop_follow_up
+
+    message_type = conversation.additional_attributes['type']
+    return if message_type == 'feed_comments' || message_type == 'instagram_comments'
 
     config_value = InstallationConfig.find_by(name: 'FOLLOW_UP_FIRST_DELAY_HOURS')&.value
     follow_up_1_delay = (config_value || 1).to_i.hours

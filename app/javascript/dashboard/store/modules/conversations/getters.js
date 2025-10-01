@@ -102,6 +102,17 @@ const getters = {
       return isUnAssigned && shouldFilter;
     });
   },
+ getCommentsList: state => activeFilters => {
+  return state.allConversations.filter(conversation => {
+    const type = conversation.additional_attributes?.type;
+    const isComment =
+      type === 'feed_comments' || type === 'instagram_comments';
+    const shouldFilter = applyPageFilters(conversation, activeFilters);
+
+    return isComment && shouldFilter;
+  });
+},
+
   getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
     const currentUser = rootGetters.getCurrentUser;
     const currentUserId = rootGetters.getCurrentUser.id;

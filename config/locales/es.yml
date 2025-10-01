@@ -18,6 +18,8 @@
 #available at https://guides.rubyonrails.org/i18n.html.
 es:
   hello: 'Hola mundo'
+  dm_template: "¡Hola! 👋 ¡Gracias por interactuar! Avísame si necesitas información específica o si tienes alguna pregunta."
+  comment_reply: "Gracias por dejarnos un comentario 💬. Te respondimos por mensaje privado, échale un vistazo cuando tengas un momento."
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'

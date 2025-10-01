@@ -45,8 +45,30 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def build_message
-    @message = conversation.messages.create!(message_params)
+    template_dm_conversation = Conversation.joins(contact_inbox: { contact: :account }, inbox: :account)
+                                           .where(
+                                             "conversations.contact_id = ? AND conversations.inbox_id = ? AND inboxes.account_id = ? AND conversations.additional_attributes->>'type' = ?",
+                                             @contact_inbox.contact_id,
+                                             @inbox.id,
+                                             @inbox.account_id,
+                                             'template_dm'
+                                           )
+                                           .last
+  
+    if template_dm_conversation
+      Rails.logger.info "Found existing template_dm conversation #{template_dm_conversation.id} for contact #{@contact_inbox.contact_id} in inbox #{@inbox.id}"
+      @conversation = template_dm_conversation
+    else
+      Rails.logger.info "No existing template_dm conversation found, creating a new one for contact #{@contact_inbox.contact_id} in inbox #{@inbox.id}"
+      @conversation = set_conversation_based_on_inbox_config
+    end
+  
+    @message = @conversation.messages.create!(message_params)
 
+    additional_attributes = @conversation.additional_attributes
+    additional_attributes["type"] = "template_dm"
+    @conversation.update!(additional_attributes: additional_attributes)
+  
     @attachments.each do |attachment|
       process_attachment(attachment)
     end

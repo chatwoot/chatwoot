@@ -118,6 +118,7 @@ const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
+const commentsChatList = useMapGetter('getCommentsList');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
 const activeInbox = useMapGetter('getSelectedInbox');
@@ -258,7 +259,9 @@ const conversationListPagination = computed(() => {
     Array.isArray(chatsOnView.value) &&
     !chatsOnView.value.length;
   const isNoFiltersOrFoldersAndChatListNotEmpty =
-    !hasAppliedFiltersOrActiveFolders.value && hasChatsOnView;
+    !hasAppliedFiltersOrActiveFolders.value && 
+    activeAssigneeTab.value !== 'comments' &&
+    hasChatsOnView;
   const isUnderPerPage =
     chatsOnView.value.length < conversationsPerPage &&
     activeAssigneeTabCount.value < conversationsPerPage &&
@@ -271,7 +274,10 @@ const conversationListPagination = computed(() => {
   return currentPage.value + 1;
 });
 
+
 const conversationFilters = computed(() => {
+  const tabConversationType =
+    activeAssigneeTab.value === 'comments' ? 'comments' : undefined;
   return {
     inboxId: props.conversationInbox ? props.conversationInbox : undefined,
     assigneeType: activeAssigneeTab.value,
@@ -280,7 +286,7 @@ const conversationFilters = computed(() => {
     page: conversationListPagination.value,
     labels: props.label ? [props.label] : undefined,
     teamId: props.teamId || undefined,
-    conversationType: props.conversationType || undefined,
+    conversationType: props.conversationType || tabConversationType,
   };
 });
 
@@ -328,6 +334,8 @@ const conversationList = computed(() => {
       localConversationList = [...mineChatsList.value(filters)];
     } else if (activeAssigneeTab.value === 'unassigned') {
       localConversationList = [...unAssignedChatsList.value(filters)];
+    } else if (activeAssigneeTab.value === 'comments') {
+      localConversationList = [...commentsChatList.value(filters)];
     } else {
       localConversationList = [...allChatList.value(filters)];
     }
@@ -835,7 +843,7 @@ watch(activeFolder, (newVal, oldVal) => {
   resetAndFetchData();
 });
 
-watch(chatLists, () => {
+watch(conversationList, () => {
   chatsOnView.value = conversationList.value;
 });
 

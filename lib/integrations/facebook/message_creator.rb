@@ -36,7 +36,16 @@ class Integrations::Facebook::MessageCreator
   end
 
   def create_contact_message
-    Channel::FacebookPage.where(page_id: response.recipient_id).each do |page|
+  
+    # Convert recipient_id to string just in case DB stores page_id as string
+    recipient_id_str = response.recipient_id.to_s
+  
+    pages = Channel::FacebookPage.where(page_id: recipient_id_str)
+  
+    # fallback to instagram_id
+    pages = Channel::FacebookPage.where(instagram_id: recipient_id_str) if pages.empty?
+  
+    pages.each do |page|
       mb = Messages::Facebook::MessageBuilder.new(response, page.inbox)
       mb.perform
     end

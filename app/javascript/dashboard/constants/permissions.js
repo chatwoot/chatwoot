@@ -1,3 +1,4 @@
+
 export const AVAILABLE_CUSTOM_ROLE_PERMISSIONS = [
   'conversation_manage',
   'conversation_unassigned_manage',
@@ -50,4 +51,14 @@ export const ASSIGNEE_TYPE_TAB_PERMISSIONS = {
       CONVERSATION_PARTICIPATING_PERMISSIONS,
     ],
   },
+  comments: {
+    count: 'commentsCount',
+    permissions: [
+      ...ROLES,
+      MANAGE_ALL_CONVERSATION_PERMISSIONS,
+      CONVERSATION_PARTICIPATING_PERMISSIONS,
+    ],
+  },
 };
+
+
