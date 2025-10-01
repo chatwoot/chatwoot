@@ -15,14 +15,14 @@ const { t } = useI18n();
 
 const QUALITY_COLORS = {
   GREEN: 'text-n-teal-11',
-  YELLOW: 'text-n-yellow-11',
+  YELLOW: 'text-n-amber-11',
   RED: 'text-n-ruby-11',
   UNKNOWN: 'text-n-slate-12',
 };
 
 const STATUS_COLORS = {
   APPROVED: 'text-n-teal-11',
-  PENDING_REVIEW: 'text-n-yellow-11',
+  PENDING_REVIEW: 'text-n-amber-11',
   AVAILABLE_WITHOUT_REVIEW: 'text-n-teal-11',
   REJECTED: 'text-n-ruby-9',
   DECLINED: 'text-n-ruby-9',
@@ -139,7 +139,9 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
     <div
       class="px-5 py-5 space-y-6 rounded-xl border shadow-sm border-n-weak bg-n-solid-2"
     >
-      <div class="grid grid-cols-[1fr_auto] gap-5">
+      <div
+        class="flex flex-col gap-5 justify-between items-start w-full md:flex-row"
+      >
         <div>
           <span class="text-base font-medium text-n-slate-12">
             {{ t('INBOX_MGMT.ACCOUNT_HEALTH.TITLE') }}
@@ -148,12 +150,18 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
             {{ t('INBOX_MGMT.ACCOUNT_HEALTH.DESCRIPTION') }}
           </p>
         </div>
-        <ButtonV4 sm solid blue @click="handleGoToSettings">
+        <ButtonV4
+          sm
+          solid
+          blue
+          class="flex-shrink-0"
+          @click="handleGoToSettings"
+        >
           {{ t('INBOX_MGMT.ACCOUNT_HEALTH.GO_TO_SETTINGS') }}
         </ButtonV4>
       </div>
 
-      <div v-if="healthData" class="grid grid-cols-2 gap-4">
+      <div v-if="healthData" class="grid grid-cols-1 gap-4 xs:grid-cols-2">
         <div
           v-for="item in healthItems"
           :key="item.key"

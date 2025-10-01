@@ -504,6 +504,7 @@ export default {
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
       <WhatsappReauthorize
+        v-if="whatsappUnauthorized"
         :whatsapp-registration-incomplete="whatsappRegistrationIncomplete"
         :inbox="inbox"
       />
