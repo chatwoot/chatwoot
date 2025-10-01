@@ -122,6 +122,26 @@ conversations:
       - "not_equal_to"
       - "contains"
       - "does_not_contain"
+  apple_messages_group:
+    attribute_type: "custom_attributes"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+      - "is_present"
+      - "is_not_present"
+  apple_messages_intent:
+    attribute_type: "custom_attributes"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "contains"
+      - "does_not_contain"
+      - "is_present"
+      - "is_not_present"
 
 ### ----- End of Conversation Filters ----- ###
 

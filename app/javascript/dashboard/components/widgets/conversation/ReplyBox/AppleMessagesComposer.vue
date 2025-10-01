@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 import {
   format,
   addMinutes,
@@ -24,6 +25,7 @@ const props = defineProps({
 const emit = defineEmits(['send', 'cancel']);
 
 const { t } = useI18n();
+const store = useStore();
 
 const activeTab = ref('list_picker');
 
@@ -36,12 +38,28 @@ const selectedAppData = ref({});
 
 // Computed properties
 const availableApps = computed(() => {
-  const channel = props.conversation?.inbox?.channel;
-  if (!channel || !channel.imessage_apps) {
+  const inboxId = props.conversation?.inbox_id;
+
+  if (!inboxId) {
     return [];
   }
 
-  return channel.imessage_apps.filter(app => app.enabled);
+  // Get the full inbox data from the store
+  const inbox = store.getters['inboxes/getInboxById'](inboxId);
+
+  if (!inbox) {
+    return [];
+  }
+
+  // Try both possible field names directly on inbox
+  const apps = inbox.imessageApps || inbox.imessage_apps || [];
+
+  if (!Array.isArray(apps) || apps.length === 0) {
+    return [];
+  }
+
+  const enabledApps = apps.filter(app => app.enabled !== false);
+  return enabledApps;
 });
 
 const selectedApp = computed(() => {
@@ -577,10 +595,6 @@ const handleEnhancedTimePickerPreview = enhancedData => {
 };
 
 const sendAppleMessage = () => {
-  console.log('🔥 sendAppleMessage function called!');
-  console.log('🔥 Active tab:', activeTab.value);
-  console.log('🔥 listPickerData.value.images:', listPickerData.value.images);
-
   let content_type;
   let content_attributes;
   let content;
@@ -592,24 +606,11 @@ const sendAppleMessage = () => {
       // Prepare content_attributes with images if they exist
       content_attributes = { ...listPickerData.value };
 
-      console.log(
-        '🔥 Raw listPickerData before processing:',
-        JSON.stringify(listPickerData.value, null, 2)
-      );
-      console.log(
-        '🔥 received_image_identifier value:',
-        listPickerData.value.received_image_identifier
-      );
-
       // Only include images if they exist and are not empty
       if (
         listPickerData.value.images &&
         listPickerData.value.images.length > 0
       ) {
-        console.log(
-          '🔥 Including images in content_attributes:',
-          listPickerData.value.images.length
-        );
         content_attributes.images = listPickerData.value.images.map(
           (img, index) => ({
             identifier: `image_${index}`,
@@ -617,9 +618,8 @@ const sendAppleMessage = () => {
             description: img.description || `Image ${index + 1}`,
           })
         );
-        console.log('🔥 Mapped images:', content_attributes.images);
 
-        // 🔥 CRITICAL FIX: Associate images with list items using imageIdentifier
+        // Associate images with list items using imageIdentifier
         // Update sections to reference images by their identifiers
         if (
           content_attributes.sections &&
@@ -632,16 +632,11 @@ const sendAppleMessage = () => {
                 if (itemIndex < content_attributes.images.length) {
                   item.imageIdentifier =
                     content_attributes.images[itemIndex].identifier;
-                  console.log(
-                    `🔥 Associated item "${item.title}" with image "${content_attributes.images[itemIndex].identifier}"`
-                  );
                 }
               });
             }
           });
         }
-      } else {
-        console.log('🔥 No images to include');
       }
 
       content = listPickerData.value.received_title || 'List Picker Message';
@@ -667,51 +662,36 @@ const sendAppleMessage = () => {
       break;
     case 'forms':
       // Forms are created through the modal, this shouldn't be reached
-      console.log('🔥 Forms should be sent through AppleFormBuilder modal');
       return;
     case 'imessage_apps':
       if (!selectedApp.value) {
-        console.log('🔥 No app selected');
         return;
       }
       content_type = 'apple_custom_app';
+
+      // Only send fields that are allowed by the backend validator
+      // ALLOWED_APPLE_CUSTOM_APP_KEYS = [:app_id, :app_name, :bid, :url, :use_live_layout]
       content_attributes = {
-        app_id: selectedApp.value.app_id,
+        app_id: selectedApp.value.appId || selectedApp.value.app_id,
+        app_name: selectedApp.value.name,
         bid: selectedApp.value.bid,
-        version: selectedApp.value.version,
         url: selectedApp.value.url,
-        use_live_layout: selectedApp.value.use_live_layout,
-        app_data: selectedAppData.value || {},
-        images: selectedApp.value.images || [],
-        received_message: selectedApp.value.received_message,
-        reply_message: selectedApp.value.reply_message
+        use_live_layout: selectedApp.value.useLiveLayout || selectedApp.value.use_live_layout || false
       };
+
       content = `${selectedApp.value.name}: ${selectedApp.value.description || 'App invocation'}`;
+
+      // Debug logging for 422 error
+      console.log('🔧 Debug - Selected app data:', selectedApp.value);
+      console.log('🔧 Debug - Content attributes being sent (filtered):', content_attributes);
       break;
   }
-
-  console.log('🔥 Sending Apple Message:', {
-    content_type,
-    content_attributes,
-    content,
-  });
-  console.log(
-    '🔥 Content attributes detailed:',
-    JSON.stringify(content_attributes, null, 2)
-  );
-  console.log(
-    '🔥 Images in content_attributes:',
-    content_attributes.images ? content_attributes.images.length : 'NO IMAGES'
-  );
-  console.log('🔥 About to emit send event');
 
   emit('send', {
     content_type,
     content_attributes,
     content,
   });
-
-  console.log('🔥 Send event emitted');
 };
 
 const cancelComposer = () => {
@@ -724,7 +704,6 @@ const openFormBuilder = () => {
 };
 
 const handleFormCreated = (formData) => {
-  console.log('🔥 Form created:', formData);
   emit('send', formData);
   showFormBuilder.value = false;
 };
@@ -741,15 +720,6 @@ const selectApp = (appId) => {
 
 const updateAppData = (key, value) => {
   selectedAppData.value[key] = value;
-};
-
-const sendSelectedApp = () => {
-  if (!selectedApp.value) {
-    alert('Please select an iMessage app to send');
-    return;
-  }
-
-  sendMessage();
 };
 </script>
 
@@ -768,7 +738,7 @@ const sendSelectedApp = () => {
         "
         @click="activeTab = tab"
       >
-        {{ tab.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
+        {{ tab === 'imessage_apps' ? 'iMessage Apps' : tab.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) }}
       </button>
     </div>
 
@@ -1320,12 +1290,7 @@ const sendSelectedApp = () => {
       </button>
       <button
         class="px-4 py-2 bg-n-blue-9 dark:bg-n-blue-10 text-white dark:text-n-slate-12 rounded-lg hover:bg-n-blue-10 dark:hover:bg-n-blue-11 transition-colors"
-        @click="
-          () => {
-            console.log('🔥 Send button clicked!');
-            sendAppleMessage();
-          }
-        "
+        @click="sendAppleMessage"
       >
         Send Message
       </button>
@@ -1422,55 +1387,6 @@ const sendSelectedApp = () => {
             </label>
           </div>
         </div>
-
-        <!-- App Parameters (if selected) -->
-        <div v-if="selectedApp" class="mb-6">
-          <h4 class="text-sm font-semibold text-n-slate-12 dark:text-n-slate-11 mb-3">
-            App Parameters (Optional)
-          </h4>
-          <div class="bg-n-alpha-2 dark:bg-n-alpha-3 p-4 rounded-lg border border-n-weak">
-            <div class="mb-4">
-              <label class="block text-sm font-medium text-n-slate-12 dark:text-n-slate-11 mb-1">
-                Custom Data (JSON)
-              </label>
-              <textarea
-                :value="JSON.stringify(selectedAppData, null, 2)"
-                @input="selectedAppData = JSON.parse($event.target.value || '{}')"
-                rows="4"
-                placeholder='{"key": "value", "parameter": "data"}'
-                class="w-full px-3 py-2 border border-n-weak dark:border-n-slate-6 rounded-lg bg-n-solid-1 dark:bg-n-alpha-2 text-n-slate-12 dark:text-n-slate-11 focus:border-n-woot-8 dark:focus:border-n-woot-9 font-mono text-sm"
-              />
-              <p class="text-xs text-n-slate-9 dark:text-n-slate-8 mt-1">
-                Optional JSON data to pass to the app. Leave empty if no parameters are needed.
-              </p>
-            </div>
-
-            <div class="bg-woot-50 dark:bg-woot-900 border border-woot-200 dark:border-woot-800 rounded-lg p-3">
-              <div class="flex items-start space-x-2">
-                <svg class="w-4 h-4 text-woot-600 dark:text-woot-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,14H13V16H11V14M11,6H13V12H11V6Z" />
-                </svg>
-                <div>
-                  <p class="text-xs font-medium text-woot-700 dark:text-woot-300">
-                    Selected: {{ selectedApp.name }}
-                  </p>
-                  <p class="text-xs text-woot-600 dark:text-woot-400">
-                    {{ selectedApp.app_id }} (v{{ selectedApp.version }})
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Send Button -->
-        <button
-          @click="sendSelectedApp"
-          :disabled="!selectedApp"
-          class="w-full px-4 py-3 bg-n-woot-8 hover:bg-n-woot-9 disabled:bg-n-slate-6 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
-        >
-          📱 Send {{ selectedApp?.name || 'iMessage App' }}
-        </button>
       </div>
     </div>
 

@@ -433,5 +433,17 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "APPLE_FORM_RESPONSE": {
+    "HEADER": {
+      "RESPONSE_TITLE": "Response",
+      "SUBMITTED": "Submitted",
+      "SEPARATOR": " - "
+    },
+    "DEFAULT_FORM_TITLE": "Form",
+    "DEFAULT_QUESTION": "Question",
+    "NO_RESPONSES": "Form was submitted without responses",
+    "SHOW_ALL": "Show All ({count} responses)",
+    "SHOW_LESS": "Show Less"
   }
 }

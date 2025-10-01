@@ -689,14 +689,14 @@ onUnmounted(() => {
   <Teleport to="body">
     <div
       v-if="isVisible"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 transition-opacity duration-300"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75 transition-opacity duration-300"
       :class="{ 'opacity-100': !isAnimating, 'opacity-0': isAnimating }"
       @click.self="closeModal"
     >
       <!-- Modal Container -->
       <div
         ref="modalRef"
-        class="w-full max-w-4xl max-h-[90vh] bg-white dark:bg-n-slate-1 rounded-xl shadow-2xl overflow-hidden transition-all duration-300 transform"
+        class="w-full max-w-4xl max-h-[90vh] bg-white dark:bg-n-slate-1 rounded-xl shadow-2xl border border-n-weak dark:border-n-slate-6 overflow-hidden transition-all duration-300 transform"
         :class="{
           'scale-100 opacity-100': !isAnimating,
           'scale-95 opacity-0': isAnimating,

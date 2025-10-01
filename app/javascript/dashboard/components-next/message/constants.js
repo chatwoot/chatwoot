@@ -70,6 +70,7 @@ export const CONTENT_TYPES = {
   APPLE_QUICK_REPLY: 'apple_quick_reply',
   APPLE_PAY: 'apple_pay',
   APPLE_RICH_LINK: 'apple_rich_link',
+  APPLE_FORM_RESPONSE: 'apple_form_response',
 };
 
 export const MEDIA_TYPES = [

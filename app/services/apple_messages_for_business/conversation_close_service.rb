@@ -50,9 +50,9 @@ class AppleMessagesForBusiness::ConversationCloseService
       return
     end
 
-    # Find the most recent active conversation for this contact
+    # Find the most recent conversation for this contact (include resolved to handle repeated close events)
     @conversation = contact_inbox.conversations
-                                 .where(status: [:open, :pending])
+                                 .where(status: [:open, :pending, :resolved])
                                  .order(updated_at: :desc)
                                  .first
 
@@ -67,6 +67,13 @@ class AppleMessagesForBusiness::ConversationCloseService
 
   def close_conversation
     Rails.logger.info "[AMB ConversationClose] Closing conversation ID: #{@conversation.id}"
+
+    # Skip if conversation is already closed by AMB (avoid duplicate processing)
+    if @conversation.status == 'resolved' &&
+       @conversation.additional_attributes&.dig('closed_by') == 'apple_messages_for_business'
+      Rails.logger.info "[AMB ConversationClose] Conversation #{@conversation.id} already closed by AMB, skipping"
+      return
+    end
 
     # Mark conversation as resolved
     @conversation.status = :resolved
@@ -124,6 +131,9 @@ class AppleMessagesForBusiness::ConversationCloseService
     )
 
     Rails.logger.info '[AMB ConversationClose] Activity message created successfully'
+
+    # Force UI refresh by broadcasting conversation update
+    @conversation.dispatch_conversation_updated_event
   end
 
   def source_id

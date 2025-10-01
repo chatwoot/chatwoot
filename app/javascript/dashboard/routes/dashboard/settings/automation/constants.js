@@ -198,6 +198,18 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_3,
       },
+      {
+        key: 'apple_messages_group',
+        name: 'APPLE_MESSAGES_GROUP',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_3,
+      },
+      {
+        key: 'apple_messages_intent',
+        name: 'APPLE_MESSAGES_INTENT',
+        inputType: 'plain_text',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {

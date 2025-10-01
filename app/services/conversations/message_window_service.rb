@@ -7,6 +7,9 @@ class Conversations::MessageWindowService
   end
 
   def can_reply?
+    # Check if user has opted out of Apple Messages (prevents replies)
+    return false if apple_messages_user_blocked?
+
     return true if messaging_window.blank?
 
     last_message_in_messaging_window?(messaging_window)
@@ -26,6 +29,10 @@ class Conversations::MessageWindowService
       MESSAGING_WINDOW_24_HOURS
     when 'Channel::TwilioSms'
       twilio_messaging_window
+    when 'Channel::AppleMessagesForBusiness'
+      # Apple Messages has no time-based messaging window restrictions
+      # But we handle blocking via apple_messages_user_blocked? check above
+      nil
     end
   end
 
@@ -60,5 +67,12 @@ class Conversations::MessageWindowService
 
   def last_incoming_message
     @last_incoming_message ||= @conversation.messages&.incoming&.last
+  end
+
+  # Check if the contact has opted out of Apple Messages for Business
+  def apple_messages_user_blocked?
+    return false unless @conversation.inbox.channel_type == 'Channel::AppleMessagesForBusiness'
+
+    @conversation.contact.additional_attributes&.dig('apple_messages_blocked') == true
   end
 end

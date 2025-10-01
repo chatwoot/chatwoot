@@ -113,6 +113,10 @@ class AppleMessagesForBusiness::IncomingMessageService
 
     Rails.logger.info '[AMB IncomingMessage] Creating new conversation'
     @conversation = ::Conversation.create!(conversation_params)
+
+    # Store Apple Messages routing parameters for automation rules
+    store_apple_routing_data
+
     Rails.logger.info "[AMB IncomingMessage] Created conversation ID: #{@conversation.id}"
   end
 
@@ -189,15 +193,21 @@ class AppleMessagesForBusiness::IncomingMessageService
   end
 
   def conversation_params
+    additional_attrs = {
+      apple_messages_source_id: source_id,
+      apple_messages_capabilities: @headers[:capability_list]
+    }
+
+    # Add Apple Messages routing parameters if present
+    additional_attrs[:apple_messages_group] = @params['group'] if @params['group'].present?
+    additional_attrs[:apple_messages_intent] = @params['intent'] if @params['intent'].present?
+
     {
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id,
-      additional_attributes: {
-        apple_messages_source_id: source_id,
-        apple_messages_capabilities: @headers[:capability_list]
-      }
+      additional_attributes: additional_attrs
     }
   end
 
@@ -741,5 +751,19 @@ class AppleMessagesForBusiness::IncomingMessageService
   # Check if a conversation was closed by AMB close event
   def conversation_closed_by_amb?(conversation)
     conversation.additional_attributes&.dig('closed_by') == 'apple_messages_for_business'
+  end
+
+  def store_apple_routing_data
+    # Log Apple Messages routing parameters for debugging
+    if @params['group'].present? || @params['intent'].present?
+      Rails.logger.info "[AMB IncomingMessage] Apple Messages routing - Group: #{@params['group']}, Intent: #{@params['intent']}"
+
+      # Store as conversation custom attributes for easier access in automation rules
+      custom_attrs = {}
+      custom_attrs[:apple_messages_group] = @params['group'] if @params['group'].present?
+      custom_attrs[:apple_messages_intent] = @params['intent'] if @params['intent'].present?
+
+      @conversation.update!(custom_attributes: custom_attrs) if custom_attrs.any?
+    end
   end
 end

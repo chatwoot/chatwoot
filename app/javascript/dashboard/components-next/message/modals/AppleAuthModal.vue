@@ -165,7 +165,7 @@ export default {
 
 <template>
   <woot-modal :show="show" :on-close="onClose">
-    <div class="apple-auth-modal">
+    <div class="apple-auth-modal shadow-2xl border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
       <div class="modal-header">
         <h2 class="modal-title">
           {{ $t('APPLE_MESSAGES.AUTHENTICATION.MODAL.TITLE') }}
@@ -316,6 +316,11 @@ export default {
 <style scoped>
 .apple-auth-modal {
   @apply w-full max-w-4xl;
+}
+
+/* Enhanced backdrop opacity for better visual separation */
+.apple-auth-modal::v-deep(.modal-mask) {
+  @apply bg-black bg-opacity-75;
 }
 
 .modal-header {

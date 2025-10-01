@@ -178,7 +178,9 @@
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",
       "PRIORITY": "Priority",
-      "LABELS": "Labels"
+      "LABELS": "Labels",
+      "APPLE_MESSAGES_GROUP": "Apple Messages Group",
+      "APPLE_MESSAGES_INTENT": "Apple Messages Intent"
     }
   }
 }

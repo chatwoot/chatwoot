@@ -122,14 +122,43 @@ export default {
     });
 
     const formPreview = computed(() => {
+      // Convert form data to the structure expected by the backend validator
+      // ALLOWED_APPLE_FORM_KEYS = [:fields, :submit_url, :method, :validation_rules]
+
+      const allFields = [];
+
+      // Flatten all fields from all pages into a single array
+      formData.value.pages.forEach((page, pageIndex) => {
+        if (page.items && Array.isArray(page.items)) {
+          page.items.forEach((field, fieldIndex) => {
+            // Map the field structure to match what the backend expects
+            // The form builder uses: item_type, title, item_id, etc.
+            // Backend expects: type, label, name, etc.
+            const mappedField = {
+              type: field.item_type || field.type,
+              name: field.item_id || field.name || field.title?.toLowerCase().replace(/\s+/g, '_') || `field_${fieldIndex}`,
+              label: field.title || field.label,
+              placeholder: field.placeholder || '',
+              required: field.required || false,
+              options: field.options || [],
+              default: field.default || '',
+              pattern: field.pattern || '',
+              title: field.title || field.label || '',
+              pattern_error: field.pattern_error || ''
+            };
+
+            allFields.push(mappedField);
+          });
+        }
+      });
+
       return {
-        form_id: `form_${Date.now()}`,
-        title: formData.value.title,
-        description: formData.value.description,
-        pages: formData.value.pages,
-        version: '1.0',
-        submit_button: { title: 'Submit' },
-        cancel_button: { title: 'Cancel' }
+        title: formData.value.title || 'Form', // Include form title
+        description: formData.value.description || '', // Include form description
+        fields: allFields,
+        submit_url: `${window.location.origin}/api/v1/forms/submit`, // Default submit URL
+        method: 'POST',
+        validation_rules: {} // Optional validation rules
       };
     });
 
@@ -381,8 +410,8 @@ export default {
 </script>
 
 <template>
-  <div v-if="show" class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-800 rounded-lg max-w-4xl w-full max-h-full overflow-hidden flex flex-col">
+  <div v-if="show" class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-80 flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-800 rounded-lg max-w-4xl w-full max-h-full overflow-hidden flex flex-col shadow-2xl border-4 border-blue-500 dark:border-blue-400 ring-4 ring-blue-200 dark:ring-blue-800">
       <!-- Modal Header -->
       <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-600">
         <div>
@@ -648,8 +677,8 @@ export default {
     </div>
 
     <!-- Add Field Modal -->
-    <div v-if="showAddFieldModal" class="fixed inset-0 z-60 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div class="bg-white dark:bg-slate-800 rounded-lg max-w-2xl w-full max-h-full overflow-hidden">
+    <div v-if="showAddFieldModal" class="fixed inset-0 z-60 overflow-y-auto bg-black bg-opacity-90 flex items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-800 rounded-lg max-w-2xl w-full max-h-full overflow-hidden shadow-2xl border-4 border-green-500 dark:border-green-400 ring-8 ring-green-200 dark:ring-green-800">
         <div class="p-6">
           <h3 class="text-lg font-medium text-slate-900 dark:text-slate-100 mb-4">Add Form Field</h3>
 

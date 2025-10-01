@@ -41,6 +41,7 @@ import AppleListPickerBubble from './bubbles/AppleListPicker.vue';
 import AppleTimePickerBubble from './bubbles/AppleTimePicker.vue';
 import AppleQuickReplyBubble from './bubbles/AppleQuickReply.vue';
 import AppleRichLinkBubble from './bubbles/AppleRichLink.vue';
+import AppleFormResponseBubble from './bubbles/AppleFormResponse.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -310,6 +311,9 @@ const componentToRender = computed(() => {
 
   if (props.contentType === CONTENT_TYPES.APPLE_RICH_LINK) {
     return AppleRichLinkBubble;
+  }
+  if (props.contentType === CONTENT_TYPES.APPLE_FORM_RESPONSE) {
+    return AppleFormResponseBubble;
   }
 
   if (props.contentAttributes?.isUnsupported) {
