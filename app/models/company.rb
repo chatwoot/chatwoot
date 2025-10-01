@@ -21,12 +21,12 @@
 class Company < ApplicationRecord
   include Avatarable
   validates :account_id, presence: true
-  validates :name, presence: true, length: { maximum: 100 }
+  validates :name, presence: true, length: { maximum: Limits::COMPANY_NAME_LENGTH_LIMIT }
   validates :domain, allow_blank: true, format: {
     with: /\A[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)+\z/,
     message: I18n.t('errors.companies.domain.invalid')
   }
-  validates :description, length: { maximum: 1000 }
+  validates :description, length: { maximum: Limits::COMPANY_DESCRIPTION_LENGTH_LIMIT }
 
   belongs_to :account
   has_many :contacts, dependent: :nullify
