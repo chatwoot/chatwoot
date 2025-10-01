@@ -44,6 +44,22 @@ if (isLibraryMode) {
 
 export default defineConfig({
   plugins: plugins,
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // Add paths where Sass should look for @import files
+        includePaths: [
+          path.resolve(__dirname, 'app/javascript/widget/assets/scss'),
+          path.resolve(__dirname, 'app/javascript/dashboard/assets/scss'),
+          path.resolve(__dirname, 'app/javascript/survey/assets/scss'),
+          path.resolve(__dirname, 'app/javascript/shared/assets/scss'),
+        ],
+        // Suppress deprecation warnings (they won't break the build)
+        quietDeps: true,
+        silenceDeprecations: ['legacy-js-api', 'import'],
+      },
+    },
+  },
   build: {
     rollupOptions: {
       output: {
