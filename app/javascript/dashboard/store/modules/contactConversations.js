@@ -2,6 +2,7 @@ import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 import ConversationApi from '../../api/conversations';
 import camelcaseKeys from 'camelcase-keys';
+import VoiceAPI from 'dashboard/api/channels/voice';
 
 export const createMessagePayload = (payload, message) => {
   const { content, cc_emails, bcc_emails } = message;
@@ -82,12 +83,13 @@ export const getters = {
 };
 
 export const actions = {
-  create: async ({ commit }, { params, isFromWhatsApp }) => {
+  create: async ({ commit }, { params, isFromWhatsApp, isVoiceCall }) => {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isCreating: true,
     });
     const { contactId, files } = params;
     try {
+      // Create the basic payload
       const payload = setNewConversationPayload({
         isFromWhatsApp,
         params,
@@ -95,11 +97,24 @@ export const actions = {
         files,
       });
 
-      const { data } = await ConversationApi.create(payload);
-      commit(types.default.ADD_CONTACT_CONVERSATION, {
-        id: contactId,
-        data,
-      });
+      // If this is a voice call, trigger call initiation instead of creating a chat
+      let data;
+
+      if (isVoiceCall) {
+        const inboxId = params?.inboxId;
+        data = await VoiceAPI.initiateCall(contactId, inboxId);
+      } else {
+        // Regular conversation creation
+        const response = await ConversationApi.create(payload);
+        data = response.data;
+      }
+
+      if (contactId) {
+        commit(types.default.ADD_CONTACT_CONVERSATION, {
+          id: contactId,
+          data,
+        });
+      }
 
       return data;
     } catch (error) {

@@ -3,6 +3,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 export const INBOX_FEATURES = {
   REPLY_TO: 'replyTo',
   REPLY_TO_OUTGOING: 'replyToOutgoing',
+  VOICE_CALL: 'voiceCall',
 };
 
 // This is a single source of truth for inbox features
@@ -15,6 +16,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.API,
+    INBOX_TYPES.VOICE,
   ],
   [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
     INBOX_TYPES.WEB,
@@ -22,22 +24,24 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.API,
+    INBOX_TYPES.VOICE,
   ],
+  [INBOX_FEATURES.VOICE_CALL]: [INBOX_TYPES.VOICE],
 };
 
 export default {
   computed: {
     channelType() {
-      return this.inbox.channel_type;
+      return this.inbox?.channel_type || '';
     },
     whatsAppAPIProvider() {
-      return this.inbox.provider || '';
+      return this.inbox?.provider || '';
     },
     isAMicrosoftInbox() {
-      return this.isAnEmailChannel && this.inbox.provider === 'microsoft';
+      return this.isAnEmailChannel && this.inbox?.provider === 'microsoft';
     },
     isAGoogleInbox() {
-      return this.isAnEmailChannel && this.inbox.provider === 'google';
+      return this.isAnEmailChannel && this.inbox?.provider === 'google';
     },
     isAPIInbox() {
       return this.channelType === INBOX_TYPES.API;
@@ -54,11 +58,11 @@ export default {
     isATwilioChannel() {
       return this.channelType === INBOX_TYPES.TWILIO;
     },
-    isALineChannel() {
-      return this.channelType === INBOX_TYPES.LINE;
-    },
     isAVoiceChannel() {
       return this.channelType === INBOX_TYPES.VOICE;
+    },
+    isALineChannel() {
+      return this.channelType === INBOX_TYPES.LINE;
     },
     isAnEmailChannel() {
       return this.channelType === INBOX_TYPES.EMAIL;

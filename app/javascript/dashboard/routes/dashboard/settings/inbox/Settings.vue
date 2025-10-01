@@ -196,6 +196,9 @@ export default {
       if (this.isAWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
+      if (this.isAVoiceChannel) {
+        return `${this.inbox.name} (${this.inbox.phone_number})`;
+      }
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;
       }

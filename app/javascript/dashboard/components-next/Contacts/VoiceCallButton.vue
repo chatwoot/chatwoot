@@ -1,15 +1,15 @@
 <script setup>
 import { computed, ref, useAttrs } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import { useAlert } from 'dashboard/composables';
-
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import VoiceAPI from 'dashboard/api/channels/voice';
 
 const props = defineProps({
   phone: { type: String, default: '' },
+  contactId: { type: [String, Number], default: null },
   label: { type: String, default: '' },
   icon: { type: [String, Object, Function], default: '' },
   size: { type: String, default: 'sm' },
@@ -18,8 +18,7 @@ const props = defineProps({
 
 defineOptions({ inheritAttrs: false });
 const attrs = useAttrs();
-
-const { t } = useI18n();
+const route = useRoute();
 
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const voiceInboxes = computed(() =>
@@ -28,23 +27,26 @@ const voiceInboxes = computed(() =>
   )
 );
 const hasVoiceInboxes = computed(() => voiceInboxes.value.length > 0);
+const hasPhone = computed(() => !!(props.phone || '').trim());
 
-// Unified behavior: hide when no phone
-const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
+const shouldRender = computed(() => hasVoiceInboxes.value && hasPhone.value);
 
 const dialogRef = ref(null);
 
-const onClick = () => {
+const onClick = async () => {
   if (voiceInboxes.value.length > 1) {
     dialogRef.value?.open();
     return;
   }
-  useAlert(t('CONTACT_PANEL.CALL_UNDER_DEVELOPMENT'));
+  const [inbox] = voiceInboxes.value;
+  if (!inbox) return;
+  const targetContactId = props.contactId ?? route.params.contactId;
+  await VoiceAPI.initiateCall(targetContactId, inbox.id);
 };
 
-const onPickInbox = () => {
-  // Placeholder until actual call wiring happens
-  useAlert(t('CONTACT_PANEL.CALL_UNDER_DEVELOPMENT'));
+const onPickInbox = async inbox => {
+  const targetContactId = props.contactId ?? route.params.contactId;
+  await VoiceAPI.initiateCall(targetContactId, inbox.id);
   dialogRef.value?.close();
 };
 </script>

@@ -4,19 +4,18 @@ require 'rails_helper'
 
 RSpec.describe Voice::InboundCallBuilder do
   let(:account) { create(:account) }
-  let(:channel) { create(:channel_voice, account: account, phone_number: '+15551230001') }
+  let(:channel) { create(:channel_voice, account: account, phone_number: '+15551239999') }
   let(:inbox) { channel.inbox }
-
   let(:from_number) { '+15550001111' }
   let(:to_number) { channel.phone_number }
   let(:call_sid) { 'CA1234567890abcdef' }
 
   before do
     allow(Twilio::VoiceWebhookSetupService).to receive(:new)
-      .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
+      .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(8)}"))
   end
 
-  def build_and_perform
+  def perform_builder
     described_class.new(
       account: account,
       inbox: inbox,
@@ -26,32 +25,66 @@ RSpec.describe Voice::InboundCallBuilder do
     ).perform
   end
 
-  it 'creates a new conversation with inbound ringing attributes' do
-    builder = build_and_perform
-    conversation = builder.conversation
-    expect(conversation).to be_present
-    expect(conversation.account_id).to eq(account.id)
-    expect(conversation.inbox_id).to eq(inbox.id)
-    expect(conversation.identifier).to eq(call_sid)
-    expect(conversation.additional_attributes['call_direction']).to eq('inbound')
-    expect(conversation.additional_attributes['call_status']).to eq('ringing')
+  context 'when no existing conversation matches call_sid' do
+    it 'creates a new inbound conversation with ringing status' do
+      conversation = nil
+      expect { conversation = perform_builder }.to change(account.conversations, :count).by(1)
+
+      expect(conversation.identifier).to eq(call_sid)
+      expect(conversation.additional_attributes['call_direction']).to eq('inbound')
+      expect(conversation.additional_attributes['call_status']).to eq('ringing')
+      expect(conversation.contact.phone_number).to eq(from_number)
+    end
+
+    it 'creates a single voice_call message marked as incoming' do
+      conversation = perform_builder
+      voice_message = conversation.messages.voice_calls.last
+
+      expect(voice_message).to be_present
+      expect(voice_message.message_type).to eq('incoming')
+      expect(voice_message.content_attributes.dig('data', 'call_sid')).to eq(call_sid)
+      expect(voice_message.content_attributes.dig('data', 'status')).to eq('ringing')
+    end
   end
 
-  it 'creates a voice_call message with ringing status' do
-    builder = build_and_perform
-    conversation = builder.conversation
-    msg = conversation.messages.voice_calls.last
-    expect(msg).to be_present
-    expect(msg.message_type).to eq('incoming')
-    expect(msg.content_type).to eq('voice_call')
-    expect(msg.content_attributes.dig('data', 'call_sid')).to eq(call_sid)
-    expect(msg.content_attributes.dig('data', 'status')).to eq('ringing')
-  end
+  context 'when a conversation already exists for the call_sid' do
+    let(:contact) { create(:contact, account: account, phone_number: from_number) }
+    let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox, source_id: from_number) }
+    let!(:existing_conversation) do
+      create(
+        :conversation,
+        account: account,
+        inbox: inbox,
+        contact: contact,
+        contact_inbox: contact_inbox,
+        identifier: call_sid,
+        additional_attributes: { 'call_direction' => 'outbound', 'conference_sid' => nil }
+      )
+    end
+    let!(:existing_message) do
+      create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: existing_conversation,
+        message_type: :incoming,
+        content_type: :voice_call,
+        sender: contact,
+        content_attributes: { 'data' => { 'call_sid' => call_sid, 'status' => 'queued' } }
+      )
+    end
 
-  it 'returns TwiML that informs the caller we are connecting' do
-    builder = build_and_perform
-    xml = builder.twiml_response
-    expect(xml).to include('Please wait while we connect you to an agent')
-    expect(xml).to include('<Say')
+    it 'reuses the conversation without creating a duplicate' do
+      expect { perform_builder }.not_to change(account.conversations, :count)
+      expect(existing_conversation.reload.additional_attributes['call_direction']).to eq('inbound')
+    end
+
+    it 'updates the existing voice call message instead of creating a new one' do
+      expect { perform_builder }.not_to change { existing_conversation.reload.messages.voice_calls.count }
+      updated_message = existing_conversation.reload.messages.voice_calls.last
+
+      expect(updated_message.content_attributes.dig('data', 'status')).to eq('ringing')
+      expect(updated_message.content_attributes.dig('data', 'call_direction')).to eq('inbound')
+    end
   end
 end

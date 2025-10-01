@@ -442,7 +442,10 @@ export default {
         return;
       }
 
-      if (canReply || this.isAWhatsAppChannel) {
+      // Voice channels only allow private notes
+      if (this.isAVoiceChannel) {
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
+      } else if (canReply || this.isAWhatsAppChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -861,7 +864,12 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
+      // Voice channels are restricted to private notes only
+      if (this.isAVoiceChannel) {
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
+      } else if (canReply || this.isAWhatsAppChannel) {
+        this.replyType = mode;
+      }
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();
@@ -1289,7 +1297,7 @@ export default {
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
       :show-audio-recorder="showAudioRecorder"
-      :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
+      :show-editor-toggle="isAPIInbox && !isOnPrivateNote && !isAVoiceChannel"
       :show-emoji-picker="showEmojiPicker"
       :show-file-upload="showFileUpload"
       :show-quoted-reply-toggle="shouldShowQuotedReplyToggle"
