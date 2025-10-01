@@ -3,11 +3,12 @@ import ColumnModal from './ColumnModal.vue'
 import ConversationApi from '../../../api/inbox/conversation';
 import { toRaw } from 'vue'
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
-
+import Spinner from '../../../../shared/components/Spinner.vue'
 
 export default {
   components: {
-    ColumnModal
+    ColumnModal,
+    Spinner
   },
   name: 'Kanban',
   
@@ -41,6 +42,7 @@ export default {
       isEditing: false,
       editedColumn: {},
       dragColumnsMode: false,
+      isLoading: false,
     }
   },
 
@@ -57,19 +59,19 @@ export default {
 
   methods: {
     async handleItemDrop(item, labelToRemove, labelToAdd) {
-      // Pega as labels autais do item
+      // Get current item labels
       const itemLabels = [...item.labels]
-      // Se labelToRemove faz parte das labels do item, remover
+      // If labelToRemove is part of item labels, remove it
       const labelToRemoveIndex = itemLabels.findIndex(label => label === labelToRemove.title)
       if (labelToRemoveIndex > -1) {
         itemLabels.splice(labelToRemove, 1)
       }
-      // Se labelToAdd não faz parte das labels do item, adicionar
+      // If labelToAdd is not part of item labels, add it
       const labelToAddIndex = itemLabels.findIndex(label => label === labelToAdd.title)
       if (labelToAddIndex < 0) {
         itemLabels.push(labelToAdd.title)
       }
-      // Chamar a API e adicionar as labels as convs
+      // Call API and add labels to conversations
       try {
         await this.$store.dispatch('conversationLabels/update', {
           conversationId: item.id,
@@ -81,7 +83,6 @@ export default {
     },
 
     onDragStart(event, columnIndex, itemIndex) {
-      console.log("Arrastando item da coluna ", this.localColumns[columnIndex])
       this.draggedItem = this.localColumns[columnIndex].items[itemIndex]
       this.sourceColumnIndex = columnIndex
       this.sourceItemIndex = itemIndex
@@ -119,12 +120,17 @@ export default {
     },
 
     onDrop(_event, targetColumnIndex) {
-      console.log("Soltando item na coluna ", this.localColumns[targetColumnIndex])
       if (this.draggedItem && this.sourceColumnIndex !== null && this.sourceItemIndex !== null) {
         // Remove from source
         const [removed] = this.localColumns[this.sourceColumnIndex].items.splice(this.sourceItemIndex, 1)
-        console.log("Item arrastado = ", removed)
-        // Troca as labels
+        // Check if the item isn't already in this column using its ID
+        const targetColumnItems = [...this.localColumns[targetColumnIndex].items]
+        if (targetColumnItems.some(item => item.id === removed.id)) {
+          // Return the item to its original column
+          this.localColumns[this.sourceColumnIndex].items.splice(this.sourceItemIndex, 0, removed)
+          return
+        }
+        // Switch labels
         this.handleItemDrop(removed, this.localColumns[this.sourceColumnIndex].label_to_add, this.localColumns[targetColumnIndex].label_to_add)
         // Add to target
         this.localColumns[targetColumnIndex].items.push(removed)
@@ -160,10 +166,7 @@ export default {
     },
 
     closeColumnModal(columnData) {
-      console.log("pegou evento de close modal no pai")
-      console.log(columnData)
       const usedLabels = columnData.labels
-      // Encontra e remove do array de labels as labels que ja foram usadas
       this.labels = this.labels.filter(label => 
         !usedLabels.some(usedLabel => 
           label.title === usedLabel.title
@@ -174,21 +177,16 @@ export default {
     },
 
     deleteColumn(columnIndex) {
-      // Pegar as labels da coluna que será deletada
       const deletedColumn = this.localColumns[columnIndex]
       const deletedLabels = deletedColumn.labels
 
-      // Adicionar as labels de volta ao array de labels disponíveis
       this.labels = [...this.labels, ...deletedLabels]
 
-      // Remover a coluna
       this.localColumns.splice(columnIndex, 1)
 
-      // Limpar o editedColumn
       this.editedColumn = null
       this.isEditing = false
       
-      // Emitir eventos e atualizar localStorage
       this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
       this.$emit('columnDeleted', columnIndex)
       localStorage.setItem('localColumns', JSON.stringify(this.localColumns))
@@ -197,7 +195,7 @@ export default {
     editColumn(columnIndex) {
       const columnToEdit = this.localColumns[columnIndex];
       this.isEditing = true;
-      // Adiciona as labels da coluna de volta ao pool temporariamente
+      // Add the labels back in the labels pool
       const columnLabels = columnToEdit.labels || []
       this.labels = [...this.labels, ...columnLabels]
       this.editedColumn = {
@@ -208,7 +206,7 @@ export default {
     },
 
     async addNewColumn(columnData) {
-      // Extrai apenas os títulos das labels
+      this.isLoading = true
       const labelTitles = columnData.labels.map(label => label.title)
       const filters = [
         {
@@ -226,7 +224,6 @@ export default {
       };
       const {data} = await ConversationApi.filter(payload)
       const filteredConversations = data.payload
-      console.log("O que vem em conversations => ", filteredConversations)
       const newCol = {
         title: columnData.title,
         items: filteredConversations.map(conv => ({
@@ -238,7 +235,7 @@ export default {
         label_to_add: columnData.label_to_add
       }
       const usedLabels = columnData.labels
-      // Encontra e remove do array de labels as labels que ja foram usadas
+      // Find and remove from the labels array the labels that are being used
       this.labels = this.labels.filter(label => 
         !usedLabels.some(usedLabel => 
           label.title === usedLabel.title
@@ -248,22 +245,22 @@ export default {
       this.closeColumnModal(newCol)
       this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)))
       localStorage.setItem('localColumns', JSON.stringify(this.localColumns))
+      this.isLoading = false
     },
 
     async updateColumn(columnData) {
       if (!this.editedColumn) return;
-      
+      this.isLoading = true
       const originalIndex = this.editedColumn.originalIndex;
 
-      // Remove todas as labels do pool temporariamente
       const allLabels = [...this.labels];
       
-      // Filtra as labels, mantendo apenas as que não foram selecionadas
+      // Get the labels that were not selected yet
       this.labels = allLabels.filter(label => 
         !columnData.labels.some(newLabel => label.title === newLabel.title)
       );
           
-      // Filtrar conversas baseado nas novas labels
+      // Filter conversations using its labels
       const labelTitles = columnData.labels.map(label => label.title);
       const filters = [{
         attribute_key: "labels",
@@ -277,7 +274,6 @@ export default {
         queryData: { payload: filters }
       });
 
-      // Atualizar coluna mantendo posição original
       const updatedColumn = {
         ...this.localColumns[originalIndex],
         title: columnData.title,
@@ -290,32 +286,33 @@ export default {
         }))
       };
 
-      // Atualizar coluna na posição original
+      // Update column in its original index
       this.localColumns.splice(originalIndex, 1, updatedColumn);
 
-      // Atualizar storage e emitir eventos
+      // Update localStorage and emit events
       this.$emit('update:columns', JSON.parse(JSON.stringify(this.localColumns)));
       localStorage.setItem('localColumns', JSON.stringify(this.localColumns));
-      
+      this.isLoading = false
       this.closeColumnModal(updatedColumn);
     },
 
-    async fetchColumns() {
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      // Verificar se tem localColumns no localStorage e setar o this.localColumns
+    fetchColumns() {
+      this.isLoading = true
+      // Check if there are localColumns in localStorage and set this.localColumns
       const storedCols = localStorage.getItem('localColumns')
       if (storedCols) {
         const storedColsObject = JSON.parse(storedCols)
         this.localColumns = storedColsObject
-        // Para cada coluna, percorrer e remover os labels
+        // For each column, iterate and remove labels
         for (const col of this.localColumns) {
-          // Encontra e remove do array de labels as labels que ja foram usadas
+          // Find and remove from labels array the labels that are already used
           this.labels = this.labels.filter(label => 
             !col.labels.some(usedLabel => 
               label.title === usedLabel.title
             )
           )
         }
+        this.isLoading = false
       } else {
         this.localColumns = []
       }
@@ -390,7 +387,7 @@ export default {
       </div>
     </header>
 
-    <div class="kanban-board">
+    <div class="kanban-board" v-if="!isLoading">
       <div v-if="localColumns.length === 0" class="empty-state">
         <h2>{{ $t('KANBAN.EMPTY_STATE.TITLE') }}</h2>
         <p>{{ $t('KANBAN.EMPTY_STATE.DESCRIPTION') }}</p>
@@ -429,6 +426,9 @@ export default {
           <slot name="card" :item="item" :column="column">{{ item.content }}</slot>
         </div>
       </div>
+    </div>
+    <div v-else class="spinner-container">
+      <Spinner></Spinner>
     </div>
 
     <ColumnModal
@@ -685,6 +685,14 @@ export default {
   padding: 8px;
   border-radius: 4px;
   overflow-x: auto;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px);
+  width: 100%;
 }
 
 </style>
