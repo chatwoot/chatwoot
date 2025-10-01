@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="80" viewBox="0 0 400 80" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <title>GP Bikes Logo Dark</title>
+  <g id="logo-dark" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <!-- GP Icon Circle -->
+    <circle id="icon-bg" fill="#FFFFFF" cx="40" cy="40" r="35"></circle>
+    <text x="40" y="52" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="700" fill="#1A1A1A" text-anchor="middle">GP</text>
+
+    <!-- Text: GP BIKES -->
+    <text x="95" y="35" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="700" fill="#FFFFFF" letter-spacing="1">GP</text>
+    <text x="95" y="58" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="#E0E0E0" letter-spacing="2">BIKES</text>
+  </g>
+</svg>
