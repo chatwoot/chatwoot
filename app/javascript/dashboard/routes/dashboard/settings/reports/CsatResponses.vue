@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import { useAlert, useTrack } from 'dashboard/composables';
 import CsatMetrics from './components/CsatMetrics.vue';
 import CsatTable from './components/CsatTable.vue';
@@ -9,6 +9,9 @@ import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import V4Button from 'dashboard/components-next/button/Button.vue';
 import ReportHeader from './components/ReportHeader.vue';
+import LineChart2 from '../../../../../shared/components/charts/LineChart2.vue';
+import GroupedBarChart from '../../../../../shared/components/charts/GroupedBarChart.vue';
+import MetricCardFull from './components/overview/MetricCardFull.vue';
 
 export default {
   name: 'CsatResponses',
@@ -18,6 +21,9 @@ export default {
     ReportFilterSelector,
     ReportHeader,
     V4Button,
+    LineChart2,
+    GroupedBarChart,
+    MetricCardFull,
   },
   data() {
     return {
@@ -28,6 +34,27 @@ export default {
       inbox: null,
       team: null,
       rating: null,
+      dropdownOpen: false,
+      selectedAgents: [],
+      // CSAT metrics data
+      csatMetrics: {
+        totalResponses: 0,
+        satisfactionScore: 0,
+        responseRate: 0,
+        averageRating: 0,
+      },
+      // Topic-based analytics data
+      topicAnalytics: {
+        billing: { score: 0, count: 0 },
+        technical: { score: 0, count: 0 },
+        product: { score: 0, count: 0 },
+        general: { score: 0, count: 0 },
+        bug: { score: 0, count: 0 },
+      },
+      // Agent-based analytics data
+      agentAnalytics: {},
+      // Trend data storage
+      trendDataCache: {},
     };
   },
   computed: {
@@ -149,10 +176,117 @@ export default {
     },
   },
   methods: {
+    fetchAllData(filters = this.requestPayload) {
+      if (!filters.to || !filters.from) {
+        return;
+      }
+      
+      console.log('Fetching CSAT data for filters:', filters);
+      console.log('Selected agents:', this.selectedAgents);
+      
+      this.fetchCsatMetrics(filters);
+      this.fetchTopicAnalytics(filters);
+      this.fetchAgentAnalytics(filters);
+      this.fetchTrendData(filters);
+    },
+    fetchCsatMetrics(filters) {
+      // TODO: Implement real API call for CSAT metrics
+      // ReportsAPI.getCsatMetrics(filters).then(response => {
+      //   this.csatMetrics = response.data;
+      // }).catch(error => {
+      //   console.error('Failed to fetch CSAT metrics:', error);
+      //   useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      // });
+      
+      // Dummy data simulation
+      const agentCount = this.selectedAgents.length || 5;
+      const inboxMultiplier = this.inbox ? 0.7 : 1;
+      const teamMultiplier = this.team ? 0.8 : 1;
+      
+      this.csatMetrics = {
+        totalResponses: Math.floor((Math.random() * 500 + 200) * agentCount * inboxMultiplier * teamMultiplier),
+        satisfactionScore: Math.floor((Math.random() * 30 + 70) * (this.rating ? 1.1 : 1)),
+        responseRate: Math.floor((Math.random() * 20 + 80) * agentCount / 5),
+        averageRating: (Math.random() * 2 + 3.5).toFixed(1), // 3.5-5.5
+      };
+    },
+    fetchTopicAnalytics(filters) {
+      // TODO: Implement real API call for topic analytics
+      // ReportsAPI.getCsatTopicAnalytics(filters).then(response => {
+      //   this.topicAnalytics = response.data;
+      // }).catch(error => {
+      //   console.error('Failed to fetch topic analytics:', error);
+      //   useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      // });
+      
+      // Dummy data simulation based on filters
+      const topics = ['billing', 'technical', 'product', 'general', 'bug'];
+      const agentEffect = this.selectedAgents.length > 0 ? this.selectedAgents.length * 2 : 0;
+      
+      this.topicAnalytics = topics.reduce((acc, topic) => {
+        acc[topic] = {
+          score: Math.min(100, Math.floor(Math.random() * 35 + 65 + agentEffect)),
+          count: Math.floor(Math.random() * 50 + 10),
+        };
+        return acc;
+      }, {});
+    },
+    fetchAgentAnalytics(filters) {
+      // TODO: Implement real API call for agent analytics
+      // ReportsAPI.getCsatAgentAnalytics(filters).then(response => {
+      //   this.agentAnalytics = response.data;
+      // }).catch(error => {
+      //   console.error('Failed to fetch agent analytics:', error);
+      //   useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      // });
+      
+      // Dummy data simulation for selected agents
+      this.agentAnalytics = {};
+      
+      if (this.selectedAgents.length > 0) {
+        this.selectedAgents.forEach(agent => {
+          this.agentAnalytics[agent.id] = {
+            name: agent.name,
+            score: Math.floor(Math.random() * 35 + 65), // 65-100%
+            responseCount: Math.floor(Math.random() * 100 + 20),
+            averageRating: (Math.random() * 2 + 3.5).toFixed(1),
+          };
+        });
+      } else {
+        // Default agents data
+        for (let i = 1; i <= 5; i++) {
+          this.agentAnalytics[i] = {
+            name: `Agent ${i}`,
+            score: Math.floor(Math.random() * 35 + 65),
+            responseCount: Math.floor(Math.random() * 100 + 20),
+            averageRating: (Math.random() * 2 + 3.5).toFixed(1),
+          };
+        }
+      }
+    },
+    fetchTrendData(filters) {
+      // TODO: Implement real API call for trend data
+      // ReportsAPI.getCsatTrendData(filters).then(response => {
+      //   this.trendDataCache = response.data;
+      // }).catch(error => {
+      //   console.error('Failed to fetch trend data:', error);
+      //   useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+      // });
+      
+      // Cache trend data for current filters
+      const cacheKey = `${filters.from}-${filters.to}-${this.selectedAgents.map(a => a.id).join(',')}`;
+      this.trendDataCache[cacheKey] = {
+        csatTrend: this.csatTrendData,
+        lastUpdated: Date.now(),
+      };
+      
+      console.log('Cached trend data for:', cacheKey);
+    },
     getAllData() {
       try {
         this.$store.dispatch('csat/getMetrics', this.requestPayload);
         this.getResponses();
+        this.fetchAllData(this.requestPayload);
       } catch {
         useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
       }
@@ -196,7 +330,8 @@ export default {
 
       this.from = from;
       this.to = to;
-      this.userIds = selectedAgents.map(el => el.id);
+      this.selectedAgents = selectedAgents || []; // Store selected agents for trend calculations
+      this.userIds = selectedAgents ? selectedAgents.map(el => el.id) : [];
       this.inbox = selectedInbox?.id;
       this.team = selectedTeam?.id;
       this.rating = selectedRating?.value;

@@ -1,0 +1,247 @@
+<script setup>
+import { computed, h, ref } from 'vue';
+import {
+  useVueTable,
+  createColumnHelper,
+  getCoreRowModel,
+  getSortedRowModel,
+} from '@tanstack/vue-table';
+import { useI18n } from 'vue-i18n';
+import Spinner from 'shared/components/Spinner.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import Table from 'dashboard/components/table/Table.vue';
+import Pagination from 'dashboard/components/table/Pagination.vue';
+import AgentCell from './AgentCell.vue';
+const { agents, agentMetrics, pageIndex } = defineProps({
+  agents: {
+    type: Array,
+    default: () => [],
+  },
+  agentMetrics: {
+    type: Array,
+    default: () => [],
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  pageIndex: {
+    type: Number,
+    default: 1,
+  },
+});
+const emit = defineEmits(['pageChange']);
+const { t } = useI18n();
+// Add sorting state
+const sorting = ref([]);
+function getAgentInformation(id) {
+  return agents?.find(agent => agent.id === Number(id));
+}
+const totalCount = computed(() => agents.length);
+const tableData = computed(() => {
+  return agentMetrics
+    .filter(agentMetric => getAgentInformation(agentMetric.id))
+    .map(agent => {
+      const agentInformation = getAgentInformation(agent.id);
+      return {
+        agent: agentInformation.name || agentInformation.available_name,
+        email: agentInformation.email,
+        thumbnail: agentInformation.thumbnail,
+        conversations_count: agent.metric.conversations_count ?? 0,
+        avg_csat: agent.metric.avg_csat ?? '---',
+        work_distribution: agent.metric.work_distribution ?? '0.0',
+        resolution_rate: agent.metric.resolution_rate ?? '---',
+        avg_first_response_time: agent.metric.avg_first_response_time ?? '---',
+        status: agentInformation.availability_status,
+      };
+    });
+});
+const defaulSpanRender = cellProps =>
+  h(
+    'span',
+    {
+      class: cellProps.getValue() ? '' : 'text-slate-300 dark:text-slate-700',
+    },
+    cellProps.getValue() ? cellProps.getValue() : '---'
+  );
+const columnHelper = createColumnHelper();
+const columns = computed(() => [
+  columnHelper.accessor('agent', {
+    header: t('AGENT_REPORTS.AGENT_PERFORMANCE_TABLE.TABLE_HEADER.AGENT'),
+    cell: cellProps => h(AgentCell, cellProps),
+    size: 200,
+    sortingFn: (rowA, rowB) => {
+      const a = rowA.getValue('agent');
+      const b = rowB.getValue('agent');
+      return a < b ? -1 : a > b ? 1 : 0;
+    },
+  }),
+  columnHelper.accessor('conversations_count', {
+    header: t('AGENT_REPORTS.AGENT_PERFORMANCE_TABLE.TABLE_HEADER.TOTAL_CONVERSATIONS'),
+    cell: defaulSpanRender,
+    size: 120,
+    sortingFn: (rowA, rowB) => {
+      const a = rowA.getValue('conversations_count');
+      const b = rowB.getValue('conversations_count');
+      return a - b;
+    },
+  }),
+  columnHelper.accessor('avg_csat', {
+    header: t('AGENT_REPORTS.AGENT_PERFORMANCE_TABLE.TABLE_HEADER.AVG_CSAT'),
+    cell: cellProps => h(
+      'span',
+      {
+        class: cellProps.getValue() && cellProps.getValue() !== '---' ? '' : 'text-slate-300 dark:text-slate-700',
+      },
+      cellProps.getValue() && cellProps.getValue() !== '---' ? `${cellProps.getValue()}/5.0` : '---'
+    ),
+    size: 100,
+    sortingFn: (rowA, rowB) => {
+      const a = parseFloat(rowA.getValue('avg_csat')) || 0;
+      const b = parseFloat(rowB.getValue('avg_csat')) || 0;
+      return a - b;
+    },
+  }),
+  columnHelper.accessor('work_distribution', {
+    header: t('AGENT_REPORTS.AGENT_PERFORMANCE_TABLE.TABLE_HEADER.WORK_DISTRIBUTION'),
+    cell: cellProps => h(
+      'span',
+      {
+        class: cellProps.getValue() && cellProps.getValue() !== '---' ? '' : 'text-slate-300 dark:text-slate-700',
+      },
+      cellProps.getValue() && cellProps.getValue() !== '---' ? `${cellProps.getValue()}%` : '---'
+    ),
+    size: 120,
+    sortingFn: (rowA, rowB) => {
+      const a = parseFloat(rowA.getValue('work_distribution')) || 0;
+      const b = parseFloat(rowB.getValue('work_distribution')) || 0;
+      return a - b;
+    },
+  }),
+  columnHelper.accessor('resolution_rate', {
+    header: t('AGENT_REPORTS.AGENT_PERFORMANCE_TABLE.TABLE_HEADER.RESOLUTION_RATE'),
+    cell: cellProps => h(
+      'span',
+      {
+        class: cellProps.getValue() && cellProps.getValue() !== '---' ? '' : 'text-slate-300 dark:text-slate-700',
+      },
+      cellProps.getValue() && cellProps.getValue() !== '---' ? `${cellProps.getValue()}%` : '---'
+    ),
+    size: 120,
+    sortingFn: (rowA, rowB) => {
+      const a = parseFloat(rowA.getValue('resolution_rate')) || 0;
+      const b = parseFloat(rowB.getValue('resolution_rate')) || 0;
+      return a - b;
+    },
+  }),
+  columnHelper.accessor('avg_first_response_time', {
+    header: t('AGENT_REPORTS.AGENT_PERFORMANCE_TABLE.TABLE_HEADER.AVG_RESPONSE_TIME'),
+    cell: cellProps => h(
+      'span',
+      {
+        class: cellProps.getValue() && cellProps.getValue() !== '---' ? '' : 'text-slate-300 dark:text-slate-700',
+      },
+      cellProps.getValue() && cellProps.getValue() !== '---' ? `${cellProps.getValue()}m` : '---'
+    ),
+    size: 120,
+    sortingFn: (rowA, rowB) => {
+      const a = parseFloat(rowA.getValue('avg_first_response_time')) || 0;
+      const b = parseFloat(rowB.getValue('avg_first_response_time')) || 0;
+      return a - b;
+    },
+  }),
+]);
+const paginationParams = computed(() => {
+  return {
+    pageIndex: pageIndex,
+    pageSize: 25,
+  };
+});
+const table = useVueTable({
+  get data() {
+    return tableData.value;
+  },
+  get columns() {
+    return columns.value;
+  },
+  manualPagination: true,
+  enableSorting: true,
+  getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  get rowCount() {
+    return totalCount.value;
+  },
+  state: {
+    get pagination() {
+      return paginationParams.value;
+    },
+    get sorting() {
+      return sorting.value;
+    },
+  },
+  onPaginationChange: updater => {
+    const newPagintaion = updater(paginationParams.value);
+    emit('pageChange', newPagintaion.pageIndex);
+  },
+  onSortingChange: updater => {
+    sorting.value = updater(sorting.value);
+  },
+});
+</script>
+<template>
+  <div class="agent-table-container">
+    <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
+    <Pagination class="mt-2" :table="table" />
+    <div v-if="isLoading" class="agents-loader">
+      <Spinner />
+      <span>{{
+        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
+      }}</span>
+    </div>
+    <EmptyState
+      v-else-if="!isLoading && !agentMetrics.length"
+      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
+    />
+  </div>
+</template>
+<style lang="scss" scoped>
+.agent-table-container {
+  @apply flex flex-col flex-1;
+  .ve-table {
+    &::v-deep {
+      th.ve-table-header-th {
+        @apply text-sm rounded-xl;
+        padding: var(--space-small) var(--space-two) !important;
+        transition: background-color 0.2s ease;
+      }
+      td.ve-table-body-td {
+        padding: var(--space-one) var(--space-two) !important;
+      }
+    }
+  }
+  &::v-deep .ve-pagination {
+    @apply bg-transparent dark:bg-transparent;
+  }
+  &::v-deep .ve-pagination-select {
+    @apply hidden;
+  }
+  .row-user-block {
+    @apply items-center flex text-left;
+    .user-block {
+      @apply items-start flex flex-col min-w-0 my-0 mx-2;
+      .title {
+        @apply text-sm m-0 leading-[1.2] text-slate-800 dark:text-slate-100;
+      }
+      .sub-title {
+        @apply text-xs text-slate-600 dark:text-slate-200;
+      }
+    }
+  }
+  .table-pagination {
+    @apply mt-4 text-right;
+  }
+}
+.agents-loader {
+  @apply items-center flex text-base justify-center p-8;
+}
+</style>

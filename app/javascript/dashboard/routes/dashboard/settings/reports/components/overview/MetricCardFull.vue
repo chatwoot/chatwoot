@@ -1,8 +1,7 @@
 <script>
 import Spinner from 'shared/components/Spinner.vue';
-
 export default {
-  name: 'MetricCard',
+  name: 'MetricCardFull',
   components: {
     Spinner,
   },
@@ -28,23 +27,12 @@ export default {
     class="flex flex-col m-0.5 px-6 py-5 overflow-hidden rounded-xl flex-grow text-n-slate-12 shadow outline-1 outline outline-n-container bg-n-solid-2 min-h-[10rem]"
   >
     <div
-      class="card-header grid w-full mb-6 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"
     >
       <slot name="header">
         <div class="flex items-center gap-2 flex-row">
           <h5 class="mb-0 text-n-slate-12 font-medium text-lg">
             {{ header }}
           </h5>
-          <span
-            class="flex flex-row items-center py-0.5 px-2 rounded bg-green-700 dark:bg-green-700 text-white text-xs"
-          >
-            <span
-              class="bg-white dark:bg-white h-1 w-1 rounded-full mr-1 rtl:mr-0 rtl:ml-0"
-            />
-            <span class="text-xs text-grey-700 dark:text-grey-700">
-              {{ $t('OVERVIEW_REPORTS.LIVE') }}
-            </span>
-          </span>
         </div>
         <div
           class="transition-opacity duration-200 ease-in-out opacity-20 hover:opacity-100 flex flex-row items-center justify-end gap-2"
@@ -55,7 +43,7 @@ export default {
     </div>
     <div
       v-if="!isLoading"
-      class="card-body max-w-full w-full ml-auto mr-auto justify-between flex"
+      class="card-body max-w-full w-full ml-auto mr-auto justify-between"
     >
       <slot />
     </div>
