@@ -102,7 +102,7 @@ export default {
         class="labels-select"
       >
         <option v-for="label in mockLabels" :key="label.title" :value="label">
-          {{ label.description }}
+          {{ label.description || label.title }}
         </option>
       </select>
       <label for="label_to_add">{{ $t('COLUMN_MODAL.LABEL_TO_ADD') }}</label>
