@@ -1,13 +1,13 @@
 {
     "COLUMN_MODAL": {
-        "EDIT_COLUMN": "Edit column",
-        "ADD_COLUMN": "Add column",
-        "COLUMN_NAME": "Column name",
-        "LABELS": "Labels: (Hold ctrl to select multiple)",
-        "LABEL_TO_ADD": "Label to add",
-        "SELECT_LABEL_TO_ADD_TEXT": "Select a label",
-        "CANCEL_BUTTON": "Cancel",
-        "CONFIRM_ADD": "Insert",
-        "CONFIRM_UPDATE": "Update"
+        "EDIT_COLUMN": "Editar coluna",
+        "ADD_COLUMN": "Adicionar coluna",
+        "COLUMN_NAME": "Nome da coluna",
+        "LABELS": "Etiquetas: (Pressione ctrl para escolhar várias)",
+        "LABEL_TO_ADD": "Adicionar etiqueta",
+        "SELECT_LABEL_TO_ADD_TEXT": "Escolha uma etiqueta",
+        "CANCEL_BUTTON": "Cancelar",
+        "CONFIRM_ADD": "Adicionar",
+        "CONFIRM_UPDATE": "Atualizar"
     }
 }
