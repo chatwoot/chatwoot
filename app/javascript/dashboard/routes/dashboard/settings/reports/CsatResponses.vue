@@ -31,10 +31,30 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
-    }),
+    // ...mapGetters({
+    //   accountId: 'getCurrentAccountId',
+    //   isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
+    // }),
+    // Get user tier from route meta (passed from routes.js)
+    userTier() {
+      return this.$route.meta?.userTier || 'free';
+    },
+    // Get available export options based on tier
+    availableExportOptions() {
+      if (this.userTier === 'pertamax_turbo') {
+        return [
+          { key: 'csv', label: 'OVERVIEW_REPORTS.EXPORT_TO_CSV' },
+          { key: 'pdf', label: 'OVERVIEW_REPORTS.EXPORT_TO_PDF' },
+          { key: 'excel', label: 'OVERVIEW_REPORTS.EXPORT_TO_EXCEL' }
+        ];
+      } else if (this.userTier === 'pertamax') {
+        return [
+          { key: 'csv', label: 'OVERVIEW_REPORTS.EXPORT_TO_CSV' }
+        ];
+      }
+      return [];
+    },
+
     requestPayload() {
       return {
         from: this.from,
@@ -45,11 +65,87 @@ export default {
         rating: this.rating,
       };
     },
-    isTeamsEnabled() {
-      return this.isFeatureEnabledOnAccount(
-        this.accountId,
-        FEATURE_FLAGS.TEAM_MANAGEMENT
-      );
+    // isTeamsEnabled() {
+    //   return this.isFeatureEnabledOnAccount(
+    //     this.accountId,
+    //     FEATURE_FLAGS.TEAM_MANAGEMENT
+    //   );
+    // },
+    csatTrendData() {
+      console.log('Generate CSAT data')
+      // Generate dynamic line chart data for CSAT trends over time
+      const endDate = this.to ? new Date(this.to * 1000) : new Date();
+      const startDate = this.from ? new Date(this.from * 1000) : new Date(Date.now() - 29 * 24 * 60 * 60 * 1000);
+      
+      // Calculate number of days between start and end date
+      const daysDiff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+      const numDays = Math.max(1, Math.min(daysDiff, 30)); // Limit to 30 days max
+      
+      // Generate timestamps
+      const timestamps = [];
+      for (let i = numDays - 1; i >= 0; i--) {
+        const date = new Date(endDate);
+        date.setDate(date.getDate() - i);
+        timestamps.push(Math.floor(date.getTime() / 1000));
+      }
+      
+      // Influence data based on selected agents and filters
+      const agentMultiplier = this.selectedAgents.length > 0 ? this.selectedAgents.length : 1;
+      const baseScoreVariation = this.selectedAgents.length > 0 ? 
+        (this.selectedAgents.length * 2) : 0; // Better scores with more agents selected
+      const ratingInfluence = this.rating ? 5 : 0; // Boost if rating filter applied
+      
+      // Generate datasets for CSAT metrics
+      const datasets = [
+        {
+          label: 'CSAT_REPORTS.TRENDS.SATISFACTION_SCORE',
+          data: timestamps.map(timestamp => ({
+            value: Math.min(100, Math.floor(Math.random() * 35) + 65 + baseScoreVariation + ratingInfluence), // 65-100%
+            timestamp: timestamp,
+          })),
+        },
+        {
+          label: 'CSAT_REPORTS.TRENDS.RESPONSE_RATE',
+          data: timestamps.map(timestamp => ({
+            value: Math.min(100, Math.floor(Math.random() * 25) + 75 + Math.floor(baseScoreVariation/2)), // 75-100%
+            timestamp: timestamp,
+          })),
+        }
+      ];
+      console.log('CSAT Trend Datasets:', datasets);
+      return datasets;
+    },
+    csatAnalyticsData() {
+      // Dummy data for CSAT analytics by topic & agent
+      const topics = ['Billing', 'Technical Support', 'Product Info', 'General Inquiry', 'Bug Report'];
+      
+      // Adjust data based on selected agents and other filters
+      const agentMultiplier = this.selectedAgents.length > 0 ? this.selectedAgents.length : 1;
+      const ratingFilter = this.rating ? 1.2 : 1; // Boost scores if specific rating filter applied
+      
+      return {
+        labels: topics,
+        data1: {
+          label: 'CSAT_REPORTS.ANALYTICS.SATISFACTION_SCORE',
+          data: topics.map(() => 
+            Math.min(100, Math.floor((Math.random() * 35 + 65) * ratingFilter)) // 65-100%
+          )
+        },
+        data2: {
+          label: 'CSAT_REPORTS.ANALYTICS.RESPONSE_COUNT', 
+          data: topics.map(() => 
+            Math.floor((Math.random() * 40 + 10) * agentMultiplier) // 10-50 responses * agent multiplier
+          )
+        }
+      };
+    },
+  },
+  watch: {
+    requestPayload: {
+      handler(newValue) {
+        this.fetchAllData(newValue);
+      },
+      deep: true,
     },
   },
   methods: {
@@ -107,6 +203,43 @@ export default {
 
       this.getAllData();
     },
+    toggleDropdown() {
+      this.dropdownOpen = !this.dropdownOpen;
+    },
+    closeDropdown() {
+      this.dropdownOpen = false;
+    },
+    exportData(format) {
+      // Check if user has permission for this export type
+      const hasPermission = this.availableExportOptions.some(option => option.key === format);
+      if (!hasPermission) {
+        this.$bus.$emit('newToastMessage', {
+          message: this.$t('OVERVIEW_REPORTS.EXPORT_NOT_ALLOWED'),
+          type: 'error'
+        });
+        this.closeDropdown();
+        return;
+      }
+      
+      console.log(`Exporting data to ${format}`);
+      // TODO: Implement actual export functionality
+      this.closeDropdown();
+    },
+    closeDropdownOnOutsideClick(event) {
+      if (!this.dropdownOpen) return;
+        const dropdownContainer = this.$refs.dropdownContainer;
+        if (dropdownContainer && !dropdownContainer.contains(event.target)) {
+          this.closeDropdown();
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener('click', this.closeDropdownOnOutsideClick);
+    // Initialize with default data
+    // this.fetchAllData();
+  },
+  beforeUnmount() {
+    window.removeEventListener('click', this.closeDropdownOnOutsideClick);
   },
 };
 </script>
@@ -131,7 +264,43 @@ export default {
       @filter-change="onFilterChange"
     />
 
-    <CsatMetrics :filters="requestPayload" />
-    <CsatTable :page-index="pageIndex" @page-change="onPageNumberChange" />
+      <CsatMetrics v-if="userTier === 'pertalite' || userTier === 'pertamax' || userTier === 'pertamax_turbo'" :filters="requestPayload" />
+
+      <!-- CSAT Trends Line Chart -->
+      <div v-if="userTier === 'pertamax' || userTier === 'pertamax_turbo'" class="flex flex-row flex-wrap max-w-full">
+        <MetricCardFull class="w-full max-w-full">
+          <template #header>
+            <div class="flex items-center gap-2 flex-row">
+              <h5 class="mb-0 text-n-slate-12 font-medium text-lg">
+                {{ $t('CSAT_REPORTS.TRENDS.HEADER') }}
+              </h5>
+              <!-- <span
+                v-if="selectedAgents.length > 0"
+                class="flex flex-row items-center py-0.5 px-2 rounded bg-blue-100 dark:bg-blue-900/50 text-xs"
+              >
+                <span class="text-xs text-blue-700 dark:text-blue-400">
+                  {{ selectedAgents.length }} {{ $t('CSAT_REPORTS.AGENTS_SELECTED') }}
+                </span>
+              </span> -->
+            </div>
+          </template>
+          <div class="p-4">
+            <div class="h-80">
+              <LineChart2
+                v-if="csatTrendData.length > 0"
+                :datasets="csatTrendData"
+              />
+              <div v-else class="flex items-center justify-center h-full">
+                <span class="text-sm text-gray-600 dark:text-gray-400">
+                  {{ $t('REPORT.NO_ENOUGH_DATA') }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </MetricCardFull>
+      </div>
+
+      <CsatTable v-if="userTier === 'pertamax' || userTier === 'pertamax_turbo'" :page-index="pageIndex" @page-change="onPageNumberChange" />
+    </div>
   </div>
 </template>

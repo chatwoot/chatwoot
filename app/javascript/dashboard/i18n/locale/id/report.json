@@ -148,6 +148,19 @@
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
     "FILTER_DROPDOWN_LABEL": "Pilih Agen",
+    "AGENT_PERFORMANCE_TABLE": {
+      "HEADER": "Percakapan oleh Agen",
+      "LOADING_MESSAGE": "Memuat metrik agen...",
+      "NO_AGENTS": "Tidak ada percakapan oleh agen",
+      "TABLE_HEADER": {
+        "AGENT": "Agen",
+        "TOTAL_CONVERSATIONS": "Total Percakapan",
+        "AVG_CSAT": "Rata-Rata CSAT",
+        "WORK_DISTRIBUTION": "Status",
+        "RESOLUTION_RATE": "Tingkat Penyelesaian",
+        "AVG_RESPONSE_TIME": "Rata-Rata Waktu Respon"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Percakapan",
@@ -214,6 +227,14 @@
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_LABEL_REPORTS": "Unduh laporan label",
+    "TOPICS_TREND": {
+      "HEADER": "Analisis Tren Topik",
+      "NO_LABELS": "Tidak ada data tersedia"
+    },
+    "SENTIMENT_TREND": {
+      "HEADER": "Analisis Tren Sentimen",
+      "NO_LABELS": "Tidak ada data tersedia"
+    },
     "FILTER_DROPDOWN_LABEL": "Pilih label",
     "METRICS": {
       "CONVERSATIONS": {
