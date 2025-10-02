@@ -1569,6 +1569,36 @@ async function createSheets() {
   }
 }
 
+// Helper function to split text into chunks
+function splitTextIntoChunks(text, maxChunkSize = 19000) {
+  const chunks = [];
+  let currentChunk = '';
+  const lines = text.split('\n');
+  
+  for (const line of lines) {
+    // If adding this line would exceed the limit, save current chunk and start a new one
+    if (currentChunk.length + line.length + 1 > maxChunkSize) {
+      if (currentChunk.trim()) {
+        chunks.push(currentChunk.trim());
+        currentChunk = line;
+      } else {
+        // Single line is too long, truncate it
+        chunks.push(line.substring(0, maxChunkSize - 100) + '...[truncated]');
+        currentChunk = '';
+      }
+    } else {
+      currentChunk += (currentChunk ? '\n' : '') + line;
+    }
+  }
+  
+  // Add the last chunk if it exists
+  if (currentChunk.trim()) {
+    chunks.push(currentChunk.trim());
+  }
+  
+  return chunks;
+}
+
 async function syncProductColumns() {
   try {
     syncingColumns.value = true;
@@ -1591,64 +1621,56 @@ async function syncProductColumns() {
       knowledgeSources = [];
     }
     
-    // // Find existing knowledge source for tab 4 (sales bot product)
-    // let existingKnowledge = knowledgeSources.find(k => k.tab === 4);
-    // let knowledgeId = existingKnowledge?.id;
-    // Find all knowledge sources with tab = 4
+    // Find all knowledge sources with tab = 4 (sales bot product)
     let existingKnowledgeTab4 = knowledgeSources.filter(k => k.tab === 4);
     
-    let knowledgeId;
-
-    if (existingKnowledgeTab4.length === 0) {
-      // No knowledge source with tab = 4, we'll create one later
-      knowledgeId = null;
-    } else if (existingKnowledgeTab4.length === 1) {
-      // Only one knowledge source with tab = 4, use it
-      knowledgeId = existingKnowledgeTab4[0].id;
-    } else {
-      // Multiple knowledge sources with tab = 4
-      // Find the one with the biggest ID
-      const latestKnowledge = existingKnowledgeTab4.reduce((prev, current) => {
-        return (current.id > prev.id) ? current : prev;
-      });
-      
-      knowledgeId = latestKnowledge.id;
-      
-      // Delete all others except the one with biggest ID
-      const toDelete = existingKnowledgeTab4.filter(k => k.id !== latestKnowledge.id);
-      
-      for (const knowledge of toDelete) {
-        try {
-          await aiAgents.deleteKnowledgeText(props.data.id, knowledge.id);
-        } catch (error) {
-          // Continue even if deletion fails for some entries
-        }
+    // Delete all existing knowledge sources for tab 4 to replace with new chunked data
+    for (const knowledge of existingKnowledgeTab4) {
+      try {
+        await aiAgents.deleteKnowledgeText(props.data.id, knowledge.id);
+      } catch (error) {
+        console.warn('Failed to delete existing knowledge:', error);
       }
     }
     
-    // If no existing knowledge source, create one first
-    if (!knowledgeId) {
-
-      const createRequest = {
-        id: null,
-        tab: 4,
-        text: syncDataResponse.data.data,
-      };
-      await aiAgents.addKnowledgeText(props.data.id, createRequest);
+    // Split the content into chunks to handle the 20,000 character limit
+    const rawData = syncDataResponse.data.data;
+    const chunks = splitTextIntoChunks(rawData, 19000); // 19K to leave safety margin
+    
+    console.log(`Splitting product data into ${chunks.length} chunks`);
+    
+    // Create knowledge sources for each chunk
+    for (let i = 0; i < chunks.length; i++) {
+      const chunkText = chunks.length > 1 
+        ? `[Product Catalog - Part ${i + 1}/${chunks.length}]\n\n${chunks[i]}`
+        : chunks[i];
+      
+      try {
+        const createRequest = {
+          id: null,
+          tab: 4,
+          text: chunkText,
+        };
+        await aiAgents.addKnowledgeText(props.data.id, createRequest);
+        
+        // Small delay between chunks to avoid overwhelming the server
+        if (i < chunks.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+      } catch (error) {
+        console.error(`Failed to create knowledge chunk ${i + 1}:`, error);
+        showNotification(`Failed to save product data chunk ${i + 1}. Some data may be missing.`, 'error');
+      }
     }
-    // Update the knowledge source with new data
-    else {
-
-      await aiAgents.updateKnowledgeText(props.data.id, {
-        id: knowledgeId,
-        tab: 4,
-        text: syncDataResponse.data.data,
-      });
-    }
-    showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_SUCCESS'), 'success');
+    
+    const message = chunks.length > 1 
+      ? `${t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_SUCCESS')} (${chunks.length} chunks created)`
+      : t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_SUCCESS');
+    
+    showNotification(message, 'success');
   } catch (error) {
+    console.error('Sync error:', error);
     showNotification(t('AGENT_MGMT.SALESBOT.CATALOG.SYNC_ERROR'), 'error');
-    syncingColumns.value = false;
   } finally {
     syncingColumns.value = false;
   }
