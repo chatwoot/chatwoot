@@ -34,13 +34,17 @@ export default {
       });
     },
     shouldShowBanner() {
-      return (
-        !this.userDismissedBanner &&
-        this.globalConfig.displayManifest &&
-        this.updateAvailable &&
-        !this.isVersionNotificationDismissed(this.latestChatwootVersion) &&
-        this.isAdmin
-      );
+      // Disabled for GP Bikes - no Chatwoot update notifications
+      return false;
+
+      // Original logic (commented out):
+      // return (
+      //   !this.userDismissedBanner &&
+      //   this.globalConfig.displayManifest &&
+      //   this.updateAvailable &&
+      //   !this.isVersionNotificationDismissed(this.latestChatwootVersion) &&
+      //   this.isAdmin
+      // );
     },
   },
   methods: {

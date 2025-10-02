@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="400" height="80" viewBox="0 0 400 80" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <title>GP Bikes Logo</title>
+<svg width="280" height="80" viewBox="0 0 280 80" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <title>Ke-ai Logo</title>
   <g id="logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <!-- GP Icon Circle -->
-    <circle id="icon-bg" fill="#1A1A1A" cx="40" cy="40" r="35"></circle>
-    <text x="40" y="52" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="700" fill="#FFFFFF" text-anchor="middle">GP</text>
+    <!-- Círculo azul con corazón blanco -->
+    <circle id="icon-bg" fill="#3B9EFF" cx="40" cy="40" r="35"></circle>
+    <path id="heart" d="M40 28C32 28 27 33 27 40C27 50 40 58 40 58C40 58 53 50 53 40C53 33 48 28 40 28Z" fill="#FFFFFF"></path>
 
-    <!-- Text: GP BIKES -->
-    <text x="95" y="35" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="700" fill="#1A1A1A" letter-spacing="1">GP</text>
-    <text x="95" y="58" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="500" fill="#4A4A4A" letter-spacing="2">BIKES</text>
+    <!-- Texto "Ke-ai" más grande y legible -->
+    <text x="90" y="55" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="42" font-weight="600" fill="#2D3748" letter-spacing="-1">Ke-ai</text>
   </g>
 </svg>
