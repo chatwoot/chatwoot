@@ -5,7 +5,7 @@ class Api::V1::AuthController < Api::BaseController
   def saml_login
     return if @account.nil?
 
-    saml_initiation_url = "/auth/saml?account_id=#{@account.id}"
+    saml_initiation_url = "/auth/saml?account_id=#{@account.id}&RelayState=mobile"
     redirect_to saml_initiation_url, status: :temporary_redirect
   end
 
