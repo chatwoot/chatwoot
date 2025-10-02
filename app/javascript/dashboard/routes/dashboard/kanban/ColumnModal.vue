@@ -131,133 +131,82 @@ export default {
 
 <style scoped>
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  @apply fixed top-0 left-0 w-full h-full flex justify-center items-center z-[1000];
 }
 
 .modal {
-  background-color: #464343;
-  padding: 20px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
-  margin: 20px;
+  @apply bg-n-slate-2 p-5 rounded-lg w-[90%] max-w-[500px] m-5;
 }
 
 @media (max-width: 768px) {
   .modal {
-    width: 95%;
-    padding: 15px;
-    margin: 10px;
+    @apply w-[95%] p-4 m-2.5;
   }
 }
 
 .modal h3 {
-  color: #fff;
-  margin-top: 0;
-  margin-bottom: 15px;
+  @apply text-n-slate-12 mt-0 mb-4;
 }
 
 .modal input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: 4px;
-  box-sizing: border-box;
+  @apply w-full p-2 mb-4 border-none rounded bg-n-slate-1 text-n-slate-12;
 }
 
 .modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  flex-wrap: wrap;
+  @apply flex justify-end gap-2.5 flex-wrap;
 }
 
 @media (max-width: 768px) {
   .modal-actions {
-    justify-content: center;
+    @apply justify-center;
   }
   
   .cancel-btn, .confirm-btn {
-    width: 100%;
-    margin: 5px 0;
+    @apply w-full my-1;
   }
 }
 
 .cancel-btn, .confirm-btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
+  @apply py-2 px-4 border-none rounded cursor-pointer font-bold;
 }
 
 .cancel-btn {
-  background-color: transparent;
-  color: #fff;
+  @apply bg-transparent text-n-slate-11;
 }
 
 .confirm-btn {
-  background-color: #fff;
-  color: #464343;
+  @apply bg-n-slate-1 text-n-slate-12;
 }
 
 .cancel-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  @apply bg-n-slate-3;
 }
 
 .confirm-btn:hover {
-  background-color: #e0e0e0;
+  @apply bg-n-slate-3;
 }
 
 .labels-select {
-  width: 100%;
-  height: 30%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border: none;
-  border-radius: 4px;
-  background-color: rgb(46, 42, 42);
-  min-height: 100px;
+  @apply w-full h-[30%] p-2 mb-4 border-none rounded bg-n-slate-3 min-h-[100px] text-n-slate-12;
 }
 
 .labels-select option {
-  padding: 8px;
-  margin: 2px 0;
+  @apply p-2 my-0.5;
 }
 
 .labels-select option:checked {
-  background-color: #464343;
-  color: white;
+  @apply bg-n-slate-4 text-n-slate-12;
 }
 
 .single-select {
-  width: 100%;
-  padding: 8px;
-  margin: 8px 0 15px;
-  border: none;
-  border-radius: 4px;
-  background-color: rgb(46, 42, 42);
-  color: white;
-  display: block;
+  @apply w-full p-2 my-2 mb-4 border-none rounded bg-n-slate-3 text-n-slate-12 block;
 }
 
 .single-select option {
-  padding: 8px;
+  @apply p-2;
 }
 
 label {
-  display: block;
-  color: #fff;
-  margin: 10px 0 5px;
+  @apply block text-n-slate-11 my-2.5 mt-2;
 }
 </style>

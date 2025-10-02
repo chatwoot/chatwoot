@@ -406,10 +406,16 @@ export default {
 
         <div class="column-header">
           <h2>{{ column.title }}</h2>
-          <button class="delete-column-btn" @click="deleteColumn(columnIndex)">
+          <button 
+            class="delete-column-btn" 
+            @click="deleteColumn(columnIndex)"
+          >
             {{ $t('KANBAN.COLUMN.ACTIONS.DELETE') }}
           </button>
-          <button class="delete-column-btn" @click="editColumn(columnIndex)">
+          <button 
+            class="delete-column-btn" 
+            @click="editColumn(columnIndex)"
+          >
             {{ $t('KANBAN.COLUMN.ACTIONS.EDIT') }}
           </button>
         </div>
@@ -445,13 +451,7 @@ export default {
 
 <style scoped>
 .kanban-root {
-  font-family: Arial, sans-serif;
-  padding: 10px;
-  background-color: #292525;
-  height: 100vh;
-  width: 100vw;
-  box-sizing: border-box;
-  overflow-x: auto;
+  @apply p-2.5 bg-n-background h-screen w-screen box-border overflow-x-auto;
 }
 
 @media (max-width: 768px) {
@@ -461,12 +461,7 @@ export default {
 }
 
 .kanban-board {
-  display: flex;
-  gap: 20px;
-  height: calc(100vh - 100px);
-  margin: 0 auto;
-  overflow-x: auto;
-  padding-bottom: 20px;
+  @apply flex gap-5 h-[calc(100vh-100px)] mx-auto overflow-x-auto pb-5;
 }
 
 @media (max-width: 768px) {
@@ -477,13 +472,15 @@ export default {
 }
 
 .column {
-  background-color: #464343;
-  border-radius: 8px;
-  padding: 12px;
-  width: 300px;
-  min-width: 300px;
-  height: 100%;
-  overflow-y: auto;
+  @apply bg-n-slate-5 rounded-lg p-3 w-[300px] min-w-[300px] h-full overflow-y-auto;
+}
+
+.delete-column-btn {
+  @apply bg-transparent border-none text-n-slate-11 cursor-pointer p-1 flex items-center justify-center rounded transition-all duration-200 hover:bg-n-slate-4
+}
+
+.delete-column-btn:hover {
+  color: red;
 }
 
 @media (max-width: 768px) {
@@ -508,23 +505,6 @@ export default {
   font-size: 18px;
 }
 
-.delete-column-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-
-.delete-column-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ff4444;
-}
 
 .card {
   color: #464343;
@@ -565,17 +545,7 @@ export default {
 }
 
 .kanban-header {
-  background-color: #464343;
-  padding: 15px;
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  margin-bottom: 1.5%;
-  flex-wrap: wrap;
+  @apply bg-n-slate-5 p-4 flex gap-2.5 justify-between w-full sticky top-0 z-50 mb-[1.5%] flex-wrap;
 }
 
 @media (max-width: 768px) {
@@ -604,12 +574,11 @@ export default {
 }
 
 .toggle-button {
-  background-color: #666;
-  color: white;
+  @apply bg-n-slate-4 text-n-slate-11;
 }
 
 .toggle-button.active {
-  background-color: #4CAF50;
+  @apply bg-n-brand text-n-slate-1;
 }
 
 .column-dragging {
@@ -618,49 +587,11 @@ export default {
 }
 
 .kanban-button {
-  padding: 8px 16px;
-  background-color: #fff;
-  border: none;
-  border-radius: 4px;
-  color: #464343;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
+  @apply py-2 px-4 bg-n-slate-1 border-none rounded text-n-slate-12 cursor-pointer font-bold transition-all duration-200;
 }
 
 .kanban-button:hover {
-  background-color: #e0e0e0;
-  transform: translateY(-1px);
-}
-
-.debug-section {
-  background: #464343;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.debug-title {
-  color: #fff;
-  margin: 0 0 15px 0;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #666;
-}
-
-.debug-item {
-  color: white;
-  margin: 10px 0;
-  padding: 5px;
-  border-bottom: 1px solid #666;
-}
-
-.debug-item strong {
-  color: #4CAF50;
-  margin-right: 10px;
-  display: block;
-  margin-bottom: 8px;
+  @apply bg-n-slate-3 -translate-y-[1px];
 }
 
 .conversation-item {
