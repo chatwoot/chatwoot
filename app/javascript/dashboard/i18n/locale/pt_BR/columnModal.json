@@ -8,6 +8,7 @@
         "SELECT_LABEL_TO_ADD_TEXT": "Escolha uma etiqueta",
         "CANCEL_BUTTON": "Cancelar",
         "CONFIRM_ADD": "Adicionar",
-        "CONFIRM_UPDATE": "Atualizar"
+        "CONFIRM_UPDATE": "Atualizar",
+        "LABEL_TO_ADD_EXPLANATION": "Essa é a etiqueta que será adicionada a uma conversa quando ela for arrastada para esta coluna."
     }
 }

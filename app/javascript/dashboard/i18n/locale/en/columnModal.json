@@ -8,6 +8,7 @@
         "SELECT_LABEL_TO_ADD_TEXT": "Select a label",
         "CANCEL_BUTTON": "Cancel",
         "CONFIRM_ADD": "Insert",
-        "CONFIRM_UPDATE": "Update"
+        "CONFIRM_UPDATE": "Update",
+        "LABEL_TO_ADD_EXPLANATION": "This label will be added to a conversation when you drop the conversation on this column"
     }
 }

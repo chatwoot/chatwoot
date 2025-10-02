@@ -127,6 +127,7 @@ export default {
         </option>
       </select>
       <label for="label_to_add">{{ $t('COLUMN_MODAL.LABEL_TO_ADD') }}</label>
+      <span>{{ $t('COLUMN_MODAL.LABEL_TO_ADD_EXPLANATION') }}</span>
       <select
       name="label_to_add"
       id="label-to-add"
