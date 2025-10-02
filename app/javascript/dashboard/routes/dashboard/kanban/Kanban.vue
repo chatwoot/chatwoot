@@ -372,6 +372,11 @@ export default {
   <div class="kanban-root">
     <header class="kanban-header">
       <div class="kanban-header-left">
+        <button class="kanban-button" @click="openColumnModal">{{ $t('KANBAN.HEADER.BUTTONS.NEW_COLUMN') }}</button>
+        <button class="kanban-button" @click="importKanban">{{ $t('KANBAN.HEADER.BUTTONS.IMPORT') }}</button>
+        <button class="kanban-button" @click="exportKanban">{{ $t('KANBAN.HEADER.BUTTONS.EXPORT') }}</button>
+      </div>
+      <div class="kanban-header-right">
         <button 
           class="kanban-button toggle-button" 
           :class="{ active: dragColumnsMode }"
@@ -379,11 +384,6 @@ export default {
         >
           {{ dragColumnsMode ? $t('KANBAN.HEADER.DRAG_MODE.ACTIVE') : $t('KANBAN.HEADER.DRAG_MODE.INACTIVE') }}
         </button>
-      </div>
-      <div class="kanban-header-right">
-        <button class="kanban-button" @click="openColumnModal">{{ $t('KANBAN.HEADER.BUTTONS.NEW_COLUMN') }}</button>
-        <button class="kanban-button" @click="importKanban">{{ $t('KANBAN.HEADER.BUTTONS.IMPORT') }}</button>
-        <button class="kanban-button" @click="exportKanban">{{ $t('KANBAN.HEADER.BUTTONS.EXPORT') }}</button>
       </div>
     </header>
 
