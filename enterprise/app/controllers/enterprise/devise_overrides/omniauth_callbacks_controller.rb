@@ -41,6 +41,9 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     @resource = SamlUserBuilder.new(auth_hash, account_id).perform
 
     if @resource.persisted?
+      relay_state = saml_relay_state
+      return sign_in_user_on_mobile if mobile_relay_state?(relay_state)
+
       sign_in_user
     else
       redirect_to login_page_url(error: 'saml-authentication-failed')
@@ -49,6 +52,14 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
 
   def extract_saml_account_id
     params[:account_id] || session[:saml_account_id] || request.env['omniauth.params']&.dig('account_id')
+  end
+
+  def saml_relay_state
+    session[:saml_relay_state] || request.env['omniauth.params']&.dig('RelayState')
+  end
+
+  def mobile_relay_state?(relay_state)
+    relay_state.to_s.casecmp('mobile').zero?
   end
 
   def saml_enabled_for_account?(account_id)
