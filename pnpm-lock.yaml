@@ -220,6 +220,9 @@ importers:
       vuedraggable:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.5.12(typescript@5.6.2))
+      vuewordcloud:
+        specifier: ^19.0.0
+        version: 19.0.0(vue@3.5.12(typescript@5.6.2))
       vuex:
         specifier: ~4.1.0
         version: 4.1.0(vue@3.5.12(typescript@5.6.2))
@@ -4933,6 +4936,11 @@ packages:
     resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==}
     peerDependencies:
       vue: ^3.0.1
+
+  vuewordcloud@19.0.0:
+    resolution: {integrity: sha512-DgvvtatvU+lp1Crb7s+KbjvO/ULJLc43jce/mUY31bHireqeIHKaZ9PeXRfAy0rMcZi8EURnGK0ZPWoJBDRUhw==}
+    peerDependencies:
+      vue: ^3
 
   vuex-router-sync@6.0.0-rc.1:
     resolution: {integrity: sha512-pzVrX/rmQsDjJiKPAjgKxpkxWdiBBQmxATFA6eFyS2Tmo6jauq8iDk9BWxkw41/OA+pbq4wkONRC0aeErDw8GQ==}
@@ -10337,6 +10345,10 @@ snapshots:
   vuedraggable@4.1.0(vue@3.5.12(typescript@5.6.2)):
     dependencies:
       sortablejs: 1.14.0
+      vue: 3.5.12(typescript@5.6.2)
+
+  vuewordcloud@19.0.0(vue@3.5.12(typescript@5.6.2)):
+    dependencies:
       vue: 3.5.12(typescript@5.6.2)
 
   vuex-router-sync@6.0.0-rc.1(vue-router@4.4.5(vue@3.5.12(typescript@5.6.2)))(vuex@4.1.0(vue@3.5.12(typescript@5.6.2))):
