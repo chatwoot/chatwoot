@@ -148,6 +148,19 @@
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
     "FILTER_DROPDOWN_LABEL": "Pilih Agen",
+    "AGENT_PERFORMANCE_TABLE": {
+      "HEADER": "Percakapan oleh Agen",
+      "LOADING_MESSAGE": "Memuat metrik agen...",
+      "NO_AGENTS": "Tidak ada percakapan oleh agen",
+      "TABLE_HEADER": {
+        "AGENT": "Agen",
+        "TOTAL_CONVERSATIONS": "Total Percakapan",
+        "AVG_CSAT": "Rata-Rata CSAT",
+        "WORK_DISTRIBUTION": "Status",
+        "RESOLUTION_RATE": "Tingkat Penyelesaian",
+        "AVG_RESPONSE_TIME": "Rata-Rata Waktu Respon"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Percakapan",
@@ -214,7 +227,46 @@
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_LABEL_REPORTS": "Unduh laporan label",
+    "TOPICS_TREND": {
+      "HEADER": "Analisis Tren Topik",
+      "NO_LABELS": "Tidak ada data tersedia"
+    },
+    "SENTIMENT_TREND": {
+      "HEADER": "Analisis Tren Sentimen",
+      "NO_LABELS": "Tidak ada data tersedia"
+    },
     "FILTER_DROPDOWN_LABEL": "Pilih label",
+    "AGENT_PERFORMANCE_TABLE": {
+      "HEADER": "Percakapan oleh agen",
+      "LOADING_MESSAGE": "Memuat metrik agen...",
+      "NO_AGENTS": "Tidak ada percakapan oleh agen",
+      "TABLE_HEADER": {
+        "AGENT": "Agen",
+        "TOTAL_CONVERSATIONS": "Total Percakapan",
+        "AVG_CSAT": "Rata-Rata CSAT",
+        "WORK_DISTRIBUTION": "Status",
+        "RESOLUTION_RATE": "Tingkat Penyelesaian",
+        "AVG_RESPONSE_TIME": "Rata-Rata Waktu Respon"
+      }
+    },
+    "SENTIMENT": {
+      "HEADER": "Analisis Sentimen",
+      "SUMMARY": "Ringkasan Sentimen",
+      "POSITIVE": "Positif",
+      "NEGATIVE": "Negatif",
+      "NEUTRAL": "Netral"
+    },
+    "QUESTION_SEGMENTATION": {
+      "HEADER": "Segmentasi Pertanyaan"
+    },
+    "QUESTION_CATEGORIES": {
+      "HARGA": "Pertanyaan Harga",
+      "STOK": "Ketersediaan Stok",
+      "PENGIRIMAN": "Pengiriman & Pengantaran",
+      "KOMPLAIN": "Keluhan & Masalah",
+      "INFORMASI": "Informasi Umum",
+      "LAINNYA": "Lainnya"
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Percakapan",
@@ -428,6 +480,10 @@
         "FEEDBACK_TEXT": "Komentar umpan balik"
       }
     },
+    "TRENDS": {
+      "HEADER": "Tren CSAT",
+      "SUB_HEADER": "Rata-rata skor kepuasan pelanggan dari waktu ke waktu"
+    },
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Total respons",
@@ -444,51 +500,85 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Laporan Bot",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Jumlah Percakapan",
+        "TOOLTIP": "Total percakapan yang ditangani oleh bot"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Total Respon",
+        "TOOLTIP": "Percakapan diselesaikan"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Tingkat Penyelesaian Oleh Bot",
+        "TOOLTIP": "Percakapan diselesaikan oleh bot / Total percakapan yang ditangani oleh bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Tingkat Handover",
+        "TOOLTIP": "Total percakapan yang dialihkan ke agen / Total percakapan yang ditangani oleh bot * 100"
       }
     }
   },
 
   "AI_AGENT_REPORTS": {
-    "HEADER": "Laporan AI Agen",
+    "HEADER": "Laporan Bot AI",
+    "TOPICS_ANALYSIS":{
+      "HEADER_CLOUD": "Topik Paling Populer (Word Cloud)",
+      "HEADER_CHART": "Top 8 Topik Paling Populer (Bar Chart)",
+      "SHOW_CHART": "Tampilkan Bar Chart",
+      "SHOW_WORD_CLOUD": "Tampilkan Word Cloud"
+    },
+    "CHARTS": {
+      "HEADER": "Laporan Bot AI",
+      "RESOLUTION_PROPORTION": "Proporsi Penyelesaian",
+      "DAILY_RESOLUTION_TREND": "Tren Penyelesaian Harian",
+      "RESOLVED_BY_AI": "Direspon oleh AI",
+      "HANDOVERED_TO_AGENT": "Dialihkan ke Agen"
+    },
+    "KPI": {
+      "HEADER": "Indikator Kinerja Utama",
+      "TOTAL_AI_CONVERSATIONS":"Total percakapan yang ditangani oleh agen AI",
+      "RESOLVED_BY_AI":"Percakapan diselesaikan AI"
+    },
+    "BOT_SUMMARY": {
+      "HEADER": "Ringkasan Bot",
+      "LOADING_MESSAGE": "Memuat metrik bot...",
+      "NO_BOTS": "Tidak ada bot yang tersedia",
+      "TABLE_HEADER": {
+        "BOT": "Bot",
+        "HANDOVERS": "Handover",
+        "CHAT_RESPONDED": "Percakapan diselesaikan"
+      }
+    },
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Jumlah Percakapan",
+        "TOOLTIP": "Total percakapan yang ditangani oleh bot"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Total Respon",
+        "TOOLTIP": "Percakapan diselesaikan"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Tingkat Penyelesaian Oleh Bot",
+        "TOOLTIP": "Percakapan diselesaikan oleh bot / Total percakapan yang ditangani oleh bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Tingkat Handover",
+        "TOOLTIP": "Total percakapan yang dialihkan ke agen / Total percakapan yang ditangani oleh bot * 100"
       }
     }
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Gambaran",
     "LIVE": "Langsung",
+    "DOWNLOAD": "Ekspor",
+    "EXPORT_TO_CSV": "Ekspor CSV",
+    "EXPORT_TO_PDF": "Ekspor PDF",
+    "EXPORT_TO_EXCEL": "Ekspor Excel",
+    "EXPORT_NOT_ALLOWED": "Anda tidak memiliki izin untuk mengekspor dalam format ini. Silakan upgrade paket Anda.",
+    "UPGRADE_FOR_EXPORT": "Upgrade ke Pertamax atau lebih tinggi untuk mengakses fitur ekspor",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Percakapan Terbuka",
       "LOADING_MESSAGE": "Memuat metrik percakapan...",
@@ -502,7 +592,7 @@
       "NO_CONVERSATIONS": "Tidak ada percakapan",
       "CONVERSATION": "{count} percakapan",
       "CONVERSATIONS": "{count} percakapan",
-      "DOWNLOAD_REPORT": "Download report"
+      "DOWNLOAD_REPORT": "Unduh laporan"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Percakapan oleh Agen",
@@ -514,6 +604,19 @@
         "UNATTENDED": "Tidak Ditangani",
         "STATUS": "Status"
       }
+    },
+    "CHAT_SUMMARY": {
+      "HEADER": "Ringkasan Percakapan",
+      "CHAT_IN": "Total percakapan masuk",
+      "CHAT_ANSWERED_BY_AI": "Percakapan diselesaikan AI",
+      "RESOLVED_PERCENTAGE": "Persentase terselesaikan oleh AI",
+      "CHAT_HANDOVERED": "Percakapan dialihkan ke agen"
+    },
+    "CONVERSATION_TRENDS_LINE_CHART": {
+      "HEADER": "Tren Percakapan",
+      "TOTAL_CHATS": "Total percakapan masuk",
+      "BOT_CHATS": "Percakapan diselesaikan AI",
+      "AGENT_CHATS": "Percakapan dialihkan ke agen"
     },
     "AGENT_STATUS": {
       "HEADER": "Status Agen",

@@ -149,6 +149,19 @@
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "AGENT_PERFORMANCE_TABLE": {
+      "HEADER": "Conversations by agents",
+      "LOADING_MESSAGE": "Loading agent metrics...",
+      "NO_AGENTS": "There are no conversations by agents",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "TOTAL_CONVERSATIONS": "Total Conversations",
+        "AVG_CSAT": "Avg CSAT",
+        "WORK_DISTRIBUTION": "Status",
+        "RESOLUTION_RATE": "Resolution Rate",
+        "AVG_RESPONSE_TIME": "Avg Response Time"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
@@ -216,6 +229,14 @@
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
     "FILTER_DROPDOWN_LABEL": "Select Label",
+    "TOPICS_TREND": {
+      "HEADER": "Topics Trend Analysis",
+      "NO_LABELS": "No data available"
+    },
+    "SENTIMENT_TREND": {
+      "HEADER": "Sentiment Trend Analysis",
+      "NO_LABELS": "No data available"
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
@@ -275,6 +296,29 @@
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
+    },
+    "TOPICS_ANALYSIS": {
+      "HEADER": "Topics Analysis",
+      "SHOW_CHART": "Show Chart",
+      "SHOW_WORD_CLOUD": "Show Word Cloud"
+    },
+    "SENTIMENT": {
+      "HEADER": "Sentiment Analysis",
+      "SUMMARY": "Sentiment Summary",
+      "POSITIVE": "Positive",
+      "NEGATIVE": "Negative",
+      "NEUTRAL": "Neutral"
+    },
+    "QUESTION_SEGMENTATION": {
+      "HEADER": "Question Segmentation"
+    },
+    "QUESTION_CATEGORIES": {
+      "HARGA": "Price Inquiries",
+      "STOK": "Stock Availability",
+      "PENGIRIMAN": "Shipping & Delivery",
+      "KOMPLAIN": "Complaints & Issues",
+      "INFORMASI": "General Information",
+      "LAINNYA": "Others"
     }
   },
   "INBOX_REPORTS": {
@@ -431,6 +475,10 @@
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },
+    "TRENDS": {
+      "HEADER": "CSAT Trend",
+      "SUB_HEADER": "Average satisfaction score over time"
+    },
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Total responses",
@@ -469,6 +517,34 @@
   },
   "AI_AGENT_REPORTS": {
     "HEADER": "AI Agent Reports",
+    "TOPICS_ANALYSIS":{
+      "HEADER_CLOUD": "Most Popular Topics (Word Cloud)",
+      "HEADER_CHART": "Top 8 Most Popular Topics (Bar Chart)",
+      "SHOW_CHART": "Show Bar Chart",
+      "SHOW_WORD_CLOUD": "Show Word Cloud"
+    },
+    "CHARTS": {
+      "HEADER": "AI Agent Reports",
+      "RESOLUTION_PROPORTION": "Resolution Proportion",
+      "DAILY_RESOLUTION_TREND": "Daily Resolution Trend",
+      "RESOLVED_BY_AI": "Resolved by AI",
+      "HANDOVERED_TO_AGENT": "Handovered to Agent"
+    },
+    "KPI": {
+      "HEADER": "Key Performance Indicators",
+      "TOTAL_AI_CONVERSATIONS":"Total conversations handled by AI agent",
+      "RESOLVED_BY_AI":"Chats resolved by AI"
+    },
+    "BOT_SUMMARY": {
+      "HEADER": "Bot Summary",
+      "LOADING_MESSAGE": "Loading bot metrics...",
+      "NO_BOTS": "There are no bots available",
+      "TABLE_HEADER": {
+        "BOT": "Bot",
+        "HANDOVERS": "Handovers",
+        "CHAT_RESPONDED": "Chat Responded"
+      }
+    },
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "No. of Conversations",
@@ -491,6 +567,12 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
     "LIVE": "Live",
+    "DOWNLOAD": "Export",
+    "EXPORT_TO_CSV": "Export to CSV",
+    "EXPORT_TO_PDF": "Export to PDF",
+    "EXPORT_TO_EXCEL": "Export to Excel",
+    "EXPORT_NOT_ALLOWED": "You don't have permission to export in this format. Please upgrade your plan.",
+    "UPGRADE_FOR_EXPORT": "Upgrade to Pertamax or higher to access export features",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
@@ -516,6 +598,19 @@
         "UNATTENDED": "Unattended",
         "STATUS": "Status"
       }
+    },
+    "CHAT_SUMMARY": {
+      "HEADER": "Chat Summary",
+      "CHAT_IN": "Total incoming chats",
+      "CHAT_ANSWERED_BY_AI": "Chats resolved by AI",
+      "RESOLVED_PERCENTAGE": "Resolved by AI percentage",
+      "CHAT_HANDOVERED": "Chats handovered to agent"
+    },
+    "CONVERSATION_TRENDS_LINE_CHART": {
+      "HEADER": "Conversation Trends",
+      "TOTAL_CHATS": "Total incoming chats",
+      "BOT_CHATS": "Chats resolved by AI",
+      "AGENT_CHATS": "Chats handovered to agent"
     },
     "AGENT_STATUS": {
       "HEADER": "Agent status",
