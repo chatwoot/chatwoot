@@ -101,6 +101,7 @@
     "vue-virtual-scroller": "^2.0.0-beta.8",
     "vue3-click-away": "^1.2.4",
     "vuedraggable": "^4.1.0",
+    "vuewordcloud": "^19.0.0",
     "vuex": "~4.1.0",
     "vuex-router-sync": "6.0.0-rc.1",
     "wavesurfer.js": "7.8.6",
