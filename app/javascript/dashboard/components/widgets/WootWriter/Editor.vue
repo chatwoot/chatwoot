@@ -370,7 +370,7 @@ function reloadState(content = props.modelValue) {
     unrefContent,
     props.placeholder,
     plugins.value,
-    { onCopilotClick: handleCopilotClick },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -755,7 +755,7 @@ onMounted(() => {
     props.modelValue,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 

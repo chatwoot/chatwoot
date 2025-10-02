@@ -152,6 +152,7 @@ export default {
       isGeneratingContent: false,
       copilotEditorContent: '',
       generatedContent: '',
+      copilotAbortController: null,
     };
   },
   computed: {
@@ -454,6 +455,8 @@ export default {
         // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
         // like self-assign or other updates that do not actually change the conversation context
         this.setCCAndToEmailsFromLastChat();
+        // Reset Copilot editor state (includes cancelling ongoing generation)
+        this.resetCopilotEditorState();
       }
 
       if (this.isOnPrivateNote) {
@@ -916,12 +919,29 @@ export default {
           is_copilot_panel_open: true,
         });
       } else {
+        // Reset state and cancel any previous generation
+        this.resetCopilotEditorState();
+
+        // Create new AbortController for this generation
+        this.copilotAbortController = new AbortController();
         this.isGeneratingContent = true;
-        // For full message operations
-        const content = await this.processEvent(action, data);
-        this.generatedContent = content;
-        if (content) this.toggleCopilotEditor();
-        this.isGeneratingContent = false;
+
+        try {
+          const content = await this.processEvent(action, data, {
+            signal: this.copilotAbortController.signal,
+          });
+
+          // Only apply result if not aborted
+          if (!this.copilotAbortController.signal.aborted) {
+            this.generatedContent = content;
+            if (content) this.toggleCopilotEditor();
+            this.isGeneratingContent = false;
+          }
+        } catch (error) {
+          if (!this.copilotAbortController?.signal.aborted) {
+            this.isGeneratingContent = false;
+          }
+        }
       }
     },
     clearMessage() {
@@ -1195,6 +1215,18 @@ export default {
     toggleCopilotEditor() {
       this.showCopilotEditor = !this.showCopilotEditor;
     },
+    resetCopilotEditorState() {
+      // Cancel any ongoing generation
+      if (this.copilotAbortController) {
+        this.copilotAbortController.abort();
+        this.copilotAbortController = null;
+      }
+      // Reset all editor state
+      this.showCopilotEditor = false;
+      this.isGeneratingContent = false;
+      this.copilotEditorContent = '';
+      this.generatedContent = '';
+    },
   },
 };
 </script>
@@ -1328,7 +1360,8 @@ export default {
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
     />
     <CopilotReplyBottomPanel
-      v-if="showCopilotEditor"
+      v-if="showCopilotEditor || isGeneratingContent"
+      :is-generating-content="isGeneratingContent"
       @submit="onSubmitCopilotReply"
       @cancel="toggleCopilotEditor"
     />
@@ -1448,10 +1481,6 @@ export default {
 
 .reply-editor {
   position: relative;
-
-  .ProseMirror p:first-child {
-    margin-top: 0 !important;
-  }
 
   .ProseMirror p:last-child {
     margin-bottom: 10px !important;
