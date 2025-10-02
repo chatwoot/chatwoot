@@ -2,8 +2,8 @@
     "KANBAN": {
         "HEADER": {
             "DRAG_MODE": {
-                "ACTIVE": "Modo arrasto ativo",
-                "INACTIVE": "Ativar modo arrasto"
+                "ACTIVE": "Modo arrasto de colunas ativo",
+                "INACTIVE": "Ativar modo arrasto de colunas"
             },
             "BUTTONS": {
                 "NEW_COLUMN": "Nova coluna",

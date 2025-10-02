@@ -2,8 +2,8 @@
     "KANBAN": {
         "HEADER": {
             "DRAG_MODE": {
-                "ACTIVE": "Drag mode active",
-                "INACTIVE": "Activate drag mode"
+                "ACTIVE": "Move columns mode active",
+                "INACTIVE": "Activate move columns mode"
             },
             "BUTTONS": {
                 "NEW_COLUMN": "New Column",
