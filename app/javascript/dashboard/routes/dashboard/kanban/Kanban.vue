@@ -312,10 +312,10 @@ export default {
             )
           )
         }
-        this.isLoading = false
       } else {
         this.localColumns = []
       }
+      this.isLoading = false
     },
 
     exportKanban() {
@@ -424,7 +424,7 @@ export default {
           v-for="(item, itemIndex) in column.items"
           :key="item.id ?? itemIndex"
           class="card"
-          draggable="true"
+          :draggable="!dragColumnsMode"
           @dragstart="onDragStart($event, columnIndex, itemIndex)"
           @dragend="onDragEnd"
           @click="handleCardClick(item)"
@@ -581,10 +581,6 @@ export default {
   @apply bg-n-brand text-n-slate-1;
 }
 
-.column-dragging {
-  opacity: 0.5;
-  cursor: move;
-}
 
 .kanban-button {
   @apply py-2 px-4 bg-n-slate-1 border-none rounded text-n-slate-12 cursor-pointer font-bold transition-all duration-200;

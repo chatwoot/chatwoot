@@ -47,6 +47,17 @@ export default {
         }
       }
     },
+    localSelectedLabels: {
+      handler(newLabels) {
+        if (newLabels.length > 0 && !this.label_to_add) {
+          this.label_to_add = newLabels[0]
+        }
+        else if (newLabels === 0) {
+          this.label_to_add = '';
+        }
+      },
+      immediate: true
+    }
   },
 
   methods: {
@@ -70,6 +81,16 @@ export default {
         this.$emit(this.isEditing ? 'update' : 'add', columnData)
         this.closeModal()
       }
+    },
+
+    cancel() {
+      const columnData = {
+        title: '',
+        labels: [],
+        label_to_add: ''
+      }
+      this.$emit('close', columnData)
+      this.resetForm()
     },
 
     resetForm() {
@@ -122,7 +143,7 @@ export default {
         </option>
       </select>
       <div class="modal-actions">
-        <button @click="closeModal" class="cancel-btn">{{$t('COLUMN_MODAL.CANCEL_BUTTON')}}</button>
+        <button @click="cancel" class="cancel-btn">{{$t('COLUMN_MODAL.CANCEL_BUTTON')}}</button>
         <button @click="addColumn" class="confirm-btn" v-text="this.isEditing ? $t('COLUMN_MODAL.CONFIRM_UPDATE') : $t('COLUMN_MODAL.CONFIRM_ADD')"></button>
       </div>
     </div>
