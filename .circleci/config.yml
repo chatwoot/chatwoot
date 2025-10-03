@@ -226,7 +226,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/disable-pvc-increase-resources
+                - fix/add-liveness-increase-memory
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -253,7 +253,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/disable-pvc-increase-resources
+                - fix/add-liveness-increase-memory
           region: "${AWS_REGION}"
           account_id: ${AWS_ACCOUNT_ID}
           create_repo: true
@@ -329,7 +329,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/disable-pvc-increase-resources
+                - fix/add-liveness-increase-memory
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -355,7 +355,7 @@ workflows:
             branches:
               only:
                 - develop
-                - fix/disable-pvc-increase-resources
+                - fix/add-liveness-increase-memory
           cluster-name: devnet-delta-exchange
           min-replicas: '2'
           max-replicas: '3'
@@ -438,8 +438,8 @@ workflows:
           version-info: ${CIRCLE_SHA1}
           total_cpu: '4'
           request_cpu: '2'
-          limit_memory: '4Gi'
-          request_memory: '2Gi'
+          limit_memory: '5Gi'
+          request_memory: '2.5Gi'
           deployment-name: 'prod-chatwoot'
           service-account: 'chatwoot-rails-sa'
           requires:
