@@ -46,9 +46,19 @@ spec:
             httpGet:
               path: /api
               port: 3000
+            initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 5
             successThreshold: 1
-            failureThreshold: 2
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /api
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
           resources:
             limits:
               cpu: 'TOTAL_CPU'
