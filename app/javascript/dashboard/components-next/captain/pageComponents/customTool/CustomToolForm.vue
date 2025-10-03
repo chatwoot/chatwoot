@@ -2,7 +2,7 @@
 import { reactive, computed, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, url } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -74,7 +74,7 @@ const DEFAULT_PARAM = {
 
 const validationRules = {
   title: { required },
-  endpoint_url: { required, url },
+  endpoint_url: { required },
   http_method: { required },
   auth_type: { required },
 };
