@@ -6,6 +6,7 @@ FactoryBot.define do
     http_method { 'GET' }
     auth_type { 'none' }
     auth_config { {} }
+    param_schema { [] }
     enabled { true }
     association :account
 
@@ -32,6 +33,15 @@ FactoryBot.define do
     trait :with_templates do
       request_template { '{ "order_id": "{{ order_id }}", "source": "chatwoot" }' }
       response_template { 'Order status: {{ response.status }}' }
+    end
+
+    trait :with_params do
+      param_schema do
+        [
+          { 'name' => 'order_id', 'type' => 'string', 'description' => 'The order ID', 'required' => true },
+          { 'name' => 'include_details', 'type' => 'boolean', 'description' => 'Include order details', 'required' => false }
+        ]
+      end
     end
 
     trait :disabled do

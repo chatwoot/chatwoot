@@ -2,7 +2,20 @@ module Concerns::Toolable
   extend ActiveSupport::Concern
 
   def tool(assistant)
-    Captain::Tools::HttpTool.new(assistant, self)
+    custom_tool_record = self
+
+    tool_class = Class.new(Captain::Tools::HttpTool) do
+      description custom_tool_record.description
+
+      custom_tool_record.param_schema.each do |param_def|
+        param param_def['name'].to_sym,
+              type: param_def['type'],
+              desc: param_def['description'],
+              required: param_def.fetch('required', true)
+      end
+    end
+
+    tool_class.new(assistant, self)
   end
 
   def build_request_url(params)

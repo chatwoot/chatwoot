@@ -283,5 +283,46 @@ RSpec.describe Captain::CustomTool, type: :model do
                                })
       end
     end
+
+    describe '#tool' do
+      let(:assistant) { create(:captain_assistant, account: account) }
+
+      it 'returns HttpTool instance' do
+        tool = create(:captain_custom_tool, account: account)
+
+        tool_instance = tool.tool(assistant)
+        expect(tool_instance).to be_a(Captain::Tools::HttpTool)
+      end
+
+      it 'sets description on the tool class' do
+        tool = create(:captain_custom_tool, account: account, description: 'Fetches order data')
+
+        tool_instance = tool.tool(assistant)
+        expect(tool_instance.description).to eq('Fetches order data')
+      end
+
+      it 'sets parameters on the tool class' do
+        tool = create(:captain_custom_tool, :with_params, account: account)
+
+        tool_instance = tool.tool(assistant)
+        params = tool_instance.parameters
+
+        expect(params.keys).to contain_exactly(:order_id, :include_details)
+        expect(params[:order_id].name).to eq(:order_id)
+        expect(params[:order_id].type).to eq('string')
+        expect(params[:order_id].description).to eq('The order ID')
+        expect(params[:order_id].required).to be true
+
+        expect(params[:include_details].name).to eq(:include_details)
+        expect(params[:include_details].required).to be false
+      end
+
+      it 'works with empty param_schema' do
+        tool = create(:captain_custom_tool, account: account, param_schema: [])
+
+        tool_instance = tool.tool(assistant)
+        expect(tool_instance.parameters).to be_empty
+      end
+    end
   end
 end

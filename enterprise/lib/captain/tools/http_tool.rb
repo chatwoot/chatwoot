@@ -7,10 +7,6 @@ class Captain::Tools::HttpTool < Agents::Tool
     super()
   end
 
-  def description
-    @custom_tool.description
-  end
-
   def active?
     @custom_tool.enabled?
   end
